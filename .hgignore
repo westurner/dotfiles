@@ -1,0 +1,14 @@
+syntax: glob
+
+.installed.cfg
+bin
+develop-eggs
+
+*.egg-info
+*.swp
+tmp
+build
+dist
+tags
+.gitignore
+.git
