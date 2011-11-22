@@ -1,3 +1,9 @@
+coverage
+ipdb
+nose-ipdb
 nose>=0.11.1
-z3c.recipe.tag>=0.4.0
+pep8
+pyflakes
 virtualenv>=1.3.3
+virtualenvwrapper
+z3c.recipe.tag>=0.4.0
