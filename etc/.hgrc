@@ -1,0 +1,52 @@
+[ui]
+username = Wes Turner <wes@wrd.nu>
+ssh = ssh -o ClearAllForwardings=yes
+editor = vim
+merge = vimdiff
+
+[extensions]
+hgext.hgk =
+hgext.churn =
+hgext.graphlog =
+hgext.convert =
+hgext.churn =
+hgext.record =
+hgext.bookmarks =
+hgext.schemes =
+fetch =
+extdiff =
+color =
+hgk=
+mq=
+#hgext.progress=
+
+#hgattic = /home/wturner/.mercurial/hgattic/attic.py
+#hgshelve = /home/wturner/.mercurial/hgshelve/hgshelve.py
+graphviz = /home/wturner/.mercurial/graphviz.py
+localbranches = /home/wturner/.mercurial/mercurial-extensions-localbranch/localbranch.py
+reviewboard = /home/wturner/.mercurial/mercurial-reviewboard
+#hgext.git = /usr/share/pyshared/hgext/git
+
+[schemes]
+keg = ssh://hg@hg.ponykeg/
+wrd = ssh://hg@bitbucket.org/westurner/
+
+[extdiff]
+cmd.diffuse = diffuse
+cmd.meld = meld
+
+cmd.vimdiff = vim
+opts.vimdiff = -f '+next' '+execute "DirDiff" argv(0) argv(1)'
+
+
+[reviewboard]
+server = https://rev.ponykeg
+#target_groups = self
+
+
+[tortoisehg]
+vdiff = diffuse
+editor = gedit
+
+[mq]
+git = yes
