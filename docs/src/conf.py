@@ -5,7 +5,7 @@ import os
 from pkg_resources import parse_version
 import pkginfo
 
-def _egg_info(path_to_egg='../src/'):
+def _egg_info(path_to_egg='../../src'):
     path_to_egg = os.path.join(
         os.path.dirname(__file__), path_to_egg)
     egg_info = pkginfo.Develop(path_to_egg)
@@ -20,6 +20,7 @@ copyright = ' '
 # Extension
 extensions = [
 	 # -*-Extensions: -*-
+     'sphinx.ext.autodoc',
 	]
 intersphinx_mapping = {'http://docs.python.org/': None}
 
