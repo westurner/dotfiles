@@ -1,0 +1,27 @@
+set editing-mode vi
+set keymap vi-insert
+
+# Edit options before rerunning previous command, eg: ls a b c -> ls -al
+# a b c
+"\C-o": "\e-0eli "
+#
+# # Cycle thru completions.
+"\C-a": menu-complete
+#
+# # glob patterns without executing, eg: 'rm *x'
+"\C-e": glob-expand-word
+#
+# # Vim style history search (Already Default)
+# #"\e[A": history-search-backward
+# #"\e[B": history-search-forward
+#
+# #"\e[C": forward-char
+# #"\e[D": backward-char
+#
+# # Two escapes clear command line. (Use C-c or \eC\eC instead)
+"\e\e": "\e0\C-ki"
+
+# bash: set -o vi
+# ksh: set -o vi
+# zsh: binkey -v
+# tcsh: bindkey -v
