@@ -1,6 +1,10 @@
-.. include:: ../README.rst
 
-Contents:
+.. include:: ../../README.rst
+
+.. include:: ../../CHANGELOG.rst
+
+Contents
+==========
 
 .. toctree::
    :maxdepth: 2
