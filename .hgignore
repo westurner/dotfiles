@@ -12,3 +12,5 @@ dist
 tags
 .gitignore
 .git
+*.pyc
+MANIFEST.in
