@@ -46,12 +46,14 @@ case "$TERM" in
         ;;
 esac
 
+
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
+    unset color_prompt
 fi
-unset color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -74,26 +76,31 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# enable vimpager if present
-if [ -x "$HOME/bin/vimpager" ]; then
-    PAGER='vimpager'
-    export PAGER
-fi
+vimpager() {
+    _PAGER="${HOME}/bin/vimpager"
+    # enable vimpager if present
+    if [ -x "$_PAGER" ]; then
+        export PAGER="$_PAGER"
+    fi
+}
 
+loadshellaliases() {
+
+ 
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias lt='ls -altr'
 alias l='ls -CF'
 alias vim="~/bin/vim"
+alias sudovim="EDITOR='vim' sudoedit"
 alias fumount='fusermount -u'
 alias less='~/bin/less.sh'
 alias less_='/usr/bin/less'
 alias xclip="xclip -selection c"
 
-if [ -f ~/.bash_aliases ]; then
-    source ~/.bash_aliases
-fi
+
+}
 
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
@@ -255,22 +262,92 @@ e() {
     echo $@
 }
 
-# Python
-export PYTHONSTARTUP="${HOME}/.pythonrc"
-#alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
+pythonsetup() {
+    # Python
+    export PYTHONSTARTUP="${HOME}/.pythonrc"
+    #alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
 
-export WORKON_HOME="${HOME}/workspace/.virtualenvs"
-_VENVW="/usr/local/bin/virtualenvwrapper.sh"
-source "$_VENVW"
+    export WORKON_HOME="${HOME}/workspace/.virtualenvs"
+    _VENVW="/usr/local/bin/virtualenvwrapper.sh"
+    source "$_VENVW"
 
-lsvirtualenv() {
-    cmd="${1-echo}"
-    for venv in $(ls -adtr "${WORKON_HOME}"/**/lib/python?.? | \
-        sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
-        $cmd $venv/
-    done
+    lsvirtualenv() {
+        cmd="${1-echo}"
+        for venv in $(ls -adtr "${WORKON_HOME}"/**/lib/python?.? | \
+            sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
+            $cmd $venv/
+        done
+    }
+
+    pypath() {
+        /usr/bin/env python -c "import sys; print '\n'.join(sys.path)"
+    }
 }
 
-pypath() {
-    /usr/bin/env python -c "import sys; print '\n'.join(sys.path)"
+EDITOR="${EDITOR:-"vim -g"}"
+_EDITCMD="${EDITOR}"
+_EDITMANYCMD="${EDITCMD} -p"
+
+
+_newshell() {
+    _PATH="$1"
+    shift
+    _CMD=$2
+
+    gnome-terminal --working-directory="${_PATH}" \
+            --tab \
+            -t "${_CMD}" \
+            -e "bash -c \"source ~/.bashrc; ${_VENVCMD}; cdvirtualenv; ${_CMD}; exec bash; read \""
+
 }
+
+workon_pyramid_app() {
+    _VENVNAME=$1
+    _APPNAME=$2
+
+    _OPEN_TERMS=${3:-""}
+
+    _VENVCMD="workon ${_VENVNAME}"
+    workon "${_VENVNAME}"
+    _VENV="${VIRTUAL_ENV}"
+
+    export _SRC="${_VENV}/src"
+    export _BIN="${_VENV}/bin"
+    export _EGGSRC="${_SRC}/${_APPNAME}"
+    export _EGGSETUPPY="${_EGGSRC}/setup.py"
+    export _EGGCFG="${_EGGSRC}/development.ini"
+
+    _EDITCFGCMD="${_EDITCMD} ${_EGGCFG}"
+    _SHELLCMD="${_BIN}/pshell ${_EGGCFG}"
+    _SERVECMD="${_BIN}/pserve --reload --monitor-restart ${_EGGCFG}"
+    _TESTCMD="python ${_EGGSETUPPY} nosetests"
+
+    # aliases
+    alias _serve="${_SERVECMD}"
+    alias _shell="${_SHELLCMD}"
+    alias _test="${_TESTCMD}"
+    alias _editcfg="${_EDITCFGCMD}"
+    alias _glog="hgtk -R "${_EGGSRC}" log"
+    alias _log="hg -R "${_EGGSRC}" log"
+
+    alias cdsrc="cd ${_SRC}"
+    alias cdbin="cd ${_BIN}"
+    alias cdeggsrc="cd ${_EGGSRC}"
+
+    # cd to $_PATH
+    cd "${_EGGSRC}"
+
+    if [ "${_OPEN_TERMS}" != "" ]; then
+        # open editor
+        ${_EDITCMD} "${_EGGSRC}" &
+        # open tabs
+        #gnome-terminal \
+        #    --working-directory="${_EGGSRC}" \
+        #    --tab -t "${_APPNAME} serve" -e "bash -c \"${_SERVECMD}; bash -c \"workon_pyramid_app $_VENVNAME $_APPNAME 1\"\"" \
+        #    --tab -t "${_APPNAME} shell" -e "bash -c \"${_SHELLCMD}; bash\"" \
+        #    --tab -t "${_APPNAME} bash" -e "bash"
+    fi
+}
+
+
+pythonsetup
