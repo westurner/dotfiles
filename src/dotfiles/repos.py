@@ -1,20 +1,68 @@
 #!/usr/bin/env python
 # encoding: utf-8
+from __future__ import print_function
 """Search for code repositories"""
 
-import os
+import datetime
 import errno
 import logging
+import os
 import subprocess
-import datetime
-from collections import deque
+import sys
+from collections import deque, namedtuple
 from distutils.util import convert_path
+
+##
+from dateutil.parser import parse as parse_date
+
+#def parse_date(*args, **kwargs):
+#    print(args)
+#    print(kwargs)
 
 #logging.basicConfig()
 log = logging.getLogger()
 
 dtformat = lambda x: x.strftime('%Y-%m-%d %H:%M:%S %z')
 
+
+import re
+def itersplit(s, sep=None):
+    exp = re.compile(r'\s+' if sep is None else re.escape(sep))
+    pos = 0
+    while True:
+        m = exp.search(s, pos)
+        if not m:
+            if pos < len(s) or sep is not None:
+                yield s[pos:]
+            break
+        if pos < m.start() or sep is not None:
+            yield s[pos:m.start()]
+        pos = m.end()
+
+DEFAULT_FSEP=' ||| '
+DEFAULT_LSEP=' |..|'
+#DEFAULT_FSEP=u' %s ' % unichr(0xfffd)
+#DEFAULT_LSEP=unichr(0xfffc)
+from itertools import izip_longest
+def itersplit_to_fields(_str,
+                        fsep=DEFAULT_FSEP,
+                        revtuple=None,
+                        fields=[],
+                        preparse=None):
+    if preparse:
+        _str = preparse(_str)
+    _fields = itersplit(_str, fsep)
+
+    if revtuple is not None:
+        try:
+            values = ( t[1] for t in izip_longest(revtuple._fields, _fields) )
+            return revtuple(*values)
+        except:
+            log.error(revtuple)
+            log.error(_fields)
+            raise
+
+    return tuple(izip_longest(fields, _fields, fillvalue=None))
 
 _missing = unichr(822)
 class cached_property(object):
@@ -42,7 +90,7 @@ class cached_property(object):
         self.__doc__ = doc or func.__doc__
         self.func = func
 
-    def __get__(self, obj, type=None):
+    def __get__(self, obj, _type=None):
         if obj is None:
             return self
         value = obj.__dict__.get(self.__name__, _missing)
@@ -51,13 +99,33 @@ class cached_property(object):
             obj.__dict__[self.__name__] = value
         return value
 
+
+
 class Repository(object):
-    label = None
-    prefix = None
+    label           = None
+    prefix          = None
+    preparse        = None
+    fsep            = DEFAULT_FSEP
+    lsep            = DEFAULT_LSEP
+    fields          = []
 
     def __init__(self, fpath):
         self.fpath = fpath
         self.symlinks = []
+
+
+    def __new__(cls, name):
+        self = super(Repository, cls).__new__(cls, name)
+        self._tuple = self._namedtuple
+        return self
+
+
+    @cached_property
+    def _namedtuple(cls):
+        return namedtuple(
+                    ''.join( (str.capitalize(cls.label), "Rev") ),
+                    (f[0] for f in cls.fields))
+
 
     def unique_id(self):
         """
@@ -89,44 +157,103 @@ class Repository(object):
         """
         pass
 
+    @cached_property
     def last_commit(self):
-        """
-        :returns: (datestr, (revid, author, branchinfo, commitmsg))
-        """
-        pass
+        return self.log_iter(maxentries=1).next()
 
-    def log():
+    def log(self, n=None, **kwargs):
         """
         :returns: str
         """
         pass
 
+    def itersplit_to_fields(self, _str):
+        if self.preparse:
+            _str = self.preparse(_str)
+
+        _fields = itersplit(_str, self.fsep)
+
+        try:
+            values = ( t[1] for t in izip_longest(self._tuple._fields, _fields) )
+            return self._tuple(*values)
+        except:
+            log.error(self._tuple)
+            log.error(_fields)
+            raise
+    _parselog = itersplit_to_fields
+
+    def log_iter(self, maxentries=None, template=None, **kwargs):
+        #op = self.sh((
+            #"hg log %s --template"
+
+                #% (maxentries and ('-l%d' % maxentries) or '')),
+            #ignore_error=True
+            #)
+        template = repr(template or self.template)
+        op = self.log(n=maxentries, template=template, **kwargs)
+        if not op:
+            return
+        for l in itersplit(op, self.lsep):
+            l = l.strip()
+            if not l:
+                continue
+            try:
+                yield self._parselog( l,)
+            except Exception:
+                log.error("%s %r" % (str(self), l))
+                raise
+        return
+
     #def search_upwards():
-    #    """ Implented for Repositories that store per-directory
+    #    """ Implemented for Repositories that store per-directory
     #    metadata """
     #    pass
 
-    def report(self):
-        log.info('')
-        log.info('='*len(str(self)))
-        log.info(self)
-        log.info('='*len(str(self)))
-        for l in self.remote_url.split('\n'):
-            log.info(l)
-
-        log.info("%s [%s]", self.last_commit, self)
-        log.info('')
+    def full_report(self):
+        yield ''
+        yield "# %s" % self.pip_report().next()
+        yield "%s [%s]" % (self.last_commit, self)
         if self.status:
             for l in self.status.split('\n'):
-                log.info(l)
-            log.info('')
+                yield l
+            yield ''
 
         if hasattr(self, 'log_iter'):
             for r in self.log_iter():
-                log.info(r)
+                yield r
+        return
+
+    def pip_report(self):
+        ret = "%s://%s = %s" % (
+                self.label,
+                self.fpath,
+                self.remote_url,
+                # revid
+                )
+        yield ret
+        return
+
+    def status_report(self):
+        yield self.pip_report().next()
+        yield self.last_commit
+        yield self.status
+        yield ""
+
+    def hgsub_report(self):
+        yield "%s = [%s]%s" % (
+                self.fpath.lstrip('./'),
+                self.label,
+                self.remote_url)
+
+    def gitsubmodule_report(self):
+        fpath = self.fpath.lstrip('.%s' % os.path.sep)
+        yield '[submodule "%s"]' % fpath.replace(os.path.sep, '_')
+        yield "path = %s" % fpath
+        yield "url = %s" % self.remote_url
+        yield ""
 
     def __unicode__(self):
-        return '<%s: %s>' % (self.label, self.fpath)
+        return '%s://%s' % (self.label, self.fpath)
 
     def __str__(self):
         return self.__unicode__()
@@ -149,12 +276,12 @@ class Repository(object):
 
     @cached_property
     def find_symlinks(self):
-        cmd=("find . -type l -printf '%p -> %l\n'")
+        cmd = ("find . -type l -printf '%p -> %l\n'")
         return self.sh(cmd)
 
     def lately(self, count=15):
-        excludes='|'.join(('*.pyc','*.swp','*.bak','*~'))
-        cmd=('''find . -printf "%%T@ %%p\\n" '''
+        excludes = '|'.join(('*.pyc', '*.swp', '*.bak', '*~'))
+        cmd = ('''find . -printf "%%T@ %%p\\n" '''
              '''| egrep -v '%s' '''
              '''| sort -n '''
              '''| tail -n %d''') % (excludes, count)
@@ -163,7 +290,7 @@ class Repository(object):
             l = l.strip()
             if not l:
                 continue
-            mtime, fname = l.split(' ',1)
+            mtime, fname = l.split(' ', 1)
             mtime = datetime.datetime.fromtimestamp(float(mtime))
             mtimestr = dtformat(mtime)
             yield mtimestr, fname
@@ -175,6 +302,7 @@ class Repository(object):
                 'cwd': cwd or self.fpath,
                 'stderr': subprocess.STDOUT,
                 'stdout': subprocess.PIPE})
+        log.debug('cmd: %s %s' % (cmd, kwargs))
         p = subprocess.Popen(cmd, **kwargs)
         p_stdout = p.communicate()[0]
         if p.returncode and not ignore_error:
@@ -186,10 +314,39 @@ class Repository(object):
     def to_dict(self):
         return self.__dict__
 
-class MercurialRepository(Repository):
-    label='hg'
-    prefix='.hg'
+# todo:
+#try:
+#   import mercurial as hg
+#   native facade
+#except ImporError:
+#   pass
+#
 
+#import mercurial.commands
+#class NativeMercurialRepository(MercurialRepository):
+#    @cached_property
+#    def status(self):
+#        return mercurial.commands.status(
+
+
+
+class MercurialRepository(Repository):
+    label = 'hg'
+    prefix = '.hg'
+
+    fields = (
+        ('datestr', '{date|isodatesec}', parse_date),
+        ('noderev', '{node|short}', None),
+        ('author', '{author|firstline}', None),
+        ('tags', '{tags}', lambda x: x.strip().split()),
+        ('desc', '{desc}', None),
+        )
+    template=''.join((
+        DEFAULT_FSEP.join(f[1] for f in fields),
+        DEFAULT_LSEP)
+    )
+
+    @property
     def unique_id(self):
         return self.fpath #self.sh('hg id -r 0').rstrip()
 
@@ -199,8 +356,12 @@ class MercurialRepository(Repository):
 
     @cached_property
     def remote_url(self):
-        return self.sh('hg showconfig | grep paths.default',
+        return self.sh('hg showconfig paths.default',
                 ignore_error=True).strip()
+
+    @cached_property
+    def remote_urls(self):
+        return self.sh('hg showconfig paths')
 
     @cached_property
     def diff(self):
@@ -210,32 +371,18 @@ class MercurialRepository(Repository):
     def branch(self):
         return self.sh('hg branch')
 
-    def log(self):
-        return self.sh('hg log')
+    def log(self, n=None, **kwargs):
+        return self.sh(' '.join((
+                'hg log',
+                ('-l%d'%n) if n else '',
+                ' '.join(
+                    ('--%s=%s' % (k,v)) for (k,v) in kwargs.iteritems()
+                )
+            ))
+        )
 
     def loggraph(self):
         return self.sh('hg log --graph')
-
-    @cached_property
-    def last_commit(self):
-        return self.log_iter(maxentries=1).next()
-
-    def log_iter(self, maxentries=None):
-        op = self.sh((
-            "hg log %s --template "
-            "'{date|isodatesec} |.| {node|short} |.| {author} |.| {desc|firstline}\n'"
-                % (maxentries and ('-l%d' % maxentries) or '')),
-            ignore_error=True
-            )
-        if not op:
-            return
-        for l in op.split('\n'):
-            l = l.rstrip()
-            if not l:
-                continue
-            datestr, noderev, author, desc = l.split(' |.| ')
-            yield datestr, (noderev, author, desc)
-        return
 
     def unpushed(self):
         raise NotImplementedError()
@@ -244,9 +391,21 @@ class MercurialRepository(Repository):
         return self.sh('hg serve')
 
 class GitRepository(Repository):
-    label='git'
-    prefix='.git'
+    label = 'git'
+    prefix = '.git'
+    fields=(
+        ('datestr', '%ai', None, parse_date),
+        ('noderev', '%h', None),
+        ('author', '%an', None),
+        ('tags','%d', lambda x: x.strip(' ()').split(', ')),
+        ('desc', '%s ', None),
+    )
+    template=''.join((
+        DEFAULT_FSEP.join(f[1] for f in fields),
+        DEFAULT_LSEP)
+    )
 
+    @property
     def unique_id(self):
         return self.fpath
 
@@ -256,6 +415,11 @@ class GitRepository(Repository):
 
     @cached_property
     def remote_url(self):
+        return self.sh('git config remote.origin.url',
+                ignore_error=True).strip() #.split('=',1)[1]# *
+
+    @cached_property
+    def remote_urls(self):
         return self.sh('git config -l | grep "url"',
                 ignore_error=True).strip() #.split('=',1)[1]# *
 
@@ -266,8 +430,16 @@ class GitRepository(Repository):
     def branch(self):
         return self.sh('git branch')
 
-    def log(self):
-        return self.sh('git log')
+    def log(self, n=None, **kwargs):
+        kwargs['format'] = kwargs.pop('template')
+        return self.sh(' '.join((
+                'git log',
+                ('-n%d'%n) if n else '',
+                ' '.join(
+                    ('--%s=%s' % (k,v)) for (k,v) in kwargs.iteritems()
+                )
+            ))
+        )
 
     def loggraph(self):
         return self.sh('git log --graph')
@@ -276,21 +448,26 @@ class GitRepository(Repository):
     def last_commit(self):
         return self.log_iter(maxentries=1).next()
 
-    def log_iter(self, maxentries=None):
-        rows = self.sh((
-            'git log %s '
-            '--format="%%ai|.|%%h|.|%%an|.|%%d|.|%%s|..|"')
-            % (maxentries and ('-n%d ' % maxentries) or ''))
-        if not rows:
-            return
-        for row in rows.split('|..|'):
-            row = row.strip()
-            if not row:
-                continue
-            datestr, noderev, author, branches, desc = row.split('|.|')
-            branches = branches.strip()[1:-1]
-            yield datestr, (noderev, author, branches, desc)
-        return
+    #def __log_iter(self, maxentries=None):
+
+        #rows = self.log(
+            #n=maxentries,
+            #format="%ai ||| %h ||| %an ||| %d ||| %s  ||||\n",)
+        #if not rows:
+            #return
+        #for row in rows.split('||||\n'):
+            #row = row.strip()
+            #if not row:
+                #continue
+            #try:
+                #fields = (s.strip() for s in row.split('|||'))
+                #datestr, noderev, author, branches, desc = fields
+            #except ValueError:
+                #print(str(self), row, fields)
+                #raise
+            #branches = branches.strip()[1:-1]
+            #yield datestr, (noderev, author, branches, desc)
+        #return
 
     def unpushed(self):
         return self.sh("git log master --not --remotes='*/master'")
@@ -300,9 +477,32 @@ class GitRepository(Repository):
 
 
 class BzrRepository(Repository):
-    label='bzr'
-    prefix='.bzr'
+    label = 'bzr'
+    prefix = '.bzr'
+    template = None
+    lsep='-'*60
+    fsep='\n'
 
+    fields=(
+            ('datestr', None, parse_date),
+            ('noderev', None, None),
+            ('author', None, None),
+            ('tags', None, None),
+            ('branchnick', None, None),
+            ('desc', None, None),
+            )
+
+    field_trans = {
+        'branch nick': 'branchnick',
+        'timestamp': 'datestr',
+        'revno': 'noderev',
+        'committer': 'author',
+        'message': 'desc'
+    }
+
+    logrgx = re.compile(r'^(revno|tags|committer|branch\snick|timestamp|message):\s?(.*)\n?')
+
+    @property
     def unique_id(self):
         return self.fpath
 
@@ -312,7 +512,7 @@ class BzrRepository(Repository):
 
     @cached_property
     def remote_url(self):
-        return self.sh('bzr info | grep parent',
+        return self.sh("""bzr info  | egrep '^  parent branch:' | awk '{ print $3 }'""",
                 ignore_error=True)
 
     def diff(self):
@@ -322,11 +522,23 @@ class BzrRepository(Repository):
     def branch(self):
         return self.sh('bzr nick')
 
-    def log(self):
-        return self.sh('bzr log')
+    def log(self, n=None, template=None):
+        return self.sh(' '.join((
+                'bzr log',
+                '-l%d'%n if n else '')))
 
-    @cached_property
-    def last_commit(self):
+    #@cached_property
+    #def last_commit(self):
+        #op = self.sh('bzr log -l1')
+        #return self._parselog(op)
+
+    @classmethod
+    def _logmessage_transform(cls, s, by=2):
+        if len(s) >= by:
+            return s[by:].strip('\n')
+        return s.strip('\n')
+
+    def _parselog(self, r):
         """
 
             $ bzr log -l1
@@ -339,27 +551,76 @@ class BzrRepository(Repository):
               Initial commit
 
         """
-        op = self.sh('bzr log -l1')
-        blank, noderev, committer, branch, datestr, messagehdr, message = (
-                op.split('\n',6))
-        noderev = noderev.split(': ',1)[1]
-        committer = committer.split(': ',1)[1]
-        branchnick = branch.split(': ',1)[1]
-        datestr = datestr.split(': ',1)[1][4:]
-        message = message.strip()
-        return datestr, (noderev, committer, branchnick, message)
+        def __parselog(entry):
+            bufname=None
+            buf=deque()
+            for l in itersplit(entry, '\n'):
+                mobj = self.logrgx.match(l)
+                if not mobj:
+                    # "  - Log message"
+                    buf.append(self._logmessage_transform(l))
+                if mobj:
+                    mobjlen=len(mobj.groups())
+                    if mobjlen == 2:
+                        # "attr: value"
+                        attr, value = mobj.groups()
+                        if attr=='message':
+                            bufname='desc'
+                        else:
+                            attr = self.field_trans.get(attr, attr)
+                            yield ( self.field_trans.get(attr, attr), value )
+                    else:
+                        raise Exception()
+            if bufname is not None:
+                if len(buf):
+                    buf.pop()
+                    len(buf)>1 and buf.popleft()
+                yield (bufname, '\n'.join(buf))
+            return
+
+        kwargs = dict(__parselog(r)) # FIXME
+        if kwargs:
+            if 'tags' not in kwargs:
+                kwargs['tags'] = tuple()
+            else:
+                kwargs['tags'].split(' ') # TODO
+            if 'branchnick' not in kwargs:
+                kwargs['branchnick'] = None
+            try:
+                return self._tuple(**kwargs)
+            except:
+                log.error(r)
+                log.error(kwargs)
+                raise
+        else:
+            log.error("failed to parse: %r" % r)
 
 
 class SvnRepository(Repository):
-    label='svn'
-    prefix='.svn'
+    label = 'svn'
+    prefix = '.svn'
+
+    fsep=' | '
+    lsep=''.join( ('-'*72,'\n') )
+    template=None
+
+    fields=(
+        ('noderev', None, None),
+        ('author', None, None),
+        ('datestr', None, None),
+        ('changecount', None, None),
+        ('desc', None, None),
+        # TODO:
+    )
+    #def preparse(self, s):
+    #    return s# s.replace('\n\n',self.fsep,1)
 
     @cached_property
     def unique_id(self):
         cmdo = self.sh('svn info | grep "^Repository UUID"',
                 ignore_error=True)
         if cmdo:
-            return cmdo.split(': ',1)[1].rstrip()
+            return cmdo.split(': ', 1)[1].rstrip()
         return None
 
     @cached_property
@@ -370,13 +631,20 @@ class SvnRepository(Repository):
     def remote_url(self):
         return (
             self.sh('svn info | grep "^Repository Root:"')
-            .split(': ',1)[1]).strip()
+            .split(': ', 1)[1]).strip()
 
     def diff(self):
         return self.sh('svn diff')
 
-    def log(self):
-        return self.sh('svn log')
+    def log(self, n=None, template=None, **kwargs):
+        return (
+            self.sh(' '.join((
+                'svn log',
+                ('-l%n'%n) if n else '',
+                ' '.join( ('--%s=%s' % (k,v)) for (k,v) in kwargs.items() )
+                ))
+            )
+        )
 
     @cached_property
     def _last_commit(self):
@@ -392,7 +660,7 @@ class SvnRepository(Repository):
         .. note:: svn log references the svn server
         """
         op = self.sh('svn log -l1')
-        data, rest = op.split('\n',2)[1:]
+        data, rest = op.split('\n', 2)[1:]
         revno, user, datestr, lc = data.split(' | ', 3)
         desc = '\n'.join(rest.split('\n')[1:-2])
         revno = revno[1:]
@@ -400,7 +668,7 @@ class SvnRepository(Repository):
         return datestr, (revno, user, None,  desc)
 
     @cached_property
-    def last_commit(self):
+    def __last_commit(self):
         """
 
         $ svn info
@@ -419,13 +687,17 @@ class SvnRepository(Repository):
         if not op:
             return None
         author, rev, datestr = op.split('\n')[7:10]
-        author = author.split(': ',1)[1].strip()
-        rev = rev.split(': ',1)[1].strip()
-        datestr = datestr.split(': ',1)[1].split('(',1)[0].strip()
+        author = author.split(': ', 1)[1].strip()
+        rev = rev.split(': ', 1)[1].strip()
+        datestr = datestr.split(': ', 1)[1].split('(', 1)[0].strip()
         return datestr, (rev, author, None, None)
 
     @cached_property
-    def search_upwards(self, fpath=None, repodirname='.svn'):
+    def last_commit(self):
+        return self.log_iter().next()
+
+    #@cached_property
+    def search_upwards(self, fpath=None, repodirname='.svn', upwards={}):
         """
         Traverse filesystem upwards, searching for .svn directories
         with matching UUIDs
@@ -450,38 +722,48 @@ class SvnRepository(Repository):
         >> search_upwards('repo/dirA/dirB')
         >> 'repo/dirB')
 
-        .. note:: **WARNING** SVN vagaries be damned ... ~transitivity
-
         """
         fpath = fpath or self.fpath
-        uuid = self.unique_id()
-        last_path = None
+        uuid = self.unique_id
+        last_path = self
+
         path_comp = fpath.split(os.path.sep)
         # [0:-1], [0:-2], [0:-1*len(path_comp)]
         for n in xrange(1, len(path_comp)-1):
             checkpath = os.path.join(*path_comp[ 0 : -1 * n ])
             repodir = os.path.join(checkpath, repodirname)
-            if os.path.exists(repodir):
-                other = SvnRepository(checkpath)
-                other_uuid = other.unique_id()
-                # TODO: match on REVISION too
-                if other_uuid != uuid:
-                    break
+            upw_uuid = upwards.get(repodir)
+            if upw_uuid:
+                if upw_uuid==uuid:
+                    last_path = SvnRepository(checkpath)
+                    continue
                 else:
-                    last_path = other
+                    break
+            elif os.path.exists(repodir):
+                repo = SvnRepository(checkpath)
+                upw_uuid = repo.unique_id
+                upwards[repodir] = upw_uuid
+                # TODO: match on REVISION too
+                if upw_uuid == uuid:
+                    last_path = repo
+                    continue
+                else:
+                    break
 
-        return last_path or self
+        return last_path
 
 
 REPO_REGISTRY = [
     MercurialRepository,
     GitRepository,
     BzrRepository,
-    SvnRepository,
+    #SvnRepository, # NOP'ing this functionality for now. requires net access.
 ]
 REPO_PREFIXES=dict((r.prefix, r) for r in REPO_REGISTRY)
+REPO_REGEX = (
+    '|'.join('/%s' % r.prefix for r in REPO_REGISTRY) ).replace('.','\.')
 
-def find_repos(where):
+def listdir_find_repos(where):
     stack = deque([(convert_path(where), '')])
     while stack:
         where, prefix = stack.pop()
@@ -492,7 +774,6 @@ def find_repos(where):
                     if name in REPO_PREFIXES:
                         #yield name[1:], fn.rstrip(name)[:-1] # abspath
                         repo = REPO_PREFIXES[name](fn.rstrip(name)[:-1])
-
                         yield repo
                     stack.append( (fn, prefix + name + '/') )
         except OSError, e:
@@ -501,38 +782,106 @@ def find_repos(where):
             else:
                 raise
 
+
+def find_find_repos(where, ignore_error=True):
+    cmd=("find . "
+        " -type d"
+        " -regextype posix-egrep"
+        " -regex '.*(%s)'" % REPO_REGEX)
+    kwargs = {
+            'shell': True,
+            'cwd': where,
+            'stderr': sys.stderr,
+            'stdout': subprocess.PIPE}
+    p = subprocess.Popen(cmd, **kwargs)
+    if p.returncode and not ignore_error:
+        p_stdout = p.communicate()[0]
+        raise Exception("Subprocess return code: %d\n%r\n%r" % (
+            p.returncode, cmd, p_stdout))
+
+    for l in iter(p.stdout.readline,''):
+        path = l.rstrip()
+        _path, _prefix = os.path.dirname(path), os.path.basename(path)
+        repo = REPO_PREFIXES[_prefix](_path)
+        yield repo
+
+
 def find_unique_repos(where):
     repos = {}
-    for repo in find_repos(where):
+    path_uuids = {}
+    for repo in find_find_repos(where):
         #log.debug(repo)
-        if hasattr(repo, 'search_upwards'):
-            repo = repo.search_upwards()
-        if repo.fpath not in repos:
+        repo2 = (hasattr(repo, 'search_upwards')
+                and repo.search_upwards(upwards=path_uuids))
+        if repo2:
+            if repo2 == repo:
+                continue
+            else:
+                repo = repo2
+
+        if (repo.fpath not in repos):
+            #log.debug(repo.prefix, repo.fpath, repo.unique_id)
             repos[repo.fpath] = repo
             yield repo
 
 
-def do_repo_report(path='.'):
-    for i,r in enumerate(find_unique_repos(path)):
-        log.debug(i )
+def do_repo_report(repos, report='full', *args, **kwargs):
+    for i, repo in enumerate(repos):
+        log.debug( str( (i, repo.pip_report().next()) ) )
         try:
-            r.report()
-            yield r
+            for l in getattr(repo, '%s_report' % report)(*args, **kwargs):
+                print(l)
         except Exception, e:
-            [log.error(l) for l in str(e).split('\n')]
+            log.error(repo)
+            log.error(report)
+            log.error(e)
             raise
 
+        yield repo
+
+
 import unittest
-class TestThese(unittest.TestCase):
+#class TestThese(unittest.TestCase):
     #def test_00_files(self):
     #    for f in list_files('.'):
     #        log.info(f)
 
-    def test_01_find_repos(self):
-        for r in do_repo_report('.'):
-            for f in r.lately():
-                log.debug(f)
+    #def test_01_find_repos(self):
+    #    for r in do_repo_report('.'):
+    #        for f in r.lately():
+    #            log.debug(f)
 
+class TestBzr(unittest.TestCase):
+    def test_bzr_logparse(self):
+        s='''------------------------------------------------------------
+revno: 377
+tags: 0.8.99~alpha2
+committer: Siegfried-Angel Gevatter Pujals <siegfried@gevatter.com>
+branch nick: zeitgeist
+timestamp: Fri 2012-01-27 16:39:16 +0100
+message:
+  Release 0.8.99~alpha2.
+------------------------------------------------------------
+revno: 376
+committer: Siegfried-Angel Gevatter Pujals <siegfried@gevatter.com>
+branch nick: bluebird
+timestamp: Fri 2012-01-27 15:33:29 +0100
+message:
+  Update NEWS file.
+------------------------------------------------------------
+revno: 375 [merge]
+committer: Siegfried-Angel Gevatter Pujals <siegfried@gevatter.com>
+branch nick: bluebird
+timestamp: Fri 2012-01-27 14:34:18 +0100
+message:
+  Implement find_storage_for_uri
+'''
+
+        records = itersplit(s, '-'*60)
+
+        for r in records:
+            print(r)
+            print(list(BzrRepository._parselog(itersplit(r,'\n'))))
 
 def main():
     """
@@ -549,6 +898,18 @@ def main():
                     action='store',
                     help='Path to scan')
 
+    prs.add_option('-r', '--report',
+                    dest='reports',
+                    action='append',
+                    default=[],
+                    help='pip || full')
+
+    prs.add_option('--template',
+                    dest='report_template',
+                    action='store',
+                    help='Report template'
+                    )
+
     prs.add_option('-v', '--verbose',
                     dest='verbose',
                     action='store_true',)
@@ -562,7 +923,10 @@ def main():
     (opts, args) = prs.parse_args()
 
     if not opts.quiet:
-        logging.basicConfig(format="%(levelname)s\t%(message)s")
+        _format=None
+        _format="%(levelname)s\t%(message)s"
+        #_format="%(message)s"
+        logging.basicConfig(format=_format)
 
     if opts.verbose:
         log.setLevel(logging.DEBUG)
@@ -576,8 +940,16 @@ def main():
         exit(unittest.main())
 
     if opts.scan:
-        repos = list(do_repo_report(opts.scan))
-        repos
+        if not opts.reports:
+            opts.reports = ['pip']
+        if len(opts.reports) > 1:
+            repos = list(find_unique_repos(opts.scan))
+            for report in opts.reports:
+                list(do_repo_report(repos, report=report))
+        else:
+            list(do_repo_report(
+                find_unique_repos(opts.scan),
+                report=opts.reports[0]))
 
 if __name__ == "__main__":
     main()
