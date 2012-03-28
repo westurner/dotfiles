@@ -1,0 +1,13 @@
+
+[Added Associations]
+text/plain=gvim.desktop;
+text/x-python=gvim.desktop;
+text/html=gvim.desktop;
+application/x-shellscript=gvim.desktop;
+application/xml=gvim.desktop;
+application/rdf+xml=gvim.desktop;
+image/svg+xml=inkscape.desktop;
+application/x-sqlite3=crunchyfrog.desktop;
+
+[Default Applications]
+#text/html=google-chrome.desktop
