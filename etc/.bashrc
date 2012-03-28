@@ -86,21 +86,33 @@ vimpager() {
 
 loadshellaliases() {
 
- 
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias lt='ls -altr'
 alias l='ls -CF'
-alias vim="~/bin/vim"
+ggvim() {
+    gvim $@ 2>&1 > /dev/null
+}
 alias sudovim="EDITOR='vim' sudoedit"
+alias sudogvim="EDITOR='gvim' sudoedit"
 alias fumount='fusermount -u'
 alias less='~/bin/less.sh'
 alias less_='/usr/bin/less'
 alias xclip="xclip -selection c"
-
-
+alias gitlog="git log --pretty=format:'%h : %an : %s' --topo-order --graph"
+alias gitdiffstat="git diff -p --stat"
+alias pyclean='find . -type f -name "*.py[co]" -exec rm -f \{\} \;'
+alias sv='supervisorctl'
+alias ssv='supervisord'
+alias hgs='hg status'
+alias hgl='hg log'
+alias hgl10='hg log -l10'
+alias spp='sudo puppetd -tv'
+alias ifc='ifconfig'
 }
+loadshellaliases
 
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
@@ -113,12 +125,13 @@ man() {
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        if [ "$1" == "man" ]; then
-            exit 0
-        fi
+        #if [ "$1" == "man" ]; then
+        #    exit 0
+        #fi
 
         #/usr/bin/whatis "$@" >/dev/null
-        vim -c "runtime ftplugin/man.vim" \
+        vim --noplugin \
+            -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
             -c 'silent! only' \
             -c 'nmap q :q<CR>' \
@@ -126,14 +139,18 @@ man() {
     fi
 }
 
+h() {
+    history $@
+}
+
 randstr() {
     # Generate a random string
     # param $1: number of characters
-    echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null | 
-            base64 -w 0 | 
-            rev | 
-            cut -b 2- | 
-            tr '/+' '0' | 
+    echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+            base64 -w 0 |
+            rev |
+            cut -b 2- |
+            tr '/+' '0' |
             rev)
 }
 
@@ -144,7 +161,7 @@ writehistline() {
 }
 
 writelastcmd() {
-    
+
     if [ -z "$HOLLDON" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
             USRLOG="${VIRTUAL_ENV}/.usrlog"
@@ -161,7 +178,7 @@ set_usrlog_id() {
     # param $1: terminal name
     RENAME_MSG="# Renaming $TERM_ID to $1 ..."
     echo $RENAME_MSG
-    writehistline "$RENAME_MSG" 
+    writehistline "$RENAME_MSG"
     TERM_ID="__$1"
     export TERM_ID
 }
@@ -173,7 +190,7 @@ stid() {
 
 hist() {
     # Alias to less the current session log
-    less -c 'set nomodifiable' $USRLOG 
+    less -c 'set nomodifiable' $USRLOG
 }
 
 histgrep() {
@@ -244,7 +261,7 @@ screenrec() {
 #add_to_path ()
 #{
     ## http://superuser.com/questions/ \
-    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840 
+    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
     #if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]
     #then
         #return 0
@@ -333,6 +350,7 @@ workon_pyramid_app() {
     alias cdsrc="cd ${_SRC}"
     alias cdbin="cd ${_BIN}"
     alias cdeggsrc="cd ${_EGGSRC}"
+
 
     # cd to $_PATH
     cd "${_EGGSRC}"
