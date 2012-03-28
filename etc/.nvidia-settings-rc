@@ -1,0 +1,55 @@
+#
+# /home/wturner/.nvidia-settings-rc
+#
+# Configuration file for nvidia-settings - the NVIDIA X Server Settings utility
+# Generated on Fri Aug  5 03:57:44 2011
+#
+
+# ConfigProperties:
+
+RcFileLocale = C
+ToolTips = Yes
+DisplayStatusBar = Yes
+SliderTextEntries = Yes
+IncludeDisplayNameInConfigFile = Yes
+ShowQuitDialog = Yes
+Timer = Thermal_Monitor_(GPU_0),Yes,1000
+Timer = PowerMizer_Monitor_(GPU_0),Yes,1000
+
+# Attributes:
+
+wrk:0.0/CursorShadow=0
+wrk:0.0/CursorShadowAlpha=64
+wrk:0.0/CursorShadowRed=0
+wrk:0.0/CursorShadowGreen=0
+wrk:0.0/CursorShadowBlue=0
+wrk:0.0/CursorShadowXOffset=4
+wrk:0.0/CursorShadowYOffset=2
+wrk:0.0/SyncToVBlank=0
+wrk:0.0/LogAniso=0
+wrk:0.0/FSAA=1
+wrk:0.0/TextureSharpen=0
+wrk:0.0/AllowFlipping=1
+wrk:0.0/FSAAAppControlled=1
+wrk:0.0/LogAnisoAppControlled=1
+wrk:0.0/OpenGLImageSettings=1
+wrk:0.0/FSAAAppEnhanced=0
+wrk:0.0/RedBrightness=0.000000
+wrk:0.0/GreenBrightness=0.000000
+wrk:0.0/BlueBrightness=0.000000
+wrk:0.0/RedContrast=0.000000
+wrk:0.0/GreenContrast=0.000000
+wrk:0.0/BlueContrast=0.000000
+wrk:0.0/RedGamma=1.000000
+wrk:0.0/GreenGamma=1.000000
+wrk:0.0/BlueGamma=1.000000
+wrk:0.0/DigitalVibrance[DFP-0]=0
+wrk:0.0/DigitalVibrance[DFP-1]=0
+wrk:0.0/GPUScaling[DFP-0]=131073
+wrk:0.0/GPUScaling[DFP-1]=131073
+wrk:0.0/XVideoTextureBrightness=0
+wrk:0.0/XVideoTextureContrast=0
+wrk:0.0/XVideoTextureHue=0
+wrk:0.0/XVideoTextureSaturation=0
+wrk:0.0/XVideoTextureSyncToVBlank=1
+wrk:0.0/XVideoSyncToDisplay=65536

@@ -5,30 +5,31 @@ editor = vim
 merge = vimdiff
 
 [extensions]
-hgext.hgk =
-hgext.churn =
-hgext.graphlog =
-hgext.convert =
-hgext.churn =
-hgext.record =
-hgext.bookmarks =
+hgk =
+churn =
+graphlog =
+convert =
+churn =
+record =
 bookmarks =
-hgext.schemes =
+highlight =
+bookmarks =
+schemes =
 fetch =
 extdiff =
 color =
 hgk=
 mq=
-#hgext.progress=
+progress=
 #hgext.git = /usr/share/pyshared/hgext/git
 hggit =
 
 #hgattic = /home/wturner/.mercurial/hgattic/attic.py
 #hgshelve = /home/wturner/.mercurial/hgshelve/hgshelve.py
-graphviz = /home/wturner/.mercurial/graphviz.py
-localbranches = /home/wturner/.mercurial/mercurial-extensions-localbranch/localbranch.py
-reviewboard = /home/wturner/.mercurial/mercurial-reviewboard
-
+#graphviz = /home/wturner/.mercurial/graphviz.py
+#localbranches = /home/wturner/.mercurial/mercurial-extensions-localbranch/localbranch.py
+#reviewboard = /home/wturner/.mercurial/mercurial-reviewboard
+#debugshell = /home/wturner/src/hg-crew-stable/contrib/debugshell.py
 
 
 [extdiff]
@@ -43,18 +44,20 @@ py = http://hg.python.org/
 bb = https://bitbucket.org/
 bb+ssh = ssh://hg@bitbucket.org/
 gcode = https://{1}.googlecode.com/hg/
+gcode+svn = https://{1}.googlecode.com/svn/trunk
 kiln = https://{1}.kilnhg.com/Repo/
 gh = git://github.com/
 gh+ssh = git+ssh://git@github.com/
 
-keg = ssh://hg@hg.ponykeg/
+ocean = ssh://hg@hg.ocean/
+moz = https://hg.mozilla.org/
 
 [reviewboard]
 server = https://rev.ponykeg
 #target_groups = self
 
 [hostfingerprints]
-bitbucket.org = 81:2b:08:90:dc:d3:71:ee:e0:7c:b4:75:ce:9b:6c:48:94:56:a1:fe
+#bitbucket.org = 81:2b:08:90:dc:d3:71:ee:e0:7c:b4:75:ce:9b:6c:48:94:56:a1:fe
 
 [tortoisehg]
 vdiff = diffuse
@@ -62,3 +65,6 @@ editor = gedit
 
 [mq]
 git = yes
+
+[hgweb]
+/ = src/*
