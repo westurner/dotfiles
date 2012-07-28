@@ -1,7 +1,8 @@
 [ui]
 username = Wes Turner <wes@wrd.nu>
 ssh = ssh -o ClearAllForwardings=yes
-editor = vim
+# default to $EDITOR
+#editor = vim
 merge = vimdiff
 
 [extensions]
