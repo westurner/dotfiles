@@ -95,10 +95,9 @@ alias l='ls -CF'
 ggvim() {
     gvim $@ 2>&1 > /dev/null
 }
-alias sudovim="EDITOR='vim' sudoedit"
-alias sudogvim="EDITOR='gvim' sudoedit"
+alias sudovim="EDITOR=vim sudo -e"
+alias sudogvim="EDITOR=gvim sudo -e"
 alias fumount='fusermount -u'
-alias less='~/bin/less.sh'
 alias less_='/usr/bin/less'
 alias xclip="xclip -selection c"
 alias gitlog="git log --pretty=format:'%h : %an : %s' --topo-order --graph"
@@ -111,6 +110,20 @@ alias hgl='hg log'
 alias hgl10='hg log -l10'
 alias spp='sudo puppetd -tv'
 alias ifc='ifconfig'
+
+if [ -x "~/bin/less.sh" ]; then
+    alias less='~/bin/less.sh'
+fi
+
+# default to MacVim if available
+if [ -x '/usr/local/bin/mvim' ]; then
+    export EDITOR='/usr/local/bin/mvim -f'
+    export SUDO_EDITOR='/usr/local/bin/mvim -v -f'
+    alias vi='/usr/local/bin/mvim -v'
+    alias vim='/usr/local/bin/mvim -v'
+    alias mvim='/usr/local/bin/mvim'
+    alias sudoedit='sudo -e'
+fi
 }
 loadshellaliases
 
@@ -146,12 +159,21 @@ h() {
 randstr() {
     # Generate a random string
     # param $1: number of characters
-    echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
-            base64 -w 0 |
-            rev |
-            cut -b 2- |
-            tr '/+' '0' |
-            rev)
+    if [ `uname -s` == "Darwin" ]; then
+        echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+                base64 -b 0 |
+                rev |
+                cut -b 2- |
+                tr '/+' '0' |
+                rev)
+    else
+        echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+                base64 -w 0 |
+                rev |
+                cut -b 2- |
+                tr '/+' '0' |
+                rev)
+    fi
 }
 
 writehistline() {
