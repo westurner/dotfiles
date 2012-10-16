@@ -1,7 +1,11 @@
 from __future__ import division
 c = get_config()
 c.InteractiveShellApp.ignore_old_config=True
-c.InteractiveShellApp.extensions=['storemagic']
+c.InteractiveShellApp.extensions=['storemagic','autoreload'] # sympyprinting
+c.InteractiveShellApp.log_level = 20
+
+c.InteractiveShell.autoreload = True
+c.InteractiveShell.deep_reload = True
 
 import site
 import sys
@@ -19,7 +23,7 @@ if 'VIRTUAL_ENV' in environ:
         sys.path = [join(sys_libdir, p) for p in (
                     "", "plat-linux2", "lib-tk", "lib-dynload")]
         sys.path.extend( (p for p in sys.path if p.startswith(environ['VIRTUAL_ENV']) ) )
-        #sys.path.append('/usr/local/lib/python2.6/dist-packages/IPython/extensions')
+        sys.path.append('/usr/local/lib/%s/dist-packages/IPython/extensions' % pyver)
     #sys.path.sort()
     site.addsitedir(site_packages)
     print >> sys.stderr , "Path:\n-----"
