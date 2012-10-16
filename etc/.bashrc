@@ -102,8 +102,7 @@ ggvim() {
 alias sudovim="EDITOR='vim' sudoedit"
 alias sudogvim="EDITOR='gvim' sudoedit"
 alias fumount='fusermount -u'
-alias less='~/bin/less.sh'
-alias less_='/usr/bin/less'
+
 alias xclip="xclip -selection c"
 alias gitlog="git log --pretty=format:'%h : %an : %s' --topo-order --graph"
 alias gitdiffstat="git diff -p --stat"
@@ -118,9 +117,39 @@ alias ifc='ifconfig'
 }
 loadshellaliases
 
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    source /etc/bash_completion
-fi
+alias less_='/usr/bin/less'
+alias _less='/usr/bin/less'
+less () {
+    #start Vim with less.vim.
+    # Read stdin if no arguments were given.
+    if test -t 1; then
+    if test $# = 0; then
+    vim -c "let g:tinyvim=1" \
+        --cmd "runtime! macros/less.vim" \
+        --cmd "set nomod" \
+        --cmd "set noswf" \
+        -c "set colorcolumn=0" \
+        -c "map <C-End> <Esc>G" \
+        -
+    else
+    vim --noplugin \
+        -c "let g:tinyvim=1" \
+        -c "runtime! macros/less.vim" \
+        --cmd "set nomod" \
+        --cmd "set noswf" \
+        -c "set colorcolumn=0" \
+        -c "map <C-End> <Esc>G" \
+        $@
+    fi
+    else
+    # Output is not a terminal, cat arguments or stdin
+    if test $# = 0; then
+        less
+    else
+        less "$@"
+    fi
+    fi
+}
 
 # view manpages in vim
 alias man_="/usr/bin/man"
