@@ -402,3 +402,8 @@ workon_pyramid_app() {
 
 
 pythonsetup
+
+RVM_PATH="$HOME/.rvm/bin"
+if [ -d "${RVM_PATH}" ]; then
+    PATH=$PATH:$HOME/.rvm/bin
+fi
