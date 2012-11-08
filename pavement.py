@@ -274,6 +274,7 @@ setup(
                 'deb_search=dotfiles.deb_search:main',
                 'deb_deps=dotfiles.deb_deps:main',
                 'py_index=dotfiles.py_index:main',
+                'pipls=dotfiles.pipls:main',
                 'mactool=dotfiles.mactool:main',
                 'pylsof=dotfiles.lsof:main',
                 'pyren=dotfiles.pyren:main',
