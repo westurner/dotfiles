@@ -22,12 +22,22 @@ h() {
 _randstr() {
     # Generate a random string
     # param $1: number of characters
-    echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
-            base64 -w 0 |
-            rev |
-            cut -b 2- |
-            tr '/+' '0' |
-            rev)
+
+    if [ `uname -s` == "Darwin" ]; then
+        echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+                base64 -b 0 |
+                rev |
+                cut -b 2- |
+                tr '/+' '0' |
+                rev)
+    else
+        echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+                base64 -w 0 |
+                rev |
+                cut -b 2- |
+                tr '/+' '0' |
+                rev)
+    fi
 }
 
 _get_term_id() {
