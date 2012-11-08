@@ -19,6 +19,16 @@ export DOCSHTML="${HOME}/docs"
 #__THIS=$(readlink -e "$0")
 #__THISDIR=$(dirname "${__THIS}")
 
+if [ -x '/usr/local/bin/mvim' ]; then
+    export EDITOR='/usr/local/bin/mvim -f'
+    export SUDO_EDITOR='/usr/local/bin/mvim -v -f'
+    alias vim='/usr/local/bin/mvim -v -f'
+else
+    export EDITOR="${EDITOR:-"vim -g"}"
+    _EDITCMD="${EDITOR}"
+    _EDITMANYCMD="${EDITCMD} -p"
+fi
+
 path () {
     echo "$PWD/"$1""
 }
@@ -466,8 +476,8 @@ loadaliases() {
     alias pyclean='find . -type f -name "*.py[co]" -exec rm -f \{\} \;'
     alias ish='ipython -p shell'
 
-    alias sudogvim="EDITOR='gvim' sudoedit"
-    alias sudovim="EDITOR='vim' sudoedit"
+    alias sudogvim="EDITOR='gvim' sudo -e"
+    alias sudovim="EDITOR='vim' sudo -e"
 
     alias t='tail'
 
@@ -520,9 +530,7 @@ e() {
     echo $@
 }
 
-EDITOR="${EDITOR:-"vim -g"}"
-_EDITCMD="${EDITOR}"
-_EDITMANYCMD="${EDITCMD} -p"
+
 
 
 
