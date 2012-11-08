@@ -8,7 +8,7 @@ reload() {
 export WORKON_HOME="${HOME}/workspace/.virtualenvs"
 
 export DOTFILES="${HOME}/.dotfiles"
-source "${DOTFILES}/scripts/usrlog.sh"
+source "${DOTFILES}/etc/usrlog.sh"
 _setup_usrlog
 
 source "${HOME}/etc/.bashmarks.sh"
