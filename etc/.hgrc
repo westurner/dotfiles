@@ -1,8 +1,8 @@
 [ui]
 username = Wes Turner <wes@wrd.nu>
-ssh = ssh -o ClearAllForwardings=yes
+#ssh = ssh -o ClearAllForwardings=yes
 editor = vim
-merge = vimdiff
+merge = gvimdiff
 
 [extensions]
 hgk =
@@ -13,7 +13,6 @@ churn =
 record =
 bookmarks =
 highlight =
-bookmarks =
 schemes =
 fetch =
 extdiff =
@@ -21,22 +20,27 @@ color =
 hgk=
 mq=
 progress=
-#hgext.git = /usr/share/pyshared/hgext/git
 hggit =
 
-#hgattic = /home/wturner/.mercurial/hgattic/attic.py
-#hgshelve = /home/wturner/.mercurial/hgshelve/hgshelve.py
-#graphviz = /home/wturner/.mercurial/graphviz.py
-#localbranches = /home/wturner/.mercurial/mercurial-extensions-localbranch/localbranch.py
-#reviewboard = /home/wturner/.mercurial/mercurial-reviewboard
-#debugshell = /home/wturner/src/hg-crew-stable/contrib/debugshell.py
+debugshell = ~/src/hg-crew-stable/contrib/debugshell.py
+gpg = 
+eol = 
+largefiles = 
+rebase = 
+
+#hgattic = ~/.mercurial/hgattic/attic.py
+#hgshelve = ~/.mercurial/hgshelve/hgshelve.py
+#graphviz = ~/.mercurial/graphviz.py
+#localbranches = ~/.mercurial/mercurial-extensions-localbranch/localbranch.py
+#reviewboard = ~/.mercurial/mercurial-reviewboard
+#debugshell = ~/src/hg-crew-stable/contrib/debugshell.py
 
 
 [extdiff]
 cmd.diffuse = diffuse
 cmd.meld = meld
 
-cmd.vimdiff = vim
+cmd.vimdiff = vimdiff
 opts.vimdiff = -f '+next' '+execute "DirDiff" argv(0) argv(1)'
 
 [schemes]
@@ -53,18 +57,34 @@ ocean = ssh://hg@hg.ocean/
 moz = https://hg.mozilla.org/
 
 [reviewboard]
-server = https://rev.ponykeg
+server = https://rev.ocean
 #target_groups = self
 
 [hostfingerprints]
 #bitbucket.org = 81:2b:08:90:dc:d3:71:ee:e0:7c:b4:75:ce:9b:6c:48:94:56:a1:fe
 
 [tortoisehg]
-vdiff = diffuse
-editor = gedit
+vdiff = gvimdiff
+editor = gvim -p
+forcerepotab = True
+fullpath = True
 
 [mq]
 git = yes
 
 [hgweb]
-/ = src/*
+/ = ~/src/*
+
+
+[web]
+style = gitweb
+push_ssl = True
+deny_push = *
+
+[diff]
+git = True
+
+
+#XXX
+[trusted]
+users = hg
