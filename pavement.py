@@ -192,6 +192,53 @@ def get_long_description():
     CHANGELOG = open(here / path('CHANGELOG.rst')).read()
     return '\n\n'.join((README, CHANGELOG,))
 
+testing_extras = [
+    "virtualenv>=1.3.3",
+    "virtualenvwrapper",
+    'z3c.recipe.tag>=0.4.0',
+    "ipdb",
+    "nose>=0.11.1",
+    "nose-progressive",
+    "nose-ipdb",
+    "ipdbplugin"
+    "pyflakes",
+    "pep8",
+    "coverage",
+]
+
+docs_extras = [
+    'docutils',
+    'pygments',
+    'Sphinx',
+    'Sphinx-PyPi-upload',
+    'sphinxfeed',
+    'changelog',
+    'sphinxcontrib-mercurial',
+    'sphinx-git',
+    'sphinxcontrib-bitbucket',
+    'sphinxcontrib-issuetracker',
+    'sphinxcontrib-cheeseshop',
+    'sphinxcontrib-bibtex',
+    'sphinxcontrib-paverutils',
+    'github-tools[template]',
+]
+
+dev_extras = [
+    'paver',
+    'PasteScript',
+    'vimpyre',
+    'github-tools'
+    # PasteScript, Cheetah, [..., ZopeSkel ]
+    # cmdloop,
+    #"github-tools>=0.1.6",
+    #vimpyre
+]
+
+always_install = [
+    'path.py',
+    'grin'
+]
+
 setup(
     name=APPNAME,
     version=VERSION,
@@ -210,17 +257,33 @@ setup(
     data_files=data_files,
     zip_safe=False,
     test_suite='nose.collector',
-    install_requires=[
-
-    ],
+    install_requires=always_install + testing_extras,
+    extras_require={
+        "testing": testing_extras,
+        "docs": docs_extras,
+        "dev": dev_extras
+    },
     entry_points={
         'console_scripts':
             [
                 'dotfiles=dotfiles:main',
                 'repo=dotfiles.repos:main',
+                'pyline=dotfiles.pyline:main',
+                'greppaths=dotfiles.greppaths:main',
+                'optimizepath=dotfiles.optimizepath:main',
+                'deb_search=dotfiles.deb_search:main',
+                'deb_deps=dotfiles.deb_deps:main',
+                'py_index=dotfiles.py_index:main',
+                'mactool=dotfiles.mactool:main',
+                'pylsof=dotfiles.lsof:main',
+                'pyren=dotfiles.pyren:main',
+                'pycut=dotfiles.pycut:main',
+                'pwstrength=dotfiles.passwordstrength:main'
             ]
     }
 )
+
+
 
 options(
     minilib=Bunch(
@@ -234,23 +297,10 @@ options(
         dest_dir='./env/',
         install_paver=True,
         #no_site_packages=True,
-        packages_to_install=[
-            "virtualenv>=1.3.3",
-            "virtualenvwrapper",
-            'z3c.recipe.tag>=0.4.0',
-            "ipdb",
-            "nose>=0.11.1",
-            "nose-ipdb",
-            "pyflakes",
-            "pep8",
-            "coverage",
-            # Sphinx,
-            # docutils,
-            # pygments,
-            # PasteScript, Cheetah, [..., ZopeSkel ]
-            # cmdloop,
-            #"github-tools>=0.1.6",
-            #vimpyre
+        packages_to_install=testing_extras,
+        [
+
+
             ]
         ),
     sphinx=Bunch(
