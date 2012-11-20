@@ -3,33 +3,79 @@
 
 reload() {
     source ~/.bashrc
+    #      --> .bashrc.venv.sh
 }
 
-export WORKON_HOME="${HOME}/workspace/.virtualenvs"
 
 export DOTFILES="${HOME}/.dotfiles"
+export PROJECTS="${HOME}/.projectsrc.sh"
+export __SRC="/srv/repos/src"
+
+# Virtualenvwrapper
+export WORKSPACE="${HOME}/workspace"
+export WORKON_HOME="${WORKSPACE}/.virtualenvs"
+
+# Usrlog
 source "${DOTFILES}/etc/usrlog.sh"
 _setup_usrlog
 
-source "${HOME}/etc/.bashmarks.sh"
+# Bashmarks
+source "${DOTFILES}/etc/.bashmarks.sh"
 
-export PROJECTS="${HOME}/.projectsrc.sh"
-export DOCSHTML="${HOME}/docs"
+# Editor
+export USEGVIM=true
+_setup_editor() {
+    # Configure $EDITOR
+    export VIMBIN=${VIMBIN:-"/usr/bin/vim"}
+    export GVIMBIN=${GVIMBIN:-"/usr/bin/gvim "}
+    export MVIMBIN=${MVIMBINBIN:-"/usr/local/bin/mvim"}
+
+    export EDITOR=${EDITOR:-"${VIMBIN} -p"}
+    export SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN} -p"}
+
+    if [ -n "${USEGVIM}" ]; then
+        if [ -x "${GVIMBIN}" ]; then
+            export GVIMBIN="${GVIMBIN} -p"
+            export EDITOR=${EDITOR:-"${GVIMBIN}"}
+            export SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN}"}
+        elif [ -x "${MVIMBIN}" ]; then
+            export MVIMBIN="${MVIMBIN} -p -f"
+            export EDITOR=${EDITOR:-"${MVIMBIN}"}
+            export SUDO_EDITOR="${MVIMBIN} -v"
+            alias vim="${MVIMBIN} -v -f"
+            alias gvim="${MVIMBIN} -v -f"
+        fi
+    fi
+    
+    _EDITCMD="${EDITOR}"
+}
+_setup_editor
+
+## $PATH
+
+add_to_path ()
+{
+    ## http://superuser.com/questions/ \
+    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
+    if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
+        return 0
+    fi
+    export PATH=$1:$PATH
+}
+
+if [ -d "${DOTFILES}" ]; then
+    # Add dotfiles executable directories to $PATH
+    add_to_path "${DOTFILES}/bin"
+    add_to_path "${DOTFILES}/scripts"
+fi
+
+## file paths
 
 #__THIS=$(readlink -e "$0")
 #__THISDIR=$(dirname "${__THIS}")
 
-if [ -x '/usr/local/bin/mvim' ]; then
-    export EDITOR='/usr/local/bin/mvim -f'
-    export SUDO_EDITOR='/usr/local/bin/mvim -v -f'
-    alias vim='/usr/local/bin/mvim -v -f'
-else
-    export EDITOR="${EDITOR:-"vim -g"}"
-    _EDITCMD="${EDITOR}"
-    _EDITMANYCMD="${EDITCMD} -p"
-fi
-
 path () {
+    # print absolute path to file
     echo "$PWD/"$1""
 }
 
@@ -50,45 +96,44 @@ expandpath () {
 }
 
 
-add_to_path ()
-{
-    ## http://superuser.com/questions/ \
-    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
-    if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
-        return 0
-    fi
-    export PATH=$1:$PATH
+_trail () {
+    # walk upwards from a path
+    # see: http://superuser.com/a/65076  
+    unset path
+    _pwd=${1:-$(pwd)}
+    parts=$(echo ${_pwd} | awk 'BEGIN{FS="/"}{for (i=1; i < NF; i++) print $i}')
+
+    for part in $parts; do
+        path="$path/$part"
+        ls -ldZ $path
+    done
+
 }
 
-
-# TODO: symlink to ~/bin
-#if [ -d "${DOTFILES}" ]; then
-#    add_to_path "${DOTFILES}/bin"
-#fi
-
-
-chown_me () {
+chown-me () {
     set -x
-    sudo chown -R $(id -un):$(id -un) $@
-    sudo chmod -R go-rwx $@
+    chown -Rv $(id -un):$(id -un) $@
+    chmod -Rv go-rwx $@
     set +x
 
 }
-chown_sme () {
+chown-sme () {
     set -x
     sudo chown -Rv $(id -un):$(id -un) $@
     sudo chmod -Rv go-rwx $@
     set +x
 
 }
-chown_user () {
+chown-user () {
     set -x
     chown -Rv $(id -un):$(id -un) $@
     chmod -Rv go-rwx $@
     set +x
 }
 
-new_sh () {
+
+new-sh () {
+    # Create and open a new shell script
     file=$1
     if [ -e $1 ]
         then echo "$1 exists"
@@ -101,17 +146,24 @@ new_sh () {
     fi
 }
 
-diff_dirs () {
+diff-dirs () {
+    # List differences between directories
     F1=$1
     F2=$2
     #LSBIN=${3-'ls -a | sort'}
     DIFFBIN=${4:-'diff -u'}
 
+    LSBIN="find $path -printf '%T@\t%s\t%u\t%Y\t%p\n'"
+
     HERE=$(pwd)
-    $DIFFBIN <(cd $F1; ls -a | sort;) <(cd $HERE; cd $F2; ls -a | sort;)
+    $DIFFBIN \
+        <(cd $F1; find . -printf '%T@\t%s\t%u\t%Y\t%p\n';) \
+        <(cd $HERE; cd $F2; find . -printf '%T@\t%s\t%u\t%Y\t%p\n';)
     cd $HERE
 }
-diff_stdin () {
+
+diff-stdin () {
+    # Diff the output of two commands
     DIFFBIN='diff'
     $DIFFBIN -u <($1) <($2)
 }
@@ -123,8 +175,6 @@ wopen () {
 }
 
 find_largefiles () {
-    #!/bin/bash -x
-
     SIZE=${1:-"+10M"}
     find . -xdev -type f -size "${SIZE}" -exec ls -alh {} \;
 }
@@ -139,11 +189,26 @@ find_pdf () {
         pdfinfo "$fname" | egrep --color=none 'Title|Keywords|Author';
     done
 }
+find_lately () {
+    set -x
+    paths=$@
+    lately="lately.$(date +'%Y%m%d%H%M%S')"
 
-check_setuid () {
+    find $paths -printf "%T@\t%s\t%u\t%Y\t%p\n" | tee $lately
+    # time_epoch \t size \t user \t type \t path
+    sort $lately > $lately.sorted
+
+    less $lately.sorted
+    set +x
+    #for p in $paths; do
+    #    repos -s $p
+    #done
+}
+
+find_setuid () {
     find /  -type f \( -perm -4000 -o -perm -2000 \) -exec ls -ld '{}' \;
 }
-check_startup () {
+find_startup () {
     cmd=${@:-"ls"}
     paths='/etc/rc?.d /etc/init.d /etc/init /etc/xdg/autostart /etc/dbus-1'
     paths="$paths ~/.config/autostart /usr/share/gnome/autostart"
@@ -152,10 +217,9 @@ check_startup () {
             find $p -type f | xargs $cmd
         fi
     done
-
 }
 
-check_ssl() {
+find_ssl() {
     # apt-get install libnss3-tools
     _runcmd(){
         cmd="${1}"
@@ -167,20 +231,21 @@ check_ssl() {
         echo -e "\n#."
     }
 
-    _runcmd "locate *.pem"
-
+    for cert in $(locate *.pem); do
+        echo "-- $cert --"
+        openssl x509 -in $cert -text
+    done
     for d in $(locate '*.db' | egrep 'key[[:digit:]].db'); do  
         kpath=$(dirname $d) 
         _runcmd "certutil  -L -d sql:${kpath}"  "${kpath}"
     done
-
 }
 
-deb_file () {
+find_pkgfile () {
     apt-file search $@
 }
 
-deb_listfiles () {
+find_pkgfiles () {
     cat /var/lib/dpkg/info/$1.list | sort
 }
 
@@ -216,28 +281,7 @@ deb_chksums () {
 }
 
 
-deb_kernel () {
-    sudo apt-get install linux-source ncurses-dev libncurses-dev
-    cd /usr/src/
-    tar xjvf *.bz2
-    cd *-source*
-    ls /boot/config-*
-    cp /boot/config-* .config # TODO:
-    make menuconfig
-}
 
-deb_makevim () {
-    sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev  \
-        libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev \
-        libx11-dev libxpm-dev libxt-dev libssl-dev
-    if ![ -d '~/src/vim' ]; then
-        hg clone https://vim.googlecode.com/hg/ ~/src/vim
-    fi
-    cd ~/src/vim
-    ./configure --enable-multibyte --enable-pythoninterp --enable-rubyinterp --enable-cscope --enable-xim --with-features=huge --enable-gui=gnome2
-    make
-
-}
 
 deb_mkrepo () {
     REPODIR=${1:-"/var/www/nginx-default/"}
@@ -245,10 +289,6 @@ deb_mkrepo () {
     dpkg-scanpackages . /dev/null | gzip -9c > $REPODIR/Packages.gz
     dpkg-scansources . /dev/null | gzip -9c > $REPODIR/Sources.gz
 }
-
-
-
-
 
 mnt_bind () {
     DEST=$1
@@ -261,17 +301,15 @@ mnt_cifs () {
     URI="$1" # //host/share
     MNTPT="$2"
     OPTIONS="-o user=$3,password=$4"
-    mount -t cifs $URI $MNTPT $OPTIONS
-    }
-    mnt.davfs () {
+    mount -t cifs $OPTIONS $URI $MNTPT
+}
+mnt.davfs () {
     #!/bin/sh
     URL="$1"
     MNTPT="$2"
-    $URL $MNTPT davfs rw,user,noauto 0 0
+    OPTIONS="-o rw,user,noauto"
+    mount -t davfs $OPRTIONS $URL $MNTPT
 }
-
-
-
 
 lsof_ () {
     #!/bin/bash 
@@ -329,10 +367,15 @@ ssh_prx () {
 }
 
 strace_ () {
-    strace -f -F $@ 2>&1
+    strace -ttt -f -F $@ 2>&1
 }
 strace_f () {
-    strace -f -F -e trace=file $@ 2>&1
+    strace_ -e trace=file
+}
+
+strace_f_noeno () {
+    strace_ -e trace=file $@ 2>&1 \
+        | grep -v '-1 ENOENT (No such file or directory)$' 
 }
 
 ### Python/Virtualenv[wrapper] setup
@@ -346,15 +389,15 @@ _setup_python () {
 _setup_python
 
 _setup_venvwrapper () {
-    _VENVW="/usr/local/bin/virtualenvwrapper.sh"
+    export _VENVW="/usr/local/bin/virtualenvwrapper.sh"
     source "$_VENVW"
-
 
     alias cdw="cd $WORKON_HOME"
     alias cdv='cdvirtualenv'
-    alias cds='cdvirtualenv src'
-    alias cde='cdvirtualenv etc'
-    alias cdl='cdvirtualenv lib'
+    alias cdsrc='cdvirtualenv src'
+    alias cdetc='cdvirtualenv etc'
+    alias cdlib='cdvirtualenv lib'
+    #alias cde='cdvirtualenv src/$_VENVNAME'
 
 }
 _setup_venvwrapper
@@ -375,17 +418,37 @@ lightpath() {
     echo $PATH | sed 's/\:/\n'
 }
 
+_gvim() {
+    gvim --servername ${_VENVNAME} --remote ${_VENVNAME} $@
+}
+
+_grinvenv() {
+    grin $@ "${_VENV}"
+}
+_grindvenv() {
+    grind $@ "${_VENV}"
+}
+_grinsrc() {
+    grin $@ "${_EGGSRC}"
+}
+_grindsrc() {
+    grind $@ "${_EGGSRC}"
+}
+
 workon_project() {
     _VENVNAME=$1
-    _APPNAME=$2
+    _APPNAME=${2:-$1}
 
-    _OPEN_TERMS=${3:-""}
+    _open_editors=${3:-""}
+    _open_terminals=${4:-""}
+    
+    workon "${_VENVNAME}"
 
-    _VENVCMD="workon ${_VENVNAME}"
     _VENV="${VIRTUAL_ENV}"
 
     export _SRC="${_VENV}/src"
     export _BIN="${_VENV}/bin"
+    export _ETC="${_VENV}/etc"
     export _EGGSRC="${_SRC}/${_APPNAME}"
     export _EGGSETUPPY="${_EGGSRC}/setup.py"
     export _EGGCFG="${_VENV}/etc/development.ini"
@@ -396,59 +459,54 @@ workon_project() {
     _TESTCMD="python ${_EGGSETUPPY} nosetests"
 
     # aliases
+    alias cde='cd ${_EGGSRC}'
+
     alias _serve="${_SERVECMD}"
     alias _shell="${_SHELLCMD}"
     alias _test="${_TESTCMD}"
     alias _editcfg="${_EDITCFGCMD}"
-    alias _glog="hgtk -R "${_EGGSRC}" log"
-    alias _log="hg -R "${_EGGSRC}" log"
-
-    alias cdsrc="cd ${_SRC}"
-    alias cdbin="cd ${_BIN}"
-    alias cdeggsrc="cd ${_EGGSRC}"
-
+    alias _glog="hgtk -R '${_EGGSRC}' log"
+    alias _log="hg -R '${_EGGSRC}' log"
     alias _make="cdvirtualenv; make"
 
-    workon "${_VENVNAME}"
-
-    # cd to $_PATH
+    # cd
     cd "${_EGGSRC}"
 
-    if [ "${_OPEN_TERMS}" != "" ]; then
+    if [ -n "${_open_editors}" ]; then
+        _gvim \
+            ${_EGGSRC} \
+            ./TODO* \
+            ./README.rst \
+            ./CHANGES.rst \
+            ./Makefile  \
+            ./setup.py \
+            ${_SRC} \
+            ${_ETC} \
+            ${_BIN} \
+            ${_VENVW} 
+    fi
+
+    if [ -n "${_open_terminals}" ]; then
         # open editor
-        ${_EDITCMD} "${_EGGSRC}" &
         # open tabs
-        #gnome-terminal \
-        #    --working-directory="${_EGGSRC}" \
-        #    --tab -t "${_APPNAME} serve" -e "bash -c \"${_SERVECMD}; bash -c \"workon_pyramid_app $_VENVNAME $_APPNAME 1\"\"" \
-        #    --tab -t "${_APPNAME} shell" -e "bash -c \"${_SHELLCMD}; bash\"" \
-        #    --tab -t "${_APPNAME} bash" -e "bash"
+        gnome-terminal \
+            --working-directory="${_EGGSRC}" \
+            --tab --title="${_APPNAME} bash" \
+                --command="bash" \
+            --tab --title="${_APPNAME} serve" \
+                --command="bash -c 'workon_pyramid_app $_VENVNAME $_APPNAME; \
+                    ${_SERVECMD} ; \
+                    bash'" \
+            --tab --title="${_APPNAME} shell" \
+                --command="bash -c '${_SHELLCMD}'; \\
+                    bash" 
     fi
 }
-
-
-###
-update_initram () {
-    DATESTR=$(date +%s-%H.%M.%S%z)
-    BACKUPDIR="/boot.old/${DATESTR}/"
-    [ -d $BACKUPDIR ] || sudo mkdir -p $BACKUPDIR
-    sudo rsync -avpr /boot/* $BACKUPDIR
-    sudo /usr/sbin/update-initramfs -k all -u -v
+we () {
+    workon_project $@
 }
 
-initram_unpack () {
-    # http://wiki.openvz.org/Modifying_initrd_image
-    INITRAM=$1
-    DEST=${2:-"initrdunpack"}
-    INITRAM_GZ="${INITRAM}.gz"
-    INITRAM_NAME=$(basename ${INITRAM_GZ})
-    #mkdir "d-$F"
-    mkdir -p ${DEST}
-    cp ${INITRAM} ${DEST}/${INITRAM_NAME}
 
-    zcat ${DEST}/${INITRAM_NAME} | cpio -imd ${DEST}
-    # TODO
-}
 
 loadaliases() {
 
@@ -476,8 +534,8 @@ loadaliases() {
     alias pyclean='find . -type f -name "*.py[co]" -exec rm -f \{\} \;'
     alias ish='ipython -p shell'
 
-    alias sudogvim="EDITOR='gvim' sudo -e"
-    alias sudovim="EDITOR='vim' sudo -e"
+    alias sudogvim="EDITOR=$GVIMBIN sudo -e"
+    alias sudovim="EDITOR=$EDITOR sudo -e"
 
     alias t='tail'
 
@@ -488,21 +546,21 @@ loadaliases() {
 }
 loadaliases
 
+_set_prompt() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        export venv_name="$(basename $VIRTUAL_ENV)" # TODO
+    else
+        unset -v venv_name
+    fi
 
-if [ -n "$VIRTUAL_ENV" ]; then
-    export venv_name="$(basename $VIRTUAL_ENV)"
-else
-    unset -v venv_name
-fi
-
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}${venv_name:+($venv_name)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}${venv_name:+($venv_name)}\u@\h:\w\n\$ '
-    unset color_prompt
-fi
-
+    if [ "$color_prompt" = yes ]; then
+        PS1='${debian_chroot:+($debian_chroot)}${venv_name:+($venv_name)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}${venv_name:+($venv_name)}\u@\h:\w\n\$ '
+        unset color_prompt
+    fi
+}
+_set_prompt
 
 # view manpages in vim
 man() {
@@ -530,10 +588,6 @@ e() {
     echo $@
 }
 
-
-
-
-
 vimpager() {
     _PAGER="${HOME}/bin/vimpager"
     # enable vimpager if present
@@ -542,98 +596,94 @@ vimpager() {
     fi
 }
 
-
-fixperms () {
-    repo="$1"
-    sudo chown -R hg:hgweb "$repo"
-    sudo chmod -R g+rw "$repo"
-}
-
-__SRC="/srv/repos/src"
-clone_repo () {
-    url=$1
-    shift
-    path="${__SRC}/$1"
-    if [ -d $path ]; then
-        echo "$path existing. Exiting." >&2
-        echo "see: update_repo $1"
-        return 0
-    fi
-    sudo -H -u hg hg clone $url $path
-    fixperms $path
-}
-
-repo() {
-    path="${__SRC}/$1"
-    shift
-    sudo -H -u hg hg --repo $path $@
-    fixperms $path 
-}
-
-update_repo() {
-    path=$1
-    shift
-    repo $path update $@
-}
-
-
-
 unumask() {
     path=$1
     find "${path}" -type f -exec chmod -v o+r {} \;
     find "${path}" -type d -exec chmod -v o+rx {} \;
 }
 
-_rro_check_dir() {
-    [ -d $1/.hg ] || [ -d $1/.git ] || [ -d $1/.bzr ] && echo $1
+_rro_find_repo() {
+    [ -d $1/.hg ] || [ -d $1/.git ] || [ -d $1/.bzr ] && cd $path
 }
 
-
 rro () {
-    # walk upwards from a path
-    # see: http://superuser.com/a/65076  
+    # walk down a path
+    # see: http://superuser.com/a/65076 
+    # FIXME
+    # TODO
     unset path
     _pwd=$(pwd)
-    parts=$(pwd | awk 'BEGIN{FS="/"}{for (i=1; i < NF; i++) print $i}')
+    parts=$(pwd | awk 'BEGIN{FS="/"}{for (i=1; i < NF+1; i++) print "/"$i}')
 
-    [ -f $_pwd/.hg] || [ -f $_pwd/.git ] || [ -f $_pwd/.bzr ] &&
-        cd $path
-
+    _rro_find_repo $_pwd
     for part in $parts; do
         path="$path/$part"
-        ls -ld $path   # do whatever checking you need here
-        [ -f $path/.hg ] || [ -f $path/.git ] || [ -f $path/.bzr ] && \
-            cd $path
+       
+        ls -ld $path
+        _rro_find_repo $path
+
     done
 }
 
-host_docs () {
-    workon docs
-
-    name=$1
-    path=${2}
-    dest="${DOCSHTML}/${name}"
-    group="hgweb"
-    if [ -z "${name}" ]; then
-        echo "must specify an application name"
-        return 1
-    fi
-
-    pushd .
-    cd $path
-    make html | tee build.log > build.current.log
-
-    html_path=$(tail -n 2 build.current.log | sed -r \
-        's/^Build finished. The HTML pages are in (.*)\.$/\1/g' -)
-
-    if [ -n "${html_path}" ]; then
-        rsync -avr ${html_path} "${dest}"
-        chgrp -R $group ${dest}
-    else
-        cat ./build.current.log
-    fi
-
-    deactivate
+###
+# Kernel
+_update_initram () {
+    DATESTR=$(date +%s-%H.%M.%S%z)
+    BACKUPDIR="/boot.old/${DATESTR}/"
+    [ -d $BACKUPDIR ] || sudo mkdir -p $BACKUPDIR
+    sudo rsync -avpr /boot/* $BACKUPDIR
+    sudo /usr/sbin/update-initramfs -k all -u -v
 }
+
+_unpack_initram () {
+    # http://wiki.openvz.org/Modifying_initrd_image
+    INITRAM=$1
+    DEST=${2:-"initrdunpack"}
+    INITRAM_GZ="${INITRAM}.gz"
+    INITRAM_NAME=$(basename ${INITRAM_GZ})
+    #mkdir "d-$F"
+    mkdir -p ${DEST}
+    cp ${INITRAM} ${DEST}/${INITRAM_NAME}
+
+    zcat ${DEST}/${INITRAM_NAME} | cpio -imd ${DEST}
+    # TODO
+}
+
+_setup_deb_kernel () {
+    return
+    sudo apt-get install linux-source ncurses-dev libncurses-dev
+    cd /usr/src/
+    tar xjvf *.bz2
+    cd *-source*
+    ls /boot/config-*
+    cp /boot/config-* .config # TODO:
+    make menuconfig
+}
+
+### Vim Setup
+
+_setup_deb_vim () {
+    SRCDIR="~/src/vim"
+    VIMHG="https://vim.googlecode.com/hg/"
+    sudo apt-get install build-essential \
+        libncurses5-dev libgnome2-dev libgnomeui-dev  \
+        libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev \
+        libx11-dev libxpm-dev libxt-dev libssl-dev
+    if ![ -d $SRCDIR ]; then
+        hg clone $VIMHG $SRCDIR
+    fi
+    cd $SRCDIR
+    ./configure \
+        --enable-multibyte \
+        --enable-pythoninterp \
+        --enable-rubyinterp \
+        --enable-cscope \
+        --enable-xim \
+        --with-features=huge \
+        --enable-gui=gnome2
+    make
+}
+
+
 
 [ -f $PROJECTS ] && source $PROJECTS
