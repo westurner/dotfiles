@@ -1,10 +1,14 @@
+
+
 try:
     import paver.tasks
 except ImportError:
     import os
-    if os.path.exists("paver-minilib.zip"):
+    HERE = os.path.dirname( os.path.abspath(__file__) )
+    PAVER_MINILIB = os.path.join(HERE, "paver-minilib.zip")
+    if os.path.exists(PAVER_MINILIB):
         import sys
-        sys.path.insert(0, "paver-minilib.zip")
+        sys.path.insert(0, PAVER_MINILIB)
     import paver.tasks
 
 paver.tasks.main()
