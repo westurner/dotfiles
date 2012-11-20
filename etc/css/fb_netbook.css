@@ -1,0 +1,12 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("facebook.com") {
+
+    div.ego_column,
+    div.fb_reminders,
+    div.mtl,
+    #pagelet_reminders,
+    #pagelet_organic_ego_pane,
+    #pagelet_rhc_footer { display: none }
+
+}
