@@ -192,6 +192,12 @@ def get_long_description():
     CHANGELOG = open(here / path('CHANGELOG.rst')).read()
     return '\n\n'.join((README, CHANGELOG,))
 
+# Extra requirement sets
+path_extras = [
+    'path.py',
+    'grin'
+]
+
 testing_extras = [
     "virtualenv>=1.3.3",
     "virtualenvwrapper",
@@ -200,7 +206,7 @@ testing_extras = [
     "nose>=0.11.1",
     "nose-progressive",
     "nose-ipdb",
-    "ipdbplugin"
+    "ipdbplugin",
     "pyflakes",
     "pep8",
     "coverage",
@@ -230,14 +236,9 @@ dev_extras = [
     'github-tools'
     # PasteScript, Cheetah, [..., ZopeSkel ]
     # cmdloop,
-    #"github-tools>=0.1.6",
-    #vimpyre
 ]
 
-always_install = [
-    'path.py',
-    'grin'
-]
+
 
 setup(
     name=APPNAME,
@@ -257,11 +258,13 @@ setup(
     data_files=data_files,
     zip_safe=False,
     test_suite='nose.collector',
-    install_requires=always_install + testing_extras,
+    tests_require=testing_extras,
+    #install_requires=(always_install + testing_extras),
     extras_require={
+        "path": path_extras,
         "testing": testing_extras,
         "docs": docs_extras,
-        "dev": dev_extras
+        "dev": dev_extras,
     },
     entry_points={
         'console_scripts':
@@ -286,6 +289,7 @@ setup(
 
 
 
+from itertools import chain
 options(
     minilib=Bunch(
         extra_files=[
@@ -298,11 +302,12 @@ options(
         dest_dir='./env/',
         install_paver=True,
         #no_site_packages=True,
-        packages_to_install=testing_extras,
-        [
-
-
-            ]
+        packages_to_install=chain(
+            path_extras,
+            testing_extras,
+            docs_extras,
+            dev_extras
+            )
         ),
     sphinx=Bunch(
         docroot='docs',
@@ -320,7 +325,6 @@ options(
         ),
 )
 
-from itertools import chain
 def ordered_uniq(*iterables):
     """
     filter uniques from iterables
