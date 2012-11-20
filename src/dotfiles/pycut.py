@@ -26,7 +26,7 @@ def main():
             help="Field Delimiter",
             default=None)
     argp.add_option("-o","--output-delim", dest="odelim",
-            help="Output Delimeter",
+            help="Output Delimiter",
             default='||')
     argp.add_option('-O', "--output-formatstr", dest="output_formatstr",
             help="Output Formatter")
