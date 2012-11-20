@@ -224,13 +224,12 @@ class Repository(object):
         return
 
     def pip_report(self):
-        ret = "%s://%s = %s" % (
+        yield "%s://%s = %s" % (
                 self.label,
                 self.fpath,
                 self.remote_url,
                 # revid
                 )
-        yield ret
         return
 
     def status_report(self):
@@ -302,7 +301,7 @@ class Repository(object):
                 'cwd': cwd or self.fpath,
                 'stderr': subprocess.STDOUT,
                 'stdout': subprocess.PIPE})
-        log.debug('cmd: %s %s' % (cmd, kwargs))
+        log.info('cmd: %s %s' % (cmd, kwargs))
         p = subprocess.Popen(cmd, **kwargs)
         p_stdout = p.communicate()[0]
         if p.returncode and not ignore_error:
@@ -784,7 +783,9 @@ def listdir_find_repos(where):
 
 
 def find_find_repos(where, ignore_error=True):
-    cmd=("find . "
+    cmd=("find",
+        " -O3",
+        " .",
         " -type d"
         " -regextype posix-egrep"
         " -regex '.*(%s)'" % REPO_REGEX)
@@ -793,6 +794,7 @@ def find_find_repos(where, ignore_error=True):
             'cwd': where,
             'stderr': sys.stderr,
             'stdout': subprocess.PIPE}
+    log.debug("CMD: %r" % cmd)
     p = subprocess.Popen(cmd, **kwargs)
     if p.returncode and not ignore_error:
         p_stdout = p.communicate()[0]
@@ -824,12 +826,17 @@ def find_unique_repos(where):
             repos[repo.fpath] = repo
             yield repo
 
-
+REPORT_TYPES=dict( (attr, getattr(Repository,attr)) for attr in (
+    "full",
+    "pip",
+    "status",
+    "hgsub",
+    "gitsubmodule") )
 def do_repo_report(repos, report='full', *args, **kwargs):
     for i, repo in enumerate(repos):
         log.debug( str( (i, repo.pip_report().next()) ) )
         try:
-            for l in getattr(repo, '%s_report' % report)(*args, **kwargs):
+            for l in REPORT_TYPES.get(report)(*args, **kwargs):
                 print(l)
         except Exception, e:
             log.error(repo)
@@ -896,13 +903,14 @@ def main():
     prs.add_option('-s', '--scan',
                     dest='scan',
                     action='store',
+                    default='.',
                     help='Path to scan')
 
     prs.add_option('-r', '--report',
                     dest='reports',
                     action='append',
-                    default=[],
-                    help='pip || full')
+                    default=['pip'],
+                    help='pip || full || status || hgsub')
 
     prs.add_option('--template',
                     dest='report_template',
@@ -927,6 +935,7 @@ def main():
         _format="%(levelname)s\t%(message)s"
         #_format="%(message)s"
         logging.basicConfig(format=_format)
+        log = logging.getLogger()
 
     if opts.verbose:
         log.setLevel(logging.DEBUG)
@@ -940,9 +949,9 @@ def main():
         exit(unittest.main())
 
     if opts.scan:
-        if not opts.reports:
-            opts.reports = ['pip']
-        if len(opts.reports) > 1:
+        #if not opts.reports:
+        #    opts.reports = ['pip']
+        if opts.reports:
             repos = list(find_unique_repos(opts.scan))
             for report in opts.reports:
                 list(do_repo_report(repos, report=report))
@@ -954,3 +963,4 @@ def main():
 if __name__ == "__main__":
     main()
 
+    print("yup")
