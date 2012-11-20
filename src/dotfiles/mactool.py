@@ -22,7 +22,7 @@ rand_global = lambda: ':'.join(rand_hex(6))
 
 def format_line(line):
     s = line.split()
-    return s[0], ' '.join(x.lower().capitalize() for x in s[2:]))
+    return (s[0], ' '.join(x.lower().capitalize() for x in s[2:]))
 
 def download_oui():
     #f = file(filename,"r")
