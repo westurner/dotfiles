@@ -1,0 +1,159 @@
+" .vimperatorrc file
+
+" Configuration
+
+set security.enable_ssl3 true
+set security.enable_tls true
+set security.enable_tls_session_tickets true
+set security.OCSP.enabled 1
+set security.OCSP.require false
+"set security.OCSP.require true
+
+set security.ssl.require_safe_negotiation true
+set security.ssl.treat_unsafe_negotiation_as_broken true
+
+set security.warn_entering_weak true
+set security.warn_entering_weak.show_once true
+set security.warn_viewing_mixed true
+set security.warn_viewing_mixes.show_once true
+
+set services.sync.registerEngines "Bookmarks"
+set services.sync.engine.bookmarks true
+set services.sync.engine.prefs false:
+set services.sync.engine.passwords false
+set services.sync.engine.history false
+set services.sync.engine.tabs false
+set services.sync.jpake.serverURL "https://setup.services.mozilla.com/"
+set services.sync.serverURL "https://auth.services.mozilla.com/"
+set services.sync.statusURL "https://services.mozilla.com/status/"
+set services.sync.privacyURL "https://services.mozilla.com/privacy-policy/"
+set services.sync.syncKeyHelpURL "https://services.mozilla.com/help/synckey"
+set services.sync.termsURL "https://services.mozilla.com/tos/"
+set services.sync.userURL "USER/"
+set services.sync.miscURL "MISC/"
+
+set signon.autologin.proxy false
+set signon.rememberSignons false
+
+set spellchecker.dictionary en_US
+
+set webgl.disabled true
+set webgl.force-enabled false
+set webgl.disable-extensions true
+set webgl.prefer-native-gl true
+
+set privacy.donottrackheader.enabled false
+
+set privacy.sanitize.sanitizeOnShutdown true
+
+set privacy.popups.showBrowserMessage true
+
+set privacy.clearOnShutdown.cache true
+set privacy.clearOnShutdown.cookies true
+set privacy.clearOnShutdown.downloads true
+set privacy.clearOnShutdown.formdata true
+set privacy.clearOnShutdown.history true
+set privacy.clearOnShutdown.passwords true
+set privacy.clearOnShutdown.sessions true
+set privacy.clearOnShutdown.siteSettings true
+
+set privacy.clearOnShutdown.offlineApps false
+set privacy.clearOnShutdown.cookies true
+
+set plugins.update.url "https://www.mozilla.com/%LOCALE%/plugincheck/"
+set plugins.update.notifyUser true
+
+set network.proxy.autoconfig_url ""
+set network.proxy.share_proxy_settings false
+"set network.proxy.ftp
+"set network.proxy.ftp_port
+"set network.proxy.http
+"set network.proxy.http_port
+"set network.proxy.ssl
+"set network.proxy.ssl_port
+"set network.proxy.socks 
+"set network.proxy.socks_port
+"set network.proxy.type 5
+set network.proxy.socks_remote_dns true
+set network.proxy.no_proxies_on "localhost, 127.0.0.1"
+
+set network.http.pipelining true
+set network.http.pipelining.ssl true
+set network.http.proxy.pipelining true
+set network.http.pipelining.maxrequests 7
+
+set network.dns.disableIPv6 true
+
+set network.enableIDN false
+set network.IDN_show_punycode true
+set network.IDN.whitelist.nu false
+"set network.IDN.whitelist.org false
+"set network.IDN.whitelist.biz false
+"set network.IDN.whitelist.info false
+
+set network.cookie.lifetimePolicy 2
+set network.cookie.lifetime.days 7
+
+set keyword.enabled false
+set keyword.URL ""
+
+"set javascript.enabled false
+"set javascript.options.strict true
+
+set network.websocket.enabled true
+set network.websocket.auto-follow-http-redirects false
+set network.websocket.extensions.stream-deflate true
+
+
+
+set geo.enabled false
+set notification.feature.enabled true
+
+set browser.startup.homepage https://encrypted.google.com
+
+
+set browser.bookmarks.restore_default_bookmarks false
+set distribution.canonical.bookmarksProcessed true
+set browser.feeds.showFirstRunUI false
+set browser.syncPromoViewsLeft 0
+
+set browser.formfill.enable false
+set browser.safebrowsing.enabled false
+set browser.safebrowsing.malware.enabled false
+
+set browser.search.defaultenginename "Google SSL"
+set browser.search.selectedEngine "Google SSL"
+
+set extensions.ghostery.updateNotification true
+set extensions.ghostery.autoUpdateBugs false
+set extensions.ghostery.cookieProtect true
+set extensions.ghostery.enableCleanup true
+set extensions.ghostery.showBubble false
+set extensions.ghostery.toolbarButton true
+set extensions.ghostery.tutorial true
+
+set extensions.stylish.firstRun 3
+
+set extensions.vimperator.firsttime false
+
+set flashblock.enabled true
+set flashblock.java.blocked true
+set flashblock.silverlight.blocked true
+set flashblock.blockLocal true  
+"set flashblock.whitelist 
+
+" Keybindings
+
+nmap u 6j
+nmap i 6k
+vmap u 6j
+vmap i 6k
+
+nmap g o
+
+nmap <C>w bd
+nmap x <C>w<CR>
+
+map <C>f /
+nmap <C>f /
+imap <C>f /
