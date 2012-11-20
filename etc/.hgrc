@@ -22,11 +22,11 @@ mq=
 progress=
 hggit =
 
-debugshell = ~/src/hg-crew-stable/contrib/debugshell.py
 gpg = 
 eol = 
 largefiles = 
 rebase = 
+transplant =
 
 #hgattic = ~/.mercurial/hgattic/attic.py
 #hgshelve = ~/.mercurial/hgshelve/hgshelve.py
@@ -55,6 +55,11 @@ gh+ssh = git+ssh://git@github.com/
 
 ocean = ssh://hg@hg.ocean/
 moz = https://hg.mozilla.org/
+code = ~/src/
+#code+hg = ssh://hg@code/hg/
+code+git = git+~/src/
+#code+git = git+ssh://git@code/hg/
+
 
 [reviewboard]
 server = https://rev.ocean
@@ -68,12 +73,16 @@ vdiff = gvimdiff
 editor = gvim -p
 forcerepotab = True
 fullpath = True
+shell = gnome-terminal -t %(reponame)s
 
 [mq]
 git = yes
 
 [hgweb]
 / = ~/src/*
+#/wrd = ~/src/wrd/*
+/wrd = ~/workspace
+/wrd/.ve = ~/workspace/.virtualenvs
 
 
 [web]
