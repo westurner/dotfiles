@@ -74,6 +74,8 @@ editor = gvim -p
 forcerepotab = True
 fullpath = True
 shell = gnome-terminal -t %(reponame)s
+tasktabs = west
+longsummary = True
 
 [mq]
 git = yes
