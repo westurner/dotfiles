@@ -5,19 +5,30 @@ from __future__ import print_function
 not_pip_freeze
 """
 
-from pip import req
+import pip
+import pip.req
+import logging
+
+log = logging.getLogger()
 
 class Options(object):
     def __getattr__(self, attr):
         print(attr)
         return None
 
+def get_pkg_reqs(path):
+    log.debug("parsing pip reqs file: %r" % path)
+    for _req in pip.req.parse_requirements(path, options=Options()):
+        yield _req
+
 def not_pip_freeze(path):
-    pkgreqs = list(
-        req.parse_requirements(path, options=Options()))
+    pkgreqs = get_pkg_reqs(path)
 
     for pkg in pkgreqs:
-        print(pkg.url)
+        log.debug(pkg.__dict__)
+        if not pkg.url:
+            log.error("pkg.url is none!: %r (%r)" % (pkg.url, pkg))
+            continue
         if pkg.url.startswith('file://'):
             pkg.source_dir = pkg.url.split('file://',1)[1]
         try:
@@ -30,7 +41,7 @@ def not_pip_freeze(path):
                     info['Homepage'],
                     )
         except Exception, e:
-            print(e)
+            log.exception(e)
             pass
 
 import unittest
