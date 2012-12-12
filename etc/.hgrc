@@ -24,7 +24,7 @@ hggit =
 
 gpg = 
 eol = 
-largefiles = 
+#largefiles = 
 rebase = 
 transplant =
 
