@@ -15,23 +15,49 @@ Configuration files
 =====================
 Included in ``etc/`` are configuration files for:
 
-* Bash
-* Compiz
-* Gnome
-* Htop
-* IPDB
-* IPython
-* Mercurial
-* NERDTree
-* PDB
-* Pip
-* Python
-* Readline
-* Ruby Gems
-* Setuptools
-* Vimperator
-* ZSH
+* `Bash`_
+*  Bash `bashmarks`
+* `Compiz`_
+* `Gnome`_
+* `Htop`_
+* `Git`_
+* `Mercurial`_
+* `Python 2`_
+*  Python `Distribute`_
+*  Python `Pip`_
+*  Python `PDB`_
+*  Python `IPDB`_
+*  Python `IPython`_
+*  Python `Virtualenv`_
+*  Python `Virtualenvwrapper`_
+* `Readline`_
+* `Ruby`_
+*  Ruby `Gems`_
+* `Vim`_
+*  Vim `NERDTree`_
+* `Vimperator`_
+* `ZSH`_
 
+.. _Bash: https://www.gnu.org/software/bash/ 
+.. _Compiz: http://compiz.org
+.. _Gnome: http://gnome.org
+.. _Git: http://git-scm.com/documentation 
+.. _Htop: http://htop.sourceforge.net
+.. _IPDB: http://pypi.python.org/pypi/ipdb 
+.. _IPython: http://ipython.org/ipython-doc/stable/overview.html 
+.. _Mercurial: http://hgbook.red-bean.com/ 
+.. _NERDTree: https://github.com/scrooloose/nerdtree 
+.. _PDB: http://docs.python.org/2/library/pdb.html 
+.. _Python: http://docs.python.org/2/
+.. _Python 2: http://docs.python.org/2/
+.. _Distribute: http://packages.python.org/distribute/index.html 
+.. _Pip: http://www.pip-installer.org/en/latest/ 
+.. _Readline: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html 
+.. _Ruby: http://www.ruby-lang.org/en/documentation/ 
+.. _Gems: http://guides.rubygems.org/ 
+.. _Vimperator: http://vimperator.org/vimperator
+.. _Vim: http://www.vim.org/docs.php
+.. _ZSH: http://zsh.sourceforge.net/Guide/zshguide.html 
 
 Bash Configuration
 ===================
@@ -48,7 +74,7 @@ Load Sequence
     #        -> (~/.projectsrc.sh
 
 
-~/.bashrc
+etc/.bashrc
 -----------------
 Deliberately minimal ``.bashrc``. Should be symlinked to
 ``~/.bashrc``.
@@ -136,10 +162,10 @@ TERM_ID values are random, but can be set by calling ``stid``
     $
 
 
-**${VIRTUAL_ENV}**
+**$VIRTUAL_ENV**
 
-When ``${VIRTUAL_ENV}`` is set in the environment, terminal history is
-appended to ``${VIRTUAL_ENV}``-specific ``_USRLOG`` and ``HISTFILE`` files.
+When ``$VIRTUAL_ENV`` is set in the environment, terminal history is
+appended to ``$VIRTUAL_ENV``-specific ``_USRLOG`` and ``HISTFILE`` files.
 
 ::
 
@@ -156,6 +182,8 @@ System-local bash configuration.
 
 virtualenv
 -----------
+Virtual python environment builder
+
 **Install**::
 
     pip install virtualenv
@@ -173,6 +201,8 @@ virtualenv
 
 virtualenvwrapper
 ------------------
+Enhancements to virtualenv
+
 **Install**::
 
     # install virtualenvwrapper
@@ -190,30 +220,39 @@ virtualenvwrapper
 **Documentation**:
 
 - http://virtualenvwrapper.rtfd.org
+- http://virtualenvwrapper.readthedocs.org/en/latest/scripts.html
 
 
 Venv
 --------
 ``./etc/ipython/profile_default/ipython_config.py``
 
-Venv is a one-file configuration script that extends ``virtualenvwrapper``
-with environment variables and aliases that can be sourced in a shell::
+Enhancements to virtualenvwrapper for Bash, ZSH, and IPython
+
+Venv is defined in an executable IPython ``ipython_config.py`` file::
+
+    export
+    alias
 
     echo $_VENV
     cat $_VENV
+    #> omitted for readability
+
     venv -E --bash
     source <(venv -E --bash)
+
+    export
+    alias
 
 
 **Features**
 
-* Configures python site paths for virtualenv
-* Configures IPython extension paths
-* Configures IPython command aliases
-* Configures shell shortcuts starting with ``_``
-* Generates Bash environments from virtualenv paths
-* Executes subcommands within generated environments
-
+* Configures `Python`_ ``site`` for a given `virtualenv`
+* Configures `Python`_ ``sys.path``: `IPython`_ extension paths
+* Configures `IPython`_ command aliases (``%alias``, or just ``alias``)
+* Generates `Bash`_ environments from `virtualenv` paths
+* Configures `Bash`_ variables starting with ``$_``
+* Executes subcommands within generated environments (``venv -x bash``)
 
 **Usage**
 
@@ -291,13 +330,13 @@ a bash script (``venv --bash``) or to JSON (``venv --print``).
     assert venv.appname     == venv.env['_APP']
 
     print(venv.env['_WRD'])     # working directory
-    # ~/.virtualenvs/dotfiles
+    #> ~/.virtualenvs/dotfiles
+
     print(venv.aliases['_edit'])
-    # gvim --servername dotfiles --remote-tab
+    #> gvim --servername dotfiles --remote-tab
 
-
-.. note:: At the moment, Venv is not a ``virtualenvwrapper``
-   postactivate script.
+    print(venv.env['_EDIT_'])
+    #> gvim --servername dotfiles --remote-tab
 
 
 Command Aliases
@@ -408,11 +447,11 @@ Scripts
 In ``scripts/``
 
 **bashmarks_to_nerdtree.sh**
-    Convert ``bashmarks`` shortcut variables
-    starting with 'DIR_' to ``NERDTreeBookmarks`` format::
+    Convert `bashmarks` shortcut variables
+    starting with ``DIR_`` to `NERDTreeBookmarks <NERDTree>`_ format::
 
         l
-        ./bashmarks_to_nerdtree.sh
+        ./bashmarks_to_nerdtree.sh | tee ~/.NERDTreeBookmarks
 
 **gittagstohgtags.sh**
     Convert ``git`` tags to ``hgtags`` format
@@ -487,8 +526,8 @@ In ``src/dotfiles``:
 
     * Find vcs repositories
     * Wrap shell commands
-    * Yield event tuples with
-      ``hg``, ``bzr``, ``git``, and ``svn``
+    * Yield event tuples from repositories in
+      `hg <Mercurial>`_, `bzr`, `git`_, ``svn``
 
 **usrlog.py**
     Search through ``.usrlog`` files
