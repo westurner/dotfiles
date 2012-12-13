@@ -12,7 +12,10 @@ shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
-HISTFILESIZE=2000
+HISTFILESIZE=1000000
+
+# avoid duplicating datetimes in .usrlog
+HISTTIMEFORMAT=""
 
 h() {
     # history 10    -- list last 10 lines
@@ -41,7 +44,7 @@ _randstr() {
 }
 
 _get_term_id() {
-    echo "# term_id ::: $TERM_ID [ $USRLOG ]" 
+    echo "# term_id ::: $TERM_ID [ $_USRLOG ]" 
 }
 
 termid() {
@@ -52,7 +55,7 @@ _set_term_id () {
     # Set an explicit terminal name
     # param $1: terminal name
     new_term_id="${1:-$(_randstr 8)}"
-    RENAME_MSG="# set_term_id ::: $TERM_ID -> $new_term_id [ $USRLOG ]"
+    RENAME_MSG="# set_term_id ::: $TERM_ID -> $new_term_id [ $_USRLOG ]"
     echo $RENAME_MSG
     _writehist "$RENAME_MSG"
     export TERM_ID="${new_term_id}"
@@ -64,25 +67,26 @@ stid () {
     _get_term_id
 }
 
-_usrlog () {
-    USRLOG="${1:${USRLOG}}"
+_set_usrlog () {
+    _USRLOG="${1:${_USRLOG}}"
     if [ -n "$VIRTUAL_ENV" ]; then
-        USRLOG="${VIRTUAL_ENV}/.usrlog"
+        declare -gx _USRLOG="${VIRTUAL_ENV}/.usrlog"
+        declare -gx HISTFILE="${VIRTUAL_ENV}/.bash_history"
     else
-        USRLOG="${HOME}/.usrlog"
+        declare -gx _USRLOG="${HOME}/.usrlog"
+        declare -gx HISTFILE="~/.bash_history"
     fi
-    export USRLOG
 }
 
 
 hist() {
     # Alias to less the current session log
-    less $USRLOG
+    less $_USRLOG
 }
 
 
 histgrep () {
-    grep "$@" $USRLOG 
+    grep "$@" $_USRLOG 
 }
 
 histgrep_session () {
@@ -90,8 +94,8 @@ histgrep_session () {
     # param $1: session name
     # param $2: don't strip the line prefix
     NO_STRIP_LINE_PREFIX=$2
-    #echo $USRLOG >&2
-    cat $USRLOG | egrep "$1 .* \:\:\:|Renaming .* to $1" | \
+    #echo $_USRLOG >&2
+    cat $_USRLOG | egrep "$1 .* \:\:\:|Renaming .* to $1" | \
         if [ -n $NO_STRIP_LINE_PREFIX ]; then
             sed -e 's/^\s*.*\:\:\:\s\(.*\)/\1/'
         else
@@ -100,17 +104,17 @@ histgrep_session () {
 }
 
 _writehist() {
-    # Write a line to the USRLOG file
+    # Write a line to the _USRLOG file
     # param $1: text (command) to log
     printf "%-11s: %s ::: %s\n" \
         "$TERM_ID" \
         "$(date +'%D %R.%S')" \
-        "$1" >> $USRLOG
+        "${1:-'\n'}" | tee -a $_USRLOG >&2
 }
 
 _writecmd() {
     if [ -z "$HOLLDON" ]; then
-        _usrlog
+        _set_usrlog
     fi
     _writehist "$(history 1 | sed -e $TERM_SED_STR)";
 }
@@ -118,10 +122,10 @@ _writecmd() {
 
 _setup_usrlog() {
     # Bash profile setup for logging unique console sessions
-    USRLOG="${1-$USRLOG}"
+    _USRLOG="${1-$_USRLOG}"
     term_id="${2-$TERM_ID}"
-    if [ -z "$USRLOG" ]; then
-        _usrlog
+    if [ -z "$_USRLOG" ]; then
+        _set_usrlog
     fi
 
     TERM_ID="${term_id:-$(_randstr 8)}"
@@ -130,7 +134,7 @@ _setup_usrlog() {
     TERM_SED_STR='s/^\s*[0-9]*\s*//'
 
     _get_term_id
-    touch $USRLOG
+    touch $_USRLOG
 
     # execute PROMPT_COMMAND for all shell commands
     export PROMPT_COMMAND="_writecmd;" #$PROMPT_COMMAND"

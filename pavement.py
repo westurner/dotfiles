@@ -27,7 +27,7 @@ try:
 except ImportError:
     pass
 
-VERSION = '0.02'
+VERSION = 'v0.0.02'
 APPNAME = 'dotfiles'
 
 CONFIG={}
@@ -299,7 +299,10 @@ options(
         ),
     virtualenv=Bunch(
         script_name='bootstrap.py',
-        dest_dir='./env/',
+        dest_dir=(
+            os.environ.get('VIRTUAL_ENV')
+            or (path(os.environ.get('WORKON_HOME','~')).expanduser() / APPNAME)
+        ),
         install_paver=True,
         #no_site_packages=True,
         packages_to_install=chain(

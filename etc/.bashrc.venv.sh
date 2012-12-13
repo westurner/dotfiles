@@ -7,47 +7,59 @@ reload() {
 }
 
 
-export DOTFILES="${HOME}/.dotfiles"
-export PROJECTS="${HOME}/.projectsrc.sh"
-export __SRC="/srv/repos/src"
 
 # Virtualenvwrapper
-export WORKSPACE="${HOME}/workspace"
-export WORKON_HOME="${WORKSPACE}/.virtualenvs"
+declare -gx __WORKSPACE="${HOME}/workspace"
+declare -gx __PROJECTS="${__WORKSPACE}/.projectsrc.sh"
+declare -gx WORKON_HOME="${__WORKSPACE}/.virtualenvs"
+declare -gx __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
+
+declare -gx __SRC="$HOME/src"
+[ ! -d $__SRC ] && mkdir -p $__SRC
+
+declare -gx _DOCSHTML="${HOME}/docs"
+[ ! -d $_DOCSHTML ] && mkdir -p $_DOCSHTML
+
 
 # Usrlog
-source "${DOTFILES}/etc/usrlog.sh"
+source "${__DOTFILES}/etc/usrlog.sh"
 _setup_usrlog
 
 # Bashmarks
-source "${DOTFILES}/etc/.bashmarks.sh"
+source "${__DOTFILES}/etc/.bashmarks.sh"
+
+# list bashmarks for nerdtree
+lsbashmarks () {
+    declare -gx | grep 'DIR_' | pyline "line[15:].replace('\"','').split('=',1)"
+}
+
 
 # Editor
-export USEGVIM=true
+declare -gx USEGVIM=true
 _setup_editor() {
     # Configure $EDITOR
-    export VIMBIN=${VIMBIN:-"/usr/bin/vim"}
-    export GVIMBIN=${GVIMBIN:-"/usr/bin/gvim "}
-    export MVIMBIN=${MVIMBINBIN:-"/usr/local/bin/mvim"}
+    declare -gx VIMBIN=${VIMBIN:-"/usr/bin/vim"}
+    declare -gx GVIMBIN=${GVIMBIN:-"/usr/bin/gvim "}
+    declare -gx MVIMBIN=${MVIMBINBIN:-"/usr/local/bin/mvim"}
 
-    export EDITOR=${EDITOR:-"${VIMBIN} -p"}
-    export SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN} -p"}
+    declare -gx EDITOR=${EDITOR:-"${VIMBIN} -p"}
+    declare -gx SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN} -p"}
 
     if [ -n "${USEGVIM}" ]; then
         if [ -x "${GVIMBIN}" ]; then
-            export GVIMBIN="${GVIMBIN} -p"
-            export EDITOR=${EDITOR:-"${GVIMBIN}"}
-            export SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN}"}
+            declare -gx GVIMBIN="${GVIMBIN} -p"
+            declare -gx EDITOR=${EDITOR:-"${GVIMBIN}"}
+            declare -gx SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN}"}
         elif [ -x "${MVIMBIN}" ]; then
-            export MVIMBIN="${MVIMBIN} -p -f"
-            export EDITOR=${EDITOR:-"${MVIMBIN}"}
-            export SUDO_EDITOR="${MVIMBIN} -v"
+            declare -gx MVIMBIN="${MVIMBIN} -p -f"
+            declare -gx EDITOR=${EDITOR:-"${MVIMBIN}"}
+            declare -gx SUDO_EDITOR="${MVIMBIN} -v"
             alias vim="${MVIMBIN} -v -f"
             alias gvim="${MVIMBIN} -v -f"
         fi
     fi
     
-    _EDITCMD="${EDITOR}"
+    _EDIT_="${EDITOR}"
 }
 _setup_editor
 
@@ -60,13 +72,13 @@ add_to_path ()
     if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
         return 0
     fi
-    export PATH=$1:$PATH
+    declare -gx PATH=$1:$PATH
 }
 
-if [ -d "${DOTFILES}" ]; then
+if [ -d "${__DOTFILES}" ]; then
     # Add dotfiles executable directories to $PATH
-    add_to_path "${DOTFILES}/bin"
-    add_to_path "${DOTFILES}/scripts"
+    add_to_path "${__DOTFILES}/bin"
+    add_to_path "${__DOTFILES}/scripts"
 fi
 
 ## file paths
@@ -131,7 +143,6 @@ chown-user () {
     set +x
 }
 
-
 new-sh () {
     # Create and open a new shell script
     file=$1
@@ -150,15 +161,15 @@ diff-dirs () {
     # List differences between directories
     F1=$1
     F2=$2
-    #LSBIN=${3-'ls -a | sort'}
+    LSBIN=${3-"ls -a"}
     DIFFBIN=${4:-'diff -u'}
 
-    LSBIN="find $path -printf '%T@\t%s\t%u\t%Y\t%p\n'"
+    #LSBIN="find $path -printf '%T@\t%s\t%u\t%Y\t%p\n'"
 
     HERE=$(pwd)
     $DIFFBIN \
-        <(cd $F1; find . -printf '%T@\t%s\t%u\t%Y\t%p\n';) \
-        <(cd $HERE; cd $F2; find . -printf '%T@\t%s\t%u\t%Y\t%p\n';)
+        <(cd $F1; $LSBIN ) \
+        <(cd $HERE; $LSBIN )
     cd $HERE
 }
 
@@ -167,7 +178,6 @@ diff-stdin () {
     DIFFBIN='diff'
     $DIFFBIN -u <($1) <($2)
 }
-
 
 wopen () {
     # open in new tab
@@ -280,9 +290,6 @@ deb_chksums () {
     popd
 }
 
-
-
-
 deb_mkrepo () {
     REPODIR=${1:-"/var/www/nginx-default/"}
     cd $REPODIR
@@ -303,12 +310,12 @@ mnt_cifs () {
     OPTIONS="-o user=$3,password=$4"
     mount -t cifs $OPTIONS $URI $MNTPT
 }
-mnt.davfs () {
+mnt_davfs () {
     #!/bin/sh
     URL="$1"
     MNTPT="$2"
     OPTIONS="-o rw,user,noauto"
-    mount -t davfs $OPRTIONS $URL $MNTPT
+    mount -t davfs $OPTIONS $URL $MNTPT
 }
 
 lsof_ () {
@@ -382,133 +389,128 @@ strace_f_noeno () {
 
 _setup_python () {
     # Python
-    export PYTHONSTARTUP="${HOME}/.pythonrc"
+    declare -gx PYTHONSTARTUP="${HOME}/.pythonrc"
+    declare -gx PIP_REQUIRE_VIRTUALENV=true
     #alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
 
 }
 _setup_python
 
-_setup_venvwrapper () {
-    export _VENVW="/usr/local/bin/virtualenvwrapper.sh"
-    source "$_VENVW"
+_setup_virtualenvwrapper () {
+    declare -gx VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
+    declare -gx VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
+    declare -gx VIRTUALENV_DISTRIBUTE='true'
+    source "${VIRTUALENVWRAPPER_SCRIPT}"
 
-    alias cdw="cd $WORKON_HOME"
-    alias cdv='cdvirtualenv'
-    alias cdsrc='cdvirtualenv src'
-    alias cdetc='cdvirtualenv etc'
-    alias cdlib='cdvirtualenv lib'
+    #alias cdv='cdvirtualenv'
+    #alias cds='cdvirtualenv src'
+    #alias cde='cdvirtualenv etc'
+    #alias cdl='cdvirtualenv lib'
     #alias cde='cdvirtualenv src/$_VENVNAME'
 
 }
-_setup_venvwrapper
+_setup_virtualenvwrapper
 
 lsvirtualenv() {
-    cmd="${1-echo}"
+    cmd=${1:-"echo"}
     for venv in $(ls -adtr "${WORKON_HOME}"/**/lib/python?.? | \
         sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
         $cmd $venv/
     done
 }
-
-pypath() {
-    /usr/bin/env python -c "import sys; print '\n'.join(sys.path)"
+lsve() {
+    lsvirtualenv $@
 }
 
-lightpath() {
-    echo $PATH | sed 's/\:/\n'
+_setup_venv () {
+    declare -gx _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
+}
+_setup_venv
+
+
+venv() {
+    $_VENV  $@
 }
 
-_gvim() {
-    gvim --servername ${_VENVNAME} --remote ${_VENVNAME} $@
+_venv() {
+    venv -E $@
 }
 
-_grinvenv() {
-    grin $@ "${_VENV}"
-}
-_grindvenv() {
-    grind $@ "${_VENV}"
-}
-_grinsrc() {
-    grin $@ "${_EGGSRC}"
-}
-_grindsrc() {
-    grind $@ "${_EGGSRC}"
-}
-
-workon_project() {
-    _VENVNAME=$1
-    _APPNAME=${2:-$1}
-
-    _open_editors=${3:-""}
-    _open_terminals=${4:-""}
-    
-    workon "${_VENVNAME}"
-
-    _VENV="${VIRTUAL_ENV}"
-
-    export _SRC="${_VENV}/src"
-    export _BIN="${_VENV}/bin"
-    export _ETC="${_VENV}/etc"
-    export _EGGSRC="${_SRC}/${_APPNAME}"
-    export _EGGSETUPPY="${_EGGSRC}/setup.py"
-    export _EGGCFG="${_VENV}/etc/development.ini"
-
-    _EDITCFGCMD="${_EDITCMD} ${_EGGCFG}"
-    _SHELLCMD="${_BIN}/pshell ${_EGGCFG}" #${_APPNAME}"
-    _SERVECMD="${_BIN}/pserve --reload --monitor-restart ${_EGGCFG}"
-    _TESTCMD="python ${_EGGSETUPPY} nosetests"
-
-    # aliases
-    alias cde='cd ${_EGGSRC}'
-
-    alias _serve="${_SERVECMD}"
-    alias _shell="${_SHELLCMD}"
-    alias _test="${_TESTCMD}"
-    alias _editcfg="${_EDITCFGCMD}"
-    alias _glog="hgtk -R '${_EGGSRC}' log"
-    alias _log="hg -R '${_EGGSRC}' log"
-    alias _make="cdvirtualenv; make"
-
-    # cd
-    cd "${_EGGSRC}"
-
-    if [ -n "${_open_editors}" ]; then
-        _gvim \
-            ${_EGGSRC} \
-            ./TODO* \
-            ./README.rst \
-            ./CHANGES.rst \
-            ./Makefile  \
-            ./setup.py \
-            ${_SRC} \
-            ${_ETC} \
-            ${_BIN} \
-            ${_VENVW} 
-    fi
-
-    if [ -n "${_open_terminals}" ]; then
-        # open editor
-        # open tabs
-        gnome-terminal \
-            --working-directory="${_EGGSRC}" \
-            --tab --title="${_APPNAME} bash" \
-                --command="bash" \
-            --tab --title="${_APPNAME} serve" \
-                --command="bash -c 'workon_pyramid_app $_VENVNAME $_APPNAME; \
-                    ${_SERVECMD} ; \
-                    bash'" \
-            --tab --title="${_APPNAME} shell" \
-                --command="bash -c '${_SHELLCMD}'; \\
-                    bash" 
-    fi
-}
 we () {
-    workon_project $@
+    workon $1 $2 $3 $4 && source <($_VENV -E --bash) && reload
 }
 
 
+## CD shortcuts
 
-loadaliases() {
+cdb () {
+    cd "${_BIN}"/$@
+}
+cde () {
+    cd "${_ETC}"/$@
+}
+cdv () {
+    cd "${VIRTUAL_ENV}"/$@
+}
+cdve () {
+    cd "${WORKON_HOME}"/$@
+}
+cdvar () {
+    cd "${_VAR}"/$@
+}
+cdlog () {
+    cd "${_LOG}"/$@
+}
+cdww () {
+    cd "${_WWW}"/$@
+}
+cdl () {
+    cd "${_LIB}"/$@
+}
+cdpylib () {
+    cd "${_PYLIB}"/$@
+}
+cdpysite () {
+    cd "${_PYSITE}"/$@
+}
+cds () {
+    cd "${_SRC}"/$@
+}
+
+cdw () {
+    cd "${_WRD}"/$@
+}
+
+## Grin search
+grinv() {
+    grin --follow $@ "${VIRTUAL_ENV}"
+}
+grindv() {
+    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+}
+grins() {
+    grin --follow $@ "${_SRC}"
+}
+grinds() {
+    grind --follow $@ --dirs "${_SRC}"
+}
+grinw() {
+    grin --follow $@ "${_WRD}"
+}
+grindw() {
+    grind --follow $@ --dirs "${_WRD}"
+}
+
+grindctags() {
+    args="$@"
+    if [ -z $args ]; then
+        args='*.py'
+    fi
+    grind --follow "$args" | ctags -L -
+}
+
+
+_loadaliases() {
 
     # some more ls aliases
     alias ll='ls -alF'
@@ -519,44 +521,67 @@ loadaliases() {
         gvim $@ 2>&1 > /dev/null
     }
 
-    alias chownr="chown -R"
-    alias chmodr="chmod -R"
-    alias fumnt='fusermount -u'
-    alias gitdiffstat="git diff -p --stat"
-    alias gitlog="git log --pretty=format:'%h : %an : %s' --topo-order --graph"
-    alias hgl='hg log -l10'
-    alias hgs='hg status'
-    alias ifc='ifconfig'
-
-    alias less='~/bin/less.sh'
-    alias less_='/usr/bin/less'
-
-    alias pyclean='find . -type f -name "*.py[co]" -exec rm -f \{\} \;'
-    alias ish='ipython -p shell'
-
     alias sudogvim="EDITOR=$GVIMBIN sudo -e"
     alias sudovim="EDITOR=$EDITOR sudo -e"
 
+    _EDIT_="gvim --servername \"${VIRTUAL_ENV_NAME:-'_ -'}\" --remote-tab"
+    alias edit='$_EDIT_'
+    alias e='$_EDIT_'
+    alias _edit='$_EDIT_'
+    alias _editcfg='$_EDIT_ \"${_CFG}\"'
+    alias _glog='hgtk -R "${_WRD}" log'
+    alias _gvim='gvim --servername "math" --remote-tab'
+    alias _log='hg -R "${_WRD}" log'
+    alias _make='cd "${_WRD}" && make'
+    alias _serve='${_SERVE_}'
+    alias _shell='${_SHELL_}'
+    alias _test='python "${_WRD_SETUPY}" test'
+    alias chmodr='chmod -R'
+    alias chownr='chown -R'
+    alias egrep='egrep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias fumnt='fusermount -u'
+    alias gitdiffstat='git diff -p --stat'
+    alias gitlog='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    alias grep='grep --color=auto'
+    alias grindp='grind --sys.path'
+    alias grinp='grin --sys-path'
+    alias gvim='gvim'
+    alias hgl='hg log -l10'
+    alias hgs='hg status'
+    alias ifc='ifconfig'
+    alias ish='ipython -p shell'
+    alias la='ls -A'
+    alias less='~/bin/less.sh'
+    alias less_='/usr/bin/less'
+    alias ll='ls -alF'
+    alias ls='ls --color=auto'
+    alias lt='ls -altr'
+    alias man_='/usr/bin/man'
+    alias pyclean='find . -type f -name "*.py[co]" -exec rm -f \{\} \;'
+    alias ssv='supervisord -c "${_SVCFG}"'
+    alias sv='supervisorctl -c "${_SVCFG}"'
+    alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
+    alias svt='sv tail -f'
     alias t='tail'
-
-    alias xclip="xclip -selection c"
+    alias xclip='xclip -selection c'
     
-    alias grinp="grin --sys-path"
-    alias grindp="grind --sys.path"
 }
-loadaliases
+_loadaliases
 
 _set_prompt() {
-    if [ -n "$VIRTUAL_ENV" ]; then
-        export venv_name="$(basename $VIRTUAL_ENV)" # TODO
-    else
-        unset -v venv_name
+    if [ -n "$VIRTUAL_ENV_NAME" ]; then
+        if [ -n "$VIRTUAL_ENV" ]; then
+            declare -gx VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)" # TODO
+        else
+            unset -v VIRTUAL_ENV_NAME
+        fi
     fi
 
     if [ "$color_prompt" = yes ]; then
-        PS1='${debian_chroot:+($debian_chroot)}${venv_name:+($venv_name)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+        PS1='${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV_NAME:+($VIRTUAL_ENV_NAME)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
     else
-        PS1='${debian_chroot:+($debian_chroot)}${venv_name:+($venv_name)}\u@\h:\w\n\$ '
+        PS1='${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV_NAME:+($VIRTUAL_ENV_NAME)}\u@\h:\w\n\$ '
         unset color_prompt
     fi
 }
@@ -584,22 +609,27 @@ man() {
     fi
 }
 
-e() {
+echo_args() {
     echo $@
 }
 
 vimpager() {
+    # TODO: lesspipe
     _PAGER="${HOME}/bin/vimpager"
-    # enable vimpager if present
-    if [ -x "$_PAGER" ]; then
-        export PAGER="$_PAGER"
+    if [ -x $_PAGER ]; then
+        declare -gx PAGER=$_PAGER
+    else
+        _PAGER="/usr/local/bin/vimpager"
+        if [ -x $_PAGER ]; then
+            declare -gx PAGER=$_PAGER
+        fi
     fi
 }
 
 unumask() {
     path=$1
-    find "${path}" -type f -exec chmod -v o+r {} \;
-    find "${path}" -type d -exec chmod -v o+rx {} \;
+    sudo chmod -v o+r $(find "${path}" -type f)
+    sudo chmod -v o+rx $(find "${path}" -type d)
 }
 
 _rro_find_repo() {
@@ -625,65 +655,145 @@ rro () {
     done
 }
 
-###
-# Kernel
-_update_initram () {
-    DATESTR=$(date +%s-%H.%M.%S%z)
-    BACKUPDIR="/boot.old/${DATESTR}/"
-    [ -d $BACKUPDIR ] || sudo mkdir -p $BACKUPDIR
-    sudo rsync -avpr /boot/* $BACKUPDIR
-    sudo /usr/sbin/update-initramfs -k all -u -v
+pypath() {
+    /usr/bin/env python -m site
 }
 
-_unpack_initram () {
-    # http://wiki.openvz.org/Modifying_initrd_image
-    INITRAM=$1
-    DEST=${2:-"initrdunpack"}
-    INITRAM_GZ="${INITRAM}.gz"
-    INITRAM_NAME=$(basename ${INITRAM_GZ})
-    #mkdir "d-$F"
-    mkdir -p ${DEST}
-    cp ${INITRAM} ${DEST}/${INITRAM_NAME}
-
-    zcat ${DEST}/${INITRAM_NAME} | cpio -imd ${DEST}
-    # TODO
+lightpath() {
+    echo $PATH | sed 's/\:/\n/'
 }
 
-_setup_deb_kernel () {
-    return
-    sudo apt-get install linux-source ncurses-dev libncurses-dev
-    cd /usr/src/
-    tar xjvf *.bz2
-    cd *-source*
-    ls /boot/config-*
-    cp /boot/config-* .config # TODO:
-    make menuconfig
+
+
+unset -f fixperms
+fixperms () {
+    __PATH="$1"
+    echo $__PATH >&2
 }
 
-### Vim Setup
-
-_setup_deb_vim () {
-    SRCDIR="~/src/vim"
-    VIMHG="https://vim.googlecode.com/hg/"
-    sudo apt-get install build-essential \
-        libncurses5-dev libgnome2-dev libgnomeui-dev  \
-        libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev \
-        libx11-dev libxpm-dev libxt-dev libssl-dev
-    if ![ -d $SRCDIR ]; then
-        hg clone $VIMHG $SRCDIR
+Hgclone () {
+    url=$1
+    shift
+    path="${__SRC}/$1"
+    if [ -d $path ]; then
+        echo "$path existing. Exiting." >&2
+        echo "see: update_repo $1"
+        return 0
     fi
-    cd $SRCDIR
-    ./configure \
-        --enable-multibyte \
-        --enable-pythoninterp \
-        --enable-rubyinterp \
-        --enable-cscope \
-        --enable-xim \
-        --with-features=huge \
-        --enable-gui=gnome2
-    make
+    sudo -u hg -g hgweb /usr/bin/hg clone $url $path
+    fixperms $path
+}
+
+Hg() {
+    path="${__SRC}/$1"
+    path=${path:-'.'}
+    shift
+    cmd=$@
+    sudo -H -u hg -g hgweb /usr/bin/hg -R "${path}" $cmd
+
+    #if [ $? -eq 0 ]; then
+    #    fixperms ${path}
+    #fi
+}
+
+Hgupdate() {
+    path=$1
+    shift
+    Hg $path update $@
+}
+
+Hgpull() {
+    path=$1
+    shift
+    Hg $path pull $@
+    HGcheck $path
+}
+
+Hgcheck() {
+    path="${__SRC}/$1"
+    path=${path:-'.'}
+    shift
+    hg -R $path tags
+    hg -R $path id -n
+    hg -R $path id
+    hg -R $path branch
+
+    #TODO: last pulled time
+}
+
+Hglog() {
+    path=$1
+    shift
+    hg -R $path log $@
+}
+
+Hgcompare () {
+    one=$1
+    two=$2
+    diff -Naur \
+        <(hg -R "${one}" log) \
+        <(hg -R "${two}" log)
+}
+
+host_docs () {
+    # * log documentation builds
+    # * build a sphinx documentation set with a Makefile 
+    # * rsync to docs webserver
+    # * set permissions
+
+    # this is not readthedocs.org
+
+    pushd .
+    workon docs
+    name=${1}
+    path=${2:-"~/src/${1}/docs"}
+
+    _makefile=${3:-"${path}/Makefile"}
+    _confpy=${4:-"${path}/conf.py"}
+
+    dest="${DOCSHTML}/${name}"
+    group="www-data"
+    if [ -z "${name}" ]; then
+        echo "must specify an application name"
+        return 1
+    fi
+
+    _buildlog="${path}/build.current.log"
+    _currentbuildlog="${path}/build.current.log"
+
+    cd $path
+    rm $_currentbuildlog 
+    echo '#' $(date) | tee -a $_buildlog | tee $_currentbuildlog
+
+    # TODO
+    # >> 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother '
+    # << 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
+    sed -r 's/(^SPHINX_BUILD)( *= *)(sphinx-build)(.*)/\1\2\3 -Dhtml_theme="default"' $_makefile
+    # >> 'html_theme = "_-_"
+    # << 'html_theme = 'default'
+    sed -r 's/(^ *html_theme)( *= *)(.*)/\1\2"default"' $_confpy
+
+    make html | tee -a $_buildlog | tee $_currentbuildlog
+
+    html_path=$(tail -n 1 build.current.log | \
+        sed -r 's/(.*)The HTML pages are in (.*).$/\2/g')
+
+    if [ -n "${html_path}" ]; then
+        echo "html-path:" ${html_path}
+        echo "dest:" ${dest}
+        set -x
+        rsync -avr "${html_path}/" "${dest}/" | tee -a build.log | tee build.current.log
+        set +x
+        sudo chgrp -R $group "${dest}" | tee -a build.log | tee build.current.log
+    else
+        echo "### ./build.current.log"
+        cat $_currentbuildlog
+    fi
+
+    popd
+    deactivate
 }
 
 
-
-[ -f $PROJECTS ] && source $PROJECTS
+### source $__PROJECTS script, if it exists
+[ -f $__PROJECTS ] && source $__PROJECTS

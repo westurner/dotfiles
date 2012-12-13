@@ -51,13 +51,11 @@ esac
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
     xterm*|rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}${venv_name:+($venv_name)}\u@\h: \w\a\]$PS1"
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
         ;;
     *)
         ;;
 esac
-
-
 
 
 # enable color support of ls and also add handy aliases
@@ -76,6 +74,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
 fi
 
-if [ -f ~/.bashrc.venv.sh ]; then
-    source ~/.bashrc.venv.sh
+_bashrc_venv="${HOME}/.bashrc.venv.sh"
+if [ -f $_bashrc_venv ]; then 
+    source $_bashrc_venv
 fi
