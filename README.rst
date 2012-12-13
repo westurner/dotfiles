@@ -1,8 +1,11 @@
-==========
+
 dotfiles
-==========
++++++++++++
 **Bash scripts**, **Python scripts**, and **configuration files**
 for working with projects on \*nix platforms in Bash, ZSH, Ruby, and Python.
+
+.. contents:: dotfiles
+
 
 Objective
 ===========
@@ -33,10 +36,12 @@ Included in ``etc/`` are configuration files for:
 Bash Configuration
 ===================
 
-**Load Sequence**::
+Load Sequence
+--------------------
 
+:: 
     $ bash
-    #(~/.bashrc)                    -> ./etc/.bashrc
+    # (~/.bashrc)                    -> ./etc/.bashrc
     #    -> (~/.bashrc.venv.sh)     -> ./etc/.bashrc.venv.sh
     #        -> (./etc/.bashmarks.sh)
     #        -> (./etc/usrlog.sh)
@@ -367,7 +372,14 @@ gvim
 
 grin
 ~~~~~~~~~~~~~~
+**grin --help**::
+
+    grin --help
+    grind --help
+    grin[d] --help
+
 **grin[d]v**::
+
     grin[d] ${VIRTUAL_ENV}
 
 **grin[d]s**::
@@ -377,135 +389,6 @@ grin
 **grin[d]w**::
 
     grin[d] ${_WRD}
-
-**grin --help**::
-
-    $ grin --help
-    usage: grin [-h] [-v] [-i] [-A AFTER_CONTEXT] [-B BEFORE_CONTEXT] [-C CONTEXT]
-                [-I INCLUDE] [-n] [-N] [-H] [--without-filename] [--emacs] [-l]
-                [-L] [--no-color] [--use-color] [--force-color] [-s]
-                [--skip-hidden-files] [-b] [--skip-backup-files] [-S]
-                [--skip-hidden-dirs] [-d SKIP_DIRS] [-D] [-e SKIP_EXTS] [-E]
-                [--no-follow] [--follow] [-f FILE] [-0] [--sys-path]
-                regex [files [files ...]]
-
-    Search text files for a given regex pattern.
-
-    positional arguments:
-    regex                   the regular expression to search for
-    files                   the files to search
-
-    optional arguments:
-    -h, --help              show this help message and exit
-    -v, --version           show program's version number and exit
-    -i, --ignore-case       ignore case in the regex
-    -A AFTER_CONTEXT, --after-context AFTER_CONTEXT
-                            the number of lines of context to show after the match
-                            [default=0]
-    -B BEFORE_CONTEXT, --before-context BEFORE_CONTEXT
-                            the number of lines of context to show before the
-                            match [default=0]
-    -C CONTEXT, --context CONTEXT
-                            the number of lines of context to show on either side
-                            of the match
-    -I INCLUDE, --include INCLUDE
-                            only search in files matching this glob [default='*']
-    -n, --line-number       show the line numbers [default]
-    -N, --no-line-number    do not show the line numbers
-    -H, --with-filename     show the filenames of files that match [default]
-    --without-filename      do not show the filenames of files that match
-    --emacs                 print the filename with every match for easier parsing
-                            by e.g. Emacs
-    -l, --files-with-matches
-                            show only the filenames and not the texts of the
-                            matches
-    -L, --files-without-matches
-                            show the matches with the filenames
-    --no-color              do not use colorized output [default if piping the
-                            output]
-    --use-color             use colorized output [default if outputting to a
-                            terminal]
-    --force-color           always use colorized output even when piping to
-                            something that may not be able to handle it
-    -s, --no-skip-hidden-files
-                            do not skip .hidden files
-    --skip-hidden-files     do skip .hidden files [default]
-    -b, --no-skip-backup-files
-                            do not skip backup~ files [deprecated; edit --skip-
-                            exts]
-    --skip-backup-files     do skip backup~ files [default] [deprecated; edit
-                            --skip-exts]
-    -S, --no-skip-hidden-dirs
-                            do not skip .hidden directories
-    --skip-hidden-dirs      do skip .hidden directories [default]
-    -d SKIP_DIRS, --skip-dirs SKIP_DIRS
-                            comma-separated list of directory names to skip
-                            [default='CVS,RCS,.svn,.hg,.bzr,build,dist']
-    -D, --no-skip-dirs      do not skip any directories
-    -e SKIP_EXTS, --skip-exts SKIP_EXTS
-                            comma-separated list of file extensions to skip [defau
-                            lt='.pyc,.pyo,.so,.o,.a,.tgz,.tar.gz,.rar,.zip,~,#,.ba
-                            k,.png,.jpg,.gif,.bmp,.tif,.tiff,.pyd,.dll,.exe,.obj,.
-                            lib']
-    -E, --no-skip-exts      do not skip any file extensions
-    --no-follow             do not follow symlinks to directories and files
-                            [default]
-    --follow                follow symlinks to directories and files
-    -f FILE, --files-from-file FILE
-                            read files to search from a file, one per line; - for
-                            stdin
-    -0, --null-separated    filenames specified in --files-from-file are separated
-                            by NULs
-    --sys-path              search the directories on sys.path
-
-
-**grind --help**::
-
-    $ grind --help
-    usage: grind [-h] [-v] [-s] [--skip-hidden-files] [-b] [--skip-backup-files]
-                [-S] [--skip-hidden-dirs] [-d SKIP_DIRS] [-D] [-e SKIP_EXTS] [-E]
-                [--no-follow] [--follow] [-0] [--dirs DIRS [DIRS ...]]
-                [--sys-path]
-                [glob]
-
-    Find text and binary files using similar rules as grin.
-
-    positional arguments:
-    glob                    the glob pattern to match; you may need to quote this
-                            to prevent the shell from trying to expand it
-                            [default='*']
-
-    optional arguments:
-    -h, --help              show this help message and exit
-    -v, --version           show program's version number and exit
-    -s, --no-skip-hidden-files
-                            do not skip .hidden files
-    --skip-hidden-files     do skip .hidden files
-    -b, --no-skip-backup-files
-                            do not skip backup~ files [deprecated; edit --skip-
-                            exts]
-    --skip-backup-files     do skip backup~ files [default] [deprecated; edit
-                            --skip-exts]
-    -S, --no-skip-hidden-dirs
-                            do not skip .hidden directories
-    --skip-hidden-dirs      do skip .hidden directories
-    -d SKIP_DIRS, --skip-dirs SKIP_DIRS
-                            comma-separated list of directory names to skip
-                            [default='CVS,RCS,.svn,.hg,.bzr,build,dist']
-    -D, --no-skip-dirs      do not skip any directories
-    -e SKIP_EXTS, --skip-exts SKIP_EXTS
-                            comma-separated list of file extensions to skip [defau
-                            lt='.pyc,.pyo,.so,.o,.a,.tgz,.tar.gz,.rar,.zip,~,#,.ba
-                            k,.png,.jpg,.gif,.bmp,.tif,.tiff,.pyd,.dll,.exe,.obj,.
-                            lib']
-    -E, --no-skip-exts      do not skip any file extensions
-    --no-follow             do not follow symlinks to directories and files
-                            [default]
-    --follow                follow symlinks to directories and files
-    -0, --null-separated    print the filenames separated by NULs
-    --dirs DIRS [DIRS ...]
-                            the directories to start from
-    --sys-path              search the directories on sys.path
 
 
 ipython
@@ -528,9 +411,8 @@ In ``scripts/``
     Convert ``bashmarks`` shortcut variables
     starting with 'DIR_' to ``NERDTreeBookmarks`` format::
 
-    l
-    ./bashmarks_to_nerdtree.sh
-
+        l
+        ./bashmarks_to_nerdtree.sh
 
 **gittagstohgtags.sh**
     Convert ``git`` tags to ``hgtags`` format
@@ -581,7 +463,7 @@ In ``src/dotfiles``:
 **passwordstrength.py**
     Gauge password strength
 
-**pipls.py
+**pipls.py**
     Walk and enumerate a pip requirements file
 
 **pycut.py**
@@ -606,7 +488,7 @@ In ``src/dotfiles``:
     * Find vcs repositories
     * Wrap shell commands
     * Yield event tuples with
-    ``hg``, ``bzr``, ``git``, and ``svn``
+      ``hg``, ``bzr``, ``git``, and ``svn``
 
 **usrlog.py**
     Search through ``.usrlog`` files
