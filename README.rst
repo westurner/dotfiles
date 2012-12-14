@@ -66,6 +66,7 @@ Load Sequence
 --------------------
 
 :: 
+
     $ bash
     # (~/.bashrc)                    -> ./etc/.bashrc
     #    -> (~/.bashrc.venv.sh)     -> ./etc/.bashrc.venv.sh
@@ -511,8 +512,6 @@ In ``src/dotfiles``:
 **py_index.py**
     Create a python package index HTML file for a directory of
     packages. (``.egg``, ``.zip``, ``.tar.gz``, ``tgz``)
-
-    TODO: build repo tags
 
 **pyline.py**
     Similar to ``sed`` and ``awk``:
