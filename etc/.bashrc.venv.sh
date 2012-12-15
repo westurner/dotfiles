@@ -552,8 +552,6 @@ _loadaliases() {
     alias ifc='ifconfig'
     alias ish='ipython -p shell'
     alias la='ls -A'
-    alias less='~/bin/less.sh'
-    alias less_='/usr/bin/less'
     alias ll='ls -alF'
     alias ls='ls --color=auto'
     alias lt='ls -altr'
@@ -568,6 +566,38 @@ _loadaliases() {
     
 }
 _loadaliases
+
+less_ () {
+    ## start Vim with less.vim.
+    # Read stdin if no arguments were given.
+    if test -t 1; then
+        if test $# = 0; then
+        vim -c "let g:tinyvim=1" \
+            --cmd "runtime! macros/less.vim" \
+            --cmd "set nomod" \
+            --cmd "set noswf" \
+            -c "set colorcolumn=0" \
+            -c "map <C-End> <Esc>G" \
+            -
+        else
+        vim --noplugin \
+            -c "let g:tinyvim=1" \
+            -c "runtime! macros/less.vim" \
+            --cmd "set nomod" \
+            --cmd "set noswf" \
+            -c "set colorcolumn=0" \
+            -c "map <C-End> <Esc>G" \
+            $@
+        fi
+    else
+        # Output is not a terminal, cat arguments or stdin
+        if test $# = 0; then
+            less
+        else
+            less "$@"
+        fi
+    fi
+}
 
 _set_prompt() {
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
