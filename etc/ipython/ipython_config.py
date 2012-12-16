@@ -356,6 +356,9 @@ class Venv(object):
             aliases['cdw']      = 'cd {_WRD}/%l'.format(
                                         _WRD=shell_quote(env['_WRD'])) # TODO
             aliases['_test']    = env['_TEST_']
+            aliases['_tr']      = 'reset && %s' % env['_TEST_']
+            aliases['_nose']    = 'nosetests {_WRD}'.format(
+                                        _WRD=shell_quote(env['_WRD']))
 
             aliases['grinw']    = 'grin --follow %l {_WRD}'.format(
                                         _WRD=shell_quote(env['_WRD']))
@@ -390,6 +393,7 @@ class Venv(object):
         else:
             self.log.error('app configuration %r not found' % appcfg)
 
+        env['EDITOR']       = env['_EDIT_']
         aliases['_edit']    = env['_EDIT_']
         aliases['_editp']   = "%s %%l" % self._edit_project_cmd # TODO
         aliases['_make']    = "cd {_WRD} && make".format(
@@ -455,6 +459,7 @@ class Venv(object):
     def configure_ipython(self, *args, **kwargs):
         def setup_func(c):
             c.AliasManager.user_aliases = self.aliases.items()
+            c.IPythonWidget.editor = self.env['_EDIT_']
             if 'cd_to_WRD' in kwargs:
                 ip = IPYMock()
                 ip.magic('cd %r' % self.env['_WRD'])
