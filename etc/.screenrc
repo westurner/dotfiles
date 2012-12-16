@@ -1,0 +1,83 @@
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+#
+# ### Created by Brad Sims  25/06/2004 
+#
+# ### I got tired of .screenrc's on the internet being so 
+# ### poorly commented... So being a good GNUbie I took matters
+# ### into my own hands; and wrote this dotfile.
+#
+# # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+#
+# ##    Explanation of hardstatus line    ##
+#
+# # Ignore the ' marks if you use these examples for yourself
+#
+# # Note that if you want to use the color brown under konsole
+# # You actually use bright yellow (%{Y}). 
+#
+# # Note the embeded space after the colon, I feel 
+# #  it just looks nicer with a blank between the
+# #  text and console edge:
+# #   '%{=b}%{G} Screen(s): '
+#
+# # This prints the window listing in blue:
+#   '%{b}%w'
+#
+# # This right-aligns what follows:
+# #   '%='
+#
+# # This displays the time (hours and minutes) in 12hr format 
+# # and adds an AM/PM flag, in bold green:
+#   '%{G}%C%A'
+#
+# # This displays the day of the week:
+# #   '%D'
+#
+# #This displays the date in Mon/day/year format:
+# # and again I embeded a space to give me one space
+# # between the text and console edge:
+# #  '%M/%d/%Y '
+#
+# # The resulting command give you a status line that 
+# #  looks like this: 
+#  0* bash           5:30PM  Fri, Jun/25/2004 |
+# #  (The pipes indicate the ecreeges of the xterm/console).
+#
+# # Green text, time, and date; windows in blue:
+ hardstatus alwayslastline "%{=b}%{G} %{b}%w %=%{kG} %u@%H %Y/%m/%d %c"
+#
+# # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+#
+# ##    Some general options    ##
+#
+# # Turn off start message:
+ startup_message off
+#
+# # Set messages timeout to one second: 
+# msgwait 1
+#
+# # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+#
+# ##    Keybindings    ##
+#
+# # bind F7  to detach screen session from this terminal
+# # bind F8  to kill current screen window.
+# # bind F9  to create a new screen
+# # bind F10 to rename current screen window
+# # bind F11 to move to previous window
+# # bind F12 to move to next window
+#
+
+ bindkey -k k3 kill   # F3 -- kill
+ bindkey -k k4 detach # F4 -- detach
+ bindkey -k k5 screen # F5 -- new window
+
+ bindkey -k k6 prev   # F6 -- prev window
+ bindkey -k k7 next   # F7 -- next window
+ bindkey -k k8 title  # F8 -- set title
+
+
+#
+# # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= 
+# #
+termcapinfo xterm|xterms|xs|rxvt ti@:te@
