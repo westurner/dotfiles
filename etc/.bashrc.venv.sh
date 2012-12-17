@@ -161,16 +161,11 @@ diff-dirs () {
     # List differences between directories
     F1=$1
     F2=$2
-    LSBIN=${3-"ls -a"}
-    DIFFBIN=${4:-'diff -u'}
 
-    #LSBIN="find $path -printf '%T@\t%s\t%u\t%Y\t%p\n'"
-
-    HERE=$(pwd)
-    $DIFFBIN \
-        <(cd $F1; $LSBIN ) \
-        <(cd $HERE; $LSBIN )
-    cd $HERE
+    #FIND="find . -printf '%T@\t%s\t%u\t%Y\t%p\n'"
+    diff -Naur \
+        <(cd $F1; find . | sort ) \
+        <(cd $F2; find . | sort )
 }
 
 diff-stdin () {
