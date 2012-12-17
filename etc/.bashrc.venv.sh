@@ -710,7 +710,7 @@ Hgclone () {
         echo "see: update_repo $1"
         return 0
     fi
-    sudo -u hg -g hgweb /usr/bin/hg clone $url $path
+    sudo -u hg -i /usr/bin/hg clone $url $path
     fixperms $path
 }
 
@@ -719,7 +719,7 @@ Hg() {
     path=${path:-'.'}
     shift
     cmd=$@
-    sudo -H -u hg -g hgweb /usr/bin/hg -R "${path}" $cmd
+    sudo -H -u hg -i /usr/bin/hg -R "${path}" $cmd
 
     #if [ $? -eq 0 ]; then
     #    fixperms ${path}
