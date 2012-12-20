@@ -16,3 +16,4 @@ tags
 MANIFEST.in
 .usrlog
 .pyhistory
+etc/virtualenvwrapper/hook.log
