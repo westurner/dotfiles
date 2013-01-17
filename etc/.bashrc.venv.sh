@@ -9,12 +9,12 @@ reload() {
 
 
 # Virtualenvwrapper
-declare -gx __WORKSPACE="${HOME}/workspace"
-declare -gx __PROJECTS="${__WORKSPACE}/.projectsrc.sh"
-declare -gx WORKON_HOME="${__WORKSPACE}/.virtualenvs"
+declare -gx PROJECT_HOME="${HOME}/wrk"
+declare -gx WORKON_HOME="${PROJECT_HOME}/.ve"
 declare -gx __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
+declare -gx __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
 
-declare -gx __SRC="$HOME/src"
+declare -gx __SRC="/srv/src/hg"
 [ ! -d $__SRC ] && mkdir -p $__SRC
 
 declare -gx _DOCSHTML="${HOME}/docs"
@@ -35,31 +35,36 @@ lsbashmarks () {
 
 
 # Editor
-declare -gx USEGVIM=true
+declare -gx USEGVIM="true"
 _setup_editor() {
     # Configure $EDITOR
     declare -gx VIMBIN=${VIMBIN:-"/usr/bin/vim"}
-    declare -gx GVIMBIN=${GVIMBIN:-"/usr/bin/gvim "}
+    declare -gx GVIMBIN=${GVIMBIN:-"/usr/bin/gvim"}
     declare -gx MVIMBIN=${MVIMBINBIN:-"/usr/local/bin/mvim"}
 
-    declare -gx EDITOR=${EDITOR:-"${VIMBIN} -p"}
-    declare -gx SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN} -p"}
+    echo 'duh'
 
     if [ -n "${USEGVIM}" ]; then
+        echo 'yup'
+        declare -x VIMCONF='--servername="'${VIRTUAL_ENV_NAME:-'_ -'}'" --remote-tab-wait-silent'
         if [ -x "${GVIMBIN}" ]; then
-            declare -gx GVIMBIN="${GVIMBIN} -p"
-            declare -gx EDITOR=${EDITOR:-"${GVIMBIN}"}
+            echo 'duh'
+            declare -gx EDITOR="${GVIMBIN} ${VIMCONF}"
             declare -gx SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN}"}
         elif [ -x "${MVIMBIN}" ]; then
-            declare -gx MVIMBIN="${MVIMBIN} -p -f"
-            declare -gx EDITOR=${EDITOR:-"${MVIMBIN}"}
-            declare -gx SUDO_EDITOR="${MVIMBIN} -v"
-            alias vim="${MVIMBIN} -v -f"
-            alias gvim="${MVIMBIN} -v -f"
+            declare -gx MVIMBIN="${MVIMBIN} ${VIMCONF}"
+            declare -gx EDITOR="${MVIMBIN} ${VIMCONF}"
+            declare -gx SUDO_EDITOR="${MVIMBIN} ${VIMCONF} "
+            alias vim="${MVIMBIN} -f"
+            alias gvim="${MVIMBIN} -f"
         fi
     fi
-    
-    _EDIT_="${EDITOR}"
+ 
+    declare -gx EDITOR=${EDITOR:-"${VIMBIN} -p -f"}
+    declare -gx SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN} ${VIMCONF}"}
+
+
+    declare -gx _EDIT_="${EDITOR}"
 }
 _setup_editor
 
@@ -393,6 +398,8 @@ _setup_python
 
 _setup_virtualenvwrapper () {
     declare -gx VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
+    declare -gx VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper" # TODO: FIXME
+    declare -gx VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
     declare -gx VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
     declare -gx VIRTUALENV_DISTRIBUTE='true'
     source "${VIRTUALENVWRAPPER_SCRIPT}"
@@ -432,7 +439,7 @@ _venv() {
 }
 
 we () {
-    workon $1 $2 $3 $4 && source <($_VENV -E --bash) && reload
+    workon $1 && source <($_VENV --bash $@)
 }
 
 
@@ -516,16 +523,18 @@ _loadaliases() {
         gvim $@ 2>&1 > /dev/null
     }
 
-    alias sudogvim="EDITOR=$GVIMBIN sudo -e"
-    alias sudovim="EDITOR=$EDITOR sudo -e"
+    #export _editor_="gvim --servername \"${VIRTUAL_ENV_NAME:-'_ -'}\""
+    #export _EDIT_="$_editor --remote-tab-wait-silent"
 
-    _EDIT_="gvim --servername \"${VIRTUAL_ENV_NAME:-'_ -'}\" --remote-tab"
+    alias sudogvim='EDITOR="${_EDIT_}" sudo -e'
+    alias sudovim='EDITOR="${_EDIT_}" sudo -e'
+
     alias edit='$_EDIT_'
     alias e='$_EDIT_'
     alias _edit='$_EDIT_'
     alias _editcfg='$_EDIT_ \"${_CFG}\"'
     alias _glog='hgtk -R "${_WRD}" log'
-    alias _gvim='gvim --servername "math" --remote-tab'
+    alias _gvim='$_EDIT_'
     alias _log='hg -R "${_WRD}" log'
     alias _make='cd "${_WRD}" && make'
     alias _serve='${_SERVE_}'
@@ -604,9 +613,9 @@ _set_prompt() {
     fi
 
     if [ "$color_prompt" = yes ]; then
-        PS1='${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV_NAME:+($VIRTUAL_ENV_NAME)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
     else
-        PS1='${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV_NAME:+($VIRTUAL_ENV_NAME)}\u@\h:\w\n\$ '
+        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
         unset color_prompt
     fi
 }
@@ -762,60 +771,135 @@ Hgcompare () {
 
 host_docs () {
     # * log documentation builds
-    # * build a sphinx documentation set with a Makefile 
+    # * build a sphinx documentation set with a Makefile and a conf.py
     # * rsync to docs webserver
     # * set permissions
 
     # this is not readthedocs.org
 
+    # note: you must manually install packages into the
+    # local 'docs' virtualenv'
+    set -x
     pushd .
     workon docs
     name=${1}
-    path=${2:-"~/src/${1}/docs"}
 
-    _makefile=${3:-"${path}/Makefile"}
-    _confpy=${4:-"${path}/conf.py"}
-
-    dest="${DOCSHTML}/${name}"
-    group="www-data"
     if [ -z "${name}" ]; then
         echo "must specify an application name"
         return 1
     fi
 
-    _buildlog="${path}/build.current.log"
-    _currentbuildlog="${path}/build.current.log"
+    path=${2:-"${__SRC}/${name}"}
+    _makefile=${3}
+    _confpy=${4}
+    _default_makefile="${path}/docs/Makefile"
+    _default_confpy="${path}/docs/conf.py"
+
+    _default_builddir="${path}/_build"
+
+    dest="${_DOCSHTML}/${name}"
+    group="www-data"
+
+    if [ -z "${_makefile}" ]; then
+        if [ -f $_default_makefile ]; then
+            _makefile=$_default_makefile;
+        else
+            echo "404: default_makefile: $_default_makefile" >&2
+            __makefiles=$(find "${path}" -maxdepth 2 -type f -name Makefile)
+            for __makefile in ${__makefiles[@]}; do
+                if [ -n "${__makefile}" ]; then
+                    grep -n -H 'sphinx-build' ${__makefile}
+                    if [ $? -eq 0 ]; then
+                        echo 'found sphinx-build Makefile: $__makefile'
+                        # TODO: prompt?
+                        _makefile=$__makefile
+                    fi
+                fi
+            done
+        fi
+
+        if [ -f "${_makefile}" ]; then
+            _builddir=$(dirname $_makefile)
+        fi
+    fi
+
+    if [ -z "${_confpy}" ]; then
+        if [ -f $_default_confpy ]; then
+            _confpy=$_default_confpy;
+        else
+            echo "404: default_confpy: $_default_confpy" >&2
+            confpys=$(find "${path}" -maxdepth 2 -type f -name conf.py)
+            for __confpy in ${confpys[@]}; do
+                grep -n -H 'sphinx-build' ${__confpy}
+                if [ $? -eq 0 ]; then
+                    echo 'found conf.py: $__confpy'
+                    # TODO: prompt?
+                    _confpy=$__confpy
+                fi
+            done
+        fi
+
+        if [ ! -f $_makefile ]; then
+            _builddir=$(dirname $__confpy)
+        fi
+
+    fi
+
+    _builddir=${_builddir:-${_default_builddir}}
+    _buildlog="${_builddir}/build.log"
+    _currentbuildlog="${_builddir}/build.current.log"
+
 
     cd $path
-    rm $_currentbuildlog 
+    rm -f $_currentbuildlog
+    html_path=""
     echo '#' $(date) | tee -a $_buildlog | tee $_currentbuildlog
 
-    # TODO
-    # >> 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother '
-    # << 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
-    sed -r 's/(^SPHINX_BUILD)( *= *)(sphinx-build)(.*)/\1\2\3 -Dhtml_theme="default"' $_makefile
-    # >> 'html_theme = "_-_"
-    # << 'html_theme = 'default'
-    sed -r 's/(^ *html_theme)( *= *)(.*)/\1\2"default"' $_confpy
+    if [ -n "$_makefile" ]; then
+        # TODO
+        # >> 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother '
+        # << 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
+        #sed -i -r 's/(^SPHINXBUILD)( *= *)(sphinx-build)(.*)/\1\2\3 -Dhtml_theme="default"/g' $_makefile
 
-    make html | tee -a $_buildlog | tee $_currentbuildlog
+        cd $(dirname $_makefile)
+        make \
+            SPHINXBUILD="sphinx-build -Dhtml_theme=\"default\"" \
+            html | \
+            tee -a $_buildlog | tee $_currentbuildlog
+        html_path=$(tail -n 1 $_currentbuildlog | \
+            sed -r 's/(.*)The HTML pages are in (.*).$/\2/g')
+        echo $html_path
 
-    html_path=$(tail -n 1 build.current.log | \
-        sed -r 's/(.*)The HTML pages are in (.*).$/\2/g')
+    elif [ -n "$_confpy" ]; then
+        # >> 'html_theme = "_-_"
+        # << 'html_theme = 'default'
+        sed -i -r 's/(^ *html_theme)( *= *)(.*)/\1\2"default"' $_confpy
+        sourcedir=$(dirname $_confpy)
+        html_path="${sourcedir}/_build/html"
+        mkdir -p $html_path
+        sphinx-build \
+            -b html \
+            -D html_theme="default" \
+            -c "${_confpy}" \
+            $sourcedir \
+            $html_path
+    fi
 
     if [ -n "${html_path}" ]; then
         echo "html-path:" ${html_path}
         echo "dest:" ${dest}
         set -x
-        rsync -avr "${html_path}/" "${dest}/" | tee -a build.log | tee build.current.log
+        rsync -avr "${html_path}/" "${dest}/" | tee -a $_buildlog | tee $_currentbuildlog
         set +x
-        sudo chgrp -R $group "${dest}" | tee -a build.log | tee build.current.log
+        sudo chgrp -R $group "${dest}" | tee -a $_buildlog | tee $_currentbuildlog
     else
-        echo "### ./build.current.log"
+        echo "### ${_currentbuildlog}"
         cat $_currentbuildlog
     fi
 
     popd
+
+    set +x
     deactivate
 }
 
