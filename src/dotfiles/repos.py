@@ -490,15 +490,24 @@ class MercurialRepository(Repository):
 
         """
         regexes = cls._get_url_scheme_regexes()
+        _url = url[:]
         for scheme_key, pattern, regex in regexes:
-            if url.startswith(scheme_key):
+            if _url.startswith(scheme_key):
                 if '{1}' in pattern:
-                    return pattern.replace('{1}', url.lstrip(scheme_key))
+                    _url = pattern.replace('{1}', _url.lstrip(scheme_key))
                 else:
-                    return (pattern + url.lstrip(scheme_key).lstrip('://'))
-        return url
+                    _url = (pattern + _url.lstrip(scheme_key).lstrip('://'))
+        return _url
 
-
+    #def to_pip_compatible_url(cls, url):
+    #    PATTERNS = (
+    #            ('gh+ssh://','https://github.com/'),
+    #            ('bb+ssh://', 'https://bitbucket.org/'),
+    #    )
+    #    #('gcode', '') ,
+    #    #('gcode+svn', ''),
+    #    for p in PATTERNS:
+    #        url = url.replace(*p)
 
 
 class GitRepository(Repository):
