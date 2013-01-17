@@ -7,8 +7,14 @@ HISTFILE='~/.bash_history'
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
 
-# append to the history file, don't overwrite it
-shopt -s histappend
+
+if [ -n "$BASH" ] ; then
+    # append to the history file, don't overwrite it
+    shopt -s histappend
+elif [ -n "$ZSH_VERSION" ] ; then
+    # TODO
+    true
+fi
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
