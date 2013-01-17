@@ -662,8 +662,8 @@ vimpager() {
 
 unumask() {
     path=$1
-    sudo chmod -v o+r $(find "${path}" -type f)
-    sudo chmod -v o+rx $(find "${path}" -type d)
+    sudo find "${path}" -type f -exec chmod -v o+r {} \;
+    sudo find "${path}" -type d -exec chmod -v o+rx {} \;
 }
 
 _rro_find_repo() {
