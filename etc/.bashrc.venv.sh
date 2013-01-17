@@ -1,16 +1,22 @@
-
-## Local Shell Environment
+## .bashrc.venv.sh
+# 
+# sh configuration
+# intended to be sourced from (after) ~/.bashrc
+#
+# 
 
 reload() {
     source ~/.bashrc
-    #      --> .bashrc.venv.sh
+    # --> source ${__DOTFILES}/etc/.bashrc.venv.sh
 }
 
 
-
 # Virtualenvwrapper
+# sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
 declare -gx PROJECT_HOME="${HOME}/wrk"
 declare -gx WORKON_HOME="${PROJECT_HOME}/.ve"
+
+# 
 declare -gx __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
 declare -gx __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
 
@@ -34,37 +40,55 @@ lsbashmarks () {
 }
 
 
+
 # Editor
-declare -gx USEGVIM="true"
+#declare -gx USEGVIM=""
 _setup_editor() {
     # Configure $EDITOR
-    declare -gx VIMBIN=${VIMBIN:-"/usr/bin/vim"}
-    declare -gx GVIMBIN=${GVIMBIN:-"/usr/bin/gvim"}
-    declare -gx MVIMBIN=${MVIMBINBIN:-"/usr/local/bin/mvim"}
+    declare -gx VIMBIN="/usr/bin/vim"
+    declare -gx GVIMBIN="/usr/bin/gvim"
+    declare -gx MVIMBIN="/usr/local/bin/mvim"
 
-    echo 'duh'
+    [ -f $GVIMBIN ] && declare -gx USEGVIM="true" || declare -gx USEGVIM=""
+
+    declare -gx EDITOR="${VIMBIN}"
+    declare -gx SUDO_EDITOR="${VIMBIN}"
 
     if [ -n "${USEGVIM}" ]; then
-        echo 'yup'
-        declare -x VIMCONF='--servername="'${VIRTUAL_ENV_NAME:-'_ -'}'" --remote-tab-wait-silent'
+        VIMCONF='--servername '${VIRTUAL_ENV_NAME:-'main'}' --remote-tab-silent'
+        SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-main} --remote-tab-wait-silent"
         if [ -x "${GVIMBIN}" ]; then
-            echo 'duh'
             declare -gx EDITOR="${GVIMBIN} ${VIMCONF}"
-            declare -gx SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN}"}
+            declare -gx SUDO_EDITOR="${GVIMBIN} ${SUDOCONF}"
         elif [ -x "${MVIMBIN}" ]; then
-            declare -gx MVIMBIN="${MVIMBIN} ${VIMCONF}"
+            delcare -gx GVIMBIN=$MVIMBIN
             declare -gx EDITOR="${MVIMBIN} ${VIMCONF}"
-            declare -gx SUDO_EDITOR="${MVIMBIN} ${VIMCONF} "
-            alias vim="${MVIMBIN} -f"
-            alias gvim="${MVIMBIN} -f"
+            declare -gx SUDO_EDITOR="${MVIMBIN} ${SUDOCONF} "
+            alias vim='${EDITOR} -f'
+            alias gvim='${EDITOR} -f'
+        else
+            unset -f $GVIMBIN
+            unset -f $MVIMBIN
         fi
+    else
+        unset -f $GVIMBIN
+        unset -f $MVIMBIN
+        unset -f $USEGVIM
     fi
- 
-    declare -gx EDITOR=${EDITOR:-"${VIMBIN} -p -f"}
-    declare -gx SUDO_EDITOR=${SUDO_EDITOR:-"${VIMBIN} ${VIMCONF}"}
-
 
     declare -gx _EDIT_="${EDITOR}"
+
+    ggvim() {
+        $EDITOR $@ 2>&1 > /dev/null
+    }
+
+    alias _edit='$EDITOR'
+    alias _editcfg='$EDITOR \"${_CFG}\"'
+    alias _gvim='$EDITOR'
+    alias e='$EDITOR'
+    alias edit='$EDITOR'
+    alias sudogvim='EDITOR="${SUDO_EDITOR}" sudo -e'
+    alias sudovim='EDITOR="${SUDO_EDITOR}" sudo -e'
 }
 _setup_editor
 
@@ -439,7 +463,7 @@ _venv() {
 }
 
 we () {
-    workon $1 && source <($_VENV --bash $@)
+    workon $1 && source <($_VENV --bash $@) && _setup_editor
 }
 
 
@@ -518,23 +542,15 @@ _loadaliases() {
     alias ll='ls -alF'
     alias la='ls -A'
     alias lt='ls -altr'
-    #alias l='ls -CF'
-    ggvim() {
-        gvim $@ 2>&1 > /dev/null
-    }
 
-    #export _editor_="gvim --servername \"${VIRTUAL_ENV_NAME:-'_ -'}\""
-    #export _EDIT_="$_editor --remote-tab-wait-silent"
+    # bashmarks.sh
+    #alias l =#bashmarks: list bookmarks
+    #alias s =#bashmarks: save bookmark as $1
+    #alias g =#bashmarks: goto bookmark $1
+    #alias p =#bashmarks: print bookmark $1
+    #alias d =#bashmarks: delete bookmark $1
 
-    alias sudogvim='EDITOR="${_EDIT_}" sudo -e'
-    alias sudovim='EDITOR="${_EDIT_}" sudo -e'
-
-    alias edit='$_EDIT_'
-    alias e='$_EDIT_'
-    alias _edit='$_EDIT_'
-    alias _editcfg='$_EDIT_ \"${_CFG}\"'
     alias _glog='hgtk -R "${_WRD}" log'
-    alias _gvim='$_EDIT_'
     alias _log='hg -R "${_WRD}" log'
     alias _make='cd "${_WRD}" && make'
     alias _serve='${_SERVE_}'
@@ -567,7 +583,7 @@ _loadaliases() {
     alias svt='sv tail -f'
     alias t='tail'
     alias xclip='xclip -selection c'
-    
+
 }
 _loadaliases
 
