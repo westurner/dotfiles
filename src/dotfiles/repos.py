@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from __future__ import print_function
-"""Search for code repositories"""
+"""Search for code repositories and generate reports"""
 
 import datetime
 import errno
@@ -12,7 +12,6 @@ import sys
 from collections import deque, namedtuple
 from distutils.util import convert_path
 
-##
 from dateutil.parser import parse as parse_date
 
 #def parse_date(*args, **kwargs):
@@ -20,10 +19,8 @@ from dateutil.parser import parse as parse_date
 #    print(kwargs)
 
 #logging.basicConfig()
-log = logging.getLogger()
-
+log = logging.getLogger('repos')
 dtformat = lambda x: x.strftime('%Y-%m-%d %H:%M:%S %z')
-
 
 import re
 def itersplit(s, sep=None):
@@ -38,6 +35,7 @@ def itersplit(s, sep=None):
         if pos < m.start() or sep is not None:
             yield s[pos:m.start()]
         pos = m.end()
+
 
 DEFAULT_FSEP=' ||| '
 DEFAULT_LSEP=' |..|'
@@ -63,6 +61,7 @@ def itersplit_to_fields(_str,
             raise
 
     return tuple(izip_longest(fields, _fields, fillvalue=None))
+
 
 _missing = unichr(822)
 class cached_property(object):
@@ -100,7 +99,6 @@ class cached_property(object):
         return value
 
 
-
 class Repository(object):
     label           = None
     prefix          = None
@@ -110,7 +108,7 @@ class Repository(object):
     fields          = []
 
     def __init__(self, fpath):
-        self.fpath = fpath
+        self.fpath = os.path.abspath(fpath)
         self.symlinks = []
 
 
@@ -301,7 +299,7 @@ class Repository(object):
                 'cwd': cwd or self.fpath,
                 'stderr': subprocess.STDOUT,
                 'stdout': subprocess.PIPE})
-        log.info('cmd: %s %s' % (cmd, kwargs))
+        log.debug('cmd: %s %s' % (cmd, kwargs))
         p = subprocess.Popen(cmd, **kwargs)
         p_stdout = p.communicate()[0]
         if p.returncode and not ignore_error:
@@ -388,6 +386,7 @@ class MercurialRepository(Repository):
 
     def serve(self):
         return self.sh('hg serve')
+
 
 class GitRepository(Repository):
     label = 'git'
@@ -762,6 +761,7 @@ REPO_PREFIXES=dict((r.prefix, r) for r in REPO_REGISTRY)
 REPO_REGEX = (
     '|'.join('/%s' % r.prefix for r in REPO_REGISTRY) ).replace('.','\.')
 
+
 def listdir_find_repos(where):
     stack = deque([(convert_path(where), '')])
     while stack:
@@ -784,17 +784,18 @@ def listdir_find_repos(where):
 
 def find_find_repos(where, ignore_error=True):
     cmd=("find",
-        " -O3",
-        " .",
-        " -type d"
-        " -regextype posix-egrep"
-        " -regex '.*(%s)'" % REPO_REGEX)
+        " -O3 ",
+        repr(where), #" .",
+        " -type d",
+        " -regextype posix-egrep",
+        " -regex '.*(%s)$'" % REPO_REGEX)
+    cmd = ' '.join(cmd)
+    log.debug("find_find_repos(%r) = %s" % (where, cmd))
     kwargs = {
             'shell': True,
             'cwd': where,
             'stderr': sys.stderr,
             'stdout': subprocess.PIPE}
-    log.debug("CMD: %r" % cmd)
     p = subprocess.Popen(cmd, **kwargs)
     if p.returncode and not ignore_error:
         p_stdout = p.communicate()[0]
@@ -804,13 +805,24 @@ def find_find_repos(where, ignore_error=True):
     for l in iter(p.stdout.readline,''):
         path = l.rstrip()
         _path, _prefix = os.path.dirname(path), os.path.basename(path)
-        repo = REPO_PREFIXES[_prefix](_path)
-        yield repo
+        repo = REPO_PREFIXES.get(_prefix)
+        if repo is None:
+            log.error("repo for path %r and prefix %r is None" % (path, _prefix))
+        if repo:
+            yield repo(_path)
+        #yield repo
+
+
+try:
+    from collections import OrderedDict as Dict
+except ImportError, e:
+    Dict = dict
 
 
 def find_unique_repos(where):
-    repos = {}
-    path_uuids = {}
+    repos = Dict()
+    path_uuids = Dict()
+    log.debug("find_unique_repos(%r)" % where)
     for repo in find_find_repos(where):
         #log.debug(repo)
         repo2 = (hasattr(repo, 'search_upwards')
@@ -822,22 +834,25 @@ def find_unique_repos(where):
                 repo = repo2
 
         if (repo.fpath not in repos):
-            #log.debug(repo.prefix, repo.fpath, repo.unique_id)
+            log.debug("%s | %s | %s" % (repo.prefix, repo.fpath, repo.unique_id))
             repos[repo.fpath] = repo
             yield repo
 
-REPORT_TYPES=dict( (attr, getattr(Repository,attr)) for attr in (
+
+REPORT_TYPES=dict( (attr, getattr(Repository,"%s_report" % attr)) for attr in (
     "full",
     "pip",
     "status",
     "hgsub",
-    "gitsubmodule") )
+    "gitsubmodule",
+    ) )
 def do_repo_report(repos, report='full', *args, **kwargs):
     for i, repo in enumerate(repos):
         log.debug( str( (i, repo.pip_report().next()) ) )
         try:
-            for l in REPORT_TYPES.get(report)(*args, **kwargs):
-                print(l)
+            if repo is not None:
+                for l in REPORT_TYPES.get(report)(repo, *args, **kwargs):
+                    print(l)
         except Exception, e:
             log.error(repo)
             log.error(report)
@@ -845,6 +860,49 @@ def do_repo_report(repos, report='full', *args, **kwargs):
             raise
 
         yield repo
+
+
+def do_tortoisehg_report(repos, output):
+    """generate a thg-reporegistry.xml file from a list of repos and print
+    to output
+    """
+    import operator
+    try:
+        from collections import OrderedDict as Dict
+    except ImportError, e:
+        Dict=dict
+    import xml.etree.ElementTree as ET
+
+    root = ET.Element('reporegistry')
+    item = ET.SubElement(root, 'treeitem')
+
+    group = ET.SubElement(item, 'group',
+                attrib=Dict(
+                    name='groupname'))
+    import os
+
+    def fullname_to_shortname(fullname):
+        shortname = fullname.replace(os.environ['HOME'], '~')
+        shortname = shortname.lstrip('./')
+        return shortname
+
+    for repo in sorted(repos, key=operator.attrgetter('fpath')):
+        fullname = os.path.join(
+                        os.path.dirname(repo.fpath),
+                        os.path.basename(repo.fpath))
+        shortname = fullname_to_shortname(fullname)
+
+        if repo.prefix != '.hg':
+            shortname = "%s%s" % (shortname, repo.prefix)
+
+        _ = ET.SubElement(group, 'repo',
+                    attrib=Dict(
+                        root=repo.fpath,
+                        shortname=shortname,
+                        basenode='0'*40))
+    print('<?xml version="1.0" encoding="UTF-8"?>', file=output)
+    print("<!-- autogenerated: %s -->" % "TODO", file=output)
+    print(ET.dump(root), file=output)
 
 
 import unittest
@@ -857,6 +915,7 @@ import unittest
     #    for r in do_repo_report('.'):
     #        for f in r.lately():
     #            log.debug(f)
+
 
 class TestBzr(unittest.TestCase):
     def test_bzr_logparse(self):
@@ -890,6 +949,7 @@ message:
             print(r)
             print(list(BzrRepository._parselog(itersplit(r,'\n'))))
 
+
 def main():
     """
     mainfunc
@@ -902,15 +962,19 @@ def main():
 
     prs.add_option('-s', '--scan',
                     dest='scan',
-                    action='store',
-                    default='.',
-                    help='Path to scan')
+                    action='append',
+                    default=[],
+                    help='Path(s) to scan for repositories')
 
     prs.add_option('-r', '--report',
                     dest='reports',
                     action='append',
-                    default=['pip'],
-                    help='pip || full || status || hgsub')
+                    default=[],
+                    help='pip || full || status || hgsub || thg')
+    prs.add_option('--thg',
+                    dest='thg_report',
+                    action='store_true',
+                    help='Write a thg-reporegistry.xml file to stdout')
 
     prs.add_option('--template',
                     dest='report_template',
@@ -935,10 +999,13 @@ def main():
         _format="%(levelname)s\t%(message)s"
         #_format="%(message)s"
         logging.basicConfig(format=_format)
-        log = logging.getLogger()
+
+    log = logging.getLogger('repos')
 
     if opts.verbose:
         log.setLevel(logging.DEBUG)
+    elif opts.quiet:
+        log.setLevel(logging.ERROR)
     else:
         log.setLevel(logging.INFO)
 
@@ -948,19 +1015,42 @@ def main():
         import unittest
         exit(unittest.main())
 
+    if not opts.scan:
+        opts.scan = ['.']
+
     if opts.scan:
         #if not opts.reports:
         #    opts.reports = ['pip']
-        if opts.reports:
-            repos = list(find_unique_repos(opts.scan))
-            for report in opts.reports:
-                list(do_repo_report(repos, report=report))
+        if opts.reports or opts.thg_report:
+            opts.reports = [s.strip() for s in opts.reports]
+            if 'thg' in opts.reports:
+                opts.thg_report = True
+                opts.reports.remove('thg')
+
+            #repos = []
+            #for _path in opts.scan:
+            #    repos.extend(find_unique_repos(_path))
+
+            from itertools import chain, imap
+            log.debug("SCANNING PATHS: %s" % opts.scan)
+            repos = chain(*imap(find_unique_repos, opts.scan))
+
+            if opts.reports and opts.thg_report:
+                repos = list(repos)
+                # TODO: tee
+
+            if opts.reports:
+                for report in opts.reports:
+                    list(do_repo_report(repos, report=report))
+            if opts.thg_report:
+                import sys
+                do_tortoisehg_report(repos, output=sys.stdout)
+
         else:
+            opts.scan = '.'
             list(do_repo_report(
                 find_unique_repos(opts.scan),
-                report=opts.reports[0]))
+                report='pip'))
 
 if __name__ == "__main__":
     main()
-
-    print("yup")
