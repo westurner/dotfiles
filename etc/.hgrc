@@ -70,7 +70,6 @@ server = https://rev.ocean
 
 [tortoisehg]
 vdiff = gvimdiff
-editor = gvim -p
 forcerepotab = True
 fullpath = True
 shell = gnome-terminal -t %(reponame)s
