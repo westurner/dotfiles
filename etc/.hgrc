@@ -52,6 +52,7 @@ gcode+svn = https://{1}.googlecode.com/svn/trunk
 kiln = https://{1}.kilnhg.com/Repo/
 gh = git://github.com/
 gh+ssh = git+ssh://git@github.com/
+gist = git+https://gist.github.com/
 
 ocean = ssh://hg@hg.ocean/
 moz = https://hg.mozilla.org/
