@@ -470,23 +470,25 @@ def main(*args):
                     action='store',
                     default='-',
                     help="Output file (default: '-' for stdout)")
+
     prs.add_option('-O','--output-filetype',
                     dest='output_filetype',
                     action='store',
                     default='txt',
-                    help="Output filetype <csv|json> (default: None)")
+                    help="Output filetype <txt|csv|tsv|json> (default: txt)")
 
     prs.add_option('-F','--input-delim',
                     dest='idelim',
                     action='store',
                     default=None,
-                    help=('Input field separator for ``words``'
-                          '\n (default: None for ``line.split(None))``'))
+                    help=('Strings input field delimiter to split line'
+                         ' into ``words`` by'
+                         ' (default: None (whitespace)``'))
     prs.add_option('-d','--output-delim',
                     dest='odelim',
                     default="\t",
-                    help=('Input field separator for lists and tuples\n'
-                          ' (default: None for ``str.split(None))``'))
+                    help=('String output delimiter for lists and tuples'
+                          ' (default: \t (tab))``'))
 
     prs.add_option('-m','--modules',
                     dest='modules',
