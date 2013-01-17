@@ -98,6 +98,20 @@ class cached_property(object):
             obj.__dict__[self.__name__] = value
         return value
 
+def sh(cmd, ignore_error=False, cwd=None, *args, **kwargs):
+    kwargs.update({
+            'shell': True,
+            'cwd': cwd,
+            'stderr': subprocess.STDOUT,
+            'stdout': subprocess.PIPE})
+    log.debug('cmd: %s %s' % (cmd, kwargs))
+    p = subprocess.Popen(cmd, **kwargs)
+    p_stdout = p.communicate()[0]
+    if p.returncode and not ignore_error:
+        raise Exception("Subprocess return code: %d\n%r\n%r" % (
+            p.returncode, cmd, p_stdout))
+    return p_stdout
+
 
 class Repository(object):
     label           = None
@@ -144,6 +158,12 @@ class Repository(object):
         pass
 
     def diff(self):
+        """
+        :returns: str
+        """
+        pass
+
+    def current_id(self):
         """
         :returns: str
         """
@@ -209,7 +229,7 @@ class Repository(object):
 
     def full_report(self):
         yield ''
-        yield "# %s" % self.pip_report().next()
+        yield "# %s" % self.origin_report().next()
         yield "%s [%s]" % (self.last_commit, self)
         if self.status:
             for l in self.status.split('\n'):
@@ -221,7 +241,24 @@ class Repository(object):
                 yield r
         return
 
+    @cached_property
+    def eggname(self):
+        return os.path.basename(self.fpath)
+
+    @classmethod
+    def to_normal_url(cls, url):
+        return url
+
     def pip_report(self):
+        yield u"-e %s+%s@%s#egg=%s" % (
+                self.label,
+                self.to_normal_url(self.remote_url),
+                self.current_id,
+                self.eggname)
+        return
+
+
+    def origin_report(self):
         yield "%s://%s = %s" % (
                 self.label,
                 self.fpath,
@@ -231,7 +268,7 @@ class Repository(object):
         return
 
     def status_report(self):
-        yield self.pip_report().next()
+        yield self.origin_report().next()
         yield self.last_commit
         yield self.status
         yield ""
@@ -299,14 +336,16 @@ class Repository(object):
                 'cwd': cwd or self.fpath,
                 'stderr': subprocess.STDOUT,
                 'stdout': subprocess.PIPE})
-        log.debug('cmd: %s %s' % (cmd, kwargs))
-        p = subprocess.Popen(cmd, **kwargs)
-        p_stdout = p.communicate()[0]
-        if p.returncode and not ignore_error:
-            raise Exception("Subprocess return code: %d\n%r\n%r" % (
-                p.returncode, cmd, p_stdout))
+        return sh(cmd, ignore_error=ignore_error, **kwargs)
 
-        return p_stdout #.rstrip()
+        #log.debug('cmd: %s %s' % (cmd, kwargs))
+        #p = subprocess.Popen(cmd, **kwargs)
+        #p_stdout = p.communicate()[0]
+        #if p.returncode and not ignore_error:
+        #    raise Exception("Subprocess return code: %d\n%r\n%r" % (
+        #        p.returncode, cmd, p_stdout))
+
+        #return p_stdout #.rstrip()
 
     def to_dict(self):
         return self.__dict__
@@ -365,6 +404,10 @@ class MercurialRepository(Repository):
         return self.sh('hg diff -g')
 
     @cached_property
+    def current_id(self):
+        return self.sh('hg id -i').rstrip().rstrip('+') # TODO
+
+    @cached_property
     def branch(self):
         return self.sh('hg branch')
 
@@ -386,6 +429,76 @@ class MercurialRepository(Repository):
 
     def serve(self):
         return self.sh('hg serve')
+
+    #@cached_property # TODO: once
+    @staticmethod
+    def _get_url_scheme_regexes():
+        output = sh("hg showconfig | grep '^schemes.'").split('\n')
+        log.debug(output)
+        schemes = (
+            l.split('.',1)[1].split('=') for l in output if '=' in l)
+        import re, operator
+        regexes = sorted(
+            ((k, v, re.compile(v.replace('{1}','(.*)')+'(.*)'))
+                for k,v in schemes),
+            key=lambda x: (len(x[0]), x),
+            reverse=True)
+        return regexes
+
+    @classmethod
+    def to_hg_scheme_url(cls, url):
+        """
+        convert a URL to local mercurial URL schemes
+
+        example::
+
+            # schemes.gh = git://github.com/
+            >> remote_url = git://github.com/westurner/dotfiles'
+            >> to_hg_scheme_url(remote_url)
+            << gh://westurner/dotfiles
+
+        """
+        regexes = cls._get_url_scheme_regexes()
+        for scheme_key, pattern, regex in regexes:
+            match = regex.match(url)
+            if match is not None:
+                groups = match.groups()
+                if len(groups) == 2:
+                    return u''.join(
+                        scheme_key,
+                        '://',
+                        pattern.replace('{1}', groups[0]),
+                        groups[1])
+                elif len(groups) == 1:
+                    return u''.join(
+                        scheme_key,
+                        '://',
+                        pattern,
+                        groups[0])
+
+    @classmethod
+    def to_normal_url(cls, url):
+        """
+        convert a URL from local mercurial URL schemes to "normal" URLS
+
+        example::
+
+            # schemes.gh = git://github.com/
+            # remote_url = "gh://westurner/dotfiles"
+            >> to_normal_url(remote_url)
+            << 'git://github.com/westurner/dotfiles'
+
+        """
+        regexes = cls._get_url_scheme_regexes()
+        for scheme_key, pattern, regex in regexes:
+            if url.startswith(scheme_key):
+                if '{1}' in pattern:
+                    return pattern.replace('{1}', url.lstrip(scheme_key))
+                else:
+                    return (pattern + url.lstrip(scheme_key).lstrip('://'))
+        return url
+
+
 
 
 class GitRepository(Repository):
@@ -420,6 +533,10 @@ class GitRepository(Repository):
     def remote_urls(self):
         return self.sh('git config -l | grep "url"',
                 ignore_error=True).strip() #.split('=',1)[1]# *
+
+    @cached_property
+    def current_id(self):
+        return self.sh('git rev-parse --short HEAD').rstrip()
 
     def diff(self):
         return self.sh('git diff')
@@ -515,6 +632,10 @@ class BzrRepository(Repository):
 
     def diff(self):
         return self.sh('bzr diff')
+
+    @cached_property
+    def current_id(self):
+        return self.sh("bzr version-info --custom --template='{revision_id}'")
 
     @cached_property
     def branch(self):
@@ -629,10 +750,19 @@ class SvnRepository(Repository):
     def remote_url(self):
         return (
             self.sh('svn info | grep "^Repository Root:"')
-            .split(': ', 1)[1]).strip()
+                .split(': ', 1)[1]).strip()
 
     def diff(self):
         return self.sh('svn diff')
+
+    def current_id(self):
+        #from xml.etree import ElementTree as ET
+        #info = ET.fromstringlist(self.sh('svn info --xml'))
+        #return info.find('entry').get('revision')
+        return (
+            self.sh('svn info | grep "^Revision: "')
+            .split(': ', 1)[1].strip())
+
 
     def log(self, n=None, template=None, **kwargs):
         return (
@@ -840,19 +970,20 @@ def find_unique_repos(where):
 
 
 REPORT_TYPES=dict( (attr, getattr(Repository,"%s_report" % attr)) for attr in (
+    "origin",
     "full",
     "pip",
     "status",
     "hgsub",
     "gitsubmodule",
     ) )
-def do_repo_report(repos, report='full', *args, **kwargs):
+def do_repo_report(repos, report='full', output=sys.stdout, *args, **kwargs):
     for i, repo in enumerate(repos):
-        log.debug( str( (i, repo.pip_report().next()) ) )
+        log.debug( str( (i, repo.origin_report().next()) ) )
         try:
             if repo is not None:
                 for l in REPORT_TYPES.get(report)(repo, *args, **kwargs):
-                    print(l)
+                    print(l, file=output)
         except Exception, e:
             log.error(repo)
             log.error(report)
