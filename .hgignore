@@ -16,4 +16,5 @@ tags
 MANIFEST.in
 .usrlog
 .pyhistory
-etc/virtualenvwrapper/hook.log
+hook.log*
+pip-requirements-autogen.txt
