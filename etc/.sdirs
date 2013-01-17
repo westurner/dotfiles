@@ -1,0 +1,5 @@
+export DIR_src="$__SRC"
+export DIR_wrk="$PROJECT_HOME"
+
+# read nerdtree bookmarks
+eval `nerdtree_to_bashmarks.py ${PROJECT_HOME}/.bookmarks`
