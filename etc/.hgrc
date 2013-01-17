@@ -79,6 +79,7 @@ fontdiff = Monaco,10,-1,5,50,0,0,0,0,0
 fontlist = Monaco,10,-1,5,50,0,0,0,0,0
 fontlog = Monaco,10,-1,5,50,0,0,0,0,0
 fontoutputlog = Monaco,10,-1,5,50,0,0,0,0,0
+ui.language = en
 
 [mq]
 git = yes
