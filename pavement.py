@@ -199,8 +199,8 @@ path_extras = [
 ]
 
 testing_extras = [
-    "virtualenv>=1.3.3",
-    "virtualenvwrapper",
+#    "virtualenv>=1.3.3",
+#    "virtualenvwrapper",
     'z3c.recipe.tag>=0.4.0',
     "ipdb",
     "nose>=0.11.1",
@@ -208,8 +208,12 @@ testing_extras = [
     "nose-ipdb",
     "ipdbplugin",
     "pyflakes",
+    "PyTest",
     "pep8",
     "coverage",
+    "tox",
+    "nose-xcoverage",
+
 ]
 
 docs_extras = [
