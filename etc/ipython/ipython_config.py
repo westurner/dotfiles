@@ -396,7 +396,7 @@ class Venv(object):
         env['EDITOR']       = env['_EDIT_']
         aliases['_edit']    = env['_EDIT_']
         aliases['_editp']   = "%s %%l" % self._edit_project_cmd # TODO
-        aliases['_make']    = "cd {_WRD} && make".format(
+        aliases['_Make']    = "cd {_WRD} && make".format(
                                     _WRD=shell_quote(env['_WRD'])) # TODO
 
         svcfg = env.get('_SVCFG', joinpath(env['_ETC'], 'supervisord.conf'))
