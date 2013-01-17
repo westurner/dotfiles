@@ -1,1 +1,2 @@
-source <(python $_VENV -E --bash)
+[ -n "$_VENVW" ] && source <(python $_VENV -E --bash)
+[ $(type -t _setup_editor) == "function" ] && _setup_editor
