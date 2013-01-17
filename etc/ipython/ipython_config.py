@@ -295,7 +295,7 @@ class Venv(object):
         aliases = OrderedDict()
         env = self.env
 
-        env['_EDIT_']       = 'gvim --servername %s --remote-tab' % (
+        env['_EDIT_']       = 'gvim --servername %s --remote-tab-wait-silent' % (
                                                     shell_quote(self.appname))
         aliases['_edit']    = env['_EDIT_']
         aliases['_gvim']    = env['_EDIT_']
