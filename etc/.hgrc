@@ -3,6 +3,21 @@ username = Wes Turner <wes@wrd.nu>
 #ssh = ssh -o ClearAllForwardings=yes
 editor = vim
 
+[alias]
+w = id -Btin
+e = export
+s = status
+3 = glog -l3
+5 = glog -l5
+7 = glog -l7
+10 = glog -l10
+qi = qinit -c
+qn = qnew
+qs = qseries
+qt = qtop
+qd = qdiff
+qg = qgoto
+
 [extensions]
 hgk =
 churn =
@@ -80,6 +95,7 @@ fontlist = Monaco,10,-1,5,50,0,0,0,0,0
 fontlog = Monaco,10,-1,5,50,0,0,0,0,0
 fontoutputlog = Monaco,10,-1,5,50,0,0,0,0,0
 ui.language = en
+editor = /usr/bin/gvim --servername thg --remote-tab-silent $FILE
 
 [mq]
 git = yes
