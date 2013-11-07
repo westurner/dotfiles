@@ -40,7 +40,6 @@ lsbashmarks () {
 }
 
 
-
 # Editor
 #declare -rx USEGVIM=""
 _setup_editor() {
@@ -584,6 +583,9 @@ _loadaliases() {
     alias t='tail'
     alias xclip='xclip -selection c'
 
+    if [ -x $MVIMBIN ]; then
+        alias ls='ls -G'
+    fi
 }
 _loadaliases
 
