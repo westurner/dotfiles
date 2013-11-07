@@ -128,8 +128,8 @@ _writecmd() {
 
 _setup_usrlog() {
     # Bash profile setup for logging unique console sessions
-    _USRLOG="${1-$_USRLOG}"
-    term_id="${2-$TERM_ID}"
+    _USRLOG="${1:-${_USRLOG:-".usrlog"}}"
+    term_id="${2:-$TERM_ID}"
     if [ -z "$_USRLOG" ]; then
         _set_usrlog
     fi
