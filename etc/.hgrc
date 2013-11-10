@@ -71,9 +71,8 @@ gist = git+https://gist.github.com/
 ocean = ssh://hg@hg.ocean/
 moz = https://hg.mozilla.org/
 code = ~/src/
-#code+hg = ssh://hg@code/hg/
-code+git = git+~/src/
-#code+git = git+ssh://git@code/hg/
+create+hg = ssh://hg@hg.create.wrd.nu/hg/
+create+git = git+ssh://git@git.create.wrd.nu/git/
 
 
 [reviewboard]
