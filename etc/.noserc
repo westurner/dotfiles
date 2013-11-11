@@ -1,3 +1,4 @@
 [nosetests]
 verbosity=2
 with-progressive = true
+progressive-editor = e
