@@ -76,11 +76,11 @@ stid () {
 _set_usrlog () {
     _USRLOG="${1:${_USRLOG}}"
     if [ -n "$VIRTUAL_ENV" ]; then
-        declare -gx _USRLOG="${VIRTUAL_ENV}/.usrlog"
-        declare -gx HISTFILE="${VIRTUAL_ENV}/.bash_history"
+        declare -rx _USRLOG="${VIRTUAL_ENV}/.usrlog"
+        declare -rx HISTFILE="${VIRTUAL_ENV}/.bash_history"
     else
-        declare -gx _USRLOG="${HOME}/.usrlog"
-        declare -gx HISTFILE="~/.bash_history"
+        declare -rx _USRLOG="${HOME}/.usrlog"
+        declare -rx HISTFILE="~/.bash_history"
     fi
 }
 
@@ -128,8 +128,8 @@ _writecmd() {
 
 _setup_usrlog() {
     # Bash profile setup for logging unique console sessions
-    _USRLOG="${1-$_USRLOG}"
-    term_id="${2-$TERM_ID}"
+    _USRLOG="${1:-${_USRLOG:-".usrlog"}}"
+    term_id="${2:-$TERM_ID}"
     if [ -z "$_USRLOG" ]; then
         _set_usrlog
     fi
