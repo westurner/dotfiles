@@ -14,13 +14,13 @@ reload() {
 # Virtualenvwrapper
 # sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
 declare -rx PROJECT_HOME="${HOME}/wrk"
-declare -rx WORKON_HOME="${PROJECT_HOME}/.ve"
+declare -x WORKON_HOME="${PROJECT_HOME}/.ve"
 
 # 
 declare -rx __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
 declare -rx __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
 
-declare -rx __SRC="/srv/src/hg"
+declare -rx __SRC="${HOME}/src/hg"
 [ ! -d $__SRC ] && mkdir -p $__SRC
 
 declare -rx _DOCSHTML="${HOME}/docs"
