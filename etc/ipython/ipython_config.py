@@ -485,8 +485,8 @@ class Venv(object):
 
     def bash_env(self, output=sys.stdout):
         for k,v in self.env.iteritems():
+            print("declare -rx %s=%r" % (k,v), file=output)
             #print("declare -grx %s=%r" % (k,v), file=output)
-            print("declare -gx %s=%r" % (k,v), file=output)
 
         for k,v in self.aliases.iteritems():
             bash_alias = self._ipython_alias_to_bash_alias(k,v)

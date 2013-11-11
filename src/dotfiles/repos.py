@@ -922,12 +922,19 @@ def listdir_find_repos(where):
 
 
 def find_find_repos(where, ignore_error=True):
-    cmd=("find",
-        " -O3 ",
-        repr(where), #" .",
-        " -type d",
-        " -regextype posix-egrep",
-        " -regex '.*(%s)$'" % REPO_REGEX)
+    if os.uname()[0] == 'Darwin':
+        cmd=("find",
+             ' -E',
+             repr(where),
+             ' -type d',
+             " -regex '.*(%s)$'" % REPO_REGEX)
+    else:
+        cmd=("find",
+            " -O3 ",
+            repr(where), #" .",
+            " -type d",
+            " -regextype posix-egrep",
+            " -regex '.*(%s)$'" % REPO_REGEX)
     cmd = ' '.join(cmd)
     log.debug("find_find_repos(%r) = %s" % (where, cmd))
     kwargs = {
