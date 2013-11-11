@@ -78,3 +78,5 @@ _bashrc_venv="${HOME}/.bashrc.venv.sh"
 if [ -f $_bashrc_venv ]; then 
     source $_bashrc_venv
 fi
+
+export CLICOLOR=true
