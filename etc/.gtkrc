@@ -1,0 +1,4 @@
+style "gimp-large-preview"
+{
+    GimpPreview::size = 340
+}
