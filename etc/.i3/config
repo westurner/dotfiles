@@ -227,7 +227,7 @@ bindsym XF86PowerOff    exit
 #  <alt><shift> g   -- launch gvim
 bindsym $mod+Shift+g    exec gvim
 #  <alt><shift> b   -- launch browser
-bindsym $mod+Shift+b    exec chromium-browser
+bindsym $mod+Shift+b    exec x-www-browser
 #  <alt><shift> t   -- launch terminal
 bindsym $mod+Shift+t    exec i3-sensible-terminal
 #  <alt>Return      -- launch terminal
