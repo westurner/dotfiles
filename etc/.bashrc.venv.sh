@@ -574,10 +574,10 @@ _loadaliases() {
     alias hgs='hg status'
     alias ifc='ifconfig'
     alias ish='ipython -p shell'
-    alias la='ls -A'
-    alias ll='ls -alF'
+    alias la='ls -A --color=auto'
+    alias ll='ls -alF --color=auto'
     alias ls='ls --color=auto'
-    alias lt='ls -altr'
+    alias lt='ls -altr --color=auto'
     alias man_='/usr/bin/man'
     alias pyclean='find . -type f -name "*.py[co]" -exec rm -f \{\} \;'
     alias ssv='supervisord -c "${_SVCFG}"'
@@ -587,7 +587,7 @@ _loadaliases() {
     alias t='tail'
     alias xclip='xclip -selection c'
 
-    if [ -x $MVIMBIN ]; then
+    if [ -x "$MVIMBIN" ]; then
         alias ls='ls -G'
     fi
 }
