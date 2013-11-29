@@ -26,14 +26,7 @@ _xlock () {
 _xautolock () {
     _LOCK_BIN="/usr/bin/xlock"
     _LOCK_DELAY="1"  # mins
-    if [ $DESKTOP_SESSION == "i3" ] && [ -x "/usr/bin/i3lock" ]; then
-      _LOCK_CMD="/usr/bin/i3lock -d -c 202020"
-    else
-       if [ ! -x $_LOCK_BIN ]; then
-           echo "NOT FOUND: $_LOCK_BIN" >&2
-       fi
-      _LOCK_CMD="$_LOCK_BIN -mode blank -bg black -fg white -lockdelay 3"
-    fi
+    _LOCK_CMD="$_LOCK_BIN -mode blank -bg black -fg white -lockdelay 3"
     NOTIFY_CMD='/usr/bin/zenity --warning \
         --title "Screensaver starts in 10s" \
         --text "OK to cancel\n\nNOTE: Mouse Corners:\n⬉ to prevent\n⬋ to start"\
@@ -47,15 +40,11 @@ _xautolock () {
         -corners -0+0 \
         -cornerdelay 10 \
         -cornerredelay 10 \
-        -locker "$_LOCK_CMD" 
+        -locker "$_LOCK_CMD"
 }
 
 lock () {
-    if [ $DESKTOP_SESSION == "i3" ]; then
-        _i3lock
-    else
-        _xlock
-    fi
+    _xlock
 }
 
 _suspend_to_ram () {
