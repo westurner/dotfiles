@@ -31,6 +31,9 @@ declare -rx _DOCSHTML="${HOME}/docs"
 source "${__DOTFILES}/etc/usrlog.sh"
 _setup_usrlog
 
+# screensaver
+source "${__DOTFILES}/etc/screensaver.sh"
+
 # Bashmarks
 source "${__DOTFILES}/etc/.bashmarks.sh"
 
