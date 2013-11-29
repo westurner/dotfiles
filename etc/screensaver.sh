@@ -1,3 +1,9 @@
+
+_install_screensaver () {
+    sudo apt-get install xautolock xlockmore
+    ln -s ~/.dotfiles/etc/.xinitrc ~/.xinitrc
+}
+
 _setup_screensaver () {
     xset +dpms
     xset dpms 600
