@@ -53,19 +53,19 @@ _setup_editor() {
 
     [ -f $GVIMBIN ] && declare -rx USEGVIM="true" || declare -rx USEGVIM=""
 
-    declare -rx EDITOR="${VIMBIN}"
-    declare -rx SUDO_EDITOR="${VIMBIN}"
+    declare -x EDITOR="${VIMBIN}"
+    declare -x SUDO_EDITOR="${VIMBIN}"
 
     if [ -n "${USEGVIM}" ]; then
         VIMCONF='--servername '${VIRTUAL_ENV_NAME:-'main'}' --remote-tab-silent'
         SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-main} --remote-tab-wait-silent"
         if [ -x "${GVIMBIN}" ]; then
-            declare -rx EDITOR="${GVIMBIN} ${VIMCONF}"
-            declare -rx SUDO_EDITOR="${GVIMBIN} ${SUDOCONF}"
+            declare -x EDITOR="${GVIMBIN} ${VIMCONF}"
+            declare -x SUDO_EDITOR="${GVIMBIN} ${SUDOCONF}"
         elif [ -x "${MVIMBIN}" ]; then
-            delcare -gx GVIMBIN=$MVIMBIN
-            declare -rx EDITOR="${MVIMBIN} ${VIMCONF}"
-            declare -rx SUDO_EDITOR="${MVIMBIN} ${SUDOCONF} "
+            declare -gx GVIMBIN=$MVIMBIN
+            declare -x EDITOR="${MVIMBIN} ${VIMCONF}"
+            declare -x SUDO_EDITOR="${MVIMBIN} ${SUDOCONF} "
             alias vim='${EDITOR} -f'
             alias gvim='${EDITOR} -f'
         else
@@ -78,7 +78,8 @@ _setup_editor() {
         unset -f $USEGVIM
     fi
 
-    declare -rx _EDIT_="${EDITOR}"
+    declare -x _EDIT_="${EDITOR}"
+    declare -x EDITOR=$EDITOR
 
     ggvim() {
         $EDITOR $@ 2>&1 > /dev/null
