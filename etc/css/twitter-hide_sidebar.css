@@ -1,0 +1,4 @@
+/* hide sidebar */
+div.dashboard { display: none; }
+div#timeline, div.wrapper { width: inherit !important; }
+
