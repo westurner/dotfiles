@@ -434,8 +434,8 @@ class Venv(object):
             'storemagic',
         ]
         try:
-            import sympy
-            c.InteractiveShellApp.extensions.append('sympyprinting')
+            #import sympy
+            #c.InteractiveShellApp.extensions.append('sympyprinting')
         except ImportError, e:
             pass
 
