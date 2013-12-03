@@ -584,7 +584,10 @@ _loadaliases() {
     alias xclip='xclip -selection c'
 
     if [ -x "$MVIMBIN" ]; then
+        alias la='ls -A -G'
+        alias ll='ls -alF -G'
         alias ls='ls -G'
+        alias lt='ls -altr -G'
     fi
 }
 _loadaliases
