@@ -32,7 +32,9 @@ source "${__DOTFILES}/etc/usrlog.sh"
 _setup_usrlog
 
 # screensaver
-source "${__DOTFILES}/etc/screensaver.sh"
+if [ ! -d '/Library' ]; then
+    source "${__DOTFILES}/etc/screensaver.sh"
+fi
 
 # Bashmarks
 source "${__DOTFILES}/etc/.bashmarks.sh"
