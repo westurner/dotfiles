@@ -58,12 +58,12 @@ _suspend_to_disk () {
 
 _lock_suspend_ram () {
     sudo bash -c 'whoami'
-    lock && _suspend_to_ram
+    _i3lock && _suspend_to_ram
 }
 
 _lock_suspend_disk () {
     sudo bash -c 'whoami'
-    lock && _suspend_to_disk
+    _i3lock && _suspend_to_disk
 }
 
 suspend () {
