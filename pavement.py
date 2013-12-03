@@ -66,8 +66,9 @@ if DEBUG:
 else:
     log.setLevel(logging.INFO)
 
+# requires path.py (...)
 here = path(__file__).dirname() or path('.')#.abspath()
-log.debug("Here: %s", here)
+log.debug('Here: %s' % here)
 
 
 def get_package_data(dirs=DATA_DIRS, exclude=CONFIG['excludes']):
@@ -192,57 +193,16 @@ def get_long_description():
     CHANGELOG = open(here / path('CHANGELOG.rst')).read()
     return '\n\n'.join((README, CHANGELOG,))
 
+def read_requirements_txt(path):
+    requirements = []
+    with open(here / path) as f:
+        requirements = [x.strip() for x in f.readlines()]
+    return requirements
+
 # Extra requirement sets
-path_extras = [
-    'path.py',
-    'grin'
-]
-
-testing_extras = [
-#    "virtualenv>=1.3.3",
-#    "virtualenvwrapper",
-    'z3c.recipe.tag>=0.4.0',
-    "ipdb",
-    "nose>=0.11.1",
-    "nose-progressive",
-    "nose-ipdb",
-    "ipdbplugin",
-    "pyflakes",
-    "PyTest",
-    "pep8",
-    "coverage",
-    "tox",
-    "nose-xcoverage",
-
-]
-
-docs_extras = [
-    'docutils',
-    'pygments',
-    'Sphinx',
-    'Sphinx-PyPi-upload',
-    'sphinxfeed',
-    'changelog',
-    'sphinxcontrib-mercurial',
-    'sphinx-git',
-    'sphinxcontrib-bitbucket',
-    'sphinxcontrib-issuetracker',
-    'sphinxcontrib-cheeseshop',
-    'sphinxcontrib-bibtex',
-    'sphinxcontrib-paverutils',
-    'github-tools[template]',
-]
-
-dev_extras = [
-    'paver',
-    'PasteScript',
-    'vimpyre',
-    'github-tools'
-    # PasteScript, Cheetah, [..., ZopeSkel ]
-    # cmdloop,
-]
-
-
+dev_extras = read_requirements_txt('requirements/dev.txt')
+testing_extras = read_requirements_txt('requirements/testing.txt')
+docs_extras = read_requirements_txt('requirements/docs.txt')
 
 setup(
     name=APPNAME,
@@ -265,10 +225,9 @@ setup(
     tests_require=testing_extras,
     #install_requires=(always_install + testing_extras),
     extras_require={
-        "path": path_extras,
+        "dev": dev_extras,
         "testing": testing_extras,
         "docs": docs_extras,
-        "dev": dev_extras,
     },
     entry_points={
         'console_scripts':
@@ -310,10 +269,9 @@ options(
         install_paver=True,
         #no_site_packages=True,
         packages_to_install=chain(
-            path_extras,
+            dev_extras,
             testing_extras,
             docs_extras,
-            dev_extras
             )
         ),
     sphinx=Bunch(

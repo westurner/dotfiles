@@ -1,0 +1,15 @@
+docutils
+pygments
+Sphinx
+Sphinx-PyPi-upload
+sphinxfeed
+changelog
+sphinxcontrib-mercurial
+sphinx-git
+sphinxcontrib-bitbucket
+sphinxcontrib-issuetracker
+sphinxcontrib-cheeseshop
+sphinxcontrib-bibtex
+sphinxcontrib-paverutils
+github-tools[template]
+ghp-import

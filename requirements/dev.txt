@@ -1,0 +1,9 @@
+keyring
+gpgkeys
+goobook
+ipython
+grin
+requests
+path.py
+# TODO: pathlib[pep]
+
