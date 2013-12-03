@@ -462,7 +462,7 @@ _venv() {
 }
 
 we () {
-    workon $1 && source <($_VENV --bash $@) && _setup_editor
+    workon $1 && source <($_VENV --bash $@)
 }
 
 
