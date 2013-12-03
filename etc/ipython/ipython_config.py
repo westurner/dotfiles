@@ -433,11 +433,11 @@ class Venv(object):
             'autoreload',
             'storemagic',
         ]
-        try:
-            #import sympy
-            #c.InteractiveShellApp.extensions.append('sympyprinting')
-        except ImportError, e:
-            pass
+        #try:
+        #    import sympy
+        #    c.InteractiveShellApp.extensions.append('sympyprinting')
+        #except ImportError, e:
+        #    pass
 
         try:
             import zmq
