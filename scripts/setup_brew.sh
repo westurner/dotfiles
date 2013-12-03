@@ -8,3 +8,6 @@ fi
 for formula in $(cat $__DOTFILES/etc/brew/brew.list); do
     brew install $formula
 done
+
+# set bash4 as the default shell for this user
+brew install bash && chsh -s /usr/local/bin/bash
