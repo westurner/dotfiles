@@ -13,17 +13,17 @@ reload() {
 
 # Virtualenvwrapper
 # sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
-declare -rx PROJECT_HOME="${HOME}/wrk"
+export PROJECT_HOME="${HOME}/wrk"
 declare -x WORKON_HOME="${PROJECT_HOME}/.ve"
 
 # 
-declare -rx __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
-declare -rx __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
+export __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
+export __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
 
-declare -rx __SRC="${HOME}/src/hg"
+export __SRC="${HOME}/src/hg"
 [ ! -d $__SRC ] && mkdir -p $__SRC
 
-declare -rx _DOCSHTML="${HOME}/docs"
+export _DOCSHTML="${HOME}/docs"
 [ ! -d $_DOCSHTML ] && mkdir -p $_DOCSHTML
 
 
@@ -31,38 +31,41 @@ declare -rx _DOCSHTML="${HOME}/docs"
 source "${__DOTFILES}/etc/usrlog.sh"
 _setup_usrlog
 
+# screensaver
+source "${__DOTFILES}/etc/screensaver.sh"
+
 # Bashmarks
 source "${__DOTFILES}/etc/.bashmarks.sh"
 
 # list bashmarks for nerdtree
 lsbashmarks () {
-    declare -rx | grep 'DIR_' | pyline "line[15:].replace('\"','').split('=',1)"
+    export | grep 'DIR_' | pyline "line[15:].replace('\"','').split('=',1)"
 }
 
 
 # Editor
-#declare -rx USEGVIM=""
+#export USEGVIM=""
 _setup_editor() {
     # Configure $EDITOR
-    declare -rx VIMBIN="/usr/bin/vim"
-    declare -rx GVIMBIN="/usr/bin/gvim"
-    declare -rx MVIMBIN="/usr/local/bin/mvim"
+    export VIMBIN="/usr/bin/vim"
+    export GVIMBIN="/usr/bin/gvim"
+    export MVIMBIN="/usr/local/bin/mvim"
 
-    [ -f $GVIMBIN ] && declare -rx USEGVIM="true" || declare -rx USEGVIM=""
+    [ -f $GVIMBIN ] && export USEGVIM="true" || export USEGVIM=""
 
-    declare -rx EDITOR="${VIMBIN}"
-    declare -rx SUDO_EDITOR="${VIMBIN}"
+    export EDITOR="${VIMBIN}"
+    export SUDO_EDITOR="${VIMBIN}"
 
     if [ -n "${USEGVIM}" ]; then
-        VIMCONF='--servername '${VIRTUAL_ENV_NAME:-'main'}' --remote-tab-silent'
+        VIMCONF='--servername '${VIRTUAL_ENV_NAME:-main}' --remote-tab-silent'
         SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-main} --remote-tab-wait-silent"
         if [ -x "${GVIMBIN}" ]; then
-            declare -rx EDITOR="${GVIMBIN} ${VIMCONF}"
-            declare -rx SUDO_EDITOR="${GVIMBIN} ${SUDOCONF}"
+            export EDITOR="${GVIMBIN} ${VIMCONF}"
+            export SUDO_EDITOR="${GVIMBIN} ${SUDOCONF}"
         elif [ -x "${MVIMBIN}" ]; then
-            delcare -gx GVIMBIN=$MVIMBIN
-            declare -rx EDITOR="${MVIMBIN} ${VIMCONF}"
-            declare -rx SUDO_EDITOR="${MVIMBIN} ${SUDOCONF} "
+            export GVIMBIN=$MVIMBIN
+            export EDITOR="${MVIMBIN} ${VIMCONF}"
+            export SUDO_EDITOR="${MVIMBIN} ${SUDOCONF} "
             alias vim='${EDITOR} -f'
             alias gvim='${EDITOR} -f'
         else
@@ -75,7 +78,7 @@ _setup_editor() {
         unset -f $USEGVIM
     fi
 
-    declare -rx _EDIT_="${EDITOR}"
+    export _EDIT_="${EDITOR}"
 
     ggvim() {
         $EDITOR $@ 2>&1 > /dev/null
@@ -100,7 +103,7 @@ add_to_path ()
     if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
         return 0
     fi
-    declare -rx PATH=$1:$PATH
+    export PATH=$1:$PATH
 }
 
 if [ -d "${__DOTFILES}" ]; then
@@ -412,19 +415,19 @@ strace_f_noeno () {
 
 _setup_python () {
     # Python
-    declare -rx PYTHONSTARTUP="${HOME}/.pythonrc"
-    declare -rx PIP_REQUIRE_VIRTUALENV=true
+    export PYTHONSTARTUP="${HOME}/.pythonrc"
+    export PIP_REQUIRE_VIRTUALENV=true
     #alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
 
 }
 _setup_python
 
 _setup_virtualenvwrapper () {
-    declare -rx VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
-    declare -rx VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper" # TODO: FIXME
-    declare -rx VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
-    declare -rx VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
-    declare -rx VIRTUALENV_DISTRIBUTE='true'
+    export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
+    export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper" # TODO: FIXME
+    export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
+    export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
+    export VIRTUALENV_DISTRIBUTE='true'
     source "${VIRTUALENVWRAPPER_SCRIPT}"
 
     #alias cdv='cdvirtualenv'
@@ -447,10 +450,7 @@ lsve() {
     lsvirtualenv $@
 }
 
-_setup_venv () {
-    declare -rx _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
-}
-_setup_venv
+export _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
 
 
 venv() {
@@ -462,7 +462,7 @@ _venv() {
 }
 
 we () {
-    workon $1 && source <($_VENV --bash $@) && _setup_editor
+    workon $1 && source <($_VENV --bash $@)
 }
 
 
@@ -570,10 +570,10 @@ _loadaliases() {
     alias hgs='hg status'
     alias ifc='ifconfig'
     alias ish='ipython -p shell'
-    alias la='ls -A'
-    alias ll='ls -alF'
+    alias la='ls -A --color=auto'
+    alias ll='ls -alF --color=auto'
     alias ls='ls --color=auto'
-    alias lt='ls -altr'
+    alias lt='ls -altr --color=auto'
     alias man_='/usr/bin/man'
     alias pyclean='find . -type f -name "*.py[co]" -exec rm -f \{\} \;'
     alias ssv='supervisord -c "${_SVCFG}"'
@@ -583,7 +583,7 @@ _loadaliases() {
     alias t='tail'
     alias xclip='xclip -selection c'
 
-    if [ -x $MVIMBIN ]; then
+    if [ -x "$MVIMBIN" ]; then
         alias ls='ls -G'
     fi
 }
@@ -624,7 +624,7 @@ less_ () {
 _set_prompt() {
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
-            declare -rx VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)" # TODO
+            export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)" # TODO
         else
             unset -v VIRTUAL_ENV_NAME
         fi
@@ -669,11 +669,11 @@ vimpager() {
     # TODO: lesspipe
     _PAGER="${HOME}/bin/vimpager"
     if [ -x $_PAGER ]; then
-        declare -rx PAGER=$_PAGER
+        export PAGER=$_PAGER
     else
         _PAGER="/usr/local/bin/vimpager"
         if [ -x $_PAGER ]; then
-            declare -rx PAGER=$_PAGER
+            export PAGER=$_PAGER
         fi
     fi
 }
