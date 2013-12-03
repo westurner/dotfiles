@@ -568,6 +568,8 @@ _loadaliases() {
     alias gvim='gvim'
     alias hgl='hg log -l10'
     alias hgs='hg status'
+    alias hgd='hg diff'
+    alias hgdl='hg diff --color=always | less -R'
     alias ifc='ifconfig'
     alias ish='ipython -p shell'
     alias la='ls -A --color=auto'
@@ -584,7 +586,10 @@ _loadaliases() {
     alias xclip='xclip -selection c'
 
     if [ -x "$MVIMBIN" ]; then
+        alias la='ls -A -G'
+        alias ll='ls -alF -G'
         alias ls='ls -G'
+        alias lt='ls -altr -G'
     fi
 }
 _loadaliases
