@@ -433,11 +433,11 @@ class Venv(object):
             'autoreload',
             'storemagic',
         ]
-        try:
-            import sympy
-            c.InteractiveShellApp.extensions.append('sympyprinting')
-        except ImportError, e:
-            pass
+        #try:
+        #    import sympy
+        #    c.InteractiveShellApp.extensions.append('sympyprinting')
+        #except ImportError, e:
+        #    pass
 
         try:
             import zmq
@@ -484,9 +484,37 @@ class Venv(object):
         return 'alias %s=%r' % (name, alias)
 
     def bash_env(self, output=sys.stdout):
-        for k,v in self.env.iteritems():
-            print("declare -rx %s=%r" % (k,v), file=output)
-            #print("declare -grx %s=%r" % (k,v), file=output)
+        def _get_shell_version():
+            import os
+            import subprocess
+            shell = os.environ.get('SHELL')
+            if not shell:
+                raise Exception('SHELL is not set')
+            output = subprocess.check_output(
+                (shell, '--version')).split('\n', 1)[0]
+            if output.startswith('GNU bash, version '):
+                verstr = output.lstrip('GNU bash, version ')
+                return ('bash', verstr)
+            if output.startswith('zsh '):
+                return output.split(' ', 1)
+
+        def _shell_supports_declare_g():
+            # NOTE: OSX still has bash 3.2, which does not support '-g'
+            shell, verstr = _get_shell_version()
+            if shell == 'zsh':
+                return True
+            if shell == 'bash':
+                if verstr.startswith('4'):
+                    return True
+            return False
+
+        for k, v in self.env.iteritems():
+            print("export %s=%r" % (k, v), file=output)
+            #if _shell_supports_declare_g():
+            #    print("declare -grx %s=%r" % (k, v), file=output)
+            #else:
+            #    print("export %s=%r" % (k, v), file=output)
+            #    print("declare -r %k" % k, file=output)
 
         for k,v in self.aliases.iteritems():
             bash_alias = self._ipython_alias_to_bash_alias(k,v)
