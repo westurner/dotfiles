@@ -76,11 +76,11 @@ stid () {
 _set_usrlog () {
     _USRLOG="${1:${_USRLOG}}"
     if [ -n "$VIRTUAL_ENV" ]; then
-        declare -rx _USRLOG="${VIRTUAL_ENV}/.usrlog"
-        declare -rx HISTFILE="${VIRTUAL_ENV}/.bash_history"
+        export _USRLOG="${VIRTUAL_ENV}/.usrlog"
+        export HISTFILE="${VIRTUAL_ENV}/.bash_history"
     else
-        declare -rx _USRLOG="${HOME}/.usrlog"
-        declare -rx HISTFILE="~/.bash_history"
+        export _USRLOG="${HOME}/.usrlog"
+        export HISTFILE="~/.bash_history"
     fi
 }
 
