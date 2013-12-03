@@ -288,7 +288,7 @@ class Venv(object):
         aliases['cds']      = 'cd {_SRC}/%l'.format(
                                     _SRC=shell_quote(env['_SRC']))
 
-        aliases['cdhelp']   =  "set | grep '^cd.*()' | cut -f1 -d' ' #%l"
+        aliases['cdhelp']   =  """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
         return aliases
 
     def get_user_aliases(self, dont_reflect=False):
