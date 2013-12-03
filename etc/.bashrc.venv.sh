@@ -568,6 +568,8 @@ _loadaliases() {
     alias gvim='gvim'
     alias hgl='hg log -l10'
     alias hgs='hg status'
+    alias hgd='hg diff'
+    alias hgdl='hg diff --color=always | less -R'
     alias ifc='ifconfig'
     alias ish='ipython -p shell'
     alias la='ls -A --color=auto'
