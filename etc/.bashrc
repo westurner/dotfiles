@@ -80,3 +80,4 @@ if [ -f $_bashrc_venv ]; then
 fi
 
 export CLICOLOR=true
+PATH="$PATH:/opt/anaconda/bin"
