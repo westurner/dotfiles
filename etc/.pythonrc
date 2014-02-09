@@ -15,10 +15,12 @@ from pprint import pformat as pf
 try:
     #from IPython.frontend.terminal.ipapp import launch_new_instance
     #launch_new_instance()
-    from IPython import embed
-    from IPython.external.path import path
-    embed()
-    raise SystemExit
+    #from IPython import embed
+    #from IPython.external.path import path
+    #embed()
+    #raise SystemExit
+    import IPython
+    # TODO
 except ImportError, e:
     # Clever trick to add history support and tab completion to cPython.
     # This was stolen from a fellow ubuntero's blog and extended to add
@@ -74,10 +76,8 @@ except ImportError, e:
 
         if os.access(historyPath, os.R_OK):
             readline.read_history_file(historyPath)
+        del atexit, os
 
     del readline, rlcompleter
 
 
-
-
-del os, atexit
