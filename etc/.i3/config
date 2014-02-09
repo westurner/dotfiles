@@ -126,6 +126,18 @@ bindsym $mod+F9 workspace 9
 bindsym $mod+F0 workspace 10
 
 
+# Also <Alt>+<KP> Keys
+bindsym $mod+KP_1 workspace 1
+bindsym $mod+KP_2 workspace 2
+bindsym $mod+KP_3 workspace 3
+bindsym $mod+KP_4 workspace 4
+bindsym $mod+KP_5 workspace 5
+bindsym $mod+KP_6 workspace 6
+bindsym $mod+KP_7 workspace 7
+bindsym $mod+KP_8 workspace 8
+bindsym $mod+KP_9 workspace 9
+bindsym $mod+KP_0 workspace 10
+
 
 
 # move focused container to workspace
@@ -140,6 +152,20 @@ bindsym $mod+Shift+ampersand    move workspace 7
 bindsym $mod+Shift+asterisk     move workspace 8
 bindsym $mod+Shift+parenleft    move workspace 9
 bindsym $mod+Shift+parenright   move workspace 10
+
+
+# Also <Alt><shift><KP_N> Keys
+bindsym $mod+Shift+KP_1 move workspace 1
+bindsym $mod+Shift+KP_2 move workspace 2
+bindsym $mod+Shift+KP_3 move workspace 3
+bindsym $mod+Shift+KP_4 move workspace 4
+bindsym $mod+Shift+KP_5 move workspace 5
+bindsym $mod+Shift+KP_6 move workspace 6
+bindsym $mod+Shift+KP_7 move workspace 7
+bindsym $mod+Shift+KP_8 move workspace 8
+bindsym $mod+Shift+KP_9 move workspace 9
+bindsym $mod+Shift+KP_0 move workspace 10
+
 
 # reload the configuration file
 #  <alt><shift> C   -- reload i3 configuration
