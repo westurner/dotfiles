@@ -22,6 +22,11 @@ import os
 import site
 import sys
 
+if sys.version_info[0] == 2:
+    STR_TYPES = basestring
+else:
+    STR_TYPES = str
+
 class IPYMock(object):
     """ TODO:
     #from IPython.core import ipapi """
@@ -118,8 +123,8 @@ class Env(OrderedDict):
         # TODO: /srv/www | /var/www | /var/ww | /var/www/html
 
     def paths_to_variables(self, _path):
-        compress = sorted( ((k,v) for (k,v) in self.iteritems()
-                                            if isinstance(v,basestring)
+        compress = sorted( ((k,v) for (k,v) in self.items()
+                                            if isinstance(v, STR_TYPES)
                                             and v.startswith('/')),
                             key=lambda v: (len(v[1]), v[0]),
                             reverse=True)
@@ -430,7 +435,7 @@ class Venv(object):
         c.InteractiveShellApp.log_level = 20
 
         c.InteractiveShellApp.extensions = [
-            'autoreload',
+            #'autoreload',
             'storemagic',
         ]
         #try:
@@ -440,9 +445,9 @@ class Venv(object):
         #    pass
 
         try:
-            import zmq
+            import zmq; zmq
             c.InteractiveShellApp.extensions.append('parallelmagic')
-        except ImportError, e:
+        except ImportError:
             pass
 
         c.InteractiveShell.autoreload = True
@@ -470,7 +475,7 @@ class Venv(object):
         alias = self.env.paths_to_variables(alias)
         if '%s' in alias or '%l' in alias:
             #alias = '# %s' % alias
-            chunks = alias.split('%s')
+            #chunks = alias.split('%s')
             _alias = alias[:]
             count = 0
             while '%s' in _alias:
@@ -508,7 +513,7 @@ class Venv(object):
                     return True
             return False
 
-        for k, v in self.env.iteritems():
+        for k, v in self.env.items():
             print("export %s=%r" % (k, v), file=output)
             #if _shell_supports_declare_g():
             #    print("declare -grx %s=%r" % (k, v), file=output)
@@ -516,7 +521,7 @@ class Venv(object):
             #    print("export %s=%r" % (k, v), file=output)
             #    print("declare -r %k" % k, file=output)
 
-        for k,v in self.aliases.iteritems():
+        for k,v in self.aliases.items():
             bash_alias = self._ipython_alias_to_bash_alias(k,v)
             print(bash_alias, file=output)
 
@@ -649,9 +654,9 @@ if in_ipython_config():
     ipythonmain()
 
 def ipython_imports():
-    from IPython.external.path import path
-    from pprint import pprint as pp
-    from pprint import pformat as pf
+    from IPython.external.path import path; path
+    from pprint import pprint as pp; pp
+    from pprint import pformat as pf; pf
     def ppd(self, *args, **kwargs):
         import json
         print(type(self))
@@ -694,7 +699,7 @@ class Test_venv(unittest.TestCase):
 
     def test_venv_with_environ(self):
         os.environ['VIRTUAL_ENV'] = self.TEST_VIRTUAL_ENV
-        venv = Venv(from_environ=True)
+        venv = Venv(from_environ=True); venv
 
 
 def main():
@@ -771,7 +776,7 @@ def main():
         import os
         import subprocess
 
-        os.environ.update((k, str(v)) for (k,v) in venv.env.iteritems())
+        os.environ.update((k, str(v)) for (k,v) in venv.env.items())
         subprocess.call(opts.run_command,
                 shell=True,
                 env=os.environ,
