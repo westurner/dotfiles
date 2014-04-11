@@ -418,14 +418,16 @@ strace_f_noeno () {
 _setup_python () {
     # Python
     export PYTHONSTARTUP="${HOME}/.pythonrc"
-    export PIP_REQUIRE_VIRTUALENV=true
+    #export PIP_REQUIRE_VIRTUALENV=true
+    export PIP_REQUIRE_VIRTUALENV=false
     #alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
 
 }
 _setup_python
 
 _setup_virtualenvwrapper () {
-    export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
+    #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
+    export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
     export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper" # TODO: FIXME
     export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
     export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
