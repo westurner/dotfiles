@@ -7,6 +7,7 @@ import datetime
 import errno
 import logging
 import os
+import pprint
 import re
 import subprocess
 import sys
@@ -263,6 +264,9 @@ class Repository(object):
     @classmethod
     def to_normal_url(cls, url):
         return url
+
+    def str_report(self):
+        yield pprint.pformat(self.to_dict())
 
     def pip_report(self):
         yield u"-e %s+%s@%s#egg=%s" % (
@@ -979,6 +983,7 @@ def find_unique_repos(where):
 
 REPORT_TYPES = dict(
     (attr, getattr(Repository, "%s_report" % attr)) for attr in (
+        "str",
         "origin",
         "full",
         "pip",
@@ -994,7 +999,11 @@ def do_repo_report(repos, report='full', output=sys.stdout, *args, **kwargs):
         log.debug(str((i, repo.origin_report().next())))
         try:
             if repo is not None:
-                for l in REPORT_TYPES.get(report)(repo, *args, **kwargs):
+                reportfunc = REPORT_TYPES.get(report)
+                if reportfunc is None:
+                    raise Exception("Unrecognized report type: %r (%s)" %
+                                    (report, ', '.join(REPORT_TYPES.keys())))
+                for l in reportfunc(repo, *args, **kwargs):
                     print(l, file=output)
         except Exception, e:
             log.error(repo)
