@@ -10,6 +10,9 @@ changelog:
 install:
 	python setup.py install
 
+edit:
+	$(EDITOR) README.rst Makefile pavement.py CHANGELOG.rst
+
 # Local Reports
 
 origin:
