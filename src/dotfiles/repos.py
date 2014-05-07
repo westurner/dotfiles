@@ -314,17 +314,13 @@ class Repository(object):
     def mtime(self, fpath=None):
         return dtformat(
             datetime.datetime.utcfromtimestamp(
-                os.path.getmtime(fpath or self.fpath)
-                )
-            )
+                os.path.getmtime(fpath or self.fpath)))
 
     @cached_property
     def ctime(self, fpath=None):
         return dtformat(
             datetime.datetime.utcfromtimestamp(
-                os.path.getctime(fpath or self.fpath)
-                )
-            )
+                os.path.getctime(fpath or self.fpath)))
 
     @cached_property
     def find_symlinks(self):
@@ -668,6 +664,8 @@ class BzrRepository(Repository):
     def _parselog(self, r):
         """
 
+        ::
+
             $ bzr log -l1
             ------------------------------------------------------------
             revno: 1
@@ -955,7 +953,6 @@ def find_find_repos(where, ignore_error=True):
         if repo:
             yield repo(_path)
         # yield repo
-
 
 
 def find_unique_repos(where):
