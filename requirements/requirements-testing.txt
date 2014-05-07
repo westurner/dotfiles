@@ -1,0 +1,60 @@
+PyTest
+
+coverage
+
+
+nose
+# src:
+#  -e git+https://github.com/nose-devs/nose#egg=nose
+# docs:
+#  - https://nose.readthedocs.org/en/latest/
+
+
+nose-progressive
+# src:
+#  -e git+https://github.com/erikrose/nose-progressive#egg=nose-progressive
+# docs:
+#  - https://github.com/erikrose/nose-progressive
+
+
+#nose-xcoverage
+
+pep8
+# src:
+#  -e git+https://github.com/jcrocholl/pep8#egg=pep8
+
+pyflakes
+# src:
+#  - e git+https://github.com/pyflakes/pyflakes#egg=pyflakes
+
+tox
+# src:
+#  -e hg+https://bitbucket.org/hpk42/tox#egg=tox
+# docs:
+#  - http://tox.readthedocs.org/en/latest/
+
+pudb
+# src:
+#  -e git+https://github.com/inducer/pudb#egg=pudb
+# docs:
+#  - https://github.com/inducer/pudb
+
+
+ipython
+# src:
+#  -e git+https://github.com/ipython/ipython#egg=ipython
+# docs:
+#  - http://ipython.org/ipython-doc/stable/index.html
+
+ipdb
+# src:
+#  -e git+https://github.com/gotcha/ipdb#egg=ipdb
+# docs:
+#  - https://github.com/gotcha/ipdb
+
+ipdbplugin
+# src:
+#  -e git+http://github.com/flavioamieiro/nose-ipdb#egg=ipdbplugin
+# docs:
+#  - http://github.com/flavioamieiro/nose-ipdb
+
