@@ -1,0 +1,47 @@
+pip
+# src:
+#  -e git+https://github.com/pypa/pip#egg=pip
+# docs:
+# - https://pip.pypa.io/
+
+virtualenv
+# src:
+#  -e git+https://github.com/pypa/virtualenv#egg=virtualenv
+# docs:
+# - https://virtualenv.pypa.io/
+
+virtualenvwrapper
+# src:
+#  -e git+https://bitbucket.org/dhellmann/virtualenvwrapper#egg=virtualenvwrapper
+# docs:
+# - http://virtualenvwrapper.readthedocs.org/en/latest/
+
+path.py
+# src:
+#  -e git+https://github.com/jaraco/path.py#egg=path.py
+# docs:
+#  - https://pythonhosted.org/path.py/api.html
+
+pathlib
+# src:
+#  -e hg+https://bitbucket.org/pitrou/pathlib#egg=pathlib
+# docs:
+#  - https://pathlib.readthedocs.org/en/pep428/
+#  - https://docs.python.org/3.4/library/pathlib.html
+
+
+z3c.recipe.tag>=0.4.0
+# src:
+#  -e git+https://github.com/zopefoundation/z3c.recipe.tag#egg=z3c.recipe.tag
+# docs:
+#  - https://pypi.python.org/pypi/z3c.recipe.tag
+
+
+stdeb
+# src:
+#  -e git+https://github.com/astraw/stdeb#egg=stdeb
+# docs:
+#  - https://pypi.python.org/pypi/stdeb
+
+-r requirements-testing.txt
+-r requirements-docs.txt
