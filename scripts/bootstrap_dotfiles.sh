@@ -157,6 +157,7 @@ symlink_mutt() {
 symlink_gtk() {
     backup_and_symlink .gtkrc
     backup_and_symlink .gtkrc-2.0
+    mkdir -p ${HOME}/.config/gtk-3.0
     backup_and_symlink .config/gtk-3.0
 }
 
@@ -171,6 +172,7 @@ symlink_xinitrc_screensaver() {
 symlink_python() {
     backup_and_symlink .pythonrc
     backup_and_symlink .pydistutils.cfg
+    mkdir -p ${HOME}/.pip
     backup_and_symlink .pip/pip.conf
     backup_and_symlink .pdbrc
     backup_and_symlink .noserc
@@ -183,6 +185,7 @@ symlink_virtualenvwrapper() {
 symlink_venv() {
     #backup_and_symlink .ipython/profile_default
     #backup_and_symlink .ipython/profile_default/ipython_config.py
+    mkdir -p ${HOME}/.ipython/profile_default/
     backup_and_symlink ipython/ipython_config.py \
         ${HOME}/.ipython/profile_default/ipython_config.py
 }
