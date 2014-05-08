@@ -5,8 +5,13 @@ grin
 
 backports.ssl_match_hostname
 # src:
-#   -e
-#   hg+https://bitbucket.org/brandon/backports.ssl_match_hostname#backports.ssl_match_hostname
+#   -e hg+https://bitbucket.org/brandon/backports.ssl_match_hostname#backports.ssl_match_hostname
+
+sarge
+# src:
+#   -e hg+https://bitbucket.org/vinay.sajip/sarge#egg=sarge
+# docs:
+#   http://pythonhosted.org/sarge/
 
 requests
 # src:
