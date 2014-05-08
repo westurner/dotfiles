@@ -57,13 +57,15 @@ pip_install_virtualenvwrapper() {
 
 
 pip_setup_virtualenvwrapper(){
-    VIRTUALENVWRAPPER_SH="${HOME}/.local/bin/virtualenvwrapper.sh"
+    VIRTUALENVWRAPPER_SH_NAME="virtualenvwrapper.sh"
+    #VIRTUALENVWRAPPER_SH_NAME="virtualenvwrapper_lazy.sh
+
+    VIRTUALENVWRAPPER_SH="${HOME}/.local/bin/${VIRTUALENVWRAPPER_SH_NAME}"
     #VIRTUALENVWRAPPER_SH=$(which virtualenvwrapper.sh)
 
     test -f ${VIRTUALENVWRAPPER_SH}
+
     source ${VIRTUALENVWRAPPER_SH}
-    # Optionally, instead load virtualenvwrapper lazily:
-    #  source ${HOME}/.local/bin/virtualenvwrapper_lazy.sh
 }
 
 
@@ -99,6 +101,17 @@ symlink_etc_vim(){
     ln -s ${HOME}/.vim/vimrc ${HOME}/.vimrc
 }
 
+symlink_bashrc_(){
+    test -a ${HOME}/.bashrc && \
+        mv ${HOME}/.bashrc ${HOME}/.bashrc.bkp.${BKUPID}
+
+    test -a ${HOME}/.bashrc.venv.sh && \
+        mv ${HOME}/.bashrc.venv.sh ${HOME}/.bashrc.venv.sh.bkp.${BKUPID}
+
+    ln -s ${REPO_DEST_PATH}/etc/.bashrc ~/.bashrc
+    ln -s ${REPO_DEST_PATH}/etc/.bashrc.venv.sh ~/.bashrc.venv.sh
+}
+
 install_dotfiles_user() {
     #TODO: subshell
     type 'deactivate' 2>/dev/null && deactivate
@@ -124,6 +137,7 @@ main() {
 
     install_dotfiles_user
     symlink_etc_vim
+    symlink_bashrc
 }
 
 main
