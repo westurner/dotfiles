@@ -161,6 +161,12 @@ symlink_gtk() {
     backup_and_symlink .config/gtk-3.0
 }
 
+symlink_mimeapps() {
+    mkdir -p ${HOME}/.local/share/applications
+    backup_and_symlink mimeapps.list \
+        ${HOME}/.local/share/applications/mimeapps.list
+}
+
 symlink_i3(){
     backup_and_symlink .i3
 }
@@ -222,11 +228,17 @@ symlink_all() {
 
 }
 
+activate_virtualenv() {
+    #workon ${VENVNAME}
+    source ${WORKON_HOME}/dotfiles/bin/activate
+}
+
 deactivate_virtualenv() {
     type 'virtualenv_deactivate' 2>/dev/null && virtualenv_deactivate || true
 }
 
 install_dotfiles_bootstrap() {
+    activate_virtualenv
     pip install --upgrade -e ${REPO_DEST_PATH}
 }
 
