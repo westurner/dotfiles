@@ -24,8 +24,10 @@ PYLINE:=python src/dotfiles/pyline.py
 
 PIP:=pip
 PIP_OPTS:=
-PIP_INSTALL_OPTS:=--user --upgrade
-PIP_INSTALL:=$(PIP) $(PIP_OPTS) install $(PIP_INSTALL_OPTS) 
+PIP_INSTALL_OPTS:=--upgrade
+PIP_INSTALL_USER_OPTS:=--user --upgrade
+PIP_INSTALL:=$(PIP) $(PIP_OPTS) install $(PIP_INSTALL_OPTS)
+PIP_INSTALL_USER:=$(PIP) $(PIP_OPTS) install ${PIP_INSTALL_USER_OPTS}
 
 default: test
 
@@ -36,9 +38,11 @@ help:
 
 clean:
 	pyclean .
-	find . -name '__pycache__' -exec rm -fv {} \;
-	$(MAKE) build_deb_clean
+	find . -type d -name '__pycache__' -exec rm -rfv {} \;
 	find . -name '*.egg-info' -exec rm -rfv {} \;
+	python setup.py clean
+	$(MAKE) build_deb_clean
+
 
 # .. show help as (almost) ReStructuredText TODO
 #
@@ -117,18 +121,38 @@ build_tags:
 	build_tags --ctags-vi --languages=python
 	ls -al tags
 
+
+install:
+	$(MAKE) pip_install_as_editable
+	$(MAKE) pip_install_requirements
+	# Install ${HOME} symlinks
+	bash ./scripts/bootstrap_dotfiles.sh -S
+	#bash ./scripts/bootstrap_dotfiles.sh -R
+
+upgrade:
+	$(MAKE) pip_upgrade_pip
+	# Update and upgrade
+	bash ./scripts/bootstrap_dotfiles.sh -U
+
+
+
 pip_upgrade_pip:
 	# Upgrade pip
-	$(PIP) $(PIP_OPTS) install $(PIP_INSTALL_OPTS) pip
+	$(PIP_INSTALL) pip
 
 pip_install_as_editable:
 	# Install dotfiles as a develop egg (pip install -e .)
-	$(PIP) $(PIP_OPTS) install $(PIP_INSTALL_OPTS) -e .
+	$(PIP_INSTALL) -e .
 
+
+pip_install_requirements:
+	# Install requirements.txt
+	$(PIP_INSTALL) -r requirements.txt
 
 pip_install_requirements_all:
 	# Run each pip makefile command
 	# dev calls testing and docs once
+	# pip install -r requirements-all.txt
 	$(MAKE) pip_install_requirements_dev
 	# testing and docs run again
 	$(MAKE) pip_install_requirements_testing
@@ -210,7 +234,7 @@ dotfiles_all_reports:
 SRVROOT:=/srv
 ORIGIN_REPORT:=$(SRVROOT)/repo-origins.txt
 PIP_REQS_REPORT:=$(SRVROOT)/pip-requirements-autogen.txt
-THG_RREG_REPORT:=$(SRVROOT)/thx-reporegistry.xml
+THG_RREG_REPORT:=$(SRVROOT)/thg-reporegistry.xml
 
 
 # /srv setup
