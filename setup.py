@@ -30,7 +30,9 @@ from distutils.text_file import TextFile
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 
-from paver.setuputils import find_package_data
+#from paver.setuputils import find_package_data
+def find_package_data(*args, **kwargs):
+    return
 
 try:
     import z3c.recipe.tag
