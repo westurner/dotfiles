@@ -11,28 +11,29 @@ Objective
 ===========
 * Minimize error by standardizing common workflows and processes
 
+::
 
-Installing
-============
-There are a few parts to install.
-
-Things in ``etc/`` need to be symlinked in. #TODO
-
-Things in ``bin/`` need to be added to $PATH
-
-Things from ``scripts/`` and ``console_script`` ``entry_points`` #TODO
+    wget https://raw.githubusercontent.com/westurner/dotfiles/master/scripts/bootstrap_dotfiles.sh
+    bash ./bootstrap_dotfiles.sh -h
+    bash ./bootstrap_dotfiles.sh -I  # install
+    bash ./bootstrap_dotfiles.sh -U  # upgrade
 
 
-Create a VIRTUAL_ENV
-----------------------
+Installation
+==============
 
-Install **virtualenvwrapper**::
+Create a virtualenvwrapper virtualenv
+---------------------------------------
+
+Install **virtualenvwrapper** (with pip)::
 
     pip install --upgrade --user pip virtualenv virtualenvwrapper
     source $(HOME)/.local/bin/virtualenvwrapper.sh 
-    # or:
-    #  apt-get install virtualenvwrapper
-    #  source 
+
+(or) Install **virtualenvwrapper** (with apt)::
+
+    apt-get install virtualenvwrapper
+    source  /etc/bash_completion.d/virtualenvwrapper
 
 
 Make a virtualenv for the **dotfiles** source::
@@ -44,21 +45,11 @@ Make a virtualenv for the **dotfiles** source::
     cdvirtualenv src
 
 
-git and make
--------------
-::
 
-    cd ${VIRTUAL_ENV}/src
-    git clone https://github.com/westurner/dotfiles
-    cd dotfiles
-    # sudo apt-get install make
-    make install
+Install the dotfiles python package (virtualenv)
+-------------------------------------------------
 
-
-Install the dotfiles python package
--------------------------------------
-
-* (or) Install into to ``${VIRTUAL_ENV}`` (with pip)::
+* Install into ``${VIRTUAL_ENV}`` (with pip)::
 
   workon dotfiles  # source ${VIRTUAL_ENV}/bin/activate
   pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
@@ -74,6 +65,16 @@ Install the dotfiles python package
   python setup.py develop
 
 
+Build and test with git and make
+---------------------------------
+::
+
+    # sudo apt-get install make git
+    cd ${VIRTUAL_ENV}/src/dotfiles
+    make build
+    make install
+
+
 Install the dotfiles python package (user local)
 --------------------------------------------------
 
@@ -84,7 +85,10 @@ Install the dotfiles python package (user local)
 * (or) Install::
 
   cd src/dotfiles
-  pip install --user -e .  # python setup.py develop
+  pip install --user --upgrade -e .
+  # python setup.py develop
+
+
 
 
 Symlink dotfiles into place
@@ -92,21 +96,8 @@ Symlink dotfiles into place
 
 Symlink configuration files from ``dotfiles/etc``::
 
-    _etc="~/.dotfiles/etc"
-    cd ${HOME}
-    ln -s ${_etc}/.bashrc.venv.sh
-    ln -s ${_etc}/.bashrc 
-    # or: echo "source ~/.virtualenvs/dotfiles" >> ~/.bashrc
+    bash ./scripts/bootstrap_dotfiles.sh -S
 
-    ln -s ${_etc}/.gemrc
-    ln -s ${_etc}/.htoprc
-    ln -s ${_etc}/.inputrc
-    ln -s ${_etc}/.pdbrc
-    ln -s ${_etc}/.pydistutils.cfg
-    ln -s ${_etc}/.pythonrc
-    ln -s ${_etc}/.vimperatorrc
-    ln -s ${_etc}/hg/.hgrc
-    ln -s ${_etc}/ipython/ipython_default.py ~/.ipython/profile_default/
     ln -s ${_etc}/mimeapps.list ~/.local/share/applications/
     ln -s ${_etc}/pip/
 
