@@ -47,6 +47,9 @@ hide_edge_borders horizontal
 ### Launch programs
 ## Set Variables
 set $run_command dmenu_run
+set $screensaver_start ~/.dotfiles/etc/screensaver.sh -R
+set $screensaver_stop ~/.dotfiles/etc/screensaver.sh -P
+
 set $lock_screen xlock
 
 set $editor i3-sensible-editor
@@ -80,6 +83,9 @@ set $xgamma_soft_red xgamma -bgamma 0.4 -ggamma 0.6 -rgamma 0.9
 ## Autoruns
 #  - Set background
 exec --no-startup-id $set_xbackground
+
+#  - Start screensaver
+exec --no-startup-id $screensaver_start
 
 # - Launch network applet (optional)
 # exec_always --no-startup-id $network_applet  # (optional)
