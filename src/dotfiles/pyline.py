@@ -130,7 +130,7 @@ def pyline(_input,
             except ImportError:
                 log.error("pip install pathlib (or path.py)")
                 Path = str
-                raise
+                pass
 
     try:
         log.debug("_cmd: %r" % cmd)

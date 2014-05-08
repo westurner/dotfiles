@@ -54,12 +54,18 @@ def not_pip_freeze(path):
 
 import unittest
 
+import os.path
+requirements_test_file = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    '../../',
+    'requirements/requirements-dev.txt'
+)
+
 
 class Test_not_pip_freeze(unittest.TestCase):
 
     def test_not_pip_freeze(self):
-        not_pip_freeze(
-            '/srv/repos/etc/requirements-devenv.txt')
+        not_pip_freeze(requirements_test_file)
 
 
 def main():
