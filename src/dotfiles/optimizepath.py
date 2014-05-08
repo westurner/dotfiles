@@ -65,6 +65,8 @@ def detect_duplicates(iterable):
     paths = OrderedDict()
     for path in iterable:
         for f in os.listdir(path):
+            if not os.path.exists(path):
+                continue  # TODO
             basename = os.path.basename(f)
             basename_paths = paths.get(basename,[])
             basename_paths.append(path)
@@ -127,13 +129,16 @@ class ShellTestCase(unittest.TestCase):
 
             _stderr = stderr.read()
             _stdout = stdout.read() # ..
-        finally:
-            sys.stdout = self.__stdout
-            sys.stderr = self.__stderr
 
             logging.debug('# >2\n%s',_stderr)
             logging.debug('# >1\n%s', _stdout)
             return _stderr, _stdout
+
+        finally:
+            sys.stdout = self.__stdout
+            sys.stderr = self.__stderr
+
+
 
 class Test_optimize_path(ShellTestCase):
     def test_optimize_path(self):
