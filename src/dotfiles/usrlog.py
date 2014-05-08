@@ -1,7 +1,5 @@
-climain
 
-
-def test():
+def _ipython_test():
     lines = get_ipython().getoutput(u'cat ~/.usrlog')
     get_ipython().magic(u'pinfo lines.spstr')
     lines

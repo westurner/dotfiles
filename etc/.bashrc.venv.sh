@@ -767,7 +767,7 @@ Hgpull() {
     path=$1
     shift
     Hg $path pull $@
-    HGcheck $path
+    Hgcheck $path
 }
 
 Hgcheck() {
@@ -797,6 +797,7 @@ Hgcompare () {
 }
 
 host_docs () {
+    # host_docs <project_name> <path> <docs/Makefile> <docs/conf.py>
     # * log documentation builds
     # * build a sphinx documentation set with a Makefile and a conf.py
     # * rsync to docs webserver
@@ -808,7 +809,7 @@ host_docs () {
     # local 'docs' virtualenv'
     set -x
     pushd .
-    workon docs
+    #workon docs
     name=${1}
 
     if [ -z "${name}" ]; then

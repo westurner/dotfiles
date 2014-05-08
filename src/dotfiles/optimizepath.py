@@ -55,8 +55,9 @@ def optimize_path(iterable, strip=None, sortfunc=sbin_policy):
 def get_checksum(path, hashbin=CHECKSUM_BIN):
     logging.debug((hashbin,path))
     if os.path.isfile(path):
-        return (subprocess.check_output( (hashbin, path) ).rstrip() +
-                (os.path.islink(path) and " -> %s" % os.path.realpath(path) or '') )
+        if os.access(path, os.R_OK):
+            return (subprocess.check_output( (hashbin, path) ).rstrip() +
+                    (os.path.islink(path) and " -> %s" % os.path.realpath(path) or '') )
     return ('?  %s' % path)
 
 

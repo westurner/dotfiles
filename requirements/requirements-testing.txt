@@ -1,4 +1,15 @@
-PyTest
+pytest
+# src:
+#  -e hg+http://bitbucket.org/hpk42/pytest/#egg=pytest
+# docs:
+#  - http://pytest.org/latest/ 
+#  - py.test --help
+
+
+
+pytest-capturelog
+# src:
+#  -e hg+https://bitbucket.org/memedough/pytest-capturelog#egg=pytest-capturelog
 
 coverage
 
@@ -58,3 +69,7 @@ ipdbplugin
 # docs:
 #  - http://github.com/flavioamieiro/nose-ipdb
 
+#pytest-ipdb
+-e git+https://github.com/mverteuil/pytest-ipdb#egg=pytestipdb
+# src:
+#  -e git+https://github.com/mverteuil/pytest-ipdb#egg=pytestipdb

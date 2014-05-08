@@ -6,6 +6,7 @@ develop-eggs
 
 *.egg-info
 *.swp
+*.un~
 tmp
 build
 dist
@@ -19,3 +20,5 @@ MANIFEST.in
 hook.log*
 pip-requirements-autogen.txt
 etc/vim
+
+deb_dist/
