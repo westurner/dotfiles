@@ -58,7 +58,7 @@ pip_install_virtualenvwrapper() {
 
 pip_setup_virtualenvwrapper(){
     VIRTUALENVWRAPPER_SH="${HOME}/.local/bin/virtualenvwrapper.sh"
-    VIRTUALENVWRAPPER_SH=$(which virtualenvwrapper.sh)
+    #VIRTUALENVWRAPPER_SH=$(which virtualenvwrapper.sh)
 
     test -f ${VIRTUALENVWRAPPER_SH}
     source ${VIRTUALENVWRAPPER_SH}
