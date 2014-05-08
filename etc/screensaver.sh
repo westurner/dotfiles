@@ -1,19 +1,24 @@
+#!/usr/bin/env bash
 
-_install_screensaver () {
+# Screensaver.sh
+
+_install_xlck () {
     sudo apt-get install xautolock xlockmore
     ln -s ~/.dotfiles/etc/.xinitrc ~/.xinitrc
 }
 
-_setup_screensaver () {
-    xset +dpms
-    xset dpms 600
-    xset s blank
-    xset s expose
-    xset s 300
-    #xset s on
-    #xset s activate
+_setup_xlck () {
+    #XSET=$(type 'xset' 2>/dev/null)
+    if [ -n "$DISPLAY" ]; then
+        xset +dpms
+        xset dpms 600
+        xset s blank
+        xset s expose
+        xset s 300
+        #xset s on
+        #xset s activate
+    fi
 }
-_setup_screensaver
 
 _i3lock () {
     /usr/bin/i3lock -d -c 202020
@@ -43,9 +48,7 @@ _xautolock () {
         -locker "$_LOCK_CMD"
 }
 
-lock () {
-    _xlock
-}
+
 
 _suspend_to_ram () {
     sudo bash -c 'echo mem > /sys/power/state'
@@ -66,6 +69,106 @@ _lock_suspend_disk () {
     _i3lock && _suspend_to_disk
 }
 
-suspend () {
+xlck_suspend () {
     _lock_suspend_ram
 }
+
+xlck_stop() {
+    #pkill -9 xlck.sh
+    pkill -9 -u $USER xlock
+    pkill -9 -u $USER -f /usr/bin/xautolock
+}
+
+
+xlck_lock () {
+    _xlock
+}
+
+xlck_start() {
+    if [ -n "$DISPLAY" ]; then
+        xlck_stop
+        _setup_xlck
+        _xautolock &
+    fi
+}
+
+xlock_status_this_display(){
+    pids=$(ps eww | grep " DISPLAY=$DISPLAY" | awk '{ print $1 }')
+    for p in $pids; do
+        ps fx $p
+    done
+}
+
+xlck_status() {
+    #TODO
+    ps ufx | egrep 'xlock|xautolock' -C 7
+    ps -ufx -p $(ps eww | grep " DISPLAY=$DISPLAY" | pycut -f0)
+}
+
+xlck_restart() {
+    xautolock -restart
+    #xlck_stop
+    #xlck_start
+}
+
+xlck_usage() {
+    echo ""
+    echo "xlck -- a shell wrapper for xlock, i3lock, and xautolock"
+
+    echo "Usage: $0 <-U|-S|-P|-R|-M|-N|-D|-L|-X>]";
+    echo "#  -U   --  xlck status"
+    echo "#  -S   --  start xlck"
+    echo "#  -P   --  stop xlck"
+    echo "#  -R   --  restart xlck"
+    echo "#  -M   --  suspend to ram (and lock)"
+    echo "#  -D   --  suspend to disk (and lock)"
+    echo "#  -L   --  lock"
+    echo "#  -X   --  halt"
+    exit 1;
+}
+
+xlck_main () {
+    while getopts "SPRDLX" o; do
+        case "${o}" in
+            S)
+                s=${OPTARG};
+                xlck_start;
+                ;;
+            P)
+                k=${OPTARG};
+                xlck_stop;
+                ;;
+            R)
+                r=${OPTARG};
+                xlck_restart;
+                ;;
+            M)
+                _lock_suspend_ram;
+                ;;
+            D)
+                d=${OPTARG};
+                _lock_suspend_disk;
+                ;;
+            L)
+                l=${OPTARG};
+                lock;
+                ;;
+            X)
+                x=${OPTARG};
+                sudo shutdown -h now;
+                ;;
+            *)
+                xlck_usage
+                ;;
+        esac
+    done
+}
+
+if [[ "$BASH_SOURCE" == "$0" ]]; then
+  xlck_main $@
+fi
+
+# TODO:
+# -notifier -> logger -> syslog
+
+
