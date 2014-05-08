@@ -20,7 +20,7 @@ from dateutil.parser import parse as parse_date
 
 try:
     from collections import OrderedDict as Dict
-except ImportError, e:
+except ImportError as e:
     Dict = dict
 
 # def parse_date(*args, **kwargs):
@@ -33,6 +33,9 @@ dtformat = lambda x: x.strftime('%Y-%m-%d %H:%M:%S %z')
 
 
 def itersplit(s, sep=None):
+    if not s:
+        yield s
+        return
     exp = re.compile(r'\s+' if sep is None else re.escape(sep))
     pos = 0
     while True:
@@ -77,6 +80,7 @@ _missing = unichr(822)
 
 
 class cached_property(object):
+
     """Decorator that converts a function into a lazy property.  The
     function wrapped is called the first time to retrieve the result
     and then that calculated result is used the next time you access
@@ -95,6 +99,7 @@ class cached_property(object):
 
     see: https://github.com/mitsuhiko/werkzeug/blob/master/werkzeug/utils.py
     """
+
     def __init__(self, func, name=None, doc=None):
         self.__name__ = name or func.__name__
         self.__module__ = func.__module__
@@ -134,6 +139,7 @@ class Repository(object):
     fsep = DEFAULT_FSEP
     lsep = DEFAULT_LSEP
     fields = []
+    clone_cmd = 'clone'
 
     def __init__(self, fpath):
         self.fpath = os.path.abspath(fpath)
@@ -147,7 +153,8 @@ class Repository(object):
     @property
     def relpath(self):
         here = os.path.abspath(os.path.curdir)
-        return self.fpath.replace(here, '').lstrip('/')
+        relpath = os.path.relpath(self.fpath, here)
+        return relpath
 
     @cached_property
     def _namedtuple(cls):
@@ -227,6 +234,7 @@ class Repository(object):
         op = self.log(n=maxentries, template=template, **kwargs)
         if not op:
             return
+        print(op)
         for l in itersplit(op, self.lsep):
             l = l.strip()
             if not l:
@@ -268,12 +276,28 @@ class Repository(object):
     def str_report(self):
         yield pprint.pformat(self.to_dict())
 
-    def pip_report(self):
-        yield u"-e %s+%s@%s#egg=%s" % (
+    def sh_report(self):
+        output = []
+        if not self.remote_url:
+            output.append('#')
+        output.extend([
             self.label,
-            self.to_normal_url(self.remote_url),
-            self.current_id,
-            self.eggname)
+            self.clone_cmd,
+            repr(self.remote_url),  # TODO: shell quote?
+            repr(self.relpath)
+        ])
+
+        yield ' '.join(output)
+
+    def pip_report(self):
+        comment = '#' if not self.remote_url else ''
+        if os.path.exists(os.path.join(self.fpath, 'setup.py')):
+            yield u"%s-e %s+%s@%s#egg=%s" % (
+                comment,
+                self.label,
+                self.to_normal_url(self.remote_url),
+                self.current_id,
+                self.eggname)
         return
 
     def origin_report(self):
@@ -286,12 +310,15 @@ class Repository(object):
         return
 
     def status_report(self):
-        yield self.origin_report().next()
+        yield '######'
+        yield self.sh_report().next()
         yield self.last_commit
         yield self.status
         yield ""
 
     def hgsub_report(self):
+        if self.relpath == '.':
+            return
         yield "%s = [%s]%s" % (
             self.fpath.lstrip('./'),
             self.label,
@@ -299,6 +326,8 @@ class Repository(object):
 
     def gitsubmodule_report(self):
         fpath = self.relpath
+        if fpath == '.':
+            return
         yield '[submodule "%s"]' % fpath.replace(os.path.sep, '_')
         yield "path = %s" % fpath
         yield "url = %s" % self.remote_url
@@ -349,9 +378,9 @@ class Repository(object):
             'cwd': cwd or self.fpath,
             'stderr': subprocess.STDOUT,
             'stdout': subprocess.PIPE})
+        log.debug('cmd: %s %s' % (cmd, kwargs))
         return sh(cmd, ignore_error=ignore_error, **kwargs)
 
-        # log.debug('cmd: %s %s' % (cmd, kwargs))
         # p = subprocess.Popen(cmd, **kwargs)
         # p_stdout = p.communicate()[0]
         # if p.returncode and not ignore_error:
@@ -501,8 +530,8 @@ class MercurialRepository(Repository):
     #             ('gh+ssh://','https://github.com/'),
     #             ('bb+ssh://', 'https://bitbucket.org/'),
     #     )
-    #     #('gcode', '') ,
-    #     #('gcode+svn', ''),
+    # ('gcode', '') ,
+    # ('gcode+svn', ''),
     #     for p in PATTERNS:
     #         url = url.replace(*p)
 
@@ -553,14 +582,20 @@ class GitRepository(Repository):
 
     def log(self, n=None, **kwargs):
         kwargs['format'] = kwargs.pop('template')
-        return self.sh(' '.join((
+        cmd = ' '.join((
             'git log',
             ('-n%d' % n) if n else '',
             ' '.join(
                 ('--%s=%s' % (k, v)) for (k, v) in kwargs.iteritems()
             )
         ))
-        )
+        try:
+            output = self.sh(cmd)
+            if "fatal: bad default revision 'HEAD'" in output:
+                return output
+            return output
+        except Exception as e:
+            return
 
     def loggraph(self):
         return self.sh('git log --graph')
@@ -619,6 +654,7 @@ class BzrRepository(Repository):
     }
     logrgx = re.compile(
         r'^(revno|tags|committer|branch\snick|timestamp|message):\s?(.*)\n?')
+    clone_cmd = 'branch'
 
     @property
     def unique_id(self):
@@ -661,9 +697,10 @@ class BzrRepository(Repository):
             return s[by:].strip('\n')
         return s.strip('\n')
 
+    @classmethod
     def _parselog(self, r):
         """
-
+        Parse bazaar log file format
         ::
 
             $ bzr log -l1
@@ -679,7 +716,12 @@ class BzrRepository(Repository):
         def __parselog(entry):
             bufname = None
             buf = deque()
+            print(entry)
+            if entry == ['']:
+                return
             for l in itersplit(entry, '\n'):
+                if not l:
+                    continue
                 mobj = self.logrgx.match(l)
                 if not mobj:
                     # "  - Log message"
@@ -712,7 +754,8 @@ class BzrRepository(Repository):
             if 'branchnick' not in kwargs:
                 kwargs['branchnick'] = None
             try:
-                return self._tuple(**kwargs)
+                yield kwargs  # TODO
+                # return self._tuple(**kwargs)
             except:
                 log.error(r)
                 log.error(kwargs)
@@ -736,7 +779,7 @@ class SvnRepository(Repository):
         # TODO:
     )
     # def preparse(self, s):
-    #     return s# s.replace('\n\n',self.fsep,1)
+    # return s# s.replace('\n\n',self.fsep,1)
 
     @cached_property
     def unique_id(self):
@@ -909,7 +952,7 @@ def listdir_find_repos(where):
                         repo = REPO_PREFIXES[name](fn.rstrip(name)[:-1])
                         yield repo
                     stack.append((fn, prefix + name + '/'))
-        except OSError, e:
+        except OSError as e:
             if e.errno == errno.EACCES:
                 log.error("Skipping: %s", e)
             else:
@@ -979,6 +1022,7 @@ def find_unique_repos(where):
 REPORT_TYPES = dict(
     (attr, getattr(Repository, "%s_report" % attr)) for attr in (
         "str",
+        "sh",
         "origin",
         "full",
         "pip",
@@ -1000,7 +1044,7 @@ def do_repo_report(repos, report='full', output=sys.stdout, *args, **kwargs):
                                     (report, ', '.join(REPORT_TYPES.keys())))
                 for l in reportfunc(repo, *args, **kwargs):
                     print(l, file=output)
-        except Exception, e:
+        except Exception as e:
             log.error(repo)
             log.error(report)
             log.error(e)
@@ -1057,6 +1101,7 @@ import unittest
 
 
 class TestBzr(unittest.TestCase):
+
     def test_bzr_logparse(self):
         s = '''------------------------------------------------------------
 revno: 377
@@ -1083,8 +1128,10 @@ message:
 '''
         records = itersplit(s, '-' * 60)
         for r in records:
-            print(r)
-            print(list(BzrRepository._parselog(itersplit(r, '\n'))))
+            #entries = itersplit(r, '\n')
+            _parsed_records = BzrRepository._parselog(r)
+            if _parsed_records:
+                print(list(_parsed_records))
 
 
 def main():
@@ -1158,7 +1205,7 @@ def main():
         # if not opts.reports:
         #     opts.reports = ['pip']
         if opts.reports or opts.thg_report:
-            opts.reports = [s.strip() for s in opts.reports]
+            opts.reports = [s.strip().lower() for s in opts.reports]
             if 'thg' in opts.reports:
                 opts.thg_report = True
                 opts.reports.remove('thg')
@@ -1183,7 +1230,7 @@ def main():
             opts.scan = '.'
             list(do_repo_report(
                 find_unique_repos(opts.scan),
-                report='pip'))
+                report='sh'))
 
 if __name__ == "__main__":
     main()
