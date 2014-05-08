@@ -42,11 +42,13 @@ class Test_greppaths(unittest.TestCase):
                 "and another /path/looking/object/with.ext:lineno",
                 "and another /with two /paths/with.ext:lineno  ",
         """
-        for p in enumerate(greppaths([matchstr])):
+        paths = list(enumerate(greppaths([matchstr])))
+        for p in paths:
             print(p)
-        for p in enumerate(greppaths(TEST_LINES)):
+        paths = list(enumerate(greppaths(TEST_LINES)))
+        for p in paths:
             print(p)
-        raise Exception()
+        #raise Exception()
 
 
 def main():

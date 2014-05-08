@@ -11,6 +11,143 @@ Objective
 ===========
 * Minimize error by standardizing common workflows and processes
 
+
+Installing
+============
+There are a few parts to install.
+
+Things in ``etc/`` need to be symlinked in. #TODO
+
+Things in ``bin/`` need to be added to $PATH
+
+Things from ``scripts/`` and ``console_script`` ``entry_points`` #TODO
+
+
+Create a VIRTUAL_ENV
+----------------------
+
+Install **virtualenvwrapper**::
+
+    pip install --upgrade --user pip virtualenv virtualenvwrapper
+    source $(HOME)/.local/bin/virtualenvwrapper.sh 
+    # or:
+    #  apt-get install virtualenvwrapper
+    #  source 
+
+
+Make a virtualenv for the **dotfiles** source::
+
+    mkvirtualenv dotfiles
+    workon dotfiles
+    cdvirtualenv
+    mkdir -p ${VIRTUAL_ENV}/src
+    cdvirtualenv src
+
+
+git and make
+-------------
+::
+
+    cd ${VIRTUAL_ENV}/src
+    git clone https://github.com/westurner/dotfiles
+    cd dotfiles
+    # sudo apt-get install make
+    make install
+
+
+Install the dotfiles python package
+-------------------------------------
+
+* (or) Install into to ``${VIRTUAL_ENV}`` (with pip)::
+
+  workon dotfiles  # source ${VIRTUAL_ENV}/bin/activate
+  pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+
+* (or) Install into ``${VIRTUAL_ENV}`` (manually)::
+
+  cd ${VIRTUAL_ENV}/src
+  git clone https://github.com/westurner/dotfiles
+  cd dotfiles
+  git remote -v
+  git branch -v
+  ls -l ./dotfiles
+  python setup.py develop
+
+
+Install the dotfiles python package (user local)
+--------------------------------------------------
+
+* Install to ``${HOME}/.local``::
+
+  pip install --user --upgrade -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+
+* (or) Install::
+
+  cd src/dotfiles
+  pip install --user -e .  # python setup.py develop
+
+
+Symlink dotfiles into place
+-----------------------------
+
+Symlink configuration files from ``dotfiles/etc``::
+
+    _etc="~/.dotfiles/etc"
+    cd ${HOME}
+    ln -s ${_etc}/.bashrc.venv.sh
+    ln -s ${_etc}/.bashrc 
+    # or: echo "source ~/.virtualenvs/dotfiles" >> ~/.bashrc
+
+    ln -s ${_etc}/.gemrc
+    ln -s ${_etc}/.htoprc
+    ln -s ${_etc}/.inputrc
+    ln -s ${_etc}/.pdbrc
+    ln -s ${_etc}/.pydistutils.cfg
+    ln -s ${_etc}/.pythonrc
+    ln -s ${_etc}/.vimperatorrc
+    ln -s ${_etc}/hg/.hgrc
+    ln -s ${_etc}/ipython/ipython_default.py ~/.ipython/profile_default/
+    ln -s ${_etc}/mimeapps.list ~/.local/share/applications/
+    ln -s ${_etc}/pip/
+
+    source ${HOME}/.bashrc
+    touch  ${HOME}/.projects.sh
+
+
+
+Sources
+=========
+- https://bitbucket.org/westurner/dotfiles
+- https://github.com/westurner/dotfiles
+
+
+Usage
+=======
+List commands from ``setup.py`` (``pavement.py``) and ``Makefile``::
+
+    make help
+
+Install from pip requirements files::
+
+    make pip_install_requirements_all  # pip install requirements/*.txt
+    
+
+Building
+==========
+Install into a virtualenv.
+
+See the ``Makefile``::
+
+    make test
+    make build
+    # make build
+
+Build ctags for the virtualenv::
+
+    make build_tags
+
+
+
 Configuration files
 =====================
 Included in ``etc/`` are configuration files for:
@@ -549,79 +686,4 @@ pavement.py
 ``paver`` commands.
 
 
-Install
-========
 
-**Part One**
-
-Install **virtualenvwrapper**::
-
-    pip install virtualenvwrapper
-    # or: apt-get install virtualenvwrapper
-
-
-Make a virtualenv for the **dotfiles** source::
-
-    mkvirtualenv dotfiles
-    workon dotfiles
-    cdvirtualenv
-    mkdir -p ${VIRTUAL_ENV}/src
-    cdvirtualenv src
-
-
-**Part Two**
-
-Clone and install the dotfiles repository.
-
-From `BitBucket <https://bitbucket.org/westurner/dotfiles>`_::
-
-    repo_url="https://bitbucket.org/westurner/dotfiles"
-    git clone $repo_url
-    cd dotfiles
-    python setup.py develop
-
-    # or:
-    pip install -e hg+$repo_url
-
-
-From `Github <https://github.com/westurner/dotfiles>`_::
-
-    repo=_url"https://github.com/westurner/dotfiles"
-    hg clone $repo_url
-    cd dotfiles
-    python setup.py develop
-
-    # or: 
-    pip install -e git+$repo_url
-
-
-**Part Three**
-
-Symlink configuration files from ``dotfiles/etc``::
-
-    _etc="~/.dotfiles/etc"
-    cd ${HOME}
-    ln -s ${_etc}/.bashrc.venv.sh
-    ln -s ${_etc}/.bashrc 
-    # or: echo "source ~/.virtualenvs/dotfiles" >> ~/.bashrc
-
-    ln -s ${_etc}/.gemrc
-    ln -s ${_etc}/.htoprc
-    ln -s ${_etc}/.inputrc
-    ln -s ${_etc}/.pdbrc
-    ln -s ${_etc}/.pydistutils.cfg
-    ln -s ${_etc}/.pythonrc
-    ln -s ${_etc}/.vimperatorrc
-    ln -s ${_etc}/hg/.hgrc
-    ln -s ${_etc}/ipython/ipython_default.py ~/.ipython/profile_default/
-    ln -s ${_etc}/mimeapps.list ~/.local/share/applications/
-    ln -s ${_etc}/pip/
-
-    source ${HOME}/.bashrc
-    touch  ${HOME}/.projects.sh
-
-
-Sources
-=========
-- https://bitbucket.org/westurner/dotfiles
-- https://github.com/westurner/dotfiles

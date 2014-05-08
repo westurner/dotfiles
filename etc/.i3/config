@@ -51,9 +51,11 @@ set $lock_screen xlock
 
 set $editor i3-sensible-editor
 set $browser x-www-browser
+set $browser_email x-www-browser "https://mail.google.com/"
 set $terminal i3-sensible-terminal
 set $network_applet nm-applet
 set $filebrowser thunar
+set $calculator gnome-terminal -x /bin/bash -ic "/srv/workspace/.virtualenvs/math/bin/ipython notebook"
 #set $filebrowser nautilus
 
 #  # Get WM_CLASS with $(xprop WM_CLASS)
@@ -70,7 +72,9 @@ set $set_xbackground xsetroot -solid "#000000"
 
 set $xflux_start xflux -l 41.3 -g -95.9 -k 3401
 set $xflux_stop pkill -9 -f xflux
-set $xflux_reset xgamma -gamma 1.0
+set $xgamma_reset xgamma -gamma 1.0
+set $xgamma_soft xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
+set $xgamma_soft_red xgamma -bgamma 0.4 -ggamma 0.6 -rgamma 0.9
 
 
 ## Autoruns
@@ -96,7 +100,7 @@ bindsym XF86Sleep exec suspend
 bindsym XF86AudioRaiseVolume exec --no-startup-id $volume_up
 #  <XF86AudioLowerVolume>   -- volume down
 bindsym XF86AudioLowerVolume exec --no-startup-id $volume_down
-
+bindsym XF86AudioMute exec --no-startup-id $volume_mute
 
 ## Launch Applications
 #  <alt> x      -- run command
@@ -109,12 +113,17 @@ bindsym $mod2+e exec $filebrowser
 bindsym $mod+Shift+g    exec $editor
 #  <alt><shift> b   -- launch browser
 bindsym $mod+Shift+b    exec $browser
+bindsym XF86HomePage exec $browser
+bindsym XF86Mail     exec $browser_email
 #  <alt><shift> t   -- launch terminal
 bindsym $mod+Shift+t    exec $terminal
 #  <super> t        -- launch terminal
 bindsym $mod2+t         exec $terminal
 #  <alt> <enter>    -- launch terminal
 bindsym $mod+Return     exec $terminal
+
+#  XF86Calculator   -- launch calculator
+bindsym XF86Calculator  exec $calculator
 
 #  <alt> w          -- launch network manager applet (see also: $(nmcli))
 bindsym $mod+Shift+W    exec --no-startup-id $network_applet
@@ -140,8 +149,11 @@ bindsym $mod+bracketleft    exec --no-startup-id $xflux_start
 #  <alt> ]         -- stop xflux
 bindsym $mod+bracketright   exec --no-startup-id $xflux_stop
 #  <alt><shift> ]  -- reset gamma to 1.0
-bindsym $mod+Shift+bracketright  exec --no-startup-id $xflux_reset
-
+bindsym $mod+Shift+bracketright  exec --no-startup-id $xgamma_reset
+#  <alt><shift> [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
+bindsym $mod+Shift+bracketleft exec --no-startup-id $xgamma_soft
+#  <alt><shift> \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9
+bindsym $mod+Shift+p exec --no-startup-id $xgamma_soft_red
 
 ## Change focus between tiling / floating windows
 #  <alt> <space>            -- toggle focus mode: tiling / floating
@@ -303,7 +315,7 @@ bindsym $mod+Shift+asterisk     move workspace number 8
 bindsym $mod+Shift+parenleft    move workspace number 9
 bindsym $mod+Shift+parenright   move workspace number 10
 
-# move focused container to workspaces with number pad
+## Move focused container to workspaces (with number pad)
 #  <alt><shift> [KP_N: 0-9] -- move to workspace N
 bindsym $mod+Shift+KP_1 move workspace number 1
 bindsym $mod+Shift+KP_2 move workspace number 2

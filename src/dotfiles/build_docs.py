@@ -61,7 +61,14 @@ def remove_whitespace(lineiterable):
     #(s.strip() for s in stdout)
 
 
-import sphinx
+try:
+    import sphinx
+except ImportError:
+    print("Error importing sphinx")
+    class SphinxMock(object):
+        def main(*args, **kwargs):
+            print(*args, **kwargs)
+    sphinx = SphinxMock()
 import re
 #import pexpect
 

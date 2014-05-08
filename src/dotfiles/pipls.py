@@ -7,19 +7,26 @@ not_pip_freeze
 
 import pip
 import pip.req
+import pip.download
 import logging
 
 log = logging.getLogger()
 
+
 class Options(object):
+
     def __getattr__(self, attr):
         print(attr)
         return None
 
+
 def get_pkg_reqs(path):
     log.debug("parsing pip reqs file: %r" % path)
-    for _req in pip.req.parse_requirements(path, options=Options()):
+    for _req in pip.req.parse_requirements(path,
+                                           options=Options(),
+                                           session=pip.download.PipSession()):
         yield _req
+
 
 def not_pip_freeze(path):
     pkgreqs = get_pkg_reqs(path)
@@ -30,22 +37,26 @@ def not_pip_freeze(path):
             log.error("pkg.url is none!: %r (%r)" % (pkg.url, pkg))
             continue
         if pkg.url.startswith('file://'):
-            pkg.source_dir = pkg.url.split('file://',1)[1]
+            pkg.source_dir = pkg.url.split('file://', 1)[1]
         try:
-            pkg.run_egg_info(force_root_egg_info=False) # TODO
+            pkg.run_egg_info(force_root_egg_info=False)  # TODO
             info = pkg.pkg_info()
             print ('#', pkg.name,
-                    info['version'],
-                    pkg.installed_version,
-                    pkg.url,
-                    info['Homepage'],
-                    )
-        except Exception, e:
+                   info['version'],
+                   pkg.installed_version,
+                   pkg.url,
+                   info['Homepage'],
+                   )
+        except Exception as e:
             log.exception(e)
             pass
 
+
 import unittest
+
+
 class Test_not_pip_freeze(unittest.TestCase):
+
     def test_not_pip_freeze(self):
         not_pip_freeze(
             '/srv/repos/etc/requirements-devenv.txt')
@@ -58,14 +69,14 @@ def main():
     prs = optparse.OptionParser(usage="./%prog : args")
 
     prs.add_option('-v', '--verbose',
-                    dest='verbose',
-                    action='store_true',)
+                   dest='verbose',
+                   action='store_true',)
     prs.add_option('-q', '--quiet',
-                    dest='quiet',
-                    action='store_true',)
+                   dest='quiet',
+                   action='store_true',)
     prs.add_option('-t', '--test',
-                    dest='run_tests',
-                    action='store_true',)
+                   dest='run_tests',
+                   action='store_true',)
 
     (opts, args) = prs.parse_args()
 

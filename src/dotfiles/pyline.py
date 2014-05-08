@@ -124,7 +124,13 @@ def pyline(_input,
         try:
             from path import path as Path
         except ImportError:
-            raise
+            try:
+                from pathlib import Path
+                pass
+            except ImportError:
+                log.error("pip install pathlib (or path.py)")
+                Path = str
+                raise
 
     try:
         log.debug("_cmd: %r" % cmd)
