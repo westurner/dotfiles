@@ -86,14 +86,15 @@ export PATH="${HOME}/.local/bin:${PATH}"
 
 ## pyvenv
 setup_pyenv() {
-    export PYENV_ROOT="/home/wturner/.pyenv"
+    export PYENV_ROOT="${HOME}/.pyenv"
     export PATH="${PYENV_ROOT}/bin:$PATH"
     eval "$(pyenv init -)"
     pyenv virtualenvwrapper
 }
 
 setup_anaconda() {
-    export PATH="/opt/anaconda/bin:$PATH"
+    export _ANACONDA_ROOT="/opt/anaconda"
+    export PATH="${_ANACONDA_ROOT}/bin:$PATH"
 }
 
 pushtocreate() {
