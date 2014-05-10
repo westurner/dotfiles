@@ -5,17 +5,6 @@
 #
 # 
 
-reload() {
-    source ~/.bashrc
-    # * source .dotfiles/etc/.bashrc.venv.sh
-    #   * source .dotfiles/etc/usrlog.sh
-    #   * source .dotfiles/etc/xlck.sh
-    #   * source .dotfiles/etc/bashmarks/bashmarks.sh
-    #   * source .dotfiles/etc/.bashrc.aliases.sh
-    #   * source .dotfiles/etc/.bashrc.repos.sh
-
-}
-
 
 export CLICOLOR=true
 
@@ -356,12 +345,6 @@ _set_prompt() {
 }
 _set_prompt
 
-
-source $__DOTFILES/etc/.bashrc.vim.sh
-
-source $__DOTFILES/etc/.bashrc.aliases.sh
-
-source $__DOTFILES/etc/.bashrc.repos.sh
 
 ### source $__PROJECTS script, if it exists
 [ -f $__PROJECTS ] && source $__PROJECTS
