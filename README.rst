@@ -7,72 +7,49 @@ for working with projects on \*nix platforms in Bash, ZSH, Ruby, and Python.
 .. contents:: dotfiles
 
 
-Objective
+Goals
+=======
+* Streamline frequent workflows
+* Configure bash and vim
+* Support Debian/Ubuntu, OSX 
+* Document keyboard shortcuts
+
+
+Quickstart
 ===========
-* Minimize error by standardizing common workflows and processes
+The bootstrap shell script clones this repository and
+and installs files from this python package.
 
-::
+These instructions assume python, pip, and setuptools are already installed.
 
-    wget https://raw.githubusercontent.com/westurner/dotfiles/master/scripts/bootstrap_dotfiles.sh
-    bash ./bootstrap_dotfiles.sh -h
-    bash ./bootstrap_dotfiles.sh -I  # install
-    bash ./bootstrap_dotfiles.sh -U  # upgrade
-
-
-Installation
-==============
-
-Create a virtualenvwrapper virtualenv
----------------------------------------
-
-Install **virtualenvwrapper** (with pip)::
-
-    pip install --upgrade --user pip virtualenv virtualenvwrapper
-    source $(HOME)/.local/bin/virtualenvwrapper.sh 
-
-(or) Install **virtualenvwrapper** (with apt)::
-
-    apt-get install virtualenvwrapper
-    source  /etc/bash_completion.d/virtualenvwrapper
+There are examples of installing python, pip, and setuptools both in
+``scripts/bootstrap_dotfiles.sh`` and the ``Makefile``.
 
 
-Make a virtualenv for the **dotfiles** source::
+Bootstrap dotfiles for the current user
+-----------------------------------------
 
-    mkvirtualenv dotfiles
-    workon dotfiles
-    cdvirtualenv
-    mkdir -p ${VIRTUAL_ENV}/src
-    cdvirtualenv src
+Install the dotfiles (clone, install, and symlink)::
 
+    # download bootstrap script
+    curl https://bitbucket.org/westurner/dotfiles/raw/tip/scripts/bootstrap_dotfiles.sh 
 
+    # clone and install dotfiles package and symlinks from source
+    bash ./bootstrap_dotfiles.sh -I
 
-Install the dotfiles python package (virtualenv)
--------------------------------------------------
+Reload::
+   
+    # reload bash configuration
+    source ${HOME}/.bashrc
 
-* Install into ``${VIRTUAL_ENV}`` (with pip)::
-
-  workon dotfiles  # source ${VIRTUAL_ENV}/bin/activate
-  pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
-
-* (or) Install into ``${VIRTUAL_ENV}`` (manually)::
-
-  cd ${VIRTUAL_ENV}/src
-  git clone https://github.com/westurner/dotfiles
-  cd dotfiles
-  git remote -v
-  git branch -v
-  ls -l ./dotfiles
-  python setup.py develop
+    # (or) start a new subshell
+    (${SHELL})
 
 
-Build and test with git and make
----------------------------------
-::
+Upgrade to trunk::
 
-    # sudo apt-get install make git
-    cd ${VIRTUAL_ENV}/src/dotfiles
-    make build
-    make install
+    # pull from trunk and install dotfiles
+    bash ./bootstrap_dotfiles.sh -U
 
 
 Install the dotfiles python package (user local)
@@ -80,14 +57,84 @@ Install the dotfiles python package (user local)
 
 * Install to ``${HOME}/.local``::
 
-  pip install --user --upgrade -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+   pip install --user --upgrade -e git+https://github.com/westurner/dotfiles#egg=dotfiles
 
 * (or) Install::
 
-  cd src/dotfiles
-  pip install --user --upgrade -e .
-  # python setup.py develop
+   cd src/dotfiles
+   pip install --user --upgrade -e .
+   # python setup.py develop
 
+
+
+Developing
+============
+
+Create a virtualenv with virtualenvwrapper
+--------------------------------------------
+Install **virtualenvwrapper** (with pip)::
+
+    pi install --upgrade --user pip virtualenv
+    pip install --upgrade --user virtualenvwrapper
+    source $(HOME)/.local/bin/virtualenvwrapper.sh 
+
+Make a **virtualenv** for the **dotfiles** source with
+**virtualenvwrapper**::
+
+    mkvirtualenv dotfiles
+    workon dotfiles
+    cdvirtualenv
+    ls -ld **/**
+
+    mkdir -p ${VIRTUAL_ENV}/src
+    cdvirtualenv src
+
+
+Install this package 
+----------------------
+* Install into ``$VIRTUAL_ENV`` (with pip)::
+
+   pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+
+
+Test and build this package
+-----------------------------
+* Install into ``$VIRTUAL_ENV`` (manually)::
+
+   cd ${VIRTUAL_ENV}/src
+   git clone https://github.com/westurner/dotfiles
+   hg clone https://bitbucket.org/westurner/dotfiles
+
+   cd dotfiles
+   ls -l ./dotfiles/**
+   hg paths || git remote -v && git branch -v
+
+   ls -l ./dotfiles/etc/vim/**
+   cd ./dotfiles/etc/vim
+   hg paths || git remote -v && git branch -v
+
+   cd ${VIRTUAL_ENV}/src/dotfiles
+   # cd $_WRD
+   # cdw
+   # pip install -e .
+   python setup.py develop
+
+* Build
+
+::
+
+    # sudo apt-get install make git mercurial
+
+    cd ${VIRTUAL_ENV}/src/dotfiles
+    echo $EDITOR
+    make build_tags
+    make edit
+    make test
+    make build
+    make install
+
+    # pip install -r ./requirements-all.txt
+    make pip_install_requirements_all
 
 
 
@@ -98,46 +145,34 @@ Symlink configuration files from ``dotfiles/etc``::
 
     bash ./scripts/bootstrap_dotfiles.sh -S
 
-    ln -s ${_etc}/mimeapps.list ~/.local/share/applications/
     ln -s ${_etc}/pip/
 
-    source ${HOME}/.bashrc
-    touch  ${HOME}/.projects.sh
 
+Print Dotfiles Documentation
+---------------------------------
+::
 
-
-Sources
-=========
-- https://bitbucket.org/westurner/dotfiles
-- https://github.com/westurner/dotfiles
-
+    make vim_help
+    make help
 
 Usage
 =======
-List commands from ``setup.py`` (``pavement.py``) and ``Makefile``::
+List commands::
 
-    make help
+    python setup.py --help
+    python setup.py --help-commands
+    # bash scripts/bootstrap_dotfiles.sh -h
+    # less_ Makefile
+    # make help
+    # make <tab>
+    # make vim_help
+    # vim: :ListMappings
 
-Install from pip requirements files::
+Install dev, docs. testing, and suggests from pip requirements files::
 
-    make pip_install_requirements_all  # pip install requirements/*.txt
+    pip install -r ./requirements-all.txt
+    # make pip_install_requirements_all 
     
-
-Building
-==========
-Install into a virtualenv.
-
-See the ``Makefile``::
-
-    make test
-    make build
-    # make build
-
-Build ctags for the virtualenv::
-
-    make build_tags
-
-
 
 Configuration files
 =====================
