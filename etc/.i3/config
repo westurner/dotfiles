@@ -279,13 +279,22 @@ bindsym $mod+KP_9 workspace number 9
 bindsym $mod+KP_0 workspace number 10
 
 
-## Move focused container to next/previous workspace
+## Move to next/previous workspace
 #  <super> Left     -- move to previous workspace
-bindsym $mod2+Left  move to workspace prev
+bindsym $mod2+Left  workspace prev
 #  <super> Right    -- move to next workspace
-bindsym $mod2+Right move to workspace next
+bindsym $mod2+Right workspace next
 #  <super> Up       -- move to second most recently focused workspace
 bindsym $mod2+Up    move container to workspace back_and_forth
+
+
+## Move focused container to next/previous workspace
+#  <super> Left     -- move container to previous workspace
+bindsym $mod2+Shift+Left  move to workspace prev
+#  <super> Right    -- move container to next workspace
+bindsym $mod2+Shift+Right move to workspace next
+#  <super> Up       -- move container to second most recently focused workspace
+bindsym $mod2+Shift+Up    move to workspace back_and_forth
 
 
 ## Move focused container within workspace
@@ -335,12 +344,25 @@ bindsym $mod+Shift+KP_8 move workspace number 8
 bindsym $mod+Shift+KP_9 move workspace number 9
 bindsym $mod+Shift+KP_0 move workspace number 10
 
+## Move focused container to workspaces (with number pad)
+#  <super> [KP_N: 0-9] -- move to workspace N
+bindsym $mod2+KP_1 move workspace number 1
+bindsym $mod2+KP_2 move workspace number 2
+bindsym $mod2+KP_3 move workspace number 3
+bindsym $mod2+KP_4 move workspace number 4
+bindsym $mod2+KP_5 move workspace number 5
+bindsym $mod2+KP_6 move workspace number 6
+bindsym $mod2+KP_7 move workspace number 7
+bindsym $mod2+KP_8 move workspace number 8
+bindsym $mod2+KP_9 move workspace number 9
+bindsym $mod2+KP_0 move workspace number 10
+
 
 ## Move workspace to output
 #  <super><shift> Left  -- move workspace to left
-bindsym $mod2+Shift+Left move workspace to output left
+bindsym $mod2+$mod+Left move workspace to output left
 #  <super><shift> Right -- move workspace to right
-bindsym $mod2+Shift+Right move workspace to output right
+bindsym $mod2+$mod+Right move workspace to output right
 
 
 ## Resize Mode
