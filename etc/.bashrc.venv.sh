@@ -11,41 +11,50 @@ reload() {
 }
 
 
-# Virtualenvwrapper
+export CLICOLOR=true
+
+# XXX
+export PATH="${HOME}/.local/bin:${PATH}"
+
+
+## Virtualenvwrapper
 # sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
 export PROJECT_HOME="${HOME}/wrk"
 declare -x WORKON_HOME="${PROJECT_HOME}/.ve"
 
-# 
-export __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
-export __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
+## Venv
 
-export __SRC="${HOME}/src/hg"
-[ ! -d $__SRC ] && mkdir -p $__SRC
+#  __DOTFILES -- local dotfiles repository clone
+export __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
+#  __PROJECTS -- local project settings script
+export __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
+#  __SRC       -- (symlink to) local repositories
+export __SRC="${HOME}/src"  # TODO: __SRC_HG, __SRC_GIT
+[ ! -d $__SRC ] && mkdir -p $__SRC/hg $__SRC/git
 
 export _DOCSHTML="${HOME}/docs"
 [ ! -d $_DOCSHTML ] && mkdir -p $_DOCSHTML
 
 
-# Usrlog
+## Usrlog   -- Userspace shell logging
 source "${__DOTFILES}/etc/usrlog.sh"
 _setup_usrlog
 
-# screensaver
+## xlck     -- screensaver
 if [ ! -d '/Library' ]; then
-    source "${__DOTFILES}/etc/screensaver.sh"
+    source "${__DOTFILES}/etc/xlck.sh"
 fi
 
-# Bashmarks
-source "${__DOTFILES}/etc/.bashmarks.sh"
-
-# list bashmarks for nerdtree
+## Bashmarks
+source "${__DOTFILES}/etc/bashmarks/bashmarks.sh"
+#  lsbashmarks -- list Bashmarks (e.g. for NERDTree)
 lsbashmarks () {
     export | grep 'DIR_' | pyline "line[15:].replace('\"','').split('=',1)"
 }
 
 
-# Editor
+
+## Editor
 #export USEGVIM=""
 _setup_editor() {
     # Configure $EDITOR
@@ -95,6 +104,7 @@ _setup_editor() {
     alias sudovim='EDITOR="${SUDO_EDITOR}" sudo -e'
 }
 _setup_editor
+
 
 ## $PATH
 
@@ -388,6 +398,27 @@ net_stat () {
     sudo netstat -ntaup 2>&1 | sort -n
     set +x
 }
+
+
+export CLICOLOR=true
+
+# Add ~/.local/bin to $PATH
+add_to_path "${HOME}/.local/bin:"
+
+
+## pyvenv
+setup_pyenv() {
+    export PYENV_ROOT="${HOME}/.pyenv"
+    add_to_path "${PYENV_ROOT}/bin"
+    eval "$(pyenv init -)"
+    pyenv virtualenvwrapper
+}
+
+setup_anaconda() {
+    export _ANACONDA_ROOT="/opt/anaconda"
+    add_to_path "${_ANACONDA_ROOT}/bin"
+}
+
 
 ssh_prx () {
     RUSERHOST=$1
@@ -732,10 +763,47 @@ fixperms () {
     echo $__PATH >&2
 }
 
+# __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
+__SRC_GIT_REMOTE_URI_PREFIX="ssh://git@git.create.wrd.nu"
+# __SRC_GIT_REMOTE_NAME         -- name for git remote v
+__SRC_GIT_REMOTE_NAME="create"
+# __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
+__SRC_HG_REMOTE_URI_PREFIX="ssh://hg@hg.create.wrd.nu"
+# __SRC_HG_REMOTE_NAME          -- name for hg paths
+__SRC_HG_REMOTE_NAME="create+hg"
+
+__SRC_GIT_GITOLITE_ADMIN=$HOME/gitolite-admin
+
+Git_create_new_server_repo(){
+    $reponame=$1  # (e.g. westurner/dotfiles)
+    cd $__SRC_GIT_GITOLITE_ADMIN_REPO && \
+    ./add_repo.sh "$reponame" 
+}
+
+Git_pushtocreate() {
+    ## push a git repository to local git storage
+    #  $1   -- repo [user/]name (e.g. westurner/dotfiles) 
+    reponame=$1
+    repo_uri="${__SRC_GIT_URI}/${reponame}"
+    here=$(pwd)
+    #  $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
+    repo_local_path=$2
+    remote_name=${__SRC_GIT_REMOTE_NAME}
+
+    Git_create_new_repo 
+    (cd $repo_local_path; 
+        git remote add $remote_name $repo_uri  \
+            "${__SRC_GIT_URI}/${username}/${reponame}" && \
+        git push --all $remote_name && \
+        cd $here
+}
+## 
+
+
 Hgclone () {
     url=$1
     shift
-    path="${__SRC}/$1"
+    path="${__SRC}/hg/$1"
     if [ -d $path ]; then
         echo "$path existing. Exiting." >&2
         echo "see: update_repo $1"
@@ -746,7 +814,7 @@ Hgclone () {
 }
 
 Hg() {
-    path="${__SRC}/$1"
+    path="${__SRC}/hg/$1"
     path=${path:-'.'}
     shift
     cmd=$@
@@ -755,6 +823,18 @@ Hg() {
     #if [ $? -eq 0 ]; then
     #    fixperms ${path}
     #fi
+}
+
+Hgcheck() {
+    path="${__SRC}/$1"
+    path=${path:-'.'}
+    shift
+    Hg $path tags
+    Hg $path id -n
+    Hg $path id
+    Hg $path branch
+
+    #TODO: last pulled time
 }
 
 Hgupdate() {
@@ -770,22 +850,10 @@ Hgpull() {
     Hgcheck $path
 }
 
-Hgcheck() {
-    path="${__SRC}/$1"
-    path=${path:-'.'}
-    shift
-    hg -R $path tags
-    hg -R $path id -n
-    hg -R $path id
-    hg -R $path branch
-
-    #TODO: last pulled time
-}
-
 Hglog() {
     path=$1
     shift
-    hg -R $path log $@
+    Hg -R $path log $@
 }
 
 Hgcompare () {

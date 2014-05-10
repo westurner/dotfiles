@@ -79,31 +79,3 @@ if [ -f $_bashrc_venv ]; then
     source $_bashrc_venv
 fi
 
-export CLICOLOR=true
-
-# XXX
-export PATH="${HOME}/.local/bin:${PATH}"
-
-## pyvenv
-setup_pyenv() {
-    export PYENV_ROOT="${HOME}/.pyenv"
-    export PATH="${PYENV_ROOT}/bin:$PATH"
-    eval "$(pyenv init -)"
-    pyenv virtualenvwrapper
-}
-
-setup_anaconda() {
-    export _ANACONDA_ROOT="/opt/anaconda"
-    export PATH="${_ANACONDA_ROOT}/bin:$PATH"
-}
-
-pushtocreate() {
-    here=$(pwd)
-    cd $HOME/gitolite-admin && \
-    ./add_repo.sh westurner/$1 && \
-    cd $here/$1 && \
-    git remote add create git@create.wrd.nu:westurner/$1 && \
-    git push --all create && \
-    cd $here
-}
-
