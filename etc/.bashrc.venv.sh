@@ -7,14 +7,20 @@
 
 reload() {
     source ~/.bashrc
-    # --> source ${__DOTFILES}/etc/.bashrc.venv.sh
+    # * source .dotfiles/etc/.bashrc.venv.sh
+    #   * source .dotfiles/etc/usrlog.sh
+    #   * source .dotfiles/etc/xlck.sh
+    #   * source .dotfiles/etc/bashmarks/bashmarks.sh
+    #   * source .dotfiles/etc/.bashrc.aliases.sh
+    #   * source .dotfiles/etc/.bashrc.repos.sh
+
 }
 
 
 export CLICOLOR=true
 
-# XXX
-export PATH="${HOME}/.local/bin:${PATH}"
+# see: add_to_path ${HOME}/.local/bin
+# export PATH="${HOME}/.local/bin:${PATH}"
 
 
 ## Virtualenvwrapper
@@ -26,8 +32,10 @@ declare -x WORKON_HOME="${PROJECT_HOME}/.ve"
 
 #  __DOTFILES -- local dotfiles repository clone
 export __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
+
 #  __PROJECTS -- local project settings script
 export __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
+
 #  __SRC       -- (symlink to) local repositories
 export __SRC="${HOME}/src"  # TODO: __SRC_HG, __SRC_GIT
 [ ! -d $__SRC ] && mkdir -p $__SRC/hg $__SRC/git
@@ -36,22 +44,52 @@ export _DOCSHTML="${HOME}/docs"
 [ ! -d $_DOCSHTML ] && mkdir -p $_DOCSHTML
 
 
-## Usrlog   -- Userspace shell logging
+
+## $PATH
+
+add_to_path ()
+{
+    ## http://superuser.com/questions/ \
+    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
+    if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
+        return 0
+    fi
+    export PATH=$1:$PATH
+}
+
+if [ -d "${__DOTFILES}" ]; then
+    # Add dotfiles executable directories to $PATH
+    add_to_path "${__DOTFILES}/bin"
+    add_to_path "${__DOTFILES}/scripts"
+fi
+
+
+# Add ~/.local/bin to $PATH
+add_to_path "${HOME}/.local/bin"
+
+
+## usrlog   -- Userspace shell logging
+#  stid -- set or regenerate shell session id
+#  
 source "${__DOTFILES}/etc/usrlog.sh"
 _setup_usrlog
 
 ## xlck     -- screensaver
-if [ ! -d '/Library' ]; then
+if [ ! -d '/Library' ]; then  # not on OSX
     source "${__DOTFILES}/etc/xlck.sh"
 fi
 
-## Bashmarks
+## bashmarks
+#  l    -- list bashmarks
+#  s    -- save bashmarks as $1
+#  g    -- goto bashmark $1
+#  p    -- print bashmark $1
+#  d    -- delete bashmark $1
 source "${__DOTFILES}/etc/bashmarks/bashmarks.sh"
 #  lsbashmarks -- list Bashmarks (e.g. for NERDTree)
 lsbashmarks () {
     export | grep 'DIR_' | pyline "line[15:].replace('\"','').split('=',1)"
 }
-
 
 
 ## Editor
@@ -106,304 +144,18 @@ _setup_editor() {
 _setup_editor
 
 
-## $PATH
 
-add_to_path ()
-{
-    ## http://superuser.com/questions/ \
-    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
-    if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
-        return 0
-    fi
-    export PATH=$1:$PATH
-}
+### Python/Virtualenv[wrapper] setup
 
-if [ -d "${__DOTFILES}" ]; then
-    # Add dotfiles executable directories to $PATH
-    add_to_path "${__DOTFILES}/bin"
-    add_to_path "${__DOTFILES}/scripts"
-fi
-
-## file paths
-
-#__THIS=$(readlink -e "$0")
-#__THISDIR=$(dirname "${__THIS}")
-
-path () {
-    # print absolute path to file
-    echo "$PWD/"$1""
-}
-
-expandpath () {
-    # Enumerate files from PATH
-
-    COMMAND=${1-"ls -alZ"}
-    PATHS=$(echo $PATH | tr ':' ' ')
-
-    for p in $PATHS; do
-        find "$p" -type f -print0 | xargs -0 $COMMAND
-    done
-
-    echo "#" $PATH
-    for p in $PATHS; do
-        echo "# " $p
-    done
-}
-
-
-_trail () {
-    # walk upwards from a path
-    # see: http://superuser.com/a/65076  
-    unset path
-    _pwd=${1:-$(pwd)}
-    parts=$(echo ${_pwd} | awk 'BEGIN{FS="/"}{for (i=1; i < NF; i++) print $i}')
-
-    for part in $parts; do
-        path="$path/$part"
-        ls -ldZ $path
-    done
+_setup_python () {
+    # Python
+    export PYTHONSTARTUP="${HOME}/.pythonrc"
+    #export PIP_REQUIRE_VIRTUALENV=true
+    export PIP_REQUIRE_VIRTUALENV=false
+    #alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
 
 }
-
-chown-me () {
-    set -x
-    chown -Rv $(id -un):$(id -un) $@
-    chmod -Rv go-rwx $@
-    set +x
-
-}
-chown-sme () {
-    set -x
-    sudo chown -Rv $(id -un):$(id -un) $@
-    sudo chmod -Rv go-rwx $@
-    set +x
-
-}
-chown-user () {
-    set -x
-    chown -Rv $(id -un):$(id -un) $@
-    chmod -Rv go-rwx $@
-    set +x
-}
-
-new-sh () {
-    # Create and open a new shell script
-    file=$1
-    if [ -e $1 ]
-        then echo "$1 exists"
-        else
-        touch $1
-        echo "#!/bin/sh" >> $1
-        echo "" >> $1
-        chmod 700 $1
-        $EDITOR +2 $1
-    fi
-}
-
-diff-dirs () {
-    # List differences between directories
-    F1=$1
-    F2=$2
-
-    #FIND="find . -printf '%T@\t%s\t%u\t%Y\t%p\n'"
-    diff -Naur \
-        <(cd $F1; find . | sort ) \
-        <(cd $F2; find . | sort )
-}
-
-diff-stdin () {
-    # Diff the output of two commands
-    DIFFBIN='diff'
-    $DIFFBIN -u <($1) <($2)
-}
-
-wopen () {
-    # open in new tab
-    python -m webbrowser -t $@
-}
-
-find_largefiles () {
-    SIZE=${1:-"+10M"}
-    find . -xdev -type f -size "${SIZE}" -exec ls -alh {} \;
-}
-find_pdf () {
-    SPATH='.'
-    files=$(find "$SPATH" -type f -iname '*.pdf' -printf "%T+||%p\n" | sort -n)
-    for f in $files; do
-        echo '\n==============='$f;
-        fname="$(echo "$f" | pycut -d'||' -f1)";
-        echo "FNAME" $fname
-        ls -l "$fname"
-        pdfinfo "$fname" | egrep --color=none 'Title|Keywords|Author';
-    done
-}
-find_lately () {
-    set -x
-    paths=$@
-    lately="lately.$(date +'%Y%m%d%H%M%S')"
-
-    find $paths -printf "%T@\t%s\t%u\t%Y\t%p\n" | tee $lately
-    # time_epoch \t size \t user \t type \t path
-    sort $lately > $lately.sorted
-
-    less $lately.sorted
-    set +x
-    #for p in $paths; do
-    #    repos -s $p
-    #done
-}
-
-find_setuid () {
-    find /  -type f \( -perm -4000 -o -perm -2000 \) -exec ls -ld '{}' \;
-}
-find_startup () {
-    cmd=${@:-"ls"}
-    paths='/etc/rc?.d /etc/init.d /etc/init /etc/xdg/autostart /etc/dbus-1'
-    paths="$paths ~/.config/autostart /usr/share/gnome/autostart"
-    for p in $paths; do
-        if [ -d $p ]; then
-            find $p -type f | xargs $cmd
-        fi
-    done
-}
-
-find_ssl() {
-    # apt-get install libnss3-tools
-    _runcmd(){
-        cmd="${1}"
-        desc="${2}"
-        echo "#######"
-        echo "'${cmd}' : ${desc}"
-        echo "#------"
-        echo -e "$($cmd)"
-        echo -e "\n#."
-    }
-
-    for cert in $(locate *.pem); do
-        echo "-- $cert --"
-        openssl x509 -in $cert -text
-    done
-    for d in $(locate '*.db' | egrep 'key[[:digit:]].db'); do  
-        kpath=$(dirname $d) 
-        _runcmd "certutil  -L -d sql:${kpath}"  "${kpath}"
-    done
-}
-
-find_pkgfile () {
-    apt-file search $@
-}
-
-find_pkgfiles () {
-    cat /var/lib/dpkg/info/$1.list | sort
-}
-
-deb_chksums () {
-    # checks filesystem against dpkg's md5sums 
-    #
-    # Author: Filippo Giunchedi <filippo@esaurito.net>
-    # Version: 0.1
-    #
-    # this file is public domain 
-
-    exclude="usr/share/locale/"
-    include="bin/"
-
-    pushd .
-    cd /
-
-    for f in /var/lib/dpkg/info/*.md5sums; do
-        package=$( basename "$f" | cut -d. -f1 )
-        tmpfile=$( mktemp /tmp/dpkgcheck.XXXXXX )
-        egrep "$include" "$f" | egrep -v "$exclude" > $tmpfile
-        if [ -z "$(head $tmpfile)" ]; then continue; fi
-        md5sum -c "$tmpfile"
-        if [ $? -gt 0 ]; then
-            echo "md5sum for $package has failed!"
-            rm "$tmpfile"
-            break
-        fi
-        rm "$tmpfile"
-    done
-
-    popd
-}
-
-deb_mkrepo () {
-    REPODIR=${1:-"/var/www/nginx-default/"}
-    cd $REPODIR
-    dpkg-scanpackages . /dev/null | gzip -9c > $REPODIR/Packages.gz
-    dpkg-scansources . /dev/null | gzip -9c > $REPODIR/Sources.gz
-}
-
-mnt_bind () {
-    DEST=$1
-    mount -o bind /dev ${DEST}/dev
-    mount -o bind /proc ${DEST}/proc
-    mount -o bind /sys ${DEST}/sys
-    # TODO
-}
-mnt_cifs () {
-    URI="$1" # //host/share
-    MNTPT="$2"
-    OPTIONS="-o user=$3,password=$4"
-    mount -t cifs $OPTIONS $URI $MNTPT
-}
-mnt_davfs () {
-    #!/bin/sh
-    URL="$1"
-    MNTPT="$2"
-    OPTIONS="-o rw,user,noauto"
-    mount -t davfs $OPTIONS $URL $MNTPT
-}
-
-lsof_ () {
-    #!/bin/bash 
-
-    processes=$(find /proc -regextype egrep -maxdepth 1 -type d -readable -regex '.*[[:digit:]]+')
-
-    for p in $processes; do
-        cmdline=$(cat $p/cmdline)
-        cmd=$(echo $cmdline | sed 's/\(.*\)\s.*/\1/g' | sed 's/\//\\\//g')
-        pid=$(echo $p | sed 's/\/proc\/\([0-9]*\)/\1/')
-        echo $pid $cmdline 
-        #maps=$(cat $p/maps )
-        sed_pattern="s/\(.*\)/$pid \1\t$cmd/g"
-        cat $p/maps | sed "$sed_pattern"
-
-    done
-
-    #~ lsof_ | grep 'fb' | pycut -f 6,5,0,2,1,7 -O '%s' | sort -n 
-}
-
-
-lsof_net () {
-    ARGS=${@:-''}
-    for pid in `lsof -n -t -U -i4 2>/dev/null`; do
-        echo "-----------";
-        ps $pid;
-        lsof -n -a $ARGS -p $pid 2>/dev/null;
-    done
-}
-
-
-net_stat () {
-    echo "# net_stat:"  `date`
-    echo "#####################################################"
-    set -x
-    sudo ip a 2>&1
-    sudo ip r 2>&1
-    sudo ifconfig -a 2>&1
-    sudo route -n 2>&1
-    sudo iptables -L -n 2>&1
-    sudo netstat -ntaup 2>&1 | sort -n
-    set +x
-}
-
-
-export CLICOLOR=true
-
-# Add ~/.local/bin to $PATH
-add_to_path "${HOME}/.local/bin:"
+_setup_python
 
 
 ## pyvenv
@@ -418,43 +170,6 @@ setup_anaconda() {
     export _ANACONDA_ROOT="/opt/anaconda"
     add_to_path "${_ANACONDA_ROOT}/bin"
 }
-
-
-ssh_prx () {
-    RUSERHOST=$1
-    RPORT=$2
-
-    LOCADDR=${3:-"10.10.10.10"}
-    PRXADDR="$LOCADDR:1080"
-    sudo ip addr add $LOCADDR dev lo netmask 255.255.255.0
-    ssh -ND $PRXADDR $RUSERHOST -p $RPORT
-
-    echo "$PRXADDR"
-}
-
-strace_ () {
-    strace -ttt -f -F $@ 2>&1
-}
-strace_f () {
-    strace_ -e trace=file
-}
-
-strace_f_noeno () {
-    strace_ -e trace=file $@ 2>&1 \
-        | grep -v '-1 ENOENT (No such file or directory)$' 
-}
-
-### Python/Virtualenv[wrapper] setup
-
-_setup_python () {
-    # Python
-    export PYTHONSTARTUP="${HOME}/.pythonrc"
-    #export PIP_REQUIRE_VIRTUALENV=true
-    export PIP_REQUIRE_VIRTUALENV=false
-    #alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
-
-}
-_setup_python
 
 _setup_virtualenvwrapper () {
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
@@ -577,13 +292,6 @@ _loadaliases() {
     alias la='ls -A'
     alias lt='ls -altr'
 
-    # bashmarks.sh
-    #alias l =#bashmarks: list bookmarks
-    #alias s =#bashmarks: save bookmark as $1
-    #alias g =#bashmarks: goto bookmark $1
-    #alias p =#bashmarks: print bookmark $1
-    #alias d =#bashmarks: delete bookmark $1
-
     alias _glog='hgtk -R "${_WRD}" log'
     alias _log='hg -R "${_WRD}" log'
     alias _make='cd "${_WRD}" && make'
@@ -629,37 +337,6 @@ _loadaliases() {
 }
 _loadaliases
 
-less_ () {
-    ## start Vim with less.vim.
-    # Read stdin if no arguments were given.
-    if test -t 1; then
-        if test $# = 0; then
-        vim -c "let g:tinyvim=1" \
-            --cmd "runtime! macros/less.vim" \
-            --cmd "set nomod" \
-            --cmd "set noswf" \
-            -c "set colorcolumn=0" \
-            -c "map <C-End> <Esc>G" \
-            -
-        else
-        vim --noplugin \
-            -c "let g:tinyvim=1" \
-            -c "runtime! macros/less.vim" \
-            --cmd "set nomod" \
-            --cmd "set noswf" \
-            -c "set colorcolumn=0" \
-            -c "map <C-End> <Esc>G" \
-            $@
-        fi
-    else
-        # Output is not a terminal, cat arguments or stdin
-        if test $# = 0; then
-            less
-        else
-            less "$@"
-        fi
-    fi
-}
 
 _set_prompt() {
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
@@ -679,326 +356,12 @@ _set_prompt() {
 }
 _set_prompt
 
-# view manpages in vim
-man() {
-    alias man_="/usr/bin/man"
-    if [ $# -eq 0 ]; then
-        /usr/bin/man
-    else
-        #if [ "$1" == "man" ]; then
-        #    exit 0
-        #fi
 
-        #/usr/bin/whatis "$@" >/dev/null
-        vim \
-            --noplugin \
-            -c "runtime ftplugin/man.vim" \
-            -c "Man $*" \
-            -c 'silent! only' \
-            -c 'nmap q :q<CR>' \
-            -c 'set nomodifiable' \
-            -c 'set colorcolumn=0'
-    fi
-}
+source $__DOTFILES/etc/.bashrc.vim.sh
 
-echo_args() {
-    echo $@
-}
+source $__DOTFILES/etc/.bashrc.aliases.sh
 
-vimpager() {
-    # TODO: lesspipe
-    _PAGER="${HOME}/bin/vimpager"
-    if [ -x $_PAGER ]; then
-        export PAGER=$_PAGER
-    else
-        _PAGER="/usr/local/bin/vimpager"
-        if [ -x $_PAGER ]; then
-            export PAGER=$_PAGER
-        fi
-    fi
-}
-
-unumask() {
-    path=$1
-    sudo find "${path}" -type f -exec chmod -v o+r {} \;
-    sudo find "${path}" -type d -exec chmod -v o+rx {} \;
-}
-
-_rro_find_repo() {
-    [ -d $1/.hg ] || [ -d $1/.git ] || [ -d $1/.bzr ] && cd $path
-}
-
-rro () {
-    # walk down a path
-    # see: http://superuser.com/a/65076 
-    # FIXME
-    # TODO
-    unset path
-    _pwd=$(pwd)
-    parts=$(pwd | awk 'BEGIN{FS="/"}{for (i=1; i < NF+1; i++) print "/"$i}')
-
-    _rro_find_repo $_pwd
-    for part in $parts; do
-        path="$path/$part"
-       
-        ls -ld $path
-        _rro_find_repo $path
-
-    done
-}
-
-pypath() {
-    /usr/bin/env python -m site
-}
-
-lightpath() {
-    echo $PATH | sed 's/\:/\n/'
-}
-
-
-
-unset -f fixperms
-fixperms () {
-    __PATH="$1"
-    echo $__PATH >&2
-}
-
-# __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
-__SRC_GIT_REMOTE_URI_PREFIX="ssh://git@git.create.wrd.nu"
-# __SRC_GIT_REMOTE_NAME         -- name for git remote v
-__SRC_GIT_REMOTE_NAME="create"
-# __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
-__SRC_HG_REMOTE_URI_PREFIX="ssh://hg@hg.create.wrd.nu"
-# __SRC_HG_REMOTE_NAME          -- name for hg paths
-__SRC_HG_REMOTE_NAME="create+hg"
-
-__SRC_GIT_GITOLITE_ADMIN=$HOME/gitolite-admin
-
-Git_create_new_server_repo(){
-    $reponame=$1  # (e.g. westurner/dotfiles)
-    cd $__SRC_GIT_GITOLITE_ADMIN_REPO && \
-    ./add_repo.sh "$reponame" 
-}
-
-Git_pushtocreate() {
-    ## push a git repository to local git storage
-    #  $1   -- repo [user/]name (e.g. westurner/dotfiles) 
-    reponame=$1
-    repo_uri="${__SRC_GIT_URI}/${reponame}"
-    here=$(pwd)
-    #  $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
-    repo_local_path=$2
-    remote_name=${__SRC_GIT_REMOTE_NAME}
-
-    Git_create_new_repo 
-    (cd $repo_local_path; 
-        git remote add $remote_name $repo_uri  \
-            "${__SRC_GIT_URI}/${username}/${reponame}" && \
-        git push --all $remote_name && \
-        cd $here
-}
-## 
-
-
-Hgclone () {
-    url=$1
-    shift
-    path="${__SRC}/hg/$1"
-    if [ -d $path ]; then
-        echo "$path existing. Exiting." >&2
-        echo "see: update_repo $1"
-        return 0
-    fi
-    sudo -u hg -i /usr/bin/hg clone $url $path
-    fixperms $path
-}
-
-Hg() {
-    path="${__SRC}/hg/$1"
-    path=${path:-'.'}
-    shift
-    cmd=$@
-    sudo -H -u hg -i /usr/bin/hg -R "${path}" $cmd
-
-    #if [ $? -eq 0 ]; then
-    #    fixperms ${path}
-    #fi
-}
-
-Hgcheck() {
-    path="${__SRC}/$1"
-    path=${path:-'.'}
-    shift
-    Hg $path tags
-    Hg $path id -n
-    Hg $path id
-    Hg $path branch
-
-    #TODO: last pulled time
-}
-
-Hgupdate() {
-    path=$1
-    shift
-    Hg $path update $@
-}
-
-Hgpull() {
-    path=$1
-    shift
-    Hg $path pull $@
-    Hgcheck $path
-}
-
-Hglog() {
-    path=$1
-    shift
-    Hg -R $path log $@
-}
-
-Hgcompare () {
-    one=$1
-    two=$2
-    diff -Naur \
-        <(hg -R "${one}" log) \
-        <(hg -R "${two}" log)
-}
-
-host_docs () {
-    # host_docs <project_name> <path> <docs/Makefile> <docs/conf.py>
-    # * log documentation builds
-    # * build a sphinx documentation set with a Makefile and a conf.py
-    # * rsync to docs webserver
-    # * set permissions
-
-    # this is not readthedocs.org
-
-    # note: you must manually install packages into the
-    # local 'docs' virtualenv'
-    set -x
-    pushd .
-    #workon docs
-    name=${1}
-
-    if [ -z "${name}" ]; then
-        echo "must specify an application name"
-        return 1
-    fi
-
-    path=${2:-"${__SRC}/${name}"}
-    _makefile=${3}
-    _confpy=${4}
-    _default_makefile="${path}/docs/Makefile"
-    _default_confpy="${path}/docs/conf.py"
-
-    _default_builddir="${path}/_build"
-
-    dest="${_DOCSHTML}/${name}"
-    group="www-data"
-
-    if [ -z "${_makefile}" ]; then
-        if [ -f $_default_makefile ]; then
-            _makefile=$_default_makefile;
-        else
-            echo "404: default_makefile: $_default_makefile" >&2
-            __makefiles=$(find "${path}" -maxdepth 2 -type f -name Makefile)
-            for __makefile in ${__makefiles[@]}; do
-                if [ -n "${__makefile}" ]; then
-                    grep -n -H 'sphinx-build' ${__makefile}
-                    if [ $? -eq 0 ]; then
-                        echo 'found sphinx-build Makefile: $__makefile'
-                        # TODO: prompt?
-                        _makefile=$__makefile
-                    fi
-                fi
-            done
-        fi
-
-        if [ -f "${_makefile}" ]; then
-            _builddir=$(dirname $_makefile)
-        fi
-    fi
-
-    if [ -z "${_confpy}" ]; then
-        if [ -f $_default_confpy ]; then
-            _confpy=$_default_confpy;
-        else
-            echo "404: default_confpy: $_default_confpy" >&2
-            confpys=$(find "${path}" -maxdepth 2 -type f -name conf.py)
-            for __confpy in ${confpys[@]}; do
-                grep -n -H 'sphinx-build' ${__confpy}
-                if [ $? -eq 0 ]; then
-                    echo 'found conf.py: $__confpy'
-                    # TODO: prompt?
-                    _confpy=$__confpy
-                fi
-            done
-        fi
-
-        if [ ! -f $_makefile ]; then
-            _builddir=$(dirname $__confpy)
-        fi
-
-    fi
-
-    _builddir=${_builddir:-${_default_builddir}}
-    _buildlog="${_builddir}/build.log"
-    _currentbuildlog="${_builddir}/build.current.log"
-
-
-    cd $path
-    rm -f $_currentbuildlog
-    html_path=""
-    echo '#' $(date) | tee -a $_buildlog | tee $_currentbuildlog
-
-    if [ -n "$_makefile" ]; then
-        # TODO
-        # >> 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother '
-        # << 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
-        #sed -i -r 's/(^SPHINXBUILD)( *= *)(sphinx-build)(.*)/\1\2\3 -Dhtml_theme="default"/g' $_makefile
-
-        cd $(dirname $_makefile)
-        make \
-            SPHINXBUILD="sphinx-build -Dhtml_theme=\"default\"" \
-            html | \
-            tee -a $_buildlog | tee $_currentbuildlog
-        html_path=$(tail -n 1 $_currentbuildlog | \
-            sed -r 's/(.*)The HTML pages are in (.*).$/\2/g')
-        echo $html_path
-
-    elif [ -n "$_confpy" ]; then
-        # >> 'html_theme = "_-_"
-        # << 'html_theme = 'default'
-        sed -i -r 's/(^ *html_theme)( *= *)(.*)/\1\2"default"' $_confpy
-        sourcedir=$(dirname $_confpy)
-        html_path="${sourcedir}/_build/html"
-        mkdir -p $html_path
-        sphinx-build \
-            -b html \
-            -D html_theme="default" \
-            -c "${_confpy}" \
-            $sourcedir \
-            $html_path
-    fi
-
-    if [ -n "${html_path}" ]; then
-        echo "html-path:" ${html_path}
-        echo "dest:" ${dest}
-        set -x
-        rsync -avr "${html_path}/" "${dest}/" | tee -a $_buildlog | tee $_currentbuildlog
-        set +x
-        sudo chgrp -R $group "${dest}" | tee -a $_buildlog | tee $_currentbuildlog
-    else
-        echo "### ${_currentbuildlog}"
-        cat $_currentbuildlog
-    fi
-
-    popd
-
-    set +x
-    deactivate
-}
-
+source $__DOTFILES/etc/.bashrc.repos.sh
 
 ### source $__PROJECTS script, if it exists
 [ -f $__PROJECTS ] && source $__PROJECTS
