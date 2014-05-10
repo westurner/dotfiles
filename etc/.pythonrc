@@ -17,8 +17,8 @@ try:
     #launch_new_instance()
     from IPython import embed
     from IPython.external.path import path
-    #embed()
-    raise SystemExit
+    embed()
+    #raise SystemExit
 except ImportError:
     # Clever trick to add history support and tab completion to cPython.
     # This was stolen from a fellow ubuntero's blog and extended to add
@@ -80,4 +80,7 @@ except ImportError:
 
 
 
-del os, atexit
+if os:
+    del os
+if atexit:
+    del atexit
