@@ -22,7 +22,7 @@ set $mod2 Mod4
 # font for window titles. ISO 10646 = Unicode
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # Pango requires i3 version >= TODO
-#font pango:Monaco 10
+font pango:DejaVu Sans Mono 12
 
 # reload the configuration file
 #  <alt><shift> c   -- reload i3 configuration
