@@ -74,8 +74,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
 fi
 
-_bashrc_venv="${HOME}/.bashrc.venv.sh"
-if [ -f $_bashrc_venv ]; then 
-    source $_bashrc_venv
-fi
-
+# load local dotfiles set
+__DOTFILES=${__DOTFILES-"$HOME/.dotfiles"}
+_dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
+test -f $_dotfiles_bashrc && source $_dotfiles_bashrc
