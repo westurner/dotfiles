@@ -58,6 +58,7 @@ set $browser_email x-www-browser "https://mail.google.com/"
 set $terminal i3-sensible-terminal
 set $network_applet nm-applet
 set $filebrowser thunar
+#set $filebrowser nautilus
 set $calculator gnome-terminal -x /bin/bash -ic "/srv/workspace/.virtualenvs/math/bin/ipython notebook"
 #set $filebrowser nautilus
 
@@ -132,7 +133,7 @@ bindsym $mod+Return     exec $terminal
 bindsym XF86Calculator  exec $calculator
 
 #  <alt> w          -- launch network manager applet (see also: $(nmcli))
-bindsym $mod+Shift+W    exec --no-startup-id $network_applet
+bindsym $mod+Shift+w    exec --no-startup-id $network_applet
 
 #  <PrintScr>       -- screenshot (full screen)
 bindsym Print exec $screenshot_full
