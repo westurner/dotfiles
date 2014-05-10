@@ -7,7 +7,7 @@ _install_xlck () {
     ln -s ~/.dotfiles/etc/.xinitrc ~/.xinitrc
 }
 
-_setup_xlck () {
+_xlck_setup () {
     #XSET=$(type 'xset' 2>/dev/null)
     if [ -n "$DISPLAY" ]; then
         xset +dpms
@@ -20,15 +20,15 @@ _setup_xlck () {
     fi
 }
 
-_i3lock () {
+_xlck_i3lock () {
     /usr/bin/i3lock -d -c 202020
 }
 
-_xlock () {
+_xlck_xlock () {
     /usr/bin/xlock -mode blank -bg black -fg white -lockdelay 3
 }
 
-_xautolock () {
+_xlck_xautolock () {
     _LOCK_BIN="/usr/bin/xlock"
     _LOCK_DELAY="1"  # mins
     _LOCK_CMD="$_LOCK_BIN -mode blank -bg black -fg white -lockdelay 3"
@@ -73,12 +73,6 @@ xlck_suspend () {
     _lock_suspend_ram
 }
 
-xlck_stop() {
-    #pkill -9 xlck.sh
-    pkill -9 -u $USER xlock
-    pkill -9 -u $USER -f /usr/bin/xautolock
-}
-
 
 xlck_lock () {
     _xlock
@@ -86,17 +80,22 @@ xlck_lock () {
 
 xlck_start() {
     if [ -n "$DISPLAY" ]; then
-        xlck_stop
-        _setup_xlck
-        _xautolock &
+        _xlck_setup
+        _xlck_xautolock &
     fi
 }
 
-xlock_status_this_display(){
-    pids=$(ps eww | grep " DISPLAY=$DISPLAY" | awk '{ print $1 }')
-    for p in $pids; do
-        ps fx $p
-    done
+xlck_stop() {
+    #pkill -9 xlck.sh
+    pkill -9 -u $USER xlock
+    pkill -9 -u $USER -f /usr/bin/xautolock
+}
+
+
+xlck_restart() {
+    xautolock -restart
+    #xlck_stop
+    #xlck_start
 }
 
 xlck_status() {
@@ -105,11 +104,15 @@ xlck_status() {
     ps -ufx -p $(ps eww | grep " DISPLAY=$DISPLAY" | pycut -f0)
 }
 
-xlck_restart() {
-    xautolock -restart
-    #xlck_stop
-    #xlck_start
+
+xlck_status_this_display(){
+    pids=$(ps eww | grep " DISPLAY=$DISPLAY" | awk '{ print $1 }')
+    for p in $pids; do
+        ps fx $p
+    done
 }
+
+
 
 xlck_usage() {
     echo ""
@@ -128,7 +131,7 @@ xlck_usage() {
 }
 
 xlck_main () {
-    while getopts "SPRDLX" o; do
+    while getopts "SPRMDLX" o; do
         case "${o}" in
             S)
                 s=${OPTARG};
@@ -151,7 +154,7 @@ xlck_main () {
                 ;;
             L)
                 l=${OPTARG};
-                lock;
+                xlck_lock;
                 ;;
             X)
                 x=${OPTARG};
@@ -165,6 +168,8 @@ xlck_main () {
 }
 
 if [[ "$BASH_SOURCE" == "$0" ]]; then
+
+  _xlck_setup
   xlck_main $@
 fi
 
