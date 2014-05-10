@@ -36,6 +36,18 @@ help:
 	python setup.py --command-packages=stdeb.command --help-commands
 	$(MAKE) help_commands
 
+install:
+	$(MAKE) pip_install_as_editable
+	$(MAKE) pip_install_requirements
+	# Install ${HOME} symlinks
+	bash ./scripts/bootstrap_dotfiles.sh -S
+	#bash ./scripts/bootstrap_dotfiles.sh -R
+
+upgrade:
+	$(MAKE) pip_upgrade_pip
+	# Update and upgrade
+	bash ./scripts/bootstrap_dotfiles.sh -U
+
 clean:
 	pyclean .
 	find . -type d -name '__pycache__' -exec rm -rfv {} \;
@@ -120,20 +132,6 @@ build_tags:
 	ls -al tags
 	build_tags --ctags-vi --languages=python
 	ls -al tags
-
-
-install:
-	$(MAKE) pip_install_as_editable
-	$(MAKE) pip_install_requirements
-	# Install ${HOME} symlinks
-	bash ./scripts/bootstrap_dotfiles.sh -S
-	#bash ./scripts/bootstrap_dotfiles.sh -R
-
-upgrade:
-	$(MAKE) pip_upgrade_pip
-	# Update and upgrade
-	bash ./scripts/bootstrap_dotfiles.sh -U
-
 
 
 pip_upgrade_pip:
