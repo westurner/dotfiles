@@ -2,7 +2,14 @@
 
 # Screensaver.sh
 
-_install_xlck () {
+
+xlck() {
+    _THIS=$(readlink -e "$BASH_SOURCE")
+    echo $_THIS
+    bash $_THIS
+}
+
+_xlck_install () {
     sudo apt-get install xautolock xlockmore
     ln -s ~/.dotfiles/etc/.xinitrc ~/.xinitrc
 }
@@ -59,20 +66,23 @@ _suspend_to_disk () {
     sudo bash -c 'echo disk > /sys/power/state'
 }
 
-_lock_suspend_ram () {
+xlck_lock_suspend_ram () {
     sudo bash -c 'whoami'
     _i3lock && _suspend_to_ram
 }
 
-_lock_suspend_disk () {
+xlck_lock_suspend_disk () {
     sudo bash -c 'whoami'
     _i3lock && _suspend_to_disk
 }
 
-xlck_suspend () {
-    _lock_suspend_ram
+xlck_suspend_ram () {
+    xlck_lock_suspend_ram
 }
 
+xlck_suspend_disk () {
+    xlck_lock_suspend_disk
+}
 
 xlck_lock () {
     _xlock
@@ -86,6 +96,8 @@ xlck_start() {
 }
 
 xlck_stop() {
+    # TODO: store PID
+    # TODO: check $DISPLAY
     #pkill -9 xlck.sh
     pkill -9 -u $USER xlock
     pkill -9 -u $USER -f /usr/bin/xautolock
@@ -112,8 +124,6 @@ xlck_status_this_display(){
     done
 }
 
-
-
 xlck_usage() {
     echo ""
     echo "xlck -- a shell wrapper for xlock, i3lock, and xautolock"
@@ -127,48 +137,41 @@ xlck_usage() {
     echo "#  -D   --  suspend to disk (and lock)"
     echo "#  -L   --  lock"
     echo "#  -X   --  halt"
-    exit 1;
+    echo "#  -h   --  help"
 }
 
 xlck_main () {
-    while getopts "SPRMDLX" o; do
-        case "${o}" in
+    while getopts "SPRMDLXh" opt; do
+        case "${opt}" in
             S)
-                s=${OPTARG};
                 xlck_start;
                 ;;
             P)
-                k=${OPTARG};
                 xlck_stop;
                 ;;
             R)
-                r=${OPTARG};
                 xlck_restart;
                 ;;
             M)
                 _lock_suspend_ram;
                 ;;
             D)
-                d=${OPTARG};
                 _lock_suspend_disk;
                 ;;
             L)
-                l=${OPTARG};
                 xlck_lock;
                 ;;
             X)
-                x=${OPTARG};
                 sudo shutdown -h now;
                 ;;
-            *)
-                xlck_usage
+            *|h)
+                xlck_usage;
                 ;;
         esac
     done
 }
 
 if [[ "$BASH_SOURCE" == "$0" ]]; then
-
   _xlck_setup
   xlck_main $@
 fi
