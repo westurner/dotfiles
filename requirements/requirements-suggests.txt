@@ -16,14 +16,20 @@ sarge
 requests
 # src:
 #   -e git+https://github.com/kennethreitz/requests#egg=requests
+# docs:
+#   http://docs.python-requests.org/en/latest/
 
 httmock
 # src:
 #   -e git+https://github.com/patrys/httmock#egg=httmock
+# docs:
+#   https://github.com/patrys/httmock
 
 responses
 # src:
 #   -e git+https://github.com/dropbox/responses#egg=responses
+# docs:
+#   - https://github.com/dropbox/responses
 
 httpcache
 # src:
@@ -81,3 +87,8 @@ hg-git
 # docs:
 #   - http://hg-git.github.com/
 
+tmuxp
+# src:
+#   -e git+https://github.com/tony/tmuxp#egg=tmuxp
+# docs:
+#   - http://tmuxp.readthedocs.org/en/latest/
