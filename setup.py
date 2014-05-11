@@ -363,8 +363,8 @@ def find_closest_repository(matches, relative_to):
         if (minimum_relpath is None or len(relpath) < len(minimum_relpath)):
             minimum_relpath = relpath
             key, match = _key, _match
-    if None in (key, match):
-        raise Exception("no repositories found")
+    #if None in (key, match):
+    #    raise Exception("no repositories found")
     return (key, match)
 
 
