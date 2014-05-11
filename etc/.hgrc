@@ -155,6 +155,7 @@ opts.vimdiff = -f '+next' '+execute "DirDiff" argv(0) argv(1)'
 py = http://hg.python.org/
 bb = https://bitbucket.org/
 bb+ssh = ssh://hg@bitbucket.org/
+bb+git+ssh = ssh://git@bitbucket.org/
 gcode = https://{1}.googlecode.com/hg/
 gcode+svn = https://{1}.googlecode.com/svn/trunk
 kiln = https://{1}.kilnhg.com/Repo/
