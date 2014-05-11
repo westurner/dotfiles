@@ -1,5 +1,8 @@
 
 
+export _DOCSHTML="${HOME}/docs"
+[ ! -d $_DOCSHTML ] && mkdir -p $_DOCSHTML
+
 unset -f fixperms
 fixperms () {
     __PATH="$1"
