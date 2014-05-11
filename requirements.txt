@@ -1,3 +1,10 @@
+pyinotify
+#  src:
+#    -e git+https://github.com/seb-m/pyinotify#egg=pyinotify
+#  doc:
+#    - https://github.com/seb-m/pyinotify/wiki 
+#    - https://seb-m.github.io/pyinotify/
+
 python-dateutil
 #  src:
 #   -e bzr+https://code.launchpad.net/~dateutil/dateutil/trunk#egg=dateutil
