@@ -258,8 +258,13 @@ class PyTestCommand(RunCommand):
 
         glob_pattern = os.path.join(SETUPPY_PATH, 'src/dotfiles/*.py')
         cmd.extend(sorted(glob.glob(glob_pattern)))
+
+        glob_pattern = os.path.join(SETUPPY_PATH, 'scripts/*.py')
+        cmd.extend(sorted(glob.glob(glob_pattern)))
+
         cmdstr = ' '.join(cmd)
         log.info(cmdstr)
+
         errno = subprocess.call(cmd)
         raise SystemExit(errno)
 
@@ -441,19 +446,6 @@ setup(
         'console_scripts':
             [
                 'dotfiles=dotfiles.cli:main',
-                'repo=dotfiles.repos:main',
-                'pyline=dotfiles.pyline:main',
-                'greppaths=dotfiles.greppaths:main',
-                'optimizepath=dotfiles.optimizepath:main',
-                'deb_search=dotfiles.deb_search:main',
-                'deb_deps=dotfiles.deb_deps:main',
-                'py_index=dotfiles.py_index:main',
-                'pipls=dotfiles.pipls:main',
-                'mactool=dotfiles.mactool:main',
-                'pylsof=dotfiles.lsof:main',
-                'pyren=dotfiles.pyren:main',
-                'pycut=dotfiles.pycut:main',
-                'pwstrength=dotfiles.passwordstrength:main'
             ]
     },
     cmdclass={
