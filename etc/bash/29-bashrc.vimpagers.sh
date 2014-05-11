@@ -14,26 +14,27 @@ vimpager() {
 }
 
 less_ () {
+
     ## start Vim with less.vim.
     # Read stdin if no arguments were given.
     if test -t 1; then
         if test $# = 0; then
-        vim -c "let g:tinyvim=1" \
-            --cmd "runtime! macros/less.vim" \
-            --cmd "set nomod" \
-            --cmd "set noswf" \
-            -c "set colorcolumn=0" \
-            -c "map <C-End> <Esc>G" \
-            -
+            vim -c "let g:tinyvim=1" \
+                --cmd "runtime! macros/less.vim" \
+                --cmd "set nomod" \
+                --cmd "set noswf" \
+                -c "set colorcolumn=0" \
+                -c "map <C-End> <Esc>G" \
+                -
         else
-        vim --noplugin \
-            -c "let g:tinyvim=1" \
-            -c "runtime! macros/less.vim" \
-            --cmd "set nomod" \
-            --cmd "set noswf" \
-            -c "set colorcolumn=0" \
-            -c "map <C-End> <Esc>G" \
-            $@
+            vim --noplugin \
+                -c "let g:tinyvim=1" \
+                -c "runtime! macros/less.vim" \
+                --cmd "set nomod" \
+                --cmd "set noswf" \
+                -c "set colorcolumn=0" \
+                -c "map <C-End> <Esc>G" \
+                $@
         fi
     else
         # Output is not a terminal, cat arguments or stdin

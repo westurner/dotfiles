@@ -333,14 +333,3 @@ rro () {
     done
 }
 
-pypath() {
-    /usr/bin/env python -m site
-}
-
-lightpath() {
-    echo $PATH | sed 's/\:/\n/'
-}
-
-echo_args() {
-    echo $@
-}
