@@ -57,7 +57,7 @@ import unittest
 import os.path
 requirements_test_file = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    '../../',
+    '../',
     'requirements/requirements-dev.txt'
 )
 
