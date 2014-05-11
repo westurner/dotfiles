@@ -5,16 +5,16 @@
 DOTFILES_SRC:=https://github.com/westurner/dotfiles
 DOTVIM_SRC:=https://bitbucket.org/westurner/dotvim
 
-#  Usage:
+#  Usage::
 #
-#	 # Clone and/or install .dotfiles
-#	 git clone https://github.com/westurner/dotfiles
-#	 # git clone http://git.io/ghGL3w 
-#	 python setup.py help
-#	 python setup.py test
+#	 # clone and/or install .dotfiles::
+#	 git clone https://github.com/westurner/dotfiles ~/.dotfiles
+#	 # shorturl: git clone http://git.io/ghGL3w ~/.dotfiles
+#	 cd ~/.dotfiles
+#	 git pull
 #
-#	 # Run tests
-#	 # make test
+#	 # Run make tests
+#	 make test
 #	 make dotvim_clone
 #	 make dotvim_install
 	
@@ -42,10 +42,28 @@ install:
 	# Install ${HOME} symlinks
 	bash ./scripts/bootstrap_dotfiles.sh -S
 	#bash ./scripts/bootstrap_dotfiles.sh -R
+	$(MAKE) dotvim_clone
+	$(MAKE) dotvim_install
+
+install_user:
+	type 'deactivate' 1>/dev/null 2>/dev/null && deactivate \
+		|| echo $(VIRTUAL_ENV)
+	$(MAKE) install PIP_INSTALL="~/.local/bin/pip install --user"
+	$(MAKE) pip_install_requirements_all PIP_INSTALL="~/.local/bin/pip install --user"
+	bash ./scripts/bootstrap_dotfiles.sh -S
+	$(MAKE) dotvim_clone
+	$(MAKE) dotvim_install
 
 upgrade:
-	$(MAKE) pip_upgrade_pip
 	# Update and upgrade
+	bash ./scripts/bootstrap_dotfiles.sh -U
+	$(MAKE) dotvim_clone
+	$(MAKE) dotvim_install
+
+upgrade_user:
+	type 'deactivate' 1>/dev/null 2>/dev/null && deactivate \
+		|| echo $(VIRTUAL_ENV)
+	$(MAKE) install PIP_INSTALL="~/.local/bin/pip install --upgrade --user"
 	bash ./scripts/bootstrap_dotfiles.sh -U
 
 clean:
@@ -83,9 +101,6 @@ vim_help:
 	test -d etc/vim && \
 		$(MAKE) -C etc/vim help
 
-vim_help_all:
-	$(MAKE) vim_help
-
 
 test:
 	# Run setuptools test task
@@ -93,6 +108,7 @@ test:
 
 build:
 	# Build source dist and bdist
+	$(MAKE) build_tags
 	python setup.py build sdist bdist
 
 build_test_generate_runtests:
@@ -190,7 +206,7 @@ dotvim_clone:
 		|| hg clone $(DOTVIM_SRC) ~/.dotfiles/etc/vim
 	hg -R ~/.dotfiles/etc/vim pull
 
-dotvim_make_install:
+dotvim_install:
 	# Install vim with Makefile
 	$(MAKE) -C etc/vim install
 
@@ -270,7 +286,7 @@ thg_all:
 
 
 .PHONY: all test build install edit
-all: test build
+all: test build install
 
 
 test_show_env:
