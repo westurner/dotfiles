@@ -88,7 +88,23 @@ def create_package_list(default, installed):
 
     # 'least technical debt' solution
     #import apt_pkg
-    import apt
+    try:
+        import apt
+    except ImportError:
+        dist_packages='/usr/lib/python2.7/dist-packages/'
+        import sys
+        import os
+        import tempfile
+        tmp_dirname = tempfile.mkdtemp()
+
+        for modname in ('apt', 'apt_pkg.so'):
+            module = os.path.join(dist_packages, modname)
+            tmpdir_module = os.path.join(tmp_dirname, modname)
+            os.symlink(module, tmpdir_module)
+
+        sys.path.insert(0, tmp_dirname)
+        import apt
+
     apt_cache = apt.Cache()
 
     #stack = collections.dequeue()
@@ -142,7 +158,7 @@ class Test_pkg_graph(unittest.TestCase):
             print("als: %s" % x)
         for x in uninstalled:
             print("uni: %s" % x)
-        raise Exception()
+        #raise Exception()
 
 
 def main():
