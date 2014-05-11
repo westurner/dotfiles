@@ -20,6 +20,7 @@ MANIFEST.in
 hook.log*
 pip-requirements-autogen.txt
 etc/vim
+.tox/
 
 deb_dist/
 .ropeproject/
