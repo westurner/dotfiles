@@ -1,10 +1,9 @@
 
+
 dotfiles
 +++++++++++
 **Bash scripts**, **Python scripts**, and **configuration files**
 for working with projects on \*nix platforms in Bash, ZSH, Ruby, and Python.
-
-.. contents:: dotfiles
 
 
 Goals
