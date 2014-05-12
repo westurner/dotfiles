@@ -38,8 +38,10 @@ Vim
 -----
 ``make -C ../etc/vim vim_help``:
 
-.. program-output:: test -f ../etc/vim/Makefile && cd .. && make vim_help
-   :shell:
+.. .. program-output:: test -f ../etc/vim/Makefile && cd .. && make vim_help
+..   :shell:
+
+.. include:: dotvim_conf.rst
 
 
 
