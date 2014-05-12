@@ -47,7 +47,7 @@ Included in ``etc/`` are configuration files for:
 .. _Ruby: https://www.ruby-lang.org/en/documentation/
 .. _Gems: http://guides.rubygems.org/
 .. _Vimperator: http://www.vimperator.org/vimperator
-.. _Vim: http://www.vim.org/docs.ph
+.. _Vim: http://www.vim.org/docs.php
 .. _Virtualenv: https://virtualenv.pypa.io/
 .. _Virtualenvwrapper: https://bitbucket.org/dhellmann/virtualenvwrapper
 .. _ZSH: http://zsh.sourceforge.net/Guide/zshguide.html
