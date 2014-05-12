@@ -35,7 +35,7 @@ clone_dotfiles_bootstrap_repo(){
     test -d ${REPO_DEST_PATH} || \
         git clone ${DOTFILES_GIT_REPO_URL} ${REPO_DEST_PATH}
     ${PIP} install paver
-    ${PIP} install -e ${REPO_DEST_PATH}
+    #${PIP} install -e ${REPO_DEST_PATH}
 
     test -e ${REPO_DEST_PATH} || \
         ln -s ${REPO_DEST_PATH} ${HOME}/.dotfiles
@@ -78,11 +78,11 @@ bootstrap_setuptools() {
 
 
 pip_install_virtualenv() {
-    ${PIP_INSTALL_USER} --upgrade --no-use-wheel virtualenv
+    ${PIP_INSTALL} --upgrade --no-use-wheel virtualenv
 }
 
 pip_install_virtualenvwrapper() {
-    ${PIP_INSTALL_USER} --upgrade --no-use-wheel virtualenvwrapper
+    ${PIP_INSTALL} --upgrade --no-use-wheel virtualenvwrapper
 }
 
 
@@ -104,16 +104,50 @@ pip_setup_virtualenvwrapper(){
 backup_and_symlink(){
     # Args:
     #  filename: basename of file
+    #  dest: location of symlink
+    #  src: where symlink will point
 
     # no trailing slashes
 
     filename=${1}
     dest=${2:-"${HOME}/${filename}"}
     src=${3:-"${REPO_DEST_HOME}/etc/${filename}"}
-    (test -a ${dest} || test -h ${dest}) && \
-        mv ${dest} ${dest}.bkp.${BKUPID}
+    #echo "# $filename $dest $src"
+    if (test -a ${dest} || test -h ${dest}); then
+        $(test -f $dest) && dest_md5=$(cat $dest | md5sum)
+        #$(test -d $dest) && dest_md5=$(cd $dest && find . | sort)
+        $(test -f $src) && src_md5=$(cat $src | md5sum)
+        #$(test -d $src) && src_md5=$(cd $src && find . | sort)
+        if [ "$src_md5" != "$dest_md5" ]; then
+            mv ${dest} ${dest}.bkp.${BKUPID}
+            echo "mv ${dest} ${dest}.bkp.${BKUPID}"
+            ln -s ${src} ${dest}
+            echo "ln -s ${src} ${dest}"
+        else
+            if [ -z "$src_md5" ] || [ -z "$dest_md5" ]; then
+                echo "# $src $dest"
+                if [ -h ${dest} ]; then
+                    actual=$(readlink -f ${dest})
+                    if [ "$actual" != "$src" ]; then
+                        mv ${dest} ${dest}.bkp.${BKUPID}
+                        echo "mv ${dest} ${dest}.bkp.${BKUPID}"
+                        ln -s ${src} ${dest}
+                        echo "ln -s ${src} ${dest}"
+                    fi
+                else
+                    #echo "skip: " $src "->" $dest
+                    true
+                fi
+            fi
+            #echo "skipping.. $src_md5 == $dest_md5"
+            true
+        fi
+    else
+        ln -s ${src} ${dest}
+        echo "ln -s ${src} ${dest}"
+    fi
 
-    ln -s ${src} ${dest}
+
 }
 
 symlink_home_dotfiles() {
@@ -127,7 +161,6 @@ symlink_etc_vim(){
 
 symlink_bashrc(){
     backup_and_symlink .bashrc
-    backup_and_symlink .bashrc.venv.sh
 }
 
 symlink_zshrc(){
@@ -241,13 +274,14 @@ deactivate_virtualenv() {
 
 install_dotfiles_bootstrap() {
     activate_virtualenv
-    pip install --upgrade -e ${REPO_DEST_PATH}
+    ${PIP_INSTALL} --upgrade -e ${REPO_DEST_PATH}
 }
 
 install_dotfiles_bootstrap_user() {
     #TODO: subshell
     deactivate_virtualenv
-    pip install --user -e ${REPO_DEST_PATH}
+    ${PIP_INSTALL_USER} -e ${REPO_DEST_PATH}
+    cd ${REPO_DEST_PATH} && bash ./scripts/bootstrap_dotfiles.sh -S
 }
 
 dotfiles_bootstrap_env() {
@@ -282,7 +316,9 @@ dotfiles_bootstrap_upgrade() {
 dotfiles_bootstrap_install() {
     dotfiles_bootstrap_env
     # Create a new virtualenv
-    mkvirtualenv ${VENVNAME} || true
+    if [ -z "${VIRTUAL_ENV}" ]; then
+        mkvirtualenv ${VENVNAME}
+    fi
     #workon ${VENVNAME}
     # ${VIRTUAL_ENV} = ${WORKON_HOME}/${VENVNAME}
     # cdvirtualenv == cd ${VIRTUAL_ENV}
@@ -307,35 +343,43 @@ dotfiles_bootstrap_usage() {
     echo ""
     echo "dotfiles_bootstrap -- a shell wrapper for cloning and installing"
 
-    echo "Usage: $0 <-I|-S|-U> [-h]";
+    echo "Usage: $0 [-u] <-I|-S|-U|-R> [-h]";
+    echo ""
+    echo "#  -u   --  pip install --user (modified for other actions)"
+    echo ""
     echo "#  -I   --  dotfiles_bootstrap install";
     echo "#  -S   --  symlink dotfiles into place";
     echo "#  -U   --  update and upgrade dotfiles";
     echo "#  -R   --  pip install -r requirements-all.txt"
+    echo "#  -h   --  print this help message"
     exit 1;
 }
 
 
 dotfiles_bootstrap_main () {
-    while getopts "ISURh" o; do
+    while getopts "uISURh" o; do
         case "${o}" in
+            u)
+                u=${OPTARG};
+                export PIP_INSTALL="${PIP_INSTALL_USER}"
+                ;;
             I)
-                i=${OPTARG};
+                I=${OPTARG};
                 dotfiles_bootstrap_install;
                 ;;
             S)
-                s=${OPTARG};
+                S=${OPTARG};
                 symlink_all;
                 ;;
             U)
-                u=${OPTARG};
+                U=${OPTARG};
                 dotfiles_bootstrap_upgrade;
                 symlink_all;
                 ;;
             R)
-                u=${OPTARG};
+                R=${OPTARG};
                 dotfiles_bootstrap_install_requirements;
-                dotfiles_bootstrap_install_requirements_user;
+                #dotfiles_bootstrap_install_requirements_user;
                 ;;
             h|*)
                 dotfiles_bootstrap_usage
