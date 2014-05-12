@@ -284,10 +284,32 @@ thg_all:
 	$(REPOSBIN) -s $(SRVROOT) -s ${HOME}/.dotfiles --thg \
 		| tee ~/.config/TortoiseHg/thg-reporegistry.xml
 
+docs_api:
+	## Generate API docs with sphinx-autodoc (requires `make docs_setup`)
+	rm -f docs/api.rst
+	rm -f docs/modules.rst
+	# https://bitbucket.org/birkenfeld/sphinx/issue/1456/apidoc-add-a-m-option-to-put-module
+	#         # https://bitbucket.org/westurner/sphinx/branch/apidoc_output_order
+	sphinx-apidoc -M --no-toc --no-headings -o docs/ src/dotfiles
+	mv docs/dotfiles.rst docs/api.rst
+	sed -i 's/dotfiles package/API/' docs/api.rst
 
-.PHONY: all test build install edit
-all: test build install
+.PHONY: all test build install edit docs
+all: test build install docs
 
+docs:
+	$(MAKE) docs_api
+	$(MAKE) -C docs clean html singlehtml
+
+docs_clean_rsync_local:
+	rm -rf /srv/repos/var/www/docs/dotfiles/*
+
+docs_rsync_to_local: docs_clean_rsync_local
+	rsync -vr ./docs/_build/html/ /srv/repos/var/www/docs/dotfiles/
+
+docs_rebuild:
+	$(MAKE) docs
+	$(MAKE) docs_rsync_to_local
 
 test_show_env:
 	env
