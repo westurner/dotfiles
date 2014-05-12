@@ -297,8 +297,12 @@ docs_api:
 .PHONY: all test build install edit docs
 all: test build install docs
 
+docs_dotvim:
+	scripts/dotfiles-vim.sh > docs/dotvim_conf.rst
+
 docs:
 	$(MAKE) docs_api
+	$(MAKE) docs_dotvim
 	$(MAKE) -C docs clean html singlehtml
 
 docs_clean_rsync_local:
