@@ -24,3 +24,6 @@ etc/vim
 
 deb_dist/
 .ropeproject/
+docs/build.log
+docs/build.current.log
+docs/_build
