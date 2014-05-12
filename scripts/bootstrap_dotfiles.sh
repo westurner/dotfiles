@@ -4,7 +4,9 @@
 
 # Stop (exit) on error
 set -e
-set -x
+
+# Print commands as they run
+#set -x
 
 # Bootstrap a dotfiles instance from source
 BKUPID=$(date +%Y%m%d-%H%M%S~)
@@ -315,7 +317,7 @@ dotfiles_bootstrap_usage() {
 
 
 dotfiles_bootstrap_main () {
-    while getopts "ISUR" o; do
+    while getopts "ISURh" o; do
         case "${o}" in
             I)
                 i=${OPTARG};
@@ -335,7 +337,7 @@ dotfiles_bootstrap_main () {
                 dotfiles_bootstrap_install_requirements;
                 dotfiles_bootstrap_install_requirements_user;
                 ;;
-            *)
+            h|*)
                 dotfiles_bootstrap_usage
                 ;;
         esac
