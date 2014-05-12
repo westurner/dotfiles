@@ -7,16 +7,16 @@ hghooks
 
 
 import logging
-import os.path as pathjoin
+import os.path.join as pathjoin
 log = logging.getLogger('hghooks')
 
 
 def http_request(method="GET",
-                    url=None,
-                    body=None,
-                    headers=None,
-                    username=None,
-                    password=None)
+                 url=None,
+                 body=None,
+                 headers=None,
+                 username=None,
+                 password=None):
     import httplib
 
     if username and password:
@@ -33,7 +33,7 @@ def http_request(method="GET",
 
     headers = headers or {}
     if auth_string:
-        headers['authorization'] = 'Basic %s' % auth_stringa
+        headers['authorization'] = 'Basic %s' % auth_string
 
     log.debug(url)
     log.debug(headers)
@@ -48,44 +48,47 @@ def notify_jenkins(*args, **kwargs):
     log.info(resp)
 
 
-
 MRUBASENAME = 'updates.json'
-import os.path as pathjoin
 import json
+import datetime
+import os
+
 
 def repo_event_json(**kwargs):
     repo = kwargs['repo']
     output = {
         'date': datetime.datetime.now(),
         'url': repo.url(),
-        #'title':
+        # 'title':
         'meta': kwargs
     }
-    #log.debug(u'event: %s' % output)
+    # log.debug(u'event: %s' % output)
     return json.dumps(output)
 
-def read_most_recent_mru(*args, repo=None, repo_path=None, **kwargs):
+
+def read_most_recent_mru(repo=None, repo_path=None, *args, **kwargs):
     if repo_path is None:
         if repo is None:
             raise Exception()
         repo_path = repo.path
 
     mru_path = pathjoin(repo_path, MRUBASENAME)
-    if os.path.exists(mrufile):
+    if os.path.exists(mru_path):
         try:
             data = json.load(open(mru_path))
             return data
-        except Exception, e:
+        except Exception as e:
             log.exception(e)
     else:
         return None
+
 
 def log_most_recent_incoming_hghook(ui, repo, *args, **kwargs):
     def _write_event(**kwargs):
         output = repo_event_json(**kwargs)
         ui.debug(output)
         mru_path = pathjoin(repo.path, MRUBASENAME)
-        if os.path.exists(mru_path)
+        if os.path.exists(mru_path):
             data = read_most_recent_mru(*args, **kwargs)
             ui.debug(data)
 
@@ -95,6 +98,8 @@ def log_most_recent_incoming_hghook(ui, repo, *args, **kwargs):
 
 
 EVENT_API_URL = "http://localhost:6543/api/events"
+
+
 def log_repo_events_hghook(ui, repo, *args, **kwargs):
     def _write_event(**kwargs):
         event = repo_event_json(**kwargs)
@@ -104,7 +109,7 @@ def log_repo_events_hghook(ui, repo, *args, **kwargs):
     return branch_hghook(ui, repo, _write_event, **kwargs)
 
 
-## HG Hooks
+# HG Hooks
 
 def branch_hghook(ui, repo, function=notify_jenkins, **kwargs):
     node = kwargs.get('node')
@@ -113,10 +118,10 @@ def branch_hghook(ui, repo, function=notify_jenkins, **kwargs):
     changegroup_branch = repo[node].branch()
 
     context = {
-        'ui':ui,
-        'repo':repo,
-        'branch':branch,
-        'changegroup_branch':changegroup_branch
+        'ui': ui,
+        'repo': repo,
+        'branch': none_branch,
+        'changegroup_branch': changegroup_branch
     }
     context.update(**kwargs)
 
@@ -130,19 +135,24 @@ def branch_hghook(ui, repo, function=notify_jenkins, **kwargs):
 def debug_hghook(ui, repo, **kwargs):
     node = kwargs.get('node')
     none_branch = repo[None].branch()
+    none_branch
     # branch of first node in changegroup
     changegroup_branch = repo[node].branch()
+    changegroup_branch
 
     from IPython import embed
     embed()
 
 
 import unittest
+
+
 class Test_hghooks(unittest.TestCase):
+
     def test_hghooks(self):
         from mercurial.ui import ui
         ui = ui
-        repo =
+        repo = None
         kwargs = {
             'source': 'pull',
             'node': 'test',
@@ -158,26 +168,25 @@ def main():
     prs = optparse.OptionParser(usage="./%prog : args")
 
     prs.add_option('-b', '--build', '--jenkins-build',
-                    dest='jenkins_build',
-                    action='store_true')
+                   dest='jenkins_build',
+                   action='store_true')
 
     prs.add_option('-d', '--debug',
-                    dest='debug',
-                    action='store_true')
+                   dest='debug',
+                   action='store_true')
     prs.add_option('-r', '--repo', '--repository-path',
-                    dest='repo',
-                    action='store')
+                   dest='repo',
+                   action='store')
 
     prs.add_option('-v', '--verbose',
-                    dest='verbose',
-                    action='store_true',)
+                   dest='verbose',
+                   action='store_true',)
     prs.add_option('-q', '--quiet',
-                    dest='quiet',
-                    action='store_true',)
+                   dest='quiet',
+                   action='store_true',)
     prs.add_option('-t', '--test',
-                    dest='run_tests',
-                    action='store_true',)
-
+                   dest='run_tests',
+                   action='store_true',)
 
     (opts, args) = prs.parse_args()
 
@@ -198,12 +207,12 @@ def main():
 
     if opts.debug:
         import mercurial as hg
+        hg
         repo = opts.repo
+        repo
 
         from IPython import embed
         embed()
 
 if __name__ == "__main__":
     main()
-
-
