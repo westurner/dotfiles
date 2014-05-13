@@ -1,7 +1,14 @@
 
-
+===========
 dotfiles
-+++++++++++
+===========
+
+`GitHub`_ | `BitBucket`_ | `ReadTheDocs`_
+
+.. _GitHub: https://github.com/westurner/dotfiles
+.. _BitBucket: https://bitbucket.org/westurner/dotfiles
+.. _ReadTheDocs: https://wrdfiles.readthedocs.org/en/latest/
+
 **Bash scripts**, **Python scripts**, and **configuration files**
 for working with projects on \*nix platforms in Bash, ZSH, Ruby, and Python.
 
@@ -29,8 +36,7 @@ Install dotfiles python package with pip::
 
     pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
 
-Install dotfiles python package into ~/.local with pip::
+Create symlinks from ~/.dotfiles/etc to ~/::
 
-    git clone https://github.com/westurner/dotfiles
-    pip install --user -e ./dotfiles
-    python -m site
+    bash ./dotfiles/scripts/bootstrap_dotfiles.sh -S
+
