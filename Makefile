@@ -298,7 +298,7 @@ docs_api:
 all: test build install docs
 
 docs_dotvim:
-	scripts/dotfiles-vim.sh > docs/dotvim_conf.rst
+	bash scripts/dotfiles-vim.sh | tee docs/dotvim_conf.rst
 
 docs:
 	$(MAKE) docs_api
