@@ -5,6 +5,12 @@ pyinotify
 #    - https://github.com/seb-m/pyinotify/wiki 
 #    - https://seb-m.github.io/pyinotify/
 
+pyline
+#  src:
+#    -e git+https://github.com/westurner/pyline#egg=pyline
+#  doc:
+#    - https://pyline.readthedocs.org/en/latest/
+
 python-dateutil
 #  src:
 #   -e bzr+https://code.launchpad.net/~dateutil/dateutil/trunk#egg=dateutil
