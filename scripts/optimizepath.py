@@ -64,9 +64,9 @@ def get_checksum(path, hashbin=CHECKSUM_BIN):
 def detect_duplicates(iterable):
     paths = OrderedDict()
     for path in iterable:
+        if not os.path.exists(path):
+            continue  # TODO
         for f in os.listdir(path):
-            if not os.path.exists(path):
-                continue  # TODO
             basename = os.path.basename(f)
             basename_paths = paths.get(basename,[])
             basename_paths.append(path)
