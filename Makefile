@@ -317,3 +317,39 @@ docs_rebuild:
 
 test_show_env:
 	env
+
+## gitflow
+
+checkout_gitflow:
+	test -d src/gitflow \
+		&& (cd src/gitflow \
+			&& git pull \
+			&& git checkout master) \
+		|| git clone https://github.com/nvie/gitflow src/gitflow
+
+install_gitflow:
+	$(MAKE) checkout_gitflow
+	INSTALL_PREFIX="${HOME}/.local/bin" bash src/gitflow/contrib/gitflow-installer.sh
+
+install_gitflow_system:
+	$(MAKE) checkout_gitflow
+	INSTALL_PREFIX="/usr/local/bin" sudo bash src/gitflow/contrib/gitflow-installer.sh
+
+## hubflow
+
+checkout_hubflow:
+	test -d src/hubflow \
+		&& (cd src/hubflow \
+			&& git pull \
+			&& git checkout master) \
+		|| git clone https://github.com/datasift/gitflow src/hubflow
+
+install_hubflow:
+	$(MAKE) checkout_hubflow
+	INSTALL_INTO="${HOME}/.local/bin" bash src/hubflow/install.sh
+
+install_hubflow_system:
+	$(MAKE) checkout_hubflow
+	INSTALL_INTO="/usr/local/bin" sudo bash src/hubflow/install.sh
+
+
