@@ -73,6 +73,7 @@ set $volume_up pactl set-sink-volume 0 -- +10%
 set $volume_down pactl set-sink-volume 0 -- -10%
 
 set $set_xbackground xsetroot -solid "#000000"
+#set $set_xwallpaper
 
 set $xflux_start xflux -l 41.3 -g -95.9 -k 3401
 set $xflux_stop pkill -9 -f xflux
