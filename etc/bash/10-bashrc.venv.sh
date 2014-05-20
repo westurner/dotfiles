@@ -4,17 +4,7 @@
 # intended to be sourced from (after) ~/.bashrc
 #
 
-
 export CLICOLOR=true
-
-# see: add_to_path ${HOME}/.local/bin
-# export PATH="${HOME}/.local/bin:${PATH}"
-
-
-
-
-## Venv
-
 
 #  __PROJECTS -- local project settings script
 export __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
@@ -87,12 +77,15 @@ cdw () {
 }
 
 ## Grin search
+# virtualenv / virtualenvwrapper
 grinv() {
     grin --follow $@ "${VIRTUAL_ENV}"
 }
 grindv() {
     grind --follow $@ --dirs "${VIRTUAL_ENV}"
 }
+
+# venv
 grins() {
     grin --follow $@ "${_SRC}"
 }
