@@ -1,3 +1,9 @@
+ 
+function_exists() {
+    declare -f $1 > /dev/null
+    return $?
+}
+
 add_to_path ()
 {
     ## http://superuser.com/questions/ \
