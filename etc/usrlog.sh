@@ -99,9 +99,21 @@ _usrlog_set_TERM_ID () {
         echo $RENAME_MSG
         _usrlog_append "$RENAME_MSG"
         export TERM_ID="${new_term_id}"
+        _usrlog_set_title
     fi
 }
 
+
+_usrlog_echo_title () {
+    # TODO: VIRTUAL_ENV_NAME / VIRTUAL_ENV
+    echo -ne "\033]0;${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}\007"
+}
+
+_usrlog_set_title() {
+    ## set xterm title
+    export WINDOW_TITLE=${1:-"$TERM_ID"}
+    _usrlog_echo_title
+}
 
 _usrlog_setup() {
     # Bash profile setup for logging unique console sessions
@@ -118,14 +130,16 @@ _usrlog_setup() {
     _usrlog_set_TERM_ID $term_id
     touch $_USRLOG
 
+    _usrlog_set_title $TERM_ID
+
     # setup bash
     if [ -n "$BASH" ]; then
-        PROMPT_COMMAND="_usrlog_writecmd;"
+        PROMPT_COMMAND="_usrlog_writecmd; _usrlog_echo_title;"
     fi
 
     # setup zsh
     if [ -n "$ZSH_VERSION" ]; then
-        precmd_functions=(_usrlog_writecmd)
+        precmd_functions=(_usrlog_writecmd _usrlog_echo_title)
     fi
 }
 
