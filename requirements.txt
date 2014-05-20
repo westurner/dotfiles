@@ -11,8 +11,8 @@ pyline
 #  doc:
 #    - https://pyline.readthedocs.org/en/latest/
 
-python-dateutil
+pyrpo
 #  src:
-#   -e bzr+https://code.launchpad.net/~dateutil/dateutil/trunk#egg=dateutil
+#    -e git+https://github.com/westurner/pyrpo#egg=pyrpo
 #  doc:
-#    http://labix.org/python-dateutil
+#    - https://pyrpo.readthedocs.org/en/latest/
