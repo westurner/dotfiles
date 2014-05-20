@@ -1,14 +1,35 @@
+## readline .inputrc
+#
+# Various terminals have vi-mode settings:
+# - bash: set -o vi
+# - ksh: set -o vi
+# - zsh: binkey -v
+# - tcsh: bindkey -v
+#
+
+# do not bell on tab-completion
+set bell-style none
+set bell-style visible
+
+
+#
+#  vi-mode
 set editing-mode vi
+#  start in insert mode
 set keymap vi-insert
 
-# Edit options before rerunning previous command, eg: ls a b c -> ls -al
-# a b c
+$if mode=emacs
+
+
+#  <ctrl> o     -- Edit options before rerunning command
+#                  eg: ls a b c -> ls -al
+#                  a b c
 "\C-o": "\e-0eli "
 #
-# # Cycle thru completions.
+#  <ctrl> a     -- cycle thru completions
 "\C-a": menu-complete
 #
-# # glob patterns without executing, eg: 'rm *x'
+#  <ctrl> e     -- glob patterns without executing, eg: 'rm *x'
 "\C-e": glob-expand-word
 #
 # # Vim style history search (Already Default)
@@ -21,7 +42,5 @@ set keymap vi-insert
 # # Two escapes clear command line. (Use C-c or \eC\eC instead)
 "\e\e": "\e0\C-ki"
 
-# bash: set -o vi
-# ksh: set -o vi
-# zsh: binkey -v
-# tcsh: bindkey -v
+$endif
+

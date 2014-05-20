@@ -210,6 +210,10 @@ symlink_xinitrc_screensaver() {
     backup_and_symlink .xinitrc
 }
 
+symlink_xmodmap() {
+    backup_and_symlink .Xmodmap
+}
+
 symlink_python() {
     backup_and_symlink .pythonrc
     backup_and_symlink .pydistutils.cfg
@@ -254,6 +258,7 @@ symlink_all() {
     symlink_gtk
     symlink_i3
     symlink_xinitrc_screensaver
+    symlink_xmodmap
 
     # {{ full_name }}
     symlink_gitconfig
