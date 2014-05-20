@@ -135,10 +135,7 @@ In ``scripts/``
 **repos.py**
    Wrap version control system commandline interfaces
 
-   * Find vcs repositories
-   * Wrap shell commands
-   * Yield event tuples from repositories in
-     `hg <Mercurial>`_, `bzr`, `git`_, ``svn``
+   See: https://github.com/westurner/pyrpo
 
 **usrlog.py**
    Search through ``.usrlog`` files
