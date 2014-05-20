@@ -138,7 +138,6 @@ _loadaliases() {
     alias grep='grep --color=auto'
     alias grindp='grind --sys.path'
     alias grinp='grin --sys-path'
-    alias gvim='gvim'
     alias hgl='hg log -l10'
     alias hgs='hg status'
     alias hgd='hg diff'
