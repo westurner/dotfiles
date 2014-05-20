@@ -1,0 +1,5 @@
+!! .Xmodmap
+!! unbind caps lock
+clear Lock
+!! bind <caps> to <esc>
+keycode 0x42 = Escape
