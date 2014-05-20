@@ -177,11 +177,13 @@ _set_prompt() {
         fi
     fi
 
-    if [ "$color_prompt" = yes ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-    else
-        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
-        unset color_prompt
+    if [ -n "$BASH_VERSION" ]; then
+        if [ "$color_prompt" = yes ]; then
+            PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+        else
+            PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
+            unset color_prompt
+        fi
     fi
 }
 _set_prompt
