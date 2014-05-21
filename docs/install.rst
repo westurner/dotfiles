@@ -3,14 +3,14 @@
 Install
 =========
 
-* :ref:`<bootstrap_dotfiles>`: `scripts/bootstrap_dotfiles.sh <https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh>`_
-* :ref:`<install_python_package>`: `setup.py
-  <https://github.com/westurner/dotfiles/blob/master/setup.py>`_
+* Download and run `scripts/bootstrap_dotfiles.sh -I <https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh>`_
+* `setup.py <https://github.com/westurner/dotfiles/blob/master/setup.py>`_
 
 **For Development**
-  * `Makefile <https://github.com/westurner/dotfiles/blob/master/Makefile>`_
 
-.. _bootstrap_dotfiles::
+* `Makefile <https://github.com/westurner/dotfiles/blob/master/Makefile>`_
+
+.. _bootstrap_dotfiles:
 
 Bootstrap dotfiles for the current user
 -----------------------------------------
