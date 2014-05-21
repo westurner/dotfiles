@@ -436,7 +436,7 @@ setup(
     # test_suite='nose.collector',
     # tests_require=testing_extras, # pip install -r requirements-testing.txt
     # install_requires=(always_install + testing_extras),
-    install_requires=['python-dateutil'],
+    install_requires=[],
     extras_require=extras_require,
     entry_points={
         'console_scripts':
