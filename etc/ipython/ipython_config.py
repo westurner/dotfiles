@@ -39,6 +39,15 @@ class IPYMock(object):
 pyver = 'python%d.%d' % version_info[:2]
 log = logging.getLogger('Venv')
 
+def get_workon_home_default():
+    workon_home = os.environ.get('WORKON_HOME')
+    if workon_home:
+        return workon_home
+    workon_home = os.path.expanduser('~/wrk/.ve')
+    if os.path.exists(workon_home):
+        return workon_home
+    return os.path.expanduser('~/.virtualenvs/')
+
 class Env(OrderedDict):
     osenviron_keys = (
     'DOCSHTML',
@@ -155,7 +164,7 @@ class Venv(object):
         else:
             if '/' not in virtualenv:
                 _virtualenv = joinpath(
-                                os.environ['WORKON_HOME'],
+                                get_workon_home_default(),
                                 virtualenv)
             else:
                 _virtualenv = virtualenv
@@ -679,7 +688,7 @@ class Test_env(unittest.TestCase):
 class Test_venv(unittest.TestCase):
     TEST_VIRTUALENV = 'dotfiles'
     TEST_APPNAME = 'dotfiles'
-    TEST_VIRTUAL_ENV = joinpath(os.environ['WORKON_HOME'], 'dotfiles')
+    TEST_VIRTUAL_ENV = joinpath(get_workon_home_default(), 'dotfiles')
 
     def test_venv(self):
         venv = Venv(self.TEST_VIRTUALENV)
