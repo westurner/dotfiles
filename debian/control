@@ -1,0 +1,31 @@
+Source: dotfiles
+Maintainer: unknown <unknown@unknown>
+Section: python
+Priority: optional
+Build-Depends: python-setuptools (>= 0.6b3), python (>= 2.6.6-3), debhelper (>= 7.4.3)
+Standards-Version: 3.9.1
+
+Package: python-dotfiles
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+Description: dotfiles
+ .
+ dotfiles
+ +++++++++++
+ **Bash scripts**, **Python scripts**, and **configuration files**
+ for working with projects on \*nix platforms in Bash, ZSH, Ruby, and Python.
+ .
+ .. contents:: dotfiles
+ .
+ .
+ Objective
+ ===========
+ * Minimize error by standardizing common workflows and processes
+ .
+ .
+ Installing
+ ============
+ There are a few parts to install.
+ .
+ Things in ``etc/`` need to be symlinked in. #TODO
+ .

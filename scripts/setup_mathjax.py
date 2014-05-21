@@ -1,2 +1,3 @@
 #!/usr/bin/env python
-from IPython.external import mathjax; mathjax.install_mathjax()
+if __name__ == "__main__":
+    from IPython.external import mathjax; mathjax.install_mathjax()

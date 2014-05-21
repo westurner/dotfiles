@@ -1,7 +1,0 @@
-# .dotfiles
-[dotfiles]
-repository = ~/.dotfiles
-ignore = [
-    '.hg',
-    '.hgignore',]
-#externals = {

@@ -1,0 +1,3 @@
+-r requirements/requirements-dev.txt
+#-r requirements/requirements-docs.txt
+-r requirements/requirements-suggests.txt

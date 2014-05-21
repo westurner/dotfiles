@@ -1,0 +1,18 @@
+pyinotify
+#  src:
+#    -e git+https://github.com/seb-m/pyinotify#egg=pyinotify
+#  doc:
+#    - https://github.com/seb-m/pyinotify/wiki 
+#    - https://seb-m.github.io/pyinotify/
+
+pyline
+#  src:
+#    -e git+https://github.com/westurner/pyline#egg=pyline
+#  doc:
+#    - https://pyline.readthedocs.org/en/latest/
+
+pyrpo
+#  src:
+#    -e git+https://github.com/westurner/pyrpo#egg=pyrpo
+#  doc:
+#    - https://pyrpo.readthedocs.org/en/latest/
