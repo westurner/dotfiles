@@ -1,0 +1,86 @@
+#
+# HubFlow - a fork of the git-flow tools to apply Vincent Driessen's
+# branching model to working with GitHub
+#
+# Original blog post presenting this model is found at:
+#    http://nvie.com/git-model
+#
+# The HubFlow documentation is found at:
+#    http://datasift.github.com/gitflow/
+#
+# Feel free to contribute to this project at:
+#    http://github.com/datasift/gitflow
+#
+# Copyright 2010 Vincent Driessen. All rights reserved.
+# Copyright 2012 MediaSift Ltd. All rights reserved.
+#
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+#    1. Redistributions of source code must retain the above copyright notice,
+#       this list of conditions and the following disclaimer.
+#
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY VINCENT DRIESSEN ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL VINCENT DRIESSEN OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+# OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# The views and conclusions contained in the software and documentation are
+# those of the authors and should not be interpreted as representing official
+# policies, either expressed or implied, of Vincent Driessen.
+#
+
+usage() {
+	echo "usage: git hf upgrade"
+}
+
+cmd_default() {
+	cmd_upgrade "$@"
+}
+
+cmd_help() {
+	usage
+	exit 0
+}
+
+cmd_upgrade() {
+	DEFINE_boolean check false "check for upgrade, but do not upgrade" c
+	# is there a new version available?
+	if ! hubflow_has_new_version_available > /dev/null ; then
+		die "You are already running the latest version"
+	elif flag check ; then
+		die "A newer version of the HubFlow tools is available"
+	fi
+
+	# make sure we have permissions
+	if [ `id -u` != 0 ] ; then
+		die "Not running as root (try using sudo?)"
+	fi
+
+	# make sure there isn't already a gitflow folder here
+	if [ -e gitflow ] ; then
+		die "Cannot clone the HubFlow repo; there's already a folder called 'gitflow' in your current working directory"
+	fi
+
+	git clone --recursive $HUBFLOW_REPO || die "Unable to clone the HubFlow repo"
+	cd gitflow || die "Could not find the gitflow repo we've just cloned"
+	./install.sh || die "Failed to install gitflow"
+	cd ..
+	rm -rf ./gitflow || die "Unable to remove the gitflow repo we've just cloned"
+
+	echo
+	echo "Summary of actions:"
+	echo "- A new version of the HubFlow tools has been installed"
+	echo
+}

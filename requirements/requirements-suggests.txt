@@ -1,0 +1,94 @@
+
+grin
+# src:
+#   -e svn+https://svn.enthought.com/svn/sandbox/grin/trunk/#egg=grin
+
+backports.ssl_match_hostname
+# src:
+#   -e hg+https://bitbucket.org/brandon/backports.ssl_match_hostname#backports.ssl_match_hostname
+
+sarge
+# src:
+#   -e hg+https://bitbucket.org/vinay.sajip/sarge#egg=sarge
+# docs:
+#   http://pythonhosted.org/sarge/
+
+requests
+# src:
+#   -e git+https://github.com/kennethreitz/requests#egg=requests
+# docs:
+#   http://docs.python-requests.org/en/latest/
+
+httmock
+# src:
+#   -e git+https://github.com/patrys/httmock#egg=httmock
+# docs:
+#   https://github.com/patrys/httmock
+
+responses
+# src:
+#   -e git+https://github.com/dropbox/responses#egg=responses
+# docs:
+#   - https://github.com/dropbox/responses
+
+httpcache
+# src:
+#   -e git+https://github.com/Lukasa/httpcache#egg=httpcache
+
+httpie
+# src:
+#   -e git+https://github.com/jakubroztocil/httpie#egg=httpie
+# latest development version:
+#    https://github.com/jakubroztocil/httpie/tarball/master
+
+secretstorage
+# src:
+#   -e git+https://github.com/mitya57/secretstorage#egg=secretstorage
+
+keyring
+# src:
+#   -e hg+https://bitbucket.org/kang/python-keyring-lib/#egg=keyring
+
+gpgkeys
+# src:
+#   -e git+https://github.com/stefanholek/gpgkeys#egg=gpgkeys
+
+goobook
+# src:
+#   -e git+https://git.gitorious.org/goobook/mainline.git#egg=goobook
+#   -e git+ssh://git@gitorious.org:goobook/mainline.git#egg=goobook
+
+cookiecutter
+# src:
+#   -e git+https://github.com/audreyr/cookiecutter#egg=cookiecutter
+# cookiecutter https://github.com/audreyr/cookiecutter-pypackage
+
+ghp-import
+# src:
+#   -e git+https://github.com/davisp/ghp-import#egg=ghp-import
+
+
+#ipython
+# src:
+#   -e git+https://github.com/ipython/ipython#egg=ipython
+
+#mercurial
+# src:
+#   -e hg+http://selenic.com/hg/#egg=mercurial
+
+dulwich
+# src:
+#   -e git+https://github.com/jelmer/dulwich#egg=dulwich
+
+hg-git
+# src:
+#   -e https://bitbucket.org/durin42/hg-git#egg=hg-git
+#  #-e git+https://github.com/schacon/hg-git#egg=hg-git
+# docs:
+#   - http://hg-git.github.com/
+
+tmuxp
+# src:
+#   -e git+https://github.com/tony/tmuxp#egg=tmuxp
+# docs:
+#   - http://tmuxp.readthedocs.org/en/latest/

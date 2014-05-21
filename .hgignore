@@ -6,6 +6,7 @@ develop-eggs
 
 *.egg-info
 *.swp
+*.un~
 tmp
 build
 dist
@@ -19,3 +20,10 @@ MANIFEST.in
 hook.log*
 pip-requirements-autogen.txt
 etc/vim
+.tox/
+
+deb_dist/
+.ropeproject/
+docs/build.log
+docs/build.current.log
+docs/_build

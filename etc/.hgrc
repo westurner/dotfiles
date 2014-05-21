@@ -18,6 +18,96 @@ qt = qtop
 qd = qdiff
 qg = qgoto
 
+a = add
+#chunkyadd = record?
+
+# branch
+b = branch -v
+
+# commit
+# commit with message
+
+c = commit -m
+# commit all with message
+ca = commit -Am
+# commit (check in)
+ci = commit
+# amend your last commit
+amend = commit --amend
+# amend your last commit
+ammend = commit --amend
+
+# checkout
+co = checkout
+nb = bookmark
+
+# cherry-pick
+cp = transplant --log -b
+cpg = graft --log -r
+
+# diff
+d = diff
+ds = diff --stat
+dc = qdiff
+dq = qdiff
+last = diff -r tip:-1
+ds = diff --stat
+
+# log
+l = log -G --pager=yes
+changes = log --pager=yes --template='{rev} {node|short} {date|isodate} {author|user} ({join(tags, ", ")}) {desc}\n{file_mods % "M  {file}\n"}{file_adds % "A  {file}\n"}{file_dels % "D  {file}\n"}\n'
+cl = log -G --style changelog --pager=yes
+short = log -G --style=compact --pager=yes
+
+# pull
+pl = pull
+
+# push
+ps = push
+
+# rebase
+# rc = 
+# rs = 
+
+# remote (paths)
+p = paths
+r = paths
+
+# reset
+unstage = reset HEAD
+uncommit = rollback
+filelog = log -f
+# mt = mergetool
+
+# stash (mq)
+ss = qnew
+sl = qseries
+sa = qpush
+sd = qdelete
+
+qn = qnew
+qc = qcommit
+qs = qseries
+qp = qpush
+qrm = qdelete
+
+# status
+s = status
+st = status
+stat = status
+
+# tag
+t = tags
+
+# svn helpers
+# pip install hgsvn
+# hgimportsvn -r <latest> svn://path_to/svn/repo <example>
+# hgimportsvn -r <latest> http://path_to/svn/repo <example>
+# cd example
+# hgpullsvn
+# hg tags
+
+
 [extensions]
 hgk =
 churn =
@@ -41,6 +131,8 @@ eol =
 #largefiles = 
 rebase = 
 transplant =
+shelve =
+pager =
 
 #hgattic = ~/.mercurial/hgattic/attic.py
 #hgshelve = ~/.mercurial/hgshelve/hgshelve.py
@@ -49,6 +141,8 @@ transplant =
 #reviewboard = ~/.mercurial/mercurial-reviewboard
 #debugshell = ~/src/hg-crew-stable/contrib/debugshell.py
 
+[pager]
+ignore = version, help, update
 
 [extdiff]
 cmd.diffuse = diffuse
@@ -61,6 +155,7 @@ opts.vimdiff = -f '+next' '+execute "DirDiff" argv(0) argv(1)'
 py = http://hg.python.org/
 bb = https://bitbucket.org/
 bb+ssh = ssh://hg@bitbucket.org/
+bb+git+ssh = ssh://git@bitbucket.org/
 gcode = https://{1}.googlecode.com/hg/
 gcode+svn = https://{1}.googlecode.com/svn/trunk
 kiln = https://{1}.kilnhg.com/Repo/

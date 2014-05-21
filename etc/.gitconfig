@@ -114,4 +114,11 @@ email = wes@wrd.nu
 [diff]
   # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
   # instead of a/b/c/d as prefixes for patches
-  mnemonicprefix = true
+    mnemonicprefix = true
+
+# Upgrade github URLs to SSH
+[url "ssh://git@github.com/"]
+    insteadOf = http://github.com/
+    insteadOf = https://github.com/
+    insteadOf = git://github.com/
+
