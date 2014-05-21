@@ -344,7 +344,7 @@ help_zsh:
 
 docs:
 	$(MAKE) docs_api
-	$(MAKE) docs_dotvim
+	$(MAKE) help_vim_rst
 	$(MAKE) -C docs clean html singlehtml
 
 docs_clean_rsync_local:
