@@ -1,0 +1,10 @@
+#sphinx
+-e hg+https://bitbucket.org/birkenfeld/sphinx#egg=sphinx
+
+sphinxcontrib-napoleon
+sphinx_rtd_theme
+
+sphinxcontrib-ansi
+sphinxcontrib-programoutput
+# src:
+#   -e hg+https://bitbucket.org/birkenfeld/sphinx-contrib

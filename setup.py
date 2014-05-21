@@ -12,27 +12,19 @@ import errno
 import glob
 import logging
 import os
-import shutil
 import subprocess
 import sys
 
 from collections import deque
 from fnmatch import fnmatchcase
-from itertools import chain
 
 import setuptools
 
 from distutils.command.build import build as DistutilsBuildCommand
-from distutils.file_util import copy_file
 from distutils.util import convert_path
 from distutils.text_file import TextFile
 
 from setuptools import setup, find_packages
-from setuptools.command.install import install
-
-#from paver.setuputils import find_package_data
-def find_package_data(*args, **kwargs):
-    return
 
 try:
     import z3c.recipe.tag
@@ -40,7 +32,15 @@ try:
 except ImportError:
     pass
 
-VERSION = '0.1.0'
+SETUPPY_PATH = os.path.dirname(os.path.abspath(__file__)) or '.'
+
+
+def read_version_txt():
+    with open(os.path.join(SETUPPY_PATH, 'VERSION.txt')) as f:
+        version = f.read().strip()
+    return version
+
+VERSION = read_version_txt()
 APPNAME = 'dotfiles'
 
 CONFIG = {}
@@ -70,7 +70,6 @@ CONFIG['excludes'] = (
     '*~',
     '*.un~',
     '*.bak',
-    'MANIFEST.in',  #
 )
 CONFIG['exclude_dirs'] = (
     '.git',
@@ -83,6 +82,7 @@ CONFIG['exclude_dirs'] = (
     './dist',
     'EGG-INFO',
     '*.egg-info',
+    '__pycache__',
 )
 
 
@@ -258,8 +258,13 @@ class PyTestCommand(RunCommand):
 
         glob_pattern = os.path.join(SETUPPY_PATH, 'src/dotfiles/*.py')
         cmd.extend(sorted(glob.glob(glob_pattern)))
+
+        glob_pattern = os.path.join(SETUPPY_PATH, 'scripts/*.py')
+        cmd.extend(sorted(glob.glob(glob_pattern)))
+
         cmdstr = ' '.join(cmd)
         log.info(cmdstr)
+
         errno = subprocess.call(cmd)
         raise SystemExit(errno)
 
@@ -358,8 +363,8 @@ def find_closest_repository(matches, relative_to):
         if (minimum_relpath is None or len(relpath) < len(minimum_relpath)):
             minimum_relpath = relpath
             key, match = _key, _match
-    if None in (key, match):
-        raise Exception("no repositories found")
+    # if None in (key, match):
+    #     raise Exception("no repositories found")
     return (key, match)
 
 
@@ -402,17 +407,13 @@ def generate_manifest_in_from_hg():
     """Generate MANIFEST.in from 'hg manifest'"""
     print("generating MANIFEST.in from 'hg manifest'")
     cmd = r'''hg manifest | sed 's/\(.*\)/include \1/g' > MANIFEST.in'''
-    subprocess.call(cmd, shell=True)
+    return subprocess.call(cmd, shell=True)
 
 
 def generate_manifest_in_from_git():
     """Generate MANIFEST.in from 'git ls-files'"""
     cmd = r'''git ls-files | sed 's/\(.*\)/include \1/g' > MANIFEST.in'''
-    subprocess.call(cmd, shell=True)
-
-
-def launch_repo_serve(vcs_name, path):
-    subprocess.call()
+    return subprocess.call(cmd, shell=True)
 
 
 setup(
@@ -421,10 +422,10 @@ setup(
     description=APPNAME,
     long_description=get_long_description(),
     classifiers=[],
-    keywords='',
-    author='',
-    author_email='',
-    url='',
+    keywords='dotfiles',
+    author='Wes Turner',
+    author_email='wes@wrd.nu',
+    url='https://github.com/westurner/dotfiles',
     license='',
     packages=find_packages('src'),
     package_dir={'': 'src'},
@@ -441,19 +442,6 @@ setup(
         'console_scripts':
             [
                 'dotfiles=dotfiles.cli:main',
-                'repo=dotfiles.repos:main',
-                'pyline=dotfiles.pyline:main',
-                'greppaths=dotfiles.greppaths:main',
-                'optimizepath=dotfiles.optimizepath:main',
-                'deb_search=dotfiles.deb_search:main',
-                'deb_deps=dotfiles.deb_deps:main',
-                'py_index=dotfiles.py_index:main',
-                'pipls=dotfiles.pipls:main',
-                'mactool=dotfiles.mactool:main',
-                'pylsof=dotfiles.lsof:main',
-                'pyren=dotfiles.pyren:main',
-                'pycut=dotfiles.pycut:main',
-                'pwstrength=dotfiles.passwordstrength:main'
             ]
     },
     cmdclass={
@@ -465,136 +453,3 @@ setup(
         'build': DotfilesBuildCommand,
     }
 )
-
-
-def ordered_uniq(*iterables):
-    """
-    filter uniques from iterables
-    """
-    d = {}
-    for p in chain(*iterables):
-        if p not in d:
-            yield p
-            d[p] = True
-            continue
-        else:
-            log.debug("dupe: %s", p)
-
-
-def _copy_file(src, dst,
-               dont_clobber=True,
-               update=False,
-               link='sym',
-               **kwargs):
-    src = os.path.abspath(src)
-    dst = os.path.abspath(dst)
-    if os.path.exists(dst):
-        # todo: compare
-        if dont_clobber:
-            log.warn("backing up %s to %s.bkp", dst, dst)
-            shutil.copy2(src, "%s.bkp" % dst)  # TODO:
-            # dst.rm()
-        else:
-            log.warn("clobbering %s", dst)
-        # (dest_name, copied) = (
-    return copy_file(src, dst, link='sym', **kwargs)
-
-
-ACTIONS = {
-    'NULL': lambda x, y: True,
-    'SYMLINK': lambda x, y: copy_file(x, y, update=True, link='sym'),
-    'MKDIR': lambda x, y: os.mkdir(y),
-    'EXISTS': lambda x, y: y / 0 * 1,
-    'UNK': lambda x, y: y / 0 * 2,
-}
-
-
-def link(src=None, dest='~', dry_run=False):
-    """Create symlinks for files"""
-    src = os.path.join(SETUPPY_PATH, 'etc')
-    # prefix
-    dest = os.path.expanduser('~/')
-
-    def path_transform(p, dest):
-        # make path p relative to dest
-        print(p.relpathto(SETUPPY_PATH))  # , dest
-        # TODO
-        return p
-
-    _map = ACTIONS.copy()
-
-    # symlinks = _links(src, lambda x: path_transform(x, dest))
-    symlinks = (path_transform(x, dest) for x in list_files(src))
-
-    if dry_run:
-        for link in symlinks:
-            log.info(link)
-    else:
-        for move, src_path, dest_path in symlinks:
-            log.info("%s, %s, %s", move, src_path, dest_path)
-            try:
-                movefunc = _map[move]
-                movefunc(src_path, dest_path)
-            except:
-                raise
-
-
-def _links(src, path_transform):
-    """Iterate over symlink sync map
-
-    .. note: `python setup.py install --prefix`
-
-    """
-    # XXX TODO FIXME proper walk
-    for root, dirs, files in os.path.walk(src):
-        for p in files:
-            dest_path = path_transform(src)
-            if os.path.isdir(p):
-                if not dest_path.exists():
-                    yield ('MKDIR', p, dest_path)
-                    continue
-                else:
-                    yield ('NULL', p, dest_path)  #
-                    continue
-            elif p.isfile():
-                if not dest_path.exists():
-                    yield ('SYMLINK', p, dest_path)
-                    continue
-                else:
-                    yield ('EXISTS', p, dest_path)  # TODO: compare
-                    continue
-            else:
-                yield ('UNK', p, dest_path)
-    return
-
-
-import unittest
-
-
-class TestDotfilesSetupPy(unittest.TestCase):
-    def test_list_files(self):
-        commands = [
-            ("setup.py", None)
-            ("setup.py --help", None),
-            ("setup.py --help-commands", None),
-            ("setup.py test", None),
-            ("setup.py hg_manifest", None),
-            ("setup.py git_manifest", None),
-            ("setup.py build", None),
-            ("setup.py build sdist", None),
-            ("setup.py build bdist", None),
-            ("setup.py build bdist_egg", None),
-            # ("setup.py build bdist_wheel", None),
-            # ("setup.py --command-packages=stdeb.command
-            #   build sdist_dsc", None),
-            # ("setup.py --command-packages=stdeb.command
-            #   build bdist_deb", None),
-            # ("setup.py --command-packages=stdeb.command
-            #   install_deb", None)
-            # ("setup.py install", None),
-            # ("setup.py install_data", None),
-            # ("setup.py install_data -d ./test_dir_todelete", None)
-        ]
-        for _cmd, output in commands:
-            _cmd = " ".join(sys.executable, _cmd)
-            subprocess.call(_cmd, shell=True)

@@ -5,16 +5,16 @@
 DOTFILES_SRC:=https://github.com/westurner/dotfiles
 DOTVIM_SRC:=https://bitbucket.org/westurner/dotvim
 
-#  Usage:
+#  Usage::
 #
-#	 # Clone and/or install .dotfiles
-#	 git clone https://github.com/westurner/dotfiles
-#	 # git clone http://git.io/ghGL3w 
-#	 python setup.py help
-#	 python setup.py test
+#	 # clone and/or install .dotfiles::
+#	 git clone https://github.com/westurner/dotfiles ~/.dotfiles
+#	 # shorturl: git clone http://git.io/ghGL3w ~/.dotfiles
+#	 cd ~/.dotfiles
+#	 git pull
 #
-#	 # Run tests
-#	 # make test
+#	 # Run make tests
+#	 make test
 #	 make dotvim_clone
 #	 make dotvim_install
 	
@@ -32,9 +32,68 @@ PIP_INSTALL_USER:=$(PIP) $(PIP_OPTS) install ${PIP_INSTALL_USER_OPTS}
 default: test
 
 help:
+	@echo "dotfiles Makefile"
+	@echo "#################"
+	@echo "help         -- print dotfiles help"
+	@echo "help_setuppy -- print setup.py help"
+	@echo "help_rst     -- print setup.py help as rst"
+	@echo "help_vim     -- print dotvim make help"
+	@echo "help_vim_rst -- print dotvim help as rst"
+	@echo "help_zsh		-- print zsh help"
+	@echo ""
+	@echo "install	  -- install dotfiles and dotvim [in a $VIRTUAL_ENV]"
+	@echo "upgrade	  -- upgrade dotfiles and dotvim [in a $VIRTUAL_ENV]"
+	@echo ""
+	@echo "install_user -- install dotfiles and dotvim (with 'pip --user')"
+	@echo "upgrade_user -- upgrade dodtfiles and dotfile (with 'pip --user')"
+	@echo ""
+	@echo "pip_upgrade pip              -- upgrade pip"
+	@echo "pip_install_requirements_all -- install all pip requirements"
+	@echo ""
+	@echo "install_gitflow -- install gitflow from github"
+	@echo "install_hubflow -- install hubflow from github"
+	@echo ""
+	@echo "clean  -- remove .pyc, .pyo, __pycache__/ etc"
+	@echo "edit   -- edit the project main files README.rst"
+	@echo "test   -- run tests"
+	@echo "build  -- build a python sdist"
+	@echo "docs   -- build sphinx documentation"
+	@echo ""
+
+help_setuppy:
 	python setup.py --help | head -n -4
 	python setup.py --command-packages=stdeb.command --help-commands
 	$(MAKE) help_commands
+
+install:
+	$(MAKE) pip_install_as_editable
+	$(MAKE) pip_install_requirements
+	# Install ${HOME} symlinks
+	bash ./scripts/bootstrap_dotfiles.sh -S
+	#bash ./scripts/bootstrap_dotfiles.sh -R
+	$(MAKE) dotvim_clone
+	$(MAKE) dotvim_install
+
+install_user:
+	type 'deactivate' 1>/dev/null 2>/dev/null && deactivate \
+		|| echo $(VIRTUAL_ENV)
+	$(MAKE) install PIP_INSTALL="~/.local/bin/pip install --user"
+	$(MAKE) pip_install_requirements_all PIP_INSTALL="~/.local/bin/pip install --user"
+	bash ./scripts/bootstrap_dotfiles.sh -S
+	$(MAKE) dotvim_clone
+	$(MAKE) dotvim_install
+
+upgrade:
+	# Update and upgrade
+	bash ./scripts/bootstrap_dotfiles.sh -U
+	$(MAKE) dotvim_clone
+	$(MAKE) dotvim_install
+
+upgrade_user:
+	type 'deactivate' 1>/dev/null 2>/dev/null && deactivate \
+		|| echo $(VIRTUAL_ENV)
+	$(MAKE) install PIP_INSTALL="~/.local/bin/pip install --upgrade --user"
+	bash ./scripts/bootstrap_dotfiles.sh -U
 
 clean:
 	pyclean .
@@ -67,20 +126,23 @@ help_rst:
 	done
 
 
-vim_help:
+help_vim:
 	test -d etc/vim && \
 		$(MAKE) -C etc/vim help
-
-vim_help_all:
-	$(MAKE) vim_help
 
 
 test:
 	# Run setuptools test task
 	python setup.py test
 
+test_build:
+	$(MAKE) test
+	py.test -v ./tests/ 
+	# TODO: test scripts/bootstrap_dotfiles.sh
+
 build:
 	# Build source dist and bdist
+	$(MAKE) build_tags
 	python setup.py build sdist bdist
 
 build_test_generate_runtests:
@@ -120,20 +182,6 @@ build_tags:
 	ls -al tags
 	build_tags --ctags-vi --languages=python
 	ls -al tags
-
-
-install:
-	$(MAKE) pip_install_as_editable
-	$(MAKE) pip_install_requirements
-	# Install ${HOME} symlinks
-	bash ./scripts/bootstrap_dotfiles.sh -S
-	#bash ./scripts/bootstrap_dotfiles.sh -R
-
-upgrade:
-	$(MAKE) pip_upgrade_pip
-	# Update and upgrade
-	bash ./scripts/bootstrap_dotfiles.sh -U
-
 
 
 pip_upgrade_pip:
@@ -192,7 +240,7 @@ dotvim_clone:
 		|| hg clone $(DOTVIM_SRC) ~/.dotfiles/etc/vim
 	hg -R ~/.dotfiles/etc/vim pull
 
-dotvim_make_install:
+dotvim_install:
 	# Install vim with Makefile
 	$(MAKE) -C etc/vim install
 
@@ -270,10 +318,80 @@ thg_all:
 	$(REPOSBIN) -s $(SRVROOT) -s ${HOME}/.dotfiles --thg \
 		| tee ~/.config/TortoiseHg/thg-reporegistry.xml
 
+docs_api:
+	## Generate API docs with sphinx-autodoc (requires `make docs_setup`)
+	rm -f docs/api.rst
+	rm -f docs/modules.rst
+	# https://bitbucket.org/birkenfeld/sphinx/issue/1456/apidoc-add-a-m-option-to-put-module
+	#         # https://bitbucket.org/westurner/sphinx/branch/apidoc_output_order
+	sphinx-apidoc -M --no-toc --no-headings -o docs/ src/dotfiles
+	mv docs/dotfiles.rst docs/api.rst
+	sed -i 's/dotfiles package/API/' docs/api.rst
 
-.PHONY: all test build install edit
-all: test build
+.PHONY: all test build install edit docs
+all: test build install docs
 
+help_vim_rst:
+	bash scripts/dotfiles-vim.sh | tee docs/dotvim_conf.rst
+
+help_bash:
+	bash -i -v -c 'exit' 2> bash_load.sh
+	$(EDITOR) bash_load.sh
+
+help_zsh:
+	zsh -i -v -c 'exit' 2> zsh_load.zsh
+	$(EDITOR) zsh_load.zsh
+
+docs:
+	$(MAKE) docs_api
+	$(MAKE) help_vim_rst
+	$(MAKE) -C docs clean html singlehtml
+
+docs_clean_rsync_local:
+	rm -rf /srv/repos/var/www/docs/dotfiles/*
+
+docs_rsync_to_local: docs_clean_rsync_local
+	rsync -vr ./docs/_build/html/ /srv/repos/var/www/docs/dotfiles/
+
+docs_rebuild:
+	$(MAKE) docs
+	$(MAKE) docs_rsync_to_local
 
 test_show_env:
 	env
+
+## gitflow
+
+checkout_gitflow:
+	test -d src/gitflow \
+		&& (cd src/gitflow \
+			&& git pull \
+			&& git checkout master) \
+		|| git clone https://github.com/nvie/gitflow src/gitflow
+
+install_gitflow:
+	$(MAKE) checkout_gitflow
+	INSTALL_PREFIX="${HOME}/.local/bin" bash src/gitflow/contrib/gitflow-installer.sh
+
+install_gitflow_system:
+	$(MAKE) checkout_gitflow
+	INSTALL_PREFIX="/usr/local/bin" sudo bash src/gitflow/contrib/gitflow-installer.sh
+
+## hubflow
+
+checkout_hubflow:
+	test -d src/hubflow \
+		&& (cd src/hubflow \
+			&& git pull \
+			&& git checkout master) \
+		|| git clone https://github.com/datasift/gitflow src/hubflow
+
+install_hubflow:
+	$(MAKE) checkout_hubflow
+	INSTALL_INTO="${HOME}/.local/bin" bash src/hubflow/install.sh
+
+install_hubflow_system:
+	$(MAKE) checkout_hubflow
+	INSTALL_INTO="/usr/local/bin" sudo bash src/hubflow/install.sh
+
+

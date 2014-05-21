@@ -1,2 +1,9 @@
-[ -n "$_VENVW" ] && source <(python $_VENV -E --bash)
-[ $(type -t _setup_editor) == "function" ] && _setup_editor
+function_exists() {
+    declare -f $1 > /dev/null
+    return $?
+}
+
+[ -n "$_VENVW" ] \
+    && source <(python $_VENV -E --bash) \
+    && function_exists '_setup_editor' \
+    && _setup_editor
