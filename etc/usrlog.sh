@@ -157,7 +157,7 @@ _usrlog_writecmd() {
     _usrlog_set_HISTFILE
 
     if [ -n "$ZSH_VERSION" ]; then
-        id 2>1 > /dev/null
+        id 2>&1 > /dev/null
         _cmd=$(fc -l -1 | sed -e $TERM_SED_STR)
     elif [ -n "$BASH" ]; then
         _cmd=$(history 1 | sed -e $TERM_SED_STR)
