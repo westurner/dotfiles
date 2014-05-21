@@ -41,6 +41,7 @@ eol =
 #largefiles = 
 rebase = 
 transplant =
+pager =
 
 #hgattic = ~/.mercurial/hgattic/attic.py
 #hgshelve = ~/.mercurial/hgshelve/hgshelve.py
