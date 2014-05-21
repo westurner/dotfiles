@@ -32,7 +32,15 @@ try:
 except ImportError:
     pass
 
-VERSION = '0.1.0'
+SETUPPY_PATH = os.path.dirname(os.path.abspath(__file__)) or '.'
+
+
+def read_version_txt():
+    with open(os.path.join(SETUPPY_PATH, 'VERSION.txt')) as f:
+        version = f.read().strip()
+    return version
+
+VERSION = read_version_txt()
 APPNAME = 'dotfiles'
 
 CONFIG = {}
@@ -62,7 +70,6 @@ CONFIG['excludes'] = (
     '*~',
     '*.un~',
     '*.bak',
-    'MANIFEST.in',  #
 )
 CONFIG['exclude_dirs'] = (
     '.git',
@@ -75,6 +82,7 @@ CONFIG['exclude_dirs'] = (
     './dist',
     'EGG-INFO',
     '*.egg-info',
+    '__pycache__',
 )
 
 
@@ -399,17 +407,13 @@ def generate_manifest_in_from_hg():
     """Generate MANIFEST.in from 'hg manifest'"""
     print("generating MANIFEST.in from 'hg manifest'")
     cmd = r'''hg manifest | sed 's/\(.*\)/include \1/g' > MANIFEST.in'''
-    subprocess.call(cmd, shell=True)
+    return subprocess.call(cmd, shell=True)
 
 
 def generate_manifest_in_from_git():
     """Generate MANIFEST.in from 'git ls-files'"""
     cmd = r'''git ls-files | sed 's/\(.*\)/include \1/g' > MANIFEST.in'''
-    subprocess.call(cmd, shell=True)
-
-
-def launch_repo_serve(vcs_name, path):
-    subprocess.call()
+    return subprocess.call(cmd, shell=True)
 
 
 setup(
@@ -418,10 +422,10 @@ setup(
     description=APPNAME,
     long_description=get_long_description(),
     classifiers=[],
-    keywords='',
-    author='',
-    author_email='',
-    url='',
+    keywords='dotfiles',
+    author='Wes Turner',
+    author_email='wes@wrd.nu',
+    url='https://github.com/westurner/dotfiles',
     license='',
     packages=find_packages('src'),
     package_dir={'': 'src'},
@@ -449,4 +453,3 @@ setup(
         'build': DotfilesBuildCommand,
     }
 )
-
