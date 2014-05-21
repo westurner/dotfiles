@@ -1,5 +1,18 @@
-python-dateutil
+pyinotify
 #  src:
-#   -e bzr+https://code.launchpad.net/~dateutil/dateutil/trunk#egg=dateutil
+#    -e git+https://github.com/seb-m/pyinotify#egg=pyinotify
 #  doc:
-#    http://labix.org/python-dateutil
+#    - https://github.com/seb-m/pyinotify/wiki 
+#    - https://seb-m.github.io/pyinotify/
+
+pyline
+#  src:
+#    -e git+https://github.com/westurner/pyline#egg=pyline
+#  doc:
+#    - https://pyline.readthedocs.org/en/latest/
+
+pyrpo
+#  src:
+#    -e git+https://github.com/westurner/pyrpo#egg=pyrpo
+#  doc:
+#    - https://pyrpo.readthedocs.org/en/latest/

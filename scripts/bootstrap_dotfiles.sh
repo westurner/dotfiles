@@ -33,7 +33,14 @@ WORKON_HOME=${WORKON_HOME:-"${HOME}/wrk/.ve"}
 
 ## Venv
 VIRTUAL_ENV_NAME="dotfiles"
-__DOTFILES="${HOME}/.dotfiles"
+__DOTFILES=${HOME}/.dotfiles
+
+## Virtualenv
+_VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
+
+## Venv
+VIRTUAL_ENV_NAME="dotfiles"
+__DOTFILES=${HOME}/.dotfiles
 
 ## Virtualenv
 _VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
@@ -149,8 +156,7 @@ clone_dotfiles_repo() {
 }
 
 
-clone_dotvim_repo() {
-    # clone or pull and update dotvim_repo
+clone_dotvim_repo(){
     url=$DOTVIM_HG_REPO_URL
     rev=${DOTVIM_REPO_REV:-"master"}  # tip, master
     dest=$DOTVIM_REPO_DEST_PATH
