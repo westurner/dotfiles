@@ -28,7 +28,7 @@ explicitly.
 
 Sourced by ``~/.bashrc``.
 
-.. program-include:: cat ../etc/bash/00-bashrc.before.sh
+.. program-output:: cat ../etc/bash/00-bashrc.before.sh
 
 ~/.projectsrc.sh
 --------------------

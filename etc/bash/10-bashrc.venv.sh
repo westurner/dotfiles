@@ -4,17 +4,7 @@
 # intended to be sourced from (after) ~/.bashrc
 #
 
-
 export CLICOLOR=true
-
-# see: add_to_path ${HOME}/.local/bin
-# export PATH="${HOME}/.local/bin:${PATH}"
-
-
-
-
-## Venv
-
 
 #  __PROJECTS -- local project settings script
 export __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
@@ -87,12 +77,15 @@ cdw () {
 }
 
 ## Grin search
+# virtualenv / virtualenvwrapper
 grinv() {
     grin --follow $@ "${VIRTUAL_ENV}"
 }
 grindv() {
     grind --follow $@ --dirs "${VIRTUAL_ENV}"
 }
+
+# venv
 grins() {
     grin --follow $@ "${_SRC}"
 }
@@ -138,7 +131,6 @@ _loadaliases() {
     alias grep='grep --color=auto'
     alias grindp='grind --sys.path'
     alias grinp='grin --sys-path'
-    alias gvim='gvim'
     alias hgl='hg log -l10'
     alias hgs='hg status'
     alias hgd='hg diff'
@@ -177,11 +169,13 @@ _set_prompt() {
         fi
     fi
 
-    if [ "$color_prompt" = yes ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-    else
-        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
-        unset color_prompt
+    if [ -n "$BASH_VERSION" ]; then
+        if [ "$color_prompt" = yes ]; then
+            PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+        else
+            PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
+            unset color_prompt
+        fi
     fi
 }
 _set_prompt

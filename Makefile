@@ -32,6 +32,35 @@ PIP_INSTALL_USER:=$(PIP) $(PIP_OPTS) install ${PIP_INSTALL_USER_OPTS}
 default: test
 
 help:
+	@echo "dotfiles Makefile"
+	@echo "#################"
+	@echo "help         -- print dotfiles help"
+	@echo "help_setuppy -- print setup.py help"
+	@echo "help_rst     -- print setup.py help as rst"
+	@echo "help_vim     -- print dotvim make help"
+	@echo "help_vim_rst -- print dotvim help as rst"
+	@echo "help_zsh		-- print zsh help"
+	@echo ""
+	@echo "install	  -- install dotfiles and dotvim [in a $VIRTUAL_ENV]"
+	@echo "upgrade	  -- upgrade dotfiles and dotvim [in a $VIRTUAL_ENV]"
+	@echo ""
+	@echo "install_user -- install dotfiles and dotvim (with 'pip --user')"
+	@echo "upgrade_user -- upgrade dodtfiles and dotfile (with 'pip --user')"
+	@echo ""
+	@echo "pip_upgrade pip              -- upgrade pip"
+	@echo "pip_install_requirements_all -- install all pip requirements"
+	@echo ""
+	@echo "install_gitflow -- install gitflow from github"
+	@echo "install_hubflow -- install hubflow from github"
+	@echo ""
+	@echo "clean  -- remove .pyc, .pyo, __pycache__/ etc"
+	@echo "edit   -- edit the project main files README.rst"
+	@echo "test   -- run tests"
+	@echo "build  -- build a python sdist"
+	@echo "docs   -- build sphinx documentation"
+	@echo ""
+
+help_setuppy:
 	python setup.py --help | head -n -4
 	python setup.py --command-packages=stdeb.command --help-commands
 	$(MAKE) help_commands
@@ -97,7 +126,7 @@ help_rst:
 	done
 
 
-vim_help:
+help_vim:
 	test -d etc/vim && \
 		$(MAKE) -C etc/vim help
 
@@ -105,6 +134,11 @@ vim_help:
 test:
 	# Run setuptools test task
 	python setup.py test
+
+test_build:
+	$(MAKE) test
+	py.test -v ./tests/ 
+	# TODO: test scripts/bootstrap_dotfiles.sh
 
 build:
 	# Build source dist and bdist
@@ -297,8 +331,20 @@ docs_api:
 .PHONY: all test build install edit docs
 all: test build install docs
 
+help_vim_rst:
+	bash scripts/dotfiles-vim.sh | tee docs/dotvim_conf.rst
+
+help_bash:
+	bash -i -v -c 'exit' 2> bash_load.sh
+	$(EDITOR) bash_load.sh
+
+help_zsh:
+	zsh -i -v -c 'exit' 2> zsh_load.zsh
+	$(EDITOR) zsh_load.zsh
+
 docs:
 	$(MAKE) docs_api
+	$(MAKE) help_vim_rst
 	$(MAKE) -C docs clean html singlehtml
 
 docs_clean_rsync_local:
@@ -313,3 +359,39 @@ docs_rebuild:
 
 test_show_env:
 	env
+
+## gitflow
+
+checkout_gitflow:
+	test -d src/gitflow \
+		&& (cd src/gitflow \
+			&& git pull \
+			&& git checkout master) \
+		|| git clone https://github.com/nvie/gitflow src/gitflow
+
+install_gitflow:
+	$(MAKE) checkout_gitflow
+	INSTALL_PREFIX="${HOME}/.local/bin" bash src/gitflow/contrib/gitflow-installer.sh
+
+install_gitflow_system:
+	$(MAKE) checkout_gitflow
+	INSTALL_PREFIX="/usr/local/bin" sudo bash src/gitflow/contrib/gitflow-installer.sh
+
+## hubflow
+
+checkout_hubflow:
+	test -d src/hubflow \
+		&& (cd src/hubflow \
+			&& git pull \
+			&& git checkout master) \
+		|| git clone https://github.com/datasift/gitflow src/hubflow
+
+install_hubflow:
+	$(MAKE) checkout_hubflow
+	INSTALL_INTO="${HOME}/.local/bin" bash src/hubflow/install.sh
+
+install_hubflow_system:
+	$(MAKE) checkout_hubflow
+	INSTALL_INTO="/usr/local/bin" sudo bash src/hubflow/install.sh
+
+
