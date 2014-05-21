@@ -4,6 +4,7 @@ List commands::
 
     python setup.py --help
     python setup.py --help-commands
+    python setup.py test --help
     # bash scripts/bootstrap_dotfiles.sh -h
     # less_ Makefile
     # make help
@@ -14,8 +15,7 @@ List commands::
 Install dev, docs. testing, and suggests from pip requirements files::
 
     pip install -r ./requirements-all.txt
-    # make pip_install_requirements_all 
-    
+    # make pip_install_requirements_all
 
 
 bootstrap_dotfiles.sh
@@ -38,8 +38,10 @@ Vim
 -----
 ``make -C ../etc/vim vim_help``:
 
-.. program-output:: test -f ../etc/vim/Makefile && cd .. && make vim_help
-   :shell:
+.. .. program-output:: test -f ../etc/vim/Makefile && cd .. && make vim_help
+..   :shell:
+
+.. include:: dotvim_conf.rst
 
 
 
@@ -65,6 +67,17 @@ In ``scripts/``
 
        l
        ./bashmarks_to_nerdtree.sh | tee ~/.NERDTreeBookmarks
+
+**bootstrap_dotfiles.sh**
+   Clone, update, and install dotfiles in ``$HOME``
+
+    See: `bootstrap_dotfiles.sh`_
+
+**compare_installed.py**
+   Compare packages listed in a debian/ubuntu APT
+   ``.manifest`` with installed packages.
+
+   See: https://github.com/westurner/pkgsetcomp
 
 **gittagstohgtags.sh**
    Convert ``git`` tags to ``hgtags`` format
@@ -133,10 +146,7 @@ In ``scripts/``
 **repos.py**
    Wrap version control system commandline interfaces
 
-   * Find vcs repositories
-   * Wrap shell commands
-   * Yield event tuples from repositories in
-     `hg <Mercurial>`_, `bzr`, `git`_, ``svn``
+   See: https://github.com/westurner/pyrpo
 
 **usrlog.py**
    Search through ``.usrlog`` files

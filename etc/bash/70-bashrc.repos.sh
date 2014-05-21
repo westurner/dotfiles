@@ -3,10 +3,10 @@
 export _DOCSHTML="${HOME}/docs"
 [ ! -d $_DOCSHTML ] && mkdir -p $_DOCSHTML
 
-unset -f fixperms
 fixperms () {
-    __PATH="$1"
-    echo $__PATH >&2
+    __PATH=$1
+    sudo chown -R hg:hgweb "$__PATH"
+    sudo chmod -R g+rw "$__PATH"
 }
 
 # __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix

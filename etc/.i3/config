@@ -73,13 +73,17 @@ set $volume_up pactl set-sink-volume 0 -- +10%
 set $volume_down pactl set-sink-volume 0 -- -10%
 
 set $set_xbackground xsetroot -solid "#000000"
+#set $set_xwallpaper
 
-set $xflux_start xflux -l 41.3 -g -95.9 -k 3401
-set $xflux_stop pkill -9 -f xflux
+set $brightness_up   xbacklight -inc 20 -time 1 -steps 1
+set $brightness_down xbacklight -dec 20 -time 1 -steps 1
+
 set $xgamma_reset xgamma -gamma 1.0
 set $xgamma_soft xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
 set $xgamma_soft_red xgamma -bgamma 0.4 -ggamma 0.6 -rgamma 0.9
 
+set $xflux_start xflux -l 41.3 -g -95.9 -k 3401
+set $xflux_stop pkill -9 -f xflux
 
 ## Autoruns
 #  - Set background
@@ -100,6 +104,12 @@ bindsym $mod2+l     exec $lock_screen
 bindsym XF86PowerOff    exit
 #  <XF86Sleep>      -- suspend
 bindsym XF86Sleep exec suspend
+
+## Change backlight brightness
+#  <XF86MonBrightnessUp>      -- brightness up
+bindsym XF86MonBrightnessUp   exec --no-startup-id $brightness_up
+#  <XF86MonBrightnessDown>    -- brightness down
+bindsym XF86MonBrightnessDown exec --no-startup-id $brightness_down
 
 
 ## Change volume
