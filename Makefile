@@ -135,6 +135,11 @@ test:
 	# Run setuptools test task
 	python setup.py test
 
+test_build:
+	$(MAKE) test
+	py.test -v ./tests/ 
+	# TODO: test scripts/bootstrap_dotfiles.sh
+
 build:
 	# Build source dist and bdist
 	$(MAKE) build_tags
