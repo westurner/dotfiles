@@ -3,7 +3,7 @@ Venv
 ======
 ``./etc/ipython/profile_default/ipython_config.py``
 
-Enhancements to :ref:`virtualenvwrapper` for :ref:`Bash`_, :ref:`ZSH`_, and :ref:`IPython`_.
+Enhancements to `virtualenvwrapper`_ for `Bash`_, `ZSH`_, and `IPython`_.
 
 Venv functionality is defined in two places:
 
@@ -13,8 +13,7 @@ Venv functionality is defined in two places:
 
 .. code-block:: bash
 
-    export
-    alias
+    export && alias  # && set
 
     echo $_VENV
     cat $_VENV
@@ -23,8 +22,14 @@ Venv functionality is defined in two places:
     venv -E --bash
     source <(venv -E --bash)
 
-    export
-    alias
+    export && alias  # && set
+
+
+.. _virtualenvwrapper: https://pypi.python.org/pypi/virtualenvwrapper
+.. _Python: https://en.wikipedia.org/wiki/Python_(programming_language)
+.. _Bash: https://en.wikipedia.org/wiki/Bash_(Unix_shell)
+.. _ZSH: https://en.wikipedia.org/wiki/Z_shell
+.. _IPython: https://en.wikipedia.org/wiki/IPython
 
 
 **Features**
@@ -172,7 +177,7 @@ cd Aliases
 
     cd $_WRD
     # cdvirtualenv src/${_APP}
-   
+
 **cdww**::
 
     cd $_WWW
@@ -180,7 +185,7 @@ cd Aliases
 
 **cdhelp**::
 
-    set | grep '^cd.*()' | cut -f1 -d' ' 
+    set | grep '^cd.*()' | cut -f1 -d' '
 
 gvim
 ~~~~~~~~~~~~~~~~~

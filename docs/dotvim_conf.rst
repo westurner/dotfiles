@@ -89,13 +89,13 @@
     zR               --  open all folds
    
    Etiquette
-    <leader> i       --  Toggle Unprintables
-    <leader> sd      --  Toggle highlight EOL whitespace
-    <leader> sc      --  Clear highlighting
+    <leader> i       --  toggle unprintables
+    <leader> sd      --  toggle highlight EOL whitespace
+    <leader> sc      --  clear highlighting
    
-   
-   
+   set window title to vim title (display full path)
     :ListMappings    --  list .vimrc mapping comments
+    <space> -- <leader>
     ,    --  <leader> == <comma>
     ;;   --  <esc> == double semicolon
     98   --  <esc> == 98
@@ -248,9 +248,13 @@
     read virtualenv's site-packages to vim path
    TODO: python regex current buffer
    :help if_pyth
-   Trac
    Tabsetting functions
+    :Fourtabs    -- set to four (4) soft tabs (Default)
    Default to fourtabs
+    :Threetabs   -- set to three (3) soft tabs (e.g. RST)
+    :Twotabs     -- set to two (2) soft tabs
+    :Striptrailingwhitespace -- strip spaces at the end of lines
+   Trac
    Bundle            -- Vim bundle manager [help bundle]
    :BundleList          - list configured plugins
    :BundleInstall(!)    - install (update) plugins
@@ -457,5 +461,9 @@
     :RivSpecification
     :RivCheatSheet
    Salt      -- Salt syntax
+   Trac      -- Trac [help trac]
+   webapi-vim -- vim web API [help webapi[-{html, http, json, xml}]]
+   gist-vim  -- Create a gist.github.com [help gist-vim]
+   github-issues.vim     -- autocomplete, CRUD GitHub issues [help Gissues]
    All of your Bundles must be added before the following line
    
