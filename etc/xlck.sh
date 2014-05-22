@@ -1,18 +1,37 @@
 #!/usr/bin/env bash
 
-# xlck.sh
+## xlck.sh
+## bash script for working with xautolock, xlock, and/or i3lock
+## as well as issuing suspend, shutdown, and restart commands
 
-export XAUTOLOCK_PID="~/.xautolock.${DISPLAY}.pid"
+## Requirements:
+#
+#  sudo apt-get install xautolock xlockmore i3lock
 
 xlck() {
     _XLCK=$(readlink -e "$BASH_SOURCE")
-    echo $_XLCK
+    echo "# ${_XLCK}"
     bash $_XLCK $@
 }
 
 _xlck_install () {
-    sudo apt-get install xautolock xlockmore
+    ## Install xlck dependencies
+
+    # bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
+
+    sudo apt-get install bash procps x11-server-utils \
+        xautolock xlockmore i3lock
     ln -s ~/.dotfiles/etc/.xinitrc ~/.xinitrc
+}
+
+_xlck_setup_dpms() {
+    xset +dpms
+    xset dpms 600
+    xset s blank
+    xset s expose
+    xset s 300
+    #xset s on
+    #xset s activate
 }
 
 _xlck_setup () {
@@ -20,13 +39,7 @@ _xlck_setup () {
 
     #XSET=$(type 'xset' 2>/dev/null)
     if [ -n "$DISPLAY" ]; then
-        xset +dpms
-        xset dpms 600
-        xset s blank
-        xset s expose
-        xset s 300
-        #xset s on
-        #xset s activate
+        _xlck_setup_dpms
     fi
 }
 
@@ -41,7 +54,13 @@ _xlck_i3lock () {
 xlck_lock () {
     # lock the current display
     # note: this will be run before suspend to RAM and Disk.
-    _xlck_i3lock
+    if [[ -x /usr/bin/i3lock ]]; then
+        _xlck_i3lock
+    elif [[ -x /usr/bin/xlock ]]; then
+        _xlck_xlock
+    else
+        echo "Found neither i3lock nor xlock"
+    fi
 }
 
 _suspend_to_ram () {
@@ -51,6 +70,22 @@ _suspend_to_ram () {
 _suspend_to_disk () {
     # NOTE: error prone
     sudo bash -c 'echo disk > /sys/power/state'
+}
+
+_dbus_halt() {
+    dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
+}
+
+_dbus_reboot() {
+    dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart
+}
+
+_dbus_suspend() {
+    dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
+}
+
+_dbus_hibernate () {
+    dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Hibernate
 }
 
 xlck_lock_suspend_ram () {
@@ -94,18 +129,19 @@ xlck_restart() {
     xlck_start
 }
 
-xlck_pgrep_autolock_this_display() {
+xlck_xautolock_pgrep_display() {
+    display=${1:-$DISPLAY}
     pids=$(pgrep xautolock)
     if [ -n "$pids" ]; then
         ps eww -p ${pids} \
-        | grep " DISPLAY=$DISPLAY" \
+        | grep " DISPLAY=$display" \
         | awk '{ print $1 }'
     fi
 }
 
 xlck_xautolock_status() {
-    echo "Checking autolock status where DISPLAY=$DISPLAY"
-    _xautolock_actual_pids=$(xlck_pgrep_autolock_this_display)
+    echo "# Checking autolock status where DISPLAY=$DISPLAY"
+    _xautolock_actual_pids=$(xlck_xautolock_pgrep_display)
     if [ -n "$_xautolock_actual_pids" ]; then
         ps ufw -p $_xautolock_actual_pids
     else
@@ -114,22 +150,19 @@ xlck_xautolock_status() {
 }
 
 xlck_xautolock_stop() {
-    echo "Stopping xautolock where DISPLAY=$DISPLAY ..."
-    _xautolock_actual_pids=$(xlck_pgrep_autolock_this_display)
+    echo "# Stopping xautolock where DISPLAY=$DISPLAY ..."
+    _xautolock_actual_pids=$(xlck_xautolock_pgrep_display)
     if [ -n "$_xautolock_actual_pids" ]; then
         kill -9 $_xautolock_actual_pids
-        echo "Stopped xautolock"
+        echo "# Stopped xautolock"
     else
-        echo "xautolock not running"
+        echo "# xautolock not found"
     fi
     xlck_xautolock_status
 }
 
 xlck_status() {
-    echo "Checking xlck status..."
-
     xlck_xautolock_status
-
 }
 
 xlck_status_all() {
@@ -139,14 +172,14 @@ xlck_status_all() {
         echo "_xlck_pids=${_xlck_pids}"
         ps ufw -p $_xlck_pids
     else
-        echo "\"${_xlck_pgrep}\" did not find any process ids" 
+        echo "\"${_xlck_pgrep}\" did not find any process ids"
     fi
 }
 
 xlck_status_this_display(){
     display=${1:-$DISPLAY}
     ps ufx -p
-    _pids=$(ps eww | grep "DISPLAY=$display" | pyline 'w[0]')
+    _pids=$(ps eww | grep "DISPLAY=$display" | awk '{ print $1 }')
 }
 
 _xlck_xautolock () {
@@ -171,24 +204,33 @@ _xlck_xautolock () {
 }
 
 xlck_usage() {
+    echo "# $0"
+    echo "Usage: $(basename $0) < -I | -U | -S | -P | -R | -M | -N | -D | -L |-X >";
     echo ""
-    echo "xlck -- a shell wrapper for xlock, i3lock, and xautolock"
-
-    echo "Usage: $0 <-U|-S|-P|-R|-M|-N|-D|-L|-X>]";
-    echo "#  -U   --  xlck status"
-    echo "#  -S   --  start xlck"
-    echo "#  -P   --  stop xlck"
-    echo "#  -R   --  restart xlck"
-    echo "#  -M   --  suspend to ram (and lock)"
-    echo "#  -D   --  suspend to disk (and lock)"
-    echo "#  -L   --  lock"
-    echo "#  -X   --  halt"
-    echo "#  -h   --  help"
+    echo "  a script for working with xautolock, xlock, and/or i3lock;"
+    echo "  as well as issuing suspend, shutdown, and restart commands."
+    echo ""
+    echo "  -I  --  (I)nstall xlck (apt-get)"
+    echo "  -U  --  check stat(U)s (show xautolock processes on this \$D"
+    echo "  -S  --  (S)tart xlck (start xautolock on this \$DISPLAY)"
+    echo "  -P  --  sto(P) xlck (stop xautolock on this \$DISPLAY)"
+    echo "  -R  --  (R)estart xlck"
+    echo "  -M  --  suspend to ra(M) (and lock)"
+    echo "  -D  --  suspend to (D)isk (and lock)"
+    echo "  -L  --  (L)ock"
+    echo ""
+    echo "  -X  --  shutdown -h now"
+    echo ""
+    echo "  -h  --  help"
+    echo ""
 }
 
 xlck_main () {
     while getopts "USPRMDLXh" opt; do
         case "${opt}" in
+            I)
+                _xlck_install;
+                ;;
             U)
                 xlck_status;
                 ;;
@@ -224,8 +266,3 @@ if [[ "$BASH_SOURCE" == "$0" ]]; then
   _xlck_setup
   xlck_main $@
 fi
-
-# TODO:
-# -notifier -> logger -> syslog
-
-
