@@ -2,8 +2,6 @@
 from __future__ import division
 import sys
 print('\n'.join(sys.path))
-del sys
-
 
 
 from pprint import pprint as pp
@@ -14,11 +12,12 @@ from pprint import pformat as pf
 
 try:
     #from IPython.frontend.terminal.ipapp import launch_new_instance
-    #launch_new_instance()
-    from IPython import embed
-    from IPython.external.path import path
-    embed()
+    # launch_new_instance()
+    #from IPython import embed
+    #from IPython.external.path import path
+    # embed()
     #raise SystemExit
+    raise ImportError
 except ImportError:
     # Clever trick to add history support and tab completion to cPython.
     # This was stolen from a fellow ubuntero's blog and extended to add
@@ -38,16 +37,18 @@ except ImportError:
     except ImportError:
         readline = None
 
-    if readline:
+    if readline is not None:
         # tab completion
         import rlcompleter
+
         class irlcompleter(rlcompleter.Completer):
+
             def complete(self, text, state):
                 if text == "":
                     readline.insert_text('\t')
                     return None
                 else:
-                    return rlcompleter.Completer.complete(self,text,state)
+                    return rlcompleter.Completer.complete(self, text, state)
 
         readline.parse_and_bind("tab: complete")
         readline.set_completer(irlcompleter().complete)
@@ -59,7 +60,7 @@ except ImportError:
         historyPath = os.path.expanduser(
             os.path.join(
                 os.environ.get('VIRTUAL_ENV', '~'),
-                    ".pyhistory"))
+                ".pyhistory"))
 
         if not os.path.exists(historyPath) and not os.path.isdir(historyPath):
             try:
@@ -69,17 +70,10 @@ except ImportError:
                 pass
 
         if os.access(historyPath, os.W_OK):
-            atexit.register(lambda x=historyPath: readline.write_history_file(x))
+            atexit.register(
+                lambda x=historyPath: readline.write_history_file(x))
+        else:
+            sys.stderr.write("error: could not access %r\n" % historyPath)
 
         if os.access(historyPath, os.R_OK):
             readline.read_history_file(historyPath)
-
-    del readline, rlcompleter
-
-
-
-
-if os:
-    del os
-if atexit:
-    del atexit
