@@ -6,18 +6,18 @@
 
 export CLICOLOR=true
 
-#  __PROJECTS -- local project settings script
-export __PROJECTS="${PROJECT_HOME}/.projectsrc.sh"
+#  __PROJECTSRC -- local project settings script
+export __PROJECTSRC="${PROJECT_HOME}/.projectsrc.sh"
 
-### source $__PROJECTS script, if it exists
-[ -f $__PROJECTS ] && source $__PROJECTS
+### source $__PROJECTSRC script, if it exists
+[ -f $__PROJECTSRC ] && source $__PROJECTSRC
 
 #  __SRC       -- (symlink to) local repositories
 export __SRC="${HOME}/src"  # TODO: __SRC_HG, __SRC_GIT
 [ ! -d $__SRC ] && mkdir -p $__SRC/hg $__SRC/git
 
 
-# Add ~/.local/bin to $PATH
+#  add ~/.local/bin to $PATH (if not already there)
 add_to_path "${HOME}/.local/bin"
 
 # #TODO: Link to the venv configuration script ?
