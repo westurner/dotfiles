@@ -47,10 +47,10 @@ hide_edge_borders horizontal
 ### Launch programs
 ## Set Variables
 set $run_command dmenu_run
-set $screensaver_start ~/.dotfiles/etc/screensaver.sh -R
-set $screensaver_stop ~/.dotfiles/etc/screensaver.sh -P
+set $screensaver_start ~/.dotfiles/etc/xlck.sh -S
+set $screensaver_stop ~/.dotfiles/etc/xlck.sh -P
 
-set $lock_screen xlock
+set $lock_screen ~/.dotfiles/etc/xlck.sh -L
 
 set $editor i3-sensible-editor
 set $browser x-www-browser
