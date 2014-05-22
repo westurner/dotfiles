@@ -1,27 +1,26 @@
 
 dotfiles_status() {
-    echo "### dotfiles_status()"
-    echo "## path"
-    echo "PATH=${PATH}"
+    echo "## dotfiles_status()"
     #lightpath | sed 's/^\(.*\)/#  \1/g'
-    echo "## virtualenv"
+    echo "HOSTNAME=${HOSTNAME}"
+    echo "USER=${USER}"
+    echo "VIRTUAL_ENV_NAME=${VIRTUAL_ENV_NAME}"
     echo "VIRTUAL_ENV=${VIRTUAL_ENV}"
-    echo "## virtualenvwrapper"
-    echo "PROJECT_HOME=${PROJECT_HOME}"
-    echo "WORKON_HOME=${WORKON_HOME}"
-    echo "## venv"
     echo "_SRC=${_SRC}"
     echo "_WRD=${_WRD}"
-    echo "VIRTUAL_ENV_NAME=${VIRTUAL_ENV_NAME}"
-    echo "__DOTFILES=${__DOTFILES}"
-    echo "__PROJECTS=${__PROJECTS}"
-    echo "## TODO"
-    echo "__SRC=${__SRC}"
-    echo "_DOCSHTML=${_DOCSHTML}"
     echo "_USRLOG=${_USRLOG}"
+    echo "__DOTFILES=${__DOTFILES}"
+    echo "__DOCSWWW=${_DOCS}"
+    echo "__SRC=${__SRC}"
+    echo "__PROJECTSRC=${__PROJECTSRC}"
+    echo "PROJECT_HOME=${PROJECT_HOME}"
+    echo "WORKON_HOME=${WORKON_HOME}"
+    echo "PATH=${PATH}"
 }
 
-
+reload_dotfiles() {
+    dotfiles_status $@
+}
 
 if [ -d "${__DOTFILES}" ]; then
     # Add dotfiles executable directories to $PATH

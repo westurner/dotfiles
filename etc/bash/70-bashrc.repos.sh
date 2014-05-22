@@ -1,7 +1,7 @@
 
 
-export _DOCSHTML="${HOME}/docs"
-[ ! -d $_DOCSHTML ] && mkdir -p $_DOCSHTML
+export __DOCSWWW="${HOME}/docs"
+[ ! -d $__DOCSWWW ] && mkdir -p $__DOCSWWW
 
 fixperms () {
     __PATH=$1
@@ -164,7 +164,7 @@ host_docs () {
 
     _default_builddir="${path}/_build"
 
-    dest="${_DOCSHTML}/${name}"
+    dest="${__DOCSWWW}/${name}"
     group="www-data"
 
     if [ -z "${_makefile}" ]; then
