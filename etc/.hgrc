@@ -4,6 +4,9 @@ username = Wes Turner <wes@wrd.nu>
 editor = vim
 
 [alias]
+# these are, in large parts, ports of .gitconfig shortcuts
+# defined in http://documentup.com/skwp/git-workflows-book
+
 w = id -Btin
 e = export
 s = status
