@@ -18,8 +18,8 @@ _setup_editor() {
     export SUDO_EDITOR="${VIMBIN}"
 
     if [ -n "${USEGVIM}" ]; then
-        VIMCONF='--servername '${VIRTUAL_ENV_NAME:-main}' --remote-tab-silent'
-        SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-main} --remote-tab-wait-silent"
+        VIMCONF='--servername ${VIRTUAL_ENV_NAME:-"main"} --remote-tab-silent'
+        SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-"main"} --remote-tab-wait-silent"
         if [ -x "${GVIMBIN}" ]; then
             export EDITOR="${GVIMBIN} ${VIMCONF}"
             export SUDO_EDITOR="${GVIMBIN} ${SUDOCONF}"
@@ -41,18 +41,37 @@ _setup_editor() {
 
     export _EDIT_="${EDITOR}"
 
-    ggvim() {
-        $EDITOR $@ 2>&1 > /dev/null
-    }
 
-    alias _edit='$EDITOR'
-    alias _editcfg='$EDITOR \"${_CFG}\"'
-    alias _gvim='$EDITOR'
-    alias e='$EDITOR'
-    alias edit='$EDITOR'
-    alias sudogvim='EDITOR="${SUDO_EDITOR}" sudo -e'
-    alias sudovim='EDITOR="${SUDO_EDITOR}" sudo -e'
 }
 _setup_editor
+
+
+ggvim() {
+    $EDITOR $@ 2>&1 > /dev/null
+}
+
+
+e() {
+    $EDITOR $@
+}
+edit() {
+    $EDITOR $@
+}
+_edit() {
+    $EDITOR $@
+}
+_editcfg() {
+    $EDITOR $_CFG
+}
+_gvim() {
+    $EDITOR $@
+}
+
+sudoe() {
+    EDITOR=$SUDO_EDITOR sudo -e
+}
+sudogvim() {
+    EDITOR=$SUDO_EDITOR sudo -e
+}
 
 
