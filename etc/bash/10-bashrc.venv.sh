@@ -142,6 +142,8 @@ _loadaliases() {
     alias ls='ls --color=auto'
     alias lt='ls -altr --color=auto'
     alias man_='/usr/bin/man'
+    alias pfx='ps aufxw'
+    alias pfxs='ps aufxw --sort=tty,ppid,pid'
     alias pyclean='find . -type f -name "*.py[co]" -exec rm -f \{\} \;'
     alias ssv='supervisord -c "${_SVCFG}"'
     alias sv='supervisorctl -c "${_SVCFG}"'
