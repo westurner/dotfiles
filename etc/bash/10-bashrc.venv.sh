@@ -2,6 +2,7 @@
 #
 # sh configuration
 # intended to be sourced from (after) ~/.bashrc
+## Variables
 
 #  __PROJECTSRC -- path to local project settings script
 export __PROJECTSRC="${PROJECT_HOME}/.projectsrc.sh"
@@ -17,6 +18,8 @@ add_to_path "${HOME}/.local/bin"
 
 #  _VENV       -- path to local venv config script (executable)
 export _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
+
+## Functions
 
 venv() {
 #  venv <args>  -- call $_VENV $@
