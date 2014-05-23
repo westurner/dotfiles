@@ -204,6 +204,25 @@ _loadaliases() {
 }
 _loadaliases
 
+hgst() {
+    repo=${1:-"$(pwd)"}
+    shift
+
+    hgopts="-R '${repo}' --pager=no"
+
+    if [ -n "$(echo "$@" | grep "color")" ]; then
+        hgopts="${hgopts} --color=always"
+    fi
+    echo "###"
+    echo "## $(pwd)"
+    echo '###'
+    hg ${hgopts} diff --stat | sed 's/^/## /' -
+    echo '###'
+    hg ${hgopts} status | sed 's/^/## /' -
+    echo '###'
+    hg ${hgopts} diff
+    echo '###'
+}
 
 _set_prompt() {
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
