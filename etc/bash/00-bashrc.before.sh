@@ -1,7 +1,7 @@
 
 
 dotfiles_reload() {
-    echo "# Reloading bash configuration..."
+    echo "## Reloading bash configuration..."
     conf=$__DOTFILES/etc/bash
   #source ~/.bashrc
     #source 00-bashrc.before.sh
@@ -11,6 +11,9 @@ dotfiles_reload() {
 
       ## readline
       source $conf/03-bashrc.readline.sh
+
+      ## TERM
+      source $conf/04-bashrc.TERM.sh
 
       ## dotfiles
       #  $__DOTFILES (str): path to local dotfiles repository clone
