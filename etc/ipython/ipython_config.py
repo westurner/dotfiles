@@ -312,8 +312,8 @@ class Venv(object):
         aliases = OrderedDict()
         env = self.env
 
-        aliases['gvim']     = env.get('_EDIT_', 'gvim') # TODO: render-time
-        aliases['_edit']    = env.get('_EDIT_', 'gvim')
+        #aliases['gvim']     = env.get('_EDIT_', 'gvim') # TODO: render-time
+        #aliases['_edit']    = env.get('_EDIT_', 'gvim')
 
         aliases['cdb']      = 'cd {_BIN}/%l'.format(
                                     _BIN=shell_quote(env['_BIN']))
@@ -344,7 +344,7 @@ class Venv(object):
         env = self.env
 
         env['_EDIT_']       = 'gvim --servername %s --remote-tab-silent' % (
-                                                    shell_quote(self.appname))
+            shell_quote(self.appname).strip('"'))
         aliases['_edit']    = env['_EDIT_']
         aliases['_gvim']    = env['_EDIT_']
 
