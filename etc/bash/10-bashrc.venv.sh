@@ -31,13 +31,13 @@ _venv() {
     venv -E $@
 }
 
-we () {
+we () {   
 #  we <virtualenv_name> [working_dir] -- workon a virtualenv and load venv
+#
 #  # $WORKON_HOME/${virtualenv_name}  # == $_VIRTUAL_ENV
 #  # $WORKON_HOME/${virtualenv_name}/src/${virtualenv_name | $2}  # == $_WRD
-    workon $1 && source <($_VENV --bash $@)
+    workon $1 && source <(venv --bash $@)
 }
-
 
 ## CD shortcuts
 
