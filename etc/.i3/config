@@ -85,6 +85,10 @@ set $xgamma_soft_red xgamma -bgamma 0.4 -ggamma 0.6 -rgamma 0.9
 set $xflux_start xflux -l 41.3 -g -95.9 -k 3401
 set $xflux_stop pkill -9 -f xflux
 
+set $scratchpad_editor_selector [title="SCRATCHPAD"]
+set $scratchpad_start_editor gvim --servername SCRATCHPAD --remote ~/TODO
+
+
 ## Autoruns
 #  - Set background
 exec --no-startup-id $set_xbackground
@@ -373,6 +377,25 @@ bindsym $mod2+KP_0 move workspace number 10
 bindsym $mod2+$mod+Left move workspace to output left
 #  <super><shift> Right -- move workspace to right
 bindsym $mod2+$mod+Right move workspace to output right
+
+
+## Scratchpad workspace
+#  <alt><shift> <minus> -- Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+#  <alt> <minus>        -- Show/Hide and cycle through scratchpad windows
+bindsym $mod+minus scratchpad show
+
+#  <alt><shift> s           -- Start scratchpad editor
+bindsym $mod+Shift+s        exec $scratchpad_start_editor
+
+#  <alt> <XF86Favorites>  -- Start scratchpad editor
+bindsym $mod+XF86Favorites exec $scratchpad_start_editor
+
+#  <XF86Favorites>          -- Show the first GVIM scratchpad window
+bindsym XF86Favorites $scratchpad_editor_selector scratchpad show
+
+for_window $scratchpad_editor_selector move to scratchpad
 
 
 ## Resize Mode
