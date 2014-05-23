@@ -2,9 +2,6 @@
 #
 # sh configuration
 # intended to be sourced from (after) ~/.bashrc
-#
-
-export CLICOLOR=true
 
 #  __PROJECTSRC -- path to local project settings script
 export __PROJECTSRC="${PROJECT_HOME}/.projectsrc.sh"
