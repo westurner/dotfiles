@@ -18,8 +18,8 @@ _setup_editor() {
     export SUDO_EDITOR="${VIMBIN}"
 
     if [ -n "${USEGVIM}" ]; then
-        VIMCONF='--servername ${VIRTUAL_ENV_NAME:-"main"} --remote-tab-silent'
-        SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-"main"} --remote-tab-wait-silent"
+        VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'} --remote-tab-silent"
+        SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-'EDITOR'} --remote-tab-wait-silent"
         if [ -x "${GVIMBIN}" ]; then
             export EDITOR="${GVIMBIN} ${VIMCONF}"
             export SUDO_EDITOR="${GVIMBIN} ${SUDOCONF}"
@@ -39,9 +39,7 @@ _setup_editor() {
         unset -f $USEGVIM
     fi
 
-    export _EDIT_="${EDITOR}"
-
-
+    export _EDITOR="${EDITOR}"
 }
 _setup_editor
 
