@@ -25,7 +25,7 @@ _usrlog_set_HISTFILE () {
     fi
 
     if [ -n "$ZSH_VERSION" ]; then
-        export HISTFILE=${prefix}/.zsh_history
+        export HISTFILE="${prefix}/.zsh_history"
     elif [ -n "$BASH" ]; then
         export HISTFILE="${prefix}/.bash_history"
     else
@@ -53,7 +53,6 @@ _usrlog_set_HIST() {
         setopt EXTENDED_HISTORY
     fi
 
-
     _usrlog_set_HISTFILE
 }
 
@@ -79,7 +78,8 @@ _usrlog_randstr() {
 }
 
 _usrlog_get_TERM_ID() {
-    echo "# term_id ::: $TERM_ID [ $_USRLOG ]" 
+    echo "# TERM_ID="$TERM_ID" [ $_USRLOG ]" >&2
+    echo $TERM_ID
 }
 
 
@@ -147,7 +147,7 @@ _usrlog_setup() {
 _usrlog_append() {
     # Write a line to the _USRLOG file
     # param $1: text (command) to log
-    printf "%-11s: %s ::: %s\n" \
+    printf "# %-11s: %s ::: %s\n" \
         "$TERM_ID" \
         "$(date +'%D %R.%S')" \
         "${1:-'\n'}" | tee -a $_USRLOG >&2
