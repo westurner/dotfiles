@@ -1,4 +1,5 @@
 
+### ~/.dotfiles/Makefile
 ## westurner/dotfiles/Makefile
 
 
@@ -37,6 +38,7 @@ help:
 	@echo "help         -- print dotfiles help"
 	@echo "help_setuppy -- print setup.py help"
 	@echo "help_rst     -- print setup.py help as rst"
+	@echo "help_i3		-- print i3wm configuration"
 	@echo "help_vim     -- print dotvim make help"
 	@echo "help_vim_rst -- print dotvim help as rst"
 	@echo "help_zsh		-- print zsh help"
@@ -130,6 +132,8 @@ help_vim:
 	test -d etc/vim && \
 		$(MAKE) -C etc/vim help
 
+help_i3:
+	$(MAKE) -C etc/.i3 help_i3
 
 test:
 	# Run setuptools test task
