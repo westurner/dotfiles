@@ -253,7 +253,17 @@
    Default to fourtabs
     :Threetabs   -- set to three (3) soft tabs (e.g. RST)
     :Twotabs     -- set to two (2) soft tabs
+    :CurrentBuffer -- display number of current buffer
+    <leader> 2   -- diffget from bufnr 2
+    <leader> 3   -- diffget from bufnr 3
+    <leader> 4   -- diffget from bufnr 4
+    <leader> 2   -- diffget from bufnr 2
+    <leader> 3   -- diffget from bufnr 3
+    <leader> 4   -- diffget from bufnr 4
     :Striptrailingwhitespace -- strip spaces at the end of lines
+   Adjust font-size
+    <C-Up>   -- increase font size
+    <C-Down>   -- increase font size
    Trac
    Bundle            -- Vim bundle manager [help bundle]
    :BundleList          - list configured plugins
