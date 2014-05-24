@@ -11,14 +11,13 @@ def __read_version_txt():
     try:
         import pkg_resources
         version = pkg_resources.resource_string(
-            'dotfiles', '../../VERSION.txt').rstrip()
+            'dotfiles', 'VERSION.txt').rstrip()
         return version
     except:
         try:
             import os.path
-            SETUPPY_PATH = os.path.abspath(
-                os.path.join(os.path.dirname(__file__), '..', '..'))
-            with open(os.path.join(SETUPPY_PATH, 'VERSION.txt')) as f:
+            HERE = os.path.dirname(__file__)
+            with open(os.path.join(HERE, 'VERSION.txt')) as f:
                 version = f.read().strip()
             return version
         except:
