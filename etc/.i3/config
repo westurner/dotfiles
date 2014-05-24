@@ -225,6 +225,9 @@ floating_modifier $mod
 #  <alt><shift> f   -- fullscreen
 bindsym $mod+Shift+f fullscreen
 
+#  # popup during fullscreen exits fullscreen
+#popup_during_fullscreen <smart|ignore|leave_fullscreen>
+popup_during_fullscreen leave_fullscreen
 
 ## Split windows
 # Split next window
