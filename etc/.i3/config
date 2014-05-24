@@ -1,20 +1,43 @@
 #### i3 config file (v4)
-### Notes
 #
 #  #  Default location: ~/.i3/config
-#  #  List the commented command shortcuts with::
+#  #  List commented command shortcuts with::
 #
 #  #     cat ~/.i3/config | egrep '(^(\s+)?##+ |^(\s+)?#  )'
 #
-# References
+# #!/bin/sh
+# ### .i3/config requirements
+#
+# ## Ubuntu (12.04)
+# # MUST
+# apt-get install i3 i3status xautolock xlockmore i3lock
+# hg clone https://github.com/westurner/dotfiles ~/.dotfiles  # etc/xlck.sh
+#
+# # SHOULD
+# apt-get install gnome-terminal network-manager-gnome thunar pulseaudio-utils
+# apt-get install feh                  # wallpaper
+# apt-get install xfce4-screenshooter  # screenshots
+# mkdir -p ~/pictures/screens          # screenshots
+# apt-get install xbacklight           # brightness
+#
+# # COULD
+# apt-get install vim-gnome            # scratchpad
+# add-apt-repository ppa:kilian/f.lux  # f.lux
+# apt-get update                       # f.lux
+# apt-get install fluxgui              # http://justgetflux.com
+#
+# ## References
 # * http://i3wm.org/docs/userguide.html
 # * https://faq.i3wm.org/question/1425/variable-substitution/
 # * i3-config-wizard
+#
+# ## Notes
+# * grab keyboard mappings: xev | grep keycode
 
 ### Configure I3
 
 # Set i3 modifier keys to variables
-#  # set $mod to <alt> (<L-Alt> and <R-Alt>)
+#  # set $mod to <alt>    (<Alt_L> and <Alt_R>)
 set $mod Mod1
 #  # set $mod2 to <Super> (<Super_L> and <Super_R>)
 set $mod2 Mod4
@@ -32,7 +55,7 @@ bindsym $mod+Shift+C reload
 bindsym $mod+Shift+R restart
 
 # exit i3 (logs you out of your X session)
-#  <super><shift> e  -- exit i3 (close all and logout)
+#  <super><shift> l  -- exit i3 (close all and logout of X session)
 bindsym $mod2+Shift+l exit
 
 #  <alt><shift> q   -- close focused window
@@ -89,8 +112,9 @@ set $scratchpad_editor_selector [title="SCRATCHPAD"]
 set $scratchpad_start_editor gvim --servername SCRATCHPAD --remote ~/TODO
 
 
+
 ## Autoruns
-#  - Set background
+#  - Set X background
 exec --no-startup-id $set_xbackground
 
 #  - Start screensaver
@@ -146,7 +170,7 @@ bindsym $mod+Return     exec $terminal
 #  XF86Calculator   -- launch calculator
 bindsym XF86Calculator  exec $calculator
 
-#  <alt> w          -- launch network manager applet (see also: $(nmcli))
+#  <alt><shift> w          -- launch network manager applet (see also: $(nmcli))
 bindsym $mod+Shift+w    exec --no-startup-id $network_applet
 
 #  <PrintScr>       -- screenshot (full screen)
@@ -196,16 +220,16 @@ bindsym $mod+Shift+f fullscreen
 
 ## Split windows
 # Split next window
-#  <alt><shift> y   -- split [next] window horizontally
+#  <alt><shift> h   -- split [next] window horizontally
 bindsym $mod+Shift+y split h
-#  <alt><shift> u   -- split [next] window vertically
+#  <alt><shift> v   -- split [next] window vertically
 bindsym $mod+Shift+u split v
 
 
 ## Toggle window layouts
 #  <alt> w          -- tabbed window layout
 bindsym $mod+w layout tabbed
-#  <alt> E          -- Default window layout
+#  <alt> e          -- Default window layout
 bindsym $mod+e layout default
 #  <alt> s          -- stacked window layout
 bindsym $mod+s layout stacked
@@ -380,21 +404,25 @@ bindsym $mod2+$mod+Right move workspace to output right
 
 
 ## Scratchpad workspace
-#  <alt><shift> <minus> -- Make the currently focused window a scratchpad
+#  <alt><shift> <minus>     -- make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
-#  <alt> <minus>        -- Show/Hide and cycle through scratchpad windows
+#  <alt> <minus>            -- show/hide and cycle through scratchpad windows
 bindsym $mod+minus scratchpad show
 
-#  <alt><shift> s           -- Start scratchpad editor
+#  <alt><shift> s           -- start scratchpad editor
 bindsym $mod+Shift+s        exec $scratchpad_start_editor
 
-#  <alt> <XF86Favorites>  -- Start scratchpad editor
+#  <alt> <XF86Favorites>    -- start scratchpad editor
 bindsym $mod+XF86Favorites exec $scratchpad_start_editor
 
-#  <XF86Favorites>          -- Show the first GVIM scratchpad window
+#  <XF86Favorites>          -- show the $scratchpad_editor_selector
 bindsym XF86Favorites $scratchpad_editor_selector scratchpad show
 
+#  <alt> <backspace>        -- toggle tiling/floating mode for focused window
+# see above.
+
+#  # on (re)load, move $scratchpad_editor_selector windows to scratchpad
 for_window $scratchpad_editor_selector move to scratchpad
 
 
