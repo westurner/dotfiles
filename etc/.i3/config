@@ -96,7 +96,8 @@ set $volume_up pactl set-sink-volume 0 -- +10%
 set $volume_down pactl set-sink-volume 0 -- -10%
 
 set $set_xbackground xsetroot -solid "#000000"
-#set $set_xwallpaper
+set $set_xwallpaper feh --bg-center --no-xinerama ~/wallpaper.png
+# set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png
 
 set $brightness_up   xbacklight -inc 20 -time 1 -steps 1
 set $brightness_down xbacklight -dec 20 -time 1 -steps 1
@@ -116,6 +117,9 @@ set $scratchpad_start_editor gvim --servername SCRATCHPAD --remote ~/TODO
 ## Autoruns
 #  - Set X background
 exec --no-startup-id $set_xbackground
+
+#  - Set X wallaper to (~/wallpaper.png)
+exec --no-startup-id $set_xwallpaper
 
 #  - Start screensaver
 exec --no-startup-id $screensaver_start
