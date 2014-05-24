@@ -892,7 +892,7 @@ Workflow
 
     * `mq <http://mercurial.selenic.com/wiki/MqExtension>`_ --
       a mercurial extension for working with Mercurial Patch Queues
-    * `tortoisehg <http://tortoisehg.bitbucket.org/`_ --
+    * `tortoisehg <http://tortoisehg.bitbucket.org/>`_ --
       an excellent VCS gui for Mercurial (and git, with hg-git)
 
   

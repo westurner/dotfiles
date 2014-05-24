@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-pkgsetcomp module
+Dotfiles
+==========
+
+* dotfiles:version
+* dotfiles.cli
 
 """
 

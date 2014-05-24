@@ -7,11 +7,11 @@ See: https://provis.readthedocs.org/en/latest/tools.html
 Included in ``etc/`` are configuration files for:
 
 * `Bash`_
-*  Bash `bashmarks`
 * `Compiz`_
+* `Git`_
 * `Gnome`_
 * `Htop`_
-* `Git`_
+* `I3wm`_  
 * `Mercurial`_
 * `Python 2`_
 *  Python `Distribute`_
@@ -24,8 +24,7 @@ Included in ``etc/`` are configuration files for:
 * `Readline`_
 * `Ruby`_
 *  Ruby `Gems`_
-* `Vim`_
-*  Vim `NERDTree`_
+* `Vim`_ (see https://github.com/westurner/dotvim)
 * `Vimperator`_
 * `ZSH`_
 
@@ -34,6 +33,7 @@ Included in ``etc/`` are configuration files for:
 .. _Gnome: http://www.gnome.org
 .. _Git: http://git-scm.com/documentation
 .. _Htop: http://htop.sourceforge.net
+.. _I3wm: http://i3wm.org/   
 .. _IPDB: https://pypi.python.org/pypi/ipdb
 .. _IPython: http://ipython.org/ipython-doc/stable/overview.html
 .. _Mercurial: http://hgbook.red-bean.com/
