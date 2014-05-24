@@ -59,6 +59,9 @@ def main(*args):
     prs.add_option('--resource-path',
                    dest='resource_path',
                    action='store')
+    prs.add_option('--version',
+                   dest='version',
+                   action='store_true')
 
     prs.add_option('-v', '--verbose',
                    dest='verbose',
@@ -79,11 +82,16 @@ def main(*args):
         if opts.verbose:
             logging.getLogger().setLevel(logging.DEBUG)
 
+    if opts.version:
+        import dotfiles
+        print(dotfiles.version)
+        sys.exit(0)
+
     if opts.run_tests:
         import sys
         sys.argv = [sys.argv[0]] + args
         import unittest
-        exit(unittest.main())
+        sys.exit(unittest.main())
 
     if opts.resource_path:
         print(get_pkg_resource_filename(opts.resource_path))
