@@ -212,6 +212,10 @@ bindsym $mod+space      focus mode_toggle
 ## Floating windows
 #  <alt><shift> <space>     -- toggle tiling/floating mode for focused window
 bindsym $mod+Shift+space floating toggle
+
+#  <alt> <backspace>        -- toggle tiling/floating mode for focused window
+bindsym $mod+BackSpace   floating toggle
+
 #  <alt> <mouse>            -- drag floating window to position
 floating_modifier $mod
 
