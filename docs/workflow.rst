@@ -919,36 +919,6 @@ Workflow
       See: `Resolve issues automatically when users push code <https://confluence.atlassian.com/display/BITBUCKET/Resolve+issues+automatically+when+users+push+code>`_
 
 
-* Create a GitHub Issue with a GitHub Markdown Task List (Markdown) {.md}::
-
-   - [x] one --bold-- 
-   - [ ] two -italic-
-     - [x] two.one
-     - [ ] two.two \- two
-   - [ ] ``three`` (also `three`)
-
-  * Check off each checkbox to complete the issue
-  * Add list items with checkboxes (``- [x] Task three``)   
-
-* Create a GitHub Wiki page with a title and text (Markdown) {.md}
-
-  * Create a Roadmap page with a sprint/release plan with
-    headings and issue number/links
-
-* Publish Task Reports into a repository as HTML served by GitHub Pages
-
-  * Create a Sphinx ReStructuredText project folder with a ``conf.py``
-
-    * e.g. with `<https://github.com/audreyr/cookiecutter-pypackage>`_
-
-  * Render ReStructuredText into HTML with ``sphinx-build -b html``
-  * Host ``_build/html`` in the ``gh-pages`` branch
-
-    * e.g. with `<https://github.com/davisp/ghp-import>`_
-
-  * Consider building and hosting Sphinx ReStructuredText documentation
-    with `ReadTheDocs <https://readthedocs.org/>`_
-
 Trac
 -----
 
