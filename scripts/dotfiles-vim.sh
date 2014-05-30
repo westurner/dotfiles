@@ -5,9 +5,13 @@ print_dotvim_comments() {
     echo '::' 
     echo ""
     (cd $__DOTFILES;
-    cat etc/vim/vimrc \
-        etc/vim/vimrc.bundles \
-        | pyline -r '^\s*"\s(\s*.*)' 'rgx and "   " + rgx.group(1)')
+
+    for f in $(ls etc/vim/vimrc*); do
+        echo "   # $f";
+        cat $f | pyline -r '^\s*"\s(\s*.*)' 'rgx and "   " + rgx.group(1)';
+        echo "   ";
+        echo "   ";
+    done)
 }
 
 print_dotvim_comments

@@ -26,35 +26,34 @@ bootstrap_dotfiles.sh
 .. program-output:: bash ../scripts/bootstrap_dotfiles.sh -h
 
 
-Makefile
----------
+dotfiles Makefile
+-------------------
 ``make help``:
 
 .. program-output:: cd .. && make help
    :shell:
 
 
+Bash
+-----
+``make help_bash_rst``:
+
+.. include:: bash_conf.rst   
+
+
 Vim
 -----
-``make -C ../etc/vim vim_help``:
-
-.. .. program-output:: test -f ../etc/vim/Makefile && cd .. && make vim_help
-..   :shell:
+``make help_vim_rst``:
 
 .. include:: dotvim_conf.rst
 
 
+I3wm
+-----
+``make help_i3_rst``:
 
-ipython
-----------
-**ip_session**
-   generate a new ipython notebook sessionkey
+.. include:: i3_conf.rst
 
-**ipnb**
-   Start ipython notebook with notebooks from ${_SRC}/notebooks
-
-**ipqt**
-   Start IPython Qt console
 
 
 Scripts

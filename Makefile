@@ -128,12 +128,29 @@ help_rst:
 	done
 
 
+help_bash:
+	bash -i -v -c 'exit' 2> bash_load.sh
+	$(EDITOR) bash_load.sh
+
+help_bash_rst:
+	bash scripts/dotfiles-bash.sh > docs/bash_conf.rst
+
+help_zsh:
+	zsh -i -v -c 'exit' 2> zsh_load.zsh
+	$(EDITOR) zsh_load.zsh
+
 help_vim:
 	test -d etc/vim && \
 		$(MAKE) -C etc/vim help
 
+help_vim_rst:
+	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.rst
+
 help_i3:
 	$(MAKE) -C etc/.i3 help_i3
+
+help_i3_rst:
+	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.rst
 
 test:
 	# Run setuptools test task
@@ -335,20 +352,11 @@ docs_api:
 .PHONY: all test build install edit docs
 all: test build install docs
 
-help_vim_rst:
-	bash scripts/dotfiles-vim.sh | tee docs/dotvim_conf.rst
-
-help_bash:
-	bash -i -v -c 'exit' 2> bash_load.sh
-	$(EDITOR) bash_load.sh
-
-help_zsh:
-	zsh -i -v -c 'exit' 2> zsh_load.zsh
-	$(EDITOR) zsh_load.zsh
 
 docs:
 	$(MAKE) docs_api
 	$(MAKE) help_vim_rst
+	$(MAKE) help_i3_rst
 	$(MAKE) -C docs clean html singlehtml
 
 docs_clean_rsync_local:
