@@ -1,6 +1,7 @@
 
 ::
 
+   # etc/vim/vimrc
    .vimrc
    
    Vim Reference
@@ -106,7 +107,6 @@
     <leader> n               --  next quicklist item
     <leader> l               --  toggle location list
    Workaround vim lp:#572863
-   Pathogen / Vimpyre
    Code Folding
    UTF-8
    TODO XXX
@@ -263,8 +263,12 @@
     :Striptrailingwhitespace -- strip spaces at the end of lines
    Adjust font-size
     <C-Up>   -- increase font size
-    <C-Down>   -- increase font size
+    <C-Down> -- decrease font size
+    <F3>     -- insert ReST date heading
    Trac
+   
+   
+   # etc/vim/vimrc.full.bundles.vimrc
    Bundle            -- Vim bundle manager [help bundle]
    :BundleList          - list configured plugins
    :BundleInstall(!)    - install (update) plugins
@@ -313,7 +317,7 @@
     x                 --  close node
     X                 --  close all nodes recursive
     ?                 --  toggle help
-   FindInNERDTree   -- NERDTRee show current file [help NERDTreeFind]
+   FindInNERDTree    -- NERDTRee show current file [help NERDTreeFind]
     <c-b>            --  toggle BufExplorer
     ?                --  toggle BufExplorer help
     <leader>b        --  toggle BufExplorer
@@ -345,13 +349,15 @@
     <Leader>m-k      --  search line up
    Jellybeans    -- a good colorscheme w/ sensible diff highlighting
     :colorscheme jellybeans -- switch to the jellybeans colorscheme
+   Vim-misc      -- functions for colorscheme-switcher and vim-session
    Vim Colorscheme Switcher [help colorscheme-switcher]
     <F8>         -- cycle colors forward
     <Shift><F8>  -- cycle colors reverse
    HiColors
-   Pasting TODO
-   Vim Room
-   VOoM Outline Viewer
+    call HiTest() -- print highlighting colors 
+   Pasting       -- make paste work normally [help paste]
+   Vim Room      -- focus just the relevant text [help vimroom] 
+   VOoM Outline Viewer   -- view outlines of code and text [help voom]
     VOoM modes:  html, markdown, python, rest,
                  thevimoutliner, txt2tags,
                  viki, vimwiki, wiki
@@ -360,7 +366,7 @@
     ggg?G
    TagBar        -- source tag browser [help tagbar]
     <leader> t   -- toggle TagBar"
-   Vim Session
+   Vim Session   -- save and restore sessions between exits [help session]
     :SaveSession <name>  -- save a session
     :OpenSession <name>  -- open a saved session
     :Restart             -- SaveSession restart && exit
@@ -399,7 +405,7 @@
     cs   -- change surroundings
    
    csapprox      -- adapt gvim colorschemes for terminal vim [help csapprox]
-   UndoTree
+   UndoTree      -- visualize vim undotree
     <F5>     -- Toggle UndoTree (? for help)
    vim-nginx -- nginx ftdetect, indent, and syntax
    n3.vim    -- N3/Turtle RDF Syntax
@@ -476,4 +482,81 @@
    gist-vim  -- Create a gist.github.com [help gist-vim]
    github-issues.vim     -- autocomplete, CRUD GitHub issues [help Gissues]
    All of your Bundles must be added before the following line
+   
+   
+   
+   # etc/vim/vimrc.tinyvim.bundles.vimrc
+   Bundle            -- Vim bundle manager [help bundle]
+   :BundleList          - list configured plugins
+   :BundleInstall(!)    - install (update) plugins
+   :BundleSearch(!) foo - search (or refresh cache first) for foo
+   :BundleClean(!)      - confirm (or auto-approve) removal of unused plugins
+   
+   The Bundle URLs are intentionally complete https URLs
+   * grep '^Bundle \'' vimrc.bundles
+   * sed -i 's\https://github.com/\ssh://git@github.com/\g'
+   Info.vim          -- vim infopages in vim [help info]
+    :Info sed        --  view infopage for 'sed'
+    <Space>          --  Scroll forward (page down).
+    <Backspace>      --  Scroll backward (page up).
+    <Tab>            --  Move cursor to next hyperlink within this node.
+    <Enter>,<C-]>    --  Follow hyperlink under cursor.
+    ;,<C-T>          --  Return to last seen node.
+    .,>              --  Move to the "next" node of this node.
+    p,<              --  Move to the "previous" node of this node.
+    u                --  Move "up" from this node.
+    d                --  Move to "directory" node.
+    t                --  Move to the Top node.
+    <C-S>            --  Search forward within current node only.
+    s                --  Search forward through all nodes for a specified
+    string.
+    q                --  Quit browser.
+   
+   Signify   -- show git/hg file changes in gutter [help signify]
+   NERDTree      -- File browser [help NERDTree]
+    <Leader>e         --  toggle NERDTree
+    ctrl-e            --  toggle NERDTree
+    <Leader>E         --  open nerdtree to current file (:NERDTreeFind %:p:h)
+    ctrl-E            --  open nerdtree to current file (:NERDTreeFind %:p:h)
+    I                 --  toggle view hidden files
+    B                 --  toggle view bookmarks
+    cd                --  set vim CWD to selected dir
+    C                 --  refocus view to selected dir
+    o                 --  open
+    r                 --  refresh dir
+    R                 --  refresh root
+    t                 --  open in new tab
+    T                 --  open in new tab silently
+    u                 --  up a dir
+    U                 --  up a dir and leave open
+    x                 --  close node
+    X                 --  close all nodes recursive
+    ?                 --  toggle help
+   FindInNERDTree   -- NERDTRee show current file [help NERDTreeFind]
+    <c-b>            --  toggle BufExplorer
+    ?                --  toggle BufExplorer help
+    <leader>b        --  toggle BufExplorer
+   CtrlP             -- file/buffer/mru finder [help ctrlp]
+    <C-p>            -- CtrlP (fuzzy matching)
+   Syntastic         -- syntax highlighting [help syntastic]
+   EasyMotion    -- easy visual motions [help easymotion]
+    <Leader>m-w/e    --  search forward (beg/end of word)
+    <Leader>m-b      --  search backward
+    <Leader>m-j      --  search line down
+    <Leader>m-k      --  search line up
+   Jellybeans    -- a good colorscheme w/ sensible diff highlighting
+    :colorscheme jellybeans -- switch to the jellybeans colorscheme
+   Vim-misc      -- functions for colorscheme-switcher and vim-session
+   Vim Colorscheme Switcher [help colorscheme-switcher]
+    <F8>         -- cycle colors forward
+    <Shift><F8>  -- cycle colors reverse
+   vim-nginx -- nginx ftdetect, indent, and syntax
+   n3.vim    -- N3/Turtle RDF Syntax
+   SPARQL    -- SPARQL syntax
+   Pyrex         -- Pyrex syntax
+   Jinja         -- Jinja Templates syntax
+   Salt      -- Salt syntax
+   All of your Bundles must be added before the following line
+   
+   
    
