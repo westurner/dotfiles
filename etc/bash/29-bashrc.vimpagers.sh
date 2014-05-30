@@ -17,9 +17,9 @@ less_ () {
 
     ## start Vim with less.vim.
     # Read stdin if no arguments were given.
-    if test -t 1; then
-        if test $# = 0; then
-            vim -c "let g:tinyvim=1" \
+    if [ -t 1 ]; then
+        if [ $# -eq 0 ]; then
+            vim --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
                 --cmd "set noswf" \
@@ -27,9 +27,9 @@ less_ () {
                 -c "map <C-End> <Esc>G" \
                 -
         else
-            vim --noplugin \
-                -c "let g:tinyvim=1" \
-                -c "runtime! macros/less.vim" \
+            vim \
+                --cmd "let g:tinyvim=1" \
+                --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
                 --cmd "set noswf" \
                 -c "set colorcolumn=0" \
@@ -38,7 +38,7 @@ less_ () {
         fi
     else
         # Output is not a terminal, cat arguments or stdin
-        if test $# = 0; then
+        if [ $# -eq 0 ]; then
             less
         else
             less "$@"
