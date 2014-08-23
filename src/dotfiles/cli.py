@@ -54,7 +54,7 @@ def main(*args):
     import optparse
     import logging
 
-    prs = optparse.OptionParser(usage="./%prog : args")
+    prs = optparse.OptionParser(usage="%prog [opts]")
 
     prs.add_option('--resource-path',
                    dest='resource_path',
@@ -85,20 +85,18 @@ def main(*args):
     if opts.version:
         import dotfiles
         print(dotfiles.version)
-        sys.exit(0)
+        return 0
 
     if opts.run_tests:
-        import sys
         sys.argv = [sys.argv[0]] + args
         import unittest
-        sys.exit(unittest.main())
+        return unittest.main()
 
     if opts.resource_path:
         print(get_pkg_resource_filename(opts.resource_path))
         return 0
 
-    dotfiles()
 
 if __name__ == "__main__":
-    main()
-
+    import sys
+    sys.exit(main())
