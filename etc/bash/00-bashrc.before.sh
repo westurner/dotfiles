@@ -30,6 +30,9 @@ dotfiles_reload() {
       source $conf/07-bashrc.virtualenv.sh
       source $conf/07-bashrc.virtualenvwrapper.sh
 
+      ## gcloud: Google Cloud SDK
+      #  _setup_google_cloud
+      source $conf/08-bashrc.gcloud.sh
 
       ## venv: virtualenvwrapper extensions (shell vars, cmds, aliases)
       #  $_VENVNAME (str): name of current $VIRTUAL_ENV
