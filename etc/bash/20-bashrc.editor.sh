@@ -1,4 +1,4 @@
-## $EDITOR configuration
+## ${EDITOR} configuration
 #
 #  VIRTUAL_ENV_NAME
 #  _CFG = 
@@ -7,12 +7,12 @@
 ## Editor
 #export USEGVIM=""
 _setup_editor() {
-    # Configure $EDITOR
+    # Configure ${EDITOR}
     export VIMBIN="/usr/bin/vim"
     export GVIMBIN="/usr/bin/gvim"
     export MVIMBIN="/usr/local/bin/mvim"
 
-    [ -f $GVIMBIN ] && export USEGVIM="true" || export USEGVIM=""
+    ( [ -f ${GVIMBIN} ] || [ -f ${MVIMBIN} ]] ) && export USEGVIM="true" || export USEGVIM=""
 
     export EDITOR="${VIMBIN}"
     export SUDO_EDITOR="${VIMBIN}"
@@ -45,31 +45,31 @@ _setup_editor
 
 
 ggvim() {
-    $EDITOR $@ 2>&1 > /dev/null
+    ${EDITOR} $@ 2>&1 > /dev/null
 }
 
 
 e() {
-    $EDITOR $@
-}
-edit() {
-    $EDITOR $@
+    ${EDITOR} $@
 }
 _edit() {
-    $EDITOR $@
+    ${EDITOR} $@
+}
+edit() {
+    ${EDITOR} $@
 }
 _editcfg() {
-    $EDITOR $_CFG
+    ${EDITOR} $_CFG
 }
 _gvim() {
-    $EDITOR $@
+    ${EDITOR} $@
 }
 
 sudoe() {
-    EDITOR=$SUDO_EDITOR sudo -e
+    EDITOR=${SUDO_EDITOR} sudo -e
 }
 sudogvim() {
-    EDITOR=$SUDO_EDITOR sudo -e
+    EDITOR=${SUDO_EDITOR} sudo -e
 }
 
 
