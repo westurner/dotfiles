@@ -22,6 +22,7 @@ email = wes@wrd.nu
 
   # branch
   b = branch -v                     # branch (verbose)
+  ba = branch -a -v                 # branch -a (verbose)
 
   # commit
   c = commit -m                     # commit with message
