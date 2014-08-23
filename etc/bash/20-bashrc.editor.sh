@@ -12,7 +12,8 @@ _setup_editor() {
     export GVIMBIN="/usr/bin/gvim"
     export MVIMBIN="/usr/local/bin/mvim"
 
-    ( [ -f ${GVIMBIN} ] || [ -f ${MVIMBIN} ]] ) && export USEGVIM="true" || export USEGVIM=""
+    export USEGVIM="${USEGVIM}"
+    ( [ -f ${GVIMBIN} ] || [ -f ${MVIMBIN} ] ) && export USEGVIM="true"
 
     export EDITOR="${VIMBIN}"
     export SUDO_EDITOR="${VIMBIN}"
