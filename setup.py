@@ -137,7 +137,7 @@ def list_files(
                             continue
                     if not bad_name:
                         yield prefix+name
-        except OSError, e:
+        except OSError as e:
             if e.errno == errno.EACCES:
                 log.error("Skipping %s", name)
     return
