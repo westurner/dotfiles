@@ -500,7 +500,7 @@ class Venv(object):
         # %store [name]
         c.StoreMagic.autorestore = True
 
-        c.AliasManager.default_aliases = DEFAULT_ALIASES.items()
+        c.AliasManager.default_aliases = list(DEFAULT_ALIASES.items())
 
         if setup_func:
             setup_func(c)
