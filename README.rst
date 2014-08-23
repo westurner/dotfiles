@@ -37,6 +37,14 @@ Requirements
 * python pip
 
 
+Makefile
+---------
+
+.. code-block:: bash
+
+    make install
+
+
 Bootstrap Shell Script
 -----------------------
 The bootstrap shell script clones this repository and
