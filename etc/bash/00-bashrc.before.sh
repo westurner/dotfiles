@@ -42,7 +42,7 @@ dotfiles_reload() {
       #             we $venvname # $appname
       if [ -d /Library ]; then
           export __IS_MAC='true'
-      else:
+      else
           export __IS_LINUX='true'
       fi
       source ${conf}/10-bashrc.venv.sh
