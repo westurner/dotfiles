@@ -46,7 +46,7 @@ Makefile
 
 
 Bootstrap Shell Script
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 The bootstrap shell script clones this repository and
 and installs files from this python package::
 
@@ -66,35 +66,43 @@ There are examples of installing python, pip, and setuptools both in
 
 
 Manual Installation
----------------------
-Create a virtualenv::
+~~~~~~~~~~~~~~~~~~~~~
 
-    mkvirtualenv dotfiles    # virtualenvwrapper
-    # mkdir -p dotfiles/src  # virtualenv
-    # virtualenv dotfiles    # virtualenv
+::
 
-Install dotfiles python package with pip::
+    ## Create a virtualenv
+
+    mkvirtualenv dotfiles       # virtualenvwrapper
+    workon dotfiles             # virtualenvwrapper (we dotfiles)
+    mkdir -p $VIRTUAL_ENV/src   # virtualenv
+
+    ## Clone and `setup.py develop` dotfiles python package with pip
 
     pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+
+    ## Install pip requirements::
+
     cd $VIRTUAL_ENV/src/dotfiles
-
-Install pip requirements::
-
-    bash ./scripts/bootstra_dotfiles.sh -R
+    bash ./scripts/bootstrap_dotfiles.sh -R
     # pip install ./requirements-all.txt
 
-Create symlinks from ``~/.dotfiles/etc`` to ``${HOME}``::
+    ## Create symlinks from ``~/.dotfiles/etc`` to ``${HOME}``::
 
     # symlink and backup existing with a filename postfix
     bash ./scripts/bootstrap_dotfiles.sh -S
 
 (Optional) ``--user`` installation into ``${HOME}/.local/{bin,}``::
 
+    ## Install dotfiles for the current user
+
     bash ./scripts/bootstrap_dotfiles.sh -u -I
     bash ./scripts/bootstrap_dotfiles.sh -u -R
 
+(Optional) Upgrade pip::
+
     ## upgrade pip
-    # pip install --user pip --upgrade
+
+    pip install --user pip --upgrade
     # pip install --user pip --upgrade --force-reinstall
 
     ## install current directory into ${HOME}/.local
@@ -104,9 +112,16 @@ Create symlinks from ``~/.dotfiles/etc`` to ``${HOME}``::
 
 Reuse
 ======
-From ``scripts/bootstrap_dotfiles.sh``: ``dotfiles_symlink_all``::
+Bash configuration chain-loads from ``etc/bash/00-bashrc.before.sh``.
+
+Symlinks in ``$HOME`` are
+created by ``scripts/bootstrap_dotfiles.sh -S`` (``dotfiles_symlink_all``)
+::
 
     # {{ full_name }}
     symlink_gitconfig
     symlink_hgrc
     symlink_mutt
+
+Vim configuration should be cloned to ``etc/vim``
+(e.g. from https://github.com/westurner/dotvim).
