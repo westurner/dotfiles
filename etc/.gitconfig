@@ -118,8 +118,8 @@ email = wes@wrd.nu
     mnemonicprefix = true
 
 # Upgrade github URLs to SSH
-[url "ssh://git@github.com/"]
-    insteadOf = http://github.com/
-    insteadOf = https://github.com/
-    insteadOf = git://github.com/
+#[url "ssh://git@github.com/"]
+#    insteadOf = http://github.com/
+#    insteadOf = https://github.com/
+#    insteadOf = git://github.com/
 
