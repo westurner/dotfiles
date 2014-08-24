@@ -28,8 +28,8 @@ _setup_editor() {
             export GVIMBIN=$MVIMBIN
             export EDITOR="${MVIMBIN} ${VIMCONF}"
             export SUDO_EDITOR="${MVIMBIN} ${SUDOCONF} "
-            alias vim='${EDITOR} -f'
-            alias gvim='${EDITOR} -f'
+            alias vim='${EDITOR}'
+            alias gvim='${EDITOR}'
         else
             unset -f $GVIMBIN
             unset -f $MVIMBIN
