@@ -64,8 +64,8 @@ last = diff -r tip:-1
 ds = diff --stat
 
 # i
-i = log -l1 --template "{label('custom.date', date|isodate)} {label('custom.rev', node|short)} ({branch}; {tags}; {bookmarks}) {label('custom.desc', desc)} [{label('custom.author', author)}]\n"
-is = log -l1 --template "{label('custom.date', date|isodate)} {label('custom.rev', node|short)} ({branch}; {tags}; {bookmarks}) {label('custom.desc', desc)} [{label('custom.author', author)}]\n" --stat
+i = log -l1 --template "{label('custom.date', date|isodate)} {label('custom.rev', node|short)} ({branch}; {tags}; {bookmarks}) {desc} [{label('custom.author', author)}]\n"
+is = log -l1 --template "{label('custom.date', date|isodate)} {label('custom.rev', node|short)} ({branch}; {tags}; {bookmarks}) {desc} [{label('custom.author', author)}]\n" --stat
 
 # log
 l = log -G --pager=yes
