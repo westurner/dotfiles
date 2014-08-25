@@ -43,6 +43,10 @@ email = wes@wrd.nu
   dc = diff --cached                # diff staged changes
   last = diff HEAD^                 # diff last committed change
 
+  # i
+  i = log -n1 --decorate=full
+  is = log -n1 --stat --decorate=full
+
   # log
   l = log --graph --date=short
   changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status

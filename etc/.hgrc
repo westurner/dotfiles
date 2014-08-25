@@ -3,6 +3,13 @@ username = Wes Turner <wes@wrd.nu>
 #ssh = ssh -o ClearAllForwardings=yes
 editor = vim
 
+[color]
+custom.date = blue
+custom.rev = yellow
+custom.tags = green
+custom.desc = blue
+custom.author = magenta
+
 [alias]
 # these are, in large parts, ports of .gitconfig shortcuts
 # defined in http://documentup.com/skwp/git-workflows-book
@@ -55,6 +62,10 @@ dc = qdiff
 dq = qdiff
 last = diff -r tip:-1
 ds = diff --stat
+
+# i
+i = log -l1 --template "{label('custom.date', date|isodate)} {label('custom.rev', node|short)} ({branch}; {tags}; {bookmarks}) {label('custom.desc', desc)} [{label('custom.author', author)}]\n"
+is = log -l1 --template "{label('custom.date', date|isodate)} {label('custom.rev', node|short)} ({branch}; {tags}; {bookmarks}) {label('custom.desc', desc)} [{label('custom.author', author)}]\n" --stat
 
 # log
 l = log -G --pager=yes
