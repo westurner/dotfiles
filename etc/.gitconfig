@@ -19,6 +19,7 @@ email = wes@wrd.nu
   # add
   a = add                           # add
   chunkyadd = add --patch           # stage commits chunk by chunk
+  ac = add -p                       # stage commits chunk by chunk
 
   # branch
   b = branch -v                     # branch (verbose)
@@ -31,6 +32,9 @@ email = wes@wrd.nu
   amend = commit --amend            # ammend your last commit
   ammend = commit --amend           # ammend your last commit
 
+  # fix commit message
+  fc = commit --amend -m
+
   # checkout
   co = checkout                     # checkout
   nb = checkout -b                  # create and switch to a new branch (mnemonic: "git new branch branchname...")
@@ -42,6 +46,7 @@ email = wes@wrd.nu
   d = diff                          # diff unstaged changes
   dc = diff --cached                # diff staged changes
   last = diff HEAD^                 # diff last committed change
+  diffw = diff --word-diff          # diff --word-diff
 
   # i
   i = log -n1 --decorate=full
@@ -53,6 +58,12 @@ email = wes@wrd.nu
   short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
   changelog = log --pretty=format:\" * %s\"
   shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
+
+  # show unpushed changes
+  unpushed = log --stat origin/master..HEAD
+
+  # file overview
+  fo = log --pretty=oneline --shortstat --abrev-commit
 
   # pull
   pl = pull                         # pull
@@ -91,6 +102,13 @@ email = wes@wrd.nu
   svnr = svn rebase
   svnd = svn dcommit
   svnl = svn log --oneline --show-commit
+
+  # grouped search
+  gg = grep --break --heading -n
+
+  # shallow clone
+  sc = clone --depth=1
+
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
