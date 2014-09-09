@@ -618,6 +618,11 @@ class Venv(object):
             env=self.env,
             aliases=self.aliases)
 
+import sys
+LS_COLOR_AUTO="--color=auto"
+if sys.platform == 'darwin':
+    LS_COLOR_AUTO="-G"
+
 
 DEFAULT_ALIASES = OrderedDict((
     ('cdw', 'cd $$WORKON_HOME'),
@@ -640,11 +645,11 @@ DEFAULT_ALIASES = OrderedDict((
     ('htop', 'htop'),
     ('ifconfig', 'ifconfig'),
     ('ip', 'ip'),
-    ('la', 'ls --color=auto -A'),
-    ('lx', 'ls --color=auto -alZ'),
-    ('ll', 'ls --color=auto -aL'),
-    ('ls', 'ls --color=auto'),
-    ('lt', 'ls --color=auto -altr'),
+    ('la', 'ls %s -A' % LS_COLOR_AUTO),
+    ('lx', 'ls %s -alZ' % LS_COLOR_AUTO),
+    ('ll', 'ls %s -aL' % LS_COLOR_AUTO),
+    ('ls', 'ls %s' % LS_COLOR_AUTO),
+    ('lt', 'ls %s -altr' % LS_COLOR_AUTO),
     ('lxc', 'lxc'),
     ('ps', 'ps'),
     ('pyline', 'pyline'),
