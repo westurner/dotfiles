@@ -29,8 +29,9 @@ else:
 
 
 class IPYMock(object):
-
     """
+    Provide a few mocked methods for testing
+
     #TODO: from IPython.core import ipapi
     """
 
@@ -43,8 +44,17 @@ class IPYMock(object):
 pyver = 'python%d.%d' % sys.version_info[:2]
 log = logging.getLogger('Venv')
 
+__THISFILE = os.path.abspath(__file__)
+
+#  __VENV_CMD = "python {~ipython_config.py}"
+__VENV_CMD = "python %s" % __THISFILE
+
 
 def get_workon_home_default():
+    """
+    Returns:
+        str: Best path for a WORKON_HOME directory for virtualenvwrapper
+    """
     workon_home = os.environ.get('WORKON_HOME')
     if workon_home:
         return workon_home
@@ -55,6 +65,11 @@ def get_workon_home_default():
 
 
 class Env(OrderedDict):
+    """
+    Extended OrderedDict of NAMED and _ALIASED Filesystem Hierarchy paths.
+
+    Helpful for working with virtualenvs, bootstraps, chroots, containers.
+    """
     osenviron_keys = (
 
         '__DOCSWWW',
@@ -185,9 +200,8 @@ def _shell_supports_declare_g():
 
 
 class Venv(object):
-
     """
-    Virtual environment
+    Venv -- a virtual environment configuration generator for bash, ipython
     """
     @staticmethod
     def get_virtualenv_path(virtualenv=None, from_environ=False):
@@ -616,17 +630,27 @@ class Venv(object):
     def asdict(self):
         return OrderedDict(
             env=self.env,
-            aliases=self.aliases)
+            aliases=self.aliases,
+        )
+
+    def to_json(self, indent=None):
+        return json.dumps(self.asdict(), indent=indent)
+
+IS_DARWIN = sys.platform == 'darwin'
 
 import sys
-LS_COLOR_AUTO="--color=auto"
-if sys.platform == 'darwin':
-    LS_COLOR_AUTO="-G"
+LS_COLOR_AUTO = "--color=auto"
+if IS_DARWIN:
+    LS_COLOR_AUTO = "-G"
 
+PS_FX_COMMAND = 'ps -aufx'
+if IS_DARWIN:
+    PS_FX_COMMAND = 'ps -axf'
 
 DEFAULT_ALIASES = OrderedDict((
     ('cdw', 'cd $$WORKON_HOME'),
     ('cdh', 'cd $$HOME'),
+    ('cp', 'cp'),
     ('bash', 'bash'),
     ('chmodr', 'chmod -R'),
     ('chownr', 'chown -R'),
@@ -639,30 +663,47 @@ DEFAULT_ALIASES = OrderedDict((
     ('grinpath', 'grin --sys-path'),
     ('grindpath', 'grind --sys-path'),
     ('gvim', 'gvim'),
+    ('head', 'head'),
     ('hg', 'hg'),
     ('hgl', 'hg log -l10'),
     ('hgs', 'hg status'),
     ('htop', 'htop'),
     ('ifconfig', 'ifconfig'),
     ('ip', 'ip'),
+    ('last','last'),
     ('la', 'ls %s -A' % LS_COLOR_AUTO),
     ('lx', 'ls %s -alZ' % LS_COLOR_AUTO),
     ('ll', 'ls %s -aL' % LS_COLOR_AUTO),
     ('ls', 'ls %s' % LS_COLOR_AUTO),
     ('lt', 'ls %s -altr' % LS_COLOR_AUTO),
     ('lxc', 'lxc'),
+    ('mkdir', 'mkdir'),
+    ('netstat', 'netstat'),
+    ('mv', 'mv'),
     ('ps', 'ps'),
+    ('psfx', PS_FX_COMMAND),
+    ('pydoc', 'pydoc'),
     ('pyline', 'pyline'),
+    ('pyrpo', 'pyrpo'),
+    ('rm', 'rm'),
+    ('rsync', 'rsync'),
     ('sqlite3', 'sqlite3'),
+    ('ss', 'ss'),
     ('ssv', 'supervisord'),
     ('stat', 'stat'),
     ('sv', 'supervisorctl'),
     ('t', 'tail -f'),
+    ('tail', 'tail'),
     ('thg', 'thg'),
     ('top', 'top'),
+    ('vim', 'vim'),
+    ('uptime', 'uptime'),
     ('which', 'which'),
+    ('who', 'who'),
+    ('whoami', 'whoami'),
     ('zsh', 'zsh'),
 ))
+
 
 def in_ipython_config():
     return 'get_config' in globals()
@@ -741,7 +782,7 @@ def get_venv_parser():
     import optparse
 
     prs = optparse.OptionParser(
-        usage="./%prog [-b] [-t] [-e] [-E|<virtualenv>] [appname]")
+        usage=("%prog [-b|--print-bash] [-t] [-e] [-E<virtualenv>] [appname]"))
 
     prs.add_option('-E', '--from-shell-environ',
                    dest='load_environ',
@@ -807,8 +848,9 @@ def main():
                 open_terminals=opts.open_terminals)
 
     if opts.print_env:
-        import json
-        print(json.dumps(venv.asdict(), indent=2))
+        import sys
+        output = sys.stdout
+        venv.print(venv.to_json(indent=2))
 
     if opts.print_bash:
         venv.bash_env()
