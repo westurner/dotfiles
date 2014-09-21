@@ -18,9 +18,7 @@ Goals
 * Create a productive working environment
 * Streamline frequent workflows
 * Configure bash, zsh, and vim
-* Streamline frequent workflows
-* Configure bash and vim
-* Support Debian/Ubuntu, OSX 
+* Support Debian Linux, Ubuntu Linux, OSX 
 * Document keyboard shortcuts
 
 
