@@ -40,7 +40,9 @@ email = wes@wrd.nu
 
   # diff
   d = diff                          # diff unstaged changes
+  ds = diff --stat
   dc = diff --cached                # diff staged changes
+  dcs = diff --cached --stat
   last = diff HEAD^                 # diff last committed change
 
   # i
