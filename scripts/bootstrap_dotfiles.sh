@@ -205,6 +205,11 @@ get_md5sums() {
     fi
 }
 
+__readlink() {
+    _path=$1
+    python -c "import os; print(os.path.relpath('$_path'))";
+}
+
 backup_and_symlink() {
     ## Create symlink at $dest, pointing to $src
     # Args:
@@ -218,8 +223,8 @@ backup_and_symlink() {
     #echo "# $filename $dest $src"
     if (test -a ${dest} || test -h ${dest}); then
         if [[ -s ${dest} ]]; then
-            dest_md5=$(readlink -f $dest)
-            src_md5=$(readlink -f $src)
+            dest_md5=$(__readlink  $dest)
+            src_md5=$(__readlink $src)
         else
             dest_md5=$(get_md5sums $dest)
             src_md5=$(get_md5sums $src)
@@ -246,7 +251,7 @@ backup_and_symlink() {
             if [ -z "$src_md5" ] || [ -z "$dest_md5" ]; then
                 echo "# $src $dest"
                 if [ -h ${dest} ]; then
-                    actual=$(readlink -f ${dest})
+                    actual=$(__readlink ${dest})
                     if [ "$actual" != "$src" ]; then
                         mv ${dest} ${bkp}
                         echo "mv ${dest} ${bkp}"
@@ -314,7 +319,7 @@ symlink_gtk() {
     backup_and_symlink .gtkrc
     backup_and_symlink .gtkrc-2.0
     mkdir -p ${HOME}/.config/
-    backup_and_symlink .config/gtk-3.0/
+    backup_and_symlink .config/gtk-3.0
 }
 
 symlink_mimeapps() {
@@ -324,7 +329,7 @@ symlink_mimeapps() {
 }
 
 symlink_i3() {
-    backup_and_symlink .i3/
+    backup_and_symlink .i3
 }
 
 symlink_xinitrc_screensaver() {
@@ -345,7 +350,7 @@ symlink_python() {
 }
 
 symlink_virtualenvwrapper() {
-    backup_and_symlink virtualenvwrapper/
+    backup_and_symlink virtualenvwrapper
 }
 
 symlink_venv() {

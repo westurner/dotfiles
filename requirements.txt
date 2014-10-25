@@ -1,9 +1,3 @@
-pyinotify
-#  src:
-#    -e git+https://github.com/seb-m/pyinotify#egg=pyinotify
-#  doc:
-#    - https://github.com/seb-m/pyinotify/wiki 
-#    - https://seb-m.github.io/pyinotify/
 
 pyline
 #  src:
@@ -16,3 +10,13 @@ pyrpo
 #    -e git+https://github.com/westurner/pyrpo#egg=pyrpo
 #  doc:
 #    - https://pyrpo.readthedocs.org/en/latest/
+
+
+# pyinotify is not available on OSX
+#pyinotify
+#  src:
+#    -e git+https://github.com/seb-m/pyinotify#egg=pyinotify
+#  doc:
+#    - https://github.com/seb-m/pyinotify/wiki 
+#    - https://seb-m.github.io/pyinotify/
+

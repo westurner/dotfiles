@@ -126,14 +126,13 @@ install:
 	# Install ${HOME} symlinks
 	bash ./scripts/bootstrap_dotfiles.sh -S
 	#bash ./scripts/bootstrap_dotfiles.sh -R
-	$(MAKE) dotvim_clone
-	$(MAKE) dotvim_install
+	$(MAKE) dotvim_clone dotvim_install
 
 install_user:
 	type 'deactivate' 1>/dev/null 2>/dev/null && deactivate \
 		|| echo $(VIRTUAL_ENV)
-	$(MAKE) install PIP_INSTALL="~/.local/bin/pip install --user"
-	$(MAKE) pip_install_requirements_all PIP_INSTALL="~/.local/bin/pip install --user"
+	$(MAKE) install PIP_INSTALL="$(PIP) install --user"
+	$(MAKE) pip_install_requirements_all PIP_INSTALL="$(pip) install --user"
 	bash ./scripts/bootstrap_dotfiles.sh -S
 	$(MAKE) dotvim_clone
 	$(MAKE) dotvim_install
@@ -147,7 +146,7 @@ upgrade:
 upgrade_user:
 	type 'deactivate' 1>/dev/null 2>/dev/null && deactivate \
 		|| echo $(VIRTUAL_ENV)
-	$(MAKE) install PIP_INSTALL="~/.local/bin/pip install --upgrade --user"
+	$(MAKE) install PIP_INSTALL="$(PIP) install --upgrade --user"
 	bash ./scripts/bootstrap_dotfiles.sh -U
 
 
@@ -263,10 +262,9 @@ pip_list_editable_requirements:
 
 dotvim_clone:
 	# Clone and/or install .dotvim/Makefile
-	mkdir -p ~/.dotfiles/etc
-	test -d ~/.dotfiles/etc/vim/.hg \
-		|| hg clone $(DOTVIM_SRC) ~/.dotfiles/etc/vim
-	hg -R ~/.dotfiles/etc/vim pull
+	mkdir -p ./etc
+	(test -d ./etc/vim/.git && cd etc/vim && git pull) \
+		|| git clone $(DOTVIM_SRC) ./etc/vim
 
 dotvim_install:
 	# Install vim with Makefile
