@@ -347,7 +347,7 @@ docs_api:
 	#         # https://bitbucket.org/westurner/sphinx/branch/apidoc_output_order
 	sphinx-apidoc -M --no-toc --no-headings -o docs/ src/dotfiles
 	mv docs/dotfiles.rst docs/api.rst
-	sed -i 's/dotfiles package/API/' docs/api.rst
+	cat docs/api.rst | sed 's/dotfiles package/API/' > docs/api.rst
 
 .PHONY: all test build install edit docs
 all: test build install docs
