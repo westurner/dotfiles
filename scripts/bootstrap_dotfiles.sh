@@ -38,13 +38,6 @@ __DOTFILES=${HOME}/.dotfiles
 ## Virtualenv
 _VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
 
-## Venv
-VIRTUAL_ENV_NAME="dotfiles"
-__DOTFILES=${HOME}/.dotfiles
-
-## Virtualenv
-_VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
-
 ## dotfiles repository
 DOTFILES_REPO_DEST_PATH="${_VIRTUAL_ENV}/src/${VIRTUAL_ENV_NAME}"
 DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/vim"
@@ -52,7 +45,7 @@ DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/vim"
 #DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
 DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
 
-#DOTVIM_GIT_REPO_URL="https://bitbucket.org/westurner/dotvim"
+DOTVIM_GIT_REPO_URL="https://github.com/westurner/dotvim"
 DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
 
 #PIP="${HOME}/.local/bin/pip"
@@ -84,10 +77,9 @@ dotfiles_check_deps() {
 
 git_status() {
     ## show git rev, branches, remotes
-    pwd && \
-    git show && \
-    git branch -v && \
-    git remote -v
+    (git branch -v && \
+    git remote -v &&
+    git status)
 }
 
 hg_status() {
@@ -122,7 +114,7 @@ clone_or_update() {
     echo ""
     if [[ -d "${dest}/.git" ]]; then
         echo "## pulling from ${url} ---> ${dest}"
-        (cd $dest && \
+        (cd $dest && echo "cd $(pwd)" && \
             git_status && \
             git pull "$url" && \
             git checkout "$rev" && \
@@ -130,25 +122,26 @@ clone_or_update() {
     elif [[ -d "${dest}/.hg" ]]; then
         default_path=$(cd $dest && hg paths | grep default) 
         echo "## pulling from ${default_path} ---> ${dest}"
-        (cd $dest && \
+        (cd $dest && echo "cd $(pwd)" && \
             hg_status && \
             hg pull && \
             hg update -r "$rev" && \
             hg_status);
     else
         echo "## cloning from ${url} ---> ${dest}"
-        git clone ${url} ${dest}
-        git checkout $rev
-        git_status
+        (git clone ${url} ${dest} && \
+            cd $dest && echo "cd $(pwd)" && \
+            git checkout "$rev" && \
+            git_status)
     fi
 }
 
 
 clone_dotfiles_repo() {
     # clone or pull and update dotfiles_repo; then create symlinks
-    url=$DOTFILES_GIT_REPO_URL
+    url=${DOTFILES_GIT_REPO_URL}
     rev=${DOTFILES_REPO_REV:-"master"}  # tip, master
-    dest=$DOTFILES_REPO_DEST_PATH
+    dest=${DOTFILES_REPO_DEST_PATH}
     clone_or_update "${url}" "${rev}" "${dest}"
 
     # Create a $__DOTFILES symlink
@@ -157,9 +150,9 @@ clone_dotfiles_repo() {
 
 
 clone_dotvim_repo(){
-    url=$DOTVIM_HG_REPO_URL
+    url=${DOTVIM_GIT_REPO_URL}
     rev=${DOTVIM_REPO_REV:-"master"}  # tip, master
-    dest=$DOTVIM_REPO_DEST_PATH
+    dest=${DOTVIM_REPO_DEST_PATH}
 
     clone_or_update "${url}" "${rev}" "${dest}"
 }
@@ -206,6 +199,7 @@ get_md5sums() {
 }
 
 __readlink() {
+    ## readlink (OSX does not have readlink -f --canonicalize)
     _path=$1
     python -c "import os; print(os.path.relpath('$_path'))";
 }
@@ -223,7 +217,7 @@ backup_and_symlink() {
     #echo "# $filename $dest $src"
     if (test -a ${dest} || test -h ${dest}); then
         if [[ -s ${dest} ]]; then
-            dest_md5=$(__readlink  $dest)
+            dest_md5=$(__readlink $dest)
             src_md5=$(__readlink $src)
         else
             dest_md5=$(get_md5sums $dest)
