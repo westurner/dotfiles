@@ -48,10 +48,6 @@ lessv () {
     fi
 }
 
-less_() {
-    less $@
-}
-
 ## lessv    -- less with less.vim and gvim
 lessg() {
     VIMBIN=${GUIVIMBIN} lessv $@
