@@ -169,7 +169,6 @@ test_build:
 
 build:
 	# Build source dist and bdist
-	$(MAKE) build_tags
 	python setup.py build sdist bdist
 
 build_test_generate_runtests:
