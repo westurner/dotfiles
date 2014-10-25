@@ -52,7 +52,7 @@ Symlinks
 ----------
 Create symlinks in ``$HOME`` with `bootstrap_dotfiles.sh`_:
 
-.. code-block:: bash::
+.. code-block:: bash
 
    bootstrap_dotfiles.sh -S
 
