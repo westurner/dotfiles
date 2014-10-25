@@ -134,8 +134,20 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">dotfiles</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#goals">Goals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#bash">Bash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#symlinks">Symlinks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#vimrc">vimrc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#makefile">Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#install-the-dotfiles">Install the dotfiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#development">Development</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a><ul>
@@ -155,7 +167,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="venv.html">Venv</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="venv.html#python-api">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="venv.html#python-api">Python API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="venv.html#command-aliases">Command Aliases</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="venv.html#cd-aliases">cd Aliases</a></li>
 <li class="toctree-l2"><a class="reference internal" href="venv.html#gvim">gvim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="venv.html#grin">grin</a></li>
@@ -175,12 +190,59 @@
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#concept">Concept</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#goals">Goals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#tasks">Tasks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#lists">Lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#labels">Labels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#services">Services</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#tools">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#goals">Goals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#objectives">Objectives</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#daily">Daily</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#scheduled">Scheduled</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#recurring">Recurring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#phone">Phone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#emails">Emails</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#text-files">Text Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#code">Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#issues">Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#patches">Patches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#pull-requests">Pull Requests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#lists">Lists</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#mental">Mental</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#paper">Paper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#text">Text</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#labels">Labels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#task-labels">Task Labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#id3">Task Labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#email-labels">Email Labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#code-labels">Code Labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#project-labels">Project Labels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#services">Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#service-evaluation-criteria">Service Evaluation Criteria</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#google-calendar">Google Calendar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#rememberthemilk">RememberTheMilk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#google-tasks">Google Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#google-keep">Google Keep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#wikis">Wikis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#mailing-lists">Mailing Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#forge-sites">Forge Sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#github-repos-issues-wikis">Github Repos, Issues, Wikis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#bitbucket-repos-issues-wikis">BitBucket Repos, Issues, Wikis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#trac">Trac</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#redmine">Redmine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#gitlab">GitLab</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#tools">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#pyrtm-task-cli">pyrtm-task-cli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#workhours">workhours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflow.html#taskwarrior">TaskWarrior</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
@@ -208,10 +270,17 @@
          
 <div class="col-md-5 hidden-xs">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Contents</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<h3><a href="#">Table Of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">dotfiles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="venv.html">Venv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
   <h4>Next topic</h4>
