@@ -166,12 +166,39 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
     # directory.
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
-html_theme = 'sphinx_rtd_theme'
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+html_theme = 'basicstrap'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+html_theme_options = {
+    'lang': 'en',
+    'nosidebar': False,
+    'rightsidebar': True,
+    'sidebar_span': 5,
+    'nav_fixed_top': False,
+    'nav_fixed': False,
+    'nav_width': '900px',
+    'content_fixed': False,
+    'content_width': '768px',
+    'row_fixed': False,
+    'noresponsive': False,
+    'googlewebfont': False,
+    'googlewebfont_url': 'http://fonts.googleapis.com/css?family=Lily+Script+One',
+    'googlewebfont_style': u"font-family: 'Lily Script One' cursive;",
+    'header_inverse': False,
+    'relbar_inverse': False,
+    'inner_theme': False,
+    'inner_theme_name': 'bootswatch-readable',
+#    'h1_size': '3.0em',
+#    'h2_size': '2.6em',
+#    'h3_size': '2.2em',
+#    'h4_size': '1.8em',
+#    'h5_size': '1.4em',
+#    'h6_size': '1.1em',
+}
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -315,3 +342,47 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+
+def configure_meta_tags(app, pagename, templatename, context, doctree):
+    metatags = context.get('metatags', '')
+    metatags += """
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="{title}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="{og_site_name}" />
+    <!--
+    <meta property="og:description" content="{description}" />
+    -->
+    <meta property="og:image" content="{og_image_url}" />
+    <meta property="og:image:width" content="{og_image_width}" />
+    <meta property="og:image:height" content="{og_image_height}" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="{title}" />
+    <meta property="twitter:description" content="{description}" />
+    <meta property="twitter:site" content="{twitter_user}" />
+    <meta property="twitter:creator" content="{twitter_user}" />
+    """.format(
+        title=context.get('title',''),
+        description=context.get('description', ''),
+        og_site_name="dotfiles-westurner",
+        og_image_url="",  # 470x242.png
+        og_image_width="470",
+        og_image_height="242",
+        twitter_user="wrdrd")
+    context['metatags'] = metatags
+
+def setup(app):
+    app.add_javascript('js/local.js')
+    app.connect('html-page-context', configure_meta_tags)
+
+
+if __name__ == "__main__":
+    context = {}
+    output = configure_meta_tags(None, None, None, context, None)
+    print(context.get('metatags'))

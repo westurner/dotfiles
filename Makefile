@@ -20,7 +20,9 @@ DOTVIM_SRC:=https://bitbucket.org/westurner/dotvim
 #	 make dotvim_install
 	
 
-REPOSBIN:=python src/dotfiles/repos.py
+# PYRPO:=pyrpo
+PYRPO:=python src/dotfiles/repos.py
+# PYLINE:=pyline
 PYLINE:=python src/dotfiles/pyline.py
 
 PIP:=pip
@@ -283,19 +285,19 @@ changelog:
 
 
 dotfiles_origin_report:
-	$(REPOSBIN) -s . -r origin | tee repo-origins.txt
+	$(PYRPO) -s . -r origin | tee repo-origins.txt
 
 dotfiles_status_report:
-	$(REPOSBIN) -s $(HOME)
+	$(PYRPO) -s $(HOME)
 
 dotfiles_pip_report:
-	$(REPOSBIN) -s ${HOME}/.dotfiles -r pip | tee pip-requirements-autogen.txt
+	$(PYRPO) -s ${HOME}/.dotfiles -r pip | tee pip-requirements-autogen.txt
 
 dotfiles_thg_report:
-	$(REPOSBIN) -s ${HOME}/.dotfiles -r thg | tee thg-reporegistry.xml
+	$(PYRPO) -s ${HOME}/.dotfiles -r thg | tee thg-reporegistry.xml
 
 dotfiles_all_reports:
-	$(REPOSBIN) -s ${HOME}/.dotfiles -r origin -r pip -r thg
+	$(PYRPO) -s ${HOME}/.dotfiles -r origin -r pip -r thg
 
 
 # /srv Reports
@@ -316,7 +318,7 @@ setup_srv:
 	ln -s $(SRVROOT)/repos/hg $(HOME)/src/hg
 
 srv_origin_report:
-	$(REPOSBIN) -s $(SRVROOT) -r origin | tee $(ORIGIN_REPORT)
+	$(PYRPO) -s $(SRVROOT) -r origin | tee $(ORIGIN_REPORT)
 	echo "Report written to $(ORIGIN_REPORT)"
 
 srv_origin_report_parse:
@@ -325,18 +327,18 @@ srv_origin_report_parse:
 			'len(words)==2 and words[0].split("://",1)' -s 2
 
 srv_pip_report:
-	$(REPOSBIN) -s $(SRVROOT) -r pip | tee $(PIP_REQS_REPORT)
+	$(PYRPO) -s $(SRVROOT) -r pip | tee $(PIP_REQS_REPORT)
 	echo "Report written to $(PIP_REQS_REPORT)"
 
 srv_thg_report:
-	$(REPOSBIN) -s $(SRVROOT) -r thg | tee $(THG_RREG_REPORT)
+	$(PYRPO) -s $(SRVROOT) -r thg | tee $(THG_RREG_REPORT)
 	echo "Report written to $(THG_RREG_REPORT)"
 
 
 # ~/.config/TortoiseHg Report
 
 thg_all:
-	$(REPOSBIN) -s $(SRVROOT) -s ${HOME}/.dotfiles --thg \
+	$(PYRPO) -s $(SRVROOT) -s ${HOME}/.dotfiles --thg \
 		| tee ~/.config/TortoiseHg/thg-reporegistry.xml
 
 docs_api:
@@ -347,13 +349,11 @@ docs_api:
 	#         # https://bitbucket.org/westurner/sphinx/branch/apidoc_output_order
 	sphinx-apidoc -M --no-toc --no-headings -o docs/ src/dotfiles
 	mv docs/dotfiles.rst docs/api.rst
-	cat docs/api.rst | sed 's/dotfiles package/API/' > docs/api.rst
-
-.PHONY: all test build install edit docs
-all: test build install docs
+	sed -i.bak 's/dotfiles package/API/' docs/api.rst
+	rm docs/api.rst.bak
 
 
-docs:
+docs: localjs
 	$(MAKE) docs_api
 	$(MAKE) help_vim_rst
 	$(MAKE) help_i3_rst
@@ -368,6 +368,41 @@ docs_rsync_to_local: docs_clean_rsync_local
 docs_rebuild:
 	$(MAKE) docs
 	$(MAKE) docs_rsync_to_local
+
+
+STATIC:="./docs/_static"
+LOCALJS="$(STATIC)/js/local.js"
+
+localjs:
+	echo '' > $(LOCALJS)
+	cat $(STATIC)/js/ga.js >> $(LOCALJS)
+	cat $(STATIC)/js/newtab.js >> $(LOCALJS)
+
+
+docs-open: docs open
+
+open:
+	open docs/_build/html/index.html
+	#open docs/_build/singlehtml/index.html
+
+release: clean
+	python setup.py sdist upload
+
+sdist: clean
+	python setup.py sdist
+	ls -l dist
+
+gh-pages:
+	# Push docs to gh-pages branch with a .nojekyll file
+	ghp-import -n -p ./docs/_build/html/
+	#ghp-import -n -p ./docs/_build/singlehtml/
+
+pull:
+	git pull
+
+push:
+	git push
+
 
 test_show_env:
 	env
