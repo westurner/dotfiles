@@ -56,7 +56,7 @@ else:
     log.setLevel(logging.INFO)
 
 SETUPPY_PATH = os.path.dirname(os.path.abspath(__file__)) or '.'
-log.debug('SETUPPY_PATH: %s' % SETUPPY_PATH)
+# log.debug('SETUPPY_PATH: %s' % SETUPPY_PATH)
 
 
 DATA_DIRS = CONFIG['data_dirs'] = ['bin', 'etc', 'docs', 'requirements']
