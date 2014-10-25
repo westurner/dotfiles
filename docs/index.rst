@@ -13,7 +13,6 @@ Contents
    api
    developing
    tools
-   workflow
    changelog
 
 Indices and tables
