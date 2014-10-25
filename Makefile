@@ -21,9 +21,9 @@ DOTVIM_SRC:=https://bitbucket.org/westurner/dotvim
 	
 
 # PYRPO:=pyrpo
-PYRPO:=python src/dotfiles/repos.py
+PYRPO:=python scripts/pyrpo.py
 # PYLINE:=pyline
-PYLINE:=python src/dotfiles/pyline.py
+PYLINE:=python scripts/pyline.py
 
 PIP:=pip
 PIP_OPTS:=
@@ -65,9 +65,60 @@ help:
 	@echo ""
 
 help_setuppy:
-	python setup.py --help | head -n -4
+	python setup.py --help
 	python setup.py --command-packages=stdeb.command --help-commands
-	$(MAKE) help_commands
+
+help_setuppy_rst:
+	## show help as (almost) ReStructuredText
+	python setup.py --help \
+		| sed "s/^\w.*/\0::\n/g" \
+		| sed "s/^\s\s/ \0/g"; \
+	echo ""
+	# Commands
+	# =========
+	for _cmd in \
+		`python setup.py --help-commands | grep '^  \w' | $(PYLINE) 'w and w[0]'`;	do \
+		echo ""; echo ""; \
+		python setup.py --help "$${_cmd}" \
+			| tail -n +13 \
+			| head -n -6 \
+			| sed "s/^Options for '\(.*\)' command:/\`\`python setup.py \1\`\`::\n/g" \
+			| sed "s/^\s\s/ \0/g"; \
+	done
+
+
+BASH_LOAD_SCRIPT=scripts/bashrc.load.sh
+help_bash:
+	## Write bash output to scripts/bashrc.load.sh
+	bash -i -v -c 'exit' 2> $(BASH_LOAD_SCRIPT)
+
+help_bash_rst:
+	## Write docs/bash_conf.rst
+	bash scripts/dotfiles-bash.sh > docs/bash_conf.rst
+
+
+ZSH_LOAD_SCRIPT=scripts/zsh.load.sh
+help_zsh:
+	## Write zsh output to script/zsh.load.sh
+	zsh -i -v -c 'exit' 2> $(ZSH_LOAD_SCRIPT)
+
+
+help_vim:
+	## Print vim output to terminal
+	test -d etc/vim && \
+		$(MAKE) -C etc/vim help
+
+help_vim_rst:
+	## Write docs/dotvim_conf.rst
+	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.rst
+
+
+help_i3:
+	$(MAKE) -C etc/.i3 help_i3
+
+help_i3_rst:
+	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.rst
+
 
 install:
 	$(MAKE) pip_install_as_editable
@@ -99,6 +150,7 @@ upgrade_user:
 	$(MAKE) install PIP_INSTALL="~/.local/bin/pip install --upgrade --user"
 	bash ./scripts/bootstrap_dotfiles.sh -U
 
+
 clean:
 	pyclean .
 	find . -type d -name '__pycache__' -exec rm -rfv {} \;
@@ -106,53 +158,6 @@ clean:
 	python setup.py clean
 	$(MAKE) build_deb_clean
 
-
-# .. show help as (almost) ReStructuredText TODO
-#
-.PHONY = help_rst
-help_rst:
-	# python setup.py --help
-	# ========================
-	python setup.py --help \
-		| sed "s/^\w.*/\0::\n/g" \
-		| sed "s/^\s\s/ \0/g"; \
-	echo ""
-	# Commands
-	# =========
-	for _cmd in \
-		`python setup.py --help-commands | grep '^  \w' | pycut -f 0`;	do \
-		echo ""; echo ""; \
-		python setup.py --help "$${_cmd}" \
-			| tail -n +13 \
-			| head -n -6 \
-			| sed "s/^Options for '\(.*\)' command:/\`\`python setup.py \1\`\`::\n/g" \
-			| sed "s/^\s\s/ \0/g"; \
-	done
-
-
-help_bash:
-	bash -i -v -c 'exit' 2> bash_load.sh
-	$(EDITOR) bash_load.sh
-
-help_bash_rst:
-	bash scripts/dotfiles-bash.sh > docs/bash_conf.rst
-
-help_zsh:
-	zsh -i -v -c 'exit' 2> zsh_load.zsh
-	$(EDITOR) zsh_load.zsh
-
-help_vim:
-	test -d etc/vim && \
-		$(MAKE) -C etc/vim help
-
-help_vim_rst:
-	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.rst
-
-help_i3:
-	$(MAKE) -C etc/.i3 help_i3
-
-help_i3_rst:
-	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.rst
 
 test:
 	# Run setuptools test task
