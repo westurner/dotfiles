@@ -13,13 +13,15 @@ vimpager() {
     fi
 }
 
-less_ () {
+
+## lessv    -- less with less.vim and regular vim
+lessv () {
 
     ## start Vim with less.vim.
     # Read stdin if no arguments were given.
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
-            vim --cmd "let g:tinyvim=1" \
+            ${VIMBIN} --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
                 --cmd "set noswf" \
@@ -27,7 +29,7 @@ less_ () {
                 -c "map <C-End> <Esc>G" \
                 -
         else
-            vim \
+            ${VIMBIN} \
                 --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
@@ -44,6 +46,15 @@ less_ () {
             less "$@"
         fi
     fi
+}
+
+less_() {
+    less $@
+}
+
+## lessv    -- less with less.vim and gvim
+lessg() {
+    VIMBIN=${GUIVIMBIN} lessv $@
 }
 
 # view manpages in vim
