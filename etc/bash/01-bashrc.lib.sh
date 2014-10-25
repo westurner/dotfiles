@@ -6,6 +6,7 @@ function_exists() {
 
 add_to_path ()
 {
+    #  add_to_path  -- prepend a directory to $PATH
     ## http://superuser.com/questions/ \
     ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
 
@@ -24,16 +25,18 @@ add_to_path ()
 lightpath() {
     #  lightpath    -- display $PATH with newlines
     echo ''
-    echo $PATH | sed 's/\:/\n/g'
+    echo $PATH | tr ':' '\n'
 }
 
 lspath() {
     #  lspath       -- list files in each directory in $PATH
     echo "PATH=$PATH"
     lightpath
+    LS_OPTS=${@:'-ald'}
+    # LS_OPTS="-aldZ"
     for f in $(lightpath); do
         echo "# $f";
-        ls -aldZ $@ $f/*;
+        ls $LS_OPTS $@ $f/*;
     done
 }
 
