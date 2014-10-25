@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="Venv" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="dotfiles-westurner" />
+    <!--
+    <meta property="og:description" content="" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Venv" />
+    <meta property="twitter:description" content="" />
+    <meta property="twitter:site" content="wrdrd" />
+    <meta property="twitter:creator" content="wrdrd" />
+    
+    <title>Venv &mdash; dotfiles 0.1.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/local.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="top" title="dotfiles 0.1.2 documentation" href="index.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Usage" href="usage.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">dotfiles 0.1.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Venv</a><ul>
+<li><a class="reference internal" href="#python-api">Python API</a><ul>
+<li><a class="reference internal" href="#command-aliases">Command Aliases</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cd-aliases">cd Aliases</a></li>
+<li><a class="reference internal" href="#gvim">gvim</a></li>
+<li><a class="reference internal" href="#grin">grin</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="usage.html" title="Usage" accesskey="P">previous </a></li>
+              <li><a href="api.html" title="API" accesskey="N">next </a></li>
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/venv.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+        
+        
+
+        <div class="col-md-7">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="venv">
+<h1>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal"><span class="pre">./etc/ipython/profile_default/ipython_config.py</span></code></p>
+<p>Enhancements to <a class="reference external" href="https://pypi.python.org/pypi/virtualenvwrapper">virtualenvwrapper</a> for <a class="reference external" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Z_shell">ZSH</a>, and <a class="reference external" href="https://en.wikipedia.org/wiki/IPython">IPython</a>.</p>
+<p>Venv functionality is defined in two places:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a></li>
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/ipython/ipython_config.py">ipython_config.py</a>, which generates shell env:</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export</span> <span class="o">&amp;&amp;</span> <span class="nb">alias</span>  <span class="c"># &amp;&amp; set</span>
+
+<span class="nb">echo</span> <span class="nv">$_VENV</span>
+cat <span class="nv">$_VENV</span>
+<span class="c">#&gt; omitted for readability</span>
+
+venv -E --bash
+<span class="nb">source</span> &lt;<span class="o">(</span>venv -E --bash<span class="o">)</span>
+
+<span class="nb">export</span> <span class="o">&amp;&amp;</span> <span class="nb">alias</span>  <span class="c"># &amp;&amp; set</span>
+</pre></div>
+</div>
+<p><strong>Features</strong></p>
+<ul class="simple">
+<li>Configures <a class="reference external" href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> <code class="docutils literal"><span class="pre">site</span></code> for a given <cite>virtualenv</cite></li>
+<li>Configures <a class="reference external" href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> <code class="docutils literal"><span class="pre">sys.path</span></code>: <a class="reference external" href="https://en.wikipedia.org/wiki/IPython">IPython</a> extension paths</li>
+<li>Configures <a class="reference external" href="https://en.wikipedia.org/wiki/IPython">IPython</a> command aliases (<code class="docutils literal"><span class="pre">%alias</span></code>, or just <code class="docutils literal"><span class="pre">alias</span></code>)</li>
+<li>Generates <a class="reference external" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a> environments from <cite>virtualenv</cite> paths</li>
+<li>Configures <a class="reference external" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a> variables starting with <code class="docutils literal"><span class="pre">$_</span></code></li>
+<li>Executes subcommands within generated environments (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">-x</span> <span class="pre">bash</span></code>)</li>
+</ul>
+<p><strong>Usage</strong></p>
+<p>Create a virtualenv (<strong>virtualenvwrapper</strong>):</p>
+<div class="highlight-python"><div class="highlight"><pre>mkvirtualenv dotfiles
+workon dotfiles
+pip install -e https://bitbucket.org/westurner/dotfiles
+</pre></div>
+</div>
+<p>Work on a project:</p>
+<div class="highlight-python"><div class="highlight"><pre>we dotfiles
+</pre></div>
+</div>
+<p>List current environment settings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">venv</span> <span class="o">-</span><span class="n">E</span> <span class="o">--</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>Generate environment settings for an environment:</p>
+<div class="highlight-python"><div class="highlight"><pre>venv dotfiles --bash
+</pre></div>
+</div>
+<p>Execute a command within an environment:</p>
+<div class="highlight-python"><div class="highlight"><pre>venv dotfiles -x gnome-terminal
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">we</span></code> command adds a <code class="docutils literal"><span class="pre">_venv</span></code> alias to <code class="docutils literal"><span class="pre">venv</span> <span class="pre">-E</span></code>,
+so the following commands are equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre>venv -E --print
+venv dotfiles --print
+_venv --print
+_venv dotfiles --print
+$_VENV -E --print
+$_VENV dotfiles --print
+</pre></div>
+</div>
+<p>List Venv-generated Venv variables, aliases, and commands with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">venv</span> <span class="o">-</span><span class="n">E</span> <span class="o">--</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>Paths should be contained within <code class="docutils literal"><span class="pre">${VIRTUAL_ENV}</span></code>, which is set by
+<code class="docutils literal"><span class="pre">virtualenvwrapper</span></code> through a call to <code class="docutils literal"><span class="pre">workon</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>echo ${VIRTUAL_ENV}
+#
+workon dotfiles
+echo ${VIRTUAL_ENV}
+# ~/.virtualenvs/dotfiles
+echo ${_WRD}
+#
+source &lt;(venv -E --bash)
+echo ${_WRD}
+# ~/.virtualenvs/dotfiles/src/dotfiles
+echo ${_APP}
+# dotfiles
+</pre></div>
+</div>
+<div class="section" id="python-api">
+<h2>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h2>
+<p>A Venv object builds an <code class="docutils literal"><span class="pre">Env</span></code> with <code class="docutils literal"><span class="pre">${VIRTUAL_ENV}</span></code>-relative paths
+in a common filesystem hierarchy and an ordered dictionary of
+command aliases, which can be serialized to
+a bash script (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--bash</span></code>) or to JSON (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--print</span></code>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">Venv</span><span class="o">,</span> <span class="nn">json</span>
+<span class="n">venv</span> <span class="o">=</span> <span class="n">Venv</span><span class="p">(</span><span class="n">from_environ</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">venv</span><span class="o">.</span><span class="k">print</span><span class="p">()</span>
+<span class="n">venv</span><span class="o">.</span><span class="n">bash_env</span><span class="p">()</span>
+
+<span class="n">venv</span><span class="o">.</span><span class="n">configure_sys</span><span class="p">()</span>
+<span class="n">venv</span><span class="o">.</span><span class="n">configure_ipython</span><span class="p">()</span>
+
+<span class="k">assert</span> <span class="n">venv</span><span class="o">.</span><span class="n">virtualenv</span>  <span class="o">==</span> <span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">venv</span><span class="o">.</span><span class="n">appname</span>     <span class="o">==</span> <span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">])</span>     <span class="c"># working directory</span>
+<span class="c">#&gt; ~/.virtualenvs/dotfiles</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">aliases</span><span class="p">[</span><span class="s">&#39;_edit&#39;</span><span class="p">])</span>
+<span class="c">#&gt; gvim --servername dotfiles --remote-tab</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">])</span>
+<span class="c">#&gt; gvim --servername dotfiles --remote-tab</span>
+</pre></div>
+</div>
+<div class="section" id="command-aliases">
+<h3>Command Aliases<a class="headerlink" href="#command-aliases" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Many of the aliases generated by <cite>Venv</cite> are also defined in
+<code class="docutils literal"><span class="pre">bashrc.venv.sh</span></code>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="cd-aliases">
+<h2>cd Aliases<a class="headerlink" href="#cd-aliases" title="Permalink to this headline">¶</a></h2>
+<p><strong>cdb</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $_BIN
+# cdvirtualenv bin
+</pre></div>
+</div>
+<p><strong>cde</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $_ETC
+# cdvirtualenv etc
+</pre></div>
+</div>
+<p><strong>cdpylib</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $_PYLIB
+# cdsitepackages ..
+</pre></div>
+</div>
+<p><strong>cdpysite</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $_PYSITE
+# cdsitepackages
+</pre></div>
+</div>
+<p><strong>cds</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $_SRC
+# cdvirtualenv src
+</pre></div>
+</div>
+<p><strong>cdv</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $VIRTUAL_ENV
+# cdvirtualenv
+</pre></div>
+</div>
+<p><strong>cdvar</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $_VAR
+# cdvirtualenv var
+</pre></div>
+</div>
+<p><strong>cdve</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $WORKON_HOME
+</pre></div>
+</div>
+<p><strong>cdw</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $_WRD
+# cdvirtualenv src/${_APP}
+</pre></div>
+</div>
+<p><strong>cdww</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>cd $_WWW
+# cdvirtualenv var/www
+</pre></div>
+</div>
+<p><strong>cdhelp</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>set | grep &#39;^cd.*()&#39; | cut -f1 -d&#39; &#39;
+</pre></div>
+</div>
+</div>
+<div class="section" id="gvim">
+<h2>gvim<a class="headerlink" href="#gvim" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>_edit</strong></dt>
+<dd><code class="docutils literal"><span class="pre">gvim</span> <span class="pre">--servername=${_APP}</span> <span class="pre">--remote-tab</span></code></dd>
+<dt><strong>_editp</strong>::</dt>
+<dd><code class="docutils literal"><span class="pre">_edit</span> <span class="pre">{README,setup.py,...}</span></code></dd>
+</dl>
+</div>
+<div class="section" id="grin">
+<h2>grin<a class="headerlink" href="#grin" title="Permalink to this headline">¶</a></h2>
+<p><strong>grin &#8211;help</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">grin</span> <span class="o">--</span><span class="n">help</span>
+<span class="n">grind</span> <span class="o">--</span><span class="n">help</span>
+<span class="n">grin</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<p><strong>grin[d]v</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>grin[d] ${VIRTUAL_ENV}
+</pre></div>
+</div>
+<p><strong>grin[d]s</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>grin[d] ${_SRC}
+</pre></div>
+</div>
+<p><strong>grin[d]w</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>grin[d] ${_WRD}
+</pre></div>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         
+<div class="col-md-5 hidden-xs">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Venv</a><ul>
+<li><a class="reference internal" href="#python-api">Python API</a><ul>
+<li><a class="reference internal" href="#command-aliases">Command Aliases</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cd-aliases">cd Aliases</a></li>
+<li><a class="reference internal" href="#gvim">gvim</a></li>
+<li><a class="reference internal" href="#grin">grin</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="previous chapter">Usage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">API</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/venv.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav">
+        <li><a href="index.html">dotfiles 0.1.2 documentation</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="usage.html" title="Usage" >previous</a></li>
+        <li><a href="api.html" title="API" >next</a></li>
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2014, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

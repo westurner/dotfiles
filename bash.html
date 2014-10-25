@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content=".bashrc" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="dotfiles-westurner" />
+    <!--
+    <meta property="og:description" content="" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content=".bashrc" />
+    <meta property="twitter:description" content="" />
+    <meta property="twitter:site" content="wrdrd" />
+    <meta property="twitter:creator" content="wrdrd" />
+    
+    <title>.bashrc &mdash; dotfiles 0.1.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/local.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="top" title="dotfiles 0.1.2 documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">dotfiles 0.1.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">.bashrc</a><ul>
+<li><a class="reference internal" href="#etc-bashrc">etc/.bashrc</a></li>
+<li><a class="reference internal" href="#etc-bash-00-bashrc-before-sh">etc/bash/00-bashrc.before.sh</a></li>
+<li><a class="reference internal" href="#projectsrc-sh">~/.projectsrc.sh</a></li>
+<li><a class="reference internal" href="#etc-bash-07-bashrc-virtualenv-sh">etc/bash/07-bashrc.virtualenv.sh</a></li>
+<li><a class="reference internal" href="#virtualenvwrapper">virtualenvwrapper</a></li>
+<li><a class="reference internal" href="#etc-bash-10-bashrc-venv-sh">etc/bash/10-bashrc.venv.sh</a></li>
+<li><a class="reference internal" href="#etc-bash-30-bashrc-usrlog-sh">etc/bash/30-bashrc.usrlog.sh</a></li>
+<li><a class="reference internal" href="#etc-bash-50-bashrc-bashmarks-sh">etc/bash/50-bashrc.bashmarks.sh</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/bash.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+        
+        
+
+        <div class="col-md-7">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="bashrc">
+<h1>.bashrc<a class="headerlink" href="#bashrc" title="Permalink to this headline">¶</a></h1>
+<p>Bash Load Sequence</p>
+<div class="highlight-python"><div class="highlight"><pre>$ bash
+# (~/.bashrc)                    -&gt; ./etc/.bashrc
+#    -&gt; (~/00-bashrc.before.sh)  -&gt; ./etc/00-bashrc.before.sh
+</pre></div>
+</div>
+<div class="section" id="etc-bashrc">
+<h2>etc/.bashrc<a class="headerlink" href="#etc-bashrc" title="Permalink to this headline">¶</a></h2>
+<p>Deliberately minimal <code class="docutils literal"><span class="pre">.bashrc</span></code>. Should be symlinked to
+<code class="docutils literal"><span class="pre">~/.bashrc</span></code>.</p>
+<p><strong>Sources</strong>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code></li>
+</ul>
+</div>
+<div class="section" id="etc-bash-00-bashrc-before-sh">
+<h2>etc/bash/00-bashrc.before.sh<a class="headerlink" href="#etc-bash-00-bashrc-before-sh" title="Permalink to this headline">¶</a></h2>
+<p>Sources all other etc/bash/dd-bashrc.*.sh scripts
+explicitly.</p>
+<p>Sourced by <code class="docutils literal"><span class="pre">~/.bashrc</span></code>.</p>
+<div class="highlight-text"><div class="highlight"><pre>dotfiles_reload() {
+    echo &quot;## Reloading bash configuration...&quot;
+    conf=${__DOTFILES}/etc/bash
+  #source ~/.bashrc
+    #source 00-bashrc.before.sh
+
+      ## libraries: useful bash functions
+      source ${conf}/01-bashrc.lib.sh
+
+      ## readline
+      source ${conf}/03-bashrc.readline.sh
+
+      ## TERM
+      source ${conf}/04-bashrc.TERM.sh
+
+      ## dotfiles
+      #  $__DOTFILES (str): path to local dotfiles repository clone
+      export __DOTFILES=&quot;${HOME}/.dotfiles&quot;
+      source ${conf}/05-bashrc.dotfiles.sh
+
+
+      ## python: python: pip, virtualenv, virtualenvwrapper
+      #  TODO: PYTHON_
+      #  $PROJECT_HOME (str): path to project directory (~/wrk)
+      #  $WORKON_HOME (str): path to virtualenvs directory (~/wrk/.ve)
+      #  $VIRTUAL_ENV (str): path to current $VIRTUAL_ENV
+      source ${conf}/07-bashrc.python.sh
+      source ${conf}/07-bashrc.virtualenv.sh
+      source ${conf}/07-bashrc.virtualenvwrapper.sh
+
+      ## gcloud: Google Cloud SDK
+      #  _setup_google_cloud
+      source ${conf}/08-bashrc.gcloud.sh
+
+      ## venv: virtualenvwrapper extensions (shell vars, cmds, aliases)
+      #  $_VENVNAME (str): name of current $VIRTUAL_ENV
+      #  we() -- workon a new venv (virtualenvwrapper virtualenv + venv)
+      #          we() -&gt; workon $1 &amp;&amp; source &lt;($_VENV --bash $@)
+      #          example::
+      #             we $venvname # $appname
+      if [ -d /Library ]; then
+          export __IS_MAC=&#39;true&#39;
+      else
+          export __IS_LINUX=&#39;true&#39;
+      fi
+      source ${conf}/10-bashrc.venv.sh
+      # test -f $__PROJECTS &amp;&amp; source $__PROJECTS
+      #  dotfiles_status() -- print dotfiles env config
+      dotfiles_status
+
+      ## venv-pyramid: pyramid development workflow
+      #  workon_pyramid_add(venvname, appname)
+      source ${conf}/11-bashrc.venv.pyramid.sh
+
+
+      ## editor/pager
+      #  $EDITOR (str): cmdstring to open $@ in current editor
+      #  $PAGER (str): cmdstring to run pager (less/vim)
+      #  lessv() -- open read only in vim
+      #  lessg() -- open read only in gvim/mvim
+      #  man()   -- open manpage in vim
+      #  mang()  -- open manpage in gvim/mvim
+      source ${conf}/20-bashrc.editor.sh
+      source ${conf}/29-bashrc.vimpagers.sh
+
+
+      ## usrlog:
+      #  $_USRLOG (str): path to .usrlog command log
+      source ${conf}/30-bashrc.usrlog.sh
+
+
+      ## xlck: screensaver, screen (auto) lock, suspend
+      source ${conf}/30-bashrc.xlck.sh
+
+
+      ## aliases: bash aliases and cmds
+      source ${conf}/40-bashrc.aliases.sh
+
+
+      ## bashmarks: local bookmarks
+      source ${conf}/50-bashrc.bashmarks.sh
+
+      ## repos: local repository set mgmt, docs hosting
+      source ${conf}/70-bashrc.repos.sh
+
+    ## after: cleanup
+    source ${conf}/99-bashrc.after.sh
+}
+
+dr() {
+    dotfiles_reload $@
+}
+
+dotfiles_reload
+</pre></div>
+</div>
+</div>
+<div class="section" id="projectsrc-sh">
+<h2>~/.projectsrc.sh<a class="headerlink" href="#projectsrc-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">${__WORKSPACE}/projectsrc.sh</span></code></p>
+<p>System-local bash configuration.</p>
+</div>
+<div class="section" id="etc-bash-07-bashrc-virtualenv-sh">
+<h2>etc/bash/07-bashrc.virtualenv.sh<a class="headerlink" href="#etc-bash-07-bashrc-virtualenv-sh" title="Permalink to this headline">¶</a></h2>
+<p>Virtual python environment builder</p>
+<p><strong>Install</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>pip install virtualenv
+</pre></div>
+</div>
+<p><strong>Sources</strong>:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pypi.python.org/pypi/virtualenv">https://pypi.python.org/pypi/virtualenv</a></li>
+<li><a class="reference external" href="https://github.com/pypa/virtualenv/">https://github.com/pypa/virtualenv/</a></li>
+</ul>
+<p><strong>Documentation</strong>:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://virtualenv.pypa.io/en/latest/">https://virtualenv.pypa.io/en/latest/</a></li>
+<li><a class="reference external" href="http://virtualenv.readthedocs.org/en/latest/">http://virtualenv.readthedocs.org/en/latest/</a></li>
+</ul>
+</div>
+<div class="section" id="virtualenvwrapper">
+<h2>virtualenvwrapper<a class="headerlink" href="#virtualenvwrapper" title="Permalink to this headline">¶</a></h2>
+<p>Enhancements to virtualenv</p>
+<p><strong>Install</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre># install virtualenvwrapper
+pip install virtualenvwrapper
+
+# configure virtualenvwrapper shell variables
+grep WORKON_HOME ~/.bashrc.venv.sh
+grep VIRTUALENVWRAPPER_SCRIPT ~/.bashrc.venv.sh
+</pre></div>
+</div>
+<p><strong>Sources</strong>:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pypi.python.org/pypi/virtualenvwrapper">https://pypi.python.org/pypi/virtualenvwrapper</a></li>
+<li><a class="reference external" href="https://bitbucket.org/dhellmann/virtualenvwrapper">https://bitbucket.org/dhellmann/virtualenvwrapper</a></li>
+</ul>
+<p><strong>Documentation</strong>:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://virtualenvwrapper.readthedocs.org/en/latest/">http://virtualenvwrapper.readthedocs.org/en/latest/</a></li>
+<li><a class="reference external" href="http://virtualenvwrapper.readthedocs.org/en/latest/scripts.html">http://virtualenvwrapper.readthedocs.org/en/latest/scripts.html</a></li>
+</ul>
+</div>
+<div class="section" id="etc-bash-10-bashrc-venv-sh">
+<h2>etc/bash/10-bashrc.venv.sh<a class="headerlink" href="#etc-bash-10-bashrc-venv-sh" title="Permalink to this headline">¶</a></h2>
+<p>Configures <code class="docutils literal"><span class="pre">${__WORKSPACE}</span></code> and <code class="docutils literal"><span class="pre">${WORKON_HOME}</span></code> for
+<strong>virtualenvwrapper</strong> and <strong>venv</strong>.</p>
+<p><strong>Sources</strong>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">etc/.bashmarks.sh</span></code></li>
+<li><code class="docutils literal"><span class="pre">etc/usrlog.sh</span></code></li>
+<li><code class="docutils literal"><span class="pre">${__WORKSPACE}/.projectsrc.sh</span></code></li>
+</ul>
+</div>
+<div class="section" id="etc-bash-30-bashrc-usrlog-sh">
+<h2>etc/bash/30-bashrc.usrlog.sh<a class="headerlink" href="#etc-bash-30-bashrc-usrlog-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">etc/scripts/usrlog.sh</span></code></p>
+<p>Delimited and timestamped terminal history with lightweight &#8216;sessions&#8217;</p>
+<p>Each invocation of bash or zsh generates a new TERM_ID string which is
+prepended to the terminal history record.</p>
+<p>TERM_ID values are random, but can be set by calling <code class="docutils literal"><span class="pre">stid</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre>echo $TERM_ID
+# 0eZfHHVar76
+
+# Set a new TERM_ID
+stid
+
+echo $TERM_ID
+BUaOZ2FshNk
+
+# Specify a TERM_ID
+stid app_configuration
+
+echo $TERM_ID
+app_configuration
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre># term_id ::: 0eZfHHVar76 [ ./dotfiles/.usrlog ]
+$
+</pre></div>
+</div>
+<p><strong>$VIRTUAL_ENV</strong></p>
+<p>When <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code> is set in the environment, terminal history is
+appended to <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-specific <code class="docutils literal"><span class="pre">_USRLOG</span></code> and <code class="docutils literal"><span class="pre">HISTFILE</span></code> files.</p>
+<div class="highlight-python"><div class="highlight"><pre>tail -n 5 ~/.usrlog
+tail -n 5 ~/.virtualenvs/dotfiles/.usrlog
+</pre></div>
+</div>
+</div>
+<div class="section" id="etc-bash-50-bashrc-bashmarks-sh">
+<h2>etc/bash/50-bashrc.bashmarks.sh<a class="headerlink" href="#etc-bash-50-bashrc-bashmarks-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">etc/bashmarks/bashmarks.sh</span></code></p>
+<p>A shell script that allows you to save and jump to commonly used
+directories.</p>
+<p><strong>Usage</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre># Save bookmark
+s bookmarkname
+
+# Goto bookmark
+g bookmarkname
+g b[TAB]
+
+# Print bookmark
+p bookmarkname
+p b[TAB]
+
+# Delete bookmark
+d bookmarkname
+d [TAB]
+
+# List bookmarks
+l
+</pre></div>
+</div>
+<p><strong>Sources</strong>:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/huyng/bashmarks">https://github.com/huyng/bashmarks</a></li>
+</ul>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         
+<div class="col-md-5 hidden-xs">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">.bashrc</a><ul>
+<li><a class="reference internal" href="#etc-bashrc">etc/.bashrc</a></li>
+<li><a class="reference internal" href="#etc-bash-00-bashrc-before-sh">etc/bash/00-bashrc.before.sh</a></li>
+<li><a class="reference internal" href="#projectsrc-sh">~/.projectsrc.sh</a></li>
+<li><a class="reference internal" href="#etc-bash-07-bashrc-virtualenv-sh">etc/bash/07-bashrc.virtualenv.sh</a></li>
+<li><a class="reference internal" href="#virtualenvwrapper">virtualenvwrapper</a></li>
+<li><a class="reference internal" href="#etc-bash-10-bashrc-venv-sh">etc/bash/10-bashrc.venv.sh</a></li>
+<li><a class="reference internal" href="#etc-bash-30-bashrc-usrlog-sh">etc/bash/30-bashrc.usrlog.sh</a></li>
+<li><a class="reference internal" href="#etc-bash-50-bashrc-bashmarks-sh">etc/bash/50-bashrc.bashmarks.sh</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/bash.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav">
+        <li><a href="index.html">dotfiles 0.1.2 documentation</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2014, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

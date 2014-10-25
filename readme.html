@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="dotfiles" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="dotfiles-westurner" />
+    <!--
+    <meta property="og:description" content="" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="dotfiles" />
+    <meta property="twitter:description" content="" />
+    <meta property="twitter:site" content="wrdrd" />
+    <meta property="twitter:creator" content="wrdrd" />
+    
+    <title>dotfiles &mdash; dotfiles 0.1.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/local.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="top" title="dotfiles 0.1.2 documentation" href="index.html" />
+    <link rel="next" title="Install" href="install.html" />
+    <link rel="prev" title="Contents" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">dotfiles 0.1.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">dotfiles</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#bash">Bash</a></li>
+<li><a class="reference internal" href="#symlinks">Symlinks</a></li>
+<li><a class="reference internal" href="#vimrc">vimrc</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li><a class="reference internal" href="#pip">pip</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#makefile">Makefile</a><ul>
+<li><a class="reference internal" href="#make-install"><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></a></li>
+<li><a class="reference internal" href="#make-help"><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
+<li><a class="reference internal" href="#development">Development</a><ul>
+<li><a class="reference internal" href="#make-build"><code class="docutils literal"><span class="pre">make</span> <span class="pre">build</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="index.html" title="Contents" accesskey="P">previous </a></li>
+              <li><a href="install.html" title="Install" accesskey="N">next </a></li>
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/readme.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+        
+        
+
+        <div class="col-md-7">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="dotfiles">
+<h1>dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles">GitHub</a> | <a class="reference external" href="https://bitbucket.org/westurner/dotfiles">BitBucket</a> | <a class="reference external" href="https://wrdfiles.readthedocs.org/en/latest/">ReadTheDocs</a></p>
+<p><strong>Shell</strong>, <strong>Python</strong>, and <strong>configuration files</strong>
+for working with projects on *nix platforms with Bash, ZSH, Ruby, and Python.</p>
+<div class="section" id="goals">
+<h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Create a productive working environment</li>
+<li>Streamline frequent workflows</li>
+<li>Configure bash, zsh, and vim</li>
+<li>Support Debian Linux, Ubuntu Linux, OSX</li>
+<li>Configure Python, pip, virtualenv, virtualenvwrapper, IPython</li>
+<li>Document keyboard shortcuts</li>
+</ul>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference external" href="http://wrdfiles.readthedocs.org/en/latest/usage.html">http://wrdfiles.readthedocs.org/en/latest/usage.html</a></div>
+<div class="line"><a class="reference external" href="http://wrdfiles.readthedocs.org/en/latest/venv.html">http://wrdfiles.readthedocs.org/en/latest/venv.html</a></div>
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/etc/bash">https://github.com/westurner/dotfiles/tree/master/etc/bash</a></div>
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/usrlog.sh">https://github.com/westurner/dotfiles/blob/master/etc/usrlog.sh</a></div>
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/ipython/ipython_config.py">https://github.com/westurner/dotfiles/blob/master/etc/ipython/ipython_config.py</a></div>
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.gitconfig">https://github.com/westurner/dotfiles/blob/master/etc/.gitconfig</a></div>
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.hgrc">https://github.com/westurner/dotfiles/blob/master/etc/.hgrc</a></div>
+</div>
+<div class="section" id="bash">
+<h3>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h3>
+<p>Bash configuration chain-loads from <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code>.</p>
+<div class="highlight-bash"><div class="highlight"><pre>dotfiles_status  <span class="c"># print environment variables</span>
+dotfiles_reload  <span class="c"># source dotfiles/etc/bash/*-bashrc.&lt;name&gt;.sh</span>
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">set</span> | less
+<span class="nb">set</span> | grep <span class="s1">&#39;^_&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="symlinks">
+<h3>Symlinks<a class="headerlink" href="#symlinks" title="Permalink to this headline">¶</a></h3>
+<p>Create symlinks in <code class="docutils literal"><span class="pre">$HOME</span></code> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a>:</p>
+<div class="highlight-bash"><div class="highlight"><pre>bootstrap_dotfiles.sh -S
+</pre></div>
+</div>
+</div>
+<div class="section" id="vimrc">
+<h3>vimrc<a class="headerlink" href="#vimrc" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotvim">https://github.com/westurner/dotvim</a></div>
+</div>
+<p>Vim configuration should be cloned to <code class="docutils literal"><span class="pre">etc/vim</span></code>
+and installed (with vundle).</p>
+<div class="highlight-bash"><div class="highlight"><pre>make dotvim_clone dotvim_install
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>Project requirements are installed by
+<a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a>, which is called by the <a class="reference internal" href="#makefile">Makefile</a>.</p>
+<ul class="simple">
+<li>bash</li>
+<li>python</li>
+<li>git</li>
+<li>hg</li>
+<li>python setuptools</li>
+<li>python pip</li>
+</ul>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/requirements.txt">https://github.com/westurner/dotfiles/blob/master/requirements.txt</a></div>
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/requirements/">https://github.com/westurner/dotfiles/blob/master/requirements/</a></div>
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/docs/requirements.txt">https://github.com/westurner/dotfiles/blob/master/docs/requirements.txt</a></div>
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
+</div>
+<div class="section" id="pip">
+<h4>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h4>
+<p>(Optional) Upgrade pip:</p>
+<div class="highlight-python"><div class="highlight"><pre># pip install pip --upgrade
+pip install --user pip
+pip install --user pip --upgrade
+# pip install --user pip --upgrade --force-reinstall
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="makefile">
+<h3>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">https://github.com/westurner/dotfiles/blob/master/Makefile</a></div>
+</div>
+<div class="section" id="make-install">
+<h4><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code><a class="headerlink" href="#make-install" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre>make install
+</pre></div>
+</div>
+</div>
+<div class="section" id="make-help">
+<h4><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code><a class="headerlink" href="#make-help" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre>make <span class="nb">help</span>
+make help_vim
+make help_i3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="bootstrap-dotfiles-sh">
+<h3>bootstrap_dotfiles.sh<a class="headerlink" href="#bootstrap-dotfiles-sh" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">bootstrap_dotfiles.sh</span></code> shell script
+clones this repository and
+installs files from this python package:</p>
+</div>
+<div class="section" id="install-the-dotfiles">
+<h3>Install the dotfiles<a class="headerlink" href="#install-the-dotfiles" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c">## (Recommended) Create a virtualenv with virtualenvwrapper</span>
+pip install --user virtualenvwrapper  <span class="c"># pip install --user virtualenv</span>
+mkvirtualenv dotfiles          <span class="c"># virtualenv $VIRTUAL_ENV</span>
+                               <span class="c"># VIRTUAL_ENV=$WORKON_HOME/dotfiles</span>
+mkdir <span class="nv">$VIRTUAL_ENV</span>/src
+<span class="nb">cd</span> <span class="nv">$VIRTUAL_ENV</span>/src            <span class="c"># cds; cd $_SRC; # once installed</span>
+
+<span class="c"># A. git clone (``bootstrap_dotfiles.sh -I``)</span>
+<span class="c"># git clone ssh://git@github.com/westurner/dotfiles &amp;&amp; cd dotfiles</span>
+<span class="c"># make install install_hubflow</span>
+
+<span class="c"># A. download bootstrap_dotfiles.sh to src/bootstrap_dotfiles.sh</span>
+wget https://github.com/westurner/dotfiles/raw/master/scripts/bootstrap_dotfiles.sh
+
+./bootstrap_dotfiles.sh -I     <span class="c"># clone and pip install</span>
+./bootstrap_dotfiles.sh -S     <span class="c"># symlink ./etc/{} into $HOME</span>
+                               <span class="c"># and backup with a suffix</span>
+./bootstrap_dotfiles.sh -R     <span class="c"># pip install -r requirements</span>
+
+./bootstrap_dotfiles.sh -U     <span class="c"># pull, update, and upgrade</span>
+
+./bootstrap_dotfiles.sh -u     <span class="c"># add --user to pip commands</span>
+
+./bootstrap_dotfiles.sh -h     <span class="c"># help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="development">
+<h3>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h3>
+<p>(Optional) Install dotfiles as user:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">## install $(pwd)</span>
+<span class="c"># pip install --user $(pwd)</span>
+</pre></div>
+</div>
+<p>(Optional) Development: install dotfiles as editable (RECOMMENDED):</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install --user -e git+https://github.com/westurner/dotfiles#egg<span class="o">=</span>dotfiles
+pip install --user -e .
+</pre></div>
+</div>
+<div class="section" id="make-build">
+<h4><code class="docutils literal"><span class="pre">make</span> <span class="pre">build</span></code><a class="headerlink" href="#make-build" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre>make <span class="nb">test </span>docs build
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         
+<div class="col-md-5 hidden-xs">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dotfiles</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#bash">Bash</a></li>
+<li><a class="reference internal" href="#symlinks">Symlinks</a></li>
+<li><a class="reference internal" href="#vimrc">vimrc</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li><a class="reference internal" href="#pip">pip</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#makefile">Makefile</a><ul>
+<li><a class="reference internal" href="#make-install"><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></a></li>
+<li><a class="reference internal" href="#make-help"><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
+<li><a class="reference internal" href="#development">Development</a><ul>
+<li><a class="reference internal" href="#make-build"><code class="docutils literal"><span class="pre">make</span> <span class="pre">build</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Contents</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="next chapter">Install</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/readme.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav">
+        <li><a href="index.html">dotfiles 0.1.2 documentation</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="index.html" title="Contents" >previous</a></li>
+        <li><a href="install.html" title="Install" >next</a></li>
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2014, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

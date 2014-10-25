@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="Developing" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="dotfiles-westurner" />
+    <!--
+    <meta property="og:description" content="" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Developing" />
+    <meta property="twitter:description" content="" />
+    <meta property="twitter:site" content="wrdrd" />
+    <meta property="twitter:creator" content="wrdrd" />
+    
+    <title>Developing &mdash; dotfiles 0.1.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/local.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="top" title="dotfiles 0.1.2 documentation" href="index.html" />
+    <link rel="next" title="Tools" href="tools.html" />
+    <link rel="prev" title="API" href="api.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">dotfiles 0.1.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Developing</a><ul>
+<li><a class="reference internal" href="#create-a-virtualenv-with-virtualenvwrapper">Create a virtualenv with virtualenvwrapper</a></li>
+<li><a class="reference internal" href="#install-this-package">Install this package</a></li>
+<li><a class="reference internal" href="#test-and-build-this-package">Test and build this package</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="api.html" title="API" accesskey="P">previous </a></li>
+              <li><a href="tools.html" title="Tools" accesskey="N">next </a></li>
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/developing.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+        
+        
+
+        <div class="col-md-7">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="developing">
+<span id="id1"></span><h1>Developing<a class="headerlink" href="#developing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="create-a-virtualenv-with-virtualenvwrapper">
+<h2>Create a virtualenv with virtualenvwrapper<a class="headerlink" href="#create-a-virtualenv-with-virtualenvwrapper" title="Permalink to this headline">¶</a></h2>
+<p>Install <strong>virtualenvwrapper</strong> (with pip):</p>
+<div class="highlight-bash"><div class="highlight"><pre>pi install --upgrade --user pip virtualenv
+pip install --upgrade --user virtualenvwrapper
+<span class="nb">source</span> <span class="k">$(</span>HOME<span class="k">)</span>/.local/bin/virtualenvwrapper.sh
+</pre></div>
+</div>
+<p>Make a <strong>virtualenv</strong> for the <strong>dotfiles</strong> source with
+<strong>virtualenvwrapper</strong>:</p>
+<div class="highlight-bash"><div class="highlight"><pre>mkvirtualenv dotfiles
+workon dotfiles
+cdvirtualenv
+ls -ld **/**
+
+mkdir -p <span class="k">${</span><span class="nv">VIRTUAL_ENV</span><span class="k">}</span>/src
+cdvirtualenv src
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-this-package">
+<h2>Install this package<a class="headerlink" href="#install-this-package" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Install into <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code> (with pip):</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>workon dotfiles
+pip install -e git+https://github.com/westurner/dotfiles#egg<span class="o">=</span>dotfiles
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-and-build-this-package">
+<h2>Test and build this package<a class="headerlink" href="#test-and-build-this-package" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Install into <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code> (manually):</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> <span class="k">${</span><span class="nv">VIRTUAL_ENV</span><span class="k">}</span>/src
+git clone https://github.com/westurner/dotfiles
+hg clone https://bitbucket.org/westurner/dotfiles
+
+<span class="nb">cd </span>dotfiles
+ls -l ./dotfiles/**
+hg paths <span class="o">||</span> git remote -v <span class="o">&amp;&amp;</span> git branch -v
+
+ls -l ./dotfiles/etc/vim/**
+<span class="nb">cd</span> ./dotfiles/etc/vim
+hg paths <span class="o">||</span> git remote -v <span class="o">&amp;&amp;</span> git branch -v
+
+<span class="nb">cd</span> <span class="k">${</span><span class="nv">VIRTUAL_ENV</span><span class="k">}</span>/src/dotfiles
+<span class="c"># cd $_WRD</span>
+<span class="c"># cdw</span>
+<span class="c"># pip install -e .</span>
+python setup.py develop
+</pre></div>
+</div>
+<ul class="simple">
+<li>Build</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># sudo apt-get install make git mercurial</span>
+
+<span class="nb">cd</span> <span class="k">${</span><span class="nv">VIRTUAL_ENV</span><span class="k">}</span>/src/dotfiles
+<span class="nb">echo</span> <span class="nv">$EDITOR</span>
+make build_tags
+make edit
+make <span class="nb">test</span>
+make build
+make install
+
+<span class="c"># pip install -r ./requirements-all.txt</span>
+make pip_install_requirements_all
+</pre></div>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         
+<div class="col-md-5 hidden-xs">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Developing</a><ul>
+<li><a class="reference internal" href="#create-a-virtualenv-with-virtualenvwrapper">Create a virtualenv with virtualenvwrapper</a></li>
+<li><a class="reference internal" href="#install-this-package">Install this package</a></li>
+<li><a class="reference internal" href="#test-and-build-this-package">Test and build this package</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tools.html"
+                        title="next chapter">Tools</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/developing.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav">
+        <li><a href="index.html">dotfiles 0.1.2 documentation</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="api.html" title="API" >previous</a></li>
+        <li><a href="tools.html" title="Tools" >next</a></li>
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2014, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

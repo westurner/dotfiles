@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="&lt;no title&gt;" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="dotfiles-westurner" />
+    <!--
+    <meta property="og:description" content="" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="&lt;no title&gt;" />
+    <meta property="twitter:description" content="" />
+    <meta property="twitter:site" content="wrdrd" />
+    <meta property="twitter:creator" content="wrdrd" />
+    
+    <title>&lt;no title&gt; &mdash; dotfiles 0.1.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.1.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/local.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="top" title="dotfiles 0.1.2 documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">dotfiles 0.1.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/bash_conf.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+        
+        
+
+        <div class="col-md-7">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="highlight-python"><div class="highlight"><pre># etc/bash/00-bashrc.before.sh
+ $__DOTFILES (str): path to local dotfiles repository clone
+ TODO: PYTHON_
+ $PROJECT_HOME (str): path to project directory (~/wrk)
+ $WORKON_HOME (str): path to virtualenvs directory (~/wrk/.ve)
+ $VIRTUAL_ENV (str): path to current $VIRTUAL_ENV
+ $_VENVNAME (str): name of current $VIRTUAL_ENV
+ we() -- workon a new venv (virtualenvwrapper virtualenv + venv)
+         we() -&gt; workon $1 &amp;&amp; source &lt;($_VENV --bash $@)
+         example::
+            we $venvname # $appname
+test -f $__PROJECTS &amp;&amp; source $__PROJECTS
+ dotfiles_status() -- print dotfiles env config
+ workon_pyramid_add(venvname, appname)
+ $EDITOR (str): cmdstring to open $@ in current editor
+ $PAGER (str): cmdstring to run pager (less/vim)
+ less_() -- open read only in vim
+ man_()  -- open manpage in vim
+ $_USRLOG (str): path to .usrlog command log
+
+
+# etc/bash/01-bashrc.lib.sh
+ lightpath    -- display $PATH with newlines
+ lspath       -- list files in each directory in $PATH
+ lspath_less  -- lspath with less
+  echo_args   -- echo $@ (for checking quoting)
+ pypath       -- print python sys.path and site config
+
+
+# etc/bash/03-bashrc.readline.sh
+ vi-mode: vi(m) keyboard shortcuts
+ .         -- insert last argument (command mode)
+ &lt;ctrl&gt; l  -- clear screen
+ &lt;ctrl&gt; a  -- move to beginning of line (^)
+ &lt;ctrl&gt; e  -- move to end of line ($)
+ &lt;ctrl&gt; w  -- delete last word
+
+
+# etc/bash/04-bashrc.TERM.sh
+ CLICOLOR=1   # ls colors
+ CLICOLOR_256=1
+tmux
+screen
+zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
+
+
+# etc/bash/05-bashrc.dotfiles.sh
+Add dotfiles executable directories to $PATH
+
+
+# etc/bash/07-bashrc.python.sh
+Generate python cmdline docs::
+
+   man python | cat | egrep &#39;ENVIRONMENT VARIABLES&#39; -A 200 | egrep &#39;AUTHOR&#39; -B 200 | head -n -1 | pyline -r &#39;\s*([\w]+)$&#39; &#39;rgx and rgx.group(1)&#39;
+Python
+
+
+# etc/bash/07-bashrc.virtualenv.sh
+
+
+# etc/bash/07-bashrc.virtualenvwrapper.sh
+sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
+TODO: ?
+
+
+# etc/bash/10-bashrc.venv.sh
+
+sh configuration
+intended to be sourced from (after) ~/.bashrc
+ __PROJECTSRC -- path to local project settings script
+ __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
+ PATH=&quot;~/.local/bin:$PATH&quot; (if not already there)
+ _VENV       -- path to local venv config script (executable)
+ venv &lt;args&gt;  -- call $_VENV $@
+ _venv &lt;args&gt; -- call $_VENV -E $@
+ we &lt;virtualenv_name&gt; [working_dir] -- workon a virtualenv and load venv
+
+ # $WORKON_HOME/${virtualenv_name}  # == $_VIRTUAL_ENV
+ # $WORKON_HOME/${virtualenv_name}/src/${virtualenv_name | $2}  # == $_WRD
+ cdb      -- cd $_BIN
+ cde      -- cd $_ETC
+ cdv      -- cd $VIRTUAL_ENV
+ cdve     -- cd $WORKON_HOME
+ cdvar    -- cd $_VAR
+ cdlog    -- cd $_LOG
+ cdww     -- cd $_WWW
+ cdl      -- cd $_LIB
+ cdpylib  -- cd $_PYLIB
+ cdpysite -- cd $_PYSITE
+ cds      -- cd $_SRC
+ cdw      -- cd $_WRD
+virtualenv / virtualenvwrapper
+ grinv    -- grin $VIRTUAL_ENV
+ grindv   -- grind $VIRTUAL_ENV
+venv
+ grins    -- grin $_SRC
+ grinds   -- grind $_SRC
+ grinw    -- grin $_WRD
+ grindw   -- grind $_WRD
+ grindctags   -- generate ctags from grind expression (*.py by default)
+ _loadaliases -- load shell aliases
+
+
+# etc/bash/11-bashrc.venv.pyramid.sh
+aliases
+cd to $_PATH
+open editor
+open tabs
+   --working-directory=&quot;${_EGGSRC}&quot; \
+   --tab -t &quot;${_APPNAME} serve&quot; -e &quot;bash -c \&quot;${_SERVECMD}; bash -c \&quot;workon_pyramid_app $_VENVNAME $_APPNAME 1\&quot;\&quot;&quot; \
+   --tab -t &quot;${_APPNAME} shell&quot; -e &quot;bash -c \&quot;${_SHELLCMD}; bash\&quot;&quot; \
+   --tab -t &quot;${_APPNAME} bash&quot; -e &quot;bash&quot;
+
+
+# etc/bash/20-bashrc.editor.sh
+
+ VIRTUAL_ENV_NAME
+ _CFG =
+
+Configure $EDITOR
+
+
+# etc/bash/29-bashrc.vimpagers.sh
+TODO: lesspipe
+Read stdin if no arguments were given.
+Output is not a terminal, cat arguments or stdin
+view manpages in vim
+   exit 0
+
+
+# etc/bash/30-bashrc.usrlog.sh
+ stid -- set or regenerate shell session id
+
+
+
+# etc/bash/30-bashrc.xlck.sh
+
+
+# etc/bash/40-bashrc.aliases.sh
+.bashrc commands
+print absolute path to file
+Enumerate files from PATH
+walk upwards from a path
+see: http://superuser.com/a/65076
+Create and open a new shell script
+List differences between directories
+Diff the output of two commands
+open in new tab
+time_epoch \t size \t user \t type \t path
+   repos -s $p
+apt-get install libnss3-tools
+checks filesystem against dpkg&#39;s md5sums
+
+Author: Filippo Giunchedi &lt;filippo@esaurito.net&gt;
+Version: 0.1
+
+this file is public domain
+TODO
+walk down a path
+see: http://superuser.com/a/65076
+FIXME
+TODO
+
+
+# etc/bash/50-bashrc.bashmarks.sh
+ l    -- list bashmarks
+ s    -- save bashmarks as $1
+ g    -- goto bashmark $1
+ p    -- print bashmark $1
+ d    -- delete bashmark $1
+ lsbashmarks -- list Bashmarks (e.g. for NERDTree)
+~/.dotfiles/bin/nerdtree_to_bashmarks.py
+
+
+# etc/bash/70-bashrc.repos.sh
+__SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
+__SRC_GIT_REMOTE_NAME         -- name for git remote v
+__SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
+__SRC_HG_REMOTE_NAME          -- name for hg paths
+ $1   -- repo [user/]name (e.g. westurner/dotfiles)
+ $1   -- repo [user/]name (e.g. westurner/dotfiles)
+ $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
+ $1   -- repo [user/]name (e.g. westurner/dotfiles)
+ $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
+   fixperms ${path}
+host_docs &lt;project_name&gt; &lt;path&gt; &lt;docs/Makefile&gt; &lt;docs/conf.py&gt;
+* log documentation builds
+* build a sphinx documentation set with a Makefile and a conf.py
+* rsync to docs webserver
+* set permissions
+this is not readthedocs.org
+note: you must manually install packages into the
+local &#39;docs&#39; virtualenv&#39;
+TODO: prompt?
+TODO: prompt?
+TODO
+&gt;&gt; &#39;SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother &#39;
+&lt;&lt; &#39;SPHINX_BUILD =    sphinx-build -Dhtml_theme=default&#39;
+&gt;&gt; &#39;html_theme = &quot;_-_&quot;
+&lt;&lt; &#39;html_theme = &#39;default&#39;
+
+
+# etc/bash/99-bashrc.after.sh
+</pre></div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         
+<div class="col-md-5 hidden-xs">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/bash_conf.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  </div>
+</div> 
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav">
+        <li><a href="index.html">dotfiles 0.1.2 documentation</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2014, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b2.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>
