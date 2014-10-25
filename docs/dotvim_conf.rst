@@ -320,9 +320,9 @@
    FindInNERDTree    -- NERDTRee show current file [help NERDTreeFind]
     <c-b>            --  toggle BufExplorer
     ?                --  toggle BufExplorer help
+    <leader>b        --  toggle BufExplorer
    CtrlP             -- file/buffer/mru finder [help ctrlp]
-    <C-p>            -- :CtrlP (fuzzy matching)
-    <leader>b        -- :CtrlPBuffer (fuzzy matching)
+    <C-p>            -- CtrlP (fuzzy matching)
    Syntastic         -- syntax highlighting [help syntastic]
    NERDCommenter     -- commenting [help NERDCommenter]
     ,cm              --  minimal comment
