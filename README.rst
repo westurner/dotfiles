@@ -23,12 +23,61 @@ Goals
 * Support Debian/Ubuntu, OSX 
 * Document keyboard shortcuts
 
-
+  
 Usage
 =======
+| http://wrdfiles.readthedocs.org/en/latest/usage.html
+| http://wrdfiles.readthedocs.org/en/latest/venv.html
+| https://github.com/westurner/dotfiles/tree/master/etc/bash
+| https://github.com/westurner/dotfiles/blob/master/etc/usrlog.sh
+| https://github.com/westurner/dotfiles/blob/master/etc/ipython/ipython_config.py
+| https://github.com/westurner/dotfiles/blob/master/etc/.gitconfig
+| https://github.com/westurner/dotfiles/blob/master/etc/.hgrc
+
+Bash
+-----
+Bash configuration chain-loads from ``etc/bash/00-bashrc.before.sh``.
+
+.. code-block:: bash
+
+   dotfiles_status  # print environment variables
+   dotfiles_reload  # source dotfiles/etc/bash/*-bashrc.<name>.sh
+
+.. code-block:: bash
+
+   set | less
+   set | grep '^_'
+
+Symlinks
+----------
+Create symlinks in ``$HOME`` with `bootstrap_dotfiles.sh`_:
+
+.. code-block:: bash::
+
+   bootstrap_dotfiles.sh -S
+
+
+
+vimrc
+------
+| https://github.com/westurner/dotvim
+
+Vim configuration should be cloned to ``etc/vim``
+and installed (with vundle).
+
+.. code-block:: bash
+
+   make dotvim_clone dotvim_install
+
+
+Installation
+==============
 
 Requirements
 ---------------
+Project requirements are installed by 
+`bootstrap_dotfiles.sh`_, which is called by the `Makefile`_.
+
 * bash
 * python
 * git
@@ -36,92 +85,99 @@ Requirements
 * python setuptools
 * python pip
 
+| https://github.com/westurner/dotfiles/blob/master/requirements.txt
+| https://github.com/westurner/dotfiles/blob/master/requirements/
+| https://github.com/westurner/dotfiles/blob/master/docs/requirements.txt
+| https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 
-Makefile
----------
-
-.. code-block:: bash
-
-    make install
-
-
-Bootstrap Shell Script
-~~~~~~~~~~~~~~~~~~~~~~~
-The bootstrap shell script clones this repository and
-and installs files from this python package::
-
-    wget https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
-    bash ./bootstrap_dotfiles.sh -h     # help
-    bash ./bootstrap_dotfiles.sh -u     # add --user to pip commands
-
-    bash ./bootstrap_dotfiles.sh -I     # clone and pip install
-    bash ./bootstrap_dotfiles.sh -I -u  # clone and pip install --user
-
-    bash ./bootstrap_dotfiles.sh -S     # symlink into $HOME
-
-There are examples of installing python, pip, and setuptools both in
-``scripts/bootstrap_dotfiles.sh`` and the ``Makefile``.
-
-    bash ./bootstrap_dotfiles.sh -U     # pull, update, and upgrade
-
-
-Manual Installation
-~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-    ## Create a virtualenv
-
-    mkvirtualenv dotfiles       # virtualenvwrapper
-    workon dotfiles             # virtualenvwrapper (we dotfiles)
-    mkdir -p $VIRTUAL_ENV/src   # virtualenv
-
-    ## Clone and `setup.py develop` dotfiles python package with pip
-
-    pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
-
-    ## Install pip requirements::
-
-    cd $VIRTUAL_ENV/src/dotfiles
-    bash ./scripts/bootstrap_dotfiles.sh -R
-    # pip install ./requirements-all.txt
-
-    ## Create symlinks from ``~/.dotfiles/etc`` to ``${HOME}``::
-
-    # symlink and backup existing with a filename postfix
-    bash ./scripts/bootstrap_dotfiles.sh -S
-
-(Optional) ``--user`` installation into ``${HOME}/.local/{bin,}``::
-
-    ## Install dotfiles for the current user
-
-    bash ./scripts/bootstrap_dotfiles.sh -u -I
-    bash ./scripts/bootstrap_dotfiles.sh -u -R
-
+pip
+~~~~
 (Optional) Upgrade pip::
 
-    ## upgrade pip
-
+    # pip install pip --upgrade
+    pip install --user pip
     pip install --user pip --upgrade
     # pip install --user pip --upgrade --force-reinstall
 
-    ## install current directory into ${HOME}/.local
+
+Makefile
+---------
+| https://github.com/westurner/dotfiles/blob/master/Makefile
+
+``make install``
+~~~~~~~~~~~~~~~~~
+.. code-block:: bash
+
+   make install
+
+
+``make help``
+~~~~~~~~~~~~~~~
+.. code-block:: bash
+
+   make help
+   make help_vim
+   make help_i3
+
+
+bootstrap_dotfiles.sh
+-----------------------
+| https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
+
+The ``bootstrap_dotfiles.sh`` shell script 
+clones this repository and
+installs files from this python package:
+
+
+Install the dotfiles
+---------------------
+.. code-block:: bash
+
+    ## (Recommended) Create a virtualenv with virtualenvwrapper
+    pip install --user virtualenvwrapper  # pip install --user virtualenv
+    mkvirtualenv dotfiles          # virtualenv $VIRTUAL_ENV
+                                   # VIRTUAL_ENV=$WORKON_HOME/dotfiles
+    mkdir $VIRTUAL_ENV/src
+    cd $VIRTUAL_ENV/src            # cds; cd $_SRC; # once installed
+   
+    # A. git clone (``bootstrap_dotfiles.sh -I``)
+    # git clone ssh://git@github.com/westurner/dotfiles && cd dotfiles
+    # make install install_hubflow
+
+    # A. download bootstrap_dotfiles.sh to src/bootstrap_dotfiles.sh
+    wget https://github.com/westurner/dotfiles/raw/master/scripts/bootstrap_dotfiles.sh
+
+    ./bootstrap_dotfiles.sh -I     # clone and pip install
+    ./bootstrap_dotfiles.sh -S     # symlink ./etc/{} into $HOME
+                                   # and backup with a suffix
+    ./bootstrap_dotfiles.sh -R     # pip install -r requirements
+
+    ./bootstrap_dotfiles.sh -U     # pull, update, and upgrade
+
+    ./bootstrap_dotfiles.sh -u     # add --user to pip commands
+
+    ./bootstrap_dotfiles.sh -h     # help
+
+
+Development
+------------
+(Optional) Install dotfiles as user::    
+
+    ## install $(pwd)
     # pip install --user $(pwd)
-    # pip install --user --editable $(pwd)
+
+(Optional) Development: install dotfiles as editable (RECOMMENDED):
+
+.. code-block:: bash
+
+    pip install --user -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+    pip install --user -e .
 
 
-Reuse
-======
-Bash configuration chain-loads from ``etc/bash/00-bashrc.before.sh``.
+``make build``
+~~~~~~~~~~~~~~~
+.. code-block:: bash
 
-Symlinks in ``$HOME`` are
-created by ``scripts/bootstrap_dotfiles.sh -S`` (``dotfiles_symlink_all``)
-::
+   make test docs build
 
-    # {{ full_name }}
-    symlink_gitconfig
-    symlink_hgrc
-    symlink_mutt
 
-Vim configuration should be cloned to ``etc/vim``
-(e.g. from https://github.com/westurner/dotvim).
