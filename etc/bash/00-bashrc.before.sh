@@ -58,8 +58,10 @@ dotfiles_reload() {
       ## editor/pager
       #  $EDITOR (str): cmdstring to open $@ in current editor
       #  $PAGER (str): cmdstring to run pager (less/vim)
-      #  less_() -- open read only in vim
-      #  man_()  -- open manpage in vim
+      #  lessv() -- open read only in vim
+      #  lessg() -- open read only in gvim/mvim
+      #  man()   -- open manpage in vim
+      #  mang()  -- open manpage in gvim/mvim
       source ${conf}/20-bashrc.editor.sh
       source ${conf}/29-bashrc.vimpagers.sh
 
@@ -85,6 +87,10 @@ dotfiles_reload() {
 
     ## after: cleanup
     source ${conf}/99-bashrc.after.sh
+}
+
+dr() {
+    dotfiles_reload $@
 }
 
 dotfiles_reload

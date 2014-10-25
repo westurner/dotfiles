@@ -1,5 +1,6 @@
 
 dotfiles_status() {
+    #  dotfiles_status  -- print dotfiles_status
     #echo "## dotfiles_status()"
     #lightpath | sed 's/^\(.*\)/#  \1/g'
     echo "USER='${USER}'"
@@ -16,6 +17,11 @@ dotfiles_status() {
     echo "PROJECT_HOME='${PROJECT_HOME}'"
     echo "WORKON_HOME='${WORKON_HOME}'"
     echo "PATH='${PATH}'"
+}
+
+ds() {
+    #  ds               -- print dotfiles_status
+    dotfiles_status $@
 }
 
 reload_dotfiles() {
