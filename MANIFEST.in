@@ -608,7 +608,6 @@ include src/gitflow/git-flow-release
 include src/gitflow/git-flow-support
 include src/gitflow/git-flow-version
 include src/gitflow/gitflow-common
-include src/gitflow/gitflow-shFlags
 include src/hubflow/.gitmodules
 include src/hubflow/AUTHORS
 include src/hubflow/Changes.mdown
