@@ -57,7 +57,7 @@ man() {
         #fi
 
         #/usr/bin/whatis "$@" >/dev/null
-        vim \
+        $(which vim) \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -68,4 +68,24 @@ man() {
     fi
 }
 
+## mang()   -- view manpages in GViM, MacVim
+mang() {
+    alias man_="/usr/bin/man"
+    if [ $# -eq 0 ]; then
+        /usr/bin/man
+    else
+        #if [ "$1" == "man" ]; then
+        #    exit 0
+        #fi
 
+        #/usr/bin/whatis "$@" >/dev/null
+        $GVIMBIN \
+            --noplugin \
+            -c "runtime ftplugin/man.vim" \
+            -c "Man $*" \
+            -c 'silent! only' \
+            -c 'nmap q :q<CR>' \
+            -c 'set nomodifiable' \
+            -c 'set colorcolumn=0'
+    fi
+}
