@@ -645,6 +645,7 @@ class Venv(object):
         )
 
     def to_json(self, indent=None):
+        import json
         return json.dumps(self.asdict(), indent=indent)
 
 IS_DARWIN = sys.platform == 'darwin'
@@ -870,7 +871,7 @@ def main():
     if opts.print_env:
         import sys
         output = sys.stdout
-        venv.print(venv.to_json(indent=2))
+        print(venv.to_json(indent=2), file=output)
 
     if opts.print_bash:
         venv.bash_env()
