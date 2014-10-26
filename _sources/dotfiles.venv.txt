@@ -1,22 +1,15 @@
-API
-================
+dotfiles.venv package
+=====================
 
-.. automodule:: dotfiles
+.. automodule:: dotfiles.venv
     :members:
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
-
-.. toctree::
-
-    dotfiles.venv
-
 Submodules
 ----------
 
-.. automodule:: dotfiles.cli
+.. automodule:: dotfiles.venv.ipython_config
     :members:
     :undoc-members:
     :show-inheritance:
