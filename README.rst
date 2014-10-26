@@ -35,17 +35,23 @@ Usage
 
 Bash
 -----
+| https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh
+
 Bash configuration chain-loads from ``etc/bash/00-bashrc.before.sh``.
 
 .. code-block:: bash
 
    dotfiles_status  # print environment variables
+   ds               # print environment variables
    dotfiles_reload  # source dotfiles/etc/bash/*-bashrc.<name>.sh
+   dr               # source dotfiles/etc/bash/*-bashrc.<name>.sh
 
 .. code-block:: bash
 
    set | less
    set | grep '^_'
+   less scripts/bashrc.load.sh
+
 
 Symlinks
 ----------
@@ -89,8 +95,8 @@ Project requirements are installed by
 | https://github.com/westurner/dotfiles/blob/master/docs/requirements.txt
 | https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 
-pip
-~~~~
+``pip``
+~~~~~~~~~
 (Optional) Upgrade pip::
 
     # pip install pip --upgrade
@@ -99,8 +105,8 @@ pip
     # pip install --user pip --upgrade --force-reinstall
 
 
-Makefile
----------
+``Makefile``
+--------------
 | https://github.com/westurner/dotfiles/blob/master/Makefile
 
 ``make install``
@@ -119,8 +125,8 @@ Makefile
    make help_i3
 
 
-bootstrap_dotfiles.sh
------------------------
+``bootstrap_dotfiles.sh``
+---------------------------
 | https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 
 The ``bootstrap_dotfiles.sh`` shell script 
