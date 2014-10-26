@@ -446,7 +446,8 @@ setup(
     entry_points={
         'console_scripts':
             [
-                'dotfiles=dotfiles.cli:main',
+                'dotfiles=dotfiles.cli.cli:main',
+                'venv=dotfiles.venv.ipython_config:main'
             ]
     },
     cmdclass={
