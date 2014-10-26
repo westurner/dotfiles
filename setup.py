@@ -250,22 +250,27 @@ class RunCommand(setuptools.Command):
 class PyTestCommand(RunCommand):
     def run(self):
         cmd = [sys.executable,
-               os.path.join(SETUPPY_PATH, 'runtests.py'),
-               '-v']
+               os.path.join(SETUPPY_PATH, 'runtests.py')]
         cmd.extend([
             os.path.join(SETUPPY_PATH, 'etc/ipython/ipython_config.py'),
         ])
 
-        glob_pattern = os.path.join(SETUPPY_PATH, 'src/dotfiles/*.py')
-        cmd.extend(sorted(glob.glob(glob_pattern)))
+        globp_pkg_src = os.path.join(SETUPPY_PATH, 'src/dotfiles/*.py')
+        globp_pkg_src_ipython = os.path.join(SETUPPY_PATH, 'src/dotfiles/venv/*.py')
+        cmd.extend(sorted(glob.glob(globp_pkg_src)))
+        cmd.extend(sorted(glob.glob(globp_pkg_src_ipython)))
 
-        glob_pattern = os.path.join(SETUPPY_PATH, 'scripts/*.py')
-        cmd.extend(sorted(glob.glob(glob_pattern)))
+        globp_pkg_scripts = os.path.join(SETUPPY_PATH, 'scripts/*.py')
+        cmd.extend(sorted(glob.glob(globp_pkg_scripts)))
 
-        cmdstr = ' '.join(cmd)
-        log.info(cmdstr)
+        globp_pkg_bin = os.path.join(SETUPPY_PATH, 'bin/*')
+        cmd.extend(glob.glob(globp_pkg_bin))
 
-        errno = subprocess.call(cmd)
+        cmdlist = list(cmd)
+        for x in cmdlist:
+            log.info(x)
+
+        errno = subprocess.call(cmdlist)
         raise SystemExit(errno)
 
 
