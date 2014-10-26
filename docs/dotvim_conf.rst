@@ -58,14 +58,14 @@
    
     :[l][vim]grep <pattern> <file>
    
-    :cl,  :ll        --  list list
-    :copen,lopen [h] --  open list
-    :cw,  :lw        --  toggle show list
-    :ccl[ose], lcl   --  close list
-    :cn,  :ln        --  next <Enter>
-    :cp,  :lp        --  prev <Enter>
-    :cc!, :lc [nr]   --  jump to [nr]
-    :cfir,:cla       --  first, last
+    :cl   :ll        --  list list
+    :copen :lopen    --  open list
+    :cw   :lw        --  toggle show list
+    :ccl[ose] :lcl   --  close list
+    :cn   :ln        --  next <Enter>
+    :cp   :lp        --  prev <Enter>
+    :cc!  :lc [nr]   --  jump to [nr]
+    :cfir :cla       --  first, last
    
    Yanking and Pasting
     y[a-z]           --  yank to buffer [a-z]
@@ -179,7 +179,7 @@
     Shift-tab    --  shift left
    vnoremap <Tab>    >gv
     ctrl-f       --  find
-    ctrl-A       --  copy all
+    ctrl-alt-A   --  copy all
    Paste
     shift-insert --  paste
     ctrl-S       --  Save
@@ -190,6 +190,9 @@
     K    --  PageUp
     J    --  PageDown
    Pgup/Down are actually 2*<c-U>
+   Buffer Nav
+    ctrl-a       --  move to beginning of line (^)
+    ctrl-e       --  move to end of line ($)
    Window Nav        (window-move-cursor)
     ctrl-j       --  cursor window down
     ctrl-u       --  cursor window down
