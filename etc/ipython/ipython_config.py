@@ -14,6 +14,8 @@ ipython_config.py (venv)
 
 """
 
+
+import distutils
 import logging
 import os
 import site
@@ -326,9 +328,6 @@ class Venv(object):
         aliases = OrderedDict()
         env = self.env
 
-        #aliases['gvim']     = env.get('_EDIT_', 'gvim') # TODO: render-time
-        #aliases['_edit']    = env.get('_EDIT_', 'gvim')
-
         aliases['cdb']      = 'cd {_BIN}/%l'.format(
                                     _BIN=shell_quote(env['_BIN']))
         aliases['cde']      = 'cd {_ETC}/%l'.format(
@@ -356,11 +355,20 @@ class Venv(object):
     def get_user_aliases(self, dont_reflect=False):
         aliases = OrderedDict()
         env = self.env
+        env['VIMBIN']       = distutils.spawn.find_executable('vim')
+        env['GVIMBIN']      = distutils.spawn.find_executable('gvim')
+        env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
+        env['GUIVIM']       = env.get('MVIMBIN', env.get('GVIMBIN'))
 
-        env['_EDIT_']       = 'gvim --servername %s --remote-tab-silent' % (
-            shell_quote(self.appname).strip('"'))
-        aliases['_edit']    = env['_EDIT_']
-        aliases['_gvim']    = env['_EDIT_']
+        if not env.get('GVIMBIN'):
+            env['_EDIT_']   = 'vim -p'
+        else:
+            env['_EDIT_']   = '%s --servername %s --remote-tab-silent' % (
+                env.get('GUIVIM'),
+                shell_quote(self.appname).strip('"'))
+
+        aliases['edit-']    = env['_EDIT_']
+        aliases['gvim-']    = env['_EDIT_']
 
         env['_IPSESSKEY']   = joinpath(env['_SRC'], '.sessionkey')
         env['_NOTEBOOKS']   = joinpath(env['_SRC'], 'notebooks')
@@ -412,11 +420,12 @@ class Venv(object):
         if os.path.exists(appsrc) or dont_reflect:
             env['_WRD']         = appsrc
             env['_WRD_SETUPY']      = joinpath(appsrc, 'setup.py')
-            env['_TEST_']       = "python {_WRD_SETUPY} test".format(
-                                    _WRD_SETUPY=shell_quote(env['_WRD_SETUPY'])
+            env['_TEST_']       = "cd {_WRD} && python {_WRD_SETUPY} test".format(
+                                        _WRD=shell_quote(env['_WRD']),
+                                        _WRD_SETUPY=shell_quote(env['_WRD_SETUPY'])
                                     )
             aliases['cdw']      = 'cd {_WRD}/%l'.format(
-                                        _WRD=shell_quote(env['_WRD'])) # TODO
+                                        _WRD=shell_quote(env['_WRD']))
             aliases['_test']    = env['_TEST_']
             aliases['_tr']      = 'reset && %s' % env['_TEST_']
             aliases['_nose']    = 'nosetests {_WRD}'.format(
@@ -449,17 +458,19 @@ class Venv(object):
                                     " --monitor-restart {_CFG}").format(
                                             _BIN=env['_BIN'],
                                             _CFG=shell_quote(env['_CFG']))
-            aliases['_serve']   = env['_SERVE_']
-            aliases['_shell']   = env['_SHELL_']
-            aliases['_editcfg'] = env['_EDITCFG_']
+            aliases['serve-']   = env['_SERVE_']
+            aliases['shell-']   = env['_SHELL_']
+            aliases['editcfg-'] = env['_EDITCFG_']
         else:
             self.log.error('app configuration %r not found' % appcfg)
 
         env['EDITOR']       = env['_EDIT_']
-        aliases['_edit']    = env['_EDIT_']
-        aliases['_editp']   = "%s %%l" % self._edit_project_cmd # TODO
-        aliases['_Make']    = "cd {_WRD} && make".format(
+        aliases['edit-']    = env['_EDIT_']
+        aliases['editp']    = "%s %%l" % self._edit_project_cmd # TODO
+        aliases['makewrd']  = "cd {_WRD} && make %l".format(
                                     _WRD=shell_quote(env['_WRD'])) # TODO
+        aliases['make-']    = aliases['makewrd']
+        aliases['mw']       = aliases['makewrd']
 
         svcfg = env.get('_SVCFG', joinpath(env['_ETC'], 'supervisord.conf'))
         if os.path.exists(svcfg) or dont_reflect:
