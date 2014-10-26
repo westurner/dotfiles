@@ -49,13 +49,16 @@ keyring
 # src:
 #   -e hg+https://bitbucket.org/kang/python-keyring-lib/#egg=keyring
 
-gpgkeys
+# gpgkeys
 # src:
 #   -e git+https://github.com/stefanholek/gpgkeys#egg=gpgkeys
 
-goobook
+# gdata
+-e hg+https://code.google.com/p/gdata-python-client/#egg=gdata
+
+# goobook
 # src:
-#   -e git+https://git.gitorious.org/goobook/mainline.git#egg=goobook
+-e git+https://git.gitorious.org/goobook/mainline.git#egg=goobook
 #   -e git+ssh://git@gitorious.org:goobook/mainline.git#egg=goobook
 
 cookiecutter
@@ -87,7 +90,7 @@ hg-git
 # docs:
 #   - http://hg-git.github.com/
 
-tmuxp
+# tmuxp
 # src:
 #   -e git+https://github.com/tony/tmuxp#egg=tmuxp
 # docs:
