@@ -4,16 +4,28 @@ from __future__ import print_function
 """
 optimize_path
 """
-from collections import OrderedDict, Counter
+import itertools
 import json
 import logging
 import os
 import re
 import subprocess
+from collections import OrderedDict, Counter
+
+import distutils
 
 log = logging.getLogger()
 
-CHECKSUM_BIN='md5sum'
+md5_bin = distutils.spawn.find_executable('md5')
+if md5_bin:  # OSX
+    CHECKSUM_BIN = (md5_bin,'-q')
+else:
+    md5sum_bin = disutils.spawn.find_executable('md5sum')
+    if md5sum_bin:
+        CHECKSUM_BIN = (md5sum_bin, )
+if not CHECKSUM_BIN:
+    raise Exception('neither md5 nor md5sum were found in $PATH')
+CHECKSUM_BIN = list(CHECKSUM_BIN)
 
 def sbin_policy(iterable):
     """
@@ -53,41 +65,105 @@ def optimize_path(iterable, strip=None, sortfunc=sbin_policy):
 
 
 def get_checksum(path, hashbin=CHECKSUM_BIN):
+    """
+    Get a file checksum
+
+    Args:
+        path (str): path to get checksum of
+        hashbin (list): command argument list
+    Returns:
+        (path, checksum or None, symlink_to or None)
+    """
     logging.debug((hashbin,path))
     if os.path.isfile(path):
         if os.access(path, os.R_OK):
-            return (subprocess.check_output( (hashbin, path) ).rstrip() +
-                    (os.path.islink(path) and " -> %s" % os.path.realpath(path) or '') )
-    return ('?  %s' % path)
+            cmd = hashbin + [path,]
+            return (path,
+                    subprocess.check_output(cmd).rstrip(),
+                    (os.path.islink(path) and os.path.realpath(path) or None))
+    return (path, None, None)
 
 
-def detect_duplicates(iterable):
-    paths = OrderedDict()
-    for path in iterable:
-        if not os.path.exists(path):
-            continue  # TODO
-        for f in os.listdir(path):
-            basename = os.path.basename(f)
-            basename_paths = paths.get(basename,[])
-            basename_paths.append(path)
-            paths[basename] = basename_paths
+def detect_duplicates(iterable, do_checksums=False):
+    """
+    Detect duplicate paths in iterable
+
+    Args:
+        iterable (iterable): iterable of paths
+    Returns:
+
+    """
+
+    def get_files_on_path():
+        """
+        Returns:
+            paths (OrderedDict): (basename, [paths])
+        """
+        paths = OrderedDict()
+        for path in iterable:
+            if not os.path.exists(path):
+                continue  # TODO
+            for f in os.listdir(path):
+                filename = os.path.join(path, f)
+                fullpath = os.path.abspath(filename)
+                basename = os.path.basename(f)
+                paths.setdefault(basename, [])
+                paths[basename].append(fullpath)
+                #print(basename, basename_paths)
+        return paths
+
+    def find_name_collisions(paths):
+        """
+        Args:
+            paths (OrderedDict): (basename, [paths])
+        Returns:
+            None
+        """
+        for key, value in paths.items():
+            if len(value) > 1:
+                print('# duplicate: {} {}'.format(key, value))
+            print('{} {}'.format(key, value))
 
 
-    annotated_paths = (
-        (k, [get_checksum( os.path.join(p,k) ) for p in v] )
-            for (k,v) in paths.iteritems() if len(v) > 1)
+    def get_annotated_paths(paths):
+        """
+        Args:
+            paths (iterable): iterable of paths
+        Yields:
+            tuple: (key, (path, checksum, symlink_to))
+        """
+        for (key, value) in paths.iteritems():
+            for p in value:
+                path_ = p  # TODO: os.path.join(p, key)
+                if os.path.exists(path_):
+                    try:
+                        yield (key, get_checksum(path_))
+                    except Exception as e:
+                        log.error('checksum_err: {} # {}'.format(path_, e))
+                        continue
 
-    def label(v):
-        counts = Counter(l.split()[0] for l in v)
-        #logging.debug(counts)
-        if len(v) in counts.itervalues():
-            return {'type':'duplicates', 'files': sorted(v)}
-        else:
-            return {'type':'hashes', 'files': v}
+    paths = get_files_on_path()
+    output = paths
 
-    return OrderedDict(
-        (k, label(v)) for (k,v) in annotated_paths
-    )
+    find_name_collisions(paths)
+
+
+    if do_checksums:
+        iterable = list( get_annotated_paths(paths) )
+
+        counterdict = OrderedDict()
+        for key, value in iterable:
+            counterdict.setdefault(key, [])
+            counterdict[key].append(value)
+
+        for key, value in counterdict.items():
+            if len(value) > 1:
+                print('duplicate: {} {}'.format(key, value))
+            print('{} {}'.format(key, value))
+
+        output = counterdict
+
+    return output
 
 
 def check_difference(iterable):
@@ -219,9 +295,10 @@ def main(*_args):
 
     iterable = os.environ['PATH'].split(':')
 
-    iterable = list( optimize_path(iterable, opts.strip) )
+    #iterable = list( optimize_path(iterable, opts.strip) )
+
     if opts.verbose:
-        iterable, output = tee(iterable)
+        iterable, output = itertools.tee(iterable)
         for i in output:
             logging.info(i)
 
