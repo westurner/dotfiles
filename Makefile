@@ -4,7 +4,7 @@
 
 
 DOTFILES_SRC:=https://github.com/westurner/dotfiles
-DOTVIM_SRC:=https://bitbucket.org/westurner/dotvim
+DOTVIM_SRC:=https://github.com/westurner/dotvim
 
 #  Usage::
 #
