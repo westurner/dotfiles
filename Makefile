@@ -26,6 +26,7 @@ PYRPO:=python scripts/pyrpo.py
 PYLINE:=python scripts/pyline.py
 
 PIP:=pip
+PIP_LOCAL:=/usr/local/bin/pip
 PIP_OPTS:=
 PIP_INSTALL_OPTS:=--upgrade
 PIP_INSTALL_USER_OPTS:=--user --upgrade
@@ -131,8 +132,8 @@ install:
 install_user:
 	type 'deactivate' 1>/dev/null 2>/dev/null && deactivate \
 		|| echo $(VIRTUAL_ENV)
-	$(MAKE) install PIP_INSTALL="$(PIP) install --user"
-	$(MAKE) pip_install_requirements_all PIP_INSTALL="$(pip) install --user"
+	$(MAKE) install PIP_INSTALL="$(PIP_LOCAL) install --user"
+	$(MAKE) pip_install_requirements_all PIP_INSTALL="$(PIP_LOCAL) install --user"
 	bash ./scripts/bootstrap_dotfiles.sh -S
 	$(MAKE) dotvim_clone
 	$(MAKE) dotvim_install
@@ -164,7 +165,7 @@ test:
 
 test_build:
 	$(MAKE) test
-	py.test -v ./tests/ 
+	py.test -v ./tests/ ./scripts/ ./bin/ ./src/dotfiles
 	# TODO: test scripts/bootstrap_dotfiles.sh
 
 build:
