@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="wrdrd" />
     <meta property="twitter:creator" content="wrdrd" />
     
-    <title>Usage &mdash; dotfiles 0.1.2 documentation</title>
+    <title>Usage &mdash; dotfiles 0.2.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -46,7 +46,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.1.2',
+            VERSION:     '0.2.0',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -61,7 +61,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.1.2 documentation" href="index.html" />
+    <link rel="top" title="dotfiles 0.2.0 documentation" href="index.html" />
     <link rel="next" title="Venv" href="venv.html" />
     <link rel="prev" title="Install" href="install.html" /> 
   </head>
@@ -75,7 +75,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">dotfiles 0.1.2 documentation</a>
+          <a class="navbar-brand" href="index.html">dotfiles 0.2.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -479,14 +479,14 @@ Searching
 
  :[l][vim]grep &lt;pattern&gt; &lt;file&gt;
 
- :cl,  :ll        --  list list
- :copen,lopen [h] --  open list
- :cw,  :lw        --  toggle show list
- :ccl[ose], lcl   --  close list
- :cn,  :ln        --  next &lt;Enter&gt;
- :cp,  :lp        --  prev &lt;Enter&gt;
- :cc!, :lc [nr]   --  jump to [nr]
- :cfir,:cla       --  first, last
+ :cl   :ll        --  list list
+ :copen :lopen    --  open list
+ :cw   :lw        --  toggle show list
+ :ccl[ose] :lcl   --  close list
+ :cn   :ln        --  next &lt;Enter&gt;
+ :cp   :lp        --  prev &lt;Enter&gt;
+ :cc!  :lc [nr]   --  jump to [nr]
+ :cfir :cla       --  first, last
 
 Yanking and Pasting
  y[a-z]           --  yank to buffer [a-z]
@@ -600,7 +600,7 @@ Alternative using Tab/Shift-Tab (for gvim).
  Shift-tab    --  shift left
 vnoremap &lt;Tab&gt;    &gt;gv
  ctrl-f       --  find
- ctrl-A       --  copy all
+ ctrl-alt-A   --  copy all
 Paste
  shift-insert --  paste
  ctrl-S       --  Save
@@ -611,6 +611,9 @@ PgUp/PgDn
  K    --  PageUp
  J    --  PageDown
 Pgup/Down are actually 2*&lt;c-U&gt;
+Buffer Nav
+ ctrl-a       --  move to beginning of line (^)
+ ctrl-e       --  move to end of line ($)
 Window Nav        (window-move-cursor)
  ctrl-j       --  cursor window down
  ctrl-u       --  cursor window down
@@ -1280,6 +1283,13 @@ Execute python expressions over line-based files.</p>
     <p class="searchtip" style="font-size: 90%">
     Enter search terms or a module, class or function name.
     </p>
+</div><div class="widget">
+    <h3><a href="https://westurner.github.io/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://github.com/westurner/wiki/wiki">github.com/westurner/wiki/wiki</a></li>
+        <li><a href="https://westurner.github.io/">westurner.github.io</a></li>
+    </ul>
 </div>
   </div>
 </div> 
@@ -1291,7 +1301,7 @@ Execute python expressions over line-based files.</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-        <li><a href="index.html">dotfiles 0.1.2 documentation</a></li>
+        <li><a href="index.html">dotfiles 0.2.0 documentation</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
