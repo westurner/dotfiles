@@ -23,3 +23,5 @@ deb_dist/
 docs/build.log
 docs/build.current.log
 docs/_build
+
+*.log
