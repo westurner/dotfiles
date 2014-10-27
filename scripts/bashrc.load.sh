@@ -223,8 +223,8 @@ function_exists() {
 add_to_path ()
 {
     #  add_to_path  -- prepend a directory to $PATH
-    ## http://superuser.com/questions/ \
-    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
+    ##http://superuser.com/questions/ \
+    ##\ 39751/add-directory-to-path-if-its-not-already-there/39840#39840
 
     ## instead of:
     ##   export PATH=$dir:$PATH
@@ -248,8 +248,8 @@ lspath() {
     #  lspath       -- list files in each directory in $PATH
     echo "PATH=$PATH"
     lightpath
-    LS_OPTS=${@:'-ald'}
-    # LS_OPTS="-aldZ"
+    LS_OPTS=${@:-'-ald'}
+    #LS_OPTS="-aldZ"
     for f in $(lightpath); do
         echo "# $f";
         ls $LS_OPTS $@ $f/*;
@@ -390,22 +390,21 @@ fi
 #    man python | cat | egrep 'ENVIRONMENT VARIABLES' -A 200 | egrep 'AUTHOR' -B 200 | head -n -1 | pyline -r '\s*([\w]+)$' 'rgx and rgx.group(1)'
 
 _setup_python () {
-    # Python
+    ## _setup_python() -- configure $PYTHONSTARTUP
     export PYTHONSTARTUP="${HOME}/.pythonrc"
     #export
 }
 _setup_python
 
 _setup_pip () {
-    #export PIP_REQUIRE_VIRTUALENV=true
+    ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
     export PIP_REQUIRE_VIRTUALENV=false
-    #alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
 }
 _setup_pip
 
 
-## pyvenv
 _setup_pyenv() {
+    ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
     export PYENV_ROOT="${HOME}/.pyenv"
     add_to_path "${PYENV_ROOT}/bin"
     eval "$(pyenv init -)"
@@ -414,24 +413,9 @@ _setup_pyenv() {
 
 
 _setup_anaconda() {
+    ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
     export _ANACONDA_ROOT="/opt/anaconda"
     add_to_path "${_ANACONDA_ROOT}/bin"
-}
-
-
-__get_python_docs() {
-    man_ python | cat | \
-        egrep 'ENVIRONMENT VARIABLES' -A 200 | \
-        egrep 'AUTHOR' -B 200 | head -n -1 | \
-        pyline \
-        -r '\s*([\w]+)$' \
-        -R 'S' \
-        -m textwrap '"\n".join(
-            ("# " + l) for l in
-                textwrap.wrap(\
-                    ((rgx and "export " + rgx.group(1) + "=\"\"")\
-                    or \
-                    (line.strip())), 70))'
 }
 ## Virtualenvwrapper
 # sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
@@ -439,9 +423,10 @@ export PROJECT_HOME="${HOME}/wrk"
 export WORKON_HOME="${PROJECT_HOME}/.ve"
 
 _setup_virtualenvwrapper () {
+    ## _setup_virtualenvwrapper -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
     export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
-    export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper" # TODO: FIXME
+    export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper"
     export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
     export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
     export VIRTUALENV_DISTRIBUTE='true'
@@ -1472,15 +1457,21 @@ virtualenvwrapper_tempfile ${1}-hook
 # This hook is run during the startup phase when loading virtualenvwrapper.sh.
 
 
-# TODO: ?
 lsvirtualenv() {
-    cmd=${1:-"echo"}
-    for venv in $(ls -adtr "${WORKON_HOME}"/**/lib/python?.? | \
+    ## lsvirtualenv()   -- list virtualenvs in $WORKON_HOME
+    cmd=${@:-""}
+    (cd ${WORKON_HOME} &&
+    for venv in $(ls -adtr ${WORKON_HOME}/**/lib/python?.? | \
         sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
-        $cmd $venv/
-    done
+        echo "${venv}" ;
+        if [ -n "${cmd}" ]; then
+            $cmd $venv ;
+        fi
+    done)
 }
+
 lsve() {
+    ## lsve()           -- list virtualenvs in $WORKON_HOME
     lsvirtualenv $@
 }
 
