@@ -399,6 +399,7 @@ docs_api:
 
 docs: localjs
 	$(MAKE) docs_api
+	$(MAKE) help_bash_rst
 	$(MAKE) help_vim_rst
 	$(MAKE) help_i3_rst
 	$(MAKE) -C docs clean html   # singlehtml
