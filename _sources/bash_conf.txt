@@ -2,34 +2,47 @@
 ::
 
    # etc/bash/00-bashrc.before.sh
+                            from ${__DOTFILES}/etc/bash
+    __DOTFILES (str)     -- path to this dotfiles repository (~/.dotfiles)
+    detect_platform() -- set __IS_MAC, __IS_LINUX vars [01-bashrc.lib.sh]
+                         egrep -nr -C 3 '__IS_MAC|__IS_LINUX'
     $__DOTFILES (str): path to local dotfiles repository clone
-    TODO: PYTHON_
+    dotfiles_status(): print dotfiles env config
     $PROJECT_HOME (str): path to project directory (~/wrk)
-    $WORKON_HOME (str): path to virtualenvs directory (~/wrk/.ve)
-    $VIRTUAL_ENV (str): path to current $VIRTUAL_ENV
+    $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
+    $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
+    _setup_anaconda()      -- setup anaconda paths (manual)
+    _setup_pyenv()         -- setup pyenv paths (manual)
+    _setup_google_cloud()  -- setup google cloud paths
     $_VENVNAME (str): name of current $VIRTUAL_ENV
-    we() -- workon a new venv (virtualenvwrapper virtualenv + venv)
-            we() -> workon $1 && source <($_VENV --bash $@)
+    we() -- workon a new venv (source bin/activate; update ENVIRON)
+            we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
             example::
-               we $venvname # $appname
+               we dotfiles
+               we dotfiles etc/bash; ls -al; git status
    test -f $__PROJECTS && source $__PROJECTS
-    dotfiles_status() -- print dotfiles env config
-    workon_pyramid_add(venvname, appname)
-    $EDITOR (str): cmdstring to open $@ in current editor
+    $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
+    $EDITOR (str): cmdstring to open $@ (file list) in current editor
     $PAGER (str): cmdstring to run pager (less/vim)
-    less_() -- open read only in vim
-    man_()  -- open manpage in vim
     $_USRLOG (str): path to .usrlog command log
-
-
+    stid           -- set $TERM_ID to a random string
+    stid $name     -- set $TERM_ID to string
+    note           -- add a dated note to $_USRLOG [_usrlog_append]
+    usrlogv        -- open usrlog with vim:   $VIMBIN + $_USRLOG
+    usrlogg        -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+    usrloge        -- open usrlog with editor:$EDITOR + $_USRLOG
+   
+   
    # etc/bash/01-bashrc.lib.sh
+    add_to_path  -- prepend a directory to $PATH
     lightpath    -- display $PATH with newlines
     lspath       -- list files in each directory in $PATH
+   LS_OPTS="-aldZ"
     lspath_less  -- lspath with less
      echo_args   -- echo $@ (for checking quoting)
     pypath       -- print python sys.path and site config
-
-
+   
+   
    # etc/bash/03-bashrc.readline.sh
     vi-mode: vi(m) keyboard shortcuts
     .         -- insert last argument (command mode)
@@ -37,35 +50,46 @@
     <ctrl> a  -- move to beginning of line (^)
     <ctrl> e  -- move to end of line ($)
     <ctrl> w  -- delete last word
-
-
+   
+   
    # etc/bash/04-bashrc.TERM.sh
-    CLICOLOR=1   # ls colors
-    CLICOLOR_256=1
+   configure_term [#term] -- screen, xterm, 
    tmux
    screen
    zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
-
-
+    CLICOLOR=1   # ls colors
+    CLICOLOR_256=1
+   export CLICOLOR_256=$CLICOLOR
+   
+   
    # etc/bash/05-bashrc.dotfiles.sh
+    dotfiles_status  -- print dotfiles_status
+    ds               -- print dotfiles_status
    Add dotfiles executable directories to $PATH
-
-
+   
+   
    # etc/bash/07-bashrc.python.sh
    Generate python cmdline docs::
    
       man python | cat | egrep 'ENVIRONMENT VARIABLES' -A 200 | egrep 'AUTHOR' -B 200 | head -n -1 | pyline -r '\s*([\w]+)$' 'rgx and rgx.group(1)'
    Python
-
-
+   
+   
    # etc/bash/07-bashrc.virtualenv.sh
-
-
+   
+   
    # etc/bash/07-bashrc.virtualenvwrapper.sh
    sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
    TODO: ?
-
-
+   
+   
+   # etc/bash/08-bashrc.gcloud.sh
+    _setup_google_cloud  -- configure PATH and bash completions for
+     Google Cloud"
+   The next line updates PATH for the Google Cloud SDK.
+   The next line enables bash completion for gcloud.
+   
+   
    # etc/bash/10-bashrc.venv.sh
    
    sh configuration
@@ -102,43 +126,33 @@
     grindw   -- grind $_WRD
     grindctags   -- generate ctags from grind expression (*.py by default)
     _loadaliases -- load shell aliases
-
-
+   
+   
    # etc/bash/11-bashrc.venv.pyramid.sh
-   aliases
-   cd to $_PATH
-   open editor
-   open tabs
-      --working-directory="${_EGGSRC}" \
-      --tab -t "${_APPNAME} serve" -e "bash -c \"${_SERVECMD}; bash -c \"workon_pyramid_app $_VENVNAME $_APPNAME 1\"\"" \
-      --tab -t "${_APPNAME} shell" -e "bash -c \"${_SHELLCMD}; bash\"" \
-      --tab -t "${_APPNAME} bash" -e "bash"
-
-
+   
+   
    # etc/bash/20-bashrc.editor.sh
    
     VIRTUAL_ENV_NAME
     _CFG = 
    
-   Configure $EDITOR
-
-
+   Configure ${EDITOR}
+   
+   
    # etc/bash/29-bashrc.vimpagers.sh
    TODO: lesspipe
    Read stdin if no arguments were given.
    Output is not a terminal, cat arguments or stdin
-   view manpages in vim
       exit 0
-
-
+   
+   
    # etc/bash/30-bashrc.usrlog.sh
-    stid -- set or regenerate shell session id
     
-
-
+   
+   
    # etc/bash/30-bashrc.xlck.sh
-
-
+   
+   
    # etc/bash/40-bashrc.aliases.sh
    .bashrc commands
    print absolute path to file
@@ -163,8 +177,8 @@
    see: http://superuser.com/a/65076 
    FIXME
    TODO
-
-
+   
+   
    # etc/bash/50-bashrc.bashmarks.sh
     l    -- list bashmarks
     s    -- save bashmarks as $1
@@ -173,8 +187,8 @@
     d    -- delete bashmark $1
     lsbashmarks -- list Bashmarks (e.g. for NERDTree)
    ~/.dotfiles/bin/nerdtree_to_bashmarks.py
-
-
+   
+   
    # etc/bash/70-bashrc.repos.sh
    __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
    __SRC_GIT_REMOTE_NAME         -- name for git remote v
@@ -201,8 +215,8 @@
    << 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
    >> 'html_theme = "_-_"
    << 'html_theme = 'default'
-
-
+   
+   
    # etc/bash/99-bashrc.after.sh
-
-
+   
+   

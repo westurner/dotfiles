@@ -216,29 +216,42 @@ docs   -- build sphinx documentation
 <h2>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_bash_rst</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre># etc/bash/00-bashrc.before.sh
+                         from ${__DOTFILES}/etc/bash
+ __DOTFILES (str)     -- path to this dotfiles repository (~/.dotfiles)
+ detect_platform() -- set __IS_MAC, __IS_LINUX vars [01-bashrc.lib.sh]
+                      egrep -nr -C 3 &#39;__IS_MAC|__IS_LINUX&#39;
  $__DOTFILES (str): path to local dotfiles repository clone
- TODO: PYTHON_
+ dotfiles_status(): print dotfiles env config
  $PROJECT_HOME (str): path to project directory (~/wrk)
- $WORKON_HOME (str): path to virtualenvs directory (~/wrk/.ve)
- $VIRTUAL_ENV (str): path to current $VIRTUAL_ENV
+ $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
+ $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
+ _setup_anaconda()      -- setup anaconda paths (manual)
+ _setup_pyenv()         -- setup pyenv paths (manual)
+ _setup_google_cloud()  -- setup google cloud paths
  $_VENVNAME (str): name of current $VIRTUAL_ENV
- we() -- workon a new venv (virtualenvwrapper virtualenv + venv)
-         we() -&gt; workon $1 &amp;&amp; source &lt;($_VENV --bash $@)
+ we() -- workon a new venv (source bin/activate; update ENVIRON)
+         we() -&gt; workon $1 [$_APP] &amp;&amp; source &lt;($_VENV --bash $@)
          example::
-            we $venvname # $appname
+            we dotfiles
+            we dotfiles etc/bash; ls -al; git status
 test -f $__PROJECTS &amp;&amp; source $__PROJECTS
- dotfiles_status() -- print dotfiles env config
- workon_pyramid_add(venvname, appname)
- $EDITOR (str): cmdstring to open $@ in current editor
+ $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
+ $EDITOR (str): cmdstring to open $@ (file list) in current editor
  $PAGER (str): cmdstring to run pager (less/vim)
- less_() -- open read only in vim
- man_()  -- open manpage in vim
  $_USRLOG (str): path to .usrlog command log
+ stid           -- set $TERM_ID to a random string
+ stid $name     -- set $TERM_ID to string
+ note           -- add a dated note to $_USRLOG [_usrlog_append]
+ usrlogv        -- open usrlog with vim:   $VIMBIN + $_USRLOG
+ usrlogg        -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+ usrloge        -- open usrlog with editor:$EDITOR + $_USRLOG
 
 
 # etc/bash/01-bashrc.lib.sh
+ add_to_path  -- prepend a directory to $PATH
  lightpath    -- display $PATH with newlines
  lspath       -- list files in each directory in $PATH
+LS_OPTS=&quot;-aldZ&quot;
  lspath_less  -- lspath with less
   echo_args   -- echo $@ (for checking quoting)
  pypath       -- print python sys.path and site config
@@ -254,14 +267,18 @@ test -f $__PROJECTS &amp;&amp; source $__PROJECTS
 
 
 # etc/bash/04-bashrc.TERM.sh
- CLICOLOR=1   # ls colors
- CLICOLOR_256=1
+configure_term [#term] -- screen, xterm,
 tmux
 screen
 zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
+ CLICOLOR=1   # ls colors
+ CLICOLOR_256=1
+export CLICOLOR_256=$CLICOLOR
 
 
 # etc/bash/05-bashrc.dotfiles.sh
+ dotfiles_status  -- print dotfiles_status
+ ds               -- print dotfiles_status
 Add dotfiles executable directories to $PATH
 
 
@@ -278,6 +295,13 @@ Python
 # etc/bash/07-bashrc.virtualenvwrapper.sh
 sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
 TODO: ?
+
+
+# etc/bash/08-bashrc.gcloud.sh
+ _setup_google_cloud  -- configure PATH and bash completions for
+  Google Cloud&quot;
+The next line updates PATH for the Google Cloud SDK.
+The next line enables bash completion for gcloud.
 
 
 # etc/bash/10-bashrc.venv.sh
@@ -319,14 +343,6 @@ venv
 
 
 # etc/bash/11-bashrc.venv.pyramid.sh
-aliases
-cd to $_PATH
-open editor
-open tabs
-   --working-directory=&quot;${_EGGSRC}&quot; \
-   --tab -t &quot;${_APPNAME} serve&quot; -e &quot;bash -c \&quot;${_SERVECMD}; bash -c \&quot;workon_pyramid_app $_VENVNAME $_APPNAME 1\&quot;\&quot;&quot; \
-   --tab -t &quot;${_APPNAME} shell&quot; -e &quot;bash -c \&quot;${_SHELLCMD}; bash\&quot;&quot; \
-   --tab -t &quot;${_APPNAME} bash&quot; -e &quot;bash&quot;
 
 
 # etc/bash/20-bashrc.editor.sh
@@ -334,19 +350,17 @@ open tabs
  VIRTUAL_ENV_NAME
  _CFG =
 
-Configure $EDITOR
+Configure ${EDITOR}
 
 
 # etc/bash/29-bashrc.vimpagers.sh
 TODO: lesspipe
 Read stdin if no arguments were given.
 Output is not a terminal, cat arguments or stdin
-view manpages in vim
    exit 0
 
 
 # etc/bash/30-bashrc.usrlog.sh
- stid -- set or regenerate shell session id
 
 
 
