@@ -33,6 +33,10 @@ PIP_INSTALL_USER_OPTS:=--user --upgrade
 PIP_INSTALL:=$(PIP) $(PIP_OPTS) install $(PIP_INSTALL_OPTS)
 PIP_INSTALL_USER:=$(PIP) $(PIP_OPTS) install ${PIP_INSTALL_USER_OPTS}
 
+#TODO: if(__IS_LINUX)
+#SETUPPY_CMDOPTS:=--command-packages=stdeb.command
+SETUPPY_CMDOPTS=:
+
 default: test
 
 help:
@@ -67,24 +71,20 @@ help:
 
 help_setuppy:
 	python setup.py --help
-	python setup.py --command-packages=stdeb.command --help-commands
+	python setup.py $(SETUPPY_CMDOPTS) --help-commands
 
 help_setuppy_rst:
 	## show help as (almost) ReStructuredText
 	python setup.py --help \
-		| sed "s/^\w.*/\0::\n/g" \
-		| sed "s/^\s\s/ \0/g"; \
+		| sed "s|^\w.*|\0::|g" \
+		| sed "s|^\s\s| \0|g"; \
 	echo ""
-	# Commands
-	# =========
 	for _cmd in \
 		`python setup.py --help-commands | grep '^  \w' | $(PYLINE) 'w and w[0]'`;	do \
 		echo ""; echo ""; \
 		python setup.py --help "$${_cmd}" \
-			| tail -n +13 \
-			| head -n -6 \
-			| sed "s/^Options for '\(.*\)' command:/\`\`python setup.py \1\`\`::\n/g" \
-			| sed "s/^\s\s/ \0/g"; \
+			| scripts/pyline.py '(6 < i < i_last - 13) and l' \
+			| scripts/pyline.py -r 'Options for (.*) command:' '(rgx and "## %s" % rgx.group(1)) or l'; \
 	done
 
 
@@ -211,21 +211,21 @@ build_deb_setup:
 
 build_deb_debianize:
 	# Create a debian/ directory
-	python setup.py --command-packages=stdeb.command debianize
+	python setup.py $(SETUPPY_CMDOPTS) debianize
 	# Manually update this debian/ directory,
 	# rather than using stdeb commandline options.
 
 build_deb_sdist_dsc:
 	# Build a debian source package
-	python setup.py --command-packages=stdeb.command sdist_dsc
+	python setup.py $(SETUPPY_CMDOPTS) sdist_dsc
 	
 build_deb_bdist:
 	# Build a debian binary package
-	python setup.py --command-packages=stdeb.command bdist_deb
+	python setup.py $(SETUPPY_CMDOPTS) bdist_deb
 
 build_deb_install:
 	# Build and install a debian binary package
-	python setup.py --command-packages=stdeb.command install_deb
+	python setup.py $(SETUPPY_CMDOPTS) install_deb
 
 build_deb_clean:
 	# Clean debian dist directory
@@ -250,6 +250,9 @@ build_tags:
 pip_upgrade_pip:
 	# Upgrade pip
 	$(PIP_INSTALL) pip
+
+pip_install:
+	$(PIP_INSTALL) .
 
 pip_install_as_editable:
 	# Install dotfiles as a develop egg (pip install -e .)
