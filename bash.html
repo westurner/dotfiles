@@ -222,47 +222,44 @@ dotfiles_reload() {
 
 
       ## 20-bashrc.editor.sh        -- $EDITOR configuration
-      #  $EDITOR (str): cmdstring to open $@ in current editor
+      #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
+      #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
       source ${conf}/20-bashrc.editor.sh
       ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
       #  $PAGER (str): cmdstring to run pager (less/vim)
-      #  lessv() -- open read only in vim
-      #  lessg() -- open read only in gvim/mvim
-      #  lesse() -- open read only in venv&#39;s $_EDIT_
-      #  lese()  -- open read only in venv&#39;s $_EDIT_
-      #  man()   -- open manpage in vim
-      #  mang()  -- open manpage in gvim/mvim
-      #  mane()  -- open manpage in venv&#39;s $_EDIT_
       source ${conf}/29-bashrc.vimpagers.sh
 
 
-      ## usrlog:
+      ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
       #  $_USRLOG (str): path to .usrlog command log
       source ${conf}/30-bashrc.usrlog.sh
 
 
-      ## xlck: screensaver, screen (auto) lock, suspend
+      ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
       source ${conf}/30-bashrc.xlck.sh
 
 
-      ## aliases: bash aliases and cmds
+      ## 40-bashrc.aliases.sh       -- bash aliases and cmds
       source ${conf}/40-bashrc.aliases.sh
 
 
-      ## bashmarks: local bookmarks
+      ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
       source ${conf}/50-bashrc.bashmarks.sh
 
-      ## repos: local repository set mgmt, docs hosting
+      ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
       source ${conf}/70-bashrc.repos.sh
 
-    ## after: cleanup
+    ### 99-bashrc.after.sh          -- after: cleanup
     source ${conf}/99-bashrc.after.sh
 }
 
 dr() {
+    ## dr               -- dotfiles_reload
     dotfiles_reload $@
 }
 
+
+## dotfiles_reload()    -- called when source-ing in 00-bashrc.before.sh
 dotfiles_reload
 </pre></div>
 </div>
