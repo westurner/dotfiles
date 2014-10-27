@@ -56,3 +56,11 @@ pypath() {
     /usr/bin/env python -m site
 }
 
+detect_platform() {
+    if [ -d /Library ]; then
+        export __IS_MAC='true'
+    else
+        export __IS_LINUX='true'
+    fi
+}
+
