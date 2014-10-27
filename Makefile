@@ -120,6 +120,17 @@ help_i3:
 help_i3_rst:
 	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.rst
 
+help_all:
+	$(MAKE) help
+	$(MAKE) help_setuppy
+	$(MAKE) help_setuppy_rst
+	$(MAKE) help_bash
+	$(MAKE) help_bash_rst
+	$(MAKE) help_zsh
+	$(MAKE) help_vim
+	$(MAKE) help_vim_rst
+	$(MAKE) help_i3
+	$(MAKE) help_i3_rst
 
 install:
 	$(MAKE) pip_install_as_editable
@@ -152,21 +163,38 @@ upgrade_user:
 
 
 clean:
-	pyclean .
+	$(MAKE) pyclean
+	$(MAKE) build_deb_clean
+
+
+pyclean:
+	find . -type f -name '*.pyc' -exec rm -fv {} \;
+	find . -type f -name '*.pyo' -exec rm -fv {} \;
 	find . -type d -name '__pycache__' -exec rm -rfv {} \;
 	find . -name '*.egg-info' -exec rm -rfv {} \;
 	python setup.py clean
-	$(MAKE) build_deb_clean
 
+vimclean:
+	find . -type f -name '*.un~' -exec rm -fv {} \;
+
+vimclean_ls_undotree:
+	find . -type f -name '*.un~' -exec ls -l {} \;
 
 test:
 	# Run setuptools test task
 	python setup.py test
 
-test_build:
-	$(MAKE) test
+pytest:
 	py.test -v ./tests/ ./scripts/ ./bin/ ./src/dotfiles
 	# TODO: test scripts/bootstrap_dotfiles.sh
+
+test_build:
+	$(MAKE) test
+	$(MAKE) build
+	# linux-only
+	$(MAKE) build_deb_all
+	$(MAKE) pytest
+
 
 build:
 	# Build source dist and bdist
@@ -202,6 +230,14 @@ build_deb_install:
 build_deb_clean:
 	# Clean debian dist directory
 	rm -rfv deb_dist/
+
+build_deb_all:
+	# Build a debian sdist, bdist, install
+	$(MAKE) build_deb_setup && touch build_deb_setup
+	$(MAKE) build_deb_clean
+	$(MAKE) build_deb_sdist_dsc
+	$(MAKE) build_deb_bdist
+	$(MAKE) build_deb_install
 
 
 build_tags:
