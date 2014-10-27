@@ -20,36 +20,51 @@ Install dev, docs. testing, and suggests from pip requirements files::
 
 bootstrap_dotfiles.sh
 -----------------------
+| https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 
 ``bash scripts/bootstrap_dotfiles.sh``:
 
-.. program-output:: bash ../scripts/bootstrap_dotfiles.sh -h
+.. command-output:: bash ../scripts/bootstrap_dotfiles.sh -h
+   :shell:
 
 
-dotfiles Makefile
--------------------
+Makefile
+-------------
+| https://github.com/westurner/dotfiles/blob/master/Makefile
+
 ``make help``:
 
-.. program-output:: cd .. && make help
+.. command-output:: cd .. && make help
    :shell:
 
 
 Bash
 -----
+| https://github.com/westurner/dotfiles/blob/master/etc/.bashrc
+| https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh
+
 ``make help_bash_rst``:
 
-.. include:: bash_conf.rst   
+.. include:: bash_conf.rst
+   :literal:
 
 
 Vim
 -----
+| https://github.com/westurner/dotfiles/blob/master/etc/.vimrc
+| https://github.com/westurner/dotvim/blob/master/vimrc
+| https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc
+
 ``make help_vim_rst``:
 
 .. include:: dotvim_conf.rst
+   :literal:
 
 
 I3wm
 -----
+| https://github.com/westurner/dotfiles/blob/master/etc/.i3/config
+
 ``make help_i3_rst``:
 
 .. include:: i3_conf.rst
@@ -58,6 +73,8 @@ I3wm
 
 Scripts
 ---------
+| https://github.com/westurner/dotfiles/tree/master/scripts
+
 In ``scripts/``
 
 **bashmarks_to_nerdtree.sh**
@@ -127,7 +144,8 @@ In ``scripts/``
    Walk and enumerate a pip requirements file
 
 **pycut.py**
-   Similar to ``coreutils``' ``cut``: split line-based files into fields
+   Similar to ``coreutils``' ``cut``: split line-based files into
+   fields. See: *pyline.py* (``pyline 'w[1:2]'``)
 
 **py_index.py**
    Create a python package index HTML file for a directory of
@@ -142,7 +160,7 @@ In ``scripts/``
 **pyren.py**
    Skeleton regex file rename script
 
-**repos.py**
+**pyrpo.py**
    Wrap version control system commandline interfaces
 
    See: https://github.com/westurner/pyrpo
@@ -150,3 +168,5 @@ In ``scripts/``
 **usrlog.py**
    Search through ``.usrlog`` files
 
+**x-www-browser**
+   Launch browser tabs for each argument (OSX, Linux, webbrowser)
