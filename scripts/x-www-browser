@@ -1,0 +1,140 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+"""
+x_www_browser
+"""
+
+import logging
+import optparse
+import subprocess
+import sys
+import warnings
+import webbrowser
+
+import distutils
+
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
+
+def get_browser_cls():
+    """
+    Returns:
+        list: webbrowser implementation with with to open_new_tab
+    """
+    output = None
+    OPENBIN, XWWBIN = None, None
+    if sys.platform == 'darwin':
+        OPENBIN = distutils.spawn.find_executable('open')
+        browser_cls = OSX_open_webbrowser
+        browser_cls.BIN = OPENBIN
+    else:
+        XWWWBIN = distutils.spawn.find_executable('x-www-browser')
+        if XWWBIN:
+            browser_cls = XWWW_webbrowser
+            browser_cls.BIN = XWWBIN
+        else:
+            browser_cls = Webbrowser_webbrowser
+    return browser_cls
+
+
+def x_www_browser(urls, **kwargs):
+    """
+    x-www-browser shim to python webbrowser.open_new_tab
+    """
+    _webbrowser = kwargs.get('webbrowser')
+
+    if not _webbrowser:
+        _webbrowser = get_browser_cls()
+
+    for url in urls:
+        try:
+            yield _webbrowser.open_new_tab(url)
+        except Exception as e:
+            log.error(e)
+            pass
+
+class XWWW_webbrowser(object):
+    @classmethod
+    def open_new_tab(cls, url, **kwargs):
+        cmd = (cls.BIN, url)
+        output = subprocess.check_output(cmd, url)
+        return output
+
+class OSX_open_webbrowser(object):
+    @classmethod
+    def open_new_tab(cls, url, **kwargs):
+        cmd = (cls.BIN, url)
+        output = subprocess.check_output(cmd, url)
+        return output
+
+class Webbrowser_webbrowser(object):
+    @classmethod
+    def open_new_tab(cls, url, **kwargs):
+        if webbrowser:
+            cmd = ('python', '-m', 'webbrowser', url)
+            output = subprocess.check_output(cmd, url)
+            return output
+        raise Exception(args, kwargs)
+
+class Test_webbrowser(object):
+    @staticmethod
+    def open_new_tab(*args, **kwargs):
+        return (args, kwargs)
+
+
+import unittest
+class Test_x_www_browser(unittest.TestCase):
+
+
+    def test_x_www_browser(self):
+        urls = [
+            'http://localhost',
+            'http://localhost:8080'
+        ]
+        output = x_www_browser(urls, webbrowser=self.Test_webbrowser)
+        print(output)
+        for x in output:
+            print(x)
+
+
+def main():
+    prs = optparse.OptionParser(
+        usage="%prog : open one or more urls in new tabs")
+
+    prs.add_option('-v', '--verbose',
+                    dest='verbose',
+                    action='store_true',)
+    prs.add_option('-q', '--quiet',
+                    dest='quiet',
+                    action='store_true',)
+    prs.add_option('-t', '--test',
+                    dest='run_tests',
+                    action='store_true',)
+
+    (opts, args) = prs.parse_args()
+
+    if not opts.quiet:
+        logging.basicConfig()
+
+        if opts.verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+
+    if opts.run_tests:
+        sys.argv = [sys.argv[0]] + args
+        import unittest
+        sys.exit(unittest.main())
+
+    if not len(args):
+        prs.exit(status=2, msg="Specify one or more URLs to open")
+
+    output = x_www_browser(args, webbrowser=webbrowser)
+    for urloutput in output:
+        print(urloutput)
+
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())
