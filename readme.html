@@ -11,9 +11,9 @@
     <!-- OpenGraph metadata: ogp.me -->
     <meta property="og:title" content="dotfiles" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="dotfiles-westurner" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
     <!--
-    <meta property="og:description" content="" />
+    <meta property="og:description" content="Documentation for the dotfiles project" />
     -->
     <meta property="og:image" content="" />
     <meta property="og:image:width" content="470" />
@@ -24,9 +24,9 @@
     <!-- Twitter metadata -->
     <meta property="twitter:card" content="summary" />
     <meta property="twitter:title" content="dotfiles" />
-    <meta property="twitter:description" content="" />
-    <meta property="twitter:site" content="wrdrd" />
-    <meta property="twitter:creator" content="wrdrd" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
     
     <title>dotfiles &mdash; dotfiles 0.2.1 documentation</title>
     <meta name="description" content="">
@@ -95,15 +95,15 @@
 </li>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a><ul>
-<li><a class="reference internal" href="#pip"><code class="docutils literal"><span class="pre">pip</span></code></a></li>
+<li><a class="reference internal" href="#pip">pip</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#makefile"><code class="docutils literal"><span class="pre">Makefile</span></code></a><ul>
+<li><a class="reference internal" href="#makefile">Makefile</a><ul>
 <li><a class="reference internal" href="#make-install"><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></a></li>
 <li><a class="reference internal" href="#make-help"><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bootstrap-dotfiles-sh"><code class="docutils literal"><span class="pre">bootstrap_dotfiles.sh</span></code></a></li>
+<li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
 <li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
 <li><a class="reference internal" href="#development">Development</a><ul>
 <li><a class="reference internal" href="#make-build"><code class="docutils literal"><span class="pre">make</span> <span class="pre">build</span></code></a></li>
@@ -187,19 +187,13 @@ for working with projects on *nix platforms with Bash, ZSH, Ruby, and Python.</p
 </div>
 <div class="section" id="bash">
 <h3>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh">https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh</a></div>
-</div>
 <p>Bash configuration chain-loads from <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code>.</p>
 <div class="highlight-bash"><div class="highlight"><pre>dotfiles_status  <span class="c"># print environment variables</span>
-ds               <span class="c"># print environment variables</span>
 dotfiles_reload  <span class="c"># source dotfiles/etc/bash/*-bashrc.&lt;name&gt;.sh</span>
-dr               <span class="c"># source dotfiles/etc/bash/*-bashrc.&lt;name&gt;.sh</span>
 </pre></div>
 </div>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">set</span> | less
 <span class="nb">set</span> | grep <span class="s1">&#39;^_&#39;</span>
-less scripts/bashrc.load.sh
 </pre></div>
 </div>
 </div>
@@ -243,7 +237,7 @@ and installed (with vundle).</p>
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
 </div>
 <div class="section" id="pip">
-<h4><code class="docutils literal"><span class="pre">pip</span></code><a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h4>
+<h4>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h4>
 <p>(Optional) Upgrade pip:</p>
 <div class="highlight-python"><div class="highlight"><pre># pip install pip --upgrade
 pip install --user pip
@@ -254,7 +248,7 @@ pip install --user pip --upgrade
 </div>
 </div>
 <div class="section" id="makefile">
-<h3><code class="docutils literal"><span class="pre">Makefile</span></code><a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
+<h3>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">https://github.com/westurner/dotfiles/blob/master/Makefile</a></div>
 </div>
@@ -274,7 +268,7 @@ make help_i3
 </div>
 </div>
 <div class="section" id="bootstrap-dotfiles-sh">
-<h3><code class="docutils literal"><span class="pre">bootstrap_dotfiles.sh</span></code><a class="headerlink" href="#bootstrap-dotfiles-sh" title="Permalink to this headline">¶</a></h3>
+<h3>bootstrap_dotfiles.sh<a class="headerlink" href="#bootstrap-dotfiles-sh" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
 </div>
@@ -354,15 +348,15 @@ pip install --user -e .
 </li>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a><ul>
-<li><a class="reference internal" href="#pip"><code class="docutils literal"><span class="pre">pip</span></code></a></li>
+<li><a class="reference internal" href="#pip">pip</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#makefile"><code class="docutils literal"><span class="pre">Makefile</span></code></a><ul>
+<li><a class="reference internal" href="#makefile">Makefile</a><ul>
 <li><a class="reference internal" href="#make-install"><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></a></li>
 <li><a class="reference internal" href="#make-help"><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bootstrap-dotfiles-sh"><code class="docutils literal"><span class="pre">bootstrap_dotfiles.sh</span></code></a></li>
+<li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
 <li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
 <li><a class="reference internal" href="#development">Development</a><ul>
 <li><a class="reference internal" href="#make-build"><code class="docutils literal"><span class="pre">make</span> <span class="pre">build</span></code></a></li>
@@ -380,13 +374,15 @@ pip install --user -e .
   <h4>Next topic</h4>
   <p class="topless"><a href="install.html"
                         title="next chapter">Install</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/readme.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/readme.txt"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/readme.rst"
+           rel="nofollow">Show on GitHub</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/readme.rst"
+           rel="nofollow">Edit on GitHub</a></li>
+  </ul>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
   <form class="search form-inline" action="search.html" method="get">

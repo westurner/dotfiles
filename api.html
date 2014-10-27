@@ -11,9 +11,9 @@
     <!-- OpenGraph metadata: ogp.me -->
     <meta property="og:title" content="API" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="dotfiles-westurner" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
     <!--
-    <meta property="og:description" content="" />
+    <meta property="og:description" content="Documentation for the dotfiles project" />
     -->
     <meta property="og:image" content="" />
     <meta property="og:image:width" content="470" />
@@ -24,9 +24,9 @@
     <!-- Twitter metadata -->
     <meta property="twitter:card" content="summary" />
     <meta property="twitter:title" content="API" />
-    <meta property="twitter:description" content="" />
-    <meta property="twitter:site" content="wrdrd" />
-    <meta property="twitter:creator" content="wrdrd" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
     
     <title>API &mdash; dotfiles 0.2.1 documentation</title>
     <meta name="description" content="">
@@ -64,7 +64,7 @@
 <script type="text/javascript">
 </script>
     <link rel="top" title="dotfiles 0.2.1 documentation" href="index.html" />
-    <link rel="next" title="dotfiles.cli package" href="dotfiles.cli.html" />
+    <link rel="next" title="dotfiles.venv package" href="dotfiles.venv.html" />
     <link rel="prev" title="Venv" href="venv.html" /> 
   </head>
   <body role="document">
@@ -88,6 +88,7 @@
 <li><a class="reference internal" href="#">API</a><ul>
 <li><a class="reference internal" href="#dotfiles">Dotfiles</a></li>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-dotfiles.cli">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -97,7 +98,7 @@
 
             
               <li><a href="venv.html" title="Venv" accesskey="P">previous </a></li>
-              <li><a href="dotfiles.cli.html" title="dotfiles.cli package" accesskey="N">next </a></li>
+              <li><a href="dotfiles.venv.html" title="dotfiles.venv package" accesskey="N">next </a></li>
               <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
             
@@ -148,16 +149,65 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="dotfiles.cli.html">dotfiles.cli package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dotfiles.cli.html#module-dotfiles.cli.cli">Submodules</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="dotfiles.venv.html">dotfiles.venv package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_config">Submodules</a></li>
 </ul>
 </li>
 </ul>
 </div>
+</div>
+<div class="section" id="module-dotfiles.cli">
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-dotfiles.cli" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dotfiles.cli.get_pkg_resource_filename">
+<code class="descclassname">dotfiles.cli.</code><code class="descname">get_pkg_resource_filename</code><span class="sig-paren">(</span><em>path=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli.html#get_pkg_resource_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.cli.get_pkg_resource_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>This package generates a MANIFEST.in file from version control (hg)
+in order to include files outside of the package source directory
+(src/dotfiles).</p>
+<p>When installed as an editable or a source dist, these additional
+data files have paths relative to <code class="docutils literal"><span class="pre">pkg_resource.resource_filename</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>str</em>) &#8211; path fragment (eg. <code class="docutils literal"><span class="pre">etc/vim</span></code>)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>path</strong> &#8211;
+absolute path to <code class="docutils literal"><span class="pre">path</span></code>, relative to this package install</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dotfiles.cli.dotfiles">
+<code class="descclassname">dotfiles.cli.</code><code class="descname">dotfiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli.html#dotfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.cli.dotfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>mainfunc</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dotfiles.cli.Test_dotfiles">
+<em class="property">class </em><code class="descclassname">dotfiles.cli.</code><code class="descname">Test_dotfiles</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli.html#Test_dotfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.cli.Test_dotfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="dotfiles.cli.Test_dotfiles.test_get_pkg_resource_filename">
+<code class="descname">test_get_pkg_resource_filename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli.html#Test_dotfiles.test_get_pkg_resource_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.cli.Test_dotfiles.test_get_pkg_resource_filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.cli.Test_dotfiles.test_dotfiles_main">
+<code class="descname">test_dotfiles_main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli.html#Test_dotfiles.test_dotfiles_main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.cli.Test_dotfiles.test_dotfiles_main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="dotfiles.cli.main">
+<code class="descclassname">dotfiles.cli.</code><code class="descname">main</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.cli.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 </div>
 
@@ -175,6 +225,7 @@
 <li><a class="reference internal" href="#">API</a><ul>
 <li><a class="reference internal" href="#dotfiles">Dotfiles</a></li>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-dotfiles.cli">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -183,15 +234,17 @@
   <p class="topless"><a href="venv.html"
                         title="previous chapter">Venv</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="dotfiles.cli.html"
-                        title="next chapter">dotfiles.cli package</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/api.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+  <p class="topless"><a href="dotfiles.venv.html"
+                        title="next chapter">dotfiles.venv package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/api.rst"
+           rel="nofollow">Show on GitHub</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/api.rst"
+           rel="nofollow">Edit on GitHub</a></li>
+  </ul>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
   <form class="search form-inline" action="search.html" method="get">
@@ -230,7 +283,7 @@
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="venv.html" title="Venv" >previous</a></li>
-        <li><a href="dotfiles.cli.html" title="dotfiles.cli package" >next</a></li>
+        <li><a href="dotfiles.venv.html" title="dotfiles.venv package" >next</a></li>
         <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="genindex.html" title="General Index" >index</a></li> 
       

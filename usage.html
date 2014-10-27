@@ -11,9 +11,9 @@
     <!-- OpenGraph metadata: ogp.me -->
     <meta property="og:title" content="Usage" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="dotfiles-westurner" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
     <!--
-    <meta property="og:description" content="" />
+    <meta property="og:description" content="Documentation for the dotfiles project" />
     -->
     <meta property="og:image" content="" />
     <meta property="og:image:width" content="470" />
@@ -24,9 +24,9 @@
     <!-- Twitter metadata -->
     <meta property="twitter:card" content="summary" />
     <meta property="twitter:title" content="Usage" />
-    <meta property="twitter:description" content="" />
-    <meta property="twitter:site" content="wrdrd" />
-    <meta property="twitter:creator" content="wrdrd" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
     
     <title>Usage &mdash; dotfiles 0.2.1 documentation</title>
     <meta name="description" content="">
@@ -633,6 +633,7 @@ Window Resize     (window-resize)
  [n]ctrl-w &lt;  --  contract width
  [n]ctrl-w +  --  increase height
  [n]ctrl-w -  --  reduce height
+ ctrl-w o     --  minimze all other windows
 Window Movement (window-move)
 Window Up
  &lt;leader&gt; wk  --  move window up
@@ -846,6 +847,7 @@ Python-mode       -- Python [help pymode]
  iC    --  Select inner class. Ex: viC, diC, yiC, ciC
  aM    --  Select a function or method. Ex: vaM, daM, yaM, caM
  iM    --  Select inner function or method. Ex: viM, diM, yiM, ciM
+ g:pymode_python = { &#39;python&#39;, &#39;python3&#39;, &#39;disable&#39; }
  :PymodeLintToggle    -- toggle lint checking
  :PymodeLintAuto      -- autofix current buffer pep8 errors
 - auto-show an error window
@@ -896,6 +898,7 @@ Pytest.vim    -- py.test red/green results [help pytest]
  &lt;leader&gt;te       --  pytest error
 Pyrex         -- Pyrex syntax
 Jinja         -- Jinja Templates syntax
+clickbable.vim -- click-able links
 Riv.vim   -- ReStructuredText [help riv]
  :RivIntro
  :RivQuickStart
@@ -1263,13 +1266,15 @@ Execute python expressions over line-based files.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="venv.html"
                         title="next chapter">Venv</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/usage.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usage.txt"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/usage.rst"
+           rel="nofollow">Show on GitHub</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/usage.rst"
+           rel="nofollow">Edit on GitHub</a></li>
+  </ul>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
   <form class="search form-inline" action="search.html" method="get">

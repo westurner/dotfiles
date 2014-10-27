@@ -210,6 +210,7 @@
     [n]ctrl-w <  --  contract width
     [n]ctrl-w +  --  increase height
     [n]ctrl-w -  --  reduce height
+    ctrl-w o     --  minimze all other windows
    Window Movement (window-move)
    Window Up
     <leader> wk  --  move window up
@@ -423,6 +424,7 @@
     iC    --  Select inner class. Ex: viC, diC, yiC, ciC
     aM    --  Select a function or method. Ex: vaM, daM, yaM, caM
     iM    --  Select inner function or method. Ex: viM, diM, yiM, ciM
+    g:pymode_python = { 'python', 'python3', 'disable' }
     :PymodeLintToggle    -- toggle lint checking
     :PymodeLintAuto      -- autofix current buffer pep8 errors
    - auto-show an error window
@@ -473,6 +475,7 @@
     <leader>te       --  pytest error
    Pyrex         -- Pyrex syntax
    Jinja         -- Jinja Templates syntax
+   clickbable.vim -- click-able links
    Riv.vim   -- ReStructuredText [help riv]
     :RivIntro
     :RivQuickStart
