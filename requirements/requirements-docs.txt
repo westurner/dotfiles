@@ -16,4 +16,5 @@ sphinxcontrib-paverutils
 
 sphinxcontrib-napoleon
 
-github-tools[template]
+# Requires PasteDeploy?
+# github-tools[template]
