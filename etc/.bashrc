@@ -74,7 +74,12 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
 fi
 
-# load local dotfiles set
-__DOTFILES=${__DOTFILES-"$HOME/.dotfiles"}
+## load local dotfiles set
+#  ~/.dotfiles -> ${WORKON_HOME}/dotfiles/src/dotfiles
+__DOTFILES=${__DOTFILES:-"$HOME/.dotfiles"}
 _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
-test -f $_dotfiles_bashrc && source $_dotfiles_bashrc
+if [[ -f "${_dotfiles_bashrc}" ]]; then
+    source "${_dotfiles_bashrc}"
+else
+    echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
+fi
