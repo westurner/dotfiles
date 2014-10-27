@@ -14,6 +14,7 @@ vimpager() {
 }
 
 
+### less commands -- lessv, lessg, lesse
 ## lessv    -- less with less.vim and regular vim
 lessv () {
 
@@ -48,13 +49,19 @@ lessv () {
     fi
 }
 
-## lessv    -- less with less.vim and gvim
+## lessg    -- less with less.vim and gvim
 lessg() {
     VIMBIN=${GUIVIMBIN} lessv $@
 }
 
-# view manpages in vim
-man() {
+## lesse    -- less with current venv's vim server
+lesse() {
+    ${EDITOR} $@
+}
+
+### Man commands -- manv, mang, mane
+## manv     -- view manpages in vim
+manv() {
     alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
@@ -77,16 +84,10 @@ man() {
 
 ## mang()   -- view manpages in GViM, MacVim
 mang() {
-    alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        #if [ "$1" == "man" ]; then
-        #    exit 0
-        #fi
-
-        #/usr/bin/whatis "$@" >/dev/null
-        $GVIMBIN \
+        $GUIVIMBIN \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -95,4 +96,9 @@ mang() {
             -c 'set nomodifiable' \
             -c 'set colorcolumn=0'
     fi
+}
+
+## mane()   -- open manpage with venv's vim server
+mane() {
+    $GUIVIMBIN --servername ${VIRTUAL_ENV_NAME} --remote-send "<ESC>:Man $@<CR>"
 }
