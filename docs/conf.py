@@ -29,6 +29,32 @@ project_root = os.path.dirname(cwd)
 # version is used.
 sys.path.insert(0, project_root)
 
+# add the _ext/ dir for local extensions
+sys.path.insert(1, os.path.abspath('_ext'))
+
+# configure paths and names once
+project_name = "dotfiles"
+project_name_slug = "dotfiles"
+project_orgname = "westurner"
+project_twitter_user = project_orgname
+project_author = u"Wes Turner"
+project_copyright = u'2014, {}'.format(project_author)
+project_github_path = "{}/{}".format(project_orgname, project_name)
+project_github_url = "https://github.com/{}".format(project_github_path)
+project_src_url = project_github_url
+project_src_path = project_github_path
+project_url = project_github_url
+project_title = u'{} Documentation'.format(project_name)
+project_description_oneline = (
+    u'Documentation for the {} project'.format(project_name))
+project_og_site_name = project_src_path  # e.g. westurner/dotfiles
+
+edit_on_github_project = project_github_path
+edit_on_github_src_path = 'docs/'
+edit_on_github_branch = 'master'
+
+# current_git_branch=subprocess.check_output("git b") && parse
+
 import dotfiles
 
 # -- General configuration ----------------------------------------------------
@@ -45,6 +71,8 @@ extensions = [
     'sphinxcontrib.napoleon',
     'sphinxcontrib.ansi',
     'sphinxcontrib.programoutput',
+    'sphinxcontrib.issuetracker',
+    'edit_on_github'
 ]
 
 try:
@@ -59,7 +87,7 @@ try:
     import sphinxcontrib.issuetracker
     extensions.append('sphinxcontrib.issuetracker')
     issuetracker = 'github'
-    issuetracker_project = 'westurner/dotfiles'
+    issuetracker_project = project_github_path
 except ImportError:
     pass
     # TODO
@@ -73,7 +101,7 @@ try:
     # tags to sort on inside of sections - also optional
     changelog_inner_tag_sort = ["feature", "bug"]
 
-    changelog_url = 'https://github.com/westurner/dotfiles'
+    changelog_url = project_github_url
 
     # how to render changelog links - these are plain
     # python string templates, ticket/pullreq/changeset number goes
@@ -82,8 +110,8 @@ try:
     changelog_render_pullreq = "%s/pullrequest/%%s" % changelog_url
     changelog_render_changeset = "%s/changeset/%%s" % changelog_url
 except ImportError:
+    #print("ERROR: failed to import 'changelog'")
     pass
-    # TODO
 
 autodoc_member_order = 'bysource'
 
@@ -100,8 +128,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'dotfiles'
-copyright = u'2014, Wes Turner'
+project = project_name
+copyright = project_copyright
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -277,8 +305,12 @@ html_sidebars = {
 # This is the file name suffix for HTML files (e.g. ".xhtml").
 #html_file_suffix = None
 
+# Filename affix
+filename_affix = "{}".format(project_name_slug)
+
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'dotfilesdoc'
+htmlhelp_basename = '{}-doc'.format(filename_affix)
+
 
 
 # -- Options for LaTeX output --------------------------------------------
@@ -297,8 +329,11 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index', 'dotfiles.tex', u'dotfiles Documentation',
-     u'Wes Turner', 'manual'),
+    ('index',
+     '{}.tex'.format(filename_affix),
+     project_title,
+     project_author,
+     'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -327,8 +362,11 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'dotfiles', u'dotfiles Documentation',
-     [u'Wes Turner'], 1)
+    ('index',
+     project_name_slug,
+     project_title,
+     [project_author],
+     1)
 ]
 
 # If true, show URL addresses after external links.
@@ -341,8 +379,12 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'dotfiles', u'dotfiles Documentation',
-     u'Wes Turner', 'dotfiles', 'One line description of project.',
+    ('index',
+     project_name_slug,
+     project_title,
+     project_author,
+     project_name,
+     project_description_oneline,
      'Miscellaneous'),
 ]
 
@@ -384,12 +426,12 @@ def configure_meta_tags(app, pagename, templatename, context, doctree):
     <meta property="twitter:creator" content="{twitter_user}" />
     """.format(
         title=context.get('title',''),
-        description=context.get('description', ''),
-        og_site_name="dotfiles-westurner",
+        description=context.get('description', project_description_oneline),
+        og_site_name=project_og_site_name,
         og_image_url="",  # 470x242.png
         og_image_width="470",
         og_image_height="242",
-        twitter_user="wrdrd")
+        twitter_user=project_twitter_user)
     context['metatags'] = metatags
 
 def setup(app):
