@@ -35,14 +35,19 @@ dotfiles_reload() {
       #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
 
       ## 07-bashrc.python.sh            -- python
+      #  _setup_anaconda()      -- setup anaconda paths (manual)
+      #  _setup_pyenv()         -- setup pyenv paths (manual)
       source ${conf}/07-bashrc.python.sh
+
       ## 07-bashrc.virtualenv.sh        -- virtualenv
       source ${conf}/07-bashrc.virtualenv.sh
+
       ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
       source ${conf}/07-bashrc.virtualenvwrapper.sh
 
+
       ## 08-bashrc.gcloud.sh    -- gcloud: Google Cloud SDK
-      #  _setup_google_cloud
+      #  _setup_google_cloud()  -- setup google cloud paths
       source ${conf}/08-bashrc.gcloud.sh
 
       ## 10-bashrc.venv.sh      -- venv: virtualenvwrapper extensions
@@ -57,7 +62,6 @@ dotfiles_reload() {
       dotfiles_status
 
       ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
-      #  workon_pyramid_app $VIRTUAL_ENV_NAME $_APP
       source ${conf}/11-bashrc.venv.pyramid.sh
 
 
@@ -72,6 +76,12 @@ dotfiles_reload() {
 
       ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
       #  $_USRLOG (str): path to .usrlog command log
+      #  stid           -- set $TERM_ID to a random string
+      #  stid $name     -- set $TERM_ID to string
+      #  note           -- add a dated note to $_USRLOG [_usrlog_append]
+      #  usrlogv        -- open usrlog with vim:   $VIMBIN + $_USRLOG
+      #  usrlogg        -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+      #  usrloge        -- open usrlog with editor:$EDITOR + $_USRLOG
       source ${conf}/30-bashrc.usrlog.sh
 
 
