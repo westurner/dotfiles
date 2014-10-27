@@ -399,7 +399,7 @@ docs: localjs
 	$(MAKE) docs_api
 	$(MAKE) help_vim_rst
 	$(MAKE) help_i3_rst
-	$(MAKE) -C docs clean html singlehtml
+	$(MAKE) -C docs clean html   # singlehtml
 
 docs_clean_rsync_local:
 	rm -rf /srv/repos/var/www/docs/dotfiles/*
