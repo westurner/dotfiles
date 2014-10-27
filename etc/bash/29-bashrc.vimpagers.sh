@@ -1,15 +1,12 @@
-## ViM
 
+## vimpager     -- call vimpager
 vimpager() {
     # TODO: lesspipe
-    _PAGER="${HOME}/bin/vimpager"
-    if [ -x $_PAGER ]; then
-        export PAGER=$_PAGER
+    _PAGER=$(which vimpager)
+    if [ -x "${_PAGER}" ]; then
+        ${_PAGER} $@
     else
-        _PAGER="/usr/local/bin/vimpager"
-        if [ -x $_PAGER ]; then
-            export PAGER=$_PAGER
-        fi
+        echo "error: vimpager not found. (see lessv: 'lessv $@')"
     fi
 }
 
@@ -18,7 +15,7 @@ vimpager() {
 ## lessv    -- less with less.vim and regular vim
 lessv () {
 
-    ## start Vim with less.vim.
+    ## start Vim with less.vim and vim
     # Read stdin if no arguments were given.
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
@@ -49,7 +46,7 @@ lessv () {
     fi
 }
 
-## lessg    -- less with less.vim and gvim
+## lessg    -- less with less.vim and gvim / mvim
 lessg() {
     VIMBIN=${GUIVIMBIN} lessv $@
 }
@@ -82,7 +79,7 @@ manv() {
     fi
 }
 
-## mang()   -- view manpages in GViM, MacVim
+## mang()   -- view manpages in gvim / mvim
 mang() {
     if [ $# -eq 0 ]; then
         /usr/bin/man
