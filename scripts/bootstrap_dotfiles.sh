@@ -31,22 +31,21 @@ BKUPID=$(date +%Y%m%d-%H%M%S~)
 ## Virtualenvwrapper
 WORKON_HOME=${WORKON_HOME:-"${HOME}/wrk/.ve"}
 
-## Venv
+## Virtualenv + Venv
 VIRTUAL_ENV_NAME="dotfiles"
-__DOTFILES=${HOME}/.dotfiles
-
-## Virtualenv
-_VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
+VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
+_WRD=${VIRTUAL_ENV}/src/dotfiles
+__DOTFILES=${_WRD}
 
 ## dotfiles repository
 DOTFILES_REPO_DEST_PATH="${_VIRTUAL_ENV}/src/${VIRTUAL_ENV_NAME}"
 DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/vim"
 
-#DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
 DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
+#DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
 
 DOTVIM_GIT_REPO_URL="https://github.com/westurner/dotvim"
-DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
+# DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
 
 #PIP="${HOME}/.local/bin/pip"
 PIP="pip"
@@ -183,17 +182,23 @@ get_md5sums() {
     ## Get md5sums for a path or directory
     path=${1}
 
+    if [ -x "/sbin/md5" ]; then
+        MD5FUNC="md5"
+    else
+        MD5FUNC="md5sum"
+    fi
+
     if [[ -d  "$path" ]]; then
         # TODO XXX FIXME: find symlinks
-        md5sum $(find $path -type f \
+        ${MD5FUNC} $( find $path -type f \
             | egrep -v '\.git|\.hg/' \
             | cut -f1 -d' ')
     elif [[ -f "$path" ]]; then
-        md5sum $path \
+        ${MD5FUNC} $path \
             | cut -f1 -d' '
     elif [[ -s "$path" ]]; then
         (cd $path && find $path -
-        md5sum $path \
+        ${MD5FUNC} $path \
             | cut -f1 -d' ')
     fi
 }
@@ -210,6 +215,7 @@ backup_and_symlink() {
     #  filename: basename of file
     #  dest: location of symlink
     #  src: where symlink will point
+    #  BKUPID: file suffix ( *.bkp.* ) (date)
     filename=${1}
     dest=${2:-"${HOME}/${filename}"}
     src=${3:-"${__DOTFILES}/etc/${filename}"}
