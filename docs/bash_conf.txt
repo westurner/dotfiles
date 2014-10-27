@@ -78,15 +78,12 @@
    
 #### etc/bash/01-bashrc.lib.sh
     #  add_to_path  -- prepend a directory to $PATH
-    ## http://superuser.com/questions/ \
-    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
     ## instead of:
     ##   export PATH=$dir:$PATH
     ##
     ##   add_to_path $dir 
     #  lightpath    -- display $PATH with newlines
     #  lspath       -- list files in each directory in $PATH
-    # LS_OPTS="-aldZ"
     #  lspath_less  -- lspath with less
     #   echo_args   -- echo $@ (for checking quoting)
     #  pypath       -- print python sys.path and site config
@@ -127,8 +124,10 @@
 # Generate python cmdline docs::
 #
 #    man python | cat | egrep 'ENVIRONMENT VARIABLES' -A 200 | egrep 'AUTHOR' -B 200 | head -n -1 | pyline -r '\s*([\w]+)$' 'rgx and rgx.group(1)'
-    # Python
-## pyvenv
+    ## _setup_python() -- configure $PYTHONSTARTUP
+    ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
+    ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
+    ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
    
    
 #### etc/bash/07-bashrc.virtualenv.sh
@@ -137,7 +136,9 @@
 #### etc/bash/07-bashrc.virtualenvwrapper.sh
 ## Virtualenvwrapper
 # sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
-# TODO: ?
+    ## _setup_virtualenvwrapper -- configure $VIRTUALENVWRAPPER_*
+    ## lsvirtualenv()   -- list virtualenvs in $WORKON_HOME
+    ## lsve()           -- list virtualenvs in $WORKON_HOME
    
    
 #### etc/bash/08-bashrc.gcloud.sh

@@ -93,9 +93,9 @@ help_bash:
 	## Write bash output to scripts/bashrc.load.sh
 	bash -i -v -c 'exit' 2> $(BASH_LOAD_SCRIPT)
 
-help_bash_rst:
-	## Write docs/bash_conf.rst
-	bash scripts/dotfiles-bash.sh > docs/bash_conf.rst
+help_bash_rst: help_bash
+	## Write docs/bash_conf.txt
+	bash scripts/dotfiles-bash.sh > docs/bash_conf.txt
 
 
 ZSH_LOAD_SCRIPT=scripts/zsh.load.sh
@@ -109,16 +109,18 @@ help_vim:
 	test -d etc/vim && \
 		$(MAKE) -C etc/vim help
 
-help_vim_rst:
-	## Write docs/dotvim_conf.rst
-	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.rst
+help_vim_rst: help_vim
+	## Write docs/dotvim_conf.txt
+	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.txt
 
 
 help_i3:
 	$(MAKE) -C etc/.i3 help_i3
 
 help_i3_rst:
-	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.rst
+	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.txt
+
+help_rst: help_setuppy_rst help_bash_rst help_vim_rst help_i3_rst
 
 help_all:
 	$(MAKE) help
