@@ -446,7 +446,7 @@ setup(
     entry_points={
         'console_scripts':
             [
-                'dotfiles=dotfiles.cli:main',
+                'dotfiles=dotfiles.cli.cli:main',
             ]
     },
     cmdclass={
