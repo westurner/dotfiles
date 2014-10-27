@@ -1,4 +1,4 @@
-##  usrlog -- REPL command logs in userspace (per $VIRTUAL_ENV)
+##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
 #
 #  _USRLOG (str): path to .usrlog file to which REPL commands are appended
 #
