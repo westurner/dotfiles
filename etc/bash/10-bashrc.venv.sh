@@ -36,7 +36,7 @@ we () {
 #
 #  # $WORKON_HOME/${virtualenv_name}  # == $_VIRTUAL_ENV
 #  # $WORKON_HOME/${virtualenv_name}/src/${virtualenv_name | $2}  # == $_WRD
-    workon $1 && source <(venv --bash $@)
+    workon $1 && source <(venv --bash $@) && dotfiles_status
 }
 
 ## CD shortcuts
@@ -183,8 +183,21 @@ _loadaliases() {
 
     alias man_='/usr/bin/man'
 
-    alias pfx='ps aufxw'
-    alias pfxs='ps aufxw --sort=tty,ppid,pid'
+    if [ -n "${__IS_LINUX}" ]; then
+        alias psx='ps aufxw'
+        alias psxw='ps aufxw | head'
+        alias psxs='ps aufxw --sort=tty,ppid,pid'
+        alias psxh='ps auxfw --sort=tty,ppid,pid | head'
+        alias psh='ps auxfw --sort=tty,ppid,pid | head'
+        alias psz='ps aufxw --sort=tty,ppid,pid | head'
+    elif [ -n "${__IS_MAC}" ]; then
+        alias psx='ps uxa'
+        alias psxh='ps uxa | head'
+        alias psxw='ps uxaw'
+        alias psxh='ps uxaw | head'
+        alias psh='ps uxaw | head'
+        alias psz='ps uxaw | head'
+    fi
 
     alias t='tail'
     alias xclip='xclip -selection c'
