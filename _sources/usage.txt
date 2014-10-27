@@ -45,8 +45,8 @@ Bash
 
 ``make help_bash_rst``:
 
-.. include:: bash_conf.rst
-   :literal:
+.. literalinclude:: bash_conf.txt
+   :language: none
 
 
 Vim
@@ -57,8 +57,8 @@ Vim
 
 ``make help_vim_rst``:
 
-.. include:: dotvim_conf.rst
-   :literal:
+.. literalinclude:: dotvim_conf.txt
+   :language: none
 
 
 I3wm
@@ -67,7 +67,8 @@ I3wm
 
 ``make help_i3_rst``:
 
-.. include:: i3_conf.rst
+.. literalinclude:: i3_conf.txt
+   :language: none
 
 
 
@@ -84,7 +85,7 @@ In ``scripts/``
        l
        ./bashmarks_to_nerdtree.sh | tee ~/.NERDTreeBookmarks
 
-**bootstrap_dotfiles.sh**
+*bootstrap_dotfiles.sh**
    Clone, update, and install dotfiles in ``$HOME``
 
     See: `bootstrap_dotfiles.sh`_
