@@ -1,10 +1,10 @@
 #### etc/bash/00-bashrc.before.sh
 #
-### 00-bashrc.before.sh
+## 00-bashrc.before.sh
 #
-#  source ~/.bashrc
-#   -> source etc/bash/*-bashrc.*.sh
-##    -> source 00-bashrc.before.sh  # <-- THIS FILE
+#### source ~/.bashrc
+###  > source etc/bash/*-bashrc.*.sh
+##     > source 00-bashrc.before.sh  # <-- THIS FILE
 #
     ## dotfiles_reload()    -- (re)load the bash configuration tree
     #                          from ${__DOTFILES}/etc/bash
@@ -46,6 +46,7 @@
       #             we dotfiles
       #             we dotfiles etc/bash; ls -al; git status
       # test -f $__PROJECTS && source $__PROJECTS
+      # dotfiles_status
       #
       ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
       #
@@ -69,11 +70,6 @@
       ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
     ### 99-bashrc.after.sh          -- after: cleanup
     ## dr               -- dotfiles_reload
-#
-## dotfiles_reload()    -- called when source-ing in 00-bashrc.before.sh
-#
-# See etc/bash/05-bashrc.dotfiles.sh
-## dotfiles_status()    -- print 
    
    
 #### etc/bash/01-bashrc.lib.sh
@@ -115,9 +111,19 @@
    
    
 #### etc/bash/05-bashrc.dotfiles.sh
-    #  dotfiles_status  -- print dotfiles_status
-    #  ds               -- print dotfiles_status
-    # Add dotfiles executable directories to $PATH
+### bashrc.dotfiles.sh
+    ## Add ${__DOTFILES}/scripts to $PATH
+#
+# See etc/bash/05-bashrc.dotfiles.sh
+## dotfiles_status()    -- print 
+    #  dotfiles_status()    -- print dotfiles_status
+    #  ds                   -- print dotfiles_status
+    # __DOTFILES='/Users/W/.dotfiles'
+    # __DOCSWWW=''
+    # __SRC='/Users/W/src'
+    # __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
+    # PROJECT_HOME='/Users/W/wrk'
+    # WORKON_HOME='/Users/W/wrk/.ve'
    
    
 #### etc/bash/07-bashrc.python.sh

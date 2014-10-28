@@ -86,19 +86,20 @@ else
 fi
 
 #
-### 00-bashrc.before.sh
+## 00-bashrc.before.sh
 #
-#  source ~/.bashrc
-#   -> source etc/bash/*-bashrc.*.sh
-##    -> source 00-bashrc.before.sh  # <-- THIS FILE
+#### source ~/.bashrc
+###  > source etc/bash/*-bashrc.*.sh
+##     > source 00-bashrc.before.sh  # <-- THIS FILE
 #
-
 dotfiles_reload() {
     ## dotfiles_reload()    -- (re)load the bash configuration tree
     #                          from ${__DOTFILES}/etc/bash
     #  __DOTFILES (str)     -- path to this dotfiles repository (~/.dotfiles)
 
-    echo "## Reloading bash configuration..."
+    echo "#"
+    echo "# dotfiles_reload()"
+    export __DOTFILES=${__DOTFILES:-"${HOME}/.dotfiles"}
     conf=${__DOTFILES}/etc/bash
 
       #
@@ -120,9 +121,8 @@ dotfiles_reload() {
       ## 05-bashrc.dotfiles.sh  -- dotfiles
       #  $__DOTFILES (str): path to local dotfiles repository clone
       #  dotfiles_status(): print dotfiles env config
-      export __DOTFILES="${HOME}/.dotfiles"
       source ${conf}/05-bashrc.dotfiles.sh
-
+      dotfiles_add_path
 
       ##
       ### python: python: pip, virtualenv, virtualenvwrapper
@@ -160,7 +160,7 @@ dotfiles_reload() {
       #             we dotfiles etc/bash; ls -al; git status
       source ${conf}/10-bashrc.venv.sh
       # test -f $__PROJECTS && source $__PROJECTS
-      dotfiles_status
+      # dotfiles_status
 
       #
       ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
@@ -211,9 +211,11 @@ dr() {
     dotfiles_reload $@
 }
 
-#
-## dotfiles_reload()    -- called when source-ing in 00-bashrc.before.sh
-dotfiles_reload
+dotfiles_main() {
+    dotfiles_reload
+}
+
+dotfiles_main
  
 function_exists() {
     declare -f $1 > /dev/null
@@ -350,8 +352,23 @@ configure_TERM_CLICOLOR() {
 configure_TERM
 echo $TERMCAP | grep -q screen
 
+### bashrc.dotfiles.sh
+
+
+dotfiles_add_path() {
+    ## Add ${__DOTFILES}/scripts to $PATH
+    if [ -d "${__DOTFILES}" ]; then
+        #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
+        add_to_path "${__DOTFILES}/scripts"
+    fi
+}
+
+#
+# See etc/bash/05-bashrc.dotfiles.sh
+## dotfiles_status()    -- print 
+
 dotfiles_status() {
-    #  dotfiles_status  -- print dotfiles_status
+    #  dotfiles_status()    -- print dotfiles_status
     #echo "## dotfiles_status()"
     #lightpath | sed 's/^\(.*\)/#  \1/g'
     echo "USER='${USER}'"
@@ -371,19 +388,53 @@ dotfiles_status() {
 }
 
 ds() {
-    #  ds               -- print dotfiles_status
+    #  ds                   -- print dotfiles_status
     dotfiles_status $@
 }
 
-reload_dotfiles() {
-    dotfiles_reload $@
+log_dotfiles_state() {
+    logkey=${1:-'99'}
+    logdir=${_LOG:-"var/log"}/venv.${logkey}/
+    exportslogfile=${logdir}/exports.log
+    envlogfile=${logdir}/exports_env.log
+    test -n $logdir && test -d $logdir || mkdir -p $logdir
+    export > $exportslogfile
+    set > $envlogfile
 }
 
-if [ -d "${__DOTFILES}" ]; then
-    # Add dotfiles executable directories to $PATH
-    add_to_path "${__DOTFILES}/bin"
-    add_to_path "${__DOTFILES}/scripts"
-fi
+dotfiles_initialize() {
+    log_dotfiles_state 'initialize'
+}
+
+dotfiles_preactivate() {
+    log_dotfiles_state 'preactivate'
+    test -n $_VENV \
+        && source <(python $_VENV -E --bash)
+}
+
+dotfiles_postactivate() {
+    log_dotfiles_state 'postactivate'
+}
+
+dotfiles_predeactivate() {
+    log_dotfiles_state 'predeactivate'
+}
+
+dotfiles_postdeactivate() {
+    log_dotfiles_state 'postdeactivate'
+    unset VIRTUAL_ENV_NAME
+    unset _SRC
+    unset _WRD
+    unset _USRLOG
+    export _USRLOG=~/.usrlog  ## TODO: __USRLOG
+    # __DOTFILES='/Users/W/.dotfiles'
+    # __DOCSWWW=''
+    # __SRC='/Users/W/src'
+    # __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
+    # PROJECT_HOME='/Users/W/wrk'
+    # WORKON_HOME='/Users/W/wrk/.ve'
+    dotfiles_reload
+}
 
 # Generate python cmdline docs::
 #
@@ -1454,8 +1505,97 @@ virtualenvwrapper_tempfile ${1}-hook
 #
 [ -f "$VIRTUALENVWRAPPER_HOOK_DIR/initialize" ] && source "$VIRTUALENVWRAPPER_HOOK_DIR/initialize"
 #!/bin/bash
+## virtualenvwrapper/initialize
 # This hook is run during the startup phase when loading virtualenvwrapper.sh.
 
+## source the dotfiles_ functions if $__DOTFILES is set
+test -n ${__DOTFILES} \
+    && source ${__DOTFILES}/etc/bash/05-bashrc.dotfiles.sh \
+    && dotfiles_initialize
+
+### bashrc.dotfiles.sh
+
+
+dotfiles_add_path() {
+    ## Add ${__DOTFILES}/scripts to $PATH
+    if [ -d "${__DOTFILES}" ]; then
+        #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
+        add_to_path "${__DOTFILES}/scripts"
+    fi
+}
+
+#
+# See etc/bash/05-bashrc.dotfiles.sh
+## dotfiles_status()    -- print 
+
+dotfiles_status() {
+    #  dotfiles_status()    -- print dotfiles_status
+    #echo "## dotfiles_status()"
+    #lightpath | sed 's/^\(.*\)/#  \1/g'
+    echo "USER='${USER}'"
+    echo "HOSTNAME='${HOSTNAME}'"
+    echo "VIRTUAL_ENV_NAME='${VIRTUAL_ENV_NAME}'"
+    echo "VIRTUAL_ENV='${VIRTUAL_ENV}'"
+    echo "_SRC='${_SRC}'"
+    echo "_WRD='${_WRD}'"
+    echo "_USRLOG='${_USRLOG}'"
+    echo "__DOTFILES='${__DOTFILES}'"
+    echo "__DOCSWWW='${_DOCS}'"
+    echo "__SRC='${__SRC}'"
+    echo "__PROJECTSRC='${__PROJECTSRC}'"
+    echo "PROJECT_HOME='${PROJECT_HOME}'"
+    echo "WORKON_HOME='${WORKON_HOME}'"
+    echo "PATH='${PATH}'"
+}
+
+ds() {
+    #  ds                   -- print dotfiles_status
+    dotfiles_status $@
+}
+
+log_dotfiles_state() {
+    logkey=${1:-'99'}
+    logdir=${_LOG:-"var/log"}/venv.${logkey}/
+    exportslogfile=${logdir}/exports.log
+    envlogfile=${logdir}/exports_env.log
+    test -n $logdir && test -d $logdir || mkdir -p $logdir
+    export > $exportslogfile
+    set > $envlogfile
+}
+
+dotfiles_initialize() {
+    log_dotfiles_state 'initialize'
+}
+
+dotfiles_preactivate() {
+    log_dotfiles_state 'preactivate'
+    test -n $_VENV \
+        && source <(python $_VENV -E --bash)
+}
+
+dotfiles_postactivate() {
+    log_dotfiles_state 'postactivate'
+}
+
+dotfiles_predeactivate() {
+    log_dotfiles_state 'predeactivate'
+}
+
+dotfiles_postdeactivate() {
+    log_dotfiles_state 'postdeactivate'
+    unset VIRTUAL_ENV_NAME
+    unset _SRC
+    unset _WRD
+    unset _USRLOG
+    export _USRLOG=~/.usrlog  ## TODO: __USRLOG
+    # __DOTFILES='/Users/W/.dotfiles'
+    # __DOCSWWW=''
+    # __SRC='/Users/W/src'
+    # __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
+    # PROJECT_HOME='/Users/W/wrk'
+    # WORKON_HOME='/Users/W/wrk/.ve'
+    dotfiles_reload
+}
 
 lsvirtualenv() {
     ## lsvirtualenv()   -- list virtualenvs in $WORKON_HOME
@@ -3023,8 +3163,6 @@ host_docs () {
 
 
 
-#
-# See etc/bash/05-bashrc.dotfiles.sh
-## dotfiles_status()    -- print 
+dotfiles_status
 exit
 exit
