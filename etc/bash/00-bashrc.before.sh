@@ -1,18 +1,19 @@
 
 #
-### 00-bashrc.before.sh
+## 00-bashrc.before.sh
 #
-#  source ~/.bashrc
-#   -> source etc/bash/*-bashrc.*.sh
-##    -> source 00-bashrc.before.sh  # <-- THIS FILE
+#### source ~/.bashrc
+###  > source etc/bash/*-bashrc.*.sh
+##     > source 00-bashrc.before.sh  # <-- THIS FILE
 #
-
 dotfiles_reload() {
     ## dotfiles_reload()    -- (re)load the bash configuration tree
     #                          from ${__DOTFILES}/etc/bash
     #  __DOTFILES (str)     -- path to this dotfiles repository (~/.dotfiles)
 
-    echo "## Reloading bash configuration..."
+    echo "#"
+    echo "# dotfiles_reload()"
+    export __DOTFILES=${__DOTFILES:-"${HOME}/.dotfiles"}
     conf=${__DOTFILES}/etc/bash
 
       #
@@ -34,9 +35,8 @@ dotfiles_reload() {
       ## 05-bashrc.dotfiles.sh  -- dotfiles
       #  $__DOTFILES (str): path to local dotfiles repository clone
       #  dotfiles_status(): print dotfiles env config
-      export __DOTFILES="${HOME}/.dotfiles"
       source ${conf}/05-bashrc.dotfiles.sh
-
+      dotfiles_add_path
 
       ##
       ### python: python: pip, virtualenv, virtualenvwrapper
@@ -74,7 +74,7 @@ dotfiles_reload() {
       #             we dotfiles etc/bash; ls -al; git status
       source ${conf}/10-bashrc.venv.sh
       # test -f $__PROJECTS && source $__PROJECTS
-      dotfiles_status
+      # dotfiles_status
 
       #
       ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
@@ -125,10 +125,8 @@ dr() {
     dotfiles_reload $@
 }
 
-#
-## dotfiles_reload()    -- called when source-ing in 00-bashrc.before.sh
-dotfiles_reload
+dotfiles_main() {
+    dotfiles_reload
+}
 
-#
-# See etc/bash/05-bashrc.dotfiles.sh
-## dotfiles_status()    -- print 
+dotfiles_main

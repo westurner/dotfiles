@@ -1,3 +1,4 @@
 #!/bin/bash
 # This hook is run before every virtualenv is activated.
 
+test -n $__DOTFILES && dotfiles_preactivate
