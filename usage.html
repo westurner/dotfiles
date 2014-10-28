@@ -229,11 +229,11 @@ docs   -- build sphinx documentation
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_bash_rst</span></code>:</p>
 <div class="highlight-none"><div class="highlight"><pre>#### etc/bash/00-bashrc.before.sh
 #
-### 00-bashrc.before.sh
+## 00-bashrc.before.sh
 #
-#  source ~/.bashrc
-#   -&gt; source etc/bash/*-bashrc.*.sh
-##    -&gt; source 00-bashrc.before.sh  # &lt;-- THIS FILE
+#### source ~/.bashrc
+###  &gt; source etc/bash/*-bashrc.*.sh
+##     &gt; source 00-bashrc.before.sh  # &lt;-- THIS FILE
 #
     ## dotfiles_reload()    -- (re)load the bash configuration tree
     #                          from ${__DOTFILES}/etc/bash
@@ -275,6 +275,7 @@ docs   -- build sphinx documentation
       #             we dotfiles
       #             we dotfiles etc/bash; ls -al; git status
       # test -f $__PROJECTS &amp;&amp; source $__PROJECTS
+      # dotfiles_status
       #
       ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
       #
@@ -298,11 +299,6 @@ docs   -- build sphinx documentation
       ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
     ### 99-bashrc.after.sh          -- after: cleanup
     ## dr               -- dotfiles_reload
-#
-## dotfiles_reload()    -- called when source-ing in 00-bashrc.before.sh
-#
-# See etc/bash/05-bashrc.dotfiles.sh
-## dotfiles_status()    -- print 
    
    
 #### etc/bash/01-bashrc.lib.sh
@@ -344,9 +340,19 @@ docs   -- build sphinx documentation
    
    
 #### etc/bash/05-bashrc.dotfiles.sh
-    #  dotfiles_status  -- print dotfiles_status
-    #  ds               -- print dotfiles_status
-    # Add dotfiles executable directories to $PATH
+### bashrc.dotfiles.sh
+    ## Add ${__DOTFILES}/scripts to $PATH
+#
+# See etc/bash/05-bashrc.dotfiles.sh
+## dotfiles_status()    -- print 
+    #  dotfiles_status()    -- print dotfiles_status
+    #  ds                   -- print dotfiles_status
+    # __DOTFILES=&#39;/Users/W/.dotfiles&#39;
+    # __DOCSWWW=&#39;&#39;
+    # __SRC=&#39;/Users/W/src&#39;
+    # __PROJECTSRC=&#39;/Users/W/wrk/.projectsrc.sh&#39;
+    # PROJECT_HOME=&#39;/Users/W/wrk&#39;
+    # WORKON_HOME=&#39;/Users/W/wrk/.ve&#39;
    
    
 #### etc/bash/07-bashrc.python.sh
