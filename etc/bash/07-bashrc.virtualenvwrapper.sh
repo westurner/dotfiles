@@ -4,9 +4,10 @@ export PROJECT_HOME="${HOME}/wrk"
 export WORKON_HOME="${PROJECT_HOME}/.ve"
 
 _setup_virtualenvwrapper () {
+    ## _setup_virtualenvwrapper -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
     export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
-    export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper" # TODO: FIXME
+    export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper"
     export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
     export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
     export VIRTUALENV_DISTRIBUTE='true'
@@ -21,15 +22,21 @@ _setup_virtualenvwrapper () {
 }
 _setup_virtualenvwrapper
 
-# TODO: ?
 lsvirtualenv() {
-    cmd=${1:-"echo"}
-    for venv in $(ls -adtr "${WORKON_HOME}"/**/lib/python?.? | \
+    ## lsvirtualenv()   -- list virtualenvs in $WORKON_HOME
+    cmd=${@:-""}
+    (cd ${WORKON_HOME} &&
+    for venv in $(ls -adtr ${WORKON_HOME}/**/lib/python?.? | \
         sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
-        $cmd $venv/
-    done
+        echo "${venv}" ;
+        if [ -n "${cmd}" ]; then
+            $cmd $venv ;
+        fi
+    done)
 }
+
 lsve() {
+    ## lsve()           -- list virtualenvs in $WORKON_HOME
     lsvirtualenv $@
 }
 

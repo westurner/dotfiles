@@ -57,6 +57,8 @@ case "$TERM" in
         ;;
 esac
 
+#TODO: set this on load
+
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -74,7 +76,15 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
 fi
 
-# load local dotfiles set
-__DOTFILES=${__DOTFILES-"$HOME/.dotfiles"}
-_dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
-test -f $_dotfiles_bashrc && source $_dotfiles_bashrc
+#
+### load the dotfiles
+#  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/.dotfiles
+__DOTFILES=${__DOTFILES:-"$HOME/.dotfiles"}
+if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
+    _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
+    if [[ -f "${_dotfiles_bashrc}" ]]; then
+        source "${_dotfiles_bashrc}"
+    else
+        echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
+    fi
+fi

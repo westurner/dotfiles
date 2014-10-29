@@ -1,23 +1,21 @@
-## ViM
 
+## vimpager     -- call vimpager
 vimpager() {
     # TODO: lesspipe
-    _PAGER="${HOME}/bin/vimpager"
-    if [ -x $_PAGER ]; then
-        export PAGER=$_PAGER
+    _PAGER=$(which vimpager)
+    if [ -x "${_PAGER}" ]; then
+        ${_PAGER} $@
     else
-        _PAGER="/usr/local/bin/vimpager"
-        if [ -x $_PAGER ]; then
-            export PAGER=$_PAGER
-        fi
+        echo "error: vimpager not found. (see lessv: 'lessv $@')"
     fi
 }
 
 
+### less commands -- lessv, lessg, lesse
 ## lessv    -- less with less.vim and regular vim
 lessv () {
 
-    ## start Vim with less.vim.
+    ## start Vim with less.vim and vim
     # Read stdin if no arguments were given.
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
@@ -48,13 +46,19 @@ lessv () {
     fi
 }
 
-## lessv    -- less with less.vim and gvim
+## lessg    -- less with less.vim and gvim / mvim
 lessg() {
     VIMBIN=${GUIVIMBIN} lessv $@
 }
 
-# view manpages in vim
-man() {
+## lesse    -- less with current venv's vim server
+lesse() {
+    ${EDITOR} $@
+}
+
+### Man commands -- manv, mang, mane
+## manv     -- view manpages in vim
+manv() {
     alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
@@ -75,18 +79,12 @@ man() {
     fi
 }
 
-## mang()   -- view manpages in GViM, MacVim
+## mang()   -- view manpages in gvim / mvim
 mang() {
-    alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        #if [ "$1" == "man" ]; then
-        #    exit 0
-        #fi
-
-        #/usr/bin/whatis "$@" >/dev/null
-        $GVIMBIN \
+        $GUIVIMBIN \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -95,4 +93,9 @@ mang() {
             -c 'set nomodifiable' \
             -c 'set colorcolumn=0'
     fi
+}
+
+## mane()   -- open manpage with venv's vim server
+mane() {
+    $GUIVIMBIN --servername ${VIRTUAL_ENV_NAME} --remote-send "<ESC>:Man $@<CR>"
 }

@@ -33,6 +33,10 @@ PIP_INSTALL_USER_OPTS:=--user --upgrade
 PIP_INSTALL:=$(PIP) $(PIP_OPTS) install $(PIP_INSTALL_OPTS)
 PIP_INSTALL_USER:=$(PIP) $(PIP_OPTS) install ${PIP_INSTALL_USER_OPTS}
 
+#TODO: if(__IS_LINUX)
+#SETUPPY_CMDOPTS:=--command-packages=stdeb.command
+SETUPPY_CMDOPTS=:
+
 default: test
 
 help:
@@ -67,24 +71,20 @@ help:
 
 help_setuppy:
 	python setup.py --help
-	python setup.py --command-packages=stdeb.command --help-commands
+	python setup.py $(SETUPPY_CMDOPTS) --help-commands
 
 help_setuppy_rst:
 	## show help as (almost) ReStructuredText
 	python setup.py --help \
-		| sed "s/^\w.*/\0::\n/g" \
-		| sed "s/^\s\s/ \0/g"; \
+		| sed "s|^\w.*|\0::|g" \
+		| sed "s|^\s\s| \0|g"; \
 	echo ""
-	# Commands
-	# =========
 	for _cmd in \
 		`python setup.py --help-commands | grep '^  \w' | $(PYLINE) 'w and w[0]'`;	do \
 		echo ""; echo ""; \
 		python setup.py --help "$${_cmd}" \
-			| tail -n +13 \
-			| head -n -6 \
-			| sed "s/^Options for '\(.*\)' command:/\`\`python setup.py \1\`\`::\n/g" \
-			| sed "s/^\s\s/ \0/g"; \
+			| scripts/pyline.py '(6 < i < i_last - 13) and l' \
+			| scripts/pyline.py -r 'Options for (.*) command:' '(rgx and "## %s" % rgx.group(1)) or l'; \
 	done
 
 
@@ -93,9 +93,9 @@ help_bash:
 	## Write bash output to scripts/bashrc.load.sh
 	bash -i -v -c 'exit' 2> $(BASH_LOAD_SCRIPT)
 
-help_bash_rst:
-	## Write docs/bash_conf.rst
-	bash scripts/dotfiles-bash.sh > docs/bash_conf.rst
+help_bash_rst: help_bash
+	## Write docs/bash_conf.txt
+	bash scripts/dotfiles-bash.sh > docs/bash_conf.txt
 
 
 ZSH_LOAD_SCRIPT=scripts/zsh.load.sh
@@ -109,17 +109,30 @@ help_vim:
 	test -d etc/vim && \
 		$(MAKE) -C etc/vim help
 
-help_vim_rst:
-	## Write docs/dotvim_conf.rst
-	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.rst
+help_vim_rst: help_vim
+	## Write docs/dotvim_conf.txt
+	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.txt
 
 
 help_i3:
 	$(MAKE) -C etc/.i3 help_i3
 
 help_i3_rst:
-	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.rst
+	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.txt
 
+help_rst: help_setuppy_rst help_bash_rst help_vim_rst help_i3_rst
+
+help_all:
+	$(MAKE) help
+	$(MAKE) help_setuppy
+	$(MAKE) help_setuppy_rst
+	$(MAKE) help_bash
+	$(MAKE) help_bash_rst
+	$(MAKE) help_zsh
+	$(MAKE) help_vim
+	$(MAKE) help_vim_rst
+	$(MAKE) help_i3
+	$(MAKE) help_i3_rst
 
 install:
 	$(MAKE) pip_install_as_editable
@@ -152,21 +165,38 @@ upgrade_user:
 
 
 clean:
-	pyclean .
+	$(MAKE) pyclean
+	$(MAKE) build_deb_clean
+
+
+pyclean:
+	find . -type f -name '*.pyc' -exec rm -fv {} \;
+	find . -type f -name '*.pyo' -exec rm -fv {} \;
 	find . -type d -name '__pycache__' -exec rm -rfv {} \;
 	find . -name '*.egg-info' -exec rm -rfv {} \;
 	python setup.py clean
-	$(MAKE) build_deb_clean
 
+vimclean:
+	find . -type f -name '*.un~' -exec rm -fv {} \;
+
+vimclean_ls_undotree:
+	find . -type f -name '*.un~' -exec ls -l {} \;
 
 test:
 	# Run setuptools test task
 	python setup.py test
 
-test_build:
-	$(MAKE) test
+pytest:
 	py.test -v ./tests/ ./scripts/ ./bin/ ./src/dotfiles
 	# TODO: test scripts/bootstrap_dotfiles.sh
+
+test_build:
+	$(MAKE) test
+	$(MAKE) build
+	# linux-only
+	$(MAKE) build_deb_all
+	$(MAKE) pytest
+
 
 build:
 	# Build source dist and bdist
@@ -183,25 +213,33 @@ build_deb_setup:
 
 build_deb_debianize:
 	# Create a debian/ directory
-	python setup.py --command-packages=stdeb.command debianize
+	python setup.py $(SETUPPY_CMDOPTS) debianize
 	# Manually update this debian/ directory,
 	# rather than using stdeb commandline options.
 
 build_deb_sdist_dsc:
 	# Build a debian source package
-	python setup.py --command-packages=stdeb.command sdist_dsc
+	python setup.py $(SETUPPY_CMDOPTS) sdist_dsc
 	
 build_deb_bdist:
 	# Build a debian binary package
-	python setup.py --command-packages=stdeb.command bdist_deb
+	python setup.py $(SETUPPY_CMDOPTS) bdist_deb
 
 build_deb_install:
 	# Build and install a debian binary package
-	python setup.py --command-packages=stdeb.command install_deb
+	python setup.py $(SETUPPY_CMDOPTS) install_deb
 
 build_deb_clean:
 	# Clean debian dist directory
 	rm -rfv deb_dist/
+
+build_deb_all:
+	# Build a debian sdist, bdist, install
+	$(MAKE) build_deb_setup && touch build_deb_setup
+	$(MAKE) build_deb_clean
+	$(MAKE) build_deb_sdist_dsc
+	$(MAKE) build_deb_bdist
+	$(MAKE) build_deb_install
 
 
 build_tags:
@@ -214,6 +252,9 @@ build_tags:
 pip_upgrade_pip:
 	# Upgrade pip
 	$(PIP_INSTALL) pip
+
+pip_install:
+	$(PIP_INSTALL) .
 
 pip_install_as_editable:
 	# Install dotfiles as a develop egg (pip install -e .)
@@ -358,9 +399,10 @@ docs_api:
 
 docs: localjs
 	$(MAKE) docs_api
+	$(MAKE) help_bash_rst
 	$(MAKE) help_vim_rst
 	$(MAKE) help_i3_rst
-	$(MAKE) -C docs clean html singlehtml
+	$(MAKE) -C docs clean html   # singlehtml
 
 docs_clean_rsync_local:
 	rm -rf /srv/repos/var/www/docs/dotfiles/*

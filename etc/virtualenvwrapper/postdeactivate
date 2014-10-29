@@ -1,23 +1,5 @@
 #!/bin/bash
 # This hook is run after every virtualenv is deactivated.
-unset VIRTUAL_ENV_NAME
 
-USER='W'
-HOSTNAME='nb-mb1'
-
-unset VIRTUAL_ENV
-unset _SRC
-unset _WRD
-unset _USRLOG
-
-export _USRLOG=~/.usrlog
-
-# __DOTFILES='/Users/W/.dotfiles'
-# __DOCSWWW=''
-# __SRC='/Users/W/src'
-# __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
-# PROJECT_HOME='/Users/W/wrk'
-# WORKON_HOME='/Users/W/wrk/.ve'
-# PATH='/Users/W/Workspace/.virtualenvs/pyrpo/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/Users/W/.dotfiles/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin'
-
-dotfiles_reload
+declare -f 'dotfiles_postdeactivate' 2>1 > /dev/null \
+    && dotfiles_postdeactivate

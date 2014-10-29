@@ -75,106 +75,147 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
 fi
 
-# load local dotfiles set
-__DOTFILES=${__DOTFILES-"$HOME/.dotfiles"}
+## load local dotfiles set
+#  ~/.dotfiles -> ${WORKON_HOME}/dotfiles/src/dotfiles
+__DOTFILES=${__DOTFILES:-"$HOME/.dotfiles"}
 _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
-test -f $_dotfiles_bashrc && source $_dotfiles_bashrc
+if [[ -f "${_dotfiles_bashrc}" ]]; then
+    source "${_dotfiles_bashrc}"
+else
+    echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
+fi
 
-
+#
+## 00-bashrc.before.sh
+#
+#### source ~/.bashrc
+###  > source etc/bash/*-bashrc.*.sh
+##     > source 00-bashrc.before.sh  # <-- THIS FILE
+#
 dotfiles_reload() {
-    echo "## Reloading bash configuration..."
+    ## dotfiles_reload()    -- (re)load the bash configuration tree
+    #                          from ${__DOTFILES}/etc/bash
+    #  __DOTFILES (str)     -- path to this dotfiles repository (~/.dotfiles)
+
+    echo "#"
+    echo "# dotfiles_reload()"
+    export __DOTFILES=${__DOTFILES:-"${HOME}/.dotfiles"}
     conf=${__DOTFILES}/etc/bash
-  #source ~/.bashrc
-    #source 00-bashrc.before.sh
 
-      ## libraries: useful bash functions
+      #
+      ## 01-bashrc.lib.sh  -- libraries: useful bash functions
       source ${conf}/01-bashrc.lib.sh
+      detect_platform
+      #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
+      #                       egrep -nr -C 3 '__IS_MAC|__IS_LINUX'
 
-      ## readline
+      #
+      ## 03-bashrc.readline.sh  -- readline
       source ${conf}/03-bashrc.readline.sh
 
-      ## TERM
+      #
+      ## 04-bashrc.TERM.sh      -- set $TERM and $CLICOLOR
       source ${conf}/04-bashrc.TERM.sh
 
-      ## dotfiles
+      #
+      ## 05-bashrc.dotfiles.sh  -- dotfiles
       #  $__DOTFILES (str): path to local dotfiles repository clone
-      export __DOTFILES="${HOME}/.dotfiles"
+      #  dotfiles_status(): print dotfiles env config
       source ${conf}/05-bashrc.dotfiles.sh
+      dotfiles_add_path
 
-
-      ## python: python: pip, virtualenv, virtualenvwrapper
-      #  TODO: PYTHON_
+      ##
+      ### python: python: pip, virtualenv, virtualenvwrapper
       #  $PROJECT_HOME (str): path to project directory (~/wrk)
-      #  $WORKON_HOME (str): path to virtualenvs directory (~/wrk/.ve)
-      #  $VIRTUAL_ENV (str): path to current $VIRTUAL_ENV
+      #  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
+      #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
+
+      #
+      ## 07-bashrc.python.sh            -- python
+      #  _setup_anaconda()      -- setup anaconda paths (manual)
+      #  _setup_pyenv()         -- setup pyenv paths (manual)
       source ${conf}/07-bashrc.python.sh
+
+      #
+      ## 07-bashrc.virtualenv.sh        -- virtualenv
       source ${conf}/07-bashrc.virtualenv.sh
+
+      #
+      ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
       source ${conf}/07-bashrc.virtualenvwrapper.sh
 
-      ## gcloud: Google Cloud SDK
-      #  _setup_google_cloud
+
+      #
+      ## 08-bashrc.gcloud.sh    -- gcloud: Google Cloud SDK
+      #  _setup_google_cloud()  -- setup google cloud paths
       source ${conf}/08-bashrc.gcloud.sh
 
-      ## venv: virtualenvwrapper extensions (shell vars, cmds, aliases)
+      #
+      ## 10-bashrc.venv.sh      -- venv: virtualenvwrapper extensions
       #  $_VENVNAME (str): name of current $VIRTUAL_ENV
-      #  we() -- workon a new venv (virtualenvwrapper virtualenv + venv)
-      #          we() -> workon $1 && source <($_VENV --bash $@)
+      #  we() -- workon a new venv (source bin/activate; update ENVIRON)
+      #          we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
       #          example::
-      #             we $venvname # $appname
-      if [ -d /Library ]; then
-          export __IS_MAC='true'
-      else
-          export __IS_LINUX='true'
-      fi
+      #             we dotfiles
+      #             we dotfiles etc/bash; ls -al; git status
       source ${conf}/10-bashrc.venv.sh
       # test -f $__PROJECTS && source $__PROJECTS
-      #  dotfiles_status() -- print dotfiles env config
-      dotfiles_status
+      # dotfiles_status
 
-      ## venv-pyramid: pyramid development workflow
-      #  workon_pyramid_add(venvname, appname)
+      #
+      ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
       source ${conf}/11-bashrc.venv.pyramid.sh
 
-
-      ## editor/pager
-      #  $EDITOR (str): cmdstring to open $@ in current editor
-      #  $PAGER (str): cmdstring to run pager (less/vim)
-      #  lessv() -- open read only in vim
-      #  lessg() -- open read only in gvim/mvim
-      #  man()   -- open manpage in vim
-      #  mang()  -- open manpage in gvim/mvim
+      #
+      ## 20-bashrc.editor.sh        -- $EDITOR configuration
+      #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
+      #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
       source ${conf}/20-bashrc.editor.sh
+      ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
+      #  $PAGER (str): cmdstring to run pager (less/vim)
       source ${conf}/29-bashrc.vimpagers.sh
 
 
-      ## usrlog:
+      #
+      ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
       #  $_USRLOG (str): path to .usrlog command log
+      #  stid           -- set $TERM_ID to a random string
+      #  stid $name     -- set $TERM_ID to string
+      #  note           -- add a dated note to $_USRLOG [_usrlog_append]
+      #  usrlogv        -- open usrlog with vim:   $VIMBIN + $_USRLOG
+      #  usrlogg        -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+      #  usrloge        -- open usrlog with editor:$EDITOR + $_USRLOG
       source ${conf}/30-bashrc.usrlog.sh
 
 
-      ## xlck: screensaver, screen (auto) lock, suspend
+      ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
       source ${conf}/30-bashrc.xlck.sh
 
 
-      ## aliases: bash aliases and cmds
+      ## 40-bashrc.aliases.sh       -- bash aliases and cmds
       source ${conf}/40-bashrc.aliases.sh
 
 
-      ## bashmarks: local bookmarks
+      ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
       source ${conf}/50-bashrc.bashmarks.sh
 
-      ## repos: local repository set mgmt, docs hosting
+      ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
       source ${conf}/70-bashrc.repos.sh
 
-    ## after: cleanup
+    ### 99-bashrc.after.sh          -- after: cleanup
     source ${conf}/99-bashrc.after.sh
 }
 
 dr() {
+    ## dr               -- dotfiles_reload
     dotfiles_reload $@
 }
 
-dotfiles_reload
+dotfiles_main() {
+    dotfiles_reload
+}
+
+dotfiles_main
  
 function_exists() {
     declare -f $1 > /dev/null
@@ -184,8 +225,8 @@ function_exists() {
 add_to_path ()
 {
     #  add_to_path  -- prepend a directory to $PATH
-    ## http://superuser.com/questions/ \
-    ##   39751/add-directory-to-path-if-its-not-already-there/39840#39840
+    ##http://superuser.com/questions/ \
+    ##\ 39751/add-directory-to-path-if-its-not-already-there/39840#39840
 
     ## instead of:
     ##   export PATH=$dir:$PATH
@@ -209,8 +250,8 @@ lspath() {
     #  lspath       -- list files in each directory in $PATH
     echo "PATH=$PATH"
     lightpath
-    LS_OPTS=${@:'-ald'}
-    # LS_OPTS="-aldZ"
+    LS_OPTS=${@:-'-ald'}
+    #LS_OPTS="-aldZ"
     for f in $(lightpath); do
         echo "# $f";
         ls $LS_OPTS $@ $f/*;
@@ -233,6 +274,14 @@ pypath() {
     /usr/bin/env python -m site
 }
 
+detect_platform() {
+    if [ -d /Library ]; then
+        export __IS_MAC='true'
+    else
+        export __IS_LINUX='true'
+    fi
+}
+
 ### bashrc.readline.sh
 
 #  vi-mode: vi(m) keyboard shortcuts
@@ -253,9 +302,11 @@ if [ -n "$BASH_VERSION" ]; then
     bind -m vi-insert "\C-w.":backward-kill-word
 fi
 [?1034h
-## set TERM [man terminfo]
+## bashrc.TERM.sh       -- set TERM [man terminfo]
 
 configure_TERM() {
+    ## configure_TERM   -- configure the $TERM variable
+    # configure_term [#term] -- screen, xterm, 
     term=$1
     if [ -n "${TERM}" ]; then
         __term=${TERM}
@@ -284,6 +335,7 @@ configure_TERM() {
 }
 
 configure_TERM_CLICOLOR() {
+    ## configure_TERM_CLICOLOR  -- configure $CLICOLOR and $CLICOLOR_256
     #  CLICOLOR=1   # ls colors
     export CLICOLOR=1
 
@@ -296,11 +348,27 @@ configure_TERM_CLICOLOR() {
     fi
 }
 
+### Configure term when sourcing bashrc.TERM.sh
 configure_TERM
 echo $TERMCAP | grep -q screen
 
+### bashrc.dotfiles.sh
+
+
+dotfiles_add_path() {
+    ## Add ${__DOTFILES}/scripts to $PATH
+    if [ -d "${__DOTFILES}" ]; then
+        #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
+        add_to_path "${__DOTFILES}/scripts"
+    fi
+}
+
+#
+# See etc/bash/05-bashrc.dotfiles.sh
+## dotfiles_status()    -- print 
+
 dotfiles_status() {
-    #  dotfiles_status  -- print dotfiles_status
+    #  dotfiles_status()    -- print dotfiles_status
     #echo "## dotfiles_status()"
     #lightpath | sed 's/^\(.*\)/#  \1/g'
     echo "USER='${USER}'"
@@ -320,41 +388,74 @@ dotfiles_status() {
 }
 
 ds() {
-    #  ds               -- print dotfiles_status
+    #  ds                   -- print dotfiles_status
     dotfiles_status $@
 }
 
-reload_dotfiles() {
-    dotfiles_reload $@
+log_dotfiles_state() {
+    logkey=${1:-'99'}
+    logdir=${_LOG:-"var/log"}/venv.${logkey}/
+    exportslogfile=${logdir}/exports.log
+    envlogfile=${logdir}/exports_env.log
+    test -n $logdir && test -d $logdir || mkdir -p $logdir
+    export > $exportslogfile
+    set > $envlogfile
 }
 
-if [ -d "${__DOTFILES}" ]; then
-    # Add dotfiles executable directories to $PATH
-    add_to_path "${__DOTFILES}/bin"
-    add_to_path "${__DOTFILES}/scripts"
-fi
+dotfiles_initialize() {
+    log_dotfiles_state 'initialize'
+}
+
+dotfiles_preactivate() {
+    log_dotfiles_state 'preactivate'
+    test -n $_VENV \
+        && source <(python $_VENV -E --bash)
+}
+
+dotfiles_postactivate() {
+    log_dotfiles_state 'postactivate'
+}
+
+dotfiles_predeactivate() {
+    log_dotfiles_state 'predeactivate'
+}
+
+dotfiles_postdeactivate() {
+    log_dotfiles_state 'postdeactivate'
+    unset VIRTUAL_ENV_NAME
+    unset _SRC
+    unset _WRD
+    unset _USRLOG
+    export _USRLOG=~/.usrlog  ## TODO: __USRLOG
+    # __DOTFILES='/Users/W/.dotfiles'
+    # __DOCSWWW=''
+    # __SRC='/Users/W/src'
+    # __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
+    # PROJECT_HOME='/Users/W/wrk'
+    # WORKON_HOME='/Users/W/wrk/.ve'
+    dotfiles_reload
+}
 
 # Generate python cmdline docs::
 #
 #    man python | cat | egrep 'ENVIRONMENT VARIABLES' -A 200 | egrep 'AUTHOR' -B 200 | head -n -1 | pyline -r '\s*([\w]+)$' 'rgx and rgx.group(1)'
 
 _setup_python () {
-    # Python
+    ## _setup_python() -- configure $PYTHONSTARTUP
     export PYTHONSTARTUP="${HOME}/.pythonrc"
     #export
 }
 _setup_python
 
 _setup_pip () {
-    #export PIP_REQUIRE_VIRTUALENV=true
+    ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
     export PIP_REQUIRE_VIRTUALENV=false
-    #alias ipython="python -c 'import IPython;IPython.Shell.IPShell().mainloop()'"
 }
 _setup_pip
 
 
-## pyvenv
 _setup_pyenv() {
+    ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
     export PYENV_ROOT="${HOME}/.pyenv"
     add_to_path "${PYENV_ROOT}/bin"
     eval "$(pyenv init -)"
@@ -363,24 +464,9 @@ _setup_pyenv() {
 
 
 _setup_anaconda() {
+    ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
     export _ANACONDA_ROOT="/opt/anaconda"
     add_to_path "${_ANACONDA_ROOT}/bin"
-}
-
-
-__get_python_docs() {
-    man_ python | cat | \
-        egrep 'ENVIRONMENT VARIABLES' -A 200 | \
-        egrep 'AUTHOR' -B 200 | head -n -1 | \
-        pyline \
-        -r '\s*([\w]+)$' \
-        -R 'S' \
-        -m textwrap '"\n".join(
-            ("# " + l) for l in
-                textwrap.wrap(\
-                    ((rgx and "export " + rgx.group(1) + "=\"\"")\
-                    or \
-                    (line.strip())), 70))'
 }
 ## Virtualenvwrapper
 # sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
@@ -388,9 +474,10 @@ export PROJECT_HOME="${HOME}/wrk"
 export WORKON_HOME="${PROJECT_HOME}/.ve"
 
 _setup_virtualenvwrapper () {
+    ## _setup_virtualenvwrapper -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
     export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
-    export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper" # TODO: FIXME
+    export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper"
     export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
     export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
     export VIRTUALENV_DISTRIBUTE='true'
@@ -1418,18 +1505,113 @@ virtualenvwrapper_tempfile ${1}-hook
 #
 [ -f "$VIRTUALENVWRAPPER_HOOK_DIR/initialize" ] && source "$VIRTUALENVWRAPPER_HOOK_DIR/initialize"
 #!/bin/bash
+## virtualenvwrapper/initialize
 # This hook is run during the startup phase when loading virtualenvwrapper.sh.
 
+## source the dotfiles_ functions if $__DOTFILES is set
+test -n ${__DOTFILES} \
+    && source ${__DOTFILES}/etc/bash/05-bashrc.dotfiles.sh \
+    && dotfiles_initialize
 
-# TODO: ?
-lsvirtualenv() {
-    cmd=${1:-"echo"}
-    for venv in $(ls -adtr "${WORKON_HOME}"/**/lib/python?.? | \
-        sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
-        $cmd $venv/
-    done
+### bashrc.dotfiles.sh
+
+
+dotfiles_add_path() {
+    ## Add ${__DOTFILES}/scripts to $PATH
+    if [ -d "${__DOTFILES}" ]; then
+        #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
+        add_to_path "${__DOTFILES}/scripts"
+    fi
 }
+
+#
+# See etc/bash/05-bashrc.dotfiles.sh
+## dotfiles_status()    -- print 
+
+dotfiles_status() {
+    #  dotfiles_status()    -- print dotfiles_status
+    #echo "## dotfiles_status()"
+    #lightpath | sed 's/^\(.*\)/#  \1/g'
+    echo "USER='${USER}'"
+    echo "HOSTNAME='${HOSTNAME}'"
+    echo "VIRTUAL_ENV_NAME='${VIRTUAL_ENV_NAME}'"
+    echo "VIRTUAL_ENV='${VIRTUAL_ENV}'"
+    echo "_SRC='${_SRC}'"
+    echo "_WRD='${_WRD}'"
+    echo "_USRLOG='${_USRLOG}'"
+    echo "__DOTFILES='${__DOTFILES}'"
+    echo "__DOCSWWW='${_DOCS}'"
+    echo "__SRC='${__SRC}'"
+    echo "__PROJECTSRC='${__PROJECTSRC}'"
+    echo "PROJECT_HOME='${PROJECT_HOME}'"
+    echo "WORKON_HOME='${WORKON_HOME}'"
+    echo "PATH='${PATH}'"
+}
+
+ds() {
+    #  ds                   -- print dotfiles_status
+    dotfiles_status $@
+}
+
+log_dotfiles_state() {
+    logkey=${1:-'99'}
+    logdir=${_LOG:-"var/log"}/venv.${logkey}/
+    exportslogfile=${logdir}/exports.log
+    envlogfile=${logdir}/exports_env.log
+    test -n $logdir && test -d $logdir || mkdir -p $logdir
+    export > $exportslogfile
+    set > $envlogfile
+}
+
+dotfiles_initialize() {
+    log_dotfiles_state 'initialize'
+}
+
+dotfiles_preactivate() {
+    log_dotfiles_state 'preactivate'
+    test -n $_VENV \
+        && source <(python $_VENV -E --bash)
+}
+
+dotfiles_postactivate() {
+    log_dotfiles_state 'postactivate'
+}
+
+dotfiles_predeactivate() {
+    log_dotfiles_state 'predeactivate'
+}
+
+dotfiles_postdeactivate() {
+    log_dotfiles_state 'postdeactivate'
+    unset VIRTUAL_ENV_NAME
+    unset _SRC
+    unset _WRD
+    unset _USRLOG
+    export _USRLOG=~/.usrlog  ## TODO: __USRLOG
+    # __DOTFILES='/Users/W/.dotfiles'
+    # __DOCSWWW=''
+    # __SRC='/Users/W/src'
+    # __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
+    # PROJECT_HOME='/Users/W/wrk'
+    # WORKON_HOME='/Users/W/wrk/.ve'
+    dotfiles_reload
+}
+
+lsvirtualenv() {
+    ## lsvirtualenv()   -- list virtualenvs in $WORKON_HOME
+    cmd=${@:-""}
+    (cd ${WORKON_HOME} &&
+    for venv in $(ls -adtr ${WORKON_HOME}/**/lib/python?.? | \
+        sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
+        echo "${venv}" ;
+        if [ -n "${cmd}" ]; then
+            $cmd $venv ;
+        fi
+    done)
+}
+
 lsve() {
+    ## lsve()           -- list virtualenvs in $WORKON_HOME
     lsvirtualenv $@
 }
 
@@ -1454,6 +1636,14 @@ _setup_google_cloud() {
 #  __PROJECTSRC -- path to local project settings script
 export __PROJECTSRC="${PROJECT_HOME}/.projectsrc.sh"
 [ -f $__PROJECTSRC ] && source $__PROJECTSRC
+
+__setup_dotfiles() {
+    # __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
+    we dotfiles
+    cdw
+    e $_USRLOG && editp
+}
+
 
 #  __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
 export __SRC="${HOME}/src"  # TODO: __SRC_HG, __SRC_GIT
@@ -1483,7 +1673,7 @@ we () {
 #
 #  # $WORKON_HOME/${virtualenv_name}  # == $_VIRTUAL_ENV
 #  # $WORKON_HOME/${virtualenv_name}/src/${virtualenv_name | $2}  # == $_WRD
-    workon $1 && source <(venv --bash $@)
+    workon $1 && source <(venv --bash $@) && dotfiles_status
 }
 
 ## CD shortcuts
@@ -1630,8 +1820,21 @@ _loadaliases() {
 
     alias man_='/usr/bin/man'
 
-    alias pfx='ps aufxw'
-    alias pfxs='ps aufxw --sort=tty,ppid,pid'
+    if [ -n "${__IS_LINUX}" ]; then
+        alias psx='ps aufxw'
+        alias psxw='ps aufxw | head'
+        alias psxs='ps aufxw --sort=tty,ppid,pid'
+        alias psxh='ps auxfw --sort=tty,ppid,pid | head'
+        alias psh='ps auxfw --sort=tty,ppid,pid | head'
+        alias psz='ps aufxw --sort=tty,ppid,pid | head'
+    elif [ -n "${__IS_MAC}" ]; then
+        alias psx='ps uxa'
+        alias psxh='ps uxa | head'
+        alias psxw='ps uxaw'
+        alias psxh='ps uxaw | head'
+        alias psh='ps uxaw | head'
+        alias psz='ps uxaw | head'
+    fi
 
     alias t='tail'
     alias xclip='xclip -selection c'
@@ -1694,51 +1897,38 @@ basename $VIRTUAL_ENV
 
 
 workon_pyramid_app() {
+    ##  workon_pyramid_app $VIRTUAL_ENV_NAME $_APP [open_terminals]
     _VENVNAME=$1
-    _APPNAME=$2
+    _APP=$2
 
     _OPEN_TERMS=${3:-""}
 
     _VENVCMD="workon ${_VENVNAME}"
-    we "${_VENVNAME}" "${_APPNAME}"
-    _VENV="${VIRTUAL_ENV}"
+    we "${_VENVNAME}" "${_APP}"
 
-    export _SRC="${_VENV}/src"
-    export _BIN="${_VENV}/bin"
-    export _EGGSRC="${_SRC}/${_APPNAME}"
-    export _EGGSETUPPY="${_EGGSRC}/setup.py"
-    export _EGGCFG="${_EGGSRC}/development.ini"
+    export _EGGSETUPPY="${_WRD}/setup.py"
+    export _EGGCFG="${_WRD}/development.ini"
 
     _EDITCFGCMD="${_EDITCMD} ${_EGGCFG}"
     _SHELLCMD="${_BIN}/pshell ${_EGGCFG}"
     _SERVECMD="${_BIN}/pserve --reload --monitor-restart ${_EGGCFG}"
     _TESTCMD="python ${_EGGSETUPPY} nosetests"
 
-    # aliases
     alias _serve="${_SERVECMD}"
     alias _shell="${_SHELLCMD}"
     alias _test="${_TESTCMD}"
     alias _editcfg="${_EDITCFGCMD}"
-    alias _glog="hgtk -R "${_EGGSRC}" log"
-    alias _log="hg -R "${_EGGSRC}" log"
+    alias _glog="hgtk -R "${_WRD}" log"
+    alias _log="hg -R "${_WRD}" log"
 
-    alias cdsrc="cd ${_SRC}"
-    alias cdbin="cd ${_BIN}"
-    alias cdeggsrc="cd ${_EGGSRC}"
-
-
-    # cd to $_PATH
-    cd "${_EGGSRC}"
-
-    if [ "${_OPEN_TERMS}" != "" ]; then
-        # open editor
-        ${_EDITCMD} "${_EGGSRC}" &
-        # open tabs
+    if [ -n "${_OPEN_TERMS}" ]; then
+        ${EDITOR} "${_WRD}" &
+        #open tabs
         #gnome-terminal \
-        #    --working-directory="${_EGGSRC}" \
-        #    --tab -t "${_APPNAME} serve" -e "bash -c \"${_SERVECMD}; bash -c \"workon_pyramid_app $_VENVNAME $_APPNAME 1\"\"" \
-        #    --tab -t "${_APPNAME} shell" -e "bash -c \"${_SHELLCMD}; bash\"" \
-        #    --tab -t "${_APPNAME} bash" -e "bash"
+        #--working-directory="${_WRD}" \
+        #--tab -t "${_APP} serve" -e "bash -c \"${_SERVECMD}; bash -c \"workon_pyramid_app $VIRTUAL_ENV_NAME $_APP 1\"\"" \
+        #--tab -t "${_APP} shell" -e "bash -c \"${_SHELLCMD}; bash\"" \
+        #--tab -t "${_APP} bash" -e "bash"
     fi
 }
 
@@ -1810,26 +2000,24 @@ sudogvim() {
 }
 
 
-## ViM
 
+## vimpager     -- call vimpager
 vimpager() {
     # TODO: lesspipe
-    _PAGER="${HOME}/bin/vimpager"
-    if [ -x $_PAGER ]; then
-        export PAGER=$_PAGER
+    _PAGER=$(which vimpager)
+    if [ -x "${_PAGER}" ]; then
+        ${_PAGER} $@
     else
-        _PAGER="/usr/local/bin/vimpager"
-        if [ -x $_PAGER ]; then
-            export PAGER=$_PAGER
-        fi
+        echo "error: vimpager not found. (see lessv: 'lessv $@')"
     fi
 }
 
 
+### less commands -- lessv, lessg, lesse
 ## lessv    -- less with less.vim and regular vim
 lessv () {
 
-    ## start Vim with less.vim.
+    ## start Vim with less.vim and vim
     # Read stdin if no arguments were given.
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
@@ -1860,17 +2048,19 @@ lessv () {
     fi
 }
 
-less_() {
-    less $@
-}
-
-## lessv    -- less with less.vim and gvim
+## lessg    -- less with less.vim and gvim / mvim
 lessg() {
     VIMBIN=${GUIVIMBIN} lessv $@
 }
 
-# view manpages in vim
-man() {
+## lesse    -- less with current venv's vim server
+lesse() {
+    ${EDITOR} $@
+}
+
+### Man commands -- manv, mang, mane
+## manv     -- view manpages in vim
+manv() {
     alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
@@ -1891,18 +2081,12 @@ man() {
     fi
 }
 
-## mang()   -- view manpages in GViM, MacVim
+## mang()   -- view manpages in gvim / mvim
 mang() {
-    alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        #if [ "$1" == "man" ]; then
-        #    exit 0
-        #fi
-
-        #/usr/bin/whatis "$@" >/dev/null
-        $GVIMBIN \
+        $GUIVIMBIN \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -1913,12 +2097,17 @@ mang() {
     fi
 }
 
+## mane()   -- open manpage with venv's vim server
+mane() {
+    $GUIVIMBIN --servername ${VIRTUAL_ENV_NAME} --remote-send "<ESC>:Man $@<CR>"
+}
+
 
 ## usrlog   -- Userspace shell logging
-#  stid -- set or regenerate shell session id
+## stid()   -- set or regenerate shell session id
 #  
 source "${__DOTFILES}/etc/usrlog.sh"
-##  usrlog -- REPL command logs in userspace (per $VIRTUAL_ENV)
+##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
 #
 #  _USRLOG (str): path to .usrlog file to which REPL commands are appended
 #
@@ -2152,6 +2341,29 @@ usrlog_screenrec() {
 
 _usrlog_setup
 _usrlog_setup
+
+note() {
+    ## note()   -- _usrlog_append # $@
+    _usrlog_append "## " $@
+}
+
+usrlogv() {
+    ## usrlog() -- open $_USRLOG with vim (skip to end)
+    file=${1:-$_USRLOG}
+    lessv + ${file}
+}
+
+usrlogg() {
+    ## usrlogv()    -- open $_USRLOG with gvim / mvim
+    file=${1:-$_USRLOG}
+    lessg + ${file}
+}
+
+usrloge() {
+    ## usrloge()    -- open $_USRLOG with venv's vim server
+    file=${1:-$_USRLOG}
+    lesse "+ ${file}"
+}
 
 
 ## xlck     -- screensaver
@@ -2951,6 +3163,6 @@ host_docs () {
 
 
 
-
+dotfiles_status
 exit
 exit

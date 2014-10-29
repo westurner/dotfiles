@@ -51,6 +51,7 @@ import json
 import logging
 import operator
 import textwrap
+import pprint
 
 from collections import namedtuple
 
@@ -132,15 +133,24 @@ class PylineResult(Result):
 
 
 def _import_path_module():
+    """
+    Attempt to import a path module (path.py, pathlib, str)
+
+    Returns:
+        function: function to apply to each line
+    """
     Path = None
     try:
+        # First, try to import path.py (pip install path.py)
         from path import path as Path
     except ImportError:
+        log.debug("path.py not found (pip install path.py)")
         try:
+            # Otherwise, try to import pathlib (pip install pathlib OR Py3.4+)
             from pathlib import Path
             pass
         except ImportError:
-            log.error("pip install pathlib (or path.py)")
+            log.error("pathlib not found (pip install pathlib)")
             Path = str  # os.exists, os
             pass
     return Path
@@ -157,12 +167,13 @@ def pyline(iterable,
            modules=[],
            regex=None,
            regex_options=None,
-           path_tools=False,
+           path_tools_pathpy=False,
+           path_tools_pathlib=False,
            idelim=None,
            odelim="\t",
            **kwargs):
     """
-    Pyline: process an iterable
+    Process an iterable of lines
 
     Args:
         iterable (iterable): iterable of strings (e.g. sys.stdin or a file)
@@ -202,12 +213,15 @@ def pyline(iterable,
             # cmd = "rgx and rgx.groupdict()"
         else:
             cmd = "line"
-        if path_tools:
+        if path_tools_pathpy or path_tools_pathlib:
             cmd = "p"
 
-    Path = None
-    if path_tools:
-        Path = get_path_module()
+    Path = str
+    if path_tools_pathpy:
+        Path = path.path
+    if path_tools_pathlib:
+        Path = pathlib.Path
+
 
     try:
         log.info("_cmd: %r" % cmd)
@@ -232,12 +246,20 @@ def pyline(iterable,
     # from itertools import imap, repeat
     # j = lambda args: imap(str, izip_longest(args, repeat(odelim)))
 
+    i_last = None
+    if 'i_last' in cmd:
+        # Consume the whole file into a list (to count lines)
+        iterable = list(iterable)
+        i_last = len(iterable)
+
+    pp = pprint.pformat
+
     for i, line in enumerate(iterable):
         l = line
         w = words = [w for w in line.strip().split(idelim)]
 
         p = path = None
-        if path_tools and line.rstrip():
+        if path_tools_pathpy or path_tools_pathlib and line.rstrip():
             try:
                 p = path = Path(line.strip()) or None
             except Exception as e:
@@ -508,10 +530,15 @@ def get_option_parser():
                    default=[],
                    help='Module name to import (default: []) see -p and -r')
 
-    prs.add_option('-p', '--path-tools',
-                   dest='path_tools',
+    prs.add_option('-p', '--pathpy',
+                   dest='path_tools_pathpy',
                    action='store_true',
-                   help='Create path objects from each ``line``')
+                   help='Create path.py objects (p) from each ``line``')
+
+    prs.add_option('--pathlib',
+                   dest='path_tools_pathlib',
+                   action='store_true',
+                   help='Create pathlib objects (p) from each ``line``')
 
     prs.add_option('-r', '--regex',
                    dest='regex',

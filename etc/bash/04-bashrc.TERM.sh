@@ -1,7 +1,9 @@
 
-## set TERM [man terminfo]
+## bashrc.TERM.sh       -- set TERM [man terminfo]
 
 configure_TERM() {
+    ## configure_TERM   -- configure the $TERM variable
+    # configure_term [#term] -- screen, xterm, 
     term=$1
     if [ -n "${TERM}" ]; then
         __term=${TERM}
@@ -30,6 +32,7 @@ configure_TERM() {
 }
 
 configure_TERM_CLICOLOR() {
+    ## configure_TERM_CLICOLOR  -- configure $CLICOLOR and $CLICOLOR_256
     #  CLICOLOR=1   # ls colors
     export CLICOLOR=1
 
@@ -42,4 +45,5 @@ configure_TERM_CLICOLOR() {
     fi
 }
 
+### Configure term when sourcing bashrc.TERM.sh
 configure_TERM

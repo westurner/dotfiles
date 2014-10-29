@@ -1,9 +1,5 @@
-function_exists() {
-    declare -f $1 > /dev/null
-    return $?
-}
+#!/bin/bash
+# This hook is run after every virtualenv is activated.
 
-[ -n "$_VENVW" ] \
-    && source <(python $_VENV -E --bash) \
-    && function_exists '_setup_editor' \
-    && _setup_editor
+declare -f 'dotfiles_postactivate' 2>1 > /dev/null \
+    && dotfiles_postactivate

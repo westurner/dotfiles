@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-dotfiles setup.py
+setup.py -- dotfiles
 
 ::
     python setup.py --help
