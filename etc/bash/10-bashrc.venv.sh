@@ -4,123 +4,137 @@
 # intended to be sourced from (after) ~/.bashrc
 ## Variables
 
-#  __PROJECTSRC -- path to local project settings script
+    # __PROJECTSRC -- path to local project settings script
 export __PROJECTSRC="${PROJECT_HOME}/.projectsrc.sh"
 [ -f $__PROJECTSRC ] && source $__PROJECTSRC
 
-#  __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
+    # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
 export __SRC="${HOME}/src"  # TODO: __SRC_HG, __SRC_GIT
 [ ! -d $__SRC ] && mkdir -p $__SRC/hg $__SRC/git
 
 
-#  PATH="~/.local/bin:$PATH" (if not already there)
+    # PATH="~/.local/bin:$PATH" (if not already there)
 add_to_path "${HOME}/.local/bin"
 
-#  _VENV       -- path to local venv config script (executable)
+    # _VENV       -- path to local venv config script (executable)
 export _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
 
 ## Functions
 
 venv() {
-#  venv <args>  -- call $_VENV $@
+    # venv <args>  -- call $_VENV $@
     $_VENV  $@
 }
 
 _venv() {
-#  _venv <args> -- call $_VENV -E $@
+    # _venv <args> -- call $_VENV -E $@
     venv -E $@
 }
 
-we () {   
-#  we <virtualenv_name> [working_dir] -- workon a virtualenv and load venv
-#
-#  # $WORKON_HOME/${virtualenv_name}  # == $_VIRTUAL_ENV
-#  # $WORKON_HOME/${virtualenv_name}/src/${virtualenv_name | $2}  # == $_WRD
-    workon $1 && source <(venv --bash $@) && dotfiles_status
+we() {   
+    # we()         -- workon a virtualenv and load venv
+    #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
+    #  param $2: $_APP ("dotfiles") [default: $1)
+    #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
+    #   ${VIRTUAL_ENV}/src                  # == $_SRC
+    #   ${_SRC}/${VIRTUAL_ENV_NAME}         # == $_WRD
+    #  examples:
+    #   we dotfiles
+    #   we dotfiles dotfiles
+
+    # append to shell history
+    history -a
+
+    if [ -n "$1" ]; then
+        workon $1 && source <(venv --bash $@) && dotfiles_status
+    else
+        # if no arguments are specified, list virtual environments
+        lsvirtualenv
+    fi
 }
 
 ## CD shortcuts
 
 cdb () {
-#  cdb      -- cd $_BIN
+    # cdb      -- cd $_BIN
     cd "${_BIN}"/$@
 }
 cde () {
-#  cde      -- cd $_ETC
+    # cde      -- cd $_ETC
     cd "${_ETC}"/$@
 }
 cdv () {
-#  cdv      -- cd $VIRTUAL_ENV
+    # cdv      -- cd $VIRTUAL_ENV
     cd "${VIRTUAL_ENV}"/$@
 }
 cdve () {
-#  cdve     -- cd $WORKON_HOME
+    # cdve     -- cd $WORKON_HOME
     cd "${WORKON_HOME}"/$@
 }
 cdvar () {
-#  cdvar    -- cd $_VAR
+    # cdvar    -- cd $_VAR
     cd "${_VAR}"/$@
 }
 cdlog () {
-#  cdlog    -- cd $_LOG
+    # cdlog    -- cd $_LOG
     cd "${_LOG}"/$@
 }
 cdww () {
-#  cdww     -- cd $_WWW
+    # cdww     -- cd $_WWW
     cd "${_WWW}"/$@
 }
 cdl () {
-#  cdl      -- cd $_LIB
+    # cdl      -- cd $_LIB
     cd "${_LIB}"/$@
 }
 cdpylib () {
-#  cdpylib  -- cd $_PYLIB
+    # cdpylib  -- cd $_PYLIB
     cd "${_PYLIB}"/$@
 }
 cdpysite () {
-#  cdpysite -- cd $_PYSITE
+    # cdpysite -- cd $_PYSITE
     cd "${_PYSITE}"/$@
 }
 cds () {
-#  cds      -- cd $_SRC
+    # cds      -- cd $_SRC
     cd "${_SRC}"/$@
 }
 cdw () {
-#  cdw      -- cd $_WRD
+    # cdw      -- cd $_WRD
     cd "${_WRD}"/$@
 }
 
 ## Grin search
 # virtualenv / virtualenvwrapper
 grinv() {
-#  grinv    -- grin $VIRTUAL_ENV
+    # grinv    -- grin $VIRTUAL_ENV
     grin --follow $@ "${VIRTUAL_ENV}"
 }
 grindv() {
-#  grindv   -- grind $VIRTUAL_ENV
+    # grindv   -- grind $VIRTUAL_ENV
     grind --follow $@ --dirs "${VIRTUAL_ENV}"
 }
 
 # venv
 grins() {
-#  grins    -- grin $_SRC
+    # grins    -- grin $_SRC
     grin --follow $@ "${_SRC}"
 }
 grinds() {
-#  grinds   -- grind $_SRC
+    # grinds   -- grind $_SRC
     grind --follow $@ --dirs "${_SRC}"
 }
 grinw() {
-#  grinw    -- grin $_WRD
+    # grinw    -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
 grindw() {
-#  grindw   -- grind $_WRD
+    # grindw   -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
 }
 
 grindctags() {
-#  grindctags   -- generate ctags from grind expression (*.py by default)
+    # grindctags   -- generate ctags from grind expression (*.py by default)
     args="$@"
     if [ -z $args ]; then
         args='*.py'
@@ -130,7 +144,7 @@ grindctags() {
 
 
 _loadaliases() {
-#  _loadaliases -- load shell aliases
+    # _loadaliases -- load shell aliases
     alias chmodr='chmod -R'
     alias chownr='chown -R'
 
@@ -237,7 +251,7 @@ hgst() {
     echo '###'
 }
 
-_set_prompt() {
+_venv_set_prompt() {
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
             export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)" # TODO
@@ -245,15 +259,15 @@ _set_prompt() {
             unset -v VIRTUAL_ENV_NAME
         fi
     fi
-
+    venv_prompt_prefix="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${debian_chroot:+"[$debian_chroot] "}"
     if [ -n "$BASH_VERSION" ]; then
         if [ "$color_prompt" == yes ]; then
-            PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+            PS1='${venv_prompt_prefix}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
         else
-            PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
+            PS1='${venv_prompt_prefix}\u@\h:\w\n\$ '
             unset color_prompt
         fi
     fi
 }
-_set_prompt
+_venv_set_prompt
 

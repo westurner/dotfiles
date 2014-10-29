@@ -6,11 +6,6 @@
 source "${__DOTFILES}/etc/usrlog.sh"
 _usrlog_setup
 
-note() {
-    ## note()   -- _usrlog_append # $@
-    _usrlog_append "## " $@
-}
-
 usrlogv() {
     ## usrlog() -- open $_USRLOG with vim (skip to end)
     file=${1:-$_USRLOG}

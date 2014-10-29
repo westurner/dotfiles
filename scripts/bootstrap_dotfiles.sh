@@ -26,7 +26,7 @@ set -e
 
 
 ## date (file suffix for backup_and_symlink)
-BKUPID=$(date +%Y%m%d-%H%M%S~)
+BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
 
 ## Virtualenvwrapper
 WORKON_HOME=${WORKON_HOME:-"${HOME}/wrk/.ve"}
@@ -37,8 +37,10 @@ VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
 _WRD=${VIRTUAL_ENV}/src/dotfiles
 __DOTFILES=${_WRD}
 
+__DOTFILES_SYMLINK="${HOME}/.dotfiles"  # ~/.dotfiles
+
 ## dotfiles repository
-DOTFILES_REPO_DEST_PATH="${_VIRTUAL_ENV}/src/${VIRTUAL_ENV_NAME}"
+DOTFILES_REPO_DEST_PATH="${_WRD}"
 DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/vim"
 
 DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
@@ -61,6 +63,7 @@ fi
 dotfiles_check_deps() {
     ## Check paths for project dependencies
     set -x
+    set +e
     which bash
     which python
     python -c "import setuptools, pkg_resources; print(pkg_resources.resource_filename('setuptools', ''))"
@@ -71,7 +74,11 @@ dotfiles_check_deps() {
     which pip
     which virtualenv
     which virtualenvwrapper.sh
-    which dotfiles && dotfiles --help
+    which dotfiles
+    # && dotfiles --help
+    echo "__DOTFILES='${__DOTFILES}'"
+    set -e
+    set +x
 }
 
 git_status() {
@@ -179,7 +186,7 @@ install_hubflow() {
 }
 
 get_md5sums() {
-    ## Get md5sums for a path or directory
+    #  get_md5sums()    -- get md5sums for a path or directory
     path=${1}
 
     if [ -x "/sbin/md5" ]; then
@@ -187,26 +194,27 @@ get_md5sums() {
     else
         MD5FUNC="md5sum"
     fi
+    # TODO XXX FIXME: find symlinks
 
     if [[ -d  "$path" ]]; then
-        # TODO XXX FIXME: find symlinks
-        ${MD5FUNC} $( find $path -type f \
-            | egrep -v '\.git|\.hg/' \
+        ${MD5FUNC} $(
+            find $path -type f 
+            | egrep -v '\.git|\.hg/'
             | cut -f1 -d' ')
     elif [[ -f "$path" ]]; then
         ${MD5FUNC} $path \
             | cut -f1 -d' '
     elif [[ -s "$path" ]]; then
-        (cd $path && find $path -
         ${MD5FUNC} $path \
-            | cut -f1 -d' ')
+           | cut -f1 -d' '
     fi
 }
 
 __readlink() {
     ## readlink (OSX does not have readlink -f --canonicalize)
     _path=$1
-    python -c "import os; print(os.path.relpath('$_path'))";
+    python -c "import os; print(os.path.realpath('$_path'))";
+    return $?
 }
 
 backup_and_symlink() {
@@ -229,19 +237,18 @@ backup_and_symlink() {
             dest_md5=$(get_md5sums $dest)
             src_md5=$(get_md5sums $src)
         fi
-
         if [ -z "$src_md5" ] && [ -z "$dest_md5" ]; then
             echo "#  $filename $dest $src"
             echo "#! empy md5s"
         fi
         if [ "$src_md5" != "$dest_md5" ]; then
-
             echo $dest
             echo $dest_md5
             echo $src
             echo $src_md5
 
-            diff -Naur $src $dest | tee dotfiles.backup.${BKUPID}.diff
+            #diff -Naur $src $dest | tee dotfiles.backup.${BKUPID}.diff
+
             mv ${dest} ${bkp}
             echo "mv ${dest} ${bkp}"
             ln -s ${src} ${dest}
@@ -277,7 +284,7 @@ backup_and_symlink() {
 ## /begin symlinks
 
 symlink_home_dotfiles() {
-    backup_and_symlink "" ${__DOTFILES} ${DOTFILES_REPO_DEST_PATH}
+    backup_and_symlink "" ${__DOTFILES_SYMLINK} ${_WRD}
 }
 
 symlink_etc_vim() {

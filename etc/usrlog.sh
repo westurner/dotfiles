@@ -1,8 +1,9 @@
+#!/bin/sh
 ##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
 #
 #  _USRLOG (str): path to .usrlog file to which REPL commands are appended
 #
-#  TERM_ID (str): a terminal identifier with which command loglines will
+#  _TERM_ID (str): a terminal identifier with which command loglines will
 #  be appended (default: _usrlog_randstr)
 
 
@@ -24,6 +25,9 @@ _usrlog_set_HISTFILE () {
         prefix=${HOME}
     fi
 
+    #  history -a   -- append any un-flushed lines to $HISTFILE
+    history -a
+   
     if [ -n "$ZSH_VERSION" ]; then
         export HISTFILE="${prefix}/.zsh_history"
     elif [ -n "$BASH" ]; then
@@ -31,29 +35,45 @@ _usrlog_set_HISTFILE () {
     else
         export HISTFILE="${prefix}/.history"
     fi
+
+    #  history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
+    history -c && history -r $HISTFILE
 }
 
 _usrlog_set_HIST() {
-    # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+    # _usrlog_set_HIST()    -- set shell $HIST<...> variables
+
+    # see HISTSIZE and HISTFILESIZE in bash(1)
     HISTSIZE=1000
     HISTFILESIZE=1000000
 
-    # avoid duplicating datetimes in .usrlog
+    #avoid duplicating datetimes in .usrlog
+    #HISTTIMEFORMAT="%Y-%m-%dT%H:%M:%S%z" (iso8601)
     HISTTIMEFORMAT=""
 
-    # don't put duplicate lines in the history. See bash(1) for more options
+    #don't put duplicate lines in the history. See bash(1) for more options
     # ... or force ignoredups and ignorespace
+    # HISTCONTROL=ignoredups:ignorespace
     HISTCONTROL=ignoredups:ignorespace
+
+    # append current lines to history
+    history -a
+
+    _usrlog_set_HISTFILE
 
     if [ -n "$BASH" ] ; then
         # append to the history file, don't overwrite it
         shopt -s histappend
+        # replace newlines with semicolons
+        shopt -s cmdhist
+
+        # enable autocd (if available)
+        shopt -s autocd 2>1 > /dev/null
     elif [ -n "$ZSH_VERSION" ]; then
         setopt APPEND_HISTORY
         setopt EXTENDED_HISTORY
     fi
 
-    _usrlog_set_HISTFILE
 }
 
 _usrlog_randstr() {
@@ -77,60 +97,76 @@ _usrlog_randstr() {
             fi
 }
 
-_usrlog_get_TERM_ID() {
-    echo "# TERM_ID="$TERM_ID" [ $_USRLOG ]" >&2
-    echo $TERM_ID
+_usrlog_get__TERM_ID() {
+    echo "# _TERM_ID="$_TERM_ID" # [ $_USRLOG ]" >&2
+    echo $_TERM_ID
 }
 
 
-_usrlog_set_TERM_ID () {
+_usrlog_set__TERM_ID () {
     # Set an explicit terminal name
     # param $1: terminal name
     new_term_id="${1}"
     if [ -z "${new_term_id}" ]; then
-        new_term_id=$(_usrlog_randstr 8)
+        new_term_id="#$(_usrlog_randstr 8)"
     fi
-    if [[ "${new_term_id}" != "${TERM_ID}" ]]; then
-        if [ -z "${TERM_ID}" ]; then
+    if [[ "${new_term_id}" != "${_TERM_ID}" ]]; then
+        if [ -z "${_TERM_ID}" ]; then
             RENAME_MSG="# new_term_id ::: ${new_term_id} [ ${_USRLOG} ]"
         else
-            RENAME_MSG="# set_term_id ::: ${TERM_ID} -> ${new_term_id} [ ${_USRLOG} ]"
+            RENAME_MSG="# set_term_id ::: ${_TERM_ID} -> ${new_term_id} [ ${_USRLOG} ]"
         fi
         echo $RENAME_MSG
         _usrlog_append "$RENAME_MSG"
-        export TERM_ID="${new_term_id}"
+        export _TERM_ID="${new_term_id}"
         _usrlog_set_title
+
+        declare -f '_venv_set_prompt' 2>1 > /dev/null \
+            && _venv_set_prompt
     fi
+}
+
+set_term_id() {
+    # set_term_id()     -- set $_TERM_ID to a randomstr or $1
+    _usrlog_set__TERM_ID $@
 }
 
 
 _usrlog_echo_title () {
+    # _usrlog_echo_title    -- set window title
+
     # TODO: VIRTUAL_ENV_NAME / VIRTUAL_ENV
-    echo -ne "\033]0;${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}\007"
+    _usrlog_window_title="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}"
+    usrlog_window_title=${_usrlog_window_title:-"$@"}
+    if [ -n $CLICOLOR ]; then
+        echo -ne "\033]0;${usrlog_window_title}\007"
+    else
+        echo -ne "${usrlog_window_title}"
+    fi
 }
 
 _usrlog_set_title() {
     ## set xterm title
-    export WINDOW_TITLE=${1:-"$TERM_ID"}
+    export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
 }
 
 _usrlog_setup() {
     # Bash profile setup for logging unique console sessions
     _usrlog="${1:-$_USRLOG}"
-    term_id="${2:-$TERM_ID}"
+    term_id="${2:-$_TERM_ID}"
 
     _usrlog_set_HIST
 
     _usrlog_set__USRLOG $_usrlog
 
-    #TERM_SED_STR='s/^\s*[0-9]*\s\(.*\)/$TERM_ID: \1/'
+    #TERM_SED_STR='s/^\s*[0-9]*\s\(.*\)/$_TERM_ID: \1/'
     TERM_SED_STR='s/^\s*[0-9]*\s*//'
 
-    _usrlog_set_TERM_ID $term_id
+    _usrlog_set__TERM_ID $term_id
     touch $_USRLOG
 
-    _usrlog_set_title $TERM_ID
+    _usrlog_set_title $_TERM_ID
 
     # setup bash
     if [ -n "$BASH" ]; then
@@ -143,14 +179,28 @@ _usrlog_setup() {
     fi
 }
 
-
 _usrlog_append() {
-    # Write a line to the _USRLOG file
+    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
+    #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
     # param $1: text (command) to log
-    printf "# %-11s: %s ::: %s\n" \
-        "$TERM_ID" \
+    printf "%s\t%s\t%s\n" \
+        $(echo "${_TERM_ID}" | tr '\t' ' ') \
+        "$(date +%Y-%m-%dT%H:%M:%S%z)" \
+        "${*}" \
+            | tee -a $_USRLOG >&2
+}
+
+_usrlog_append_oldstyle() {
+    # _usrlog_append_oldstype -- Write a line to the _USRLOG file
+    # param $1: text (command) to log
+    # example:
+    # ^# qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    printf "# %-11s: %s : %s" \
+        "$_TERM_ID" \
         "$(date +'%D %R.%S')" \
-        "${1:-'\n'}" | tee -a $_USRLOG >&2
+        "${1:-'\n'}" \
+            | tee -a $_USRLOG >&2
 }
 
 _usrlog_writecmd() {
@@ -172,23 +222,24 @@ _usrlog_writecmd() {
 # usrlog shell command "API"
 
 termid() {
-    _usrlog_get_TERM_ID
+    _usrlog_get__TERM_ID
 }
 
 stid () {
-    # Shortcut alias to _usrlog_set_TERM_ID
-    _usrlog_set_TERM_ID $@
+    # Shortcut alias to _usrlog_set__TERM_ID
+    _usrlog_set__TERM_ID $@
 }
 
 
 hist() {
-    # Alias to less the current session log
+    #  less()       --  less the current session log
     less $_USRLOG
 }
 
 
 histgrep () {
-    egrep "$@" $_USRLOG 
+    #  histgrep()   -- egrep $@ $_USRLOG
+    egrep $@ $_USRLOG 
 }
 
 histgrep_session () {
@@ -205,8 +256,39 @@ histgrep_session () {
         fi
 }
 
-usrlog_screenrec() {
-    # Record the screen
+usrlogt() {
+    ## usrlogt()    -- tail -n20 $_USRLOG
+    tail -n20 ${@:-"${_USRLOG}"}
+}
+
+ut() {
+    ## ut()         -- tail -n20 $_USRLOG
+    usrlogt ${@}
+}
+
+usrlog_grep() {
+    ## usrlog_grep()    -- egrep -n $_USRLOG
+    egrep -n $@ ${_USRLOG}
+}
+
+ug() {
+    ## ug()             -- egrep -n $_USRLOG
+    usrlog_grep $@
+}
+
+usrlogtf() {
+    ## usrlogtf()   -- tail -n20 -f $_USRLOG
+    tail -f -n20 ${@:-"${_USRLOG}"}
+}
+
+note() {
+    ## note()   -- _usrlog_append # $@
+    _usrlog_append "#note  #note: $@"
+}
+
+
+usrlog_screenrec_ffmpeg() {
+    # usrlog_screenrec_ffmpeg   -- record a screencast
     # param $1: destination directory (use /tmp if possible)
     # param $2: video name to append to datestamp
 
@@ -230,4 +312,6 @@ usrlog_screenrec() {
             2>&1 | tee "$FILENAME.log"
 }
 
+
+## call _usrlog_setup
 _usrlog_setup

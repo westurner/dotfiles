@@ -2,7 +2,12 @@
 ## virtualenvwrapper/initialize
 # This hook is run during the startup phase when loading virtualenvwrapper.sh.
 
+function_exists() {
+    ## function_exists()    -- check whether function 'name' exists
+    declare -f $1 2>1 > /dev/null
+    return $?
+}
+
 ## source the dotfiles_ functions if $__DOTFILES is set
-test -n ${__DOTFILES} \
-    && source ${__DOTFILES}/etc/bash/05-bashrc.dotfiles.sh \
+declare -f 'dotfiles_initialize' 2>1 > /dev/null \
     && dotfiles_initialize

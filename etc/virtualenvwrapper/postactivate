@@ -1,4 +1,5 @@
 #!/bin/bash
 # This hook is run after every virtualenv is activated.
 
-test -n $__DOTFILES && dotfiles_preactivate
+declare -f 'dotfiles_postactivate' 2>1 > /dev/null \
+    && dotfiles_postactivate
