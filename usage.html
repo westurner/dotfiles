@@ -341,12 +341,18 @@ docs   -- build sphinx documentation
    
 #### etc/bash/05-bashrc.dotfiles.sh
 ### bashrc.dotfiles.sh
-    ## Add ${__DOTFILES}/scripts to $PATH
+    ## dotfiles_add_path    -- Add ${__DOTFILES}/scripts to $PATH
 #
 # See etc/bash/05-bashrc.dotfiles.sh
-## dotfiles_status()    -- print 
+## dotfiles_status()        -- print dotfiles_status 
     #  dotfiles_status()    -- print dotfiles_status
     #  ds                   -- print dotfiles_status
+    # log_dotfiles_state    -- save current environment to logfiles
+    ## dotfiles_initialize()  -- virtualenvwrapper initialize
+    ## dotfiles_preactivate()  -- virtualenvwrapper preactivate
+    ## dotfiles_postactivate()  -- virtualenvwrapper postactivate
+    ## dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
+    ## dotfiles_postdeactivate()  -- virtualenvwrapper postdeactivate
     # __DOTFILES=&#39;/Users/W/.dotfiles&#39;
     # __DOCSWWW=&#39;&#39;
     # __SRC=&#39;/Users/W/src&#39;
@@ -389,41 +395,48 @@ docs   -- build sphinx documentation
 # sh configuration
 # intended to be sourced from (after) ~/.bashrc
 ## Variables
-#  __PROJECTSRC -- path to local project settings script
-#  __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
-#  PATH=&quot;~/.local/bin:$PATH&quot; (if not already there)
-#  _VENV       -- path to local venv config script (executable)
+    # __PROJECTSRC -- path to local project settings script
+    # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
+    # PATH=&quot;~/.local/bin:$PATH&quot; (if not already there)
+    # _VENV       -- path to local venv config script (executable)
 ## Functions
-#  venv &lt;args&gt;  -- call $_VENV $@
-#  _venv &lt;args&gt; -- call $_VENV -E $@
-#  we &lt;virtualenv_name&gt; [working_dir] -- workon a virtualenv and load venv
-#
-#  # $WORKON_HOME/${virtualenv_name}  # == $_VIRTUAL_ENV
-#  # $WORKON_HOME/${virtualenv_name}/src/${virtualenv_name | $2}  # == $_WRD
+    # venv &lt;args&gt;  -- call $_VENV $@
+    # _venv &lt;args&gt; -- call $_VENV -E $@
+    # we()         -- workon a virtualenv and load venv
+    #  param $1: $VIRTUAL_ENV_NAME (&quot;dotfiles&quot;)
+    #  param $2: $_APP (&quot;dotfiles&quot;) [default: $1)
+    #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
+    #   ${VIRTUAL_ENV}/src                  # == $_SRC
+    #   ${_SRC}/${VIRTUAL_ENV_NAME}         # == $_WRD
+    #  examples:
+    #   we dotfiles
+    #   we dotfiles dotfiles
+    # append to shell history
+        # if no arguments are specified, list virtual environments
 ## CD shortcuts
-#  cdb      -- cd $_BIN
-#  cde      -- cd $_ETC
-#  cdv      -- cd $VIRTUAL_ENV
-#  cdve     -- cd $WORKON_HOME
-#  cdvar    -- cd $_VAR
-#  cdlog    -- cd $_LOG
-#  cdww     -- cd $_WWW
-#  cdl      -- cd $_LIB
-#  cdpylib  -- cd $_PYLIB
-#  cdpysite -- cd $_PYSITE
-#  cds      -- cd $_SRC
-#  cdw      -- cd $_WRD
+    # cdb      -- cd $_BIN
+    # cde      -- cd $_ETC
+    # cdv      -- cd $VIRTUAL_ENV
+    # cdve     -- cd $WORKON_HOME
+    # cdvar    -- cd $_VAR
+    # cdlog    -- cd $_LOG
+    # cdww     -- cd $_WWW
+    # cdl      -- cd $_LIB
+    # cdpylib  -- cd $_PYLIB
+    # cdpysite -- cd $_PYSITE
+    # cds      -- cd $_SRC
+    # cdw      -- cd $_WRD
 ## Grin search
 # virtualenv / virtualenvwrapper
-#  grinv    -- grin $VIRTUAL_ENV
-#  grindv   -- grind $VIRTUAL_ENV
+    # grinv    -- grin $VIRTUAL_ENV
+    # grindv   -- grind $VIRTUAL_ENV
 # venv
-#  grins    -- grin $_SRC
-#  grinds   -- grind $_SRC
-#  grinw    -- grin $_WRD
-#  grindw   -- grind $_WRD
-#  grindctags   -- generate ctags from grind expression (*.py by default)
-#  _loadaliases -- load shell aliases
+    # grins    -- grin $_SRC
+    # grinds   -- grind $_SRC
+    # grinw    -- grin $_WRD
+    # grindw   -- grind $_WRD
+    # grindctags   -- generate ctags from grind expression (*.py by default)
+    # _loadaliases -- load shell aliases
    
    
 #### etc/bash/11-bashrc.venv.pyramid.sh
@@ -461,7 +474,6 @@ docs   -- build sphinx documentation
 ## usrlog   -- Userspace shell logging
 ## stid()   -- set or regenerate shell session id
 #  
-    ## note()   -- _usrlog_append # $@
     ## usrlog() -- open $_USRLOG with vim (skip to end)
     ## usrlogv()    -- open $_USRLOG with gvim / mvim
     ## usrloge()    -- open $_USRLOG with venv&#39;s vim server

@@ -88,24 +88,22 @@
 <li><a class="reference internal" href="#">dotfiles</a><ul>
 <li><a class="reference internal" href="#goals">Goals</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#installing-the-dotfiles">Installing the dotfiles</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#bash">Bash</a></li>
-<li><a class="reference internal" href="#symlinks">Symlinks</a></li>
 <li><a class="reference internal" href="#vimrc">vimrc</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a><ul>
-<li><a class="reference internal" href="#pip">pip</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#makefile">Makefile</a><ul>
-<li><a class="reference internal" href="#make-install"><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></a></li>
-<li><a class="reference internal" href="#make-help"><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
-<li><a class="reference internal" href="#development">Development</a><ul>
+<li><a class="reference internal" href="#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
+<li><a class="reference internal" href="#create-a-virtualenv">Create a virtualenv</a></li>
+<li><a class="reference internal" href="#makefile">Makefile</a><ul>
+<li><a class="reference internal" href="#make-help"><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code></a></li>
+<li><a class="reference internal" href="#make-install"><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></a></li>
 <li><a class="reference internal" href="#make-build"><code class="docutils literal"><span class="pre">make</span> <span class="pre">build</span></code></a></li>
 </ul>
 </li>
@@ -171,36 +169,85 @@ for working with projects on *nix platforms with Bash, ZSH, Ruby, and Python.</p
 <li>Configure bash, zsh, and vim</li>
 <li>Support Debian Linux, Ubuntu Linux, OSX</li>
 <li>Configure Python, pip, virtualenv, virtualenvwrapper, IPython</li>
+<li>Configure gnome, i3wm</li>
 <li>Document keyboard shortcuts</li>
 </ul>
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line"><a class="reference external" href="http://wrdfiles.readthedocs.org/en/latest/usage.html">http://wrdfiles.readthedocs.org/en/latest/usage.html</a></div>
-<div class="line"><a class="reference external" href="http://wrdfiles.readthedocs.org/en/latest/venv.html">http://wrdfiles.readthedocs.org/en/latest/venv.html</a></div>
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/etc/bash">https://github.com/westurner/dotfiles/tree/master/etc/bash</a></div>
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/usrlog.sh">https://github.com/westurner/dotfiles/blob/master/etc/usrlog.sh</a></div>
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/ipython/ipython_config.py">https://github.com/westurner/dotfiles/blob/master/etc/ipython/ipython_config.py</a></div>
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.gitconfig">https://github.com/westurner/dotfiles/blob/master/etc/.gitconfig</a></div>
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.hgrc">https://github.com/westurner/dotfiles/blob/master/etc/.hgrc</a></div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">etc/.bashrc</span></code> loads <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code></li>
+<li><code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code> loads a documented,</li>
+</ul>
+<p>ordered sequence of bash scripts
+* <code class="docutils literal"><span class="pre">etc/zsh/00-zshrc.before.sh</span></code> loads a documented,
+ordered sequence of zsh scripts
+* <a class="reference external" href="https://westurner.github.io/dotfiles/usage.html">https://westurner.github.io/dotfiles/usage.html</a> documents
+* <a class="reference external" href="https://westurner.github.io/dotfiles/venv.html">https://westurner.github.io/dotfiles/venv.html</a> documents</p>
+<blockquote>
+<div>the venv (<code class="docutils literal"><span class="pre">ipython_config.py</span></code>) script, which generates shell
+configuration</div></blockquote>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="installing-the-dotfiles">
+<h4>Installing the dotfiles<a class="headerlink" href="#installing-the-dotfiles" title="Permalink to this headline">¶</a></h4>
+<div class="code bash highlight-python"><div class="highlight"><pre># clone and install dotfiles and dotvim
+# with static dotfiles.venv style paths (_APP, _SRC, _WRD)
+
+# WORKON_HOME   -- virtualenvwrapper setting
+WORKON_HOME=&quot;~/wrk/.ve&quot;
+test -d ${WORKON_HOME} || mkdir -p ${WORKON_HOME}
+
+# VIRTUAL_ENV_NAME  -- basename for VIRTUAL_ENV (&#39;dotfiles&#39;) [venv]
+VIRTUAL_ENV_NAME=&quot;dotfiles&quot;
+
+# VIRTUAL_ENV       -- virtualenv prefix
+VIRTUAL_ENV=&quot;${WORKON_HOME}/${VIRTUAL_ENV_NAME}&quot;
+_SRC=&quot;$[VIRTUAL_ENV}/src&quot;
+
+_APP=&quot;dotfiles&quot;
+_WRD=&quot;${_SRC}/${_APP}&quot;      # $WORKON_HOME/dotfiles/src/ dotfiles
+git clone https://github.com/westurner/dotfiles $_WRD
+git clone https://github.com/westurner/dotvim $_WRD/etc/vim
+cd $_WRD                    # cdw(), grinw(), grindw()
+
+__DOTFILES=&quot;${HOME}/.dotfiles&quot;
+ln -s $_WRD $__DOTFILES
+ls ~/.dotfiles
+
+# If &#39;make&#39; is not installed for &#39;make help install&#39;:
+$_WRD/scripts/bootstrap_dotfiles.sh -h
+$_WRD/scripts/bootstrap_dotfiles.sh -I
+
+# TODO: move / replicate this in bootstrap_dotfiles.sh
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="bash">
 <h3>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h3>
-<p>Bash configuration chain-loads from <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code>.</p>
-<div class="highlight-bash"><div class="highlight"><pre>dotfiles_status  <span class="c"># print environment variables</span>
-dotfiles_reload  <span class="c"># source dotfiles/etc/bash/*-bashrc.&lt;name&gt;.sh</span>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/etc/bash">https://github.com/westurner/dotfiles/tree/master/etc/bash</a></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre># There should be a symlink from ~/.dotfiles
+# to the current dotfiles repository.
+ls -ld ~/.dotfiles || ln -s ${_WRD} $__DOTFILES
+
+# There should be symlinks for each app; e.g.
+# ln -s ~/.dotfiles/etc/.bashrc ~/.bashrc
+# ln -s ~/.dotfiles/etc/vim/vimrc ~/.vimrc
+# ln -s ~/.dotfiles/etc/vim ~/.vim
+$_WRD/scripts/bootstrap_dotfiles.sh -S
 </pre></div>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">set</span> | less
-<span class="nb">set</span> | grep <span class="s1">&#39;^_&#39;</span>
+<div class="code bash highlight-python"><div class="highlight"><pre>source ~/.bashrc
+# source dotfiles/etc/bash/00-bashrc.before.sh
 </pre></div>
 </div>
-</div>
-<div class="section" id="symlinks">
-<h3>Symlinks<a class="headerlink" href="#symlinks" title="Permalink to this headline">¶</a></h3>
-<p>Create symlinks in <code class="docutils literal"><span class="pre">$HOME</span></code> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a>:</p>
-<div class="highlight-bash"><div class="highlight"><pre>bootstrap_dotfiles.sh -S
+<div class="highlight-bash"><div class="highlight"><pre>dotfiles_status  <span class="c"># print dotfiles environment variables</span>
+ds               <span class="c"># print dotfiles environment variables</span>
+dotfiles_reload  <span class="c"># source dotfiles/etc/bash/00-bashrc.before.sh</span>
+dr               <span class="c"># source dotfiles/etc/bash/00-bashrc.before.sh</span>
 </pre></div>
 </div>
 </div>
@@ -209,8 +256,7 @@ dotfiles_reload  <span class="c"># source dotfiles/etc/bash/*-bashrc.&lt;name&gt
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotvim">https://github.com/westurner/dotvim</a></div>
 </div>
-<p>Vim configuration should be cloned to <code class="docutils literal"><span class="pre">etc/vim</span></code>
-and installed (with vundle).</p>
+<p>Vim configuration should be cloned to <code class="docutils literal"><span class="pre">etc/vim</span></code>.</p>
 <div class="highlight-bash"><div class="highlight"><pre>make dotvim_clone dotvim_install
 </pre></div>
 </div>
@@ -221,7 +267,7 @@ and installed (with vundle).</p>
 <div class="section" id="requirements">
 <h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
 <p>Project requirements are installed by
-<a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a>, which is called by the <a class="reference internal" href="#makefile">Makefile</a>.</p>
+<a href="#id1"><span class="problematic" id="id2">`bootstrap_dotfiles.sh`_</span></a> and, optionally, also the <a class="reference internal" href="#makefile">Makefile</a>.</p>
 <ul class="simple">
 <li>bash</li>
 <li>python</li>
@@ -230,33 +276,55 @@ and installed (with vundle).</p>
 <li>python setuptools</li>
 <li>python pip</li>
 </ul>
-<div class="line-block">
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/requirements.txt">https://github.com/westurner/dotfiles/blob/master/requirements.txt</a></div>
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/requirements/">https://github.com/westurner/dotfiles/blob/master/requirements/</a></div>
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/docs/requirements.txt">https://github.com/westurner/dotfiles/blob/master/docs/requirements.txt</a></div>
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
 </div>
-<div class="section" id="pip">
-<h4>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h4>
-<p>(Optional) Upgrade pip:</p>
-<div class="highlight-python"><div class="highlight"><pre># pip install pip --upgrade
-pip install --user pip
-pip install --user pip --upgrade
-# pip install --user pip --upgrade --force-reinstall
+<div class="section" id="install-the-dotfiles">
+<h3>Install the dotfiles<a class="headerlink" href="#install-the-dotfiles" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">bootstrap_dotfiles.sh</span></code> shell script
+clones the <code class="docutils literal"><span class="pre">dotfiles</span></code> git repository
+and installs the <code class="docutils literal"><span class="pre">dotfiles</span></code> Python package.</p>
+<div class="highlight-bash"><div class="highlight"><pre>git clone ssh://git@github.com/westurner/dotfiles <span class="o">&amp;&amp;</span> <span class="nb">cd </span>dotfiles
+bootstrap_dotfiles.sh -I
 </pre></div>
 </div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Install and symlink dotfiles and dotvim</span>
+scripts/bootstrap_dotfiles.sh -I
+
+<span class="c"># Install and symlink dotfiles into ~/.local (optional)</span>
+scripts/bootstrap_dotfiles.sh -I -u
+</pre></div>
+</div>
+</div>
+<div class="section" id="upgrade-the-dotfiles">
+<h3>Upgrade the dotfiles<a class="headerlink" href="#upgrade-the-dotfiles" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Check for any changes to symlinked dotfiles</span>
+<span class="nb">cd</span> ~/.dotfiles <span class="o">&amp;&amp;</span> git status <span class="o">&amp;&amp;</span> git diff
+
+<span class="c"># Pull and upgrade dotfiles and dotvim (later)</span>
+scripts/bootstrap_dotfiles.sh -U
+scripts/bootstrap_dotfiles.sh -U -i <span class="o">(</span>optional<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-virtualenv">
+<h3>Create a virtualenv<a class="headerlink" href="#create-a-virtualenv" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c">## (Recommended) Create a virtualenv with virtualenvwrapper</span>
+pip install --user virtualenvwrapper  <span class="c"># pip install --user virtualenv</span>
+<span class="nb">source</span> <span class="k">$(</span>which <span class="s1">&#39;virtualenvwrapper.sh&#39;</span><span class="k">)</span>
+mkvirtualenv dotfiles          <span class="c"># virtualenv $VIRTUAL_ENV</span>
+                               <span class="c"># VIRTUAL_ENV=$WORKON_HOME/dotfiles</span>
+mkdir <span class="nv">$VIRTUAL_ENV</span>/src
+<span class="nb">cd</span> <span class="nv">$VIRTUAL_ENV</span>/src            <span class="c"># cds; cd $_SRC; # once installed</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="makefile">
 <h3>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">https://github.com/westurner/dotfiles/blob/master/Makefile</a></div>
-</div>
-<div class="section" id="make-install">
-<h4><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code><a class="headerlink" href="#make-install" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-bash"><div class="highlight"><pre>make install
-</pre></div>
-</div>
 </div>
 <div class="section" id="make-help">
 <h4><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code><a class="headerlink" href="#make-help" title="Permalink to this headline">¶</a></h4>
@@ -266,56 +334,11 @@ make help_i3
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="bootstrap-dotfiles-sh">
-<h3>bootstrap_dotfiles.sh<a class="headerlink" href="#bootstrap-dotfiles-sh" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
-</div>
-<p>The <code class="docutils literal"><span class="pre">bootstrap_dotfiles.sh</span></code> shell script
-clones this repository and
-installs files from this python package:</p>
-</div>
-<div class="section" id="install-the-dotfiles">
-<h3>Install the dotfiles<a class="headerlink" href="#install-the-dotfiles" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c">## (Recommended) Create a virtualenv with virtualenvwrapper</span>
-pip install --user virtualenvwrapper  <span class="c"># pip install --user virtualenv</span>
-mkvirtualenv dotfiles          <span class="c"># virtualenv $VIRTUAL_ENV</span>
-                               <span class="c"># VIRTUAL_ENV=$WORKON_HOME/dotfiles</span>
-mkdir <span class="nv">$VIRTUAL_ENV</span>/src
-<span class="nb">cd</span> <span class="nv">$VIRTUAL_ENV</span>/src            <span class="c"># cds; cd $_SRC; # once installed</span>
-
-<span class="c"># A. git clone (``bootstrap_dotfiles.sh -I``)</span>
-<span class="c"># git clone ssh://git@github.com/westurner/dotfiles &amp;&amp; cd dotfiles</span>
-<span class="c"># make install install_hubflow</span>
-
-<span class="c"># A. download bootstrap_dotfiles.sh to src/bootstrap_dotfiles.sh</span>
-wget https://github.com/westurner/dotfiles/raw/master/scripts/bootstrap_dotfiles.sh
-
-./bootstrap_dotfiles.sh -I     <span class="c"># clone and pip install</span>
-./bootstrap_dotfiles.sh -S     <span class="c"># symlink ./etc/{} into $HOME</span>
-                               <span class="c"># and backup with a suffix</span>
-./bootstrap_dotfiles.sh -R     <span class="c"># pip install -r requirements</span>
-
-./bootstrap_dotfiles.sh -U     <span class="c"># pull, update, and upgrade</span>
-
-./bootstrap_dotfiles.sh -u     <span class="c"># add --user to pip commands</span>
-
-./bootstrap_dotfiles.sh -h     <span class="c"># help</span>
+<div class="section" id="make-install">
+<h4><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code><a class="headerlink" href="#make-install" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre>make install
 </pre></div>
 </div>
-</div>
-<div class="section" id="development">
-<h3>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h3>
-<p>(Optional) Install dotfiles as user:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">## install $(pwd)</span>
-<span class="c"># pip install --user $(pwd)</span>
-</pre></div>
-</div>
-<p>(Optional) Development: install dotfiles as editable (RECOMMENDED):</p>
-<div class="highlight-bash"><div class="highlight"><pre>pip install --user -e git+https://github.com/westurner/dotfiles#egg<span class="o">=</span>dotfiles
-pip install --user -e .
-</pre></div>
 </div>
 <div class="section" id="make-build">
 <h4><code class="docutils literal"><span class="pre">make</span> <span class="pre">build</span></code><a class="headerlink" href="#make-build" title="Permalink to this headline">¶</a></h4>
@@ -341,24 +364,22 @@ pip install --user -e .
 <li><a class="reference internal" href="#">dotfiles</a><ul>
 <li><a class="reference internal" href="#goals">Goals</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#installing-the-dotfiles">Installing the dotfiles</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#bash">Bash</a></li>
-<li><a class="reference internal" href="#symlinks">Symlinks</a></li>
 <li><a class="reference internal" href="#vimrc">vimrc</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a><ul>
-<li><a class="reference internal" href="#pip">pip</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#makefile">Makefile</a><ul>
-<li><a class="reference internal" href="#make-install"><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></a></li>
-<li><a class="reference internal" href="#make-help"><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
-<li><a class="reference internal" href="#development">Development</a><ul>
+<li><a class="reference internal" href="#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
+<li><a class="reference internal" href="#create-a-virtualenv">Create a virtualenv</a></li>
+<li><a class="reference internal" href="#makefile">Makefile</a><ul>
+<li><a class="reference internal" href="#make-help"><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code></a></li>
+<li><a class="reference internal" href="#make-install"><code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code></a></li>
 <li><a class="reference internal" href="#make-build"><code class="docutils literal"><span class="pre">make</span> <span class="pre">build</span></code></a></li>
 </ul>
 </li>
