@@ -1,5 +1,5 @@
 #!/bin/bash
 # This hook is run before every virtualenv is activated.
 
-declare -f 'dotfiles_preactivate' 2>1 > /dev/null \
+declare -f 'dotfiles_preactivate' 2>&1 > /dev/null \
     && dotfiles_preactivate

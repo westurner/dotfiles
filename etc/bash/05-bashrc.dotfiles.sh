@@ -81,10 +81,10 @@ dotfiles_postactivate() {
     test -n $_VENV \
         && source <(python $_VENV -E --bash)
 
-    declare -f '_usrlog_setup' 2>1 > /dev/null \
+    declare -f '_usrlog_setup' 2>&1 > /dev/null \
         && _usrlog_setup
    
-    declare -f '_venv_set_prompt' 2>1 > /dev/null \
+    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
         && _venv_set_prompt
 
 }

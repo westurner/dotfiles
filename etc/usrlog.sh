@@ -68,7 +68,7 @@ _usrlog_set_HIST() {
         shopt -s cmdhist
 
         # enable autocd (if available)
-        shopt -s autocd 2>1 > /dev/null
+        shopt -s autocd 2>&1 > /dev/null
     elif [ -n "$ZSH_VERSION" ]; then
         setopt APPEND_HISTORY
         setopt EXTENDED_HISTORY
