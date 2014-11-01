@@ -360,7 +360,7 @@ class Venv(object):
         env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
         env['GUIVIM']       = env.get('MVIMBIN', env.get('GVIMBIN'))
 
-        if not env.get('GVIMBIN'):
+        if not env.get('GUIVIM'):
             env['_EDIT_']   = 'vim -p'
         else:
             env['_EDIT_']   = '%s --servername %s --remote-tab-silent' % (
@@ -655,10 +655,16 @@ LS_COLOR_AUTO = "--color=auto"
 if IS_DARWIN:
     LS_COLOR_AUTO = "-G"
 
-PS_FX_COMMAND = 'ps -aufx'
+
+PSX_COMMAND = 'ps uxaw'
+PSF_COMMAND = 'ps uxawf'
+PS_SORT_CPU = '--sort=-pcpu'
+PS_SORT_MEM = '--sort=-pmem'
 if IS_DARWIN:
-    PS_FX_COMMAND = 'ps -axf'
     PSX_COMMAND = 'ps uxaw'
+    PSF_COMMAND = 'ps uxaw'
+    PS_SORT_CPU = '-c'
+    PS_SORT_MEM = '-m'
 
 DEFAULT_ALIASES = OrderedDict((
     ('cdw', 'cd $$WORKON_HOME'),
@@ -690,7 +696,7 @@ DEFAULT_ALIASES = OrderedDict((
     ('htop', 'htop'),
     ('ifconfig', 'ifconfig'),
     ('ip', 'ip'),
-    ('last','last'),
+    ('last', 'last'),
     ('la', 'ls {} -A'.format(LS_COLOR_AUTO)),
     ('ll', 'ls {} -aL'.format(LS_COLOR_AUTO)),
     ('ls', 'ls {}'.format(LS_COLOR_AUTO)),
@@ -704,10 +710,14 @@ DEFAULT_ALIASES = OrderedDict((
     ('ping', 'ping'),
     ('mv', 'mv'),
     ('ps', 'ps'),
-    ('psx', PSX_COMMAND),  # 'ps uxaw'
+    ('psf', PSF_COMMAND),
+    ('psx', PSX_COMMAND),
     ('psh', '{} | head'.format(PSX_COMMAND)),
-    ('psh', '{} | head -n 21'.format(PSX_COMMAND)),
-    ('psfx', PS_FX_COMMAND),
+    ('psc', '{} {}'.format(PSX_COMMAND, PS_SORT_CPU)),
+    ('psch', '{} {} | head'.format(PSX_COMMAND, PS_SORT_CPU)),
+    ('psm', '{} {}'.format(PSX_COMMAND, PS_SORT_MEM)),
+    ('psmh', '{} {} | head'.format(PSX_COMMAND, PS_SORT_MEM)),
+    ('psfx', PSF_COMMAND),
     ('pydoc', 'pydoc'),
     ('pyline', 'pyline'),
     ('pyrpo', 'pyrpo'),
