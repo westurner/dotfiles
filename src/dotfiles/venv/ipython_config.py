@@ -15,7 +15,7 @@ ipython_config.py (venv)
 """
 
 
-import distutils
+import distutils.spawn
 import logging
 import os
 import site
@@ -658,6 +658,7 @@ if IS_DARWIN:
 PS_FX_COMMAND = 'ps -aufx'
 if IS_DARWIN:
     PS_FX_COMMAND = 'ps -axf'
+    PSX_COMMAND = 'ps uxaw'
 
 DEFAULT_ALIASES = OrderedDict((
     ('cdw', 'cd $$WORKON_HOME'),
@@ -670,6 +671,11 @@ DEFAULT_ALIASES = OrderedDict((
     ('egrep', 'egrep --color=auto'),
     ('fgrep', 'fgrep --color=auto'),
     ('git', 'git'),
+    ('ga', 'git add'),
+    ('gd', 'git diff'),
+    ('gdc', 'git diff --cached'),
+    ('gs', 'git status'),
+    ('gl', 'git log'),
     ('grep', 'grep --color=auto'),
     ('grin', 'grin'),
     ('grind', 'grind'),
@@ -685,11 +691,11 @@ DEFAULT_ALIASES = OrderedDict((
     ('ifconfig', 'ifconfig'),
     ('ip', 'ip'),
     ('last','last'),
-    ('la', 'ls --color=auto -A'),
-    ('lx', 'ls --color=auto -alZ'),
-    ('ll', 'ls --color=auto -aL'),
-    ('ls', 'ls --color=auto'),
-    ('lt', 'ls --color=auto -altr'),
+    ('la', 'ls {} -A'.format(LS_COLOR_AUTO)),
+    ('ll', 'ls {} -aL'.format(LS_COLOR_AUTO)),
+    ('ls', 'ls {}'.format(LS_COLOR_AUTO)),
+    ('lt', 'ls {} -altr'.format(LS_COLOR_AUTO)),
+    ('lx', 'ls {} -alZ'.format(LS_COLOR_AUTO)),
     ('lxc', 'lxc'),
     ('make', 'make'),
     ('mkdir', 'mkdir'),
@@ -698,6 +704,9 @@ DEFAULT_ALIASES = OrderedDict((
     ('ping', 'ping'),
     ('mv', 'mv'),
     ('ps', 'ps'),
+    ('psx', PSX_COMMAND),  # 'ps uxaw'
+    ('psh', '{} | head'.format(PSX_COMMAND)),
+    ('psh', '{} | head -n 21'.format(PSX_COMMAND)),
     ('psfx', PS_FX_COMMAND),
     ('pydoc', 'pydoc'),
     ('pyline', 'pyline'),
@@ -720,7 +729,7 @@ DEFAULT_ALIASES = OrderedDict((
     ('vim', 'vim'),
     ('uptime', 'uptime'),
     ('which', 'which'),
-    ('who', 'who'),
+    ('who_', 'who'),
     ('whoami', 'whoami'),
     ('zsh', 'zsh'),
 ))
