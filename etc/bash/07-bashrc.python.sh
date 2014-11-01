@@ -31,3 +31,32 @@ _setup_anaconda() {
     export _ANACONDA_ROOT="/opt/anaconda"
     add_to_path "${_ANACONDA_ROOT}/bin"
 }
+
+workon_conda() {
+    #  workon_conda()    -- workon a conda + venv project
+    _conda_envname=${1}
+    _app=${2}
+    we ${_conda_envname} ${_app}
+    _setup_anaconda && \
+        source activate ${WORKON_HOME}/.conda/${_conda_envname}
+}
+
+wec() {
+    #  wec()              -- workon a conda + venv project
+    workon_conda $@
+}
+
+mkvirtualenv_conda() {
+    #  mkvirtualenv_conda() -- mkvirtualenv and conda create
+    mkvirtualenv $@
+    _conda_envname=${1}
+    conda create --mkdir --prefix ${WORKON_HOME}/.conda/${_conda_envname} \
+        readline
+    workon_conda ${_conda_envname}
+}
+
+rmvirtualenv_conda() {
+    #  rmvirtualenv_conda() -- rmvirtualenv conda
+    rmvirtualenv $@
+    _conda_envname=${1}
+}
