@@ -2,7 +2,7 @@
 # encoding: utf-8
 from __future__ import print_function
 """
-dotfiles
+dotfiles.cli.cli
 """
 
 
@@ -26,12 +26,6 @@ def get_pkg_resource_filename(path=''):
     resource_path = pkg_resources.resource_filename('dotfiles', _relpath)
     return os.path.abspath(resource_path)
 
-
-def dotfiles():
-    """
-    mainfunc
-    """
-    pass
 
 
 import unittest
@@ -74,7 +68,7 @@ def main(*args):
                    action='store_true',)
 
     args = args and list(args) or sys.argv[1:]
-    (opts, args) = prs.parse_args()
+    (opts, args) = prs.parse_args(args=args)
 
     if not opts.quiet:
         logging.basicConfig()
