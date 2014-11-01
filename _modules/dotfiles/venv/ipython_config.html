@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles.venv.ipython_config &mdash; dotfiles 0.2.1 documentation</title>
+    <title>dotfiles.venv.ipython_config &mdash; dotfiles 0.2.3 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    '../../../',
-            VERSION:     '0.2.1',
+            VERSION:     '0.2.3',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -63,7 +63,7 @@
 <script type="text/javascript" src="../../../_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.2.1 documentation" href="../../../index.html" />
+    <link rel="top" title="dotfiles 0.2.3 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body role="document">
@@ -76,7 +76,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">dotfiles 0.2.1 documentation</a>
+          <a class="navbar-brand" href="../../../index.html">dotfiles 0.2.3 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -137,7 +137,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="kn">import</span> <span class="nn">distutils</span>
+<span class="kn">import</span> <span class="nn">distutils.spawn</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">site</span>
@@ -482,7 +482,7 @@
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;mvim&#39;</span><span class="p">)</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;GUIVIM&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIM&#39;</span><span class="p">):</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;vim -p&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> --servername </span><span class="si">%s</span><span class="s"> --remote-tab-silent&#39;</span> <span class="o">%</span> <span class="p">(</span>
@@ -777,9 +777,16 @@
 <span class="k">if</span> <span class="n">IS_DARWIN</span><span class="p">:</span>
     <span class="n">LS_COLOR_AUTO</span> <span class="o">=</span> <span class="s">&quot;-G&quot;</span>
 
-<span class="n">PS_FX_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps -aufx&#39;</span>
+
+<span class="n">PSX_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxaw&#39;</span>
+<span class="n">PSF_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxawf&#39;</span>
+<span class="n">PS_SORT_CPU</span> <span class="o">=</span> <span class="s">&#39;--sort=-pcpu&#39;</span>
+<span class="n">PS_SORT_MEM</span> <span class="o">=</span> <span class="s">&#39;--sort=-pmem&#39;</span>
 <span class="k">if</span> <span class="n">IS_DARWIN</span><span class="p">:</span>
-    <span class="n">PS_FX_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps -axf&#39;</span>
+    <span class="n">PSX_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxaw&#39;</span>
+    <span class="n">PSF_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxaw&#39;</span>
+    <span class="n">PS_SORT_CPU</span> <span class="o">=</span> <span class="s">&#39;-c&#39;</span>
+    <span class="n">PS_SORT_MEM</span> <span class="o">=</span> <span class="s">&#39;-m&#39;</span>
 
 <span class="n">DEFAULT_ALIASES</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">((</span>
     <span class="p">(</span><span class="s">&#39;cdw&#39;</span><span class="p">,</span> <span class="s">&#39;cd $$WORKON_HOME&#39;</span><span class="p">),</span>
@@ -792,6 +799,11 @@
     <span class="p">(</span><span class="s">&#39;egrep&#39;</span><span class="p">,</span> <span class="s">&#39;egrep --color=auto&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;fgrep&#39;</span><span class="p">,</span> <span class="s">&#39;fgrep --color=auto&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;git&#39;</span><span class="p">,</span> <span class="s">&#39;git&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;ga&#39;</span><span class="p">,</span> <span class="s">&#39;git add&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;gd&#39;</span><span class="p">,</span> <span class="s">&#39;git diff&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;gdc&#39;</span><span class="p">,</span> <span class="s">&#39;git diff --cached&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;gs&#39;</span><span class="p">,</span> <span class="s">&#39;git status&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;gl&#39;</span><span class="p">,</span> <span class="s">&#39;git log&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;grep&#39;</span><span class="p">,</span> <span class="s">&#39;grep --color=auto&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;grin&#39;</span><span class="p">,</span> <span class="s">&#39;grin&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;grind&#39;</span><span class="p">,</span> <span class="s">&#39;grind&#39;</span><span class="p">),</span>
@@ -806,12 +818,12 @@
     <span class="p">(</span><span class="s">&#39;htop&#39;</span><span class="p">,</span> <span class="s">&#39;htop&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;ifconfig&#39;</span><span class="p">,</span> <span class="s">&#39;ifconfig&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;ip&#39;</span><span class="p">,</span> <span class="s">&#39;ip&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;last&#39;</span><span class="p">,</span><span class="s">&#39;last&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;la&#39;</span><span class="p">,</span> <span class="s">&#39;ls --color=auto -A&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;lx&#39;</span><span class="p">,</span> <span class="s">&#39;ls --color=auto -alZ&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ll&#39;</span><span class="p">,</span> <span class="s">&#39;ls --color=auto -aL&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ls&#39;</span><span class="p">,</span> <span class="s">&#39;ls --color=auto&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;lt&#39;</span><span class="p">,</span> <span class="s">&#39;ls --color=auto -altr&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;last&#39;</span><span class="p">,</span> <span class="s">&#39;last&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;la&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -A&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;ll&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -aL&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;ls&#39;</span><span class="p">,</span> <span class="s">&#39;ls {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;lt&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -altr&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;lx&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -alZ&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
     <span class="p">(</span><span class="s">&#39;lxc&#39;</span><span class="p">,</span> <span class="s">&#39;lxc&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;make&#39;</span><span class="p">,</span> <span class="s">&#39;make&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;mkdir&#39;</span><span class="p">,</span> <span class="s">&#39;mkdir&#39;</span><span class="p">),</span>
@@ -820,7 +832,14 @@
     <span class="p">(</span><span class="s">&#39;ping&#39;</span><span class="p">,</span> <span class="s">&#39;ping&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;mv&#39;</span><span class="p">,</span> <span class="s">&#39;mv&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;ps&#39;</span><span class="p">,</span> <span class="s">&#39;ps&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;psfx&#39;</span><span class="p">,</span> <span class="n">PS_FX_COMMAND</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;psf&#39;</span><span class="p">,</span> <span class="n">PSF_COMMAND</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;psx&#39;</span><span class="p">,</span> <span class="n">PSX_COMMAND</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;psh&#39;</span><span class="p">,</span> <span class="s">&#39;{} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;psc&#39;</span><span class="p">,</span> <span class="s">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_CPU</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;psch&#39;</span><span class="p">,</span> <span class="s">&#39;{} {} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_CPU</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;psm&#39;</span><span class="p">,</span> <span class="s">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_MEM</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;psmh&#39;</span><span class="p">,</span> <span class="s">&#39;{} {} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_MEM</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;psfx&#39;</span><span class="p">,</span> <span class="n">PSF_COMMAND</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;pydoc&#39;</span><span class="p">,</span> <span class="s">&#39;pydoc&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;pyline&#39;</span><span class="p">,</span> <span class="s">&#39;pyline&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;pyrpo&#39;</span><span class="p">,</span> <span class="s">&#39;pyrpo&#39;</span><span class="p">),</span>
@@ -842,7 +861,7 @@
     <span class="p">(</span><span class="s">&#39;vim&#39;</span><span class="p">,</span> <span class="s">&#39;vim&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;uptime&#39;</span><span class="p">,</span> <span class="s">&#39;uptime&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;which&#39;</span><span class="p">,</span> <span class="s">&#39;which&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;who&#39;</span><span class="p">,</span> <span class="s">&#39;who&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;who_&#39;</span><span class="p">,</span> <span class="s">&#39;who&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;whoami&#39;</span><span class="p">,</span> <span class="s">&#39;whoami&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;zsh&#39;</span><span class="p">,</span> <span class="s">&#39;zsh&#39;</span><span class="p">),</span>
 <span class="p">))</span>
@@ -1053,7 +1072,7 @@
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-        <li><a href="../../../index.html">dotfiles 0.2.1 documentation</a></li>
+        <li><a href="../../../index.html">dotfiles 0.2.3 documentation</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       

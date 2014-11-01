@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Usage &mdash; dotfiles 0.2.1 documentation</title>
+    <title>Usage &mdash; dotfiles 0.2.3 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.2.1',
+            VERSION:     '0.2.3',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -63,7 +63,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.2.1 documentation" href="index.html" />
+    <link rel="top" title="dotfiles 0.2.3 documentation" href="index.html" />
     <link rel="next" title="Venv" href="venv.html" />
     <link rel="prev" title="Install" href="install.html" /> 
   </head>
@@ -77,7 +77,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">dotfiles 0.2.1 documentation</a>
+          <a class="navbar-brand" href="index.html">dotfiles 0.2.3 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -369,6 +369,10 @@ docs   -- build sphinx documentation
     ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
     ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
     ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
+    #  workon_conda()    -- workon a conda + venv project
+    #  wec()              -- workon a conda + venv project
+    #  mkvirtualenv_conda() -- mkvirtualenv and conda create
+    #  rmvirtualenv_conda() -- rmvirtualenv conda
    
    
 #### etc/bash/07-bashrc.virtualenv.sh
@@ -522,6 +526,34 @@ docs   -- build sphinx documentation
    
    
 #### etc/bash/70-bashrc.repos.sh
+    #  ensure_symlink   -- create or update a symlink to $_to from _from
+    #    ln -s $_to $_from
+    # if symlink $_from already exists
+        # compare the actual paths
+        # if a file or folder exists return an errorcode
+            # otherwise, create the symlink
+    #  ensure_mkdir -- create a directory if it does not yet exist
+    #  _venv_ensure_paths()   -- 
+    # ensure_mkdir ${prefix}/home
+    # ensure_mkdir ${prefix}/opt
+    # ensure_mkdir ${prefix}/sbin
+    # ensure_mkdir ${prefix}/srv
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    #  setup_dotfiles_docs_venv -- create default &#39;docs&#39; venv
+    #  setup_dotfiles_src_venv -- create default &#39;src&#39; venv
+    #
+    #   __SRC_HG=${WORKON_HOME}/src/src/hg
+    #   __SRC_GIT=${WORKON_HOME}/src/src/git
+    #
+    #  Hg runs hg commands as user hg
+    #  Git runs git commands as user git
+    #
+    #  Hgclone will mirror to $__SRC_HG
+    #  Gitclone will mirror to $__SRC_GIT
+    #
+    #
+    #  get_realpath     -- get an absolute path to a path or symlink (Python)
 # __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
 # __SRC_GIT_REMOTE_NAME         -- name for git remote v
 # __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
@@ -536,7 +568,11 @@ docs   -- build sphinx documentation
     #  $1   -- repo [user/]name (e.g. westurner/dotfiles)
     #  $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
     #    fixperms ${path}
-    # host_docs &lt;project_name&gt; &lt;path&gt; &lt;docs/Makefile&gt; &lt;docs/conf.py&gt;
+    #  host_docs    -- build and host documentation in a local directory
+    #   param $1: &lt;project_name&gt;
+    #   param $2: [&lt;path&gt;]
+    #   param $3: [&lt;docs/Makefile&gt;]
+    #   param $4: [&lt;docs/conf.py&gt;]
     # * log documentation builds
     # * build a sphinx documentation set with a Makefile and a conf.py
     # * rsync to docs webserver
@@ -545,10 +581,6 @@ docs   -- build sphinx documentation
     # note: you must manually install packages into the
     # local &#39;docs&#39; virtualenv&#39;
                         # TODO: prompt?
-                    # TODO: prompt?
-        # TODO
-        # &gt;&gt; &#39;SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother &#39;
-        # &lt;&lt; &#39;SPHINX_BUILD =    sphinx-build -Dhtml_theme=default&#39;
         # &gt;&gt; &#39;html_theme = &quot;_-_&quot;
         # &lt;&lt; &#39;html_theme = &#39;default&#39;
    
@@ -1464,7 +1496,7 @@ Execute python expressions over line-based files.</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-        <li><a href="index.html">dotfiles 0.2.1 documentation</a></li>
+        <li><a href="index.html">dotfiles 0.2.3 documentation</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
