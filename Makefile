@@ -170,10 +170,10 @@ clean:
 
 
 pyclean:
-	find . -type f -name '*.pyc' -exec rm -fv {} \;
-	find . -type f -name '*.pyo' -exec rm -fv {} \;
-	find . -type d -name '__pycache__' -exec rm -rfv {} \;
-	find . -name '*.egg-info' -exec rm -rfv {} \;
+	find . -type f -name '*.pyc' -print0 | xargs -0 rm -fv
+	find . -type f -name '*.pyo' -print0 | xargs -0 rm -fv
+	find . -type d -name '__pycache__' -print0 | xargs -0 rm -rfv
+	find . -name '*.egg-info' -print0 | xargs -0 rm -fv
 	python setup.py clean
 
 vimclean:
