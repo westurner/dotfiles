@@ -11,14 +11,6 @@ Subpackages
 
 .. toctree::
 
+    dotfiles.cli
     dotfiles.venv
-
-Submodules
-----------
-
-.. automodule:: dotfiles.cli
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 

@@ -19,18 +19,18 @@ dotfiles_status() {
     echo "# dotfiles_status()"
     echo "HOSTNAME='${HOSTNAME}'"
     echo "USER='${USER}'"
-    echo "_APP='${_APP}'"
+    echo "PROJECT_HOME='${PROJECT_HOME}'"
+    echo "WORKON_HOME='${WORKON_HOME}'"
     echo "VIRTUAL_ENV_NAME='${VIRTUAL_ENV_NAME}'"
     echo "VIRTUAL_ENV='${VIRTUAL_ENV}'"
     echo "_USRLOG='${_USRLOG}'"
     echo "_TERM_ID='${_TERM_ID}'"
     echo "_SRC='${_SRC}'"
+    echo "_APP='${_APP}'"
     echo "_WRD='${_WRD}'"
     #echo "__DOCSWWW='${_DOCS}'"
     #echo "__SRC='${__SRC}'"
     #echo "__PROJECTSRC='${__PROJECTSRC}'"
-    echo "PROJECT_HOME='${PROJECT_HOME}'"
-    echo "WORKON_HOME='${WORKON_HOME}'"
     echo "PATH='${PATH}'"
     echo "__DOTFILES='${__DOTFILES}'"
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
@@ -81,10 +81,10 @@ dotfiles_postactivate() {
     test -n $_VENV \
         && source <(python $_VENV -E --bash)
 
-    declare -f '_usrlog_setup' 2>1 > /dev/null \
+    declare -f '_usrlog_setup' 2>&1 > /dev/null \
         && _usrlog_setup
    
-    declare -f '_venv_set_prompt' 2>1 > /dev/null \
+    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
         && _venv_set_prompt
 
 }

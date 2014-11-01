@@ -447,6 +447,7 @@ setup(
         'console_scripts':
             [
                 'dotfiles=dotfiles.cli.cli:main',
+                'venv=dotfiles.venv.ipython_config:main'
             ]
     },
     cmdclass={

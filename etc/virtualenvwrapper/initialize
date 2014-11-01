@@ -4,10 +4,10 @@
 
 function_exists() {
     ## function_exists()    -- check whether function 'name' exists
-    declare -f $1 2>1 > /dev/null
+    declare -f $1 2>&1 > /dev/null
     return $?
 }
 
 ## source the dotfiles_ functions if $__DOTFILES is set
-declare -f 'dotfiles_initialize' 2>1 > /dev/null \
+declare -f 'dotfiles_initialize' 2>&1 > /dev/null \
     && dotfiles_initialize

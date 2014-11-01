@@ -198,19 +198,29 @@ _loadaliases() {
     alias man_='/usr/bin/man'
 
     if [ -n "${__IS_LINUX}" ]; then
-        alias psx='ps aufxw'
-        alias psxw='ps aufxw | head'
-        alias psxs='ps aufxw --sort=tty,ppid,pid'
-        alias psxh='ps auxfw --sort=tty,ppid,pid | head'
-        alias psh='ps auxfw --sort=tty,ppid,pid | head'
-        alias psz='ps aufxw --sort=tty,ppid,pid | head'
-    elif [ -n "${__IS_MAC}" ]; then
-        alias psx='ps uxa'
-        alias psxh='ps uxa | head'
-        alias psxw='ps uxaw'
-        alias psxh='ps uxaw | head'
+        alias psx='ps uxaw'
+        alias psf='ps uxawf'
+        alias psxs='ps uxawf --sort=tty,ppid,pid'
+        alias psxh='ps uxawf --sort=tty,ppid,pid | head'
+
         alias psh='ps uxaw | head'
-        alias psz='ps uxaw | head'
+
+        alias psc='ps uxaw --sort=-pcpu'
+        alias psch='ps uxaw --sort=-pcpu | head'
+
+        alias psm='ps uxaw --sort=-pmem'
+        alias psmh='ps uxaw --sort=-pmem | head'
+    elif [ -n "${__IS_MAC}" ]; then
+        alias psx='ps uxaw'
+        alias psf='ps uxaw' # no -f
+
+        alias psh='ps uxaw | head'
+
+        alias psc='ps uxaw --sort=-%cpu'
+        alias psch='ps uxaw --sort=-%cpu | head'
+
+        alias psm='ps uxaw -m'
+        alias psmh='ps uxaw -m | head'
     fi
 
     alias t='tail'

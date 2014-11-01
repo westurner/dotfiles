@@ -68,7 +68,7 @@ _usrlog_set_HIST() {
         shopt -s cmdhist
 
         # enable autocd (if available)
-        shopt -s autocd 2>1 > /dev/null
+        shopt -s autocd 2>&1 > /dev/null
     elif [ -n "$ZSH_VERSION" ]; then
         setopt APPEND_HISTORY
         setopt EXTENDED_HISTORY
@@ -104,9 +104,9 @@ _usrlog_get__TERM_ID() {
 
 
 _usrlog_set__TERM_ID () {
-    # Set an explicit terminal name
+    #  _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
     # param $1: terminal name
-    new_term_id="${1}"
+    new_term_id="${@}"
     if [ -z "${new_term_id}" ]; then
         new_term_id="#$(_usrlog_randstr 8)"
     fi
@@ -125,12 +125,6 @@ _usrlog_set__TERM_ID () {
             && _venv_set_prompt
     fi
 }
-
-set_term_id() {
-    # set_term_id()     -- set $_TERM_ID to a randomstr or $1
-    _usrlog_set__TERM_ID $@
-}
-
 
 _usrlog_echo_title () {
     # _usrlog_echo_title    -- set window title
@@ -219,17 +213,32 @@ _usrlog_writecmd() {
 
 
 
-# usrlog shell command "API"
+## usrlog.sh API
+
+
 
 termid() {
+    # termid        -- echo $_TERM_ID
     _usrlog_get__TERM_ID
 }
 
-stid () {
-    # Shortcut alias to _usrlog_set__TERM_ID
+
+set_term_id() {
+    # set_term_id() -- set $_TERM_ID to a randomstr or $1
     _usrlog_set__TERM_ID $@
 }
 
+stid() {
+    # stid()        -- set $_TERM_ID to a randomstr or $1
+    _usrlog_set__TERM_ID $@
+}
+st() {
+    # st()          -- set $_TERM_ID to a randomstr or $1
+    _usrlog_set__TERM_ID $@
+}
+
+
+## Old (hist, histgrep, histgrep_session)
 
 hist() {
     #  less()       --  less the current session log
@@ -256,30 +265,47 @@ histgrep_session () {
         fi
 }
 
-usrlogt() {
-    ## usrlogt()    -- tail -n20 $_USRLOG
-    tail -n20 ${@:-"${_USRLOG}"}
+
+## New (usrlogt, ut, usrlogv
+
+usrlog_tail() {
+    #  usrlogt()    -- tail -n20 $_USRLOG
+    if [ -n $@ ]; then
+        _usrlog=${@:-${_USRLOG}}
+        args[-1] = usrlog
+        tail ${_usrlog} 
+    else
+        tail $_USRLOG
+    fi
 }
 
 ut() {
-    ## ut()         -- tail -n20 $_USRLOG
-    usrlogt ${@}
+    #  ut()         -- tail -n20 $_USRLOG
+    usrlog_tail ${@}
 }
 
+
+usrlog_tail_follow() {
+    #  usrlogtf()   -- tail -f -n20 $_USRLOG
+    tail -f -n20 ${@:-"${_USRLOG}"}
+}
+
+utf() {
+    #  ut()         -- tail -f -n20 $_USRLOG
+    usrlog_tail_follow $@
+}
+
+
 usrlog_grep() {
-    ## usrlog_grep()    -- egrep -n $_USRLOG
+    #  usrlog_grep()    -- egrep -n $_USRLOG
     egrep -n $@ ${_USRLOG}
 }
 
 ug() {
-    ## ug()             -- egrep -n $_USRLOG
+    #  ug()             -- egrep -n $_USRLOG
     usrlog_grep $@
 }
 
-usrlogtf() {
-    ## usrlogtf()   -- tail -n20 -f $_USRLOG
-    tail -f -n20 ${@:-"${_USRLOG}"}
-}
 
 note() {
     ## note()   -- _usrlog_append # $@
