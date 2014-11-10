@@ -140,6 +140,10 @@
     ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
     ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
     ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
+    #  workon_conda()    -- workon a conda + venv project
+    #  wec()              -- workon a conda + venv project
+    #  mkvirtualenv_conda() -- mkvirtualenv and conda create
+    #  rmvirtualenv_conda() -- rmvirtualenv conda
    
    
 #### etc/bash/07-bashrc.virtualenv.sh
@@ -197,6 +201,7 @@
     # cdpysite -- cd $_PYSITE
     # cds      -- cd $_SRC
     # cdw      -- cd $_WRD
+    # cdwrk     -- cd $WORKON_HOME
 ## Grin search
 # virtualenv / virtualenvwrapper
     # grinv    -- grin $VIRTUAL_ENV
@@ -293,6 +298,34 @@
    
    
 #### etc/bash/70-bashrc.repos.sh
+    #  ensure_symlink   -- create or update a symlink to $_to from _from
+    #    ln -s $_to $_from
+    # if symlink $_from already exists
+        # compare the actual paths
+        # if a file or folder exists return an errorcode
+            # otherwise, create the symlink
+    #  ensure_mkdir -- create a directory if it does not yet exist
+    #  _venv_ensure_paths()   -- 
+    # ensure_mkdir ${prefix}/home
+    # ensure_mkdir ${prefix}/opt
+    # ensure_mkdir ${prefix}/sbin
+    # ensure_mkdir ${prefix}/srv
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    #  setup_dotfiles_docs_venv -- create default 'docs' venv
+    #  setup_dotfiles_src_venv -- create default 'src' venv
+    #
+    #   __SRC_HG=${WORKON_HOME}/src/src/hg
+    #   __SRC_GIT=${WORKON_HOME}/src/src/git
+    #
+    #  Hg runs hg commands as user hg
+    #  Git runs git commands as user git
+    #
+    #  Hgclone will mirror to $__SRC_HG
+    #  Gitclone will mirror to $__SRC_GIT
+    #
+    #
+    #  get_realpath     -- get an absolute path to a path or symlink (Python)
 # __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
 # __SRC_GIT_REMOTE_NAME         -- name for git remote v
 # __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
@@ -307,7 +340,11 @@
     #  $1   -- repo [user/]name (e.g. westurner/dotfiles)
     #  $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
     #    fixperms ${path}
-    # host_docs <project_name> <path> <docs/Makefile> <docs/conf.py>
+    #  host_docs    -- build and host documentation in a local directory
+    #   param $1: <project_name>
+    #   param $2: [<path>]
+    #   param $3: [<docs/Makefile>]
+    #   param $4: [<docs/conf.py>]
     # * log documentation builds
     # * build a sphinx documentation set with a Makefile and a conf.py
     # * rsync to docs webserver
@@ -316,10 +353,6 @@
     # note: you must manually install packages into the
     # local 'docs' virtualenv'
                         # TODO: prompt?
-                    # TODO: prompt?
-        # TODO
-        # >> 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother '
-        # << 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
         # >> 'html_theme = "_-_"
         # << 'html_theme = 'default'
    
