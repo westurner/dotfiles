@@ -53,6 +53,9 @@ we() {
     fi
 }
 
+## Completion
+complete -o default -o nospace -F _virtualenvs we
+
 ## CD shortcuts
 
 cdb () {
