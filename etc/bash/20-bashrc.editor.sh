@@ -7,7 +7,7 @@
 ## Editor
 #export USEGVIM=""
 _setup_editor() {
-    # Configure ${EDITOR}
+    # setup_editor()    -- configure ${EDITOR}
     export VIMBIN="/usr/bin/vim"
     export GVIMBIN="/usr/bin/gvim"
     export MVIMBIN="/usr/local/bin/mvim"
@@ -18,16 +18,17 @@ _setup_editor() {
         export GUIVIMBIN=$MVIMBIN
     fi
 
-    export EDITOR="${VIMBIN}"
-    export SUDO_EDITOR="${VIMBIN}"
+    export EDITOR="${VIMBIN} -f"
+    export EDITOR_="${EDITOR}"
+    export SUDO_EDITOR="${VIMBIN} -f"
 
     if [ -n "${GUIVIMBIN}" ]; then
-        VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'} --remote-tab-silent"
-        SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-'EDITOR'} --remote-tab-wait-silent"
-        export EDITOR="${GUIVIMBIN} ${VIMCONF}"
-        export SUDO_EDITOR="${GUIVIMBIN} ${SUDOCONF}"
-        alias vim='${VIMBIN}'
-        alias gvim="${GUIMVINBIN} ${VIMCONF}"
+        export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'}"
+        export SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-'EDITOR'}"
+        export EDITOR="${GUIVIMBIN} -f"
+        export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
+        export SUDO_EDITOR="${GUIVIMBIN} -f"
+        alias gvim="${GUIVIMBIN}"
     else
         unset -f $GVIMBIN
         unset -f $MVIMBIN
@@ -45,15 +46,15 @@ ggvim() {
 
 
 e() {
-    ${EDITOR} $@
+    ${EDITOR_} $@
 }
 
 edit() {
-    ${EDITOR} $@
+    ${EDITOR_} $@
 }
 
 editcfg() {
-    ${EDITOR} $_CFG
+    ${EDITOR_} $_CFG
 }
 
 sudoe() {

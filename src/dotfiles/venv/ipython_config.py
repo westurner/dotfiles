@@ -457,8 +457,9 @@ class Venv(object):
             env['_CFG']         = appcfg
             env['_EDITCFG_']    = "{_EDIT_} {_CFG}".format(
                                     _EDIT_=env['_EDIT_'],
-                                    _CFG=shell_quote(env['_CFG']))
-            aliases['editcfg']  = env['_EDITCFG_']
+                                    _CFG=env['_CFG'])
+            aliases['editcfg']  = "{_EDITCFG} %l".format(
+                                    _EDITCFG=env['_EDITCFG_'])
             # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
             env['_SHELL_']      = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
                                     _BIN=env['_BIN'],
@@ -476,9 +477,9 @@ class Venv(object):
         else:
             self.log.error('app configuration %r not found' % appcfg)
 
-        env['EDITOR']       = env['_EDIT_']
-        aliases['edit-']    = env['_EDIT_']
-        aliases['e']        = env['_EDIT_']
+        aliases['edit-']    = "{_EDIT_} %l".format(
+                                _EDIT_=env['_EDIT_'])
+        aliases['e']        = aliases['edit-']
         aliases['editp']    = "%s %%l" % self._edit_project_cmd # TODO
         aliases['makewrd']  = "(cd {_WRD} && make %l)".format(
                                     _WRD=shell_quote(env['_WRD']))
@@ -506,7 +507,7 @@ class Venv(object):
         return cls(virtualenv=virtualenv, **kwargs)
 
     @staticmethod
-    def _configure_ipython(c=None, setup_func=None, cd_to_WRD=False):
+    def _configure_ipython(c=None, setup_func=None):
         if c is None and not in_ipython_config():
             # skip IPython configuration
             log.error("not in_ipython_config")
@@ -546,10 +547,6 @@ class Venv(object):
     def configure_ipython(self, *args, **kwargs):
         def setup_func(c):
             c.AliasManager.user_aliases = self.aliases.items()
-            c.IPythonWidget.editor = self.env['_EDIT_']
-            if 'cd_to_WRD' in kwargs:
-                ip = IPYMock()
-                ip.magic('cd %r' % self.env['_WRD'])
         return Venv._configure_ipython(*args, setup_func=setup_func, **kwargs)
 
     def _ipython_alias_to_bash_alias(self, name, alias):
