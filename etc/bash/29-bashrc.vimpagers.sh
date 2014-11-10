@@ -1,4 +1,15 @@
 
+
+## _configure_lesspipe  -- (less <file.zip> | lessv)
+_configure_lesspipe() {
+    lesspipe=$(which lesspipe.sh 2>/dev/null || false)
+    if [ -n "${lesspipe}" ]; then
+        source <(${lesspipe})
+    fi
+}
+_configure_lesspipe
+
+
 ## vimpager     -- call vimpager
 vimpager() {
     # TODO: lesspipe
