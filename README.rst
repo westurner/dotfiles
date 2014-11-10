@@ -3,10 +3,11 @@
 dotfiles
 ===========
 
-`GitHub`_ | `BitBucket`_ | `ReadTheDocs`_
+`GitHub`_ | `BitBucket`_ | `Documentation`_
 
 .. _GitHub: https://github.com/westurner/dotfiles
 .. _BitBucket: https://bitbucket.org/westurner/dotfiles
+.. _Documentation: https://westurner.github.io/dotfiles/   
 .. _ReadTheDocs: https://wrdfiles.readthedocs.org/en/latest/
 
 **Shell**, **Python**, and **configuration files**
