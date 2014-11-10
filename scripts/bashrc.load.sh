@@ -2025,6 +2025,19 @@ sudogvim() {
 
 
 
+
+## _configure_lesspipe  -- (less <file.zip> | lessv)
+_configure_lesspipe() {
+    lesspipe=$(which lesspipe.sh 2>/dev/null || false)
+    if [ -n "${lesspipe}" ]; then
+        source <(${lesspipe})
+    fi
+}
+_configure_lesspipe
+which lesspipe.sh 2>/dev/null || false
+${lesspipe}
+
+
 ## vimpager     -- call vimpager
 vimpager() {
     # TODO: lesspipe
@@ -2474,9 +2487,9 @@ usrlog_screenrec_ffmpeg() {
 ## call _usrlog_setup
 _usrlog_setup
 bash: shopt: autocd: invalid shell option name
-]0;#VtcI2gUPR88 (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
+]0;#w8K0lvRiMSM (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
 bash: shopt: autocd: invalid shell option name
-]0;#VtcI2gUPR88 (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
+]0;#w8K0lvRiMSM (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
 usrlogv() {
     ## usrlog() -- open $_USRLOG with vim (skip to end)
     file=${1:-$_USRLOG}
@@ -3544,7 +3557,7 @@ WORKON_HOME='/Users/W/wrk/.ve'
 VIRTUAL_ENV_NAME='dotfiles'
 VIRTUAL_ENV='/Users/W/wrk/.ve/dotfiles'
 _USRLOG='/Users/W/wrk/.ve/dotfiles/.usrlog'
-_TERM_ID='#VtcI2gUPR88'
+_TERM_ID='#w8K0lvRiMSM'
 _SRC='/Users/W/wrk/.ve/dotfiles/src'
 _APP='dotfiles'
 _WRD='/Users/W/wrk/.ve/dotfiles/src/dotfiles'
