@@ -319,12 +319,12 @@ deb_mkrepo () {
     dpkg-scansources . /dev/null | gzip -9c > $REPODIR/Sources.gz
 }
 
-mnt_bind () {
+mnt_chroot_bind () {
     DEST=$1
-    mount -o bind /dev ${DEST}/dev
-    mount -o bind /proc ${DEST}/proc
-    mount -o bind /sys ${DEST}/sys
-    # TODO
+    sudo mount proc -t proc ${DEST}/proc
+    sudo mount -o bind /dev ${DEST}/dev
+    sudo mount sysfs -t sysfs ${DEST}/sys
+    sudo mount -o bind,ro /boot {DEST}/boot
 }
 mnt_cifs () {
     URI="$1" # //host/share
