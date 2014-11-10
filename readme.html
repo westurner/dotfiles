@@ -158,7 +158,7 @@
                   
   <div class="section" id="dotfiles">
 <h1>dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://github.com/westurner/dotfiles">GitHub</a> | <a class="reference external" href="https://bitbucket.org/westurner/dotfiles">BitBucket</a> | <a class="reference external" href="https://wrdfiles.readthedocs.org/en/latest/">ReadTheDocs</a></p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles">GitHub</a> | <a class="reference external" href="https://bitbucket.org/westurner/dotfiles">BitBucket</a> | <a class="reference external" href="https://westurner.github.io/dotfiles/">Documentation</a></p>
 <p><strong>Shell</strong>, <strong>Python</strong>, and <strong>configuration files</strong>
 for working with projects on *nix platforms with Bash, ZSH, Ruby, and Python.</p>
 <div class="section" id="goals">
@@ -177,16 +177,15 @@ for working with projects on *nix platforms with Bash, ZSH, Ruby, and Python.</p
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">etc/.bashrc</span></code> loads <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code></li>
-<li><code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code> loads a documented,</li>
+<li><code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code> loads a documented,
+ordered sequence of bash scripts</li>
+<li><code class="docutils literal"><span class="pre">etc/zsh/00-zshrc.before.sh</span></code> loads a documented,
+ordered sequence of zsh scripts</li>
+<li><a class="reference external" href="https://westurner.github.io/dotfiles/usage.html">https://westurner.github.io/dotfiles/usage.html</a> documents</li>
+<li><a class="reference external" href="https://westurner.github.io/dotfiles/venv.html">https://westurner.github.io/dotfiles/venv.html</a> documents
+the venv (<code class="docutils literal"><span class="pre">ipython_config.py</span></code>) script, which generates shell
+configuration</li>
 </ul>
-<p>ordered sequence of bash scripts
-* <code class="docutils literal"><span class="pre">etc/zsh/00-zshrc.before.sh</span></code> loads a documented,
-ordered sequence of zsh scripts
-* <a class="reference external" href="https://westurner.github.io/dotfiles/usage.html">https://westurner.github.io/dotfiles/usage.html</a> documents
-* <a class="reference external" href="https://westurner.github.io/dotfiles/venv.html">https://westurner.github.io/dotfiles/venv.html</a> documents</p>
-<blockquote>
-<div>the venv (<code class="docutils literal"><span class="pre">ipython_config.py</span></code>) script, which generates shell
-configuration</div></blockquote>
 <div class="section" id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="installing-the-dotfiles">
@@ -267,7 +266,7 @@ dr               <span class="c"># source dotfiles/etc/bash/00-bashrc.before.sh<
 <div class="section" id="requirements">
 <h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
 <p>Project requirements are installed by
-<a href="#id1"><span class="problematic" id="id2">`bootstrap_dotfiles.sh`_</span></a> and, optionally, also the <a class="reference internal" href="#makefile">Makefile</a>.</p>
+<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> and, optionally, also the <a class="reference internal" href="#makefile">Makefile</a>.</p>
 <ul class="simple">
 <li>bash</li>
 <li>python</li>
@@ -280,10 +279,9 @@ dr               <span class="c"># source dotfiles/etc/bash/00-bashrc.before.sh<
 <div class="section" id="install-the-dotfiles">
 <h3>Install the dotfiles<a class="headerlink" href="#install-the-dotfiles" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
-<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
 <div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">bootstrap_dotfiles.sh</span></code> shell script
+<p>The <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> shell script
 clones the <code class="docutils literal"><span class="pre">dotfiles</span></code> git repository
 and installs the <code class="docutils literal"><span class="pre">dotfiles</span></code> Python package.</p>
 <div class="highlight-bash"><div class="highlight"><pre>git clone ssh://git@github.com/westurner/dotfiles <span class="o">&amp;&amp;</span> <span class="nb">cd </span>dotfiles
