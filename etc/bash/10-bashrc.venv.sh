@@ -194,7 +194,7 @@ mw() {
 _venv_set_prompt() {
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
-            export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)" # TODO
+            export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
         else
             unset -v VIRTUAL_ENV_NAME
         fi
