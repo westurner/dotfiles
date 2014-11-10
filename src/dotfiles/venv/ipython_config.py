@@ -373,20 +373,27 @@ class Venv(object):
         env['_IPSESSKEY']   = joinpath(env['_SRC'], '.sessionkey')
         env['_NOTEBOOKS']   = joinpath(env['_SRC'], 'notebooks')
 
-        aliases['ip_session'] = ('(python -v -c \"'
+        if sys.version_info.major == 2:
+            _new_ipnbkey="print os.urandom(128).encode(\\\"base64\\\")"
+        elif sys.version_info.major == 3:
+            _new_ipnbkey="print(os.urandom(128).encode(\\\"base64\\\"))"
+        else:
+            raise KeyError(sys.version_info.major)
+
+        aliases['ipskey']   = ('(python -c \"'
                                 'import os;'
-                                'print os.urandom(128).encode(\'base64\')\"'
+                                ' {_new_ipnbkey}\"'
                                 ' > {_IPSESSKEY} )'
                                 ' && chmod 0600 {_IPSESSKEY};'
                                 ' # %l'
                                 ).format(
+                                    _new_ipnbkey=_new_ipnbkey,
                                     _IPSESSKEY=shell_quote(env['_IPSESSKEY']))
         aliases['ipnb']     = ('ipython notebook'
                                 ' --secure'
                                 ' --Session.keyfile={_IPSESSKEY}'
                                 ' --notebook-dir={_NOTEBOOKS}'
                                 ' --deep-reload'
-                                ' --pylab=inline'
                                 ' %l').format(
                                     _IPSESSKEY=shell_quote(env['_IPSESSKEY']),
                                     _NOTEBOOKS=shell_quote(env['_NOTEBOOKS']))
@@ -395,7 +402,6 @@ class Venv(object):
         aliases['ipqt']     = ('ipython qtconsole'
                                 ' --secure'
                                 ' --Session.keyfile={_IPSESSKEY}'
-                                ' --pylab=inline'
                                 ' --logappend={_IPQTLOG}'
                                 ' --deep-reload'
                                 #' --gui-completion'
@@ -419,26 +425,29 @@ class Venv(object):
         appsrc = env['_WRD']
         if os.path.exists(appsrc) or dont_reflect:
             env['_WRD']         = appsrc
-            env['_WRD_SETUPY']      = joinpath(appsrc, 'setup.py')
-            env['_TEST_']       = "cd {_WRD} && python {_WRD_SETUPY} test".format(
+            env['_WRD_SETUPY']  = joinpath(appsrc, 'setup.py')
+            env['_TEST_']       = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
                                         _WRD=shell_quote(env['_WRD']),
                                         _WRD_SETUPY=shell_quote(env['_WRD_SETUPY'])
                                     )
             aliases['cdw']      = 'cd {_WRD}/%l'.format(
                                         _WRD=shell_quote(env['_WRD']))
-            aliases['_test']    = env['_TEST_']
-            aliases['_tr']      = 'reset && %s' % env['_TEST_']
-            aliases['_nose']    = 'nosetests {_WRD}'.format(
+            aliases['cd-']      = aliases['cdw']
+            aliases['test-']    = env['_TEST_']
+            aliases['testr-']   = 'reset && %s' % env['_TEST_']
+            aliases['nose-']    = '(cd {_WRD} && nosetests)'.format(
                                         _WRD=shell_quote(env['_WRD']))
 
             aliases['grinw']    = 'grin --follow %l {_WRD}'.format(
                                         _WRD=shell_quote(env['_WRD']))
+            aliases['grin-']    = aliases['grinw']
             aliases['grindw']   = 'grind --follow %l --dirs {_WRD}'.format(
                                         _WRD=shell_quote(env['_WRD']))
+            aliases['grind-']   = aliases['grindw']
 
-            aliases['_glog']    = "hgtk -R {_WRD} log".format(
+            aliases['hgv-']     = "hg view -R {_WRD}".format(
                                         _WRD=shell_quote(env['_WRD']))
-            aliases['_log']     = "hg -R {_WRD} log".format(
+            aliases['hgl-']     = "hg -R {_WRD} log".format(
                                         _WRD=shell_quote(env['_WRD']))
         else:
             self.log.error('app working directory %r not found' % appsrc)
@@ -449,26 +458,30 @@ class Venv(object):
             env['_EDITCFG_']    = "{_EDIT_} {_CFG}".format(
                                     _EDIT_=env['_EDIT_'],
                                     _CFG=shell_quote(env['_CFG']))
-            env['_SHELL_']      = "{_BIN}/pshell {_CFG}".format(
+            aliases['editcfg']  = env['_EDITCFG_']
+            # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
+            env['_SHELL_']      = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
                                     _BIN=env['_BIN'],
-                                    _CFG=shell_quote(env['_CFG']))
-            env['_SERVE_']      =("{_BIN}/pserve"
+                                    _CFG=shell_quote(env['_CFG']),
+                                    _WRD=shell_quote(env['_WRD']))
+            env['_SERVE_']      =("(cd {_WRD} && {_BIN}/pserve"
                                     " --app-name=main"
                                     " --reload"
-                                    " --monitor-restart {_CFG}").format(
+                                    " --monitor-restart {_CFG})").format(
                                             _BIN=env['_BIN'],
+                                            _WRD=shell_quote(env['_WRD']),
                                             _CFG=shell_quote(env['_CFG']))
             aliases['serve-']   = env['_SERVE_']
             aliases['shell-']   = env['_SHELL_']
-            aliases['editcfg-'] = env['_EDITCFG_']
         else:
             self.log.error('app configuration %r not found' % appcfg)
 
         env['EDITOR']       = env['_EDIT_']
         aliases['edit-']    = env['_EDIT_']
+        aliases['e']        = env['_EDIT_']
         aliases['editp']    = "%s %%l" % self._edit_project_cmd # TODO
-        aliases['makewrd']  = "cd {_WRD} && make %l".format(
-                                    _WRD=shell_quote(env['_WRD'])) # TODO
+        aliases['makewrd']  = "(cd {_WRD} && make %l)".format(
+                                    _WRD=shell_quote(env['_WRD']))
         aliases['make-']    = aliases['makewrd']
         aliases['mw']       = aliases['makewrd']
 
