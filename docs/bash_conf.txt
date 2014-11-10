@@ -21,6 +21,8 @@
       ## 05-bashrc.dotfiles.sh  -- dotfiles
       #  $__DOTFILES (str): path to local dotfiles repository clone
       #  dotfiles_status(): print dotfiles env config
+      #
+      ## 06-bashrc.completion.sh -- configure bash completion
       ##
       ### python: python: pip, virtualenv, virtualenvwrapper
       #  $PROJECT_HOME (str): path to project directory (~/wrk)
@@ -132,6 +134,11 @@
     # WORKON_HOME='/Users/W/wrk/.ve'
    
    
+#### etc/bash/06-bashrc.completion.sh
+    ## configure bash completion (`complete -p` to list completions)
+        # configure brew (brew install bash-completion)
+   
+   
 #### etc/bash/07-bashrc.python.sh
 # Generate python cmdline docs::
 #
@@ -165,19 +172,20 @@
    
    
 #### etc/bash/10-bashrc.venv.sh
-## .bashrc.venv.sh
-#
-# sh configuration
-# intended to be sourced from (after) ~/.bashrc
+### venv -- builds upon virtualenv and virtualenvwrapper
+#   note: most of these aliases and functions are overwritten by `we` 
 ## Variables
     # __PROJECTSRC -- path to local project settings script
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
     # PATH="~/.local/bin:$PATH" (if not already there)
     # _VENV       -- path to local venv config script (executable)
 ## Functions
-    # venv <args>  -- call $_VENV $@
-    # _venv <args> -- call $_VENV -E $@
-    # we()         -- workon a virtualenv and load venv
+    # venv $@   -- call $_VENV $@
+    # venv -h   -- print venv --help
+    # venv -b   -- print bash configuration
+    # venv -p   -- print IPython configuration as JSON
+    # _venv <args> -- call $_VENV -E $@ (for the current environment)
+    # we()         -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
     #  param $2: $_APP ("dotfiles") [default: $1)
     #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
@@ -204,15 +212,21 @@
     # cdwrk     -- cd $WORKON_HOME
 ## Grin search
 # virtualenv / virtualenvwrapper
-    # grinv    -- grin $VIRTUAL_ENV
-    # grindv   -- grind $VIRTUAL_ENV
+    # grinv     -- grin $VIRTUAL_ENV
+    # grindv    -- grind $VIRTUAL_ENV
 # venv
-    # grins    -- grin $_SRC
-    # grinds   -- grind $_SRC
-    # grinw    -- grin $_WRD
-    # grindw   -- grind $_WRD
-    # grindctags   -- generate ctags from grind expression (*.py by default)
-    # _loadaliases -- load shell aliases
+    # grins     -- grin $_SRC
+    # grinds    -- grind $_SRC
+    # grinw     -- grin $_WRD
+    # grin-     -- grin _WRD
+    # grindw    -- grind $_WRD
+    # grind-    -- grind $_WRD
+    # grindctags    -- generate ctags from grind expression (*.py by default)
+    # _load_venv_aliases -- load venv aliases
+    #   (note: these are overwritten by `we` [`source <(venv -b)`])
+    # makew     -- cd $_WRD && make $@
+    # make-     -- cd $_WRD && make $@
+    # mw        -- cd $_WRD && make $@
    
    
 #### etc/bash/11-bashrc.venv.pyramid.sh
@@ -226,7 +240,7 @@
 #  _CFG = 
 #
 ## Editor
-    # Configure ${EDITOR}
+    # setup_editor()    -- configure ${EDITOR}
    
    
 #### etc/bash/29-bashrc.vimpagers.sh
@@ -266,6 +280,8 @@
     # Enumerate files from PATH
     # walk upwards from a path
     # see: http://superuser.com/a/65076  
+    # _load_aliases -- load aliases
+    ## hgst()   -- hg diff --start, hg status, hg diff
     # Create and open a new shell script
     # List differences between directories
     # Diff the output of two commands

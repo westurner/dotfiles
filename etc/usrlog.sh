@@ -121,7 +121,7 @@ _usrlog_set__TERM_ID () {
         export _TERM_ID="${new_term_id}"
         _usrlog_set_title
 
-        declare -f '_venv_set_prompt' 2>1 > /dev/null \
+        declare -f '_venv_set_prompt' 2>&1 > /dev/null \
             && _venv_set_prompt
     fi
 }

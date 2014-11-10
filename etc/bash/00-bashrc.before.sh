@@ -15,7 +15,7 @@ dotfiles_reload() {
     echo "# dotfiles_reload()"
 
     if [ -n $__DOTFILES ]; then
-        export __DOTFILES=${__DOTFILES} 
+        export __DOTFILES=${__DOTFILES}
     else
         _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
         _dotfiles_link=${HOME}/.dotfiles
@@ -25,7 +25,7 @@ dotfiles_reload() {
         elif [ -d $_dotfiles_src ]; then
             __DOTFILES=${_dotfiles_src}
         fi
-        export __DOTFILES=${__DOTFILES} 
+        export __DOTFILES=${__DOTFILES}
     fi
 
     conf=${__DOTFILES}/etc/bash
@@ -51,6 +51,10 @@ dotfiles_reload() {
       #  dotfiles_status(): print dotfiles env config
       source ${conf}/05-bashrc.dotfiles.sh
       dotfiles_add_path
+
+      #
+      ## 06-bashrc.completion.sh -- configure bash completion
+      source ${conf}/06-bashrc.completion.sh
 
       ##
       ### python: python: pip, virtualenv, virtualenvwrapper

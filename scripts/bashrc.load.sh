@@ -106,7 +106,7 @@ dotfiles_reload() {
     echo "# dotfiles_reload()"
 
     if [ -n $__DOTFILES ]; then
-        export __DOTFILES=${__DOTFILES} 
+        export __DOTFILES=${__DOTFILES}
     else
         _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
         _dotfiles_link=${HOME}/.dotfiles
@@ -116,7 +116,7 @@ dotfiles_reload() {
         elif [ -d $_dotfiles_src ]; then
             __DOTFILES=${_dotfiles_src}
         fi
-        export __DOTFILES=${__DOTFILES} 
+        export __DOTFILES=${__DOTFILES}
     fi
 
     conf=${__DOTFILES}/etc/bash
@@ -142,6 +142,10 @@ dotfiles_reload() {
       #  dotfiles_status(): print dotfiles env config
       source ${conf}/05-bashrc.dotfiles.sh
       dotfiles_add_path
+
+      #
+      ## 06-bashrc.completion.sh -- configure bash completion
+      source ${conf}/06-bashrc.completion.sh
 
       ##
       ### python: python: pip, virtualenv, virtualenvwrapper
@@ -235,6 +239,8 @@ dotfiles_main() {
 }
 
 dotfiles_main
+#
+# dotfiles_reload()
  
 function_exists() {
     declare -f $1 > /dev/null
@@ -483,6 +489,71 @@ dotfiles_postdeactivate() {
 
     dotfiles_reload
 }
+
+
+_configure_completion() {
+    ## configure bash completion (`complete -p` to list completions)
+    if [ -n "$__IS_MAC" ]; then
+        # configure brew (brew install bash-completion)
+        BREW=$(which brew 2>/dev/null || false)
+        if [ -n "${BREW}" ]; then
+            brew_prefix=$(brew --prefix)
+            if [ -f ${brew_prefix}/etc/bash_completion ]; then
+                source ${brew_prefix}/etc/bash_completion
+            fi
+        fi
+    fi
+}
+_configure_completion
+which brew 2>/dev/null || false
+brew --prefix
+#
+#   bash_completion - programmable completion functions for bash 3.2+
+#
+#   Copyright © 2006-2008, Ian Macdonald <ian@caliban.org>
+#             © 2009-2011, Bash Completion Maintainers
+#                     <bash-completion-devel@lists.alioth.debian.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2, or (at your option)
+#   any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software Foundation,
+#   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+#   The latest version of this software can be obtained here:
+#
+#   http://bash-completion.alioth.debian.org/
+#
+#   RELEASE: 1.3
+
+if [[ $- == *v* ]]; then
+    BASH_COMPLETION_ORIGINAL_V_VALUE="-v"
+else
+    BASH_COMPLETION_ORIGINAL_V_VALUE="+v"
+fi
+
+if [[ -n $BASH_COMPLETION_DEBUG ]]; then
+    set -v
+else
+    set +v
+fi
+unset BASH_COMPLETION_ORIGINAL_V_VALUE
+
+# Local variables:
+# mode: shell-script
+# sh-basic-offset: 4
+# sh-indent-comment: t
+# indent-tabs-mode: nil
+# End:
+# ex: ts=4 sw=4 et filetype=sh
 
 # Generate python cmdline docs::
 #
@@ -1625,10 +1696,8 @@ _setup_google_cloud() {
     # The next line enables bash completion for gcloud.
     source "${_GCLOUD_PREFIX}/completion.bash.inc"
 }
-## .bashrc.venv.sh
-#
-# sh configuration
-# intended to be sourced from (after) ~/.bashrc
+### venv -- builds upon virtualenv and virtualenvwrapper
+#   note: most of these aliases and functions are overwritten by `we` 
 ## Variables
 
     # __PROJECTSRC -- path to local project settings script
@@ -1644,7 +1713,7 @@ __setup_dotfiles() {
 
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
-export __SRC="${HOME}/src"  # TODO: __SRC_HG, __SRC_GIT
+export __SRC="${HOME}/src"
 [ ! -d $__SRC ] && mkdir -p $__SRC/hg $__SRC/git
 
 
@@ -1656,18 +1725,22 @@ export _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
 
 ## Functions
 
+
 venv() {
-    # venv <args>  -- call $_VENV $@
-    $_VENV  $@
+    # venv $@   -- call $_VENV $@
+    # venv -h   -- print venv --help
+    # venv -b   -- print bash configuration
+    # venv -p   -- print IPython configuration as JSON
+    $_VENV $@
 }
 
-_venv() {
-    # _venv <args> -- call $_VENV -E $@
+venv-() {
+    # _venv <args> -- call $_VENV -E $@ (for the current environment)
     venv -E $@
 }
 
 we() {   
-    # we()         -- workon a virtualenv and load venv
+    # we()         -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
     #  param $2: $_APP ("dotfiles") [default: $1)
     #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
@@ -1687,9 +1760,10 @@ we() {
         lsvirtualenv
     fi
 }
+complete -o default -o nospace -F _virtualenvs we
+
 
 ## CD shortcuts
-
 cdb () {
     # cdb      -- cd $_BIN
     cd "${_BIN}"/$@
@@ -1747,34 +1821,42 @@ cdwrk () {
 ## Grin search
 # virtualenv / virtualenvwrapper
 grinv() {
-    # grinv    -- grin $VIRTUAL_ENV
+    # grinv     -- grin $VIRTUAL_ENV
     grin --follow $@ "${VIRTUAL_ENV}"
 }
 grindv() {
-    # grindv   -- grind $VIRTUAL_ENV
+    # grindv    -- grind $VIRTUAL_ENV
     grind --follow $@ --dirs "${VIRTUAL_ENV}"
 }
 
 # venv
 grins() {
-    # grins    -- grin $_SRC
+    # grins     -- grin $_SRC
     grin --follow $@ "${_SRC}"
 }
 grinds() {
-    # grinds   -- grind $_SRC
+    # grinds    -- grind $_SRC
     grind --follow $@ --dirs "${_SRC}"
 }
 grinw() {
-    # grinw    -- grin $_WRD
+    # grinw     -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
+grin-() {
+    # grin-     -- grin _WRD
+    grinw $@
+}
 grindw() {
-    # grindw   -- grind $_WRD
+    # grindw    -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
+}
+grind-() {
+    # grind-    -- grind $_WRD
+    grindw $@
 }
 
 grindctags() {
-    # grindctags   -- generate ctags from grind expression (*.py by default)
+    # grindctags    -- generate ctags from grind expression (*.py by default)
     args="$@"
     if [ -z $args ]; then
         args='*.py'
@@ -1782,124 +1864,37 @@ grindctags() {
     grind --follow "$args" | ctags -L -
 }
 
-
-_loadaliases() {
-    # _loadaliases -- load shell aliases
-    alias chmodr='chmod -R'
-    alias chownr='chown -R'
-
-    alias grep='grep --color=auto'
-    alias egrep='egrep --color=auto'
-    alias fgrep='fgrep --color=auto'
-
-    alias grindp='grind --sys.path'
-    alias grinp='grin --sys-path'
-
-    alias fumnt='fusermount -u'
-
-    alias ga='git add'
-    alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
-    alias gs='git status'
-    alias gd='git diff'
-    alias gds='git diff -p --stat'
-    alias gc='git commit'
-    alias gco='git checkout'
-    alias gdc='git diff --cached'
-    alias gsl='git stash list'
-    alias gsn='git stash save'
-    alias gss='git stash save'
-    alias gitr='git remote -v'
-
-
-    alias hgl='hg glog --pager=yes'
-    alias hgs='hg status'
-    alias hgd='hg diff'
-    alias hgds='hg diff --stat'
-    alias hgdl='hg diff --color=always | less -R'
-    alias hgc='hg commit'
-    alias hgu='hg update'
-    alias hgq='hg qseries'
-    alias hgqd='hg qdiff'
-    alias hgqs='hg qseries'
-    alias hgqn='hg qnew'
-    alias hgr='hg paths'
-
-    if [ -n "$__IS_MAC" ]; then
-        alias la='ls -A -G'
-        alias ll='ls -alF -G'
-        alias ls='ls -G'
-        alias lt='ls -altr -G'
-    else
-        alias la='ls -A --color=auto'
-        alias ll='ls -alF --color=auto'
-        alias ls='ls --color=auto'
-        alias lt='ls -altr --color=auto'
-    fi
-
-    alias man_='/usr/bin/man'
-
-    if [ -n "${__IS_LINUX}" ]; then
-        alias psx='ps uxaw'
-        alias psf='ps uxawf'
-        alias psxs='ps uxawf --sort=tty,ppid,pid'
-        alias psxh='ps uxawf --sort=tty,ppid,pid | head'
-
-        alias psh='ps uxaw | head'
-
-        alias psc='ps uxaw --sort=-pcpu'
-        alias psch='ps uxaw --sort=-pcpu | head'
-
-        alias psm='ps uxaw --sort=-pmem'
-        alias psmh='ps uxaw --sort=-pmem | head'
-    elif [ -n "${__IS_MAC}" ]; then
-        alias psx='ps uxaw'
-        alias psf='ps uxaw' # no -f
-
-        alias psh='ps uxaw | head'
-
-        alias psc='ps uxaw --sort=-%cpu'
-        alias psch='ps uxaw --sort=-%cpu | head'
-
-        alias psm='ps uxaw -m'
-        alias psmh='ps uxaw -m | head'
-    fi
-
-    alias t='tail'
-    alias xclip='xclip -selection c'
+_load_venv_aliases() {
+    # _load_venv_aliases -- load venv aliases
+    #   (note: these are overwritten by `we` [`source <(venv -b)`])
 
     alias ssv='supervisord -c "${_SVCFG}"'
     alias sv='supervisorctl -c "${_SVCFG}"'
     alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
     alias svt='sv tail -f'
 
-    alias _glog='hgtk -R "${_WRD}" log'
-    alias _log='hg -R "${_WRD}" log'
-    alias _make='cd "${_WRD}" && make'
-    alias _serve='${_SERVE_}'
-    alias _shell='${_SHELL_}'
-    alias _test='python "${_WRD_SETUPY}" test'
+    alias hgv-='hg view -R "${_WRD}"'
+    alias hgl-='hg -R "${_WRD}" log'
+
+    alias serve-='${_SERVE_}'
+    alias shell-='${_SHELL_}'
+    alias test-='(cd ${_WRD} && python "${_WRD_SETUPY}" test)'
+    alias testr-='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
 
 }
-_loadaliases
+_load_venv_aliases
 
-hgst() {
-    repo=${1:-"$(pwd)"}
-    shift
-
-    hgopts="-R '${repo}' --pager=no"
-
-    if [ -n "$(echo "$@" | grep "color")" ]; then
-        hgopts="${hgopts} --color=always"
-    fi
-    echo "###"
-    echo "## $(pwd)"
-    echo '###'
-    hg ${hgopts} diff --stat | sed 's/^/## /' -
-    echo '###'
-    hg ${hgopts} status | sed 's/^/## /' -
-    echo '###'
-    hg ${hgopts} diff
-    echo '###'
+makew() {
+    # makew     -- cd $_WRD && make $@
+    (cd "${_WRD}" && make $@)
+}
+make-() {
+    # make-     -- cd $_WRD && make $@
+    makew $@
+}
+mw() {
+    # mw        -- cd $_WRD && make $@
+    makew $@
 }
 
 _venv_set_prompt() {
@@ -1970,7 +1965,7 @@ workon_pyramid_app() {
 ## Editor
 #export USEGVIM=""
 _setup_editor() {
-    # Configure ${EDITOR}
+    # setup_editor()    -- configure ${EDITOR}
     export VIMBIN="/usr/bin/vim"
     export GVIMBIN="/usr/bin/gvim"
     export MVIMBIN="/usr/local/bin/mvim"
@@ -1981,16 +1976,17 @@ _setup_editor() {
         export GUIVIMBIN=$MVIMBIN
     fi
 
-    export EDITOR="${VIMBIN}"
-    export SUDO_EDITOR="${VIMBIN}"
+    export EDITOR="${VIMBIN} -f"
+    export EDITOR_="${EDITOR}"
+    export SUDO_EDITOR="${VIMBIN} -f"
 
     if [ -n "${GUIVIMBIN}" ]; then
-        VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'} --remote-tab-silent"
-        SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-'EDITOR'} --remote-tab-wait-silent"
-        export EDITOR="${GUIVIMBIN} ${VIMCONF}"
-        export SUDO_EDITOR="${GUIVIMBIN} ${SUDOCONF}"
-        alias vim='${VIMBIN}'
-        alias gvim="${GUIMVINBIN} ${VIMCONF}"
+        export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'}"
+        export SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-'EDITOR'}"
+        export EDITOR="${GUIVIMBIN} -f"
+        export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
+        export SUDO_EDITOR="${GUIVIMBIN} -f"
+        alias gvim="${GUIVIMBIN}"
     else
         unset -f $GVIMBIN
         unset -f $MVIMBIN
@@ -2008,15 +2004,15 @@ ggvim() {
 
 
 e() {
-    ${EDITOR} $@
+    ${EDITOR_} $@
 }
 
 edit() {
-    ${EDITOR} $@
+    ${EDITOR_} $@
 }
 
 editcfg() {
-    ${EDITOR} $_CFG
+    ${EDITOR_} $_CFG
 }
 
 sudoe() {
@@ -2258,7 +2254,7 @@ _usrlog_set__TERM_ID () {
         export _TERM_ID="${new_term_id}"
         _usrlog_set_title
 
-        declare -f '_venv_set_prompt' 2>1 > /dev/null \
+        declare -f '_venv_set_prompt' 2>&1 > /dev/null \
             && _venv_set_prompt
     fi
 }
@@ -2477,8 +2473,10 @@ usrlog_screenrec_ffmpeg() {
 
 ## call _usrlog_setup
 _usrlog_setup
-_usrlog_setup
-
+bash: shopt: autocd: invalid shell option name
+]0;#VtcI2gUPR88 (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
+bash: shopt: autocd: invalid shell option name
+]0;#VtcI2gUPR88 (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
 usrlogv() {
     ## usrlog() -- open $_USRLOG with vim (skip to end)
     file=${1:-$_USRLOG}
@@ -2545,6 +2543,113 @@ _trail () {
     done
 
 }
+
+_loadaliases () {
+    # _load_aliases -- load aliases
+    alias chmodr='chmod -R'
+    alias chownr='chown -R'
+
+    alias grep='grep --color=auto'
+    alias egrep='egrep --color=auto'
+    alias fgrep='fgrep --color=auto'
+
+    alias grindp='grind --sys.path'
+    alias grinp='grin --sys-path'
+
+    alias fumnt='fusermount -u'
+
+    alias ga='git add'
+    alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    alias gs='git status'
+    alias gd='git diff'
+    alias gds='git diff -p --stat'
+    alias gc='git commit'
+    alias gco='git checkout'
+    alias gdc='git diff --cached'
+    alias gsl='git stash list'
+    alias gsn='git stash save'
+    alias gss='git stash save'
+    alias gitr='git remote -v'
+
+    alias hgl='hg glog --pager=yes'
+    alias hgs='hg status'
+    alias hgd='hg diff'
+    alias hgds='hg diff --stat'
+    alias hgdl='hg diff --color=always | less -R'
+    alias hgc='hg commit'
+    alias hgu='hg update'
+    alias hgq='hg qseries'
+    alias hgqd='hg qdiff'
+    alias hgqs='hg qseries'
+    alias hgqn='hg qnew'
+    alias hgr='hg paths'
+
+    if [ -n "$__IS_MAC" ]; then
+        alias la='ls -A -G'
+        alias ll='ls -alF -G'
+        alias ls='ls -G'
+        alias lt='ls -altr -G'
+    else
+        alias la='ls -A --color=auto'
+        alias ll='ls -alF --color=auto'
+        alias ls='ls --color=auto'
+        alias lt='ls -altr --color=auto'
+    fi
+
+    alias man_='/usr/bin/man'
+
+    if [ -n "${__IS_LINUX}" ]; then
+        alias psx='ps uxaw'
+        alias psf='ps uxawf'
+        alias psxs='ps uxawf --sort=tty,ppid,pid'
+        alias psxh='ps uxawf --sort=tty,ppid,pid | head'
+
+        alias psh='ps uxaw | head'
+
+        alias psc='ps uxaw --sort=-pcpu'
+        alias psch='ps uxaw --sort=-pcpu | head'
+
+        alias psm='ps uxaw --sort=-pmem'
+        alias psmh='ps uxaw --sort=-pmem | head'
+    elif [ -n "${__IS_MAC}" ]; then
+        alias psx='ps uxaw'
+        alias psf='ps uxaw' # no -f
+
+        alias psh='ps uxaw | head'
+
+        alias psc='ps uxaw -c'
+        alias psch='ps uxaw -c | head'
+
+        alias psm='ps uxaw -m'
+        alias psmh='ps uxaw -m | head'
+    fi
+
+    alias t='tail'
+    alias xclip='xclip -selection c'
+}
+_loadaliases
+
+hgst() {
+    ## hgst()   -- hg diff --start, hg status, hg diff
+    repo=${1:-"$(pwd)"}
+    shift
+
+    hgopts="-R ${repo} --pager=no"
+
+    if [ -n "$(echo "$@" | grep "color")" ]; then
+        hgopts="${hgopts} --color=always"
+    fi
+    echo "###"
+    echo "## ${repo}"
+    echo '###'
+    hg ${hgopts} diff --stat | sed 's/^/## /'
+    echo '###'
+    hg ${hgopts} status | sed 's/^/## /'
+    echo '###'
+    hg ${hgopts} diff
+    echo '###'
+}
+
 
 chown-me () {
     set -x
@@ -3431,5 +3536,20 @@ host_docs () {
 
 
 dotfiles_status
+# dotfiles_status()
+HOSTNAME='nb-mb1'
+USER='W'
+PROJECT_HOME='/Users/W/wrk'
+WORKON_HOME='/Users/W/wrk/.ve'
+VIRTUAL_ENV_NAME='dotfiles'
+VIRTUAL_ENV='/Users/W/wrk/.ve/dotfiles'
+_USRLOG='/Users/W/wrk/.ve/dotfiles/.usrlog'
+_TERM_ID='#VtcI2gUPR88'
+_SRC='/Users/W/wrk/.ve/dotfiles/src'
+_APP='dotfiles'
+_WRD='/Users/W/wrk/.ve/dotfiles/src/dotfiles'
+PATH='/Users/W/Workspace/.virtualenvs/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin'
+__DOTFILES='/Users/W/.dotfiles'
+#
 exit
 exit
