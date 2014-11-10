@@ -52,6 +52,10 @@ dotfiles_reload() {
       source ${conf}/05-bashrc.dotfiles.sh
       dotfiles_add_path
 
+      #
+      ## 06-bashrc.completion.sh -- configure bash completion
+      source ${conf}/06-bashrc.completion.sh
+
       ##
       ### python: python: pip, virtualenv, virtualenvwrapper
       #  $PROJECT_HOME (str): path to project directory (~/wrk)
