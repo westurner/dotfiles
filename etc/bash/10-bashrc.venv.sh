@@ -104,6 +104,11 @@ cdw () {
     cd "${_WRD}"/$@
 }
 
+cdwrk () {
+    # cdwrk     -- cd $WORKON_HOME
+    cd "${WORKON_HOME}/$@"
+}
+
 ## Grin search
 # virtualenv / virtualenvwrapper
 grinv() {
@@ -157,6 +162,7 @@ _loadaliases() {
 
     alias fumnt='fusermount -u'
 
+    alias ga='git add'
     alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     alias gs='git status'
     alias gd='git diff'

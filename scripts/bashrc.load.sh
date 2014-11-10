@@ -391,18 +391,18 @@ dotfiles_status() {
     echo "# dotfiles_status()"
     echo "HOSTNAME='${HOSTNAME}'"
     echo "USER='${USER}'"
-    echo "_APP='${_APP}'"
+    echo "PROJECT_HOME='${PROJECT_HOME}'"
+    echo "WORKON_HOME='${WORKON_HOME}'"
     echo "VIRTUAL_ENV_NAME='${VIRTUAL_ENV_NAME}'"
     echo "VIRTUAL_ENV='${VIRTUAL_ENV}'"
     echo "_USRLOG='${_USRLOG}'"
     echo "_TERM_ID='${_TERM_ID}'"
     echo "_SRC='${_SRC}'"
+    echo "_APP='${_APP}'"
     echo "_WRD='${_WRD}'"
     #echo "__DOCSWWW='${_DOCS}'"
     #echo "__SRC='${__SRC}'"
     #echo "__PROJECTSRC='${__PROJECTSRC}'"
-    echo "PROJECT_HOME='${PROJECT_HOME}'"
-    echo "WORKON_HOME='${WORKON_HOME}'"
     echo "PATH='${PATH}'"
     echo "__DOTFILES='${__DOTFILES}'"
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
@@ -515,6 +515,35 @@ _setup_anaconda() {
     ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
     export _ANACONDA_ROOT="/opt/anaconda"
     add_to_path "${_ANACONDA_ROOT}/bin"
+}
+
+workon_conda() {
+    #  workon_conda()    -- workon a conda + venv project
+    _conda_envname=${1}
+    _app=${2}
+    we ${_conda_envname} ${_app}
+    _setup_anaconda && \
+        source activate ${WORKON_HOME}/.conda/${_conda_envname}
+}
+
+wec() {
+    #  wec()              -- workon a conda + venv project
+    workon_conda $@
+}
+
+mkvirtualenv_conda() {
+    #  mkvirtualenv_conda() -- mkvirtualenv and conda create
+    mkvirtualenv $@
+    _conda_envname=${1}
+    conda create --mkdir --prefix ${WORKON_HOME}/.conda/${_conda_envname} \
+        readline
+    workon_conda ${_conda_envname}
+}
+
+rmvirtualenv_conda() {
+    #  rmvirtualenv_conda() -- rmvirtualenv conda
+    rmvirtualenv $@
+    _conda_envname=${1}
 }
 ## Virtualenvwrapper
 # sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
@@ -1710,6 +1739,11 @@ cdw () {
     cd "${_WRD}"/$@
 }
 
+cdwrk () {
+    # cdwrk     -- cd $WORKON_HOME
+    cd "${WORKON_HOME}/$@"
+}
+
 ## Grin search
 # virtualenv / virtualenvwrapper
 grinv() {
@@ -1763,6 +1797,7 @@ _loadaliases() {
 
     alias fumnt='fusermount -u'
 
+    alias ga='git add'
     alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     alias gs='git status'
     alias gd='git diff'
@@ -1804,19 +1839,29 @@ _loadaliases() {
     alias man_='/usr/bin/man'
 
     if [ -n "${__IS_LINUX}" ]; then
-        alias psx='ps aufxw'
-        alias psxw='ps aufxw | head'
-        alias psxs='ps aufxw --sort=tty,ppid,pid'
-        alias psxh='ps auxfw --sort=tty,ppid,pid | head'
-        alias psh='ps auxfw --sort=tty,ppid,pid | head'
-        alias psz='ps aufxw --sort=tty,ppid,pid | head'
-    elif [ -n "${__IS_MAC}" ]; then
-        alias psx='ps uxa'
-        alias psxh='ps uxa | head'
-        alias psxw='ps uxaw'
-        alias psxh='ps uxaw | head'
+        alias psx='ps uxaw'
+        alias psf='ps uxawf'
+        alias psxs='ps uxawf --sort=tty,ppid,pid'
+        alias psxh='ps uxawf --sort=tty,ppid,pid | head'
+
         alias psh='ps uxaw | head'
-        alias psz='ps uxaw | head'
+
+        alias psc='ps uxaw --sort=-pcpu'
+        alias psch='ps uxaw --sort=-pcpu | head'
+
+        alias psm='ps uxaw --sort=-pmem'
+        alias psmh='ps uxaw --sort=-pmem | head'
+    elif [ -n "${__IS_MAC}" ]; then
+        alias psx='ps uxaw'
+        alias psf='ps uxaw' # no -f
+
+        alias psh='ps uxaw | head'
+
+        alias psc='ps uxaw --sort=-%cpu'
+        alias psch='ps uxaw --sort=-%cpu | head'
+
+        alias psm='ps uxaw -m'
+        alias psmh='ps uxaw -m | head'
     fi
 
     alias t='tail'
@@ -2196,9 +2241,9 @@ _usrlog_get__TERM_ID() {
 
 
 _usrlog_set__TERM_ID () {
-    # Set an explicit terminal name
+    #  _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
     # param $1: terminal name
-    new_term_id="${1}"
+    new_term_id="${@}"
     if [ -z "${new_term_id}" ]; then
         new_term_id="#$(_usrlog_randstr 8)"
     fi
@@ -2217,12 +2262,6 @@ _usrlog_set__TERM_ID () {
             && _venv_set_prompt
     fi
 }
-
-set_term_id() {
-    # set_term_id()     -- set $_TERM_ID to a randomstr or $1
-    _usrlog_set__TERM_ID $@
-}
-
 
 _usrlog_echo_title () {
     # _usrlog_echo_title    -- set window title
@@ -2311,17 +2350,32 @@ _usrlog_writecmd() {
 
 
 
-# usrlog shell command "API"
+## usrlog.sh API
+
+
 
 termid() {
+    # termid        -- echo $_TERM_ID
     _usrlog_get__TERM_ID
 }
 
-stid () {
-    # Shortcut alias to _usrlog_set__TERM_ID
+
+set_term_id() {
+    # set_term_id() -- set $_TERM_ID to a randomstr or $1
     _usrlog_set__TERM_ID $@
 }
 
+stid() {
+    # stid()        -- set $_TERM_ID to a randomstr or $1
+    _usrlog_set__TERM_ID $@
+}
+st() {
+    # st()          -- set $_TERM_ID to a randomstr or $1
+    _usrlog_set__TERM_ID $@
+}
+
+
+## Old (hist, histgrep, histgrep_session)
 
 hist() {
     #  less()       --  less the current session log
@@ -2348,30 +2402,46 @@ histgrep_session () {
         fi
 }
 
-usrlogt() {
-    ## usrlogt()    -- tail -n20 $_USRLOG
-    tail -n20 ${@:-"${_USRLOG}"}
+
+## New (usrlogt, ut, usrlogv
+
+usrlog_tail() {
+    #  usrlogt()    -- tail -n20 $_USRLOG
+    if [ -n "$@" ]; then
+        _usrlog=${@:-${_USRLOG}}
+        tail ${_usrlog} 
+    else
+        tail $_USRLOG
+    fi
 }
 
 ut() {
-    ## ut()         -- tail -n20 $_USRLOG
-    usrlogt ${@}
+    #  ut()         -- tail -n20 $_USRLOG
+    usrlog_tail ${@}
 }
 
+
+usrlog_tail_follow() {
+    #  usrlogtf()   -- tail -f -n20 $_USRLOG
+    tail -f -n20 ${@:-"${_USRLOG}"}
+}
+
+utf() {
+    #  ut()         -- tail -f -n20 $_USRLOG
+    usrlog_tail_follow $@
+}
+
+
 usrlog_grep() {
-    ## usrlog_grep()    -- egrep -n $_USRLOG
+    #  usrlog_grep()    -- egrep -n $_USRLOG
     egrep -n $@ ${_USRLOG}
 }
 
 ug() {
-    ## ug()             -- egrep -n $_USRLOG
+    #  ug()             -- egrep -n $_USRLOG
     usrlog_grep $@
 }
 
-usrlogtf() {
-    ## usrlogtf()   -- tail -n20 -f $_USRLOG
-    tail -f -n20 ${@:-"${_USRLOG}"}
-}
 
 note() {
     ## note()   -- _usrlog_append # $@
@@ -2952,11 +3022,136 @@ lsbashmarks () {
 
 
 
+ensure_symlink() {
+    #  ensure_symlink   -- create or update a symlink to $_to from _from
+    #    ln -s $_to $_from
+    _from=$1
+    _to=$2
+    _date=${3:-$(date +%FT%T%z)}  #  ISO8601 w/ tz
+    # if symlink $_from already exists
+    if [ -s $_from ]; then
+        # compare the actual paths
+        _to_path=(get_realpath $_to)
+        _from_path=(get_realpath $_from)
+        if [ $_to_path == $_from_path ]; then
+            printf "%s already points to %s" "$_from" "$_to"
+        else
+            printf "%s points to %s" "$_from" "$_to"
+            mv -v ${_from} "${_from}.bkp.${_date}"
+            ln -v -s ${_to} ${_from}
+        fi
+    else
+        # if a file or folder exists return an errorcode
+        if [ -e ${_from} ]; then
+            printf "%s exists" "${_from}"
+            mv -v ${_from} "${_from}.bkp.${_date}"
+            ln -v -s ${_to} ${_from}
+        else
+            # otherwise, create the symlink
+            ln -v -s $_to $_from
+        fi
+    fi
+}
 
-export __DOCSWWW="${HOME}/docs"
-[ ! -d $__DOCSWWW ] && mkdir -p $__DOCSWWW
+ensure_mkdir() {
+    #  ensure_mkdir -- create a directory if it does not yet exist
+    prefix=$1
+    test -d ${prefix} || mkdir -p ${prefix}
+}
+
+_venv_ensure_paths() {
+    #  _venv_ensure_paths()   -- 
+    prefix=$1
+    ensure_mkdir ${prefix}
+    ensure_mkdir ${prefix}/bin
+    ensure_mkdir ${prefix}/etc
+    # ensure_mkdir ${prefix}/home
+    ensure_mkdir ${prefix}/lib
+    # ensure_mkdir ${prefix}/opt
+    # ensure_mkdir ${prefix}/sbin
+    ensure_mkdir ${prefix}/src
+    # ensure_mkdir ${prefix}/srv
+    ensure_mkdir ${prefix}/tmp
+    ensure_mkdir ${prefix}/usr/share/doc
+    ensure_mkdir ${prefix}/var/cache
+    ensure_mkdir ${prefix}/var/log
+    ensure_mkdir ${prefix}/var/run
+}
+
+mkvirtualenv_conda_if_available() {
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
+        && mkvirtualenv_conda $@) \
+    || \
+    (declare -f 'mkvirtualenv' 2>&1 > /dev/null \
+        && mkvirtualenv $@)
+}
+
+workon_conda_if_available() {
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    (declare -f 'workon_conda' 2>&1 > /dev/null \
+        && workon_conda $@) \
+    || \
+    (declare -f 'we' 2>&1 > /dev/null \
+        && we $@) \
+    || \
+    (declare -f 'workon' 2>&1 > /dev/null \
+        && workon $@)
+}
+
+setup_dotfiles_docs_venv() {
+    #  setup_dotfiles_docs_venv -- create default 'docs' venv
+    deactivate
+
+    __DOCSENV="docs"
+    export __DOCS="${WORKON_HOME}/${__DOCSENV}"
+    export __DOCSWWW="${__DOCS}/var/www"
+    mkvirtualenv_conda_if_available $__DOCSENV
+    workon_conda_if_available $__DOCS
+    _venv_ensure_paths $__DOCS
+}
+
+setup_dotfiles_src_venv() {
+    #  setup_dotfiles_src_venv -- create default 'src' venv
+    #
+    #   __SRC_HG=${WORKON_HOME}/src/src/hg
+    #   __SRC_GIT=${WORKON_HOME}/src/src/git
+    #
+    #  Hg runs hg commands as user hg
+    #  Git runs git commands as user git
+    #
+    #  Hgclone will mirror to $__SRC_HG
+    #  Gitclone will mirror to $__SRC_GIT
+    #
+    #
+    deactivate
+    __SRCENV="src"
+    export __SRC=${WORKON_HOME}/${__SRCENV}/src
+    export __SRC_HG=${__SRC}/hg
+    export __SRC_GIT=${__SRC_GIT}/git
+    mkvirtualenv_conda_if_available $__SRCENV
+    workon_conda_if_available $__SRCENV
+
+    _venv_ensure_paths ${WORKON_HOME}/${__SRCENV}
+    ensure_mkdir $__SRC
+    ensure_mkdir $__SRC/git
+    ensure_mkdir $__SRC/hg
+    ensure_mkdir ${prefix}/var/www
+}
+
+
+get_realpath() {
+    #  get_realpath     -- get an absolute path to a path or symlink (Python)
+    prefix=$1
+    #(cd ${prefix}; pwd; basename ${prefix})
+    python -c "import os; print(os.path.realpath('${prefix}'))"
+    return $?
+}
+
+
 
 fixperms () {
+    #fix permissions for hgweb? TODO
     __PATH=$1
     sudo chown -R hg:hgweb "$__PATH"
     sudo chmod -R g+rw "$__PATH"
@@ -3089,7 +3284,11 @@ Hgcompare () {
 }
 
 host_docs () {
-    # host_docs <project_name> <path> <docs/Makefile> <docs/conf.py>
+    #  host_docs    -- build and host documentation in a local directory
+    #   param $1: <project_name>
+    #   param $2: [<path>]
+    #   param $3: [<docs/Makefile>]
+    #   param $4: [<docs/conf.py>]
     # * log documentation builds
     # * build a sphinx documentation set with a Makefile and a conf.py
     # * rsync to docs webserver
@@ -3128,9 +3327,10 @@ host_docs () {
             __makefiles=$(find "${path}" -maxdepth 2 -type f -name Makefile)
             for __makefile in ${__makefiles[@]}; do
                 if [ -n "${__makefile}" ]; then
-                    grep -n -H 'sphinx-build' ${__makefile}
+                    grep -n -H 'sphinx-build' ${__makefile} \
+                        && grep -n -H '^html:' ${__makefile}
                     if [ $? -eq 0 ]; then
-                        echo 'found sphinx-build Makefile: $__makefile'
+                        echo 'Found sphinx-build Makefile: $__makefile'
                         # TODO: prompt?
                         _makefile=$__makefile
                     fi
@@ -3153,7 +3353,7 @@ host_docs () {
                 grep -n -H 'sphinx-build' ${__confpy}
                 if [ $? -eq 0 ]; then
                     echo 'found conf.py: $__confpy'
-                    # TODO: prompt?
+                    #TODO: prompt?
                     _confpy=$__confpy
                 fi
             done
@@ -3176,9 +3376,9 @@ host_docs () {
     echo '#' $(date) | tee -a $_buildlog | tee $_currentbuildlog
 
     if [ -n "$_makefile" ]; then
-        # TODO
-        # >> 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother '
-        # << 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
+        #TODO
+        #>> 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother '
+        #<< 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
         #sed -i -r 's/(^SPHINXBUILD)( *= *)(sphinx-build)(.*)/\1\2\3 -Dhtml_theme="default"/g' $_makefile
 
         cd $(dirname $_makefile)
@@ -3193,25 +3393,30 @@ host_docs () {
     elif [ -n "$_confpy" ]; then
         # >> 'html_theme = "_-_"
         # << 'html_theme = 'default'
-        sed -i -r 's/(^ *html_theme)( *= *)(.*)/\1\2"default"' $_confpy
+        sed -i.bak -r 's/(^ *html_theme)( *= *)(.*)/\1\2"default"' $_confpy
         sourcedir=$(dirname $_confpy)
         html_path="${sourcedir}/_build/html"
         mkdir -p $html_path
-        sphinx-build \
-            -b html \
-            -D html_theme="default" \
-            -c "${_confpy}" \
-            $sourcedir \
-            $html_path
+        SPHINXBUILD="sphinx-build -Dhtml_theme=\"default\"" \
+            sphinx-build \
+                -b html \
+                -D html_theme="default" \
+                -c "${_confpy}" \
+                $sourcedir \
+                $html_path
     fi
 
     if [ -n "${html_path}" ]; then
         echo "html-path:" ${html_path}
         echo "dest:" ${dest}
         set -x
-        rsync -avr "${html_path}/" "${dest}/" | tee -a $_buildlog | tee $_currentbuildlog
+        rsync -avr "${html_path}/" "${dest}/" \
+            | tee -a $_buildlog \
+            | tee $_currentbuildlog
         set +x
-        sudo chgrp -R $group "${dest}" | tee -a $_buildlog | tee $_currentbuildlog
+        sudo chgrp -R $group "${dest}" \
+            | tee -a $_buildlog \
+            | tee $_currentbuildlog
     else
         echo "### ${_currentbuildlog}"
         cat $_currentbuildlog

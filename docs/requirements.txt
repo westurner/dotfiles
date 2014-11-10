@@ -18,6 +18,7 @@ sphinxcontrib-programoutput
 # src:
 #   -e hg+https://bitbucket.org/birkenfeld/sphinx-contrib
 
+sphinxcontrib-issuetracker
 
 -e git+https://github.com/westurner/sphinxjp.themes.basicstrap#egg=sphinxjp.themes.basicstrap
 

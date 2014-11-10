@@ -3,10 +3,11 @@
 dotfiles
 ===========
 
-`GitHub`_ | `BitBucket`_ | `ReadTheDocs`_
+`GitHub`_ | `BitBucket`_ | `Documentation`_
 
 .. _GitHub: https://github.com/westurner/dotfiles
 .. _BitBucket: https://bitbucket.org/westurner/dotfiles
+.. _Documentation: https://westurner.github.io/dotfiles/   
 .. _ReadTheDocs: https://wrdfiles.readthedocs.org/en/latest/
 
 **Shell**, **Python**, and **configuration files**
@@ -29,9 +30,9 @@ Usage
 
 * ``etc/.bashrc`` loads ``etc/bash/00-bashrc.before.sh``
 * ``etc/bash/00-bashrc.before.sh`` loads a documented,
-ordered sequence of bash scripts
+  ordered sequence of bash scripts
 * ``etc/zsh/00-zshrc.before.sh`` loads a documented,
-ordered sequence of zsh scripts
+  ordered sequence of zsh scripts
 * https://westurner.github.io/dotfiles/usage.html documents 
 * https://westurner.github.io/dotfiles/venv.html documents
   the venv (``ipython_config.py``) script, which generates shell
@@ -136,14 +137,13 @@ Project requirements are installed by
 * python setuptools
 * python pip
 
-::  
+.. _bootstrap_dotfiles.sh: https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 
 Install the dotfiles
 ---------------------
-| https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 | Src: https://github.com/westurner/dotfiles
 
-The ``bootstrap_dotfiles.sh`` shell script 
+The `bootstrap_dotfiles.sh`_ shell script 
 clones the ``dotfiles`` git repository
 and installs the ``dotfiles`` Python package.
 
