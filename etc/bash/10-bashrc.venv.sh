@@ -222,8 +222,8 @@ _loadaliases() {
 
         alias psh='ps uxaw | head'
 
-        alias psc='ps uxaw --sort=-%cpu'
-        alias psch='ps uxaw --sort=-%cpu | head'
+        alias psc='ps uxaw -c'
+        alias psch='ps uxaw -c | head'
 
         alias psm='ps uxaw -m'
         alias psmh='ps uxaw -m | head'
