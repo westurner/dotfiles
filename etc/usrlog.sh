@@ -16,6 +16,7 @@ _usrlog_set__USRLOG () {
     fi
 
     export _USRLOG="${prefix}/.usrlog"
+    export __USRLOG="${HOME}/.usrlog"
 }
 
 _usrlog_set_HISTFILE () {
