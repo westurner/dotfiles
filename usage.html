@@ -193,12 +193,11 @@ python setup.py test --help
 dotfiles Makefile
 #################
 help         -- print dotfiles help
-help_setuppy -- print setup.py help
-help_rst     -- print setup.py help as rst
-help_i3		-- print i3wm configuration
 help_vim     -- print dotvim make help
-help_vim_rst -- print dotvim help as rst
-help_zsh		-- print zsh help
+help_vim_txt -- print dotvim help as rst
+help_i3		-- print i3wm configuration
+help_setuppy -- print setup.py help
+help_txt     -- print setup.py help as rst
 
 install	  -- install dotfiles and dotvim [in a VIRTUAL_ENV]
 upgrade	  -- upgrade dotfiles and dotvim [in a VIRTUAL_ENV]
@@ -212,11 +211,18 @@ pip_install_requirements_all -- install all pip requirements
 install_gitflow -- install gitflow from github
 install_hubflow -- install hubflow from github
 
+install_brew_formulas 	-- install brew formulas
+update_brew_list			-- overwrite etc/brew/brew.list
+
 clean  -- remove .pyc, .pyo, __pycache__/ etc
 edit   -- edit the project main files README.rst
 test   -- run tests
 build  -- build a python sdist
-docs   -- build sphinx documentation
+
+docs   	-- build sphinx documentation
+gh-pages -- overwrite the gh-pages branch with docs/_build/html
+push		-- git push
+pull		-- git pull
 </pre></div>
 </div>
 </div>
@@ -250,6 +256,8 @@ docs   -- build sphinx documentation
       ## 05-bashrc.dotfiles.sh  -- dotfiles
       #  $__DOTFILES (str): path to local dotfiles repository clone
       #  dotfiles_status(): print dotfiles env config
+      #
+      ## 06-bashrc.completion.sh -- configure bash completion
       ##
       ### python: python: pip, virtualenv, virtualenvwrapper
       #  $PROJECT_HOME (str): path to project directory (~/wrk)
@@ -361,6 +369,11 @@ docs   -- build sphinx documentation
     # WORKON_HOME=&#39;/Users/W/wrk/.ve&#39;
    
    
+#### etc/bash/06-bashrc.completion.sh
+    ## configure bash completion (`complete -p` to list completions)
+        # configure brew (brew install bash-completion)
+   
+   
 #### etc/bash/07-bashrc.python.sh
 # Generate python cmdline docs::
 #
@@ -394,19 +407,20 @@ docs   -- build sphinx documentation
    
    
 #### etc/bash/10-bashrc.venv.sh
-## .bashrc.venv.sh
-#
-# sh configuration
-# intended to be sourced from (after) ~/.bashrc
+### venv -- builds upon virtualenv and virtualenvwrapper
+#   note: most of these aliases and functions are overwritten by `we` 
 ## Variables
     # __PROJECTSRC -- path to local project settings script
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
     # PATH=&quot;~/.local/bin:$PATH&quot; (if not already there)
     # _VENV       -- path to local venv config script (executable)
 ## Functions
-    # venv &lt;args&gt;  -- call $_VENV $@
-    # _venv &lt;args&gt; -- call $_VENV -E $@
-    # we()         -- workon a virtualenv and load venv
+    # venv $@   -- call $_VENV $@
+    # venv -h   -- print venv --help
+    # venv -b   -- print bash configuration
+    # venv -p   -- print IPython configuration as JSON
+    # _venv &lt;args&gt; -- call $_VENV -E $@ (for the current environment)
+    # we()         -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME (&quot;dotfiles&quot;)
     #  param $2: $_APP (&quot;dotfiles&quot;) [default: $1)
     #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
@@ -433,15 +447,21 @@ docs   -- build sphinx documentation
     # cdwrk     -- cd $WORKON_HOME
 ## Grin search
 # virtualenv / virtualenvwrapper
-    # grinv    -- grin $VIRTUAL_ENV
-    # grindv   -- grind $VIRTUAL_ENV
+    # grinv     -- grin $VIRTUAL_ENV
+    # grindv    -- grind $VIRTUAL_ENV
 # venv
-    # grins    -- grin $_SRC
-    # grinds   -- grind $_SRC
-    # grinw    -- grin $_WRD
-    # grindw   -- grind $_WRD
-    # grindctags   -- generate ctags from grind expression (*.py by default)
-    # _loadaliases -- load shell aliases
+    # grins     -- grin $_SRC
+    # grinds    -- grind $_SRC
+    # grinw     -- grin $_WRD
+    # grin-     -- grin _WRD
+    # grindw    -- grind $_WRD
+    # grind-    -- grind $_WRD
+    # grindctags    -- generate ctags from grind expression (*.py by default)
+    # _load_venv_aliases -- load venv aliases
+    #   (note: these are overwritten by `we` [`source &lt;(venv -b)`])
+    # makew     -- cd $_WRD &amp;&amp; make $@
+    # make-     -- cd $_WRD &amp;&amp; make $@
+    # mw        -- cd $_WRD &amp;&amp; make $@
    
    
 #### etc/bash/11-bashrc.venv.pyramid.sh
@@ -455,7 +475,7 @@ docs   -- build sphinx documentation
 #  _CFG = 
 #
 ## Editor
-    # Configure ${EDITOR}
+    # setup_editor()    -- configure ${EDITOR}
    
    
 #### etc/bash/29-bashrc.vimpagers.sh
@@ -495,6 +515,8 @@ docs   -- build sphinx documentation
     # Enumerate files from PATH
     # walk upwards from a path
     # see: http://superuser.com/a/65076  
+    # _load_aliases -- load aliases
+    ## hgst()   -- hg diff --start, hg status, hg diff
     # Create and open a new shell script
     # List differences between directories
     # Diff the output of two commands
