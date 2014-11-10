@@ -62,6 +62,9 @@ help:
 	@echo "install_gitflow -- install gitflow from github"
 	@echo "install_hubflow -- install hubflow from github"
 	@echo ""
+	@echo "install_brew_formulas 	-- install brew formulas"
+	@echo "update_brew_list			-- overwrite etc/brew/brew.list"
+	@echo ""
 	@echo "clean  -- remove .pyc, .pyo, __pycache__/ etc"
 	@echo "edit   -- edit the project main files README.rst"
 	@echo "test   -- run tests"
@@ -486,4 +489,10 @@ install_hubflow_system:
 	$(MAKE) checkout_hubflow
 	INSTALL_INTO="/usr/local/bin" sudo bash src/hubflow/install.sh
 
+update_brew_list:
+	brew leaves > ./etc/brew/brew.list.tmp
+	diff -Naur ./etc/brew/brew.list ./etc/brew/brew.list.tmp || true
+	mv ./etc/brew/brew.list.tmp ./etc/brew/brew.list
 
+install_brew_formulas:
+	cat ./etc/brew/brew.list | xargs brew install
