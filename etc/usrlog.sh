@@ -270,9 +270,8 @@ histgrep_session () {
 
 usrlog_tail() {
     #  usrlogt()    -- tail -n20 $_USRLOG
-    if [ -n $@ ]; then
+    if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
-        args[-1] = usrlog
         tail ${_usrlog} 
     else
         tail $_USRLOG
