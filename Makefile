@@ -43,12 +43,11 @@ help:
 	@echo "dotfiles Makefile"
 	@echo "#################"
 	@echo "help         -- print dotfiles help"
-	@echo "help_setuppy -- print setup.py help"
-	@echo "help_rst     -- print setup.py help as rst"
-	@echo "help_i3		-- print i3wm configuration"
 	@echo "help_vim     -- print dotvim make help"
-	@echo "help_vim_rst -- print dotvim help as rst"
-	@echo "help_zsh		-- print zsh help"
+	@echo "help_vim_txt -- print dotvim help as rst"
+	@echo "help_i3		-- print i3wm configuration"
+	@echo "help_setuppy -- print setup.py help"
+	@echo "help_txt     -- print setup.py help as rst"
 	@echo ""
 	@echo "install	  -- install dotfiles and dotvim [in a VIRTUAL_ENV]"
 	@echo "upgrade	  -- upgrade dotfiles and dotvim [in a VIRTUAL_ENV]"
@@ -80,7 +79,7 @@ help_setuppy:
 	python setup.py --help
 	python setup.py $(SETUPPY_CMDOPTS) --help-commands
 
-help_setuppy_rst:
+help_setuppy_txt:
 	## show help as (almost) ReStructuredText
 	python setup.py --help \
 		| sed "s|^\w.*|\0::|g" \
@@ -100,15 +99,15 @@ help_bash:
 	## Write bash output to scripts/bashrc.load.sh
 	bash -i -v -c 'exit' > $(BASH_LOAD_SCRIPT) 2>&1
 
-help_bash_rst: help_bash
+help_bash_txt: help_bash
 	## Write docs/bash_conf.txt
 	bash scripts/dotfiles-bash.sh > docs/bash_conf.txt
 
 
 ZSH_LOAD_SCRIPT=scripts/zsh.load.sh
-help_zsh:
+help_zsh_txt:
 	## Write zsh output to script/zsh.load.sh
-	zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1
+	zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1 || true
 
 
 help_vim:
@@ -116,7 +115,7 @@ help_vim:
 	test -d etc/vim && \
 		$(MAKE) -C etc/vim help
 
-help_vim_rst:
+help_vim_txt:
 	## Write docs/dotvim_conf.txt
 	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.txt
 
@@ -124,22 +123,22 @@ help_vim_rst:
 help_i3:
 	$(MAKE) -C etc/.i3 help_i3
 
-help_i3_rst:
+help_i3_txt:
 	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.txt
 
-help_rst: help_setuppy_rst help_bash_rst help_vim_rst help_i3_rst
+help_txt: help_setuppy_txt help_bash_txt help_vim_txt help_i3_txt help_zsh_txt
 
 help_all:
 	$(MAKE) help
 	$(MAKE) help_setuppy
-	$(MAKE) help_setuppy_rst
+	$(MAKE) help_setuppy_txt
 	$(MAKE) help_bash
-	$(MAKE) help_bash_rst
+	$(MAKE) help_bash_txt
 	$(MAKE) help_zsh
 	$(MAKE) help_vim
-	$(MAKE) help_vim_rst
+	$(MAKE) help_vim_txt
 	$(MAKE) help_i3
-	$(MAKE) help_i3_rst
+	$(MAKE) help_i3_txt
 
 install:
 	$(MAKE) pip_install_as_editable
@@ -406,14 +405,16 @@ docs_api:
 
 docs: localjs
 	$(MAKE) docs_api
-	$(MAKE) help_bash_rst
-	$(MAKE) help_vim_rst
-	$(MAKE) help_i3_rst
+	$(MAKE) help_bash_txt
+	$(MAKE) help_zsh_txt
+	$(MAKE) help_vim_txt
+	$(MAKE) help_i3_txt
 	$(MAKE) docs_commit_autogen
 	$(MAKE) -C docs clean html   # singlehtml
 
-DOCS_AUTOGEN_FILES:=docs/bash_conf.txt scripts/bashrc.load.sh \
-	zsh.load.sh docs/i3_conf.txt dotvim_conf.txt
+DOCS_AUTOGEN_FILES:=docs/bash_conf.txt docs/i3_conf.txt docs/dotvim_conf.txt \
+	scripts/bashrc.load.sh \
+	scripts/zsh.load.sh 
 
 docs_commit_autogen:
 	git add -f $(DOCS_AUTOGEN_FILES)
