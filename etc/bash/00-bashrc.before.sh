@@ -15,7 +15,7 @@ dotfiles_reload() {
     echo "# dotfiles_reload()"
 
     if [ -n $__DOTFILES ]; then
-        export __DOTFILES=${__DOTFILES} 
+        export __DOTFILES=${__DOTFILES}
     else
         _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
         _dotfiles_link=${HOME}/.dotfiles
@@ -25,7 +25,7 @@ dotfiles_reload() {
         elif [ -d $_dotfiles_src ]; then
             __DOTFILES=${_dotfiles_src}
         fi
-        export __DOTFILES=${__DOTFILES} 
+        export __DOTFILES=${__DOTFILES}
     fi
 
     conf=${__DOTFILES}/etc/bash
