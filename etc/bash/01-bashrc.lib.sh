@@ -1,5 +1,8 @@
- 
+
+### bashrc.lib.sh
+
 function_exists() {
+    #  function_exists()    -- check whether a bash function exists
     declare -f $1 > /dev/null
     return $?
 }
@@ -21,45 +24,12 @@ add_to_path ()
     export PATH=$1:$PATH
 }
 
-
-lightpath() {
-    #  lightpath    -- display $PATH with newlines
-    echo ''
-    echo $PATH | tr ':' '\n'
-}
-
-lspath() {
-    #  lspath       -- list files in each directory in $PATH
-    echo "PATH=$PATH"
-    lightpath
-    LS_OPTS=${@:-'-ald'}
-    #LS_OPTS="-aldZ"
-    for f in $(lightpath); do
-        echo "# $f";
-        ls $LS_OPTS $@ $f/*;
-    done
-}
-
-lspath_less() {
-    #  lspath_less  -- lspath with less
-    lspath --color=always $@ | less -r
-}
-
-echo_args() {
-    #   echo_args   -- echo $@ (for checking quoting)
-    echo $@
-}
-
-
-pypath() {
-    #  pypath       -- print python sys.path and site config
-    /usr/bin/env python -m site
-}
-
 detect_platform() {
-    if [ -d /Library ]; then
+    #  detect_platform()    -- set __IS_MAC, __IS_LINUX according to $(uname)
+    UNAME=$(uname)
+    if [ ${UNAME} == "Darwin" ]; then
         export __IS_MAC='true'
-    else
+    elif [ ${UNAME} == "Linux" ]; then
         export __IS_LINUX='true'
     fi
 }

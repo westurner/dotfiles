@@ -1,49 +1,56 @@
 
-# .bashrc commands
+### bashrc.aliases.sh
 
-## file paths
+## bash
 
 #__THIS=$(readlink -e "$0")
 #__THISDIR=$(dirname "${__THIS}")
 
+echo_args() {
+    #  echo_args    -- echo $@ (for checking quoting)
+    echo $@
+}
+
+## file paths
+
 path () {
-    # print absolute path to file
-    echo "$PWD/"$1""
+    #  path()       -- print absolute path (os.path.realpath) to path $1
+    #                  note: OSX does not have readlink -f
+    python -c "import os; print(os.path.realpath('$@'))"
+    return
 }
 
-expandpath () {
-    # Enumerate files from PATH
+lightpath() {
+    #  lightpath()  -- display $PATH with newlines
+    echo ''
+    echo $PATH | tr ':' '\n'
+}
 
-    COMMAND=${1-"ls -alZ"}
-    PATHS=$(echo $PATH | tr ':' ' ')
-
-    for p in $PATHS; do
-        find "$p" -type f -print0 | xargs -0 $COMMAND
-    done
-
-    echo "#" $PATH
-    for p in $PATHS; do
-        echo "# " $p
+lspath() {
+    #  lspath()     -- list files in each directory in $PATH
+    echo "# PATH=$PATH"
+    lightpath | sed 's/\(.*\)/# \1/g'
+    echo '#'
+    cmd=${1:-'ls -ald'}
+    for f in $(lightpath); do
+        echo "# $f";
+        ${cmd} $f/*;
+        echo '#'
     done
 }
 
-
-_trail () {
-    # walk upwards from a path
-    # see: http://superuser.com/a/65076  
-    unset path
-    _pwd=${1:-$(pwd)}
-    parts=$(echo ${_pwd} | awk 'BEGIN{FS="/"}{for (i=1; i < NF; i++) print $i}')
-
-    for part in $parts; do
-        path="$path/$part"
-        ls -ldZ $path
-    done
-
+lspath-less() {
+    #  lspath_less()    -- lspath with less (color)
+    if [ -n "${__IS_MAC}" ]; then
+        cmd=${1:-'ls -ald -G'}
+    else
+        cmd=${1:-'ls -ald --color=always'}
+    fi
+    lspath "${cmd}" | less -R
 }
 
 _loadaliases () {
-    # _load_aliases -- load aliases
+    #  _load_aliases()  -- load aliases
     alias chmodr='chmod -R'
     alias chownr='chown -R'
 
@@ -82,7 +89,7 @@ _loadaliases () {
     alias hgqn='hg qnew'
     alias hgr='hg paths'
 
-    if [ -n "$__IS_MAC" ]; then
+    if [ -n "${__IS_MAC}" ]; then
         alias la='ls -A -G'
         alias ll='ls -alF -G'
         alias ls='ls -G'
@@ -93,8 +100,6 @@ _loadaliases () {
         alias ls='ls --color=auto'
         alias lt='ls -altr --color=auto'
     fi
-
-    alias man_='/usr/bin/man'
 
     if [ -n "${__IS_LINUX}" ]; then
         alias psx='ps uxaw'
@@ -121,14 +126,17 @@ _loadaliases () {
         alias psm='ps uxaw -m'
         alias psmh='ps uxaw -m | head'
     fi
-
+    
+    alias shtop='sudo htop'
     alias t='tail'
-    alias xclip='xclip -selection c'
+    alias tf='tail -f'
+    alias xclipc='xclip -selection c'
 }
 _loadaliases
 
+
 hgst() {
-    ## hgst()   -- hg diff --start, hg status, hg diff
+    ## hgst()   -- hg diff --stat, hg status, hg diff
     repo=${1:-"$(pwd)"}
     shift
 
@@ -150,42 +158,51 @@ hgst() {
 
 
 chown-me () {
-    set -x
-    chown -Rv $(id -un):$(id -un) $@
-    chmod -Rv go-rwx $@
-    set +x
-
+    (set -x; \
+    chown -Rv $(id -un) $@ )
 }
+
+chown-me-mine () {
+    (set -x; \
+    chown -Rv $(id -un):$(id -un) $@ ; \
+    chmod -Rv go-rwx $@ )
+}
+
 chown-sme () {
-    set -x
-    sudo chown -Rv $(id -un):$(id -un) $@
-    sudo chmod -Rv go-rwx $@
-    set +x
+    (set -x; \
+    sudo chown -Rv $(id -un) $@ )
+}
 
+chown-sme-mine () {
+    (set -x; \
+    sudo chown -Rv $(id -un):$(id -un) $@ ; \
+    sudo chmod -Rv go-rwx $@ )
 }
-chown-user () {
-    set -x
-    chown -Rv $(id -un):$(id -un) $@
-    chmod -Rv go-rwx $@
-    set +x
+
+chmod-unumask () {
+    #  chmod-unumask()  -- recursively add other+r (files) and other+rx (dirs)
+    path=$1
+    sudo find "${path}" -type f -exec chmod -v o+r {} \;
+    sudo find "${path}" -type d -exec chmod -v o+rx {} \;
 }
+
 
 new-sh () {
-    # Create and open a new shell script
+    #  new-sh()         -- create and open a new shell script at $1
     file=$1
-    if [ -e $1 ]
-        then echo "$1 exists"
-        else
+    if [ -e $1 ]; then
+        echo "$1 exists"
+    else
         touch $1
         echo "#!/bin/sh" >> $1
-        echo "" >> $1
+        echo "## " >> $1
         chmod 700 $1
-        $EDITOR +2 $1
+        ${EDITOR_} +2 $1
     fi
 }
 
 diff-dirs () {
-    # List differences between directories
+    #  diff-dirs()      -- list differences between directories
     F1=$1
     F2=$2
 
@@ -196,21 +213,31 @@ diff-dirs () {
 }
 
 diff-stdin () {
-    # Diff the output of two commands
+    #  diff-stdin()     -- diff the output of two commands
     DIFFBIN='diff'
     $DIFFBIN -u <($1) <($2)
 }
 
 wopen () {
-    # open in new tab
-    python -m webbrowser -t $@
+    #  wopen()  -- open path/URI/URL $1 in a new browser tab
+    #              see: scripts/x-www-browser
+    if [ -n "${__IS_MAC}" ]; then
+        open $@
+    elif [ -n "${__IS_LINUX}" ]; then
+        x-www-browser $@
+    else
+        python -m webbrowser -t $@
+    fi
 }
 
-find_largefiles () {
+find-largefiles () {
+    #  find-largefiles  -- find files larger than size (default: +10M)
     SIZE=${1:-"+10M"}
     find . -xdev -type f -size "${SIZE}" -exec ls -alh {} \;
 }
-find_pdf () {
+
+find-pdf () {
+    #  find-pdf         -- find pdfs and print info with pdfinfo
     SPATH='.'
     files=$(find "$SPATH" -type f -iname '*.pdf' -printf "%T+||%p\n" | sort -n)
     for f in $files; do
@@ -221,26 +248,34 @@ find_pdf () {
         pdfinfo "$fname" | egrep --color=none 'Title|Keywords|Author';
     done
 }
-find_lately () {
+
+find-lately () {
+    #   find-lately()   -- list and sort files in paths $@ by mtime
     set -x
-    paths=$@
+    paths=${@:-"/"}
     lately="lately.$(date +'%Y%m%d%H%M%S')"
 
-    find $paths -printf "%T@\t%s\t%u\t%Y\t%p\n" | tee $lately
+    #find $paths -printf "%T@\t%s\t%u\t%Y\t%p\n" > ${lately}
+    find $paths -exec stat {} \; > ${lately} 2> ${lately}.errors
     # time_epoch \t size \t user \t type \t path
-    sort $lately > $lately.sorted
+    sort ${lately} > ${lately}.sorted
 
-    less $lately.sorted
+    less ${lately}.sorted
     set +x
-    #for p in $paths; do
-    #    repos -s $p
-    #done
 }
 
-find_setuid () {
-    find /  -type f \( -perm -4000 -o -perm -2000 \) -exec ls -ld '{}' \;
+find-setuid () {
+    #  find-setuid()    -- find all setuid and setgid files
+    #                       stderr > find-setuid.errors
+    #                       stdout > find-setuid.files
+    sudo \
+        find /  -type f \( -perm -4000 -o -perm -2000 \) -exec ls -ld '{}' \; \
+        2> find-setuid.errors \
+        > find-setuid.files
 }
-find_startup () {
+
+find-startup () {
+    #  find-startup()   -- find common startup files in common locations
     cmd=${@:-"ls"}
     paths='/etc/rc?.d /etc/init.d /etc/init /etc/xdg/autostart /etc/dbus-1'
     paths="$paths ~/.config/autostart /usr/share/gnome/autostart"
@@ -251,8 +286,9 @@ find_startup () {
     done
 }
 
-find_ssl() {
-    # apt-get install libnss3-tools
+find-ssl() {
+    #  find-ssl()       -- find .pem and .db files and print their metadata
+    #apt-get install libnss3-tools
     _runcmd(){
         cmd="${1}"
         desc="${2}"
@@ -273,15 +309,17 @@ find_ssl() {
     done
 }
 
-find_pkgfile () {
+find-dpkgfile () {
+    #  find-dpkgfile()  -- search dpkgs with apt-file
     apt-file search $@
 }
 
-find_pkgfiles () {
-    cat /var/lib/dpkg/info/$1.list | sort
+find-dpkgfiles () {
+    #  find-dpkgfiles() -- sort dpkg /var/lib/dpkg/info/<name>.list
+    cat /var/lib/dpkg/info/${1}.list | sort
 }
 
-deb_chksums () {
+deb-chksums () {
     # checks filesystem against dpkg's md5sums 
     #
     # Author: Filippo Giunchedi <filippo@esaurito.net>
@@ -312,39 +350,40 @@ deb_chksums () {
     popd
 }
 
-deb_mkrepo () {
+deb-mkrepo () {
+    #  deb-mkrepo   -- create dpkg Packages.gz and Sources.gz from dir ${1}
     REPODIR=${1:-"/var/www/nginx-default/"}
     cd $REPODIR
     dpkg-scanpackages . /dev/null | gzip -9c > $REPODIR/Packages.gz
     dpkg-scansources . /dev/null | gzip -9c > $REPODIR/Sources.gz
 }
 
-mnt_chroot_bind () {
+mnt-chroot-bind () {
+    #  mnt-chroot-bind()    -- bind mount linux chroot directories
     DEST=$1
     sudo mount proc -t proc ${DEST}/proc
     sudo mount -o bind /dev ${DEST}/dev
     sudo mount sysfs -t sysfs ${DEST}/sys
     sudo mount -o bind,ro /boot {DEST}/boot
 }
-mnt_cifs () {
+mnt-cifs () {
+    #  mnt-cifs()           -- mount a CIFS mount
     URI="$1" # //host/share
     MNTPT="$2"
     OPTIONS="-o user=$3,password=$4"
     mount -t cifs $OPTIONS $URI $MNTPT
 }
-mnt_davfs () {
-    #!/bin/sh
+mnt-davfs () {
+    #  mnt-davfs()          -- mount a WebDAV mount
     URL="$1"
     MNTPT="$2"
     OPTIONS="-o rw,user,noauto"
     mount -t davfs $OPTIONS $URL $MNTPT
 }
 
-lsof_ () {
-    #!/bin/bash 
-
+lsof-sh () {
+    #  lsof-sh()            -- something like lsof
     processes=$(find /proc -regextype egrep -maxdepth 1 -type d -readable -regex '.*[[:digit:]]+')
-
     for p in $processes; do
         cmdline=$(cat $p/cmdline)
         cmd=$(echo $cmdline | sed 's/\(.*\)\s.*/\1/g' | sed 's/\//\\\//g')
@@ -353,14 +392,13 @@ lsof_ () {
         #maps=$(cat $p/maps )
         sed_pattern="s/\(.*\)/$pid \1\t$cmd/g"
         cat $p/maps | sed "$sed_pattern"
-
     done
-
     #~ lsof_ | grep 'fb' | pycut -f 6,5,0,2,1,7 -O '%s' | sort -n 
 }
 
 
-lsof_net () {
+lsof-net () {
+    #  lsof-net()           -- lsof the network things
     ARGS=${@:-''}
     for pid in `lsof -n -t -U -i4 2>/dev/null`; do
         echo "-----------";
@@ -370,7 +408,8 @@ lsof_net () {
 }
 
 
-net_stat () {
+net-stat () {
+    #  net-stat()           -- print networking information
     echo "# net_stat:"  `date`
     echo "#####################################################"
     set -x
@@ -385,7 +424,8 @@ net_stat () {
 
 
 
-ssh_prx () {
+ssh-prx () {
+    #  ssh-prx()            -- SSH SOCKS
     RUSERHOST=$1
     RPORT=$2
 
@@ -397,46 +437,41 @@ ssh_prx () {
     echo "$PRXADDR"
 }
 
-strace_ () {
+strace- () {
+    #  strace-()            -- strace with helpful options
     strace -ttt -f -F $@ 2>&1
 }
-strace_f () {
+strace-f () {
+    #  strace-f()           -- strace -e trace=file + helpful options
     strace_ -e trace=file $@
 }
 
-strace_f_noeno () {
+strace-f-noeno () {
+    #  strace-f-noeno       -- strace -e trace=file | grep -v ENOENT
     strace_ -e trace=file $@ 2>&1 \
         | grep -v '-1 ENOENT (No such file or directory)$' 
 }
 
-
-
-unumask() {
-    path=$1
-    sudo find "${path}" -type f -exec chmod -v o+r {} \;
-    sudo find "${path}" -type d -exec chmod -v o+rx {} \;
-}
-
-_rro_find_repo() {
-    [ -d $1/.hg ] || [ -d $1/.git ] || [ -d $1/.bzr ] && cd $path
-}
-
-rro () {
-    # walk down a path
-    # see: http://superuser.com/a/65076 
-    # FIXME
-    # TODO
+walkpath () {
+    #  walkpath()    -- walk down a path
+    #   $1 : path (optional; default: pwd)
+    #   $2 : cmd  (optional; default: ls -ald --color=auto)
+    #   see: http://superuser.com/a/65076 
+    dir=${1:-$(pwd)}
+    if [ -n "${__IS_MAC}" ]; then
+        cmd=${2:-"ls -ldaG"}
+    else
+        cmd=${2:-"ls -lda --color=auto"}
+    fi
+    dir=$(python -c "import os; print(os.path.realpath('${dir}'))")
+    parts=$(echo ${dir} \
+        | awk 'BEGIN{FS="/"}{for (i=1; i < NF+2; i++) print $i}')
+    paths=('/')
     unset path
-    _pwd=$(pwd)
-    parts=$(pwd | awk 'BEGIN{FS="/"}{for (i=1; i < NF+1; i++) print "/"$i}')
-
-    _rro_find_repo $_pwd
     for part in $parts; do
         path="$path/$part"
-       
-        ls -ld $path
-        _rro_find_repo $path
-
+        paths=("${paths[@]}" $path)
     done
+    ${cmd} ${paths[@]}
 }
 
