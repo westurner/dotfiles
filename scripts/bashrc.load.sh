@@ -2487,12 +2487,12 @@ _configure_lesspipe() {
 _configure_lesspipe
 which lesspipe.sh 2>/dev/null || false
 
-
+{lesspipe}
+ 
 ## vimpager     -- call vimpager
 vimpager() {
-${lesspipe}
-(which vimpager)
-                if [ -x "${_PAGER}" ]; then
+    _PAGER=$(which vimpager)
+    if [ -x "${_PAGER}" ]; then
         ${_PAGER} $@
     else
         echo "error: vimpager not found. (see lessv: 'lessv $@')"
