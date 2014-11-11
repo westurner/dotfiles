@@ -538,17 +538,17 @@ log_dotfiles_state() {
 
 
 dotfiles_initialize() {
-    # dotfiles_initialize() -- virtualenvwrapper initialize
+    # dotfiles_initialize()     -- virtualenvwrapper initialize
     log_dotfiles_state 'initialize'
 }
 
 dotfiles_preactivate() {
-    # dotfiles_preactivate()  -- virtualenvwrapper preactivate
+    # dotfiles_preactivate()    -- virtualenvwrapper preactivate
     log_dotfiles_state 'preactivate'
 }
 
 dotfiles_postactivate() {
-    # dotfiles_postactivate()  -- virtualenvwrapper postactivate
+    # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
     test -n $_VENV \
@@ -568,19 +568,60 @@ dotfiles_predeactivate() {
 }
 
 dotfiles_postdeactivate() {
-    # dotfiles_postdeactivate()  -- virtualenvwrapper postdeactivate
+    # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
     unset VIRTUAL_ENV_NAME
+    unset _APP
+    unset _BIN
+    unset _CFG
+    unset _EDITCFG_
+    unset _EDITOR
+    unset _EDIT_
+    unset _ETC
+    unset _ETCOPT
+    unset _HOME
+    unset _IPQTLOG
+    unset _IPSESSKEY
+    unset _LIB
+    unset _LOG
+    unset _MEDIA
+    unset _MNT
+    unset _NOTEBOOKS
+    unset _OPT
+    unset _PYLIB
+    unset _PYSITE
+    unset _ROOT
+    unset _SBIN
+    unset _SERVE_
+    unset _SHELL_
     unset _SRC
-    unset _WRD
+    unset _SRV
+    unset _SVCFG
+    unset _SVCFG_
+    unset _TEST_
+    unset _TMP
+    unset _USR
+    unset _USRBIN
+    unset _USRINCLUDE
+    unset _USRLIB
+    unset _USRLOCAL
     unset _USRLOG
-    export _USRLOG=${__USRLOG}
-    # __DOTFILES='/Users/W/.dotfiles'
-    # __DOCSWWW=''
-    # __SRC='/Users/W/src'
-    # __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
-    # PROJECT_HOME='/Users/W/wrk'
-    # WORKON_HOME='/Users/W/wrk/.ve'
+    unset _USRSBIN
+    unset _USRSHARE
+    unset _USRSRC
+    unset _VAR
+    unset _VARCACHE
+    unset _VARLIB
+    unset _VARLOCK
+    unset _VARMAIL
+    unset _VAROPT
+    unset _VARRUN
+    unset _VARSPOOL
+    unset _VARTMP
+    unset _VENV
+    unset _WRD
+    unset _WRD_SETUPY
+    unset _WWW
 
     dotfiles_reload
 }

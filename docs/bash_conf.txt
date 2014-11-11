@@ -144,17 +144,11 @@
     # dotfiles_term_uri()   -- print a URI for the current _TERM_ID
     # ds()                  -- print dotfiles_status
     # log_dotfiles_state()  -- save current environment to logfiles
-    # dotfiles_initialize() -- virtualenvwrapper initialize
-    # dotfiles_preactivate()  -- virtualenvwrapper preactivate
-    # dotfiles_postactivate()  -- virtualenvwrapper postactivate
+    # dotfiles_initialize()     -- virtualenvwrapper initialize
+    # dotfiles_preactivate()    -- virtualenvwrapper preactivate
+    # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     # dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
-    # dotfiles_postdeactivate()  -- virtualenvwrapper postdeactivate
-    # __DOTFILES='/Users/W/.dotfiles'
-    # __DOCSWWW=''
-    # __SRC='/Users/W/src'
-    # __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
-    # PROJECT_HOME='/Users/W/wrk'
-    # WORKON_HOME='/Users/W/wrk/.ve'
+    # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
    
    
 #### etc/bash/06-bashrc.completion.sh
