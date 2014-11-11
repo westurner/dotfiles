@@ -265,8 +265,6 @@ find-lately () {
         > ${lately} 2> ${lately}.errors
     # time_epoch \t size \t user \t type \t path
     sort ${lately} > ${lately}.sorted
-
-    less ${lately}.sorted
     set +x
 }
 
