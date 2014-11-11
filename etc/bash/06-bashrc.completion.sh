@@ -5,9 +5,6 @@ _configure_bash_completion() {
     # _configure_bash_completion()  -- configure bash completion
     #                               note: `complete -p` lists completions
 
-    if ! shopt -oq posix; then
-        return
-    fi
     if [ -n "$__IS_MAC" ]; then
         #configure brew (brew install bash-completion)
         BREW=$(which brew 2>/dev/null || false)
@@ -18,7 +15,7 @@ _configure_bash_completion() {
             fi
         fi
     else
-        if [ -f /etc/bash_completion ]; then
+        if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
             source /etc/bash_completion
         fi
     fi
