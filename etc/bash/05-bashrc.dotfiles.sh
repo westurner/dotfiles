@@ -3,7 +3,7 @@
 
 
 dotfiles_add_path() {
-    # dotfiles_add_path     -- add ${__DOTFILES}/scripts to $PATH
+    # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     if [ -d "${__DOTFILES}" ]; then
         #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
         add_to_path "${__DOTFILES}/scripts"
@@ -11,7 +11,7 @@ dotfiles_add_path() {
 }
 
 dotfiles_status() {
-    # dotfiles_status()     -- print dotfiles_status
+    # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
     echo "HOSTNAME='${HOSTNAME}'"
     echo "USER='${USER}'"
@@ -33,12 +33,12 @@ dotfiles_status() {
     echo "#"
 }
 ds() {
-    # ds()                  -- print dotfiles_status
+    # ds()                      -- print dotfiles_status
     dotfiles_status $@
 }
 
 #dotfiles_term_uri() {
-    ##dotfiles_term_uri()   -- print a URI for the current _TERM_ID
+    ##dotfiles_term_uri()        -- print a URI for the current _TERM_ID
     #term_path="${HOSTNAME}/usrlog/${USER}"
     #term_key=${_APP}/${_TERM_ID}
     #TERM_URI="${term_path}/${term_key}"
@@ -46,7 +46,7 @@ ds() {
 #}
 
 log_dotfiles_state() {
-    # log_dotfiles_state()  -- save current environment to logfiles
+    # log_dotfiles_state()      -- save current environment to logfiles
     _log=${_LOG:-"${HOME}/var/log"}
     logkey=${1:-'99'}
     logdir=${_log:-"var/log"}/venv.${logkey}/
