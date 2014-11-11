@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Usage &mdash; dotfiles 0.3.3 documentation</title>
+    <title>Usage &mdash; dotfiles 0.3.4 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.3.3',
+            VERSION:     '0.3.4',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -63,7 +63,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.3.3 documentation" href="index.html" />
+    <link rel="top" title="dotfiles 0.3.4 documentation" href="index.html" />
     <link rel="next" title="Venv" href="venv.html" />
     <link rel="prev" title="Install" href="install.html" /> 
   </head>
@@ -77,7 +77,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">dotfiles 0.3.3 documentation</a>
+          <a class="navbar-brand" href="index.html">dotfiles 0.3.4 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -490,7 +490,10 @@ pull		-- git pull
     # grin-     -- grin _WRD
     # grindw    -- grind $_WRD
     # grind-    -- grind $_WRD
-    # grindctags    -- generate ctags from grind expression (*.py by default)
+    # grindctags    -- generate ctags from grind (in ./tags)
+    # grindctagssys -- generate ctags from grind --sys-path (in $_WRD/tags)
+    # grindctagsw   -- generate ctags from (cd $_WRD; grind)  (in $_WRD/tags)
+    # grindctagss   -- generate ctags from (cd $_SRC; grind)  (in $_SRC/tags)
     # _load_venv_aliases -- load venv aliases
     #   (note: these are overwritten by `we` [`source &lt;(venv -b)`])
     # makew     -- cd $_WRD &amp;&amp; make $@
@@ -1594,7 +1597,7 @@ Execute python expressions over line-based files.</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-        <li><a href="index.html">dotfiles 0.3.3 documentation</a></li>
+        <li><a href="index.html">dotfiles 0.3.4 documentation</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
