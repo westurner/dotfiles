@@ -2662,12 +2662,12 @@ _usrlog_set_HIST() {
 
     if [ -n "$BASH" ] ; then
         # append to the history file, don't overwrite it
-        shopt -s histappend
+        shopt -s histappend > /dev/null 2>&1
         # replace newlines with semicolons
-        shopt -s cmdhist
+        shopt -s cmdhist > /dev/null 2>&1
 
         # enable autocd (if available)
-        shopt -s autocd 2>&1 > /dev/null
+        shopt -s autocd > /dev/null 2>&1
     elif [ -n "$ZSH_VERSION" ]; then
         setopt APPEND_HISTORY
         setopt EXTENDED_HISTORY
@@ -2982,9 +2982,7 @@ usrlog_screenrec_ffmpeg() {
 
 ## call _usrlog_setup
 _usrlog_setup
-bash: shopt: autocd: invalid shell option name
 ]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
-bash: shopt: autocd: invalid shell option name
 ]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
 usrlogv() {
     ## usrlog() -- open $_USRLOG with vim (skip to end)
