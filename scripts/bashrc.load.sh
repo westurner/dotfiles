@@ -2481,11 +2481,14 @@ sudogvim() {
 _configure_lesspipe() {
     lesspipe=$(which lesspipe.sh 2>/dev/null || false)
     if [ -n "${lesspipe}" ]; then
-        source <(${lesspipe})
+        eval "$(${lesspipe})"
     fi
 }
 _configure_lesspipe
 which lesspipe.sh 2>/dev/null || false
+${lesspipe}
+LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
+export LESSOPEN
 
 
 ## vimpager     -- call vimpager
@@ -2494,8 +2497,7 @@ vimpager() {
     if [ -x "${_PAGER}" ]; then
         ${_PAGER} $@
     else
-e}
-                 echo "error: vimpager not found. (see lessv: 'lessv $@')"
+        echo "error: vimpager not found. (see lessv: 'lessv $@')"
     fi
 }
 
