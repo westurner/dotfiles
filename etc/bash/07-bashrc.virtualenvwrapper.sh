@@ -6,11 +6,16 @@ export WORKON_HOME="${PROJECT_HOME}/.ve"
 _setup_virtualenvwrapper () {
     ## _setup_virtualenvwrapper -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
-    export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
+    #export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
+    export VIRTUALENVWRAPPER_SCRIPT=$(which virtualenvwrapper.sh)
     export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper"
     export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
-    export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
-    export VIRTUALENV_DISTRIBUTE='true'
+    if [ -n "${__IS_MAC}" ]; then
+        export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python"
+    else
+        export VIRTUALENVWRAPPER_PYTHON=$(which python)
+    fi
+    unset VIRTUALENV_DISTRIBUTE
     source "${VIRTUALENVWRAPPER_SCRIPT}"
 
     #alias cdv='cdvirtualenv'

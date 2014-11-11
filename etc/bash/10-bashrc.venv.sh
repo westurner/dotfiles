@@ -150,13 +150,37 @@ grind-() {
 }
 
 grindctags() {
-    # grindctags    -- generate ctags from grind expression (*.py by default)
-    args="$@"
-    if [ -z $args ]; then
-        args='*.py'
+    # grindctags    -- generate ctags from grind (in ./tags)
+    if [ -n "${__IS_MAC}" ]; then
+        if [ -x "/usr/local/bin/ctags" ]; then
+            ctagsbin="/usr/local/bin/ctags"
+        fi
+    else
+        ctagsbin=$(which ctags)
     fi
-    grind --follow "$args" | ctags -L -
+    (set -x;
+    path=${1:-'.'}
+    grindargs=${2}
+    cd ${path}; grind --follow ${grindargs} \
+        | grep -v 'min.js$' \
+        | ${ctagsbin} -L - 2>tags.err && \
+    wc -l ${path}/tags.err;
+    ls -alh ${path}/tags;)
 }
+grindctagssys() {
+    # grindctagssys -- generate ctags from grind --sys-path (in $_WRD/tags)
+    grindctags "${_WRD}" "--sys-path"
+}
+grindctagsw() {
+    # grindctagsw   -- generate ctags from (cd $_WRD; grind)  (in $_WRD/tags)
+    grindctags "${_WRD}"
+}
+grindctagss() {
+    # grindctagss   -- generate ctags from (cd $_SRC; grind)  (in $_SRC/tags)
+    grindctags "${_SRC}"
+}
+
+
 
 _load_venv_aliases() {
     # _load_venv_aliases -- load venv aliases

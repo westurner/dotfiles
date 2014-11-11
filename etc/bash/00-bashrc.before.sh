@@ -40,6 +40,9 @@ dotfiles_reload() {
       detect_platform
       #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
       #                       egrep -nr -C 3 '__IS_MAC|__IS_LINUX'
+      if [ -n "${__IS_MAC}" ]; then
+          export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
+      fi
 
       #
       ## 03-bashrc.readline.sh  -- readline

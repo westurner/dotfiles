@@ -2189,8 +2189,7 @@ _configure_lesspipe() {
 _configure_lesspipe
 which lesspipe.sh 2>/dev/null || false
 
-{lesspipe}
- 
+
 ## vimpager     -- call vimpager
 vimpager() {
     _PAGER=$(which vimpager)
@@ -2296,6 +2295,7 @@ mane() {
 ## stid()   -- set or regenerate shell session id
 #  
 source "${__DOTFILES}/etc/usrlog.sh"
+${lesspipe}
 #!/bin/sh
 ##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
 #
