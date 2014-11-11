@@ -429,7 +429,7 @@ fi
 ### bashrc.TERM.sh
 
 configure_TERM() {
-    # configure_TERM    -- configure the $TERM variable (man terminfo)
+    # configure_TERM            -- configure the $TERM variable (man terminfo)
     #   $1: (optional; autodetects if -z)
     term=$1
     if [ -n "${TERM}" ]; then
@@ -459,10 +459,11 @@ configure_TERM() {
 }
 
 configure_TERM_CLICOLOR() {
-    # configure_TERM_CLICOLOR  -- configure $CLICOLOR and $CLICOLOR_256
+    # configure_TERM_CLICOLOR   -- configure $CLICOLOR and $CLICOLOR_256
     #   CLICOLOR=1
     export CLICOLOR=1
 
+    #todo
     #CLICOLOR_256=1
     #export CLICOLOR_256=$CLICOLOR
 
@@ -480,19 +481,15 @@ echo $TERMCAP | grep -q screen
 
 
 dotfiles_add_path() {
-    ## dotfiles_add_path    -- Add ${__DOTFILES}/scripts to $PATH
+    # dotfiles_add_path     -- add ${__DOTFILES}/scripts to $PATH
     if [ -d "${__DOTFILES}" ]; then
         #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
         add_to_path "${__DOTFILES}/scripts"
     fi
 }
 
-#
-# See etc/bash/05-bashrc.dotfiles.sh
-## dotfiles_status()        -- print dotfiles_status 
-
 dotfiles_status() {
-    #  dotfiles_status()    -- print dotfiles_status
+    # dotfiles_status()     -- print dotfiles_status
     echo "# dotfiles_status()"
     echo "HOSTNAME='${HOSTNAME}'"
     echo "USER='${USER}'"
@@ -514,7 +511,8 @@ dotfiles_status() {
     echo "#"
 }
 
-dotfiles_term_url() {
+dotfiles_term_uri() {
+    # dotfiles_term_uri()   -- print a URI for the current _TERM_ID
     term_path="${HOSTNAME}/usrlog/${USER}"
     term_key=${_APP}/${_TERM_ID}
     TERM_URL="${term_path}/${term_key}"
@@ -522,15 +520,13 @@ dotfiles_term_url() {
 }
 
 ds() {
-    #  ds                   -- print dotfiles_status
+    # ds()                  -- print dotfiles_status
     dotfiles_status $@
 }
 
 log_dotfiles_state() {
-    # log_dotfiles_state    -- save current environment to logfiles
-
+    # log_dotfiles_state()  -- save current environment to logfiles
     _log=${_LOG:-"${HOME}/var/log"}
-
     logkey=${1:-'99'}
     logdir=${_log:-"var/log"}/venv.${logkey}/
     exportslogfile=${logdir}/exports.log
@@ -542,17 +538,17 @@ log_dotfiles_state() {
 
 
 dotfiles_initialize() {
-    ## dotfiles_initialize()  -- virtualenvwrapper initialize
+    # dotfiles_initialize() -- virtualenvwrapper initialize
     log_dotfiles_state 'initialize'
 }
 
 dotfiles_preactivate() {
-    ## dotfiles_preactivate()  -- virtualenvwrapper preactivate
+    # dotfiles_preactivate()  -- virtualenvwrapper preactivate
     log_dotfiles_state 'preactivate'
 }
 
 dotfiles_postactivate() {
-    ## dotfiles_postactivate()  -- virtualenvwrapper postactivate
+    # dotfiles_postactivate()  -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
     test -n $_VENV \
@@ -567,18 +563,18 @@ dotfiles_postactivate() {
 }
 
 dotfiles_predeactivate() {
-    ## dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
+    # dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
     log_dotfiles_state 'predeactivate'
 }
 
 dotfiles_postdeactivate() {
-    ## dotfiles_postdeactivate()  -- virtualenvwrapper postdeactivate
+    # dotfiles_postdeactivate()  -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
     unset VIRTUAL_ENV_NAME
     unset _SRC
     unset _WRD
     unset _USRLOG
-    export _USRLOG=~/.usrlog
+    export _USRLOG=${__USRLOG}
     # __DOTFILES='/Users/W/.dotfiles'
     # __DOCSWWW=''
     # __SRC='/Users/W/src'
