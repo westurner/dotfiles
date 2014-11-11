@@ -31,52 +31,54 @@ dotfiles_reload() {
     conf=${__DOTFILES}/etc/bash
 
       #
-      ## 01-bashrc.lib.sh  -- libraries: useful bash functions
+      ## 01-bashrc.lib.sh           -- useful bash functions (paths)
+      #  lspath()           -- list every file along $PATH
+      #  realpath()         -- readlink -f (python os.path.realpath)
+      #  walkpath()         -- list every directory along ${1:-"."}
       source ${conf}/01-bashrc.lib.sh
 
       #
-      ## 02-bashrc.platform.sh  -- detect_platform
+      ## 02-bashrc.platform.sh      -- platform things
       source ${conf}/02-bashrc.platform.sh
       detect_platform
-      #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
-      #                       egrep -nr -C 3 '__IS_MAC|__IS_LINUX'
+      #  detect_platform()  -- set __IS_MAC__IS_LINUX 
       if [ -n "${__IS_MAC}" ]; then
           export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
       fi
 
       #
-      ## 03-bashrc.readline.sh  -- readline
+      ## 03-bashrc.readline.sh      -- readline
       source ${conf}/03-bashrc.readline.sh
 
       #
-      ## 04-bashrc.TERM.sh      -- set $TERM and $CLICOLOR
+      ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
       source ${conf}/04-bashrc.TERM.sh
 
       #
-      ## 05-bashrc.dotfiles.sh  -- dotfiles
+      ## 05-bashrc.dotfiles.sh      -- dotfiles
       #  $__DOTFILES (str): path to local dotfiles repository clone
       #  dotfiles_status(): print dotfiles env config
       source ${conf}/05-bashrc.dotfiles.sh
       dotfiles_add_path
 
       #
-      ## 06-bashrc.completion.sh -- configure bash completion
+      ## 06-bashrc.completion.sh    -- configure bash completion
       source ${conf}/06-bashrc.completion.sh
 
-      ##
-      ### python: python: pip, virtualenv, virtualenvwrapper
+      #
+      #  python: pip, virtualenv, virtualenvwrapper
       #  $PROJECT_HOME (str): path to project directory (~/wrk)
       #  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
       #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
 
       #
-      ## 07-bashrc.python.sh            -- python
+      ## 07-bashrc.python.sh        -- python
       #  _setup_anaconda()      -- setup anaconda paths (manual)
       #  _setup_pyenv()         -- setup pyenv paths (manual)
       source ${conf}/07-bashrc.python.sh
 
       #
-      ## 07-bashrc.virtualenv.sh        -- virtualenv
+      ## 07-bashrc.virtualenv.sh    -- virtualenv
       source ${conf}/07-bashrc.virtualenv.sh
 
       #
@@ -85,21 +87,22 @@ dotfiles_reload() {
 
 
       #
-      ## 08-bashrc.gcloud.sh    -- gcloud: Google Cloud SDK
+      ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
       #  _setup_google_cloud()  -- setup google cloud paths
       source ${conf}/08-bashrc.gcloud.sh
 
       #
-      ## 10-bashrc.venv.sh      -- venv: virtualenvwrapper extensions
+      ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
       #  $_VENVNAME (str): name of current $VIRTUAL_ENV
       #  we() -- workon a new venv (source bin/activate; update ENVIRON)
       #          we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
       #          example::
       #             we dotfiles
-      #             we dotfiles etc/bash; ls -al; git status
+      #             we dotfiles etc/bash; cdw; ls
       source ${conf}/10-bashrc.venv.sh
-      # test -f $__PROJECTS && source $__PROJECTS
-      # dotfiles_status
+      #  $__PROJECTS (str): local script to source
+      #  dotfiles_status()      -- print dotfiles variables
+      #  ds()                   -- print dotfiles variables
 
       #
       ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
@@ -124,6 +127,12 @@ dotfiles_reload() {
       #  usrlogv        -- open usrlog with vim:   $VIMBIN + $_USRLOG
       #  usrlogg        -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
       #  usrloge        -- open usrlog with editor:$EDITOR + $_USRLOG
+      #  ut             -- tail $_USRLOG
+      #  ug             -- egrep current usrlog: egrep $@ $_USRLOG
+      #  ugall          -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
+      #  ugrin          -- grin current usrlog: grin $@ $_USRLOG
+      #  ugrinall       -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
+      #  lsusrlogs      -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
       source ${conf}/30-bashrc.usrlog.sh
 
 
