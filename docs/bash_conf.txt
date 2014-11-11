@@ -36,10 +36,10 @@
   #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
   #
-  ## 08-bashrc.gcloud.sh    -- gcloud: Google Cloud SDK
+  ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
   #  _setup_google_cloud()  -- setup google cloud paths
   #
-  ## 10-bashrc.venv.sh      -- venv: virtualenvwrapper extensions
+  ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
   #  $_VENVNAME (str): name of current $VIRTUAL_ENV
   #  we() -- workon a new venv (source bin/activate; update ENVIRON)
   #      we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
@@ -52,13 +52,13 @@
   #
   ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
   #
-  ## 20-bashrc.editor.sh    -- $EDITOR configuration
+  ## 20-bashrc.editor.sh        -- $EDITOR configuration
   #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
   #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
   ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
   #  $PAGER (str): cmdstring to run pager (less/vim)
   #
-  ## 30-bashrc.usrlog.sh    -- $_USRLOG configuration
+  ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
   #  $_USRLOG (str): path to .usrlog command log
   #  stid       -- set $TERM_ID to a random string
   #  stid $name -- set $TERM_ID to string
@@ -72,12 +72,12 @@
   #  ugrin      -- grin current usrlog: grin $@ $_USRLOG
   #  ugrinall   -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
   #  lsusrlogs  -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
-  ## 30-bashrc.xlck.sh      -- screensaver, (auto) lock, suspend
-  ## 40-bashrc.aliases.sh   -- aliases
-  ## 42-bashrc.commands.sh  -- example commands
+  ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
+  ## 40-bashrc.aliases.sh       -- aliases
+  ## 42-bashrc.commands.sh      -- example commands
   ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
-  ## 70-bashrc.repos.sh     -- repos: $__SRC repos, docs
-  ## 99-bashrc.after.sh      -- after: cleanup
+  ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
+  ## 99-bashrc.after.sh         -- after: cleanup
     # dr()  -- dotfiles_reload
     # ds()  -- print dotfiles_status()
    

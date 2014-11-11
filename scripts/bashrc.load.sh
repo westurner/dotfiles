@@ -172,12 +172,12 @@ dotfiles_reload() {
   source ${conf}/07-bashrc.virtualenvwrapper.sh
 
   #
-  ## 08-bashrc.gcloud.sh    -- gcloud: Google Cloud SDK
+  ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
   #  _setup_google_cloud()  -- setup google cloud paths
   source ${conf}/08-bashrc.gcloud.sh
 
   #
-  ## 10-bashrc.venv.sh      -- venv: virtualenvwrapper extensions
+  ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
   #  $_VENVNAME (str): name of current $VIRTUAL_ENV
   #  we() -- workon a new venv (source bin/activate; update ENVIRON)
   #      we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
@@ -194,7 +194,7 @@ dotfiles_reload() {
   source ${conf}/11-bashrc.venv.pyramid.sh
 
   #
-  ## 20-bashrc.editor.sh    -- $EDITOR configuration
+  ## 20-bashrc.editor.sh        -- $EDITOR configuration
   #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
   #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
   source ${conf}/20-bashrc.editor.sh
@@ -203,7 +203,7 @@ dotfiles_reload() {
   source ${conf}/29-bashrc.vimpagers.sh
 
   #
-  ## 30-bashrc.usrlog.sh    -- $_USRLOG configuration
+  ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
   #  $_USRLOG (str): path to .usrlog command log
   #  stid       -- set $TERM_ID to a random string
   #  stid $name -- set $TERM_ID to string
@@ -220,13 +220,13 @@ dotfiles_reload() {
   source ${conf}/30-bashrc.usrlog.sh
 
 
-  ## 30-bashrc.xlck.sh      -- screensaver, (auto) lock, suspend
+  ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
   source ${conf}/30-bashrc.xlck.sh
 
 
-  ## 40-bashrc.aliases.sh   -- aliases
+  ## 40-bashrc.aliases.sh       -- aliases
   source ${conf}/40-bashrc.aliases.sh
-  ## 42-bashrc.commands.sh  -- example commands
+  ## 42-bashrc.commands.sh      -- example commands
   source ${conf}/42-bashrc.commands.sh
 
 
@@ -234,10 +234,10 @@ dotfiles_reload() {
   source ${conf}/50-bashrc.bashmarks.sh
 
 
-  ## 70-bashrc.repos.sh     -- repos: $__SRC repos, docs
+  ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
   source ${conf}/70-bashrc.repos.sh
 
-  ## 99-bashrc.after.sh      -- after: cleanup
+  ## 99-bashrc.after.sh         -- after: cleanup
   source ${conf}/99-bashrc.after.sh
 }
 
