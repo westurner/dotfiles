@@ -3165,6 +3165,7 @@ if [ ! -n "$SDIRS" ]; then
     SDIRS=~/.sdirs
 fi
 touch $SDIRS
+/usr/local/bin/lesspipe.sh: line 490: echo: write error: Broken pipe
 
 RED="0;31m"
 GREEN="0;33m"

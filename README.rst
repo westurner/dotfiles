@@ -140,6 +140,7 @@ Project requirements are installed by
 * Git
 
 .. _bootstrap_dotfiles.sh: https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
+.. _Makefile: https://github.com/westurner/dotfiles/blob/master/Makefile
 
 Install the dotfiles
 ---------------------
