@@ -187,7 +187,7 @@ dotfiles_reload() {
   source ${conf}/10-bashrc.venv.sh
   #  $__PROJECTS (str): local script to source
   #  dotfiles_status()  -- print dotfiles variables
-  #  ds()       -- print dotfiles variables
+  #  ds()               -- print dotfiles variables
 
   #
   ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
@@ -206,13 +206,13 @@ dotfiles_reload() {
   ## 30-bashrc.usrlog.sh    -- $_USRLOG configuration
   #  $_USRLOG (str): path to .usrlog command log
   #  stid       -- set $TERM_ID to a random string
-  #  stid $name     -- set $TERM_ID to string
+  #  stid $name -- set $TERM_ID to string
   #  note       -- add a dated note to $_USRLOG [_usrlog_append]
   #  usrlogv    -- open usrlog with vim:   $VIMBIN + $_USRLOG
   #  usrlogg    -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
   #  usrloge    -- open usrlog with editor:$EDITOR + $_USRLOG
-  #  ut     -- tail $_USRLOG
-  #  ug     -- egrep current usrlog: egrep $@ $_USRLOG
+  #  ut         -- tail $_USRLOG
+  #  ug         -- egrep current usrlog: egrep $@ $_USRLOG
   #  ugall      -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
   #  ugrin      -- grin current usrlog: grin $@ $_USRLOG
   #  ugrinall   -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
@@ -245,6 +245,7 @@ dr() {
     # dr()  -- dotfiles_reload
     dotfiles_reload $@
 }
+    # ds()  -- print dotfiles_status()
 
 dotfiles_main() {
     dotfiles_reload
