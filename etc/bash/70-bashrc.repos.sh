@@ -1,80 +1,46 @@
 
-ensure_symlink() {
-    #  ensure_symlink   -- create or update a symlink to $_to from _from
-    #    ln -s $_to $_from
-    _from=$1
-    _to=$2
-    _date=${3:-$(date +%FT%T%z)}  #  ISO8601 w/ tz
-    # if symlink $_from already exists
-    if [ -s $_from ]; then
-        # compare the actual paths
-        _to_path=(realpath $_to)
-        _from_path=(realpath $_from)
-        if [ $_to_path == $_from_path ]; then
-            printf "%s already points to %s" "$_from" "$_to"
-        else
-            printf "%s points to %s" "$_from" "$_to"
-            mv -v ${_from} "${_from}.bkp.${_date}"
-            ln -v -s ${_to} ${_from}
-        fi
-    else
-        # if a file or folder exists return an errorcode
-        if [ -e ${_from} ]; then
-            printf "%s exists" "${_from}"
-            mv -v ${_from} "${_from}.bkp.${_date}"
-            ln -v -s ${_to} ${_from}
-        else
-            # otherwise, create the symlink
-            ln -v -s $_to $_from
-        fi
-    fi
-}
+### 70-bashrc.repos.sh
 
-ensure_mkdir() {
-    #  ensure_mkdir -- create a directory if it does not yet exist
-    prefix=$1
-    test -d ${prefix} || mkdir -p ${prefix}
-}
-
-_venv_ensure_paths() {
-    #  _venv_ensure_paths()   -- 
-    prefix=$1
-    ensure_mkdir ${prefix}
-    ensure_mkdir ${prefix}/bin
-    ensure_mkdir ${prefix}/etc
-    # ensure_mkdir ${prefix}/home
-    ensure_mkdir ${prefix}/lib
-    # ensure_mkdir ${prefix}/opt
-    # ensure_mkdir ${prefix}/sbin
-    ensure_mkdir ${prefix}/src
-    # ensure_mkdir ${prefix}/srv
-    ensure_mkdir ${prefix}/tmp
-    ensure_mkdir ${prefix}/usr/share/doc
-    ensure_mkdir ${prefix}/var/cache
-    ensure_mkdir ${prefix}/var/log
-    ensure_mkdir ${prefix}/var/run
-}
-
-mkvirtualenv_conda_if_available() {
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
-    (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
-        && mkvirtualenv_conda $@) \
-    || \
-    (declare -f 'mkvirtualenv' 2>&1 > /dev/null \
-        && mkvirtualenv $@)
-}
-
-workon_conda_if_available() {
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
-    (declare -f 'workon_conda' 2>&1 > /dev/null \
-        && workon_conda $@) \
-    || \
-    (declare -f 'we' 2>&1 > /dev/null \
-        && we $@) \
-    || \
-    (declare -f 'workon' 2>&1 > /dev/null \
-        && workon $@)
-}
+#objectives:
+#* [ ] create a dotfiles venv (should already be created by dotfiles install)
+#* [ ] create a src venv (for managing a local set of repositories)
+#
+#* [x] create Hg_ methods for working with a local repo set
+#* [ ] create Git_ methods for working with a local repo set
+#
+#* [-] host docs locally with a one-shot command (host_docs)
+#
+# Use Cases
+# * Original: a bunch of commands that i was running frequently
+#   before readthedocs (and hostthedocs)
+# * local mirrors (manual, daily?)
+#   * no internet, outages
+#   * push -f
+#   * (~offline) Puppet/Salt source installs
+#     * bandwidth: testing a recipe that pulls a whole repositor(ies)
+# * what's changed in <project>'s source dependencies, since i looked last
+#
+# Justification
+# * very real risks for all development projects
+#   * we just assume that GitHub etc. are immutable and forever
+#
+# Features (TODO) [see: pyrpo]
+# * Hg <subcommands>
+# * Git <subcommands>
+# * Bzr <subcommands>
+# * periodic backups / mirroring
+# * gitweb / hgweb
+# * mirror_and_backup <URL>
+# * all changes since <date> for <set_of_hg-git-bzr-svn_repositories>
+# * ideally: transparent proxy
+#   * +1: easiest
+#   * -1: pushing upstream
+#
+# Caveats
+# * pasting / referencing links which are local paths
+# * synchronization lag
+# * duplication: $__SRC/hg/<pkg> AND $VIRTUAL_ENV/src/<pkg>
+#
 
 setup_dotfiles_docs_venv() {
     #  setup_dotfiles_docs_venv -- create default 'docs' venv

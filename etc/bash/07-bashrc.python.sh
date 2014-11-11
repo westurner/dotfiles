@@ -73,4 +73,27 @@ rmvirtualenv_conda() {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     rmvirtualenv $@
     _conda_envname=${1}
+    # TODO
+}
+
+
+mkvirtualenv_conda_if_available() {
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
+        && mkvirtualenv_conda $@) \
+    || \
+    (declare -f 'mkvirtualenv' 2>&1 > /dev/null \
+        && mkvirtualenv $@)
+}
+
+workon_conda_if_available() {
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    (declare -f 'workon_conda' 2>&1 > /dev/null \
+        && workon_conda $@) \
+    || \
+    (declare -f 'we' 2>&1 > /dev/null \
+        && we $@) \
+    || \
+    (declare -f 'workon' 2>&1 > /dev/null \
+        && workon $@)
 }
