@@ -95,7 +95,7 @@ fi
 #
 dotfiles_reload() {
   #  dotfiles_reload()  -- (re)load the bash configuration
-  #  $__DOTFILES (str)  -- path to this dotfiles repository (~/.dotfiles)
+  #  $__DOTFILES (str)  -- path to the dotfiles symlink (~/.dotfiles)
 
   echo "#"
   echo "# dotfiles_reload()"
@@ -117,31 +117,31 @@ dotfiles_reload() {
   conf=${__DOTFILES}/etc/bash
 
   #
-  ## 01-bashrc.lib.sh       -- useful bash functions (paths)
+  ## 01-bashrc.lib.sh           -- useful bash functions (paths)
   #  lspath()       -- list every file along $PATH
   #  realpath()     -- readlink -f (python os.path.realpath)
   #  walkpath()     -- list every directory along ${1:-"."}
   source ${conf}/01-bashrc.lib.sh
 
   #
-  ## 02-bashrc.platform.sh  -- platform things
+  ## 02-bashrc.platform.sh      -- platform things
   source ${conf}/02-bashrc.platform.sh
   detect_platform
-  #  detect_platform()  -- set __IS_MAC__IS_LINUX 
+  #  detect_platform()      -- set __IS_MAC and __IS_LINUX 
   if [ -n "${__IS_MAC}" ]; then
       export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
   fi
 
   #
-  ## 03-bashrc.readline.sh  -- readline
+  ## 03-bashrc.readline.sh      -- readline
   source ${conf}/03-bashrc.readline.sh
 
   #
-  ## 04-bashrc.TERM.sh      -- set $TERM and $CLICOLOR
+  ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
   source ${conf}/04-bashrc.TERM.sh
 
   #
-  ## 05-bashrc.dotfiles.sh  -- dotfiles
+  ## 05-bashrc.dotfiles.sh      -- dotfiles
   #  $__DOTFILES (str): path to local dotfiles repository clone
   #  dotfiles_status(): print dotfiles env config
   source ${conf}/05-bashrc.dotfiles.sh
@@ -158,7 +158,7 @@ dotfiles_reload() {
   #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
 
   #
-  ## 07-bashrc.python.sh    -- python
+  ## 07-bashrc.python.sh        -- python
   #  _setup_anaconda()  -- setup anaconda paths (manual)
   #  _setup_pyenv()     -- setup pyenv paths (manual)
   source ${conf}/07-bashrc.python.sh

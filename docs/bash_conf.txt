@@ -3,21 +3,21 @@
 #  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
 #
   #  dotfiles_reload()  -- (re)load the bash configuration
-  #  $__DOTFILES (str)  -- path to this dotfiles repository (~/.dotfiles)
+  #  $__DOTFILES (str)  -- path to the dotfiles symlink (~/.dotfiles)
   #
-  ## 01-bashrc.lib.sh       -- useful bash functions (paths)
+  ## 01-bashrc.lib.sh           -- useful bash functions (paths)
   #  lspath()       -- list every file along $PATH
   #  realpath()     -- readlink -f (python os.path.realpath)
   #  walkpath()     -- list every directory along ${1:-"."}
   #
-  ## 02-bashrc.platform.sh  -- platform things
-  #  detect_platform()  -- set __IS_MAC__IS_LINUX 
+  ## 02-bashrc.platform.sh      -- platform things
+  #  detect_platform()      -- set __IS_MAC and __IS_LINUX 
   #
-  ## 03-bashrc.readline.sh  -- readline
+  ## 03-bashrc.readline.sh      -- readline
   #
-  ## 04-bashrc.TERM.sh      -- set $TERM and $CLICOLOR
+  ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
   #
-  ## 05-bashrc.dotfiles.sh  -- dotfiles
+  ## 05-bashrc.dotfiles.sh      -- dotfiles
   #  $__DOTFILES (str): path to local dotfiles repository clone
   #  dotfiles_status(): print dotfiles env config
   #
@@ -28,7 +28,7 @@
   #  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
   #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
   #
-  ## 07-bashrc.python.sh    -- python
+  ## 07-bashrc.python.sh        -- python
   #  _setup_anaconda()  -- setup anaconda paths (manual)
   #  _setup_pyenv()     -- setup pyenv paths (manual)
   #
