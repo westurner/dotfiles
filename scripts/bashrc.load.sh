@@ -331,13 +331,13 @@ realpath () {
     return
 }
 path () {
-    #  path()           -- realpath()
+    # path()            -- realpath()
     realpath ${1}
 }
 
 
 walkpath () {
-    #  walkpath()       -- walk down path $1 and $cmd each component
+    # walkpath()        -- walk down path $1 and $cmd each component
     #   $1 : path (optional; default: pwd)
     #   $2 : cmd  (optional; default: ls -ald --color=auto)
     #http://superuser.com/a/65076 
@@ -361,7 +361,7 @@ walkpath () {
 
 
 ensure_symlink() {
-    #  ensure_symlink   -- create or update a symlink to $2 from $1
+    # ensure_symlink    -- create or update a symlink to $2 from $1
     #                      if $2 exists, backup with suffix $3
     _from=$1
     _to=$2
@@ -388,7 +388,7 @@ ensure_symlink() {
 }
 
 ensure_mkdir() {
-    #  ensure_mkdir     -- create directory $1 if it does not yet exist
+    # ensure_mkdir      -- create directory $1 if it does not yet exist
     path=$1
     test -d ${path} || mkdir -p ${path}
 }

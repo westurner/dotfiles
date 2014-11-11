@@ -103,13 +103,13 @@
 ## file paths
     # realpath()        -- print absolute path (os.path.realpath) to $1
     #                      note: OSX does not have readlink -f
-    #  path()           -- realpath()
-    #  walkpath()       -- walk down path $1 and $cmd each component
+    # path()            -- realpath()
+    # walkpath()        -- walk down path $1 and $cmd each component
     #   $1 : path (optional; default: pwd)
     #   $2 : cmd  (optional; default: ls -ald --color=auto)
-    #  ensure_symlink   -- create or update a symlink to $2 from $1
+    # ensure_symlink    -- create or update a symlink to $2 from $1
     #                      if $2 exists, backup with suffix $3
-    #  ensure_mkdir     -- create directory $1 if it does not yet exist
+    # ensure_mkdir      -- create directory $1 if it does not yet exist
    
    
 #### etc/bash/02-bashrc.platform.sh
