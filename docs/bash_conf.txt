@@ -139,10 +139,10 @@
    
 #### etc/bash/05-bashrc.dotfiles.sh
 ### bashrc.dotfiles.sh
-    # dotfiles_add_path     -- add ${__DOTFILES}/scripts to $PATH
-    # dotfiles_status()     -- print dotfiles_status
-    # ds()                  -- print dotfiles_status
-    # log_dotfiles_state()  -- save current environment to logfiles
+    # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
+    # dotfiles_status()         -- print dotfiles_status
+    # ds()                      -- print dotfiles_status
+    # log_dotfiles_state()      -- save current environment to logfiles
     # dotfiles_initialize()     -- virtualenvwrapper initialize
     # dotfiles_preactivate()    -- virtualenvwrapper preactivate
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
@@ -151,8 +151,9 @@
    
    
 #### etc/bash/06-bashrc.completion.sh
-    ## configure bash completion (`complete -p` to list completions)
-        # configure brew (brew install bash-completion)
+### bashrc.completion.sh
+    # _configure_bash_completion()  -- configure bash completion
+    #                               note: `complete -p` lists completions
    
    
 #### etc/bash/07-bashrc.python.sh

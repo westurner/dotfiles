@@ -481,7 +481,7 @@ echo $TERMCAP | grep -q screen
 
 
 dotfiles_add_path() {
-    # dotfiles_add_path     -- add ${__DOTFILES}/scripts to $PATH
+    # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     if [ -d "${__DOTFILES}" ]; then
         #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
         add_to_path "${__DOTFILES}/scripts"
@@ -489,7 +489,7 @@ dotfiles_add_path() {
 }
 
 dotfiles_status() {
-    # dotfiles_status()     -- print dotfiles_status
+    # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
     echo "HOSTNAME='${HOSTNAME}'"
     echo "USER='${USER}'"
@@ -511,12 +511,12 @@ dotfiles_status() {
     echo "#"
 }
 ds() {
-    # ds()                  -- print dotfiles_status
+    # ds()                      -- print dotfiles_status
     dotfiles_status $@
 }
 
 #dotfiles_term_uri() {
-    ##dotfiles_term_uri()   -- print a URI for the current _TERM_ID
+    ##dotfiles_term_uri()        -- print a URI for the current _TERM_ID
     #term_path="${HOSTNAME}/usrlog/${USER}"
     #term_key=${_APP}/${_TERM_ID}
     #TERM_URI="${term_path}/${term_key}"
@@ -524,7 +524,7 @@ ds() {
 #}
 
 log_dotfiles_state() {
-    # log_dotfiles_state()  -- save current environment to logfiles
+    # log_dotfiles_state()      -- save current environment to logfiles
     _log=${_LOG:-"${HOME}/var/log"}
     logkey=${1:-'99'}
     logdir=${_log:-"var/log"}/venv.${logkey}/
@@ -625,11 +625,17 @@ dotfiles_postdeactivate() {
     dotfiles_reload
 }
 
+### bashrc.completion.sh
 
-_configure_completion() {
-    ## configure bash completion (`complete -p` to list completions)
+_configure_bash_completion() {
+    # _configure_bash_completion()  -- configure bash completion
+    #                               note: `complete -p` lists completions
+
+    if ! shopt -oq posix; then
+        return
+    fi
     if [ -n "$__IS_MAC" ]; then
-        # configure brew (brew install bash-completion)
+        #configure brew (brew install bash-completion)
         BREW=$(which brew 2>/dev/null || false)
         if [ -n "${BREW}" ]; then
             brew_prefix=$(brew --prefix)
@@ -637,58 +643,13 @@ _configure_completion() {
                 source ${brew_prefix}/etc/bash_completion
             fi
         fi
+    else
+        if [ -f /etc/bash_completion ]; then
+            source /etc/bash_completion
+        fi
     fi
 }
-_configure_completion
-which brew 2>/dev/null || false
-brew --prefix
-#
-#   bash_completion - programmable completion functions for bash 3.2+
-#
-#   Copyright © 2006-2008, Ian Macdonald <ian@caliban.org>
-#             © 2009-2011, Bash Completion Maintainers
-#                     <bash-completion-devel@lists.alioth.debian.org>
-#
-#   This program is free software; you can redistribute it and/or modify
-#   it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation; either version 2, or (at your option)
-#   any later version.
-#
-#   This program is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#   along with this program; if not, write to the Free Software Foundation,
-#   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-#
-#   The latest version of this software can be obtained here:
-#
-#   http://bash-completion.alioth.debian.org/
-#
-#   RELEASE: 1.3
-
-if [[ $- == *v* ]]; then
-    BASH_COMPLETION_ORIGINAL_V_VALUE="-v"
-else
-    BASH_COMPLETION_ORIGINAL_V_VALUE="+v"
-fi
-
-if [[ -n $BASH_COMPLETION_DEBUG ]]; then
-    set -v
-else
-    set +v
-fi
-unset BASH_COMPLETION_ORIGINAL_V_VALUE
-
-# Local variables:
-# mode: shell-script
-# sh-basic-offset: 4
-# sh-indent-comment: t
-# indent-tabs-mode: nil
-# End:
-# ex: ts=4 sw=4 et filetype=sh
+_configure_bash_completion
 
 ### bashrc.python.sh
 
