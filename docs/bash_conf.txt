@@ -91,30 +91,25 @@
 #### etc/bash/01-bashrc.lib.sh
 ### bashrc.lib.sh
 ## bash
-    #  echo_args    -- echo $@ (for checking quoting)
-    #  function_exists()    -- check whether a bash function exists
-    #  add_to_path  -- prepend a directory to $PATH
-    # instead of:
-    #   export PATH=$dir:$PATH
-    #   add_to_path $dir 
-    #  lightpath()  -- display $PATH with newlines
-    #  lspath()     -- list files in each directory in $PATH
-    #  lspath_less()    -- lspath with less (color)
+    # echo_args         -- echo $@ (for checking quoting)
+    # function_exists() -- check whether a bash function exists
+    # add_to_path       -- prepend a directory to $PATH
+    #   instead of:
+    #       export PATH=$dir:$PATH
+    #       add_to_path $dir 
+    # lightpath()       -- display $PATH with newlines
+    # lspath()          -- list files in each directory in $PATH
+    # lspath_less()     -- lspath with less (color)
 ## file paths
-    #  realpath()    -- print absolute path (os.path.realpath) to path $1
-    #                  note: OSX does not have readlink -f
-    #  path()        -- realpath()
-    #  walkpath()    -- walk down a path
+    # realpath()        -- print absolute path (os.path.realpath) to $1
+    #                      note: OSX does not have readlink -f
+    #  path()           -- realpath()
+    #  walkpath()       -- walk down a path and ${cmd} components
     #   $1 : path (optional; default: pwd)
     #   $2 : cmd  (optional; default: ls -ald --color=auto)
-    #   see: http://superuser.com/a/65076 
-    #  ensure_symlink   -- create or update a symlink to $_to from _from
-    #    ln -s $_to $_from
-    # if symlink $_from already exists
-        # compare the actual paths
-        # if a file or folder exists return an errorcode
-            # otherwise, create the symlink
-    #  ensure_mkdir -- create a directory if it does not yet exist
+    #  ensure_symlink   -- create or update a symlink to $2 from $1
+    #                      if $2 exists, backup with suffix $3
+    #  ensure_mkdir     -- create directory $1 if it does not yet exist
    
    
 #### etc/bash/02-bashrc.platform.sh
