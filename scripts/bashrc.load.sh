@@ -772,7 +772,7 @@ rmvirtualenv_conda() {
 
 
 mkvirtualenv_conda_if_available() {
-    # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda; mkvirtualenv
+    # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
         && mkvirtualenv_conda $@) \
     || \
@@ -781,7 +781,7 @@ mkvirtualenv_conda_if_available() {
 }
 
 workon_conda_if_available() {
-    # mkvirtualenv_conda_if_available() --  mkvirtualenv_conda; mkvirtualenv
+    # workon_conda_if_available()       --  workon_conda OR we OR workon
     (declare -f 'workon_conda' 2>&1 > /dev/null \
         && workon_conda $@) \
     || \

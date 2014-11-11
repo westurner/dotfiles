@@ -171,8 +171,8 @@
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     #   TODO
-    # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda; mkvirtualenv
-    # mkvirtualenv_conda_if_available() --  mkvirtualenv_conda; mkvirtualenv
+    # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
+    # workon_conda_if_available()       --  workon_conda OR we OR workon
    
    
 #### etc/bash/07-bashrc.virtualenv.sh
