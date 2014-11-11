@@ -2188,9 +2188,9 @@ _configure_lesspipe() {
 }
 _configure_lesspipe
 which lesspipe.sh 2>/dev/null || false
-${lesspipe}
 
-
+{lesspipe}
+ 
 ## vimpager     -- call vimpager
 vimpager() {
     _PAGER=$(which vimpager)
