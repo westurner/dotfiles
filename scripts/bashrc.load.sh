@@ -131,6 +131,9 @@ dotfiles_reload() {
       detect_platform
       #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
       #                       egrep -nr -C 3 '__IS_MAC|__IS_LINUX'
+      if [ -n "${__IS_MAC}" ]; then
+          export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
+      fi
 
       #
       ## 03-bashrc.readline.sh  -- readline
@@ -404,6 +407,7 @@ detect_platform() {
 
 
 uname
+echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
 ### bashrc.readline.sh
 
 #  vi-mode: vi(m) keyboard shortcuts
@@ -758,11 +762,16 @@ export WORKON_HOME="${PROJECT_HOME}/.ve"
 _setup_virtualenvwrapper () {
     ## _setup_virtualenvwrapper -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
-    export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
+    #export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
+    export VIRTUALENVWRAPPER_SCRIPT=$(which virtualenvwrapper.sh)
     export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper"
     export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
-    export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python' # TODO
-    export VIRTUALENV_DISTRIBUTE='true'
+    if [ -n "${__IS_MAC}" ]; then
+        export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python"
+    else
+        export VIRTUALENVWRAPPER_PYTHON=$(which python)
+    fi
+    unset VIRTUALENV_DISTRIBUTE
     source "${VIRTUALENVWRAPPER_SCRIPT}"
 
     #alias cdv='cdvirtualenv'
@@ -773,6 +782,7 @@ _setup_virtualenvwrapper () {
 
 }
 _setup_virtualenvwrapper
+which virtualenvwrapper.sh
 # -*- mode: shell-script -*-
 #
 # Shell functions to act as wrapper for Ian Bicking's virtualenv
@@ -822,13 +832,19 @@ _setup_virtualenvwrapper
 # Locate the global Python where virtualenvwrapper is installed.
 if [ "$VIRTUALENVWRAPPER_PYTHON" = "" ]
 then
-    VIRTUALENVWRAPPER_PYTHON="$(\which python)"
+    VIRTUALENVWRAPPER_PYTHON="$(command \which python)"
 fi
 
 # Set the name of the virtualenv app to use.
 if [ "$VIRTUALENVWRAPPER_VIRTUALENV" = "" ]
 then
     VIRTUALENVWRAPPER_VIRTUALENV="virtualenv"
+fi
+
+# Set the name of the virtualenv-clone app to use.
+if [ "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" = "" ]
+then
+    VIRTUALENVWRAPPER_VIRTUALENV_CLONE="virtualenv-clone"
 fi
 
 # Define script folder depending on the platorm (Win32/Unix)
@@ -847,13 +863,59 @@ then
     export VIRTUALENVWRAPPER_PROJECT_FILENAME=".project"
 fi
 
+# Remember where we are running from.
+if [ -z "$VIRTUALENVWRAPPER_SCRIPT" ]
+then
+    if [ -n "$BASH" ]
+    then
+        export VIRTUALENVWRAPPER_SCRIPT="$BASH_SOURCE"
+    elif [ -n "$ZSH_VERSION" ]
+    then
+        export VIRTUALENVWRAPPER_SCRIPT="$0"
+    else
+        export VIRTUALENVWRAPPER_SCRIPT="${.sh.file}"
+    fi
+fi
+
+# Portable shell scripting is hard, let's go shopping.
+#
+# People insist on aliasing commands like 'cd', either with a real
+# alias or even a shell function. Under bash and zsh, "builtin" forces
+# the use of a command that is part of the shell itself instead of an
+# alias, function, or external command, while "command" does something
+# similar but allows external commands. Under ksh "builtin" registers
+# a new command from a shared library, but "command" will pick up
+# existing builtin commands. We need to use a builtin for cd because
+# we are trying to change the state of the current shell, so we use
+# "builtin" for bash and zsh but "command" under ksh.
+function virtualenvwrapper_cd {
+    if [ -n "$BASH" ]
+    then
+        builtin \cd "$@"
+    elif [ -n "$ZSH_VERSION" ]
+    then
+        builtin \cd "$@"
+    else
+        command \cd "$@"
+    fi
+}
+
 function virtualenvwrapper_expandpath {
-        if [ "$1" = "" ]; then
-            return 1
-        else
-            "$VIRTUALENVWRAPPER_PYTHON" -c "import os,sys; sys.stdout.write(os.path.realpath(os.path.expanduser(os.path.expandvars(\"$1\")))+'\n')"
-            return 0
-        fi
+    if [ "$1" = "" ]; then
+        return 1
+    else
+        "$VIRTUALENVWRAPPER_PYTHON" -c "import os,sys; sys.stdout.write(os.path.normpath(os.path.expanduser(os.path.expandvars(\"$1\")))+'\n')"
+        return 0
+    fi
+}
+
+function virtualenvwrapper_absolutepath {
+    if [ "$1" = "" ]; then
+        return 1
+    else
+        "$VIRTUALENVWRAPPER_PYTHON" -c "import os,sys; sys.stdout.write(os.path.abspath(\"$1\")+'\n')"
+        return 0
+    fi
 }
 
 function virtualenvwrapper_derive_workon_home {
@@ -868,7 +930,7 @@ function virtualenvwrapper_derive_workon_home {
 
     # If the path is relative, prefix it with $HOME
     # (note: for compatibility)
-    if echo "$workon_home_dir" | (unset GREP_OPTIONS; \grep '^[^/~]' > /dev/null)
+    if echo "$workon_home_dir" | (unset GREP_OPTIONS; command \grep '^[^/~]' > /dev/null)
     then
         workon_home_dir="$HOME/$WORKON_HOME"
     fi
@@ -877,13 +939,13 @@ function virtualenvwrapper_derive_workon_home {
     # path might contain stuff to expand.
     # (it might be possible to do this in shell, but I don't know a
     # cross-shell-safe way of doing it -wolever)
-    if echo "$workon_home_dir" | (unset GREP_OPTIONS; \egrep '([\$~]|//)' >/dev/null)
+    if echo "$workon_home_dir" | (unset GREP_OPTIONS; command \egrep '([\$~]|//)' >/dev/null)
     then
         # This will normalize the path by:
         # - Removing extra slashes (e.g., when TMPDIR ends in a slash)
         # - Expanding variables (e.g., $foo)
         # - Converting ~s to complete paths (e.g., ~/ to /home/brian/ and ~arthur to /home/arthur)
-        workon_home_dir=$(virtualenvwrapper_expandpath "$workon_home_dir")
+        workon_home_dir="$(virtualenvwrapper_expandpath "$workon_home_dir")"
     fi
 
     echo "$workon_home_dir"
@@ -910,13 +972,19 @@ function virtualenvwrapper_verify_workon_home {
 
 #HOOK_VERBOSE_OPTION="-q"
 
+# Function to wrap mktemp so tests can replace it for error condition
+# testing.
+function virtualenvwrapper_mktemp {
+    command \mktemp "$@"
+}
+
 # Expects 1 argument, the suffix for the new file.
 function virtualenvwrapper_tempfile {
     # Note: the 'X's must come last
     typeset suffix=${1:-hook}
     typeset file
 
-    file="`\mktemp -t virtualenvwrapper-$suffix-XXXXXXXXXX`"
+    file="$(virtualenvwrapper_mktemp -t virtualenvwrapper-$suffix-XXXXXXXXXX)"
     if [ $? -ne 0 ] || [ -z "$file" ] || [ ! -f "$file" ]
     then
         echo "ERROR: virtualenvwrapper could not create a temporary file name." 1>&2
@@ -933,13 +1001,15 @@ function virtualenvwrapper_run_hook {
 
     hook_script="$(virtualenvwrapper_tempfile ${1}-hook)" || return 1
 
-    if [ -z "$VIRTUALENVWRAPPER_LOG_DIR" ]
-    then
-        echo "ERROR: VIRTUALENVWRAPPER_LOG_DIR is not set." 1>&2
-        \rm -f "$hook_script"
-        return 1
-    fi
-    "$VIRTUALENVWRAPPER_PYTHON" -c 'from virtualenvwrapper.hook_loader import main; main()' $HOOK_VERBOSE_OPTION --script "$hook_script" "$@"
+    # Use a subshell to run the python interpreter with hook_loader so
+    # we can change the working directory. This avoids having the
+    # Python 3 interpreter decide that its "prefix" is the virtualenv
+    # if we happen to be inside the virtualenv when we start.
+    ( \
+        virtualenvwrapper_cd "$WORKON_HOME" &&
+        "$VIRTUALENVWRAPPER_PYTHON" -m 'virtualenvwrapper.hook_loader' \
+            $HOOK_VERBOSE_OPTION --script "$hook_script" "$@" \
+    )
     result=$?
 
     if [ $result -eq 0 ]
@@ -947,23 +1017,23 @@ function virtualenvwrapper_run_hook {
         if [ ! -f "$hook_script" ]
         then
             echo "ERROR: virtualenvwrapper_run_hook could not find temporary file $hook_script" 1>&2
-            \rm -f "$hook_script"
+            command \rm -f "$hook_script"
             return 2
         fi
         # cat "$hook_script"
         source "$hook_script"
-	elif [ "${1}" = "initialize" ]
-	then
+    elif [ "${1}" = "initialize" ]
+    then
         cat - 1>&2 <<EOF 
 virtualenvwrapper.sh: There was a problem running the initialization hooks. 
 
 If Python could not import the module virtualenvwrapper.hook_loader,
-check that virtualenv has been installed for
+check that virtualenvwrapper has been installed for
 VIRTUALENVWRAPPER_PYTHON=$VIRTUALENVWRAPPER_PYTHON and that PATH is
 set properly.
 EOF
     fi
-    \rm -f "$hook_script"
+    command \rm -f "$hook_script"
     return $result
 }
 
@@ -1017,11 +1087,7 @@ function virtualenvwrapper_initialize {
         export VIRTUALENVWRAPPER_HOOK_DIR="$WORKON_HOME"
     fi
 
-    # Set the location of the hook script logs
-    if [ "$VIRTUALENVWRAPPER_LOG_DIR" = "" ]
-    then
-        export VIRTUALENVWRAPPER_LOG_DIR="$WORKON_HOME"
-    fi
+    mkdir -p "$VIRTUALENVWRAPPER_HOOK_DIR"
 
     virtualenvwrapper_run_hook "initialize"
 
@@ -1030,22 +1096,33 @@ function virtualenvwrapper_initialize {
     return 0
 }
 
-
-# Verify that virtualenv is installed and visible
-function virtualenvwrapper_verify_virtualenv {
-    typeset venv=$(\which "$VIRTUALENVWRAPPER_VIRTUALENV" | (unset GREP_OPTIONS; \grep -v "not found"))
-    if [ "$venv" = "" ]
+# Verify that the passed resource is in path and exists
+function virtualenvwrapper_verify_resource {
+    typeset exe_path="$(command \which "$1" | (unset GREP_OPTIONS; command \grep -v "not found"))"
+    if [ "$exe_path" = "" ]
     then
-        echo "ERROR: virtualenvwrapper could not find $VIRTUALENVWRAPPER_VIRTUALENV in your path" >&2
+        echo "ERROR: virtualenvwrapper could not find $1 in your path" >&2
         return 1
     fi
-    if [ ! -e "$venv" ]
+    if [ ! -e "$exe_path" ]
     then
-        echo "ERROR: Found $VIRTUALENVWRAPPER_VIRTUALENV in path as \"$venv\" but that does not exist" >&2
+        echo "ERROR: Found $1 in path as \"$exe_path\" but that does not exist" >&2
         return 1
     fi
     return 0
 }
+
+
+# Verify that virtualenv is installed and visible
+function virtualenvwrapper_verify_virtualenv {
+    virtualenvwrapper_verify_resource $VIRTUALENVWRAPPER_VIRTUALENV
+}
+
+
+function virtualenvwrapper_verify_virtualenv_clone {
+    virtualenvwrapper_verify_resource $VIRTUALENVWRAPPER_VIRTUALENV_CLONE
+}
+
 
 # Verify that the requested environment exists
 function virtualenvwrapper_verify_workon_environment {
@@ -1069,7 +1146,7 @@ function virtualenvwrapper_verify_active_environment {
 }
 
 # Help text for mkvirtualenv
-function mkvirtualenv_help {
+function virtualenvwrapper_mkvirtualenv_help {
     echo "Usage: mkvirtualenv [-a project_path] [-i package] [-r requirements_file] [virtualenv options] env_name"
     echo
     echo " -a project_path"
@@ -1089,7 +1166,7 @@ function mkvirtualenv_help {
     echo;
     echo 'virtualenv help:';
     echo;
-    virtualenv $@;
+    "$VIRTUALENVWRAPPER_VIRTUALENV" $@;
 }
 
 # Create a new environment, in the WORKON_HOME.
@@ -1097,6 +1174,7 @@ function mkvirtualenv_help {
 # Usage: mkvirtualenv [options] ENVNAME
 # (where the options are passed directly to virtualenv)
 #
+#:help:mkvirtualenv: Create a new virtualenv in $WORKON_HOME
 function mkvirtualenv {
     typeset -a in_args
     typeset -a out_args
@@ -1106,6 +1184,8 @@ function mkvirtualenv {
     typeset envname
     typeset requirements
     typeset packages
+    typeset interpreter
+    typeset project
 
     in_args=( "$@" )
 
@@ -1123,18 +1203,33 @@ function mkvirtualenv {
         # echo "arg $i : $a"
         case "$a" in
             -a)
-                i=$(( $i + 1 ));
-                project="${in_args[$i]}";;
+                i=$(( $i + 1 ))
+                project="${in_args[$i]}"
+                if [ ! -d "$project" ]
+                then
+                    echo "Cannot associate project with $project, it is not a directory" 1>&2
+                    return 1
+                fi
+                project="$(virtualenvwrapper_absolutepath ${project})";;
             -h|--help)
-                mkvirtualenv_help $a;
+                virtualenvwrapper_mkvirtualenv_help $a;
                 return;;
             -i)
                 i=$(( $i + 1 ));
                 packages="$packages ${in_args[$i]}";;
+            -p|--python*)
+                if echo "$a" | grep -q "="
+                then
+                    interpreter="$(echo "$a" | cut -f2 -d=)"
+                else
+                    i=$(( $i + 1 ))
+                    interpreter="${in_args[$i]}"
+                fi;
+                interpreter="$(virtualenvwrapper_absolutepath "$interpreter")";;
             -r)
                 i=$(( $i + 1 ));
                 requirements="${in_args[$i]}";
-                requirements=$(virtualenvwrapper_expandpath "$requirements");;
+                requirements="$(virtualenvwrapper_expandpath "$requirements")";;
             *)
                 if [ ${#out_args} -gt 0 ]
                 then
@@ -1146,6 +1241,11 @@ function mkvirtualenv {
         i=$(( $i + 1 ))
     done
 
+    if [ ! -z $interpreter ]
+    then
+        out_args=( "--python=$interpreter" ${out_args[@]} )
+    fi;
+
     set -- "${out_args[@]}"
 
     eval "envname=\$$#"
@@ -1153,7 +1253,7 @@ function mkvirtualenv {
     virtualenvwrapper_verify_virtualenv || return 1
     (
         [ -n "$ZSH_VERSION" ] && setopt SH_WORD_SPLIT
-        \cd "$WORKON_HOME" &&
+        virtualenvwrapper_cd "$WORKON_HOME" &&
         "$VIRTUALENVWRAPPER_VIRTUALENV" $VIRTUALENVWRAPPER_VIRTUALENV_ARGS "$@" &&
         [ -d "$WORKON_HOME/$envname" ] && \
             virtualenvwrapper_run_hook "pre_mkvirtualenv" "$envname"
@@ -1171,6 +1271,8 @@ function mkvirtualenv {
     if [ ! -z "$project" ]
     then
         setvirtualenvproject "$WORKON_HOME/$envname" "$project"
+        RC=$?
+        [ $RC -ne 0 ] && return $RC
     fi
 
     # Now activate the new environment
@@ -1189,7 +1291,7 @@ function mkvirtualenv {
     virtualenvwrapper_run_hook "post_mkvirtualenv"
 }
 
-# Remove an environment, in the WORKON_HOME.
+#:help:rmvirtualenv: Remove a virtualenv
 function rmvirtualenv {
     virtualenvwrapper_verify_workon_home || return 1
     if [ ${#@} = 0 ]
@@ -1211,19 +1313,23 @@ function rmvirtualenv {
             return 1
         fi
 
+        if [ ! -d "$env_dir" ]; then
+            echo "Did not find environment $env_dir to remove." >&2
+        fi
+
         # Move out of the current directory to one known to be
         # safe, in case we are inside the environment somewhere.
         typeset prior_dir="$(pwd)"
-        \cd "$WORKON_HOME"
+        virtualenvwrapper_cd "$WORKON_HOME"
 
         virtualenvwrapper_run_hook "pre_rmvirtualenv" "$env_name"
-        \rm -rf "$env_dir"
+        command \rm -rf "$env_dir"
         virtualenvwrapper_run_hook "post_rmvirtualenv" "$env_name"
 
         # If the directory we used to be in still exists, move back to it.
         if [ -d "$prior_dir" ]
         then
-            \cd "$prior_dir"
+            virtualenvwrapper_cd "$prior_dir"
         fi
     done
 }
@@ -1231,12 +1337,22 @@ function rmvirtualenv {
 # List the available environments.
 function virtualenvwrapper_show_workon_options {
     virtualenvwrapper_verify_workon_home || return 1
-    # NOTE: DO NOT use ls here because colorized versions spew control characters
-    #       into the output list.
+    # NOTE: DO NOT use ls or cd here because colorized versions spew control 
+    #       characters into the output list.
     # echo seems a little faster than find, even with -depth 3.
-    (\cd "$WORKON_HOME"; for f in */$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate; do echo $f; done) 2>/dev/null | \sed 's|^\./||' | \sed "s|/$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate||" | \sort | (unset GREP_OPTIONS; \egrep -v '^\*$')
-
-#    (\cd "$WORKON_HOME"; find -L . -depth 3 -path '*/bin/activate') | sed 's|^\./||' | sed 's|/bin/activate||' | sort
+    #
+    # 1. Look for environments by finding the activate scripts.
+    #    Use a subshell so we can suppress the message printed
+    #    by zsh if the glob pattern fails to match any files.
+    # 2. Strip the WORKON_HOME prefix from each name.
+    # 3. Strip the bindir/activate script suffix.
+    # 4. Format the output to show one name on a line.
+    # 5. Eliminate any lines with * on them because that means there 
+    #    were no envs.
+    (virtualenvwrapper_cd "$WORKON_HOME" && echo */$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate) 2>/dev/null \
+        | command \sed "s|/$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate||g" \
+        | command \fmt -w 1 \
+        | (unset GREP_OPTIONS; command \egrep -v '^\*$') 2>/dev/null
 }
 
 function _lsvirtualenv_usage {
@@ -1246,9 +1362,7 @@ function _lsvirtualenv_usage {
     echo "  -h -- this help message"
 }
 
-# List virtual environments
-#
-# Usage: lsvirtualenv [-l]
+#:help:lsvirtualenv: list virtualenvs
 function lsvirtualenv {
 
     typeset long_mode=true
@@ -1290,18 +1404,13 @@ function lsvirtualenv {
 
     if $long_mode
     then
-        for env_name in $(virtualenvwrapper_show_workon_options)
-        do
-            showvirtualenv "$env_name"
-        done
+        allvirtualenv showvirtualenv "$env_name"
     else
         virtualenvwrapper_show_workon_options
     fi
 }
 
-# Show details of a virtualenv
-#
-# Usage: showvirtualenv [env]
+#:help:showvirtualenv: show details of a single virtualenv
 function showvirtualenv {
     typeset env_name="$1"
     if [ -z "$env_name" ]
@@ -1311,19 +1420,55 @@ function showvirtualenv {
             echo "showvirtualenv [env]"
             return 1
         fi
-        env_name=$(basename $VIRTUAL_ENV)
+        env_name=$(basename "$VIRTUAL_ENV")
     fi
 
-    echo -n "$env_name"
     virtualenvwrapper_run_hook "get_env_details" "$env_name"
     echo
 }
 
-# List or change working virtual environments
-#
-# Usage: workon [environment_name]
-#
+# Show help for workon
+function virtualenvwrapper_workon_help {
+    echo "Usage: workon env_name"
+    echo ""
+    echo "           Deactivate any currently activated virtualenv"
+    echo "           and activate the named environment, triggering"
+    echo "           any hooks in the process."
+    echo ""
+    echo "       workon"
+    echo ""
+    echo "           Print a list of available environments."
+    echo "           (See also lsvirtualenv -b)"
+    echo ""
+    echo "       workon (-h|--help)"
+    echo ""
+    echo "           Show this help message."
+    echo ""
+}
+
+#:help:workon: list or change working virtualenvs
 function workon {
+    in_args=( "$@" )
+
+    if [ -n "$ZSH_VERSION" ]
+    then
+        i=1
+        tst="-le"
+    else
+        i=0
+        tst="-lt"
+    fi
+    while [ $i $tst $# ]
+    do
+        a="${in_args[$i]}"
+        case "$a" in
+            -h|--help)
+                virtualenvwrapper_workon_help;
+                return 0;;
+        esac
+        i=$(( $i + 1 ))
+    done
+
     typeset env_name="$1"
     if [ "$env_name" = "" ]
     then
@@ -1362,6 +1507,8 @@ function workon {
 
     # Replace the deactivate() function with a wrapper.
     eval 'deactivate () {
+        typeset env_postdeactivate_hook
+        typeset old_env
 
         # Call the local hook before the global so we can undo
         # any settings made by the local postactivate first.
@@ -1396,7 +1543,7 @@ function virtualenvwrapper_get_python_version {
     # VIRTUALENVWRAPPER_PYTHON because we're trying to determine the
     # version installed there so we can build up the path to the
     # site-packages directory.
-    "$VIRTUAL_ENV/bin/python" -V 2>&1 | cut -f2 -d' ' | cut -f-2 -d.
+    "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/python" -V 2>&1 | cut -f2 -d' ' | cut -f-2 -d.
 }
 
 # Prints the path to the site-packages directory for the current environment.
@@ -1415,6 +1562,8 @@ function virtualenvwrapper_get_site_packages_dir {
 # "virtualenv_path_extensions.pth" inside the virtualenv's
 # site-packages directory; if this file does not exist, it will be
 # created first.
+#
+#:help:add2virtualenv: add directory to the import path
 function add2virtualenv {
     virtualenvwrapper_verify_workon_home || return 1
     virtualenvwrapper_verify_active_environment || return 1
@@ -1452,13 +1601,13 @@ function add2virtualenv {
 
     if [ ! -f "$path_file" ]
     then
-        echo "import sys; sys.__plen = len(sys.path)" >> "$path_file"
-        echo "import sys; new=sys.path[sys.__plen:]; del sys.path[sys.__plen:]; p=getattr(sys,'__egginsert',0); sys.path[p:p]=new; sys.__egginsert = p+len(new)" >> "$path_file"
+        echo "import sys; sys.__plen = len(sys.path)" > "$path_file" || return 1
+        echo "import sys; new=sys.path[sys.__plen:]; del sys.path[sys.__plen:]; p=getattr(sys,'__egginsert',0); sys.path[p:p]=new; sys.__egginsert = p+len(new)" >> "$path_file" || return 1
     fi
 
     for pydir in "$@"
     do
-        absolute_path=$("$VIRTUALENVWRAPPER_PYTHON" -c "import os,sys; sys.stdout.write(os.path.abspath(\"$pydir\")+'\n')")
+        absolute_path="$(virtualenvwrapper_absolutepath "$pydir")"
         if [ "$absolute_path" != "$pydir" ]
         then
             echo "Warning: Converting \"$pydir\" to \"$absolute_path\"" 1>&2
@@ -1479,22 +1628,25 @@ function add2virtualenv {
 
 # Does a ``cd`` to the site-packages directory of the currently-active
 # virtualenv.
+#:help:cdsitepackages: change to the site-packages directory
 function cdsitepackages {
     virtualenvwrapper_verify_workon_home || return 1
     virtualenvwrapper_verify_active_environment || return 1
     typeset site_packages="`virtualenvwrapper_get_site_packages_dir`"
-    \cd "$site_packages"/$1
+    virtualenvwrapper_cd "$site_packages"/$1
 }
 
 # Does a ``cd`` to the root of the currently-active virtualenv.
+#:help:cdvirtualenv: change to the $VIRTUAL_ENV directory
 function cdvirtualenv {
     virtualenvwrapper_verify_workon_home || return 1
     virtualenvwrapper_verify_active_environment || return 1
-    \cd $VIRTUAL_ENV/$1
+    virtualenvwrapper_cd $VIRTUAL_ENV/$1
 }
 
 # Shows the content of the site-packages directory of the currently-active
 # virtualenv
+#:help:lssitepackages: list contents of the site-packages directory
 function lssitepackages {
     virtualenvwrapper_verify_workon_home || return 1
     virtualenvwrapper_verify_active_environment || return 1
@@ -1512,6 +1664,7 @@ function lssitepackages {
 
 # Toggles the currently-active virtualenv between having and not having
 # access to the global site-packages.
+#:help:toggleglobalsitepackages: turn access to global site-packages on/off
 function toggleglobalsitepackages {
     virtualenvwrapper_verify_workon_home || return 1
     virtualenvwrapper_verify_active_environment || return 1
@@ -1525,52 +1678,73 @@ function toggleglobalsitepackages {
     fi
 }
 
-# Duplicate the named virtualenv to make a new one.
+#:help:cpvirtualenv: duplicate the named virtualenv to make a new one
 function cpvirtualenv {
-    typeset env_name="$1"
-    if [ "$env_name" = "" ]
-    then
-        virtualenvwrapper_show_workon_options
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_virtualenv_clone || return 1
+
+    typeset src_name="$1"
+    typeset trg_name="$2"
+    typeset src
+    typeset trg 
+
+    # without a source there is nothing to do
+    if [ "$src_name" = "" ]; then
+        echo "Please provide a valid virtualenv to copy."
         return 1
-    fi
-    typeset new_env="$2"
-    if [ "$new_env" = "" ]
-    then
-        echo "Please specify target virtualenv"
-        return 1
-    fi
-    if echo "$WORKON_HOME" | (unset GREP_OPTIONS; \grep "/$" > /dev/null)
-    then
-        typeset env_home="$WORKON_HOME"
     else
-        typeset env_home="$WORKON_HOME/"
+        # see if its already in workon
+        if [ ! -e "$WORKON_HOME/$src_name" ]; then
+            # so its a virtualenv we are importing
+            # make sure we have a full path
+            # and get the name
+            src="$(virtualenvwrapper_expandpath "$src_name")"
+            # final verification
+            if [ ! -e "$src" ]; then
+                echo "Please provide a valid virtualenv to copy."
+                return 1
+            fi
+            src_name="$(basename "$src")"
+        else
+           src="$WORKON_HOME/$src_name"
+        fi
     fi
-    typeset source_env="$env_home$env_name"
-    typeset target_env="$env_home$new_env"
 
-    if [ ! -e "$source_env" ]
-    then
-        echo "$env_name virtualenv doesn't exist"
+    if [ "$trg_name" = "" ]; then
+        # target not given, assume
+        # same as source
+        trg="$WORKON_HOME/$src_name"
+        trg_name="$src_name"
+    else
+        trg="$WORKON_HOME/$trg_name"
+    fi
+    trg="$(virtualenvwrapper_expandpath "$trg")"
+
+    # validate trg does not already exist
+    # catch copying virtualenv in workon home
+    # to workon home
+    if [ -e "$trg" ]; then
+        echo "$trg_name virtualenv already exists."
         return 1
     fi
 
-    \cp -r "$source_env" "$target_env"
-    for script in $( \ls $target_env/$VIRTUALENVWRAPPER_ENV_BIN_DIR/* )
-    do
-        newscript="$script-new"
-        \sed "s|$source_env|$target_env|g" < "$script" > "$newscript"
-        \mv "$newscript" "$script"
-        \chmod a+x "$script"
-    done
+    echo "Copying $src_name as $trg_name..."
+    (
+        [ -n "$ZSH_VERSION" ] && setopt SH_WORD_SPLIT 
+        virtualenvwrapper_cd "$WORKON_HOME" &&
+        "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" "$src" "$trg" 
+        [ -d "$trg" ] && 
+            virtualenvwrapper_run_hook "pre_cpvirtualenv" "$src" "$trg_name" &&
+            virtualenvwrapper_run_hook "pre_mkvirtualenv" "$trg_name"
+    )
+    typeset RC=$?
+    [ $RC -ne 0 ] && return $RC
 
-    "$VIRTUALENVWRAPPER_VIRTUALENV" "$target_env" --relocatable
-    \sed "s/VIRTUAL_ENV\(.*\)$env_name/VIRTUAL_ENV\1$new_env/g" < "$source_env/$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate" > "$target_env/$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate"
+    [ ! -d "$WORKON_HOME/$trg_name" ] && return 1
 
-    (\cd "$WORKON_HOME" && (
-        virtualenvwrapper_run_hook "pre_cpvirtualenv" "$env_name" "$new_env";
-        virtualenvwrapper_run_hook "pre_mkvirtualenv" "$new_env"
-        ))
-    workon "$new_env"
+    # Now activate the new environment
+    workon "$trg_name"
+
     virtualenvwrapper_run_hook "post_mkvirtualenv"
     virtualenvwrapper_run_hook "post_cpvirtualenv"
 }
@@ -1597,6 +1771,7 @@ function virtualenvwrapper_verify_project_home {
 # Given a virtualenv directory and a project directory,
 # set the virtualenv up to be associated with the
 # project
+#:help:setvirtualenvproject: associate a project directory with a virtualenv
 function setvirtualenvproject {
     typeset venv="$1"
     typeset prj="$2"
@@ -1607,28 +1782,53 @@ function setvirtualenvproject {
     if [ -z "$prj" ]
     then
         prj="$(pwd)"
+    else
+        prj=$(virtualenvwrapper_absolutepath "${prj}")
     fi
+
+    # If what we were given isn't a directory, see if it is under
+    # $WORKON_HOME.
+    if [ ! -d "$venv" ]
+    then
+        venv="$WORKON_HOME/$venv"
+    fi
+    if [ ! -d "$venv" ]
+    then
+        echo "No virtualenv $(basename $venv)" 1>&2
+        return 1
+    fi
+
+    # Make sure we have a valid project setting
+    if [ ! -d "$prj" ]
+    then
+        echo "Cannot associate virtualenv with \"$prj\", it is not a directory" 1>&2
+        return 1
+    fi
+
     echo "Setting project for $(basename $venv) to $prj"
     echo "$prj" > "$venv/$VIRTUALENVWRAPPER_PROJECT_FILENAME"
 }
 
 # Show help for mkproject
-function mkproject_help {
-    echo "Usage: mkproject [-t template] [virtualenv options] project_name"
-    echo ""
+function virtualenvwrapper_mkproject_help {
+    echo "Usage: mkproject [-f|--force] [-t template] [virtualenv options] project_name"
+    echo
+    echo "-f, --force    Create the virtualenv even if the project directory"
+    echo "               already exists"
+    echo
     echo "Multiple templates may be selected.  They are applied in the order"
     echo "specified on the command line."
-    echo;
+    echo
     echo "mkvirtualenv help:"
     echo
-    mkvirtualenv -h;
+    mkvirtualenv -h
     echo
     echo "Available project templates:"
     echo
     "$VIRTUALENVWRAPPER_PYTHON" -c 'from virtualenvwrapper.hook_loader import main; main()' -l project.template
 }
 
-# Create a new project directory and its associated virtualenv.
+#:help:mkproject: create a new project directory and its associated virtualenv
 function mkproject {
     typeset -a in_args
     typeset -a out_args
@@ -1636,9 +1836,11 @@ function mkproject {
     typeset tst
     typeset a
     typeset t
+    typeset force
     typeset templates
 
     in_args=( "$@" )
+    force=0
 
     if [ -n "$ZSH_VERSION" ]
     then
@@ -1651,11 +1853,12 @@ function mkproject {
     while [ $i $tst $# ]
     do
         a="${in_args[$i]}"
-        # echo "arg $i : $a"
         case "$a" in
-            -h)
-                mkproject_help;
+            -h|--help)
+                virtualenvwrapper_mkproject_help;
                 return;;
+            -f|--force)
+                force=1;;
             -t)
                 i=$(( $i + 1 ));
                 templates="$templates ${in_args[$i]}";;
@@ -1679,7 +1882,7 @@ function mkproject {
     eval "typeset envname=\$$#"
     virtualenvwrapper_verify_project_home || return 1
 
-    if [ -d "$PROJECT_HOME/$envname" ]
+    if [ -d "$PROJECT_HOME/$envname" -a $force -eq 0 ]
     then
         echo "Project $envname already exists." >&2
         return 1
@@ -1687,7 +1890,7 @@ function mkproject {
 
     mkvirtualenv "$@" || return 1
 
-    cd "$PROJECT_HOME"
+    virtualenvwrapper_cd "$PROJECT_HOME"
 
     virtualenvwrapper_run_hook "project.pre_mkproject" $envname
 
@@ -1695,7 +1898,7 @@ function mkproject {
     mkdir -p "$PROJECT_HOME/$envname"
     setvirtualenvproject "$VIRTUAL_ENV" "$PROJECT_HOME/$envname"
 
-    cd "$PROJECT_HOME/$envname"
+    virtualenvwrapper_cd "$PROJECT_HOME/$envname"
 
     for t in $templates
     do
@@ -1704,22 +1907,22 @@ function mkproject {
         # For some reason zsh insists on prefixing the template
         # names with a space, so strip them out before passing
         # the value to the hook loader.
-        virtualenvwrapper_run_hook --name $(echo $t | sed 's/^ //') "project.template" $envname
+        virtualenvwrapper_run_hook --name $(echo $t | sed 's/^ //') "project.template" "$envname" "$PROJECT_HOME/$envname"
     done
 
     virtualenvwrapper_run_hook "project.post_mkproject"
 }
 
-# Change directory to the active project
+#:help:cdproject: change directory to the active project
 function cdproject {
     virtualenvwrapper_verify_workon_home || return 1
     virtualenvwrapper_verify_active_environment || return 1
     if [ -f "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_PROJECT_FILENAME" ]
     then
-        typeset project_dir=$(cat "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_PROJECT_FILENAME")
+        typeset project_dir="$(cat "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_PROJECT_FILENAME")"
         if [ ! -z "$project_dir" ]
         then
-            cd "$project_dir"
+            virtualenvwrapper_cd "$project_dir"
         else
             echo "Project directory $project_dir does not exist" 1>&2
             return 1
@@ -1736,7 +1939,8 @@ function cdproject {
 #
 # Originally part of virtualenvwrapper.tmpenv plugin
 #
-mktmpenv() {
+#:help:mktmpenv: create a temporary virtualenv
+function mktmpenv {
     typeset tmpenvname
     typeset RC
 
@@ -1747,6 +1951,7 @@ mktmpenv() {
         # This python does not support uuid
         tmpenvname=$("$VIRTUALENVWRAPPER_PYTHON" -c 'import random,sys; sys.stdout.write(hex(random.getrandbits(64))[2:-1]+"\n")' 2>/dev/null)
     fi
+    tmpenvname="tmp-$tmpenvname"
 
     # Create the environment
     mkvirtualenv "$@" "$tmpenvname"
@@ -1763,7 +1968,7 @@ mktmpenv() {
     echo "This is a temporary environment. It will be deleted when you run 'deactivate'." | tee "$VIRTUAL_ENV/README.tmpenv"
 
     # Update the postdeactivate script
-    cat - >> "$VIRTUAL_ENV/bin/postdeactivate" <<EOF
+    cat - >> "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/postdeactivate" <<EOF
 if [ -f "$VIRTUAL_ENV/README.tmpenv" ]
 then
     echo "Removing temporary environment:" $(basename "$VIRTUAL_ENV")
@@ -1772,6 +1977,75 @@ fi
 EOF
 }
 
+#
+# Remove all installed packages from the env
+#
+#:help:wipeenv: remove all packages installed in the current virtualenv
+function wipeenv {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_active_environment || return 1
+
+    typeset req_file="$(virtualenvwrapper_tempfile "requirements.txt")"
+    pip freeze | egrep -v '(distribute|wsgiref)' > "$req_file"
+    if [ -n "$(cat "$req_file")" ]
+    then
+        echo "Uninstalling packages:"
+        cat "$req_file"
+        echo
+        pip uninstall -y $(cat "$req_file" | sed 's/>/=/g' | cut -f1 -d=)
+    else
+        echo "Nothing to remove."
+    fi
+    rm -f "$req_file"
+}
+
+#
+# Run a command in each virtualenv
+#
+#:help:allvirtualenv: run a command in all virtualenvs
+function allvirtualenv {
+    virtualenvwrapper_verify_workon_home || return 1
+    typeset d
+
+    virtualenvwrapper_show_workon_options | while read d
+    do
+        [ ! -d "$WORKON_HOME/$d" ] && continue
+        echo "$d"
+        echo "$d" | sed 's/./=/g'
+        # Activate the environment, but not with workon
+        # because we don't want to trigger any hooks.
+        (source "$WORKON_HOME/$d/$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate";
+            virtualenvwrapper_cd "$VIRTUAL_ENV";
+            "$@")
+        echo
+    done
+}
+
+#:help:virtualenvwrapper: show this help message
+function virtualenvwrapper {
+	cat <<EOF
+
+virtualenvwrapper is a set of extensions to Ian Bicking's virtualenv
+tool.  The extensions include wrappers for creating and deleting
+virtual environments and otherwise managing your development workflow,
+making it easier to work on more than one project at a time without
+introducing conflicts in their dependencies.
+
+For more information please refer to the documentation:
+
+    http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html
+
+Commands available:
+
+EOF
+
+    typeset helpmarker="#:help:"
+    cat  "$VIRTUALENVWRAPPER_SCRIPT" \
+        | grep "^$helpmarker" \
+        | sed -e "s/^$helpmarker/  /g" \
+        | sort \
+        | sed -e 's/$/\'$'\n/g'
+}
 
 #
 # Invoke the initialization functions
@@ -1779,13 +2053,13 @@ EOF
 virtualenvwrapper_initialize
 virtualenvwrapper_derive_workon_home
 virtualenvwrapper_tempfile ${1}-hook
-\mktemp -t virtualenvwrapper-$suffix-XXXXXXXXXX
+virtualenvwrapper_mktemp -t virtualenvwrapper-$suffix-XXXXXXXXXX
 # initialize
 # user_scripts
 #
 # Run user-provided scripts
 #
-[ -f "$VIRTUALENVWRAPPER_HOOK_DIR/initialize" ] && source "$VIRTUALENVWRAPPER_HOOK_DIR/initialize"
+[ -f "$VIRTUALENVWRAPPER_HOOK_DIR/initialize" ] &&     source "$VIRTUALENVWRAPPER_HOOK_DIR/initialize"
 #!/bin/bash
 ## virtualenvwrapper/initialize
 # This hook is run during the startup phase when loading virtualenvwrapper.sh.
@@ -1990,13 +2264,37 @@ grind-() {
 }
 
 grindctags() {
-    # grindctags    -- generate ctags from grind expression (*.py by default)
-    args="$@"
-    if [ -z $args ]; then
-        args='*.py'
+    # grindctags    -- generate ctags from grind (in ./tags)
+    if [ -n "${__IS_MAC}" ]; then
+        if [ -x "/usr/local/bin/ctags" ]; then
+            ctagsbin="/usr/local/bin/ctags"
+        fi
+    else
+        ctagsbin=$(which ctags)
     fi
-    grind --follow "$args" | ctags -L -
+    (set -x;
+    path=${1:-'.'}
+    grindargs=${2}
+    cd ${path}; grind --follow ${grindargs} \
+        | grep -v 'min.js$' \
+        | ${ctagsbin} -L - 2>tags.err && \
+    wc -l ${path}/tags.err;
+    ls -alh ${path}/tags;)
 }
+grindctagssys() {
+    # grindctagssys -- generate ctags from grind --sys-path (in $_WRD/tags)
+    grindctags "${_WRD}" "--sys-path"
+}
+grindctagsw() {
+    # grindctagsw   -- generate ctags from (cd $_WRD; grind)  (in $_WRD/tags)
+    grindctags "${_WRD}"
+}
+grindctagss() {
+    # grindctagss   -- generate ctags from (cd $_SRC; grind)  (in $_SRC/tags)
+    grindctags "${_SRC}"
+}
+
+
 
 _load_venv_aliases() {
     # _load_venv_aliases -- load venv aliases
@@ -2183,11 +2481,14 @@ sudogvim() {
 _configure_lesspipe() {
     lesspipe=$(which lesspipe.sh 2>/dev/null || false)
     if [ -n "${lesspipe}" ]; then
-        source <(${lesspipe})
+        eval "$(${lesspipe})"
     fi
 }
 _configure_lesspipe
 which lesspipe.sh 2>/dev/null || false
+${lesspipe}
+LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
+export LESSOPEN
 
 
 ## vimpager     -- call vimpager
@@ -2295,7 +2596,6 @@ mane() {
 ## stid()   -- set or regenerate shell session id
 #  
 source "${__DOTFILES}/etc/usrlog.sh"
-${lesspipe}
 #!/bin/sh
 ##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
 #
@@ -2362,12 +2662,12 @@ _usrlog_set_HIST() {
 
     if [ -n "$BASH" ] ; then
         # append to the history file, don't overwrite it
-        shopt -s histappend
+        shopt -s histappend > /dev/null 2>&1
         # replace newlines with semicolons
-        shopt -s cmdhist
+        shopt -s cmdhist > /dev/null 2>&1
 
         # enable autocd (if available)
-        shopt -s autocd 2>&1 > /dev/null
+        shopt -s autocd > /dev/null 2>&1
     elif [ -n "$ZSH_VERSION" ]; then
         setopt APPEND_HISTORY
         setopt EXTENDED_HISTORY
@@ -2682,10 +2982,8 @@ usrlog_screenrec_ffmpeg() {
 
 ## call _usrlog_setup
 _usrlog_setup
-bash: shopt: autocd: invalid shell option name
-]0;#e4KQXVw6hr8 (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
-bash: shopt: autocd: invalid shell option name
-]0;#e4KQXVw6hr8 (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
+]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
+]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
 usrlogv() {
     ## usrlog() -- open $_USRLOG with vim (skip to end)
     file=${1:-$_USRLOG}
@@ -3677,11 +3975,11 @@ WORKON_HOME='/Users/W/wrk/.ve'
 VIRTUAL_ENV_NAME='dotfiles'
 VIRTUAL_ENV='/Users/W/wrk/.ve/dotfiles'
 _USRLOG='/Users/W/wrk/.ve/dotfiles/.usrlog'
-_TERM_ID='#e4KQXVw6hr8'
+_TERM_ID='#testing'
 _SRC='/Users/W/wrk/.ve/dotfiles/src'
 _APP='dotfiles'
 _WRD='/Users/W/wrk/.ve/dotfiles/src/dotfiles'
-PATH='/Users/W/Workspace/.virtualenvs/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin'
+PATH='/Users/W/Workspace/.virtualenvs/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 __DOTFILES='/Users/W/.dotfiles'
 #
 exit

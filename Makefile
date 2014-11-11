@@ -97,17 +97,17 @@ help_setuppy_txt:
 BASH_LOAD_SCRIPT=scripts/bashrc.load.sh
 help_bash:
 	## Write bash output to scripts/bashrc.load.sh
-	bash -i -v -c 'exit' > $(BASH_LOAD_SCRIPT) 2>&1
+	_TERM_ID="#testing" bash -i -v -c 'exit' > $(BASH_LOAD_SCRIPT) 2>&1
 
 help_bash_txt: help_bash
 	## Write docs/bash_conf.txt
-	bash scripts/dotfiles-bash.sh > docs/bash_conf.txt
+	_TERM_ID="#testing" bash scripts/dotfiles-bash.sh > docs/bash_conf.txt
 
 
 ZSH_LOAD_SCRIPT=scripts/zsh.load.sh
 help_zsh_txt:
 	## Write zsh output to script/zsh.load.sh
-	zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1 || true
+	_TERM_ID="#testing" zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1 || true
 
 
 help_vim:
@@ -292,9 +292,10 @@ pip_install_requirements_testing:
 	# Install package test tools
 	$(PIP_INSTALL) -r ./requirements/requirements-testing.txt
 
-pip_install_requirements_docs:
+pip_install_requirements_docs.log:
 	# Install package documentation tools
 	$(PIP_INSTALL) -r ./requirements/requirements-docs.txt
+	touch pip_install_requirements_docs.log
 
 pip_install_requirements_suggests:
 	# Install suggested package requirements
@@ -397,15 +398,15 @@ docs_api:
 	## Generate API docs with sphinx-autodoc (requires `make docs_setup`)
 	rm -f docs/api.rst
 	rm -f docs/modules.rst
+	rm -f docs/dotfiles.*.rst
 	# https://bitbucket.org/birkenfeld/sphinx/issue/1456/apidoc-add-a-m-option-to-put-module
-	#         # https://bitbucket.org/westurner/sphinx/branch/apidoc_output_order
 	sphinx-apidoc -M --no-toc --no-headings -o docs/ src/dotfiles
 	mv docs/dotfiles.rst docs/api.rst
 	sed -i.bak 's/dotfiles package/API/' docs/api.rst
 	rm docs/api.rst.bak
 
 
-docs: localjs
+docs: localjs pip_install_requirements_docs.log
 	$(MAKE) docs_api
 	$(MAKE) help_bash_txt
 	$(MAKE) help_zsh_txt
