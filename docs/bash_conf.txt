@@ -158,25 +158,21 @@
    
 #### etc/bash/07-bashrc.python.sh
 ### bashrc.python.sh
-    #  pypath       -- print python sys.path and site config
-# Generate python cmdline docs::
-#
-#    man python | cat | egrep 'ENVIRONMENT VARIABLES' -A 200 | egrep 'AUTHOR' -B 200 | head -n -1 | pyline -r '\s*([\w]+)$' 'rgx and rgx.group(1)'
-    ## _setup_python() -- configure $PYTHONSTARTUP
-    ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
+    # pypath()              -- print python sys.path and site config
+    # _setup_python()       -- configure $PYTHONSTARTUP
+    # _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
 ## Pyenv
-    ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
+    # _setup_pyvenv()       -- set $PYENV_ROOT, add_to_path, and pyenv venvw
 ## Conda / Anaconda
-    ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
-    #  workon_conda()    -- workon a conda + venv project
-    #  wec()              -- workon a conda + venv project
-    #                       NOTE: tab-completion only shows all regular
-    #                       virtualenvs
-    #  mkvirtualenv_conda() -- mkvirtualenv and conda create
+    # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
+    # workon_conda()        -- workon a conda + venv project
+    # wec()                 -- workon a conda + venv project
+    #                       note: tab-completion only shows regular virtualenvs
+    # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     # rmvirtualenv_conda()  -- rmvirtualenv conda
-    # TODO
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    #   TODO
+    # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda; mkvirtualenv
+    # mkvirtualenv_conda_if_available() --  mkvirtualenv_conda; mkvirtualenv
    
    
 #### etc/bash/07-bashrc.virtualenv.sh

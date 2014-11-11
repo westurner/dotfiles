@@ -631,9 +631,6 @@ _configure_bash_completion() {
     # _configure_bash_completion()  -- configure bash completion
     #                               note: `complete -p` lists completions
 
-    if ! shopt -oq posix; then
-        return
-    fi
     if [ -n "$__IS_MAC" ]; then
         #configure brew (brew install bash-completion)
         BREW=$(which brew 2>/dev/null || false)
@@ -644,33 +641,79 @@ _configure_bash_completion() {
             fi
         fi
     else
-        if [ -f /etc/bash_completion ]; then
+        if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
             source /etc/bash_completion
         fi
     fi
 }
 _configure_bash_completion
+which brew 2>/dev/null || false
+brew --prefix
+#
+#   bash_completion - programmable completion functions for bash 3.2+
+#
+#   Copyright © 2006-2008, Ian Macdonald <ian@caliban.org>
+#             © 2009-2011, Bash Completion Maintainers
+#                     <bash-completion-devel@lists.alioth.debian.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2, or (at your option)
+#   any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software Foundation,
+#   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+#   The latest version of this software can be obtained here:
+#
+#   http://bash-completion.alioth.debian.org/
+#
+#   RELEASE: 1.3
+
+if [[ $- == *v* ]]; then
+    BASH_COMPLETION_ORIGINAL_V_VALUE="-v"
+else
+    BASH_COMPLETION_ORIGINAL_V_VALUE="+v"
+fi
+
+if [[ -n $BASH_COMPLETION_DEBUG ]]; then
+    set -v
+else
+    set +v
+fi
+unset BASH_COMPLETION_ORIGINAL_V_VALUE
+
+# Local variables:
+# mode: shell-script
+# sh-basic-offset: 4
+# sh-indent-comment: t
+# indent-tabs-mode: nil
+# End:
+# ex: ts=4 sw=4 et filetype=sh
 
 ### bashrc.python.sh
 
 pypath() {
-    #  pypath       -- print python sys.path and site config
+    # pypath()              -- print python sys.path and site config
     /usr/bin/env python -m site
 }
 
-# Generate python cmdline docs::
-#
-#    man python | cat | egrep 'ENVIRONMENT VARIABLES' -A 200 | egrep 'AUTHOR' -B 200 | head -n -1 | pyline -r '\s*([\w]+)$' 'rgx and rgx.group(1)'
 
 _setup_python () {
-    ## _setup_python() -- configure $PYTHONSTARTUP
+    # _setup_python()       -- configure $PYTHONSTARTUP
     export PYTHONSTARTUP="${HOME}/.pythonrc"
     #export
 }
 _setup_python
 
 _setup_pip () {
-    ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
+    # _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
     export PIP_REQUIRE_VIRTUALENV=false
 }
 _setup_pip
@@ -679,7 +722,7 @@ _setup_pip
 ## Pyenv
 
 _setup_pyenv() {
-    ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
+    # _setup_pyvenv()       -- set $PYENV_ROOT, add_to_path, and pyenv venvw
     export PYENV_ROOT="${HOME}/.pyenv"
     add_to_path "${PYENV_ROOT}/bin"
     eval "$(pyenv init -)"
@@ -689,13 +732,13 @@ _setup_pyenv() {
 ## Conda / Anaconda
 
 _setup_anaconda() {
-    ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
+    # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
     export _ANACONDA_ROOT="/opt/anaconda"
     add_to_path "${_ANACONDA_ROOT}/bin"
 }
 
 workon_conda() {
-    #  workon_conda()    -- workon a conda + venv project
+    # workon_conda()        -- workon a conda + venv project
     _conda_envname=${1}
     _app=${2}
     we ${_conda_envname} ${_app}
@@ -705,15 +748,14 @@ workon_conda() {
 complete -o default -o nospace -F _virtualenvs workon_conda
 
 wec() {
-    #  wec()              -- workon a conda + venv project
-    #                       NOTE: tab-completion only shows all regular
-    #                       virtualenvs
+    # wec()                 -- workon a conda + venv project
+    #                       note: tab-completion only shows regular virtualenvs
     workon_conda $@
 }
 complete -o default -o nospace -F _virtualenvs wec
 
 mkvirtualenv_conda() {
-    #  mkvirtualenv_conda() -- mkvirtualenv and conda create
+    # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     mkvirtualenv $@
     _conda_envname=${1}
     conda create --mkdir --prefix ${WORKON_HOME}/.conda/${_conda_envname} \
@@ -725,12 +767,12 @@ rmvirtualenv_conda() {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     rmvirtualenv $@
     _conda_envname=${1}
-    # TODO
+    #   TODO
 }
 
 
 mkvirtualenv_conda_if_available() {
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda; mkvirtualenv
     (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
         && mkvirtualenv_conda $@) \
     || \
@@ -739,7 +781,7 @@ mkvirtualenv_conda_if_available() {
 }
 
 workon_conda_if_available() {
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    # mkvirtualenv_conda_if_available() --  mkvirtualenv_conda; mkvirtualenv
     (declare -f 'workon_conda' 2>&1 > /dev/null \
         && workon_conda $@) \
     || \
