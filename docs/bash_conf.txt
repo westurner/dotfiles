@@ -11,7 +11,7 @@
   #  walkpath()         -- list every directory along ${1:-"."}
   #
   ## 02-bashrc.platform.sh      -- platform things
-  #  detect_platform()  -- set __IS_MAC and __IS_LINUX 
+  #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX 
   #
   ## 03-bashrc.readline.sh      -- readline
   #
@@ -94,10 +94,9 @@
     #  echo_args    -- echo $@ (for checking quoting)
     #  function_exists()    -- check whether a bash function exists
     #  add_to_path  -- prepend a directory to $PATH
-    ## instead of:
-    ##   export PATH=$dir:$PATH
-    ##
-    ##   add_to_path $dir 
+    # instead of:
+    #   export PATH=$dir:$PATH
+    #   add_to_path $dir 
     #  lightpath()  -- display $PATH with newlines
     #  lspath()     -- list files in each directory in $PATH
     #  lspath_less()    -- lspath with less (color)
