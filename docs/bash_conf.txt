@@ -141,7 +141,6 @@
 ### bashrc.dotfiles.sh
     # dotfiles_add_path     -- add ${__DOTFILES}/scripts to $PATH
     # dotfiles_status()     -- print dotfiles_status
-    # dotfiles_term_uri()   -- print a URI for the current _TERM_ID
     # ds()                  -- print dotfiles_status
     # log_dotfiles_state()  -- save current environment to logfiles
     # dotfiles_initialize()     -- virtualenvwrapper initialize

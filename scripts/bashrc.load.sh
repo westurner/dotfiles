@@ -510,19 +510,18 @@ dotfiles_status() {
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
     echo "#"
 }
-
-dotfiles_term_uri() {
-    # dotfiles_term_uri()   -- print a URI for the current _TERM_ID
-    term_path="${HOSTNAME}/usrlog/${USER}"
-    term_key=${_APP}/${_TERM_ID}
-    TERM_URL="${term_path}/${term_key}"
-    echo "TERM_URL='${TERM_URL}'"
-}
-
 ds() {
     # ds()                  -- print dotfiles_status
     dotfiles_status $@
 }
+
+#dotfiles_term_uri() {
+    ##dotfiles_term_uri()   -- print a URI for the current _TERM_ID
+    #term_path="${HOSTNAME}/usrlog/${USER}"
+    #term_key=${_APP}/${_TERM_ID}
+    #TERM_URI="${term_path}/${term_key}"
+    #echo "TERM_URI='${TERM_URL}'"
+#}
 
 log_dotfiles_state() {
     # log_dotfiles_state()  -- save current environment to logfiles
