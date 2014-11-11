@@ -4949,9 +4949,9 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-yAMvODICeSxn/agent.44250; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=44252; export SSH_AGENT_PID;
-#echo Agent pid 44252;
+SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-I0fIYo3xqUSt/agent.90278; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=90280; export SSH_AGENT_PID;
+#echo Agent pid 90280;
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
