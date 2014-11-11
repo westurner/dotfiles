@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Usage &mdash; dotfiles 0.2.7 documentation</title>
+    <title>Usage &mdash; dotfiles 0.3.3 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.2.7',
+            VERSION:     '0.3.3',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -63,7 +63,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.2.7 documentation" href="index.html" />
+    <link rel="top" title="dotfiles 0.3.3 documentation" href="index.html" />
     <link rel="next" title="Venv" href="venv.html" />
     <link rel="prev" title="Install" href="install.html" /> 
   </head>
@@ -77,7 +77,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">dotfiles 0.2.7 documentation</a>
+          <a class="navbar-brand" href="index.html">dotfiles 0.3.3 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -246,6 +246,8 @@ pull		-- git pull
     #  __DOTFILES (str)     -- path to this dotfiles repository (~/.dotfiles)
       #
       ## 01-bashrc.lib.sh  -- libraries: useful bash functions
+      #
+      ## 02-bashrc.platform.sh  -- detect_platform
       #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
       #                       egrep -nr -C 3 &#39;__IS_MAC|__IS_LINUX&#39;
       #
@@ -302,7 +304,8 @@ pull		-- git pull
       #  usrlogg        -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
       #  usrloge        -- open usrlog with editor:$EDITOR + $_USRLOG
       ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
-      ## 40-bashrc.aliases.sh       -- bash aliases and cmds
+      ## 40-bashrc.aliases.sh       -- aliases
+      ## 42-bashrc.commands.sh      -- example commands
       ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
       ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
     ### 99-bashrc.after.sh          -- after: cleanup
@@ -310,16 +313,38 @@ pull		-- git pull
    
    
 #### etc/bash/01-bashrc.lib.sh
+### bashrc.lib.sh
+## bash
+    #  echo_args    -- echo $@ (for checking quoting)
+    #  function_exists()    -- check whether a bash function exists
     #  add_to_path  -- prepend a directory to $PATH
     ## instead of:
     ##   export PATH=$dir:$PATH
     ##
     ##   add_to_path $dir 
-    #  lightpath    -- display $PATH with newlines
-    #  lspath       -- list files in each directory in $PATH
-    #  lspath_less  -- lspath with less
-    #   echo_args   -- echo $@ (for checking quoting)
-    #  pypath       -- print python sys.path and site config
+    #  lightpath()  -- display $PATH with newlines
+    #  lspath()     -- list files in each directory in $PATH
+    #  lspath_less()    -- lspath with less (color)
+## file paths
+    #  realpath()    -- print absolute path (os.path.realpath) to path $1
+    #                  note: OSX does not have readlink -f
+    #  path()        -- realpath()
+    #  walkpath()    -- walk down a path
+    #   $1 : path (optional; default: pwd)
+    #   $2 : cmd  (optional; default: ls -ald --color=auto)
+    #   see: http://superuser.com/a/65076 
+    #  ensure_symlink   -- create or update a symlink to $_to from _from
+    #    ln -s $_to $_from
+    # if symlink $_from already exists
+        # compare the actual paths
+        # if a file or folder exists return an errorcode
+            # otherwise, create the symlink
+    #  ensure_mkdir -- create a directory if it does not yet exist
+   
+   
+#### etc/bash/02-bashrc.platform.sh
+### bashrc.platform.sh
+    #  detect_platform()    -- set __IS_MAC, __IS_LINUX according to $(uname)
    
    
 #### etc/bash/03-bashrc.readline.sh
@@ -375,17 +400,26 @@ pull		-- git pull
    
    
 #### etc/bash/07-bashrc.python.sh
+### bashrc.python.sh
+    #  pypath       -- print python sys.path and site config
 # Generate python cmdline docs::
 #
 #    man python | cat | egrep &#39;ENVIRONMENT VARIABLES&#39; -A 200 | egrep &#39;AUTHOR&#39; -B 200 | head -n -1 | pyline -r &#39;\s*([\w]+)$&#39; &#39;rgx and rgx.group(1)&#39;
     ## _setup_python() -- configure $PYTHONSTARTUP
     ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
+## Pyenv
     ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
+## Conda / Anaconda
     ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
     #  workon_conda()    -- workon a conda + venv project
     #  wec()              -- workon a conda + venv project
+    #                       NOTE: tab-completion only shows all regular
+    #                       virtualenvs
     #  mkvirtualenv_conda() -- mkvirtualenv and conda create
-    #  rmvirtualenv_conda() -- rmvirtualenv conda
+    # rmvirtualenv_conda()  -- rmvirtualenv conda
+    # TODO
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
    
    
 #### etc/bash/07-bashrc.virtualenv.sh
@@ -462,6 +496,11 @@ pull		-- git pull
     # makew     -- cd $_WRD &amp;&amp; make $@
     # make-     -- cd $_WRD &amp;&amp; make $@
     # mw        -- cd $_WRD &amp;&amp; make $@
+    #  _venv_ensure_paths()   -- 
+    # ensure_mkdir ${prefix}/home
+    # ensure_mkdir ${prefix}/opt
+    # ensure_mkdir ${prefix}/sbin
+    # ensure_mkdir ${prefix}/srv
    
    
 #### etc/bash/11-bashrc.venv.pyramid.sh
@@ -481,7 +520,6 @@ pull		-- git pull
 #### etc/bash/29-bashrc.vimpagers.sh
 ## _configure_lesspipe  -- (less &lt;file.zip&gt; | lessv)
 ## vimpager     -- call vimpager
-    # TODO: lesspipe
 ### less commands -- lessv, lessg, lesse
 ## lessv    -- less with less.vim and regular vim
     ## start Vim with less.vim and vim
@@ -510,32 +548,48 @@ pull		-- git pull
    
    
 #### etc/bash/40-bashrc.aliases.sh
-# .bashrc commands
-## file paths
-    # print absolute path to file
-    # Enumerate files from PATH
-    # walk upwards from a path
-    # see: http://superuser.com/a/65076  
-    # _load_aliases -- load aliases
-    ## hgst()   -- hg diff --start, hg status, hg diff
-    # Create and open a new shell script
-    # List differences between directories
-    # Diff the output of two commands
-    # open in new tab
+### bashrc.aliases.sh
+    #  _load_aliases()  -- load aliases
+   
+   
+#### etc/bash/42-bashrc.commands.sh
+### bashrc.commands.sh
+# usage: bash -c &#39;source bashrc.commands.sh; funcname &lt;args&gt;&#39;
+    #  chmod-unumask()  -- recursively add other+r (files) and other+rx (dirs)
+    #  new-sh()         -- create and open a new shell script at $1
+    #  diff-dirs()      -- list differences between directories
+    #  diff-stdin()     -- diff the output of two commands
+    #  wopen()  -- open path/URI/URL $1 in a new browser tab
+    #              see: scripts/x-www-browser
+    #  find-largefiles  -- find files larger than size (default: +10M)
+    #  find-pdf         -- find pdfs and print info with pdfinfo
+    #   find-lately()   -- list and sort files in paths $@ by mtime
     # time_epoch \t size \t user \t type \t path
-    #    repos -s $p
-    # apt-get install libnss3-tools
+    #  find-setuid()    -- find all setuid and setgid files
+    #                       stderr &gt; find-setuid.errors
+    #                       stdout &gt; find-setuid.files
+    #  find-startup()   -- find common startup files in common locations
+    #  find-ssl()       -- find .pem and .db files and print their metadata
+    #  find-dpkgfile()  -- search dpkgs with apt-file
+    #  find-dpkgfiles() -- sort dpkg /var/lib/dpkg/info/&lt;name&gt;.list
     # checks filesystem against dpkg&#39;s md5sums 
     #
     # Author: Filippo Giunchedi &lt;filippo@esaurito.net&gt;
     # Version: 0.1
     #
     # this file is public domain 
-    # TODO
-    # walk down a path
-    # see: http://superuser.com/a/65076 
-    # FIXME
-    # TODO
+    #  deb-mkrepo   -- create dpkg Packages.gz and Sources.gz from dir ${1}
+    #  mnt-chroot-bind()    -- bind mount linux chroot directories
+    #  mnt-cifs()           -- mount a CIFS mount
+    #  mnt-davfs()          -- mount a WebDAV mount
+    #  lsof-sh()            -- something like lsof
+    #  lsof-net()           -- lsof the network things
+    #  net-stat()           -- print networking information
+    #  ssh-prx()            -- SSH SOCKS
+    #  strace-()            -- strace with helpful options
+    #  strace-f()           -- strace -e trace=file + helpful options
+    #  strace-f-noeno       -- strace -e trace=file | grep -v ENOENT
+    ## hgst()   -- hg diff --stat, hg status, hg diff
    
    
 #### etc/bash/50-bashrc.bashmarks.sh
@@ -550,20 +604,41 @@ pull		-- git pull
    
    
 #### etc/bash/70-bashrc.repos.sh
-    #  ensure_symlink   -- create or update a symlink to $_to from _from
-    #    ln -s $_to $_from
-    # if symlink $_from already exists
-        # compare the actual paths
-        # if a file or folder exists return an errorcode
-            # otherwise, create the symlink
-    #  ensure_mkdir -- create a directory if it does not yet exist
-    #  _venv_ensure_paths()   -- 
-    # ensure_mkdir ${prefix}/home
-    # ensure_mkdir ${prefix}/opt
-    # ensure_mkdir ${prefix}/sbin
-    # ensure_mkdir ${prefix}/srv
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+### 70-bashrc.repos.sh
+#
+#
+#
+# Use Cases
+# * Original: a bunch of commands that i was running frequently
+#   before readthedocs (and hostthedocs)
+# * local mirrors (manual, daily?)
+#   * no internet, outages
+#   * push -f
+#   * (~offline) Puppet/Salt source installs
+#     * bandwidth: testing a recipe that pulls a whole repositor(ies)
+# * what&#39;s changed in &lt;project&gt;&#39;s source dependencies, since i looked last
+#
+# Justification
+# * very real risks for all development projects
+#   * we just assume that GitHub etc. are immutable and forever
+#
+# Features (TODO) [see: pyrpo]
+# * Hg &lt;subcommands&gt;
+# * Git &lt;subcommands&gt;
+# * Bzr &lt;subcommands&gt;
+# * periodic backups / mirroring
+# * gitweb / hgweb
+# * mirror_and_backup &lt;URL&gt;
+# * all changes since &lt;date&gt; for &lt;set_of_hg-git-bzr-svn_repositories&gt;
+# * ideally: transparent proxy
+#   * +1: easiest
+#   * -1: pushing upstream
+#
+# Caveats
+# * pasting / referencing links which are local paths
+# * synchronization lag
+# * duplication: $__SRC/hg/&lt;pkg&gt; AND $VIRTUAL_ENV/src/&lt;pkg&gt;
+#
     #  setup_dotfiles_docs_venv -- create default &#39;docs&#39; venv
     #  setup_dotfiles_src_venv -- create default &#39;src&#39; venv
     #
@@ -577,7 +652,6 @@ pull		-- git pull
     #  Gitclone will mirror to $__SRC_GIT
     #
     #
-    #  get_realpath     -- get an absolute path to a path or symlink (Python)
 # __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
 # __SRC_GIT_REMOTE_NAME         -- name for git remote v
 # __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
@@ -1520,7 +1594,7 @@ Execute python expressions over line-based files.</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-        <li><a href="index.html">dotfiles 0.2.7 documentation</a></li>
+        <li><a href="index.html">dotfiles 0.3.3 documentation</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       

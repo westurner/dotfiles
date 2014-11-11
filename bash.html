@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>.bashrc &mdash; dotfiles 0.2.7 documentation</title>
+    <title>.bashrc &mdash; dotfiles 0.3.3 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.2.7',
+            VERSION:     '0.3.3',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -63,7 +63,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.2.7 documentation" href="index.html" /> 
+    <link rel="top" title="dotfiles 0.3.3 documentation" href="index.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
@@ -75,7 +75,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">dotfiles 0.2.7 documentation</a>
+          <a class="navbar-brand" href="index.html">dotfiles 0.3.3 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -193,6 +193,10 @@ dotfiles_reload() {
       #
       ## 01-bashrc.lib.sh  -- libraries: useful bash functions
       source ${conf}/01-bashrc.lib.sh
+
+      #
+      ## 02-bashrc.platform.sh  -- detect_platform
+      source ${conf}/02-bashrc.platform.sh
       detect_platform
       #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
       #                       egrep -nr -C 3 &#39;__IS_MAC|__IS_LINUX&#39;
@@ -284,12 +288,15 @@ dotfiles_reload() {
       source ${conf}/30-bashrc.xlck.sh
 
 
-      ## 40-bashrc.aliases.sh       -- bash aliases and cmds
+      ## 40-bashrc.aliases.sh       -- aliases
       source ${conf}/40-bashrc.aliases.sh
+      ## 42-bashrc.commands.sh      -- example commands
+      source ${conf}/42-bashrc.commands.sh
 
 
       ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
       source ${conf}/50-bashrc.bashmarks.sh
+
 
       ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
       source ${conf}/70-bashrc.repos.sh
@@ -501,7 +508,7 @@ l
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-        <li><a href="index.html">dotfiles 0.2.7 documentation</a></li>
+        <li><a href="index.html">dotfiles 0.3.3 documentation</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
