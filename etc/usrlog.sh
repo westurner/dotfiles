@@ -64,12 +64,12 @@ _usrlog_set_HIST() {
 
     if [ -n "$BASH" ] ; then
         # append to the history file, don't overwrite it
-        shopt -s histappend
+        shopt -s histappend > /dev/null 2>&1
         # replace newlines with semicolons
-        shopt -s cmdhist
+        shopt -s cmdhist > /dev/null 2>&1
 
         # enable autocd (if available)
-        shopt -s autocd 2>&1 > /dev/null
+        shopt -s autocd > /dev/null 2>&1
     elif [ -n "$ZSH_VERSION" ]; then
         setopt APPEND_HISTORY
         setopt EXTENDED_HISTORY
