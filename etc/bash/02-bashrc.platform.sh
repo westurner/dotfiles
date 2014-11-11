@@ -2,7 +2,7 @@
 ### bashrc.platform.sh
 
 detect_platform() {
-    #  detect_platform()    -- set __IS_MAC, __IS_LINUX according to $(uname)
+    # detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
     UNAME=$(uname)
     if [ ${UNAME} == "Darwin" ]; then
         export __IS_MAC='true'
@@ -10,5 +10,3 @@ detect_platform() {
         export __IS_LINUX='true'
     fi
 }
-
-
