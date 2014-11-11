@@ -89,158 +89,160 @@ if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
         echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
     fi
 fi
-
-#
-## 00-bashrc.before.sh
-#
-#### source ~/.bashrc
-###  > source etc/bash/*-bashrc.*.sh
-##     > source 00-bashrc.before.sh  # <-- THIS FILE
+#!/bin/bash
+## 00-bashrc.before.sh     -- bash dotfiles configuration root
+#  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
 #
 dotfiles_reload() {
-    ## dotfiles_reload()    -- (re)load the bash configuration tree
-    #                          from ${__DOTFILES}/etc/bash
-    #  __DOTFILES (str)     -- path to this dotfiles repository (~/.dotfiles)
+  #  dotfiles_reload()  -- (re)load the bash configuration
+  #  $__DOTFILES (str)  -- path to this dotfiles repository (~/.dotfiles)
 
-    echo "#"
-    echo "# dotfiles_reload()"
+  echo "#"
+  echo "# dotfiles_reload()"
 
-    if [ -n $__DOTFILES ]; then
-        export __DOTFILES=${__DOTFILES}
-    else
-        _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
-        _dotfiles_link=${HOME}/.dotfiles
+  if [ -n $__DOTFILES ]; then
+  export __DOTFILES=${__DOTFILES}
+  else
+  _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
+  _dotfiles_link=${HOME}/.dotfiles
 
-        if [ -d $_dotfiles_link ]; then
-            __DOTFILES=${_dotfiles_link}
-        elif [ -d $_dotfiles_src ]; then
-            __DOTFILES=${_dotfiles_src}
-        fi
-        export __DOTFILES=${__DOTFILES}
-    fi
+  if [ -d $_dotfiles_link ]; then
+  __DOTFILES=${_dotfiles_link}
+  elif [ -d $_dotfiles_src ]; then
+  __DOTFILES=${_dotfiles_src}
+  fi
+  export __DOTFILES=${__DOTFILES}
+  fi
 
-    conf=${__DOTFILES}/etc/bash
+  conf=${__DOTFILES}/etc/bash
 
-      #
-      ## 01-bashrc.lib.sh  -- libraries: useful bash functions
-      source ${conf}/01-bashrc.lib.sh
+  #
+  ## 01-bashrc.lib.sh       -- useful bash functions (paths)
+  #  lspath()       -- list every file along $PATH
+  #  realpath()     -- readlink -f (python os.path.realpath)
+  #  walkpath()     -- list every directory along ${1:-"."}
+  source ${conf}/01-bashrc.lib.sh
 
-      #
-      ## 02-bashrc.platform.sh  -- detect_platform
-      source ${conf}/02-bashrc.platform.sh
-      detect_platform
-      #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
-      #                       egrep -nr -C 3 '__IS_MAC|__IS_LINUX'
-      if [ -n "${__IS_MAC}" ]; then
-          export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
-      fi
+  #
+  ## 02-bashrc.platform.sh  -- platform things
+  source ${conf}/02-bashrc.platform.sh
+  detect_platform
+  #  detect_platform()  -- set __IS_MAC__IS_LINUX 
+  if [ -n "${__IS_MAC}" ]; then
+      export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
+  fi
 
-      #
-      ## 03-bashrc.readline.sh  -- readline
-      source ${conf}/03-bashrc.readline.sh
+  #
+  ## 03-bashrc.readline.sh  -- readline
+  source ${conf}/03-bashrc.readline.sh
 
-      #
-      ## 04-bashrc.TERM.sh      -- set $TERM and $CLICOLOR
-      source ${conf}/04-bashrc.TERM.sh
+  #
+  ## 04-bashrc.TERM.sh      -- set $TERM and $CLICOLOR
+  source ${conf}/04-bashrc.TERM.sh
 
-      #
-      ## 05-bashrc.dotfiles.sh  -- dotfiles
-      #  $__DOTFILES (str): path to local dotfiles repository clone
-      #  dotfiles_status(): print dotfiles env config
-      source ${conf}/05-bashrc.dotfiles.sh
-      dotfiles_add_path
+  #
+  ## 05-bashrc.dotfiles.sh  -- dotfiles
+  #  $__DOTFILES (str): path to local dotfiles repository clone
+  #  dotfiles_status(): print dotfiles env config
+  source ${conf}/05-bashrc.dotfiles.sh
+  dotfiles_add_path
 
-      #
-      ## 06-bashrc.completion.sh -- configure bash completion
-      source ${conf}/06-bashrc.completion.sh
+  #
+  ## 06-bashrc.completion.sh    -- configure bash completion
+  source ${conf}/06-bashrc.completion.sh
 
-      ##
-      ### python: python: pip, virtualenv, virtualenvwrapper
-      #  $PROJECT_HOME (str): path to project directory (~/wrk)
-      #  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
-      #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
+  #
+  #  python: pip, virtualenv, virtualenvwrapper
+  #  $PROJECT_HOME (str): path to project directory (~/wrk)
+  #  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
+  #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
 
-      #
-      ## 07-bashrc.python.sh            -- python
-      #  _setup_anaconda()      -- setup anaconda paths (manual)
-      #  _setup_pyenv()         -- setup pyenv paths (manual)
-      source ${conf}/07-bashrc.python.sh
+  #
+  ## 07-bashrc.python.sh    -- python
+  #  _setup_anaconda()  -- setup anaconda paths (manual)
+  #  _setup_pyenv()     -- setup pyenv paths (manual)
+  source ${conf}/07-bashrc.python.sh
 
-      #
-      ## 07-bashrc.virtualenv.sh        -- virtualenv
-      source ${conf}/07-bashrc.virtualenv.sh
+  #
+  ## 07-bashrc.virtualenv.sh    -- virtualenv
+  source ${conf}/07-bashrc.virtualenv.sh
 
-      #
-      ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
-      source ${conf}/07-bashrc.virtualenvwrapper.sh
+  #
+  ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
+  source ${conf}/07-bashrc.virtualenvwrapper.sh
 
+  #
+  ## 08-bashrc.gcloud.sh    -- gcloud: Google Cloud SDK
+  #  _setup_google_cloud()  -- setup google cloud paths
+  source ${conf}/08-bashrc.gcloud.sh
 
-      #
-      ## 08-bashrc.gcloud.sh    -- gcloud: Google Cloud SDK
-      #  _setup_google_cloud()  -- setup google cloud paths
-      source ${conf}/08-bashrc.gcloud.sh
+  #
+  ## 10-bashrc.venv.sh      -- venv: virtualenvwrapper extensions
+  #  $_VENVNAME (str): name of current $VIRTUAL_ENV
+  #  we() -- workon a new venv (source bin/activate; update ENVIRON)
+  #      we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
+  #      example::
+  #     we dotfiles
+  #     we dotfiles etc/bash; cdw; ls
+  source ${conf}/10-bashrc.venv.sh
+  #  $__PROJECTS (str): local script to source
+  #  dotfiles_status()  -- print dotfiles variables
+  #  ds()       -- print dotfiles variables
 
-      #
-      ## 10-bashrc.venv.sh      -- venv: virtualenvwrapper extensions
-      #  $_VENVNAME (str): name of current $VIRTUAL_ENV
-      #  we() -- workon a new venv (source bin/activate; update ENVIRON)
-      #          we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
-      #          example::
-      #             we dotfiles
-      #             we dotfiles etc/bash; ls -al; git status
-      source ${conf}/10-bashrc.venv.sh
-      # test -f $__PROJECTS && source $__PROJECTS
-      # dotfiles_status
+  #
+  ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
+  source ${conf}/11-bashrc.venv.pyramid.sh
 
-      #
-      ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
-      source ${conf}/11-bashrc.venv.pyramid.sh
+  #
+  ## 20-bashrc.editor.sh    -- $EDITOR configuration
+  #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
+  #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
+  source ${conf}/20-bashrc.editor.sh
+  ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
+  #  $PAGER (str): cmdstring to run pager (less/vim)
+  source ${conf}/29-bashrc.vimpagers.sh
 
-      #
-      ## 20-bashrc.editor.sh        -- $EDITOR configuration
-      #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
-      #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
-      source ${conf}/20-bashrc.editor.sh
-      ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
-      #  $PAGER (str): cmdstring to run pager (less/vim)
-      source ${conf}/29-bashrc.vimpagers.sh
-
-
-      #
-      ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
-      #  $_USRLOG (str): path to .usrlog command log
-      #  stid           -- set $TERM_ID to a random string
-      #  stid $name     -- set $TERM_ID to string
-      #  note           -- add a dated note to $_USRLOG [_usrlog_append]
-      #  usrlogv        -- open usrlog with vim:   $VIMBIN + $_USRLOG
-      #  usrlogg        -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
-      #  usrloge        -- open usrlog with editor:$EDITOR + $_USRLOG
-      source ${conf}/30-bashrc.usrlog.sh
-
-
-      ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
-      source ${conf}/30-bashrc.xlck.sh
-
-
-      ## 40-bashrc.aliases.sh       -- aliases
-      source ${conf}/40-bashrc.aliases.sh
-      ## 42-bashrc.commands.sh      -- example commands
-      source ${conf}/42-bashrc.commands.sh
+  #
+  ## 30-bashrc.usrlog.sh    -- $_USRLOG configuration
+  #  $_USRLOG (str): path to .usrlog command log
+  #  stid       -- set $TERM_ID to a random string
+  #  stid $name     -- set $TERM_ID to string
+  #  note       -- add a dated note to $_USRLOG [_usrlog_append]
+  #  usrlogv    -- open usrlog with vim:   $VIMBIN + $_USRLOG
+  #  usrlogg    -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+  #  usrloge    -- open usrlog with editor:$EDITOR + $_USRLOG
+  #  ut     -- tail $_USRLOG
+  #  ug     -- egrep current usrlog: egrep $@ $_USRLOG
+  #  ugall      -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
+  #  ugrin      -- grin current usrlog: grin $@ $_USRLOG
+  #  ugrinall   -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
+  #  lsusrlogs  -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+  source ${conf}/30-bashrc.usrlog.sh
 
 
-      ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
-      source ${conf}/50-bashrc.bashmarks.sh
+  ## 30-bashrc.xlck.sh      -- screensaver, (auto) lock, suspend
+  source ${conf}/30-bashrc.xlck.sh
 
 
-      ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
-      source ${conf}/70-bashrc.repos.sh
+  ## 40-bashrc.aliases.sh   -- aliases
+  source ${conf}/40-bashrc.aliases.sh
+  ## 42-bashrc.commands.sh  -- example commands
+  source ${conf}/42-bashrc.commands.sh
 
-    ### 99-bashrc.after.sh          -- after: cleanup
-    source ${conf}/99-bashrc.after.sh
+
+  ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
+  source ${conf}/50-bashrc.bashmarks.sh
+
+
+  ## 70-bashrc.repos.sh     -- repos: $__SRC repos, docs
+  source ${conf}/70-bashrc.repos.sh
+
+### 99-bashrc.after.sh      -- after: cleanup
+  source ${conf}/99-bashrc.after.sh
 }
 
 dr() {
-    ## dr               -- dotfiles_reload
+    # dr()  -- dotfiles_reload
     dotfiles_reload $@
 }
 
@@ -2606,18 +2608,18 @@ source "${__DOTFILES}/etc/usrlog.sh"
 
 
 _usrlog_set__USRLOG () {
-    #_USRLOG=${1:${_USRLOG}}
+    # _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
     if [ -n "$VIRTUAL_ENV" ]; then
         prefix=${VIRTUAL_ENV}
     else
         prefix=${HOME}
     fi
-
     export _USRLOG="${prefix}/.usrlog"
     export __USRLOG="${HOME}/.usrlog"
 }
 
 _usrlog_set_HISTFILE () {
+    # _usrlog_set_HISTFILE()   -- configure shell history
     if [ -n "$VIRTUAL_ENV" ]; then
         prefix=${VIRTUAL_ENV}
     else
@@ -2676,8 +2678,8 @@ _usrlog_set_HIST() {
 }
 
 _usrlog_randstr() {
-    # Generate a random string
-    # param $1: number of characters
+    # _usrlog_randstr      -- Generate a random string
+    #   $1: number of characters
 
     if [[ `uname -s` == "Darwin" ]]; then
         echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
@@ -2697,14 +2699,15 @@ _usrlog_randstr() {
 }
 
 _usrlog_get__TERM_ID() {
+    # _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
     echo "# _TERM_ID="$_TERM_ID" # [ $_USRLOG ]" >&2
     echo $_TERM_ID
 }
 
 
 _usrlog_set__TERM_ID () {
-    #  _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
-    # param $1: terminal name
+    # _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
+    #   $1: terminal name
     new_term_id="${@}"
     if [ -z "${new_term_id}" ]; then
         new_term_id="#$(_usrlog_randstr 8)"
@@ -2726,9 +2729,7 @@ _usrlog_set__TERM_ID () {
 }
 
 _usrlog_echo_title () {
-    # _usrlog_echo_title    -- set window title
-
-    # TODO: VIRTUAL_ENV_NAME / VIRTUAL_ENV
+    # _usrlog_echo_title   -- set window title
     _usrlog_window_title="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}"
     usrlog_window_title=${_usrlog_window_title:-"$@"}
     if [ -n $CLICOLOR ]; then
@@ -2739,13 +2740,13 @@ _usrlog_echo_title () {
 }
 
 _usrlog_set_title() {
-    ## set xterm title
+    # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
 }
 
 _usrlog_setup() {
-    # Bash profile setup for logging unique console sessions
+    # _usrlog_setup()      -- configure usrlog for the current shell
     _usrlog="${1:-$_USRLOG}"
     term_id="${2:-$_TERM_ID}"
 
@@ -2774,9 +2775,11 @@ _usrlog_setup() {
 
 _usrlog_append() {
     # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    #   $1: text (command) to log
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
-    # param $1: text (command) to log
+    # example:
+    # #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
     printf "%s\t%s\t%s\n" \
         $(echo "${_TERM_ID}" | tr '\t' ' ') \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
@@ -2785,10 +2788,10 @@ _usrlog_append() {
 }
 
 _usrlog_append_oldstyle() {
-    # _usrlog_append_oldstype -- Write a line to the _USRLOG file
-    # param $1: text (command) to log
+    # _usrlog_append_oldstype -- Write a line to $_USRLOG
+    #   $1: text (command) to log
     # example:
-    # ^# qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    # # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
     printf "# %-11s: %s : %s" \
         "$_TERM_ID" \
         "$(date +'%D %R.%S')" \
@@ -2797,6 +2800,7 @@ _usrlog_append_oldstyle() {
 }
 
 _usrlog_writecmd() {
+    # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
     _usrlog_set_HISTFILE
 
     if [ -n "$ZSH_VERSION" ]; then
@@ -2817,7 +2821,7 @@ _usrlog_writecmd() {
 
 
 termid() {
-    # termid        -- echo $_TERM_ID
+    # termid()      -- echo $_TERM_ID
     _usrlog_get__TERM_ID
 }
 
@@ -2840,20 +2844,20 @@ st() {
 ## Old (hist, histgrep, histgrep_session)
 
 hist() {
-    #  less()       --  less the current session log
+    # less()       --  less the current session log
     less $_USRLOG
 }
 
 
 histgrep () {
-    #  histgrep()   -- egrep $@ $_USRLOG
+    # histgrep()   -- egrep $@ $_USRLOG
     egrep $@ $_USRLOG 
 }
 
 histgrep_session () {
-    # Grep for specific sessions
-    # param $1: session name
-    # param $2: don't strip the line prefix
+    # histgrep_session()    -- grep for specific sessions
+    #   $1: session name
+    #   $2: don't strip the line prefix
     NO_STRIP_LINE_PREFIX=$2
     #echo $_USRLOG >&2
     cat $_USRLOG | egrep "$1 .* \:\:\:|Renaming .* to $1" | \
@@ -2864,11 +2868,10 @@ histgrep_session () {
         fi
 }
 
-
-## New (usrlogt, ut, usrlogv
+## New (u*, usrlog*)
 
 usrlog_tail() {
-    #  usrlogt()    -- tail -n20 $_USRLOG
+    # usrlogt()     -- tail -n20 $_USRLOG
     if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
         tail ${_usrlog} 
@@ -2876,91 +2879,86 @@ usrlog_tail() {
         tail $_USRLOG
     fi
 }
-
 ut() {
-    #  ut()         -- tail -n20 $_USRLOG
+    # ut()          -- tail -n20 $_USRLOG
     usrlog_tail ${@}
 }
 
 
 usrlog_tail_follow() {
-    #  usrlogtf()   -- tail -f -n20 $_USRLOG
+    # usrlogtf()    -- tail -f -n20 $_USRLOG
     tail -f -n20 ${@:-"${_USRLOG}"}
 }
-
 utf() {
-    #  ut()         -- tail -f -n20 $_USRLOG
+    # utf()         -- tail -f -n20 $_USRLOG
     usrlog_tail_follow $@
 }
 
 
 usrlog_grep() {
-    #  usrlog_grep()    -- egrep -n $_USRLOG
+    # usrlog_grep() -- egrep -n $_USRLOG
     set -x
     args=${@}
     egrep -n "${args}" ${_USRLOG}
     set +x
 }
 ug() {
-    #  ug()             -- egrep -n $_USRLOG
+    # ug()          -- egrep -n $_USRLOG
     usrlog_grep ${@}
 }
 
 usrlog_grin() {
-    #  usrlog_grin()    -- grin -s $@ $_USRLOG
+    # usrlog_grin() -- grin -s $@ $_USRLOG
     set -x
     args=${@}
     grin -s "${args}" ${_USRLOG}
     set +x
 }
 ugrin () {
-    #  ugrin()          -- grin -s $@ $_USRLOG
+    # ugrin()       -- grin -s $@ $_USRLOG
     usrlog_grin ${@}
 }
 
 lsusrlogs() {
+    # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog
 }
 
 usrlog_grep_all() {
-    #  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
-    set -x
+    # usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
+    (set -x;
     args=${@}
     usrlogs=$(lsusrlogs)
-    egrep "${args}" ${usrlogs}
-    set +x
+    egrep "${args}" ${usrlogs} )
 }
 ugall() {
-    #  ugall()              -- grep usrlogs (drop filenames with -h)
+    # ugall()              -- grep usrlogs (drop filenames with -h)
     usrlog_grep_all ${@}
 }
 
 usrlog_grin_all() {
-    #  usrlog_grin_all()    -- grin usrlogs
-    set -x
+    # usrlog_grin_all()    -- grin usrlogs
+    (set -x;
     args=${@}
     usrlogs=$(lsusrlogs)
-    grin -s "${args}" ${usrlogs}
-    set +x
+    grin -s "${args}" ${usrlogs} )
 }
 ugrinall() {
-    #  usrlog_grin_all()    -- grin usrlogs
+    # usrlog_grin_all()    -- grin usrlogs
     usrlog_grin_all ${@}
 }
 
 note() {
-    ## note()   -- _usrlog_append # $@
+    # note()   -- _usrlog_append "#note  #note: $@"
     _usrlog_append "#note  #note: $@"
 }
 
 
 usrlog_screenrec_ffmpeg() {
-    # usrlog_screenrec_ffmpeg   -- record a screencast
-    # param $1: destination directory (use /tmp if possible)
-    # param $2: video name to append to datestamp
-
+    # usrlog_screenrec_ffmpeg() -- record a screencast
+    #   $1: destination directory (use /tmp if possible)
+    #   $2: video name to append to datestamp
     # Press "q" to stop recording
-
     DATESTR=$(date +%Y%m%d-%H%M)
     FILEBASE="screenrec-${DATESTR}"
     if [ -z "$2" ]; then
@@ -2968,7 +2966,6 @@ usrlog_screenrec_ffmpeg() {
     else
         FILENAME="$1/${FILEBASE}_${2}.mpg"
     fi
-
     SCREENDIM="$(xdpyinfo | grep 'dimensions:'| awk '{print $2}')"
     ffmpeg \
         -f x11grab \
@@ -2980,7 +2977,7 @@ usrlog_screenrec_ffmpeg() {
 }
 
 
-## call _usrlog_setup
+## calls _usrlog_setup when sourced
 _usrlog_setup
 ]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
 ]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
@@ -3101,29 +3098,33 @@ _loadaliases
 # usage: bash -c 'source bashrc.commands.sh; funcname <args>'
 
 chown-me () {
+    # chown-me          -- chown -Rv user
     (set -x; \
     chown -Rv $(id -un) $@ )
 }
 
 chown-me-mine () {
+    # chown-me-mine     -- chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
     chown -Rv $(id -un):$(id -un) $@ ; \
     chmod -Rv go-rwx $@ )
 }
 
 chown-sme () {
+    # chown-sme         -- sudo chown -Rv user
     (set -x; \
     sudo chown -Rv $(id -un) $@ )
 }
 
 chown-sme-mine () {
+    # chown-sme-mine    -- sudo chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
     sudo chown -Rv $(id -un):$(id -un) $@ ; \
     sudo chmod -Rv go-rwx $@ )
 }
 
 chmod-unumask () {
-    #  chmod-unumask()  -- recursively add other+r (files) and other+rx (dirs)
+    # chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
     path=$1
     sudo find "${path}" -type f -exec chmod -v o+r {} \;
     sudo find "${path}" -type d -exec chmod -v o+rx {} \;
@@ -3131,7 +3132,7 @@ chmod-unumask () {
 
 
 new-sh () {
-    #  new-sh()         -- create and open a new shell script at $1
+    # new-sh()          -- create and open a new shell script at $1
     file=$1
     if [ -e $1 ]; then
         echo "$1 exists"
@@ -3145,10 +3146,9 @@ new-sh () {
 }
 
 diff-dirs () {
-    #  diff-dirs()      -- list differences between directories
+    # diff-dirs()       -- list differences between directories
     F1=$1
     F2=$2
-
     #FIND="find . -printf '%T@\t%s\t%u\t%Y\t%p\n'"
     diff -Naur \
         <(cd $F1; find . | sort ) \
@@ -3156,13 +3156,13 @@ diff-dirs () {
 }
 
 diff-stdin () {
-    #  diff-stdin()     -- diff the output of two commands
+    # diff-stdin()     -- diff the output of two commands
     DIFFBIN='diff'
     $DIFFBIN -u <($1) <($2)
 }
 
 wopen () {
-    #  wopen()  -- open path/URI/URL $1 in a new browser tab
+    # wopen()   -- open path/URI/URL $1 in a new browser tab
     #              see: scripts/x-www-browser
     if [ -n "${__IS_MAC}" ]; then
         open $@
@@ -3174,13 +3174,13 @@ wopen () {
 }
 
 find-largefiles () {
-    #  find-largefiles  -- find files larger than size (default: +10M)
+    # find-largefiles   -- find files larger than size (default: +10M)
     SIZE=${1:-"+10M"}
     find . -xdev -type f -size "${SIZE}" -exec ls -alh {} \;
 }
 
 find-pdf () {
-    #  find-pdf         -- find pdfs and print info with pdfinfo
+    # find-pdf          -- find pdfs and print info with pdfinfo
     SPATH='.'
     files=$(find "$SPATH" -type f -iname '*.pdf' -printf "%T+||%p\n" | sort -n)
     for f in $files; do
@@ -3193,24 +3193,21 @@ find-pdf () {
 }
 
 find-lately () {
-    #   find-lately()   -- list and sort files in paths $@ by mtime
+    # find-lately()     -- list and sort files in paths $@ by mtime
     set -x
     paths=${@:-"/"}
     lately="lately.$(date +'%Y%m%d%H%M%S')"
-
-    #find $paths -printf "%T@\t%s\t%u\t%Y\t%p\n" > ${lately}
     find $paths -exec \
         stat -f '%Sc%t%N%t%z%t%Su%t%Sg%t%Sp%t%T' -t '%F %T%z' {} \; \
         > ${lately} 2> ${lately}.errors
-    # time_epoch \t size \t user \t type \t path
     sort ${lately} > ${lately}.sorted
     set +x
 }
 
 find-setuid () {
-    #  find-setuid()    -- find all setuid and setgid files
-    #                       stderr > find-setuid.errors
-    #                       stdout > find-setuid.files
+    # find-setuid()     -- find all setuid and setgid files
+    #                      stderr > find-setuid.errors
+    #                      stdout > find-setuid.files
     sudo \
         find /  -type f \( -perm -4000 -o -perm -2000 \) -exec ls -ld '{}' \; \
         2> find-setuid.errors \
@@ -3218,7 +3215,7 @@ find-setuid () {
 }
 
 find-startup () {
-    #  find-startup()   -- find common startup files in common locations
+    # find-startup()    -- find common startup files in common locations
     cmd=${@:-"ls"}
     paths='/etc/rc?.d /etc/init.d /etc/init /etc/xdg/autostart /etc/dbus-1'
     paths="$paths ~/.config/autostart /usr/share/gnome/autostart"
@@ -3230,7 +3227,7 @@ find-startup () {
 }
 
 find-ssl() {
-    #  find-ssl()       -- find .pem and .db files and print their metadata
+    # find-ssl()        -- find .pem and .db files and print their metadata
     #apt-get install libnss3-tools
     _runcmd(){
         cmd="${1}"
@@ -3253,12 +3250,12 @@ find-ssl() {
 }
 
 find-dpkgfile () {
-    #  find-dpkgfile()  -- search dpkgs with apt-file
+    # find-dpkgfile()   -- search dpkgs with apt-file
     apt-file search $@
 }
 
 find-dpkgfiles () {
-    #  find-dpkgfiles() -- sort dpkg /var/lib/dpkg/info/<name>.list
+    # find-dpkgfiles()  -- sort dpkg /var/lib/dpkg/info/<name>.list
     cat /var/lib/dpkg/info/${1}.list | sort
 }
 
@@ -3294,7 +3291,7 @@ deb-chksums () {
 }
 
 deb-mkrepo () {
-    #  deb-mkrepo   -- create dpkg Packages.gz and Sources.gz from dir ${1}
+    # deb-mkrepo    -- create dpkg Packages.gz and Sources.gz from dir ${1}
     REPODIR=${1:-"/var/www/nginx-default/"}
     cd $REPODIR
     dpkg-scanpackages . /dev/null | gzip -9c > $REPODIR/Packages.gz
@@ -3302,7 +3299,7 @@ deb-mkrepo () {
 }
 
 mnt-chroot-bind () {
-    #  mnt-chroot-bind()    -- bind mount linux chroot directories
+    # mnt-chroot-bind()    -- bind mount linux chroot directories
     DEST=$1
     sudo mount proc -t proc ${DEST}/proc
     sudo mount -o bind /dev ${DEST}/dev
@@ -3310,14 +3307,14 @@ mnt-chroot-bind () {
     sudo mount -o bind,ro /boot {DEST}/boot
 }
 mnt-cifs () {
-    #  mnt-cifs()           -- mount a CIFS mount
+    # mnt-cifs()    -- mount a CIFS mount
     URI="$1" # //host/share
     MNTPT="$2"
     OPTIONS="-o user=$3,password=$4"
     mount -t cifs $OPTIONS $URI $MNTPT
 }
 mnt-davfs () {
-    #  mnt-davfs()          -- mount a WebDAV mount
+    # mnt-davfs()   -- mount a WebDAV mount
     URL="$1"
     MNTPT="$2"
     OPTIONS="-o rw,user,noauto"
@@ -3325,7 +3322,7 @@ mnt-davfs () {
 }
 
 lsof-sh () {
-    #  lsof-sh()            -- something like lsof
+    # lsof-sh()     -- something like lsof
     processes=$(find /proc -regextype egrep -maxdepth 1 -type d -readable -regex '.*[[:digit:]]+')
     for p in $processes; do
         cmdline=$(cat $p/cmdline)
@@ -3341,7 +3338,7 @@ lsof-sh () {
 
 
 lsof-net () {
-    #  lsof-net()           -- lsof the network things
+    # lsof-net()    -- lsof the network things
     ARGS=${@:-''}
     for pid in `lsof -n -t -U -i4 2>/dev/null`; do
         echo "-----------";
@@ -3352,7 +3349,7 @@ lsof-net () {
 
 
 net-stat () {
-    #  net-stat()           -- print networking information
+    # net-stat()    -- print networking information
     echo "# net_stat:"  `date`
     echo "#####################################################"
     set -x
@@ -3366,9 +3363,8 @@ net-stat () {
 }
 
 
-
 ssh-prx () {
-    #  ssh-prx()            -- SSH SOCKS
+    # ssh-prx()     -- SSH SOCKS
     RUSERHOST=$1
     RPORT=$2
 
@@ -3381,22 +3377,23 @@ ssh-prx () {
 }
 
 strace- () {
-    #  strace-()            -- strace with helpful options
+    # strace-()         -- strace with helpful options
     strace -ttt -f -F $@ 2>&1
 }
+
 strace-f () {
-    #  strace-f()           -- strace -e trace=file + helpful options
+    # strace-f()        -- strace -e trace=file + helpful options
     strace_ -e trace=file $@
 }
 
 strace-f-noeno () {
-    #  strace-f-noeno       -- strace -e trace=file | grep -v ENOENT
+    # strace-f-noeno    -- strace -e trace=file | grep -v ENOENT
     strace_ -e trace=file $@ 2>&1 \
         | grep -v '-1 ENOENT (No such file or directory)$' 
 }
 
 hgst() {
-    ## hgst()   -- hg diff --stat, hg status, hg diff
+    # hgst()    -- hg diff --stat, hg status, hg diff
     repo=${1:-"$(pwd)"}
     shift
 
