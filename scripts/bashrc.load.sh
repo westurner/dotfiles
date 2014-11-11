@@ -179,8 +179,9 @@ dotfiles_reload() {
 
   #
   ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
-  #  $__PROJECTSRC (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
+  #  $__PROJECTSRC     (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
   #  $VIRTUAL_ENV_NAME (str): basename of current $VIRTUAL_ENV
+  #  $_APP             (str): $VIRTUAL_ENV/src/${_APP}
   #  we() -- workon a new venv
   #     $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=$VIRTUAL_ENV]
   #     $2: _APP (optional; defaults to $VIRTUAL_ENV_NAME)
