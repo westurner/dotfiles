@@ -74,10 +74,6 @@ dotfiles_reload() {
   source ${conf}/07-bashrc.python.sh
 
   #
-  ## 07-bashrc.virtualenv.sh    -- virtualenv
-  source ${conf}/07-bashrc.virtualenv.sh
-
-  #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
   source ${conf}/07-bashrc.virtualenvwrapper.sh
 
