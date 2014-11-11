@@ -20,7 +20,7 @@ md5_bin = distutils.spawn.find_executable('md5')
 if md5_bin:  # OSX
     CHECKSUM_BIN = (md5_bin,'-q')
 else:
-    md5sum_bin = disutils.spawn.find_executable('md5sum')
+    md5sum_bin = distutils.spawn.find_executable('md5sum')
     if md5sum_bin:
         CHECKSUM_BIN = (md5sum_bin, )
 if not CHECKSUM_BIN:
