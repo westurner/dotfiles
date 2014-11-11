@@ -461,7 +461,8 @@ release: clean
 	#git hf release start $(VERSION)
 	echo $(VERSION) > VERSION.txt
 	git add ./VERSION.txt
-	git commit VERSION.txt -m "RLS: VERSION.txt: $(VERSION)"
+	git diff --exit-code || \
+		git commit VERSION.txt -m "RLS: VERSION.txt: $(VERSION)"
 	git hf release finish $(VERSION)
 	$(MAKE) docs
 	$(MAKE) update_manifest
