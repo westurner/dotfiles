@@ -11,7 +11,7 @@
   #  walkpath()     -- list every directory along ${1:-"."}
   #
   ## 02-bashrc.platform.sh      -- platform things
-  #  detect_platform()      -- set __IS_MAC and __IS_LINUX 
+  #  detect_platform()  -- set __IS_MAC and __IS_LINUX 
   #
   ## 03-bashrc.readline.sh      -- readline
   #

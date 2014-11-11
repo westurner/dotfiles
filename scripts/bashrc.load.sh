@@ -127,7 +127,7 @@ dotfiles_reload() {
   ## 02-bashrc.platform.sh      -- platform things
   source ${conf}/02-bashrc.platform.sh
   detect_platform
-  #  detect_platform()      -- set __IS_MAC and __IS_LINUX 
+  #  detect_platform()  -- set __IS_MAC and __IS_LINUX 
   if [ -n "${__IS_MAC}" ]; then
       export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
   fi
