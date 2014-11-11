@@ -255,7 +255,10 @@
     # grin-     -- grin _WRD
     # grindw    -- grind $_WRD
     # grind-    -- grind $_WRD
-    # grindctags    -- generate ctags from grind expression (*.py by default)
+    # grindctags    -- generate ctags from grind (in ./tags)
+    # grindctagssys -- generate ctags from grind --sys-path (in $_WRD/tags)
+    # grindctagsw   -- generate ctags from (cd $_WRD; grind)  (in $_WRD/tags)
+    # grindctagss   -- generate ctags from (cd $_SRC; grind)  (in $_SRC/tags)
     # _load_venv_aliases -- load venv aliases
     #   (note: these are overwritten by `we` [`source <(venv -b)`])
     # makew     -- cd $_WRD && make $@
