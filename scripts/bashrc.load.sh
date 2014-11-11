@@ -143,7 +143,8 @@ dotfiles_reload() {
   #
   ## 05-bashrc.dotfiles.sh      -- dotfiles
   #  $__DOTFILES (str): path to local dotfiles repository clone
-  #  dotfiles_status(): print dotfiles env config
+  #  dotfiles_status()  -- print dotfiles variables
+  #  ds()               -- print dotfiles variables
   source ${conf}/05-bashrc.dotfiles.sh
   dotfiles_add_path
 
@@ -178,16 +179,15 @@ dotfiles_reload() {
 
   #
   ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
-  #  $_VENVNAME (str): name of current $VIRTUAL_ENV
-  #  we() -- workon a new venv (source bin/activate; update ENVIRON)
-  #      we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
-  #      example::
+  #  $__PROJECTSRC (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
+  #  $VIRTUAL_ENV_NAME (str): basename of current $VIRTUAL_ENV
+  #  we() -- workon a new venv
+  #     $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=$VIRTUAL_ENV]
+  #     $2: _APP (optional; defaults to $VIRTUAL_ENV_NAME)
   #     we dotfiles
-  #     we dotfiles etc/bash; cdw; ls
+  #     we dotfiles etc/bash; cdw; ds; ls
   source ${conf}/10-bashrc.venv.sh
-  #  $__PROJECTS (str): local script to source
-  #  dotfiles_status()  -- print dotfiles variables
-  #  ds()               -- print dotfiles variables
+  #
 
   #
   ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
