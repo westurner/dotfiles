@@ -2983,9 +2983,9 @@ usrlog_screenrec_ffmpeg() {
 ## call _usrlog_setup
 _usrlog_setup
 bash: shopt: autocd: invalid shell option name
-]0;#ZtR4MCm2q6Y (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
+]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
 bash: shopt: autocd: invalid shell option name
-]0;#ZtR4MCm2q6Y (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
+]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
 usrlogv() {
     ## usrlog() -- open $_USRLOG with vim (skip to end)
     file=${1:-$_USRLOG}
@@ -3977,7 +3977,7 @@ WORKON_HOME='/Users/W/wrk/.ve'
 VIRTUAL_ENV_NAME='dotfiles'
 VIRTUAL_ENV='/Users/W/wrk/.ve/dotfiles'
 _USRLOG='/Users/W/wrk/.ve/dotfiles/.usrlog'
-_TERM_ID='#ZtR4MCm2q6Y'
+_TERM_ID='#testing'
 _SRC='/Users/W/wrk/.ve/dotfiles/src'
 _APP='dotfiles'
 _WRD='/Users/W/wrk/.ve/dotfiles/src/dotfiles'
