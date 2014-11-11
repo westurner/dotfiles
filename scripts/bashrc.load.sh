@@ -2488,6 +2488,7 @@ usrlog_screenrec_ffmpeg() {
 _usrlog_setup
 bash: shopt: autocd: invalid shell option name
 ]0;#w8K0lvRiMSM (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
+/usr/local/bin/lesspipe.sh: line 490: echo: write error: Broken pipe
 bash: shopt: autocd: invalid shell option name
 ]0;#w8K0lvRiMSM (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
 usrlogv() {

@@ -33,6 +33,10 @@ dotfiles_reload() {
       #
       ## 01-bashrc.lib.sh  -- libraries: useful bash functions
       source ${conf}/01-bashrc.lib.sh
+
+      #
+      ## 02-bashrc.platform.sh  -- detect_platform
+      source ${conf}/02-bashrc.platform.sh
       detect_platform
       #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
       #                       egrep -nr -C 3 '__IS_MAC|__IS_LINUX'
@@ -124,12 +128,15 @@ dotfiles_reload() {
       source ${conf}/30-bashrc.xlck.sh
 
 
-      ## 40-bashrc.aliases.sh       -- bash aliases and cmds
+      ## 40-bashrc.aliases.sh       -- aliases
       source ${conf}/40-bashrc.aliases.sh
+      ## 42-bashrc.commands.sh      -- example commands
+      source ${conf}/42-bashrc.commands.sh
 
 
       ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
       source ${conf}/50-bashrc.bashmarks.sh
+
 
       ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
       source ${conf}/70-bashrc.repos.sh

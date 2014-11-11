@@ -1,4 +1,11 @@
 
+### bashrc.python.sh
+
+pypath() {
+    #  pypath       -- print python sys.path and site config
+    /usr/bin/env python -m site
+}
+
 # Generate python cmdline docs::
 #
 #    man python | cat | egrep 'ENVIRONMENT VARIABLES' -A 200 | egrep 'AUTHOR' -B 200 | head -n -1 | pyline -r '\s*([\w]+)$' 'rgx and rgx.group(1)'
@@ -17,6 +24,8 @@ _setup_pip () {
 _setup_pip
 
 
+## Pyenv
+
 _setup_pyenv() {
     ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
     export PYENV_ROOT="${HOME}/.pyenv"
@@ -25,6 +34,7 @@ _setup_pyenv() {
     pyenv virtualenvwrapper
 }
 
+## Conda / Anaconda
 
 _setup_anaconda() {
     ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
@@ -40,11 +50,15 @@ workon_conda() {
     _setup_anaconda && \
         source activate ${WORKON_HOME}/.conda/${_conda_envname}
 }
+complete -o default -o nospace -F _virtualenvs workon_conda
 
 wec() {
     #  wec()              -- workon a conda + venv project
+    #                       NOTE: tab-completion only shows all regular
+    #                       virtualenvs
     workon_conda $@
 }
+complete -o default -o nospace -F _virtualenvs wec
 
 mkvirtualenv_conda() {
     #  mkvirtualenv_conda() -- mkvirtualenv and conda create
@@ -56,7 +70,30 @@ mkvirtualenv_conda() {
 }
 
 rmvirtualenv_conda() {
-    #  rmvirtualenv_conda() -- rmvirtualenv conda
+    # rmvirtualenv_conda()  -- rmvirtualenv conda
     rmvirtualenv $@
     _conda_envname=${1}
+    # TODO
+}
+
+
+mkvirtualenv_conda_if_available() {
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
+        && mkvirtualenv_conda $@) \
+    || \
+    (declare -f 'mkvirtualenv' 2>&1 > /dev/null \
+        && mkvirtualenv $@)
+}
+
+workon_conda_if_available() {
+    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    (declare -f 'workon_conda' 2>&1 > /dev/null \
+        && workon_conda $@) \
+    || \
+    (declare -f 'we' 2>&1 > /dev/null \
+        && we $@) \
+    || \
+    (declare -f 'workon' 2>&1 > /dev/null \
+        && workon $@)
 }

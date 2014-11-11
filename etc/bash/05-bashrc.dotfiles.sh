@@ -101,7 +101,7 @@ dotfiles_postdeactivate() {
     unset _SRC
     unset _WRD
     unset _USRLOG
-    export _USRLOG=~/.usrlog  ## TODO: __USRLOG
+    export _USRLOG=~/.usrlog
     # __DOTFILES='/Users/W/.dotfiles'
     # __DOCSWWW=''
     # __SRC='/Users/W/src'

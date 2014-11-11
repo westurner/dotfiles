@@ -194,7 +194,7 @@ mw() {
 _venv_set_prompt() {
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
-            export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)" # TODO
+            export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
         else
             unset -v VIRTUAL_ENV_NAME
         fi
@@ -211,3 +211,22 @@ _venv_set_prompt() {
 }
 _venv_set_prompt
 
+
+_venv_ensure_paths() {
+    #  _venv_ensure_paths()   -- 
+    prefix=$1
+    ensure_mkdir ${prefix}
+    ensure_mkdir ${prefix}/bin
+    ensure_mkdir ${prefix}/etc
+    # ensure_mkdir ${prefix}/home
+    ensure_mkdir ${prefix}/lib
+    # ensure_mkdir ${prefix}/opt
+    # ensure_mkdir ${prefix}/sbin
+    ensure_mkdir ${prefix}/src
+    # ensure_mkdir ${prefix}/srv
+    ensure_mkdir ${prefix}/tmp
+    ensure_mkdir ${prefix}/usr/share/doc
+    ensure_mkdir ${prefix}/var/cache
+    ensure_mkdir ${prefix}/var/log
+    ensure_mkdir ${prefix}/var/run
+}

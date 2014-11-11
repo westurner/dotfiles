@@ -12,7 +12,6 @@ _configure_lesspipe
 
 ## vimpager     -- call vimpager
 vimpager() {
-    # TODO: lesspipe
     _PAGER=$(which vimpager)
     if [ -x "${_PAGER}" ]; then
         ${_PAGER} $@

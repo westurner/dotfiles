@@ -16,6 +16,7 @@ _usrlog_set__USRLOG () {
     fi
 
     export _USRLOG="${prefix}/.usrlog"
+    export __USRLOG="${HOME}/.usrlog"
 }
 
 _usrlog_set_HISTFILE () {
@@ -299,12 +300,45 @@ usrlog_grep() {
     #  usrlog_grep()    -- egrep -n $_USRLOG
     egrep -n $@ ${_USRLOG}
 }
-
 ug() {
     #  ug()             -- egrep -n $_USRLOG
     usrlog_grep $@
 }
 
+usrlog_grin() {
+    #  usrlog_grin()    -- grin -s $@ $_USRLOG
+    grin -s $@ ${_USRLOG}
+}
+ugrin () {
+    #  ugrin()          -- grin -s $@ $_USRLOG
+    usrlog_grin ${@}
+}
+
+lsusrlogs() {
+    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog
+}
+
+usrlog_grep_all() {
+    #  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
+    args=${@}
+    usrlogs=$(lsusrlogs)
+    egrep ${args} ${usrlogs}
+}
+ugall() {
+    #  ugall()              -- grep usrlogs (drop filenames with -h)
+    usrlog_grep_all ${@}
+}
+
+usrlog_grin_all() {
+    #  usrlog_grin_all()    -- grin usrlogs
+    args=${@}
+    usrlogs=$(lsusrlogs)
+    grin -s ${args} ${usrlogs}
+}
+ugrinall() {
+    #  usrlog_grin_all()    -- grin usrlogs
+    usrlog_grin_all ${@}
+}
 
 note() {
     ## note()   -- _usrlog_append # $@
