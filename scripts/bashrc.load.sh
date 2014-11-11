@@ -118,9 +118,9 @@ dotfiles_reload() {
 
   #
   ## 01-bashrc.lib.sh           -- useful bash functions (paths)
-  #  lspath()       -- list every file along $PATH
-  #  realpath()     -- readlink -f (python os.path.realpath)
-  #  walkpath()     -- list every directory along ${1:-"."}
+  #  lspath()           -- list every file along $PATH
+  #  realpath()         -- readlink -f (python os.path.realpath)
+  #  walkpath()         -- list every directory along ${1:-"."}
   source ${conf}/01-bashrc.lib.sh
 
   #
