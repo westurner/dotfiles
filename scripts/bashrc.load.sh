@@ -95,7 +95,7 @@ fi
 #
 dotfiles_reload() {
   #  dotfiles_reload()  -- (re)load the bash configuration
-  #  $__DOTFILES (str)  -- path to the dotfiles symlink (~/.dotfiles)
+  #  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
 
   echo "#"
   echo "# dotfiles_reload()"
@@ -142,7 +142,7 @@ dotfiles_reload() {
 
   #
   ## 05-bashrc.dotfiles.sh      -- dotfiles
-  #  $__DOTFILES (str): path to local dotfiles repository clone
+  #  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
   #  dotfiles_status()  -- print dotfiles variables
   #  ds()               -- print dotfiles variables
   source ${conf}/05-bashrc.dotfiles.sh

@@ -3,7 +3,7 @@
 #  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
 #
   #  dotfiles_reload()  -- (re)load the bash configuration
-  #  $__DOTFILES (str)  -- path to the dotfiles symlink (~/.dotfiles)
+  #  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
   #
   ## 01-bashrc.lib.sh           -- useful bash functions (paths)
   #  lspath()           -- list every file along $PATH
@@ -18,7 +18,7 @@
   ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
   #
   ## 05-bashrc.dotfiles.sh      -- dotfiles
-  #  $__DOTFILES (str): path to local dotfiles repository clone
+  #  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
   #  dotfiles_status()  -- print dotfiles variables
   #  ds()               -- print dotfiles variables
   #
