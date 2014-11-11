@@ -2487,8 +2487,7 @@ _configure_lesspipe() {
 _configure_lesspipe
 which lesspipe.sh 2>/dev/null || false
 
-{lesspipe}
- 
+
 ## vimpager     -- call vimpager
 vimpager() {
     _PAGER=$(which vimpager)
@@ -2498,9 +2497,9 @@ vimpager() {
         echo "error: vimpager not found. (see lessv: 'lessv $@')"
     fi
 }
-
-
-### less commands -- lessv, lessg, lesse
+$
+lesspipe}
+  ### less commands -- lessv, lessg, lesse
 ## lessv    -- less with less.vim and regular vim
 lessv () {
 
