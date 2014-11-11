@@ -181,7 +181,7 @@ pyclean:
 	find . -type f -name '*.pyc' -print0 | xargs -0 rm -fv
 	find . -type f -name '*.pyo' -print0 | xargs -0 rm -fv
 	find . -type d -name '__pycache__' -print0 | xargs -0 rm -rfv
-	find . -name '*.egg-info' -print0 | xargs -0 rm -fv
+	find . -name '*.egg-info' -print0 | xargs -0 rm -rfv
 	python setup.py clean
 
 vimclean:
@@ -458,7 +458,7 @@ update_manifest:
 release: clean
 	# do a release
 	test -n $(VERSION)
-	git hf release start $(VERSION)
+	#git hf release start $(VERSION)
 	echo $(VERSION) > VERSION.txt
 	git add ./VERSION.txt
 	git commit VERSION.txt -m "RLS: VERSION.txt: $(VERSION)"
