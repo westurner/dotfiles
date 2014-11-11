@@ -13,11 +13,15 @@ echo_args() {
 
 ## file paths
 
-path () {
-    #  path()       -- print absolute path (os.path.realpath) to path $1
+realpath () {
+    #  realpath()    -- print absolute path (os.path.realpath) to path $1
     #                  note: OSX does not have readlink -f
-    python -c "import os; print(os.path.realpath('$@'))"
+    python -c "import os,sys; print(os.path.realpath(os.path.expanduser(sys.argv[1])))" "${1}"
     return
+}
+path () {
+    #  path()        -- realpath()
+    realpath ${1}
 }
 
 lightpath() {
@@ -256,7 +260,9 @@ find-lately () {
     lately="lately.$(date +'%Y%m%d%H%M%S')"
 
     #find $paths -printf "%T@\t%s\t%u\t%Y\t%p\n" > ${lately}
-    find $paths -exec stat {} \; > ${lately} 2> ${lately}.errors
+    find $paths -exec \
+        stat -f '%Sc%t%N%t%z%t%Su%t%Sg%t%Sp%t%T' -t '%F %T%z' {} \; \
+        > ${lately} 2> ${lately}.errors
     # time_epoch \t size \t user \t type \t path
     sort ${lately} > ${lately}.sorted
 
@@ -463,7 +469,7 @@ walkpath () {
     else
         cmd=${2:-"ls -lda --color=auto"}
     fi
-    dir=$(python -c "import os; print(os.path.realpath('${dir}'))")
+    dir=$(realpath ${dir})
     parts=$(echo ${dir} \
         | awk 'BEGIN{FS="/"}{for (i=1; i < NF+2; i++) print $i}')
     paths=('/')

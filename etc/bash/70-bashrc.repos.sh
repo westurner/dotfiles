@@ -8,8 +8,8 @@ ensure_symlink() {
     # if symlink $_from already exists
     if [ -s $_from ]; then
         # compare the actual paths
-        _to_path=(get_realpath $_to)
-        _from_path=(get_realpath $_from)
+        _to_path=(realpath $_to)
+        _from_path=(realpath $_from)
         if [ $_to_path == $_from_path ]; then
             printf "%s already points to %s" "$_from" "$_to"
         else
@@ -115,16 +115,6 @@ setup_dotfiles_src_venv() {
     ensure_mkdir $__SRC/hg
     ensure_mkdir ${prefix}/var/www
 }
-
-
-get_realpath() {
-    #  get_realpath     -- get an absolute path to a path or symlink (Python)
-    prefix=$1
-    #(cd ${prefix}; pwd; basename ${prefix})
-    python -c "import os; print(os.path.realpath('${prefix}'))"
-    return $?
-}
-
 
 
 fixperms () {
