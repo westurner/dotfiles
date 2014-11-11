@@ -237,7 +237,7 @@ dotfiles_reload() {
   ## 70-bashrc.repos.sh     -- repos: $__SRC repos, docs
   source ${conf}/70-bashrc.repos.sh
 
-### 99-bashrc.after.sh      -- after: cleanup
+  ## 99-bashrc.after.sh      -- after: cleanup
   source ${conf}/99-bashrc.after.sh
 }
 
