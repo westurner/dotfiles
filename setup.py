@@ -277,7 +277,7 @@ class PyTestCommand(RunCommand):
 class DotfilesBuildCommand(DistutilsBuildCommand):
     """re-generate MANIFEST.in and build"""
     description = (
-        "update hg manifest AND " + DistutilsBuildCommand.description)
+        "update MANIFEST.in AND " + DistutilsBuildCommand.description)
 
     def run(self):
         generate_manifest_in_from_vcs()

@@ -298,16 +298,22 @@ utf() {
 
 usrlog_grep() {
     #  usrlog_grep()    -- egrep -n $_USRLOG
-    egrep -n $@ ${_USRLOG}
+    set -x
+    args=${@}
+    egrep -n "${args}" ${_USRLOG}
+    set +x
 }
 ug() {
     #  ug()             -- egrep -n $_USRLOG
-    usrlog_grep $@
+    usrlog_grep ${@}
 }
 
 usrlog_grin() {
     #  usrlog_grin()    -- grin -s $@ $_USRLOG
-    grin -s $@ ${_USRLOG}
+    set -x
+    args=${@}
+    grin -s "${args}" ${_USRLOG}
+    set +x
 }
 ugrin () {
     #  ugrin()          -- grin -s $@ $_USRLOG
@@ -320,9 +326,11 @@ lsusrlogs() {
 
 usrlog_grep_all() {
     #  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
+    set -x
     args=${@}
     usrlogs=$(lsusrlogs)
-    egrep ${args} ${usrlogs}
+    egrep "${args}" ${usrlogs}
+    set +x
 }
 ugall() {
     #  ugall()              -- grep usrlogs (drop filenames with -h)
@@ -331,9 +339,11 @@ ugall() {
 
 usrlog_grin_all() {
     #  usrlog_grin_all()    -- grin usrlogs
+    set -x
     args=${@}
     usrlogs=$(lsusrlogs)
-    grin -s ${args} ${usrlogs}
+    grin -s "${args}" ${usrlogs}
+    set +x
 }
 ugrinall() {
     #  usrlog_grin_all()    -- grin usrlogs
