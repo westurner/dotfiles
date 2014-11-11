@@ -389,8 +389,8 @@ ensure_symlink() {
 
 ensure_mkdir() {
     #  ensure_mkdir     -- create directory $1 if it does not yet exist
-    prefix=$1
-    test -d ${prefix} || mkdir -p ${prefix}
+    path=$1
+    test -d ${path} || mkdir -p ${path}
 }
 
 ### bashrc.platform.sh
