@@ -337,7 +337,7 @@ path () {
 
 
 walkpath () {
-    #  walkpath()       -- walk down a path and ${cmd} components
+    #  walkpath()       -- walk down path $1 and $cmd each component
     #   $1 : path (optional; default: pwd)
     #   $2 : cmd  (optional; default: ls -ald --color=auto)
     #http://superuser.com/a/65076 

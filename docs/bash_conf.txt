@@ -104,7 +104,7 @@
     # realpath()        -- print absolute path (os.path.realpath) to $1
     #                      note: OSX does not have readlink -f
     #  path()           -- realpath()
-    #  walkpath()       -- walk down a path and ${cmd} components
+    #  walkpath()       -- walk down path $1 and $cmd each component
     #   $1 : path (optional; default: pwd)
     #   $2 : cmd  (optional; default: ls -ald --color=auto)
     #  ensure_symlink   -- create or update a symlink to $2 from $1
