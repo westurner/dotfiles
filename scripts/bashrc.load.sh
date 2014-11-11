@@ -2494,12 +2494,13 @@ vimpager() {
     if [ -x "${_PAGER}" ]; then
         ${_PAGER} $@
     else
-        echo "error: vimpager not found. (see lessv: 'lessv $@')"
+e}
+                 echo "error: vimpager not found. (see lessv: 'lessv $@')"
     fi
 }
-$
-lesspipe}
-  ### less commands -- lessv, lessg, lesse
+
+
+### less commands -- lessv, lessg, lesse
 ## lessv    -- less with less.vim and regular vim
 lessv () {
 
