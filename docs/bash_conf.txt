@@ -129,17 +129,12 @@
    
    
 #### etc/bash/04-bashrc.TERM.sh
-## bashrc.TERM.sh       -- set TERM [man terminfo]
-    ## configure_TERM   -- configure the $TERM variable
-    # configure_term [#term] -- screen, xterm, 
-            # tmux
-            # screen
-            # zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
-    ## configure_TERM_CLICOLOR  -- configure $CLICOLOR and $CLICOLOR_256
-    #  CLICOLOR=1   # ls colors
-    #  CLICOLOR_256=1
-    # export CLICOLOR_256=$CLICOLOR
-### Configure term when sourcing bashrc.TERM.sh
+### bashrc.TERM.sh
+    # configure_TERM    -- configure the $TERM variable (man terminfo)
+    #   $1: (optional; autodetects if -z)
+    # configure_TERM_CLICOLOR  -- configure $CLICOLOR and $CLICOLOR_256
+    #   CLICOLOR=1
+    # configure_TERM when sourced
    
    
 #### etc/bash/05-bashrc.dotfiles.sh
