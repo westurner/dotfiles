@@ -130,30 +130,32 @@ help_txt: help_setuppy_txt help_bash_txt help_vim_txt help_i3_txt help_zsh_txt
 
 help_all:
 	$(MAKE) help
-	$(MAKE) help_setuppy
-	$(MAKE) help_setuppy_txt
+	#$(MAKE) help_setuppy
+	#$(MAKE) help_setuppy_txt
 	$(MAKE) help_bash
 	$(MAKE) help_bash_txt
-	$(MAKE) help_zsh
+	$(MAKE) help_zsh_txt
 	$(MAKE) help_vim
 	$(MAKE) help_vim_txt
 	$(MAKE) help_i3
 	$(MAKE) help_i3_txt
 
 install:
+	$(MAKE) install_symlinks
 	$(MAKE) pip_install_as_editable
 	$(MAKE) pip_install_requirements
-	# Install ${HOME} symlinks
-	bash ./scripts/bootstrap_dotfiles.sh -S
-	#bash ./scripts/bootstrap_dotfiles.sh -R
 	$(MAKE) dotvim_clone dotvim_install
 
+install_symlinks:
+	# Install ${HOME}/... symlinks pointing to ${__DOTFILES}/...
+	bash ./scripts/bootstrap_dotfiles.sh -S
+
 install_user:
+	$(MAKE) install_symlinks
 	type 'deactivate' 1>/dev/null 2>/dev/null && deactivate \
 		|| echo $(VIRTUAL_ENV)
 	$(MAKE) install PIP_INSTALL="$(PIP_LOCAL) install --user"
 	$(MAKE) pip_install_requirements_all PIP_INSTALL="$(PIP_LOCAL) install --user"
-	bash ./scripts/bootstrap_dotfiles.sh -S
 	$(MAKE) dotvim_clone
 	$(MAKE) dotvim_install
 
