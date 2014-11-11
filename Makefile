@@ -468,7 +468,7 @@ release: clean
 	git hf release finish $(VERSION)
 	$(MAKE) docs
 	$(MAKE) update_manifest
-	$(MAKE) upload
+	#$(MAKE) upload
 
 upload:
 	## MANUAL: register: python setup.py register -r https://pypi.python.org/pypi
