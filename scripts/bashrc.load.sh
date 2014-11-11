@@ -339,7 +339,7 @@ path () {
 walkpath () {
     # walkpath()        -- walk down path $1 and $cmd each component
     #   $1: path (optional; default: pwd)
-    #   $2: cmd  (optional; default: ls -ald --color=auto)
+    #   $2: cmd  (optional; default: 'ls -ald --color=auto')
     #http://superuser.com/a/65076 
     dir=${1:-$(pwd)}
     if [ -n "${__IS_MAC}" ]; then
@@ -396,7 +396,7 @@ ensure_mkdir() {
 ### bashrc.platform.sh
 
 detect_platform() {
-    #  detect_platform()    -- set __IS_MAC, __IS_LINUX according to $(uname)
+    # detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
     UNAME=$(uname)
     if [ ${UNAME} == "Darwin" ]; then
         export __IS_MAC='true'
@@ -404,27 +404,25 @@ detect_platform() {
         export __IS_LINUX='true'
     fi
 }
-
-
 uname
 echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
 ### bashrc.readline.sh
 
-#  vi-mode: vi(m) keyboard shortcuts
+    # set -o vi -- vi-mode: vi keyboard shortcuts
 set -o vi
 
 if [ -n "$BASH_VERSION" ]; then
-    #  .         -- insert last argument (command mode)
+    # .         -- insert last argument (command mode)
     bind -m vi-command ".":insert-last-argument
 
-    ## emulate default bash
-    #  <ctrl> l  -- clear screen
+    # emulate default bash:
+    # <ctrl> l  -- clear screen
     bind -m vi-insert "\C-l.":clear-screen
-    #  <ctrl> a  -- move to beginning of line (^)
+    # <ctrl> a  -- move to beginning of line (^)
     bind -m vi-insert "\C-a.":beginning-of-line
-    #  <ctrl> e  -- move to end of line ($)
+    # <ctrl> e  -- move to end of line ($)
     bind -m vi-insert "\C-e.":end-of-line
-    #  <ctrl> w  -- delete last word
+    # <ctrl> w  -- delete last word
     bind -m vi-insert "\C-w.":backward-kill-word
 fi
 [?1034h
