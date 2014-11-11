@@ -219,24 +219,25 @@ dotfiles_reload() {
   #  lsusrlogs  -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
   source ${conf}/30-bashrc.usrlog.sh
 
-
+  #
   ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
   source ${conf}/30-bashrc.xlck.sh
 
-
+  #
   ## 40-bashrc.aliases.sh       -- aliases
   source ${conf}/40-bashrc.aliases.sh
   ## 42-bashrc.commands.sh      -- example commands
   source ${conf}/42-bashrc.commands.sh
 
-
+  #
   ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
   source ${conf}/50-bashrc.bashmarks.sh
 
-
+  #
   ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
   source ${conf}/70-bashrc.repos.sh
 
+  #
   ## 99-bashrc.after.sh         -- after: cleanup
   source ${conf}/99-bashrc.after.sh
 }

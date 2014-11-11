@@ -72,11 +72,16 @@
   #  ugrin      -- grin current usrlog: grin $@ $_USRLOG
   #  ugrinall   -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
   #  lsusrlogs  -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+  #
   ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
+  #
   ## 40-bashrc.aliases.sh       -- aliases
   ## 42-bashrc.commands.sh      -- example commands
+  #
   ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
+  #
   ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
+  #
   ## 99-bashrc.after.sh         -- after: cleanup
     # dr()  -- dotfiles_reload
     # ds()  -- print dotfiles_status()
