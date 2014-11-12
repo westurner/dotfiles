@@ -44,13 +44,13 @@ we() {
     #   we dotfiles
     #   we dotfiles dotfiles
 
-    # append to shell history
+    #append to shell history
     history -a
 
     if [ -n "$1" ]; then
         workon $1 && source <(venv --bash $@) && dotfiles_status
     else
-        # if no arguments are specified, list virtual environments
+        #if no arguments are specified, list virtual environments
         lsvirtualenv
     fi
 }
@@ -99,11 +99,11 @@ cdpysite () {
     cd "${_PYSITE}"/$@
 }
 cds () {
-    # cds()    -- cd $_SRC
+    # cds()     -- cd $_SRC
     cd "${_SRC}"/$@
 }
 cdw () {
-    # cdw()    -- cd $_WRD
+    # cdw()     -- cd $_WRD
     cd "${_WRD}"/$@
 }
 
@@ -186,7 +186,7 @@ _load_venv_aliases() {
     # _load_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
-    # ssv   -- supervisord -c  ${_SVCFG}
+    # ssv   -- supervisord   -c ${_SVCFG}
     alias ssv='supervisord -c "${_SVCFG}"'
     # sv    -- supervisorctl -c ${_SVCFG}
     alias sv='supervisorctl -c "${_SVCFG}"'
@@ -200,9 +200,9 @@ _load_venv_aliases() {
     # hg-   -- hg -R  ${_WRD}
     alias hg-='hg -R "${_WRD}"'
 
-    # gitw  -- (cd ${_WRD} && git)
+    # gitw  -- git -C ${_WRD}
     alias gitw='git -C "${_WRD}"'
-    # git-  -- (cd ${_WRD} && git)
+    # git-  -- git -C ${_WRD}
     alias git-='git -C "${_WRD}"'
 
     # serve-    -- ${_SERVE_}
@@ -231,8 +231,8 @@ mw() {
 }
 
 _venv_set_prompt() {
-    # _venv_set_prompt  -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
-    #                      and ${debian_chroot}
+    # _venv_set_prompt      -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+    #                          and ${debian_chroot}
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
             export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
@@ -254,7 +254,7 @@ _venv_set_prompt
 
 
 mkdirs_venv() {
-    #  _venv_ensure_paths()   -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+    # _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
     prefix=${1}
     if [ -z "${prefix}" ]; then
         if [ -n "${VIRTUAL_ENV}" ]; then

@@ -33,8 +33,6 @@
   #  _setup_anaconda()  -- setup anaconda paths (manual)
   #  _setup_pyenv()     -- setup pyenv paths (manual)
   #
-  ## 07-bashrc.virtualenv.sh    -- virtualenv
-  #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
   #
   ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
@@ -144,6 +142,7 @@
     # ds()                      -- print dotfiles_status
     # log_dotfiles_state()      -- save current environment to logfiles
     # dotfiles_initialize()     -- virtualenvwrapper initialize
+    # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     # dotfiles_preactivate()    -- virtualenvwrapper preactivate
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     # dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
@@ -172,29 +171,28 @@
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     #   TODO
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
-    # workon_conda_if_available()       --  workon_conda OR we OR workon
-   
-   
-#### etc/bash/07-bashrc.virtualenv.sh
+    # workon_conda_if_available()       -- workon_conda OR we OR workon
    
    
 #### etc/bash/07-bashrc.virtualenvwrapper.sh
-## Virtualenvwrapper
-# sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
-    ## _setup_virtualenvwrapper -- configure $VIRTUALENVWRAPPER_*
-    ## lsvirtualenv()   -- list virtualenvs in $WORKON_HOME
-    ## lsve()           -- list virtualenvs in $WORKON_HOME
+### bashrc.virtualenvwrapper.sh
+# sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
+    # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
+    # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
+    # lsve()                -- list virtualenvs in $WORKON_HOME
+    # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
+    # backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
+    # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+    # rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
    
    
 #### etc/bash/08-bashrc.gcloud.sh
-    #  _setup_google_cloud  -- configure PATH and bash completions for
-    #   Google Cloud"
-    # The next line updates PATH for the Google Cloud SDK.
-    # The next line enables bash completion for gcloud.
+### bashrc.gcloud.sh
+    # _setup_google_cloud() -- configure gcloud $PATH and bash completions
    
    
 #### etc/bash/10-bashrc.venv.sh
-### venv -- builds upon virtualenv and virtualenvwrapper
+### bashrc.venv.sh
 #   note: most of these aliases and functions are overwritten by `we` 
 ## Variables
     # __PROJECTSRC -- path to local project settings script
@@ -218,45 +216,55 @@
     #   we dotfiles dotfiles
     # append to shell history
         # if no arguments are specified, list virtual environments
-## CD shortcuts
-    # cdb      -- cd $_BIN
-    # cde      -- cd $_ETC
-    # cdv      -- cd $VIRTUAL_ENV
-    # cdve     -- cd $WORKON_HOME
-    # cdvar    -- cd $_VAR
-    # cdlog    -- cd $_LOG
-    # cdww     -- cd $_WWW
-    # cdl      -- cd $_LIB
-    # cdpylib  -- cd $_PYLIB
-    # cdpysite -- cd $_PYSITE
-    # cds      -- cd $_SRC
-    # cdw      -- cd $_WRD
-    # cdwrk     -- cd $WORKON_HOME
+## cd functions
+    # cdb()     -- cd $_BIN
+    # cde()     -- cd $_ETC
+    # cdv()     -- cd $VIRTUAL_ENV
+    # cdve()    -- cd $WORKON_HOME
+    # cdvar()   -- cd $_VAR
+    # cdlog()   -- cd $_LOG
+    # cdww()    -- cd $_WWW
+    # cdl()     -- cd $_LIB
+    # cdpylib() -- cd $_PYLIB
+    # cdpysite()-- cd $_PYSITE
+    # cds()    -- cd $_SRC
+    # cdw()    -- cd $_WRD
+    # cdwrk()   -- cd $WORKON_HOME
 ## Grin search
 # virtualenv / virtualenvwrapper
-    # grinv     -- grin $VIRTUAL_ENV
-    # grindv    -- grind $VIRTUAL_ENV
+    # grinv()   -- grin $VIRTUAL_ENV
+    # grindv()  -- grind $VIRTUAL_ENV
 # venv
-    # grins     -- grin $_SRC
-    # grinds    -- grind $_SRC
-    # grinw     -- grin $_WRD
-    # grin-     -- grin _WRD
-    # grindw    -- grind $_WRD
-    # grind-    -- grind $_WRD
-    # grindctags    -- generate ctags from grind (in ./tags)
-    # grindctagssys -- generate ctags from grind --sys-path (in $_WRD/tags)
-    # grindctagsw   -- generate ctags from (cd $_WRD; grind)  (in $_WRD/tags)
-    # grindctagss   -- generate ctags from (cd $_SRC; grind)  (in $_SRC/tags)
-    # _load_venv_aliases -- load venv aliases
-    #   (note: these are overwritten by `we` [`source <(venv -b)`])
-    # makew     -- cd $_WRD && make $@
-    # make-     -- cd $_WRD && make $@
-    # mw        -- cd $_WRD && make $@
-    #  _venv_ensure_paths()   -- 
-    # ensure_mkdir ${prefix}/home
-    # ensure_mkdir ${prefix}/opt
-    # ensure_mkdir ${prefix}/sbin
-    # ensure_mkdir ${prefix}/srv
+    # grins()   -- grin $_SRC
+    # grinds()  -- grind $_SRC
+    # grinw()   -- grin $_WRD
+    # grin-()   -- grin _WRD
+    # grindw()  -- grind $_WRD
+    # grind-()  -- grind $_WRD
+    # grindctags()      -- generate ctags from grind (in ./tags)
+    # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
+    # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
+    # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
+    # _load_venv_aliases()  -- load venv aliases
+    #   note: these are overwritten by `we` [`source <(venv -b)`]
+    # ssv   -- supervisord -c  ${_SVCFG}
+    # sv    -- supervisorctl -c ${_SVCFG}
+    # svd   -- supervisorctl -c ${_SVCFG} restart && sv tail -f dev
+    # svt   -- supervisorctl -c "${_SVCFG}" tail -f
+    # hgw   -- hg -R  ${_WRD}
+    # hg-   -- hg -R  ${_WRD}
+    # gitw  -- (cd ${_WRD} && git)
+    # git-  -- (cd ${_WRD} && git)
+    # serve-    -- ${_SERVE_}
+    # shell-    -- ${_SHELL_}
+    # test-     -- cd ${_WRD} && python setup.py test
+    # testr-    -- reset; cd ${_WRD} && python setup.py test
+    # makew()   -- cd $_WRD && make $@
+    # make-()   -- cd $_WRD && make $@
+    # mw()      -- cd $_WRD && make $@
+    # _venv_set_prompt  -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+    #                      and ${debian_chroot}
+    #  _venv_ensure_paths()   -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
    
    
 #### etc/bash/11-bashrc.venv.pyramid.sh
