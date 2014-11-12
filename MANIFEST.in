@@ -33,7 +33,6 @@ include docs/dotfiles.venv.rst
 include docs/dotvim_conf.txt
 include docs/i3_conf.txt
 include docs/index.rst
-include docs/install.rst
 include docs/readme.rst
 include docs/requirements.txt
 include docs/src/conf.py
@@ -77,7 +76,6 @@ include etc/bash/04-bashrc.TERM.sh
 include etc/bash/05-bashrc.dotfiles.sh
 include etc/bash/06-bashrc.completion.sh
 include etc/bash/07-bashrc.python.sh
-include etc/bash/07-bashrc.virtualenv.sh
 include etc/bash/07-bashrc.virtualenvwrapper.sh
 include etc/bash/08-bashrc.gcloud.sh
 include etc/bash/10-bashrc.venv.sh
