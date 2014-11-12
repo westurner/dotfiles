@@ -304,25 +304,41 @@
 #### etc/bash/30-bashrc.usrlog.sh
 ### bashrc.usrlog.sh
     # _USRLOG (str): path to .usrlog userspace shell command log
-    # stid()     -- set $TERM_ID to a random string
-    # stid $name -- set $TERM_ID to string
-    # note()     -- add a dated note to $_USRLOG [_usrlog_append]
-    # usrlogv()  -- open usrlog with vim:   $VIMBIN + $_USRLOG
-    # usrlogg()  -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
-    # usrloge()  -- open usrlog with editor:$EDITOR + $_USRLOG
-    # ut()       -- tail $_USRLOG
-    # ug()       -- egrep current usrlog: egrep $@ $_USRLOG
-    # ugall()    -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
-    # ugrin()    -- grin current usrlog: grin $@ $_USRLOG
-    # ugrinall() -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
-    # lsusrlogs()-- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # stid()      -- set $TERM_ID to a random string
+    # stid $name  -- set $TERM_ID to string
+    # note()      -- add a dated note to $_USRLOG [_usrlog_append]
+    # usrlogv()   -- open usrlog with vim:   $VIMBIN + $_USRLOG
+    # usrlogg()   -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+    # usrloge()   -- open usrlog with editor:$EDITOR + $_USRLOG
+    # ut()        -- tail $_USRLOG
+    # ug()        -- egrep current usrlog: egrep $@ $_USRLOG
+    # ugall()     -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # ugrin()     -- grin current usrlog: grin $@ $_USRLOG
+    # ugrinall()  -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # lsusrlogs() -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
     # usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
     # usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
    
    
 #### etc/bash/30-bashrc.xlck.sh
-## xlck     -- screensaver
+### 30-bashrc.xlck.sh
+## xlck     -- minimal X screensaver
+    # xlck 
+    # xlck -I  --  (I)nstall xlck (apt-get)
+    # xlck -U  --  check stat(U)s (show xautolock processes on this $DISPLAY)
+    # xlck -S  --  (S)tart xlck (start xautolock on this $DISPLAY)
+    # xlck -P  --  sto(P) xlck (stop xautolock on this $DISPLAY)
+    # xlck -R  --  (R)estart xlck
+    # xlck -M  --  suspend to ra(M) (and lock)
+    # xlck -D  --  suspend to (D)isk (and lock)
+    # xlck -L  --  (L)ock
+    # xlck -X  --  shutdown -h now
+    # xlck -h  --  help
+    # xlck_status_all()             -- pgrep 'xautolock|xlock|i3lock', ps ufw
+    # xlck_status_this_display()    -- show status for this $DISPLAY
+    # _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
    
    
 #### etc/bash/40-bashrc.aliases.sh
@@ -340,9 +356,9 @@
     # chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
     # new-sh()          -- create and open a new shell script at $1
     # diff-dirs()       -- list differences between directories
-    # diff-stdin()     -- diff the output of two commands
-    # wopen()   -- open path/URI/URL $1 in a new browser tab
-    #              see: scripts/x-www-browser
+    # diff-stdin()      -- diff the output of two commands
+    # wopen()           -- open path/URI/URL $1 in a new browser tab
+    #                      see: scripts/x-www-browser
     # find-largefiles   -- find files larger than size (default: +10M)
     # find-pdf          -- find pdfs and print info with pdfinfo
     # find-lately()     -- list and sort files in paths $@ by mtime
@@ -353,35 +369,31 @@
     # find-ssl()        -- find .pem and .db files and print their metadata
     # find-dpkgfile()   -- search dpkgs with apt-file
     # find-dpkgfiles()  -- sort dpkg /var/lib/dpkg/info/<name>.list
-    # checks filesystem against dpkg's md5sums 
-    #
-    # Author: Filippo Giunchedi <filippo@esaurito.net>
-    # Version: 0.1
-    #
-    # this file is public domain 
-    # deb-mkrepo    -- create dpkg Packages.gz and Sources.gz from dir ${1}
-    # mnt-chroot-bind()    -- bind mount linux chroot directories
-    # mnt-cifs()    -- mount a CIFS mount
-    # mnt-davfs()   -- mount a WebDAV mount
-    # lsof-sh()     -- something like lsof
-    # lsof-net()    -- lsof the network things
-    # net-stat()    -- print networking information
-    # ssh-prx()     -- SSH SOCKS
+    # deb-chksums()     -- check dpkg md5 checksums with md5sums
+    # deb-mkrepo        -- create dpkg Packages.gz and Sources.gz from dir ${1}
+    # mnt-chroot-bind() -- bind mount linux chroot directories
+    # mnt-cifs()        -- mount a CIFS mount
+    # mnt-davfs()       -- mount a WebDAV mount
+    # lsof-sh()         -- something like lsof
+    # lsof-net()        -- lsof the network things
+    # net-stat()        -- print networking information
+    # ssh-prx()         -- SSH SOCKS
     # strace-()         -- strace with helpful options
     # strace-f()        -- strace -e trace=file + helpful options
     # strace-f-noeno    -- strace -e trace=file | grep -v ENOENT
-    # hgst()    -- hg diff --stat, hg status, hg diff
+    # hgst()            -- hg diff --stat, hg status, hg diff
    
    
 #### etc/bash/50-bashrc.bashmarks.sh
+### bashrc.bashmarks.sh
 ## bashmarks
-#  l    -- list bashmarks
-#  s    -- save bashmarks as $1
-#  g    -- goto bashmark $1
-#  p    -- print bashmark $1
-#  d    -- delete bashmark $1
-#  lsbashmarks -- list Bashmarks (e.g. for NERDTree)
-# ~/.dotfiles/bin/nerdtree_to_bashmarks.py
+    # l()  -- list bashmarks
+    # s()  -- save bashmarks as $1
+    # g()  -- goto bashmark $1
+    # p()  -- print bashmark $1
+    # d()  -- delete bashmark $1
+    # lsbashmarks() -- list Bashmarks (e.g. for NERDTree)
+    # see also: ${__DOTFILES}/scripts/nerdtree_to_bashmarks.py
    
    
 #### etc/bash/70-bashrc.repos.sh
