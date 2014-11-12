@@ -26,27 +26,48 @@ Apt
 | Docs: https://wiki.debian.org/Apt
 | Docs: https://www.debian.org/doc/manuals/debian-reference/ch02.en.html
 | Docs: https://www.debian.org/doc/manuals/apt-howto/
+| Docs: https://wiki.debian.org/SecureApt
 | Source: git git://anonscm.debian.org/git/apt/apt.git
 | IRC: irc://irc.debian.org/debian-apt
 |
 
-APT is the Debian package management system.
+APT ("Advanced Packaging Tool") is the core of Debian package management.
 
-APT retrieves packages over FTP, HTTP, HTTPS, and RSYNC.
+An APT package repository serves :ref:`Dpkg` packages.
+
+An APT package repository can be accessed from a local filesystem
+or over a network protocol ("apt transports") like HTTP, HTTPS, RSYNC, FTP,
+and BitTorrent.
+
+An example of APT usage
+(e.g. to maintain an updated :ref:`Ubuntu` :ref:`Linux` system):
 
 .. code-block:: bash
 
-   man apt-get
-   man sources.list
-   echo 'deb repo_URL distribution component1' >> /etc/apt/sources.list
    apt-get update
-   apt-cache show bash
-   apt-get install bash
    apt-get upgrade
    apt-get dist-upgrade
 
+   apt-cache show bash
+   apt-get install bash
+
+   apt-get --help
+   man apt-get
+   man sources.list
 
 
+.. index:: Bower
+.. _bower:
+
+Bower
+~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Bower_(software)>`__
+| Homepage: https://www.bower.io/
+| Source: https://github.com/bower/bower
+|
+
+Bower is "a package manager for the web" (:ref:`Javascript` packages)
+built on :ref:`NPM`.
 
 
 .. index:: DEB
@@ -54,20 +75,29 @@ APT retrieves packages over FTP, HTTP, HTTPS, and RSYNC.
 
 DEB
 ~~~~~
-`<https://en.wikipedia.org/wiki/Deb_(file_format)>`__
+| Wikipedia: `<https://en.wikipedia.org/wiki/Deb_(file_format)>`__
+|
 
-* Install with ``apt-get``, ``aptitutde``
-* Build with :ref:`dpkg`
-* List contents::
+DEB is the Debian software package format.
 
-   less ~/path/to/local.deb   # requires lesspipe
+DEB packages are built with :ref:`dpkg` and often hosted in an :ref:`APT`
+package repository.
 
-* Package Repositories (:ref:`apt`):
+.. index:: Dpkg
+.. _dpkg:
 
-  * Local: directories of packages and metadata
-  * Network: HTTP, HTTPS, RSYNC, FTP, BitTorrent (apt transports)
+Dpkg
+~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Dpkg>`_
+| Homepage: http://wiki.debian.org/Teams/Dpkg
+| Docs: `<https://en.wikipedia.org/wiki/Debian_build_toolchain>`_
+| Docs: https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html
+| Docs: https://www.debian.org/doc/manuals/debian-faq/ch-pkgtools.en.html
+| Docs:
+|
 
-* Linux/Mac/Windows: Yes / Fink / No
+Dpkg is a collection of tools for creating and working with
+:ref:`DEB` packages.
 
 
 .. index:: Brew
@@ -80,12 +110,23 @@ Homebrew
 | Homepage: http://brew.sh/
 |
 
-* Linux/Mac/Windows: No / Yes / No
+Homebrew is a package manager (``brew``) for :ref:`OSX`.
 
-* Package Recipe Repositories (brew):
 
-  * Local:
-  * Network: HTTP, HTTPS
+.. index:: NPM
+.. index:: Node Package Manager
+.. _npm:
+
+NPM
+~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Npm_(software)>`__
+| Homepage: https://www.npmjs.org/
+| Source: https://github.com/npm/npm
+|
+
+NPM is a :ref:`Javascript` package manager created for :ref:`Node.js`.
+
+:ref:`Bower` builds on NPM.
 
 
 .. index:: NuGet
@@ -162,7 +203,10 @@ RPM
 Python Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~
 | Homepage: https://pypi.python.org/pypi
-| Docs: http://packaging.python.org/en/latest/
+| Docs: https://packaging.python.org/en/latest/
+| Docs: https://packaging.python.org/en/latest/peps.html
+| Docs: https://packaging.python.org/en/latest/projects.html
+|
 
 * Python packages are tested and repackaged by package maintainers
 * Python packages have dependencies: they depend on other packages
@@ -368,6 +412,33 @@ Peep works just like :ref:`pip`, but requires ``SHA256`` checksum hashes
 to be specified for each package in ``requirements.txt`` file.
 
 
+.. index:: PyPU
+.. _pypi:
+
+PyPI
+++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Python_Package_Index
+| Docs: http://wiki.python.org/moin/CheeseShop
+| Docs: http://wiki.python.org/moin/CheeseShopDev
+| Homepage: https://pypi.python.org/
+| Source: https://bitbucket.org/pypa/pypi
+|
+
+PyPI is the Python Package Index.
+
+
+Warehouse
+++++++++++
+| Homepage: https://warehouse.python.org/
+| Docs: https://warehouse.readthedocs.org/
+| Source: https://github.com/pypa/warehouse
+|
+
+Warehouse is the "Next Generation Python Package Repository".
+
+All packages uploaded to :ref:`PyPI` are also available from Warehouse.
+
+
 .. index:: wheel
 .. _wheel:
 
@@ -388,6 +459,7 @@ Wheel
 
 Packages available as wheels are listed at `<http://pythonwheels.com/>`__.
 
+
 .. index:: Conda
 .. _conda:
 
@@ -402,7 +474,10 @@ Conda
 * ``conda skeleton`` can automatically create conda packages
   both from ``PyPI`` and from ``CPAN`` (Perl)
 * Conda was originally created for the Anaconda Python Distribution,
-  which installs packages written in Python, R, C, Fortran
+  which installs packages written in :ref:`Python`,
+  R, Javascript, :ref:`Ruby`, C, Fortran
+* Conda (and :ref:`Anaconda`) packages are hosted by `<https://binstar.org>`,
+  which hosts free public and paid private Conda packages.
 
 
 .. index:: RubyGems
@@ -428,15 +503,28 @@ Yum
 | Homepage: http://yum.baseurl.org/
 |
 
+Yum is a tool for installing, upgrading, and uninstalling :ref:`RPM`
+packages.
 
-CoreOS Docker Images
-~~~~~~~~~~~~~~~~~~~~~
-CoreOS schedules redundant docker images and configuration
-over etcd, a key-value store with a D-Bus interface.
 
-* Create high availability zone clusters with fleet
-* Systemd init files
+.. index:: Anaconda
+.. _anaconda:
 
+Anaconda
+==========
+| Wikipedia: `<https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)>`__
+| Homepage: https://store.continuum.io/cshop/anaconda/
+| Docs: http://docs.continuum.io/anaconda/
+| Docs: http://docs.continuum.io/anaconda/pkg-docs.html
+|
+
+Anaconda is a maintained distribution of many popular :ref:`Python Packages`.
+
+Anaconda works with :ref:`Conda` packages.
+
+.. note:: `<https://en.wikipedia.org/wiki/Anaconda_(installer)>`__ (1999)
+   is the installer for :ref:`RPM`-based :ref:`Linux` distributions; which is
+   also written in :ref:`Python` (and :ref:`C`).
 
 
 .. index:: Bash
@@ -444,7 +532,7 @@ over etcd, a key-value store with a D-Bus interface.
 
 Bash
 ===============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>`_
+| Wikipedia: `<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>`__
 | Homepage: http://www.gnu.org/software/bash/
 | Docs: https://www.gnu.org/software/bash/manual/
 | Source: git git://git.savannah.gnu.org/bash.git
@@ -482,6 +570,35 @@ Bash Configuration::
 Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin
 
 
+
+.. index:: C
+.. _c:
+
+C
+==
+| Wikipedia: `<https://en.wikipedia.org/wiki/C_(programming_language)>`__
+| Docs: http://learnxinyminutes.com/docs/c/
+|
+
+C is a third-generation programming language which affords relatively
+low-level machine access while providing helpful abstractions.
+
+The GNU/:ref:`Linux` kernel is written in C and compiled by :ref:`GCC`.
+
+
+.. index:: C++
+.. _c++:
+
+C++
+====
+| Wikipedia: `<https://en.wikipedia.org/wiki/C++>`__
+| Docs: http://learnxinyminutes.com/docs/c++/
+|
+
+C++ is a third-generation programming language
+which adds object orientation and a standard library to :ref:`C`.
+
+
 .. index:: Compiz
 .. _compiz:
 
@@ -493,22 +610,24 @@ Compiz
 | Source: bzr branch lp:compiz
 |
 
-Linux/Mac/Windows: Yes / No / No
 
+.. index:: CoreOS
+.. _coreos:
 
-.. index:: Dpkg
-.. _dpkg:
-
-Dpkg
-==============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Dpkg>`_
-| Homepage: http://wiki.debian.org/Teams/Dpkg
-| Docs: `<https://en.wikipedia.org/wiki/Debian_build_toolchain>`_
-| Docs: `<https://en.wikipedia.org/wiki/Deb_(file_format)>`_
+CoreOS
+========
+| Wikipedia: https://en.wikipedia.org/wiki/CoreOS
+| Homepage: https://coreos.com/
+| Docs: https://coreos.com/docs/
+| Source: https://github.com/coreos
 |
 
-Lower-level package management scripts for creating and working with
-.DEB Debian packages.
+CoreOS is :ref:`Linux` distribution for highly available
+distributed computing.
+
+CoreOS schedules redundant :ref:`docker` images with **fleet**
+and **systemd** according to configuration stored in **etcd**,
+a key-value store with a D-Bus interface.
 
 
 .. index:: Docker
@@ -549,6 +668,15 @@ HTML, LaTeX, man-pages, Open Document files, XML, and a number of other
 formats.
 
 
+Fortran
+========
+| Wikipedia: https://en.wikipedia.org/wiki/Fortran
+|
+
+Fortran (or FORTRAN) is a third-generation programming language
+frequently used for mathematical and scientific computing.
+
+
 .. index:: Filesystem Hierarchy Standard
 .. _fhs:
 
@@ -568,6 +696,25 @@ a Filesystem Hierarchy.
 also btrfs subvolumes.
 
 
+.. index:: GCC
+.. index:: GNU Compiler Collection
+.. _gcc:
+
+GCC
+====
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_Compiler_Collection
+| Homepage: https://gcc.gnu.org/
+| Docs: https://gcc.gnu.org/onlinedocs/
+| Source: git ssh://gcc.gnu.org/git/gcc.git
+|
+
+The GNU Compiler Collection started as a Free and Open Source
+compiler for :ref:`C`.
+
+There are now GCC frontends for many languages, including
+:ref:`C++`, :ref:`Fortran`, :ref:`Java`, and :ref:`Go`.
+
+
 .. index:: Git
 .. _git:
 
@@ -576,7 +723,9 @@ Git
 | Wikipedia: `<https://en.wikipedia.org/wiki/Git_(software)>`_
 | Homepage: http://git-scm.com/
 | Docs: http://git-scm.com/documentation
+| Docs: http://git-scm.com/book/en/
 | Docs: http://documentup.com/skwp/git-workflows-book
+| Docs: http://learnxinyminutes.com/docs/git/
 | Source: git https://github.com/git/git
 |
 
@@ -653,6 +802,45 @@ IPython
 * https://github.com/jupyter
 
 
+.. index:: Java
+.. _Java:
+
+Java
+=====
+| Wikipedia: `<https://en.wikipedia.org/wiki/Java_(programming_language)>`__
+| Docs: http://javadocs.org/
+| Docs: http://learnxinyminutes.com/docs/java/
+|
+
+Java is a third-generation programming language which is
+compiled into code that runs in a virtual machine
+(``JVM``) written in :ref:`C` for many different operating systems.
+
+
+.. index:: Javascript
+.. _Javascript:
+
+JavaScript
+===========
+| Wikipedia: https://en.wikipedia.org/wiki/JavaScript
+| Docs: https://en.wikipedia.org/wiki/ECMAScript
+| Docs: http://learnxinyminutes.com/docs/javascript/
+|
+
+JavaScript is a third-generation programming language
+designed to run in an interpreter; now specified as *ECMAScript*.
+
+All major web browsers support Javascript.
+
+Client-side (web) applications can be written in Javascript.
+
+Server-side (web) applications can be written in Javascript,
+often with :ref:`Node.js` and :ref:`NPM` packages.
+
+.. note:: Java and JavaScript are two distinctly different languages
+   and developer ecosystems.
+
+
 .. index:: JSON
 .. _json:
 
@@ -660,9 +848,25 @@ JSON
 ===============
 | Wikipedia: https://en.wikipedia.org/wiki/JSON
 | Homepage: http://json.org/
+| Docs: http://learnxinyminutes.com/docs/json/
 |
 
-Parse and indent JSON with :ref:`Python` and :ref:`Bash`::
+JSON is an object representation in :ref:`Javascript` syntax
+which is now supported by libraries for many language.
+
+A list of objects with ``key`` and ``value`` attributes in JSON syntax:
+.. code-block:: javascript
+
+    [
+    { "key": "language", "value": "Javascript" },
+    { "key": "version", "value": 1 },
+    { "key": "example", "value": true },
+    ]
+
+Machine-generated JSON is often not very readable, because it doesn't
+contain extra spaces or newlines.
+The :ref:`Python` JSON library contains a utility
+for parsing and indenting ("prettifying") JSON from the commandline ::
 
     cat example.json | python -m json.tool
 
@@ -706,22 +910,28 @@ various :ref:`Linux` hypervisors.
 * VirtualBox
 
 
+.. index:: GNU/Linux
 .. index:: Linux
 .. _linux:
 
 Linux
 ================
 | Wikipedia: https://en.wikipedia.org/wiki/Linux
-| Homepage: https://www.kernel.org
+| Homepage: https://www.kernel.org/
 | Docs: https://www.kernel.org/doc/
 | Source: git https://github.com/torvalds/linux
 |
 
-A free and open source operating system kernel written in C.
+GNU/Linux is a free and open source operating system kernel
+written in :ref:`C`.
 
 .. code-block:: bash
 
-   uname -a
+   uname -a; echo "Linux"
+   uname -o; echo "GNU/Linux"
+
+A *Linux Distribution* is a collection of :ref:`Packages`
+compiled to work with a GNU/Linux kernel.
 
 
 .. index:: Make
@@ -759,8 +969,6 @@ Cons
 * Platform Portability: make is not installed everywhere
 * Global Variables: Parametrization with shell scripts
 
-* Linux/Mac/Windows: Usually / brew / executable
-
 
 .. index:: Hg
 .. index:: Mercurial
@@ -791,6 +999,46 @@ MessagePack is a data interchange format
 with implementations in many languages.
 
 :ref:`Salt`
+
+
+.. index:: Node.js
+.. _node.js:
+
+Node.js
+=========
+| Wikipedia: https://en.wikipedia.org/wiki/Node.js
+| Homepage: http://www.nodejs.org
+| Source: https://github.com/joyent/node
+|
+
+Node.js is a framework for :ref:`Javascript` applications
+written in :ref:`C`, :ref:`C++`, and :ref:`Javascript`.
+
+
+.. index:: Apple OSX
+.. index:: OS X
+.. index:: OSX
+.. _osx:
+
+OS X
+=====
+| Wikipedia: https://en.wikipedia.org/wiki/OS_X
+| Homepage: http://www.apple.com/osx
+| Docs: https://developer.apple.com/technologies/mac/
+| Source: https://www.apple.com/opensource/
+|
+
+OS X is a UNIX operating system based upon the Mach kernel from NeXTSTEP,
+which was partially derived from NetBSD and FreeBSD.
+
+OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
+``readlink``, and ``find``.
+
+:ref:`Homebrew` installs and maintains packages for OS X.
+
+.. code-block:: bash
+
+   uname; echo "Darwin"
 
 
 .. index:: Packer
@@ -877,6 +1125,7 @@ Python
 | Docs: https://docs.python.org/2/
 | Docs: https://docs.python.org/devguide/
 | Docs: https://docs.python.org/devguide/documenting.html
+| Docs: http://learnxinyminutes.com/docs/python/
 | Source: hg https://hg.python.org/cpython
 |
 
@@ -899,6 +1148,7 @@ Python 3
 | Docs: https://docs.python.org/3/
 | Docs: https://docs.python.org/3/howto/pyporting.html
 | Docs: https://docs.python.org/3/howto/cporting.html
+| Docs: http://learnxinyminutes.com/docs/python3/
 |
 
 Python 3 made a number of incompatible changes,
@@ -935,9 +1185,6 @@ awesome-python-testing
 | Homepage: https://westurner.github.io/wiki/awesome-python-testing.html
 | Source: https://github.com/westurner/wiki/blob/master/awesome-python-testing.rest
 |
-
-
-
 
 
 .. index:: Readline
@@ -1002,6 +1249,23 @@ Pandoc also supports a form of ReStructuredText.
             .. _anchor-name:
 
             :ref:`Anchor <anchor-name>`
+
+
+.. index:: Ruby
+.. _ruby:
+
+Ruby
+===============
+| Wikipedia: `<https://en.wikipedia.org/wiki/Ruby_(programming_language)>`_
+| Homepage: https://www.ruby-lang.org/
+| Docs: https://www.ruby-lang.org/en/documentation/
+| Docs: http://learnxinyminutes.com/docs/ruby/
+| Source: svn http://svn.ruby-lang.org/repos/ruby/trunk
+|
+
+Ruby is a dynamically-typed programming language.
+
+:ref:`Vagrant` is written in Ruby.
 
 
 .. index:: Salt
@@ -1209,22 +1473,6 @@ so, for example,
             .. _anchor-name:
 
             :ref:`Anchor <anchor-name>`
-
-
-.. index:: Ruby
-.. _ruby:
-
-Ruby
-===============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Ruby_(programming_language)>`_
-| Homepage: https://www.ruby-lang.org/
-| Docs: https://www.ruby-lang.org/en/documentation/
-| Source: svn http://svn.ruby-lang.org/repos/ruby/trunk
-|
-
-Ruby is a dynamically-typed programming language.
-
-:ref:`Vagrant` is written in Ruby.
 
 
 .. index:: Tox
@@ -1577,6 +1825,7 @@ YAML
 ==============
 | Wikipedia: https://en.wikipedia.org/wiki/YAML
 | Homepage: http://yaml.org
+| Docs: http://learnxinyminutes.com/docs/yaml/
 |
 
 YAML ("YAML Ain't Markup Language") is a concise data serialization format.
