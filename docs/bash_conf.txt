@@ -413,19 +413,23 @@
 #### etc/bash/42-bashrc.commands.sh
 ### bashrc.commands.sh
 # usage: bash -c 'source bashrc.commands.sh; funcname <args>'
-    # chown-me          -- chown -Rv user
-    # chown-me-mine     -- chown -Rv user:user && chmod -Rv go-rwx
-    # chown-sme         -- sudo chown -Rv user
-    # chown-sme-mine    -- sudo chown -Rv user:user && chmod -Rv go-rwx
+    # chown-me()        -- chown -Rv user
+    # chown-me-mine()   -- chown -Rv user:user && chmod -Rv go-rwx
+    # chown-sme()       -- sudo chown -Rv user
+    # chown-sme-mine()  -- sudo chown -Rv user:user && chmod -Rv go-rwx
     # chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
     # new-sh()          -- create and open a new shell script at $1
     # diff-dirs()       -- list differences between directories
     # diff-stdin()      -- diff the output of two commands
     # wopen()           -- open path/URI/URL $1 in a new browser tab
     #                      see: scripts/x-www-browser
-    # find-largefiles   -- find files larger than size (default: +10M)
-    # find-pdf          -- find pdfs and print info with pdfinfo
-    # find-lately()     -- list and sort files in paths $@ by mtime
+    # find-largefiles() -- find files larger than size (default: +10M)
+    # find-pdf()        -- find pdfs and print info with pdfinfo
+    # find-lately()     -- list and sort files in paths $@ by ISO8601 mtime
+    #                      stderr > lately.$(date).errors
+    #                      stdout > lately.$(date).files
+    #                      stdout > lately.$(date).sorted
+    #                      note: 
     # find-setuid()     -- find all setuid and setgid files
     #                      stderr > find-setuid.errors
     #                      stdout > find-setuid.files
@@ -434,7 +438,7 @@
     # find-dpkgfile()   -- search dpkgs with apt-file
     # find-dpkgfiles()  -- sort dpkg /var/lib/dpkg/info/<name>.list
     # deb-chksums()     -- check dpkg md5 checksums with md5sums
-    # deb-mkrepo        -- create dpkg Packages.gz and Sources.gz from dir ${1}
+    # deb-mkrepo()      -- create dpkg Packages.gz and Sources.gz from dir ${1}
     # mnt-chroot-bind() -- bind mount linux chroot directories
     # mnt-cifs()        -- mount a CIFS mount
     # mnt-davfs()       -- mount a WebDAV mount
@@ -444,7 +448,7 @@
     # ssh-prx()         -- SSH SOCKS
     # strace-()         -- strace with helpful options
     # strace-f()        -- strace -e trace=file + helpful options
-    # strace-f-noeno    -- strace -e trace=file | grep -v ENOENT
+    # strace-f-noeno()  -- strace -e trace=file | grep -v ENOENT
     # hgst()            -- hg diff --stat, hg status, hg diff
    
    
