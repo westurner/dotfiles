@@ -61,14 +61,14 @@ diff-dirs () {
 }
 
 diff-stdin () {
-    # diff-stdin()     -- diff the output of two commands
+    # diff-stdin()      -- diff the output of two commands
     DIFFBIN='diff'
     $DIFFBIN -u <($1) <($2)
 }
 
 wopen () {
-    # wopen()   -- open path/URI/URL $1 in a new browser tab
-    #              see: scripts/x-www-browser
+    # wopen()           -- open path/URI/URL $1 in a new browser tab
+    #                      see: scripts/x-www-browser
     if [ -n "${__IS_MAC}" ]; then
         open $@
     elif [ -n "${__IS_LINUX}" ]; then
@@ -165,12 +165,11 @@ find-dpkgfiles () {
 }
 
 deb-chksums () {
-    # checks filesystem against dpkg's md5sums 
-    #
-    # Author: Filippo Giunchedi <filippo@esaurito.net>
-    # Version: 0.1
-    #
-    # this file is public domain 
+    # deb-chksums()     -- check dpkg md5 checksums with md5sums
+    #checks filesystem against dpkg's md5sums 
+    #Author: Filippo Giunchedi <filippo@esaurito.net>
+    #Version: 0.1
+    #this file is public domain 
 
     exclude="usr/share/locale/"
     include="bin/"
@@ -196,7 +195,7 @@ deb-chksums () {
 }
 
 deb-mkrepo () {
-    # deb-mkrepo    -- create dpkg Packages.gz and Sources.gz from dir ${1}
+    # deb-mkrepo        -- create dpkg Packages.gz and Sources.gz from dir ${1}
     REPODIR=${1:-"/var/www/nginx-default/"}
     cd $REPODIR
     dpkg-scanpackages . /dev/null | gzip -9c > $REPODIR/Packages.gz
@@ -204,7 +203,7 @@ deb-mkrepo () {
 }
 
 mnt-chroot-bind () {
-    # mnt-chroot-bind()    -- bind mount linux chroot directories
+    # mnt-chroot-bind() -- bind mount linux chroot directories
     DEST=$1
     sudo mount proc -t proc ${DEST}/proc
     sudo mount -o bind /dev ${DEST}/dev
@@ -212,14 +211,14 @@ mnt-chroot-bind () {
     sudo mount -o bind,ro /boot {DEST}/boot
 }
 mnt-cifs () {
-    # mnt-cifs()    -- mount a CIFS mount
+    # mnt-cifs()        -- mount a CIFS mount
     URI="$1" # //host/share
     MNTPT="$2"
     OPTIONS="-o user=$3,password=$4"
     mount -t cifs $OPTIONS $URI $MNTPT
 }
 mnt-davfs () {
-    # mnt-davfs()   -- mount a WebDAV mount
+    # mnt-davfs()       -- mount a WebDAV mount
     URL="$1"
     MNTPT="$2"
     OPTIONS="-o rw,user,noauto"
@@ -227,7 +226,7 @@ mnt-davfs () {
 }
 
 lsof-sh () {
-    # lsof-sh()     -- something like lsof
+    # lsof-sh()         -- something like lsof
     processes=$(find /proc -regextype egrep -maxdepth 1 -type d -readable -regex '.*[[:digit:]]+')
     for p in $processes; do
         cmdline=$(cat $p/cmdline)
@@ -243,7 +242,7 @@ lsof-sh () {
 
 
 lsof-net () {
-    # lsof-net()    -- lsof the network things
+    # lsof-net()        -- lsof the network things
     ARGS=${@:-''}
     for pid in `lsof -n -t -U -i4 2>/dev/null`; do
         echo "-----------";
@@ -254,7 +253,7 @@ lsof-net () {
 
 
 net-stat () {
-    # net-stat()    -- print networking information
+    # net-stat()        -- print networking information
     echo "# net_stat:"  `date`
     echo "#####################################################"
     set -x
@@ -269,7 +268,7 @@ net-stat () {
 
 
 ssh-prx () {
-    # ssh-prx()     -- SSH SOCKS
+    # ssh-prx()         -- SSH SOCKS
     RUSERHOST=$1
     RPORT=$2
 
@@ -298,7 +297,7 @@ strace-f-noeno () {
 }
 
 hgst() {
-    # hgst()    -- hg diff --stat, hg status, hg diff
+    # hgst()            -- hg diff --stat, hg status, hg diff
     repo=${1:-"$(pwd)"}
     shift
 
