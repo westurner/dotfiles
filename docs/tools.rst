@@ -1,10 +1,13 @@
 
+.. index:: Tools
 .. _tools:
 
 =======
 Tools
 =======
 
+.. index:: Packages
+.. _packages:
 
 Packages
 ==========
@@ -198,7 +201,7 @@ RPM
 .. index:: Wheel
 .. index:: Python Wheel
 .. index:: Python Package
-.. _python-package:
+.. _python packages:
 
 Python Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -610,6 +613,9 @@ Compiz
 | Source: bzr branch lp:compiz
 |
 
+Compiz is a window compositing layer for :ref:`X11` which adds
+lots of cool and productivity-enhancing visual capabilities.
+
 
 .. index:: CoreOS
 .. _coreos:
@@ -667,6 +673,9 @@ lightweight markup language into a doctree which it serializes into
 HTML, LaTeX, man-pages, Open Document files, XML, and a number of other
 formats.
 
+
+.. index:: Fortran
+.. _fortran:
 
 Fortran
 ========
@@ -733,8 +742,8 @@ Git is a distributed version control system for tracking a branching
 and merging repository of file revisions.
 
 
-.. _gnome:
 .. index:: Gnome
+.. _gnome:
 
 Gnome
 ======
@@ -869,6 +878,26 @@ The :ref:`Python` JSON library contains a utility
 for parsing and indenting ("prettifying") JSON from the commandline ::
 
     cat example.json | python -m json.tool
+
+
+.. index:: KDE
+.. _kde:
+
+KDE
+=====
+| Wikipedia: https://en.wikipedia.org/wiki/KDE
+| Homepage: http://kde.org/
+| Docs: https://docs.kde.org/
+| Docs: https://www.kde.org/documentation/
+| Source: https://techbase.kde.org/Getting_Started/Sources
+| Source: https://techbase.kde.org/Getting_Started/Sources/Subversion
+| Source: https://techbase.kde.org/Development/Git
+| Source: https://projects.kde.org/projects
+|
+
+KDE is a GUI framework built on Qt.
+
+KWin is the main KDE window manager for :ref:`X11`.
 
 
 .. index:: Libcloud
@@ -1030,6 +1059,8 @@ OS X
 
 OS X is a UNIX operating system based upon the Mach kernel from NeXTSTEP,
 which was partially derived from NetBSD and FreeBSD.
+
+OS X GUI support is built from XFree86/X.org :ref:`X11`.
 
 OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
 ``readlink``, and ``find``.
@@ -1633,7 +1664,7 @@ Vim
 .. _vimium:
 
 Vimium
-=======
+~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Vimium
 | Homepage: https://vimium.github.io/
 | Source: git https://github.com/philc/vimium
@@ -1646,7 +1677,7 @@ Vimium
 .. _vimperator:
 
 Vimperator
-===========
+~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Vimperator
 | Homepage: http://www.vimperator.org/
 | Source: https://github.com/vimperator/vimperator-labs
@@ -1659,7 +1690,7 @@ Vimperator
 .. _wasavi:
 
 Wasavi
-=======
+~~~~~~~
 | Homepage: http://appsweets.net/wasavi/
 | Docs: http://appsweets.net/wasavi/
 | Source: https://github.com/akahuku/wasavi
@@ -1817,6 +1848,22 @@ Virtualenvwrapper is sourced into the shell::
    lsvirtualenvs; ls -d $WORKON_HOME                # venv: lsve
 
 
+.. index:: Wayland
+.. _wayland:
+
+Wayland
+=========
+| Wikipedia: `<https://en.wikipedia.org/wiki/Wayland_(display_server_protocol)>`_
+| Homepage: http://wayland.freedesktop.org/
+| Source:
+|
+
+Wayland is a display server protocol for GUI window management.
+
+Wayland is an alternative to :ref:`X11` servers like XFree86 and X.org.
+
+The reference Wayland implementation, Weston, is written in :ref:`C`.
+
 
 .. index:: YAML
 .. _yaml:
@@ -1852,10 +1899,32 @@ example ``top.sls`` file:
 ZSH
 ====
 | Wikipedia: https://en.wikipedia.org/wiki/Z_shell
+| Homepage: http://www.zsh.org/
 | Docs: http://zsh.sourceforge.net/Guide/zshguide.html
 | Docs: http://zsh.sourceforge.net/Doc/
-| Homepage: http://www.zsh.org/
 | Source: git git://git.code.sf.net/p/zsh/code
 |
 
 * https://github.com/robbyrussell/oh-my-zsh
+
+
+.. index:: X Window System
+.. index:: X11
+.. _x11:
+
+X11
+====
+| Wikipedia: https://en.wikipedia.org/wiki/X_Window_System
+| Homepage: http://www.x.org/
+| Docs: http://www.x.org/wiki/Documentation/
+| Source: git git://anongit.freedesktop.org/git/xorg/
+| 
+
+X Window System (X, X11) is a display server protocol for window management
+(drawing windows on the screen).
+
+Most UNIX and :ref:`Linux` systems utilize XFree86 or the newer X.org
+X11 window managers.
+
+:ref:`Gnome`, :ref:`KDE`, and :ref:`Compiz` build upon X11.
+
