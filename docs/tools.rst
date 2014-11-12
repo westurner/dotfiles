@@ -259,7 +259,8 @@ Pip
 | IRC: #pypa-dev
 |
 
-Pip is a tool for both installing and uninstalling :ref:`Python` packages.
+Pip is a tool for installing, upgrading, and uninstalling
+:ref:`Python` packages.
 
 ::
 
@@ -275,9 +276,10 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
    pip uninstall libcloud
 
 
-* Pip retrieves and installs packages.
-* Pip can do uninstall and upgrade.
 * Pip stands upon :ref:`distutils` and :ref:`setuptools`.
+* Pip retrieves, installs, upgrades, and uninstalls packages.
+* Pip can list installed packages with ``pip freeze`` (and ``pip
+  list``).
 * Pip can install packages as 'editable' packages (``pip install -e``)
   from version control repository URLs
   which must begin with ``vcs+``,
@@ -285,14 +287,19 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
   and may contain an ``@vcstag`` tag
   (such as a branch name or a version tag).
 * Pip installs packages as editable by first
-  cloning (or checking out) the code,
+  cloning (or checking out) the code to ``./src``
+  (or ``${VIRTUAL_ENV}/src`` if working in a :ref:`virtualenv`)
   and then running ``setup.py develop``.
 * Pip configuration is in ``${HOME}/.pip/pip.conf``.
 * Pip can maintain a local cache of downloaded packages,
   which can lessen the load on package servers during testing.
-* If a package requirement is already satisfied,
-  pip requires the '--upgrade' and/or ``--force-reinstall`` options
-  to be added to the ``pip install`` command.
+* Pip skips reinstallation if a package requirement is already
+  satisfied.
+* Pip requires the ``--upgrade`` and/or ``--force-reinstall`` options
+  to be added to the ``pip install`` command in order to upgrade
+  or reinstall.
+* At the time of this writing, the latest stable pip version is
+  ``1.5.6``.
 
 .. warning::
    With :ref:`Python` 2, pip is preferable to
@@ -1455,6 +1462,11 @@ Virtualenv is a tool for creating reproducible :ref:`Python` environments.
 
 Virtualenv sets the shell environment variable ``$VIRTUAL_ENV`` when active.
 
+Virtualenv installs a copy of :ref:`Python`, :ref:`Setuptools`, and
+:ref:`Pip` when a new virtualenv is created.
+
+A virtualenv is activated by ``source``-ing ``${VIRTUAL_ENV}/bin/activate``.
+
 Paths within a virtualenv are more-or-less :ref:`FHS <fhs>`
 standard paths, which makes
 virtualenv structure very useful for building
@@ -1466,10 +1478,10 @@ A standard virtual environment::
    bin/activate   # source bin/activate to work on a virtualenv
    include/       # (symlinks to) dev headers (python-dev/python-devel)
    lib/           # libraries
+   lib/python2.7/distutils/
    lib/python2.7/site-packages/  # pip and easy_installed packages
    local/         # symlinks to bin, include, and lib
-
-   src/           # pip installs editable requirements here
+   src/           # editable requirements (source repositories)
 
    # also useful
    etc/           # configuration
@@ -1483,26 +1495,19 @@ code shell example, comments with ``##`` are virtualenvwrapper
 
 .. code-block:: bash
 
-   # Print Python site settings
-   python -m site
+   echo $PATH; echo $VIRTUAL_ENV
+   python -m site; pip list
 
-   # Create a virtualenv
-   cd $WORKON_HOME
-   virtualenv example
-   source ./example/bin/activate
-   ## mkvirtualenv example
-   ## workon example
+   virtualenv example               # mkvirtualenv example
+   source ./example/bin/activate    # workon example
 
-   # Review virtualenv Python site settings
-   python -m site
+   echo $PATH; echo $VIRTUAL_ENV
+   python -m site; pip list
 
-   # List files in site-packages
-   ls -altr $VIRTUAL_ENV/lib/python*/site-packages/**
-   ## (cdsitepackages && ls -altr **)
-   ## lssitepackages -altr **
+   ls -altr $VIRTUAL_ENV/lib/python*/site-packages/**  # lssitepackages -altr
 
 
-.. note:: See :ref:`Venv`
+.. note:: :ref:`Venv` extends :ref:`virtualenv` and :ref:`virtualenvwrapper`.
 
 
 .. index:: Virtualenvwrapper
@@ -1534,27 +1539,33 @@ Virtualenvwrapper is sourced into the shell::
    # sudo apt-get install virtualenvwrapper
    source /etc/bash_completion.d/virtualenvwrapper
 
+.. note:: :ref:`Venv` extends :ref:`virtualenv` and :ref:`virtualenvwrapper`.
 
 .. code-block:: bash
 
-   echo $PROJECT_HOME; echo ~/wrk        # default: ~/workspace
-   echo $WORKON_HOME;  echo ~/wrk/.ve    # default: ~/.virtualenvs
+   echo $PROJECT_HOME; echo ~/workspace             # venv: ~/wrk
+   echo $WORKON_HOME;  echo ~/.virtualenvs          # venv: ~/wrk/.ve
 
    mkvirtualenv example
-   workon example
-   cdvirtualenv ; ls
-   echo $VIRTUAL_ENV; echo ~/wrk/.ve/example; pwd
+   workon example                                   # venv: we example
 
-   mkdir src ; cd src/
+   cdvirtualenv; cd $VIRTUAL_ENV                    # venv: cdv
+   echo $VIRTUAL_ENV; echo ~/.virtualenvs/example   # venv: ~/wrk/.ve/example
+
+   mkdir src ; cd src/                              # venv: cds; cd $_SRC
+
    pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
-   ls src/dotfiles
+   cd src/dotfiles; cd $VIRTUAL_ENV/src/dotfiles    # venv: cdw; cds dotfiles
+   head README.rst
 
-   cdsitepackages
+                                                    # venv: cdpylib
+   cdsitepackages                                   # venv: cdpysite
    lssitepackages
-
 
    deactivate
    rmvirtualenv example
+
+   lsvirtualenvs; ls -d $WORKON_HOME                # venv: lsve
 
 
 
