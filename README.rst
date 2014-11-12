@@ -135,9 +135,9 @@ Requirements
 Project requirements are installed by 
 `bootstrap_dotfiles.sh`_ and, optionally, also the `Makefile`_.
 
-* Bash
-* Python (pip)
-* Git
+* :ref:`Bash`
+* :ref:`Git`
+* :ref:`Python` (:ref:`pip`)
 
 .. _bootstrap_dotfiles.sh: https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 .. _Makefile: https://github.com/westurner/dotfiles/blob/master/Makefile
@@ -153,11 +153,12 @@ clones the `dotfiles git repository`_
 and installs the ``dotfiles`` Python package.
 
 
-Create a virtualenv with virtualenvwrapper named "``dotfiles``":
+Create a :ref:`virtualenv` with :ref:`virtualenvwrapper`
+named "``dotfiles``":
 
 .. code-block:: bash
 
-    pip install --user virtualenvwrapper
+    [sudo] pip install virtualenvwrapper
     source $(which 'virtualenvwrapper.sh')
     mkvirtualenv dotfiles
     mkdir $VIRTUAL_ENV/src
@@ -170,7 +171,7 @@ dotfiles package, and install additional helpful packages):
 
     git clone ssh://git@github.com/westurner/dotfiles && cd dotfiles
     # Install and symlink dotfiles and dotvim
-    scripts/bootstrap_dotfiles.sh -I
+    scripts/bootstrap_dotfiles.sh -I -R
 
     # (Optional) Install dotfiles scripts into ~/.local/bin (pip --user)
     scripts/bootstrap_dotfiles.sh -I -u

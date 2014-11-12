@@ -3,26 +3,26 @@
 # usage: bash -c 'source bashrc.commands.sh; funcname <args>'
 
 chown-me () {
-    # chown-me          -- chown -Rv user
+    # chown-me()        -- chown -Rv user
     (set -x; \
     chown -Rv $(id -un) $@ )
 }
 
 chown-me-mine () {
-    # chown-me-mine     -- chown -Rv user:user && chmod -Rv go-rwx
+    # chown-me-mine()   -- chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
     chown -Rv $(id -un):$(id -un) $@ ; \
     chmod -Rv go-rwx $@ )
 }
 
 chown-sme () {
-    # chown-sme         -- sudo chown -Rv user
+    # chown-sme()       -- sudo chown -Rv user
     (set -x; \
     sudo chown -Rv $(id -un) $@ )
 }
 
 chown-sme-mine () {
-    # chown-sme-mine    -- sudo chown -Rv user:user && chmod -Rv go-rwx
+    # chown-sme-mine()  -- sudo chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
     sudo chown -Rv $(id -un):$(id -un) $@ ; \
     sudo chmod -Rv go-rwx $@ )
@@ -79,13 +79,13 @@ wopen () {
 }
 
 find-largefiles () {
-    # find-largefiles   -- find files larger than size (default: +10M)
+    # find-largefiles() -- find files larger than size (default: +10M)
     SIZE=${1:-"+10M"}
     find . -xdev -type f -size "${SIZE}" -exec ls -alh {} \;
 }
 
 find-pdf () {
-    # find-pdf          -- find pdfs and print info with pdfinfo
+    # find-pdf()        -- find pdfs and print info with pdfinfo
     SPATH='.'
     files=$(find "$SPATH" -type f -iname '*.pdf' -printf "%T+||%p\n" | sort -n)
     for f in $files; do
@@ -98,13 +98,18 @@ find-pdf () {
 }
 
 find-lately () {
-    # find-lately()     -- list and sort files in paths $@ by mtime
+    # find-lately()     -- list and sort files in paths $@ by ISO8601 mtime
+    #                      stderr > lately.$(date).errors
+    #                      stdout > lately.$(date).files
+    #                      stdout > lately.$(date).sorted
+    #                      note: 
     set -x
     paths=${@:-"/"}
-    lately="lately.$(date +'%Y%m%d%H%M%S')"
+    lately="lately.$(date +'%FT%T%z')"
     find $paths -exec \
         stat -f '%Sc%t%N%t%z%t%Su%t%Sg%t%Sp%t%T' -t '%F %T%z' {} \; \
-        > ${lately} 2> ${lately}.errors
+        2> ${lately}.errors \
+        > ${lately}.files
     sort ${lately} > ${lately}.sorted
     set +x
 }
@@ -195,7 +200,7 @@ deb-chksums () {
 }
 
 deb-mkrepo () {
-    # deb-mkrepo        -- create dpkg Packages.gz and Sources.gz from dir ${1}
+    # deb-mkrepo()      -- create dpkg Packages.gz and Sources.gz from dir ${1}
     REPODIR=${1:-"/var/www/nginx-default/"}
     cd $REPODIR
     dpkg-scanpackages . /dev/null | gzip -9c > $REPODIR/Packages.gz
@@ -291,7 +296,7 @@ strace-f () {
 }
 
 strace-f-noeno () {
-    # strace-f-noeno    -- strace -e trace=file | grep -v ENOENT
+    # strace-f-noeno()  -- strace -e trace=file | grep -v ENOENT
     strace_ -e trace=file $@ 2>&1 \
         | grep -v '-1 ENOENT (No such file or directory)$' 
 }
