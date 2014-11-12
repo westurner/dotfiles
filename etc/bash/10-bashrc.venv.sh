@@ -1,4 +1,4 @@
-### venv -- builds upon virtualenv and virtualenvwrapper
+### bashrc.venv.sh
 #   note: most of these aliases and functions are overwritten by `we` 
 ## Variables
 
@@ -57,100 +57,100 @@ we() {
 complete -o default -o nospace -F _virtualenvs we
 
 
-## CD shortcuts
+## cd functions
 cdb () {
-    # cdb      -- cd $_BIN
+    # cdb()     -- cd $_BIN
     cd "${_BIN}"/$@
 }
 cde () {
-    # cde      -- cd $_ETC
+    # cde()     -- cd $_ETC
     cd "${_ETC}"/$@
 }
 cdv () {
-    # cdv      -- cd $VIRTUAL_ENV
+    # cdv()     -- cd $VIRTUAL_ENV
     cd "${VIRTUAL_ENV}"/$@
 }
 cdve () {
-    # cdve     -- cd $WORKON_HOME
+    # cdve()    -- cd $WORKON_HOME
     cd "${WORKON_HOME}"/$@
 }
 cdvar () {
-    # cdvar    -- cd $_VAR
+    # cdvar()   -- cd $_VAR
     cd "${_VAR}"/$@
 }
 cdlog () {
-    # cdlog    -- cd $_LOG
+    # cdlog()   -- cd $_LOG
     cd "${_LOG}"/$@
 }
 cdww () {
-    # cdww     -- cd $_WWW
+    # cdww()    -- cd $_WWW
     cd "${_WWW}"/$@
 }
 cdl () {
-    # cdl      -- cd $_LIB
+    # cdl()     -- cd $_LIB
     cd "${_LIB}"/$@
 }
 cdpylib () {
-    # cdpylib  -- cd $_PYLIB
+    # cdpylib() -- cd $_PYLIB
     cd "${_PYLIB}"/$@
 }
 cdpysite () {
-    # cdpysite -- cd $_PYSITE
+    # cdpysite()-- cd $_PYSITE
     cd "${_PYSITE}"/$@
 }
 cds () {
-    # cds      -- cd $_SRC
+    # cds()    -- cd $_SRC
     cd "${_SRC}"/$@
 }
 cdw () {
-    # cdw      -- cd $_WRD
+    # cdw()    -- cd $_WRD
     cd "${_WRD}"/$@
 }
 
 cdwrk () {
-    # cdwrk     -- cd $WORKON_HOME
+    # cdwrk()   -- cd $WORKON_HOME
     cd "${WORKON_HOME}/$@"
 }
 
 ## Grin search
 # virtualenv / virtualenvwrapper
 grinv() {
-    # grinv     -- grin $VIRTUAL_ENV
+    # grinv()   -- grin $VIRTUAL_ENV
     grin --follow $@ "${VIRTUAL_ENV}"
 }
 grindv() {
-    # grindv    -- grind $VIRTUAL_ENV
+    # grindv()  -- grind $VIRTUAL_ENV
     grind --follow $@ --dirs "${VIRTUAL_ENV}"
 }
 
 # venv
 grins() {
-    # grins     -- grin $_SRC
+    # grins()   -- grin $_SRC
     grin --follow $@ "${_SRC}"
 }
 grinds() {
-    # grinds    -- grind $_SRC
+    # grinds()  -- grind $_SRC
     grind --follow $@ --dirs "${_SRC}"
 }
 grinw() {
-    # grinw     -- grin $_WRD
+    # grinw()   -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
 grin-() {
-    # grin-     -- grin _WRD
+    # grin-()   -- grin _WRD
     grinw $@
 }
 grindw() {
-    # grindw    -- grind $_WRD
+    # grindw()  -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
 }
 grind-() {
-    # grind-    -- grind $_WRD
+    # grind-()  -- grind $_WRD
     grindw $@
 }
 
 grindctags() {
-    # grindctags    -- generate ctags from grind (in ./tags)
+    # grindctags()      -- generate ctags from grind (in ./tags)
     if [ -n "${__IS_MAC}" ]; then
         if [ -x "/usr/local/bin/ctags" ]; then
             ctagsbin="/usr/local/bin/ctags"
@@ -168,54 +168,71 @@ grindctags() {
     ls -alh ${path}/tags;)
 }
 grindctagssys() {
-    # grindctagssys -- generate ctags from grind --sys-path (in $_WRD/tags)
+    # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
     grindctags "${_WRD}" "--sys-path"
 }
 grindctagsw() {
-    # grindctagsw   -- generate ctags from (cd $_WRD; grind)  (in $_WRD/tags)
+    # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
     grindctags "${_WRD}"
 }
 grindctagss() {
-    # grindctagss   -- generate ctags from (cd $_SRC; grind)  (in $_SRC/tags)
+    # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
     grindctags "${_SRC}"
 }
 
 
 
 _load_venv_aliases() {
-    # _load_venv_aliases -- load venv aliases
-    #   (note: these are overwritten by `we` [`source <(venv -b)`])
+    # _load_venv_aliases()  -- load venv aliases
+    #   note: these are overwritten by `we` [`source <(venv -b)`]
 
+    # ssv   -- supervisord -c  ${_SVCFG}
     alias ssv='supervisord -c "${_SVCFG}"'
+    # sv    -- supervisorctl -c ${_SVCFG}
     alias sv='supervisorctl -c "${_SVCFG}"'
+    # svd   -- supervisorctl -c ${_SVCFG} restart && sv tail -f dev
     alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
+    # svt   -- supervisorctl -c "${_SVCFG}" tail -f
     alias svt='sv tail -f'
 
-    alias hgv-='hg view -R "${_WRD}"'
-    alias hgl-='hg -R "${_WRD}" log'
+    # hgw   -- hg -R  ${_WRD}
+    alias hgw='hg -R "${_WRD}"'
+    # hg-   -- hg -R  ${_WRD}
+    alias hg-='hg -R "${_WRD}"'
 
+    # gitw  -- (cd ${_WRD} && git)
+    alias gitw='git -C "${_WRD}"'
+    # git-  -- (cd ${_WRD} && git)
+    alias git-='git -C "${_WRD}"'
+
+    # serve-    -- ${_SERVE_}
     alias serve-='${_SERVE_}'
+    # shell-    -- ${_SHELL_}
     alias shell-='${_SHELL_}'
+    # test-     -- cd ${_WRD} && python setup.py test
     alias test-='(cd ${_WRD} && python "${_WRD_SETUPY}" test)'
+    # testr-    -- reset; cd ${_WRD} && python setup.py test
     alias testr-='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
 
 }
 _load_venv_aliases
 
 makew() {
-    # makew     -- cd $_WRD && make $@
+    # makew()   -- cd $_WRD && make $@
     (cd "${_WRD}" && make $@)
 }
 make-() {
-    # make-     -- cd $_WRD && make $@
+    # make-()   -- cd $_WRD && make $@
     makew $@
 }
 mw() {
-    # mw        -- cd $_WRD && make $@
+    # mw()      -- cd $_WRD && make $@
     makew $@
 }
 
 _venv_set_prompt() {
+    # _venv_set_prompt  -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+    #                      and ${debian_chroot}
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
             export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
@@ -236,21 +253,34 @@ _venv_set_prompt() {
 _venv_set_prompt
 
 
-_venv_ensure_paths() {
-    #  _venv_ensure_paths()   -- 
-    prefix=$1
+mkdirs_venv() {
+    #  _venv_ensure_paths()   -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+    prefix=${1}
+    if [ -z "${prefix}" ]; then
+        if [ -n "${VIRTUAL_ENV}" ]; then
+            prefix=${VIRTUAL_ENV}
+        else
+            return
+        fi
+    fi
     ensure_mkdir ${prefix}
     ensure_mkdir ${prefix}/bin
     ensure_mkdir ${prefix}/etc
-    # ensure_mkdir ${prefix}/home
+    #ensure_mkdir ${prefix}/home
     ensure_mkdir ${prefix}/lib
-    # ensure_mkdir ${prefix}/opt
-    # ensure_mkdir ${prefix}/sbin
+    #ensure_mkdir ${prefix}/opt
+    #ensure_mkdir ${prefix}/sbin
+    #ensure_mkdir ${prefix}/share/doc
     ensure_mkdir ${prefix}/src
-    # ensure_mkdir ${prefix}/srv
+    #ensure_mkdir ${prefix}/srv
     ensure_mkdir ${prefix}/tmp
     ensure_mkdir ${prefix}/usr/share/doc
     ensure_mkdir ${prefix}/var/cache
     ensure_mkdir ${prefix}/var/log
     ensure_mkdir ${prefix}/var/run
+    ensure_mkdir ${prefix}/var/www
+
+    #ls -ld ${prefix}/**
+    ls -ld $(find ${prefix} ${prefix}/lib -type d -maxdepth 2)
 }
+

@@ -63,6 +63,21 @@ dotfiles_initialize() {
     log_dotfiles_state 'initialize'
 }
 
+dotfiles_postmkvirtualenv() {
+    # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
+    log_dotfiles_state 'postmkvirtualenv'
+    declare -f 'mkdirs_venv' 2>&1 >/dev/null && mkdirs_venv
+    test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
+    echo ""
+    pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
+    echo "pip_freeze='${pip_freeze}'"
+    pip freeze | tee ${pip_freeze}
+    echo ""
+    pip_list="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
+    echo "pip_list='${pip_list}'"
+    pip list | tee ${pip_list}
+}
+
 dotfiles_preactivate() {
     # dotfiles_preactivate()    -- virtualenvwrapper preactivate
     log_dotfiles_state 'preactivate'
