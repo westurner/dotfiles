@@ -64,7 +64,7 @@
 <script type="text/javascript">
 </script>
     <link rel="top" title="dotfiles 0.4.0 documentation" href="index.html" />
-    <link rel="next" title="Usage" href="usage.html" />
+    <link rel="next" title="Venv" href="venv.html" />
     <link rel="prev" title="Contents" href="index.html" /> 
   </head>
   <body role="document">
@@ -112,7 +112,7 @@
 
             
               <li><a href="index.html" title="Contents" accesskey="P">previous </a></li>
-              <li><a href="usage.html" title="Usage" accesskey="N">next </a></li>
+              <li><a href="venv.html" title="Venv" accesskey="N">next </a></li>
               <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
             
@@ -268,9 +268,9 @@ dr               <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.befor
 <p>Project requirements are installed by
 <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> and, optionally, also the <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">Makefile</a>.</p>
 <ul class="simple">
-<li>Bash</li>
-<li>Python (pip)</li>
-<li>Git</li>
+<li><a class="reference internal" href="tools.html#bash"><em>Bash</em></a></li>
+<li><a class="reference internal" href="tools.html#git"><em>Git</em></a></li>
+<li><a class="reference internal" href="tools.html#python"><em>Python</em></a> (<a class="reference internal" href="tools.html#pip"><em>Pip</em></a>)</li>
 </ul>
 </div>
 <div class="section" id="install-the-dotfiles">
@@ -282,8 +282,9 @@ dr               <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.befor
 <p>The <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> shell script
 clones the <a class="reference external" href="https://github.com/westurner/dotfiles">dotfiles git repository</a>
 and installs the <code class="docutils literal"><span class="pre">dotfiles</span></code> Python package.</p>
-<p>Create a virtualenv with virtualenvwrapper named &#8220;<code class="docutils literal"><span class="pre">dotfiles</span></code>&#8221;:</p>
-<div class="highlight-bash"><div class="highlight"><pre>pip install --user virtualenvwrapper
+<p>Create a <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> with <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>
+named &#8220;<code class="docutils literal"><span class="pre">dotfiles</span></code>&#8221;:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>sudo<span class="o">]</span> pip install virtualenvwrapper
 <span class="nb">source</span> <span class="k">$(</span>which <span class="s1">&#39;virtualenvwrapper.sh&#39;</span><span class="k">)</span>
 mkvirtualenv dotfiles
 mkdir <span class="nv">$VIRTUAL_ENV</span>/src
@@ -294,7 +295,7 @@ mkdir <span class="nv">$VIRTUAL_ENV</span>/src
 dotfiles package, and install additional helpful packages):</p>
 <div class="highlight-bash"><div class="highlight"><pre>git clone ssh://git@github.com/westurner/dotfiles <span class="o">&amp;&amp;</span> <span class="nb">cd </span>dotfiles
 <span class="c"># Install and symlink dotfiles and dotvim</span>
-scripts/bootstrap_dotfiles.sh -I
+scripts/bootstrap_dotfiles.sh -I -R
 
 <span class="c"># (Optional) Install dotfiles scripts into ~/.local/bin (pip --user)</span>
 scripts/bootstrap_dotfiles.sh -I -u
@@ -364,8 +365,8 @@ scripts/bootstrap_dotfiles.sh -U
   <p class="topless"><a href="index.html"
                         title="previous chapter">Contents</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="usage.html"
-                        title="next chapter">Usage</a></p>
+  <p class="topless"><a href="venv.html"
+                        title="next chapter">Venv</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/readme.txt"
@@ -413,7 +414,7 @@ scripts/bootstrap_dotfiles.sh -U
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="index.html" title="Contents" >previous</a></li>
-        <li><a href="usage.html" title="Usage" >next</a></li>
+        <li><a href="venv.html" title="Venv" >next</a></li>
         <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="genindex.html" title="General Index" >index</a></li> 
       

@@ -155,8 +155,6 @@
 <div class="viewcode-block" id="IPYMock"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.IPYMock">[docs]</a><span class="k">class</span> <span class="nc">IPYMock</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provide a few mocked methods for testing</span>
-
-<span class="sd">    #TODO: from IPython.core import ipapi</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="IPYMock.system"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.IPYMock.system">[docs]</a>    <span class="k">def</span> <span class="nf">system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -602,7 +600,7 @@
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;edit-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&quot;{_EDIT_} %l&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                 <span class="n">_EDIT_</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">])</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;edit-&#39;</span><span class="p">]</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editp&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%%</span><span class="s">l&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edit_project_cmd</span> <span class="c"># TODO</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editp&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%%</span><span class="s">l&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edit_project_cmd</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; make %l)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;make-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span>

@@ -65,7 +65,7 @@
 </script>
     <link rel="top" title="dotfiles 0.4.0 documentation" href="index.html" />
     <link rel="next" title="API" href="api.html" />
-    <link rel="prev" title="Usage" href="usage.html" /> 
+    <link rel="prev" title="dotfiles" href="readme.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
@@ -86,13 +86,17 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">Venv</a><ul>
-<li><a class="reference internal" href="#python-api">Python API</a><ul>
-<li><a class="reference internal" href="#command-aliases">Command Aliases</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
+<li><a class="reference internal" href="#python-api">Python API</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#cd-aliases">cd Aliases</a></li>
-<li><a class="reference internal" href="#gvim">gvim</a></li>
-<li><a class="reference internal" href="#grin">grin</a></li>
+<li><a class="reference internal" href="#command-aliases">Command Aliases</a></li>
+<li><a class="reference internal" href="#example-venv-configuration">Example Venv Configuration</a><ul>
+<li><a class="reference internal" href="#shell-configuration">Shell Configuration</a></li>
+<li><a class="reference internal" href="#json-configuration">JSON Configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -101,7 +105,7 @@
               </li>
 
             
-              <li><a href="usage.html" title="Usage" accesskey="P">previous </a></li>
+              <li><a href="readme.html" title="dotfiles" accesskey="P">previous </a></li>
               <li><a href="api.html" title="API" accesskey="N">next </a></li>
               <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
@@ -141,94 +145,57 @@
                 <div class="body">
                   
   <div class="section" id="venv">
-<h1>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal"><span class="pre">./etc/ipython/profile_default/ipython_config.py</span></code></p>
-<p>Enhancements to <a class="reference external" href="https://pypi.python.org/pypi/virtualenvwrapper">virtualenvwrapper</a> for <a class="reference external" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Z_shell">ZSH</a>, and <a class="reference external" href="https://en.wikipedia.org/wiki/IPython">IPython</a>.</p>
-<p>Venv functionality is defined in two places:</p>
+<span id="index-0"></span><span id="id1"></span><h1>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li>Configures <a class="reference internal" href="tools.html#python"><em>Python</em></a> <code class="docutils literal"><span class="pre">site</span></code> for a given <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a></li>
+<li>Configures <a class="reference internal" href="tools.html#python"><em>Python</em></a> <code class="docutils literal"><span class="pre">sys.path</span></code>: <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a> extension paths</li>
+<li>Configures <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a> command aliases (<code class="docutils literal"><span class="pre">%alias</span></code>, or just <code class="docutils literal"><span class="pre">alias</span></code>)</li>
+<li>Generates <a class="reference internal" href="tools.html#bash"><em>Bash</em></a> environments from <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> paths</li>
+<li>Configures <a class="reference internal" href="tools.html#bash"><em>Bash</em></a> variables starting with <code class="docutils literal"><span class="pre">$_</span></code> (<code class="docutils literal"><span class="pre">$_APP</span></code>, <code class="docutils literal"><span class="pre">$_WRD</span></code>)</li>
+<li>Run commands within a <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">-x</span> <span class="pre">bash</span></code>)</li>
+</ul>
+<p>There are two parts to &#8220;<code class="docutils literal"><span class="pre">venv</span></code>&#8221;:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython/ipython_config.py">dotfiles.venv.ipython_config.py</a></li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/ipython/ipython_config.py">ipython_config.py</a>, which generates shell env:</li>
 </ul>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export</span> <span class="o">&amp;&amp;</span> <span class="nb">alias</span>  <span class="c"># &amp;&amp; set</span>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython/ipython_config.py">dotfiles.venv.ipython_config.py</a> generates shell and IPython configuration
+with aliases that, for shells, are expanded to functions
+if they contain a <code class="docutils literal"><span class="pre">%l</span></code>
+(which IPython <code class="docutils literal"><span class="pre">%alias</span></code> replaces with any passed arguments).</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython/ipython_config.py">dotfiles.venv.ipython_config.py</a> is symlinked to
+<code class="docutils literal"><span class="pre">etc/ipython/ipython_config.py</span></code>.</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures a number of useful variables and
+functions for use with <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># print shell configuration for a (hypothetical) dotfiles virtualenv</span>
+venv dotfiles --bash
 
-<span class="nb">echo</span> <span class="nv">$_VENV</span>
-cat <span class="nv">$_VENV</span>
-<span class="c">#&gt; omitted for readability</span>
-
+<span class="c"># print shell configuration for the current ${VIRTUAL_ENV} [and ${_WRD}]</span>
 venv -E --bash
-<span class="nb">source</span> &lt;<span class="o">(</span>venv -E --bash<span class="o">)</span>
 
-<span class="nb">export</span> <span class="o">&amp;&amp;</span> <span class="nb">alias</span>  <span class="c"># &amp;&amp; set</span>
-</pre></div>
-</div>
-<p><strong>Features</strong></p>
-<ul class="simple">
-<li>Configures <a class="reference external" href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> <code class="docutils literal"><span class="pre">site</span></code> for a given <cite>virtualenv</cite></li>
-<li>Configures <a class="reference external" href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> <code class="docutils literal"><span class="pre">sys.path</span></code>: <a class="reference external" href="https://en.wikipedia.org/wiki/IPython">IPython</a> extension paths</li>
-<li>Configures <a class="reference external" href="https://en.wikipedia.org/wiki/IPython">IPython</a> command aliases (<code class="docutils literal"><span class="pre">%alias</span></code>, or just <code class="docutils literal"><span class="pre">alias</span></code>)</li>
-<li>Generates <a class="reference external" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a> environments from <cite>virtualenv</cite> paths</li>
-<li>Configures <a class="reference external" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a> variables starting with <code class="docutils literal"><span class="pre">$_</span></code></li>
-<li>Executes subcommands within generated environments (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">-x</span> <span class="pre">bash</span></code>)</li>
-</ul>
-<p><strong>Usage</strong></p>
-<p>Create a virtualenv (<strong>virtualenvwrapper</strong>):</p>
-<div class="highlight-python"><div class="highlight"><pre>mkvirtualenv dotfiles
-workon dotfiles
-pip install -e https://bitbucket.org/westurner/dotfiles
-</pre></div>
-</div>
-<p>Work on a project:</p>
-<div class="highlight-python"><div class="highlight"><pre>we dotfiles
-</pre></div>
-</div>
-<p>List current environment settings:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">venv</span> <span class="o">-</span><span class="n">E</span> <span class="o">--</span><span class="n">bash</span>
-</pre></div>
-</div>
-<p>Generate environment settings for an environment:</p>
-<div class="highlight-python"><div class="highlight"><pre>venv dotfiles --bash
-</pre></div>
-</div>
-<p>Execute a command within an environment:</p>
-<div class="highlight-python"><div class="highlight"><pre>venv dotfiles -x gnome-terminal
-</pre></div>
-</div>
-<p>The <code class="docutils literal"><span class="pre">we</span></code> command adds a <code class="docutils literal"><span class="pre">_venv</span></code> alias to <code class="docutils literal"><span class="pre">venv</span> <span class="pre">-E</span></code>,
-so the following commands are equivalent:</p>
-<div class="highlight-python"><div class="highlight"><pre>venv -E --print
-venv dotfiles --print
-_venv --print
-_venv dotfiles --print
-$_VENV -E --print
-$_VENV dotfiles --print
-</pre></div>
-</div>
-<p>List Venv-generated Venv variables, aliases, and commands with:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">venv</span> <span class="o">-</span><span class="n">E</span> <span class="o">--</span><span class="n">bash</span>
-</pre></div>
-</div>
-<p>Paths should be contained within <code class="docutils literal"><span class="pre">${VIRTUAL_ENV}</span></code>, which is set by
-<code class="docutils literal"><span class="pre">virtualenvwrapper</span></code> through a call to <code class="docutils literal"><span class="pre">workon</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>echo ${VIRTUAL_ENV}
-#
-workon dotfiles
-echo ${VIRTUAL_ENV}
-# ~/.virtualenvs/dotfiles
-echo ${_WRD}
-#
-source &lt;(venv -E --bash)
-echo ${_WRD}
-# ~/.virtualenvs/dotfiles/src/dotfiles
-echo ${_APP}
-# dotfiles
+<span class="c"># run a command within a virtualenv</span>
+venv dotfiles -x bash
+
+<span class="c"># workon a virtualenvwrapper virtualenv (we) (source &lt;(venv -E --bash))</span>
+we dotfiles
+
+<span class="c"># workon ${WORKON_HOME}/dotfiles/src/otherproject (echo $_APP $_WRD)</span>
+we dotfiles otherproject
 </pre></div>
 </div>
 <div class="section" id="python-api">
-<h2>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h2>
-<p>A Venv object builds an <code class="docutils literal"><span class="pre">Env</span></code> with <code class="docutils literal"><span class="pre">${VIRTUAL_ENV}</span></code>-relative paths
+<h3>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h3>
+<p>A Venv object builds a <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a>
+with <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths
 in a common filesystem hierarchy and an ordered dictionary of
 command aliases, which can be serialized to
-a bash script (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--bash</span></code>) or to JSON (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--print</span></code>).</p>
+a bash script (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--bash</span></code>) or to JSON (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--print</span></code>)
+by a <code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config:Venv</span></code>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">Venv</span><span class="o">,</span> <span class="nn">json</span>
 <span class="n">venv</span> <span class="o">=</span> <span class="n">Venv</span><span class="p">(</span><span class="n">from_environ</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">venv</span><span class="o">.</span><span class="k">print</span><span class="p">()</span>
@@ -250,99 +217,305 @@ a bash script (<code class="docutils literal"><span class="pre">venv</span> <spa
 <span class="c">#&gt; gvim --servername dotfiles --remote-tab</span>
 </pre></div>
 </div>
+</div>
+</div>
 <div class="section" id="command-aliases">
-<h3>Command Aliases<a class="headerlink" href="#command-aliases" title="Permalink to this headline">¶</a></h3>
+<h2>Command Aliases<a class="headerlink" href="#command-aliases" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Many of the aliases generated by <cite>Venv</cite> are also defined in
-<code class="docutils literal"><span class="pre">bashrc.venv.sh</span></code>.</p>
+<p class="last">The aliases generated by <cite>dotfiles.venv.ipython_config.py</cite>
+should also be defined in <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a>;
+but the variables they reference are set by
+<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython/ipython_config.py">dotfiles.venv.ipython_config.py</a>.</p>
 </div>
 </div>
-</div>
-<div class="section" id="cd-aliases">
-<h2>cd Aliases<a class="headerlink" href="#cd-aliases" title="Permalink to this headline">¶</a></h2>
-<p><strong>cdb</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $_BIN
-# cdvirtualenv bin
+<div class="section" id="example-venv-configuration">
+<h2>Example Venv Configuration<a class="headerlink" href="#example-venv-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="shell-configuration">
+<h3>Shell Configuration<a class="headerlink" href="#shell-configuration" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">--bash</span></code>:</p>
+<div class="highlight-text"><div class="highlight"><pre>$ python ../src/dotfiles/venv/ipython_config.py dotfiles --bash
+export VIRTUAL_ENV=&#39;/Users/W/wrk/.ve/dotfiles&#39;
+export VIRTUAL_ENV_NAME=&#39;dotfiles&#39;
+export _BIN=&#39;/Users/W/wrk/.ve/dotfiles/bin&#39;
+export _ETC=&#39;/Users/W/wrk/.ve/dotfiles/etc&#39;
+export _ETCOPT=&#39;/Users/W/wrk/.ve/dotfiles/etc/opt&#39;
+export _HOME=&#39;/Users/W/wrk/.ve/dotfiles/home&#39;
+export _ROOT=&#39;/Users/W/wrk/.ve/dotfiles/root&#39;
+export _LIB=&#39;/Users/W/wrk/.ve/dotfiles/lib&#39;
+export _PYLIB=&#39;/Users/W/wrk/.ve/dotfiles/lib/python2.7&#39;
+export _PYSITE=&#39;/Users/W/wrk/.ve/dotfiles/lib/python2.7/site-packages&#39;
+export _MNT=&#39;/Users/W/wrk/.ve/dotfiles/mnt&#39;
+export _MEDIA=&#39;/Users/W/wrk/.ve/dotfiles/media&#39;
+export _OPT=&#39;/Users/W/wrk/.ve/dotfiles/opt&#39;
+export _SBIN=&#39;/Users/W/wrk/.ve/dotfiles/sbin&#39;
+export _SRC=&#39;/Users/W/wrk/.ve/dotfiles/src&#39;
+export _SRV=&#39;/Users/W/wrk/.ve/dotfiles/srv&#39;
+export _TMP=&#39;/Users/W/wrk/.ve/dotfiles/tmp&#39;
+export _USR=&#39;/Users/W/wrk/.ve/dotfiles/usr&#39;
+export _USRBIN=&#39;/Users/W/wrk/.ve/dotfiles/usr/bin&#39;
+export _USRINCLUDE=&#39;/Users/W/wrk/.ve/dotfiles/usr/include&#39;
+export _USRLIB=&#39;/Users/W/wrk/.ve/dotfiles/usr/lib&#39;
+export _USRLOCAL=&#39;/Users/W/wrk/.ve/dotfiles/usr/local&#39;
+export _USRSBIN=&#39;/Users/W/wrk/.ve/dotfiles/usr/sbin&#39;
+export _USRSHARE=&#39;/Users/W/wrk/.ve/dotfiles/usr/share&#39;
+export _USRSRC=&#39;/Users/W/wrk/.ve/dotfiles/usr/src&#39;
+export _VAR=&#39;/Users/W/wrk/.ve/dotfiles/var&#39;
+export _VARCACHE=&#39;/Users/W/wrk/.ve/dotfiles/var/cache&#39;
+export _VARLIB=&#39;/Users/W/wrk/.ve/dotfiles/var/lib&#39;
+export _VARLOCK=&#39;/Users/W/wrk/.ve/dotfiles/var/lock&#39;
+export _LOG=&#39;/Users/W/wrk/.ve/dotfiles/var/log&#39;
+export _VARMAIL=&#39;/Users/W/wrk/.ve/dotfiles/var/mail&#39;
+export _VAROPT=&#39;/Users/W/wrk/.ve/dotfiles/var/opt&#39;
+export _VARRUN=&#39;/Users/W/wrk/.ve/dotfiles/var/run&#39;
+export _VARSPOOL=&#39;/Users/W/wrk/.ve/dotfiles/var/spool&#39;
+export _VARTMP=&#39;/Users/W/wrk/.ve/dotfiles/var/tmp&#39;
+export _WWW=&#39;/Users/W/wrk/.ve/dotfiles/var/www&#39;
+export _USRLOG=&#39;/Users/W/wrk/.ve/dotfiles/.usrlog&#39;
+export HISTFILE=&#39;/Users/W/wrk/.ve/dotfiles/.bash_history&#39;
+export HISTSIZE=1000000
+export HISTFILESIZE=1000000
+export PAGER=&#39;/usr/bin/less -r&#39;
+export _APP=&#39;dotfiles&#39;
+export _WRD=&#39;/Users/W/wrk/.ve/dotfiles/src/dotfiles&#39;
+export VIMBIN=&#39;/usr/bin/vim&#39;
+export GVIMBIN=&#39;/usr/local/bin/gvim&#39;
+export MVIMBIN=&#39;/usr/local/bin/mvim&#39;
+export GUIVIM=&#39;/usr/local/bin/mvim&#39;
+export _EDIT_=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&#39;
+export _IPSESSKEY=&#39;/Users/W/wrk/.ve/dotfiles/src/.sessionkey&#39;
+export _NOTEBOOKS=&#39;/Users/W/wrk/.ve/dotfiles/src/notebooks&#39;
+export _IPQTLOG=&#39;/Users/W/wrk/.ve/dotfiles/.ipqt.log&#39;
+export _WRD_SETUPY=&#39;/Users/W/wrk/.ve/dotfiles/src/dotfiles/setup.py&#39;
+export _TEST_=&#39;(cd &quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; python &quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot; test)&#39;
+export _CFG=&#39;/Users/W/wrk/.ve/dotfiles/etc/development.ini&#39;
+export _EDITCFG_=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent /Users/W/wrk/.ve/dotfiles/etc/development.ini&#39;
+export _SHELL_=&#39;(cd &quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; /Users/W/wrk/.ve/dotfiles/bin/pshell &quot;/Users/W/wrk/.ve/dotfiles/etc/development.ini&quot;)&#39;
+export _SERVE_=&#39;(cd &quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; /Users/W/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart &quot;/Users/W/wrk/.ve/dotfiles/etc/development.ini&quot;)&#39;
+export _SVCFG=&#39;/Users/W/wrk/.ve/dotfiles/etc/supervisord.conf&#39;
+export _SVCFG_=&#39; -c &quot;/Users/W/wrk/.ve/dotfiles/etc/supervisord.conf&quot;&#39;
+eval &#39;cdb () {
+    cd &quot;${_BIN}&quot;/$@
+}&#39;;
+eval &#39;cde () {
+    cd &quot;${_ETC}&quot;/$@
+}&#39;;
+eval &#39;cdv () {
+    cd &quot;${VIRTUAL_ENV}&quot;/$@
+}&#39;;
+eval &#39;cdvar () {
+    cd &quot;${_VAR}&quot;/$@
+}&#39;;
+eval &#39;cdlog () {
+    cd &quot;${_LOG}&quot;/$@
+}&#39;;
+eval &#39;cdww () {
+    cd &quot;${_WWW}&quot;/$@
+}&#39;;
+eval &#39;cdl () {
+    cd &quot;${_LIB}&quot;/$@
+}&#39;;
+eval &#39;cdpylib () {
+    cd &quot;${_PYLIB}&quot;/$@
+}&#39;;
+eval &#39;cdpysite () {
+    cd &quot;${_PYSITE}&quot;/$@
+}&#39;;
+eval &#39;cds () {
+    cd &quot;${_SRC}&quot;/$@
+}&#39;;
+eval &#39;cdhelp () {
+    set | grep &quot;^cd.*()&quot; | cut -f1 -d&quot; &quot; #$@
+}&#39;;
+eval &#39;edit- () {
+    ${_EDIT_} $@
+}&#39;;
+alias gvim-=&#39;${_EDIT_}&#39;
+eval &#39;ipskey () {
+    (python -c &quot;import os; print os.urandom(128).encode(\&quot;base64\&quot;)&quot; &gt; &quot;${_IPSESSKEY}&quot; ) &amp;&amp; chmod 0600 &quot;${_IPSESSKEY}&quot;; # $@
+}&#39;;
+eval &#39;ipnb () {
+    ipython notebook --secure --Session.keyfile=&quot;${_IPSESSKEY}&quot; --notebook-dir=&quot;${_NOTEBOOKS}&quot; --deep-reload $@
+}&#39;;
+eval &#39;ipqt () {
+    ipython qtconsole --secure --Session.keyfile=&quot;${_IPSESSKEY}&quot; --logappend=&quot;${_IPQTLOG}&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=&quot;Monaco&quot; --ConsoleWidget.font_size=11 $@
+}&#39;;
+eval &#39;grinv () {
+    grin --follow $@ &quot;${VIRTUAL_ENV}&quot;
+}&#39;;
+eval &#39;grindv () {
+    grind --follow $@ --dirs &quot;${VIRTUAL_ENV}&quot;
+}&#39;;
+eval &#39;grins () {
+    grin --follow $@ &quot;${_SRC}&quot;
+}&#39;;
+eval &#39;grinds () {
+    grind --follow $@ --dirs &quot;${_SRC}&quot;
+}&#39;;
+eval &#39;cdw () {
+    cd &quot;${_WRD}&quot;/$@
+}&#39;;
+eval &#39;cd- () {
+    cd &quot;${_WRD}&quot;/$@
+}&#39;;
+alias test-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&#39;
+alias testr-=&#39;reset &amp;&amp; (cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&#39;
+alias nose-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; nosetests)&#39;
+eval &#39;grinw () {
+    grin --follow $@ &quot;${_WRD}&quot;
+}&#39;;
+eval &#39;grin- () {
+    grin --follow $@ &quot;${_WRD}&quot;
+}&#39;;
+eval &#39;grindw () {
+    grind --follow $@ --dirs &quot;${_WRD}&quot;
+}&#39;;
+eval &#39;grind- () {
+    grind --follow $@ --dirs &quot;${_WRD}&quot;
+}&#39;;
+alias hgv-=&#39;hg view -R &quot;${_WRD}&quot;&#39;
+alias hgl-=&#39;hg -R &quot;${_WRD}&quot; log&#39;
+eval &#39;editcfg () {
+    ${_EDITCFG_} $@
+}&#39;;
+alias serve-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; ${_BIN}/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)&#39;
+alias shell-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; ${_BIN}/pshell &quot;${_CFG}&quot;)&#39;
+eval &#39;e () {
+    ${_EDIT_} $@
+}&#39;;
+eval &#39;editp () {
+    ${_EDIT_} &quot;${_WRD}/README.rst&quot; &quot;${_WRD}/CHANGES.rst&quot; &quot;${_WRD}/TODO.rst&quot; &quot;${_WRD}/Makefile&quot; &quot;${_WRD_SETUPY}&quot; &quot;${_WRD}/requirements.txt&quot; &quot;${_WRD}/.hgignore&quot; &quot;${_WRD}/.gitignore&quot; &quot;${_WRD}/.hg/hgrc&quot; &quot;${_WRD}/&quot; &quot;${_WRD}/dotfiles&quot; &quot;${_WRD}/docs&quot; $@
+}&#39;;
+eval &#39;makewrd () {
+    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
+}&#39;;
+eval &#39;make- () {
+    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
+}&#39;;
+eval &#39;mw () {
+    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
+}&#39;;
+alias ssv=&#39;supervisord -c &quot;${_SVCFG}&quot;&#39;
+alias sv=&#39;supervisorctl -c &quot;${_SVCFG}&quot;&#39;
+alias svd=&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; supervisorctl -c &quot;${_SVCFG}&quot; tail -f dev&#39;
+alias svt=&#39;sv tail -f&#39;
 </pre></div>
 </div>
-<p><strong>cde</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $_ETC
-# cdvirtualenv etc
+</div>
+<div class="section" id="json-configuration">
+<h3>JSON Configuration<a class="headerlink" href="#json-configuration" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">--print</span></code>:</p>
+<div class="highlight-text"><div class="highlight"><pre>$ python ../src/dotfiles/venv/ipython_config.py dotfiles --print
+{
+  &quot;env&quot;: {
+    &quot;VIRTUAL_ENV&quot;: &quot;/Users/W/wrk/.ve/dotfiles&quot;, 
+    &quot;VIRTUAL_ENV_NAME&quot;: &quot;dotfiles&quot;, 
+    &quot;_BIN&quot;: &quot;/Users/W/wrk/.ve/dotfiles/bin&quot;, 
+    &quot;_ETC&quot;: &quot;/Users/W/wrk/.ve/dotfiles/etc&quot;, 
+    &quot;_ETCOPT&quot;: &quot;/Users/W/wrk/.ve/dotfiles/etc/opt&quot;, 
+    &quot;_HOME&quot;: &quot;/Users/W/wrk/.ve/dotfiles/home&quot;, 
+    &quot;_ROOT&quot;: &quot;/Users/W/wrk/.ve/dotfiles/root&quot;, 
+    &quot;_LIB&quot;: &quot;/Users/W/wrk/.ve/dotfiles/lib&quot;, 
+    &quot;_PYLIB&quot;: &quot;/Users/W/wrk/.ve/dotfiles/lib/python2.7&quot;, 
+    &quot;_PYSITE&quot;: &quot;/Users/W/wrk/.ve/dotfiles/lib/python2.7/site-packages&quot;, 
+    &quot;_MNT&quot;: &quot;/Users/W/wrk/.ve/dotfiles/mnt&quot;, 
+    &quot;_MEDIA&quot;: &quot;/Users/W/wrk/.ve/dotfiles/media&quot;, 
+    &quot;_OPT&quot;: &quot;/Users/W/wrk/.ve/dotfiles/opt&quot;, 
+    &quot;_SBIN&quot;: &quot;/Users/W/wrk/.ve/dotfiles/sbin&quot;, 
+    &quot;_SRC&quot;: &quot;/Users/W/wrk/.ve/dotfiles/src&quot;, 
+    &quot;_SRV&quot;: &quot;/Users/W/wrk/.ve/dotfiles/srv&quot;, 
+    &quot;_TMP&quot;: &quot;/Users/W/wrk/.ve/dotfiles/tmp&quot;, 
+    &quot;_USR&quot;: &quot;/Users/W/wrk/.ve/dotfiles/usr&quot;, 
+    &quot;_USRBIN&quot;: &quot;/Users/W/wrk/.ve/dotfiles/usr/bin&quot;, 
+    &quot;_USRINCLUDE&quot;: &quot;/Users/W/wrk/.ve/dotfiles/usr/include&quot;, 
+    &quot;_USRLIB&quot;: &quot;/Users/W/wrk/.ve/dotfiles/usr/lib&quot;, 
+    &quot;_USRLOCAL&quot;: &quot;/Users/W/wrk/.ve/dotfiles/usr/local&quot;, 
+    &quot;_USRSBIN&quot;: &quot;/Users/W/wrk/.ve/dotfiles/usr/sbin&quot;, 
+    &quot;_USRSHARE&quot;: &quot;/Users/W/wrk/.ve/dotfiles/usr/share&quot;, 
+    &quot;_USRSRC&quot;: &quot;/Users/W/wrk/.ve/dotfiles/usr/src&quot;, 
+    &quot;_VAR&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var&quot;, 
+    &quot;_VARCACHE&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/cache&quot;, 
+    &quot;_VARLIB&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/lib&quot;, 
+    &quot;_VARLOCK&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/lock&quot;, 
+    &quot;_LOG&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/log&quot;, 
+    &quot;_VARMAIL&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/mail&quot;, 
+    &quot;_VAROPT&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/opt&quot;, 
+    &quot;_VARRUN&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/run&quot;, 
+    &quot;_VARSPOOL&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/spool&quot;, 
+    &quot;_VARTMP&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/tmp&quot;, 
+    &quot;_WWW&quot;: &quot;/Users/W/wrk/.ve/dotfiles/var/www&quot;, 
+    &quot;_USRLOG&quot;: &quot;/Users/W/wrk/.ve/dotfiles/.usrlog&quot;, 
+    &quot;HISTFILE&quot;: &quot;/Users/W/wrk/.ve/dotfiles/.bash_history&quot;, 
+    &quot;HISTSIZE&quot;: 1000000, 
+    &quot;HISTFILESIZE&quot;: 1000000, 
+    &quot;PAGER&quot;: &quot;/usr/bin/less -r&quot;, 
+    &quot;_APP&quot;: &quot;dotfiles&quot;, 
+    &quot;_WRD&quot;: &quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles&quot;, 
+    &quot;VIMBIN&quot;: &quot;/usr/bin/vim&quot;, 
+    &quot;GVIMBIN&quot;: &quot;/usr/local/bin/gvim&quot;, 
+    &quot;MVIMBIN&quot;: &quot;/usr/local/bin/mvim&quot;, 
+    &quot;GUIVIM&quot;: &quot;/usr/local/bin/mvim&quot;, 
+    &quot;_EDIT_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
+    &quot;_IPSESSKEY&quot;: &quot;/Users/W/wrk/.ve/dotfiles/src/.sessionkey&quot;, 
+    &quot;_NOTEBOOKS&quot;: &quot;/Users/W/wrk/.ve/dotfiles/src/notebooks&quot;, 
+    &quot;_IPQTLOG&quot;: &quot;/Users/W/wrk/.ve/dotfiles/.ipqt.log&quot;, 
+    &quot;_WRD_SETUPY&quot;: &quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot;, 
+    &quot;_TEST_&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
+    &quot;_CFG&quot;: &quot;/Users/W/wrk/.ve/dotfiles/etc/development.ini&quot;, 
+    &quot;_EDITCFG_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent /Users/W/wrk/.ve/dotfiles/etc/development.ini&quot;, 
+    &quot;_SHELL_&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; /Users/W/wrk/.ve/dotfiles/bin/pshell \&quot;/Users/W/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
+    &quot;_SERVE_&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; /Users/W/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart \&quot;/Users/W/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
+    &quot;_SVCFG&quot;: &quot;/Users/W/wrk/.ve/dotfiles/etc/supervisord.conf&quot;, 
+    &quot;_SVCFG_&quot;: &quot; -c \&quot;/Users/W/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;
+  }, 
+  &quot;aliases&quot;: {
+    &quot;cdb&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/bin\&quot;/%l&quot;, 
+    &quot;cde&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/etc\&quot;/%l&quot;, 
+    &quot;cdv&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles\&quot;/%l&quot;, 
+    &quot;cdvar&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/var\&quot;/%l&quot;, 
+    &quot;cdlog&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/var/log\&quot;/%l&quot;, 
+    &quot;cdww&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/var/www\&quot;/%l&quot;, 
+    &quot;cdl&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/lib\&quot;/%l&quot;, 
+    &quot;cdpylib&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/lib/python2.7\&quot;/%l&quot;, 
+    &quot;cdpysite&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/lib/python2.7/site-packages\&quot;/%l&quot;, 
+    &quot;cds&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/src\&quot;/%l&quot;, 
+    &quot;cdhelp&quot;: &quot;set | grep \&quot;^cd.*()\&quot; | cut -f1 -d\&quot; \&quot; #%l&quot;, 
+    &quot;edit-&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent %l&quot;, 
+    &quot;gvim-&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
+    &quot;ipskey&quot;: &quot;(python -c \&quot;import os; print os.urandom(128).encode(\\\&quot;base64\\\&quot;)\&quot; &gt; \&quot;/Users/W/wrk/.ve/dotfiles/src/.sessionkey\&quot; ) &amp;&amp; chmod 0600 \&quot;/Users/W/wrk/.ve/dotfiles/src/.sessionkey\&quot;; # %l&quot;, 
+    &quot;ipnb&quot;: &quot;ipython notebook --secure --Session.keyfile=\&quot;/Users/W/wrk/.ve/dotfiles/src/.sessionkey\&quot; --notebook-dir=\&quot;/Users/W/wrk/.ve/dotfiles/src/notebooks\&quot; --deep-reload %l&quot;, 
+    &quot;ipqt&quot;: &quot;ipython qtconsole --secure --Session.keyfile=\&quot;/Users/W/wrk/.ve/dotfiles/src/.sessionkey\&quot; --logappend=\&quot;/Users/W/wrk/.ve/dotfiles/.ipqt.log\&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=\&quot;Monaco\&quot; --ConsoleWidget.font_size=11 %l&quot;, 
+    &quot;grinv&quot;: &quot;grin --follow %l \&quot;/Users/W/wrk/.ve/dotfiles\&quot;&quot;, 
+    &quot;grindv&quot;: &quot;grind --follow %l --dirs \&quot;/Users/W/wrk/.ve/dotfiles\&quot;&quot;, 
+    &quot;grins&quot;: &quot;grin --follow %l \&quot;/Users/W/wrk/.ve/dotfiles/src\&quot;&quot;, 
+    &quot;grinds&quot;: &quot;grind --follow %l --dirs \&quot;/Users/W/wrk/.ve/dotfiles/src\&quot;&quot;, 
+    &quot;cdw&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot;/%l&quot;, 
+    &quot;cd-&quot;: &quot;cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot;/%l&quot;, 
+    &quot;test-&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
+    &quot;testr-&quot;: &quot;reset &amp;&amp; (cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
+    &quot;nose-&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; nosetests)&quot;, 
+    &quot;grinw&quot;: &quot;grin --follow %l \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;grin-&quot;: &quot;grin --follow %l \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;grindw&quot;: &quot;grind --follow %l --dirs \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;grind-&quot;: &quot;grind --follow %l --dirs \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;hgv-&quot;: &quot;hg view -R \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;hgl-&quot;: &quot;hg -R \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; log&quot;, 
+    &quot;editcfg&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent /Users/W/wrk/.ve/dotfiles/etc/development.ini %l&quot;, 
+    &quot;serve-&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; /Users/W/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart \&quot;/Users/W/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
+    &quot;shell-&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; /Users/W/wrk/.ve/dotfiles/bin/pshell \&quot;/Users/W/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
+    &quot;e&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent %l&quot;, 
+    &quot;editp&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/README.rst\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/CHANGES.rst\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/TODO.rst\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/Makefile\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/requirements.txt\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/.hgignore\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/.gitignore\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/.hg/hgrc\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/dotfiles\&quot; \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles/docs\&quot; %l&quot;, 
+    &quot;makewrd&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
+    &quot;make-&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
+    &quot;mw&quot;: &quot;(cd \&quot;/Users/W/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
+    &quot;ssv&quot;: &quot;supervisord -c \&quot;/Users/W/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;, 
+    &quot;sv&quot;: &quot;supervisorctl -c \&quot;/Users/W/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;, 
+    &quot;svd&quot;: &quot;supervisorctl -c \&quot;/Users/W/wrk/.ve/dotfiles/etc/supervisord.conf\&quot; restart dev &amp;&amp; supervisorctl -c \&quot;/Users/W/wrk/.ve/dotfiles/etc/supervisord.conf\&quot; tail -f dev&quot;, 
+    &quot;svt&quot;: &quot;sv tail -f&quot;
+  }
+}
 </pre></div>
 </div>
-<p><strong>cdpylib</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $_PYLIB
-# cdsitepackages ..
-</pre></div>
-</div>
-<p><strong>cdpysite</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $_PYSITE
-# cdsitepackages
-</pre></div>
-</div>
-<p><strong>cds</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $_SRC
-# cdvirtualenv src
-</pre></div>
-</div>
-<p><strong>cdv</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $VIRTUAL_ENV
-# cdvirtualenv
-</pre></div>
-</div>
-<p><strong>cdvar</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $_VAR
-# cdvirtualenv var
-</pre></div>
-</div>
-<p><strong>cdve</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $WORKON_HOME
-</pre></div>
-</div>
-<p><strong>cdw</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $_WRD
-# cdvirtualenv src/${_APP}
-</pre></div>
-</div>
-<p><strong>cdww</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>cd $_WWW
-# cdvirtualenv var/www
-</pre></div>
-</div>
-<p><strong>cdhelp</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>set | grep &#39;^cd.*()&#39; | cut -f1 -d&#39; &#39;
-</pre></div>
-</div>
-</div>
-<div class="section" id="gvim">
-<h2>gvim<a class="headerlink" href="#gvim" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt><strong>_edit</strong></dt>
-<dd><code class="docutils literal"><span class="pre">gvim</span> <span class="pre">--servername=${_APP}</span> <span class="pre">--remote-tab</span></code></dd>
-<dt><strong>_editp</strong>::</dt>
-<dd><code class="docutils literal"><span class="pre">_edit</span> <span class="pre">{README,setup.py,...}</span></code></dd>
-</dl>
-</div>
-<div class="section" id="grin">
-<h2>grin<a class="headerlink" href="#grin" title="Permalink to this headline">¶</a></h2>
-<p><strong>grin &#8211;help</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">grin</span> <span class="o">--</span><span class="n">help</span>
-<span class="n">grind</span> <span class="o">--</span><span class="n">help</span>
-<span class="n">grin</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">--</span><span class="n">help</span>
-</pre></div>
-</div>
-<p><strong>grin[d]v</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>grin[d] ${VIRTUAL_ENV}
-</pre></div>
-</div>
-<p><strong>grin[d]s</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>grin[d] ${_SRC}
-</pre></div>
-</div>
-<p><strong>grin[d]w</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>grin[d] ${_WRD}
-</pre></div>
 </div>
 </div>
 </div>
@@ -359,20 +532,24 @@ a bash script (<code class="docutils literal"><span class="pre">venv</span> <spa
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Venv</a><ul>
-<li><a class="reference internal" href="#python-api">Python API</a><ul>
-<li><a class="reference internal" href="#command-aliases">Command Aliases</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
+<li><a class="reference internal" href="#python-api">Python API</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#cd-aliases">cd Aliases</a></li>
-<li><a class="reference internal" href="#gvim">gvim</a></li>
-<li><a class="reference internal" href="#grin">grin</a></li>
+<li><a class="reference internal" href="#command-aliases">Command Aliases</a></li>
+<li><a class="reference internal" href="#example-venv-configuration">Example Venv Configuration</a><ul>
+<li><a class="reference internal" href="#shell-configuration">Shell Configuration</a></li>
+<li><a class="reference internal" href="#json-configuration">JSON Configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="usage.html"
-                        title="previous chapter">Usage</a></p>
+  <p class="topless"><a href="readme.html"
+                        title="previous chapter">dotfiles</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="api.html"
                         title="next chapter">API</a></p>
@@ -422,7 +599,7 @@ a bash script (<code class="docutils literal"><span class="pre">venv</span> <spa
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="usage.html" title="Usage" >previous</a></li>
+        <li><a href="readme.html" title="dotfiles" >previous</a></li>
         <li><a href="api.html" title="API" >next</a></li>
         <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="genindex.html" title="General Index" >index</a></li> 
