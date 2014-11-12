@@ -309,7 +309,8 @@ Pip is a tool for installing, upgrading, and uninstalling
    (by making sure that the certificate hostname matches the hostname
    from which the DNS resolved to).
 
-   Cloning packages from source repositories over SSH or HTTP,
+   Cloning packages from source repositories over ``ssh://``
+   or ``https://``,
    either manually or with ``pip install -e`` avoids this concern.
 
    There is also a tool called :ref:`peep` which
