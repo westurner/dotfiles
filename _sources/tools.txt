@@ -276,9 +276,10 @@ Pip is a tool for installing, upgrading, and uninstalling
    pip uninstall libcloud
 
 
-* Pip retrieves and installs packages.
-* Pip can do uninstall and upgrade.
 * Pip stands upon :ref:`distutils` and :ref:`setuptools`.
+* Pip retrieves, installs, upgrades, and uninstalls packages.
+* Pip can list installed packages with ``pip freeze`` (and ``pip
+  list``).
 * Pip can install packages as 'editable' packages (``pip install -e``)
   from version control repository URLs
   which must begin with ``vcs+``,
