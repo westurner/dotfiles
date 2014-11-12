@@ -259,7 +259,8 @@ Pip
 | IRC: #pypa-dev
 |
 
-Pip is a tool for both installing and uninstalling :ref:`Python` packages.
+Pip is a tool for installing, upgrading, and uninstalling
+:ref:`Python` packages.
 
 ::
 
