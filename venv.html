@@ -146,6 +146,20 @@
                   
   <div class="section" id="venv">
 <span id="index-0"></span><span id="id1"></span><h1>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
+<p>There are two parts to &#8220;<code class="docutils literal"><span class="pre">venv</span></code>&#8221;:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a></li>
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a></li>
+</ul>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a> (<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a>)
+generates <a class="reference internal" href="#shell-configuration">shell configuration</a> and IPython configuration
+with aliases that, for shells like <a class="reference internal" href="tools.html#bash"><em>Bash</em></a> and <a class="reference internal" href="tools.html#zsh"><em>ZSH</em></a>,
+are expanded to functions if they contain a <code class="docutils literal"><span class="pre">%l</span></code>
+(which IPython <code class="docutils literal"><span class="pre">%alias</span></code> replaces with any passed arguments).</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a> is symlinked to
+<code class="docutils literal"><span class="pre">etc/ipython/ipython_config.py</span></code>.</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures a number of useful variables and
+functions for use with <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -156,20 +170,6 @@
 <li>Configures <a class="reference internal" href="tools.html#bash"><em>Bash</em></a> variables starting with <code class="docutils literal"><span class="pre">$_</span></code> (<code class="docutils literal"><span class="pre">$_APP</span></code>, <code class="docutils literal"><span class="pre">$_WRD</span></code>)</li>
 <li>Run commands within a <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">-x</span> <span class="pre">bash</span></code>)</li>
 </ul>
-<p>There are two parts to &#8220;<code class="docutils literal"><span class="pre">venv</span></code>&#8221;:</p>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a></li>
-</ul>
-<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a> (<code class="xref py py-mod docutils literal"><span class="pre">dotviles.venv.ipython_config</span></code>)
-generates shell and IPython configuration
-with aliases that, for shells, are expanded to functions
-if they contain a <code class="docutils literal"><span class="pre">%l</span></code>
-(which IPython <code class="docutils literal"><span class="pre">%alias</span></code> replaces with any passed arguments).</p>
-<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a> is symlinked to
-<code class="docutils literal"><span class="pre">etc/ipython/ipython_config.py</span></code>.</p>
-<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures a number of useful variables and
-functions for use with <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
 </div>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
