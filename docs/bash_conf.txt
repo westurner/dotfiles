@@ -376,14 +376,17 @@
     # hgqs     -- 'hg qseries'
     # hgqn     -- 'hg qnew'
     # hgr      -- 'hg paths'
+    # __IS_MAC
         # la       -- 'ls -A -G'
         # ll       -- 'ls -alF -G'
         # ls       -- 'ls -G'
         # lt       -- 'ls -altr -G'
+    # else
         # la       -- 'ls -A --color=auto'
         # ll       -- 'ls -alF --color=auto'
         # ls       -- 'ls --color=auto'
         # lt       -- 'ls -altr --color=auto'
+    # __IS_LINUX
         # psx      -- 'ps uxaw'
         # psf      -- 'ps uxawf'
         # psxs     -- 'ps uxawf --sort=tty,ppid,pid'
@@ -393,6 +396,7 @@
         # psch     -- 'ps uxaw --sort=-pcpu | head'
         # psm      -- 'ps uxaw --sort=-pmem'
         # psmh     -- 'ps uxaw --sort=-pmem | head'
+    # __IS_MAC
         # psx      -- 'ps uxaw'
         # psf      -- 'ps uxaw' # no -f
         # psh      -- 'ps uxaw | head'

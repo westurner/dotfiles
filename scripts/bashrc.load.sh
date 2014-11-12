@@ -3248,6 +3248,7 @@ _loadaliases () {
     # hgr      -- 'hg paths'
     alias hgr='hg paths'
 
+    # __IS_MAC
     if [ -n "${__IS_MAC}" ]; then
         # la       -- 'ls -A -G'
         alias la='ls -A -G'
@@ -3257,6 +3258,7 @@ _loadaliases () {
         alias ls='ls -G'
         # lt       -- 'ls -altr -G'
         alias lt='ls -altr -G'
+    # else
     else
         # la       -- 'ls -A --color=auto'
         alias la='ls -A --color=auto'
@@ -3268,6 +3270,7 @@ _loadaliases () {
         alias lt='ls -altr --color=auto'
     fi
 
+    # __IS_LINUX
     if [ -n "${__IS_LINUX}" ]; then
         # psx      -- 'ps uxaw'
         alias psx='ps uxaw'
@@ -3290,6 +3293,7 @@ _loadaliases () {
         alias psm='ps uxaw --sort=-pmem'
         # psmh     -- 'ps uxaw --sort=-pmem | head'
         alias psmh='ps uxaw --sort=-pmem | head'
+    # __IS_MAC
     elif [ -n "${__IS_MAC}" ]; then
         # psx      -- 'ps uxaw'
         alias psx='ps uxaw'
