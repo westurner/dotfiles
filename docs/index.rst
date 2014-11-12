@@ -8,7 +8,6 @@ Contents
 
    readme
    usage
-   venv
    api
    developing
    tools
