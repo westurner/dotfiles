@@ -293,24 +293,32 @@
 ### bashrc.vimpagers.sh
     # _configure_lesspipe() -- (less <file.zip> | lessv)
     # vimpager() -- call vimpager
-## less commands -- lessv, lessg, lesse
     # lessv()    -- less with less.vim and vim (g:tinyvim=1)
-## lessg    -- less with less.vim and gvim / mvim
-## lesse    -- less with current venv's vim server
-### Man commands -- manv, mang, mane
-## manv     -- view manpages in vim
-        #    exit 0
-## mang()   -- view manpages in gvim / mvim
-## mane()   -- open manpage with venv's vim server
+    # lessg()  -- less with less.vim and gvim / mvim
+    # lesse()  -- less with current venv's vim server
+    # manv()   -- view manpages in vim
+    # mang()   -- view manpages in gvim / mvim
+    # mane()   -- open manpage with venv's vim server
    
    
 #### etc/bash/30-bashrc.usrlog.sh
-## usrlog   -- Userspace shell logging
-## stid()   -- set or regenerate shell session id
-#  
-    ## usrlog() -- open $_USRLOG with vim (skip to end)
-    ## usrlogv()    -- open $_USRLOG with gvim / mvim
-    ## usrloge()    -- open $_USRLOG with venv's vim server
+### bashrc.usrlog.sh
+    # _USRLOG (str): path to .usrlog userspace shell command log
+    # stid()     -- set $TERM_ID to a random string
+    # stid $name -- set $TERM_ID to string
+    # note()     -- add a dated note to $_USRLOG [_usrlog_append]
+    # usrlogv()  -- open usrlog with vim:   $VIMBIN + $_USRLOG
+    # usrlogg()  -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+    # usrloge()  -- open usrlog with editor:$EDITOR + $_USRLOG
+    # ut()       -- tail $_USRLOG
+    # ug()       -- egrep current usrlog: egrep $@ $_USRLOG
+    # ugall()    -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # ugrin()    -- grin current usrlog: grin $@ $_USRLOG
+    # ugrinall() -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # lsusrlogs()-- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
+    # usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
+    # usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
    
    
 #### etc/bash/30-bashrc.xlck.sh
