@@ -357,7 +357,7 @@ walkpath () {
 
 
 ensure_symlink() {
-    # ensure_symlink    -- create or update a symlink to $2 from $1
+    # ensure_symlink()  -- create or update a symlink to $2 from $1
     #                      if $2 exists, backup with suffix $3
     _from=$1
     _to=$2
@@ -384,7 +384,7 @@ ensure_symlink() {
 }
 
 ensure_mkdir() {
-    # ensure_mkdir      -- create directory $1 if it does not yet exist
+    # ensure_mkdir()    -- create directory $1 if it does not yet exist
     path=$1
     test -d ${path} || mkdir -p ${path}
 }
