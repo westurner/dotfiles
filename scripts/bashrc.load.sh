@@ -2262,13 +2262,13 @@ we() {
     #   we dotfiles
     #   we dotfiles dotfiles
 
-    # append to shell history
+    #append to shell history
     history -a
 
     if [ -n "$1" ]; then
         workon $1 && source <(venv --bash $@) && dotfiles_status
     else
-        # if no arguments are specified, list virtual environments
+        #if no arguments are specified, list virtual environments
         lsvirtualenv
     fi
 }
@@ -2317,11 +2317,11 @@ cdpysite () {
     cd "${_PYSITE}"/$@
 }
 cds () {
-    # cds()    -- cd $_SRC
+    # cds()     -- cd $_SRC
     cd "${_SRC}"/$@
 }
 cdw () {
-    # cdw()    -- cd $_WRD
+    # cdw()     -- cd $_WRD
     cd "${_WRD}"/$@
 }
 
@@ -2404,7 +2404,7 @@ _load_venv_aliases() {
     # _load_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
-    # ssv   -- supervisord -c  ${_SVCFG}
+    # ssv   -- supervisord   -c ${_SVCFG}
     alias ssv='supervisord -c "${_SVCFG}"'
     # sv    -- supervisorctl -c ${_SVCFG}
     alias sv='supervisorctl -c "${_SVCFG}"'
@@ -2418,9 +2418,9 @@ _load_venv_aliases() {
     # hg-   -- hg -R  ${_WRD}
     alias hg-='hg -R "${_WRD}"'
 
-    # gitw  -- (cd ${_WRD} && git)
+    # gitw  -- git -C ${_WRD}
     alias gitw='git -C "${_WRD}"'
-    # git-  -- (cd ${_WRD} && git)
+    # git-  -- git -C ${_WRD}
     alias git-='git -C "${_WRD}"'
 
     # serve-    -- ${_SERVE_}
@@ -2449,8 +2449,8 @@ mw() {
 }
 
 _venv_set_prompt() {
-    # _venv_set_prompt  -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
-    #                      and ${debian_chroot}
+    # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+    #                          and ${debian_chroot}
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
             export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
@@ -2473,7 +2473,7 @@ basename $VIRTUAL_ENV
 
 
 mkdirs_venv() {
-    #  _venv_ensure_paths()   -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+    # _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
     prefix=${1}
     if [ -z "${prefix}" ]; then
         if [ -n "${VIRTUAL_ENV}" ]; then
@@ -2504,8 +2504,10 @@ mkdirs_venv() {
 }
 
 
+### bashrc.venv.pyramid.sh
+
 workon_pyramid_app() {
-    ##  workon_pyramid_app $VIRTUAL_ENV_NAME $_APP [open_terminals]
+    # workon_pyramid_app()  -- $VIRTUAL_ENV_NAME [$_APP] [open_terminals]
     _VENVNAME=$1
     _APP=$2
 
@@ -2541,16 +2543,19 @@ workon_pyramid_app() {
 }
 
 
-## ${EDITOR} configuration
-#
-#  VIRTUAL_ENV_NAME
-#  _CFG = 
-#
 
-## Editor
-#export USEGVIM=""
+### bashrc.editor.sh
+
 _setup_editor() {
     # setup_editor()    -- configure ${EDITOR}
+    #   VIMBIN  (str):   /usr/bin/vim
+    #   GVIMBIN (str):   /usr/bin/gvim
+    #   MVIMBIN (str):   /usr/local/bin/mvim
+    #   GUIVIMBIN (str): $GVIMBIN || $MVIMBIN || ""
+    #   EDITOR  (str):   $VIMBIN -f || $GUIVIMBIN -f
+    #   EDITOR_ (str):   $EDITOR || $GUIVIMBIN $VIMCONF --remote-tab-silent
+    #   VIMCONF (str):   --servername ${VIRTUAL_ENV_NAME:-'EDITOR'}
+    #   SUDO_EDITOR (str): $EDITOR
     export VIMBIN="/usr/bin/vim"
     export GVIMBIN="/usr/bin/gvim"
     export MVIMBIN="/usr/local/bin/mvim"
@@ -2567,7 +2572,6 @@ _setup_editor() {
 
     if [ -n "${GUIVIMBIN}" ]; then
         export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'}"
-        export SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-'EDITOR'}"
         export EDITOR="${GUIVIMBIN} -f"
         export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
         export SUDO_EDITOR="${GUIVIMBIN} -f"
@@ -2584,35 +2588,39 @@ _setup_editor
 
 
 ggvim() {
+    # ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
     ${EDITOR} $@ 2>&1 > /dev/null
 }
 
 
 e() {
+    # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} $@
 }
 
 edit() {
+    # edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} $@
 }
 
 editcfg() {
-    ${EDITOR_} $_CFG
+    # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
+    ${EDITOR_} ${_CFG}
 }
 
 sudoe() {
-    EDITOR=${SUDO_EDITOR} sudo -e
+    # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+    EDITOR=${SUDO_EDITOR} sudo -e $@
+}
+sudovim() {
+    # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+    sudoe $@
 }
 
-sudogvim() {
-    EDITOR=${SUDO_EDITOR} sudo -e
-}
+### bashrc.vimpagers.sh
 
-
-
-
-## _configure_lesspipe  -- (less <file.zip> | lessv)
 _configure_lesspipe() {
+    # _configure_lesspipe() -- (less <file.zip> | lessv)
     lesspipe=$(which lesspipe.sh 2>/dev/null || false)
     if [ -n "${lesspipe}" ]; then
         eval "$(${lesspipe})"
@@ -2625,8 +2633,8 @@ LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
 export LESSOPEN
 
 
-## vimpager     -- call vimpager
 vimpager() {
+    # vimpager() -- call vimpager
     _PAGER=$(which vimpager)
     if [ -x "${_PAGER}" ]; then
         ${_PAGER} $@
@@ -2636,14 +2644,12 @@ vimpager() {
 }
 
 
-### less commands -- lessv, lessg, lesse
-## lessv    -- less with less.vim and regular vim
+## less commands -- lessv, lessg, lesse
 lessv () {
-
-    ## start Vim with less.vim and vim
-    # Read stdin if no arguments were given.
+    # lessv()    -- less with less.vim and vim (g:tinyvim=1)
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
+            #read stdin
             ${VIMBIN} --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
@@ -2662,7 +2668,7 @@ lessv () {
                 $@
         fi
     else
-        # Output is not a terminal, cat arguments or stdin
+        #Output is not a terminal, cat arguments or stdin
         if [ $# -eq 0 ]; then
             less
         else
