@@ -5,26 +5,15 @@
 Venv
 ======
 
-
-Features
-----------
-
-* Configures :ref:`Python` ``site`` for a given :ref:`virtualenv`
-* Configures :ref:`Python` ``sys.path`` with :ref:`IPython` extension paths
-* Configures :ref:`IPython` command aliases (``%alias``, or just ``alias``)
-* Generates :ref:`Bash` environments from :ref:`virtualenv` paths
-* Configures :ref:`Bash` variables starting with ``$_`` (``$_APP``, ``$_WRD``)
-* Run commands within a :ref:`virtualenv` (``venv dotfiles -x bash``)
-
 There are two parts to "``venv``":
 
 * `dotfiles.venv.ipython_config.py`_
 * `10-bashrc.venv.sh`_  
   
 `dotfiles.venv.ipython_config.py`_ (:py:mod:`dotfiles.venv.ipython_config`)
-generates shell and IPython configuration
-with aliases that, for shells, are expanded to functions
-if they contain a ``%l``
+generates `shell configuration`_ and IPython configuration
+with aliases that, for shells like :ref:`Bash` and :ref:`ZSH`,
+are expanded to functions if they contain a ``%l``
 (which IPython ``%alias`` replaces with any passed arguments).
 
 `dotfiles.venv.ipython_config.py`_ is symlinked to
@@ -36,6 +25,17 @@ functions for use with :ref:`virtualenvwrapper`.
 
 .. _10-bashrc.venv.sh: https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
 .. _dotfiles.venv.ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
+
+Features
+----------
+
+* Configures :ref:`Python` ``site`` for a given :ref:`virtualenv`
+* Configures :ref:`Python` ``sys.path`` with :ref:`IPython` extension paths
+* Configures :ref:`IPython` command aliases (``%alias``, or just ``alias``)
+* Generates :ref:`Bash` environments from :ref:`virtualenv` paths
+* Configures :ref:`Bash` variables starting with ``$_`` (``$_APP``, ``$_WRD``)
+* Run commands within a :ref:`virtualenv` (``venv dotfiles -x bash``)
+
 
 
 Quickstart
