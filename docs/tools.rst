@@ -381,12 +381,12 @@ Wheel
 
 * Wheel is a newer, PEP-based standard (``.whl``) with a different
   metadata format, the ability to specify (JSON) digital signatures
-  for a package, within the package, and a number
-  of additional advantages.
-* Wheels can also be uploaded to PyPI
-* Wheels are generally faster than traditional Python packages
+  for a package within the package, and a number
+  of additional speed and platform-consistency advantages.
+* Wheels can be uploaded to PyPI.
+* Wheels are generally faster than traditional Python packages.
 
-Packages available as wheels are listed at http://pythonwheels.com/
+Packages available as wheels are listed at `<http://pythonwheels.com/>`__.
 
 .. index:: Conda
 .. _conda:
