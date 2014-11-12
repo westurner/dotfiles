@@ -1926,5 +1926,9 @@ X Window System (X, X11) is a display server protocol for window management
 Most UNIX and :ref:`Linux` systems utilize XFree86 or the newer X.org
 X11 window managers.
 
-:ref:`Gnome`, :ref:`KDE`, and :ref:`Compiz` build upon X11.
+:ref:`Gnome`, :ref:`KDE`, :ref:`I3wm`, :ref:`OSX`, and :ref:`Compiz`
+build upon X11.
 
+*****
+
+`^top^ <#>`__
