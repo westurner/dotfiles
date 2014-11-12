@@ -473,9 +473,13 @@ and then running <code class="docutils literal"><span class="pre">setup.py</span
 <li>Pip configuration is in <code class="docutils literal"><span class="pre">${HOME}/.pip/pip.conf</span></code>.</li>
 <li>Pip can maintain a local cache of downloaded packages,
 which can lessen the load on package servers during testing.</li>
-<li>If a package requirement is already satisfied,
-pip requires the <code class="docutils literal"><span class="pre">--upgrade</span></code> and/or <code class="docutils literal"><span class="pre">--force-reinstall</span></code> options
-to be added to the <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span></code> command.</li>
+<li>Pip skips reinstallation if a package requirement is already
+satisfied.</li>
+<li>Pip requires the <code class="docutils literal"><span class="pre">--upgrade</span></code> and/or <code class="docutils literal"><span class="pre">--force-reinstall</span></code> options
+to be added to the <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span></code> command in order to upgrade
+or reinstall.</li>
+<li>At the time of this writing, the latest stable pip version is
+<code class="docutils literal"><span class="pre">1.5.6</span></code>.</li>
 </ul>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -1497,6 +1501,9 @@ for running one or more guest VMs (virtual machines) within a host system.</p>
 </div>
 <p>Virtualenv is a tool for creating reproducible <a class="reference internal" href="#python"><em>Python</em></a> environments.</p>
 <p>Virtualenv sets the shell environment variable <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code> when active.</p>
+<p>Virtualenv installs a copy of <a class="reference internal" href="#python"><em>Python</em></a>, <a class="reference internal" href="#setuptools"><em>Setuptools</em></a>, and
+<a class="reference internal" href="#pip"><em>Pip</em></a> when a new virtualenv is created.</p>
+<p>A virtualenv is activated by <code class="docutils literal"><span class="pre">source</span></code>-ing <code class="docutils literal"><span class="pre">${VIRTUAL_ENV}/bin/activate</span></code>.</p>
 <p>Paths within a virtualenv are more-or-less <a class="reference internal" href="#fhs"><em>FHS</em></a>
 standard paths, which makes
 virtualenv structure very useful for building
@@ -1506,10 +1513,10 @@ chroot and container overlays.</p>
 bin/activate   # source bin/activate to work on a virtualenv
 include/       # (symlinks to) dev headers (python-dev/python-devel)
 lib/           # libraries
+lib/python2.7/distutils/
 lib/python2.7/site-packages/  # pip and easy_installed packages
 local/         # symlinks to bin, include, and lib
-
-src/           # pip installs editable requirements here
+src/           # editable requirements (source repositories)
 
 # also useful
 etc/           # configuration
@@ -1521,28 +1528,21 @@ srv/           # local data
 </div>
 <p><a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a> wraps virtualenv. In the following
 code shell example, comments with <code class="docutils literal"><span class="pre">##</span></code> are virtualenvwrapper</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Print Python site settings</span>
-python -m site
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="nv">$PATH</span><span class="p">;</span> <span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span>
+python -m site<span class="p">;</span> pip list
 
-<span class="c"># Create a virtualenv</span>
-<span class="nb">cd</span> <span class="nv">$WORKON_HOME</span>
-virtualenv example
-<span class="nb">source</span> ./example/bin/activate
-<span class="c">## mkvirtualenv example</span>
-<span class="c">## workon example</span>
+virtualenv example               <span class="c"># mkvirtualenv example</span>
+<span class="nb">source</span> ./example/bin/activate    <span class="c"># workon example</span>
 
-<span class="c"># Review virtualenv Python site settings</span>
-python -m site
+<span class="nb">echo</span> <span class="nv">$PATH</span><span class="p">;</span> <span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span>
+python -m site<span class="p">;</span> pip list
 
-<span class="c"># List files in site-packages</span>
-ls -altr <span class="nv">$VIRTUAL_ENV</span>/lib/python*/site-packages/**
-<span class="c">## (cdsitepackages &amp;&amp; ls -altr **)</span>
-<span class="c">## lssitepackages -altr **</span>
+ls -altr <span class="nv">$VIRTUAL_ENV</span>/lib/python*/site-packages/**  <span class="c"># lssitepackages -altr</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">See <a class="reference internal" href="venv.html#venv"><em>Venv</em></a></p>
+<p class="last"><a class="reference internal" href="venv.html#venv"><em>Venv</em></a> extends <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
 </div>
 </div>
 <div class="section" id="virtualenvwrapper">
@@ -1570,24 +1570,33 @@ source ~/.local/bin/virtualenvwrapper.sh
 source /etc/bash_completion.d/virtualenvwrapper
 </pre></div>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="nv">$PROJECT_HOME</span><span class="p">;</span> <span class="nb">echo</span> ~/wrk        <span class="c"># default: ~/workspace</span>
-<span class="nb">echo</span> <span class="nv">$WORKON_HOME</span><span class="p">;</span>  <span class="nb">echo</span> ~/wrk/.ve    <span class="c"># default: ~/.virtualenvs</span>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="venv.html#venv"><em>Venv</em></a> extends <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="nv">$PROJECT_HOME</span><span class="p">;</span> <span class="nb">echo</span> ~/workspace             <span class="c"># venv: ~/wrk</span>
+<span class="nb">echo</span> <span class="nv">$WORKON_HOME</span><span class="p">;</span>  <span class="nb">echo</span> ~/.virtualenvs          <span class="c"># venv: ~/wrk/.ve</span>
 
 mkvirtualenv example
-workon example
-cdvirtualenv <span class="p">;</span> ls
-<span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span><span class="p">;</span> <span class="nb">echo</span> ~/wrk/.ve/example<span class="p">;</span> <span class="nb">pwd</span>
+workon example                                   <span class="c"># venv: we example</span>
 
-mkdir src <span class="p">;</span> <span class="nb">cd </span>src/
+cdvirtualenv<span class="p">;</span> <span class="nb">cd</span> <span class="nv">$VIRTUAL_ENV</span>                    <span class="c"># venv: cdv</span>
+<span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span><span class="p">;</span> <span class="nb">echo</span> ~/.virtualenvs/example   <span class="c"># venv: ~/wrk/.ve/example</span>
+
+mkdir src <span class="p">;</span> <span class="nb">cd </span>src/                              <span class="c"># venv: cds; cd $_SRC</span>
+
 pip install -e git+https://github.com/westurner/dotfiles#egg<span class="o">=</span>dotfiles
-ls src/dotfiles
+<span class="nb">cd </span>src/dotfiles<span class="p">;</span> <span class="nb">cd</span> <span class="nv">$VIRTUAL_ENV</span>/src/dotfiles    <span class="c"># venv: cdw; cds dotfiles</span>
+head README.rst
 
-cdsitepackages
+                                                 <span class="c"># venv: cdpylib</span>
+cdsitepackages                                   <span class="c"># venv: cdpysite</span>
 lssitepackages
-
 
 deactivate
 rmvirtualenv example
+
+lsvirtualenvs<span class="p">;</span> ls -d <span class="nv">$WORKON_HOME</span>                <span class="c"># venv: lsve</span>
 </pre></div>
 </div>
 </div>
