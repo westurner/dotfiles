@@ -20,7 +20,7 @@ package files.
 .. _apt:
 
 Apt
-=============
+~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Advanced_Packaging_Tool>`_
 | Homepage: http://alioth.debian.org/projects/apt
 | Docs: https://wiki.debian.org/Apt
