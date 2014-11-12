@@ -347,7 +347,7 @@ on a particular platform.</p>
 <li>Python packages are tested and repackaged by package maintainers</li>
 <li>Python packages have dependencies: they depend on other packages</li>
 <li>Python packages are served from a package index</li>
-<li>PyPi is the community Python Package Index</li>
+<li>PyPI is the community Python Package Index</li>
 <li>A Python package is an archive of files
 (<code class="docutils literal"><span class="pre">.zip</span></code> (<code class="docutils literal"><span class="pre">.egg</span></code>, <code class="docutils literal"><span class="pre">.whl</span></code>), <code class="docutils literal"><span class="pre">.tar</span></code>, <code class="docutils literal"><span class="pre">.tar.gz</span></code>,)
 containing a <code class="docutils literal"><span class="pre">setup.py</span></code> file
@@ -369,7 +369,7 @@ and for optional things to work (<code class="docutils literal"><span class="pre
 or a greater-than (<code class="docutils literal"><span class="pre">&gt;=</span></code>) or less-than (<code class="docutils literal"><span class="pre">&lt;=</span></code>) requirement
 for each package.</li>
 <li>Package names are looked up from an index server (<code class="docutils literal"><span class="pre">--index</span></code>),
-such as <em>PyPi</em>,
+such as <em>PyPI</em>,
 and or an HTML page (<code class="docutils literal"><span class="pre">--find-links</span></code>) containing URLs
 containing package names, version strings, and platform strings.</li>
 <li><code class="docutils literal"><span class="pre">easy_install</span></code> (setuptools) and <code class="docutils literal"><span class="pre">pip</span></code> can install packages
@@ -396,7 +396,7 @@ contained in packages in order to resolve a dependency graph
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Setuptools">https://en.wikipedia.org/wiki/Setuptools</a></div>
 <div class="line">Docs: <a class="reference external" href="https://pythonhosted.org/setuptools/">https://pythonhosted.org/setuptools/</a></div>
 <div class="line">Source: hg <a class="reference external" href="https://bitbucket.org/pypa/setuptools">https://bitbucket.org/pypa/setuptools</a></div>
-<div class="line">PyPi: <a class="reference external" href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a></div>
+<div class="line">PyPI: <a class="reference external" href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a></div>
 <div class="line"><br /></div>
 </div>
 <ul>
@@ -414,7 +414,7 @@ setuptools can be installed with a system package manager (apt, yum)</p>
 be used to install packages from the local filesystem,
 a remote index server, a local index server, or an HTML page</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">easy_install</span> <span class="pre">pip</span></code> installs <a class="reference internal" href="#pip"><em>Pip</em></a> from PyPi</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">easy_install</span> <span class="pre">pip</span></code> installs <a class="reference internal" href="#pip"><em>Pip</em></a> from PyPI</p>
 </li>
 <li><p class="first">Like <code class="docutils literal"><span class="pre">easy_install</span></code>, <a class="reference internal" href="#pip"><em>Pip</em></a> installs python packages,
 with a number of additional configuration options</p>
@@ -501,17 +501,17 @@ pip install --upgrade --user --force-reinstall -r requirements.txt
 </pre></div>
 </div>
 <p>An example <code class="docutils literal"><span class="pre">requirements.txt</span></code> file:</p>
-<div class="last highlight-python"><div class="highlight"><pre># install pip from the default index (PyPi)
+<div class="last highlight-python"><div class="highlight"><pre># install pip from the default index (PyPI)
 pip
 --index=https://pypi.python.org/simple --upgrade pip
 
-# Install pip 1.5 or greater from PyPi
+# Install pip 1.5 or greater from PyPI
 pip &gt;= 1.5
 
 # Git clone and install pip as an editable develop egg
 -e git+https://github.com/pypa/pip@1.5.X#egg=pip
 
-# Install a source distribution release from PyPi
+# Install a source distribution release from PyPI
 # and check the MD5 checksum in the URL
 https://pypi.python.org/packages/source/p/pip/pip-1.5.5.tar.gz#md5=7520581ba0687dec1ce85bd15496537b
 
@@ -529,7 +529,7 @@ https://warehouse.python.org/packages/source/p/pip/pip-1.5.5.tar.gz
 <span id="index-16"></span><span id="id11"></span><h4>Peep<a class="headerlink" href="#peep" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/erikrose/peep">https://github.com/erikrose/peep</a></div>
-<div class="line">PyPi: <a class="reference external" href="https://pypi.python.org/pypi/peep">https://pypi.python.org/pypi/peep</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/peep">https://pypi.python.org/pypi/peep</a></div>
 <div class="line"><br /></div>
 </div>
 <p>Peep works just like <a class="reference internal" href="#pip"><em>Pip</em></a>, but requires <code class="docutils literal"><span class="pre">SHA256</span></code> checksum hashes
@@ -541,7 +541,7 @@ to be specified for each package in <code class="docutils literal"><span class="
 <div class="line">Docs: <a class="reference external" href="http://legacy.python.org/dev/peps/pep-0427/">http://legacy.python.org/dev/peps/pep-0427/</a></div>
 <div class="line">Docs: <a class="reference external" href="http://wheel.readthedocs.org/en/latest/">http://wheel.readthedocs.org/en/latest/</a></div>
 <div class="line">Source: hg <a class="reference external" href="https://bitbucket.org/pypa/wheel/">https://bitbucket.org/pypa/wheel/</a></div>
-<div class="line">PyPi: <a class="reference external" href="https://pypi.python.org/pypi/wheel">https://pypi.python.org/pypi/wheel</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/wheel">https://pypi.python.org/pypi/wheel</a></div>
 <div class="line"><br /></div>
 </div>
 <ul class="simple">
@@ -549,7 +549,7 @@ to be specified for each package in <code class="docutils literal"><span class="
 metadata format, the ability to specify (JSON) digital signatures
 for a package, within the package, and a number
 of additional advantages.</li>
-<li>Wheels can also be uploaded to PyPi</li>
+<li>Wheels can also be uploaded to PyPI</li>
 <li>Wheels are generally faster than traditional Python packages</li>
 </ul>
 <p>Packages available as wheels are listed at <a class="reference external" href="http://pythonwheels.com/">http://pythonwheels.com/</a></p>
@@ -559,13 +559,13 @@ of additional advantages.</li>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="http://conda.pydata.org/docs/">http://conda.pydata.org/docs/</a></div>
 <div class="line">Source: git <a class="reference external" href="https://github.com/conda/conda">https://github.com/conda/conda</a></div>
-<div class="line">PyPi: <a class="reference external" href="https://pypi.python.org/pypi/conda">https://pypi.python.org/pypi/conda</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/conda">https://pypi.python.org/pypi/conda</a></div>
 <div class="line"><br /></div>
 </div>
 <ul class="simple">
 <li>Conda installs packages written in any language; especially Python</li>
 <li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda packages
-both from <code class="docutils literal"><span class="pre">PyPi</span></code> and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</li>
+both from <code class="docutils literal"><span class="pre">PyPI</span></code> and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</li>
 <li>Conda was originally created for the Anaconda Python Distribution,
 which installs packages written in Python, R, C, Fortran</li>
 </ul>
@@ -923,7 +923,7 @@ and hypervisors from a parameterizable template.</p>
 <dt id="term-packer-template">Packer Template</dt>
 <dd>JSON build definitions with optional variables and templating</dd>
 <dt id="term-packer-build">Packer Build</dt>
-<dd>A task defined by a JSON file containing build steps
+<dd>Task defined by a JSON file containing build steps
 which produce a machine image</dd>
 <dt id="term-packer-builder">Packer Builder</dt>
 <dd><p class="first">Packer components which produce machine images
@@ -1493,7 +1493,7 @@ for running one or more guest VMs (virtual machines) within a host system.</p>
 <div class="line"><br /></div>
 </div>
 <p>Virtualenv is a tool for creating reproducible <a class="reference internal" href="#python"><em>Python</em></a> environments.</p>
-<p>Virtualenv sets the shell environment variable $VIRTUAL_ENV when active.</p>
+<p>Virtualenv sets the shell environment variable <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code> when active.</p>
 <p>Paths within a virtualenv are more-or-less <a class="reference internal" href="#fhs"><em>FHS</em></a>
 standard paths, which makes
 virtualenv structure very useful for building
@@ -1573,7 +1573,11 @@ source /etc/bash_completion.d/virtualenvwrapper
 mkvirtualenv example
 workon example
 cdvirtualenv <span class="p">;</span> ls
+<span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span><span class="p">;</span> <span class="nb">echo</span> ~/wrk/.ve/example<span class="p">;</span> <span class="nb">pwd</span>
+
 mkdir src <span class="p">;</span> <span class="nb">cd </span>src/
+pip install -e git+https://github.com/westurner/dotfiles#egg<span class="o">=</span>dotfiles
+ls src/dotfiles
 
 cdsitepackages
 lssitepackages

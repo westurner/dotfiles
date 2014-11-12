@@ -167,7 +167,7 @@ Python Packages
 * Python packages are tested and repackaged by package maintainers
 * Python packages have dependencies: they depend on other packages
 * Python packages are served from a package index
-* PyPi is the community Python Package Index
+* PyPI is the community Python Package Index
 * A Python package is an archive of files
   (``.zip`` (``.egg``, ``.whl``), ``.tar``, ``.tar.gz``,)
   containing a ``setup.py`` file
@@ -189,7 +189,7 @@ Python Packages
   or a greater-than (``>=``) or less-than (``<=``) requirement
   for each package.
 * Package names are looked up from an index server (``--index``),
-  such as *PyPi*,
+  such as *PyPI*,
   and or an HTML page (``--find-links``) containing URLs
   containing package names, version strings, and platform strings.
 * ``easy_install`` (setuptools) and ``pip`` can install packages
@@ -222,7 +222,7 @@ Setuptools
 | Wikipedia: https://en.wikipedia.org/wiki/Setuptools
 | Docs: https://pythonhosted.org/setuptools/
 | Source: hg https://bitbucket.org/pypa/setuptools
-| PyPi: http://pypi.python.org/pypi/setuptools
+| PyPI: http://pypi.python.org/pypi/setuptools
 |
 
 * Setuptools builds upon :ref:`distutils`
@@ -234,7 +234,7 @@ Setuptools
 * Setuptools installs a script called ``easy_install`` which can
   be used to install packages from the local filesystem,
   a remote index server, a local index server, or an HTML page
-* ``easy_install pip`` installs :ref:`Pip` from PyPi
+* ``easy_install pip`` installs :ref:`Pip` from PyPI
 * Like ``easy_install``, :ref:`Pip` installs python packages,
   with a number of additional configuration options
 * Setuptools can build :ref:`RPM` and :ref:`DEB` packages
@@ -327,17 +327,17 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
 
       An example ``requirements.txt`` file::
 
-         # install pip from the default index (PyPi)
+         # install pip from the default index (PyPI)
          pip
          --index=https://pypi.python.org/simple --upgrade pip
 
-         # Install pip 1.5 or greater from PyPi
+         # Install pip 1.5 or greater from PyPI
          pip >= 1.5
 
          # Git clone and install pip as an editable develop egg
          -e git+https://github.com/pypa/pip@1.5.X#egg=pip
 
-         # Install a source distribution release from PyPi
+         # Install a source distribution release from PyPI
          # and check the MD5 checksum in the URL
          https://pypi.python.org/packages/source/p/pip/pip-1.5.5.tar.gz#md5=7520581ba0687dec1ce85bd15496537b
 
@@ -353,7 +353,7 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
 Peep
 +++++
 | Source: https://github.com/erikrose/peep
-| PyPi: https://pypi.python.org/pypi/peep
+| PyPI: https://pypi.python.org/pypi/peep
 |
 
 Peep works just like :ref:`pip`, but requires ``SHA256`` checksum hashes
@@ -368,14 +368,14 @@ Wheel
 | Docs: http://legacy.python.org/dev/peps/pep-0427/
 | Docs: http://wheel.readthedocs.org/en/latest/
 | Source: hg https://bitbucket.org/pypa/wheel/
-| PyPi: https://pypi.python.org/pypi/wheel
+| PyPI: https://pypi.python.org/pypi/wheel
 |
 
 * Wheel is a newer, PEP-based standard (``.whl``) with a different
   metadata format, the ability to specify (JSON) digital signatures
   for a package, within the package, and a number
   of additional advantages.
-* Wheels can also be uploaded to PyPi
+* Wheels can also be uploaded to PyPI
 * Wheels are generally faster than traditional Python packages
 
 Packages available as wheels are listed at http://pythonwheels.com/
@@ -387,12 +387,12 @@ Conda
 +++++++
 | Docs: http://conda.pydata.org/docs/
 | Source: git https://github.com/conda/conda
-| PyPi: https://pypi.python.org/pypi/conda
+| PyPI: https://pypi.python.org/pypi/conda
 |
 
 * Conda installs packages written in any language; especially Python
 * ``conda skeleton`` can automatically create conda packages
-  both from ``PyPi`` and from ``CPAN`` (Perl)
+  both from ``PyPI`` and from ``CPAN`` (Perl)
 * Conda was originally created for the Anaconda Python Distribution,
   which installs packages written in Python, R, C, Fortran
 
@@ -808,7 +808,7 @@ and hypervisors from a parameterizable template.
       JSON build definitions with optional variables and templating
 
    Packer Build
-      A task defined by a JSON file containing build steps
+      Task defined by a JSON file containing build steps
       which produce a machine image
 
    Packer Builder
@@ -1453,7 +1453,7 @@ Virtualenv
 
 Virtualenv is a tool for creating reproducible :ref:`Python` environments.
 
-Virtualenv sets the shell environment variable $VIRTUAL_ENV when active.
+Virtualenv sets the shell environment variable ``$VIRTUAL_ENV`` when active.
 
 Paths within a virtualenv are more-or-less :ref:`FHS <fhs>`
 standard paths, which makes
@@ -1543,7 +1543,11 @@ Virtualenvwrapper is sourced into the shell::
    mkvirtualenv example
    workon example
    cdvirtualenv ; ls
+   echo $VIRTUAL_ENV; echo ~/wrk/.ve/example; pwd
+
    mkdir src ; cd src/
+   pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+   ls src/dotfiles
 
    cdsitepackages
    lssitepackages
