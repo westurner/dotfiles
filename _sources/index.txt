@@ -7,7 +7,6 @@ Contents
    :maxdepth: 3
 
    readme
-   install
    usage
    venv
    api
