@@ -49,21 +49,25 @@ ggvim() {
 
 
 e() {
-    # e()       -- ${EDITOR_} $@
+    # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} $@
 }
 
 edit() {
-    # edit()    -- ${EDITOR_} $@
+    # edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} $@
 }
 
 editcfg() {
-    # editcfg() -- ${EDITOR_} ${_CFG}
+    # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} ${_CFG}
 }
 
 sudoe() {
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
-    EDITOR=${SUDO_EDITOR} sudo -e
+    EDITOR=${SUDO_EDITOR} sudo -e $@
+}
+sudovim() {
+    # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+    sudoe $@
 }
