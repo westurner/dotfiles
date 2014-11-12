@@ -23,7 +23,6 @@ include docs/_templates/links.html
 include docs/_templates/sourcelink.html
 include docs/api.rst
 include docs/bash-vi-editing-mode-cheat-sheet.txt
-include docs/bash.rst
 include docs/bash_conf.txt
 include docs/changelog.rst
 include docs/conf.py
@@ -37,7 +36,6 @@ include docs/readme.rst
 include docs/requirements.txt
 include docs/src/conf.py
 include docs/tools.rst
-include docs/usage.rst
 include docs/venv.rst
 include etc/.Xmodmap
 include etc/.bash_aliases
