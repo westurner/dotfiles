@@ -294,7 +294,7 @@ Pip is a tool for installing, upgrading, and uninstalling
 * Pip can maintain a local cache of downloaded packages,
   which can lessen the load on package servers during testing.
 * If a package requirement is already satisfied,
-  pip requires the '--upgrade' and/or ``--force-reinstall`` options
+  pip requires the ``--upgrade`` and/or ``--force-reinstall`` options
   to be added to the ``pip install`` command.
 
 .. warning::
