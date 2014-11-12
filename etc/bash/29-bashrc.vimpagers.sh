@@ -23,7 +23,7 @@ vimpager() {
 
 
 lessv () {
-    # lessv()    -- less with less.vim and vim (g:tinyvim=1)
+    # lessv()   -- less with less.vim and vim (g:tinyvim=1)
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
             #read stdin
@@ -55,17 +55,17 @@ lessv () {
 }
 
 lessg() {
-    # lessg()  -- less with less.vim and gvim / mvim
+    # lessg()   -- less with less.vim and gvim / mvim
     VIMBIN=${GUIVIMBIN} lessv $@
 }
 
 lesse() {
-    # lesse()  -- less with current venv's vim server
+    # lesse()   -- less with current venv's vim server
     ${EDITOR} $@
 }
 
 manv() {
-    # manv()   -- view manpages in vim
+    # manv()    -- view manpages in vim
     alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
@@ -83,7 +83,7 @@ manv() {
 }
 
 mang() {
-    # mang()   -- view manpages in gvim / mvim
+    # mang()    -- view manpages in gvim / mvim
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
@@ -99,6 +99,6 @@ mang() {
 }
 
 mane() {
-    # mane()   -- open manpage with venv's vim server
+    # mane()    -- open manpage with venv's vim server
     $GUIVIMBIN ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
 }
