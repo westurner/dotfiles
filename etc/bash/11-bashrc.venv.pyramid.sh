@@ -1,6 +1,8 @@
 
+### bashrc.venv.pyramid.sh
+
 workon_pyramid_app() {
-    ##  workon_pyramid_app $VIRTUAL_ENV_NAME $_APP [open_terminals]
+    # workon_pyramid_app()  -- $VIRTUAL_ENV_NAME [$_APP] [open_terminals]
     _VENVNAME=$1
     _APP=$2
 
