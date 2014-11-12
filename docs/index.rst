@@ -7,10 +7,10 @@ Contents
    :maxdepth: 3
 
    readme
-   usage
+   venv
    api
-   developing
    tools
+   developing
    changelog
 
 Indices and tables

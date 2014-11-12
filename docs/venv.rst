@@ -1,4 +1,7 @@
 
+.. index:: Venv
+.. _venv:   
+
 Venv
 ======
 
@@ -6,12 +9,12 @@ Venv
 Features
 ----------
 
-* Configures `Python`_ ``site`` for a given `virtualenv`_
-* Configures `Python`_ ``sys.path``: `IPython`_ extension paths
-* Configures `IPython`_ command aliases (``%alias``, or just ``alias``)
-* Generates `Bash`_ environments from `virtualenv`_ paths
-* Configures `Bash`_ variables starting with ``$_`` (``$_APP``, ``$_WRD``)
-* Run commands within a `virtualenv`_ (``venv dotfiles -x bash``)
+* Configures :ref:`Python` ``site`` for a given :ref:`virtualenv`
+* Configures :ref:`Python` ``sys.path``: :ref:`IPython` extension paths
+* Configures :ref:`IPython` command aliases (``%alias``, or just ``alias``)
+* Generates :ref:`Bash` environments from :ref:`virtualenv` paths
+* Configures :ref:`Bash` variables starting with ``$_`` (``$_APP``, ``$_WRD``)
+* Run commands within a :ref:`virtualenv` (``venv dotfiles -x bash``)
 
 There are two parts to "``venv``":
 
@@ -27,7 +30,7 @@ if they contain a ``%l``
 ``etc/ipython/ipython_config.py``.
 
 `10-bashrc.venv.sh`_ configures a number of useful variables and
-functions for use with `virtualenvwrapper`_.
+functions for use with :ref:`virtualenvwrapper`.
 
 
 .. _10-bashrc.venv.sh: https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
@@ -56,24 +59,15 @@ Quickstart
     we dotfiles otherproject
 
 
-.. _virtualenvwrapper: https://pypi.python.org/pypi/virtualenvwrapper
-.. _Python: https://en.wikipedia.org/wiki/Python_(programming_language)
-.. _Bash: https://en.wikipedia.org/wiki/Bash_(Unix_shell)
-.. _ZSH: https://en.wikipedia.org/wiki/Z_shell
-.. _IPython: https://en.wikipedia.org/wiki/IPython
-
-
-
-
-
-
 
 Python API
 ~~~~~~~~~~~~
-A Venv object builds an ``Env`` with ``${VIRTUAL_ENV}``-relative paths
+A Venv object builds a :py:mod:`dotfiles.venv.ipython_config.Env`
+with ``$VIRTUAL_ENV``-relative paths
 in a common filesystem hierarchy and an ordered dictionary of
 command aliases, which can be serialized to
-a bash script (``venv --bash``) or to JSON (``venv --print``).
+a bash script (``venv --bash``) or to JSON (``venv --print``)
+by a :py:mod:`dotfiles.venv.ipython_config:Venv`.
 
 .. code-block:: python
 

@@ -6,110 +6,24 @@ Tools
 =======
 
 
-Distro Packages
-=================
-Operating Systems Packaging
+Packages
+==========
+| Wikipedia: `<https://en.wikipedia.org/wiki/Package_(package_management_system)>`__
+|
 
 Source and/or binary packages to install from a standard archive
 with a *signed* manifest containing file signatures of
 package files.
 
 
-
-RPM Package
-~~~~~~~~~~~~~
-https://en.wikipedia.org/wiki/RPM_Package_Manager
-
-* Installable with yum, {...}
-* Build with TODO: rpmbuild
-* Python: build with bdist_rpm, {...}
-* List contents::
-
-   # with lesspipe
-   less ~/path/to/local.rpm
-
-* Package Repositories (yum):
-
-  * Local: directories of packages and metadata
-  * Network: HTTP, HTTPS, RSYNC, FTP
-
-
-DEB Package
-~~~~~~~~~~~~
-https://en.wikipedia.org/wiki/Deb_(file_format)
-
-* Installable with apt-get, aptitutde, 
-* Build with dpkg
-* List contents::
-
-   # with lesspipe
-   less ~/path/to/local.deb
-
-* Package Repositories (apt):
-
-  * Local: directories of packages and metadata
-  * Network: HTTP, HTTPS, RSYNC, FTP (apt transports)
-
-* Linux/Mac/Windows: Yes / Fink / No
-
-  
-Homebrew
-~~~~~~~~~~
-https://en.wikipedia.org/wiki/Homebrew_(package_management_software)
-
-* Linux/Mac/Windows: No / Yes / No
-
-* Package Recipe Repositories (brew):
-
-  * Local: 
-  * Network: HTTP, HTTPS
-
-
-NuGet
-~~~~~~
-https://en.wikipedia.org/wiki/NuGet
-
-* Package Repositories (chocolatey):
-
-  * https://chocolatey.org/ 
-
-* Linux/Mac/Windows: No / No / Yes
-
-  
-Portage
-~~~~~~~~~
-https://en.wikipedia.org/wiki/Portage_(software)
-
-* Build recipes with flag sets
-* Package Repositories (portage)  
-
-
-Port Tree
-~~~~~~~~~~
-Sources and Makefiles designed to compile software packages
-for particular distributions' kernel and standard libraries
-on a particular platform.
-
-
-CoreOS Docker Images
-~~~~~~~~~~~~~~~~~~~~~
-CoreOS schedules redundant docker images and configuration
-over etcd, a key-value store with a D-Bus interface.
-
-* Create high availability zone clusters with fleet
-* Systemd init files
- 
-
-
-
-.. _apt:
 .. index:: Apt
+.. _apt:
 
 Apt
 =============
 | Wikipedia: `<https://en.wikipedia.org/wiki/Advanced_Packaging_Tool>`_
-| Homepage: http://alioth.debian.org/projects/apt 
-| Docs: https://wiki.debian.org/Apt 
+| Homepage: http://alioth.debian.org/projects/apt
+| Docs: https://wiki.debian.org/Apt
 | Docs: https://www.debian.org/doc/manuals/debian-reference/ch02.en.html
 | Docs: https://www.debian.org/doc/manuals/apt-howto/
 | Source: git git://anonscm.debian.org/git/apt/apt.git
@@ -132,8 +46,393 @@ APT retrieves packages over FTP, HTTP, HTTPS, and RSYNC.
    apt-get dist-upgrade
 
 
-.. _bash:
+
+
+
+.. index:: DEB
+.. _deb:
+
+DEB
+~~~~~
+`<https://en.wikipedia.org/wiki/Deb_(file_format)>`__
+
+* Install with ``apt-get``, ``aptitutde``
+* Build with :ref:`dpkg`
+* List contents::
+
+   less ~/path/to/local.deb   # requires lesspipe
+
+* Package Repositories (:ref:`apt`):
+
+  * Local: directories of packages and metadata
+  * Network: HTTP, HTTPS, RSYNC, FTP, BitTorrent (apt transports)
+
+* Linux/Mac/Windows: Yes / Fink / No
+
+
+.. index:: Brew
+.. index:: Homebrew
+.. _homebrew:
+
+Homebrew
+~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Homebrew_(package_management_software)>`__
+| Homepage: http://brew.sh/
+|
+
+* Linux/Mac/Windows: No / Yes / No
+
+* Package Recipe Repositories (brew):
+
+  * Local:
+  * Network: HTTP, HTTPS
+
+
+.. index:: NuGet
+.. _nuget:
+
+NuGet
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/NuGet
+| Homepage: https://www.nuget.org/
+|
+
+* Package Repositories (chocolatey):
+
+  * https://chocolatey.org/
+
+* Linux/Mac/Windows: No / No / Yes
+
+
+.. index:: Portage
+.. _portage:
+
+Portage
+~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Portage_(software)>`__
+| Homepage: http://wiki.gentoo.org/wiki/Project:Portage
+|
+
+* Build recipes with flag sets
+* Package Repositories (portage)
+
+
+.. index:: Ports
+.. _ports:
+
+Ports
+~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Ports_collection
+| Homepage: https://www.freebsd.org/ports/
+|
+
+Sources and Makefiles designed to compile software packages
+for particular distributions' kernel and standard libraries
+on a particular platform.
+
+
+.. index:: RPM
+.. _rpm:
+
+RPM
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/RPM_Package_Manager
+|
+
+* Install with ``rpm``, ``yum``
+* Build with tools like ``rpmbuild`` and ``fpm``
+* Python: build with ``bdist_rpm``, ``fpm``
+* List contents::
+
+   less ~/path/to/local.rpm   # requires lesspipe to be configured
+
+* Package Repositories (yum):
+
+  * Local: directories of packages and metadata
+  * Network: HTTP, HTTPS, RSYNC, FTP
+
+
+.. index:: Egg
+.. index:: Python Egg
+.. index:: Wheel
+.. index:: Python Wheel
+.. index:: Python Package
+.. _python-package:
+
+Python Packages
+~~~~~~~~~~~~~~~~~~~~~~~~
+| Homepage: https://pypi.python.org/pypi
+| Docs: http://packaging.python.org/en/latest/
+
+* Python packages are tested and repackaged by package maintainers
+* Python packages have dependencies: they depend on other packages
+* Python packages are served from a package index
+* PyPi is the community Python Package Index
+* A Python package is an archive of files
+  (``.zip`` (``.egg``, ``.whl``), ``.tar``, ``.tar.gz``,)
+  containing a ``setup.py`` file
+  containing a version string and metadata that is meant for distribution.
+* An source dist (``sdist``) package contains source code
+  (every file listed in or matching a pattern in a ``MANIFEST.in`` text file).
+* A binary dist (``bdist``, ``bdist_egg``, ``bdist_wheel``)
+  is derived from an sdist and may be compiled and named
+  for a specific platform.
+* sdists and bdists are defined by a ``setup.py`` file
+  which contains a call to a
+  ``distutils.setup()`` or ``setuptools.setup()`` function.
+* The arguments to the ``setup.py`` function are things like
+  ``version``, ``author``, ``author_email``, and ``homepage``;
+  in addition to package dependency strings required for the package to work
+  (``install_requires``), for tests to run (``tests_require``),
+  and for optional things to work (``extras_require``).
+* A package dependency string can specify an exact version (``==``)
+  or a greater-than (``>=``) or less-than (``<=``) requirement
+  for each package.
+* Package names are looked up from an index server (``--index``),
+  such as *PyPi*,
+  and or an HTML page (``--find-links``) containing URLs
+  containing package names, version strings, and platform strings.
+* ``easy_install`` (setuptools) and ``pip`` can install packages
+  from: the local filesystem, a remote index server, or a local index server.
+* ``easy_install`` and ``pip`` read the ``install_requires``
+  (and ``extras_require``) attributes of ``setup.py`` files
+  contained in packages in order to resolve a dependency graph
+  (which can contain cycles) and install necessary packages.
+
+
+
+
+.. index:: distutils
+.. _distutils:
+
+Distuils
++++++++++
+| Docs: https://docs.python.org/2/distutils/
+|
+
+* Distutils is included in the Python standard library
+* Distutils is a collection of tools for common packaging needs
+
+
+.. index:: setuptools
+.. _setuptools:
+
+Setuptools
+++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Setuptools
+| Docs: https://pythonhosted.org/setuptools/
+| Source: hg https://bitbucket.org/pypa/setuptools
+| PyPi: http://pypi.python.org/pypi/setuptools
+|
+
+* Setuptools builds upon :ref:`distutils`
+* Setuptools is widely implemented
+* Most Python packages are installed by setuptools (by :ref:`Pip`)
+* Setuptools can be installed by downloading ``ez_setup.py``
+  and then running ``python ez_setup.py``; or,
+  setuptools can be installed with a system package manager (apt, yum)
+* Setuptools installs a script called ``easy_install`` which can
+  be used to install packages from the local filesystem,
+  a remote index server, a local index server, or an HTML page
+* ``easy_install pip`` installs :ref:`Pip` from PyPi
+* Like ``easy_install``, :ref:`Pip` installs python packages,
+  with a number of additional configuration options
+* Setuptools can build :ref:`RPM` and :ref:`DEB` packages
+  from python packages, with some extra configuration::
+
+    ``python setup.py bdist_rpm --help``
+    ``python setup.py --command-packages=stdeb.command bdist_deb --help``
+
+
+.. index:: Pip
+.. _pip:
+
+Pip
+++++++++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Pip_(package_manager)>`_
+| Homepage: http://www.pip-installer.org/
+| Docs: http://www.pip-installer.org/en/latest/user_guide.html
+| Docs: https://pip.readthedocs.org/en/latest/
+| Source: git https://github.com/pypa/pip
+| Pypi: https://pypi.python.org/pypi/pip
+| IRC: #pypa
+| IRC: #pypa-dev
+|
+
+Pip is a tool for both installing and uninstalling :ref:`Python` packages.
+
+::
+
+   pip help
+   pip help install
+   pip --version
+
+   sudo apt-get install python-pip
+   pip install --upgrade pip
+
+   pip install libcloud
+   pip install -r requirements.txt
+   pip uninstall libcloud
+
+
+* Pip retrieves and installs packages.
+* Pip can do uninstall and upgrade.
+* Pip stands upon :ref:`distutils` and :ref:`setuptools`.
+* Pip can install packages as 'editable' packages (``pip install -e``)
+  from version control repository URLs
+  which must begin with ``vcs+``,
+  end with ``#egg=<usuallythepackagename>``,
+  and may contain an ``@vcstag`` tag
+  (such as a branch name or a version tag).
+* Pip installs packages as editable by first
+  cloning (or checking out) the code,
+  and then running ``setup.py develop``.
+* Pip configuration is in ``${HOME}/.pip/pip.conf``.
+* Pip can maintain a local cache of downloaded packages,
+  which can lessen the load on package servers during testing.
+* If a package requirement is already satisfied,
+  pip requires the '--upgrade' and/or ``--force-reinstall`` options
+  to be added to the ``pip install`` command.
+
+.. warning::
+   With :ref:`Python` 2, pip is preferable to
+   :ref:`setuptools`'s ``easy_install``
+   because pip installs ``backports.ssl_match_hostname``
+   in order to validate ``HTTPS`` certificates
+   (by making sure that the certificate hostname matches the hostname
+   from which the DNS resolved to).
+
+   Cloning packages from source repositories over SSH or HTTP,
+   either manually or with ``pip install -e`` avoids this concern.
+
+   There is also a tool called :ref:`peep` which
+   requires considered-good SHA256 checksums to be specified
+   for every dependency listed in a ``requirements.txt`` file.
+
+   For more information, see:
+   http://legacy.python.org/dev/peps/pep-0476/#python-versions
+
+.. glossary::
+
+   Pip Requirements File
+      Plaintext list of packages and package URIs to install.
+
+      Requirements files may contain version specifiers (``pip >= 1.5``)
+
+      Pip installs Pip Requirement Files::
+
+         pip install -r requirements.txt
+         pip install --upgrade -r requirements.txt
+         pip install --upgrade --user --force-reinstall -r requirements.txt
+
+      An example ``requirements.txt`` file::
+
+         # install pip from the default index (PyPi)
+         pip
+         --index=https://pypi.python.org/simple --upgrade pip
+
+         # Install pip 1.5 or greater from PyPi
+         pip >= 1.5
+
+         # Git clone and install pip as an editable develop egg
+         -e git+https://github.com/pypa/pip@1.5.X#egg=pip
+
+         # Install a source distribution release from PyPi
+         # and check the MD5 checksum in the URL
+         https://pypi.python.org/packages/source/p/pip/pip-1.5.5.tar.gz#md5=7520581ba0687dec1ce85bd15496537b
+
+         # Install a source distribution release from Warehouse
+         https://warehouse.python.org/packages/source/p/pip/pip-1.5.5.tar.gz
+
+         # Install an additional requirements.txt file
+         -r requirements/more-requirements.txt
+
+.. index:: Peep
+.. _peep:
+
+Peep
++++++
+| Source: https://github.com/erikrose/peep
+| PyPi: https://pypi.python.org/pypi/peep
+|
+
+Peep works just like :ref:`pip`, but requires ``SHA256`` checksum hashes
+to be specified for each package in ``requirements.txt`` file.
+
+
+.. index:: wheel
+.. _wheel:
+
+Wheel
+++++++
+| Docs: http://legacy.python.org/dev/peps/pep-0427/
+| Docs: http://wheel.readthedocs.org/en/latest/
+| Source: hg https://bitbucket.org/pypa/wheel/
+| PyPi: https://pypi.python.org/pypi/wheel
+|
+
+* Wheel is a newer, PEP-based standard (``.whl``) with a different
+  metadata format, the ability to specify (JSON) digital signatures
+  for a package, within the package, and a number
+  of additional advantages.
+* Wheels can also be uploaded to PyPi
+* Wheels are generally faster than traditional Python packages
+
+Packages available as wheels are listed at http://pythonwheels.com/
+
+.. index:: Conda
+.. _conda:
+
+Conda
++++++++
+| Docs: http://conda.pydata.org/docs/
+| Source: git https://github.com/conda/conda
+| PyPi: https://pypi.python.org/pypi/conda
+|
+
+* Conda installs packages written in any language; especially Python
+* ``conda skeleton`` can automatically create conda packages
+  both from ``PyPi`` and from ``CPAN`` (Perl)
+* Conda was originally created for the Anaconda Python Distribution,
+  which installs packages written in Python, R, C, Fortran
+
+
+.. index:: RubyGems
+.. _rubygems:
+
+RubyGems
+~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/RubyGems
+| Homepage: https://rubygems.org/
+| Docs: http://guides.rubygems.org/
+| Source: https://github.com/rubygems/rubygems
+|
+
+* RubyGems installs Ruby Gems
+
+
+.. index:: Yum
+.. _yum:
+
+Yum
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Yellowdog_Updater,_Modified
+| Homepage: http://yum.baseurl.org/
+|
+
+
+CoreOS Docker Images
+~~~~~~~~~~~~~~~~~~~~~
+CoreOS schedules redundant docker images and configuration
+over etcd, a key-value store with a D-Bus interface.
+
+* Create high availability zone clusters with fleet
+* Systemd init files
+
+
+
 .. index:: Bash
+.. _bash:
 
 Bash
 ===============
@@ -160,7 +459,7 @@ Bash, the Bourne-again shell.
 * Portability: sh (sh, bash, dash, zsh) shell scripts are mostly
   compatible
 * Logging::
-  
+
    set -x  # print commands and arguments
    set -v  # print source
 
@@ -176,7 +475,7 @@ Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin
 
 
 .. index:: Compiz
-.. _compiz:   
+.. _compiz:
 
 Compiz
 =======
@@ -189,8 +488,8 @@ Compiz
 Linux/Mac/Windows: Yes / No / No
 
 
-.. _dpkg:
 .. index:: Dpkg
+.. _dpkg:
 
 Dpkg
 ==============
@@ -204,8 +503,8 @@ Lower-level package management scripts for creating and working with
 .DEB Debian packages.
 
 
-.. _docker:
 .. index:: Docker
+.. _docker:
 
 Docker
 =================
@@ -224,16 +523,16 @@ Limitations
 * Apt-get upgrade: https://github.com/dotcloud/docker/issues/3934
 
 
-.. _docutils:
 .. index:: Docutils
+.. _docutils:
 
 Docutils
 ===================
 | Homepage: http://docutils.sourceforge.net
 | Docs: http://docutils.sourceforge.net/docs/
-| Docs: http://docutils.sourceforge.net/rst.html 
+| Docs: http://docutils.sourceforge.net/rst.html
 | Docs: http://docutils.sourceforge.net/docs/ref/doctree.html
-| Source: svn http://svn.code.sf.net/p/docutils/code/trunk 
+| Source: svn http://svn.code.sf.net/p/docutils/code/trunk
 |
 
 Docutils is a text processing system which 'parses" :ref:`ReStructuredText`
@@ -242,8 +541,8 @@ HTML, LaTeX, man-pages, Open Document files, XML, and a number of other
 formats.
 
 
-.. _fhs:
 .. index:: Filesystem Hierarchy Standard
+.. _fhs:
 
 Filesystem Hierarchy Standard
 =======================================
@@ -261,8 +560,8 @@ a Filesystem Hierarchy.
 also btrfs subvolumes.
 
 
-.. _git:
 .. index:: Git
+.. _git:
 
 Git
 ==============
@@ -277,8 +576,8 @@ Git is a distributed version control system for tracking a branching
 and merging repository of file revisions.
 
 
+.. _gnome:
 .. index:: Gnome
-.. _gnome:   
 
 Gnome
 ======
@@ -291,8 +590,8 @@ Gnome
 * https://wiki.gnome.org/GnomeLove
 
 
-.. _go:
 .. index:: Go
+.. _go:
 
 Go
 =============
@@ -324,7 +623,7 @@ I3wm
 | Wikipedia: `<https://en.wikipedia.org/wiki/I3_(window_manager)>`__
 | Homepage: http://i3wm.org/
 | Docs: http://i3wm.org/docs/
-| Source: git git://code.i3wm.org/i3 
+| Source: git git://code.i3wm.org/i3
 |
 
 * http://i3wm.org/downloads/
@@ -346,8 +645,8 @@ IPython
 * https://github.com/jupyter
 
 
+.. index:: JSON
 .. _json:
-.. index:: Json
 
 JSON
 ===============
@@ -360,16 +659,16 @@ Parse and indent JSON with :ref:`Python` and :ref:`Bash`::
     cat example.json | python -m json.tool
 
 
-.. _libcloud:
 .. index:: Libcloud
+.. _libcloud:
 
 Libcloud
 ==================
-| Homepage: https://libcloud.apache.org/ 
+| Homepage: https://libcloud.apache.org/
 | Docs: https://libcloud.readthedocs.org/
 | Docs: https://libcloud.readthedocs.org/en/latest/supported_providers.html
 | Source: git git://git.apache.org/libcloud.git
-| Source: git https://github.com/apache/libcloud 
+| Source: git https://github.com/apache/libcloud
 |
 
 Apache Libcloud is a :ref:`Python` library
@@ -377,14 +676,14 @@ which abstracts and unifies a large number of Cloud APIs for
 Compute Resources, Object Storage, Load Balancing, and DNS.
 
 
-.. _libvirt:
 .. index:: Libvirt
+.. _libvirt:
 
 Libvirt
 =================
 | Wikipedia: http://libvirt.org/
 | Homepage: http://libvirt.org/
-| Docs: http://libvirt.org/docs.html 
+| Docs: http://libvirt.org/docs.html
 | Docs: http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.virt.html
 | Source: git git://libvirt.org/libvirt-appdev-guide.git
 |
@@ -399,8 +698,8 @@ various :ref:`Linux` hypervisors.
 * VirtualBox
 
 
-.. _linux:
 .. index:: Linux
+.. _linux:
 
 Linux
 ================
@@ -417,14 +716,14 @@ A free and open source operating system kernel written in C.
    uname -a
 
 
-.. _make:
 .. index:: Make
+.. _make:
 
 Make
 ===============
 | Wikipedia: `<https://en.wikipedia.org/wiki/Make_(software)>`_
 | Homepage:  https://www.gnu.org/software/make/
-| Project: https://savannah.gnu.org/projects/make/ 
+| Project: https://savannah.gnu.org/projects/make/
 | Docs:  https://www.gnu.org/software/make/manual/make.html
 | Source: git git://git.savannah.gnu.org/make.git
 |
@@ -435,29 +734,29 @@ designed for file-based source code compilation.
 :ref:`Bash`, :ref:`Python`, and the GNU/:ref:`Linux` kernel
 are all built with Make.
 
-Make build task chains are represented in a :ref:`Makefile`.
+Make build task chains are represented in a ``Makefile``.
 
 Pros
 
 * Simple, easy to read syntax
 * Designed to build files on disk
 * Nesting: ``make -C <path> <taskname>``
-* Variable Syntax: ``$(VARIABLE_NAME)``  
+* Variable Syntax: ``$(VARIABLE_NAME)``
 * Bash completion: ``make <tab>``
-* Python: Parseable with disutils.text_file Text File 
-* Logging: command names and values to stdout  
+* Python: Parseable with disutils.text_file Text File
+* Logging: command names and values to stdout
 
 Cons
 
-* Platform Portability: make is not installed everywhere  
+* Platform Portability: make is not installed everywhere
 * Global Variables: Parametrization with shell scripts
-  
+
 * Linux/Mac/Windows: Usually / brew / executable
 
 
 .. index:: Hg
 .. index:: Mercurial
-.. _hg:
+.. _mercurial:
 
 Mercurial
 ==========
@@ -471,23 +770,23 @@ Mercurial
 * http://hgbook.red-bean.com/
 
 
-.. _msgpack:
 .. index:: MessagePack
+.. _msgpack:
 
 MessagePack
 =====================
-| Wikipedia: https://en.wikipedia.org/wiki/MessagePack  
-| Homepage: http://msgpack.org/ 
+| Wikipedia: https://en.wikipedia.org/wiki/MessagePack
+| Homepage: http://msgpack.org/
 |
 
 MessagePack is a data interchange format
 with implementations in many languages.
 
-:ref:`Salt` 
+:ref:`Salt`
 
 
-.. _packer:
 .. index:: Packer
+.. _packer:
 
 Packer
 =================
@@ -541,14 +840,14 @@ and hypervisors from a parameterizable template.
 
 
 
-.. _perl:
 .. index:: Perl
+.. _perl:
 
 Perl
 ===============
 | Wikipedia: https://en.wikipedia.org/wiki/Perl
 | Homepage: http://www.perl.org/
-| Project: http://dev.perl.org/perl5/ 
+| Project: http://dev.perl.org/perl5/
 | Docs: http://www.perl.org/docs.html
 | Source: git git://perl5.git.perl.org/perl.git
 |
@@ -560,15 +859,14 @@ Many of the Debian system management tools are or were originally written
 in Perl.
 
 
-.. _python:
 .. index:: Python
+.. _python:
 
 Python
 =================
 | Wikipedia: `<https://en.wikipedia.org/wiki/Python_(programming_language)>`_
 | Homepage: https://www.python.org/
 | Docs: https://docs.python.org/2/
-| Docs: https://docs.python.org/3/
 | Docs: https://docs.python.org/devguide/
 | Docs: https://docs.python.org/devguide/documenting.html
 | Source: hg https://hg.python.org/cpython
@@ -576,12 +874,53 @@ Python
 
 Python is a dynamically-typed, C-based scripting language.
 
-Many of the RedHat system management tools are or were originally written
-in Python.
+Many of the RedHat system management tools (such as :ref:`Yum`)
+are written in Python. Gentoo :ref:`Portage` is written in Python.
 
-:ref:`Pip`, :ref:`Sphinx`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
+:ref:`IPython`, :ref:`Pip`, :ref:`Conda`,
+:ref:`Sphinx`, :ref:`Docutils`, :ref:`Mercurial`,
+:ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
 and :ref:`Virtualenvwrapper` are all written in Python.
 
+
+.. index:: Python 3
+.. _python3:
+
+Python 3
+~~~~~~~~~~
+| Docs: https://docs.python.org/3/
+| Docs: https://docs.python.org/3/howto/pyporting.html
+| Docs: https://docs.python.org/3/howto/cporting.html
+|
+
+Python 3 made a number of incompatible changes,
+requiring developers to update and review their Python 2 code
+in order to "port to" Python 3.
+
+Python 2 will be supported in "no-new-features" status
+for quite some time.
+
+Python 3 Wall of Superpowers tracks which popular packages
+have been ported to support Python 3: https://python3wos.appspot.com/
+
+There are a number of projects which help bridge the gap between
+the two language versions:
+
+* https://pypi.python.org/pypi/six
+* http://pythonhosted.org/six/
+* https://pypi.python.org/pypi/nine
+* https://github.com/nandoflorestan/nine/blob/master/nine/__init__.py
+* https://pypi.python.org/pypi/future
+* http://python-future.org/
+
+The Anaconda Python distribution (:ref:`Conda`)
+maintains a working set of packages
+for Python 2.6, 2.7, 3.3, and 3.4:
+http://docs.continuum.io/anaconda/pkg-docs.html
+
+
+.. index:: awesome-python-testing
+.. _awesome-python-testing:
 
 awesome-python-testing
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -590,125 +929,9 @@ awesome-python-testing
 |
 
 
-.. _python-package:
-.. index:: Python Package
-
-Python Package
-========================
-Archive of source and/or binary files containing a setup.py.
-
-A setup.py calls a ``distutils.setup`` or ``setuptools.setup`` function
-with package metadata fields like name, version, maintainer name,
-maintainer email, and home page;
-as well as package requirements: lists of
-package names and version specifiers in ``install_requires`` and
-``tests_require``, and a dict for any ``extras_require`` such
-that '``easy_install setup.py``, ``python setup.py install``,
-and ``pip install --upgrade pip`` can all retrieve versions of
-packages which it depends on.
-
-
-* Distutils is in the Python standard library
-* Setuptools is widely implemented: ``easy_install``
-* Setuptools can be installed with ``python ez_setup.py``
-* Setuptools can be installed with a system package manager (apt, yum)
-* Python packages are tested and repackaged by package maintainers
-* Python packages are served from a package index
-* PyPi is the Python Community package home  
-* Packages are released to PyPi
 
 
 
-* Package Repositories (setup.py -> pypi)
-* Package Repositories (conda)
-* Package Repositories (enpkg)
-* Package Repositories (deb/apt, rpm/yum)
-
-* Build RPM and DEB packages from Python packages with setuptools
-
-  * ``python setup.py bdist_rpm --help``
-  * ``python setup.py --command-packages=stdeb.command bdist_deb --help``
-
-
-
-.. _pip:
-.. index:: Pip
-
-Pip
-==============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Pip_(package_manager)>`_
-| Homepage: http://www.pip-installer.org/
-| Docs: http://www.pip-installer.org/en/latest/user_guide.html 
-| Docs: https://pip.readthedocs.org/en/latest/
-| Docs: http://packaging.python.org/en/latest/
-| Source: git https://github.com/pypa/pip
-| Pypi: https://pypi.python.org/pypi/pip
-| IRC: #pypa
-| IRC: #pypa-dev
-|
-
-Pip is a tool for working with :ref:`Python` packages.
-
-::
-
-   pip help
-   pip help install
-   pip --version
-
-   sudo apt-get install python-pip
-   pip install --upgrade pip
-
-   pip install libcloud
-   pip install -r requirements.txt
-   pip uninstall libcloud
-
-
-* Pip retrieves and installs packages from package indexes
-* Pip can do uninstall and upgrade
-* Pip builds upon distutils and setuptools
-* Pip can install from version control repository URLs  
-* Pip configuration is in ``${HOME}/.pip/pip.conf``.
-* Pip can maintain a local cache of downloaded packages
-
-.. note:: With :ref:`Python` 2, pip is preferable to ``easy_install``
-   because Pip installs ``backports.ssl_match_hostname``.
-
-.. glossary::
-
-   Pip Requirements File
-      Plaintext list of packages and package URIs to install.
-
-      Requirements files may contain version specifiers (``pip >= 1.5``)
-
-      Pip installs Pip Requirement Files::
-
-         pip install -r requirements.txt
-         pip install --upgrade -r requirements.txt
-         pip install --upgrade --user --force-reinstall -r requirements.txt
-
-      An example ``requirements.txt`` file::
-
-         # install pip from the default index (PyPi)
-         pip
-         --index=https://pypi.python.org/simple --upgrade pip
-
-         # Install pip 1.5 or greater from PyPi
-         pip >= 1.5
-
-         # Git clone and install pip as an editable develop egg
-         -e git+https://github.com/pypa/pip@1.5.X#egg=pip
-
-         # Install a source distribution release from PyPi
-         # and check the MD5 checksum in the URL
-         https://pypi.python.org/packages/source/p/pip/pip-1.5.5.tar.gz#md5=7520581ba0687dec1ce85bd15496537b
-
-         # Install a source distribution release from Warehouse
-         https://warehouse.python.org/packages/source/p/pip/pip-1.5.5.tar.gz
-
-         # Install an additional requirements.txt file
-         -r requirements/more-requirements.txt
-
-        
 .. index:: Readline
 .. _readline:
 
@@ -726,24 +949,24 @@ Readline
 * https://pypi.python.org/pypi/gnureadline
 
 
-.. _restructuredtext:
 .. index:: ReStructuredText
+.. _restructuredtext:
 
 ReStructuredText
 ==========================
-| Wikipedia: https://en.wikipedia.org/wiki/ReStructuredText 
-| Homepage: http://docutils.sourceforge.net/rst.html 
+| Wikipedia: https://en.wikipedia.org/wiki/ReStructuredText
+| Homepage: http://docutils.sourceforge.net/rst.html
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
-| Docs: http://docutils.sourceforge.net/docs/ref/rst/directives.html 
+| Docs: http://docutils.sourceforge.net/docs/ref/rst/directives.html
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
 | Docs: http://sphinx-doc.org/rest.html
-| 
+|
 
 ReStructuredText (RST, ReST) is a plaintext
 lightweight markup language commonly used for
 narrative documentation and Python docstrings.
 
-:ref:`Sphinx` is built on :ref:`Docutils`, 
+:ref:`Sphinx` is built on :ref:`Docutils`,
 which is the primary implementation of ReStructuredText.
 
 Pandoc also supports a form of ReStructuredText.
@@ -752,7 +975,7 @@ Pandoc also supports a form of ReStructuredText.
 
    ReStructuredText Directive
       Actionable blocks of ReStructuredText
-      
+
       .. code-block:: rest
 
          .. include:: goals.rst
@@ -765,31 +988,31 @@ Pandoc also supports a form of ReStructuredText.
 
    ReStructuredText Role
       RestructuredText role extensions
-      
+
       .. code-block:: rest
 
             .. _anchor-name:
 
-            :ref:`Anchor <anchor-name>` 
+            :ref:`Anchor <anchor-name>`
 
 
-.. _salt:
 .. index:: Salt
+.. _salt:
 
 Salt
 ===============
 | Wikipedia: `<https://en.wikipedia.org/wiki/Salt_(software)>`_
 | Homepage: http://www.saltstack.com
 | Docs: http://docs.saltstack.com/en/latest/
-| Docs: http://salt.readthedocs.org/en/latest/ref/clients/index.html#python-api 
-| Docs: http://docs.saltstack.com/en/latest/topics/development/hacking.html 
-| Glossary: http://docs.saltstack.com/en/latest/glossary.html 
+| Docs: http://salt.readthedocs.org/en/latest/ref/clients/index.html#python-api
+| Docs: http://docs.saltstack.com/en/latest/topics/development/hacking.html
+| Glossary: http://docs.saltstack.com/en/latest/glossary.html
 | Source: git https://github.com/saltstack/salt
 | Pypi: https://pypi.python.org/pypi/salt
 | IRC: #salt
 |
 
-Salt is an open source configuration management system for managing 
+Salt is an open source configuration management system for managing
 one or more physical and virtual machines running various operating systems.
 
 .. glossary::
@@ -801,7 +1024,7 @@ one or more physical and virtual machines running various operating systems.
       Folder of Salt States with a top.sls top file.
 
    Salt Bootstrap
-      Installer for salt master and/or salt minion 
+      Installer for salt master and/or salt minion
 
    Salt Minion
       Daemon process which executes Salt States on the local machine.
@@ -812,23 +1035,23 @@ one or more physical and virtual machines running various operating systems.
       Can execute local states in a standalone minion setup::
 
          salt-call --local grains.items
- 
+
    Salt Minion ID
       Machine ID value uniquely identifying a minion instance
       to a Salt Master.
 
       By default the minion ID is set to the FQDN
-      
+
       .. code-block:: bash
-      
+
          python -c 'import socket; print(socket.getfqdn())'
-      
+
       The minion ID can be set explicitly in two ways:
 
       * /etc/salt/minion.conf::
-        
+
          id: devserver-123.example.org
-      
+
       * /etc/salt/minion_id::
 
          $ hostname -f > /etc/salt/minion_id
@@ -848,7 +1071,7 @@ one or more physical and virtual machines running various operating systems.
 
    Salt Grains
       Static system information keys and values
-      
+
       * hostname
       * operating system
       * ip address
@@ -881,7 +1104,7 @@ one or more physical and virtual machines running various operating systems.
       Key Value data interface for storing and making available
       global and host-specific values for minions:
       values like hostnames, usernames, and keys.
- 
+
       Pillar configuration must be kept separate from states
       (e.g. users, keys) but works the same way.
 
@@ -897,22 +1120,22 @@ one or more physical and virtual machines running various operating systems.
       + Rackspace Cloud [KVM]
       + OpenStack [https://wiki.openstack.org/wiki/HypervisorSupportMatrix]
       + Linux LXC (Cgroups)
-      + KVM 
+      + KVM
 
 
-.. _sphinx:
 .. index:: Sphinx
+.. _sphinx:
 
 Sphinx
 =================
 | Wikipedia: `<https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)>`_
 | Homepage: https://pypi.python.org/pypi/Sphinx
-| Docs: http://sphinx-doc.org/contents.html  
-| Docs: http://sphinx-doc.org/markup/code.html 
+| Docs: http://sphinx-doc.org/contents.html
+| Docs: http://sphinx-doc.org/markup/code.html
 | Docs: http://pygments.org/docs/lexers/
-| Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html 
+| Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
 | Source: hg https://bitbucket.org/birkenfeld/sphinx/
-| Pypi: https://pypi.python.org/pypi/Sphinx 
+| Pypi: https://pypi.python.org/pypi/Sphinx
 |
 
 Sphinx is a tool for working with
@@ -933,9 +1156,9 @@ so, for example,
   :ref:`Sphinx` documentation set is generated from
   a file named ``index.rst`` and referenced by ``docs/conf.py``.
 
-  * Input: https://raw.githubusercontent.com/westurner/provis/master/docs/index.rst 
-  * Output: https://github.com/westurner/provis/blob/master/docs/index.rst 
-  * Output: :ref:`ReadTheDocs` http://provis.readthedocs.org/en/latest/
+  * Input: https://raw.githubusercontent.com/westurner/provis/master/docs/index.rst
+  * Output: https://github.com/westurner/provis/blob/master/docs/index.rst
+  * Output: *ReadTheDocs*: http://provis.readthedocs.org/en/latest/
 
 .. glossary::
 
@@ -946,7 +1169,7 @@ so, for example,
          * LaTeX
          * PDF
          * ePub
-    
+
       See: `Sphinx Builders <http://sphinx-doc.org/builders.html>`_
 
    Sphinx ReStructuredText
@@ -970,18 +1193,18 @@ so, for example,
 
    Sphinx Role
       Sphinx extensions of :ref:`Docutils` :ref:`RestructuredText` roles
-      
+
       Most other ReStructured
 
       .. code-block:: rest
 
             .. _anchor-name:
 
-            :ref:`Anchor <anchor-name>`        
+            :ref:`Anchor <anchor-name>`
 
 
-.. _ruby:
 .. index:: Ruby
+.. _ruby:
 
 Ruby
 ===============
@@ -996,20 +1219,8 @@ Ruby is a dynamically-typed programming language.
 :ref:`Vagrant` is written in Ruby.
 
 
-.. index:: RubyGems
-.. _rubygems:   
-
-RubyGems
-=========
-| Wikipedia: https://en.wikipedia.org/wiki/RubyGems
-| Homepage: https://rubygems.org/
-| Docs: http://guides.rubygems.org/
-| Source: https://github.com/rubygems/rubygems
-|
-
-
-.. _tox:
 .. index:: Tox
+.. _tox:
 
 Tox
 ==============
@@ -1029,21 +1240,21 @@ Run the py27 environment::
    tox --help
 
 
-.. _ubuntu:
 .. index:: Ubuntu
+.. _ubuntu:
 
 Ubuntu
 =================
 | Wikipedia: `<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>`_
 | Homepage: http://www.ubuntu.com/
 | Docs: https://help.ubuntu.com/
-| Source: https://launchpad.net/ubuntu 
+| Source: https://launchpad.net/ubuntu
 | Source: http://archive.ubuntu.com/
 | Source: http://releases.ubuntu.com/
 |
 
-.. _vagrant:
 .. index:: Vagrant
+.. _vagrant:
 
 Vagrant
 ==================
@@ -1060,7 +1271,7 @@ with CPU, RAM, Storage, and Networking.
 
   * provides helpful commandline porcelain on top of
     :ref:`VirtualBox` ``VboxManage``
-  * 
+  * installs *Vagrant Boxes*
 
 ::
 
@@ -1112,7 +1323,7 @@ with CPU, RAM, Storage, and Networking.
 
    Vagrant Cloud
       Vagrant-hosted public Vagrant Box storage.
-      
+
       Install a box from Vagrant cloud::
 
          vagrant init ubuntu/trusty64
@@ -1139,7 +1350,7 @@ with CPU, RAM, Storage, and Networking.
 
          vagrant provision
 
- 
+
 .. note:: Vagrant configures a default NFS share mounted at ``/vagrant``.
 
 
@@ -1147,12 +1358,12 @@ with CPU, RAM, Storage, and Networking.
    DNS, the default route, and to ensure ``vagrant ssh`` connectivity.
 
 
-.. _vim:
 .. index:: Vim
+.. _vim:
 
 Vim
 ====
-| Wikipedia: `<https://en.wikipedia.org/wiki/Vim_(text_editor)> __
+| Wikipedia: `<https://en.wikipedia.org/wiki/Vim_(text_editor)>`__
 | Homepage: http://www.vim.org/
 | Docs: http://www.vim.org/docs.php
 | Source: hg https://vim.googlecode.com/hg/
@@ -1162,8 +1373,8 @@ Vim
 * https://github.com/westurner/dotvim
 
 
+.. index:: Vimium
 .. _vimium:
-.. index:: Vimium   
 
 Vimium
 =======
@@ -1175,8 +1386,8 @@ Vimium
 * https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
 
 
-.. _vimperator:
 .. index:: Vimperator
+.. _vimperator:
 
 Vimperator
 ===========
@@ -1187,6 +1398,9 @@ Vimperator
 
 * https://addons.mozilla.org/en-US/firefox/addon/vimperator/
 
+
+.. index:: Wasavi
+.. _wasavi:
 
 Wasavi
 =======
@@ -1202,8 +1416,8 @@ Wasavi
 
 
 
-.. _virtualbox:
 .. index:: VirtualBox
+.. _virtualbox:
 
 VirtualBox
 =====================
@@ -1225,15 +1439,15 @@ VirtualBox:
 :ref:`Vagrant` scripts VirtualBox.
 
 
-.. _virtualenv:
 .. index:: Virtualenv
+.. _virtualenv:
 
 Virtualenv
 ====================
 | Homepage: http://www.virtualenv.org
-| Docs: http://www.virtualenv.org/en/latest/ 
+| Docs: http://www.virtualenv.org/en/latest/
 | Source: git https://github.com/pypa/virtualenv
-| PyPI: https://pypi.python.org/pypi/virtualenv 
+| PyPI: https://pypi.python.org/pypi/virtualenv
 | IRC: #pip
 |
 
@@ -1241,8 +1455,8 @@ Virtualenv is a tool for creating reproducible :ref:`Python` environments.
 
 Virtualenv sets the shell environment variable $VIRTUAL_ENV when active.
 
-Paths within a virtualenv are more-or-less :ref:`FSH
-<filesystem_hierarchy_standard>` standard paths, making
+Paths within a virtualenv are more-or-less :ref:`FHS <fhs>`
+standard paths, which makes
 virtualenv structure very useful for building
 chroot and container overlays.
 
@@ -1288,8 +1502,11 @@ code shell example, comments with ``##`` are virtualenvwrapper
    ## lssitepackages -altr **
 
 
-.. _virtualenvwrapper:
+.. note:: See :ref:`Venv`
+
+
 .. index:: Virtualenvwrapper
+.. _virtualenvwrapper:
 
 Virtualenvwrapper
 ===========================
@@ -1337,12 +1554,12 @@ Virtualenvwrapper is sourced into the shell::
 
 
 
-.. _yaml:
 .. index:: YAML
+.. _yaml:
 
 YAML
 ==============
-| Wikipedia: https://en.wikipedia.org/wiki/YAML 
+| Wikipedia: https://en.wikipedia.org/wiki/YAML
 | Homepage: http://yaml.org
 |
 
@@ -1364,9 +1581,8 @@ example ``top.sls`` file:
       - i3
 
 
-
-.. _zsh:
 .. index:: ZSH
+.. _zsh:
 
 ZSH
 ====

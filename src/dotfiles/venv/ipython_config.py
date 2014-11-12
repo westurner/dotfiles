@@ -33,8 +33,6 @@ else:
 class IPYMock(object):
     """
     Provide a few mocked methods for testing
-
-    #TODO: from IPython.core import ipapi
     """
 
     def system(self, *args, **kwargs):
@@ -480,7 +478,7 @@ class Venv(object):
         aliases['edit-']    = "{_EDIT_} %l".format(
                                 _EDIT_=env['_EDIT_'])
         aliases['e']        = aliases['edit-']
-        aliases['editp']    = "%s %%l" % self._edit_project_cmd # TODO
+        aliases['editp']    = "%s %%l" % self._edit_project_cmd
         aliases['makewrd']  = "(cd {_WRD} && make %l)".format(
                                     _WRD=shell_quote(env['_WRD']))
         aliases['make-']    = aliases['makewrd']
