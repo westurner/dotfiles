@@ -466,7 +466,8 @@ end with <code class="docutils literal"><span class="pre">#egg=&lt;usuallythepac
 and may contain an <code class="docutils literal"><span class="pre">&#64;vcstag</span></code> tag
 (such as a branch name or a version tag).</li>
 <li>Pip installs packages as editable by first
-cloning (or checking out) the code,
+cloning (or checking out) the code to <code class="docutils literal"><span class="pre">./src</span></code>
+(or <code class="docutils literal"><span class="pre">${VIRTUAL_ENV}/src</span></code> if working in a <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a>)
 and then running <code class="docutils literal"><span class="pre">setup.py</span> <span class="pre">develop</span></code>.</li>
 <li>Pip configuration is in <code class="docutils literal"><span class="pre">${HOME}/.pip/pip.conf</span></code>.</li>
 <li>Pip can maintain a local cache of downloaded packages,

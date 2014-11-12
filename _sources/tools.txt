@@ -286,7 +286,8 @@ Pip is a tool for installing, upgrading, and uninstalling
   and may contain an ``@vcstag`` tag
   (such as a branch name or a version tag).
 * Pip installs packages as editable by first
-  cloning (or checking out) the code,
+  cloning (or checking out) the code to ``./src``
+  (or ``${VIRTUAL_ENV}/src`` if working in a :ref:`virtualenv`)
   and then running ``setup.py develop``.
 * Pip configuration is in ``${HOME}/.pip/pip.conf``.
 * Pip can maintain a local cache of downloaded packages,
