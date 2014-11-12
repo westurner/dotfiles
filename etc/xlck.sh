@@ -9,15 +9,15 @@
 #  sudo apt-get install xautolock xlockmore i3lock
 
 xlck() {
+    # xlck()            -- xlck $@
     _XLCK=$(readlink -e "$BASH_SOURCE")
     echo "# ${_XLCK}"
     bash $_XLCK $@
 }
 
 _xlck_install () {
-    ## Install xlck dependencies
-
-    # bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
+    # _xlck_install()   -- install xlck dependencies
+    #   bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
 
     sudo apt-get install bash procps x11-server-utils \
         xautolock xlockmore i3lock
@@ -25,6 +25,7 @@ _xlck_install () {
 }
 
 _xlck_setup_dpms() {
+    # _xlck_setup_dpms  -- configure display with xset and dpms
     xset +dpms
     xset dpms 600
     xset s blank
@@ -35,6 +36,7 @@ _xlck_setup_dpms() {
 }
 
 _xlck_setup () {
+    # _xlck_setup()     -- setup xlck (export _XLCK=(this) && _xlck_setup_dpms)
     export _XLCK=$(readlink -e "$BASH_SOURCE")
 
     #XSET=$(type 'xset' 2>/dev/null)
@@ -44,69 +46,83 @@ _xlck_setup () {
 }
 
 _xlck_xlock () {
+    # _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
     /usr/bin/xlock -mode blank -bg black -fg white -lockdelay 3
 }
 
 _xlck_i3lock () {
+    # _xlck_i3lock()    -- start i3lock with a dark gray background
     /usr/bin/i3lock -d -c 202020
 }
 
 xlck_lock () {
-    # lock the current display
-    # note: this will be run before suspend to RAM and Disk.
+    # xlock_lock        -- lock the current display
+    #   note: this will be run before suspend to RAM and Disk.
     if [[ -x /usr/bin/i3lock ]]; then
         _xlck_i3lock
     elif [[ -x /usr/bin/xlock ]]; then
         _xlck_xlock
     else
         echo "Found neither i3lock nor xlock"
+        return -1
     fi
 }
 
 _suspend_to_ram () {
+    # _suspend_to_ram()     -- echo mem > /sys/power/state
     sudo bash -c 'echo mem > /sys/power/state'
 }
 
 _suspend_to_disk () {
-    # NOTE: error prone
+    # _suspend_to_disk()    -- echo disk > /sys/power/state
+    #  note: this does not work on many machines
     sudo bash -c 'echo disk > /sys/power/state'
 }
 
 _dbus_halt() {
+    # _dbus_halt()      -- send a dbus stop msg ConsoleKit
     dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
 }
 
 _dbus_reboot() {
+    # _dbus_halt()      -- send a dbus reboot msg to ConsoleKit
     dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart
 }
 
 _dbus_suspend() {
+    # _dbus_halt()      -- send a dbus suspend msg to ConsoleKit
     dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
 }
 
 _dbus_hibernate () {
+    # _dbus_hibernate() -- send a dbus hibernate msg to ConsoleKit
     dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Hibernate
 }
 
 xlck_lock_suspend_ram () {
+    # xlck_lock_suspend_ram()   -- lock and suspend to RAM
     sudo bash -c 'whoami'
     xlck_lock && _suspend_to_ram
 }
 
 xlck_lock_suspend_disk () {
+    # xlck_lock_suspend_disk()  -- lock and suspend to disk
     sudo bash -c 'whoami'
     xlck_lock && _suspend_to_disk
 }
 
 xlck_suspend_ram () {
+    # xlck_suspend_ram()        -- lock and suspend to RAM
     xlck_lock_suspend_ram
 }
 
 xlck_suspend_disk () {
+    # xlck_suspend_disk         -- lock and suspend to disk
     xlck_lock_suspend_disk
 }
 
 xlck_start() {
+    # xlck_start()              -- start xlck
     echo "Starting xlck ..."
     if [ -n "$DISPLAY" ]; then
         _xlck_setup
@@ -118,18 +134,21 @@ xlck_start() {
 }
 
 xlck_stop() {
+    # xlck_stop()               -- stop xlck
     echo "Stopping xlck ..."
     xlck_xautolock_stop
     echo "xlck stopped"
 }
 
 xlck_restart() {
-    # xautolock -restart  # does not work with xautolock -secure
+    # xlck_restart()            -- stop and start xlck
+    #xautolock -restart  # does not work with xautolock -secure
     xlck_stop
     xlck_start
 }
 
 xlck_xautolock_pgrep_display() {
+    # xlck_xautolock_pgrep_display()-- find xautolock on this display
     display=${1:-$DISPLAY}
     pids=$(pgrep xautolock)
     if [ -n "$pids" ]; then
@@ -140,6 +159,7 @@ xlck_xautolock_pgrep_display() {
 }
 
 xlck_xautolock_status() {
+    # xlck_xautolock_status()       -- show xlck status 
     echo "# Checking autolock status where DISPLAY=$DISPLAY"
     _xautolock_actual_pids=$(xlck_xautolock_pgrep_display)
     if [ -n "$_xautolock_actual_pids" ]; then
@@ -150,6 +170,7 @@ xlck_xautolock_status() {
 }
 
 xlck_xautolock_stop() {
+    # xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
     echo "# Stopping xautolock where DISPLAY=$DISPLAY ..."
     _xautolock_actual_pids=$(xlck_xautolock_pgrep_display)
     if [ -n "$_xautolock_actual_pids" ]; then
@@ -162,10 +183,12 @@ xlck_xautolock_stop() {
 }
 
 xlck_status() {
+    # xlck_status()     -- xlck_xautolock_status
     xlck_xautolock_status
 }
 
 xlck_status_all() {
+    # xlck_status_all() -- pgrep 'xautolock|xlock|i3lock', ps ufw
     _xlck_pgrep="pgrep 'xautolock|xlock|i3lock'"
     _xlck_pids=$(pgrep 'xautolock|xlock|i3lock')
     if [ -n "$_xlck_pids" ]; then
@@ -177,12 +200,14 @@ xlck_status_all() {
 }
 
 xlck_status_this_display(){
+    # xlck_status_this_display    -- show status for this $DISPLAY
     display=${1:-$DISPLAY}
     ps ufx -p
     _pids=$(ps eww | grep "DISPLAY=$display" | awk '{ print $1 }')
 }
 
 _xlck_xautolock () {
+    # _xlck_xautolock
     _LOCK_DELAY=${1:-"1"}  # mins
     _NOTIFY_DELAY=${2:-"10"}  # seconds
     _LOCK_CMD="/bin/bash $_XLCK -L"

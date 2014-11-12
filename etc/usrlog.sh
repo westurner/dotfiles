@@ -8,18 +8,18 @@
 
 
 _usrlog_set__USRLOG () {
-    #_USRLOG=${1:${_USRLOG}}
+    # _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
     if [ -n "$VIRTUAL_ENV" ]; then
         prefix=${VIRTUAL_ENV}
     else
         prefix=${HOME}
     fi
-
     export _USRLOG="${prefix}/.usrlog"
     export __USRLOG="${HOME}/.usrlog"
 }
 
 _usrlog_set_HISTFILE () {
+    # _usrlog_set_HISTFILE()   -- configure shell history
     if [ -n "$VIRTUAL_ENV" ]; then
         prefix=${VIRTUAL_ENV}
     else
@@ -78,8 +78,8 @@ _usrlog_set_HIST() {
 }
 
 _usrlog_randstr() {
-    # Generate a random string
-    # param $1: number of characters
+    # _usrlog_randstr      -- Generate a random string
+    #   $1: number of characters
 
     if [[ `uname -s` == "Darwin" ]]; then
         echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
@@ -99,14 +99,15 @@ _usrlog_randstr() {
 }
 
 _usrlog_get__TERM_ID() {
+    # _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
     echo "# _TERM_ID="$_TERM_ID" # [ $_USRLOG ]" >&2
     echo $_TERM_ID
 }
 
 
 _usrlog_set__TERM_ID () {
-    #  _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
-    # param $1: terminal name
+    # _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
+    #   $1: terminal name
     new_term_id="${@}"
     if [ -z "${new_term_id}" ]; then
         new_term_id="#$(_usrlog_randstr 8)"
@@ -128,9 +129,7 @@ _usrlog_set__TERM_ID () {
 }
 
 _usrlog_echo_title () {
-    # _usrlog_echo_title    -- set window title
-
-    # TODO: VIRTUAL_ENV_NAME / VIRTUAL_ENV
+    # _usrlog_echo_title   -- set window title
     _usrlog_window_title="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}"
     usrlog_window_title=${_usrlog_window_title:-"$@"}
     if [ -n $CLICOLOR ]; then
@@ -141,13 +140,13 @@ _usrlog_echo_title () {
 }
 
 _usrlog_set_title() {
-    ## set xterm title
+    # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
 }
 
 _usrlog_setup() {
-    # Bash profile setup for logging unique console sessions
+    # _usrlog_setup()      -- configure usrlog for the current shell
     _usrlog="${1:-$_USRLOG}"
     term_id="${2:-$_TERM_ID}"
 
@@ -176,9 +175,11 @@ _usrlog_setup() {
 
 _usrlog_append() {
     # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    #   $1: text (command) to log
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
-    # param $1: text (command) to log
+    # example:
+    # #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
     printf "%s\t%s\t%s\n" \
         $(echo "${_TERM_ID}" | tr '\t' ' ') \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
@@ -187,10 +188,10 @@ _usrlog_append() {
 }
 
 _usrlog_append_oldstyle() {
-    # _usrlog_append_oldstype -- Write a line to the _USRLOG file
-    # param $1: text (command) to log
+    # _usrlog_append_oldstype -- Write a line to $_USRLOG
+    #   $1: text (command) to log
     # example:
-    # ^# qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    # # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
     printf "# %-11s: %s : %s" \
         "$_TERM_ID" \
         "$(date +'%D %R.%S')" \
@@ -199,6 +200,7 @@ _usrlog_append_oldstyle() {
 }
 
 _usrlog_writecmd() {
+    # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
     _usrlog_set_HISTFILE
 
     if [ -n "$ZSH_VERSION" ]; then
@@ -219,7 +221,7 @@ _usrlog_writecmd() {
 
 
 termid() {
-    # termid        -- echo $_TERM_ID
+    # termid()      -- echo $_TERM_ID
     _usrlog_get__TERM_ID
 }
 
@@ -242,20 +244,20 @@ st() {
 ## Old (hist, histgrep, histgrep_session)
 
 hist() {
-    #  less()       --  less the current session log
+    # less()       --  less the current session log
     less $_USRLOG
 }
 
 
 histgrep () {
-    #  histgrep()   -- egrep $@ $_USRLOG
+    # histgrep()   -- egrep $@ $_USRLOG
     egrep $@ $_USRLOG 
 }
 
 histgrep_session () {
-    # Grep for specific sessions
-    # param $1: session name
-    # param $2: don't strip the line prefix
+    # histgrep_session()    -- grep for specific sessions
+    #   $1: session name
+    #   $2: don't strip the line prefix
     NO_STRIP_LINE_PREFIX=$2
     #echo $_USRLOG >&2
     cat $_USRLOG | egrep "$1 .* \:\:\:|Renaming .* to $1" | \
@@ -266,11 +268,10 @@ histgrep_session () {
         fi
 }
 
-
-## New (usrlogt, ut, usrlogv
+## New (u*, usrlog*)
 
 usrlog_tail() {
-    #  usrlogt()    -- tail -n20 $_USRLOG
+    # usrlogt()     -- tail -n20 $_USRLOG
     if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
         tail ${_usrlog} 
@@ -278,91 +279,86 @@ usrlog_tail() {
         tail $_USRLOG
     fi
 }
-
 ut() {
-    #  ut()         -- tail -n20 $_USRLOG
+    # ut()          -- tail -n20 $_USRLOG
     usrlog_tail ${@}
 }
 
 
 usrlog_tail_follow() {
-    #  usrlogtf()   -- tail -f -n20 $_USRLOG
+    # usrlogtf()    -- tail -f -n20 $_USRLOG
     tail -f -n20 ${@:-"${_USRLOG}"}
 }
-
 utf() {
-    #  ut()         -- tail -f -n20 $_USRLOG
+    # utf()         -- tail -f -n20 $_USRLOG
     usrlog_tail_follow $@
 }
 
 
 usrlog_grep() {
-    #  usrlog_grep()    -- egrep -n $_USRLOG
+    # usrlog_grep() -- egrep -n $_USRLOG
     set -x
     args=${@}
     egrep -n "${args}" ${_USRLOG}
     set +x
 }
 ug() {
-    #  ug()             -- egrep -n $_USRLOG
+    # ug()          -- egrep -n $_USRLOG
     usrlog_grep ${@}
 }
 
 usrlog_grin() {
-    #  usrlog_grin()    -- grin -s $@ $_USRLOG
+    # usrlog_grin() -- grin -s $@ $_USRLOG
     set -x
     args=${@}
     grin -s "${args}" ${_USRLOG}
     set +x
 }
 ugrin () {
-    #  ugrin()          -- grin -s $@ $_USRLOG
+    # ugrin()       -- grin -s $@ $_USRLOG
     usrlog_grin ${@}
 }
 
 lsusrlogs() {
+    # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog
 }
 
 usrlog_grep_all() {
-    #  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
-    set -x
+    # usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
+    (set -x;
     args=${@}
     usrlogs=$(lsusrlogs)
-    egrep "${args}" ${usrlogs}
-    set +x
+    egrep "${args}" ${usrlogs} )
 }
 ugall() {
-    #  ugall()              -- grep usrlogs (drop filenames with -h)
+    # ugall()              -- grep usrlogs (drop filenames with -h)
     usrlog_grep_all ${@}
 }
 
 usrlog_grin_all() {
-    #  usrlog_grin_all()    -- grin usrlogs
-    set -x
+    # usrlog_grin_all()    -- grin usrlogs
+    (set -x;
     args=${@}
     usrlogs=$(lsusrlogs)
-    grin -s "${args}" ${usrlogs}
-    set +x
+    grin -s "${args}" ${usrlogs} )
 }
 ugrinall() {
-    #  usrlog_grin_all()    -- grin usrlogs
+    # usrlog_grin_all()    -- grin usrlogs
     usrlog_grin_all ${@}
 }
 
 note() {
-    ## note()   -- _usrlog_append # $@
+    # note()   -- _usrlog_append "#note  #note: $@"
     _usrlog_append "#note  #note: $@"
 }
 
 
 usrlog_screenrec_ffmpeg() {
-    # usrlog_screenrec_ffmpeg   -- record a screencast
-    # param $1: destination directory (use /tmp if possible)
-    # param $2: video name to append to datestamp
-
+    # usrlog_screenrec_ffmpeg() -- record a screencast
+    #   $1: destination directory (use /tmp if possible)
+    #   $2: video name to append to datestamp
     # Press "q" to stop recording
-
     DATESTR=$(date +%Y%m%d-%H%M)
     FILEBASE="screenrec-${DATESTR}"
     if [ -z "$2" ]; then
@@ -370,7 +366,6 @@ usrlog_screenrec_ffmpeg() {
     else
         FILENAME="$1/${FILEBASE}_${2}.mpg"
     fi
-
     SCREENDIM="$(xdpyinfo | grep 'dimensions:'| awk '{print $2}')"
     ffmpeg \
         -f x11grab \
@@ -382,5 +377,5 @@ usrlog_screenrec_ffmpeg() {
 }
 
 
-## call _usrlog_setup
+## calls _usrlog_setup when sourced
 _usrlog_setup

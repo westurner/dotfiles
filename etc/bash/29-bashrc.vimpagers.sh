@@ -1,7 +1,8 @@
 
+### bashrc.vimpagers.sh
 
-## _configure_lesspipe  -- (less <file.zip> | lessv)
 _configure_lesspipe() {
+    # _configure_lesspipe() -- (less <file.zip> | lessv)
     lesspipe=$(which lesspipe.sh 2>/dev/null || false)
     if [ -n "${lesspipe}" ]; then
         eval "$(${lesspipe})"
@@ -10,8 +11,8 @@ _configure_lesspipe() {
 _configure_lesspipe
 
 
-## vimpager     -- call vimpager
 vimpager() {
+    # vimpager() -- call vimpager
     _PAGER=$(which vimpager)
     if [ -x "${_PAGER}" ]; then
         ${_PAGER} $@
@@ -21,14 +22,11 @@ vimpager() {
 }
 
 
-### less commands -- lessv, lessg, lesse
-## lessv    -- less with less.vim and regular vim
 lessv () {
-
-    ## start Vim with less.vim and vim
-    # Read stdin if no arguments were given.
+    # lessv()   -- less with less.vim and vim (g:tinyvim=1)
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
+            #read stdin
             ${VIMBIN} --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
@@ -47,7 +45,7 @@ lessv () {
                 $@
         fi
     else
-        # Output is not a terminal, cat arguments or stdin
+        #Output is not a terminal, cat arguments or stdin
         if [ $# -eq 0 ]; then
             less
         else
@@ -56,27 +54,22 @@ lessv () {
     fi
 }
 
-## lessg    -- less with less.vim and gvim / mvim
 lessg() {
+    # lessg()   -- less with less.vim and gvim / mvim
     VIMBIN=${GUIVIMBIN} lessv $@
 }
 
-## lesse    -- less with current venv's vim server
 lesse() {
+    # lesse()   -- less with current venv's vim server
     ${EDITOR} $@
 }
 
-### Man commands -- manv, mang, mane
-## manv     -- view manpages in vim
 manv() {
+    # manv()    -- view manpages in vim
     alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        #if [ "$1" == "man" ]; then
-        #    exit 0
-        #fi
-
         #/usr/bin/whatis "$@" >/dev/null
         $(which vim) \
             --noplugin \
@@ -89,8 +82,8 @@ manv() {
     fi
 }
 
-## mang()   -- view manpages in gvim / mvim
 mang() {
+    # mang()    -- view manpages in gvim / mvim
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
@@ -105,7 +98,7 @@ mang() {
     fi
 }
 
-## mane()   -- open manpage with venv's vim server
 mane() {
-    $GUIVIMBIN --servername ${VIRTUAL_ENV_NAME} --remote-send "<ESC>:Man $@<CR>"
+    # mane()    -- open manpage with venv's vim server
+    $GUIVIMBIN ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
 }

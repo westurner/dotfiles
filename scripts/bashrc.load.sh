@@ -89,160 +89,161 @@ if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
         echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
     fi
 fi
-
-#
-## 00-bashrc.before.sh
-#
-#### source ~/.bashrc
-###  > source etc/bash/*-bashrc.*.sh
-##     > source 00-bashrc.before.sh  # <-- THIS FILE
+#!/bin/bash
+## 00-bashrc.before.sh     -- bash dotfiles configuration root
+#  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
 #
 dotfiles_reload() {
-    ## dotfiles_reload()    -- (re)load the bash configuration tree
-    #                          from ${__DOTFILES}/etc/bash
-    #  __DOTFILES (str)     -- path to this dotfiles repository (~/.dotfiles)
+  #  dotfiles_reload()  -- (re)load the bash configuration
+  #  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
 
-    echo "#"
-    echo "# dotfiles_reload()"
+  echo "#"
+  echo "# dotfiles_reload()"
 
-    if [ -n $__DOTFILES ]; then
-        export __DOTFILES=${__DOTFILES}
-    else
-        _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
-        _dotfiles_link=${HOME}/.dotfiles
+  if [ -n $__DOTFILES ]; then
+  export __DOTFILES=${__DOTFILES}
+  else
+  _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
+  _dotfiles_link=${HOME}/.dotfiles
 
-        if [ -d $_dotfiles_link ]; then
-            __DOTFILES=${_dotfiles_link}
-        elif [ -d $_dotfiles_src ]; then
-            __DOTFILES=${_dotfiles_src}
-        fi
-        export __DOTFILES=${__DOTFILES}
-    fi
+  if [ -d $_dotfiles_link ]; then
+  __DOTFILES=${_dotfiles_link}
+  elif [ -d $_dotfiles_src ]; then
+  __DOTFILES=${_dotfiles_src}
+  fi
+  export __DOTFILES=${__DOTFILES}
+  fi
 
-    conf=${__DOTFILES}/etc/bash
+  conf=${__DOTFILES}/etc/bash
 
-      #
-      ## 01-bashrc.lib.sh  -- libraries: useful bash functions
-      source ${conf}/01-bashrc.lib.sh
+  #
+  ## 01-bashrc.lib.sh           -- useful bash functions (paths)
+  #  lspath()           -- list every file along $PATH
+  #  realpath()         -- readlink -f (python os.path.realpath)
+  #  walkpath()         -- list every directory along ${1:-"."}
+  source ${conf}/01-bashrc.lib.sh
 
-      #
-      ## 02-bashrc.platform.sh  -- detect_platform
-      source ${conf}/02-bashrc.platform.sh
-      detect_platform
-      #  detect_platform() -- set __IS_MAC__IS_LINUX vars [01-bashrc.lib.sh]
-      #                       egrep -nr -C 3 '__IS_MAC|__IS_LINUX'
-      if [ -n "${__IS_MAC}" ]; then
-          export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
-      fi
+  #
+  ## 02-bashrc.platform.sh      -- platform things
+  source ${conf}/02-bashrc.platform.sh
+  detect_platform
+  #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX 
+  if [ -n "${__IS_MAC}" ]; then
+      export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
+  fi
 
-      #
-      ## 03-bashrc.readline.sh  -- readline
-      source ${conf}/03-bashrc.readline.sh
+  #
+  ## 03-bashrc.readline.sh      -- readline
+  source ${conf}/03-bashrc.readline.sh
 
-      #
-      ## 04-bashrc.TERM.sh      -- set $TERM and $CLICOLOR
-      source ${conf}/04-bashrc.TERM.sh
+  #
+  ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
+  source ${conf}/04-bashrc.TERM.sh
 
-      #
-      ## 05-bashrc.dotfiles.sh  -- dotfiles
-      #  $__DOTFILES (str): path to local dotfiles repository clone
-      #  dotfiles_status(): print dotfiles env config
-      source ${conf}/05-bashrc.dotfiles.sh
-      dotfiles_add_path
+  #
+  ## 05-bashrc.dotfiles.sh      -- dotfiles
+  #  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
+  #  dotfiles_status()  -- print dotfiles variables
+  #  ds()               -- print dotfiles variables
+  source ${conf}/05-bashrc.dotfiles.sh
+  dotfiles_add_path
 
-      #
-      ## 06-bashrc.completion.sh -- configure bash completion
-      source ${conf}/06-bashrc.completion.sh
+  #
+  ## 06-bashrc.completion.sh    -- configure bash completion
+  source ${conf}/06-bashrc.completion.sh
 
-      ##
-      ### python: python: pip, virtualenv, virtualenvwrapper
-      #  $PROJECT_HOME (str): path to project directory (~/wrk)
-      #  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
-      #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
+  #
+  #  python: pip, virtualenv, virtualenvwrapper
+  #  $PROJECT_HOME (str): path to project directory (~/wrk)
+  #  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
+  #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
 
-      #
-      ## 07-bashrc.python.sh            -- python
-      #  _setup_anaconda()      -- setup anaconda paths (manual)
-      #  _setup_pyenv()         -- setup pyenv paths (manual)
-      source ${conf}/07-bashrc.python.sh
+  #
+  ## 07-bashrc.python.sh        -- python
+  #  _setup_anaconda()  -- setup anaconda paths (manual)
+  #  _setup_pyenv()     -- setup pyenv paths (manual)
+  source ${conf}/07-bashrc.python.sh
 
-      #
-      ## 07-bashrc.virtualenv.sh        -- virtualenv
-      source ${conf}/07-bashrc.virtualenv.sh
+  #
+  ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
+  source ${conf}/07-bashrc.virtualenvwrapper.sh
 
-      #
-      ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
-      source ${conf}/07-bashrc.virtualenvwrapper.sh
+  #
+  ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
+  #  _setup_google_cloud()  -- setup google cloud paths
+  source ${conf}/08-bashrc.gcloud.sh
 
+  #
+  ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
+  #  $__PROJECTSRC     (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
+  #  $VIRTUAL_ENV_NAME (str): basename of current $VIRTUAL_ENV
+  #  $_APP             (str): $VIRTUAL_ENV/src/${_APP}
+  #  we() -- workon a new venv
+  #     $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=$VIRTUAL_ENV]
+  #     $2: _APP (optional; defaults to $VIRTUAL_ENV_NAME)
+  #     we dotfiles
+  #     we dotfiles etc/bash; cdw; ds; ls
+  source ${conf}/10-bashrc.venv.sh
+  #
 
-      #
-      ## 08-bashrc.gcloud.sh    -- gcloud: Google Cloud SDK
-      #  _setup_google_cloud()  -- setup google cloud paths
-      source ${conf}/08-bashrc.gcloud.sh
+  #
+  ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
+  source ${conf}/11-bashrc.venv.pyramid.sh
 
-      #
-      ## 10-bashrc.venv.sh      -- venv: virtualenvwrapper extensions
-      #  $_VENVNAME (str): name of current $VIRTUAL_ENV
-      #  we() -- workon a new venv (source bin/activate; update ENVIRON)
-      #          we() -> workon $1 [$_APP] && source <($_VENV --bash $@)
-      #          example::
-      #             we dotfiles
-      #             we dotfiles etc/bash; ls -al; git status
-      source ${conf}/10-bashrc.venv.sh
-      # test -f $__PROJECTS && source $__PROJECTS
-      # dotfiles_status
+  #
+  ## 20-bashrc.editor.sh        -- $EDITOR configuration
+  #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
+  #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
+  source ${conf}/20-bashrc.editor.sh
+  ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
+  #  $PAGER (str): cmdstring to run pager (less/vim)
+  source ${conf}/29-bashrc.vimpagers.sh
 
-      #
-      ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
-      source ${conf}/11-bashrc.venv.pyramid.sh
+  #
+  ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
+  #  $_USRLOG (str): path to .usrlog command log
+  #  stid       -- set $TERM_ID to a random string
+  #  stid $name -- set $TERM_ID to string
+  #  note       -- add a dated note to $_USRLOG [_usrlog_append]
+  #  usrlogv    -- open usrlog with vim:   $VIMBIN + $_USRLOG
+  #  usrlogg    -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+  #  usrloge    -- open usrlog with editor:$EDITOR + $_USRLOG
+  #  ut         -- tail $_USRLOG
+  #  ug         -- egrep current usrlog: egrep $@ $_USRLOG
+  #  ugall      -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
+  #  ugrin      -- grin current usrlog: grin $@ $_USRLOG
+  #  ugrinall   -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
+  #  lsusrlogs  -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+  source ${conf}/30-bashrc.usrlog.sh
 
-      #
-      ## 20-bashrc.editor.sh        -- $EDITOR configuration
-      #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
-      #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
-      source ${conf}/20-bashrc.editor.sh
-      ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
-      #  $PAGER (str): cmdstring to run pager (less/vim)
-      source ${conf}/29-bashrc.vimpagers.sh
+  #
+  ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
+  source ${conf}/30-bashrc.xlck.sh
 
+  #
+  ## 40-bashrc.aliases.sh       -- aliases
+  source ${conf}/40-bashrc.aliases.sh
+  ## 42-bashrc.commands.sh      -- example commands
+  source ${conf}/42-bashrc.commands.sh
 
-      #
-      ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
-      #  $_USRLOG (str): path to .usrlog command log
-      #  stid           -- set $TERM_ID to a random string
-      #  stid $name     -- set $TERM_ID to string
-      #  note           -- add a dated note to $_USRLOG [_usrlog_append]
-      #  usrlogv        -- open usrlog with vim:   $VIMBIN + $_USRLOG
-      #  usrlogg        -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
-      #  usrloge        -- open usrlog with editor:$EDITOR + $_USRLOG
-      source ${conf}/30-bashrc.usrlog.sh
+  #
+  ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
+  source ${conf}/50-bashrc.bashmarks.sh
 
+  #
+  ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
+  source ${conf}/70-bashrc.repos.sh
 
-      ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
-      source ${conf}/30-bashrc.xlck.sh
-
-
-      ## 40-bashrc.aliases.sh       -- aliases
-      source ${conf}/40-bashrc.aliases.sh
-      ## 42-bashrc.commands.sh      -- example commands
-      source ${conf}/42-bashrc.commands.sh
-
-
-      ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
-      source ${conf}/50-bashrc.bashmarks.sh
-
-
-      ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
-      source ${conf}/70-bashrc.repos.sh
-
-    ### 99-bashrc.after.sh          -- after: cleanup
-    source ${conf}/99-bashrc.after.sh
+  #
+  ## 99-bashrc.after.sh         -- after: cleanup
+  source ${conf}/99-bashrc.after.sh
 }
 
 dr() {
-    ## dr               -- dotfiles_reload
+    # dr()  -- dotfiles_reload
     dotfiles_reload $@
 }
+    # ds()  -- print dotfiles_status()
 
 dotfiles_main() {
     dotfiles_reload
@@ -261,26 +262,25 @@ dotfiles_main
 #__THISDIR=$(dirname "${__THIS}")
 
 echo_args() {
-    #  echo_args    -- echo $@ (for checking quoting)
+    # echo_args         -- echo $@ (for checking quoting)
     echo $@
 }
 
 function_exists() {
-    #  function_exists()    -- check whether a bash function exists
+    # function_exists() -- check whether a bash function exists
     declare -f $1 > /dev/null
     return $?
 }
 
 add_to_path ()
 {
-    #  add_to_path  -- prepend a directory to $PATH
-    ##http://superuser.com/questions/ \
-    ##\ 39751/add-directory-to-path-if-its-not-already-there/39840#39840
+    # add_to_path       -- prepend a directory to $PATH
+    #http://superuser.com/questions/ \
+    #\ 39751/add-directory-to-path-if-its-not-already-there/39840#39840
 
-    ## instead of:
-    ##   export PATH=$dir:$PATH
-    ##
-    ##   add_to_path $dir 
+    #   instead of:
+    #       export PATH=$dir:$PATH
+    #       add_to_path $dir 
 
     if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
         return 0
@@ -290,13 +290,13 @@ add_to_path ()
 
 
 lightpath() {
-    #  lightpath()  -- display $PATH with newlines
+    # lightpath()       -- display $PATH with newlines
     echo ''
     echo $PATH | tr ':' '\n'
 }
 
 lspath() {
-    #  lspath()     -- list files in each directory in $PATH
+    # lspath()          -- list files in each directory in $PATH
     echo "# PATH=$PATH"
     lightpath | sed 's/\(.*\)/# \1/g'
     echo '#'
@@ -309,7 +309,7 @@ lspath() {
 }
 
 lspath-less() {
-    #  lspath_less()    -- lspath with less (color)
+    # lspath_less()     -- lspath with less (color)
     if [ -n "${__IS_MAC}" ]; then
         cmd=${1:-'ls -ald -G'}
     else
@@ -321,22 +321,22 @@ lspath-less() {
 ## file paths
 
 realpath () {
-    #  realpath()    -- print absolute path (os.path.realpath) to path $1
-    #                  note: OSX does not have readlink -f
+    # realpath()        -- print absolute path (os.path.realpath) to $1
+    #                      note: OSX does not have readlink -f
     python -c "import os,sys; print(os.path.realpath(os.path.expanduser(sys.argv[1])))" "${1}"
     return
 }
 path () {
-    #  path()        -- realpath()
+    # path()            -- realpath()
     realpath ${1}
 }
 
 
 walkpath () {
-    #  walkpath()    -- walk down a path
-    #   $1 : path (optional; default: pwd)
-    #   $2 : cmd  (optional; default: ls -ald --color=auto)
-    #   see: http://superuser.com/a/65076 
+    # walkpath()        -- walk down path $1 and $cmd each component
+    #   $1: path (optional; default: pwd)
+    #   $2: cmd  (optional; default: 'ls -ald --color=auto')
+    #http://superuser.com/a/65076 
     dir=${1:-$(pwd)}
     if [ -n "${__IS_MAC}" ]; then
         cmd=${2:-"ls -ldaG"}
@@ -357,14 +357,12 @@ walkpath () {
 
 
 ensure_symlink() {
-    #  ensure_symlink   -- create or update a symlink to $_to from _from
-    #    ln -s $_to $_from
+    # ensure_symlink    -- create or update a symlink to $2 from $1
+    #                      if $2 exists, backup with suffix $3
     _from=$1
     _to=$2
     _date=${3:-$(date +%FT%T%z)}  #  ISO8601 w/ tz
-    # if symlink $_from already exists
     if [ -s $_from ]; then
-        # compare the actual paths
         _to_path=(realpath $_to)
         _from_path=(realpath $_from)
         if [ $_to_path == $_from_path ]; then
@@ -375,28 +373,26 @@ ensure_symlink() {
             ln -v -s ${_to} ${_from}
         fi
     else
-        # if a file or folder exists return an errorcode
         if [ -e ${_from} ]; then
             printf "%s exists" "${_from}"
             mv -v ${_from} "${_from}.bkp.${_date}"
             ln -v -s ${_to} ${_from}
         else
-            # otherwise, create the symlink
             ln -v -s $_to $_from
         fi
     fi
 }
 
 ensure_mkdir() {
-    #  ensure_mkdir -- create a directory if it does not yet exist
-    prefix=$1
-    test -d ${prefix} || mkdir -p ${prefix}
+    # ensure_mkdir      -- create directory $1 if it does not yet exist
+    path=$1
+    test -d ${path} || mkdir -p ${path}
 }
 
 ### bashrc.platform.sh
 
 detect_platform() {
-    #  detect_platform()    -- set __IS_MAC, __IS_LINUX according to $(uname)
+    # detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
     UNAME=$(uname)
     if [ ${UNAME} == "Darwin" ]; then
         export __IS_MAC='true'
@@ -404,35 +400,33 @@ detect_platform() {
         export __IS_LINUX='true'
     fi
 }
-
-
 uname
 echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
 ### bashrc.readline.sh
 
-#  vi-mode: vi(m) keyboard shortcuts
+    # set -o vi -- vi-mode: vi keyboard shortcuts
 set -o vi
 
 if [ -n "$BASH_VERSION" ]; then
-    #  .         -- insert last argument (command mode)
+    # .         -- insert last argument (command mode)
     bind -m vi-command ".":insert-last-argument
 
-    ## emulate default bash
-    #  <ctrl> l  -- clear screen
+    # emulate default bash:
+    # <ctrl> l  -- clear screen
     bind -m vi-insert "\C-l.":clear-screen
-    #  <ctrl> a  -- move to beginning of line (^)
+    # <ctrl> a  -- move to beginning of line (^)
     bind -m vi-insert "\C-a.":beginning-of-line
-    #  <ctrl> e  -- move to end of line ($)
+    # <ctrl> e  -- move to end of line ($)
     bind -m vi-insert "\C-e.":end-of-line
-    #  <ctrl> w  -- delete last word
+    # <ctrl> w  -- delete last word
     bind -m vi-insert "\C-w.":backward-kill-word
 fi
 [?1034h
-## bashrc.TERM.sh       -- set TERM [man terminfo]
+### bashrc.TERM.sh
 
 configure_TERM() {
-    ## configure_TERM   -- configure the $TERM variable
-    # configure_term [#term] -- screen, xterm, 
+    # configure_TERM            -- configure the $TERM variable (man terminfo)
+    #   $1: (optional; autodetects if -z)
     term=$1
     if [ -n "${TERM}" ]; then
         __term=${TERM}
@@ -441,15 +435,15 @@ configure_TERM() {
         export TERM="${term}"
     else
         if [ -n "${TMUX}" ] ; then
-            # tmux
+            #tmux
             export TERM="screen"
             configure_TERM_CLICOLOR
         elif [ -n "$(echo $TERMCAP | grep -q screen)" ]; then
-            # screen
+            #screen
             export TERM="screen"
             configure_TERM_CLICOLOR
         elif [ -n "${ZSH_TMUX_TERM}" ]; then
-            # zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
+            #zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
             export TERM="${ZSH_TMUX_TERM}"
             configure_TERM_CLICOLOR
         fi
@@ -461,12 +455,13 @@ configure_TERM() {
 }
 
 configure_TERM_CLICOLOR() {
-    ## configure_TERM_CLICOLOR  -- configure $CLICOLOR and $CLICOLOR_256
-    #  CLICOLOR=1   # ls colors
+    # configure_TERM_CLICOLOR   -- configure $CLICOLOR and $CLICOLOR_256
+    #   CLICOLOR=1
     export CLICOLOR=1
 
-    #  CLICOLOR_256=1
-    # export CLICOLOR_256=$CLICOLOR
+    #todo
+    #CLICOLOR_256=1
+    #export CLICOLOR_256=$CLICOLOR
 
     if [ -n "${CLICOLOR_256}" ]; then
         (echo $TERM | grep -v -q 256color) && \
@@ -474,7 +469,7 @@ configure_TERM_CLICOLOR() {
     fi
 }
 
-### Configure term when sourcing bashrc.TERM.sh
+    # configure_TERM when sourced
 configure_TERM
 echo $TERMCAP | grep -q screen
 
@@ -482,19 +477,15 @@ echo $TERMCAP | grep -q screen
 
 
 dotfiles_add_path() {
-    ## dotfiles_add_path    -- Add ${__DOTFILES}/scripts to $PATH
+    # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     if [ -d "${__DOTFILES}" ]; then
         #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
         add_to_path "${__DOTFILES}/scripts"
     fi
 }
 
-#
-# See etc/bash/05-bashrc.dotfiles.sh
-## dotfiles_status()        -- print dotfiles_status 
-
 dotfiles_status() {
-    #  dotfiles_status()    -- print dotfiles_status
+    # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
     echo "HOSTNAME='${HOSTNAME}'"
     echo "USER='${USER}'"
@@ -515,24 +506,22 @@ dotfiles_status() {
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
     echo "#"
 }
-
-dotfiles_term_url() {
-    term_path="${HOSTNAME}/usrlog/${USER}"
-    term_key=${_APP}/${_TERM_ID}
-    TERM_URL="${term_path}/${term_key}"
-    echo "TERM_URL='${TERM_URL}'"
-}
-
 ds() {
-    #  ds                   -- print dotfiles_status
+    # ds()                      -- print dotfiles_status
     dotfiles_status $@
 }
 
+#dotfiles_term_uri() {
+    ##dotfiles_term_uri()        -- print a URI for the current _TERM_ID
+    #term_path="${HOSTNAME}/usrlog/${USER}"
+    #term_key=${_APP}/${_TERM_ID}
+    #TERM_URI="${term_path}/${term_key}"
+    #echo "TERM_URI='${TERM_URL}'"
+#}
+
 log_dotfiles_state() {
-    # log_dotfiles_state    -- save current environment to logfiles
-
+    # log_dotfiles_state()      -- save current environment to logfiles
     _log=${_LOG:-"${HOME}/var/log"}
-
     logkey=${1:-'99'}
     logdir=${_log:-"var/log"}/venv.${logkey}/
     exportslogfile=${logdir}/exports.log
@@ -544,17 +533,32 @@ log_dotfiles_state() {
 
 
 dotfiles_initialize() {
-    ## dotfiles_initialize()  -- virtualenvwrapper initialize
+    # dotfiles_initialize()     -- virtualenvwrapper initialize
     log_dotfiles_state 'initialize'
 }
 
+dotfiles_postmkvirtualenv() {
+    # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
+    log_dotfiles_state 'postmkvirtualenv'
+    declare -f 'mkdirs_venv' 2>&1 >/dev/null && mkdirs_venv
+    test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
+    echo ""
+    pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
+    echo "pip_freeze='${pip_freeze}'"
+    pip freeze | tee ${pip_freeze}
+    echo ""
+    pip_list="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
+    echo "pip_list='${pip_list}'"
+    pip list | tee ${pip_list}
+}
+
 dotfiles_preactivate() {
-    ## dotfiles_preactivate()  -- virtualenvwrapper preactivate
+    # dotfiles_preactivate()    -- virtualenvwrapper preactivate
     log_dotfiles_state 'preactivate'
 }
 
 dotfiles_postactivate() {
-    ## dotfiles_postactivate()  -- virtualenvwrapper postactivate
+    # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
     test -n $_VENV \
@@ -569,33 +573,77 @@ dotfiles_postactivate() {
 }
 
 dotfiles_predeactivate() {
-    ## dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
+    # dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
     log_dotfiles_state 'predeactivate'
 }
 
 dotfiles_postdeactivate() {
-    ## dotfiles_postdeactivate()  -- virtualenvwrapper postdeactivate
+    # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
     unset VIRTUAL_ENV_NAME
+    unset _APP
+    unset _BIN
+    unset _CFG
+    unset _EDITCFG_
+    unset _EDITOR
+    unset _EDIT_
+    unset _ETC
+    unset _ETCOPT
+    unset _HOME
+    unset _IPQTLOG
+    unset _IPSESSKEY
+    unset _LIB
+    unset _LOG
+    unset _MEDIA
+    unset _MNT
+    unset _NOTEBOOKS
+    unset _OPT
+    unset _PYLIB
+    unset _PYSITE
+    unset _ROOT
+    unset _SBIN
+    unset _SERVE_
+    unset _SHELL_
     unset _SRC
-    unset _WRD
+    unset _SRV
+    unset _SVCFG
+    unset _SVCFG_
+    unset _TEST_
+    unset _TMP
+    unset _USR
+    unset _USRBIN
+    unset _USRINCLUDE
+    unset _USRLIB
+    unset _USRLOCAL
     unset _USRLOG
-    export _USRLOG=~/.usrlog
-    # __DOTFILES='/Users/W/.dotfiles'
-    # __DOCSWWW=''
-    # __SRC='/Users/W/src'
-    # __PROJECTSRC='/Users/W/wrk/.projectsrc.sh'
-    # PROJECT_HOME='/Users/W/wrk'
-    # WORKON_HOME='/Users/W/wrk/.ve'
+    unset _USRSBIN
+    unset _USRSHARE
+    unset _USRSRC
+    unset _VAR
+    unset _VARCACHE
+    unset _VARLIB
+    unset _VARLOCK
+    unset _VARMAIL
+    unset _VAROPT
+    unset _VARRUN
+    unset _VARSPOOL
+    unset _VARTMP
+    unset _VENV
+    unset _WRD
+    unset _WRD_SETUPY
+    unset _WWW
 
     dotfiles_reload
 }
 
+### bashrc.completion.sh
 
-_configure_completion() {
-    ## configure bash completion (`complete -p` to list completions)
+_configure_bash_completion() {
+    # _configure_bash_completion()  -- configure bash completion
+    #                               note: `complete -p` lists completions
+
     if [ -n "$__IS_MAC" ]; then
-        # configure brew (brew install bash-completion)
+        #configure brew (brew install bash-completion)
         BREW=$(which brew 2>/dev/null || false)
         if [ -n "${BREW}" ]; then
             brew_prefix=$(brew --prefix)
@@ -603,9 +651,13 @@ _configure_completion() {
                 source ${brew_prefix}/etc/bash_completion
             fi
         fi
+    else
+        if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+            source /etc/bash_completion
+        fi
     fi
 }
-_configure_completion
+_configure_bash_completion
 which brew 2>/dev/null || false
 brew --prefix
 #
@@ -659,23 +711,20 @@ unset BASH_COMPLETION_ORIGINAL_V_VALUE
 ### bashrc.python.sh
 
 pypath() {
-    #  pypath       -- print python sys.path and site config
+    # pypath()              -- print python sys.path and site config
     /usr/bin/env python -m site
 }
 
-# Generate python cmdline docs::
-#
-#    man python | cat | egrep 'ENVIRONMENT VARIABLES' -A 200 | egrep 'AUTHOR' -B 200 | head -n -1 | pyline -r '\s*([\w]+)$' 'rgx and rgx.group(1)'
 
 _setup_python () {
-    ## _setup_python() -- configure $PYTHONSTARTUP
+    # _setup_python()       -- configure $PYTHONSTARTUP
     export PYTHONSTARTUP="${HOME}/.pythonrc"
     #export
 }
 _setup_python
 
 _setup_pip () {
-    ## _setup_pip()     -- set $PIP_REQUIRE_VIRTUALENV=false
+    # _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
     export PIP_REQUIRE_VIRTUALENV=false
 }
 _setup_pip
@@ -684,7 +733,7 @@ _setup_pip
 ## Pyenv
 
 _setup_pyenv() {
-    ## _setup_pyvenv()  -- set $PYENV_ROOT, add_to_path, and pyenv venvw
+    # _setup_pyvenv()       -- set $PYENV_ROOT, add_to_path, and pyenv venvw
     export PYENV_ROOT="${HOME}/.pyenv"
     add_to_path "${PYENV_ROOT}/bin"
     eval "$(pyenv init -)"
@@ -694,13 +743,13 @@ _setup_pyenv() {
 ## Conda / Anaconda
 
 _setup_anaconda() {
-    ## _setup_anaconda  -- set $ANACONDA_ROOT, add_to_path
+    # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
     export _ANACONDA_ROOT="/opt/anaconda"
     add_to_path "${_ANACONDA_ROOT}/bin"
 }
 
 workon_conda() {
-    #  workon_conda()    -- workon a conda + venv project
+    # workon_conda()        -- workon a conda + venv project
     _conda_envname=${1}
     _app=${2}
     we ${_conda_envname} ${_app}
@@ -710,15 +759,14 @@ workon_conda() {
 complete -o default -o nospace -F _virtualenvs workon_conda
 
 wec() {
-    #  wec()              -- workon a conda + venv project
-    #                       NOTE: tab-completion only shows all regular
-    #                       virtualenvs
+    # wec()                 -- workon a conda + venv project
+    #                       note: tab-completion only shows regular virtualenvs
     workon_conda $@
 }
 complete -o default -o nospace -F _virtualenvs wec
 
 mkvirtualenv_conda() {
-    #  mkvirtualenv_conda() -- mkvirtualenv and conda create
+    # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     mkvirtualenv $@
     _conda_envname=${1}
     conda create --mkdir --prefix ${WORKON_HOME}/.conda/${_conda_envname} \
@@ -730,12 +778,12 @@ rmvirtualenv_conda() {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     rmvirtualenv $@
     _conda_envname=${1}
-    # TODO
+    #   TODO
 }
 
 
 mkvirtualenv_conda_if_available() {
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
         && mkvirtualenv_conda $@) \
     || \
@@ -744,7 +792,7 @@ mkvirtualenv_conda_if_available() {
 }
 
 workon_conda_if_available() {
-    #  mkvirtualenv_conda_if_available -- do mkvirtualenv_conda, mkvirtualenv
+    # workon_conda_if_available()       -- workon_conda OR we OR workon
     (declare -f 'workon_conda' 2>&1 > /dev/null \
         && workon_conda $@) \
     || \
@@ -754,13 +802,14 @@ workon_conda_if_available() {
     (declare -f 'workon' 2>&1 > /dev/null \
         && workon $@)
 }
-## Virtualenvwrapper
-# sudo apt-get install virtualenvwrapper || easy_install virtualenvwrapper
+### bashrc.virtualenvwrapper.sh
+
+# sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
 export PROJECT_HOME="${HOME}/wrk"
 export WORKON_HOME="${PROJECT_HOME}/.ve"
 
 _setup_virtualenvwrapper () {
-    ## _setup_virtualenvwrapper -- configure $VIRTUALENVWRAPPER_*
+    # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
     #export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
     export VIRTUALENVWRAPPER_SCRIPT=$(which virtualenvwrapper.sh)
@@ -773,13 +822,6 @@ _setup_virtualenvwrapper () {
     fi
     unset VIRTUALENV_DISTRIBUTE
     source "${VIRTUALENVWRAPPER_SCRIPT}"
-
-    #alias cdv='cdvirtualenv'
-    #alias cds='cdvirtualenv src'
-    #alias cde='cdvirtualenv etc'
-    #alias cdl='cdvirtualenv lib'
-    #alias cde='cdvirtualenv src/$_VENVNAME'
-
 }
 _setup_virtualenvwrapper
 which virtualenvwrapper.sh
@@ -2074,37 +2116,99 @@ function_exists() {
 declare -f 'dotfiles_initialize' 2>&1 > /dev/null \
     && dotfiles_initialize
 
-lsvirtualenv() {
-    ## lsvirtualenv()   -- list virtualenvs in $WORKON_HOME
+lsvirtualenvs() {
+    # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
     cmd=${@:-""}
     (cd ${WORKON_HOME} &&
     for venv in $(ls -adtr ${WORKON_HOME}/**/lib/python?.? | \
         sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
-        echo "${venv}" ;
         if [ -n "${cmd}" ]; then
             $cmd $venv ;
+        else
+            echo "${venv}" ;
         fi
     done)
 }
-
 lsve() {
-    ## lsve()           -- list virtualenvs in $WORKON_HOME
-    lsvirtualenv $@
+    # lsve()                -- list virtualenvs in $WORKON_HOME
+    lsvirtualenvs $@
 }
 
+backup_virtualenv() {
+    # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
+    venv=${1}
+    _date=$(date +'%FT%T%z')
+    bkpdir=${2:-"${WORKON_HOME}/_venvbkps/${_date}"}
+    test -d ${bkpdir} || mkdir -p ${bkpdir}
+    archivename="venvbkp.${venv}.${_date}.tar.gz"
+    archivepath="${bkpdir}/${archivename}"
+    (cd ${WORKON_HOME}; \
+    tar czf ${archivepath} ${venv} \
+        && echo "${archivename}" \
+        || (echo "err: ${venv} (${archivename})" 1>&2))
+}
+
+backup_virtualenvs() {
+    # backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
+    date=$(date +'%FT%T%z')
+    bkpdir=${1:-"${WORKON_HOME}/_venvbkps/${date}"}
+    echo BKPDIR="${bkpdir}"
+    test -d ${bkpdir} || mkdir -p ${bkpdir}
+    lsvirtualenvs
+    venvs=$(lsvirtualenvs)
+    (cd ${WORKON_HOME}; \
+    for venv in ${venvs}; do
+        backup_virtualenv ${venv} ${bkpdir} \
+        2>> ${bkpdir}/venvbkps.err \
+        | tee -a ${bkpdir}/venvbkps.list
+    done)
+    cat ${bkpdir}/venvbkps.err
+    echo BKPDIR="${bkpdir}"
+}
+
+rebuild_virtualenv() {
+    # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+    echo "rebuild_virtualenv()"
+    set -x
+    venvname="${1}"
+    virtual_env=${2:-"${WORKON_HOME}/${venvname}"}
+    set +x
+    bin="${virtual_env}/bin"
+    rm -fv ${bin}/python ${bin}/python2 ${bin}/python2.7 \
+        ${bin}/pip ${bin}/pip-2.7 \
+        ${bin}/easy_install ${bin}/easy_install-2.7 \
+        ${bin}/activate*
+    pyver=$(python -c "import sys; print('{}.{}'.format(*sys.version_info[:2]))")
+    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+        -iname 'pip*' -delete
+    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+        -iname 'setuptools*' -delete
+    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+        -iname 'distribute*' -delete
+    deactivate
+    mkvirtualenv ${venvname}
+    #${bin}/pip install -v -v -r <(${bin}/pip freeze)
+    #${bin}/pip install -r ${_WRD}/requirements.txt
+}
+
+rebuild_virtualenvs() {
+    # rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
+    lsve rebuild_virtualenv
+}
+
+### bashrc.gcloud.sh
 
 _setup_google_cloud() {
-    _GCLOUD_PREFIX="/srv/wrk/google-cloud-sdk"
-    #  _setup_google_cloud  -- configure PATH and bash completions for
-    #   Google Cloud"
+    # _setup_google_cloud() -- configure gcloud $PATH and bash completions
+    export _GCLOUD_PREFIX="/srv/wrk/google-cloud-sdk"
 
-    # The next line updates PATH for the Google Cloud SDK.
+    #The next line updates PATH for the Google Cloud SDK.
     source "${_GCLOUD_PREFIX}/path.bash.inc"
 
-    # The next line enables bash completion for gcloud.
+    #The next line enables bash completion for gcloud.
     source "${_GCLOUD_PREFIX}/completion.bash.inc"
 }
-### venv -- builds upon virtualenv and virtualenvwrapper
+### bashrc.venv.sh
 #   note: most of these aliases and functions are overwritten by `we` 
 ## Variables
 
@@ -2158,113 +2262,113 @@ we() {
     #   we dotfiles
     #   we dotfiles dotfiles
 
-    # append to shell history
+    #append to shell history
     history -a
 
     if [ -n "$1" ]; then
         workon $1 && source <(venv --bash $@) && dotfiles_status
     else
-        # if no arguments are specified, list virtual environments
+        #if no arguments are specified, list virtual environments
         lsvirtualenv
     fi
 }
 complete -o default -o nospace -F _virtualenvs we
 
 
-## CD shortcuts
+## cd functions
 cdb () {
-    # cdb      -- cd $_BIN
+    # cdb()     -- cd $_BIN
     cd "${_BIN}"/$@
 }
 cde () {
-    # cde      -- cd $_ETC
+    # cde()     -- cd $_ETC
     cd "${_ETC}"/$@
 }
 cdv () {
-    # cdv      -- cd $VIRTUAL_ENV
+    # cdv()     -- cd $VIRTUAL_ENV
     cd "${VIRTUAL_ENV}"/$@
 }
 cdve () {
-    # cdve     -- cd $WORKON_HOME
+    # cdve()    -- cd $WORKON_HOME
     cd "${WORKON_HOME}"/$@
 }
 cdvar () {
-    # cdvar    -- cd $_VAR
+    # cdvar()   -- cd $_VAR
     cd "${_VAR}"/$@
 }
 cdlog () {
-    # cdlog    -- cd $_LOG
+    # cdlog()   -- cd $_LOG
     cd "${_LOG}"/$@
 }
 cdww () {
-    # cdww     -- cd $_WWW
+    # cdww()    -- cd $_WWW
     cd "${_WWW}"/$@
 }
 cdl () {
-    # cdl      -- cd $_LIB
+    # cdl()     -- cd $_LIB
     cd "${_LIB}"/$@
 }
 cdpylib () {
-    # cdpylib  -- cd $_PYLIB
+    # cdpylib() -- cd $_PYLIB
     cd "${_PYLIB}"/$@
 }
 cdpysite () {
-    # cdpysite -- cd $_PYSITE
+    # cdpysite()-- cd $_PYSITE
     cd "${_PYSITE}"/$@
 }
 cds () {
-    # cds      -- cd $_SRC
+    # cds()     -- cd $_SRC
     cd "${_SRC}"/$@
 }
 cdw () {
-    # cdw      -- cd $_WRD
+    # cdw()     -- cd $_WRD
     cd "${_WRD}"/$@
 }
 
 cdwrk () {
-    # cdwrk     -- cd $WORKON_HOME
+    # cdwrk()   -- cd $WORKON_HOME
     cd "${WORKON_HOME}/$@"
 }
 
 ## Grin search
 # virtualenv / virtualenvwrapper
 grinv() {
-    # grinv     -- grin $VIRTUAL_ENV
+    # grinv()   -- grin $VIRTUAL_ENV
     grin --follow $@ "${VIRTUAL_ENV}"
 }
 grindv() {
-    # grindv    -- grind $VIRTUAL_ENV
+    # grindv()  -- grind $VIRTUAL_ENV
     grind --follow $@ --dirs "${VIRTUAL_ENV}"
 }
 
 # venv
 grins() {
-    # grins     -- grin $_SRC
+    # grins()   -- grin $_SRC
     grin --follow $@ "${_SRC}"
 }
 grinds() {
-    # grinds    -- grind $_SRC
+    # grinds()  -- grind $_SRC
     grind --follow $@ --dirs "${_SRC}"
 }
 grinw() {
-    # grinw     -- grin $_WRD
+    # grinw()   -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
 grin-() {
-    # grin-     -- grin _WRD
+    # grin-()   -- grin _WRD
     grinw $@
 }
 grindw() {
-    # grindw    -- grind $_WRD
+    # grindw()  -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
 }
 grind-() {
-    # grind-    -- grind $_WRD
+    # grind-()  -- grind $_WRD
     grindw $@
 }
 
 grindctags() {
-    # grindctags    -- generate ctags from grind (in ./tags)
+    # grindctags()      -- generate ctags from grind (in ./tags)
     if [ -n "${__IS_MAC}" ]; then
         if [ -x "/usr/local/bin/ctags" ]; then
             ctagsbin="/usr/local/bin/ctags"
@@ -2282,54 +2386,71 @@ grindctags() {
     ls -alh ${path}/tags;)
 }
 grindctagssys() {
-    # grindctagssys -- generate ctags from grind --sys-path (in $_WRD/tags)
+    # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
     grindctags "${_WRD}" "--sys-path"
 }
 grindctagsw() {
-    # grindctagsw   -- generate ctags from (cd $_WRD; grind)  (in $_WRD/tags)
+    # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
     grindctags "${_WRD}"
 }
 grindctagss() {
-    # grindctagss   -- generate ctags from (cd $_SRC; grind)  (in $_SRC/tags)
+    # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
     grindctags "${_SRC}"
 }
 
 
 
 _load_venv_aliases() {
-    # _load_venv_aliases -- load venv aliases
-    #   (note: these are overwritten by `we` [`source <(venv -b)`])
+    # _load_venv_aliases()  -- load venv aliases
+    #   note: these are overwritten by `we` [`source <(venv -b)`]
 
+    # ssv   -- supervisord   -c ${_SVCFG}
     alias ssv='supervisord -c "${_SVCFG}"'
+    # sv    -- supervisorctl -c ${_SVCFG}
     alias sv='supervisorctl -c "${_SVCFG}"'
+    # svd   -- supervisorctl -c ${_SVCFG} restart && sv tail -f dev
     alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
+    # svt   -- supervisorctl -c "${_SVCFG}" tail -f
     alias svt='sv tail -f'
 
-    alias hgv-='hg view -R "${_WRD}"'
-    alias hgl-='hg -R "${_WRD}" log'
+    # hgw   -- hg -R  ${_WRD}
+    alias hgw='hg -R "${_WRD}"'
+    # hg-   -- hg -R  ${_WRD}
+    alias hg-='hg -R "${_WRD}"'
 
+    # gitw  -- git -C ${_WRD}
+    alias gitw='git -C "${_WRD}"'
+    # git-  -- git -C ${_WRD}
+    alias git-='git -C "${_WRD}"'
+
+    # serve-    -- ${_SERVE_}
     alias serve-='${_SERVE_}'
+    # shell-    -- ${_SHELL_}
     alias shell-='${_SHELL_}'
+    # test-     -- cd ${_WRD} && python setup.py test
     alias test-='(cd ${_WRD} && python "${_WRD_SETUPY}" test)'
+    # testr-    -- reset; cd ${_WRD} && python setup.py test
     alias testr-='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
 
 }
 _load_venv_aliases
 
 makew() {
-    # makew     -- cd $_WRD && make $@
+    # makew()   -- cd $_WRD && make $@
     (cd "${_WRD}" && make $@)
 }
 make-() {
-    # make-     -- cd $_WRD && make $@
+    # make-()   -- cd $_WRD && make $@
     makew $@
 }
 mw() {
-    # mw        -- cd $_WRD && make $@
+    # mw()      -- cd $_WRD && make $@
     makew $@
 }
 
 _venv_set_prompt() {
+    # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+    #                          and ${debian_chroot}
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
             export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
@@ -2351,27 +2472,42 @@ _venv_set_prompt
 basename $VIRTUAL_ENV
 
 
-_venv_ensure_paths() {
-    #  _venv_ensure_paths()   -- 
-    prefix=$1
+mkdirs_venv() {
+    # _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+    prefix=${1}
+    if [ -z "${prefix}" ]; then
+        if [ -n "${VIRTUAL_ENV}" ]; then
+            prefix=${VIRTUAL_ENV}
+        else
+            return
+        fi
+    fi
     ensure_mkdir ${prefix}
     ensure_mkdir ${prefix}/bin
     ensure_mkdir ${prefix}/etc
-    # ensure_mkdir ${prefix}/home
+    #ensure_mkdir ${prefix}/home
     ensure_mkdir ${prefix}/lib
-    # ensure_mkdir ${prefix}/opt
-    # ensure_mkdir ${prefix}/sbin
+    #ensure_mkdir ${prefix}/opt
+    #ensure_mkdir ${prefix}/sbin
+    #ensure_mkdir ${prefix}/share/doc
     ensure_mkdir ${prefix}/src
-    # ensure_mkdir ${prefix}/srv
+    #ensure_mkdir ${prefix}/srv
     ensure_mkdir ${prefix}/tmp
     ensure_mkdir ${prefix}/usr/share/doc
     ensure_mkdir ${prefix}/var/cache
     ensure_mkdir ${prefix}/var/log
     ensure_mkdir ${prefix}/var/run
+    ensure_mkdir ${prefix}/var/www
+
+    #ls -ld ${prefix}/**
+    ls -ld $(find ${prefix} ${prefix}/lib -type d -maxdepth 2)
 }
 
+
+### bashrc.venv.pyramid.sh
+
 workon_pyramid_app() {
-    ##  workon_pyramid_app $VIRTUAL_ENV_NAME $_APP [open_terminals]
+    # workon_pyramid_app()  -- $VIRTUAL_ENV_NAME [$_APP] [open_terminals]
     _VENVNAME=$1
     _APP=$2
 
@@ -2407,16 +2543,19 @@ workon_pyramid_app() {
 }
 
 
-## ${EDITOR} configuration
-#
-#  VIRTUAL_ENV_NAME
-#  _CFG = 
-#
 
-## Editor
-#export USEGVIM=""
+### bashrc.editor.sh
+
 _setup_editor() {
     # setup_editor()    -- configure ${EDITOR}
+    #   VIMBIN  (str):   /usr/bin/vim
+    #   GVIMBIN (str):   /usr/bin/gvim
+    #   MVIMBIN (str):   /usr/local/bin/mvim
+    #   GUIVIMBIN (str): $GVIMBIN || $MVIMBIN || ""
+    #   EDITOR  (str):   $VIMBIN -f || $GUIVIMBIN -f
+    #   EDITOR_ (str):   $EDITOR || $GUIVIMBIN $VIMCONF --remote-tab-silent
+    #   VIMCONF (str):   --servername ${VIRTUAL_ENV_NAME:-'EDITOR'}
+    #   SUDO_EDITOR (str): $EDITOR
     export VIMBIN="/usr/bin/vim"
     export GVIMBIN="/usr/bin/gvim"
     export MVIMBIN="/usr/local/bin/mvim"
@@ -2433,7 +2572,6 @@ _setup_editor() {
 
     if [ -n "${GUIVIMBIN}" ]; then
         export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'}"
-        export SUDOCONF="--servername sudo.${VIRTUAL_ENV_NAME:-'EDITOR'}"
         export EDITOR="${GUIVIMBIN} -f"
         export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
         export SUDO_EDITOR="${GUIVIMBIN} -f"
@@ -2450,35 +2588,39 @@ _setup_editor
 
 
 ggvim() {
+    # ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
     ${EDITOR} $@ 2>&1 > /dev/null
 }
 
 
 e() {
+    # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} $@
 }
 
 edit() {
+    # edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} $@
 }
 
 editcfg() {
-    ${EDITOR_} $_CFG
+    # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
+    ${EDITOR_} ${_CFG}
 }
 
 sudoe() {
-    EDITOR=${SUDO_EDITOR} sudo -e
+    # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+    EDITOR=${SUDO_EDITOR} sudo -e $@
+}
+sudovim() {
+    # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+    sudoe $@
 }
 
-sudogvim() {
-    EDITOR=${SUDO_EDITOR} sudo -e
-}
+### bashrc.vimpagers.sh
 
-
-
-
-## _configure_lesspipe  -- (less <file.zip> | lessv)
 _configure_lesspipe() {
+    # _configure_lesspipe() -- (less <file.zip> | lessv)
     lesspipe=$(which lesspipe.sh 2>/dev/null || false)
     if [ -n "${lesspipe}" ]; then
         eval "$(${lesspipe})"
@@ -2491,8 +2633,8 @@ LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
 export LESSOPEN
 
 
-## vimpager     -- call vimpager
 vimpager() {
+    # vimpager() -- call vimpager
     _PAGER=$(which vimpager)
     if [ -x "${_PAGER}" ]; then
         ${_PAGER} $@
@@ -2502,14 +2644,11 @@ vimpager() {
 }
 
 
-### less commands -- lessv, lessg, lesse
-## lessv    -- less with less.vim and regular vim
 lessv () {
-
-    ## start Vim with less.vim and vim
-    # Read stdin if no arguments were given.
+    # lessv()   -- less with less.vim and vim (g:tinyvim=1)
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
+            #read stdin
             ${VIMBIN} --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
@@ -2528,7 +2667,7 @@ lessv () {
                 $@
         fi
     else
-        # Output is not a terminal, cat arguments or stdin
+        #Output is not a terminal, cat arguments or stdin
         if [ $# -eq 0 ]; then
             less
         else
@@ -2537,27 +2676,22 @@ lessv () {
     fi
 }
 
-## lessg    -- less with less.vim and gvim / mvim
 lessg() {
+    # lessg()   -- less with less.vim and gvim / mvim
     VIMBIN=${GUIVIMBIN} lessv $@
 }
 
-## lesse    -- less with current venv's vim server
 lesse() {
+    # lesse()   -- less with current venv's vim server
     ${EDITOR} $@
 }
 
-### Man commands -- manv, mang, mane
-## manv     -- view manpages in vim
 manv() {
+    # manv()    -- view manpages in vim
     alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        #if [ "$1" == "man" ]; then
-        #    exit 0
-        #fi
-
         #/usr/bin/whatis "$@" >/dev/null
         $(which vim) \
             --noplugin \
@@ -2570,8 +2704,8 @@ manv() {
     fi
 }
 
-## mang()   -- view manpages in gvim / mvim
 mang() {
+    # mang()    -- view manpages in gvim / mvim
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
@@ -2586,16 +2720,32 @@ mang() {
     fi
 }
 
-## mane()   -- open manpage with venv's vim server
 mane() {
-    $GUIVIMBIN --servername ${VIRTUAL_ENV_NAME} --remote-send "<ESC>:Man $@<CR>"
+    # mane()    -- open manpage with venv's vim server
+    $GUIVIMBIN ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
 }
 
+### bashrc.usrlog.sh
+    # _USRLOG (str): path to .usrlog userspace shell command log
+    # stid()      -- set $TERM_ID to a random string
+    # stid $name  -- set $TERM_ID to string
+    # note()      -- add a dated note to $_USRLOG [_usrlog_append]
+    # usrlogv()   -- open usrlog with vim:   $VIMBIN + $_USRLOG
+    # usrlogg()   -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+    # usrloge()   -- open usrlog with editor:$EDITOR + $_USRLOG
+    # ut()        -- tail $_USRLOG
+    # ug()        -- egrep current usrlog: egrep $@ $_USRLOG
+    # ugall()     -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # ugrin()     -- grin current usrlog: grin $@ $_USRLOG
+    # ugrinall()  -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # lsusrlogs() -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
 
-## usrlog   -- Userspace shell logging
-## stid()   -- set or regenerate shell session id
-#  
-source "${__DOTFILES}/etc/usrlog.sh"
+_setup_usrlog() {
+    # _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
+    source "${__DOTFILES}/etc/usrlog.sh"
+    #calls _usrlog_setup when sourced
+}
+_setup_usrlog
 #!/bin/sh
 ##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
 #
@@ -2606,18 +2756,18 @@ source "${__DOTFILES}/etc/usrlog.sh"
 
 
 _usrlog_set__USRLOG () {
-    #_USRLOG=${1:${_USRLOG}}
+    # _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
     if [ -n "$VIRTUAL_ENV" ]; then
         prefix=${VIRTUAL_ENV}
     else
         prefix=${HOME}
     fi
-
     export _USRLOG="${prefix}/.usrlog"
     export __USRLOG="${HOME}/.usrlog"
 }
 
 _usrlog_set_HISTFILE () {
+    # _usrlog_set_HISTFILE()   -- configure shell history
     if [ -n "$VIRTUAL_ENV" ]; then
         prefix=${VIRTUAL_ENV}
     else
@@ -2676,8 +2826,8 @@ _usrlog_set_HIST() {
 }
 
 _usrlog_randstr() {
-    # Generate a random string
-    # param $1: number of characters
+    # _usrlog_randstr      -- Generate a random string
+    #   $1: number of characters
 
     if [[ `uname -s` == "Darwin" ]]; then
         echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
@@ -2697,14 +2847,15 @@ _usrlog_randstr() {
 }
 
 _usrlog_get__TERM_ID() {
+    # _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
     echo "# _TERM_ID="$_TERM_ID" # [ $_USRLOG ]" >&2
     echo $_TERM_ID
 }
 
 
 _usrlog_set__TERM_ID () {
-    #  _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
-    # param $1: terminal name
+    # _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
+    #   $1: terminal name
     new_term_id="${@}"
     if [ -z "${new_term_id}" ]; then
         new_term_id="#$(_usrlog_randstr 8)"
@@ -2726,9 +2877,7 @@ _usrlog_set__TERM_ID () {
 }
 
 _usrlog_echo_title () {
-    # _usrlog_echo_title    -- set window title
-
-    # TODO: VIRTUAL_ENV_NAME / VIRTUAL_ENV
+    # _usrlog_echo_title   -- set window title
     _usrlog_window_title="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}"
     usrlog_window_title=${_usrlog_window_title:-"$@"}
     if [ -n $CLICOLOR ]; then
@@ -2739,13 +2888,13 @@ _usrlog_echo_title () {
 }
 
 _usrlog_set_title() {
-    ## set xterm title
+    # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
 }
 
 _usrlog_setup() {
-    # Bash profile setup for logging unique console sessions
+    # _usrlog_setup()      -- configure usrlog for the current shell
     _usrlog="${1:-$_USRLOG}"
     term_id="${2:-$_TERM_ID}"
 
@@ -2774,9 +2923,11 @@ _usrlog_setup() {
 
 _usrlog_append() {
     # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    #   $1: text (command) to log
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
-    # param $1: text (command) to log
+    # example:
+    # #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
     printf "%s\t%s\t%s\n" \
         $(echo "${_TERM_ID}" | tr '\t' ' ') \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
@@ -2785,10 +2936,10 @@ _usrlog_append() {
 }
 
 _usrlog_append_oldstyle() {
-    # _usrlog_append_oldstype -- Write a line to the _USRLOG file
-    # param $1: text (command) to log
+    # _usrlog_append_oldstype -- Write a line to $_USRLOG
+    #   $1: text (command) to log
     # example:
-    # ^# qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    # # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
     printf "# %-11s: %s : %s" \
         "$_TERM_ID" \
         "$(date +'%D %R.%S')" \
@@ -2797,6 +2948,7 @@ _usrlog_append_oldstyle() {
 }
 
 _usrlog_writecmd() {
+    # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
     _usrlog_set_HISTFILE
 
     if [ -n "$ZSH_VERSION" ]; then
@@ -2817,7 +2969,7 @@ _usrlog_writecmd() {
 
 
 termid() {
-    # termid        -- echo $_TERM_ID
+    # termid()      -- echo $_TERM_ID
     _usrlog_get__TERM_ID
 }
 
@@ -2840,20 +2992,20 @@ st() {
 ## Old (hist, histgrep, histgrep_session)
 
 hist() {
-    #  less()       --  less the current session log
+    # less()       --  less the current session log
     less $_USRLOG
 }
 
 
 histgrep () {
-    #  histgrep()   -- egrep $@ $_USRLOG
+    # histgrep()   -- egrep $@ $_USRLOG
     egrep $@ $_USRLOG 
 }
 
 histgrep_session () {
-    # Grep for specific sessions
-    # param $1: session name
-    # param $2: don't strip the line prefix
+    # histgrep_session()    -- grep for specific sessions
+    #   $1: session name
+    #   $2: don't strip the line prefix
     NO_STRIP_LINE_PREFIX=$2
     #echo $_USRLOG >&2
     cat $_USRLOG | egrep "$1 .* \:\:\:|Renaming .* to $1" | \
@@ -2864,11 +3016,10 @@ histgrep_session () {
         fi
 }
 
-
-## New (usrlogt, ut, usrlogv
+## New (u*, usrlog*)
 
 usrlog_tail() {
-    #  usrlogt()    -- tail -n20 $_USRLOG
+    # usrlogt()     -- tail -n20 $_USRLOG
     if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
         tail ${_usrlog} 
@@ -2876,91 +3027,86 @@ usrlog_tail() {
         tail $_USRLOG
     fi
 }
-
 ut() {
-    #  ut()         -- tail -n20 $_USRLOG
+    # ut()          -- tail -n20 $_USRLOG
     usrlog_tail ${@}
 }
 
 
 usrlog_tail_follow() {
-    #  usrlogtf()   -- tail -f -n20 $_USRLOG
+    # usrlogtf()    -- tail -f -n20 $_USRLOG
     tail -f -n20 ${@:-"${_USRLOG}"}
 }
-
 utf() {
-    #  ut()         -- tail -f -n20 $_USRLOG
+    # utf()         -- tail -f -n20 $_USRLOG
     usrlog_tail_follow $@
 }
 
 
 usrlog_grep() {
-    #  usrlog_grep()    -- egrep -n $_USRLOG
+    # usrlog_grep() -- egrep -n $_USRLOG
     set -x
     args=${@}
     egrep -n "${args}" ${_USRLOG}
     set +x
 }
 ug() {
-    #  ug()             -- egrep -n $_USRLOG
+    # ug()          -- egrep -n $_USRLOG
     usrlog_grep ${@}
 }
 
 usrlog_grin() {
-    #  usrlog_grin()    -- grin -s $@ $_USRLOG
+    # usrlog_grin() -- grin -s $@ $_USRLOG
     set -x
     args=${@}
     grin -s "${args}" ${_USRLOG}
     set +x
 }
 ugrin () {
-    #  ugrin()          -- grin -s $@ $_USRLOG
+    # ugrin()       -- grin -s $@ $_USRLOG
     usrlog_grin ${@}
 }
 
 lsusrlogs() {
+    # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog
 }
 
 usrlog_grep_all() {
-    #  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
-    set -x
+    # usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
+    (set -x;
     args=${@}
     usrlogs=$(lsusrlogs)
-    egrep "${args}" ${usrlogs}
-    set +x
+    egrep "${args}" ${usrlogs} )
 }
 ugall() {
-    #  ugall()              -- grep usrlogs (drop filenames with -h)
+    # ugall()              -- grep usrlogs (drop filenames with -h)
     usrlog_grep_all ${@}
 }
 
 usrlog_grin_all() {
-    #  usrlog_grin_all()    -- grin usrlogs
-    set -x
+    # usrlog_grin_all()    -- grin usrlogs
+    (set -x;
     args=${@}
     usrlogs=$(lsusrlogs)
-    grin -s "${args}" ${usrlogs}
-    set +x
+    grin -s "${args}" ${usrlogs} )
 }
 ugrinall() {
-    #  usrlog_grin_all()    -- grin usrlogs
+    # usrlog_grin_all()    -- grin usrlogs
     usrlog_grin_all ${@}
 }
 
 note() {
-    ## note()   -- _usrlog_append # $@
+    # note()   -- _usrlog_append "#note  #note: $@"
     _usrlog_append "#note  #note: $@"
 }
 
 
 usrlog_screenrec_ffmpeg() {
-    # usrlog_screenrec_ffmpeg   -- record a screencast
-    # param $1: destination directory (use /tmp if possible)
-    # param $2: video name to append to datestamp
-
+    # usrlog_screenrec_ffmpeg() -- record a screencast
+    #   $1: destination directory (use /tmp if possible)
+    #   $2: video name to append to datestamp
     # Press "q" to stop recording
-
     DATESTR=$(date +%Y%m%d-%H%M)
     FILEBASE="screenrec-${DATESTR}"
     if [ -z "$2" ]; then
@@ -2968,7 +3114,6 @@ usrlog_screenrec_ffmpeg() {
     else
         FILENAME="$1/${FILEBASE}_${2}.mpg"
     fi
-
     SCREENDIM="$(xdpyinfo | grep 'dimensions:'| awk '{print $2}')"
     ffmpeg \
         -f x11grab \
@@ -2980,120 +3125,206 @@ usrlog_screenrec_ffmpeg() {
 }
 
 
-## call _usrlog_setup
+## calls _usrlog_setup when sourced
 _usrlog_setup
-]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles_usrlog_setup
 ]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
+
 usrlogv() {
-    ## usrlog() -- open $_USRLOG with vim (skip to end)
+    # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
     file=${1:-$_USRLOG}
     lessv + ${file}
 }
 
 usrlogg() {
-    ## usrlogv()    -- open $_USRLOG with gvim / mvim
+    # usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
     file=${1:-$_USRLOG}
     lessg + ${file}
 }
 
 usrloge() {
-    ## usrloge()    -- open $_USRLOG with venv's vim server
+    # usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
     file=${1:-$_USRLOG}
     lesse "+ ${file}"
 }
 
+### 30-bashrc.xlck.sh
+## xlck     -- minimal X screensaver
+    # xlck 
+    # xlck -I  --  (I)nstall xlck (apt-get)
+    # xlck -U  --  check stat(U)s (show xautolock processes on this $DISPLAY)
+    # xlck -S  --  (S)tart xlck (start xautolock on this $DISPLAY)
+    # xlck -P  --  sto(P) xlck (stop xautolock on this $DISPLAY)
+    # xlck -R  --  (R)estart xlck
+    # xlck -M  --  suspend to ra(M) (and lock)
+    # xlck -D  --  suspend to (D)isk (and lock)
+    # xlck -L  --  (L)ock
+    # xlck -X  --  shutdown -h now
+    # xlck -h  --  help
+    # xlck_status_all()             -- pgrep 'xautolock|xlock|i3lock', ps ufw
+    # xlck_status_this_display()    -- show status for this $DISPLAY
 
-## xlck     -- screensaver
-if [ ! -d '/Library' ]; then  # not on OSX
-    source "${__DOTFILES}/etc/xlck.sh"
-fi
+_setup_xlck() {
+    # _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
+    if [ -z "${__IS_MAC}" ]; then
+        source "${__DOTFILES}/etc/xlck.sh"
+    fi
+}
+
 
 ### bashrc.aliases.sh
 
+#annotate this file with comments
+#cat ./40-bashrc.aliases.sh | pyline -r '(\s*?)alias\s(.*?)=(.*)' '(rgx and "{}# {:<8} -- {}\n{}".format(rgx.groups()[0], rgx.groups()[1], rgx.groups()[2], l)) or l'
+
 _loadaliases () {
     #  _load_aliases()  -- load aliases
+    # chmodr   -- 'chmod -R'
     alias chmodr='chmod -R'
+    # chownr   -- 'chown -R'
     alias chownr='chown -R'
 
+    # grep     -- 'grep --color=auto'
     alias grep='grep --color=auto'
+    # egrep    -- 'egrep --color=auto'
     alias egrep='egrep --color=auto'
+    # fgrep    -- 'fgrep --color=auto'
     alias fgrep='fgrep --color=auto'
 
+    # grindp   -- 'grind --sys.path'
     alias grindp='grind --sys.path'
+    # grinp    -- 'grin --sys-path'
     alias grinp='grin --sys-path'
 
+    # fumnt    -- 'fusermount -u'
     alias fumnt='fusermount -u'
 
+    # ga       -- 'git add'
     alias ga='git add'
+    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    # gs       -- 'git status'
     alias gs='git status'
+    # gd       -- 'git diff'
     alias gd='git diff'
+    # gds      -- 'git diff -p --stat'
     alias gds='git diff -p --stat'
+    # gc       -- 'git commit'
     alias gc='git commit'
+    # gco      -- 'git checkout'
     alias gco='git checkout'
+    # gdc      -- 'git diff --cached'
     alias gdc='git diff --cached'
+    # gsl      -- 'git stash list'
     alias gsl='git stash list'
+    # gsn      -- 'git stash save'
     alias gsn='git stash save'
+    # gss      -- 'git stash save'
     alias gss='git stash save'
+    # gitr     -- 'git remote -v'
     alias gitr='git remote -v'
 
+    # hgl      -- 'hg glog --pager=yes'
     alias hgl='hg glog --pager=yes'
+    # hgs      -- 'hg status'
     alias hgs='hg status'
+    # hgd      -- 'hg diff'
     alias hgd='hg diff'
+    # hgds     -- 'hg diff --stat'
     alias hgds='hg diff --stat'
+    # hgdl     -- 'hg diff --color=always | less -R'
     alias hgdl='hg diff --color=always | less -R'
+    # hgc      -- 'hg commit'
     alias hgc='hg commit'
+    # hgu      -- 'hg update'
     alias hgu='hg update'
+    # hgq      -- 'hg qseries'
     alias hgq='hg qseries'
+    # hgqd     -- 'hg qdiff'
     alias hgqd='hg qdiff'
+    # hgqs     -- 'hg qseries'
     alias hgqs='hg qseries'
+    # hgqn     -- 'hg qnew'
     alias hgqn='hg qnew'
+    # hgr      -- 'hg paths'
     alias hgr='hg paths'
 
+    # __IS_MAC
     if [ -n "${__IS_MAC}" ]; then
+        # la       -- 'ls -A -G'
         alias la='ls -A -G'
+        # ll       -- 'ls -alF -G'
         alias ll='ls -alF -G'
+        # ls       -- 'ls -G'
         alias ls='ls -G'
+        # lt       -- 'ls -altr -G'
         alias lt='ls -altr -G'
+    # else
     else
+        # la       -- 'ls -A --color=auto'
         alias la='ls -A --color=auto'
+        # ll       -- 'ls -alF --color=auto'
         alias ll='ls -alF --color=auto'
+        # ls       -- 'ls --color=auto'
         alias ls='ls --color=auto'
+        # lt       -- 'ls -altr --color=auto'
         alias lt='ls -altr --color=auto'
     fi
 
+    # __IS_LINUX
     if [ -n "${__IS_LINUX}" ]; then
+        # psx      -- 'ps uxaw'
         alias psx='ps uxaw'
+        # psf      -- 'ps uxawf'
         alias psf='ps uxawf'
+        # psxs     -- 'ps uxawf --sort=tty,ppid,pid'
         alias psxs='ps uxawf --sort=tty,ppid,pid'
+        # psxh     -- 'ps uxawf --sort=tty,ppid,pid | head'
         alias psxh='ps uxawf --sort=tty,ppid,pid | head'
 
+        # psh      -- 'ps uxaw | head'
         alias psh='ps uxaw | head'
 
+        # psc      -- 'ps uxaw --sort=-pcpu'
         alias psc='ps uxaw --sort=-pcpu'
+        # psch     -- 'ps uxaw --sort=-pcpu | head'
         alias psch='ps uxaw --sort=-pcpu | head'
 
+        # psm      -- 'ps uxaw --sort=-pmem'
         alias psm='ps uxaw --sort=-pmem'
+        # psmh     -- 'ps uxaw --sort=-pmem | head'
         alias psmh='ps uxaw --sort=-pmem | head'
+    # __IS_MAC
     elif [ -n "${__IS_MAC}" ]; then
+        # psx      -- 'ps uxaw'
         alias psx='ps uxaw'
+        # psf      -- 'ps uxaw' # no -f
         alias psf='ps uxaw' # no -f
 
+        # psh      -- 'ps uxaw | head'
         alias psh='ps uxaw | head'
 
+        # psc      -- 'ps uxaw -c'
         alias psc='ps uxaw -c'
+        # psch     -- 'ps uxaw -c | head'
         alias psch='ps uxaw -c | head'
 
+        # psm      -- 'ps uxaw -m'
         alias psm='ps uxaw -m'
+        # psmh     -- 'ps uxaw -m | head'
         alias psmh='ps uxaw -m | head'
     fi
     
+    # shtop    -- 'sudo htop'
     alias shtop='sudo htop'
+    # t        -- 'tail'
     alias t='tail'
+    # tf       -- 'tail -f'
     alias tf='tail -f'
+    # xclipc   -- 'xclip -selection c'
     alias xclipc='xclip -selection c'
 }
 _loadaliases
+
 
 
 
@@ -3101,29 +3332,33 @@ _loadaliases
 # usage: bash -c 'source bashrc.commands.sh; funcname <args>'
 
 chown-me () {
+    # chown-me          -- chown -Rv user
     (set -x; \
     chown -Rv $(id -un) $@ )
 }
 
 chown-me-mine () {
+    # chown-me-mine     -- chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
     chown -Rv $(id -un):$(id -un) $@ ; \
     chmod -Rv go-rwx $@ )
 }
 
 chown-sme () {
+    # chown-sme         -- sudo chown -Rv user
     (set -x; \
     sudo chown -Rv $(id -un) $@ )
 }
 
 chown-sme-mine () {
+    # chown-sme-mine    -- sudo chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
     sudo chown -Rv $(id -un):$(id -un) $@ ; \
     sudo chmod -Rv go-rwx $@ )
 }
 
 chmod-unumask () {
-    #  chmod-unumask()  -- recursively add other+r (files) and other+rx (dirs)
+    # chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
     path=$1
     sudo find "${path}" -type f -exec chmod -v o+r {} \;
     sudo find "${path}" -type d -exec chmod -v o+rx {} \;
@@ -3131,7 +3366,7 @@ chmod-unumask () {
 
 
 new-sh () {
-    #  new-sh()         -- create and open a new shell script at $1
+    # new-sh()          -- create and open a new shell script at $1
     file=$1
     if [ -e $1 ]; then
         echo "$1 exists"
@@ -3145,10 +3380,9 @@ new-sh () {
 }
 
 diff-dirs () {
-    #  diff-dirs()      -- list differences between directories
+    # diff-dirs()       -- list differences between directories
     F1=$1
     F2=$2
-
     #FIND="find . -printf '%T@\t%s\t%u\t%Y\t%p\n'"
     diff -Naur \
         <(cd $F1; find . | sort ) \
@@ -3156,14 +3390,14 @@ diff-dirs () {
 }
 
 diff-stdin () {
-    #  diff-stdin()     -- diff the output of two commands
+    # diff-stdin()      -- diff the output of two commands
     DIFFBIN='diff'
     $DIFFBIN -u <($1) <($2)
 }
 
 wopen () {
-    #  wopen()  -- open path/URI/URL $1 in a new browser tab
-    #              see: scripts/x-www-browser
+    # wopen()           -- open path/URI/URL $1 in a new browser tab
+    #                      see: scripts/x-www-browser
     if [ -n "${__IS_MAC}" ]; then
         open $@
     elif [ -n "${__IS_LINUX}" ]; then
@@ -3174,13 +3408,13 @@ wopen () {
 }
 
 find-largefiles () {
-    #  find-largefiles  -- find files larger than size (default: +10M)
+    # find-largefiles   -- find files larger than size (default: +10M)
     SIZE=${1:-"+10M"}
     find . -xdev -type f -size "${SIZE}" -exec ls -alh {} \;
 }
 
 find-pdf () {
-    #  find-pdf         -- find pdfs and print info with pdfinfo
+    # find-pdf          -- find pdfs and print info with pdfinfo
     SPATH='.'
     files=$(find "$SPATH" -type f -iname '*.pdf' -printf "%T+||%p\n" | sort -n)
     for f in $files; do
@@ -3193,24 +3427,21 @@ find-pdf () {
 }
 
 find-lately () {
-    #   find-lately()   -- list and sort files in paths $@ by mtime
+    # find-lately()     -- list and sort files in paths $@ by mtime
     set -x
     paths=${@:-"/"}
     lately="lately.$(date +'%Y%m%d%H%M%S')"
-
-    #find $paths -printf "%T@\t%s\t%u\t%Y\t%p\n" > ${lately}
     find $paths -exec \
         stat -f '%Sc%t%N%t%z%t%Su%t%Sg%t%Sp%t%T' -t '%F %T%z' {} \; \
         > ${lately} 2> ${lately}.errors
-    # time_epoch \t size \t user \t type \t path
     sort ${lately} > ${lately}.sorted
     set +x
 }
 
 find-setuid () {
-    #  find-setuid()    -- find all setuid and setgid files
-    #                       stderr > find-setuid.errors
-    #                       stdout > find-setuid.files
+    # find-setuid()     -- find all setuid and setgid files
+    #                      stderr > find-setuid.errors
+    #                      stdout > find-setuid.files
     sudo \
         find /  -type f \( -perm -4000 -o -perm -2000 \) -exec ls -ld '{}' \; \
         2> find-setuid.errors \
@@ -3218,7 +3449,7 @@ find-setuid () {
 }
 
 find-startup () {
-    #  find-startup()   -- find common startup files in common locations
+    # find-startup()    -- find common startup files in common locations
     cmd=${@:-"ls"}
     paths='/etc/rc?.d /etc/init.d /etc/init /etc/xdg/autostart /etc/dbus-1'
     paths="$paths ~/.config/autostart /usr/share/gnome/autostart"
@@ -3230,7 +3461,7 @@ find-startup () {
 }
 
 find-ssl() {
-    #  find-ssl()       -- find .pem and .db files and print their metadata
+    # find-ssl()        -- find .pem and .db files and print their metadata
     #apt-get install libnss3-tools
     _runcmd(){
         cmd="${1}"
@@ -3253,22 +3484,21 @@ find-ssl() {
 }
 
 find-dpkgfile () {
-    #  find-dpkgfile()  -- search dpkgs with apt-file
+    # find-dpkgfile()   -- search dpkgs with apt-file
     apt-file search $@
 }
 
 find-dpkgfiles () {
-    #  find-dpkgfiles() -- sort dpkg /var/lib/dpkg/info/<name>.list
+    # find-dpkgfiles()  -- sort dpkg /var/lib/dpkg/info/<name>.list
     cat /var/lib/dpkg/info/${1}.list | sort
 }
 
 deb-chksums () {
-    # checks filesystem against dpkg's md5sums 
-    #
-    # Author: Filippo Giunchedi <filippo@esaurito.net>
-    # Version: 0.1
-    #
-    # this file is public domain 
+    # deb-chksums()     -- check dpkg md5 checksums with md5sums
+    #checks filesystem against dpkg's md5sums 
+    #Author: Filippo Giunchedi <filippo@esaurito.net>
+    #Version: 0.1
+    #this file is public domain 
 
     exclude="usr/share/locale/"
     include="bin/"
@@ -3294,7 +3524,7 @@ deb-chksums () {
 }
 
 deb-mkrepo () {
-    #  deb-mkrepo   -- create dpkg Packages.gz and Sources.gz from dir ${1}
+    # deb-mkrepo        -- create dpkg Packages.gz and Sources.gz from dir ${1}
     REPODIR=${1:-"/var/www/nginx-default/"}
     cd $REPODIR
     dpkg-scanpackages . /dev/null | gzip -9c > $REPODIR/Packages.gz
@@ -3302,7 +3532,7 @@ deb-mkrepo () {
 }
 
 mnt-chroot-bind () {
-    #  mnt-chroot-bind()    -- bind mount linux chroot directories
+    # mnt-chroot-bind() -- bind mount linux chroot directories
     DEST=$1
     sudo mount proc -t proc ${DEST}/proc
     sudo mount -o bind /dev ${DEST}/dev
@@ -3310,14 +3540,14 @@ mnt-chroot-bind () {
     sudo mount -o bind,ro /boot {DEST}/boot
 }
 mnt-cifs () {
-    #  mnt-cifs()           -- mount a CIFS mount
+    # mnt-cifs()        -- mount a CIFS mount
     URI="$1" # //host/share
     MNTPT="$2"
     OPTIONS="-o user=$3,password=$4"
     mount -t cifs $OPTIONS $URI $MNTPT
 }
 mnt-davfs () {
-    #  mnt-davfs()          -- mount a WebDAV mount
+    # mnt-davfs()       -- mount a WebDAV mount
     URL="$1"
     MNTPT="$2"
     OPTIONS="-o rw,user,noauto"
@@ -3325,7 +3555,7 @@ mnt-davfs () {
 }
 
 lsof-sh () {
-    #  lsof-sh()            -- something like lsof
+    # lsof-sh()         -- something like lsof
     processes=$(find /proc -regextype egrep -maxdepth 1 -type d -readable -regex '.*[[:digit:]]+')
     for p in $processes; do
         cmdline=$(cat $p/cmdline)
@@ -3341,7 +3571,7 @@ lsof-sh () {
 
 
 lsof-net () {
-    #  lsof-net()           -- lsof the network things
+    # lsof-net()        -- lsof the network things
     ARGS=${@:-''}
     for pid in `lsof -n -t -U -i4 2>/dev/null`; do
         echo "-----------";
@@ -3352,7 +3582,7 @@ lsof-net () {
 
 
 net-stat () {
-    #  net-stat()           -- print networking information
+    # net-stat()        -- print networking information
     echo "# net_stat:"  `date`
     echo "#####################################################"
     set -x
@@ -3366,9 +3596,8 @@ net-stat () {
 }
 
 
-
 ssh-prx () {
-    #  ssh-prx()            -- SSH SOCKS
+    # ssh-prx()         -- SSH SOCKS
     RUSERHOST=$1
     RPORT=$2
 
@@ -3381,22 +3610,23 @@ ssh-prx () {
 }
 
 strace- () {
-    #  strace-()            -- strace with helpful options
+    # strace-()         -- strace with helpful options
     strace -ttt -f -F $@ 2>&1
 }
+
 strace-f () {
-    #  strace-f()           -- strace -e trace=file + helpful options
+    # strace-f()        -- strace -e trace=file + helpful options
     strace_ -e trace=file $@
 }
 
 strace-f-noeno () {
-    #  strace-f-noeno       -- strace -e trace=file | grep -v ENOENT
+    # strace-f-noeno    -- strace -e trace=file | grep -v ENOENT
     strace_ -e trace=file $@ 2>&1 \
         | grep -v '-1 ENOENT (No such file or directory)$' 
 }
 
 hgst() {
-    ## hgst()   -- hg diff --stat, hg status, hg diff
+    # hgst()            -- hg diff --stat, hg status, hg diff
     repo=${1:-"$(pwd)"}
     shift
 
@@ -3417,12 +3647,14 @@ hgst() {
 }
 
 
+
+### bashrc.bashmarks.sh
 ## bashmarks
-#  l    -- list bashmarks
-#  s    -- save bashmarks as $1
-#  g    -- goto bashmark $1
-#  p    -- print bashmark $1
-#  d    -- delete bashmark $1
+    # l()  -- list bashmarks
+    # s()  -- save bashmarks as $1
+    # g()  -- goto bashmark $1
+    # p()  -- print bashmark $1
+    # d()  -- delete bashmark $1
 source "${__DOTFILES}/etc/bashmarks/bashmarks.sh"
 # Copyright (c) 2010, Huy Nguyen, http://www.huyng.com
 # All rights reserved.
@@ -3593,12 +3825,12 @@ else
     complete -F _comp p
     complete -F _comp d
 fi
-#  lsbashmarks -- list Bashmarks (e.g. for NERDTree)
 lsbashmarks () {
+    # lsbashmarks() -- list Bashmarks (e.g. for NERDTree)
     export | grep 'DIR_' | pyline "line[15:].replace('\"','').split('=',1)"
 }
 
-# ~/.dotfiles/bin/nerdtree_to_bashmarks.py
+    # see also: ${__DOTFILES}/scripts/nerdtree_to_bashmarks.py
 
 
 

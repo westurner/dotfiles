@@ -3,29 +3,33 @@
 # usage: bash -c 'source bashrc.commands.sh; funcname <args>'
 
 chown-me () {
+    # chown-me          -- chown -Rv user
     (set -x; \
     chown -Rv $(id -un) $@ )
 }
 
 chown-me-mine () {
+    # chown-me-mine     -- chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
     chown -Rv $(id -un):$(id -un) $@ ; \
     chmod -Rv go-rwx $@ )
 }
 
 chown-sme () {
+    # chown-sme         -- sudo chown -Rv user
     (set -x; \
     sudo chown -Rv $(id -un) $@ )
 }
 
 chown-sme-mine () {
+    # chown-sme-mine    -- sudo chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
     sudo chown -Rv $(id -un):$(id -un) $@ ; \
     sudo chmod -Rv go-rwx $@ )
 }
 
 chmod-unumask () {
-    #  chmod-unumask()  -- recursively add other+r (files) and other+rx (dirs)
+    # chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
     path=$1
     sudo find "${path}" -type f -exec chmod -v o+r {} \;
     sudo find "${path}" -type d -exec chmod -v o+rx {} \;
@@ -33,7 +37,7 @@ chmod-unumask () {
 
 
 new-sh () {
-    #  new-sh()         -- create and open a new shell script at $1
+    # new-sh()          -- create and open a new shell script at $1
     file=$1
     if [ -e $1 ]; then
         echo "$1 exists"
@@ -47,10 +51,9 @@ new-sh () {
 }
 
 diff-dirs () {
-    #  diff-dirs()      -- list differences between directories
+    # diff-dirs()       -- list differences between directories
     F1=$1
     F2=$2
-
     #FIND="find . -printf '%T@\t%s\t%u\t%Y\t%p\n'"
     diff -Naur \
         <(cd $F1; find . | sort ) \
@@ -58,14 +61,14 @@ diff-dirs () {
 }
 
 diff-stdin () {
-    #  diff-stdin()     -- diff the output of two commands
+    # diff-stdin()      -- diff the output of two commands
     DIFFBIN='diff'
     $DIFFBIN -u <($1) <($2)
 }
 
 wopen () {
-    #  wopen()  -- open path/URI/URL $1 in a new browser tab
-    #              see: scripts/x-www-browser
+    # wopen()           -- open path/URI/URL $1 in a new browser tab
+    #                      see: scripts/x-www-browser
     if [ -n "${__IS_MAC}" ]; then
         open $@
     elif [ -n "${__IS_LINUX}" ]; then
@@ -76,13 +79,13 @@ wopen () {
 }
 
 find-largefiles () {
-    #  find-largefiles  -- find files larger than size (default: +10M)
+    # find-largefiles   -- find files larger than size (default: +10M)
     SIZE=${1:-"+10M"}
     find . -xdev -type f -size "${SIZE}" -exec ls -alh {} \;
 }
 
 find-pdf () {
-    #  find-pdf         -- find pdfs and print info with pdfinfo
+    # find-pdf          -- find pdfs and print info with pdfinfo
     SPATH='.'
     files=$(find "$SPATH" -type f -iname '*.pdf' -printf "%T+||%p\n" | sort -n)
     for f in $files; do
@@ -95,24 +98,21 @@ find-pdf () {
 }
 
 find-lately () {
-    #   find-lately()   -- list and sort files in paths $@ by mtime
+    # find-lately()     -- list and sort files in paths $@ by mtime
     set -x
     paths=${@:-"/"}
     lately="lately.$(date +'%Y%m%d%H%M%S')"
-
-    #find $paths -printf "%T@\t%s\t%u\t%Y\t%p\n" > ${lately}
     find $paths -exec \
         stat -f '%Sc%t%N%t%z%t%Su%t%Sg%t%Sp%t%T' -t '%F %T%z' {} \; \
         > ${lately} 2> ${lately}.errors
-    # time_epoch \t size \t user \t type \t path
     sort ${lately} > ${lately}.sorted
     set +x
 }
 
 find-setuid () {
-    #  find-setuid()    -- find all setuid and setgid files
-    #                       stderr > find-setuid.errors
-    #                       stdout > find-setuid.files
+    # find-setuid()     -- find all setuid and setgid files
+    #                      stderr > find-setuid.errors
+    #                      stdout > find-setuid.files
     sudo \
         find /  -type f \( -perm -4000 -o -perm -2000 \) -exec ls -ld '{}' \; \
         2> find-setuid.errors \
@@ -120,7 +120,7 @@ find-setuid () {
 }
 
 find-startup () {
-    #  find-startup()   -- find common startup files in common locations
+    # find-startup()    -- find common startup files in common locations
     cmd=${@:-"ls"}
     paths='/etc/rc?.d /etc/init.d /etc/init /etc/xdg/autostart /etc/dbus-1'
     paths="$paths ~/.config/autostart /usr/share/gnome/autostart"
@@ -132,7 +132,7 @@ find-startup () {
 }
 
 find-ssl() {
-    #  find-ssl()       -- find .pem and .db files and print their metadata
+    # find-ssl()        -- find .pem and .db files and print their metadata
     #apt-get install libnss3-tools
     _runcmd(){
         cmd="${1}"
@@ -155,22 +155,21 @@ find-ssl() {
 }
 
 find-dpkgfile () {
-    #  find-dpkgfile()  -- search dpkgs with apt-file
+    # find-dpkgfile()   -- search dpkgs with apt-file
     apt-file search $@
 }
 
 find-dpkgfiles () {
-    #  find-dpkgfiles() -- sort dpkg /var/lib/dpkg/info/<name>.list
+    # find-dpkgfiles()  -- sort dpkg /var/lib/dpkg/info/<name>.list
     cat /var/lib/dpkg/info/${1}.list | sort
 }
 
 deb-chksums () {
-    # checks filesystem against dpkg's md5sums 
-    #
-    # Author: Filippo Giunchedi <filippo@esaurito.net>
-    # Version: 0.1
-    #
-    # this file is public domain 
+    # deb-chksums()     -- check dpkg md5 checksums with md5sums
+    #checks filesystem against dpkg's md5sums 
+    #Author: Filippo Giunchedi <filippo@esaurito.net>
+    #Version: 0.1
+    #this file is public domain 
 
     exclude="usr/share/locale/"
     include="bin/"
@@ -196,7 +195,7 @@ deb-chksums () {
 }
 
 deb-mkrepo () {
-    #  deb-mkrepo   -- create dpkg Packages.gz and Sources.gz from dir ${1}
+    # deb-mkrepo        -- create dpkg Packages.gz and Sources.gz from dir ${1}
     REPODIR=${1:-"/var/www/nginx-default/"}
     cd $REPODIR
     dpkg-scanpackages . /dev/null | gzip -9c > $REPODIR/Packages.gz
@@ -204,7 +203,7 @@ deb-mkrepo () {
 }
 
 mnt-chroot-bind () {
-    #  mnt-chroot-bind()    -- bind mount linux chroot directories
+    # mnt-chroot-bind() -- bind mount linux chroot directories
     DEST=$1
     sudo mount proc -t proc ${DEST}/proc
     sudo mount -o bind /dev ${DEST}/dev
@@ -212,14 +211,14 @@ mnt-chroot-bind () {
     sudo mount -o bind,ro /boot {DEST}/boot
 }
 mnt-cifs () {
-    #  mnt-cifs()           -- mount a CIFS mount
+    # mnt-cifs()        -- mount a CIFS mount
     URI="$1" # //host/share
     MNTPT="$2"
     OPTIONS="-o user=$3,password=$4"
     mount -t cifs $OPTIONS $URI $MNTPT
 }
 mnt-davfs () {
-    #  mnt-davfs()          -- mount a WebDAV mount
+    # mnt-davfs()       -- mount a WebDAV mount
     URL="$1"
     MNTPT="$2"
     OPTIONS="-o rw,user,noauto"
@@ -227,7 +226,7 @@ mnt-davfs () {
 }
 
 lsof-sh () {
-    #  lsof-sh()            -- something like lsof
+    # lsof-sh()         -- something like lsof
     processes=$(find /proc -regextype egrep -maxdepth 1 -type d -readable -regex '.*[[:digit:]]+')
     for p in $processes; do
         cmdline=$(cat $p/cmdline)
@@ -243,7 +242,7 @@ lsof-sh () {
 
 
 lsof-net () {
-    #  lsof-net()           -- lsof the network things
+    # lsof-net()        -- lsof the network things
     ARGS=${@:-''}
     for pid in `lsof -n -t -U -i4 2>/dev/null`; do
         echo "-----------";
@@ -254,7 +253,7 @@ lsof-net () {
 
 
 net-stat () {
-    #  net-stat()           -- print networking information
+    # net-stat()        -- print networking information
     echo "# net_stat:"  `date`
     echo "#####################################################"
     set -x
@@ -268,9 +267,8 @@ net-stat () {
 }
 
 
-
 ssh-prx () {
-    #  ssh-prx()            -- SSH SOCKS
+    # ssh-prx()         -- SSH SOCKS
     RUSERHOST=$1
     RPORT=$2
 
@@ -283,22 +281,23 @@ ssh-prx () {
 }
 
 strace- () {
-    #  strace-()            -- strace with helpful options
+    # strace-()         -- strace with helpful options
     strace -ttt -f -F $@ 2>&1
 }
+
 strace-f () {
-    #  strace-f()           -- strace -e trace=file + helpful options
+    # strace-f()        -- strace -e trace=file + helpful options
     strace_ -e trace=file $@
 }
 
 strace-f-noeno () {
-    #  strace-f-noeno       -- strace -e trace=file | grep -v ENOENT
+    # strace-f-noeno    -- strace -e trace=file | grep -v ENOENT
     strace_ -e trace=file $@ 2>&1 \
         | grep -v '-1 ENOENT (No such file or directory)$' 
 }
 
 hgst() {
-    ## hgst()   -- hg diff --stat, hg status, hg diff
+    # hgst()            -- hg diff --stat, hg status, hg diff
     repo=${1:-"$(pwd)"}
     shift
 

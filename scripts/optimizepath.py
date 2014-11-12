@@ -12,7 +12,7 @@ import re
 import subprocess
 from collections import OrderedDict, Counter
 
-import distutils
+import distutils.spawn
 
 log = logging.getLogger()
 

@@ -1,9 +1,9 @@
 
-## bashrc.TERM.sh       -- set TERM [man terminfo]
+### bashrc.TERM.sh
 
 configure_TERM() {
-    ## configure_TERM   -- configure the $TERM variable
-    # configure_term [#term] -- screen, xterm, 
+    # configure_TERM            -- configure the $TERM variable (man terminfo)
+    #   $1: (optional; autodetects if -z)
     term=$1
     if [ -n "${TERM}" ]; then
         __term=${TERM}
@@ -12,15 +12,15 @@ configure_TERM() {
         export TERM="${term}"
     else
         if [ -n "${TMUX}" ] ; then
-            # tmux
+            #tmux
             export TERM="screen"
             configure_TERM_CLICOLOR
         elif [ -n "$(echo $TERMCAP | grep -q screen)" ]; then
-            # screen
+            #screen
             export TERM="screen"
             configure_TERM_CLICOLOR
         elif [ -n "${ZSH_TMUX_TERM}" ]; then
-            # zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
+            #zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
             export TERM="${ZSH_TMUX_TERM}"
             configure_TERM_CLICOLOR
         fi
@@ -32,12 +32,13 @@ configure_TERM() {
 }
 
 configure_TERM_CLICOLOR() {
-    ## configure_TERM_CLICOLOR  -- configure $CLICOLOR and $CLICOLOR_256
-    #  CLICOLOR=1   # ls colors
+    # configure_TERM_CLICOLOR   -- configure $CLICOLOR and $CLICOLOR_256
+    #   CLICOLOR=1
     export CLICOLOR=1
 
-    #  CLICOLOR_256=1
-    # export CLICOLOR_256=$CLICOLOR
+    #todo
+    #CLICOLOR_256=1
+    #export CLICOLOR_256=$CLICOLOR
 
     if [ -n "${CLICOLOR_256}" ]; then
         (echo $TERM | grep -v -q 256color) && \
@@ -45,5 +46,5 @@ configure_TERM_CLICOLOR() {
     fi
 }
 
-### Configure term when sourcing bashrc.TERM.sh
+    # configure_TERM when sourced
 configure_TERM

@@ -1,9 +1,12 @@
 
+### bashrc.completion.sh
 
-_configure_completion() {
-    ## configure bash completion (`complete -p` to list completions)
+_configure_bash_completion() {
+    # _configure_bash_completion()  -- configure bash completion
+    #                               note: `complete -p` lists completions
+
     if [ -n "$__IS_MAC" ]; then
-        # configure brew (brew install bash-completion)
+        #configure brew (brew install bash-completion)
         BREW=$(which brew 2>/dev/null || false)
         if [ -n "${BREW}" ]; then
             brew_prefix=$(brew --prefix)
@@ -11,6 +14,10 @@ _configure_completion() {
                 source ${brew_prefix}/etc/bash_completion
             fi
         fi
+    else
+        if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+            source /etc/bash_completion
+        fi
     fi
 }
-_configure_completion
+_configure_bash_completion

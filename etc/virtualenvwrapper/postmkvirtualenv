@@ -1,3 +1,5 @@
 #!/bin/bash
 # This hook is run after a new virtualenv is activated.
 
+declare -f 'dotfiles_postmkvirtualenv' 2>&1 > /dev/null \
+    && dotfiles_postmkvirtualenv
