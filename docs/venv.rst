@@ -21,7 +21,8 @@ There are two parts to "``venv``":
 * `dotfiles.venv.ipython_config.py`_
 * `10-bashrc.venv.sh`_  
   
-`dotfiles.venv.ipython_config.py`_ generates shell and IPython configuration
+`dotfiles.venv.ipython_config.py`_ (:py:mod:`dotviles.venv.ipython_config`)
+generates shell and IPython configuration
 with aliases that, for shells, are expanded to functions
 if they contain a ``%l``
 (which IPython ``%alias`` replaces with any passed arguments).
@@ -34,7 +35,7 @@ functions for use with :ref:`virtualenvwrapper`.
 
 
 .. _10-bashrc.venv.sh: https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
-.. _dotfiles.venv.ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython/ipython_config.py
+.. _dotfiles.venv.ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
 
 
 Quickstart
