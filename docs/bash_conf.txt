@@ -293,12 +293,12 @@
 ### bashrc.vimpagers.sh
     # _configure_lesspipe() -- (less <file.zip> | lessv)
     # vimpager() -- call vimpager
-    # lessv()    -- less with less.vim and vim (g:tinyvim=1)
-    # lessg()  -- less with less.vim and gvim / mvim
-    # lesse()  -- less with current venv's vim server
-    # manv()   -- view manpages in vim
-    # mang()   -- view manpages in gvim / mvim
-    # mane()   -- open manpage with venv's vim server
+    # lessv()   -- less with less.vim and vim (g:tinyvim=1)
+    # lessg()   -- less with less.vim and gvim / mvim
+    # lesse()   -- less with current venv's vim server
+    # manv()    -- view manpages in vim
+    # mang()    -- view manpages in gvim / mvim
+    # mane()    -- open manpage with venv's vim server
    
    
 #### etc/bash/30-bashrc.usrlog.sh
@@ -344,6 +344,66 @@
 #### etc/bash/40-bashrc.aliases.sh
 ### bashrc.aliases.sh
     #  _load_aliases()  -- load aliases
+    # chmodr   -- 'chmod -R'
+    # chownr   -- 'chown -R'
+    # grep     -- 'grep --color=auto'
+    # egrep    -- 'egrep --color=auto'
+    # fgrep    -- 'fgrep --color=auto'
+    # grindp   -- 'grind --sys.path'
+    # grinp    -- 'grin --sys-path'
+    # fumnt    -- 'fusermount -u'
+    # ga       -- 'git add'
+    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    # gs       -- 'git status'
+    # gd       -- 'git diff'
+    # gds      -- 'git diff -p --stat'
+    # gc       -- 'git commit'
+    # gco      -- 'git checkout'
+    # gdc      -- 'git diff --cached'
+    # gsl      -- 'git stash list'
+    # gsn      -- 'git stash save'
+    # gss      -- 'git stash save'
+    # gitr     -- 'git remote -v'
+    # hgl      -- 'hg glog --pager=yes'
+    # hgs      -- 'hg status'
+    # hgd      -- 'hg diff'
+    # hgds     -- 'hg diff --stat'
+    # hgdl     -- 'hg diff --color=always | less -R'
+    # hgc      -- 'hg commit'
+    # hgu      -- 'hg update'
+    # hgq      -- 'hg qseries'
+    # hgqd     -- 'hg qdiff'
+    # hgqs     -- 'hg qseries'
+    # hgqn     -- 'hg qnew'
+    # hgr      -- 'hg paths'
+        # la       -- 'ls -A -G'
+        # ll       -- 'ls -alF -G'
+        # ls       -- 'ls -G'
+        # lt       -- 'ls -altr -G'
+        # la       -- 'ls -A --color=auto'
+        # ll       -- 'ls -alF --color=auto'
+        # ls       -- 'ls --color=auto'
+        # lt       -- 'ls -altr --color=auto'
+        # psx      -- 'ps uxaw'
+        # psf      -- 'ps uxawf'
+        # psxs     -- 'ps uxawf --sort=tty,ppid,pid'
+        # psxh     -- 'ps uxawf --sort=tty,ppid,pid | head'
+        # psh      -- 'ps uxaw | head'
+        # psc      -- 'ps uxaw --sort=-pcpu'
+        # psch     -- 'ps uxaw --sort=-pcpu | head'
+        # psm      -- 'ps uxaw --sort=-pmem'
+        # psmh     -- 'ps uxaw --sort=-pmem | head'
+        # psx      -- 'ps uxaw'
+        # psf      -- 'ps uxaw' # no -f
+        # psh      -- 'ps uxaw | head'
+        # psc      -- 'ps uxaw -c'
+        # psch     -- 'ps uxaw -c | head'
+        # psm      -- 'ps uxaw -m'
+        # psmh     -- 'ps uxaw -m | head'
+    # shtop    -- 'sudo htop'
+    # t        -- 'tail'
+    # tf       -- 'tail -f'
+    # xclipc   -- 'xclip -selection c'
    
    
 #### etc/bash/42-bashrc.commands.sh
