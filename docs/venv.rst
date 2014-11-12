@@ -21,7 +21,7 @@ There are two parts to "``venv``":
 * `dotfiles.venv.ipython_config.py`_
 * `10-bashrc.venv.sh`_  
   
-`dotfiles.venv.ipython_config.py`_ (:py:mod:`dotviles.venv.ipython_config`)
+`dotfiles.venv.ipython_config.py`_ (:py:mod:`dotfiles.venv.ipython_config`)
 generates shell and IPython configuration
 with aliases that, for shells, are expanded to functions
 if they contain a ``%l``
