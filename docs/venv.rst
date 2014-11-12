@@ -107,7 +107,8 @@ Shell Configuration
 ~~~~~~~~~~~~~~~~~~~~
 ``venv dotfiles --bash``:
 
-.. command-output:: python ../src/dotfiles/venv/ipython_config.py dotfiles --bash
+.. command-output:: python ../src/dotfiles/venv/ipython_config.py dotfiles --bash \
+   | sed "s,${HOME},/home/user,g"
    :shell:
 
 
@@ -115,6 +116,7 @@ JSON Configuration
 ~~~~~~~~~~~~~~~~~~~
 ``venv dotfiles --print``:
 
-.. command-output:: python ../src/dotfiles/venv/ipython_config.py dotfiles --print
+.. command-output:: python ../src/dotfiles/venv/ipython_config.py dotfiles --print \
+   | sed "s,${HOME},/home/user,g"
    :shell:
 
