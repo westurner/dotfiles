@@ -10,7 +10,7 @@ Features
 ----------
 
 * Configures :ref:`Python` ``site`` for a given :ref:`virtualenv`
-* Configures :ref:`Python` ``sys.path``: :ref:`IPython` extension paths
+* Configures :ref:`Python` ``sys.path`` with :ref:`IPython` extension paths
 * Configures :ref:`IPython` command aliases (``%alias``, or just ``alias``)
 * Generates :ref:`Bash` environments from :ref:`virtualenv` paths
 * Configures :ref:`Bash` variables starting with ``$_`` (``$_APP``, ``$_WRD``)
