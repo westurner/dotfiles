@@ -235,66 +235,66 @@ but the variables they reference are set by
 <h3>Shell Configuration<a class="headerlink" href="#shell-configuration" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">--bash</span></code>:</p>
 <div class="highlight-text"><div class="highlight"><pre>$ python ../src/dotfiles/venv/ipython_config.py dotfiles --bash \
-| sed &quot;s,${HOME},/home/user,g&quot;
-export VIRTUAL_ENV=&#39;/home/user/wrk/.ve/dotfiles&#39;
+| sed &quot;s,${HOME},~,g&quot;
+export VIRTUAL_ENV=&#39;~/wrk/.ve/dotfiles&#39;
 export VIRTUAL_ENV_NAME=&#39;dotfiles&#39;
-export _BIN=&#39;/home/user/wrk/.ve/dotfiles/bin&#39;
-export _ETC=&#39;/home/user/wrk/.ve/dotfiles/etc&#39;
-export _ETCOPT=&#39;/home/user/wrk/.ve/dotfiles/etc/opt&#39;
-export _HOME=&#39;/home/user/wrk/.ve/dotfiles/home&#39;
-export _ROOT=&#39;/home/user/wrk/.ve/dotfiles/root&#39;
-export _LIB=&#39;/home/user/wrk/.ve/dotfiles/lib&#39;
-export _PYLIB=&#39;/home/user/wrk/.ve/dotfiles/lib/python2.7&#39;
-export _PYSITE=&#39;/home/user/wrk/.ve/dotfiles/lib/python2.7/site-packages&#39;
-export _MNT=&#39;/home/user/wrk/.ve/dotfiles/mnt&#39;
-export _MEDIA=&#39;/home/user/wrk/.ve/dotfiles/media&#39;
-export _OPT=&#39;/home/user/wrk/.ve/dotfiles/opt&#39;
-export _SBIN=&#39;/home/user/wrk/.ve/dotfiles/sbin&#39;
-export _SRC=&#39;/home/user/wrk/.ve/dotfiles/src&#39;
-export _SRV=&#39;/home/user/wrk/.ve/dotfiles/srv&#39;
-export _TMP=&#39;/home/user/wrk/.ve/dotfiles/tmp&#39;
-export _USR=&#39;/home/user/wrk/.ve/dotfiles/usr&#39;
-export _USRBIN=&#39;/home/user/wrk/.ve/dotfiles/usr/bin&#39;
-export _USRINCLUDE=&#39;/home/user/wrk/.ve/dotfiles/usr/include&#39;
-export _USRLIB=&#39;/home/user/wrk/.ve/dotfiles/usr/lib&#39;
-export _USRLOCAL=&#39;/home/user/wrk/.ve/dotfiles/usr/local&#39;
-export _USRSBIN=&#39;/home/user/wrk/.ve/dotfiles/usr/sbin&#39;
-export _USRSHARE=&#39;/home/user/wrk/.ve/dotfiles/usr/share&#39;
-export _USRSRC=&#39;/home/user/wrk/.ve/dotfiles/usr/src&#39;
-export _VAR=&#39;/home/user/wrk/.ve/dotfiles/var&#39;
-export _VARCACHE=&#39;/home/user/wrk/.ve/dotfiles/var/cache&#39;
-export _VARLIB=&#39;/home/user/wrk/.ve/dotfiles/var/lib&#39;
-export _VARLOCK=&#39;/home/user/wrk/.ve/dotfiles/var/lock&#39;
-export _LOG=&#39;/home/user/wrk/.ve/dotfiles/var/log&#39;
-export _VARMAIL=&#39;/home/user/wrk/.ve/dotfiles/var/mail&#39;
-export _VAROPT=&#39;/home/user/wrk/.ve/dotfiles/var/opt&#39;
-export _VARRUN=&#39;/home/user/wrk/.ve/dotfiles/var/run&#39;
-export _VARSPOOL=&#39;/home/user/wrk/.ve/dotfiles/var/spool&#39;
-export _VARTMP=&#39;/home/user/wrk/.ve/dotfiles/var/tmp&#39;
-export _WWW=&#39;/home/user/wrk/.ve/dotfiles/var/www&#39;
-export _USRLOG=&#39;/home/user/wrk/.ve/dotfiles/.usrlog&#39;
-export HISTFILE=&#39;/home/user/wrk/.ve/dotfiles/.bash_history&#39;
+export _BIN=&#39;~/wrk/.ve/dotfiles/bin&#39;
+export _ETC=&#39;~/wrk/.ve/dotfiles/etc&#39;
+export _ETCOPT=&#39;~/wrk/.ve/dotfiles/etc/opt&#39;
+export _HOME=&#39;~/wrk/.ve/dotfiles/home&#39;
+export _ROOT=&#39;~/wrk/.ve/dotfiles/root&#39;
+export _LIB=&#39;~/wrk/.ve/dotfiles/lib&#39;
+export _PYLIB=&#39;~/wrk/.ve/dotfiles/lib/python2.7&#39;
+export _PYSITE=&#39;~/wrk/.ve/dotfiles/lib/python2.7/site-packages&#39;
+export _MNT=&#39;~/wrk/.ve/dotfiles/mnt&#39;
+export _MEDIA=&#39;~/wrk/.ve/dotfiles/media&#39;
+export _OPT=&#39;~/wrk/.ve/dotfiles/opt&#39;
+export _SBIN=&#39;~/wrk/.ve/dotfiles/sbin&#39;
+export _SRC=&#39;~/wrk/.ve/dotfiles/src&#39;
+export _SRV=&#39;~/wrk/.ve/dotfiles/srv&#39;
+export _TMP=&#39;~/wrk/.ve/dotfiles/tmp&#39;
+export _USR=&#39;~/wrk/.ve/dotfiles/usr&#39;
+export _USRBIN=&#39;~/wrk/.ve/dotfiles/usr/bin&#39;
+export _USRINCLUDE=&#39;~/wrk/.ve/dotfiles/usr/include&#39;
+export _USRLIB=&#39;~/wrk/.ve/dotfiles/usr/lib&#39;
+export _USRLOCAL=&#39;~/wrk/.ve/dotfiles/usr/local&#39;
+export _USRSBIN=&#39;~/wrk/.ve/dotfiles/usr/sbin&#39;
+export _USRSHARE=&#39;~/wrk/.ve/dotfiles/usr/share&#39;
+export _USRSRC=&#39;~/wrk/.ve/dotfiles/usr/src&#39;
+export _VAR=&#39;~/wrk/.ve/dotfiles/var&#39;
+export _VARCACHE=&#39;~/wrk/.ve/dotfiles/var/cache&#39;
+export _VARLIB=&#39;~/wrk/.ve/dotfiles/var/lib&#39;
+export _VARLOCK=&#39;~/wrk/.ve/dotfiles/var/lock&#39;
+export _LOG=&#39;~/wrk/.ve/dotfiles/var/log&#39;
+export _VARMAIL=&#39;~/wrk/.ve/dotfiles/var/mail&#39;
+export _VAROPT=&#39;~/wrk/.ve/dotfiles/var/opt&#39;
+export _VARRUN=&#39;~/wrk/.ve/dotfiles/var/run&#39;
+export _VARSPOOL=&#39;~/wrk/.ve/dotfiles/var/spool&#39;
+export _VARTMP=&#39;~/wrk/.ve/dotfiles/var/tmp&#39;
+export _WWW=&#39;~/wrk/.ve/dotfiles/var/www&#39;
+export _USRLOG=&#39;~/wrk/.ve/dotfiles/.usrlog&#39;
+export HISTFILE=&#39;~/wrk/.ve/dotfiles/.bash_history&#39;
 export HISTSIZE=1000000
 export HISTFILESIZE=1000000
 export PAGER=&#39;/usr/bin/less -r&#39;
 export _APP=&#39;dotfiles&#39;
-export _WRD=&#39;/home/user/wrk/.ve/dotfiles/src/dotfiles&#39;
+export _WRD=&#39;~/wrk/.ve/dotfiles/src/dotfiles&#39;
 export VIMBIN=&#39;/usr/bin/vim&#39;
 export GVIMBIN=&#39;/usr/local/bin/gvim&#39;
 export MVIMBIN=&#39;/usr/local/bin/mvim&#39;
 export GUIVIM=&#39;/usr/local/bin/mvim&#39;
 export _EDIT_=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&#39;
-export _IPSESSKEY=&#39;/home/user/wrk/.ve/dotfiles/src/.sessionkey&#39;
-export _NOTEBOOKS=&#39;/home/user/wrk/.ve/dotfiles/src/notebooks&#39;
-export _IPQTLOG=&#39;/home/user/wrk/.ve/dotfiles/.ipqt.log&#39;
-export _WRD_SETUPY=&#39;/home/user/wrk/.ve/dotfiles/src/dotfiles/setup.py&#39;
-export _TEST_=&#39;(cd &quot;/home/user/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; python &quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot; test)&#39;
-export _CFG=&#39;/home/user/wrk/.ve/dotfiles/etc/development.ini&#39;
-export _EDITCFG_=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent /home/user/wrk/.ve/dotfiles/etc/development.ini&#39;
-export _SHELL_=&#39;(cd &quot;/home/user/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; /home/user/wrk/.ve/dotfiles/bin/pshell &quot;/home/user/wrk/.ve/dotfiles/etc/development.ini&quot;)&#39;
-export _SERVE_=&#39;(cd &quot;/home/user/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; /home/user/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart &quot;/home/user/wrk/.ve/dotfiles/etc/development.ini&quot;)&#39;
-export _SVCFG=&#39;/home/user/wrk/.ve/dotfiles/etc/supervisord.conf&#39;
-export _SVCFG_=&#39; -c &quot;/home/user/wrk/.ve/dotfiles/etc/supervisord.conf&quot;&#39;
+export _IPSESSKEY=&#39;~/wrk/.ve/dotfiles/src/.sessionkey&#39;
+export _NOTEBOOKS=&#39;~/wrk/.ve/dotfiles/src/notebooks&#39;
+export _IPQTLOG=&#39;~/wrk/.ve/dotfiles/.ipqt.log&#39;
+export _WRD_SETUPY=&#39;~/wrk/.ve/dotfiles/src/dotfiles/setup.py&#39;
+export _TEST_=&#39;(cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; python &quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot; test)&#39;
+export _CFG=&#39;~/wrk/.ve/dotfiles/etc/development.ini&#39;
+export _EDITCFG_=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent ~/wrk/.ve/dotfiles/etc/development.ini&#39;
+export _SHELL_=&#39;(cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; ~/wrk/.ve/dotfiles/bin/pshell &quot;~/wrk/.ve/dotfiles/etc/development.ini&quot;)&#39;
+export _SERVE_=&#39;(cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; ~/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart &quot;~/wrk/.ve/dotfiles/etc/development.ini&quot;)&#39;
+export _SVCFG=&#39;~/wrk/.ve/dotfiles/etc/supervisord.conf&#39;
+export _SVCFG_=&#39; -c &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot;&#39;
 eval &#39;cdb () {
     cd &quot;${_BIN}&quot;/$@
 }&#39;;
@@ -407,112 +407,112 @@ alias svt=&#39;sv tail -f&#39;
 <h3>JSON Configuration<a class="headerlink" href="#json-configuration" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">--print</span></code>:</p>
 <div class="highlight-text"><div class="highlight"><pre>$ python ../src/dotfiles/venv/ipython_config.py dotfiles --print \
-| sed &quot;s,${HOME},/home/user,g&quot;
+| sed &quot;s,${HOME},~,g&quot;
 {
   &quot;env&quot;: {
-    &quot;VIRTUAL_ENV&quot;: &quot;/home/user/wrk/.ve/dotfiles&quot;, 
+    &quot;VIRTUAL_ENV&quot;: &quot;~/wrk/.ve/dotfiles&quot;, 
     &quot;VIRTUAL_ENV_NAME&quot;: &quot;dotfiles&quot;, 
-    &quot;_BIN&quot;: &quot;/home/user/wrk/.ve/dotfiles/bin&quot;, 
-    &quot;_ETC&quot;: &quot;/home/user/wrk/.ve/dotfiles/etc&quot;, 
-    &quot;_ETCOPT&quot;: &quot;/home/user/wrk/.ve/dotfiles/etc/opt&quot;, 
-    &quot;_HOME&quot;: &quot;/home/user/wrk/.ve/dotfiles/home&quot;, 
-    &quot;_ROOT&quot;: &quot;/home/user/wrk/.ve/dotfiles/root&quot;, 
-    &quot;_LIB&quot;: &quot;/home/user/wrk/.ve/dotfiles/lib&quot;, 
-    &quot;_PYLIB&quot;: &quot;/home/user/wrk/.ve/dotfiles/lib/python2.7&quot;, 
-    &quot;_PYSITE&quot;: &quot;/home/user/wrk/.ve/dotfiles/lib/python2.7/site-packages&quot;, 
-    &quot;_MNT&quot;: &quot;/home/user/wrk/.ve/dotfiles/mnt&quot;, 
-    &quot;_MEDIA&quot;: &quot;/home/user/wrk/.ve/dotfiles/media&quot;, 
-    &quot;_OPT&quot;: &quot;/home/user/wrk/.ve/dotfiles/opt&quot;, 
-    &quot;_SBIN&quot;: &quot;/home/user/wrk/.ve/dotfiles/sbin&quot;, 
-    &quot;_SRC&quot;: &quot;/home/user/wrk/.ve/dotfiles/src&quot;, 
-    &quot;_SRV&quot;: &quot;/home/user/wrk/.ve/dotfiles/srv&quot;, 
-    &quot;_TMP&quot;: &quot;/home/user/wrk/.ve/dotfiles/tmp&quot;, 
-    &quot;_USR&quot;: &quot;/home/user/wrk/.ve/dotfiles/usr&quot;, 
-    &quot;_USRBIN&quot;: &quot;/home/user/wrk/.ve/dotfiles/usr/bin&quot;, 
-    &quot;_USRINCLUDE&quot;: &quot;/home/user/wrk/.ve/dotfiles/usr/include&quot;, 
-    &quot;_USRLIB&quot;: &quot;/home/user/wrk/.ve/dotfiles/usr/lib&quot;, 
-    &quot;_USRLOCAL&quot;: &quot;/home/user/wrk/.ve/dotfiles/usr/local&quot;, 
-    &quot;_USRSBIN&quot;: &quot;/home/user/wrk/.ve/dotfiles/usr/sbin&quot;, 
-    &quot;_USRSHARE&quot;: &quot;/home/user/wrk/.ve/dotfiles/usr/share&quot;, 
-    &quot;_USRSRC&quot;: &quot;/home/user/wrk/.ve/dotfiles/usr/src&quot;, 
-    &quot;_VAR&quot;: &quot;/home/user/wrk/.ve/dotfiles/var&quot;, 
-    &quot;_VARCACHE&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/cache&quot;, 
-    &quot;_VARLIB&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/lib&quot;, 
-    &quot;_VARLOCK&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/lock&quot;, 
-    &quot;_LOG&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/log&quot;, 
-    &quot;_VARMAIL&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/mail&quot;, 
-    &quot;_VAROPT&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/opt&quot;, 
-    &quot;_VARRUN&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/run&quot;, 
-    &quot;_VARSPOOL&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/spool&quot;, 
-    &quot;_VARTMP&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/tmp&quot;, 
-    &quot;_WWW&quot;: &quot;/home/user/wrk/.ve/dotfiles/var/www&quot;, 
-    &quot;_USRLOG&quot;: &quot;/home/user/wrk/.ve/dotfiles/.usrlog&quot;, 
-    &quot;HISTFILE&quot;: &quot;/home/user/wrk/.ve/dotfiles/.bash_history&quot;, 
+    &quot;_BIN&quot;: &quot;~/wrk/.ve/dotfiles/bin&quot;, 
+    &quot;_ETC&quot;: &quot;~/wrk/.ve/dotfiles/etc&quot;, 
+    &quot;_ETCOPT&quot;: &quot;~/wrk/.ve/dotfiles/etc/opt&quot;, 
+    &quot;_HOME&quot;: &quot;~/wrk/.ve/dotfiles/home&quot;, 
+    &quot;_ROOT&quot;: &quot;~/wrk/.ve/dotfiles/root&quot;, 
+    &quot;_LIB&quot;: &quot;~/wrk/.ve/dotfiles/lib&quot;, 
+    &quot;_PYLIB&quot;: &quot;~/wrk/.ve/dotfiles/lib/python2.7&quot;, 
+    &quot;_PYSITE&quot;: &quot;~/wrk/.ve/dotfiles/lib/python2.7/site-packages&quot;, 
+    &quot;_MNT&quot;: &quot;~/wrk/.ve/dotfiles/mnt&quot;, 
+    &quot;_MEDIA&quot;: &quot;~/wrk/.ve/dotfiles/media&quot;, 
+    &quot;_OPT&quot;: &quot;~/wrk/.ve/dotfiles/opt&quot;, 
+    &quot;_SBIN&quot;: &quot;~/wrk/.ve/dotfiles/sbin&quot;, 
+    &quot;_SRC&quot;: &quot;~/wrk/.ve/dotfiles/src&quot;, 
+    &quot;_SRV&quot;: &quot;~/wrk/.ve/dotfiles/srv&quot;, 
+    &quot;_TMP&quot;: &quot;~/wrk/.ve/dotfiles/tmp&quot;, 
+    &quot;_USR&quot;: &quot;~/wrk/.ve/dotfiles/usr&quot;, 
+    &quot;_USRBIN&quot;: &quot;~/wrk/.ve/dotfiles/usr/bin&quot;, 
+    &quot;_USRINCLUDE&quot;: &quot;~/wrk/.ve/dotfiles/usr/include&quot;, 
+    &quot;_USRLIB&quot;: &quot;~/wrk/.ve/dotfiles/usr/lib&quot;, 
+    &quot;_USRLOCAL&quot;: &quot;~/wrk/.ve/dotfiles/usr/local&quot;, 
+    &quot;_USRSBIN&quot;: &quot;~/wrk/.ve/dotfiles/usr/sbin&quot;, 
+    &quot;_USRSHARE&quot;: &quot;~/wrk/.ve/dotfiles/usr/share&quot;, 
+    &quot;_USRSRC&quot;: &quot;~/wrk/.ve/dotfiles/usr/src&quot;, 
+    &quot;_VAR&quot;: &quot;~/wrk/.ve/dotfiles/var&quot;, 
+    &quot;_VARCACHE&quot;: &quot;~/wrk/.ve/dotfiles/var/cache&quot;, 
+    &quot;_VARLIB&quot;: &quot;~/wrk/.ve/dotfiles/var/lib&quot;, 
+    &quot;_VARLOCK&quot;: &quot;~/wrk/.ve/dotfiles/var/lock&quot;, 
+    &quot;_LOG&quot;: &quot;~/wrk/.ve/dotfiles/var/log&quot;, 
+    &quot;_VARMAIL&quot;: &quot;~/wrk/.ve/dotfiles/var/mail&quot;, 
+    &quot;_VAROPT&quot;: &quot;~/wrk/.ve/dotfiles/var/opt&quot;, 
+    &quot;_VARRUN&quot;: &quot;~/wrk/.ve/dotfiles/var/run&quot;, 
+    &quot;_VARSPOOL&quot;: &quot;~/wrk/.ve/dotfiles/var/spool&quot;, 
+    &quot;_VARTMP&quot;: &quot;~/wrk/.ve/dotfiles/var/tmp&quot;, 
+    &quot;_WWW&quot;: &quot;~/wrk/.ve/dotfiles/var/www&quot;, 
+    &quot;_USRLOG&quot;: &quot;~/wrk/.ve/dotfiles/.usrlog&quot;, 
+    &quot;HISTFILE&quot;: &quot;~/wrk/.ve/dotfiles/.bash_history&quot;, 
     &quot;HISTSIZE&quot;: 1000000, 
     &quot;HISTFILESIZE&quot;: 1000000, 
     &quot;PAGER&quot;: &quot;/usr/bin/less -r&quot;, 
     &quot;_APP&quot;: &quot;dotfiles&quot;, 
-    &quot;_WRD&quot;: &quot;/home/user/wrk/.ve/dotfiles/src/dotfiles&quot;, 
+    &quot;_WRD&quot;: &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;, 
     &quot;VIMBIN&quot;: &quot;/usr/bin/vim&quot;, 
     &quot;GVIMBIN&quot;: &quot;/usr/local/bin/gvim&quot;, 
     &quot;MVIMBIN&quot;: &quot;/usr/local/bin/mvim&quot;, 
     &quot;GUIVIM&quot;: &quot;/usr/local/bin/mvim&quot;, 
     &quot;_EDIT_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-    &quot;_IPSESSKEY&quot;: &quot;/home/user/wrk/.ve/dotfiles/src/.sessionkey&quot;, 
-    &quot;_NOTEBOOKS&quot;: &quot;/home/user/wrk/.ve/dotfiles/src/notebooks&quot;, 
-    &quot;_IPQTLOG&quot;: &quot;/home/user/wrk/.ve/dotfiles/.ipqt.log&quot;, 
-    &quot;_WRD_SETUPY&quot;: &quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot;, 
-    &quot;_TEST_&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
-    &quot;_CFG&quot;: &quot;/home/user/wrk/.ve/dotfiles/etc/development.ini&quot;, 
-    &quot;_EDITCFG_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent /home/user/wrk/.ve/dotfiles/etc/development.ini&quot;, 
-    &quot;_SHELL_&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; /home/user/wrk/.ve/dotfiles/bin/pshell \&quot;/home/user/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
-    &quot;_SERVE_&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; /home/user/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart \&quot;/home/user/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
-    &quot;_SVCFG&quot;: &quot;/home/user/wrk/.ve/dotfiles/etc/supervisord.conf&quot;, 
-    &quot;_SVCFG_&quot;: &quot; -c \&quot;/home/user/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;
+    &quot;_IPSESSKEY&quot;: &quot;~/wrk/.ve/dotfiles/src/.sessionkey&quot;, 
+    &quot;_NOTEBOOKS&quot;: &quot;~/wrk/.ve/dotfiles/src/notebooks&quot;, 
+    &quot;_IPQTLOG&quot;: &quot;~/wrk/.ve/dotfiles/.ipqt.log&quot;, 
+    &quot;_WRD_SETUPY&quot;: &quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot;, 
+    &quot;_TEST_&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
+    &quot;_CFG&quot;: &quot;~/wrk/.ve/dotfiles/etc/development.ini&quot;, 
+    &quot;_EDITCFG_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent ~/wrk/.ve/dotfiles/etc/development.ini&quot;, 
+    &quot;_SHELL_&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; ~/wrk/.ve/dotfiles/bin/pshell \&quot;~/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
+    &quot;_SERVE_&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; ~/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart \&quot;~/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
+    &quot;_SVCFG&quot;: &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot;, 
+    &quot;_SVCFG_&quot;: &quot; -c \&quot;~/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;
   }, 
   &quot;aliases&quot;: {
-    &quot;cdb&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/bin\&quot;/%l&quot;, 
-    &quot;cde&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/etc\&quot;/%l&quot;, 
-    &quot;cdv&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles\&quot;/%l&quot;, 
-    &quot;cdvar&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/var\&quot;/%l&quot;, 
-    &quot;cdlog&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/var/log\&quot;/%l&quot;, 
-    &quot;cdww&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/var/www\&quot;/%l&quot;, 
-    &quot;cdl&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/lib\&quot;/%l&quot;, 
-    &quot;cdpylib&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/lib/python2.7\&quot;/%l&quot;, 
-    &quot;cdpysite&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/lib/python2.7/site-packages\&quot;/%l&quot;, 
-    &quot;cds&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/src\&quot;/%l&quot;, 
+    &quot;cdb&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/bin\&quot;/%l&quot;, 
+    &quot;cde&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/etc\&quot;/%l&quot;, 
+    &quot;cdv&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles\&quot;/%l&quot;, 
+    &quot;cdvar&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/var\&quot;/%l&quot;, 
+    &quot;cdlog&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/var/log\&quot;/%l&quot;, 
+    &quot;cdww&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/var/www\&quot;/%l&quot;, 
+    &quot;cdl&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/lib\&quot;/%l&quot;, 
+    &quot;cdpylib&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/lib/python2.7\&quot;/%l&quot;, 
+    &quot;cdpysite&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/lib/python2.7/site-packages\&quot;/%l&quot;, 
+    &quot;cds&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/src\&quot;/%l&quot;, 
     &quot;cdhelp&quot;: &quot;set | grep \&quot;^cd.*()\&quot; | cut -f1 -d\&quot; \&quot; #%l&quot;, 
     &quot;edit-&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent %l&quot;, 
     &quot;gvim-&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-    &quot;ipskey&quot;: &quot;(python -c \&quot;import os; print os.urandom(128).encode(\\\&quot;base64\\\&quot;)\&quot; &gt; \&quot;/home/user/wrk/.ve/dotfiles/src/.sessionkey\&quot; ) &amp;&amp; chmod 0600 \&quot;/home/user/wrk/.ve/dotfiles/src/.sessionkey\&quot;; # %l&quot;, 
-    &quot;ipnb&quot;: &quot;ipython notebook --secure --Session.keyfile=\&quot;/home/user/wrk/.ve/dotfiles/src/.sessionkey\&quot; --notebook-dir=\&quot;/home/user/wrk/.ve/dotfiles/src/notebooks\&quot; --deep-reload %l&quot;, 
-    &quot;ipqt&quot;: &quot;ipython qtconsole --secure --Session.keyfile=\&quot;/home/user/wrk/.ve/dotfiles/src/.sessionkey\&quot; --logappend=\&quot;/home/user/wrk/.ve/dotfiles/.ipqt.log\&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=\&quot;Monaco\&quot; --ConsoleWidget.font_size=11 %l&quot;, 
-    &quot;grinv&quot;: &quot;grin --follow %l \&quot;/home/user/wrk/.ve/dotfiles\&quot;&quot;, 
-    &quot;grindv&quot;: &quot;grind --follow %l --dirs \&quot;/home/user/wrk/.ve/dotfiles\&quot;&quot;, 
-    &quot;grins&quot;: &quot;grin --follow %l \&quot;/home/user/wrk/.ve/dotfiles/src\&quot;&quot;, 
-    &quot;grinds&quot;: &quot;grind --follow %l --dirs \&quot;/home/user/wrk/.ve/dotfiles/src\&quot;&quot;, 
-    &quot;cdw&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot;/%l&quot;, 
-    &quot;cd-&quot;: &quot;cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot;/%l&quot;, 
-    &quot;test-&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
-    &quot;testr-&quot;: &quot;reset &amp;&amp; (cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
-    &quot;nose-&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; nosetests)&quot;, 
-    &quot;grinw&quot;: &quot;grin --follow %l \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
-    &quot;grin-&quot;: &quot;grin --follow %l \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
-    &quot;grindw&quot;: &quot;grind --follow %l --dirs \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
-    &quot;grind-&quot;: &quot;grind --follow %l --dirs \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
-    &quot;hgv-&quot;: &quot;hg view -R \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
-    &quot;hgl-&quot;: &quot;hg -R \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; log&quot;, 
-    &quot;editcfg&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent /home/user/wrk/.ve/dotfiles/etc/development.ini %l&quot;, 
-    &quot;serve-&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; /home/user/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart \&quot;/home/user/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
-    &quot;shell-&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; /home/user/wrk/.ve/dotfiles/bin/pshell \&quot;/home/user/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
+    &quot;ipskey&quot;: &quot;(python -c \&quot;import os; print os.urandom(128).encode(\\\&quot;base64\\\&quot;)\&quot; &gt; \&quot;~/wrk/.ve/dotfiles/src/.sessionkey\&quot; ) &amp;&amp; chmod 0600 \&quot;~/wrk/.ve/dotfiles/src/.sessionkey\&quot;; # %l&quot;, 
+    &quot;ipnb&quot;: &quot;ipython notebook --secure --Session.keyfile=\&quot;~/wrk/.ve/dotfiles/src/.sessionkey\&quot; --notebook-dir=\&quot;~/wrk/.ve/dotfiles/src/notebooks\&quot; --deep-reload %l&quot;, 
+    &quot;ipqt&quot;: &quot;ipython qtconsole --secure --Session.keyfile=\&quot;~/wrk/.ve/dotfiles/src/.sessionkey\&quot; --logappend=\&quot;~/wrk/.ve/dotfiles/.ipqt.log\&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=\&quot;Monaco\&quot; --ConsoleWidget.font_size=11 %l&quot;, 
+    &quot;grinv&quot;: &quot;grin --follow %l \&quot;~/wrk/.ve/dotfiles\&quot;&quot;, 
+    &quot;grindv&quot;: &quot;grind --follow %l --dirs \&quot;~/wrk/.ve/dotfiles\&quot;&quot;, 
+    &quot;grins&quot;: &quot;grin --follow %l \&quot;~/wrk/.ve/dotfiles/src\&quot;&quot;, 
+    &quot;grinds&quot;: &quot;grind --follow %l --dirs \&quot;~/wrk/.ve/dotfiles/src\&quot;&quot;, 
+    &quot;cdw&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot;/%l&quot;, 
+    &quot;cd-&quot;: &quot;cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot;/%l&quot;, 
+    &quot;test-&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
+    &quot;testr-&quot;: &quot;reset &amp;&amp; (cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; python \&quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; test)&quot;, 
+    &quot;nose-&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; nosetests)&quot;, 
+    &quot;grinw&quot;: &quot;grin --follow %l \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;grin-&quot;: &quot;grin --follow %l \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;grindw&quot;: &quot;grind --follow %l --dirs \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;grind-&quot;: &quot;grind --follow %l --dirs \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;hgv-&quot;: &quot;hg view -R \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot;&quot;, 
+    &quot;hgl-&quot;: &quot;hg -R \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; log&quot;, 
+    &quot;editcfg&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent ~/wrk/.ve/dotfiles/etc/development.ini %l&quot;, 
+    &quot;serve-&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; ~/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart \&quot;~/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
+    &quot;shell-&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; ~/wrk/.ve/dotfiles/bin/pshell \&quot;~/wrk/.ve/dotfiles/etc/development.ini\&quot;)&quot;, 
     &quot;e&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent %l&quot;, 
-    &quot;editp&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/README.rst\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/CHANGES.rst\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/TODO.rst\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/Makefile\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/requirements.txt\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/.hgignore\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/.gitignore\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/.hg/hgrc\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/dotfiles\&quot; \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles/docs\&quot; %l&quot;, 
-    &quot;makewrd&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
-    &quot;make-&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
-    &quot;mw&quot;: &quot;(cd \&quot;/home/user/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
-    &quot;ssv&quot;: &quot;supervisord -c \&quot;/home/user/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;, 
-    &quot;sv&quot;: &quot;supervisorctl -c \&quot;/home/user/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;, 
-    &quot;svd&quot;: &quot;supervisorctl -c \&quot;/home/user/wrk/.ve/dotfiles/etc/supervisord.conf\&quot; restart dev &amp;&amp; supervisorctl -c \&quot;/home/user/wrk/.ve/dotfiles/etc/supervisord.conf\&quot; tail -f dev&quot;, 
+    &quot;editp&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent \&quot;~/wrk/.ve/dotfiles/src/dotfiles/README.rst\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/CHANGES.rst\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/TODO.rst\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/Makefile\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/requirements.txt\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/.hgignore\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/.gitignore\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/.hg/hgrc\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/dotfiles\&quot; \&quot;~/wrk/.ve/dotfiles/src/dotfiles/docs\&quot; %l&quot;, 
+    &quot;makewrd&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
+    &quot;make-&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
+    &quot;mw&quot;: &quot;(cd \&quot;~/wrk/.ve/dotfiles/src/dotfiles\&quot; &amp;&amp; make %l)&quot;, 
+    &quot;ssv&quot;: &quot;supervisord -c \&quot;~/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;, 
+    &quot;sv&quot;: &quot;supervisorctl -c \&quot;~/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;, 
+    &quot;svd&quot;: &quot;supervisorctl -c \&quot;~/wrk/.ve/dotfiles/etc/supervisord.conf\&quot; restart dev &amp;&amp; supervisorctl -c \&quot;~/wrk/.ve/dotfiles/etc/supervisord.conf\&quot; tail -f dev&quot;, 
     &quot;svt&quot;: &quot;sv tail -f&quot;
   }
 }
