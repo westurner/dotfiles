@@ -22,7 +22,6 @@ vimpager() {
 }
 
 
-## less commands -- lessv, lessg, lesse
 lessv () {
     # lessv()    -- less with less.vim and vim (g:tinyvim=1)
     if [ -t 1 ]; then
@@ -55,27 +54,22 @@ lessv () {
     fi
 }
 
-## lessg    -- less with less.vim and gvim / mvim
 lessg() {
+    # lessg()  -- less with less.vim and gvim / mvim
     VIMBIN=${GUIVIMBIN} lessv $@
 }
 
-## lesse    -- less with current venv's vim server
 lesse() {
+    # lesse()  -- less with current venv's vim server
     ${EDITOR} $@
 }
 
-### Man commands -- manv, mang, mane
-## manv     -- view manpages in vim
 manv() {
+    # manv()   -- view manpages in vim
     alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        #if [ "$1" == "man" ]; then
-        #    exit 0
-        #fi
-
         #/usr/bin/whatis "$@" >/dev/null
         $(which vim) \
             --noplugin \
@@ -88,8 +82,8 @@ manv() {
     fi
 }
 
-## mang()   -- view manpages in gvim / mvim
 mang() {
+    # mang()   -- view manpages in gvim / mvim
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
@@ -104,7 +98,7 @@ mang() {
     fi
 }
 
-## mane()   -- open manpage with venv's vim server
 mane() {
-    $GUIVIMBIN --servername ${VIRTUAL_ENV_NAME} --remote-send "<ESC>:Man $@<CR>"
+    # mane()   -- open manpage with venv's vim server
+    $GUIVIMBIN ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
 }
