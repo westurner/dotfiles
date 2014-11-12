@@ -231,7 +231,7 @@ mw() {
 }
 
 _venv_set_prompt() {
-    # _venv_set_prompt      -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+    # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
     if [ -n "$VIRTUAL_ENV_NAME" ]; then
         if [ -n "$VIRTUAL_ENV" ]; then
