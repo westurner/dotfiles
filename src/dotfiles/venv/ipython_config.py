@@ -53,7 +53,7 @@ __VENV_CMD = "python %s" % __THISFILE
 def get_workon_home_default():
     """
     Returns:
-        str: Best path for a WORKON_HOME directory for virtualenvwrapper
+        str: Best path for a virtualenvwrapper ``$WORKON_HOME``
     """
     workon_home = os.environ.get('WORKON_HOME')
     if workon_home:
@@ -66,7 +66,8 @@ def get_workon_home_default():
 
 class Env(OrderedDict):
     """
-    Extended OrderedDict of NAMED and _ALIASED Filesystem Hierarchy paths.
+    Extended OrderedDict of ``NAMED`` and ``_ALIASED``
+    Filesystem Hierarchy paths.
 
     Helpful for working with virtualenvs, bootstraps, chroots, containers.
     """
@@ -107,10 +108,22 @@ class Env(OrderedDict):
 
     @classmethod
     def from_environ(cls, environ):
+        """
+        Build an ``Env`` from a dict (e.g. ``os.environ``)
+
+        Args:
+            environ (dict): a dict with variable name keys and values
+        Returns:
+            Env: an Env environment built from the given environ dict
+        """
         return cls((k, environ.get(k, '')) for k in cls.osenviron_keys)
 
     def set_standard_paths(env, prefix):
-        """set variables for standard paths in the environment
+        """
+        Set variables for standard paths in the environment
+
+        Args:
+            prefix (str): a path prefix (e.g. ``$VIRTUAL_ENV`` or ``$PREFIX``)
 
         see:
 
@@ -152,28 +165,50 @@ class Env(OrderedDict):
         env['_VARSPOOL']    = joinpath(prefix, "var/spool") # ./var/spool
         env['_VARTMP']      = joinpath(prefix, "var/tmp")   # ./var/tmp
         env['_WWW']         = joinpath(prefix, "var/www")      # ./var/www
-        # TODO: /srv/www | /var/www | /var/ww | /var/www/html
 
-    def paths_to_variables(self, _path):
+    def paths_to_variables(self, path_):
+        """
+        Replace components of a path string with variables configured
+        in this Env.
+
+        Args:
+            path_ (str): a path string
+        Returns:
+            str: path string containing ``${VARNAME}`` variables
+        """
         compress = sorted(
             ((k, v) for (k, v) in self.items()
              if isinstance(v, STR_TYPES) and v.startswith('/')),
             key=lambda v: (len(v[1]), v[0]),
             reverse=True)
         for varname, value in compress:
-            _path = _path.replace(value, '${%s}' % varname)
+            _path = path_.replace(value, '${%s}' % varname)
         return _path
 
 
-def shell_quote(_str):
-    # TODO
-    _repr = repr(_str)
+def shell_quote(var):
+    """
+    Escape single quotes and add double quotes around a given variable.
+
+    Args:
+        _str (str): string to add quotes to
+    Returns:
+        str: string wrapped in quotes
+
+    .. warning:: This is not safe for untrusted input and only valid
+       in this context (``os.environ``).
+
+    """
+    _repr = repr(var)
     if _repr.startswith('\''):
         return "\"%s\"" % _repr[1:-1]
-    # return repr(_str).replace("\'", "\"")
 
 
 def _get_shell_version():
+    """
+    Returns:
+        tuple: (shell_namestr, versionstr) of the current ``$SHELL``
+    """
     import os
     import subprocess
     shell = os.environ.get('SHELL')
@@ -189,6 +224,10 @@ def _get_shell_version():
 
 
 def _shell_supports_declare_g():
+    """
+    Returns:
+        bool: True only if the ``$SHELL`` is known to support ``declare -g``
+    """
     # NOTE: OSX still has bash 3.2, which does not support '-g'
     shell, verstr = _get_shell_version()
     if shell == 'zsh':
@@ -201,10 +240,21 @@ def _shell_supports_declare_g():
 
 class Venv(object):
     """
-    Venv -- a virtual environment configuration generator for bash, ipython
+    A virtual environment configuration generator
     """
     @staticmethod
     def get_virtualenv_path(virtualenv=None, from_environ=False):
+        """
+        Get the path to a virtualenv
+
+        Args:
+            virtualenv (str): a path to a virtualenv containing ``/``
+                OR just the name of a virtualenv in ``$WORKON_HOME``
+            from_environ (bool): whether to try and read from
+                ``os.environ["VIRTUAL_ENV"]``
+        Returns:
+            str: a path to a virtualenv (for ``$VIRTUAL_ENV``)
+        """
         _virtualenv = None
         if virtualenv is None:
             if from_environ:
@@ -218,10 +268,8 @@ class Venv(object):
                     virtualenv)
             else:
                 _virtualenv = virtualenv
-
         if _virtualenv and not os.path.exists(_virtualenv):
             log.debug("virtualenv %r does not exist" % _virtualenv)
-
         return _virtualenv
 
     def __init__(self, virtualenv=None, appname=None,
@@ -230,17 +278,45 @@ class Venv(object):
                  open_editors=False,
                  open_terminals=False,
                  dont_reflect=True):
-        self.log = logging.getLogger('venv.%s' % appname)
+        """
+        Initialize a new Venv
 
+        Args:
+            virtualenv (str): None, a path to a virtualenv, or the basename
+                of a virtualenv in ``$WORKON_HOME``
+            appname (str): path component under ``$VIRTUAL_ENV/src/<appname>``.
+
+                ``$_APP`` (and thus ``$_WRD``) are set from this variable.
+
+                if not specified, ``$_APP`` will default to the basename of
+                ``$VIRTUAL_ENV``.
+            env (Env): an already-configured Env object
+
+                if ``env`` is None (the default), a new Env will be created
+            from_environ (bool): True if ``os.environ`` should be read from
+                (default: False)
+            open_editors (bool): Whether to open an editor of the Venv
+                (default: False)
+            open_terminals (bool): Whether to open terminals of the Venv
+                (default: False)
+            dont_reflect (bool): Whether to always create aliases and functions
+                referencing ``$_WRD`` even if ``$_WRD`` doesn't exist.
+                (default: True)
+        Raises:
+            Exception: if virtualenv is not specified or incalculable
+                from the given combination of
+                ``virtualenv`` and ``from_environ`` arguments
+            Exception: if both ``env`` and ``from_environ=True`` are specified
+
+        """
+        self.log = logging.getLogger('venv.%s' % appname)
         virtualenv = self.get_virtualenv_path(virtualenv,
                                               from_environ=from_environ)
         if virtualenv is None:
             raise Exception("must specify a VIRTUAL_ENV")
         else:
             self.virtualenv = virtualenv
-
         self.name = os.path.basename(virtualenv)
-
         if appname is None:
             appname = self.name
             apppath = joinpath(virtualenv, 'src', appname)  #
@@ -255,7 +331,7 @@ class Venv(object):
         self.log = logging.getLogger('venv.%s' % appname)
 
         if env and from_environ:
-            raise Exception()
+            raise Exception("both 'env' and 'from_environ=True' were specified")
 
         if from_environ:
             self.env = Env.from_environ(os.environ)
@@ -275,7 +351,7 @@ class Venv(object):
         env['HISTFILE'] = joinpath(self.virtualenv, ".bash_history")
         env['HISTSIZE']         = 1000000
         env['HISTFILESIZE']     = 1000000
-        # env['HISTTIMEFORMAT']   = "%F %T " # see .usrlog
+        # env['HISTTIMEFORMAT']   = "%F %T " # see etc/bash/usrlog.sh
         env['PAGER']   = '/usr/bin/less -r'
 
         env['_APP']     = self.appname
