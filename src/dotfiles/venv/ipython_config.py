@@ -80,6 +80,11 @@ class Env(OrderedDict):
         'PROJECTS',
         'USRLOG',
         'VIMBIN',
+        'GVIMBIN',
+        'MVIMBIN',
+        'GUIVIMBIN',
+        'VIMCONF',
+        'EDITOR_',
         'VIRTUAL_ENV',
         'VIRTUAL_ENV_NAME',
         'WORKON_HOME',
@@ -470,14 +475,18 @@ class Venv(object):
         env['VIMBIN']       = distutils.spawn.find_executable('vim')
         env['GVIMBIN']      = distutils.spawn.find_executable('gvim')
         env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
-        env['GUIVIM']       = env.get('MVIMBIN', env.get('GVIMBIN'))
+        env['GUIVIMBIN']    = env.get('MVIMBIN', env.get('GVIMBIN'))
 
-        if not env.get('GUIVIM'):
-            env['_EDIT_']   = 'vim -p'
+        env['VIMCONF']      = "--servername %s" % (
+                                shell_quote(self.appname).strip('"'))
+
+        if not env.get('GUIVIMBIN'):
+            env['_EDIT_']   = "%s -f" % env.get('VIMBIN')
         else:
-            env['_EDIT_']   = '%s --servername %s --remote-tab-silent' % (
-                env.get('GUIVIM'),
-                shell_quote(self.appname).strip('"'))
+            env['_EDIT_']   = '%s %s --remote-tab-silent' % (
+                                env.get('GUIVIMBIN'),
+                                env.get('VIMCONF'))
+        env['EDITOR_']      = env['_EDIT_']
 
         aliases['edit-']    = env['_EDIT_']
         aliases['gvim-']    = env['_EDIT_']

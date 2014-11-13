@@ -48,6 +48,14 @@ ggvim() {
 }
 
 
+edits() {
+    # edits()   -- open $@ in ${GUIVIMBIN} --servername $1
+    servername=$1
+    shift
+    ${GUIVIMBIN} --servername ${servername} --remote-tab $@
+}
+
+
 e() {
     # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} $@
