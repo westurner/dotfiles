@@ -6,8 +6,11 @@ dotfiles.venv package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Subpackages
+-----------
+
+dotfiles.venv.ipython_config module
+-----------------------------------
 
 .. automodule:: dotfiles.venv.ipython_config
     :members:
