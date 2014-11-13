@@ -1306,10 +1306,12 @@ Salt
 ===============
 | Wikipedia: `<https://en.wikipedia.org/wiki/Salt_(software)>`_
 | Homepage: http://www.saltstack.com
-| Docs: http://docs.saltstack.com/en/latest/
-| Docs: http://salt.readthedocs.org/en/latest/ref/clients/index.html#python-api
-| Docs: http://docs.saltstack.com/en/latest/topics/development/hacking.html
-| Glossary: http://docs.saltstack.com/en/latest/glossary.html
+| Docs: https://docs.saltstack.com/en/latest/
+| Docs: https://docs.saltstack.com/en/latest/salt-modindex.html
+| Docs: https://docs.saltstack.com/en/latest/ref/states/all/index.html
+| Docs: https://docs.saltstack.com/en/latest/ref/clients/index.html#python-api
+| Docs: https://docs.saltstack.com/en/latest/topics/development/hacking.html
+| Docs: https://docs.saltstack.com/en/latest/glossary.html
 | Source: git https://github.com/saltstack/salt
 | Pypi: https://pypi.python.org/pypi/salt
 | IRC: #salt
