@@ -352,7 +352,7 @@ class Venv(object):
         env['HISTSIZE']         = 1000000
         env['HISTFILESIZE']     = 1000000
         # env['HISTTIMEFORMAT']   = "%F %T " # see etc/bash/usrlog.sh
-        env['PAGER']   = '/usr/bin/less -r'
+        env['PAGER']   = '/usr/bin/less -R'
 
         env['_APP']     = self.appname
         env['_WRD']     = joinpath(env['_SRC'], self.appname)    # working directory
