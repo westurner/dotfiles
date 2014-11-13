@@ -2,6 +2,9 @@
 # encoding: utf-8
 from __future__ import print_function
 """
+
+dotfiles.venv.ipython_config
+==============================
 ipython_config.py (venv)
 
 - set variables for standard paths in the environment dict
@@ -66,10 +69,8 @@ def get_workon_home_default():
 
 class Env(OrderedDict):
     """
-    Extended OrderedDict of ``NAMED`` and ``_ALIASED``
-    Filesystem Hierarchy paths.
+    OrderedDict of variables for/from ``os.environ``.
 
-    Helpful for working with virtualenvs, bootstraps, chroots, containers.
     """
     osenviron_keys = (
 
@@ -368,6 +369,25 @@ class Venv(object):
 
     @staticmethod
     def _configure_sys(env=None, from_environ=False):
+        """
+        Configure sys.path with the given env, or from from_environ
+
+        Args:
+            env (Env): Env to configure sys.path according to
+                (default: None)
+            from_environ (bool): whether to read Env from ``os.environ``
+                (default: False)
+
+        .. note:: This method adds
+           ``/usr/local/python.ver.ver/dist-packages/IPython/extensions``
+            to ``sys.path``
+
+            Why? When working in a virtualenv which does not have
+            an additional local copy of IPython installed,
+            the lack of an extensions path was causing errors
+            in regards to missing extensions.
+
+        """
         if from_environ:
             env = Env.from_environ(os.environ)
         env['_PYLIB']  = joinpath(env['_LIB'], pyver)
@@ -396,9 +416,17 @@ class Venv(object):
         return sys.path
 
     def configure_sys(self):
+        """
+        Returns:
+            list: ``sys.path`` list from ``_configure_sys``.
+        """
         return Venv._configure_sys(self.env)
 
     def get_user_aliases_base(self):
+        """
+        Returns:
+            OrderedDict: dict of ``cd`` command aliases
+        """
         aliases = OrderedDict()
         env = self.env
 
@@ -427,6 +455,16 @@ class Venv(object):
         return aliases
 
     def get_user_aliases(self, dont_reflect=False):
+        """
+        Configure env variables and return an OrderedDict of aliases
+
+        Args:
+            dont_reflect (bool): Whether to always create aliases and functions
+                referencing ``$_WRD`` even if ``$_WRD`` doesn't exist.
+                (default: False)
+        Returns:
+            OrderedDict: dict of aliases
+        """
         aliases = OrderedDict()
         env = self.env
         env['VIMBIN']       = distutils.spawn.find_executable('vim')
@@ -578,10 +616,28 @@ class Venv(object):
 
     @classmethod
     def workon_project(cls, virtualenv, **kwargs):
+        """
+        Args:
+            virtualenv (str): a path to a virtualenv containing ``/``
+                OR just the name of a virtualenv in ``$WORKON_HOME``
+            kwargs (dict): kwargs to pass to Venv (see ``Venv.__init__``)
+        Returns:
+            Venv: an intialized ``Venv``
+        """
         return cls(virtualenv=virtualenv, **kwargs)
 
     @staticmethod
     def _configure_ipython(c=None, setup_func=None):
+        """
+        Configure IPython with ``autoreload=True``, ``deep_reload=True``,
+        the **storemagic** extension, the **parallelmagic**
+        extension if ``import zmq`` succeeds,
+        and ``DEFAULT_ALIASES`` (``cd`` aliases are not currently working).
+
+        Args:
+            c (object): An IPython configuration object (e.g. ``get_ipython()``)
+            setup_func (function): a function to call (default: None)
+        """
         if c is None and not in_ipython_config():
             # skip IPython configuration
             log.error("not in_ipython_config")
@@ -619,11 +675,29 @@ class Venv(object):
             setup_func(c)
 
     def configure_ipython(self, *args, **kwargs):
+        """
+        Configure IPython with ``Venv._configure_ipython`` and
+        ``user_aliases`` from ``self.aliases.items()``.
+
+        Args:
+            args (list): args for ``Venv._configure_ipython``
+            kwargs (dict): kwargs for ``Venv._configure_ipython``.
+        """
         def setup_func(c):
             c.AliasManager.user_aliases = self.aliases.items()
         return Venv._configure_ipython(*args, setup_func=setup_func, **kwargs)
 
     def _ipython_alias_to_bash_alias(self, name, alias):
+        """
+        Convert an IPython alias declaration to an ``alias`` command
+        or a ``function()`` with ``%l`` replaced with ``$@``.
+
+        Args:
+            name (str): alias name
+            alias (str): command string (possibly containing an ``%l``)
+        Returns:
+            str: either an ``alias name='command'`` string or a function
+        """
         alias = self.env.paths_to_variables(alias)
         if '%s' in alias or '%l' in alias:
             # alias = '# %s' % alias
@@ -642,6 +716,14 @@ class Venv(object):
         return 'alias %s=%r' % (name, alias)
 
     def bash_env(self, output=sys.stdout):
+        """
+        Generate a ``source``-able script for the environment variables,
+        aliases, and functions defined by the current ``Venv``.
+
+        Args:
+            output (file-like): object to ``print`` to
+                (``print`` calls ``.write()`` and then ``.flush()``)
+        """
 
         for k, v in self.env.items():
             print("export %s=%r" % (k, v), file=output)
@@ -657,6 +739,12 @@ class Venv(object):
 
     @property
     def _project_files(self):
+        """
+        Default list of project files for ``_EDITCMD_``.
+
+        Returns:
+            list: list of paths relative to ``$_WRD``.
+        """
         default_project_files = (
             'README.rst',
             'CHANGES.rst',
@@ -675,6 +763,12 @@ class Venv(object):
 
     @property
     def _edit_project_cmd(self):
+        """
+        Command to edit ``self._project_files``
+
+        Returns:
+            str: ``$_EDIT_`` ``self._project_files``
+        """
         return "%s %s" % (
             self.env['_EDIT_'],
             ' '.join(
@@ -684,11 +778,22 @@ class Venv(object):
 
     @property
     def _terminal_cmd(self):
+        """
+        Command to open a terminal
+
+        Returns:
+            str: env.get('TERMINAL') or ``/usr/bin/gnome-terminal``
+        """
+        # TODO: add Terminal.app
         return self.env.get('TERMINAL', '/usr/bin/gnome-terminal')
 
     @property
     def _open_terminals_cmd(self):
-        # TODO
+        """
+        Command to open ``self._terminal_cmd`` with a list of initial
+        named terminals.
+        """
+        # TODO: add Terminal.app (man Terminal.app?)
         cmd = (
             self._terminal_cmd,
             '--working-directory', self.env['_WRD'],
@@ -704,37 +809,62 @@ class Venv(object):
         return cmd
 
     def system(self, cmd=None):
+        """
+        Call ``os.system`` with the given command string
+
+        Args:
+            cmd (string): command string to call ``os.system`` with
+        Raises:
+            Exception: if ``cmd`` is None
+            NotImplementedError: if ``cmd`` is a tuple
+        """
         if cmd is None:
             raise Exception()
         if isinstance(cmd, (tuple, list)):
             _cmd = ' '.join(cmd)
-            # TODO: sarge
+            # TODO: (subprocess.Popen)
+            raise NotImplementedError()
         elif isinstance(cmd, (str,)):
             _cmd = cmd
 
             os.system(_cmd)
 
     def open_editors(self):
+        """
+        Run ``self._edit_project_cmd``
+        """
         cmd = self._edit_project_cmd
         self.system(cmd=cmd)
 
     def open_terminals(self):
+        """
+        Run ``self._open_terminals_cmd``
+        """
         cmd = self._open_terminals_cmd
         self.system(cmd=cmd)
 
     def asdict(self):
+        """
+        Returns:
+            OrderedDict: OrderedDict(env=self.env, aliases=self.aliases)
+        """
         return OrderedDict(
             env=self.env,
             aliases=self.aliases,
         )
 
     def to_json(self, indent=None):
+        """
+        Args:
+            indent (int): number of spaces with which to indent JSON output
+        Returns:
+            str: json.dumps(self.asdict())
+        """
         import json
         return json.dumps(self.asdict(), indent=indent)
 
 IS_DARWIN = sys.platform == 'darwin'
 
-import sys
 LS_COLOR_AUTO = "--color=auto"
 if IS_DARWIN:
     LS_COLOR_AUTO = "-G"
@@ -830,10 +960,18 @@ DEFAULT_ALIASES = OrderedDict((
 
 
 def in_ipython_config():
-    return 'get_config' in globals()
+    """
+    Returns:
+        bool: True if ``get_ipython`` is in ``globals()``
+    """
+    return 'get_ipython' in globals()
 
 
-def ipythonmain():
+def ipython_main():
+    """
+    Function to call if running within IPython,
+    as determined by ``in_ipython_config``.
+    """
     venv = None
     if 'VIRTUAL_ENV' in os.environ:
         venv = Venv(from_environ=True)
@@ -842,10 +980,13 @@ def ipythonmain():
         Venv._configure_ipython()
 
 if in_ipython_config():
-    ipythonmain()
+    ipython_main()
 
 
 def ipython_imports():
+    """
+    Default imports for IPython (currently unused)
+    """
     from IPython.external.path import path
     path
     from pprint import pprint as pp
@@ -863,22 +1004,24 @@ def ipython_imports():
 import unittest
 
 
-class Test_env(unittest.TestCase):
+class Test_Env(unittest.TestCase):
 
-    def test_env(self):
+    def test_Env(self):
         e = Env()
         assert 'WORKON_HOME' not in e
 
-    def test_from_environ(self):
+    def test_Env_from_environ(self):
         import os
         e = Env.from_environ(os.environ)
         assert 'WORKON_HOME' in e
 
 
 class Test_venv(unittest.TestCase):
-    TEST_VIRTUALENV = 'dotfiles'
-    TEST_APPNAME = 'dotfiles'
-    TEST_VIRTUAL_ENV = joinpath(get_workon_home_default(), 'dotfiles')
+
+    def setUp(self):
+        self.TEST_VIRTUALENV = 'dotfiles'
+        self.TEST_APPNAME = 'dotfiles'
+        self.TEST_VIRTUAL_ENV = joinpath(get_workon_home_default(), 'dotfiles')
 
     def test_venv(self):
         venv = Venv(self.TEST_VIRTUALENV)
@@ -903,6 +1046,10 @@ class Test_venv(unittest.TestCase):
 
 
 def get_venv_parser():
+    """
+    Returns:
+        optparse.OptionParser: options for the commandline interface
+    """
     import optparse
 
     prs = optparse.OptionParser(
@@ -945,6 +1092,12 @@ def get_venv_parser():
 
 
 def main():
+    """
+    Commandline main function called if ``__name__=="__main__"``
+
+    Returns:
+        int: nonzero on error
+    """
     import logging
 
     prs = get_venv_parser()
@@ -957,10 +1110,8 @@ def main():
             logging.getLogger().setLevel(logging.DEBUG)
 
     if opts.run_tests:
-        import sys
         sys.argv = [sys.argv[0]] + args
-        import unittest
-        exit(unittest.main())
+        sys.exit(unittest.main())
 
     if opts.load_environ:
         import os
@@ -972,7 +1123,6 @@ def main():
                 open_terminals=opts.open_terminals)
 
     if opts.print_env:
-        import sys
         output = sys.stdout
         print(venv.to_json(indent=2), file=output)
 
@@ -988,6 +1138,8 @@ def main():
                         shell=True,
                         env=os.environ,
                         cwd=venv.virtualenv)
+    return 0
+
 
 if __name__ == "__main__":
     main()
