@@ -6,7 +6,7 @@ Objectives
 ------------
 - Set variables for standard paths in the environment dict
 - Define IPython aliases
-- Serialize variables and aliases to
+- Serialize variables and aliases to:
 
   - IPython configuration (variables, aliases)
   - Bash/zsh configuration (variables, aliases, functions) [``--bash``]
