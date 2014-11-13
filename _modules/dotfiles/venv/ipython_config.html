@@ -124,6 +124,9 @@
 <span class="c"># encoding: utf-8</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">dotfiles.venv.ipython_config</span>
+<span class="sd">==============================</span>
 <span class="sd">ipython_config.py (venv)</span>
 
 <span class="sd">- set variables for standard paths in the environment dict</span>
@@ -175,7 +178,7 @@
 <div class="viewcode-block" id="get_workon_home_default"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.get_workon_home_default">[docs]</a><span class="k">def</span> <span class="nf">get_workon_home_default</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns:</span>
-<span class="sd">        str: Best path for a WORKON_HOME directory for virtualenvwrapper</span>
+<span class="sd">        str: Best path for a virtualenvwrapper ``$WORKON_HOME``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">workon_home</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">workon_home</span><span class="p">:</span>
@@ -188,9 +191,8 @@
 </div>
 <div class="viewcode-block" id="Env"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env">[docs]</a><span class="k">class</span> <span class="nc">Env</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extended OrderedDict of NAMED and _ALIASED Filesystem Hierarchy paths.</span>
+<span class="sd">    OrderedDict of variables for/from ``os.environ``.</span>
 
-<span class="sd">    Helpful for working with virtualenvs, bootstraps, chroots, containers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">osenviron_keys</span> <span class="o">=</span> <span class="p">(</span>
 
@@ -229,10 +231,22 @@
 
     <span class="nd">@classmethod</span>
 <div class="viewcode-block" id="Env.from_environ"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env.from_environ">[docs]</a>    <span class="k">def</span> <span class="nf">from_environ</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">environ</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build an ``Env`` from a dict (e.g. ``os.environ``)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            environ (dict): a dict with variable name keys and values</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Env: an Env environment built from the given environ dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">cls</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">osenviron_keys</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Env.set_standard_paths"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env.set_standard_paths">[docs]</a>    <span class="k">def</span> <span class="nf">set_standard_paths</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;set variables for standard paths in the environment</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set variables for standard paths in the environment</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prefix (str): a path prefix (e.g. ``$VIRTUAL_ENV`` or ``$PREFIX``)</span>
 
 <span class="sd">        see:</span>
 
@@ -274,28 +288,50 @@
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;_VARSPOOL&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s">&quot;var/spool&quot;</span><span class="p">)</span> <span class="c"># ./var/spool</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;_VARTMP&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s">&quot;var/tmp&quot;</span><span class="p">)</span>   <span class="c"># ./var/tmp</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WWW&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s">&quot;var/www&quot;</span><span class="p">)</span>      <span class="c"># ./var/www</span>
-        <span class="c"># TODO: /srv/www | /var/www | /var/ww | /var/www/html</span>
 </div>
-<div class="viewcode-block" id="Env.paths_to_variables"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env.paths_to_variables">[docs]</a>    <span class="k">def</span> <span class="nf">paths_to_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_path</span><span class="p">):</span>
+<div class="viewcode-block" id="Env.paths_to_variables"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env.paths_to_variables">[docs]</a>    <span class="k">def</span> <span class="nf">paths_to_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replace components of a path string with variables configured</span>
+<span class="sd">        in this Env.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path_ (str): a path string</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: path string containing ``${VARNAME}`` variables</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">compress</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
             <span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
              <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">STR_TYPES</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)),</span>
             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
             <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">compress</span><span class="p">:</span>
-            <span class="n">_path</span> <span class="o">=</span> <span class="n">_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;${</span><span class="si">%s</span><span class="s">}&#39;</span> <span class="o">%</span> <span class="n">varname</span><span class="p">)</span>
+            <span class="n">_path</span> <span class="o">=</span> <span class="n">path_</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;${</span><span class="si">%s</span><span class="s">}&#39;</span> <span class="o">%</span> <span class="n">varname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_path</span>
 
 </div></div>
-<div class="viewcode-block" id="shell_quote"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.shell_quote">[docs]</a><span class="k">def</span> <span class="nf">shell_quote</span><span class="p">(</span><span class="n">_str</span><span class="p">):</span>
-    <span class="c"># TODO</span>
-    <span class="n">_repr</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">_str</span><span class="p">)</span>
+<div class="viewcode-block" id="shell_quote"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.shell_quote">[docs]</a><span class="k">def</span> <span class="nf">shell_quote</span><span class="p">(</span><span class="n">var</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Escape single quotes and add double quotes around a given variable.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        _str (str): string to add quotes to</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: string wrapped in quotes</span>
+
+<span class="sd">    .. warning:: This is not safe for untrusted input and only valid</span>
+<span class="sd">       in this context (``os.environ``).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_repr</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">_repr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\&#39;</span><span class="s">&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">_repr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="c"># return repr(_str).replace(&quot;\&#39;&quot;, &quot;\&quot;&quot;)</span>
 
 </div>
 <span class="k">def</span> <span class="nf">_get_shell_version</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: (shell_namestr, versionstr) of the current ``$SHELL``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">os</span>
     <span class="kn">import</span> <span class="nn">subprocess</span>
     <span class="n">shell</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;SHELL&#39;</span><span class="p">)</span>
@@ -311,6 +347,10 @@
 
 
 <span class="k">def</span> <span class="nf">_shell_supports_declare_g</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True only if the ``$SHELL`` is known to support ``declare -g``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># NOTE: OSX still has bash 3.2, which does not support &#39;-g&#39;</span>
     <span class="n">shell</span><span class="p">,</span> <span class="n">verstr</span> <span class="o">=</span> <span class="n">_get_shell_version</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">shell</span> <span class="o">==</span> <span class="s">&#39;zsh&#39;</span><span class="p">:</span>
@@ -323,10 +363,21 @@
 
 <div class="viewcode-block" id="Venv"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv">[docs]</a><span class="k">class</span> <span class="nc">Venv</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Venv -- a virtual environment configuration generator for bash, ipython</span>
+<span class="sd">    A virtual environment configuration generator</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="Venv.get_virtualenv_path"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.get_virtualenv_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_virtualenv_path</span><span class="p">(</span><span class="n">virtualenv</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">from_environ</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the path to a virtualenv</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            virtualenv (str): a path to a virtualenv containing ``/``</span>
+<span class="sd">                OR just the name of a virtualenv in ``$WORKON_HOME``</span>
+<span class="sd">            from_environ (bool): whether to try and read from</span>
+<span class="sd">                ``os.environ[&quot;VIRTUAL_ENV&quot;]``</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: a path to a virtualenv (for ``$VIRTUAL_ENV``)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_virtualenv</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">if</span> <span class="n">virtualenv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">from_environ</span><span class="p">:</span>
@@ -340,10 +391,8 @@
                     <span class="n">virtualenv</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">_virtualenv</span> <span class="o">=</span> <span class="n">virtualenv</span>
-
         <span class="k">if</span> <span class="n">_virtualenv</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_virtualenv</span><span class="p">):</span>
             <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;virtualenv </span><span class="si">%r</span><span class="s"> does not exist&quot;</span> <span class="o">%</span> <span class="n">_virtualenv</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">_virtualenv</span>
 </div>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">virtualenv</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">appname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -352,17 +401,45 @@
                  <span class="n">open_editors</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="n">open_terminals</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="n">dont_reflect</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;venv.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">appname</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new Venv</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            virtualenv (str): None, a path to a virtualenv, or the basename</span>
+<span class="sd">                of a virtualenv in ``$WORKON_HOME``</span>
+<span class="sd">            appname (str): path component under ``$VIRTUAL_ENV/src/&lt;appname&gt;``.</span>
+
+<span class="sd">                ``$_APP`` (and thus ``$_WRD``) are set from this variable.</span>
+
+<span class="sd">                if not specified, ``$_APP`` will default to the basename of</span>
+<span class="sd">                ``$VIRTUAL_ENV``.</span>
+<span class="sd">            env (Env): an already-configured Env object</span>
+
+<span class="sd">                if ``env`` is None (the default), a new Env will be created</span>
+<span class="sd">            from_environ (bool): True if ``os.environ`` should be read from</span>
+<span class="sd">                (default: False)</span>
+<span class="sd">            open_editors (bool): Whether to open an editor of the Venv</span>
+<span class="sd">                (default: False)</span>
+<span class="sd">            open_terminals (bool): Whether to open terminals of the Venv</span>
+<span class="sd">                (default: False)</span>
+<span class="sd">            dont_reflect (bool): Whether to always create aliases and functions</span>
+<span class="sd">                referencing ``$_WRD`` even if ``$_WRD`` doesn&#39;t exist.</span>
+<span class="sd">                (default: True)</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: if virtualenv is not specified or incalculable</span>
+<span class="sd">                from the given combination of</span>
+<span class="sd">                ``virtualenv`` and ``from_environ`` arguments</span>
+<span class="sd">            Exception: if both ``env`` and ``from_environ=True`` are specified</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;venv.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">appname</span><span class="p">)</span>
         <span class="n">virtualenv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_virtualenv_path</span><span class="p">(</span><span class="n">virtualenv</span><span class="p">,</span>
                                               <span class="n">from_environ</span><span class="o">=</span><span class="n">from_environ</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">virtualenv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;must specify a VIRTUAL_ENV&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span> <span class="o">=</span> <span class="n">virtualenv</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">virtualenv</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">appname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">appname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
             <span class="n">apppath</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">virtualenv</span><span class="p">,</span> <span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="n">appname</span><span class="p">)</span>  <span class="c">#</span>
@@ -377,7 +454,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;venv.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">appname</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">env</span> <span class="ow">and</span> <span class="n">from_environ</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;both &#39;env&#39; and &#39;from_environ=True&#39; were specified&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">from_environ</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">Env</span><span class="o">.</span><span class="n">from_environ</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
@@ -397,8 +474,8 @@
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;HISTFILE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span><span class="p">,</span> <span class="s">&quot;.bash_history&quot;</span><span class="p">)</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;HISTSIZE&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="mi">1000000</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;HISTFILESIZE&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="mi">1000000</span>
-        <span class="c"># env[&#39;HISTTIMEFORMAT&#39;]   = &quot;%F %T &quot; # see .usrlog</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;PAGER&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;/usr/bin/less -r&#39;</span>
+        <span class="c"># env[&#39;HISTTIMEFORMAT&#39;]   = &quot;%F %T &quot; # see etc/bash/usrlog.sh</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;PAGER&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;/usr/bin/less -R&#39;</span>
 
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">appname</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_SRC&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">appname</span><span class="p">)</span>    <span class="c"># working directory</span>
@@ -414,6 +491,25 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_configure_sys</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">from_environ</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure sys.path with the given env, or from from_environ</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            env (Env): Env to configure sys.path according to</span>
+<span class="sd">                (default: None)</span>
+<span class="sd">            from_environ (bool): whether to read Env from ``os.environ``</span>
+<span class="sd">                (default: False)</span>
+
+<span class="sd">        .. note:: This method adds</span>
+<span class="sd">           ``/usr/local/python.ver.ver/dist-packages/IPython/extensions``</span>
+<span class="sd">            to ``sys.path``</span>
+
+<span class="sd">            Why? When working in a virtualenv which does not have</span>
+<span class="sd">            an additional local copy of IPython installed,</span>
+<span class="sd">            the lack of an extensions path was causing errors</span>
+<span class="sd">            in regards to missing extensions.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">from_environ</span><span class="p">:</span>
             <span class="n">env</span> <span class="o">=</span> <span class="n">Env</span><span class="o">.</span><span class="n">from_environ</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;_PYLIB&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_LIB&#39;</span><span class="p">],</span> <span class="n">pyver</span><span class="p">)</span>
@@ -442,9 +538,17 @@
         <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span>
 
 <div class="viewcode-block" id="Venv.configure_sys"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.configure_sys">[docs]</a>    <span class="k">def</span> <span class="nf">configure_sys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: ``sys.path`` list from ``_configure_sys``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Venv</span><span class="o">.</span><span class="n">_configure_sys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Venv.get_user_aliases_base"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.get_user_aliases_base">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_aliases_base</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            OrderedDict: dict of ``cd`` command aliases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">aliases</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span>
 
@@ -473,6 +577,16 @@
         <span class="k">return</span> <span class="n">aliases</span>
 </div>
 <div class="viewcode-block" id="Venv.get_user_aliases"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.get_user_aliases">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dont_reflect</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure env variables and return an OrderedDict of aliases</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dont_reflect (bool): Whether to always create aliases and functions</span>
+<span class="sd">                referencing ``$_WRD`` even if ``$_WRD`` doesn&#39;t exist.</span>
+<span class="sd">                (default: False)</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            OrderedDict: dict of aliases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">aliases</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIMBIN&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;vim&#39;</span><span class="p">)</span>
@@ -624,10 +738,28 @@
 </div>
     <span class="nd">@classmethod</span>
 <div class="viewcode-block" id="Venv.workon_project"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.workon_project">[docs]</a>    <span class="k">def</span> <span class="nf">workon_project</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">virtualenv</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            virtualenv (str): a path to a virtualenv containing ``/``</span>
+<span class="sd">                OR just the name of a virtualenv in ``$WORKON_HOME``</span>
+<span class="sd">            kwargs (dict): kwargs to pass to Venv (see ``Venv.__init__``)</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Venv: an intialized ``Venv``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">virtualenv</span><span class="o">=</span><span class="n">virtualenv</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_configure_ipython</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">setup_func</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure IPython with ``autoreload=True``, ``deep_reload=True``,</span>
+<span class="sd">        the **storemagic** extension, the **parallelmagic**</span>
+<span class="sd">        extension if ``import zmq`` succeeds,</span>
+<span class="sd">        and ``DEFAULT_ALIASES`` (``cd`` aliases are not currently working).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            c (object): An IPython configuration object (e.g. ``get_ipython()``)</span>
+<span class="sd">            setup_func (function): a function to call (default: None)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">in_ipython_config</span><span class="p">():</span>
             <span class="c"># skip IPython configuration</span>
             <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;not in_ipython_config&quot;</span><span class="p">)</span>
@@ -665,11 +797,29 @@
             <span class="n">setup_func</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Venv.configure_ipython"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.configure_ipython">[docs]</a>    <span class="k">def</span> <span class="nf">configure_ipython</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure IPython with ``Venv._configure_ipython`` and</span>
+<span class="sd">        ``user_aliases`` from ``self.aliases.items()``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            args (list): args for ``Venv._configure_ipython``</span>
+<span class="sd">            kwargs (dict): kwargs for ``Venv._configure_ipython``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">setup_func</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
             <span class="n">c</span><span class="o">.</span><span class="n">AliasManager</span><span class="o">.</span><span class="n">user_aliases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">Venv</span><span class="o">.</span><span class="n">_configure_ipython</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">setup_func</span><span class="o">=</span><span class="n">setup_func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">_ipython_alias_to_bash_alias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">alias</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert an IPython alias declaration to an ``alias`` command</span>
+<span class="sd">        or a ``function()`` with ``%l`` replaced with ``$@``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): alias name</span>
+<span class="sd">            alias (str): command string (possibly containing an ``%l``)</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: either an ``alias name=&#39;command&#39;`` string or a function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">alias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">paths_to_variables</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
         <span class="k">if</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="ow">in</span> <span class="n">alias</span> <span class="ow">or</span> <span class="s">&#39;%l&#39;</span> <span class="ow">in</span> <span class="n">alias</span><span class="p">:</span>
             <span class="c"># alias = &#39;# %s&#39; % alias</span>
@@ -688,6 +838,14 @@
         <span class="k">return</span> <span class="s">&#39;alias </span><span class="si">%s</span><span class="s">=</span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">alias</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Venv.bash_env"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.bash_env">[docs]</a>    <span class="k">def</span> <span class="nf">bash_env</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a ``source``-able script for the environment variables,</span>
+<span class="sd">        aliases, and functions defined by the current ``Venv``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            output (file-like): object to ``print`` to</span>
+<span class="sd">                (``print`` calls ``.write()`` and then ``.flush()``)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&quot;export </span><span class="si">%s</span><span class="s">=</span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="nb">file</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
@@ -703,6 +861,12 @@
 </div>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_project_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Default list of project files for ``_EDITCMD_``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: list of paths relative to ``$_WRD``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">default_project_files</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s">&#39;README.rst&#39;</span><span class="p">,</span>
             <span class="s">&#39;CHANGES.rst&#39;</span><span class="p">,</span>
@@ -721,6 +885,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_edit_project_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Command to edit ``self._project_files``</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: ``$_EDIT_`` ``self._project_files``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">],</span>
             <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
@@ -730,11 +900,22 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_terminal_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Command to open a terminal</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: env.get(&#39;TERMINAL&#39;) or ``/usr/bin/gnome-terminal``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># TODO: add Terminal.app</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;TERMINAL&#39;</span><span class="p">,</span> <span class="s">&#39;/usr/bin/gnome-terminal&#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_open_terminals_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c"># TODO</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Command to open ``self._terminal_cmd`` with a list of initial</span>
+<span class="sd">        named terminals.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># TODO: add Terminal.app (man Terminal.app?)</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_terminal_cmd</span><span class="p">,</span>
             <span class="s">&#39;--working-directory&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">],</span>
@@ -750,37 +931,62 @@
         <span class="k">return</span> <span class="n">cmd</span>
 
 <div class="viewcode-block" id="Venv.system"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.system">[docs]</a>    <span class="k">def</span> <span class="nf">system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call ``os.system`` with the given command string</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cmd (string): command string to call ``os.system`` with</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: if ``cmd`` is None</span>
+<span class="sd">            NotImplementedError: if ``cmd`` is a tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">cmd</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="n">_cmd</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-            <span class="c"># TODO: sarge</span>
+            <span class="c"># TODO: (subprocess.Popen)</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,)):</span>
             <span class="n">_cmd</span> <span class="o">=</span> <span class="n">cmd</span>
 
             <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">_cmd</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Venv.open_editors"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.open_editors">[docs]</a>    <span class="k">def</span> <span class="nf">open_editors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run ``self._edit_project_cmd``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edit_project_cmd</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Venv.open_terminals"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.open_terminals">[docs]</a>    <span class="k">def</span> <span class="nf">open_terminals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run ``self._open_terminals_cmd``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_open_terminals_cmd</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Venv.asdict"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.asdict">[docs]</a>    <span class="k">def</span> <span class="nf">asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            OrderedDict: OrderedDict(env=self.env, aliases=self.aliases)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">(</span>
             <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
             <span class="n">aliases</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="p">,</span>
         <span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Venv.to_json"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            indent (int): number of spaces with which to indent JSON output</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: json.dumps(self.asdict())</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">json</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asdict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">)</span>
 </div></div>
 <span class="n">IS_DARWIN</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s">&#39;darwin&#39;</span>
 
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">LS_COLOR_AUTO</span> <span class="o">=</span> <span class="s">&quot;--color=auto&quot;</span>
 <span class="k">if</span> <span class="n">IS_DARWIN</span><span class="p">:</span>
     <span class="n">LS_COLOR_AUTO</span> <span class="o">=</span> <span class="s">&quot;-G&quot;</span>
@@ -876,10 +1082,18 @@
 
 
 <div class="viewcode-block" id="in_ipython_config"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.in_ipython_config">[docs]</a><span class="k">def</span> <span class="nf">in_ipython_config</span><span class="p">():</span>
-    <span class="k">return</span> <span class="s">&#39;get_config&#39;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if ``get_ipython`` is in ``globals()``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s">&#39;get_ipython&#39;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="ipythonmain"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.ipythonmain">[docs]</a><span class="k">def</span> <span class="nf">ipythonmain</span><span class="p">():</span>
+<div class="viewcode-block" id="ipython_main"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.ipython_main">[docs]</a><span class="k">def</span> <span class="nf">ipython_main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to call if running within IPython,</span>
+<span class="sd">    as determined by ``in_ipython_config``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">venv</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">if</span> <span class="s">&#39;VIRTUAL_ENV&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
         <span class="n">venv</span> <span class="o">=</span> <span class="n">Venv</span><span class="p">(</span><span class="n">from_environ</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -888,10 +1102,13 @@
         <span class="n">Venv</span><span class="o">.</span><span class="n">_configure_ipython</span><span class="p">()</span>
 </div>
 <span class="k">if</span> <span class="n">in_ipython_config</span><span class="p">():</span>
-    <span class="n">ipythonmain</span><span class="p">()</span>
+    <span class="n">ipython_main</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="ipython_imports"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.ipython_imports">[docs]</a><span class="k">def</span> <span class="nf">ipython_imports</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Default imports for IPython (currently unused)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">IPython.external.path</span> <span class="kn">import</span> <span class="n">path</span>
     <span class="n">path</span>
     <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span> <span class="k">as</span> <span class="n">pp</span>
@@ -909,23 +1126,25 @@
 <span class="kn">import</span> <span class="nn">unittest</span>
 
 
-<div class="viewcode-block" id="Test_env"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_env">[docs]</a><span class="k">class</span> <span class="nc">Test_env</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="Test_Env"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_Env">[docs]</a><span class="k">class</span> <span class="nc">Test_Env</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
-<div class="viewcode-block" id="Test_env.test_env"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_env.test_env">[docs]</a>    <span class="k">def</span> <span class="nf">test_env</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Test_Env.test_Env"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_Env.test_Env">[docs]</a>    <span class="k">def</span> <span class="nf">test_Env</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">e</span> <span class="o">=</span> <span class="n">Env</span><span class="p">()</span>
         <span class="k">assert</span> <span class="s">&#39;WORKON_HOME&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">e</span>
 </div>
-<div class="viewcode-block" id="Test_env.test_from_environ"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_env.test_from_environ">[docs]</a>    <span class="k">def</span> <span class="nf">test_from_environ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Test_Env.test_Env_from_environ"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_Env.test_Env_from_environ">[docs]</a>    <span class="k">def</span> <span class="nf">test_Env_from_environ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">os</span>
         <span class="n">e</span> <span class="o">=</span> <span class="n">Env</span><span class="o">.</span><span class="n">from_environ</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
         <span class="k">assert</span> <span class="s">&#39;WORKON_HOME&#39;</span> <span class="ow">in</span> <span class="n">e</span>
 
 </div></div>
 <div class="viewcode-block" id="Test_venv"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_venv">[docs]</a><span class="k">class</span> <span class="nc">Test_venv</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="n">TEST_VIRTUALENV</span> <span class="o">=</span> <span class="s">&#39;dotfiles&#39;</span>
-    <span class="n">TEST_APPNAME</span> <span class="o">=</span> <span class="s">&#39;dotfiles&#39;</span>
-    <span class="n">TEST_VIRTUAL_ENV</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">get_workon_home_default</span><span class="p">(),</span> <span class="s">&#39;dotfiles&#39;</span><span class="p">)</span>
 
+<div class="viewcode-block" id="Test_venv.setUp"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_venv.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TEST_VIRTUALENV</span> <span class="o">=</span> <span class="s">&#39;dotfiles&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TEST_APPNAME</span> <span class="o">=</span> <span class="s">&#39;dotfiles&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TEST_VIRTUAL_ENV</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">get_workon_home_default</span><span class="p">(),</span> <span class="s">&#39;dotfiles&#39;</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Test_venv.test_venv"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_venv.test_venv">[docs]</a>    <span class="k">def</span> <span class="nf">test_venv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">venv</span> <span class="o">=</span> <span class="n">Venv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TEST_VIRTUALENV</span><span class="p">)</span>
         <span class="k">assert</span> <span class="s">&#39;VIRTUAL_ENV&#39;</span> <span class="ow">in</span> <span class="n">venv</span><span class="o">.</span><span class="n">env</span>
@@ -949,6 +1168,10 @@
 
 </div></div>
 <div class="viewcode-block" id="get_venv_parser"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.get_venv_parser">[docs]</a><span class="k">def</span> <span class="nf">get_venv_parser</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        optparse.OptionParser: options for the commandline interface</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">optparse</span>
 
     <span class="n">prs</span> <span class="o">=</span> <span class="n">optparse</span><span class="o">.</span><span class="n">OptionParser</span><span class="p">(</span>
@@ -991,6 +1214,12 @@
 
 </div>
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Commandline main function called if ``__name__==&quot;__main__&quot;``</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: nonzero on error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">logging</span>
 
     <span class="n">prs</span> <span class="o">=</span> <span class="n">get_venv_parser</span><span class="p">()</span>
@@ -1003,10 +1232,8 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">run_tests</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">sys</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">args</span>
-        <span class="kn">import</span> <span class="nn">unittest</span>
-        <span class="nb">exit</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">())</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">())</span>
 
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">load_environ</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">os</span>
@@ -1018,7 +1245,6 @@
                 <span class="n">open_terminals</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">open_terminals</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">print_env</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">sys</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
         <span class="k">print</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="nb">file</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
 
@@ -1034,6 +1260,8 @@
                         <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                         <span class="n">env</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span>
                         <span class="n">cwd</span><span class="o">=</span><span class="n">venv</span><span class="o">.</span><span class="n">virtualenv</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
 </div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>

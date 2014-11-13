@@ -87,7 +87,10 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">dotfiles.venv package</a><ul>
-<li><a class="reference internal" href="#module-dotfiles.venv.ipython_config">Submodules</a></li>
+<li><a class="reference internal" href="#objectives">Objectives</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-dotfiles.venv.ipython_config">dotfiles.venv.ipython_config module</a></li>
 </ul>
 </li>
 </ul>
@@ -138,18 +141,71 @@
                   
   <div class="section" id="module-dotfiles.venv">
 <span id="dotfiles-venv-package"></span><h1>dotfiles.venv package<a class="headerlink" href="#module-dotfiles.venv" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objectives">
+<h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Set variables for standard paths in the environment dict</li>
+<li>Define IPython aliases</li>
+<li>Serialize variables and aliases to<ul>
+<li>IPython configuration (variables, aliases)</li>
+<li>Bash/zsh configuration (variables, aliases, functions) [<code class="docutils literal"><span class="pre">--bash</span></code>]</li>
+<li>JSON (variables, aliases) [<code class="docutils literal"><span class="pre">--print</span></code>]</li>
+</ul>
+</li>
+</ul>
+<p>For historical and consistency reasons, all &#8220;<code class="docutils literal"><span class="pre">venv</span></code>&#8221; Python code
+is contained within the <code class="docutils literal"><span class="pre">ipython_config.py</span></code> file, which depends
+only upon the Python standard library.</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>Flexible symlink paths relative to <code class="docutils literal"><span class="pre">${__DOTFILES}</span></code></p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;~/.dotfiles&quot;</span>
+
+<span class="c"># Working directory (path to the dotfiles repository)</span>
+<span class="nv">_WRD</span><span class="o">=</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span>/dotfiles/src/dotfiles
+
+<span class="c"># stored in the dotfiles git repository</span>
+ln -s <span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/src/dotfiles/venv/ipython_config.py <span class="se">\</span>
+      <span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/etc/ipython/ipython_config.py
+
+<span class="c"># automatically created by ``bootstrap_dotfiles.sh -S``</span>
+ln -s <span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/src/dotfiles/venv/ipython_config.py <span class="se">\</span>
+      <span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span>/etc/ipython/ipython_config.py
+
+<span class="c"># manually installed for an IPython profile</span>
+ln -s <span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span>/etc/ipython/ipython_config.py <span class="se">\</span>
+      ~/.ipython/profile_default/ipython_config.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="module-dotfiles.venv.ipython_config">
-<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-dotfiles.venv.ipython_config" title="Permalink to this headline">¶</a></h2>
+<span id="dotfiles-venv-ipython-config-module"></span><h2>dotfiles.venv.ipython_config module<a class="headerlink" href="#module-dotfiles.venv.ipython_config" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dotfiles.venv.ipython_config.Env">
 <em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Env</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">collections.OrderedDict</span></code></p>
-<p>Extended OrderedDict of NAMED and _ALIASED Filesystem Hierarchy paths.</p>
-<p>Helpful for working with virtualenvs, bootstraps, chroots, containers.</p>
+<p>OrderedDict of variables for/from <code class="docutils literal"><span class="pre">os.environ</span></code>.</p>
 <dl class="classmethod">
 <dt id="dotfiles.venv.ipython_config.Env.from_environ">
 <em class="property">classmethod </em><code class="descname">from_environ</code><span class="sig-paren">(</span><em>environ</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Env.from_environ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.from_environ" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build an <code class="docutils literal"><span class="pre">Env</span></code> from a dict (e.g. <code class="docutils literal"><span class="pre">os.environ</span></code>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>environ</strong> (<em>dict</em>) &#8211; a dict with variable name keys and values</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an Env environment built from the given environ dict</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Env</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.Env.osenviron_keys">
@@ -158,13 +214,35 @@
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Env.paths_to_variables">
-<code class="descname">paths_to_variables</code><span class="sig-paren">(</span><em>_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Env.paths_to_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.paths_to_variables" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">paths_to_variables</code><span class="sig-paren">(</span><em>path_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Env.paths_to_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.paths_to_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace components of a path string with variables configured
+in this Env.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>str</em>) &#8211; a path string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">path string containing <code class="docutils literal"><span class="pre">${VARNAME}</span></code> variables</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Env.set_standard_paths">
 <code class="descname">set_standard_paths</code><span class="sig-paren">(</span><em>env</em>, <em>prefix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Env.set_standard_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.set_standard_paths" title="Permalink to this definition">¶</a></dt>
-<dd><p>set variables for standard paths in the environment</p>
+<dd><p>Set variables for standard paths in the environment</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prefix</strong> (<em>str</em>) &#8211; a path prefix (e.g. <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code> or <code class="docutils literal"><span class="pre">$PREFIX</span></code>)</td>
+</tr>
+</tbody>
+</table>
 <p>see:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://en.wikipedia.org/wiki/Unix_directory_structure">https://en.wikipedia.org/wiki/Unix_directory_structure</a></li>
@@ -192,17 +270,17 @@
 </dd></dl>
 
 <dl class="class">
-<dt id="dotfiles.venv.ipython_config.Test_env">
-<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Test_env</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_env" title="Permalink to this definition">¶</a></dt>
+<dt id="dotfiles.venv.ipython_config.Test_Env">
+<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Test_Env</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_Env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_Env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
 <dl class="method">
-<dt id="dotfiles.venv.ipython_config.Test_env.test_env">
-<code class="descname">test_env</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_env.test_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_env.test_env" title="Permalink to this definition">¶</a></dt>
+<dt id="dotfiles.venv.ipython_config.Test_Env.test_Env">
+<code class="descname">test_Env</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_Env.test_Env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_Env.test_Env" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.ipython_config.Test_env.test_from_environ">
-<code class="descname">test_from_environ</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_env.test_from_environ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_env.test_from_environ" title="Permalink to this definition">¶</a></dt>
+<dt id="dotfiles.venv.ipython_config.Test_Env.test_Env_from_environ">
+<code class="descname">test_Env_from_environ</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_Env.test_Env_from_environ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_Env.test_Env_from_environ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -211,19 +289,9 @@
 <dt id="dotfiles.venv.ipython_config.Test_venv">
 <em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Test_venv</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_venv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_venv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
-<dl class="attribute">
-<dt id="dotfiles.venv.ipython_config.Test_venv.TEST_APPNAME">
-<code class="descname">TEST_APPNAME</code><em class="property"> = 'dotfiles'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_venv.TEST_APPNAME" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="dotfiles.venv.ipython_config.Test_venv.TEST_VIRTUALENV">
-<code class="descname">TEST_VIRTUALENV</code><em class="property"> = 'dotfiles'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_venv.TEST_VIRTUALENV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="dotfiles.venv.ipython_config.Test_venv.TEST_VIRTUAL_ENV">
-<code class="descname">TEST_VIRTUAL_ENV</code><em class="property"> = '/Users/W/wrk/.ve/dotfiles'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_venv.TEST_VIRTUAL_ENV" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="dotfiles.venv.ipython_config.Test_venv.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_venv.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_venv.setUp" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -257,73 +325,223 @@
 <dt id="dotfiles.venv.ipython_config.Venv">
 <em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Venv</code><span class="sig-paren">(</span><em>virtualenv=None</em>, <em>appname=None</em>, <em>env=None</em>, <em>from_environ=False</em>, <em>open_editors=False</em>, <em>open_terminals=False</em>, <em>dont_reflect=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Venv &#8211; a virtual environment configuration generator for bash, ipython</p>
+<p>A virtual environment configuration generator</p>
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.asdict">
 <code class="descname">asdict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.asdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.asdict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">OrderedDict(env=self.env, aliases=self.aliases)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">OrderedDict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.bash_env">
-<code class="descname">bash_env</code><span class="sig-paren">(</span><em>output=&lt;open file '&lt;stdout&gt;'</em>, <em>mode 'w' at 0x1098c8150&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.bash_env" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">bash_env</code><span class="sig-paren">(</span><em>output=&lt;open file '&lt;stdout&gt;'</em>, <em>mode 'w' at 0x10db89150&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.bash_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a <code class="docutils literal"><span class="pre">source</span></code>-able script for the environment variables,
+aliases, and functions defined by the current <code class="docutils literal"><span class="pre">Venv</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>output</strong> (<em>file-like</em>) &#8211; object to <code class="docutils literal"><span class="pre">print</span></code> to
+(<code class="docutils literal"><span class="pre">print</span></code> calls <code class="docutils literal"><span class="pre">.write()</span></code> and then <code class="docutils literal"><span class="pre">.flush()</span></code>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.configure_ipython">
 <code class="descname">configure_ipython</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.configure_ipython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.configure_ipython" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Configure IPython with <code class="docutils literal"><span class="pre">Venv._configure_ipython</span></code> and
+<code class="docutils literal"><span class="pre">user_aliases</span></code> from <code class="docutils literal"><span class="pre">self.aliases.items()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>list</em>) &#8211; args for <code class="docutils literal"><span class="pre">Venv._configure_ipython</span></code></li>
+<li><strong>kwargs</strong> (<em>dict</em>) &#8211; kwargs for <code class="docutils literal"><span class="pre">Venv._configure_ipython</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.configure_sys">
 <code class="descname">configure_sys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.configure_sys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.configure_sys" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">sys.path</span></code> list from <code class="docutils literal"><span class="pre">_configure_sys</span></code>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.get_user_aliases">
 <code class="descname">get_user_aliases</code><span class="sig-paren">(</span><em>dont_reflect=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.get_user_aliases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.get_user_aliases" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Configure env variables and return an OrderedDict of aliases</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dont_reflect</strong> (<em>bool</em>) &#8211; Whether to always create aliases and functions
+referencing <code class="docutils literal"><span class="pre">$_WRD</span></code> even if <code class="docutils literal"><span class="pre">$_WRD</span></code> doesn&#8217;t exist.
+(default: False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">dict of aliases</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">OrderedDict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.get_user_aliases_base">
 <code class="descname">get_user_aliases_base</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.get_user_aliases_base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.get_user_aliases_base" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict of <code class="docutils literal"><span class="pre">cd</span></code> command aliases</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">OrderedDict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="staticmethod">
 <dt id="dotfiles.venv.ipython_config.Venv.get_virtualenv_path">
 <em class="property">static </em><code class="descname">get_virtualenv_path</code><span class="sig-paren">(</span><em>virtualenv=None</em>, <em>from_environ=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.get_virtualenv_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.get_virtualenv_path" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the path to a virtualenv</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>virtualenv</strong> (<em>str</em>) &#8211; a path to a virtualenv containing <code class="docutils literal"><span class="pre">/</span></code>
+OR just the name of a virtualenv in <code class="docutils literal"><span class="pre">$WORKON_HOME</span></code></li>
+<li><strong>from_environ</strong> (<em>bool</em>) &#8211; whether to try and read from
+<code class="docutils literal"><span class="pre">os.environ[&quot;VIRTUAL_ENV&quot;]</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a path to a virtualenv (for <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.open_editors">
 <code class="descname">open_editors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.open_editors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.open_editors" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Run <code class="docutils literal"><span class="pre">self._edit_project_cmd</span></code></p>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.open_terminals">
 <code class="descname">open_terminals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.open_terminals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.open_terminals" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Run <code class="docutils literal"><span class="pre">self._open_terminals_cmd</span></code></p>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.system">
 <code class="descname">system</code><span class="sig-paren">(</span><em>cmd=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.system" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Call <code class="docutils literal"><span class="pre">os.system</span></code> with the given command string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cmd</strong> (<em>string</em>) &#8211; command string to call <code class="docutils literal"><span class="pre">os.system</span></code> with</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><code class="xref py py-exc docutils literal"><span class="pre">Exception</span></code> &#8211; 
+if <code class="docutils literal"><span class="pre">cmd</span></code> is None</li>
+<li><code class="xref py py-exc docutils literal"><span class="pre">NotImplementedError</span></code> &#8211; 
+if <code class="docutils literal"><span class="pre">cmd</span></code> is a tuple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.to_json">
 <code class="descname">to_json</code><span class="sig-paren">(</span><em>indent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.to_json" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>indent</strong> (<em>int</em>) &#8211; number of spaces with which to indent JSON output</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">json.dumps(self.asdict())</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="classmethod">
 <dt id="dotfiles.venv.ipython_config.Venv.workon_project">
 <em class="property">classmethod </em><code class="descname">workon_project</code><span class="sig-paren">(</span><em>virtualenv</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.workon_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.workon_project" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>virtualenv</strong> (<em>str</em>) &#8211; a path to a virtualenv containing <code class="docutils literal"><span class="pre">/</span></code>
+OR just the name of a virtualenv in <code class="docutils literal"><span class="pre">$WORKON_HOME</span></code></li>
+<li><strong>kwargs</strong> (<em>dict</em>) &#8211; kwargs to pass to Venv (see <code class="docutils literal"><span class="pre">Venv.__init__</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">an intialized <code class="docutils literal"><span class="pre">Venv</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Venv</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.get_venv_parser">
 <code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">get_venv_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#get_venv_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.get_venv_parser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">optparse.OptionParser: options for the commandline interface</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.get_workon_home_default">
@@ -332,7 +550,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Best path for a WORKON_HOME directory for virtualenvwrapper</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Best path for a virtualenvwrapper <code class="docutils literal"><span class="pre">$WORKON_HOME</span></code></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
@@ -343,27 +561,69 @@
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.in_ipython_config">
 <code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">in_ipython_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#in_ipython_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.in_ipython_config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if <code class="docutils literal"><span class="pre">get_ipython</span></code> is in <code class="docutils literal"><span class="pre">globals()</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.ipython_imports">
 <code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">ipython_imports</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#ipython_imports"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.ipython_imports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Default imports for IPython (currently unused)</p>
+</dd></dl>
 
 <dl class="function">
-<dt id="dotfiles.venv.ipython_config.ipythonmain">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">ipythonmain</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#ipythonmain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.ipythonmain" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="dotfiles.venv.ipython_config.ipython_main">
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">ipython_main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#ipython_main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.ipython_main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to call if running within IPython,
+as determined by <code class="docutils literal"><span class="pre">in_ipython_config</span></code>.</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.main">
 <code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Commandline main function called if <code class="docutils literal"><span class="pre">__name__==&quot;__main__&quot;</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">nonzero on error</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.shell_quote">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">shell_quote</code><span class="sig-paren">(</span><em>_str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#shell_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.shell_quote" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">shell_quote</code><span class="sig-paren">(</span><em>var</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#shell_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.shell_quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Escape single quotes and add double quotes around a given variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>_str</strong> (<em>str</em>) &#8211; string to add quotes to</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">string wrapped in quotes</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is not safe for untrusted input and only valid
+in this context (<code class="docutils literal"><span class="pre">os.environ</span></code>).</p>
+</div>
+</dd></dl>
 
 </div>
 </div>
@@ -380,7 +640,10 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">dotfiles.venv package</a><ul>
-<li><a class="reference internal" href="#module-dotfiles.venv.ipython_config">Submodules</a></li>
+<li><a class="reference internal" href="#objectives">Objectives</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-dotfiles.venv.ipython_config">dotfiles.venv.ipython_config module</a></li>
 </ul>
 </li>
 </ul>

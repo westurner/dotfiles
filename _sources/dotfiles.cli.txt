@@ -6,8 +6,11 @@ dotfiles.cli package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Subpackages
+-----------
+
+dotfiles.cli.cli module
+-----------------------
 
 .. automodule:: dotfiles.cli.cli
     :members:

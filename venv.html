@@ -277,7 +277,7 @@ export _USRLOG=&#39;~/wrk/.ve/dotfiles/.usrlog&#39;
 export HISTFILE=&#39;~/wrk/.ve/dotfiles/.bash_history&#39;
 export HISTSIZE=1000000
 export HISTFILESIZE=1000000
-export PAGER=&#39;/usr/bin/less -r&#39;
+export PAGER=&#39;/usr/bin/less -R&#39;
 export _APP=&#39;dotfiles&#39;
 export _WRD=&#39;~/wrk/.ve/dotfiles/src/dotfiles&#39;
 export VIMBIN=&#39;/usr/bin/vim&#39;
@@ -297,109 +297,109 @@ export _SERVE_=&#39;(cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; ~
 export _SVCFG=&#39;~/wrk/.ve/dotfiles/etc/supervisord.conf&#39;
 export _SVCFG_=&#39; -c &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot;&#39;
 eval &#39;cdb () {
-    cd &quot;${_BIN}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/bin&quot;/$@
 }&#39;;
 eval &#39;cde () {
-    cd &quot;${_ETC}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/etc&quot;/$@
 }&#39;;
 eval &#39;cdv () {
-    cd &quot;${VIRTUAL_ENV}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles&quot;/$@
 }&#39;;
 eval &#39;cdvar () {
-    cd &quot;${_VAR}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/var&quot;/$@
 }&#39;;
 eval &#39;cdlog () {
-    cd &quot;${_LOG}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/var/log&quot;/$@
 }&#39;;
 eval &#39;cdww () {
-    cd &quot;${_WWW}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/var/www&quot;/$@
 }&#39;;
 eval &#39;cdl () {
-    cd &quot;${_LIB}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/lib&quot;/$@
 }&#39;;
 eval &#39;cdpylib () {
-    cd &quot;${_PYLIB}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/lib/python2.7&quot;/$@
 }&#39;;
 eval &#39;cdpysite () {
-    cd &quot;${_PYSITE}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/lib/python2.7/site-packages&quot;/$@
 }&#39;;
 eval &#39;cds () {
-    cd &quot;${_SRC}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/src&quot;/$@
 }&#39;;
 eval &#39;cdhelp () {
     set | grep &quot;^cd.*()&quot; | cut -f1 -d&quot; &quot; #$@
 }&#39;;
 eval &#39;edit- () {
-    ${_EDIT_} $@
+    /usr/local/bin/mvim --servername dotfiles --remote-tab-silent $@
 }&#39;;
-alias gvim-=&#39;${_EDIT_}&#39;
+alias gvim-=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&#39;
 eval &#39;ipskey () {
-    (python -c &quot;import os; print os.urandom(128).encode(\&quot;base64\&quot;)&quot; &gt; &quot;${_IPSESSKEY}&quot; ) &amp;&amp; chmod 0600 &quot;${_IPSESSKEY}&quot;; # $@
+    (python -c &quot;import os; print os.urandom(128).encode(\&quot;base64\&quot;)&quot; &gt; &quot;~/wrk/.ve/dotfiles/src/.sessionkey&quot; ) &amp;&amp; chmod 0600 &quot;~/wrk/.ve/dotfiles/src/.sessionkey&quot;; # $@
 }&#39;;
 eval &#39;ipnb () {
-    ipython notebook --secure --Session.keyfile=&quot;${_IPSESSKEY}&quot; --notebook-dir=&quot;${_NOTEBOOKS}&quot; --deep-reload $@
+    ipython notebook --secure --Session.keyfile=&quot;~/wrk/.ve/dotfiles/src/.sessionkey&quot; --notebook-dir=&quot;~/wrk/.ve/dotfiles/src/notebooks&quot; --deep-reload $@
 }&#39;;
 eval &#39;ipqt () {
-    ipython qtconsole --secure --Session.keyfile=&quot;${_IPSESSKEY}&quot; --logappend=&quot;${_IPQTLOG}&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=&quot;Monaco&quot; --ConsoleWidget.font_size=11 $@
+    ipython qtconsole --secure --Session.keyfile=&quot;~/wrk/.ve/dotfiles/src/.sessionkey&quot; --logappend=&quot;~/wrk/.ve/dotfiles/.ipqt.log&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=&quot;Monaco&quot; --ConsoleWidget.font_size=11 $@
 }&#39;;
 eval &#39;grinv () {
-    grin --follow $@ &quot;${VIRTUAL_ENV}&quot;
+    grin --follow $@ &quot;~/wrk/.ve/dotfiles&quot;
 }&#39;;
 eval &#39;grindv () {
-    grind --follow $@ --dirs &quot;${VIRTUAL_ENV}&quot;
+    grind --follow $@ --dirs &quot;~/wrk/.ve/dotfiles&quot;
 }&#39;;
 eval &#39;grins () {
-    grin --follow $@ &quot;${_SRC}&quot;
+    grin --follow $@ &quot;~/wrk/.ve/dotfiles/src&quot;
 }&#39;;
 eval &#39;grinds () {
-    grind --follow $@ --dirs &quot;${_SRC}&quot;
+    grind --follow $@ --dirs &quot;~/wrk/.ve/dotfiles/src&quot;
 }&#39;;
 eval &#39;cdw () {
-    cd &quot;${_WRD}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;/$@
 }&#39;;
 eval &#39;cd- () {
-    cd &quot;${_WRD}&quot;/$@
+    cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;/$@
 }&#39;;
-alias test-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&#39;
-alias testr-=&#39;reset &amp;&amp; (cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&#39;
-alias nose-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; nosetests)&#39;
+alias test-=&#39;(cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; python &quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot; test)&#39;
+alias testr-=&#39;reset &amp;&amp; (cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; python &quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot; test)&#39;
+alias nose-=&#39;(cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; nosetests)&#39;
 eval &#39;grinw () {
-    grin --follow $@ &quot;${_WRD}&quot;
+    grin --follow $@ &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;
 }&#39;;
 eval &#39;grin- () {
-    grin --follow $@ &quot;${_WRD}&quot;
+    grin --follow $@ &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;
 }&#39;;
 eval &#39;grindw () {
-    grind --follow $@ --dirs &quot;${_WRD}&quot;
+    grind --follow $@ --dirs &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;
 }&#39;;
 eval &#39;grind- () {
-    grind --follow $@ --dirs &quot;${_WRD}&quot;
+    grind --follow $@ --dirs &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;
 }&#39;;
-alias hgv-=&#39;hg view -R &quot;${_WRD}&quot;&#39;
-alias hgl-=&#39;hg -R &quot;${_WRD}&quot; log&#39;
+alias hgv-=&#39;hg view -R &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;&#39;
+alias hgl-=&#39;hg -R &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; log&#39;
 eval &#39;editcfg () {
-    ${_EDITCFG_} $@
+    /usr/local/bin/mvim --servername dotfiles --remote-tab-silent ~/wrk/.ve/dotfiles/etc/development.ini $@
 }&#39;;
-alias serve-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; ${_BIN}/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)&#39;
-alias shell-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; ${_BIN}/pshell &quot;${_CFG}&quot;)&#39;
+alias serve-=&#39;(cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; ~/wrk/.ve/dotfiles/bin/pserve --app-name=main --reload --monitor-restart &quot;~/wrk/.ve/dotfiles/etc/development.ini&quot;)&#39;
+alias shell-=&#39;(cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; ~/wrk/.ve/dotfiles/bin/pshell &quot;~/wrk/.ve/dotfiles/etc/development.ini&quot;)&#39;
 eval &#39;e () {
-    ${_EDIT_} $@
+    /usr/local/bin/mvim --servername dotfiles --remote-tab-silent $@
 }&#39;;
 eval &#39;editp () {
-    ${_EDIT_} &quot;${_WRD}/README.rst&quot; &quot;${_WRD}/CHANGES.rst&quot; &quot;${_WRD}/TODO.rst&quot; &quot;${_WRD}/Makefile&quot; &quot;${_WRD_SETUPY}&quot; &quot;${_WRD}/requirements.txt&quot; &quot;${_WRD}/.hgignore&quot; &quot;${_WRD}/.gitignore&quot; &quot;${_WRD}/.hg/hgrc&quot; &quot;${_WRD}/&quot; &quot;${_WRD}/dotfiles&quot; &quot;${_WRD}/docs&quot; $@
+    /usr/local/bin/mvim --servername dotfiles --remote-tab-silent &quot;~/wrk/.ve/dotfiles/src/dotfiles/README.rst&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/CHANGES.rst&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/TODO.rst&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/Makefile&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/requirements.txt&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/.hgignore&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/.gitignore&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/.hg/hgrc&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/dotfiles&quot; &quot;~/wrk/.ve/dotfiles/src/dotfiles/docs&quot; $@
 }&#39;;
 eval &#39;makewrd () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
+    (cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; make $@)
 }&#39;;
 eval &#39;make- () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
+    (cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; make $@)
 }&#39;;
 eval &#39;mw () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
+    (cd &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot; &amp;&amp; make $@)
 }&#39;;
-alias ssv=&#39;supervisord -c &quot;${_SVCFG}&quot;&#39;
-alias sv=&#39;supervisorctl -c &quot;${_SVCFG}&quot;&#39;
-alias svd=&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; supervisorctl -c &quot;${_SVCFG}&quot; tail -f dev&#39;
+alias ssv=&#39;supervisord -c &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot;&#39;
+alias sv=&#39;supervisorctl -c &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot;&#39;
+alias svd=&#39;supervisorctl -c &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot; restart dev &amp;&amp; supervisorctl -c &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot; tail -f dev&#39;
 alias svt=&#39;sv tail -f&#39;
 </pre></div>
 </div>
@@ -451,7 +451,7 @@ alias svt=&#39;sv tail -f&#39;
     &quot;HISTFILE&quot;: &quot;~/wrk/.ve/dotfiles/.bash_history&quot;, 
     &quot;HISTSIZE&quot;: 1000000, 
     &quot;HISTFILESIZE&quot;: 1000000, 
-    &quot;PAGER&quot;: &quot;/usr/bin/less -r&quot;, 
+    &quot;PAGER&quot;: &quot;/usr/bin/less -R&quot;, 
     &quot;_APP&quot;: &quot;dotfiles&quot;, 
     &quot;_WRD&quot;: &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;, 
     &quot;VIMBIN&quot;: &quot;/usr/bin/vim&quot;, 
