@@ -28,7 +28,7 @@ and configures :ref:`IPython`.
 (:py:mod:`dotfiles.venv.ipython_magics`) 
 configures the same ``cd`` commands
 and ``ds`` command defined in ``10-bashrc.venv.sh`` and
-``ipython_config.py`` for use in :ref:`IPython`.
+``ipython_config.py`` for :ref:`IPython`.
 
 
 .. _10-bashrc.venv.sh: https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
