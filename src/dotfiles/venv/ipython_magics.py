@@ -17,7 +17,14 @@ Installation
         ~/.ipython/${ipython_profile}/startup/ipython_magics.py
 """
 import os
-from IPython.core.magic import (Magics, magics_class, line_magic)
+try:
+    from IPython.core.magic import (Magics, magics_class, line_magic)
+except ImportError:
+    print("ImportError: IPython")
+    # Mock IPython for building docs
+    Magics = object
+    magics_class = lambda cls, *args, **kwargs: cls
+    line_magic = lambda func, *args, **kwargs: func
 
 @magics_class
 class VenvMagics(Magics):
