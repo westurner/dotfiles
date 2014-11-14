@@ -14,9 +14,30 @@ Packages
 | Wikipedia: `<https://en.wikipedia.org/wiki/Package_(package_management_system)>`__
 
 
-Source and/or binary packages to install from a standard archive
-with a *signed* manifest containing file signatures of
-package files.
+A software package is an archive of files 
+with a manifest that lists the files included.
+Often, the manifest contains file checksums
+and a *signature*.
+
+Many packaging tools make a distinction between source
+and/or binary packages.
+
+Some packaging tools provide configuration options for:
+
+* Scripts to run before compression
+* Scripts to run at install time
+* Scripts to run at uninstal time
+* Patches to apply to the "vanilla* source tree,
+  as might be obtained from a version control repository.
+
+There is a package maintainer, whose responsibilities include:
+
+* Testing new *upstream* releases to verify that the package works
+* *Vetting* changes from release to release
+* *Signing* new package releases
+
+*Packaging lag* refers to how long it takes a package maintainer
+to repackage upstream releases for the target platform(s).
 
 
 .. index:: Apt
@@ -1772,8 +1793,7 @@ A standard virtual environment::
    tmp/           # mkstemp temporary files with permission bits
    srv/           # local data
 
-:ref:`Virtualenvwrapper` wraps virtualenv. In the following
-code shell example, comments with ``##`` are virtualenvwrapper
+:ref:`Virtualenvwrapper` wraps virtualenv.
 
 .. code-block:: bash
 
@@ -1790,6 +1810,11 @@ code shell example, comments with ``##`` are virtualenvwrapper
 
 
 .. note:: :ref:`Venv` extends :ref:`virtualenv` and :ref:`virtualenvwrapper`.
+
+.. note:: 
+   Python 3.4 now also contains a script called **venv**, which
+   performs the same functions and works similarly to virtualenv:
+   `<https://docs.python.org/3/library/venv.html>`_.
 
 
 .. index:: Virtualenvwrapper
@@ -1826,7 +1851,9 @@ Virtualenvwrapper is sourced into the shell::
 .. code-block:: bash
 
    echo $PROJECT_HOME; echo ~/workspace             # venv: ~/wrk
+   cd $PROJECT_HOME                                 # venv: cdp; cdph
    echo $WORKON_HOME;  echo ~/.virtualenvs          # venv: ~/wrk/.ve
+   cd $WORKON_HOME                                  # venv: cdwh; cdwrk
 
    mkvirtualenv example
    workon example                                   # venv: we example
@@ -1837,6 +1864,7 @@ Virtualenvwrapper is sourced into the shell::
    mkdir src ; cd src/                              # venv: cds; cd $_SRC
 
    pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+
    cd src/dotfiles; cd $VIRTUAL_ENV/src/dotfiles    # venv: cdw; cds dotfiles
    head README.rst
 
@@ -1847,7 +1875,7 @@ Virtualenvwrapper is sourced into the shell::
    deactivate
    rmvirtualenv example
 
-   lsvirtualenvs; ls -d $WORKON_HOME                # venv: lsve
+   lsvirtualenvs; ls -d $WORKON_HOME                # venv: lsve; lsve 'ls -d'
 
 
 .. index:: Wayland
