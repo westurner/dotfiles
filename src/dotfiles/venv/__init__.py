@@ -4,41 +4,61 @@
 
 Objectives
 ------------
-- Set variables for standard paths in the environment dict
-- Define IPython aliases
+:py:mod:`dotfiles.venv.ipython_config` (`ipython_config.py`_):
+
+- Set variables for standard :ref:`Virtualenv` paths in the environment dict
+- Define :ref:`IPython` aliases
 - Serialize variables and aliases to:
 
-  - IPython configuration (variables, aliases)
-  - Bash/zsh configuration (variables, aliases, functions) [``--bash``]
-  - JSON (variables, aliases) [``--print``]
+  - :ref:`IPython` configuration (variables, aliases)
+  - :ref:`Bash`/:ref:`ZSH` configuration (variables, aliases, functions):
 
-For historical and consistency reasons, all "``venv``" Python code
-is contained within the ``ipython_config.py`` file, which depends
-only upon the Python standard library.
+    * ``venv -E --bash``
+    * ``venv dotfiles --bash``
+
+  - :ref:`JSON` (variables, aliases) [``--print``]
+
+    * ``venv -E --json``
+    * ``venv dotfiles json``
+
+:py:mod:`dotfiles.venv.ipython_magics` (`ipython_magics.py`_):
+
+- Configure :ref:`IPython` ``%magic`` commands
+
+  - ``cd*`` -- change directories (``%cdhelp``, ``%cdp``, ``%cdwh``, ``%cdv``,
+    ``%cds``, ``%cdw``)
+  - ``ds``  -- print dotfiles_status
+
+.. _ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
+.. _ipython_magics.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py
 
 
 Configuration
 ---------------
-Flexible symlink paths relative to ``${__DOTFILES}``
 
 .. code-block:: bash
 
+    # symlink paths relative to ${__DOTFILES}
     __DOTFILES="~/.dotfiles"
 
-    # Working directory (path to the dotfiles repository)
+    # working directory (path to the dotfiles repository)
     _WRD=${WORKON_HOME}/dotfiles/src/dotfiles
 
-    # stored in the dotfiles git repository
+    # already stored in the dotfiles git repository
     ln -s ${_WRD}/src/dotfiles/venv/ipython_config.py \\
           ${_WRD}/etc/ipython/ipython_config.py
 
     # automatically created by ``bootstrap_dotfiles.sh -S``
-    ln -s ${_WRD}/src/dotfiles/venv/ipython_config.py \\
+    ln -s ${_WRD}/etc/ipython/ipython_config.py \\
           ${__DOTFILES}/etc/ipython/ipython_config.py
 
-    # manually installed for an IPython profile
+    # manually installed for each IPython profile
+    IPY_PROFILE="profile_default"
     ln -s ${__DOTFILES}/etc/ipython/ipython_config.py \\
-          ~/.ipython/profile_default/ipython_config.py
+          ~/.ipython/${IPY_PROFILE}/ipython_config.py
+
+    ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \\
+          ~/.ipython/${IPY_PROFILE}/ipython_magica.py
 
 """
 
