@@ -6,8 +6,7 @@
 Venv
 ======
 
-Venv makes working with :ref:`virtualenv` and :ref:`virtualenvwrapper`
-very easy.
+Venv makes working with :ref:`virtualenvwrapper` very easy.
 
 There are three parts to "``venv``":
 
