@@ -217,17 +217,23 @@
 ## cd functions
     # cdb()     -- cd $_BIN
     # cde()     -- cd $_ETC
-    # cdv()     -- cd $VIRTUAL_ENV
-    # cdve()    -- cd $WORKON_HOME
-    # cdvar()   -- cd $_VAR
-    # cdlog()   -- cd $_LOG
-    # cdww()    -- cd $_WWW
+    # cdh()     -- cd $HOME
     # cdl()     -- cd $_LIB
+    # cdlog()   -- cd $_LOG
+    # cdp()     -- cd $PROJECT_HOME
+    # cdph()    -- cd $PROJECT_HOME
     # cdpylib() -- cd $_PYLIB
     # cdpysite()-- cd $_PYSITE
     # cds()     -- cd $_SRC
+    # cdv()     -- cd $VIRTUAL_ENV
+    # cdve()    -- cd $WORKON_HOME
+    # cdvar()   -- cd $_VAR
     # cdw()     -- cd $_WRD
+    # cdwrd     -- cd $_WRD
+    # cdwh      -- cd $WORKON_HOME
     # cdwrk()   -- cd $WORKON_HOME
+    # cdww()    -- cd $_WWW
+    # cdwww()   -- cd $_WWW
 ## Grin search
 # virtualenv / virtualenvwrapper
     # grinv()   -- grin $VIRTUAL_ENV
@@ -282,6 +288,7 @@
     #   VIMCONF (str):   --servername ${VIRTUAL_ENV_NAME:-'EDITOR'}
     #   SUDO_EDITOR (str): $EDITOR
     # ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
+    # edits()   -- open $@ in ${GUIVIMBIN} --servername $1
     # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     # edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]

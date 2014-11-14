@@ -2284,29 +2284,25 @@ cde () {
     # cde()     -- cd $_ETC
     cd "${_ETC}"/$@
 }
-cdv () {
-    # cdv()     -- cd $VIRTUAL_ENV
-    cd "${VIRTUAL_ENV}"/$@
+cdh () {
+    # cdh()     -- cd $HOME
+    cd "${HOME}"/$@
 }
-cdve () {
-    # cdve()    -- cd $WORKON_HOME
-    cd "${WORKON_HOME}"/$@
-}
-cdvar () {
-    # cdvar()   -- cd $_VAR
-    cd "${_VAR}"/$@
+cdl () {
+    # cdl()     -- cd $_LIB
+    cd "${_LIB}"/$@
 }
 cdlog () {
     # cdlog()   -- cd $_LOG
     cd "${_LOG}"/$@
 }
-cdww () {
-    # cdww()    -- cd $_WWW
-    cd "${_WWW}"/$@
+cdp () {
+    # cdp()     -- cd $PROJECT_HOME
+    cd "${PROJECT_HOME}"/$@
 }
-cdl () {
-    # cdl()     -- cd $_LIB
-    cd "${_LIB}"/$@
+cdph () {
+    # cdph()    -- cd $PROJECT_HOME
+    cd "${PROJECT_HOME}"/$@
 }
 cdpylib () {
     # cdpylib() -- cd $_PYLIB
@@ -2320,14 +2316,41 @@ cds () {
     # cds()     -- cd $_SRC
     cd "${_SRC}"/$@
 }
+cdv () {
+    # cdv()     -- cd $VIRTUAL_ENV
+    cd "${VIRTUAL_ENV}"/$@
+}
+cdve () {
+    # cdve()    -- cd $WORKON_HOME
+    cd "${VIRTUAL_ENV}"/$@
+}
+cdvar () {
+    # cdvar()   -- cd $_VAR
+    cd "${_VAR}"/$@
+}
 cdw () {
     # cdw()     -- cd $_WRD
     cd "${_WRD}"/$@
 }
-
+cdwrd () {
+    # cdwrd     -- cd $_WRD
+    cd "${_WRD}"/$@
+}
+cdwh () {
+    # cdwh      -- cd $WORKON_HOME
+    cd "${WORKON_HOME}"/$@
+}
 cdwrk () {
     # cdwrk()   -- cd $WORKON_HOME
     cd "${WORKON_HOME}/$@"
+}
+cdww () {
+    # cdww()    -- cd $_WWW
+    cd "${_WWW}"/$@
+}
+cdwww () {
+    # cdwww()   -- cd $_WWW
+    cd "${_WWW}"/$@
 }
 
 ## Grin search
@@ -2590,6 +2613,14 @@ _setup_editor
 ggvim() {
     # ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
     ${EDITOR} $@ 2>&1 > /dev/null
+}
+
+
+edits() {
+    # edits()   -- open $@ in ${GUIVIMBIN} --servername $1
+    servername=$1
+    shift
+    ${GUIVIMBIN} --servername ${servername} --remote-tab $@
 }
 
 
