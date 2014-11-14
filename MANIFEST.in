@@ -36,6 +36,7 @@ include docs/readme.rst
 include docs/requirements.txt
 include docs/src/conf.py
 include docs/tools.rst
+include docs/usage.rst
 include docs/venv.rst
 include etc/.Xmodmap
 include etc/.bash_aliases
