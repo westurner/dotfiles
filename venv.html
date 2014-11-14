@@ -86,14 +86,12 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">Venv</a><ul>
-<li><a class="reference internal" href="#features">Features</a></li>
 <li><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
 <li><a class="reference internal" href="#shell-command">Shell Command</a></li>
 <li><a class="reference internal" href="#python-api">Python API</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#command-aliases">Command Aliases</a></li>
 <li><a class="reference internal" href="#example-venv-configuration">Example Venv Configuration</a><ul>
 <li><a class="reference internal" href="#shell-configuration">Shell Configuration</a></li>
 <li><a class="reference internal" href="#json-configuration">JSON Configuration</a></li>
@@ -154,26 +152,15 @@
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a></li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py">dotfiles.venv.ipython_magics.py</a></li>
 </ul>
-<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a> (<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a>)
-generates <a class="reference internal" href="#shell-configuration">shell configuration</a> and IPython configuration
-with aliases that, for shells like <a class="reference internal" href="tools.html#bash"><em>Bash</em></a> and <a class="reference internal" href="tools.html#zsh"><em>ZSH</em></a>,
-are expanded to functions if they contain a <code class="docutils literal"><span class="pre">%l</span></code>
-(which IPython <code class="docutils literal"><span class="pre">%alias</span></code> replaces with any passed arguments).</p>
-<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a> is symlinked to
-<code class="docutils literal"><span class="pre">etc/ipython/ipython_config.py</span></code>.</p>
 <p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures a number of useful variables and
-functions for use with <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
-<div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Configures <a class="reference internal" href="tools.html#python"><em>Python</em></a> <code class="docutils literal"><span class="pre">site</span></code> for a given <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a></li>
-<li>Configures <a class="reference internal" href="tools.html#python"><em>Python</em></a> <code class="docutils literal"><span class="pre">sys.path</span></code> with <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a> extension paths</li>
-<li>Configures <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a> command aliases (<code class="docutils literal"><span class="pre">%alias</span></code>, or just <code class="docutils literal"><span class="pre">alias</span></code>)</li>
-<li>Generates <a class="reference internal" href="tools.html#bash"><em>Bash</em></a> environments from <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> paths</li>
-<li>Configures <a class="reference internal" href="tools.html#bash"><em>Bash</em></a> variables starting with <code class="docutils literal"><span class="pre">$_</span></code> (<code class="docutils literal"><span class="pre">$_APP</span></code>, <code class="docutils literal"><span class="pre">$_WRD</span></code>)</li>
-<li>Run commands within a <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">-x</span> <span class="pre">bash</span></code>)</li>
-</ul>
-</div>
+functions for use with <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a> and
+<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a>.</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a> (<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a>)
+generates <a class="reference internal" href="#shell-configuration">shell configuration</a> (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--help</span></code>)
+and configures <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a>.</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py">dotfiles.venv.ipython_magics.py</a> configures the <code class="docutils literal"><span class="pre">cd</span></code> commands
+and <code class="docutils literal"><span class="pre">ds</span></code> command defined in <code class="docutils literal"><span class="pre">10-bashrc.venv.sh</span></code> and
+<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a> for use in <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a>.</p>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># print shell configuration for a (hypothetical) dotfiles virtualenv</span>
@@ -227,13 +214,16 @@ Copyright 2014 Wes Turner. New BSD License
 </div>
 <div class="section" id="python-api">
 <h3>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h3>
-<p>A Venv object builds a <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a>
-with <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths
-in a common filesystem hierarchy and an ordered dictionary of
-command aliases, which can be serialized to
-a bash script (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--bash</span></code>) or to JSON (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--print</span></code>)
-by a <code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config:Venv</span></code>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">Venv</span><span class="o">,</span> <span class="nn">json</span>
+<p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object
+builds a <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a> OrderedDict
+(<code class="docutils literal"><span class="pre">.env</span></code>)
+with <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths and environment variables
+in a common filesystem hierarchy
+and an OrderedDict of
+command aliases (<code class="docutils literal"><span class="pre">.aliases</span></code>), which can be serialized to
+a bash script (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--bash</span></code>), JSON (<code class="docutils literal"><span class="pre">venv</span> <span class="pre">--print</span></code>),
+and IPython configuration.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">dotfiles.venv.ipython_config</span> <span class="kn">import</span> <span class="n">Venv</span>
 <span class="n">venv</span> <span class="o">=</span> <span class="n">Venv</span><span class="p">(</span><span class="n">from_environ</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">venv</span><span class="o">.</span><span class="k">print</span><span class="p">()</span>
 <span class="n">venv</span><span class="o">.</span><span class="n">bash_env</span><span class="p">()</span>
@@ -245,25 +235,9 @@ by a <code class="xref py py-mod docutils literal"><span class="pre">dotfiles.ve
 <span class="k">assert</span> <span class="n">venv</span><span class="o">.</span><span class="n">appname</span>     <span class="o">==</span> <span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">]</span>
 
 <span class="k">print</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">])</span>     <span class="c"># working directory</span>
-<span class="c">#&gt; ~/.virtualenvs/dotfiles</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">aliases</span><span class="p">[</span><span class="s">&#39;_edit&#39;</span><span class="p">])</span>
-<span class="c">#&gt; gvim --servername dotfiles --remote-tab</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">])</span>
-<span class="c">#&gt; gvim --servername dotfiles --remote-tab</span>
+<span class="k">print</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">aliases</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">])</span>    <span class="c"># edit with --servername $_APP</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="command-aliases">
-<h2>Command Aliases<a class="headerlink" href="#command-aliases" title="Permalink to this headline">¶</a></h2>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The aliases generated by <cite>dotfiles.venv.ipython_config.py</cite>
-should also be defined in <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a>;
-but the variables they reference are set by
-<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a>.</p>
 </div>
 </div>
 <div class="section" id="example-venv-configuration">
@@ -605,14 +579,12 @@ alias svd=&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; sup
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Venv</a><ul>
-<li><a class="reference internal" href="#features">Features</a></li>
 <li><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
 <li><a class="reference internal" href="#shell-command">Shell Command</a></li>
 <li><a class="reference internal" href="#python-api">Python API</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#command-aliases">Command Aliases</a></li>
 <li><a class="reference internal" href="#example-venv-configuration">Example Venv Configuration</a><ul>
 <li><a class="reference internal" href="#shell-configuration">Shell Configuration</a></li>
 <li><a class="reference internal" href="#json-configuration">JSON Configuration</a></li>
