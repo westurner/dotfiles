@@ -1,21 +1,15 @@
+
+.. index:: Usage
+.. _usage:
+
 Usage
 =======
-List commands::
-
-    python setup.py --help
-    python setup.py --help-commands
-    python setup.py test --help
-    # bash scripts/bootstrap_dotfiles.sh -h
-    # less_ Makefile
-    # make help
-    # make <tab>
-    # make vim_help
-    # vim: :ListMappings
-
-Install dev, docs. testing, and suggests from pip requirements files::
-
-    pip install -r ./requirements-all.txt
-    # make pip_install_requirements_all
+* :ref:`Install the dotfiles` with `bootstrap_dotfiles.sh`_
+* Develop with the `Makefile`_ (:ref:`Make`)
+* Shell with `Bash`_ (:ref:`Bash`, :ref:`ZSH`)
+* Edit text files with `Vim`_ (:ref:`Vim`)
+* Manage windows on :ref:`Linux` platforms with `I3wm`_ (:ref:`I3wm`)
+* :ref:`Script <scripts>` all the `things <http://schema.org/Thing>`__
 
 
 bootstrap_dotfiles.sh
@@ -71,6 +65,7 @@ I3wm
    :language: none
 
 
+.. _scripts:
 
 Scripts
 ---------

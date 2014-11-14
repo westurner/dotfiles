@@ -1812,7 +1812,7 @@ A standard virtual environment::
 .. note:: :ref:`Venv` extends :ref:`virtualenv` and :ref:`virtualenvwrapper`.
 
 .. note:: 
-   Python 3.4 now also contains a script called **venv**, which
+   Python 3.3+ now also contain a script called **venv**, which
    performs the same functions and works similarly to virtualenv:
    `<https://docs.python.org/3/library/venv.html>`_.
 

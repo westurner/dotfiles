@@ -127,6 +127,8 @@ Vim configuration should be cloned to ``${__DOTFILES}/etc/vim``.
    make dotvim_clone dotvim_install
 
 
+.. _installation:
+
 Installation
 ==============
 
@@ -141,6 +143,9 @@ Project requirements are installed by
 
 .. _bootstrap_dotfiles.sh: https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 .. _Makefile: https://github.com/westurner/dotfiles/blob/master/Makefile
+
+
+.. _install the dotfiles:
 
 Install the dotfiles
 ---------------------
@@ -200,3 +205,7 @@ Further Dotfiles Resources
 * https://dotfiles.github.io/
 * https://westurner.github.io/wiki/workflow
 * https://westurner.github.io/dotfiles/
+
+*****
+
+Next: https://westurner.github.io/dotfiles/usage.html

@@ -36,6 +36,33 @@ Objectives
 Configuration
 ---------------
 
+Shell
+~~~~~~~
+For Bash/ZSH, ``etc/bash/10-bashrc.venv.sh`` sets:
+
+.. code-block:: bash
+
+    # ...
+    _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
+    venv() {
+        $_VENV $@
+    }
+    # ...
+
+``etc/bash/10-bashrc.venv.sh`` is sourced by
+``etc/bash/00-bashrc.before.sh``, which is sourced by ``~/.bashrc``
+(a symlink to ``${__DOTFILES}/etc/bashrc`` created by
+:ref:`bootstrap_dotfiles.sh -S <bootstrap_dotfiles>`).
+
+
+IPython
+~~~~~~~~
+
+To configure IPython with venv, `ipython_config.py`_
+must be symlinked into ``~/.ipython/profile_default``
+(and, optionally,
+`ipython_magics.py`_ into ``~/.ipython/profile_default/startup/``):
+
 .. code-block:: bash
 
     # symlink paths relative to ${__DOTFILES}
@@ -44,21 +71,19 @@ Configuration
     # working directory (path to the dotfiles repository)
     _WRD=${WORKON_HOME}/dotfiles/src/dotfiles
 
-    # already stored in the dotfiles git repository
-    ln -s ${_WRD}/src/dotfiles/venv/ipython_config.py \\
-          ${_WRD}/etc/ipython/ipython_config.py
+    # created by ``bootstrap_dotfiles.sh -S``
+    # ln -s ${_WRD} ${__DOTFILES}
+    # ln -s ${__DOTFILES}/etc/bashrc ~/.bashrc
+    # ln -s ${_WRD}/etc/ipython/ipython_config.py \\
+    #       ${__DOTFILES}/etc/ipython/ipython_config.py
 
-    # automatically created by ``bootstrap_dotfiles.sh -S``
-    ln -s ${_WRD}/etc/ipython/ipython_config.py \\
-          ${__DOTFILES}/etc/ipython/ipython_config.py
-
-    # manually installed for each IPython profile
+    # MANUALLY INSTALL for each IPython profile
     IPY_PROFILE="profile_default"
     ln -s ${__DOTFILES}/etc/ipython/ipython_config.py \\
           ~/.ipython/${IPY_PROFILE}/ipython_config.py
 
     ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \\
-          ~/.ipython/${IPY_PROFILE}/ipython_magica.py
+          ~/.ipython/${IPY_PROFILE}/ipython_magics.py
 
 """
 
