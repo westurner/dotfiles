@@ -1,46 +1,84 @@
+
 ## readline .inputrc
 #
-# Various terminals have vi-mode settings:
-# - bash: set -o vi
-# - ksh: set -o vi
-# - zsh: binkey -v
-# - tcsh: bindkey -v
+#   ## Bash 'bind'
+#   help bind
+#   # list bindings
+#   bind -p
+#   bind -P | grep -v 'is not bound'
+#   # read bindings
+#   bind -f ~/.inputrc
 #
-
 # do not bell on tab-completion
 set bell-style none
 set bell-style visible
 
+set show-all-if-ambiguous on
+set completion-ignore-case on
+# menu-complete-display-prefix on
 
+## vi-mode
+# Various terminals have vi-mode settings:
+# - bash: set -o vi
+# - ksh: set -o vi
+# - zsh: bindkey -v
+# - tcsh: bindkey -v
 #
-#  vi-mode
+
 set editing-mode vi
-#  start in insert mode
-set keymap vi-insert
+
+$if mode=vi
+  set keymap vi-command
+
+    # <ctrl> l  -- clear screen
+    "\C-l": clear-screen
+
+    # <ctrl> k  -- clear whole line
+    "\C-k": kill-whole-line
+
+    # <ctrl> a  -- move to beginning of line (^)
+    "\C-a": vi-insert-beg
+    # <ctrl> [  -- move to beginning of line (^)
+    "\C-[": vi-insert-beg
+
+    # <ctrl> e  -- move to end of line ($)
+    "\C-e": vi-append-eol
+    # <ctrl> ]  -- move to end of line ($)
+    "\C-]": vi-append-eol
+
+    # <ctrl> w  -- delete last word
+    "\C-w": backward-kill-word
+
+    # <ctrl> gx -- expand without executing
+    "\C-gx": glob-expand-word
+
+  set keymap vi-insert
+
+    # emulate a few options from "set -o emacs":
+    # <ctrl> l  -- clear screen
+    "\C-l": clear-screen
+
+    # <ctrl> k  -- clear whole line
+    "\C-k": kill-whole-line
+
+    # <ctrl> a  -- move to beginning of line (^)
+    "\C-a": vi-insert-beg
+    # <ctrl> [  -- move to beginning of line (^)
+    "\C-[": vi-insert-beg
+
+    # <ctrl> e  -- move to end of line ($)
+    "\C-e": vi-append-eol
+    # <ctrl> ]  -- move to end of line ($)
+    "\C-]": vi-append-eol
+
+    # <ctrl> w  -- delete last word
+    "\C-w": backward-kill-word
+
+    # <ctrl> gx -- glob expand without executing
+    "\C-gx": glob-expand-word
+$endif
 
 $if mode=emacs
-
-
-#  <ctrl> o     -- Edit options before rerunning command
-#                  eg: ls a b c -> ls -al
-#                  a b c
-"\C-o": "\e-0eli "
-#
-#  <ctrl> a     -- cycle thru completions
-"\C-a": menu-complete
-#
-#  <ctrl> e     -- glob patterns without executing, eg: 'rm *x'
-"\C-e": glob-expand-word
-#
-# # Vim style history search (Already Default)
-# #"\e[A": history-search-backward
-# #"\e[B": history-search-forward
-#
-# #"\e[C": forward-char
-# #"\e[D": backward-char
-#
-# # Two escapes clear command line. (Use C-c or \eC\eC instead)
-"\e\e": "\e0\C-ki"
-
+    # see: bindkey -p
 $endif
 
