@@ -170,15 +170,15 @@
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">etc/.bashrc</span></code> loads <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code></li>
-<li><code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code> loads a documented,
+<li><code class="docutils literal"><span class="pre">scripts/bootstrap_dotfiles.sh</span></code> installs symlinks in <code class="docutils literal"><span class="pre">$HOME</span></code>
+(such as <code class="docutils literal"><span class="pre">~/.bashrc</span></code> -&gt; <code class="docutils literal"><span class="pre">${__DOTFILES}/etc/bashrc</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">etc/bashrc</span></code> sources <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code></li>
+<li><code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code> sources a documented,
 ordered sequence of Bash scripts</li>
-<li><code class="docutils literal"><span class="pre">etc/zsh/00-zshrc.before.sh</span></code> loads a documented,
+<li><code class="docutils literal"><span class="pre">etc/zsh/00-zshrc.before.sh</span></code> sources a documented,
 ordered sequence of ZSH scripts</li>
-<li><a class="reference external" href="https://westurner.github.io/dotfiles/usage.html">https://westurner.github.io/dotfiles/usage.html</a> documents Bash, ZSH, Vim, i3</li>
-<li><a class="reference external" href="https://westurner.github.io/dotfiles/venv.html">https://westurner.github.io/dotfiles/venv.html</a> documents the <code class="docutils literal"><span class="pre">venv</span></code>
-script (which configures Bash/ZSH virtualenvs and IPython)</li>
 </ul>
+<p>See: <a class="reference external" href="https://westurner.github.io/dotfiles/usage.html">Usage</a> and <a class="reference external" href="https://westurner.github.io/dotfiles/venv.html">Venv</a> for documentation.</p>
 <div class="section" id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="installing-the-dotfiles">
@@ -262,7 +262,7 @@ dr               <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.befor
 </div>
 </div>
 <div class="section" id="installation">
-<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="requirements">
 <h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
 <p>Project requirements are installed by
@@ -274,7 +274,7 @@ dr               <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.befor
 </ul>
 </div>
 <div class="section" id="install-the-dotfiles">
-<span id="id2"></span><h3>Install the dotfiles<a class="headerlink" href="#install-the-dotfiles" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>Install the dotfiles<a class="headerlink" href="#install-the-dotfiles" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
 <div class="line">Documentation: <a class="reference external" href="https://westurner.github.io/dotfiles/">https://westurner.github.io/dotfiles/</a></div>
