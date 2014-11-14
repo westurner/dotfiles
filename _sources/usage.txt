@@ -19,7 +19,7 @@ bootstrap_dotfiles.sh
 -----------------------
 | https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 
-``bash scripts/bootstrap_dotfiles.sh``:
+``bash scripts/bootstrap_dotfiles.sh -h``:
 
 .. command-output:: bash ../scripts/bootstrap_dotfiles.sh -h
    :shell:
