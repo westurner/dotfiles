@@ -9,7 +9,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- OpenGraph metadata: ogp.me -->
-    <meta property="og:title" content="dotfiles" />
+    <meta property="og:title" content="Dotfiles" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="westurner/dotfiles" />
     <!--
@@ -23,12 +23,12 @@
     -->
     <!-- Twitter metadata -->
     <meta property="twitter:card" content="summary" />
-    <meta property="twitter:title" content="dotfiles" />
+    <meta property="twitter:title" content="Dotfiles" />
     <meta property="twitter:description" content="Documentation for the dotfiles project" />
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles &mdash; dotfiles 0.5.2 documentation</title>
+    <title>Dotfiles &mdash; dotfiles 0.5.2 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -85,7 +85,7 @@
                 <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
-<li><a class="reference internal" href="#">dotfiles</a><ul>
+<li><a class="reference internal" href="#">Dotfiles</a><ul>
 <li><a class="reference internal" href="#goals">Goals</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
 <li><a class="reference internal" href="#examples">Examples</a><ul>
@@ -151,7 +151,7 @@
                 <div class="body">
                   
   <div class="section" id="dotfiles">
-<h1>dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h1>
+<h1>Dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://github.com/westurner/dotfiles">GitHub</a> | <a class="reference external" href="https://bitbucket.org/westurner/dotfiles">BitBucket</a> | <a class="reference external" href="https://westurner.github.io/dotfiles/">Documentation</a></p>
 <div class="section" id="goals">
 <h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
@@ -183,37 +183,37 @@ script (which configures Bash/ZSH virtualenvs and IPython)</li>
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="installing-the-dotfiles">
 <h4>Installing the dotfiles<a class="headerlink" href="#installing-the-dotfiles" title="Permalink to this headline">¶</a></h4>
-<div class="code bash highlight-python"><div class="highlight"><pre># clone and install dotfiles and dotvim
-# with venv-style paths (_SRC, _APP, _WRD)
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># clone and install dotfiles and dotvim</span>
+<span class="c"># with venv-style paths (_SRC, _APP, _WRD)</span>
 
-# WORKON_HOME       -- base path for virtualenvs [virtualenvwrapper]
-WORKON_HOME=&quot;~/wrk/.ve&quot;
-test -d ${WORKON_HOME} || mkdir -p ${WORKON_HOME}
+<span class="c"># WORKON_HOME       -- base path for virtualenvs [virtualenvwrapper]</span>
+<span class="nv">WORKON_HOME</span><span class="o">=</span><span class="s2">&quot;~/wrk/.ve&quot;</span>
+<span class="nb">test</span> -d <span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span>
 
-# VIRTUAL_ENV_NAME  -- basename for VIRTUAL_ENV [venv]
-VIRTUAL_ENV_NAME=&quot;dotfiles&quot;
+<span class="c"># VIRTUAL_ENV_NAME  -- basename for VIRTUAL_ENV [venv]</span>
+<span class="nv">VIRTUAL_ENV_NAME</span><span class="o">=</span><span class="s2">&quot;dotfiles&quot;</span>
 
-# VIRTUAL_ENV       -- current virtualenv prefix [virtualenv]
-VIRTUAL_ENV=&quot;${WORKON_HOME}/${VIRTUAL_ENV_NAME}&quot;
-_SRC=&quot;$[VIRTUAL_ENV}/src&quot;
+<span class="c"># VIRTUAL_ENV       -- current virtualenv prefix [virtualenv]</span>
+<span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">VIRTUAL_ENV_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nv">_SRC</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$[</span><span class="s2">VIRTUAL_ENV}/src&quot;</span>
 
-# _APP              -- basename of current working directory [venv]
-_APP=&quot;dotfiles&quot;
-# _WRD              -- working directory [venv]
-_WRD=&quot;${_SRC}/${_APP}&quot;      # ${WORKON_HOME}/dotfiles/src/dotfiles
+<span class="c"># _APP              -- basename of current working directory [venv]</span>
+<span class="nv">_APP</span><span class="o">=</span><span class="s2">&quot;dotfiles&quot;</span>
+<span class="c"># _WRD              -- working directory [venv]</span>
+<span class="nv">_WRD</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">_SRC</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">_APP</span><span class="si">}</span><span class="s2">&quot;</span>      <span class="c"># ${WORKON_HOME}/dotfiles/src/dotfiles</span>
 
-git clone https://github.com/westurner/dotfiles $_WRD
-git clone https://github.com/westurner/dotvim ${_WRD}/etc/vim
-cd $_WRD                    # cdw [venv]
+git clone https://github.com/westurner/dotfiles <span class="nv">$_WRD</span>
+git clone https://github.com/westurner/dotvim <span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/etc/vim
+<span class="nb">cd</span> <span class="nv">$_WRD</span>                    <span class="c"># cdw [venv]</span>
 
-__DOTFILES=&quot;${HOME}/.dotfiles&quot;
-ln -s $_WRD $__DOTFILES
+<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.dotfiles&quot;</span>
+ln -s <span class="nv">$_WRD</span> <span class="nv">$__DOTFILES</span>
 ls ~/.dotfiles
 
-$_WRD/scripts/bootstrap_dotfiles.sh -h
-$_WRD/scripts/bootstrap_dotfiles.sh -I      # or: make install
+<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh -h
+<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh -I      <span class="c"># or: make install</span>
 
-# TODO: move / replicate this in bootstrap_dotfiles.sh
+<span class="c"># TODO: move / replicate this in bootstrap_dotfiles.sh</span>
 </pre></div>
 </div>
 </div>
@@ -224,22 +224,22 @@ $_WRD/scripts/bootstrap_dotfiles.sh -I      # or: make install
 <div class="line">Source: <a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/etc/bash">https://github.com/westurner/dotfiles/tree/master/etc/bash</a></div>
 <div class="line">Documentation: <a class="reference external" href="https://westurner.github.io/dotfiles/usage.html#bash">https://westurner.github.io/dotfiles/usage.html#bash</a></div>
 </div>
-<div class="code bash highlight-python"><div class="highlight"><pre># There should be a symlink from ~/.dotfiles
-# to the current dotfiles repository.
-# All dotfiles symlinks are relative to ${__DOTFILES}.
-__DOTFILES=&quot;${HOME}/.dotfiles&quot;
-ls -ld $__DOTFILES || ln -s $_WRD $__DOTFILES
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># There should be a symlink from ~/.dotfiles</span>
+<span class="c"># to the current dotfiles repository.</span>
+<span class="c"># All dotfiles symlinks are relative to ${__DOTFILES}.</span>
+<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.dotfiles&quot;</span>
+ls -ld <span class="nv">$__DOTFILES</span> <span class="o">||</span> ln -s <span class="nv">$_WRD</span> <span class="nv">$__DOTFILES</span>
 
-# There should be symlinks for each dotfile: e.g.
-# ln -s ~/.dotfiles/etc/.bashrc ~/.bashrc
-# ln -s ~/.dotfiles/etc/vim/vimrc ~/.vimrc
-# ln -s ~/.dotfiles/etc/vim ~/.vim
-# Create these symlinks with bootstrap_dotfiles.sh
-$_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
+<span class="c"># There should be symlinks for each dotfile: e.g.</span>
+<span class="c"># ln -s ~/.dotfiles/etc/.bashrc ~/.bashrc</span>
+<span class="c"># ln -s ~/.dotfiles/etc/vim/vimrc ~/.vimrc</span>
+<span class="c"># ln -s ~/.dotfiles/etc/vim ~/.vim</span>
+<span class="c"># Create these symlinks with bootstrap_dotfiles.sh</span>
+<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh -S      <span class="c"># or: make install_symlinks</span>
 </pre></div>
 </div>
-<div class="code bash highlight-python"><div class="highlight"><pre>source ~/.bashrc
-# source dotfiles/etc/bash/00-bashrc.before.sh
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">source</span> ~/.bashrc
+<span class="c"># source dotfiles/etc/bash/00-bashrc.before.sh</span>
 </pre></div>
 </div>
 <div class="highlight-bash"><div class="highlight"><pre>dotfiles_status  <span class="c"># print dotfiles environment variables</span>
@@ -339,7 +339,7 @@ scripts/bootstrap_dotfiles.sh -U
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">dotfiles</a><ul>
+<li><a class="reference internal" href="#">Dotfiles</a><ul>
 <li><a class="reference internal" href="#goals">Goals</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
 <li><a class="reference internal" href="#examples">Examples</a><ul>
