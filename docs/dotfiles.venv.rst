@@ -17,4 +17,12 @@ dotfiles.venv.ipython_config module
     :undoc-members:
     :show-inheritance:
 
+dotfiles.venv.ipython_magics module
+-----------------------------------
+
+.. automodule:: dotfiles.venv.ipython_magics
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
