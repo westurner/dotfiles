@@ -117,6 +117,7 @@ include etc/css/twitter-add_tweet_link.js
 include etc/css/twitter-hide_sidebar.css
 include etc/elinks.conf
 include etc/ipython/ipython_config.py
+include etc/ipython/ipython_magics.py
 include etc/mercurial/README.rst
 include etc/mercurial/debug.py
 include etc/mercurial/hghook_changegroup_log.sh
@@ -613,6 +614,7 @@ include src/dotfiles/cli/cli.py
 include src/dotfiles/testfile
 include src/dotfiles/venv/__init__.py
 include src/dotfiles/venv/ipython_config.py
+include src/dotfiles/venv/ipython_magics.py
 include src/gitflow/.gitmodules
 include src/gitflow/AUTHORS
 include src/gitflow/Changes.mdown
