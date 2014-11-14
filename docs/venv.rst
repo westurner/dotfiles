@@ -15,7 +15,7 @@ There are three parts to "``venv``":
 * `dotfiles.venv.ipython_config.py`_
 * `dotfiles.venv.ipython_magics.py`_
   
-`10-bashrc.venv.sh`_ (:ref:`docs <dotfiles_bash_config`_) 
+`10-bashrc.venv.sh`_ (:ref:`docs <dotfiles_bash_config`) 
 configures variables like ``$VIRTUAL_ENV_NAME``, ``$_SRC``, and ``$_WRD``;
 and functions like ``we()`` and ``e()`` for :ref:`Bash` (and :ref:`ZSH`).
 
