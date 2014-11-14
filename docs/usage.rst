@@ -1,32 +1,32 @@
+
+.. index:: Usage
+.. _usage:
+
 Usage
 =======
-List commands::
+* :ref:`Install the dotfiles` with `bootstrap_dotfiles.sh`_
+* Develop with the `Makefile`_ (:ref:`Make`)
+* Shell with `Bash`_ (:ref:`Bash`, :ref:`ZSH`)
+* Edit text files with `Vim`_ (:ref:`Vim`)
+* Manage windows on :ref:`Linux` platforms with `I3wm`_ (:ref:`I3wm`)
+* :ref:`Script <scripts>` all the `things <http://schema.org/Thing>`__
 
-    python setup.py --help
-    python setup.py --help-commands
-    python setup.py test --help
-    # bash scripts/bootstrap_dotfiles.sh -h
-    # less_ Makefile
-    # make help
-    # make <tab>
-    # make vim_help
-    # vim: :ListMappings
 
-Install dev, docs. testing, and suggests from pip requirements files::
-
-    pip install -r ./requirements-all.txt
-    # make pip_install_requirements_all
-
+.. index:: bootstrap_dotfiles.sh
+.. _bootstrap_dotfiles.sh:
 
 bootstrap_dotfiles.sh
 -----------------------
 | https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 
-``bash scripts/bootstrap_dotfiles.sh``:
+``bash scripts/bootstrap_dotfiles.sh -h``:
 
 .. command-output:: bash ../scripts/bootstrap_dotfiles.sh -h
    :shell:
 
+
+.. index:: Dotfiles Makefile
+.. _dotfiles_makefile:
 
 Makefile
 -------------
@@ -38,6 +38,9 @@ Makefile
    :shell:
 
 
+.. index:: Dotfiles Bash Configuration
+.. _dotfiles_bash_config:
+
 Bash
 -----
 | https://github.com/westurner/dotfiles/blob/master/etc/.bashrc
@@ -48,6 +51,10 @@ Bash
 .. literalinclude:: bash_conf.txt
    :language: none
 
+
+.. index:: Dotfiles Vim Configuration
+.. index:: Dotvim
+.. _dotvim:
 
 Vim
 -----
@@ -61,6 +68,9 @@ Vim
    :language: none
 
 
+.. index:: Dotfiles i3wm Configuration
+.. _dotfiles_i3wm:
+
 I3wm
 -----
 | https://github.com/westurner/dotfiles/blob/master/etc/.i3/config
@@ -71,6 +81,8 @@ I3wm
    :language: none
 
 
+.. index:: Dotfiles Scripts
+.. _scripts:
 
 Scripts
 ---------
@@ -160,6 +172,8 @@ In ``scripts/``
 
 **pyren.py**
    Skeleton regex file rename script
+
+   See: https://github.com/westurner/pyleset
 
 **pyrpo.py**
    Wrap version control system commandline interfaces

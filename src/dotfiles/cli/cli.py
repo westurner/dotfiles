@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
+"""
+dotfiles commandline interface (CLI)
+
+
+"""
 from __future__ import print_function
-"""
-dotfiles.cli.cli
-"""
+import sys
 
 
 def get_pkg_resource_filename(path=''):
@@ -44,18 +47,27 @@ class Test_dotfiles(unittest.TestCase):
 
 
 def main(*args):
-    import sys
+    """
+    Main method for the ``dotfiles`` CLI script.
+
+    Args:
+        args (list): list of arguments (if empty, read ``sys.argv[1:]``]
+    """
     import optparse
     import logging
 
-    prs = optparse.OptionParser(usage="%prog [opts]")
+    prs = optparse.OptionParser(
+        usage="%prog [--resource-path] [--version]")
 
     prs.add_option('--resource-path',
                    dest='resource_path',
-                   action='store')
+                   action='store',
+                   help="Path component relative to the package root",
+                   )
     prs.add_option('--version',
                    dest='version',
-                   action='store_true')
+                   action='store_true',
+                   help="Print dotfiles.version")
 
     prs.add_option('-v', '--verbose',
                    dest='verbose',
@@ -83,14 +95,14 @@ def main(*args):
 
     if opts.run_tests:
         sys.argv = [sys.argv[0]] + args
-        import unittest
         return unittest.main()
 
     if opts.resource_path:
         print(get_pkg_resource_filename(opts.resource_path))
         return 0
 
+    return 0
+
 
 if __name__ == "__main__":
-    import sys
     sys.exit(main())

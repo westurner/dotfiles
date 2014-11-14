@@ -14,9 +14,31 @@ Packages
 | Wikipedia: `<https://en.wikipedia.org/wiki/Package_(package_management_system)>`__
 
 
-Source and/or binary packages to install from a standard archive
-with a *signed* manifest containing file signatures of
-package files.
+A software package is an archive of files 
+with a manifest that lists the files included.
+Often, the manifest contains file checksums
+and a *signature*.
+
+Many packaging tools make a distinction between source
+and/or binary packages.
+
+Some packaging tools provide configuration options for:
+
+* Scripts to run when packaging
+* Scripts to run at install time
+* Scripts to run at uninstal time
+* Patches to apply to the "*vanilla*" source tree,
+  as might be obtained from a version control repository
+
+There is a package maintainer whose responsibilities include:
+
+* Testing new *upstream* releases
+* *Vetting* changes from release to release
+* *Repackaging* upstream releases
+* *Signing* new package releases
+
+*Packaging lag* refers to how long it takes a package maintainer
+to repackage upstream releases for the target platform(s).
 
 
 .. index:: Apt
@@ -198,9 +220,7 @@ RPM
 
 .. index:: Egg
 .. index:: Python Egg
-.. index:: Wheel
-.. index:: Python Wheel
-.. index:: Python Package
+.. index:: Python Packages
 .. _python packages:
 
 Python Packages
@@ -210,11 +230,11 @@ Python Packages
 | Docs: https://packaging.python.org/en/latest/peps.html
 | Docs: https://packaging.python.org/en/latest/projects.html
 
+A Python Package is a collection of source code and package data files.
 
-* Python packages are tested and repackaged by package maintainers
 * Python packages have dependencies: they depend on other packages
-* Python packages are served from a package index
-* PyPI is the community Python Package Index
+* Python packages can be served from a package index
+* :ref:`PyPI` is the community Python Package Index
 * A Python package is an archive of files
   (``.zip`` (``.egg``, ``.whl``), ``.tar``, ``.tar.gz``,)
   containing a ``setup.py`` file
@@ -236,10 +256,10 @@ Python Packages
   or a greater-than (``>=``) or less-than (``<=``) requirement
   for each package.
 * Package names are looked up from an index server (``--index``),
-  such as *PyPI*,
+  such as :ref:`PyPI`,
   and or an HTML page (``--find-links``) containing URLs
   containing package names, version strings, and platform strings.
-* ``easy_install`` (setuptools) and ``pip`` can install packages
+* ``easy_install`` (:ref:`setuptools`) and :ref:`pip` can install packages
   from: the local filesystem, a remote index server, or a local index server.
 * ``easy_install`` and ``pip`` read the ``install_requires``
   (and ``extras_require``) attributes of ``setup.py`` files
@@ -256,9 +276,9 @@ Distuils
 +++++++++
 | Docs: https://docs.python.org/2/distutils/
 
+Distutils is a collection of tools for common packaging needs.
 
-* Distutils is included in the Python standard library
-* Distutils is a collection of tools for common packaging needs
+Distutils is included in the Python standard library.
 
 
 .. index:: setuptools
@@ -271,6 +291,9 @@ Setuptools
 | Source: hg https://bitbucket.org/pypa/setuptools
 | PyPI: http://pypi.python.org/pypi/setuptools
 
+
+Setuptools is a :ref:`Python package <python packages>` for working with other
+:ref:`Python Packages`.
 
 * Setuptools builds upon :ref:`distutils`
 * Setuptools is widely implemented
@@ -415,7 +438,8 @@ Peep works just like :ref:`pip`, but requires ``SHA256`` checksum hashes
 to be specified for each package in ``requirements.txt`` file.
 
 
-.. index:: PyPU
+.. index:: Python Package Index
+.. index:: PyPI
 .. _pypi:
 
 PyPI
@@ -430,6 +454,9 @@ PyPI
 PyPI is the Python Package Index.
 
 
+.. index:: Warehouse
+.. _warehouse:
+
 Warehouse
 ++++++++++
 | Homepage: https://warehouse.python.org/
@@ -442,7 +469,8 @@ Warehouse is the "Next Generation Python Package Repository".
 All packages uploaded to :ref:`PyPI` are also available from Warehouse.
 
 
-.. index:: wheel
+.. index:: Python Wheel
+.. index:: Wheel
 .. _wheel:
 
 Wheel
@@ -463,6 +491,7 @@ Wheel
 Packages available as wheels are listed at `<http://pythonwheels.com/>`__.
 
 
+.. index:: Conda Package
 .. index:: Conda
 .. _conda:
 
@@ -483,6 +512,7 @@ Conda
   which hosts free public and paid private Conda packages.
 
 
+.. index:: Ruby Gem
 .. index:: RubyGems
 .. _rubygems:
 
@@ -1772,8 +1802,7 @@ A standard virtual environment::
    tmp/           # mkstemp temporary files with permission bits
    srv/           # local data
 
-:ref:`Virtualenvwrapper` wraps virtualenv. In the following
-code shell example, comments with ``##`` are virtualenvwrapper
+:ref:`Virtualenvwrapper` wraps virtualenv.
 
 .. code-block:: bash
 
@@ -1790,6 +1819,11 @@ code shell example, comments with ``##`` are virtualenvwrapper
 
 
 .. note:: :ref:`Venv` extends :ref:`virtualenv` and :ref:`virtualenvwrapper`.
+
+.. note:: 
+   Python 3.3+ now also contain a script called **venv**, which
+   performs the same functions and works similarly to virtualenv:
+   `<https://docs.python.org/3/library/venv.html>`_.
 
 
 .. index:: Virtualenvwrapper
@@ -1826,7 +1860,9 @@ Virtualenvwrapper is sourced into the shell::
 .. code-block:: bash
 
    echo $PROJECT_HOME; echo ~/workspace             # venv: ~/wrk
+   cd $PROJECT_HOME                                 # venv: cdp; cdph
    echo $WORKON_HOME;  echo ~/.virtualenvs          # venv: ~/wrk/.ve
+   cd $WORKON_HOME                                  # venv: cdwh; cdwrk
 
    mkvirtualenv example
    workon example                                   # venv: we example
@@ -1837,6 +1873,7 @@ Virtualenvwrapper is sourced into the shell::
    mkdir src ; cd src/                              # venv: cds; cd $_SRC
 
    pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+
    cd src/dotfiles; cd $VIRTUAL_ENV/src/dotfiles    # venv: cdw; cds dotfiles
    head README.rst
 
@@ -1847,7 +1884,7 @@ Virtualenvwrapper is sourced into the shell::
    deactivate
    rmvirtualenv example
 
-   lsvirtualenvs; ls -d $WORKON_HOME                # venv: lsve
+   lsvirtualenvs; ls -d $WORKON_HOME                # venv: lsve; lsve 'ls -d'
 
 
 .. index:: Wayland

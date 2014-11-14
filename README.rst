@@ -1,6 +1,6 @@
 
 ===========
-dotfiles
+Dotfiles
 ===========
 
 `GitHub`_ | `BitBucket`_ | `Documentation`_
@@ -27,14 +27,19 @@ Goals
 Usage
 =======
 
-* ``etc/.bashrc`` loads ``etc/bash/00-bashrc.before.sh``
-* ``etc/bash/00-bashrc.before.sh`` loads a documented,
+* ``scripts/bootstrap_dotfiles.sh`` installs symlinks in ``$HOME``
+  (such as ``~/.bashrc`` -> ``${__DOTFILES}/etc/bashrc``)
+* ``etc/bashrc`` sources ``etc/bash/00-bashrc.before.sh``
+* ``etc/bash/00-bashrc.before.sh`` sources a documented,
   ordered sequence of Bash scripts
-* ``etc/zsh/00-zshrc.before.sh`` loads a documented,
+* ``etc/zsh/00-zshrc.before.sh`` sources a documented,
   ordered sequence of ZSH scripts
-* https://westurner.github.io/dotfiles/usage.html documents Bash, ZSH, Vim, i3
-* https://westurner.github.io/dotfiles/venv.html documents the ``venv``
-  script (which configures Bash/ZSH virtualenvs and IPython)
+
+See: `Usage`_ and `Venv`_ for documentation.
+
+.. _usage: https://westurner.github.io/dotfiles/usage.html
+.. _venv: https://westurner.github.io/dotfiles/venv.html
+
 
 Examples
 ------------
@@ -42,7 +47,7 @@ Examples
 Installing the dotfiles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: bash
+.. code-block:: bash
 
 
     # clone and install dotfiles and dotvim
@@ -84,7 +89,7 @@ Bash
 | Documentation: https://westurner.github.io/dotfiles/usage.html#bash
 
 
-.. code:: bash
+.. code-block:: bash
 
     # There should be a symlink from ~/.dotfiles
     # to the current dotfiles repository.
@@ -100,7 +105,7 @@ Bash
     $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 
 
-.. code:: bash
+.. code-block:: bash
    
    source ~/.bashrc
    # source dotfiles/etc/bash/00-bashrc.before.sh
@@ -127,6 +132,8 @@ Vim configuration should be cloned to ``${__DOTFILES}/etc/vim``.
    make dotvim_clone dotvim_install
 
 
+.. _installation:
+
 Installation
 ==============
 
@@ -141,6 +148,9 @@ Project requirements are installed by
 
 .. _bootstrap_dotfiles.sh: https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
 .. _Makefile: https://github.com/westurner/dotfiles/blob/master/Makefile
+
+
+.. _install the dotfiles:
 
 Install the dotfiles
 ---------------------
@@ -200,3 +210,7 @@ Further Dotfiles Resources
 * https://dotfiles.github.io/
 * https://westurner.github.io/wiki/workflow
 * https://westurner.github.io/dotfiles/
+
+*****
+
+Next: https://westurner.github.io/dotfiles/usage.html

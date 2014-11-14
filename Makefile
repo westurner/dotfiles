@@ -33,9 +33,8 @@ PIP_INSTALL_USER_OPTS:=--user --upgrade
 PIP_INSTALL:=$(PIP) $(PIP_OPTS) install $(PIP_INSTALL_OPTS)
 PIP_INSTALL_USER:=$(PIP) $(PIP_OPTS) install ${PIP_INSTALL_USER_OPTS}
 
-#TODO: if(__IS_LINUX)
 #SETUPPY_CMDOPTS:=--command-packages=stdeb.command
-SETUPPY_CMDOPTS=:
+SETUPPY_CMDOPTS:=
 
 default: test
 
@@ -45,12 +44,12 @@ help:
 	@echo "help         -- print dotfiles help"
 	@echo "help_vim     -- print dotvim make help"
 	@echo "help_vim_txt -- print dotvim help as rst"
-	@echo "help_i3		-- print i3wm configuration"
+	@echo "help_i3      -- print i3wm configuration"
 	@echo "help_setuppy -- print setup.py help"
 	@echo "help_txt     -- print setup.py help as rst"
 	@echo ""
-	@echo "install	  -- install dotfiles and dotvim [in a VIRTUAL_ENV]"
-	@echo "upgrade	  -- upgrade dotfiles and dotvim [in a VIRTUAL_ENV]"
+	@echo "install      -- install dotfiles and dotvim [in a VIRTUAL_ENV]"
+	@echo "upgrade      -- upgrade dotfiles and dotvim [in a VIRTUAL_ENV]"
 	@echo ""
 	@echo "install_user -- install dotfiles and dotvim (with 'pip --user')"
 	@echo "upgrade_user -- upgrade dodtfiles and dotfile (with 'pip --user')"
@@ -61,18 +60,18 @@ help:
 	@echo "install_gitflow -- install gitflow from github"
 	@echo "install_hubflow -- install hubflow from github"
 	@echo ""
-	@echo "install_brew_formulas 	-- install brew formulas"
-	@echo "update_brew_list			-- overwrite etc/brew/brew.list"
+	@echo "install_brew_formulas  -- install brew formulas"
+	@echo "update_brew_list       -- overwrite etc/brew/brew.list"
 	@echo ""
 	@echo "clean  -- remove .pyc, .pyo, __pycache__/ etc"
 	@echo "edit   -- edit the project main files README.rst"
 	@echo "test   -- run tests"
 	@echo "build  -- build a python sdist"
 	@echo ""
-	@echo "docs   	-- build sphinx documentation"
-	@echo "gh-pages -- overwrite the gh-pages branch with docs/_build/html"
-	@echo "push		-- git push"
-	@echo "pull		-- git pull"
+	@echo "docs      -- build sphinx documentation"
+	@echo "gh-pages  -- overwrite the gh-pages branch with docs/_build/html"
+	@echo "push      -- git push"
+	@echo "pull      -- git pull"
 	@echo ""
 
 help_setuppy:
@@ -402,7 +401,7 @@ docs_api:
 	# https://bitbucket.org/birkenfeld/sphinx/issue/1456/apidoc-add-a-m-option-to-put-module
 	sphinx-apidoc -f -M --no-toc -o docs/ src/dotfiles
 	mv docs/dotfiles.rst docs/api.rst
-	sed -i.bak 's/dotfiles package/API/' docs/api.rst
+	sed -i.bak 's/dotfiles package/Dotfiles API/' docs/api.rst
 	rm docs/api.rst.bak
 
 

@@ -9,8 +9,8 @@ Contents
    readme
    usage
    venv
-   api
    tools
+   api
    developing
    changelog
 

@@ -1092,30 +1092,41 @@ def get_venv_parser():
     import optparse
 
     prs = optparse.OptionParser(
-        usage=("%prog [-b|--print-bash] [-t] [-e] [-E<virtualenv>] [appname]"))
+        usage=("%prog [-b|--print-bash] [-t] [-e] [-E<virtualenv>] [appname]"),
+        description="dotfiles.venv.ipython_config.py",
+        epilog="Copyright 2014 Wes Turner. New BSD License\n")
 
     prs.add_option('-E', '--from-shell-environ',
                    dest='load_environ',
                    action='store_true')
 
-    prs.add_option('-p', '--print', '--print-environment',
+    prs.add_option('-p', '--print', '--print-json', '--json',
                    dest='print_env',
-                   action='store_true')
-    prs.add_option('-b', '--bash', '--print-bash-config',
+                   action='store_true',
+                   help="Print venv configuration as JSON")
+    prs.add_option('-b', '--bash', '--print-bash', '--zsh', '--print-zsh',
                    dest='print_bash',
-                   action='store_true')
+                   action='store_true',
+                   help="Print venv configuration for Bash, ZSH"
+                   )
 
     prs.add_option('-x', '--cmd', '--command',
                    dest='run_command',
-                   action='store')
+                   action='store',
+                   help="Run a command in a venv-configured shell")
     prs.add_option('-t', '--terminals', '--open-terminals',
                    dest='open_terminals',
                    action='store_true',
-                   default=False)
+                   default=False,
+                   help="Open terminals within the venv [gnome-terminal]"
+                   )
     prs.add_option('-e', '--editors', '--open-editors',
                    dest='open_editors',
                    action='store_true',
-                   default=False)
+                   default=False,
+                   help=("Open an editor with venv._project_files"
+                         " [$PROJECT_FILES]")
+                   )
 
     prs.add_option('--platform',
                    dest='platform',
