@@ -52,7 +52,7 @@ For Bash/ZSH, ``etc/bash/10-bashrc.venv.sh`` sets:
 ``etc/bash/10-bashrc.venv.sh`` is sourced by
 ``etc/bash/00-bashrc.before.sh``, which is sourced by ``~/.bashrc``
 (a symlink to ``${__DOTFILES}/etc/bashrc`` created by
-:ref:`bootstrap_dotfiles.sh -S <bootstrap_dotfiles>`).
+:ref:`bootstrap_dotfiles.sh -S <bootstrap_dotfiles.sh>`).
 
 
 IPython
