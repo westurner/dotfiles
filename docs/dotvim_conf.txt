@@ -96,6 +96,7 @@
 "  <space> -- <leader>
 "  ,    --  <leader> == <comma>
 "  ;;   --  <esc> == double semicolon
+"  jk   --  <esc>
 "  98   --  <esc> == 98
 "  :;   --  <esc> == colon semicolon
 "  :;   --  <esc> == colon semicolon

@@ -42,10 +42,6 @@ dotfiles_reload() {
   fi
 
   #
-  ## 03-bashrc.readline.sh      -- readline
-  source ${conf}/03-bashrc.readline.sh
-
-  #
   ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
   source ${conf}/04-bashrc.TERM.sh
 

@@ -133,10 +133,6 @@ dotfiles_reload() {
   fi
 
   #
-  ## 03-bashrc.readline.sh      -- readline
-  source ${conf}/03-bashrc.readline.sh
-
-  #
   ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
   source ${conf}/04-bashrc.TERM.sh
 
@@ -402,26 +398,7 @@ detect_platform() {
 }
 uname
 echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
-### bashrc.readline.sh
 
-    # set -o vi -- vi-mode: vi keyboard shortcuts
-set -o vi
-
-if [ -n "$BASH_VERSION" ]; then
-    # .         -- insert last argument (command mode)
-    bind -m vi-command ".":insert-last-argument
-
-    # emulate default bash:
-    # <ctrl> l  -- clear screen
-    bind -m vi-insert "\C-l.":clear-screen
-    # <ctrl> a  -- move to beginning of line (^)
-    bind -m vi-insert "\C-a.":beginning-of-line
-    # <ctrl> e  -- move to end of line ($)
-    bind -m vi-insert "\C-e.":end-of-line
-    # <ctrl> w  -- delete last word
-    bind -m vi-insert "\C-w.":backward-kill-word
-fi
-[?1034h
 ### bashrc.TERM.sh
 
 configure_TERM() {
