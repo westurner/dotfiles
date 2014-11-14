@@ -5,25 +5,15 @@
 Venv
 ======
 
-
-Features
-----------
-
-* Configures :ref:`Python` ``site`` for a given :ref:`virtualenv`
-* Configures :ref:`Python` ``sys.path``: :ref:`IPython` extension paths
-* Configures :ref:`IPython` command aliases (``%alias``, or just ``alias``)
-* Generates :ref:`Bash` environments from :ref:`virtualenv` paths
-* Configures :ref:`Bash` variables starting with ``$_`` (``$_APP``, ``$_WRD``)
-* Run commands within a :ref:`virtualenv` (``venv dotfiles -x bash``)
-
 There are two parts to "``venv``":
 
 * `dotfiles.venv.ipython_config.py`_
 * `10-bashrc.venv.sh`_  
   
-`dotfiles.venv.ipython_config.py`_ generates shell and IPython configuration
-with aliases that, for shells, are expanded to functions
-if they contain a ``%l``
+`dotfiles.venv.ipython_config.py`_ (:py:mod:`dotfiles.venv.ipython_config`)
+generates `shell configuration`_ and IPython configuration
+with aliases that, for shells like :ref:`Bash` and :ref:`ZSH`,
+are expanded to functions if they contain a ``%l``
 (which IPython ``%alias`` replaces with any passed arguments).
 
 `dotfiles.venv.ipython_config.py`_ is symlinked to
@@ -34,7 +24,18 @@ functions for use with :ref:`virtualenvwrapper`.
 
 
 .. _10-bashrc.venv.sh: https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
-.. _dotfiles.venv.ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython/ipython_config.py
+.. _dotfiles.venv.ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
+
+Features
+----------
+
+* Configures :ref:`Python` ``site`` for a given :ref:`virtualenv`
+* Configures :ref:`Python` ``sys.path`` with :ref:`IPython` extension paths
+* Configures :ref:`IPython` command aliases (``%alias``, or just ``alias``)
+* Generates :ref:`Bash` environments from :ref:`virtualenv` paths
+* Configures :ref:`Bash` variables starting with ``$_`` (``$_APP``, ``$_WRD``)
+* Run commands within a :ref:`virtualenv` (``venv dotfiles -x bash``)
+
 
 
 Quickstart
@@ -107,7 +108,8 @@ Shell Configuration
 ~~~~~~~~~~~~~~~~~~~~
 ``venv dotfiles --bash``:
 
-.. command-output:: python ../src/dotfiles/venv/ipython_config.py dotfiles --bash
+.. command-output:: python ../src/dotfiles/venv/ipython_config.py dotfiles --bash \
+   | sed "s,${HOME},~,g"
    :shell:
 
 
@@ -115,6 +117,7 @@ JSON Configuration
 ~~~~~~~~~~~~~~~~~~~
 ``venv dotfiles --print``:
 
-.. command-output:: python ../src/dotfiles/venv/ipython_config.py dotfiles --print
+.. command-output:: python ../src/dotfiles/venv/ipython_config.py dotfiles --print \
+   | sed "s,${HOME},~,g"
    :shell:
 

@@ -2,6 +2,9 @@
 # encoding: utf-8
 from __future__ import print_function
 """
+
+dotfiles.venv.ipython_config
+==============================
 ipython_config.py (venv)
 
 - set variables for standard paths in the environment dict
@@ -13,8 +16,6 @@ ipython_config.py (venv)
   - JSON (variables, aliases)
 
 """
-
-
 import distutils.spawn
 import logging
 import os
@@ -53,7 +54,7 @@ __VENV_CMD = "python %s" % __THISFILE
 def get_workon_home_default():
     """
     Returns:
-        str: Best path for a WORKON_HOME directory for virtualenvwrapper
+        str: Best path for a virtualenvwrapper ``$WORKON_HOME``
     """
     workon_home = os.environ.get('WORKON_HOME')
     if workon_home:
@@ -66,9 +67,8 @@ def get_workon_home_default():
 
 class Env(OrderedDict):
     """
-    Extended OrderedDict of NAMED and _ALIASED Filesystem Hierarchy paths.
+    OrderedDict of variables for/from ``os.environ``.
 
-    Helpful for working with virtualenvs, bootstraps, chroots, containers.
     """
     osenviron_keys = (
 
@@ -78,6 +78,11 @@ class Env(OrderedDict):
         'PROJECTS',
         'USRLOG',
         'VIMBIN',
+        'GVIMBIN',
+        'MVIMBIN',
+        'GUIVIMBIN',
+        'VIMCONF',
+        'EDITOR_',
         'VIRTUAL_ENV',
         'VIRTUAL_ENV_NAME',
         'WORKON_HOME',
@@ -107,10 +112,22 @@ class Env(OrderedDict):
 
     @classmethod
     def from_environ(cls, environ):
+        """
+        Build an ``Env`` from a dict (e.g. ``os.environ``)
+
+        Args:
+            environ (dict): a dict with variable name keys and values
+        Returns:
+            Env: an Env environment built from the given environ dict
+        """
         return cls((k, environ.get(k, '')) for k in cls.osenviron_keys)
 
     def set_standard_paths(env, prefix):
-        """set variables for standard paths in the environment
+        """
+        Set variables for standard paths in the environment
+
+        Args:
+            prefix (str): a path prefix (e.g. ``$VIRTUAL_ENV`` or ``$PREFIX``)
 
         see:
 
@@ -152,28 +169,62 @@ class Env(OrderedDict):
         env['_VARSPOOL']    = joinpath(prefix, "var/spool") # ./var/spool
         env['_VARTMP']      = joinpath(prefix, "var/tmp")   # ./var/tmp
         env['_WWW']         = joinpath(prefix, "var/www")      # ./var/www
-        # TODO: /srv/www | /var/www | /var/ww | /var/www/html
 
-    def paths_to_variables(self, _path):
+    def paths_to_variables(self, path_):
+        """
+        Replace components of a path string with variables configured
+        in this Env.
+
+        Args:
+            path_ (str): a path string
+        Returns:
+            str: path string containing ``${VARNAME}`` variables
+        """
         compress = sorted(
             ((k, v) for (k, v) in self.items()
              if isinstance(v, STR_TYPES) and v.startswith('/')),
             key=lambda v: (len(v[1]), v[0]),
             reverse=True)
         for varname, value in compress:
-            _path = _path.replace(value, '${%s}' % varname)
+            _path = path_.replace(value, '${%s}' % varname)
         return _path
 
 
-def shell_quote(_str):
-    # TODO
-    _repr = repr(_str)
+def shell_quote(var):
+    """
+    Escape single quotes and add double quotes around a given variable.
+
+    Args:
+        _str (str): string to add quotes to
+    Returns:
+        str: string wrapped in quotes
+
+    .. warning:: This is not safe for untrusted input and only valid
+       in this context (``os.environ``).
+
+    """
+    _repr = repr(var)
     if _repr.startswith('\''):
         return "\"%s\"" % _repr[1:-1]
-    # return repr(_str).replace("\'", "\"")
+
+
+def shell_varquote(str_):
+    """
+    Add doublequotes and shell variable brackets to a string
+
+    Args:
+        str_ (str): string to varquote (e.g. ``VIRTUAL_ENV``)
+    Returns:
+        str: "${VIRTUAL_ENV}"
+    """
+    return shell_quote('${%s}' % str_)
 
 
 def _get_shell_version():
+    """
+    Returns:
+        tuple: (shell_namestr, versionstr) of the current ``$SHELL``
+    """
     import os
     import subprocess
     shell = os.environ.get('SHELL')
@@ -189,6 +240,10 @@ def _get_shell_version():
 
 
 def _shell_supports_declare_g():
+    """
+    Returns:
+        bool: True only if the ``$SHELL`` is known to support ``declare -g``
+    """
     # NOTE: OSX still has bash 3.2, which does not support '-g'
     shell, verstr = _get_shell_version()
     if shell == 'zsh':
@@ -201,10 +256,21 @@ def _shell_supports_declare_g():
 
 class Venv(object):
     """
-    Venv -- a virtual environment configuration generator for bash, ipython
+    A virtual environment configuration generator
     """
     @staticmethod
     def get_virtualenv_path(virtualenv=None, from_environ=False):
+        """
+        Get the path to a virtualenv
+
+        Args:
+            virtualenv (str): a path to a virtualenv containing ``/``
+                OR just the name of a virtualenv in ``$WORKON_HOME``
+            from_environ (bool): whether to try and read from
+                ``os.environ["VIRTUAL_ENV"]``
+        Returns:
+            str: a path to a virtualenv (for ``$VIRTUAL_ENV``)
+        """
         _virtualenv = None
         if virtualenv is None:
             if from_environ:
@@ -218,10 +284,8 @@ class Venv(object):
                     virtualenv)
             else:
                 _virtualenv = virtualenv
-
         if _virtualenv and not os.path.exists(_virtualenv):
             log.debug("virtualenv %r does not exist" % _virtualenv)
-
         return _virtualenv
 
     def __init__(self, virtualenv=None, appname=None,
@@ -230,32 +294,69 @@ class Venv(object):
                  open_editors=False,
                  open_terminals=False,
                  dont_reflect=True):
+        """
+        Initialize a new Venv
+
+        Args:
+            virtualenv (str): None, a path to a virtualenv, or the basename
+                of a virtualenv in ``$WORKON_HOME``
+            appname (str): path component under ``$VIRTUAL_ENV/src/<appname>``.
+
+                ``$_APP`` (and thus ``$_WRD``) are set from this variable.
+
+                if not specified, ``$_APP`` will default to the basename of
+                ``$VIRTUAL_ENV``.
+            env (Env): an already-configured Env object
+
+                if ``env`` is None (the default), a new Env will be created
+            from_environ (bool): True if ``os.environ`` should be read from
+                (default: False)
+            open_editors (bool): Whether to open an editor of the Venv
+                (default: False)
+            open_terminals (bool): Whether to open terminals of the Venv
+                (default: False)
+            dont_reflect (bool): Whether to always create aliases and functions
+                referencing ``$_WRD`` even if ``$_WRD`` doesn't exist.
+                (default: True)
+        Raises:
+            Exception: if virtualenv is not specified or incalculable
+                from the given combination of
+                ``virtualenv`` and ``from_environ`` arguments
+            Exception: if both ``env`` and ``from_environ=True`` are specified
+
+        """
         self.log = logging.getLogger('venv.%s' % appname)
-
-        virtualenv = self.get_virtualenv_path(virtualenv,
+        _virtualenv = self.get_virtualenv_path(virtualenv,
                                               from_environ=from_environ)
-        if virtualenv is None:
-            raise Exception("must specify a VIRTUAL_ENV")
+        if _virtualenv is None:
+            errmsg = '''
+            You specified virtualenv=%r
+            virtualenv must be:
+
+            A. a relative or absolute path to a virtualenv
+            B. a virtualenv name (a path in $WORKON_HOME)
+
+            Did you mean to specify -E (--from-shell-environ)?
+            ''' % virtualenv
+            raise Exception(errmsg)
         else:
-            self.virtualenv = virtualenv
-
-        self.name = os.path.basename(virtualenv)
-
+            self.virtualenv = _virtualenv
+        self.name = os.path.basename(self.virtualenv)
         if appname is None:
             appname = self.name
-            apppath = joinpath(virtualenv, 'src', appname)  #
+            apppath = joinpath(self.virtualenv, 'src', appname)  #
             if not os.path.exists(apppath):
                 logging.debug("apppath %r does not exist" % apppath)
                 # TODO
 
         if appname is None:
-            appname = os.path.basename(virtualenv)
+            appname = os.path.basename(self.virtualenv)
 
         self.appname = appname
         self.log = logging.getLogger('venv.%s' % appname)
 
         if env and from_environ:
-            raise Exception()
+            raise Exception("both 'env' and 'from_environ=True' were specified")
 
         if from_environ:
             self.env = Env.from_environ(os.environ)
@@ -275,8 +376,8 @@ class Venv(object):
         env['HISTFILE'] = joinpath(self.virtualenv, ".bash_history")
         env['HISTSIZE']         = 1000000
         env['HISTFILESIZE']     = 1000000
-        # env['HISTTIMEFORMAT']   = "%F %T " # see .usrlog
-        env['PAGER']   = '/usr/bin/less -r'
+        # env['HISTTIMEFORMAT']   = "%F %T " # see etc/bash/usrlog.sh
+        env['PAGER']   = '/usr/bin/less -R'
 
         env['_APP']     = self.appname
         env['_WRD']     = joinpath(env['_SRC'], self.appname)    # working directory
@@ -292,6 +393,25 @@ class Venv(object):
 
     @staticmethod
     def _configure_sys(env=None, from_environ=False):
+        """
+        Configure sys.path with the given env, or from from_environ
+
+        Args:
+            env (Env): Env to configure sys.path according to
+                (default: None)
+            from_environ (bool): whether to read Env from ``os.environ``
+                (default: False)
+
+        .. note:: This method adds
+           ``/usr/local/python.ver.ver/dist-packages/IPython/extensions``
+            to ``sys.path``
+
+            Why? When working in a virtualenv which does not have
+            an additional local copy of IPython installed,
+            the lack of an extensions path was causing errors
+            in regards to missing extensions.
+
+        """
         if from_environ:
             env = Env.from_environ(os.environ)
         env['_PYLIB']  = joinpath(env['_LIB'], pyver)
@@ -320,50 +440,77 @@ class Venv(object):
         return sys.path
 
     def configure_sys(self):
+        """
+        Returns:
+            list: ``sys.path`` list from ``_configure_sys``.
+        """
         return Venv._configure_sys(self.env)
 
     def get_user_aliases_base(self):
+        """
+        Returns:
+            OrderedDict: dict of ``cd`` command aliases
+
+        .. note:: These do not work in IPython as they run in a subshell.
+           See: :py:mod:`dotfiles.venv.ipython_magics`.
+        """
         aliases = OrderedDict()
         env = self.env
 
-        aliases['cdb']      = 'cd {_BIN}/%l'.format(
-                                    _BIN=shell_quote(env['_BIN']))
-        aliases['cde']      = 'cd {_ETC}/%l'.format(
-                                    _ETC=shell_quote(env['_ETC']))
-        aliases['cdv']      = 'cd {VIRTUAL_ENV}/%l'.format(
-                                    VIRTUAL_ENV=shell_quote(env['VIRTUAL_ENV']))
-        aliases['cdvar']    = 'cd {_VAR}/%l'.format(
-                                    _VAR=shell_quote(env['_VAR']))
-        aliases['cdlog']    = 'cd {_LOG}/%l'.format(
-                                    _LOG=shell_quote(env['_LOG']))
-        aliases['cdww']     = 'cd {_WWW}/%l'.format(
-                                    _WWW=shell_quote(env['_WWW']))
-        aliases['cdl']      = 'cd {_LIB}/%l'.format(
-                                    _LIB=shell_quote(env['_LIB']))
-        aliases['cdpylib']  = 'cd {_PYLIB}/%l'.format(
-                                    _PYLIB=shell_quote(env['_PYLIB']))
-        aliases['cdpysite'] = 'cd {_PYSITE}/%l'.format(
-                                    _PYSITE=shell_quote(env['_PYSITE']))
-        aliases['cds']      = 'cd {_SRC}/%l'.format(
-                                    _SRC=shell_quote(env['_SRC']))
+        def cdalias(varname):
+            return 'cd {}/%l'.format(shell_varquote(varname))
+
+        aliases['cdb']      = cdalias('_BIN')
+        aliases['cde']      = cdalias('_ETC')
+        aliases['cdh']      = cdalias('HOME')
+        aliases['cdl']      = cdalias('_LIB')
+        aliases['cdlog']    = cdalias('_LOG')
+        aliases['cdp']      = cdalias('PROJECT_HOME')
+        aliases['cdph']     = cdalias('PROJECT_HOME')
+        aliases['cdpylib']  = cdalias('_PYLIB')
+        aliases['cdpysite'] = cdalias('_PYSITE')
+        aliases['cds']      = cdalias('_SRC')
+        aliases['cdv']      = cdalias('VIRTUAL_ENV')
+        aliases['cdve']     = cdalias('VIRTUAL_ENV')
+        aliases['cdvar']    = cdalias('_VAR')
+        aliases['cdwh']     = cdalias('WORKON_HOME')
+        aliases['cdwrk']    = cdalias('WORKON_HOME')
+        aliases['cdw']      = cdalias('_WRD')
+        aliases['cd-']      = cdalias('_WRD')
+        aliases['cdww']     = cdalias('_WWW')
+        aliases['cdwww']    = cdalias('_WWW')
 
         aliases['cdhelp']   =  """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
         return aliases
 
     def get_user_aliases(self, dont_reflect=False):
+        """
+        Configure env variables and return an OrderedDict of aliases
+
+        Args:
+            dont_reflect (bool): Whether to always create aliases and functions
+                referencing ``$_WRD`` even if ``$_WRD`` doesn't exist.
+                (default: False)
+        Returns:
+            OrderedDict: dict of aliases
+        """
         aliases = OrderedDict()
         env = self.env
         env['VIMBIN']       = distutils.spawn.find_executable('vim')
         env['GVIMBIN']      = distutils.spawn.find_executable('gvim')
         env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
-        env['GUIVIM']       = env.get('MVIMBIN', env.get('GVIMBIN'))
+        env['GUIVIMBIN']    = env.get('MVIMBIN', env.get('GVIMBIN'))
 
-        if not env.get('GUIVIM'):
-            env['_EDIT_']   = 'vim -p'
+        env['VIMCONF']      = "--servername %s" % (
+                                shell_quote(self.appname).strip('"'))
+
+        if not env.get('GUIVIMBIN'):
+            env['_EDIT_']   = "%s -f" % env.get('VIMBIN')
         else:
-            env['_EDIT_']   = '%s --servername %s --remote-tab-silent' % (
-                env.get('GUIVIM'),
-                shell_quote(self.appname).strip('"'))
+            env['_EDIT_']   = '%s %s --remote-tab-silent' % (
+                                env.get('GUIVIMBIN'),
+                                env.get('VIMCONF'))
+        env['EDITOR_']      = env['_EDIT_']
 
         aliases['edit-']    = env['_EDIT_']
         aliases['gvim-']    = env['_EDIT_']
@@ -386,15 +533,15 @@ class Venv(object):
                                 ' # %l'
                                 ).format(
                                     _new_ipnbkey=_new_ipnbkey,
-                                    _IPSESSKEY=shell_quote(env['_IPSESSKEY']))
+                                    _IPSESSKEY=shell_varquote('_IPSESSKEY'))
         aliases['ipnb']     = ('ipython notebook'
                                 ' --secure'
                                 ' --Session.keyfile={_IPSESSKEY}'
                                 ' --notebook-dir={_NOTEBOOKS}'
                                 ' --deep-reload'
                                 ' %l').format(
-                                    _IPSESSKEY=shell_quote(env['_IPSESSKEY']),
-                                    _NOTEBOOKS=shell_quote(env['_NOTEBOOKS']))
+                                    _IPSESSKEY=shell_varquote('_IPSESSKEY'),
+                                    _NOTEBOOKS=shell_varquote('_NOTEBOOKS'))
 
         env['_IPQTLOG']     = joinpath(env['VIRTUAL_ENV'], '.ipqt.log')
         aliases['ipqt']     = ('ipython qtconsole'
@@ -410,110 +557,128 @@ class Venv(object):
                                 ' --ConsoleWidget.font_family="Monaco"'
                                 ' --ConsoleWidget.font_size=11'
                                 ' %l').format(
-                                    _IPSESSKEY=shell_quote(env['_IPSESSKEY']),
-                                    _APP=shell_quote(env['_APP']),
-                                    _IPQTLOG=shell_quote(env['_IPQTLOG']))
+                                    _IPSESSKEY=shell_varquote('_IPSESSKEY'),
+                                    _APP=shell_varquote('_APP'),
+                                    _IPQTLOG=shell_varquote('_IPQTLOG'))
 
-        aliases['grinv']    = 'grin --follow %%l %s' % shell_quote(self.virtualenv)
-        aliases['grindv']   = 'grind --follow %%l --dirs %s' % shell_quote(self.virtualenv)
+        aliases['grinv']    = 'grin --follow %%l %s' % shell_varquote('VIRTUAL_ENV')
+        aliases['grindv']   = 'grind --follow %%l --dirs %s' % shell_varquote('VIRTUAL_ENV')
 
-        aliases['grins']    = 'grin --follow %%l %s' % shell_quote(env['_SRC'])
-        aliases['grinds']   = 'grind --follow %%l --dirs %s' % shell_quote(env['_SRC'])
+        aliases['grins']    = 'grin --follow %%l %s' % shell_varquote('_SRC')
+        aliases['grinds']   = 'grind --follow %%l --dirs %s' % shell_varquote('_SRC')
 
-        appsrc = env['_WRD']
-        if os.path.exists(appsrc) or dont_reflect:
-            env['_WRD']         = appsrc
-            env['_WRD_SETUPY']  = joinpath(appsrc, 'setup.py')
+        _WRD = env['_WRD']
+        if os.path.exists(_WRD) or dont_reflect:
+            env['_WRD']         = _WRD
+            env['_WRD_SETUPY']  = joinpath(_WRD, 'setup.py')
             env['_TEST_']       = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
-                                        _WRD=shell_quote(env['_WRD']),
-                                        _WRD_SETUPY=shell_quote(env['_WRD_SETUPY'])
+                                        _WRD=shell_varquote('_WRD'),
+                                        _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
                                     )
-            aliases['cdw']      = 'cd {_WRD}/%l'.format(
-                                        _WRD=shell_quote(env['_WRD']))
-            aliases['cd-']      = aliases['cdw']
             aliases['test-']    = env['_TEST_']
             aliases['testr-']   = 'reset && %s' % env['_TEST_']
             aliases['nose-']    = '(cd {_WRD} && nosetests)'.format(
-                                        _WRD=shell_quote(env['_WRD']))
+                                        _WRD=shell_varquote('_WRD'))
 
             aliases['grinw']    = 'grin --follow %l {_WRD}'.format(
-                                        _WRD=shell_quote(env['_WRD']))
+                                        _WRD=shell_varquote('_WRD'))
             aliases['grin-']    = aliases['grinw']
             aliases['grindw']   = 'grind --follow %l --dirs {_WRD}'.format(
-                                        _WRD=shell_quote(env['_WRD']))
+                                        _WRD=shell_varquote('_WRD'))
             aliases['grind-']   = aliases['grindw']
 
             aliases['hgv-']     = "hg view -R {_WRD}".format(
-                                        _WRD=shell_quote(env['_WRD']))
+                                        _WRD=shell_varquote('_WRD'))
             aliases['hgl-']     = "hg -R {_WRD} log".format(
-                                        _WRD=shell_quote(env['_WRD']))
+                                        _WRD=shell_varquote('_WRD'))
         else:
-            self.log.error('app working directory %r not found' % appsrc)
+            self.log.error('app working directory %r not found' % _WRD)
 
-        appcfg = joinpath(env['_ETC'], 'development.ini')
-        if os.path.exists(appcfg) or dont_reflect:
-            env['_CFG']         = appcfg
+        _CFG = joinpath(env['_ETC'], 'development.ini')
+        if os.path.exists(_CFG) or dont_reflect:
+            env['_CFG']         = _CFG
             env['_EDITCFG_']    = "{_EDIT_} {_CFG}".format(
                                     _EDIT_=env['_EDIT_'],
                                     _CFG=env['_CFG'])
             aliases['editcfg']  = "{_EDITCFG} %l".format(
-                                    _EDITCFG=env['_EDITCFG_'])
+                                    _EDITCFG=shell_varquote('_EDITCFG_'))
             # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
             env['_SHELL_']      = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
-                                    _BIN=env['_BIN'],
-                                    _CFG=shell_quote(env['_CFG']),
-                                    _WRD=shell_quote(env['_WRD']))
+                                    _BIN=shell_varquote('_BIN'),
+                                    _CFG=shell_varquote('_CFG'),
+                                    _WRD=shell_varquote('_WRD'))
             env['_SERVE_']      =("(cd {_WRD} && {_BIN}/pserve"
                                     " --app-name=main"
                                     " --reload"
                                     " --monitor-restart {_CFG})").format(
-                                            _BIN=env['_BIN'],
-                                            _WRD=shell_quote(env['_WRD']),
-                                            _CFG=shell_quote(env['_CFG']))
+                                            _BIN=shell_varquote('_BIN'),
+                                            _WRD=shell_varquote('_WRD'),
+                                            _CFG=shell_varquote('_CFG'))
             aliases['serve-']   = env['_SERVE_']
             aliases['shell-']   = env['_SHELL_']
         else:
-            self.log.error('app configuration %r not found' % appcfg)
+            self.log.error('app configuration %r not found' % _CFG)
+            env['_CFG']         = ""
 
-        aliases['edit-']    = "{_EDIT_} %l".format(
-                                _EDIT_=env['_EDIT_'])
+        aliases['edit-']    = "${_EDIT_} %l"
         aliases['e']        = aliases['edit-']
-        aliases['editp']    = "%s %%l" % self._edit_project_cmd
+        env['PROJECT_FILES']= " ".join(
+                                str(x) for x in self._project_files)
+        aliases['editp']    = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
         aliases['makewrd']  = "(cd {_WRD} && make %l)".format(
-                                    _WRD=shell_quote(env['_WRD']))
+                                    _WRD=shell_varquote('_WRD'))
         aliases['make-']    = aliases['makewrd']
         aliases['mw']       = aliases['makewrd']
 
-        svcfg = env.get('_SVCFG', joinpath(env['_ETC'], 'supervisord.conf'))
-        if os.path.exists(svcfg) or dont_reflect:
-            env['_SVCFG']   = svcfg
-            env['_SVCFG_']  = ' -c %s' % shell_quote(svcfg)
+        _SVCFG = env.get('_SVCFG', joinpath(env['_ETC'], 'supervisord.conf'))
+        if os.path.exists(_SVCFG) or dont_reflect:
+            env['_SVCFG']   = _SVCFG
+            env['_SVCFG_']  = ' -c %s' % shell_quote(env['_SVCFG'])
         else:
-            self.log.error('supervisord configuration %r not found' % svcfg)
+            self.log.error('supervisord configuration %r not found' % _SVCFG)
             env['_SVCFG_']  = ''
-        aliases['ssv']      =    'supervisord{_SVCFG_}'.format(**env)
-        aliases['sv']       =    'supervisorctl{_SVCFG_}'.format(**env)
-        aliases['svd']      = (( 'supervisorctl{_SVCFG_} restart dev'
-                                ' && supervisorctl{_SVCFG_} tail -f dev')
-                                .format(**env))
-        aliases['svt']      =    'sv tail -f'
+        aliases['ssv']      = 'supervisord -c "${_SVCFG}"'
+        aliases['sv']       = 'supervisorctl -c "${_SVCFG}"'
+        aliases['svt']      = 'sv tail -f'
+        aliases['svd']      = ('supervisorctl -c "${_SVCFG}" restart dev'
+                           ' && supervisorctl -c "${_SVCFG}" tail -f dev')
 
         return aliases
 
     @classmethod
     def workon_project(cls, virtualenv, **kwargs):
+        """
+        Args:
+            virtualenv (str): a path to a virtualenv containing ``/``
+                OR just the name of a virtualenv in ``$WORKON_HOME``
+            kwargs (dict): kwargs to pass to Venv (see ``Venv.__init__``)
+        Returns:
+            Venv: an intialized ``Venv``
+        """
         return cls(virtualenv=virtualenv, **kwargs)
 
     @staticmethod
-    def _configure_ipython(c=None, setup_func=None):
-        if c is None and not in_ipython_config():
-            # skip IPython configuration
-            log.error("not in_ipython_config")
-            return
-        c = get_config()
+    def _configure_ipython(c=None, setup_func=None, platform=None):
+        """
+        Configure IPython with ``autoreload=True``, ``deep_reload=True``,
+        the **storemagic** extension, the **parallelmagic**
+        extension if ``import zmq`` succeeds,
+        and ``DEFAULT_ALIASES`` (``cd`` aliases are not currently working).
+
+        Args:
+            c (object): An IPython configuration object (e.g. ``get_ipython()``)
+            setup_func (function): a function to call (default: None)
+        """
+        if c is None:
+            if not in_ipython_config():
+                # skip IPython configuration
+                log.error("not in_ipython_config")
+                return
+            else:
+                c = get_config()
+
         c.InteractiveShellApp.ignore_old_config = True
         c.InteractiveShellApp.log_level = 20
-
         c.InteractiveShellApp.extensions = [
             # 'autoreload',
             'storemagic',
@@ -523,31 +688,50 @@ class Venv(object):
         #    c.InteractiveShellApp.extensions.append('sympyprinting')
         #except ImportError, e:
         #    pass
-
         try:
             import zmq
             zmq
             c.InteractiveShellApp.extensions.append('parallelmagic')
         except ImportError:
             pass
-
         c.InteractiveShell.autoreload = True
         c.InteractiveShell.deep_reload = True
 
         # %store [name]
         c.StoreMagic.autorestore = True
 
-        c.AliasManager.default_aliases = list(DEFAULT_ALIASES.items())
+        additional = get_DEFAULT_ALIASES(platform=platform).items()
+        c.AliasManager.default_aliases.extend(additional)
 
         if setup_func:
             setup_func(c)
 
     def configure_ipython(self, *args, **kwargs):
+        """
+        Configure IPython with ``Venv._configure_ipython`` and
+        ``user_aliases`` from ``self.aliases.items()``.
+
+        Args:
+            args (list): args for ``Venv._configure_ipython``
+            kwargs (dict): kwargs for ``Venv._configure_ipython``.
+        """
         def setup_func(c):
-            c.AliasManager.user_aliases = self.aliases.items()
+            c.AliasManager.user_aliases = [
+                (k,v) for (k,v) in self.aliases.items()
+                    if not k.startswith('cd')]
         return Venv._configure_ipython(*args, setup_func=setup_func, **kwargs)
 
     def _ipython_alias_to_bash_alias(self, name, alias):
+        """
+        Convert an IPython alias declaration to an ``alias`` command
+        or a ``function()`` with ``%l`` replaced with ``$@``.
+
+        Args:
+            name (str): alias name
+            alias (str): command string (possibly containing an ``%l``)
+        Returns:
+            str: either an ``alias name='command'`` string or a function
+        """
         alias = self.env.paths_to_variables(alias)
         if '%s' in alias or '%l' in alias:
             # alias = '# %s' % alias
@@ -566,6 +750,14 @@ class Venv(object):
         return 'alias %s=%r' % (name, alias)
 
     def bash_env(self, output=sys.stdout):
+        """
+        Generate a ``source``-able script for the environment variables,
+        aliases, and functions defined by the current ``Venv``.
+
+        Args:
+            output (file-like): object to ``print`` to
+                (``print`` calls ``.write()`` and then ``.flush()``)
+        """
 
         for k, v in self.env.items():
             print("export %s=%r" % (k, v), file=output)
@@ -581,6 +773,12 @@ class Venv(object):
 
     @property
     def _project_files(self):
+        """
+        Default list of project files for ``_EDITCMD_``.
+
+        Returns:
+            list: list of paths relative to ``$_WRD``.
+        """
         default_project_files = (
             'README.rst',
             'CHANGES.rst',
@@ -599,6 +797,12 @@ class Venv(object):
 
     @property
     def _edit_project_cmd(self):
+        """
+        Command to edit ``self._project_files``
+
+        Returns:
+            str: ``$_EDIT_`` ``self._project_files``
+        """
         return "%s %s" % (
             self.env['_EDIT_'],
             ' '.join(
@@ -608,11 +812,22 @@ class Venv(object):
 
     @property
     def _terminal_cmd(self):
+        """
+        Command to open a terminal
+
+        Returns:
+            str: env.get('TERMINAL') or ``/usr/bin/gnome-terminal``
+        """
+        # TODO: add Terminal.app
         return self.env.get('TERMINAL', '/usr/bin/gnome-terminal')
 
     @property
     def _open_terminals_cmd(self):
-        # TODO
+        """
+        Command to open ``self._terminal_cmd`` with a list of initial
+        named terminals.
+        """
+        # TODO: add Terminal.app (man Terminal.app?)
         cmd = (
             self._terminal_cmd,
             '--working-directory', self.env['_WRD'],
@@ -628,136 +843,172 @@ class Venv(object):
         return cmd
 
     def system(self, cmd=None):
+        """
+        Call ``os.system`` with the given command string
+
+        Args:
+            cmd (string): command string to call ``os.system`` with
+        Raises:
+            Exception: if ``cmd`` is None
+            NotImplementedError: if ``cmd`` is a tuple
+        """
         if cmd is None:
             raise Exception()
         if isinstance(cmd, (tuple, list)):
             _cmd = ' '.join(cmd)
-            # TODO: sarge
+            # TODO: (subprocess.Popen)
+            raise NotImplementedError()
         elif isinstance(cmd, (str,)):
             _cmd = cmd
 
             os.system(_cmd)
 
     def open_editors(self):
+        """
+        Run ``self._edit_project_cmd``
+        """
         cmd = self._edit_project_cmd
         self.system(cmd=cmd)
 
     def open_terminals(self):
+        """
+        Run ``self._open_terminals_cmd``
+        """
         cmd = self._open_terminals_cmd
         self.system(cmd=cmd)
 
     def asdict(self):
+        """
+        Returns:
+            OrderedDict: OrderedDict(env=self.env, aliases=self.aliases)
+        """
         return OrderedDict(
             env=self.env,
             aliases=self.aliases,
         )
 
     def to_json(self, indent=None):
+        """
+        Args:
+            indent (int): number of spaces with which to indent JSON output
+        Returns:
+            str: json.dumps(self.asdict())
+        """
         import json
         return json.dumps(self.asdict(), indent=indent)
 
-IS_DARWIN = sys.platform == 'darwin'
 
-import sys
-LS_COLOR_AUTO = "--color=auto"
-if IS_DARWIN:
-    LS_COLOR_AUTO = "-G"
+def get_DEFAULT_ALIASES(platform=None):
+    if platform is None:
+        platform = sys.platform
 
+    IS_DARWIN = platform == 'darwin'
 
-PSX_COMMAND = 'ps uxaw'
-PSF_COMMAND = 'ps uxawf'
-PS_SORT_CPU = '--sort=-pcpu'
-PS_SORT_MEM = '--sort=-pmem'
-if IS_DARWIN:
+    LS_COLOR_AUTO = "--color=auto"
+    if IS_DARWIN:
+        LS_COLOR_AUTO = "-G"
+
     PSX_COMMAND = 'ps uxaw'
-    PSF_COMMAND = 'ps uxaw'
-    PS_SORT_CPU = '-c'
-    PS_SORT_MEM = '-m'
+    PSF_COMMAND = 'ps uxawf'
+    PS_SORT_CPU = '--sort=-pcpu'
+    PS_SORT_MEM = '--sort=-pmem'
+    if IS_DARWIN:
+        PSX_COMMAND = 'ps uxaw'
+        PSF_COMMAND = 'ps uxaw'
+        PS_SORT_CPU = '-c'
+        PS_SORT_MEM = '-m'
 
-DEFAULT_ALIASES = OrderedDict((
-    ('cdw', 'cd $$WORKON_HOME'),
-    ('cdh', 'cd $$HOME'),
-    ('cp', 'cp'),
-    ('bash', 'bash'),
-    ('cat', 'cat'),
-    ('chmodr', 'chmod -R'),
-    ('chownr', 'chown -R'),
-    ('egrep', 'egrep --color=auto'),
-    ('fgrep', 'fgrep --color=auto'),
-    ('git', 'git'),
-    ('ga', 'git add'),
-    ('gd', 'git diff'),
-    ('gdc', 'git diff --cached'),
-    ('gs', 'git status'),
-    ('gl', 'git log'),
-    ('grep', 'grep --color=auto'),
-    ('grin', 'grin'),
-    ('grind', 'grind'),
-    ('grinpath', 'grin --sys-path'),
-    ('grindpath', 'grind --sys-path'),
-    ('grunt', 'grunt'),
-    ('gvim', 'gvim'),
-    ('head', 'head'),
-    ('hg', 'hg'),
-    ('hgl', 'hg log -l10'),
-    ('hgs', 'hg status'),
-    ('htop', 'htop'),
-    ('ifconfig', 'ifconfig'),
-    ('ip', 'ip'),
-    ('last', 'last'),
-    ('la', 'ls {} -A'.format(LS_COLOR_AUTO)),
-    ('ll', 'ls {} -aL'.format(LS_COLOR_AUTO)),
-    ('ls', 'ls {}'.format(LS_COLOR_AUTO)),
-    ('lt', 'ls {} -altr'.format(LS_COLOR_AUTO)),
-    ('lx', 'ls {} -alZ'.format(LS_COLOR_AUTO)),
-    ('lxc', 'lxc'),
-    ('make', 'make'),
-    ('mkdir', 'mkdir'),
-    ('netstat', 'netstat'),
-    ('nslookup', 'nslookup'),
-    ('ping', 'ping'),
-    ('mv', 'mv'),
-    ('ps', 'ps'),
-    ('psf', PSF_COMMAND),
-    ('psx', PSX_COMMAND),
-    ('psh', '{} | head'.format(PSX_COMMAND)),
-    ('psc', '{} {}'.format(PSX_COMMAND, PS_SORT_CPU)),
-    ('psch', '{} {} | head'.format(PSX_COMMAND, PS_SORT_CPU)),
-    ('psm', '{} {}'.format(PSX_COMMAND, PS_SORT_MEM)),
-    ('psmh', '{} {} | head'.format(PSX_COMMAND, PS_SORT_MEM)),
-    ('psfx', PSF_COMMAND),
-    ('pydoc', 'pydoc'),
-    ('pyline', 'pyline'),
-    ('pyrpo', 'pyrpo'),
-    ('route', 'route'),
-    ('rm', 'rm'),
-    ('rsync', 'rsync'),
-    ('sqlite3', 'sqlite3'),
-    ('ss', 'ss'),
-    ('ssv', 'supervisord'),
-    ('stat', 'stat'),
-    ('sudo', 'sudo'),
-    ('sv', 'supervisorctl'),
-    ('t', 'tail -f'),
-    ('tail', 'tail'),
-    ('thg', 'thg'),
-    ('top', 'top'),
-    ('tracepath', 'tracepath'),
-    ('tracepath6', 'tracepath6'),
-    ('vim', 'vim'),
-    ('uptime', 'uptime'),
-    ('which', 'which'),
-    ('who_', 'who'),
-    ('whoami', 'whoami'),
-    ('zsh', 'zsh'),
-))
+    DEFAULT_ALIASES = OrderedDict((
+        ('cp', 'cp'),
+        ('bash', 'bash'),
+        ('cat', 'cat'),
+        ('chmodr', 'chmod -R'),
+        ('chownr', 'chown -R'),
+        ('egrep', 'egrep --color=auto'),
+        ('fgrep', 'fgrep --color=auto'),
+        ('git', 'git'),
+        ('ga', 'git add'),
+        ('gd', 'git diff'),
+        ('gdc', 'git diff --cached'),
+        ('gs', 'git status'),
+        ('gl', 'git log'),
+        ('grep', 'grep --color=auto'),
+        ('grin', 'grin'),
+        ('grind', 'grind'),
+        ('grinpath', 'grin --sys-path'),
+        ('grindpath', 'grind --sys-path'),
+        ('grunt', 'grunt'),
+        ('gvim', 'gvim'),
+        ('head', 'head'),
+        ('hg', 'hg'),
+        ('hgl', 'hg log -l10'),
+        ('hgs', 'hg status'),
+        ('htop', 'htop'),
+        ('ifconfig', 'ifconfig'),
+        ('ip', 'ip'),
+        ('last', 'last'),
+        ('la', 'ls {} -A'.format(LS_COLOR_AUTO)),
+        ('ll', 'ls {} -al'.format(LS_COLOR_AUTO)),
+        ('ls', 'ls {}'.format(LS_COLOR_AUTO)),
+        ('lt', 'ls {} -altr'.format(LS_COLOR_AUTO)),
+        ('lz', 'ls {} -alZ'.format(LS_COLOR_AUTO)),
+        ('lxc', 'lxc'),
+        ('make', 'make'),
+        ('mkdir', 'mkdir'),
+        ('netstat', 'netstat'),
+        ('nslookup', 'nslookup'),
+        ('ping', 'ping'),
+        ('mv', 'mv'),
+        ('ps', 'ps'),
+        ('psf', PSF_COMMAND),
+        ('psx', PSX_COMMAND),
+        ('psh', '{} | head'.format(PSX_COMMAND)),
+        ('psc', '{} {}'.format(PSX_COMMAND, PS_SORT_CPU)),
+        ('psch', '{} {} | head'.format(PSX_COMMAND, PS_SORT_CPU)),
+        ('psm', '{} {}'.format(PSX_COMMAND, PS_SORT_MEM)),
+        ('psmh', '{} {} | head'.format(PSX_COMMAND, PS_SORT_MEM)),
+        ('psfx', PSF_COMMAND),
+        ('pydoc', 'pydoc'),
+        ('pyline', 'pyline'),
+        ('pyrpo', 'pyrpo'),
+        ('route', 'route'),
+        ('rm', 'rm'),
+        ('rsync', 'rsync'),
+        ('sqlite3', 'sqlite3'),
+        ('ss', 'ss'),
+        ('ssv', 'supervisord'),
+        ('stat', 'stat'),
+        ('sudo', 'sudo'),
+        ('sv', 'supervisorctl'),
+        ('t', 'tail -f'),
+        ('tail', 'tail'),
+        ('thg', 'thg'),
+        ('top', 'top'),
+        ('tracepath', 'tracepath'),
+        ('tracepath6', 'tracepath6'),
+        ('vim', 'vim'),
+        ('uptime', 'uptime'),
+        ('which', 'which'),
+        ('who_', 'who'),
+        ('whoami', 'whoami'),
+        ('zsh', 'zsh'),
+    ))
+    return DEFAULT_ALIASES
 
 
 def in_ipython_config():
+    """
+    Returns:
+        bool: True if ``get_ipython`` is in ``globals()``
+    """
     return 'get_config' in globals()
 
 
-def ipythonmain():
+def ipython_main():
+    """
+    Function to call if running within IPython,
+    as determined by ``in_ipython_config``.
+    """
     venv = None
     if 'VIRTUAL_ENV' in os.environ:
         venv = Venv(from_environ=True)
@@ -765,11 +1016,16 @@ def ipythonmain():
     else:
         Venv._configure_ipython()
 
+
 if in_ipython_config():
-    ipythonmain()
+    print("### ipython_config.py: configuring IPython")
+    ipython_main()
 
 
 def ipython_imports():
+    """
+    Default imports for IPython (currently unused)
+    """
     from IPython.external.path import path
     path
     from pprint import pprint as pp
@@ -787,22 +1043,24 @@ def ipython_imports():
 import unittest
 
 
-class Test_env(unittest.TestCase):
+class Test_Env(unittest.TestCase):
 
-    def test_env(self):
+    def test_Env(self):
         e = Env()
         assert 'WORKON_HOME' not in e
 
-    def test_from_environ(self):
+    def test_Env_from_environ(self):
         import os
         e = Env.from_environ(os.environ)
         assert 'WORKON_HOME' in e
 
 
 class Test_venv(unittest.TestCase):
-    TEST_VIRTUALENV = 'dotfiles'
-    TEST_APPNAME = 'dotfiles'
-    TEST_VIRTUAL_ENV = joinpath(get_workon_home_default(), 'dotfiles')
+
+    def setUp(self):
+        self.TEST_VIRTUALENV = 'dotfiles'
+        self.TEST_APPNAME = 'dotfiles'
+        self.TEST_VIRTUAL_ENV = joinpath(get_workon_home_default(), 'dotfiles')
 
     def test_venv(self):
         venv = Venv(self.TEST_VIRTUALENV)
@@ -827,6 +1085,10 @@ class Test_venv(unittest.TestCase):
 
 
 def get_venv_parser():
+    """
+    Returns:
+        optparse.OptionParser: options for the commandline interface
+    """
     import optparse
 
     prs = optparse.OptionParser(
@@ -855,6 +1117,12 @@ def get_venv_parser():
                    action='store_true',
                    default=False)
 
+    prs.add_option('--platform',
+                   dest='platform',
+                   action='store',
+                   default=None,
+                   help='Platform to generate configuration for')
+
     prs.add_option('-v', '--verbose',
                    dest='verbose',
                    action='store_true',)
@@ -869,6 +1137,12 @@ def get_venv_parser():
 
 
 def main():
+    """
+    Commandline main function called if ``__name__=="__main__"``
+
+    Returns:
+        int: nonzero on error
+    """
     import logging
 
     prs = get_venv_parser()
@@ -881,10 +1155,8 @@ def main():
             logging.getLogger().setLevel(logging.DEBUG)
 
     if opts.run_tests:
-        import sys
         sys.argv = [sys.argv[0]] + args
-        import unittest
-        exit(unittest.main())
+        sys.exit(unittest.main())
 
     if opts.load_environ:
         import os
@@ -896,7 +1168,6 @@ def main():
                 open_terminals=opts.open_terminals)
 
     if opts.print_env:
-        import sys
         output = sys.stdout
         print(venv.to_json(indent=2), file=output)
 
@@ -912,6 +1183,8 @@ def main():
                         shell=True,
                         env=os.environ,
                         cwd=venv.virtualenv)
+    return 0
+
 
 if __name__ == "__main__":
     main()

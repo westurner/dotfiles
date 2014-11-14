@@ -1,15 +1,18 @@
 
+.. index:: Tools
 .. _tools:
 
 =======
 Tools
 =======
 
+.. index:: Packages
+.. _packages:
 
 Packages
 ==========
 | Wikipedia: `<https://en.wikipedia.org/wiki/Package_(package_management_system)>`__
-|
+
 
 Source and/or binary packages to install from a standard archive
 with a *signed* manifest containing file signatures of
@@ -20,33 +23,54 @@ package files.
 .. _apt:
 
 Apt
-=============
+~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Advanced_Packaging_Tool>`_
 | Homepage: http://alioth.debian.org/projects/apt
 | Docs: https://wiki.debian.org/Apt
 | Docs: https://www.debian.org/doc/manuals/debian-reference/ch02.en.html
 | Docs: https://www.debian.org/doc/manuals/apt-howto/
+| Docs: https://wiki.debian.org/SecureApt
 | Source: git git://anonscm.debian.org/git/apt/apt.git
 | IRC: irc://irc.debian.org/debian-apt
-|
 
-APT is the Debian package management system.
 
-APT retrieves packages over FTP, HTTP, HTTPS, and RSYNC.
+APT ("Advanced Packaging Tool") is the core of Debian package management.
+
+An APT package repository serves :ref:`Dpkg` packages.
+
+An APT package repository can be accessed from a local filesystem
+or over a network protocol ("apt transports") like HTTP, HTTPS, RSYNC, FTP,
+and BitTorrent.
+
+An example of APT usage
+(e.g. to maintain an updated :ref:`Ubuntu` :ref:`Linux` system):
 
 .. code-block:: bash
 
-   man apt-get
-   man sources.list
-   echo 'deb repo_URL distribution component1' >> /etc/apt/sources.list
    apt-get update
-   apt-cache show bash
-   apt-get install bash
    apt-get upgrade
    apt-get dist-upgrade
 
+   apt-cache show bash
+   apt-get install bash
+
+   apt-get --help
+   man apt-get
+   man sources.list
 
 
+.. index:: Bower
+.. _bower:
+
+Bower
+~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Bower_(software)>`__
+| Homepage: https://www.bower.io/
+| Source: https://github.com/bower/bower
+
+
+Bower is "a package manager for the web" (:ref:`Javascript` packages)
+built on :ref:`NPM`.
 
 
 .. index:: DEB
@@ -54,20 +78,29 @@ APT retrieves packages over FTP, HTTP, HTTPS, and RSYNC.
 
 DEB
 ~~~~~
-`<https://en.wikipedia.org/wiki/Deb_(file_format)>`__
+| Wikipedia: `<https://en.wikipedia.org/wiki/Deb_(file_format)>`__
 
-* Install with ``apt-get``, ``aptitutde``
-* Build with :ref:`dpkg`
-* List contents::
 
-   less ~/path/to/local.deb   # requires lesspipe
+DEB is the Debian software package format.
 
-* Package Repositories (:ref:`apt`):
+DEB packages are built with :ref:`dpkg` and often hosted in an :ref:`APT`
+package repository.
 
-  * Local: directories of packages and metadata
-  * Network: HTTP, HTTPS, RSYNC, FTP, BitTorrent (apt transports)
+.. index:: Dpkg
+.. _dpkg:
 
-* Linux/Mac/Windows: Yes / Fink / No
+Dpkg
+~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Dpkg>`_
+| Homepage: http://wiki.debian.org/Teams/Dpkg
+| Docs: `<https://en.wikipedia.org/wiki/Debian_build_toolchain>`_
+| Docs: https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html
+| Docs: https://www.debian.org/doc/manuals/debian-faq/ch-pkgtools.en.html
+| Docs:
+
+
+Dpkg is a collection of tools for creating and working with
+:ref:`DEB` packages.
 
 
 .. index:: Brew
@@ -78,14 +111,25 @@ Homebrew
 ~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Homebrew_(package_management_software)>`__
 | Homepage: http://brew.sh/
-|
 
-* Linux/Mac/Windows: No / Yes / No
 
-* Package Recipe Repositories (brew):
+Homebrew is a package manager (``brew``) for :ref:`OSX`.
 
-  * Local:
-  * Network: HTTP, HTTPS
+
+.. index:: NPM
+.. index:: Node Package Manager
+.. _npm:
+
+NPM
+~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Npm_(software)>`__
+| Homepage: https://www.npmjs.org/
+| Source: https://github.com/npm/npm
+
+
+NPM is a :ref:`Javascript` package manager created for :ref:`Node.js`.
+
+:ref:`Bower` builds on NPM.
 
 
 .. index:: NuGet
@@ -95,7 +139,7 @@ NuGet
 ~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/NuGet
 | Homepage: https://www.nuget.org/
-|
+
 
 * Package Repositories (chocolatey):
 
@@ -111,7 +155,7 @@ Portage
 ~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Portage_(software)>`__
 | Homepage: http://wiki.gentoo.org/wiki/Project:Portage
-|
+
 
 * Build recipes with flag sets
 * Package Repositories (portage)
@@ -124,7 +168,7 @@ Ports
 ~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Ports_collection
 | Homepage: https://www.freebsd.org/ports/
-|
+
 
 Sources and Makefiles designed to compile software packages
 for particular distributions' kernel and standard libraries
@@ -137,7 +181,7 @@ on a particular platform.
 RPM
 ~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/RPM_Package_Manager
-|
+
 
 * Install with ``rpm``, ``yum``
 * Build with tools like ``rpmbuild`` and ``fpm``
@@ -157,17 +201,20 @@ RPM
 .. index:: Wheel
 .. index:: Python Wheel
 .. index:: Python Package
-.. _python-package:
+.. _python packages:
 
 Python Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~
 | Homepage: https://pypi.python.org/pypi
-| Docs: http://packaging.python.org/en/latest/
+| Docs: https://packaging.python.org/en/latest/
+| Docs: https://packaging.python.org/en/latest/peps.html
+| Docs: https://packaging.python.org/en/latest/projects.html
+
 
 * Python packages are tested and repackaged by package maintainers
 * Python packages have dependencies: they depend on other packages
 * Python packages are served from a package index
-* PyPi is the community Python Package Index
+* PyPI is the community Python Package Index
 * A Python package is an archive of files
   (``.zip`` (``.egg``, ``.whl``), ``.tar``, ``.tar.gz``,)
   containing a ``setup.py`` file
@@ -189,7 +236,7 @@ Python Packages
   or a greater-than (``>=``) or less-than (``<=``) requirement
   for each package.
 * Package names are looked up from an index server (``--index``),
-  such as *PyPi*,
+  such as *PyPI*,
   and or an HTML page (``--find-links``) containing URLs
   containing package names, version strings, and platform strings.
 * ``easy_install`` (setuptools) and ``pip`` can install packages
@@ -208,7 +255,7 @@ Python Packages
 Distuils
 +++++++++
 | Docs: https://docs.python.org/2/distutils/
-|
+
 
 * Distutils is included in the Python standard library
 * Distutils is a collection of tools for common packaging needs
@@ -222,8 +269,8 @@ Setuptools
 | Wikipedia: https://en.wikipedia.org/wiki/Setuptools
 | Docs: https://pythonhosted.org/setuptools/
 | Source: hg https://bitbucket.org/pypa/setuptools
-| PyPi: http://pypi.python.org/pypi/setuptools
-|
+| PyPI: http://pypi.python.org/pypi/setuptools
+
 
 * Setuptools builds upon :ref:`distutils`
 * Setuptools is widely implemented
@@ -234,7 +281,7 @@ Setuptools
 * Setuptools installs a script called ``easy_install`` which can
   be used to install packages from the local filesystem,
   a remote index server, a local index server, or an HTML page
-* ``easy_install pip`` installs :ref:`Pip` from PyPi
+* ``easy_install pip`` installs :ref:`Pip` from PyPI
 * Like ``easy_install``, :ref:`Pip` installs python packages,
   with a number of additional configuration options
 * Setuptools can build :ref:`RPM` and :ref:`DEB` packages
@@ -257,9 +304,10 @@ Pip
 | Pypi: https://pypi.python.org/pypi/pip
 | IRC: #pypa
 | IRC: #pypa-dev
-|
 
-Pip is a tool for both installing and uninstalling :ref:`Python` packages.
+
+Pip is a tool for installing, upgrading, and uninstalling
+:ref:`Python` packages.
 
 ::
 
@@ -275,9 +323,10 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
    pip uninstall libcloud
 
 
-* Pip retrieves and installs packages.
-* Pip can do uninstall and upgrade.
 * Pip stands upon :ref:`distutils` and :ref:`setuptools`.
+* Pip retrieves, installs, upgrades, and uninstalls packages.
+* Pip can list installed packages with ``pip freeze`` (and ``pip
+  list``).
 * Pip can install packages as 'editable' packages (``pip install -e``)
   from version control repository URLs
   which must begin with ``vcs+``,
@@ -285,14 +334,19 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
   and may contain an ``@vcstag`` tag
   (such as a branch name or a version tag).
 * Pip installs packages as editable by first
-  cloning (or checking out) the code,
+  cloning (or checking out) the code to ``./src``
+  (or ``${VIRTUAL_ENV}/src`` if working in a :ref:`virtualenv`)
   and then running ``setup.py develop``.
 * Pip configuration is in ``${HOME}/.pip/pip.conf``.
 * Pip can maintain a local cache of downloaded packages,
   which can lessen the load on package servers during testing.
-* If a package requirement is already satisfied,
-  pip requires the '--upgrade' and/or ``--force-reinstall`` options
-  to be added to the ``pip install`` command.
+* Pip skips reinstallation if a package requirement is already
+  satisfied.
+* Pip requires the ``--upgrade`` and/or ``--force-reinstall`` options
+  to be added to the ``pip install`` command in order to upgrade
+  or reinstall.
+* At the time of this writing, the latest stable pip version is
+  ``1.5.6``.
 
 .. warning::
    With :ref:`Python` 2, pip is preferable to
@@ -302,7 +356,8 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
    (by making sure that the certificate hostname matches the hostname
    from which the DNS resolved to).
 
-   Cloning packages from source repositories over SSH or HTTP,
+   Cloning packages from source repositories over ``ssh://``
+   or ``https://``,
    either manually or with ``pip install -e`` avoids this concern.
 
    There is also a tool called :ref:`peep` which
@@ -327,17 +382,17 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
 
       An example ``requirements.txt`` file::
 
-         # install pip from the default index (PyPi)
+         # install pip from the default index (PyPI)
          pip
          --index=https://pypi.python.org/simple --upgrade pip
 
-         # Install pip 1.5 or greater from PyPi
+         # Install pip 1.5 or greater from PyPI
          pip >= 1.5
 
          # Git clone and install pip as an editable develop egg
          -e git+https://github.com/pypa/pip@1.5.X#egg=pip
 
-         # Install a source distribution release from PyPi
+         # Install a source distribution release from PyPI
          # and check the MD5 checksum in the URL
          https://pypi.python.org/packages/source/p/pip/pip-1.5.5.tar.gz#md5=7520581ba0687dec1ce85bd15496537b
 
@@ -353,11 +408,38 @@ Pip is a tool for both installing and uninstalling :ref:`Python` packages.
 Peep
 +++++
 | Source: https://github.com/erikrose/peep
-| PyPi: https://pypi.python.org/pypi/peep
-|
+| PyPI: https://pypi.python.org/pypi/peep
+
 
 Peep works just like :ref:`pip`, but requires ``SHA256`` checksum hashes
 to be specified for each package in ``requirements.txt`` file.
+
+
+.. index:: PyPU
+.. _pypi:
+
+PyPI
+++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Python_Package_Index
+| Docs: http://wiki.python.org/moin/CheeseShop
+| Docs: http://wiki.python.org/moin/CheeseShopDev
+| Homepage: https://pypi.python.org/
+| Source: https://bitbucket.org/pypa/pypi
+
+
+PyPI is the Python Package Index.
+
+
+Warehouse
+++++++++++
+| Homepage: https://warehouse.python.org/
+| Docs: https://warehouse.readthedocs.org/
+| Source: https://github.com/pypa/warehouse
+
+
+Warehouse is the "Next Generation Python Package Repository".
+
+All packages uploaded to :ref:`PyPI` are also available from Warehouse.
 
 
 .. index:: wheel
@@ -368,17 +450,18 @@ Wheel
 | Docs: http://legacy.python.org/dev/peps/pep-0427/
 | Docs: http://wheel.readthedocs.org/en/latest/
 | Source: hg https://bitbucket.org/pypa/wheel/
-| PyPi: https://pypi.python.org/pypi/wheel
-|
+| PyPI: https://pypi.python.org/pypi/wheel
+
 
 * Wheel is a newer, PEP-based standard (``.whl``) with a different
   metadata format, the ability to specify (JSON) digital signatures
-  for a package, within the package, and a number
-  of additional advantages.
-* Wheels can also be uploaded to PyPi
-* Wheels are generally faster than traditional Python packages
+  for a package within the package, and a number
+  of additional speed and platform-consistency advantages.
+* Wheels can be uploaded to PyPI.
+* Wheels are generally faster than traditional Python packages.
 
-Packages available as wheels are listed at http://pythonwheels.com/
+Packages available as wheels are listed at `<http://pythonwheels.com/>`__.
+
 
 .. index:: Conda
 .. _conda:
@@ -387,14 +470,17 @@ Conda
 +++++++
 | Docs: http://conda.pydata.org/docs/
 | Source: git https://github.com/conda/conda
-| PyPi: https://pypi.python.org/pypi/conda
-|
+| PyPI: https://pypi.python.org/pypi/conda
+
 
 * Conda installs packages written in any language; especially Python
 * ``conda skeleton`` can automatically create conda packages
-  both from ``PyPi`` and from ``CPAN`` (Perl)
+  both from ``PyPI`` and from ``CPAN`` (Perl)
 * Conda was originally created for the Anaconda Python Distribution,
-  which installs packages written in Python, R, C, Fortran
+  which installs packages written in :ref:`Python`,
+  R, Javascript, :ref:`Ruby`, C, Fortran
+* Conda (and :ref:`Anaconda`) packages are hosted by `<https://binstar.org>`,
+  which hosts free public and paid private Conda packages.
 
 
 .. index:: RubyGems
@@ -406,7 +492,7 @@ RubyGems
 | Homepage: https://rubygems.org/
 | Docs: http://guides.rubygems.org/
 | Source: https://github.com/rubygems/rubygems
-|
+
 
 * RubyGems installs Ruby Gems
 
@@ -418,17 +504,30 @@ Yum
 ~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Yellowdog_Updater,_Modified
 | Homepage: http://yum.baseurl.org/
-|
 
 
-CoreOS Docker Images
-~~~~~~~~~~~~~~~~~~~~~
-CoreOS schedules redundant docker images and configuration
-over etcd, a key-value store with a D-Bus interface.
+Yum is a tool for installing, upgrading, and uninstalling :ref:`RPM`
+packages.
 
-* Create high availability zone clusters with fleet
-* Systemd init files
 
+.. index:: Anaconda
+.. _anaconda:
+
+Anaconda
+==========
+| Wikipedia: `<https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)>`__
+| Homepage: https://store.continuum.io/cshop/anaconda/
+| Docs: http://docs.continuum.io/anaconda/
+| Docs: http://docs.continuum.io/anaconda/pkg-docs.html
+
+
+Anaconda is a maintained distribution of many popular :ref:`Python Packages`.
+
+Anaconda works with :ref:`Conda` packages.
+
+.. note:: `<https://en.wikipedia.org/wiki/Anaconda_(installer)>`__ (1999)
+   is the installer for :ref:`RPM`-based :ref:`Linux` distributions; which is
+   also written in :ref:`Python` (and :ref:`C`).
 
 
 .. index:: Bash
@@ -436,11 +535,11 @@ over etcd, a key-value store with a D-Bus interface.
 
 Bash
 ===============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>`_
+| Wikipedia: `<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>`__
 | Homepage: http://www.gnu.org/software/bash/
 | Docs: https://www.gnu.org/software/bash/manual/
 | Source: git git://git.savannah.gnu.org/bash.git
-|
+
 
 Bash, the Bourne-again shell.
 
@@ -474,6 +573,35 @@ Bash Configuration::
 Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin
 
 
+
+.. index:: C
+.. _c:
+
+C
+==
+| Wikipedia: `<https://en.wikipedia.org/wiki/C_(programming_language)>`__
+| Docs: http://learnxinyminutes.com/docs/c/
+
+
+C is a third-generation programming language which affords relatively
+low-level machine access while providing helpful abstractions.
+
+The GNU/:ref:`Linux` kernel is written in C and compiled by :ref:`GCC`.
+
+
+.. index:: C++
+.. _c++:
+
+C++
+====
+| Wikipedia: `<https://en.wikipedia.org/wiki/C++>`__
+| Docs: http://learnxinyminutes.com/docs/c++/
+
+
+C++ is a third-generation programming language
+which adds object orientation and a standard library to :ref:`C`.
+
+
 .. index:: Compiz
 .. _compiz:
 
@@ -483,24 +611,29 @@ Compiz
 | Homepage: https://launchpad.net/compiz
 | Docs: http://wiki.compiz.org/
 | Source: bzr branch lp:compiz
-|
-
-Linux/Mac/Windows: Yes / No / No
 
 
-.. index:: Dpkg
-.. _dpkg:
+Compiz is a window compositing layer for :ref:`X11` which adds
+lots of cool and productivity-enhancing visual capabilities.
 
-Dpkg
-==============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Dpkg>`_
-| Homepage: http://wiki.debian.org/Teams/Dpkg
-| Docs: `<https://en.wikipedia.org/wiki/Debian_build_toolchain>`_
-| Docs: `<https://en.wikipedia.org/wiki/Deb_(file_format)>`_
-|
 
-Lower-level package management scripts for creating and working with
-.DEB Debian packages.
+.. index:: CoreOS
+.. _coreos:
+
+CoreOS
+========
+| Wikipedia: https://en.wikipedia.org/wiki/CoreOS
+| Homepage: https://coreos.com/
+| Docs: https://coreos.com/docs/
+| Source: https://github.com/coreos
+
+
+CoreOS is :ref:`Linux` distribution for highly available
+distributed computing.
+
+CoreOS schedules redundant :ref:`docker` images with **fleet**
+and **systemd** according to configuration stored in **etcd**,
+a key-value store with a D-Bus interface.
 
 
 .. index:: Docker
@@ -512,7 +645,7 @@ Docker
 | Homepage: https://docker.io/
 | Docs: http://docs.docker.io/
 | Source: https://github.com/dotcloud/docker
-|
+
 
 Docker is an OS virtualization project which utilizes Linux LXC Containers
 to partition process workloads all running under one kernel.
@@ -533,12 +666,24 @@ Docutils
 | Docs: http://docutils.sourceforge.net/rst.html
 | Docs: http://docutils.sourceforge.net/docs/ref/doctree.html
 | Source: svn http://svn.code.sf.net/p/docutils/code/trunk
-|
+
 
 Docutils is a text processing system which 'parses" :ref:`ReStructuredText`
 lightweight markup language into a doctree which it serializes into
 HTML, LaTeX, man-pages, Open Document files, XML, and a number of other
 formats.
+
+
+.. index:: Fortran
+.. _fortran:
+
+Fortran
+========
+| Wikipedia: https://en.wikipedia.org/wiki/Fortran
+
+
+Fortran (or FORTRAN) is a third-generation programming language
+frequently used for mathematical and scientific computing.
 
 
 .. index:: Filesystem Hierarchy Standard
@@ -548,7 +693,7 @@ Filesystem Hierarchy Standard
 =======================================
 | Wikipedia: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
 | Website: http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs
-|
+
 
 The Filesystem Hierarchy Standard is a well-worn industry-supported
 system file naming structure.
@@ -560,6 +705,25 @@ a Filesystem Hierarchy.
 also btrfs subvolumes.
 
 
+.. index:: GCC
+.. index:: GNU Compiler Collection
+.. _gcc:
+
+GCC
+====
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_Compiler_Collection
+| Homepage: https://gcc.gnu.org/
+| Docs: https://gcc.gnu.org/onlinedocs/
+| Source: git ssh://gcc.gnu.org/git/gcc.git
+
+
+The GNU Compiler Collection started as a Free and Open Source
+compiler for :ref:`C`.
+
+There are now GCC frontends for many languages, including
+:ref:`C++`, :ref:`Fortran`, :ref:`Java`, and :ref:`Go`.
+
+
 .. index:: Git
 .. _git:
 
@@ -568,16 +732,18 @@ Git
 | Wikipedia: `<https://en.wikipedia.org/wiki/Git_(software)>`_
 | Homepage: http://git-scm.com/
 | Docs: http://git-scm.com/documentation
+| Docs: http://git-scm.com/book/en/
 | Docs: http://documentup.com/skwp/git-workflows-book
+| Docs: http://learnxinyminutes.com/docs/git/
 | Source: git https://github.com/git/git
-|
+
 
 Git is a distributed version control system for tracking a branching
 and merging repository of file revisions.
 
 
-.. _gnome:
 .. index:: Gnome
+.. _gnome:
 
 Gnome
 ======
@@ -585,7 +751,7 @@ Gnome
 | Homepage: http://www.gnome.org/
 | Docs: https://help.gnome.org/
 | Source: https://git.gnome.org/browse/
-|
+
 
 * https://wiki.gnome.org/GnomeLove
 
@@ -599,7 +765,7 @@ Go
 | Homepage: http://golang.org/
 | Docs: http://golang.org/doc/
 | Source: hg https://code.google.com/p/go/
-|
+
 
 Go is a relatively new statically-typed C-based language.
 
@@ -612,7 +778,7 @@ Htop
 | Wikipedia: https://en.wikipedia.org/wiki/Htop
 | Homepage: http://hisham.hm/htop/
 | Source: git http://hisham.hm/htop/
-|
+
 
 
 .. index:: i3wm
@@ -624,7 +790,7 @@ I3wm
 | Homepage: http://i3wm.org/
 | Docs: http://i3wm.org/docs/
 | Source: git git://code.i3wm.org/i3
-|
+
 
 * http://i3wm.org/downloads/
 
@@ -638,11 +804,50 @@ IPython
 | Homepage: http://ipython.org/
 | Docs: http://ipython.org/ipython-doc/stable/
 | Source: git https://github.com/ipython/ipython
-|
+
 
 * https://registry.hub.docker.com/u/ipython
 * https://registry.hub.docker.com/u/jupyter
 * https://github.com/jupyter
+
+
+.. index:: Java
+.. _Java:
+
+Java
+=====
+| Wikipedia: `<https://en.wikipedia.org/wiki/Java_(programming_language)>`__
+| Docs: http://javadocs.org/
+| Docs: http://learnxinyminutes.com/docs/java/
+
+
+Java is a third-generation programming language which is
+compiled into code that runs in a virtual machine
+(``JVM``) written in :ref:`C` for many different operating systems.
+
+
+.. index:: Javascript
+.. _Javascript:
+
+JavaScript
+===========
+| Wikipedia: https://en.wikipedia.org/wiki/JavaScript
+| Docs: https://en.wikipedia.org/wiki/ECMAScript
+| Docs: http://learnxinyminutes.com/docs/javascript/
+
+
+JavaScript is a third-generation programming language
+designed to run in an interpreter; now specified as *ECMAScript*.
+
+All major web browsers support Javascript.
+
+Client-side (web) applications can be written in Javascript.
+
+Server-side (web) applications can be written in Javascript,
+often with :ref:`Node.js` and :ref:`NPM` packages.
+
+.. note:: Java and JavaScript are two distinctly different languages
+   and developer ecosystems.
 
 
 .. index:: JSON
@@ -652,11 +857,47 @@ JSON
 ===============
 | Wikipedia: https://en.wikipedia.org/wiki/JSON
 | Homepage: http://json.org/
-|
+| Docs: http://learnxinyminutes.com/docs/json/
 
-Parse and indent JSON with :ref:`Python` and :ref:`Bash`::
+
+JSON is an object representation in :ref:`Javascript` syntax
+which is now supported by libraries for many language.
+
+A list of objects with ``key`` and ``value`` attributes in JSON syntax:
+.. code-block:: javascript
+
+    [
+    { "key": "language", "value": "Javascript" },
+    { "key": "version", "value": 1 },
+    { "key": "example", "value": true },
+    ]
+
+Machine-generated JSON is often not very readable, because it doesn't
+contain extra spaces or newlines.
+The :ref:`Python` JSON library contains a utility
+for parsing and indenting ("prettifying") JSON from the commandline ::
 
     cat example.json | python -m json.tool
+
+
+.. index:: KDE
+.. _kde:
+
+KDE
+=====
+| Wikipedia: https://en.wikipedia.org/wiki/KDE
+| Homepage: http://kde.org/
+| Docs: https://docs.kde.org/
+| Docs: https://www.kde.org/documentation/
+| Source: https://techbase.kde.org/Getting_Started/Sources
+| Source: https://techbase.kde.org/Getting_Started/Sources/Subversion
+| Source: https://techbase.kde.org/Development/Git
+| Source: https://projects.kde.org/projects
+
+
+KDE is a GUI framework built on Qt.
+
+KWin is the main KDE window manager for :ref:`X11`.
 
 
 .. index:: Libcloud
@@ -669,7 +910,7 @@ Libcloud
 | Docs: https://libcloud.readthedocs.org/en/latest/supported_providers.html
 | Source: git git://git.apache.org/libcloud.git
 | Source: git https://github.com/apache/libcloud
-|
+
 
 Apache Libcloud is a :ref:`Python` library
 which abstracts and unifies a large number of Cloud APIs for
@@ -686,7 +927,7 @@ Libvirt
 | Docs: http://libvirt.org/docs.html
 | Docs: http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.virt.html
 | Source: git git://libvirt.org/libvirt-appdev-guide.git
-|
+
 
 Libvirt is a system for platform virtualization with
 various :ref:`Linux` hypervisors.
@@ -698,22 +939,28 @@ various :ref:`Linux` hypervisors.
 * VirtualBox
 
 
+.. index:: GNU/Linux
 .. index:: Linux
 .. _linux:
 
 Linux
 ================
 | Wikipedia: https://en.wikipedia.org/wiki/Linux
-| Homepage: https://www.kernel.org
+| Homepage: https://www.kernel.org/
 | Docs: https://www.kernel.org/doc/
 | Source: git https://github.com/torvalds/linux
-|
 
-A free and open source operating system kernel written in C.
+
+GNU/Linux is a free and open source operating system kernel
+written in :ref:`C`.
 
 .. code-block:: bash
 
-   uname -a
+   uname -a; echo "Linux"
+   uname -o; echo "GNU/Linux"
+
+A *Linux Distribution* is a collection of :ref:`Packages`
+compiled to work with a GNU/Linux kernel.
 
 
 .. index:: Make
@@ -726,7 +973,7 @@ Make
 | Project: https://savannah.gnu.org/projects/make/
 | Docs:  https://www.gnu.org/software/make/manual/make.html
 | Source: git git://git.savannah.gnu.org/make.git
-|
+
 
 GNU Make is a classic, ubiquitous software build tool
 designed for file-based source code compilation.
@@ -751,8 +998,6 @@ Cons
 * Platform Portability: make is not installed everywhere
 * Global Variables: Parametrization with shell scripts
 
-* Linux/Mac/Windows: Usually / brew / executable
-
 
 .. index:: Hg
 .. index:: Mercurial
@@ -765,7 +1010,7 @@ Mercurial
 | Docs: http://mercurial.selenic.com/guide
 | Source: hg http://selenic.com/hg
 | Source: hg http://hg.intevation.org/mercurial/crew
-|
+
 
 * http://hgbook.red-bean.com/
 
@@ -777,12 +1022,54 @@ MessagePack
 =====================
 | Wikipedia: https://en.wikipedia.org/wiki/MessagePack
 | Homepage: http://msgpack.org/
-|
+
 
 MessagePack is a data interchange format
 with implementations in many languages.
 
 :ref:`Salt`
+
+
+.. index:: Node.js
+.. _node.js:
+
+Node.js
+=========
+| Wikipedia: https://en.wikipedia.org/wiki/Node.js
+| Homepage: http://www.nodejs.org
+| Source: https://github.com/joyent/node
+
+
+Node.js is a framework for :ref:`Javascript` applications
+written in :ref:`C`, :ref:`C++`, and :ref:`Javascript`.
+
+
+.. index:: Apple OSX
+.. index:: OS X
+.. index:: OSX
+.. _osx:
+
+OS X
+=====
+| Wikipedia: https://en.wikipedia.org/wiki/OS_X
+| Homepage: http://www.apple.com/osx
+| Docs: https://developer.apple.com/technologies/mac/
+| Source: https://www.apple.com/opensource/
+
+
+OS X is a UNIX operating system based upon the Mach kernel from NeXTSTEP,
+which was partially derived from NetBSD and FreeBSD.
+
+OS X GUI support is built from XFree86/X.org :ref:`X11`.
+
+OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
+``readlink``, and ``find``.
+
+:ref:`Homebrew` installs and maintains packages for OS X.
+
+.. code-block:: bash
+
+   uname; echo "Darwin"
 
 
 .. index:: Packer
@@ -794,7 +1081,7 @@ Packer
 | Docs: http://www.packer.io/docs
 | Docs: http://www.packer.io/docs/basics/terminology.html
 | Source: git https://github.com/mitchellh/packer
-|
+
 
 Packer generates machine images for multiple platforms, clouds,
 and hypervisors from a parameterizable template.
@@ -808,7 +1095,7 @@ and hypervisors from a parameterizable template.
       JSON build definitions with optional variables and templating
 
    Packer Build
-      A task defined by a JSON file containing build steps
+      Task defined by a JSON file containing build steps
       which produce a machine image
 
    Packer Builder
@@ -850,7 +1137,7 @@ Perl
 | Project: http://dev.perl.org/perl5/
 | Docs: http://www.perl.org/docs.html
 | Source: git git://perl5.git.perl.org/perl.git
-|
+
 
 
 Perl is a dynamically typed, C-based scripting language.
@@ -869,8 +1156,9 @@ Python
 | Docs: https://docs.python.org/2/
 | Docs: https://docs.python.org/devguide/
 | Docs: https://docs.python.org/devguide/documenting.html
+| Docs: http://learnxinyminutes.com/docs/python/
 | Source: hg https://hg.python.org/cpython
-|
+
 
 Python is a dynamically-typed, C-based scripting language.
 
@@ -891,7 +1179,8 @@ Python 3
 | Docs: https://docs.python.org/3/
 | Docs: https://docs.python.org/3/howto/pyporting.html
 | Docs: https://docs.python.org/3/howto/cporting.html
-|
+| Docs: http://learnxinyminutes.com/docs/python3/
+
 
 Python 3 made a number of incompatible changes,
 requiring developers to update and review their Python 2 code
@@ -926,9 +1215,6 @@ awesome-python-testing
 ~~~~~~~~~~~~~~~~~~~~~~~~
 | Homepage: https://westurner.github.io/wiki/awesome-python-testing.html
 | Source: https://github.com/westurner/wiki/blob/master/awesome-python-testing.rest
-|
-
-
 
 
 
@@ -943,7 +1229,7 @@ Readline
 | Docs: http://tiswww.case.edu/php/chet/readline/history.html
 | Docs: http://tiswww.case.edu/php/chet/readline/rluserman.html
 | Source: ftp ftp://ftp.gnu.org/gnu/readline/readline-6.3.tar.gz
-|
+
 
 
 * https://pypi.python.org/pypi/gnureadline
@@ -960,7 +1246,7 @@ ReStructuredText
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/directives.html
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
 | Docs: http://sphinx-doc.org/rest.html
-|
+
 
 ReStructuredText (RST, ReST) is a plaintext
 lightweight markup language commonly used for
@@ -996,6 +1282,23 @@ Pandoc also supports a form of ReStructuredText.
             :ref:`Anchor <anchor-name>`
 
 
+.. index:: Ruby
+.. _ruby:
+
+Ruby
+===============
+| Wikipedia: `<https://en.wikipedia.org/wiki/Ruby_(programming_language)>`_
+| Homepage: https://www.ruby-lang.org/
+| Docs: https://www.ruby-lang.org/en/documentation/
+| Docs: http://learnxinyminutes.com/docs/ruby/
+| Source: svn http://svn.ruby-lang.org/repos/ruby/trunk
+
+
+Ruby is a dynamically-typed programming language.
+
+:ref:`Vagrant` is written in Ruby.
+
+
 .. index:: Salt
 .. _salt:
 
@@ -1003,14 +1306,16 @@ Salt
 ===============
 | Wikipedia: `<https://en.wikipedia.org/wiki/Salt_(software)>`_
 | Homepage: http://www.saltstack.com
-| Docs: http://docs.saltstack.com/en/latest/
-| Docs: http://salt.readthedocs.org/en/latest/ref/clients/index.html#python-api
-| Docs: http://docs.saltstack.com/en/latest/topics/development/hacking.html
-| Glossary: http://docs.saltstack.com/en/latest/glossary.html
+| Docs: https://docs.saltstack.com/en/latest/
+| Docs: https://docs.saltstack.com/en/latest/salt-modindex.html
+| Docs: https://docs.saltstack.com/en/latest/ref/states/all/index.html
+| Docs: https://docs.saltstack.com/en/latest/ref/clients/index.html#python-api
+| Docs: https://docs.saltstack.com/en/latest/topics/development/hacking.html
+| Docs: https://docs.saltstack.com/en/latest/glossary.html
 | Source: git https://github.com/saltstack/salt
 | Pypi: https://pypi.python.org/pypi/salt
 | IRC: #salt
-|
+
 
 Salt is an open source configuration management system for managing
 one or more physical and virtual machines running various operating systems.
@@ -1136,7 +1441,7 @@ Sphinx
 | Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
 | Source: hg https://bitbucket.org/birkenfeld/sphinx/
 | Pypi: https://pypi.python.org/pypi/Sphinx
-|
+
 
 Sphinx is a tool for working with
 :ref:`ReStructuredText` documentation trees
@@ -1203,22 +1508,6 @@ so, for example,
             :ref:`Anchor <anchor-name>`
 
 
-.. index:: Ruby
-.. _ruby:
-
-Ruby
-===============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Ruby_(programming_language)>`_
-| Homepage: https://www.ruby-lang.org/
-| Docs: https://www.ruby-lang.org/en/documentation/
-| Source: svn http://svn.ruby-lang.org/repos/ruby/trunk
-|
-
-Ruby is a dynamically-typed programming language.
-
-:ref:`Vagrant` is written in Ruby.
-
-
 .. index:: Tox
 .. _tox:
 
@@ -1228,7 +1517,7 @@ Tox
 | Docs: https://tox.readthedocs.org
 | Source: hg https://bitbucket.org/hpk42/tox
 | Pypi: https://pypi.python.org/pypi/tox
-|
+
 
 Tox is a build automation tool designed to build and test Python projects
 with multiple language versions and environments
@@ -1251,7 +1540,7 @@ Ubuntu
 | Source: https://launchpad.net/ubuntu
 | Source: http://archive.ubuntu.com/
 | Source: http://releases.ubuntu.com/
-|
+
 
 .. index:: Vagrant
 .. _vagrant:
@@ -1262,7 +1551,7 @@ Vagrant
 | Homepage: http://www.vagrantup.com/
 | Docs: http://docs.vagrantup.com/v2/
 | Source: git https://github.com/mitchellh/vagrant
-|
+
 
 Vagrant is a tool for creating and managing virtual machine instances
 with CPU, RAM, Storage, and Networking.
@@ -1367,7 +1656,7 @@ Vim
 | Homepage: http://www.vim.org/
 | Docs: http://www.vim.org/docs.php
 | Source: hg https://vim.googlecode.com/hg/
-|
+
 
 * https://github.com/scrooloose/nerdtree
 * https://github.com/westurner/dotvim
@@ -1377,11 +1666,11 @@ Vim
 .. _vimium:
 
 Vimium
-=======
+~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Vimium
 | Homepage: https://vimium.github.io/
 | Source: git https://github.com/philc/vimium
-|
+
 
 * https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
 
@@ -1390,11 +1679,11 @@ Vimium
 .. _vimperator:
 
 Vimperator
-===========
+~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Vimperator
 | Homepage: http://www.vimperator.org/
 | Source: https://github.com/vimperator/vimperator-labs
-|
+
 
 * https://addons.mozilla.org/en-US/firefox/addon/vimperator/
 
@@ -1403,11 +1692,11 @@ Vimperator
 .. _wasavi:
 
 Wasavi
-=======
+~~~~~~~
 | Homepage: http://appsweets.net/wasavi/
 | Docs: http://appsweets.net/wasavi/
 | Source: https://github.com/akahuku/wasavi
-|
+
 
 
 * https://chrome.google.com/webstore/detail/dgogifpkoilgiofhhhodbodcfgomelhe
@@ -1425,7 +1714,7 @@ VirtualBox
 | Homepage: https://www.virtualbox.org/
 | Docs: https://www.virtualbox.org/wiki/Documentation
 | Source: svn svn://www.virtualbox.org/svn/vbox/trunk
-|
+
 
 Oracle VirtualBox is a platform virtualization package
 for running one or more guest VMs (virtual machines) within a host system.
@@ -1449,11 +1738,16 @@ Virtualenv
 | Source: git https://github.com/pypa/virtualenv
 | PyPI: https://pypi.python.org/pypi/virtualenv
 | IRC: #pip
-|
+
 
 Virtualenv is a tool for creating reproducible :ref:`Python` environments.
 
-Virtualenv sets the shell environment variable $VIRTUAL_ENV when active.
+Virtualenv sets the shell environment variable ``$VIRTUAL_ENV`` when active.
+
+Virtualenv installs a copy of :ref:`Python`, :ref:`Setuptools`, and
+:ref:`Pip` when a new virtualenv is created.
+
+A virtualenv is activated by ``source``-ing ``${VIRTUAL_ENV}/bin/activate``.
 
 Paths within a virtualenv are more-or-less :ref:`FHS <fhs>`
 standard paths, which makes
@@ -1466,10 +1760,10 @@ A standard virtual environment::
    bin/activate   # source bin/activate to work on a virtualenv
    include/       # (symlinks to) dev headers (python-dev/python-devel)
    lib/           # libraries
+   lib/python2.7/distutils/
    lib/python2.7/site-packages/  # pip and easy_installed packages
    local/         # symlinks to bin, include, and lib
-
-   src/           # pip installs editable requirements here
+   src/           # editable requirements (source repositories)
 
    # also useful
    etc/           # configuration
@@ -1483,26 +1777,19 @@ code shell example, comments with ``##`` are virtualenvwrapper
 
 .. code-block:: bash
 
-   # Print Python site settings
-   python -m site
+   echo $PATH; echo $VIRTUAL_ENV
+   python -m site; pip list
 
-   # Create a virtualenv
-   cd $WORKON_HOME
-   virtualenv example
-   source ./example/bin/activate
-   ## mkvirtualenv example
-   ## workon example
+   virtualenv example               # mkvirtualenv example
+   source ./example/bin/activate    # workon example
 
-   # Review virtualenv Python site settings
-   python -m site
+   echo $PATH; echo $VIRTUAL_ENV
+   python -m site; pip list
 
-   # List files in site-packages
-   ls -altr $VIRTUAL_ENV/lib/python*/site-packages/**
-   ## (cdsitepackages && ls -altr **)
-   ## lssitepackages -altr **
+   ls -altr $VIRTUAL_ENV/lib/python*/site-packages/**  # lssitepackages -altr
 
 
-.. note:: See :ref:`Venv`
+.. note:: :ref:`Venv` extends :ref:`virtualenv` and :ref:`virtualenvwrapper`.
 
 
 .. index:: Virtualenvwrapper
@@ -1513,7 +1800,7 @@ Virtualenvwrapper
 | Docs: http://virtualenvwrapper.readthedocs.org/en/latest/
 | Source: hg https://bitbucket.org/dhellmann/virtualenvwrapper
 | PyPI: https://pypi.python.org/pypi/virtualenvwrapper
-|
+
 
 Virtualenvwrapper is a tool which extends virtualenvwrapper.
 
@@ -1534,24 +1821,50 @@ Virtualenvwrapper is sourced into the shell::
    # sudo apt-get install virtualenvwrapper
    source /etc/bash_completion.d/virtualenvwrapper
 
+.. note:: :ref:`Venv` extends :ref:`virtualenv` and :ref:`virtualenvwrapper`.
 
 .. code-block:: bash
 
-   echo $PROJECT_HOME; echo ~/wrk        # default: ~/workspace
-   echo $WORKON_HOME;  echo ~/wrk/.ve    # default: ~/.virtualenvs
+   echo $PROJECT_HOME; echo ~/workspace             # venv: ~/wrk
+   echo $WORKON_HOME;  echo ~/.virtualenvs          # venv: ~/wrk/.ve
 
    mkvirtualenv example
-   workon example
-   cdvirtualenv ; ls
-   mkdir src ; cd src/
+   workon example                                   # venv: we example
 
-   cdsitepackages
+   cdvirtualenv; cd $VIRTUAL_ENV                    # venv: cdv
+   echo $VIRTUAL_ENV; echo ~/.virtualenvs/example   # venv: ~/wrk/.ve/example
+
+   mkdir src ; cd src/                              # venv: cds; cd $_SRC
+
+   pip install -e git+https://github.com/westurner/dotfiles#egg=dotfiles
+   cd src/dotfiles; cd $VIRTUAL_ENV/src/dotfiles    # venv: cdw; cds dotfiles
+   head README.rst
+
+                                                    # venv: cdpylib
+   cdsitepackages                                   # venv: cdpysite
    lssitepackages
-
 
    deactivate
    rmvirtualenv example
 
+   lsvirtualenvs; ls -d $WORKON_HOME                # venv: lsve
+
+
+.. index:: Wayland
+.. _wayland:
+
+Wayland
+=========
+| Wikipedia: `<https://en.wikipedia.org/wiki/Wayland_(display_server_protocol)>`_
+| Homepage: http://wayland.freedesktop.org/
+| Source:
+
+
+Wayland is a display server protocol for GUI window management.
+
+Wayland is an alternative to :ref:`X11` servers like XFree86 and X.org.
+
+The reference Wayland implementation, Weston, is written in :ref:`C`.
 
 
 .. index:: YAML
@@ -1561,7 +1874,8 @@ YAML
 ==============
 | Wikipedia: https://en.wikipedia.org/wiki/YAML
 | Homepage: http://yaml.org
-|
+| Docs: http://learnxinyminutes.com/docs/yaml/
+
 
 YAML ("YAML Ain't Markup Language") is a concise data serialization format.
 
@@ -1587,10 +1901,36 @@ example ``top.sls`` file:
 ZSH
 ====
 | Wikipedia: https://en.wikipedia.org/wiki/Z_shell
+| Homepage: http://www.zsh.org/
 | Docs: http://zsh.sourceforge.net/Guide/zshguide.html
 | Docs: http://zsh.sourceforge.net/Doc/
-| Homepage: http://www.zsh.org/
 | Source: git git://git.code.sf.net/p/zsh/code
-|
+
 
 * https://github.com/robbyrussell/oh-my-zsh
+
+
+.. index:: X Window System
+.. index:: X11
+.. _x11:
+
+X11
+====
+| Wikipedia: https://en.wikipedia.org/wiki/X_Window_System
+| Homepage: http://www.x.org/
+| Docs: http://www.x.org/wiki/Documentation/
+| Source: git git://anongit.freedesktop.org/git/xorg/
+
+
+X Window System (X, X11) is a display server protocol for window management
+(drawing windows on the screen).
+
+Most UNIX and :ref:`Linux` systems utilize XFree86 or the newer X.org
+X11 window managers.
+
+:ref:`Gnome`, :ref:`KDE`, :ref:`I3wm`, :ref:`OSX`, and :ref:`Compiz`
+build upon X11.
+
+*****
+
+`^top^ <#>`__

@@ -1,28 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Dotfiles
-==========
-
-* dotfiles:version
-* dotfiles.cli
-
 """
 
 
 def __read_version_txt():
-    """read VERSION.txt into __version__ and version"""
+    """
+    read VERSION.txt
+
+    Returns:
+        str: version string from the first line of ``VERSION.txt``
+    """
     try:
         import pkg_resources
         version = pkg_resources.resource_string(
-            'dotfiles', 'VERSION.txt').rstrip()
+            'dotfiles', 'VERSION.txt').strip()
         return version
-    except:
+    except ImportError:
         try:
-            import os.path
+            import os.path, codecs
             HERE = os.path.dirname(__file__)
-            with open(os.path.join(HERE, 'VERSION.txt')) as f:
-                version = f.read().strip()
+            with codecs.open(os.path.join(HERE, 'VERSION.txt'), 'utf8') as f:
+                version = next(f).strip()
             return version
         except:
             raise
@@ -33,4 +32,5 @@ global __version__
 global version
 version = __version__ = __read_version_txt()
 
-# __ALL__ = ['pkgsetcomp', 'version', '__version__']
+from dotfiles import cli, venv
+__ALL__ = ['version', '__version__', 'venv', 'cli']
