@@ -1,11 +1,12 @@
 
+.. index:: dotfiles.venv
 .. index:: Venv
 .. _venv:   
 
 Venv
 ======
 
-There are two parts to "``venv``":
+There are two parts to "``venv``" (:py:mod:`dotfiles.venv`):
 
 * `dotfiles.venv.ipython_config.py`_
 * `10-bashrc.venv.sh`_  
