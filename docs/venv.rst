@@ -60,6 +60,14 @@ Quickstart
     we dotfiles otherproject
 
 
+Usage
+------
+
+Shell Command
+~~~~~~~~~~~~~~
+.. command-output:: python ../src/dotfiles/venv/ipython_config.py --help
+   :shell:
+
 
 Python API
 ~~~~~~~~~~~~
