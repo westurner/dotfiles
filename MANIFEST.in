@@ -3,6 +3,7 @@ include .hgignore
 include .hgtags
 include .travis.yml
 include CHANGELOG.rst
+include LICENSE
 include MANIFEST.in
 include Makefile
 include README.rst
@@ -19,6 +20,7 @@ include docs/_static/index.html
 include docs/_static/js/ga.js
 include docs/_static/js/local.js
 include docs/_static/js/newtab.js
+include docs/_templates/layout.html
 include docs/_templates/links.html
 include docs/_templates/sourcelink.html
 include docs/api.rst
@@ -32,6 +34,7 @@ include docs/dotfiles.venv.rst
 include docs/dotvim_conf.txt
 include docs/i3_conf.txt
 include docs/index.rst
+include docs/license.rst
 include docs/readme.rst
 include docs/requirements.txt
 include docs/src/conf.py
