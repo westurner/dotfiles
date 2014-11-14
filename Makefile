@@ -465,8 +465,9 @@ release: clean
 	git diff --cached --exit-code ./VERSION.txt || \
 		git commit VERSION.txt -m "RLS: VERSION.txt: $(VERSION)"
 	$(MAKE) docs
-	git hf release finish $(VERSION)
 	$(MAKE) update_manifest
+	git hf release finish $(VERSION) || \
+		git hf release finish $(VERSION)
 	#$(MAKE) upload
 
 upload:
