@@ -668,6 +668,12 @@ class Venv(object):
         Args:
             c (object): An IPython configuration object (e.g. ``get_ipython()``)
             setup_func (function): a function to call (default: None)
+
+        Docs:
+
+        * http://ipython.org/ipython-doc/dev/config/
+        * http://ipython.org/ipython-doc/dev/config/options/terminal.html
+
         """
         if c is None:
             if not in_ipython_config():
