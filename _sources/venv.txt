@@ -1,11 +1,12 @@
 
+.. index:: dotfiles.venv
 .. index:: Venv
 .. _venv:   
 
 Venv
 ======
 
-There are two parts to "``venv``":
+There are two parts to "``venv``" (:py:mod:`dotfiles.venv`):
 
 * `dotfiles.venv.ipython_config.py`_
 * `10-bashrc.venv.sh`_  
@@ -59,6 +60,14 @@ Quickstart
     # workon ${WORKON_HOME}/dotfiles/src/otherproject (echo $_APP $_WRD)
     we dotfiles otherproject
 
+
+Usage
+------
+
+Shell Command
+~~~~~~~~~~~~~~
+.. command-output:: python ../src/dotfiles/venv/ipython_config.py --help
+   :shell:
 
 
 Python API

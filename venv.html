@@ -64,7 +64,7 @@
 <script type="text/javascript">
 </script>
     <link rel="top" title="dotfiles 0.5.2 documentation" href="index.html" />
-    <link rel="next" title="Dotfiles API" href="api.html" />
+    <link rel="next" title="Tools" href="tools.html" />
     <link rel="prev" title="Usage" href="usage.html" /> 
   </head>
   <body role="document">
@@ -87,7 +87,9 @@
                 <ul>
 <li><a class="reference internal" href="#">Venv</a><ul>
 <li><a class="reference internal" href="#features">Features</a></li>
-<li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#shell-command">Shell Command</a></li>
 <li><a class="reference internal" href="#python-api">Python API</a></li>
 </ul>
 </li>
@@ -106,7 +108,7 @@
 
             
               <li><a href="usage.html" title="Usage" accesskey="P">previous </a></li>
-              <li><a href="api.html" title="Dotfiles API" accesskey="N">next </a></li>
+              <li><a href="tools.html" title="Tools" accesskey="N">next </a></li>
               <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
             
@@ -144,9 +146,9 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="venv">
-<span id="index-0"></span><span id="id1"></span><h1>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
-<p>There are two parts to &#8220;<code class="docutils literal"><span class="pre">venv</span></code>&#8221;:</p>
+  <span class="target" id="index-0"></span><div class="section" id="venv">
+<span id="index-1"></span><span id="id1"></span><h1>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
+<p>There are two parts to &#8220;<code class="docutils literal"><span class="pre">venv</span></code>&#8221; (<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv" title="dotfiles.venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv</span></code></a>):</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">dotfiles.venv.ipython_config.py</a></li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a></li>
@@ -188,6 +190,39 @@ we dotfiles
 <span class="c"># workon ${WORKON_HOME}/dotfiles/src/otherproject (echo $_APP $_WRD)</span>
 we dotfiles otherproject
 </pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="shell-command">
+<h3>Shell Command<a class="headerlink" href="#shell-command" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-text"><div class="highlight"><pre>$ python ../src/dotfiles/venv/ipython_config.py --help
+Usage: ipython_config.py [-b|--print-bash] [-t] [-e] [-E&lt;virtualenv&gt;] [appname]
+
+dotfiles.venv.ipython_config.py
+
+Options:
+  -h, --help            show this help message and exit
+  -E, --from-shell-environ
+  -p, --print, --print-json, --json
+                        Print venv configuration as JSON
+  -b, --bash, --print-bash, --zsh, --zsh-config
+                        Print venv configuration for Bash, ZSH
+  -x RUN_COMMAND, --cmd=RUN_COMMAND, --command=RUN_COMMAND
+                        Run a command in a venv-configured shell
+  -t, --terminals, --open-terminals
+                        Open terminals within the venv [gnome-terminal]
+  -e, --editors, --open-editors
+                        Open an editor with venv._project_files
+                        [$PROJECT_FILES]
+  --platform=PLATFORM   Platform to generate configuration for
+  -v, --verbose         
+  -q, --quiet           
+  -T, --test            
+
+Copyright 2014 Wes Turner. New BSD License
+</pre></div>
+</div>
 </div>
 <div class="section" id="python-api">
 <h3>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h3>
@@ -570,7 +605,9 @@ alias svd=&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; sup
   <ul>
 <li><a class="reference internal" href="#">Venv</a><ul>
 <li><a class="reference internal" href="#features">Features</a></li>
-<li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#shell-command">Shell Command</a></li>
 <li><a class="reference internal" href="#python-api">Python API</a></li>
 </ul>
 </li>
@@ -588,8 +625,8 @@ alias svd=&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; sup
   <p class="topless"><a href="usage.html"
                         title="previous chapter">Usage</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="api.html"
-                        title="next chapter">Dotfiles API</a></p>
+  <p class="topless"><a href="tools.html"
+                        title="next chapter">Tools</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/venv.txt"
@@ -637,7 +674,7 @@ alias svd=&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; sup
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="usage.html" title="Usage" >previous</a></li>
-        <li><a href="api.html" title="Dotfiles API" >next</a></li>
+        <li><a href="tools.html" title="Tools" >next</a></li>
         <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="genindex.html" title="General Index" >index</a></li> 
       

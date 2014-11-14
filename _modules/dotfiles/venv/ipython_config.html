@@ -1214,30 +1214,41 @@
     <span class="kn">import</span> <span class="nn">optparse</span>
 
     <span class="n">prs</span> <span class="o">=</span> <span class="n">optparse</span><span class="o">.</span><span class="n">OptionParser</span><span class="p">(</span>
-        <span class="n">usage</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;%prog [-b|--print-bash] [-t] [-e] [-E&lt;virtualenv&gt;] [appname]&quot;</span><span class="p">))</span>
+        <span class="n">usage</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;%prog [-b|--print-bash] [-t] [-e] [-E&lt;virtualenv&gt;] [appname]&quot;</span><span class="p">),</span>
+        <span class="n">description</span><span class="o">=</span><span class="s">&quot;dotfiles.venv.ipython_config.py&quot;</span><span class="p">,</span>
+        <span class="n">epilog</span><span class="o">=</span><span class="s">&quot;Copyright 2014 Wes Turner. New BSD License</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
 
     <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-E&#39;</span><span class="p">,</span> <span class="s">&#39;--from-shell-environ&#39;</span><span class="p">,</span>
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;load_environ&#39;</span><span class="p">,</span>
                    <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">)</span>
 
-    <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-p&#39;</span><span class="p">,</span> <span class="s">&#39;--print&#39;</span><span class="p">,</span> <span class="s">&#39;--print-environment&#39;</span><span class="p">,</span>
+    <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-p&#39;</span><span class="p">,</span> <span class="s">&#39;--print&#39;</span><span class="p">,</span> <span class="s">&#39;--print-json&#39;</span><span class="p">,</span> <span class="s">&#39;--json&#39;</span><span class="p">,</span>
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;print_env&#39;</span><span class="p">,</span>
-                   <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">)</span>
-    <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-b&#39;</span><span class="p">,</span> <span class="s">&#39;--bash&#39;</span><span class="p">,</span> <span class="s">&#39;--print-bash-config&#39;</span><span class="p">,</span>
+                   <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span>
+                   <span class="n">help</span><span class="o">=</span><span class="s">&quot;Print venv configuration as JSON&quot;</span><span class="p">)</span>
+    <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-b&#39;</span><span class="p">,</span> <span class="s">&#39;--bash&#39;</span><span class="p">,</span> <span class="s">&#39;--print-bash&#39;</span><span class="p">,</span> <span class="s">&#39;--zsh&#39;</span><span class="p">,</span> <span class="s">&#39;--zsh-config&#39;</span><span class="p">,</span>
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;print_bash&#39;</span><span class="p">,</span>
-                   <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">)</span>
+                   <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span>
+                   <span class="n">help</span><span class="o">=</span><span class="s">&quot;Print venv configuration for Bash, ZSH&quot;</span>
+                   <span class="p">)</span>
 
     <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-x&#39;</span><span class="p">,</span> <span class="s">&#39;--cmd&#39;</span><span class="p">,</span> <span class="s">&#39;--command&#39;</span><span class="p">,</span>
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;run_command&#39;</span><span class="p">,</span>
-                   <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">)</span>
+                   <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span>
+                   <span class="n">help</span><span class="o">=</span><span class="s">&quot;Run a command in a venv-configured shell&quot;</span><span class="p">)</span>
     <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-t&#39;</span><span class="p">,</span> <span class="s">&#39;--terminals&#39;</span><span class="p">,</span> <span class="s">&#39;--open-terminals&#39;</span><span class="p">,</span>
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;open_terminals&#39;</span><span class="p">,</span>
                    <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span>
-                   <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                   <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                   <span class="n">help</span><span class="o">=</span><span class="s">&quot;Open terminals within the venv [gnome-terminal]&quot;</span>
+                   <span class="p">)</span>
     <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-e&#39;</span><span class="p">,</span> <span class="s">&#39;--editors&#39;</span><span class="p">,</span> <span class="s">&#39;--open-editors&#39;</span><span class="p">,</span>
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;open_editors&#39;</span><span class="p">,</span>
                    <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span>
-                   <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                   <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                   <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;Open an editor with venv._project_files&quot;</span>
+                         <span class="s">&quot; [$PROJECT_FILES]&quot;</span><span class="p">)</span>
+                   <span class="p">)</span>
 
     <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;--platform&#39;</span><span class="p">,</span>
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;platform&#39;</span><span class="p">,</span>
