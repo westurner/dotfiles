@@ -27,14 +27,19 @@ Goals
 Usage
 =======
 
-* ``etc/.bashrc`` loads ``etc/bash/00-bashrc.before.sh``
-* ``etc/bash/00-bashrc.before.sh`` loads a documented,
+* ``scripts/bootstrap_dotfiles.sh`` installs symlinks in ``$HOME``
+  (such as ``~/.bashrc`` -> ``${__DOTFILES}/etc/bashrc``)
+* ``etc/bashrc`` sources ``etc/bash/00-bashrc.before.sh``
+* ``etc/bash/00-bashrc.before.sh`` sources a documented,
   ordered sequence of Bash scripts
-* ``etc/zsh/00-zshrc.before.sh`` loads a documented,
+* ``etc/zsh/00-zshrc.before.sh`` sources a documented,
   ordered sequence of ZSH scripts
-* https://westurner.github.io/dotfiles/usage.html documents Bash, ZSH, Vim, i3
-* https://westurner.github.io/dotfiles/venv.html documents the ``venv``
-  script (which configures Bash/ZSH virtualenvs and IPython)
+
+See: `Usage`_ and `Venv`_ for documentation.
+
+.. _usage: https://westurner.github.io/dotfiles/usage.html
+.. _venv: https://westurner.github.io/dotfiles/venv.html
+
 
 Examples
 ------------
