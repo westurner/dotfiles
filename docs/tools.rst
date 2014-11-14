@@ -220,9 +220,7 @@ RPM
 
 .. index:: Egg
 .. index:: Python Egg
-.. index:: Wheel
-.. index:: Python Wheel
-.. index:: Python Package
+.. index:: Python Packages
 .. _python packages:
 
 Python Packages
