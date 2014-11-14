@@ -223,9 +223,28 @@
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Package_(package_management_system)">https://en.wikipedia.org/wiki/Package_(package_management_system)</a></div>
 </div>
-<p>Source and/or binary packages to install from a standard archive
-with a <em>signed</em> manifest containing file signatures of
-package files.</p>
+<p>A software package is an archive of files
+with a manifest that lists the files included.
+Often, the manifest contains file checksums
+and a <em>signature</em>.</p>
+<p>Many packaging tools make a distinction between source
+and/or binary packages.</p>
+<p>Some packaging tools provide configuration options for:</p>
+<ul class="simple">
+<li>Scripts to run before compression</li>
+<li>Scripts to run at install time</li>
+<li>Scripts to run at uninstal time</li>
+<li>Patches to apply to the &#8220;vanilla* source tree,
+as might be obtained from a version control repository.</li>
+</ul>
+<p>There is a package maintainer, whose responsibilities include:</p>
+<ul class="simple">
+<li>Testing new <em>upstream</em> releases to verify that the package works</li>
+<li><em>Vetting</em> changes from release to release</li>
+<li><em>Signing</em> new package releases</li>
+</ul>
+<p><em>Packaging lag</em> refers to how long it takes a package maintainer
+to repackage upstream releases for the target platform(s).</p>
 <div class="section" id="apt">
 <span id="index-2"></span><span id="id3"></span><h3>Apt<a class="headerlink" href="#apt" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
@@ -1689,8 +1708,7 @@ tmp/           # mkstemp temporary files with permission bits
 srv/           # local data
 </pre></div>
 </div>
-<p><a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a> wraps virtualenv. In the following
-code shell example, comments with <code class="docutils literal"><span class="pre">##</span></code> are virtualenvwrapper</p>
+<p><a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a> wraps virtualenv.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="nv">$PATH</span><span class="p">;</span> <span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span>
 python -m site<span class="p">;</span> pip list
 
@@ -1706,6 +1724,12 @@ ls -altr <span class="nv">$VIRTUAL_ENV</span>/lib/python*/site-packages/**  <spa
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last"><a class="reference internal" href="venv.html#venv"><em>Venv</em></a> extends <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Python 3.3+ now also contain a script called <strong>venv</strong>, which
+performs the same functions and works similarly to virtualenv:
+<a class="reference external" href="https://docs.python.org/3/library/venv.html">https://docs.python.org/3/library/venv.html</a>.</p>
 </div>
 </div>
 <div class="section" id="virtualenvwrapper">
@@ -1737,7 +1761,9 @@ source /etc/bash_completion.d/virtualenvwrapper
 <p class="last"><a class="reference internal" href="venv.html#venv"><em>Venv</em></a> extends <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
 </div>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="nv">$PROJECT_HOME</span><span class="p">;</span> <span class="nb">echo</span> ~/workspace             <span class="c"># venv: ~/wrk</span>
+<span class="nb">cd</span> <span class="nv">$PROJECT_HOME</span>                                 <span class="c"># venv: cdp; cdph</span>
 <span class="nb">echo</span> <span class="nv">$WORKON_HOME</span><span class="p">;</span>  <span class="nb">echo</span> ~/.virtualenvs          <span class="c"># venv: ~/wrk/.ve</span>
+<span class="nb">cd</span> <span class="nv">$WORKON_HOME</span>                                  <span class="c"># venv: cdwh; cdwrk</span>
 
 mkvirtualenv example
 workon example                                   <span class="c"># venv: we example</span>
@@ -1748,6 +1774,7 @@ cdvirtualenv<span class="p">;</span> <span class="nb">cd</span> <span class="nv"
 mkdir src <span class="p">;</span> <span class="nb">cd </span>src/                              <span class="c"># venv: cds; cd $_SRC</span>
 
 pip install -e git+https://github.com/westurner/dotfiles#egg<span class="o">=</span>dotfiles
+
 <span class="nb">cd </span>src/dotfiles<span class="p">;</span> <span class="nb">cd</span> <span class="nv">$VIRTUAL_ENV</span>/src/dotfiles    <span class="c"># venv: cdw; cds dotfiles</span>
 head README.rst
 
@@ -1758,7 +1785,7 @@ lssitepackages
 deactivate
 rmvirtualenv example
 
-lsvirtualenvs<span class="p">;</span> ls -d <span class="nv">$WORKON_HOME</span>                <span class="c"># venv: lsve</span>
+lsvirtualenvs<span class="p">;</span> ls -d <span class="nv">$WORKON_HOME</span>                <span class="c"># venv: lsve; lsve &#39;ls -d&#39;</span>
 </pre></div>
 </div>
 </div>

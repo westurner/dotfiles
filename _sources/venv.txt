@@ -6,10 +6,11 @@
 Venv
 ======
 
-There are two parts to "``venv``" (:py:mod:`dotfiles.venv`):
+There are three parts to "``venv``" (:py:mod:`dotfiles.venv`):
 
-* `dotfiles.venv.ipython_config.py`_
 * `10-bashrc.venv.sh`_  
+* `dotfiles.venv.ipython_config.py`_
+* `dotfiles.venv.ipython_magics.py`_
   
 `dotfiles.venv.ipython_config.py`_ (:py:mod:`dotfiles.venv.ipython_config`)
 generates `shell configuration`_ and IPython configuration
@@ -26,6 +27,8 @@ functions for use with :ref:`virtualenvwrapper`.
 
 .. _10-bashrc.venv.sh: https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
 .. _dotfiles.venv.ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
+
+.. _dotfiles.venv.ipython_magics.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py
 
 Features
 ----------

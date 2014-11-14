@@ -88,7 +88,11 @@
                 <ul>
 <li><a class="reference internal" href="#">dotfiles.venv package</a><ul>
 <li><a class="reference internal" href="#objectives">Objectives</a></li>
-<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#shell">Shell</a></li>
+<li><a class="reference internal" href="#ipython">IPython</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#module-dotfiles.venv.ipython_config">dotfiles.venv.ipython_config module</a></li>
 <li><a class="reference internal" href="#module-dotfiles.venv.ipython_magics">dotfiles.venv.ipython_magics module</a><ul>
@@ -178,28 +182,49 @@
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="shell">
+<h3>Shell<a class="headerlink" href="#shell" title="Permalink to this headline">¶</a></h3>
+<p>For Bash/ZSH, <code class="docutils literal"><span class="pre">etc/bash/10-bashrc.venv.sh</span></code> sets:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># ...</span>
+<span class="nv">_VENV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span><span class="s2">/etc/ipython/ipython_config.py&quot;</span>
+venv<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">$_VENV</span> <span class="nv">$@</span>
+<span class="o">}</span>
+<span class="c"># ...</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">etc/bash/10-bashrc.venv.sh</span></code> is sourced by
+<code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code>, which is sourced by <code class="docutils literal"><span class="pre">~/.bashrc</span></code>
+(a symlink to <code class="docutils literal"><span class="pre">${__DOTFILES}/etc/bashrc</span></code> created by
+<em class="xref std std-ref">bootstrap_dotfiles.sh -S</em>).</p>
+</div>
+<div class="section" id="ipython">
+<h3>IPython<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h3>
+<p>To configure IPython with venv, <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">ipython_config.py</a>
+must be symlinked into <code class="docutils literal"><span class="pre">~/.ipython/profile_default</span></code>
+(and, optionally,
+<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py">ipython_magics.py</a> into <code class="docutils literal"><span class="pre">~/.ipython/profile_default/startup/</span></code>):</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="c"># symlink paths relative to ${__DOTFILES}</span>
 <span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;~/.dotfiles&quot;</span>
 
 <span class="c"># working directory (path to the dotfiles repository)</span>
 <span class="nv">_WRD</span><span class="o">=</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span>/dotfiles/src/dotfiles
 
-<span class="c"># already stored in the dotfiles git repository</span>
-ln -s <span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/src/dotfiles/venv/ipython_config.py <span class="se">\</span>
-      <span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/etc/ipython/ipython_config.py
+<span class="c"># created by ``bootstrap_dotfiles.sh -S``</span>
+<span class="c"># ln -s ${_WRD} ${__DOTFILES}</span>
+<span class="c"># ln -s ${__DOTFILES}/etc/bashrc ~/.bashrc</span>
+<span class="c"># ln -s ${_WRD}/etc/ipython/ipython_config.py \</span>
+<span class="c">#       ${__DOTFILES}/etc/ipython/ipython_config.py</span>
 
-<span class="c"># automatically created by ``bootstrap_dotfiles.sh -S``</span>
-ln -s <span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/etc/ipython/ipython_config.py <span class="se">\</span>
-      <span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span>/etc/ipython/ipython_config.py
-
-<span class="c"># manually installed for each IPython profile</span>
+<span class="c"># MANUALLY INSTALL for each IPython profile</span>
 <span class="nv">IPY_PROFILE</span><span class="o">=</span><span class="s2">&quot;profile_default&quot;</span>
 ln -s <span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span>/etc/ipython/ipython_config.py <span class="se">\</span>
       ~/.ipython/<span class="si">${</span><span class="nv">IPY_PROFILE</span><span class="si">}</span>/ipython_config.py
 
 ln -s <span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span>/etc/ipython/ipython_magics.py <span class="se">\</span>
-      ~/.ipython/<span class="si">${</span><span class="nv">IPY_PROFILE</span><span class="si">}</span>/ipython_magica.py
+      ~/.ipython/<span class="si">${</span><span class="nv">IPY_PROFILE</span><span class="si">}</span>/ipython_magics.py
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="subpackages">
@@ -366,7 +391,7 @@ in this Env.</p>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.bash_env">
-<code class="descname">bash_env</code><span class="sig-paren">(</span><em>output=&lt;open file '&lt;stdout&gt;'</em>, <em>mode 'w' at 0x10ae2e150&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.bash_env" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bash_env</code><span class="sig-paren">(</span><em>output=&lt;open file '&lt;stdout&gt;'</em>, <em>mode 'w' at 0x10d479150&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.bash_env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a <code class="docutils literal"><span class="pre">source</span></code>-able script for the environment variables,
 aliases, and functions defined by the current <code class="docutils literal"><span class="pre">Venv</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -906,7 +931,11 @@ ln -s <span class="si">${</span><span class="nv">__DOTFILES</span><span class="s
   <ul>
 <li><a class="reference internal" href="#">dotfiles.venv package</a><ul>
 <li><a class="reference internal" href="#objectives">Objectives</a></li>
-<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#shell">Shell</a></li>
+<li><a class="reference internal" href="#ipython">IPython</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#module-dotfiles.venv.ipython_config">dotfiles.venv.ipython_config module</a></li>
 <li><a class="reference internal" href="#module-dotfiles.venv.ipython_magics">dotfiles.venv.ipython_magics module</a><ul>
