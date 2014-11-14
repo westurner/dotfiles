@@ -230,11 +230,11 @@ Python Packages
 | Docs: https://packaging.python.org/en/latest/peps.html
 | Docs: https://packaging.python.org/en/latest/projects.html
 
+A Python Package is a collection of source code and package data files.
 
-* Python packages are tested and repackaged by package maintainers
 * Python packages have dependencies: they depend on other packages
-* Python packages are served from a package index
-* PyPI is the community Python Package Index
+* Python packages can be served from a package index
+* :ref:`PyPI` is the community Python Package Index
 * A Python package is an archive of files
   (``.zip`` (``.egg``, ``.whl``), ``.tar``, ``.tar.gz``,)
   containing a ``setup.py`` file
@@ -256,10 +256,10 @@ Python Packages
   or a greater-than (``>=``) or less-than (``<=``) requirement
   for each package.
 * Package names are looked up from an index server (``--index``),
-  such as *PyPI*,
+  such as :ref:`PyPI`,
   and or an HTML page (``--find-links``) containing URLs
   containing package names, version strings, and platform strings.
-* ``easy_install`` (setuptools) and ``pip`` can install packages
+* ``easy_install`` (:ref:`setuptools`) and :ref:`pip` can install packages
   from: the local filesystem, a remote index server, or a local index server.
 * ``easy_install`` and ``pip`` read the ``install_requires``
   (and ``extras_require``) attributes of ``setup.py`` files
@@ -276,9 +276,9 @@ Distuils
 +++++++++
 | Docs: https://docs.python.org/2/distutils/
 
+Distutils is a collection of tools for common packaging needs.
 
-* Distutils is included in the Python standard library
-* Distutils is a collection of tools for common packaging needs
+Distutils is included in the Python standard library.
 
 
 .. index:: setuptools
@@ -291,6 +291,9 @@ Setuptools
 | Source: hg https://bitbucket.org/pypa/setuptools
 | PyPI: http://pypi.python.org/pypi/setuptools
 
+
+Setuptools is a :ref:`Python Package` for working with other
+:ref:`Python Packages`.
 
 * Setuptools builds upon :ref:`distutils`
 * Setuptools is widely implemented
@@ -435,7 +438,8 @@ Peep works just like :ref:`pip`, but requires ``SHA256`` checksum hashes
 to be specified for each package in ``requirements.txt`` file.
 
 
-.. index:: PyPU
+.. index:: Python Package Index
+.. index:: PyPI
 .. _pypi:
 
 PyPI
@@ -450,6 +454,9 @@ PyPI
 PyPI is the Python Package Index.
 
 
+.. index:: Warehouse
+.. _warehouse:
+
 Warehouse
 ++++++++++
 | Homepage: https://warehouse.python.org/
@@ -462,7 +469,8 @@ Warehouse is the "Next Generation Python Package Repository".
 All packages uploaded to :ref:`PyPI` are also available from Warehouse.
 
 
-.. index:: wheel
+.. index:: Python Wheel
+.. index:: Wheel
 .. _wheel:
 
 Wheel
@@ -483,6 +491,7 @@ Wheel
 Packages available as wheels are listed at `<http://pythonwheels.com/>`__.
 
 
+.. index:: Conda Package
 .. index:: Conda
 .. _conda:
 
@@ -503,6 +512,7 @@ Conda
   which hosts free public and paid private Conda packages.
 
 
+.. index:: Ruby Gem
 .. index:: RubyGems
 .. _rubygems:
 
