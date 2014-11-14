@@ -6,7 +6,8 @@
 Venv
 ======
 
-Venv makes working with :ref:`virtualenvwrapper` very easy.
+Venv makes working with :ref:`virtualenvwrapper`, :ref:`Bash`,
+and :ref:`IPython` very easy.
 
 There are three parts to "``venv``":
 
