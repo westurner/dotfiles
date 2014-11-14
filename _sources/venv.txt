@@ -27,7 +27,6 @@ functions for use with :ref:`virtualenvwrapper`.
 
 .. _10-bashrc.venv.sh: https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
 .. _dotfiles.venv.ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
-
 .. _dotfiles.venv.ipython_magics.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py
 
 Features
