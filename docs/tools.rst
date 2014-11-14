@@ -28,7 +28,7 @@ Some packaging tools provide configuration options for:
 * Scripts to run at install time
 * Scripts to run at uninstal time
 * Patches to apply to the "*vanilla*" source tree,
-  as might be obtained from a version control repository.
+  as might be obtained from a version control repository
 
 There is a package maintainer whose responsibilities include:
 
