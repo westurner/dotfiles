@@ -24,13 +24,13 @@ and/or binary packages.
 
 Some packaging tools provide configuration options for:
 
-* Scripts to run before compression
+* Scripts to run when packaging
 * Scripts to run at install time
 * Scripts to run at uninstal time
-* Patches to apply to the "vanilla* source tree,
+* Patches to apply to the "*vanilla*" source tree,
   as might be obtained from a version control repository.
 
-There is a package maintainer, whose responsibilities include:
+There is a package maintainer whose responsibilities include:
 
 * Testing new *upstream* releases to verify that the package works
 * *Vetting* changes from release to release
