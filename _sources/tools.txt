@@ -292,7 +292,7 @@ Setuptools
 | PyPI: http://pypi.python.org/pypi/setuptools
 
 
-Setuptools is a :ref:`Python Package` for working with other
+Setuptools is a :ref:`Python package <python packages>` for working with other
 :ref:`Python Packages`.
 
 * Setuptools builds upon :ref:`distutils`
