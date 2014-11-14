@@ -402,7 +402,7 @@ docs_api:
 	# https://bitbucket.org/birkenfeld/sphinx/issue/1456/apidoc-add-a-m-option-to-put-module
 	sphinx-apidoc -f -M --no-toc -o docs/ src/dotfiles
 	mv docs/dotfiles.rst docs/api.rst
-	sed -i.bak 's/dotfiles package/API/' docs/api.rst
+	sed -i.bak 's/dotfiles package/Dotfiles API/' docs/api.rst
 	rm docs/api.rst.bak
 
 

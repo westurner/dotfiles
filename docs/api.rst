@@ -1,4 +1,4 @@
-API
+Dotfiles API
 ================
 
 .. automodule:: dotfiles

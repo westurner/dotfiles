@@ -1,6 +1,6 @@
 
 ===========
-dotfiles
+Dotfiles
 ===========
 
 `GitHub`_ | `BitBucket`_ | `Documentation`_
@@ -42,7 +42,7 @@ Examples
 Installing the dotfiles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: bash
+.. code-block:: bash
 
 
     # clone and install dotfiles and dotvim
@@ -84,7 +84,7 @@ Bash
 | Documentation: https://westurner.github.io/dotfiles/usage.html#bash
 
 
-.. code:: bash
+.. code-block:: bash
 
     # There should be a symlink from ~/.dotfiles
     # to the current dotfiles repository.
@@ -100,7 +100,7 @@ Bash
     $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 
 
-.. code:: bash
+.. code-block:: bash
    
    source ~/.bashrc
    # source dotfiles/etc/bash/00-bashrc.before.sh
