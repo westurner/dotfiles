@@ -1104,7 +1104,7 @@ def get_venv_parser():
                    dest='print_env',
                    action='store_true',
                    help="Print venv configuration as JSON")
-    prs.add_option('-b', '--bash', '--print-bash', '--zsh', '--zsh-config',
+    prs.add_option('-b', '--bash', '--print-bash', '--zsh', '--print-zsh',
                    dest='print_bash',
                    action='store_true',
                    help="Print venv configuration for Bash, ZSH"
