@@ -7,6 +7,7 @@ Contents
    :maxdepth: 4
 
    readme
+   usage
    venv
    api
    tools
