@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles.venv.ipython_config &mdash; dotfiles 0.4.1 documentation</title>
+    <title>dotfiles.venv.ipython_config &mdash; dotfiles 0.5.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    '../../../',
-            VERSION:     '0.4.1',
+            VERSION:     '0.5.0',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -63,7 +63,7 @@
 <script type="text/javascript" src="../../../_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.4.1 documentation" href="../../../index.html" />
+    <link rel="top" title="dotfiles 0.5.0 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body role="document">
@@ -76,7 +76,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">dotfiles 0.4.1 documentation</a>
+          <a class="navbar-brand" href="../../../index.html">dotfiles 0.5.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -138,8 +138,6 @@
 <span class="sd">  - JSON (variables, aliases)</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-
-
 <span class="kn">import</span> <span class="nn">distutils.spawn</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -202,6 +200,11 @@
         <span class="s">&#39;PROJECTS&#39;</span><span class="p">,</span>
         <span class="s">&#39;USRLOG&#39;</span><span class="p">,</span>
         <span class="s">&#39;VIMBIN&#39;</span><span class="p">,</span>
+        <span class="s">&#39;GVIMBIN&#39;</span><span class="p">,</span>
+        <span class="s">&#39;MVIMBIN&#39;</span><span class="p">,</span>
+        <span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">,</span>
+        <span class="s">&#39;VIMCONF&#39;</span><span class="p">,</span>
+        <span class="s">&#39;EDITOR_&#39;</span><span class="p">,</span>
         <span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">,</span>
         <span class="s">&#39;VIRTUAL_ENV_NAME&#39;</span><span class="p">,</span>
         <span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span>
@@ -327,6 +330,18 @@
         <span class="k">return</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">_repr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 </div>
+<div class="viewcode-block" id="shell_varquote"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.shell_varquote">[docs]</a><span class="k">def</span> <span class="nf">shell_varquote</span><span class="p">(</span><span class="n">str_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add doublequotes and shell variable brackets to a string</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        str_ (str): string to varquote (e.g. ``VIRTUAL_ENV``)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: &quot;${VIRTUAL_ENV}&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">shell_quote</span><span class="p">(</span><span class="s">&#39;${</span><span class="si">%s</span><span class="s">}&#39;</span> <span class="o">%</span> <span class="n">str_</span><span class="p">)</span>
+
+</div>
 <span class="k">def</span> <span class="nf">_get_shell_version</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns:</span>
@@ -433,22 +448,31 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;venv.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">appname</span><span class="p">)</span>
-        <span class="n">virtualenv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_virtualenv_path</span><span class="p">(</span><span class="n">virtualenv</span><span class="p">,</span>
+        <span class="n">_virtualenv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_virtualenv_path</span><span class="p">(</span><span class="n">virtualenv</span><span class="p">,</span>
                                               <span class="n">from_environ</span><span class="o">=</span><span class="n">from_environ</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">virtualenv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;must specify a VIRTUAL_ENV&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_virtualenv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">errmsg</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+<span class="s">            You specified virtualenv=</span><span class="si">%r</span><span class="s"></span>
+<span class="s">            virtualenv must be:</span>
+
+<span class="s">            A. a relative or absolute path to a virtualenv</span>
+<span class="s">            B. a virtualenv name (a path in $WORKON_HOME)</span>
+
+<span class="s">            Did you mean to specify -E (--from-shell-environ)?</span>
+<span class="s">            &#39;&#39;&#39;</span> <span class="o">%</span> <span class="n">virtualenv</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span> <span class="o">=</span> <span class="n">virtualenv</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">virtualenv</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span> <span class="o">=</span> <span class="n">_virtualenv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">appname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">appname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">apppath</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">virtualenv</span><span class="p">,</span> <span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="n">appname</span><span class="p">)</span>  <span class="c">#</span>
+            <span class="n">apppath</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span><span class="p">,</span> <span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="n">appname</span><span class="p">)</span>  <span class="c">#</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">apppath</span><span class="p">):</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;apppath </span><span class="si">%r</span><span class="s"> does not exist&quot;</span> <span class="o">%</span> <span class="n">apppath</span><span class="p">)</span>
                 <span class="c"># TODO</span>
 
         <span class="k">if</span> <span class="n">appname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">appname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">virtualenv</span><span class="p">)</span>
+            <span class="n">appname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">appname</span> <span class="o">=</span> <span class="n">appname</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;venv.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">appname</span><span class="p">)</span>
@@ -548,30 +572,35 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            OrderedDict: dict of ``cd`` command aliases</span>
+
+<span class="sd">        .. note:: These do not work in IPython as they run in a subshell.</span>
+<span class="sd">           See: :py:mod:`dotfiles.venv.ipython_magics`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">aliases</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span>
 
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdb&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&#39;cd {_BIN}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_BIN</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_BIN&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cde&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&#39;cd {_ETC}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_ETC</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdv&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&#39;cd {VIRTUAL_ENV}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">VIRTUAL_ENV</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdvar&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&#39;cd {_VAR}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_VAR</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_VAR&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdlog&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&#39;cd {_LOG}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_LOG</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_LOG&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdww&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="s">&#39;cd {_WWW}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_WWW</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WWW&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdl&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&#39;cd {_LIB}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_LIB</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_LIB&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdpylib&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s">&#39;cd {_PYLIB}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_PYLIB</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_PYLIB&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdpysite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;cd {_PYSITE}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_PYSITE</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_PYSITE&#39;</span><span class="p">]))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cds&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&#39;cd {_SRC}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_SRC</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_SRC&#39;</span><span class="p">]))</span>
+        <span class="k">def</span> <span class="nf">cdalias</span><span class="p">(</span><span class="n">varname</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">&#39;cd {}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shell_varquote</span><span class="p">(</span><span class="n">varname</span><span class="p">))</span>
+
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdb&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_BIN&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cde&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_ETC&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdh&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;HOME&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdl&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_LIB&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdlog&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_LOG&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdp&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;PROJECT_HOME&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdph&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;PROJECT_HOME&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdpylib&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_PYLIB&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdpysite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_PYSITE&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cds&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdv&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdve&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdvar&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_VAR&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdwh&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdwrk&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdw&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cd-&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdww&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_WWW&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdwww&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">cdalias</span><span class="p">(</span><span class="s">&#39;_WWW&#39;</span><span class="p">)</span>
 
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdhelp&#39;</span><span class="p">]</span>   <span class="o">=</span>  <span class="s">&quot;&quot;&quot;set | grep &quot;^cd.*()&quot; | cut -f1 -d&quot; &quot; #%l&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">aliases</span>
@@ -592,14 +621,18 @@
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIMBIN&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;vim&#39;</span><span class="p">)</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;gvim&#39;</span><span class="p">)</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;mvim&#39;</span><span class="p">)</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;GUIVIM&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">))</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIM&#39;</span><span class="p">):</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;vim -p&#39;</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIMCONF&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&quot;--servername </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                                <span class="n">shell_quote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">appname</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">):</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> -f&quot;</span> <span class="o">%</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;VIMBIN&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> --servername </span><span class="si">%s</span><span class="s"> --remote-tab-silent&#39;</span> <span class="o">%</span> <span class="p">(</span>
-                <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIM&#39;</span><span class="p">),</span>
-                <span class="n">shell_quote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">appname</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">))</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> --remote-tab-silent&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                                <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">),</span>
+                                <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;VIMCONF&#39;</span><span class="p">))</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;EDITOR_&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
 
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;edit-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;gvim-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
@@ -622,15 +655,15 @@
                                 <span class="s">&#39; # %l&#39;</span>
                                 <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">_new_ipnbkey</span><span class="o">=</span><span class="n">_new_ipnbkey</span><span class="p">,</span>
-                                    <span class="n">_IPSESSKEY</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPSESSKEY&#39;</span><span class="p">]))</span>
+                                    <span class="n">_IPSESSKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPSESSKEY&#39;</span><span class="p">))</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ipnb&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="p">(</span><span class="s">&#39;ipython notebook&#39;</span>
                                 <span class="s">&#39; --secure&#39;</span>
                                 <span class="s">&#39; --Session.keyfile={_IPSESSKEY}&#39;</span>
                                 <span class="s">&#39; --notebook-dir={_NOTEBOOKS}&#39;</span>
                                 <span class="s">&#39; --deep-reload&#39;</span>
                                 <span class="s">&#39; %l&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_IPSESSKEY</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPSESSKEY&#39;</span><span class="p">]),</span>
-                                    <span class="n">_NOTEBOOKS</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_NOTEBOOKS&#39;</span><span class="p">]))</span>
+                                    <span class="n">_IPSESSKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPSESSKEY&#39;</span><span class="p">),</span>
+                                    <span class="n">_NOTEBOOKS</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_NOTEBOOKS&#39;</span><span class="p">))</span>
 
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPQTLOG&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">],</span> <span class="s">&#39;.ipqt.log&#39;</span><span class="p">)</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ipqt&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="p">(</span><span class="s">&#39;ipython qtconsole&#39;</span>
@@ -646,93 +679,91 @@
                                 <span class="s">&#39; --ConsoleWidget.font_family=&quot;Monaco&quot;&#39;</span>
                                 <span class="s">&#39; --ConsoleWidget.font_size=11&#39;</span>
                                 <span class="s">&#39; %l&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_IPSESSKEY</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPSESSKEY&#39;</span><span class="p">]),</span>
-                                    <span class="n">_APP</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">]),</span>
-                                    <span class="n">_IPQTLOG</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPQTLOG&#39;</span><span class="p">]))</span>
+                                    <span class="n">_IPSESSKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPSESSKEY&#39;</span><span class="p">),</span>
+                                    <span class="n">_APP</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_APP&#39;</span><span class="p">),</span>
+                                    <span class="n">_IPQTLOG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPQTLOG&#39;</span><span class="p">))</span>
 
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinv&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&#39;grin --follow </span><span class="si">%%</span><span class="s">l </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_quote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span><span class="p">)</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grindv&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;grind --follow </span><span class="si">%%</span><span class="s">l --dirs </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_quote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">virtualenv</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinv&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&#39;grin --follow </span><span class="si">%%</span><span class="s">l </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grindv&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;grind --follow </span><span class="si">%%</span><span class="s">l --dirs </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">)</span>
 
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grins&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&#39;grin --follow </span><span class="si">%%</span><span class="s">l </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_SRC&#39;</span><span class="p">])</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinds&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;grind --follow </span><span class="si">%%</span><span class="s">l --dirs </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_SRC&#39;</span><span class="p">])</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grins&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&#39;grin --follow </span><span class="si">%%</span><span class="s">l </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinds&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;grind --follow </span><span class="si">%%</span><span class="s">l --dirs </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">)</span>
 
-        <span class="n">appsrc</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">appsrc</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">appsrc</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD_SETUPY&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">appsrc</span><span class="p">,</span> <span class="s">&#39;setup.py&#39;</span><span class="p">)</span>
+        <span class="n">_WRD</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_WRD</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">_WRD</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD_SETUPY&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">_WRD</span><span class="p">,</span> <span class="s">&#39;setup.py&#39;</span><span class="p">)</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TEST_&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; python {_WRD_SETUPY} test)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]),</span>
-                                        <span class="n">_WRD_SETUPY</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD_SETUPY&#39;</span><span class="p">])</span>
+                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">),</span>
+                                        <span class="n">_WRD_SETUPY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD_SETUPY&#39;</span><span class="p">)</span>
                                     <span class="p">)</span>
-            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdw&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&#39;cd {_WRD}/%l&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
-            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cd-&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdw&#39;</span><span class="p">]</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;test-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TEST_&#39;</span><span class="p">]</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;testr-&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;reset &amp;&amp; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TEST_&#39;</span><span class="p">]</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;nose-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&#39;(cd {_WRD} &amp;&amp; nosetests)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
+                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
 
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinw&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&#39;grin --follow %l {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
+                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grin-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinw&#39;</span><span class="p">]</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grindw&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="s">&#39;grind --follow %l --dirs {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
+                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grind-&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grindw&#39;</span><span class="p">]</span>
 
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;hgv-&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="s">&quot;hg view -R {_WRD}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
+                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;hgl-&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="s">&quot;hg -R {_WRD} log&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
+                                        <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;app working directory </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">appsrc</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;app working directory </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_WRD</span><span class="p">)</span>
 
-        <span class="n">appcfg</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">],</span> <span class="s">&#39;development.ini&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">appcfg</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">appcfg</span>
+        <span class="n">_CFG</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">],</span> <span class="s">&#39;development.ini&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_CFG</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">_CFG</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDITCFG_&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&quot;{_EDIT_} {_CFG}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">_EDIT_</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">],</span>
                                     <span class="n">_CFG</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">])</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editcfg&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s">&quot;{_EDITCFG} %l&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_EDITCFG</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDITCFG_&#39;</span><span class="p">])</span>
+                                    <span class="n">_EDITCFG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_EDITCFG_&#39;</span><span class="p">))</span>
             <span class="c"># Pyramid pshell &amp; pserve (#TODO: test -f manage.py (django))</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SHELL_&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; {_BIN}/pshell {_CFG})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_BIN</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_BIN&#39;</span><span class="p">],</span>
-                                    <span class="n">_CFG</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]),</span>
-                                    <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
+                                    <span class="n">_BIN</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_BIN&#39;</span><span class="p">),</span>
+                                    <span class="n">_CFG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_CFG&#39;</span><span class="p">),</span>
+                                    <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SERVE_&#39;</span><span class="p">]</span>      <span class="o">=</span><span class="p">(</span><span class="s">&quot;(cd {_WRD} &amp;&amp; {_BIN}/pserve&quot;</span>
                                     <span class="s">&quot; --app-name=main&quot;</span>
                                     <span class="s">&quot; --reload&quot;</span>
                                     <span class="s">&quot; --monitor-restart {_CFG})&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                            <span class="n">_BIN</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_BIN&#39;</span><span class="p">],</span>
-                                            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]),</span>
-                                            <span class="n">_CFG</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]))</span>
+                                            <span class="n">_BIN</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_BIN&#39;</span><span class="p">),</span>
+                                            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">),</span>
+                                            <span class="n">_CFG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_CFG&#39;</span><span class="p">))</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;serve-&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SERVE_&#39;</span><span class="p">]</span>
             <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;shell-&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SHELL_&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;app configuration </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">appcfg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;app configuration </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_CFG</span><span class="p">)</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="s">&quot;&quot;</span>
 
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;edit-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&quot;{_EDIT_} %l&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                <span class="n">_EDIT_</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">])</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;edit-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&quot;${_EDIT_} %l&quot;</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;edit-&#39;</span><span class="p">]</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editp&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%%</span><span class="s">l&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edit_project_cmd</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;PROJECT_FILES&#39;</span><span class="p">]</span><span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                                <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project_files</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editp&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="s">&quot;$GUIVIMBIN $VIMCONF $PROJECT_FILES %l&quot;</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; make %l)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]))</span>
+                                    <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;make-&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;mw&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span>
 
-        <span class="n">svcfg</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">,</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">],</span> <span class="s">&#39;supervisord.conf&#39;</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">svcfg</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">svcfg</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG_&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s">&#39; -c </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_quote</span><span class="p">(</span><span class="n">svcfg</span><span class="p">)</span>
+        <span class="n">_SVCFG</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">,</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">],</span> <span class="s">&#39;supervisord.conf&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_SVCFG</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">_SVCFG</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG_&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s">&#39; -c </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;supervisord configuration </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">svcfg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;supervisord configuration </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_SVCFG</span><span class="p">)</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG_&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s">&#39;&#39;</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ssv&#39;</span><span class="p">]</span>      <span class="o">=</span>    <span class="s">&#39;supervisord{_SVCFG_}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">)</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;sv&#39;</span><span class="p">]</span>       <span class="o">=</span>    <span class="s">&#39;supervisorctl{_SVCFG_}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">)</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;svd&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="p">((</span> <span class="s">&#39;supervisorctl{_SVCFG_} restart dev&#39;</span>
-                                <span class="s">&#39; &amp;&amp; supervisorctl{_SVCFG_} tail -f dev&#39;</span><span class="p">)</span>
-                                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;svt&#39;</span><span class="p">]</span>      <span class="o">=</span>    <span class="s">&#39;sv tail -f&#39;</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ssv&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&#39;supervisord -c &quot;${_SVCFG}&quot;&#39;</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;sv&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="s">&#39;supervisorctl -c &quot;${_SVCFG}&quot;&#39;</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;svt&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="s">&#39;sv tail -f&#39;</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;svd&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="p">(</span><span class="s">&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev&#39;</span>
+                           <span class="s">&#39; &amp;&amp; supervisorctl -c &quot;${_SVCFG}&quot; tail -f dev&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">aliases</span>
 </div>
@@ -749,7 +780,7 @@
         <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">virtualenv</span><span class="o">=</span><span class="n">virtualenv</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_configure_ipython</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">setup_func</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_configure_ipython</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">setup_func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">platform</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configure IPython with ``autoreload=True``, ``deep_reload=True``,</span>
 <span class="sd">        the **storemagic** extension, the **parallelmagic**</span>
@@ -760,14 +791,16 @@
 <span class="sd">            c (object): An IPython configuration object (e.g. ``get_ipython()``)</span>
 <span class="sd">            setup_func (function): a function to call (default: None)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">in_ipython_config</span><span class="p">():</span>
-            <span class="c"># skip IPython configuration</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;not in_ipython_config&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">in_ipython_config</span><span class="p">():</span>
+                <span class="c"># skip IPython configuration</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;not in_ipython_config&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
+
         <span class="n">c</span><span class="o">.</span><span class="n">InteractiveShellApp</span><span class="o">.</span><span class="n">ignore_old_config</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="n">c</span><span class="o">.</span><span class="n">InteractiveShellApp</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="mi">20</span>
-
         <span class="n">c</span><span class="o">.</span><span class="n">InteractiveShellApp</span><span class="o">.</span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span>
             <span class="c"># &#39;autoreload&#39;,</span>
             <span class="s">&#39;storemagic&#39;</span><span class="p">,</span>
@@ -777,21 +810,20 @@
         <span class="c">#    c.InteractiveShellApp.extensions.append(&#39;sympyprinting&#39;)</span>
         <span class="c">#except ImportError, e:</span>
         <span class="c">#    pass</span>
-
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">zmq</span>
             <span class="n">zmq</span>
             <span class="n">c</span><span class="o">.</span><span class="n">InteractiveShellApp</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;parallelmagic&#39;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
             <span class="k">pass</span>
-
         <span class="n">c</span><span class="o">.</span><span class="n">InteractiveShell</span><span class="o">.</span><span class="n">autoreload</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="n">c</span><span class="o">.</span><span class="n">InteractiveShell</span><span class="o">.</span><span class="n">deep_reload</span> <span class="o">=</span> <span class="bp">True</span>
 
         <span class="c"># %store [name]</span>
         <span class="n">c</span><span class="o">.</span><span class="n">StoreMagic</span><span class="o">.</span><span class="n">autorestore</span> <span class="o">=</span> <span class="bp">True</span>
 
-        <span class="n">c</span><span class="o">.</span><span class="n">AliasManager</span><span class="o">.</span><span class="n">default_aliases</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">DEFAULT_ALIASES</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="n">additional</span> <span class="o">=</span> <span class="n">get_DEFAULT_ALIASES</span><span class="p">(</span><span class="n">platform</span><span class="o">=</span><span class="n">platform</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">AliasManager</span><span class="o">.</span><span class="n">default_aliases</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">additional</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">setup_func</span><span class="p">:</span>
             <span class="n">setup_func</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
@@ -806,7 +838,9 @@
 <span class="sd">            kwargs (dict): kwargs for ``Venv._configure_ipython``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">setup_func</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">AliasManager</span><span class="o">.</span><span class="n">user_aliases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">AliasManager</span><span class="o">.</span><span class="n">user_aliases</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliases</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;cd&#39;</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">Venv</span><span class="o">.</span><span class="n">_configure_ipython</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">setup_func</span><span class="o">=</span><span class="n">setup_func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">_ipython_alias_to_bash_alias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">alias</span><span class="p">):</span>
@@ -984,109 +1018,112 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">json</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asdict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">)</span>
+
 </div></div>
-<span class="n">IS_DARWIN</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s">&#39;darwin&#39;</span>
+<div class="viewcode-block" id="get_DEFAULT_ALIASES"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.get_DEFAULT_ALIASES">[docs]</a><span class="k">def</span> <span class="nf">get_DEFAULT_ALIASES</span><span class="p">(</span><span class="n">platform</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">platform</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">platform</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span>
 
-<span class="n">LS_COLOR_AUTO</span> <span class="o">=</span> <span class="s">&quot;--color=auto&quot;</span>
-<span class="k">if</span> <span class="n">IS_DARWIN</span><span class="p">:</span>
-    <span class="n">LS_COLOR_AUTO</span> <span class="o">=</span> <span class="s">&quot;-G&quot;</span>
+    <span class="n">IS_DARWIN</span> <span class="o">=</span> <span class="n">platform</span> <span class="o">==</span> <span class="s">&#39;darwin&#39;</span>
 
+    <span class="n">LS_COLOR_AUTO</span> <span class="o">=</span> <span class="s">&quot;--color=auto&quot;</span>
+    <span class="k">if</span> <span class="n">IS_DARWIN</span><span class="p">:</span>
+        <span class="n">LS_COLOR_AUTO</span> <span class="o">=</span> <span class="s">&quot;-G&quot;</span>
 
-<span class="n">PSX_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxaw&#39;</span>
-<span class="n">PSF_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxawf&#39;</span>
-<span class="n">PS_SORT_CPU</span> <span class="o">=</span> <span class="s">&#39;--sort=-pcpu&#39;</span>
-<span class="n">PS_SORT_MEM</span> <span class="o">=</span> <span class="s">&#39;--sort=-pmem&#39;</span>
-<span class="k">if</span> <span class="n">IS_DARWIN</span><span class="p">:</span>
     <span class="n">PSX_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxaw&#39;</span>
-    <span class="n">PSF_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxaw&#39;</span>
-    <span class="n">PS_SORT_CPU</span> <span class="o">=</span> <span class="s">&#39;-c&#39;</span>
-    <span class="n">PS_SORT_MEM</span> <span class="o">=</span> <span class="s">&#39;-m&#39;</span>
+    <span class="n">PSF_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxawf&#39;</span>
+    <span class="n">PS_SORT_CPU</span> <span class="o">=</span> <span class="s">&#39;--sort=-pcpu&#39;</span>
+    <span class="n">PS_SORT_MEM</span> <span class="o">=</span> <span class="s">&#39;--sort=-pmem&#39;</span>
+    <span class="k">if</span> <span class="n">IS_DARWIN</span><span class="p">:</span>
+        <span class="n">PSX_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxaw&#39;</span>
+        <span class="n">PSF_COMMAND</span> <span class="o">=</span> <span class="s">&#39;ps uxaw&#39;</span>
+        <span class="n">PS_SORT_CPU</span> <span class="o">=</span> <span class="s">&#39;-c&#39;</span>
+        <span class="n">PS_SORT_MEM</span> <span class="o">=</span> <span class="s">&#39;-m&#39;</span>
 
-<span class="n">DEFAULT_ALIASES</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">((</span>
-    <span class="p">(</span><span class="s">&#39;cdw&#39;</span><span class="p">,</span> <span class="s">&#39;cd $$WORKON_HOME&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;cdh&#39;</span><span class="p">,</span> <span class="s">&#39;cd $$HOME&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;cp&#39;</span><span class="p">,</span> <span class="s">&#39;cp&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;bash&#39;</span><span class="p">,</span> <span class="s">&#39;bash&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;cat&#39;</span><span class="p">,</span> <span class="s">&#39;cat&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;chmodr&#39;</span><span class="p">,</span> <span class="s">&#39;chmod -R&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;chownr&#39;</span><span class="p">,</span> <span class="s">&#39;chown -R&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;egrep&#39;</span><span class="p">,</span> <span class="s">&#39;egrep --color=auto&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;fgrep&#39;</span><span class="p">,</span> <span class="s">&#39;fgrep --color=auto&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;git&#39;</span><span class="p">,</span> <span class="s">&#39;git&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ga&#39;</span><span class="p">,</span> <span class="s">&#39;git add&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;gd&#39;</span><span class="p">,</span> <span class="s">&#39;git diff&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;gdc&#39;</span><span class="p">,</span> <span class="s">&#39;git diff --cached&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;gs&#39;</span><span class="p">,</span> <span class="s">&#39;git status&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;gl&#39;</span><span class="p">,</span> <span class="s">&#39;git log&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;grep&#39;</span><span class="p">,</span> <span class="s">&#39;grep --color=auto&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;grin&#39;</span><span class="p">,</span> <span class="s">&#39;grin&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;grind&#39;</span><span class="p">,</span> <span class="s">&#39;grind&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;grinpath&#39;</span><span class="p">,</span> <span class="s">&#39;grin --sys-path&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;grindpath&#39;</span><span class="p">,</span> <span class="s">&#39;grind --sys-path&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;grunt&#39;</span><span class="p">,</span> <span class="s">&#39;grunt&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;gvim&#39;</span><span class="p">,</span> <span class="s">&#39;gvim&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;head&#39;</span><span class="p">,</span> <span class="s">&#39;head&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;hg&#39;</span><span class="p">,</span> <span class="s">&#39;hg&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;hgl&#39;</span><span class="p">,</span> <span class="s">&#39;hg log -l10&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;hgs&#39;</span><span class="p">,</span> <span class="s">&#39;hg status&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;htop&#39;</span><span class="p">,</span> <span class="s">&#39;htop&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ifconfig&#39;</span><span class="p">,</span> <span class="s">&#39;ifconfig&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ip&#39;</span><span class="p">,</span> <span class="s">&#39;ip&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;last&#39;</span><span class="p">,</span> <span class="s">&#39;last&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;la&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -A&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;ll&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -aL&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;ls&#39;</span><span class="p">,</span> <span class="s">&#39;ls {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;lt&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -altr&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;lx&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -alZ&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;lxc&#39;</span><span class="p">,</span> <span class="s">&#39;lxc&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;make&#39;</span><span class="p">,</span> <span class="s">&#39;make&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;mkdir&#39;</span><span class="p">,</span> <span class="s">&#39;mkdir&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;netstat&#39;</span><span class="p">,</span> <span class="s">&#39;netstat&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;nslookup&#39;</span><span class="p">,</span> <span class="s">&#39;nslookup&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ping&#39;</span><span class="p">,</span> <span class="s">&#39;ping&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;mv&#39;</span><span class="p">,</span> <span class="s">&#39;mv&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ps&#39;</span><span class="p">,</span> <span class="s">&#39;ps&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;psf&#39;</span><span class="p">,</span> <span class="n">PSF_COMMAND</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;psx&#39;</span><span class="p">,</span> <span class="n">PSX_COMMAND</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;psh&#39;</span><span class="p">,</span> <span class="s">&#39;{} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;psc&#39;</span><span class="p">,</span> <span class="s">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_CPU</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;psch&#39;</span><span class="p">,</span> <span class="s">&#39;{} {} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_CPU</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;psm&#39;</span><span class="p">,</span> <span class="s">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_MEM</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;psmh&#39;</span><span class="p">,</span> <span class="s">&#39;{} {} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_MEM</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s">&#39;psfx&#39;</span><span class="p">,</span> <span class="n">PSF_COMMAND</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;pydoc&#39;</span><span class="p">,</span> <span class="s">&#39;pydoc&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;pyline&#39;</span><span class="p">,</span> <span class="s">&#39;pyline&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;pyrpo&#39;</span><span class="p">,</span> <span class="s">&#39;pyrpo&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;route&#39;</span><span class="p">,</span> <span class="s">&#39;route&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;rm&#39;</span><span class="p">,</span> <span class="s">&#39;rm&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;rsync&#39;</span><span class="p">,</span> <span class="s">&#39;rsync&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="s">&#39;sqlite3&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ss&#39;</span><span class="p">,</span> <span class="s">&#39;ss&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;ssv&#39;</span><span class="p">,</span> <span class="s">&#39;supervisord&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;stat&#39;</span><span class="p">,</span> <span class="s">&#39;stat&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;sudo&#39;</span><span class="p">,</span> <span class="s">&#39;sudo&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;sv&#39;</span><span class="p">,</span> <span class="s">&#39;supervisorctl&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;t&#39;</span><span class="p">,</span> <span class="s">&#39;tail -f&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;tail&#39;</span><span class="p">,</span> <span class="s">&#39;tail&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;thg&#39;</span><span class="p">,</span> <span class="s">&#39;thg&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;top&#39;</span><span class="p">,</span> <span class="s">&#39;top&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;tracepath&#39;</span><span class="p">,</span> <span class="s">&#39;tracepath&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;tracepath6&#39;</span><span class="p">,</span> <span class="s">&#39;tracepath6&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;vim&#39;</span><span class="p">,</span> <span class="s">&#39;vim&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;uptime&#39;</span><span class="p">,</span> <span class="s">&#39;uptime&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;which&#39;</span><span class="p">,</span> <span class="s">&#39;which&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;who_&#39;</span><span class="p">,</span> <span class="s">&#39;who&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;whoami&#39;</span><span class="p">,</span> <span class="s">&#39;whoami&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;zsh&#39;</span><span class="p">,</span> <span class="s">&#39;zsh&#39;</span><span class="p">),</span>
-<span class="p">))</span>
+    <span class="n">DEFAULT_ALIASES</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">((</span>
+        <span class="p">(</span><span class="s">&#39;cp&#39;</span><span class="p">,</span> <span class="s">&#39;cp&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;bash&#39;</span><span class="p">,</span> <span class="s">&#39;bash&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;cat&#39;</span><span class="p">,</span> <span class="s">&#39;cat&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;chmodr&#39;</span><span class="p">,</span> <span class="s">&#39;chmod -R&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;chownr&#39;</span><span class="p">,</span> <span class="s">&#39;chown -R&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;egrep&#39;</span><span class="p">,</span> <span class="s">&#39;egrep --color=auto&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;fgrep&#39;</span><span class="p">,</span> <span class="s">&#39;fgrep --color=auto&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;git&#39;</span><span class="p">,</span> <span class="s">&#39;git&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ga&#39;</span><span class="p">,</span> <span class="s">&#39;git add&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;gd&#39;</span><span class="p">,</span> <span class="s">&#39;git diff&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;gdc&#39;</span><span class="p">,</span> <span class="s">&#39;git diff --cached&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;gs&#39;</span><span class="p">,</span> <span class="s">&#39;git status&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;gl&#39;</span><span class="p">,</span> <span class="s">&#39;git log&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;grep&#39;</span><span class="p">,</span> <span class="s">&#39;grep --color=auto&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;grin&#39;</span><span class="p">,</span> <span class="s">&#39;grin&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;grind&#39;</span><span class="p">,</span> <span class="s">&#39;grind&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;grinpath&#39;</span><span class="p">,</span> <span class="s">&#39;grin --sys-path&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;grindpath&#39;</span><span class="p">,</span> <span class="s">&#39;grind --sys-path&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;grunt&#39;</span><span class="p">,</span> <span class="s">&#39;grunt&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;gvim&#39;</span><span class="p">,</span> <span class="s">&#39;gvim&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;head&#39;</span><span class="p">,</span> <span class="s">&#39;head&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;hg&#39;</span><span class="p">,</span> <span class="s">&#39;hg&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;hgl&#39;</span><span class="p">,</span> <span class="s">&#39;hg log -l10&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;hgs&#39;</span><span class="p">,</span> <span class="s">&#39;hg status&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;htop&#39;</span><span class="p">,</span> <span class="s">&#39;htop&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ifconfig&#39;</span><span class="p">,</span> <span class="s">&#39;ifconfig&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ip&#39;</span><span class="p">,</span> <span class="s">&#39;ip&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;last&#39;</span><span class="p">,</span> <span class="s">&#39;last&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;la&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -A&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;ll&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -al&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;ls&#39;</span><span class="p">,</span> <span class="s">&#39;ls {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;lt&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -altr&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;lz&#39;</span><span class="p">,</span> <span class="s">&#39;ls {} -alZ&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LS_COLOR_AUTO</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;lxc&#39;</span><span class="p">,</span> <span class="s">&#39;lxc&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;make&#39;</span><span class="p">,</span> <span class="s">&#39;make&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;mkdir&#39;</span><span class="p">,</span> <span class="s">&#39;mkdir&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;netstat&#39;</span><span class="p">,</span> <span class="s">&#39;netstat&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;nslookup&#39;</span><span class="p">,</span> <span class="s">&#39;nslookup&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ping&#39;</span><span class="p">,</span> <span class="s">&#39;ping&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;mv&#39;</span><span class="p">,</span> <span class="s">&#39;mv&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ps&#39;</span><span class="p">,</span> <span class="s">&#39;ps&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;psf&#39;</span><span class="p">,</span> <span class="n">PSF_COMMAND</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;psx&#39;</span><span class="p">,</span> <span class="n">PSX_COMMAND</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;psh&#39;</span><span class="p">,</span> <span class="s">&#39;{} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;psc&#39;</span><span class="p">,</span> <span class="s">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_CPU</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;psch&#39;</span><span class="p">,</span> <span class="s">&#39;{} {} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_CPU</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;psm&#39;</span><span class="p">,</span> <span class="s">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_MEM</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;psmh&#39;</span><span class="p">,</span> <span class="s">&#39;{} {} | head&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PSX_COMMAND</span><span class="p">,</span> <span class="n">PS_SORT_MEM</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;psfx&#39;</span><span class="p">,</span> <span class="n">PSF_COMMAND</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;pydoc&#39;</span><span class="p">,</span> <span class="s">&#39;pydoc&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;pyline&#39;</span><span class="p">,</span> <span class="s">&#39;pyline&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;pyrpo&#39;</span><span class="p">,</span> <span class="s">&#39;pyrpo&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;route&#39;</span><span class="p">,</span> <span class="s">&#39;route&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;rm&#39;</span><span class="p">,</span> <span class="s">&#39;rm&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;rsync&#39;</span><span class="p">,</span> <span class="s">&#39;rsync&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="s">&#39;sqlite3&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ss&#39;</span><span class="p">,</span> <span class="s">&#39;ss&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ssv&#39;</span><span class="p">,</span> <span class="s">&#39;supervisord&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;stat&#39;</span><span class="p">,</span> <span class="s">&#39;stat&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;sudo&#39;</span><span class="p">,</span> <span class="s">&#39;sudo&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;sv&#39;</span><span class="p">,</span> <span class="s">&#39;supervisorctl&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;t&#39;</span><span class="p">,</span> <span class="s">&#39;tail -f&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;tail&#39;</span><span class="p">,</span> <span class="s">&#39;tail&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;thg&#39;</span><span class="p">,</span> <span class="s">&#39;thg&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;top&#39;</span><span class="p">,</span> <span class="s">&#39;top&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;tracepath&#39;</span><span class="p">,</span> <span class="s">&#39;tracepath&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;tracepath6&#39;</span><span class="p">,</span> <span class="s">&#39;tracepath6&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;vim&#39;</span><span class="p">,</span> <span class="s">&#39;vim&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;uptime&#39;</span><span class="p">,</span> <span class="s">&#39;uptime&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;which&#39;</span><span class="p">,</span> <span class="s">&#39;which&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;who_&#39;</span><span class="p">,</span> <span class="s">&#39;who&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;whoami&#39;</span><span class="p">,</span> <span class="s">&#39;whoami&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;zsh&#39;</span><span class="p">,</span> <span class="s">&#39;zsh&#39;</span><span class="p">),</span>
+    <span class="p">))</span>
+    <span class="k">return</span> <span class="n">DEFAULT_ALIASES</span>
 
-
+</div>
 <div class="viewcode-block" id="in_ipython_config"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.in_ipython_config">[docs]</a><span class="k">def</span> <span class="nf">in_ipython_config</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        bool: True if ``get_ipython`` is in ``globals()``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s">&#39;get_ipython&#39;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s">&#39;get_config&#39;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span>
 
 </div>
 <div class="viewcode-block" id="ipython_main"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.ipython_main">[docs]</a><span class="k">def</span> <span class="nf">ipython_main</span><span class="p">():</span>
@@ -1100,8 +1137,10 @@
         <span class="n">venv</span><span class="o">.</span><span class="n">configure_ipython</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">Venv</span><span class="o">.</span><span class="n">_configure_ipython</span><span class="p">()</span>
+
 </div>
 <span class="k">if</span> <span class="n">in_ipython_config</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;### ipython_config.py: configuring IPython&quot;</span><span class="p">)</span>
     <span class="n">ipython_main</span><span class="p">()</span>
 
 
@@ -1199,6 +1238,12 @@
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;open_editors&#39;</span><span class="p">,</span>
                    <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span>
                    <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;--platform&#39;</span><span class="p">,</span>
+                   <span class="n">dest</span><span class="o">=</span><span class="s">&#39;platform&#39;</span><span class="p">,</span>
+                   <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span>
+                   <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                   <span class="n">help</span><span class="o">=</span><span class="s">&#39;Platform to generate configuration for&#39;</span><span class="p">)</span>
 
     <span class="n">prs</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-v&#39;</span><span class="p">,</span> <span class="s">&#39;--verbose&#39;</span><span class="p">,</span>
                    <span class="n">dest</span><span class="o">=</span><span class="s">&#39;verbose&#39;</span><span class="p">,</span>
@@ -1308,7 +1353,7 @@
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-        <li><a href="../../../index.html">dotfiles 0.4.1 documentation</a></li>
+        <li><a href="../../../index.html">dotfiles 0.5.0 documentation</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
