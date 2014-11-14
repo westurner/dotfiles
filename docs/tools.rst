@@ -32,8 +32,9 @@ Some packaging tools provide configuration options for:
 
 There is a package maintainer whose responsibilities include:
 
-* Testing new *upstream* releases to verify that the package works
+* Testing new *upstream* releases
 * *Vetting* changes from release to release
+* *Repackaging* upstream releases
 * *Signing* new package releases
 
 *Packaging lag* refers to how long it takes a package maintainer
