@@ -13,6 +13,7 @@ Contents
    api
    developing
    changelog
+   license
 
 Indices and tables
 ==================
