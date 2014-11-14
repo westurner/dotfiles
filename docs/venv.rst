@@ -20,7 +20,8 @@ configures variables like ``$VIRTUAL_ENV_NAME``, ``$_SRC``, and ``$_WRD``;
 and functions like ``we()`` and ``e()`` for :ref:`Bash` (and :ref:`ZSH`).
 
 `dotfiles.venv.ipython_config.py`_ (:py:mod:`dotfiles.venv.ipython_config`)
-generates `shell configuration`_ (``venv --help``)
+provides a `shell command`_ called by ``we()``
+for generating `shell configuration`_ for a :ref:`virtualenv`
 and configures :ref:`IPython`.
 
 `dotfiles.venv.ipython_magics.py`_
