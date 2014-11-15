@@ -2691,7 +2691,7 @@ lessg() {
 
 lesse() {
     # lesse()   -- less with current venv's vim server
-    ${EDITOR} $@
+    ${EDITOR_} $@
 }
 
 manv() {
@@ -2717,7 +2717,7 @@ mang() {
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        $GUIVIMBIN \
+        ${GUIVIMBIN} \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -2730,7 +2730,7 @@ mang() {
 
 mane() {
     # mane()    -- open manpage with venv's vim server
-    $GUIVIMBIN ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
+    ${GUIVIMBIN} ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
 }
 
 ### bashrc.usrlog.sh
@@ -3109,6 +3109,10 @@ note() {
     _usrlog_append "#note  #note: $@"
 }
 
+todo() {
+    # todo()   -- _usrlog_append "#note  #TODO: $@"
+    _usrlog_append "#note  #TODO: $@"
+}
 
 usrlog_screenrec_ffmpeg() {
     # usrlog_screenrec_ffmpeg() -- record a screencast
@@ -4224,7 +4228,7 @@ _TERM_ID='#testing'
 _SRC='/Users/W/wrk/.ve/dotfiles/src'
 _APP='dotfiles'
 _WRD='/Users/W/wrk/.ve/dotfiles/src/dotfiles'
-PATH='/Users/W/Workspace/.virtualenvs/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+PATH='/Users/W/wrk/.ve/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 __DOTFILES='/Users/W/.dotfiles'
 #
 exit

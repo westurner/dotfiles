@@ -4872,7 +4872,6 @@ if ! gpg-connect-agent --quiet /bye > /dev/null 2> /dev/null; then
         fi
     fi
 fi
-chmod: /Users/W/.gnupg/gpg-agent.env: No such file or directory
 
 GPG_TTY=$(tty)
 export GPG_TTY
