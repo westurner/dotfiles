@@ -61,7 +61,7 @@ lessg() {
 
 lesse() {
     # lesse()   -- less with current venv's vim server
-    ${EDITOR} $@
+    ${EDITOR_} $@
 }
 
 manv() {
@@ -87,7 +87,7 @@ mang() {
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        $GUIVIMBIN \
+        ${GUIVIMBIN} \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -100,5 +100,5 @@ mang() {
 
 mane() {
     # mane()    -- open manpage with venv's vim server
-    $GUIVIMBIN ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
+    ${GUIVIMBIN} ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
 }
