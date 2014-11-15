@@ -353,6 +353,10 @@ note() {
     _usrlog_append "#note  #note: $@"
 }
 
+todo() {
+    # todo()   -- _usrlog_append "#note  #TODO: $@"
+    _usrlog_append "#note  #TODO: $@"
+}
 
 usrlog_screenrec_ffmpeg() {
     # usrlog_screenrec_ffmpeg() -- record a screencast
