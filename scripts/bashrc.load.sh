@@ -80,7 +80,7 @@ fi
 #
 ### load the dotfiles
 #  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/.dotfiles
-__DOTFILES=${__DOTFILES:-"$HOME/.dotfiles"}
+__DOTFILES=${__DOTFILES:-"$HOME/-dotfiles"}
 if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
     _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
     if [[ -f "${_dotfiles_bashrc}" ]]; then
@@ -101,17 +101,17 @@ dotfiles_reload() {
   echo "# dotfiles_reload()"
 
   if [ -n $__DOTFILES ]; then
-  export __DOTFILES=${__DOTFILES}
+    export __DOTFILES=${__DOTFILES}
   else
-  _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
-  _dotfiles_link=${HOME}/.dotfiles
+    _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
+    _dotfiles_link=${HOME}/-dotfiles
 
-  if [ -d $_dotfiles_link ]; then
-  __DOTFILES=${_dotfiles_link}
-  elif [ -d $_dotfiles_src ]; then
-  __DOTFILES=${_dotfiles_src}
-  fi
-  export __DOTFILES=${__DOTFILES}
+    if [ -d $_dotfiles_link ]; then
+        __DOTFILES=${_dotfiles_link}
+    elif [ -d $_dotfiles_src ]; then
+        __DOTFILES=${_dotfiles_src}
+    fi
+    export __DOTFILES=${__DOTFILES}
   fi
 
   conf=${__DOTFILES}/etc/bash
@@ -130,6 +130,9 @@ dotfiles_reload() {
   #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX 
   if [ -n "${__IS_MAC}" ]; then
       export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
+
+  ## 03-bashrc.darwin.sh
+      source ${conf}/03-bashrc.darwin.sh
   fi
 
   #
@@ -398,6 +401,53 @@ detect_platform() {
 }
 uname
 echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
+
+### bashrc.darwin.sh
+
+# softwareupdate                -- install OSX updates
+#  | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+#  softwareupdate -l        # --list
+#  softwareupdate -i --all  # --install --all
+#  softwareupdate -i -r     # --install --recommended
+
+if [ -z "${__IS_MAC}" ]; then
+    return
+fi
+# if __IS_MAC:
+
+export _FINDERBIN="/System/Library/CoreServices/Finder.app"
+
+finder () {
+    # finder()    -- open Finder.app
+    if [ -z "$@" ]; then
+        open "${_FINDERBIN}"
+    else
+        open -R $@
+    fi
+}
+
+finder-killall() {
+    # finder-killall()  -- close all Finder.app instances
+    killall Finder $_FINDERBIN;
+}
+
+finder-restart() {
+    # finder-restart()  -- close all and start Finder.app
+    finder-killall
+    finder
+}
+
+finder-show-hidden () {
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+    defaults write com.apple.finder AppleShowAllFiles YES
+    finder-killall
+}
+
+finder-hide-hidden () {
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+    defaults write com.apple.finder AppleShowAllFiles YES
+    finder-killall
+}
 
 ### bashrc.TERM.sh
 
@@ -721,7 +771,8 @@ _setup_pyenv() {
 
 _setup_anaconda() {
     # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
-    export _ANACONDA_ROOT="/opt/anaconda"
+    export _ANACONDA_ROOT="${HOME}/anaconda"
+    export _ANACONDA_WORK="${PROJECT_HOME}/-conda"
     add_to_path "${_ANACONDA_ROOT}/bin"
 }
 
@@ -731,7 +782,7 @@ workon_conda() {
     _app=${2}
     we ${_conda_envname} ${_app}
     _setup_anaconda && \
-        source activate ${WORKON_HOME}/.conda/${_conda_envname}
+        source activate ${_ANACONDA_WORK}/${_conda_envname}
 }
 complete -o default -o nospace -F _virtualenvs workon_conda
 
@@ -744,18 +795,19 @@ complete -o default -o nospace -F _virtualenvs wec
 
 mkvirtualenv_conda() {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
-    mkvirtualenv $@
     _conda_envname=${1}
-    conda create --mkdir --prefix ${WORKON_HOME}/.conda/${_conda_envname} \
-        readline
+    mkvirtualenv ${_conda_envname}
+    shift
+    conda create --mkdir --prefix ${_ANACONDA_ROOT}/${_conda_envname} \
+        readline $@
     workon_conda ${_conda_envname}
 }
 
 rmvirtualenv_conda() {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
-    rmvirtualenv $@
     _conda_envname=${1}
-    #   TODO
+    rmvirtualenv ${_conda_envname}
+    echo "TODO: echo rm -rf ${_ANACONDA_ROOT}/${_conda_envname}"
 }
 
 
@@ -782,8 +834,9 @@ workon_conda_if_available() {
 ### bashrc.virtualenvwrapper.sh
 
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
-export PROJECT_HOME="${HOME}/wrk"
-export WORKON_HOME="${PROJECT_HOME}/.ve"
+#
+export PROJECT_HOME="${HOME}/-wrk"
+export WORKON_HOME="${PROJECT_HOME}/-ve"
 
 _setup_virtualenvwrapper () {
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
@@ -2299,7 +2352,7 @@ cdv () {
 }
 cdve () {
     # cdve()    -- cd $WORKON_HOME
-    cd "${VIRTUAL_ENV}"/$@
+    cd "${WORKON_HOME}"/$@
 }
 cdvar () {
     # cdvar()   -- cd $_VAR
@@ -2318,8 +2371,8 @@ cdwh () {
     cd "${WORKON_HOME}"/$@
 }
 cdwrk () {
-    # cdwrk()   -- cd $WORKON_HOME
-    cd "${WORKON_HOME}/$@"
+    # cdwrk()   -- cd $PROJECT_HOME
+    cd "${PROJECT_HOME}/$@"
 }
 cdww () {
     # cdww()    -- cd $_WWW
@@ -2365,6 +2418,16 @@ grindw() {
 grind-() {
     # grind-()  -- grind $_WRD
     grindw $@
+}
+
+edit_grin_w() {
+    # edit_grin_w() -- edit $(grinw -l $@)
+    edit $(grin w -l $@)
+}
+
+egw() {
+    # egw           -- edit $(grinw -l $@)
+    edit_grin_w $@
 }
 
 grindctags() {
@@ -2869,13 +2932,12 @@ _usrlog_set__TERM_ID () {
         new_term_id="#$(_usrlog_randstr 8)"
     fi
     if [[ "${new_term_id}" != "${_TERM_ID}" ]]; then
+        #TODO: _usrlog_append_echo
         if [ -z "${_TERM_ID}" ]; then
-            RENAME_MSG="# new_term_id ::: ${new_term_id} [ ${_USRLOG} ]"
+            _usrlog_append "#ntid  _TERM_ID=\"${new_term_id}\"  #_USRLOG=\"${_USRLOG}\""
         else
-            RENAME_MSG="# set_term_id ::: ${_TERM_ID} -> ${new_term_id} [ ${_USRLOG} ]"
+            _usrlog_append "#stid  _TERM_ID=\"${new_term_id}\"  #_TERM_ID__=\"${_TERM_ID}\"  #_USRLOG=\"${_USRLOG}\""
         fi
-        echo $RENAME_MSG
-        _usrlog_append "$RENAME_MSG"
         export _TERM_ID="${new_term_id}"
         _usrlog_set_title
 
@@ -2935,10 +2997,10 @@ _usrlog_append() {
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
     # example:
-    # #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+    #   2014-11-15T06:42:00-0600	dotfiles	 8311  ls
     printf "%s\t%s\t%s\n" \
-        $(echo "${_TERM_ID}" | tr '\t' ' ') \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
+        $(echo "${_TERM_ID}" | tr '\t' ' ') \
         "${*}" \
             | tee -a $_USRLOG >&2
 }
@@ -2946,8 +3008,9 @@ _usrlog_append() {
 _usrlog_append_oldstyle() {
     # _usrlog_append_oldstype -- Write a line to $_USRLOG
     #   $1: text (command) to log
-    # example:
-    # # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    # examples:
+    #   # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    #   #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
     printf "# %-11s: %s : %s" \
         "$_TERM_ID" \
         "$(date +'%D %R.%S')" \
@@ -3139,7 +3202,7 @@ usrlog_screenrec_ffmpeg() {
 
 ## calls _usrlog_setup when sourced
 _usrlog_setup
-]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
+]0;#testing (dotfiles) W@nb-mb1:/Users/W/-wrk/-ve/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -4219,17 +4282,17 @@ dotfiles_status
 # dotfiles_status()
 HOSTNAME='nb-mb1'
 USER='W'
-PROJECT_HOME='/Users/W/wrk'
-WORKON_HOME='/Users/W/wrk/.ve'
+PROJECT_HOME='/Users/W/-wrk'
+WORKON_HOME='/Users/W/-wrk/-ve'
 VIRTUAL_ENV_NAME='dotfiles'
-VIRTUAL_ENV='/Users/W/wrk/.ve/dotfiles'
-_USRLOG='/Users/W/wrk/.ve/dotfiles/.usrlog'
+VIRTUAL_ENV='/Users/W/-wrk/-ve/dotfiles'
+_USRLOG='/Users/W/-wrk/-ve/dotfiles/.usrlog'
 _TERM_ID='#testing'
-_SRC='/Users/W/wrk/.ve/dotfiles/src'
+_SRC='/Users/W/-wrk/-ve/dotfiles/src'
 _APP='dotfiles'
-_WRD='/Users/W/wrk/.ve/dotfiles/src/dotfiles'
-PATH='/Users/W/wrk/.ve/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
-__DOTFILES='/Users/W/.dotfiles'
+_WRD='/Users/W/-wrk/-ve/dotfiles/src/dotfiles'
+PATH='/Users/W/wrk/-ve/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+__DOTFILES='/Users/W/-dotfiles'
 #
 exit
 exit

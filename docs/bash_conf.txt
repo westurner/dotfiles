@@ -12,6 +12,7 @@
   #
   ## 02-bashrc.platform.sh      -- platform things
   #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX 
+  ## 03-bashrc.darwin.sh
   #
   ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
   #
@@ -113,6 +114,21 @@
     # detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
    
    
+#### etc/bash/03-bashrc.darwin.sh
+### bashrc.darwin.sh
+# softwareupdate                -- install OSX updates
+#  | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+#  softwareupdate -l        # --list
+#  softwareupdate -i --all  # --install --all
+#  softwareupdate -i -r     # --install --recommended
+# if __IS_MAC:
+    # finder()    -- open Finder.app
+    # finder-killall()  -- close all Finder.app instances
+    # finder-restart()  -- close all and start Finder.app
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+   
+   
 #### etc/bash/04-bashrc.TERM.sh
 ### bashrc.TERM.sh
     # configure_TERM            -- configure the $TERM variable (man terminfo)
@@ -156,7 +172,6 @@
     #                       note: tab-completion only shows regular virtualenvs
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     # rmvirtualenv_conda()  -- rmvirtualenv conda
-    #   TODO
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     # workon_conda_if_available()       -- workon_conda OR we OR workon
    
@@ -164,6 +179,7 @@
 #### etc/bash/07-bashrc.virtualenvwrapper.sh
 ### bashrc.virtualenvwrapper.sh
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
+#
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
     # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
     # lsve()                -- list virtualenvs in $WORKON_HOME
@@ -218,7 +234,7 @@
     # cdw()     -- cd $_WRD
     # cdwrd     -- cd $_WRD
     # cdwh      -- cd $WORKON_HOME
-    # cdwrk()   -- cd $WORKON_HOME
+    # cdwrk()   -- cd $PROJECT_HOME
     # cdww()    -- cd $_WWW
     # cdwww()   -- cd $_WWW
 ## Grin search
@@ -232,6 +248,8 @@
     # grin-()   -- grin _WRD
     # grindw()  -- grind $_WRD
     # grind-()  -- grind $_WRD
+    # edit_grin_w() -- edit $(grinw -l $@)
+    # egw           -- edit $(grinw -l $@)
     # grindctags()      -- generate ctags from grind (in ./tags)
     # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
     # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)

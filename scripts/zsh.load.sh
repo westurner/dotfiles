@@ -4963,4 +4963,4 @@ if [[ $(tty|grep -o '/dev/tty') = /dev/tty ]] ; then
 	fbterm
 	exit
 fi
-/Users/W/.dotfiles/etc/zsh/oh-my-zsh/plugins/fbterm/fbterm.plugin.zsh:4: command not found: fbterm
+/Users/W/-dotfiles/etc/zsh/oh-my-zsh/plugins/fbterm/fbterm.plugin.zsh:4: command not found: fbterm
