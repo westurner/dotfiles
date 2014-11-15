@@ -10,17 +10,17 @@ dotfiles_reload() {
   echo "# dotfiles_reload()"
 
   if [ -n $__DOTFILES ]; then
-  export __DOTFILES=${__DOTFILES}
+    export __DOTFILES=${__DOTFILES}
   else
-  _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
-  _dotfiles_link=${HOME}/.dotfiles
+    _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
+    _dotfiles_link=${HOME}/-dotfiles
 
-  if [ -d $_dotfiles_link ]; then
-  __DOTFILES=${_dotfiles_link}
-  elif [ -d $_dotfiles_src ]; then
-  __DOTFILES=${_dotfiles_src}
-  fi
-  export __DOTFILES=${__DOTFILES}
+    if [ -d $_dotfiles_link ]; then
+        __DOTFILES=${_dotfiles_link}
+    elif [ -d $_dotfiles_src ]; then
+        __DOTFILES=${_dotfiles_src}
+    fi
+    export __DOTFILES=${__DOTFILES}
   fi
 
   conf=${__DOTFILES}/etc/bash
@@ -39,6 +39,9 @@ dotfiles_reload() {
   #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX 
   if [ -n "${__IS_MAC}" ]; then
       export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
+
+  ## 03-bashrc.darwin.sh
+      source ${conf}/03-bashrc.darwin.sh
   fi
 
   #

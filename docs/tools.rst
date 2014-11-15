@@ -910,6 +910,62 @@ for parsing and indenting ("prettifying") JSON from the commandline ::
     cat example.json | python -m json.tool
 
 
+.. index:: JSONLD
+.. index:: JSON-LD
+.. _json-ld:
+
+JSON-LD
+~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/JSON-LD
+| Homepage: https://json-ld.org
+| Docs: http://json-ld.org/playground/
+
+JSON-LD is a web standard for Linked Data in :ref:`JSON`.
+
+An example from the JSON-LD Playground (`<http://goo.gl/xxZ410>`__):
+
+.. code-block:: javascript
+
+   {
+      "@context": {
+       "gr": "http://purl.org/goodrelations/v1#",
+       "pto": "http://www.productontology.org/id/",
+       "foaf": "http://xmlns.com/foaf/0.1/",
+       "xsd": "http://www.w3.org/2001/XMLSchema#",
+       "foaf:page": {
+         "@type": "@id"
+       },
+       "gr:acceptedPaymentMethods": {
+         "@type": "@id"
+       },
+       "gr:hasBusinessFunction": {
+         "@type": "@id"
+       },
+       "gr:hasCurrencyValue": {
+         "@type": "xsd:float"
+       }
+      },
+      "@id": "http://example.org/cars/for-sale#tesla",
+      "@type": "gr:Offering",
+      "gr:name": "Used Tesla Roadster",
+      "gr:description": "Need to sell fast and furiously",
+      "gr:hasBusinessFunction": "gr:Sell",
+      "gr:acceptedPaymentMethods": "gr:Cash",
+      "gr:hasPriceSpecification": {
+       "gr:hasCurrencyValue": "85000",
+       "gr:hasCurrency": "USD"
+      },
+      "gr:includes": {
+       "@type": [
+         "gr:Individual",
+         "pto:Vehicle"
+       ],
+       "gr:name": "Tesla Roadster",
+       "foaf:page": "http://www.teslamotors.com/roadster"
+      }
+   }
+
+
 .. index:: KDE
 .. _kde:
 
@@ -990,10 +1046,10 @@ Compute Resources, Object Storage, Load Balancing, and DNS.
 
 Libvirt
 =================
-| Wikipedia: http://libvirt.org/
-| Homepage: http://libvirt.org/
-| Docs: http://libvirt.org/docs.html
-| Docs: http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.virt.html
+| Wikipedia: https://libvirt.org/
+| Homepage: https://libvirt.org/
+| Docs: https://libvirt.org/docs.html
+| Docs: https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.virt.html
 | Source: git git://libvirt.org/libvirt-appdev-guide.git
 
 
@@ -1122,6 +1178,8 @@ OS X
 | Wikipedia: https://en.wikipedia.org/wiki/OS_X
 | Homepage: http://www.apple.com/osx
 | Docs: https://developer.apple.com/technologies/mac/
+| Docs: https://developer.apple.com/library/mac/navigation/
+| Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/
 | Source: https://www.apple.com/opensource/
 
 
