@@ -14,7 +14,7 @@ Packages
 | Wikipedia: `<https://en.wikipedia.org/wiki/Package_(package_management_system)>`__
 
 
-A software package is an archive of files 
+A software package is an archive of files
 with a manifest that lists the files included.
 Often, the manifest contains file checksums
 and a *signature*.
@@ -992,16 +992,15 @@ KWin is the main KDE window manager for :ref:`X11`.
 Libc
 ======
 | Wikipedia: https://en.wikipedia.org/wiki/C_POSIX_library
-| 
 
-A libc is a standard library of :ref:`C` routines. 
+A libc is a standard library of :ref:`C` routines.
 
 Libc implementations:
 
 * :ref:`Glibc`
 * https://en.wikipedia.org/wiki/C_standard_library#BSD_libc
 * https://en.wikipedia.org/wiki/UClibc
-* https://en.wikipedia.org/wiki/Bionic_(software)
+* `<https://en.wikipedia.org/wiki/Bionic_(software)>`__
 
 
 .. index:: GNU Libc
@@ -1016,12 +1015,11 @@ Glibc
 | Docs: https://www.gnu.org/software/libc/manual/html_mono/libc.html
 | Docs: http://sourceware.org/glibc/wiki/HomePage
 | Source: https://en.wikipedia.org/wiki/GNU_C_Library
-| 
-
 
 Glibc is the GNU :ref:`C` Library (:ref:`libc`).
 
-Many :ref:`Linux` packages and the GNU/:ref:`Linux` kernel build from Glibc.
+Many :ref:`Linux` packages
+and the :ref:`GNU/Linux <linux>` kernel build from Glibc.
 
 
 .. index:: Libcloud
@@ -1922,7 +1920,7 @@ A standard virtual environment::
 
 .. note:: :ref:`Venv` extends :ref:`virtualenv` and :ref:`virtualenvwrapper`.
 
-.. note:: 
+.. note::
    Python 3.3+ now also contain a script called **venv**, which
    performs the same functions and works similarly to virtualenv:
    `<https://docs.python.org/3/library/venv.html>`_.
