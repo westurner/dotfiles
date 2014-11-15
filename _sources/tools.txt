@@ -930,6 +930,44 @@ KDE is a GUI framework built on Qt.
 KWin is the main KDE window manager for :ref:`X11`.
 
 
+.. index:: Libc
+.. _libc:
+
+Libc
+======
+| Wikipedia: https://en.wikipedia.org/wiki/C_POSIX_library
+| 
+
+A libc is a standard library of :ref:`C` routines. 
+
+Libc implementations:
+
+* :ref:`Glibc`
+* https://en.wikipedia.org/wiki/C_standard_library#BSD_libc
+* https://en.wikipedia.org/wiki/UClibc
+* https://en.wikipedia.org/wiki/Bionic_(software)
+
+
+.. index:: GNU Libc
+.. index:: Glibc
+.. _glibc:
+
+Glibc
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_C_Library
+| Homepage: https://www.gnu.org/software/libc/
+| Docs: https://www.gnu.org/software/libc/documentation.html
+| Docs: https://www.gnu.org/software/libc/manual/html_mono/libc.html
+| Docs: http://sourceware.org/glibc/wiki/HomePage
+| Source: https://en.wikipedia.org/wiki/GNU_C_Library
+| 
+
+
+Glibc is the GNU :ref:`C` Library (:ref:`libc`).
+
+Many :ref:`Linux` packages and the GNU/:ref:`Linux` kernel build from Glibc.
+
+
 .. index:: Libcloud
 .. _libcloud:
 
@@ -990,7 +1028,7 @@ written in :ref:`C`.
    uname -o; echo "GNU/Linux"
 
 A *Linux Distribution* is a collection of :ref:`Packages`
-compiled to work with a GNU/Linux kernel.
+compiled to work with a GNU/Linux kernel and a :ref:`libc`.
 
 
 .. index:: Make
@@ -1190,7 +1228,13 @@ Python
 | Source: hg https://hg.python.org/cpython
 
 
-Python is a dynamically-typed, C-based scripting language.
+Python is a dynamically-typed, :ref:`C`-based third-generation
+programming language.
+
+As a multi-paradigm language with support for functional
+and object-oriented code,
+Python is often utilized for system administration
+and scientific software development.
 
 Many of the RedHat system management tools (such as :ref:`Yum`)
 are written in Python. Gentoo :ref:`Portage` is written in Python.
