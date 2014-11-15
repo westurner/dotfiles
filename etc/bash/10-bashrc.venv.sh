@@ -103,7 +103,7 @@ cdv () {
     cd "${VIRTUAL_ENV}"/$@
 }
 cdve () {
-    # cdve()    -- cd $WORKON_HOME
+    # cdve()    -- cd $VIRTUAL_ENV
     cd "${VIRTUAL_ENV}"/$@
 }
 cdvar () {
@@ -170,6 +170,11 @@ grindw() {
 grind-() {
     # grind-()  -- grind $_WRD
     grindw $@
+}
+
+edit_grin_w() {
+    # edit_grin_w() -- edit $(grin w -l)
+    edit $(grin w -l)
 }
 
 grindctags() {
