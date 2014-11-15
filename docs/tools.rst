@@ -944,7 +944,7 @@ Libc implementations:
 * :ref:`Glibc`
 * https://en.wikipedia.org/wiki/C_standard_library#BSD_libc
 * https://en.wikipedia.org/wiki/UClibc
-* https://en.wikipedia.org/wiki/Bionic_(software)
+* `<https://en.wikipedia.org/wiki/Bionic_(software)>`__
 
 
 .. index:: GNU Libc
