@@ -113,13 +113,12 @@ _usrlog_set__TERM_ID () {
         new_term_id="#$(_usrlog_randstr 8)"
     fi
     if [[ "${new_term_id}" != "${_TERM_ID}" ]]; then
+        #TODO: _usrlog_append_echo
         if [ -z "${_TERM_ID}" ]; then
-            RENAME_MSG="# new_term_id ::: ${new_term_id} [ ${_USRLOG} ]"
+            _usrlog_append "#ntid  _TERM_ID=\"${new_term_id}\"  #_USRLOG=\"${_USRLOG}\""
         else
-            RENAME_MSG="# set_term_id ::: ${_TERM_ID} -> ${new_term_id} [ ${_USRLOG} ]"
+            _usrlog_append "#stid  _TERM_ID=\"${new_term_id}\"  #_TERM_ID__=\"${_TERM_ID}\"  #_USRLOG=\"${_USRLOG}\""
         fi
-        echo $RENAME_MSG
-        _usrlog_append "$RENAME_MSG"
         export _TERM_ID="${new_term_id}"
         _usrlog_set_title
 
@@ -179,10 +178,10 @@ _usrlog_append() {
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
     # example:
-    # #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+    #   2014-11-15T06:42:00-0600	dotfiles	 8311  ls
     printf "%s\t%s\t%s\n" \
-        $(echo "${_TERM_ID}" | tr '\t' ' ') \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
+        $(echo "${_TERM_ID}" | tr '\t' ' ') \
         "${*}" \
             | tee -a $_USRLOG >&2
 }
@@ -190,8 +189,9 @@ _usrlog_append() {
 _usrlog_append_oldstyle() {
     # _usrlog_append_oldstype -- Write a line to $_USRLOG
     #   $1: text (command) to log
-    # example:
-    # # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    # examples:
+    #   # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    #   #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
     printf "# %-11s: %s : %s" \
         "$_TERM_ID" \
         "$(date +'%D %R.%S')" \
