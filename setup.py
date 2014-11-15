@@ -37,7 +37,7 @@ SETUPPY_PATH = os.path.dirname(os.path.abspath(__file__)) or '.'
 
 def read_version_txt():
     with open(os.path.join(SETUPPY_PATH, 'VERSION.txt')) as f:
-        version = f.read().strip()
+        version = next(f).strip()
     return version
 
 VERSION = read_version_txt()
