@@ -948,6 +948,7 @@ Libc implementations:
 * https://en.wikipedia.org/wiki/Bionic_(software)
 
 
+.. index:: GNU Libc
 .. index:: Glibc
 .. _glibc:
 
@@ -962,9 +963,9 @@ Glibc
 | 
 
 
-Glibc is the :ref:`GNU` :ref:`C` Library (:ref:`libc`).
+Glibc is the GNU :ref:`C` Library (:ref:`libc`).
 
-Many :ref:`Linux` packages build from Glibc.
+Many :ref:`Linux` packages and the GNU/:ref:`Linux` kernel build from Glibc.
 
 
 .. index:: Libcloud
