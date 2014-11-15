@@ -103,8 +103,8 @@ cdv () {
     cd "${VIRTUAL_ENV}"/$@
 }
 cdve () {
-    # cdve()    -- cd $VIRTUAL_ENV
-    cd "${VIRTUAL_ENV}"/$@
+    # cdve()    -- cd $WORKON_HOME
+    cd "${WORKON_HOME}"/$@
 }
 cdvar () {
     # cdvar()   -- cd $_VAR
@@ -123,8 +123,8 @@ cdwh () {
     cd "${WORKON_HOME}"/$@
 }
 cdwrk () {
-    # cdwrk()   -- cd $WORKON_HOME
-    cd "${WORKON_HOME}/$@"
+    # cdwrk()   -- cd $PROJECT_HOME
+    cd "${PROJECT_HOME}/$@"
 }
 cdww () {
     # cdww()    -- cd $_WWW
@@ -173,8 +173,13 @@ grind-() {
 }
 
 edit_grin_w() {
-    # edit_grin_w() -- edit $(grin w -l)
-    edit $(grin w -l)
+    # edit_grin_w() -- edit $(grinw -l $@)
+    edit $(grin w -l $@)
+}
+
+egw() {
+    # egw           -- edit $(grinw -l $@)
+    edit_grin_w $@
 }
 
 grindctags() {
