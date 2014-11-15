@@ -1,10 +1,11 @@
 
 ### bashrc.darwin.sh
 
-# Docs:
-#  softwareupdate -l  # list
-#  softwareupdate -i --all
-#  softwareupdate -i -r
+# softwareupdate                -- install OSX updates
+#  | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+#  softwareupdate -l        # --list
+#  softwareupdate -i --all  # --install --all
+#  softwareupdate -i -r     # --install --recommended
 
 if [ -z "${__IS_MAC}" ]; then
     return

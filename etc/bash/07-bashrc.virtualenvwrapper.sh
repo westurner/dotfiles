@@ -1,8 +1,9 @@
 ### bashrc.virtualenvwrapper.sh
 
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
-export PROJECT_HOME="${HOME}/wrk"
-export WORKON_HOME="${PROJECT_HOME}/.ve"
+#
+export PROJECT_HOME="${HOME}/-wrk"
+export WORKON_HOME="${PROJECT_HOME}/-ve"
 
 _setup_virtualenvwrapper () {
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
