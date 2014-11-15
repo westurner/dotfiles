@@ -4224,7 +4224,7 @@ _TERM_ID='#testing'
 _SRC='/Users/W/wrk/.ve/dotfiles/src'
 _APP='dotfiles'
 _WRD='/Users/W/wrk/.ve/dotfiles/src/dotfiles'
-PATH='/Users/W/Workspace/.virtualenvs/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+PATH='/Users/W/wrk/.ve/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 __DOTFILES='/Users/W/.dotfiles'
 #
 exit
