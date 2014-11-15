@@ -27,8 +27,8 @@ Usage
 =======
 
 * ``scripts/bootstrap_dotfiles.sh`` installs symlinks in ``$HOME``
-  (such as ``~/.bashrc`` -> ``${__DOTFILES}/etc/bashrc``)
-* ``etc/bashrc`` sources ``etc/bash/00-bashrc.before.sh``
+  (such as ``~/.bashrc`` -> ``${__DOTFILES}/etc/.bashrc``)
+* ``etc/.bashrc`` sources ``etc/bash/00-bashrc.before.sh``
 * ``etc/bash/00-bashrc.before.sh`` sources a documented,
   ordered sequence of Bash scripts
 * ``etc/zsh/00-zshrc.before.sh`` sources a documented,
@@ -94,6 +94,7 @@ Bash
     # to the current dotfiles repository.
     # All dotfiles symlinks are relative to ${__DOTFILES}.
     __DOTFILES="${HOME}/.dotfiles"
+    _WRD="${WORKON_HOME}/dotfiles/src/dotfiles"
     ls -ld $__DOTFILES || ln -s $_WRD $__DOTFILES
 
     # There should be symlinks for each dotfile: e.g.
@@ -178,7 +179,9 @@ dotfiles package, and install additional helpful packages):
 
 .. code-block:: bash
 
+    # Clone the dotfiles git repository
     git clone ssh://git@github.com/westurner/dotfiles && cd dotfiles
+
     # Install and symlink dotfiles and dotvim
     scripts/bootstrap_dotfiles.sh -I -R
 
