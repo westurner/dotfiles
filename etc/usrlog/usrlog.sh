@@ -1,11 +1,11 @@
 #!/bin/sh
-##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
+##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
-#  _USRLOG (str): path to .usrlog file to which REPL commands are appended
-#
+#  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
+#  _USRLOG  (str): current -usrlog.log file to append REPL command strings to
 #  _TERM_ID (str): a terminal identifier with which command loglines will
 #  be appended (default: _usrlog_randstr)
-
+#
 
 _usrlog_set__USRLOG () {
     # _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
@@ -14,8 +14,8 @@ _usrlog_set__USRLOG () {
     else
         prefix=${HOME}
     fi
-    export _USRLOG="${prefix}/.usrlog"
-    export __USRLOG="${HOME}/.usrlog"
+    export _USRLOG="${prefix}/-usrlog.log"
+    export __USRLOG="${HOME}/-usrlog.log"
 }
 
 _usrlog_set_HISTFILE () {
@@ -50,7 +50,7 @@ _usrlog_set_HIST() {
 
     #avoid duplicating datetimes in .usrlog
     #HISTTIMEFORMAT="%Y-%m-%dT%H:%M:%S%z" (iso8601)
-    HISTTIMEFORMAT=""
+    HISTTIMEFORMAT="%Y-%m-%dT%H:%M:%S%z  "
 
     #don't put duplicate lines in the history. See bash(1) for more options
     # ... or force ignoredups and ignorespace
