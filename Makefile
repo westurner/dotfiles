@@ -93,9 +93,9 @@ help_setuppy_txt:
 	done
 
 
-BASH_LOAD_SCRIPT=scripts/bashrc.load.sh
+BASH_LOAD_SCRIPT=scripts/_dotfiles_bash.log.sh
 help_bash:
-	## Write bash output to scripts/bashrc.load.sh
+	## Write bash output to BASH_LOAD_SCRIPT
 	_TERM_ID="#testing" bash -i -v -c 'exit' > $(BASH_LOAD_SCRIPT) 2>&1
 
 help_bash_txt: help_bash
@@ -103,9 +103,9 @@ help_bash_txt: help_bash
 	_TERM_ID="#testing" bash scripts/dotfiles-bash.sh > docs/bash_conf.txt
 
 
-ZSH_LOAD_SCRIPT=scripts/zsh.load.sh
+ZSH_LOAD_SCRIPT=scripts/_dotfiles_zsh.log.sh
 help_zsh_txt:
-	## Write zsh output to script/zsh.load.sh
+	## Write zsh output to ZSH_LOAD_SCRIPT
 	_TERM_ID="#testing" zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1 || true
 
 
