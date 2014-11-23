@@ -14,27 +14,26 @@ export __SRC="${HOME}/src"
     # PATH="~/.local/bin:$PATH" (if not already there)
 add_to_path "${HOME}/.local/bin"
 
-    # _VENV       -- path to local venv config script (executable)
-export _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
+    # __VENV      -- path to local venv config script (executable)
+export __VENV="${__DOTFILES}/scripts/venv.py"
+
 
 ## Functions
-
 
 venv() {
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
     # venv -b   -- print bash configuration
     # venv -p   -- print IPython configuration as JSON
-    $_VENV $@
+    (set -x; $__VENV $@)
 }
-
 venv-() {
     # _venv <args> -- call $_VENV -E $@ (for the current environment)
-    venv -E $@
+    (set -x; $__VENV -e $@)
 }
 
-we() {   
-    # we()         -- workon a virtualenv and load venv (TAB-completion)
+workon_venv() {
+    # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
     #  param $2: $_APP ("dotfiles") [default: $1)
     #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
@@ -48,92 +47,23 @@ we() {
     history -a
 
     if [ -n "$1" ]; then
-        workon $1 && source <(venv --bash $@) && dotfiles_status
+        workon $1  # sets VIRTUAL_ENV
+        source <(venv -E --print-bash $@)
+        dotfiles_status
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenv
     fi
 }
+we () {
+    # we()          -- workon_venv
+    workon_venv $@
+}
+complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
 
-
-## cd functions
-cdb () {
-    # cdb()     -- cd $_BIN
-    cd "${_BIN}"/$@
-}
-cde () {
-    # cde()     -- cd $_ETC
-    cd "${_ETC}"/$@
-}
-cdh () {
-    # cdh()     -- cd $HOME
-    cd "${HOME}"/$@
-}
-cdl () {
-    # cdl()     -- cd $_LIB
-    cd "${_LIB}"/$@
-}
-cdlog () {
-    # cdlog()   -- cd $_LOG
-    cd "${_LOG}"/$@
-}
-cdp () {
-    # cdp()     -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}"/$@
-}
-cdph () {
-    # cdph()    -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}"/$@
-}
-cdpylib () {
-    # cdpylib() -- cd $_PYLIB
-    cd "${_PYLIB}"/$@
-}
-cdpysite () {
-    # cdpysite()-- cd $_PYSITE
-    cd "${_PYSITE}"/$@
-}
-cds () {
-    # cds()     -- cd $_SRC
-    cd "${_SRC}"/$@
-}
-cdv () {
-    # cdv()     -- cd $VIRTUAL_ENV
-    cd "${VIRTUAL_ENV}"/$@
-}
-cdve () {
-    # cdve()    -- cd $WORKON_HOME
-    cd "${WORKON_HOME}"/$@
-}
-cdvar () {
-    # cdvar()   -- cd $_VAR
-    cd "${_VAR}"/$@
-}
-cdw () {
-    # cdw()     -- cd $_WRD
-    cd "${_WRD}"/$@
-}
-cdwrd () {
-    # cdwrd     -- cd $_WRD
-    cd "${_WRD}"/$@
-}
-cdwh () {
-    # cdwh      -- cd $WORKON_HOME
-    cd "${WORKON_HOME}"/$@
-}
-cdwrk () {
-    # cdwrk()   -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}/$@"
-}
-cdww () {
-    # cdww()    -- cd $_WWW
-    cd "${_WWW}"/$@
-}
-cdwww () {
-    # cdwww()   -- cd $_WWW
-    cd "${_WWW}"/$@
-}
+# CdAlias functions and completions
+source ${__DOTFILES}/etc/venv/venv.sh
 
 ## Grin search
 # virtualenv / virtualenvwrapper
@@ -182,13 +112,16 @@ egw() {
     edit_grin_w $@
 }
 
+# ctags
 grindctags() {
     # grindctags()      -- generate ctags from grind (in ./tags)
     if [ -n "${__IS_MAC}" ]; then
+        # brew install ctags
         if [ -x "/usr/local/bin/ctags" ]; then
             ctagsbin="/usr/local/bin/ctags"
         fi
     else
+        # apt-get install exuberant-ctags
         ctagsbin=$(which ctags)
     fi
     (set -x;
@@ -212,8 +145,6 @@ grindctagss() {
     # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
     grindctags "${_SRC}"
 }
-
-
 
 _load_venv_aliases() {
     # _load_venv_aliases()  -- load venv aliases

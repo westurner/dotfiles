@@ -148,7 +148,12 @@ class VenvMagics(Magics):
     @line_magic
     def cdhelp(self, line):
         """cdhelp()         -- list cd commands"""
-        print("\n".join(x for x in dir(self) if x.startswith('cd')))
+        print(
+            "\n".join(
+                "{} #{}".format(
+                    attrname, dir(getattr(self, attrname)))
+                    for attrname in dir(self)
+                        if attrname.startswith('cd')))
 
     @staticmethod
     def _dotfiles_status():

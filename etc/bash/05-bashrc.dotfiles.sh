@@ -15,18 +15,19 @@ dotfiles_status() {
     echo "# dotfiles_status()"
     echo "HOSTNAME='${HOSTNAME}'"
     echo "USER='${USER}'"
+    echo "__WRK='${__WRK}'"
     echo "PROJECT_HOME='${PROJECT_HOME}'"
     echo "WORKON_HOME='${WORKON_HOME}'"
     echo "VIRTUAL_ENV_NAME='${VIRTUAL_ENV_NAME}'"
     echo "VIRTUAL_ENV='${VIRTUAL_ENV}'"
-    echo "_USRLOG='${_USRLOG}'"
-    echo "_TERM_ID='${_TERM_ID}'"
     echo "_SRC='${_SRC}'"
     echo "_APP='${_APP}'"
     echo "_WRD='${_WRD}'"
     #echo "__DOCSWWW='${_DOCS}'"
     #echo "__SRC='${__SRC}'"
     #echo "__PROJECTSRC='${__PROJECTSRC}'"
+    echo "_USRLOG='${_USRLOG}'"
+    echo "_TERM_ID='${_TERM_ID}'"
     echo "PATH='${PATH}'"
     echo "__DOTFILES='${__DOTFILES}'"
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
@@ -44,6 +45,19 @@ ds() {
     #TERM_URI="${term_path}/${term_key}"
     #echo "TERM_URI='${TERM_URL}'"
 #}
+
+# https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+
+debug-on() {
+    # debug-on()                 -- set -x -v
+    set -x -v
+    shopt -s extdebug
+}
+debug-off() {
+    # debug-off()                -- set +x +v
+    set +x +v
+    shopt -s extdebug
+}
 
 log_dotfiles_state() {
     # log_dotfiles_state()      -- save current environment to logfiles
@@ -87,8 +101,15 @@ dotfiles_postactivate() {
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
-    test -n $_VENV \
-        && source <(python $_VENV -E --bash)
+    local bash_debug_output=$(
+        venv -e --verbose --diff --print-bash 2>&1 /dev/null)
+    local venv_return_code=$?
+    if [ ${venv_return_code} -eq 0 ]; then
+        test -n $_VENV \
+            && source <(venv -e --print-bash)
+    else
+        echo "${bash_debug_output}" # >2
+    fi
 
     declare -f '_usrlog_setup' 2>&1 > /dev/null \
         && _usrlog_setup
