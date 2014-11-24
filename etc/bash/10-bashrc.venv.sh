@@ -47,8 +47,9 @@ workon_venv() {
     history -a
 
     if [ -n "$1" ]; then
+        # TODO
         workon $1  # sets VIRTUAL_ENV
-        source <(venv -E --print-bash $@)
+        source <(venv --print-bash $@)
         dotfiles_status
     else
         #if no arguments are specified, list virtual environments

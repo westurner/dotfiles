@@ -10,10 +10,7 @@
 _usrlog_get_prefix () {
     # _usrlog_get_prefix()    -- get a dirpath for the current usrlog
     #                            (VIRTUAL_ENV or HOME)
-    local prefix="${HOME}"
-    if [ -n "$VIRTUAL_ENV" ]; then
-        prefix=${VIRTUAL_ENV}
-    fi
+    local prefix="${VENVPREFIX:-${VIRTUAL_ENV:-${HOME}}}"
     echo "$prefix"
 }
 
