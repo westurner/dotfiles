@@ -2920,7 +2920,8 @@ class Test_900_Venv_main(unittest.TestCase):
         retcode, stdout, stderr = self.main('dotfiles')
         self.assertEqual(retcode, 0)
 
-        retcode, stdout, stderr = self.main('--VIRTUAL_ENV','dotfiles','--APP','dotfiles')
+        retcode, stdout, stderr = self.main('--VIRTUAL_ENV', self.env['VIRTUAL_ENV'],
+                                            '--APP',self.env['_APP'])
         self.assertEqual(retcode, 0)
         retcode, stdout, stderr = self.main('--ve','dotfiles','--app','dotfiles')
         self.assertEqual(retcode, 0)
@@ -3012,13 +3013,13 @@ def build_venv_arg_parser():
                      help=("Path to VIRTUAL_ENV -- "
                            "${WORKON_HOME}/${VIRTUAL_ENV_NAME} "
                            "(or a dirname in $WORKON_HOME) "),
-                     dest='VENVSTR',
+                     dest='VENVSTR_',
                      nargs='?',
                      action='store')
 
     prs.add_argument('--VENVSTRAPP', '--venvstrapp',
                      help=("Subpath within {VIRTUAL_ETC}/src/"),
-                     dest='VENVSTRAPP',
+                     dest='VENVSTRAPP_',
                      nargs='?',
                      action='store')
 
@@ -3238,11 +3239,18 @@ def build_venv_arg_parser():
                    dest='version',
                    action='store_true',)
 
-    prs.add_argument('VENVSTR', nargs='?', action='store',
+    prs.add_argument('VENVSTR',
                      help=(
                      'a name of a virtualenv in WORKON_HOME '
-                     'OR a full path to a VIRTUAL_ENV'))
-    prs.add_argument('VENVSTRAPP', nargs='?', action='store')
+                     'OR a full path to a VIRTUAL_ENV'),
+                     nargs='?',
+                     action='store',
+                     )
+    prs.add_argument('VENVSTRAPP',
+                     help="a path within _SRC (_WRD=_SRC/VENVSTRAPP)",
+                     nargs='?',
+                     action='store',
+                     )
 
     # Store remaining args in a catchall list (opts.args)
     prs.add_argument('args', metavar='args', nargs=argparse.REMAINDER)
@@ -3321,6 +3329,10 @@ def main(*argv, **kwargs):
                     'existing_value': existing_value,
                 }, level=logging.INFO)
             env[varname] = value
+    if opts.VENVSTR_:
+        env['VENVSTR'] = opts.VENVSTR_
+    if opts.VENVSTRAPP_:
+        env['VENVSTRAPP'] = opts.VENVSTRAPP_
 
     logevent('main_env', env, wrap=True, level=logging.INFO)
 
