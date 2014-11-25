@@ -198,19 +198,17 @@ mw() {
 _venv_set_prompt() {
     # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
-    if [ -n "$VIRTUAL_ENV_NAME" ]; then
-        if [ -n "$VIRTUAL_ENV" ]; then
-            export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
-        else
-            unset -v VIRTUAL_ENV_NAME
-        fi
-    fi
-    venv_prompt_prefix="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${debian_chroot:+"[$debian_chroot] "}"
+    #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
+    # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
+    local venvprompt=""
+    venvprompt=${_APP:-${VIRTUAL_ENV_NAME:-${VIRTUAL_ENV:+"$(basename $VIRTUAL_ENV)"}}}
+    # TODO: CONDA
+    export VENVPROMPT="${WINDOW_TITLE:+"$WINDOW_TITLE "}${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}"
     if [ -n "$BASH_VERSION" ]; then
         if [ "$color_prompt" == yes ]; then
-            PS1='${venv_prompt_prefix}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+            PS1='${VENVPROMPT}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
         else
-            PS1='${venv_prompt_prefix}\u@\h:\w\n\$ '
+            PS1='${VENVPROMPT}\u@\h:\w\n\$ '
             unset color_prompt
         fi
     fi

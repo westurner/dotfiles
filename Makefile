@@ -8,15 +8,10 @@ DOTVIM_SRC:=https://github.com/westurner/dotvim
 
 #  Usage::
 #
-#	 # clone and/or install .dotfiles::
-#	 git clone https://github.com/westurner/dotfiles ~/.dotfiles
-#	 # shorturl: git clone http://git.io/ghGL3w ~/.dotfiles
-#	 cd ~/.dotfiles
-#	 git pull
-#
-#	 # Run make tests
-#	 make test
-#	 make dotvim_clone
+#	 # Run make tests		# workon dotfiles; source <(venv --bash dotfiles)
+#	 						# we dotfiles
+#	 make test ; make 		# makew test ; makew
+#	 make dotvim_clone		# makew dotvim_clone
 #	 make dotvim_install
 
 
