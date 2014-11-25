@@ -536,13 +536,11 @@ class VenvMagics(Magics):
     BASH_FUNCTION_TEMPLATE = (
     """{bash_func_name} () {{\n"""
     """    # {bash_func_name}()  -- cd {pathvar} /$@\n"""
-    """    echo "#{pathvar}='${pathvar}'"\n"""
     """    cd "${pathvar}"/$@\n"""
-    """    echo "#PWD=$(pwd)"\n"""
     """}}\n"""
     """{bash_compl_name} () {{\n"""
     """    local cur="$2";\n"""
-    """    COMPREPLY=($(echo "#${pathvar}"; {bash_func_name} && compgen -d -- "${{cur}}" ))\n"""
+    """    COMPREPLY=($({bash_func_name} && compgen -d -- "${{cur}}" ))\n"""
     """}}\n"""
     )
     BASH_ALIAS_TEMPLATE = (
@@ -1184,6 +1182,8 @@ def build_user_aliases_env(env=None,
         env['VIRTUAL_ENV'] = VIRTUAL_ENV
         logging.debug('VIRTUAL_ENV is none')
         # raise Exception()
+    VIRTUAL_ENV_NAME = env.get('VIRTUAL_ENV_NAME',
+                        os.path.basename(VIRTUAL_ENV))
     _SRC = env.get('_SRC')
     if _SRC is None:
         if VIRTUAL_ENV:

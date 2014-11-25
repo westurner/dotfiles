@@ -33,16 +33,16 @@ _setup_pyenv() {
 
 ## Conda / Anaconda
 
-_setup_anaconda() {
+_setup_conda() {
     # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
-    export _ANACONDA_ROOT="/opt/anaconda"
-    add_to_path "${_ANACONDA_ROOT}/bin"
+    export CONDA_ROOT="${CONDA_ROOT:-"/opt/anaconda"}"
+    add_to_path "${CONDA_ROOT}/bin"
 }
 
 workon_conda() {
     # workon_conda()        -- workon a conda + venv project
-    _conda_envname=${1}
-    _app=${2}
+    local _conda_envname=${1}
+    local _app=${2}
     we ${_conda_envname} ${_app}
     _setup_anaconda && \
         source activate ${WORKON_HOME}/.conda/${_conda_envname}
