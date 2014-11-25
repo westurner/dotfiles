@@ -340,6 +340,19 @@ def get_WORKON_HOME_default(env=None, from_environ=False, default='-ve27'):
     return workon_home
 
 
+
+class VenvJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if hasattr(obj, 'to_dict'):
+            return dict(obj.to_dict())
+        if isinstance(obj, OrderedDict):
+            # TODO: why is this necessary?
+            return dict(obj)
+        if isinstance(obj, CdAlias):
+            #return dict(type="cdalias",value=(obj.name, obj.pathvar))
+            return obj.pathvar
+        return json.JSONEncoder.default(self, obj)
+
 ##############
 ## define aliases as IPython aliases (which support %l and %s,%s)
 # which can then be transformed to:
@@ -354,6 +367,7 @@ class CmdAlias(object):
     def __init__(self, cmdstr):
         self.cmdstr = cmdstr
 
+
     def to_shell_str(self, name,):
         return self.cmdstr
 
@@ -362,6 +376,9 @@ class CmdAlias(object):
 
     def to_vim_function(self):
         raise NotImplemented
+
+    __str__ = to_shell_str
+    __repr__ = to_shell_str
 
 
 class IpyAlias(CmdAlias):
@@ -429,7 +446,10 @@ class CdAlias(CmdAlias):
                 WORKON_HOME -> workonhome
             aliases (list[str]): additional alias names (e.g. ['cdw',])
         """
+
         self.pathvar = pathvar
+        self.cmdstr = "cd {}".format(self.pathvar)
+
         if name is None:
             name = pathvar.lower().replace('_','')
         self.name = name
@@ -1017,7 +1037,12 @@ def build_venv_paths_full_env(env=None,
     logevent('bpveenv', env)
 
     if VENVSTR is not None:
-        env = Venv.parse_VENVSTR(env=env, **conf)
+        env = Venv.parse_VENVSTR(env=env,
+                                 VENVPREFIX=VENVPREFIX,
+                                 VENVSTR=VENVSTR,
+                                 VENVSTRAPP=VENVSTRAPP,
+                                 VIRTUAL_ENV=VIRTUAL_ENV,
+                                 pyver=pyver)
 
     VIRTUAL_ENV = env.get('VIRTUAL_ENV')
     VENVPREFIX = env.get('VENVPREFIX')
@@ -1026,10 +1051,13 @@ def build_venv_paths_full_env(env=None,
             VENVPREFIX = VIRTUAL_ENV
             env['VENVPREFIX'] = VIRTUAL_ENV
         else:
-            raise StepConfigException(
+            errmsg = (
                 {'msg': 'VENVPREFIX or VIRTUAL_ENV must be specified',
-                 'env': env,
-                 'envstr': str(env)})
+                 'env': env.to_json(indent=2),
+                 #'envstr': str(env),
+                 })
+            logevent('TODOlogname', errmsg)
+            raise StepConfigException(errmsg)
     env['_BIN']         = joinpath(VENVPREFIX, "bin")            # ./bin
     env['_ETC']         = joinpath(VENVPREFIX, "etc")            # ./etc
     env['_ETCOPT']      = joinpath(VENVPREFIX, "etc", "opt")     # ./etc/opt
@@ -1673,7 +1701,7 @@ class Env(object):
         return OrderedDict(self.iteritems())
 
     def to_json(self, *args, **kwargs):
-        return json.dumps(self.to_dict(), *args, **kwargs)
+        return json.dumps(self.to_dict(), *args, cls=VenvJSONEncoder, **kwargs)
 
 
 def shell_quote(var):
@@ -1997,6 +2025,7 @@ class Venv(object):
                 VIRTUAL_ENV = joinpath(WORKON_HOME, VENVSTR)
             else:
                 VIRTUAL_ENV = os.path.abspath(VENVSTR)
+            env['VENVSTR'] = VENVSTR
         env['VIRTUAL_ENV'] = VIRTUAL_ENV
 
         _APP = None
@@ -2011,7 +2040,6 @@ class Venv(object):
             _APP = VIRTUAL_ENV_NAME
             VENVSTRAPP = _APP
 
-        env['VENVSTR'] = VENVSTR
         env['VENVSTRAPP'] = VENVSTRAPP
         env['VIRTUAL_ENV_NAME'] = VIRTUAL_ENV_NAME
         env['_APP'] = _APP
@@ -2020,7 +2048,7 @@ class Venv(object):
             VENVPREFIX = env.get('VIRTUAL_ENV', None)
         env['VENVPREFIX'] = VENVPREFIX
 
-        logevent('endparsevenvstr')
+        logevent('parse_VENVSTR', env)
 
         #import ipdb
         #ipdb.set_trace()
@@ -2390,17 +2418,6 @@ class Venv(object):
         Returns:
             str: json.dumps(self.to_dict())
         """
-        class VenvJSONEncoder(json.JSONEncoder):
-            def default(self, obj):
-                if hasattr(obj, 'to_dict'):
-                    return dict(obj.to_dict())
-                if isinstance(obj, OrderedDict):
-                    # TODO: why is this necessary?
-                    return dict(obj)
-                if isinstance(obj, CdAlias):
-                    #return dict(type="cdalias",value=(obj.name, obj.pathvar))
-                    return obj.pathvar
-                return json.JSONEncoder.default(self, obj)
         return json.dumps(self, indent=indent, cls=VenvJSONEncoder)
 
 
@@ -2900,6 +2917,8 @@ class Test_900_Venv_main(unittest.TestCase):
     #    self.assertEqual(retcode, 0)
 
     def test_100_main(self):
+        retcode, stdout, stderr = self.main('dotfiles')
+        self.assertEqual(retcode, 0)
 
         retcode, stdout, stderr = self.main('--VIRTUAL_ENV','dotfiles','--APP','dotfiles')
         self.assertEqual(retcode, 0)
@@ -2997,7 +3016,7 @@ def build_venv_arg_parser():
                      nargs='?',
                      action='store')
 
-    prs.add_argument('--VENVSTRAPP', '--venvstrapp', '--app',
+    prs.add_argument('--VENVSTRAPP', '--venvstrapp',
                      help=("Subpath within {VIRTUAL_ETC}/src/"),
                      dest='VENVSTRAPP',
                      nargs='?',
@@ -3034,7 +3053,7 @@ def build_venv_arg_parser():
                      nargs='?',
                      action='store',
                     )
-    prs.add_argument('--_APP', '--APP',  # --app -> --VENVSTRAPP
+    prs.add_argument('--_APP', '--APP',  '--app',  #  see also: --VENVSTRAPP
                      help="Path component string -- ${_SRC}/${_APP}",
                      dest='_APP',
                      nargs='?',
@@ -3289,6 +3308,7 @@ def main(*argv, **kwargs):
                 'VENVSTR', 'VENVSTRAPP', 'VENVPREFIX',
                 'VIRTUAL_ENV_NAME', 'VIRTUAL_ENV', '_SRC', '_WRD']
 
+    # get opts from args and update env
     for varname in varnames:
         value = getattr(opts, varname, None)
         if value is not None:
@@ -3297,8 +3317,9 @@ def main(*argv, **kwargs):
                 logevent('main args', {
                     'msg': 'commandline options intersect with env',
                     'varname': varname,
-                    'value': value
-                }, level=logging.ERROR)
+                    'value': value,
+                    'existing_value': existing_value,
+                }, level=logging.INFO)
             env[varname] = value
 
     logevent('main_env', env, wrap=True, level=logging.INFO)
