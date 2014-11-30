@@ -111,8 +111,9 @@ dotfiles_postactivate() {
         echo "${bash_debug_output}" # >2
     fi
 
-    declare -f '_usrlog_setup' 2>&1 > /dev/null \
-        && _usrlog_setup
+    echo "setup usrlog"
+    declare -f '_setup_usrlog' 2>&1 > /dev/null \
+        && _setup_usrlog
    
     declare -f '_venv_set_prompt' 2>&1 > /dev/null \
         && _venv_set_prompt
@@ -180,5 +181,8 @@ dotfiles_postdeactivate() {
     unset _WRD_SETUPY
     unset _WWW
 
+    declare -f '_usrlog_set__USRLOG' 2>&1 > /dev/null \
+        && _usrlog_set__USRLOG
+   
     dotfiles_reload
 }

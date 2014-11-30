@@ -445,6 +445,10 @@ usrlog_screenrec_ffmpeg() {
             2>&1 | tee "$FILENAME.log"
 }
 
+_setup_usrlog() {
+    # _setup_usrlog() -- call _usrlog_setup $@
+    _usrlog_setup $@
+}
 
 ## calls _usrlog_setup when sourced
 _usrlog_setup

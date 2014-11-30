@@ -1976,7 +1976,6 @@ class Venv(object):
         builder.add_step(build_venv_activate_env)
 
         builder.add_step(build_dotfiles_env)
-        builder.add_step(build_usrlog_env)
         builder.add_step(build_python_env)
         builder.add_step(build_virtualenvwrapper_env)
         builder.add_step(build_conda_env)
@@ -1985,6 +1984,7 @@ class Venv(object):
         builder.add_step(build_venv_paths_full_env)
         builder.add_step(build_venv_paths_cdalias_env)
         builder.add_step(build_user_aliases_env)
+        builder.add_step(build_usrlog_env)
         logevent('Venv.build', dict(env=env, conf=conf), wrap=True, level=logging.INFO)
         new_env = builder.build(env=env)
         #logevent('Venv.build', dict(env=env, conf=conf), wrap=True, level=logging.INFO)
