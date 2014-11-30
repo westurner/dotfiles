@@ -25,7 +25,7 @@ _xlck_install () {
 }
 
 _xlck_setup_dpms() {
-    # _xlck_setup_dpms  -- configure display with xset and dpms
+    # _xlck_setup_dpms() -- configure display with xset and dpms
     xset +dpms
     xset dpms 600
     xset s blank
@@ -56,7 +56,7 @@ _xlck_i3lock () {
 }
 
 xlck_lock () {
-    # xlock_lock        -- lock the current display
+    # xlock_lock()      -- lock the current display
     #   note: this will be run before suspend to RAM and Disk.
     if [[ -x /usr/bin/i3lock ]]; then
         _xlck_i3lock
@@ -80,17 +80,17 @@ _suspend_to_disk () {
 }
 
 _dbus_halt() {
-    # _dbus_halt()      -- send a dbus stop msg ConsoleKit
+    # _dbus_halt()      -- send a dbus stop msg to ConsoleKit
     dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop
 }
 
 _dbus_reboot() {
-    # _dbus_halt()      -- send a dbus reboot msg to ConsoleKit
+    # _dbus_reboot()    -- send a dbus reboot msg to ConsoleKit
     dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart
 }
 
 _dbus_suspend() {
-    # _dbus_halt()      -- send a dbus suspend msg to ConsoleKit
+    # _dbus_suspend()   -- send a dbus suspend msg to ConsoleKit
     dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
 }
 
@@ -117,7 +117,7 @@ xlck_suspend_ram () {
 }
 
 xlck_suspend_disk () {
-    # xlck_suspend_disk         -- lock and suspend to disk
+    # xlck_suspend_disk()       -- lock and suspend to disk
     xlck_lock_suspend_disk
 }
 
@@ -200,14 +200,14 @@ xlck_status_all() {
 }
 
 xlck_status_this_display(){
-    # xlck_status_this_display    -- show status for this $DISPLAY
+    # xlck_status_this_display()  -- show status for this $DISPLAY
     display=${1:-$DISPLAY}
     ps ufx -p
     _pids=$(ps eww | grep "DISPLAY=$display" | awk '{ print $1 }')
 }
 
 _xlck_xautolock () {
-    # _xlck_xautolock
+    # _xlck_xautolock()           -- start xautolock (see: xlck_start)
     _LOCK_DELAY=${1:-"1"}  # mins
     _NOTIFY_DELAY=${2:-"10"}  # seconds
     _LOCK_CMD="/bin/bash $_XLCK -L"

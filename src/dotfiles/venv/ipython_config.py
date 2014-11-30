@@ -367,7 +367,6 @@ class CmdAlias(object):
     def __init__(self, cmdstr):
         self.cmdstr = cmdstr
 
-
     def to_shell_str(self, name,):
         return self.cmdstr
 
@@ -405,11 +404,12 @@ class IpyAlias(CmdAlias):
 
     def to_shell_str(self, name=None):
         """
+        Generate an alias or function for bash/zsh
+
         Keyword Arguments:
             name (str): funcname to override default
         Returns:
             str: ``alias name=repr(cmdstr)`` OR ``{cmdname} () {\n...\n}{...}``
-
         """
         alias = self.cmdstr
         name = getattr(self, 'name') if name is None else name
@@ -706,8 +706,10 @@ class StepBuilder(object):
 
     def add_step(self, func, **kwargs):
         """
+        Add a step to ``self.steps``
+
         Args:
-            func (function): (env=None, **kwargs)
+            func (Step or function or str): func(env=None, **kwargs)
             kwargs (dict): kwargs for Step.conf
         Keyword Arguments:
             name (str): function name (default: None)
@@ -1104,7 +1106,7 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
     Returns:
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
-                        with ``.aliases`` extended.
+            with ``.aliases`` extended.
 
     .. note:: These do not work in IPython as they run in a subshell.
         See: :py:mod:`dotfiles.venv.ipython_magics`.
