@@ -560,6 +560,23 @@ Anaconda works with :ref:`Conda` packages.
    also written in :ref:`Python` (and :ref:`C`).
 
 
+.. index:: Awk
+.. _awk:
+
+Awk
+=====
+| Wikipedia: `<https://en.wikipedia.org/wiki/AWK>`__
+| Docs: https://en.wikipedia.org/wiki/AWK#Versions_and_implementations
+| GNU Awk
+| Project: https://savannah.gnu.org/projects/gawk/
+| Homepage: https://www.gnu.org/software/gawk/
+| Docs: https://www.gnu.org/software/gawk/manual/
+| Docs: https://www.gnu.org/software/gawk/manual/gawk.html
+| Source: git git://git.savannah.gnu.org/gawk.git
+
+AWK is a pattern programming language for matching and trasforming text.
+
+
 .. index:: Bash
 .. _bash:
 
@@ -798,6 +815,20 @@ Go
 
 
 Go is a relatively new statically-typed C-based language.
+
+.. index:: Grep
+.. _grep:
+
+Grep
+=============
+| Wikipedia: `<https://en.wikipedia.org/wiki/Grep>`__
+| Homepage: https://www.gnu.org/software/grep/
+| Project: https://savannah.gnu.org/projects/grep/
+| Docs: https://www.gnu.org/software/grep/manual/
+| Docs: https://www.gnu.org/software/grep/manual/grep.html
+| Source: git git://git.savannah.gnu.org/grep.git
+
+Grep is a UXIX CLI utility for pattern-based text matching.
 
 
 .. index:: Htop
@@ -1347,6 +1378,22 @@ awesome-python-testing
 | Source: https://github.com/westurner/wiki/blob/master/awesome-python-testing.rest
 
 
+.. index:: Pyline
+.. _pyline:
+
+Pyline
+========
+| Homepage: https://github.com/westurner/pyline
+| Docs: https://pyline.readthedocs.org/en/latest/
+| Source: git https://github.com/westurner/pyline
+| Pypi: https://pypi.python.org/pypi/pyline
+
+Pyline is a UNIX command-line tool for line-based processing in Python
+with regex and output transform features similar to
+:ref:`grep`, :ref:`sed`, and :ref:`awk`.
+
+Pyline can generate quoted CSV, :ref:`JSON`, HTML, etc.
+
 
 .. index:: Readline
 .. _readline:
@@ -1359,10 +1406,7 @@ Readline
 | Docs: http://tiswww.case.edu/php/chet/readline/history.html
 | Docs: http://tiswww.case.edu/php/chet/readline/rluserman.html
 | Source: ftp ftp://ftp.gnu.org/gnu/readline/readline-6.3.tar.gz
-
-
-
-* https://pypi.python.org/pypi/gnureadline
+| Pypi: https://pypi.python.org/pypi/gnureadline
 
 
 .. index:: ReStructuredText
@@ -1556,6 +1600,36 @@ one or more physical and virtual machines running various operating systems.
       + OpenStack [https://wiki.openstack.org/wiki/HypervisorSupportMatrix]
       + Linux LXC (Cgroups)
       + KVM
+
+
+.. index:: Sed
+.. _sed:
+
+Sed
+=================
+| Wikipedia: `<https://en.wikipedia.org/wiki/Sed>`__
+| Homepage: https://www.gnu.org/software/sed/ 
+| Project: https://savannah.gnu.org/projects/sed
+| Docs: https://www.gnu.org/software/sed/manual/
+| Docs: https://www.gnu.org/software/sed/manual/sed.html
+| Docs: http://sed.sourceforge.net/
+| Source: git git.savannah.gnu.org/sed.git
+
+GNU Sed is a UNIX CLI utility for transforming text.
+
+.. note:: BSD Sed
+
+   Use ``<Ctrl-V><tab>`` for explicit tabs (as ``\t`` does not work)
+
+   Use ``\\\n`` or ``'$'\n`` for newlines (as ``\n`` does not work)
+
+   ``sed -E`` should be consistent extended regular expressions
+   between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).
+
+   OR: ``brew install gnu-sed``
+
+   See: https://unix.stackexchange.com/questions/101059/sed-behaves-different-on-freebsd-and-on-linux
+   See: https://superuser.com/questions/307165/newlines-in-sed-on-mac-os-x
 
 
 .. index:: Sphinx
