@@ -1185,7 +1185,7 @@ def build_user_aliases_env(env=None,
         logging.debug('VIRTUAL_ENV is none')
         # raise Exception()
     VIRTUAL_ENV_NAME = env.get('VIRTUAL_ENV_NAME',
-                        os.path.basename(VIRTUAL_ENV))
+                        VIRTUAL_ENV.split(os.path.sep)[0])
     _SRC = env.get('_SRC')
     if _SRC is None:
         if VIRTUAL_ENV:
@@ -2032,7 +2032,7 @@ class Venv(object):
 
         _APP = None
         if VENVSTRAPP is not None:
-            VIRTUAL_ENV_NAME = os.path.basename(VENVSTRAPP)
+            VIRTUAL_ENV_NAME = VENVSTRAPP.split(os.path.sep)[0]
             _APP = VENVSTRAPP
         else:
             if VIRTUAL_ENV:
