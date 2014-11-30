@@ -1307,7 +1307,7 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV is none&#39;</span><span class="p">)</span>
         <span class="c"># raise Exception()</span>
     <span class="n">VIRTUAL_ENV_NAME</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV_NAME&#39;</span><span class="p">,</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">VIRTUAL_ENV</span><span class="p">))</span>
+                        <span class="n">VIRTUAL_ENV</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">_SRC</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">_SRC</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">VIRTUAL_ENV</span><span class="p">:</span>
@@ -2154,7 +2154,7 @@
 
         <span class="n">_APP</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">if</span> <span class="n">VENVSTRAPP</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">VIRTUAL_ENV_NAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">VENVSTRAPP</span><span class="p">)</span>
+            <span class="n">VIRTUAL_ENV_NAME</span> <span class="o">=</span> <span class="n">VENVSTRAPP</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">_APP</span> <span class="o">=</span> <span class="n">VENVSTRAPP</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">VIRTUAL_ENV</span><span class="p">:</span>
