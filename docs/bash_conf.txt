@@ -143,6 +143,9 @@
     # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     # dotfiles_status()         -- print dotfiles_status
     # ds()                      -- print dotfiles_status
+# https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+    # debug-on()                 -- set -x -v
+    # debug-off()                -- set +x +v
     # log_dotfiles_state()      -- save current environment to logfiles
     # dotfiles_initialize()     -- virtualenvwrapper initialize
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
@@ -172,6 +175,7 @@
     #                       note: tab-completion only shows regular virtualenvs
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     # rmvirtualenv_conda()  -- rmvirtualenv conda
+    #   TODO
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     # workon_conda_if_available()       -- workon_conda OR we OR workon
    
@@ -186,6 +190,7 @@
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
     # backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+    # TODO: adjust paths beyond the shebang
     # rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
    
    
@@ -201,14 +206,14 @@
     # __PROJECTSRC -- path to local project settings script
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
     # PATH="~/.local/bin:$PATH" (if not already there)
-    # _VENV       -- path to local venv config script (executable)
+    # __VENV      -- path to local venv config script (executable)
 ## Functions
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
     # venv -b   -- print bash configuration
     # venv -p   -- print IPython configuration as JSON
     # _venv <args> -- call $_VENV -E $@ (for the current environment)
-    # we()         -- workon a virtualenv and load venv (TAB-completion)
+    # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
     #  param $2: $_APP ("dotfiles") [default: $1)
     #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
@@ -217,26 +222,9 @@
     #  examples:
     #   we dotfiles
     #   we dotfiles dotfiles
-## cd functions
-    # cdb()     -- cd $_BIN
-    # cde()     -- cd $_ETC
-    # cdh()     -- cd $HOME
-    # cdl()     -- cd $_LIB
-    # cdlog()   -- cd $_LOG
-    # cdp()     -- cd $PROJECT_HOME
-    # cdph()    -- cd $PROJECT_HOME
-    # cdpylib() -- cd $_PYLIB
-    # cdpysite()-- cd $_PYSITE
-    # cds()     -- cd $_SRC
-    # cdv()     -- cd $VIRTUAL_ENV
-    # cdve()    -- cd $WORKON_HOME
-    # cdvar()   -- cd $_VAR
-    # cdw()     -- cd $_WRD
-    # cdwrd     -- cd $_WRD
-    # cdwh      -- cd $WORKON_HOME
-    # cdwrk()   -- cd $PROJECT_HOME
-    # cdww()    -- cd $_WWW
-    # cdwww()   -- cd $_WWW
+        # TODO
+    # we()          -- workon_venv
+# CdAlias functions and completions
 ## Grin search
 # virtualenv / virtualenvwrapper
     # grinv()   -- grin $VIRTUAL_ENV
@@ -250,7 +238,10 @@
     # grind-()  -- grind $_WRD
     # edit_grin_w() -- edit $(grinw -l $@)
     # egw           -- edit $(grinw -l $@)
+# ctags
     # grindctags()      -- generate ctags from grind (in ./tags)
+        # brew install ctags
+        # apt-get install exuberant-ctags
     # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
     # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
     # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
@@ -273,6 +264,9 @@
     # mw()      -- cd $_WRD && make $@
     # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
+    #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
+    # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
+    # TODO: CONDA
     # _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
    
    
@@ -557,5 +551,131 @@
    
    
 #### etc/bash/99-bashrc.after.sh
+   
+   
+#### etc/usrlog/usrlog.sh
+##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
+#
+#  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
+#  _USRLOG  (str): current -usrlog.log file to append REPL command strings to
+#  _TERM_ID (str): a terminal identifier with which command loglines will
+#  be appended (default: _usrlog_randstr)
+#
+    # _usrlog_get_prefix()    -- get a dirpath for the current usrlog
+    #                            (VIRTUAL_ENV or HOME)
+    # _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
+    # _usrlog_set_HISTFILE()   -- configure shell history
+    #  history -a   -- append any un-flushed lines to $HISTFILE
+    #  history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
+    # _usrlog_set_HIST()    -- set shell $HIST<...> variables
+    # see HISTSIZE and HISTFILESIZE in bash(1)
+    # note that HOSTNAME and USER come from the environ
+    # and MUST be evaluated at the time HISTTIMEFORMAT is set.
+    # ... or force ignoredups and ignorespace
+    # HISTCONTROL=ignoredups:ignorespace
+    # append current lines to history
+        # append to the history file, don't overwrite it
+        # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+        # replace newlines with semicolons
+        # enable autocd (if available)
+    # _usrlog_randstr      -- Generate a random string
+    #   $1: number of characters
+    # _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
+    # _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
+    #   $1: terminal name
+    # _usrlog_echo_title   -- set window title
+    # _usrlog_set_title()  --  set xterm title
+    # _usrlog_setup()      -- configure usrlog for the current shell
+    # setup bash
+    # setup zsh
+    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    #   $1: text (command) to log
+    #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
+    #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
+    # example:
+    #   2014-11-15T06:42:00-0600	dotfiles	 8311  ls
+      # (pwd -p)?
+       # this from HISTORY
+    # _usrlog_append_oldstype -- Write a line to $_USRLOG
+    #   $1: text (command) to log
+    # examples:
+    #   # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    #   #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+    # _usrlog_parse_newstyle -- Parse a newstyle HISTTIMEFORMAT usrlog
+    # with pyline
+    # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
+    # TODO: handle newlines
+    # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
+## usrlog.sh API
+    # termid()      -- echo $_TERM_ID
+    # set_term_id() -- set $_TERM_ID to a randomstr or $1
+    # stid()        -- set $_TERM_ID to a randomstr or $1
+    # st()          -- set $_TERM_ID to a randomstr or $1
+## Old (hist, histgrep, histgrep_session)
+    # less()       --  less the current session log
+    # histgrep()   -- egrep $@ $_USRLOG
+    # histgrep_session()    -- grep for specific sessions
+    #   $1: session name
+    #   $2: don't strip the line prefix
+## New (u*, usrlog*)
+    # usrlogt()     -- tail -n20 $_USRLOG
+    # ut()          -- tail -n20 $_USRLOG
+    # usrlogtf()    -- tail -f -n20 $_USRLOG
+    # utf()         -- tail -f -n20 $_USRLOG
+    # usrlog_grep() -- egrep -n $_USRLOG
+    # ug()          -- egrep -n $_USRLOG
+    # usrlog_grin() -- grin -s $@ $_USRLOG
+    # ugrin()       -- grin -s $@ $_USRLOG
+    # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
+    # ugall()              -- grep usrlogs (drop filenames with -h)
+    # usrlog_grin_all()    -- grin usrlogs
+    # usrlog_grin_all()    -- grin usrlogs
+    # note()   -- _usrlog_append "#note  #note: $@"
+    # todo()   -- _usrlog_append "#note  #TODO: $@"
+    # usrlog_screenrec_ffmpeg() -- record a screencast
+    #   $1: destination directory (use /tmp if possible)
+    #   $2: video name to append to datestamp
+    # Press "q" to stop recording
+## calls _usrlog_setup when sourced
+   
+   
+#### etc/xlck.sh
+## xlck.sh
+## bash script for working with xautolock, xlock, and/or i3lock
+## as well as issuing suspend, shutdown, and restart commands
+## Requirements:
+#
+#  sudo apt-get install xautolock xlockmore i3lock
+    # xlck()            -- xlck $@
+    # _xlck_install()   -- install xlck dependencies
+    #   bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
+    # _xlck_setup_dpms  -- configure display with xset and dpms
+    # _xlck_setup()     -- setup xlck (export _XLCK=(this) && _xlck_setup_dpms)
+    # _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
+    # _xlck_i3lock()    -- start i3lock with a dark gray background
+    # xlock_lock        -- lock the current display
+    #   note: this will be run before suspend to RAM and Disk.
+    # _suspend_to_ram()     -- echo mem > /sys/power/state
+    # _suspend_to_disk()    -- echo disk > /sys/power/state
+    #  note: this does not work on many machines
+    # _dbus_halt()      -- send a dbus stop msg ConsoleKit
+    # _dbus_halt()      -- send a dbus reboot msg to ConsoleKit
+    # _dbus_halt()      -- send a dbus suspend msg to ConsoleKit
+    # _dbus_hibernate() -- send a dbus hibernate msg to ConsoleKit
+    # xlck_lock_suspend_ram()   -- lock and suspend to RAM
+    # xlck_lock_suspend_disk()  -- lock and suspend to disk
+    # xlck_suspend_ram()        -- lock and suspend to RAM
+    # xlck_suspend_disk         -- lock and suspend to disk
+    # xlck_start()              -- start xlck
+    # xlck_stop()               -- stop xlck
+    # xlck_restart()            -- stop and start xlck
+    # xlck_xautolock_pgrep_display()-- find xautolock on this display
+    # xlck_xautolock_status()       -- show xlck status 
+    # xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
+    # xlck_status()     -- xlck_xautolock_status
+    # xlck_status_all() -- pgrep 'xautolock|xlock|i3lock', ps ufw
+    # xlck_status_this_display    -- show status for this $DISPLAY
+    # _xlck_xautolock
    
    
