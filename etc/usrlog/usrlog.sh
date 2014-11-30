@@ -216,6 +216,25 @@ _usrlog_append_oldstyle() {
             | tee -a $_USRLOG >&2
 }
 
+
+_usrlog_writecmd() {
+    # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
+    _usrlog_set_HISTFILE
+
+    if [ -n "$ZSH_VERSION" ]; then
+        id 2>&1 > /dev/null
+        _cmd=$(fc -l -1 | sed -e $TERM_SED_STR)
+    elif [ -n "$BASH" ]; then
+        _cmd=$(history 1 | sed -e $TERM_SED_STR)
+    else
+        _cmd=$(history 1 | sed -e $TERM_SED_STR)
+    fi
+    _usrlog_append "${_cmd}"
+}
+
+
+
+
 _usrlog_parse_newstyle() {
     # _usrlog_parse_newstyle -- Parse a newstyle HISTTIMEFORMAT usrlog
     # with pyline
@@ -241,24 +260,30 @@ _usrlog_parse_newstyle() {
                     -O json
 }
 
-_usrlog_writecmd() {
-    # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
-    _usrlog_set_HISTFILE
 
-    if [ -n "$ZSH_VERSION" ]; then
-        id 2>&1 > /dev/null
-        _cmd=$(fc -l -1 | sed -e $TERM_SED_STR)
-    elif [ -n "$BASH" ]; then
-        _cmd=$(history 1 | sed -e $TERM_SED_STR)
-    else
-        _cmd=$(history 1 | sed -e $TERM_SED_STR)
-    fi
-    _usrlog_append "${_cmd}"
+_usrlog_parse_cmds() {
+    # _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog
+    # with pyline
+    # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
+    # TODO: handle newlines (commands that start on the next line)
+    local usrlog="${1:-${_USRLOG}}"
+    test -n $usrlog && usrlog="-f ${usrlog}"
+    pyline.py ${usrlog} \
+        'list((
+            (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+            or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
+            or " ".join(w).rstrip())
+            for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]
+            )'
 }
 
 
 
 ## usrlog.sh API
+ut() {
+    # ut()  -- show recent commands
+    usrlog_tail $@ | _usrlog_parse_cmds
+}
 
 
 
@@ -313,7 +338,7 @@ histgrep_session () {
 ## New (u*, usrlog*)
 
 usrlog_tail() {
-    # usrlogt()     -- tail -n20 $_USRLOG
+    # usrlog_tail()     -- tail -n20 $_USRLOG
     if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
         tail ${_usrlog} 
@@ -321,11 +346,6 @@ usrlog_tail() {
         tail $_USRLOG
     fi
 }
-ut() {
-    # ut()          -- tail -n20 $_USRLOG
-    usrlog_tail ${@}
-}
-
 
 usrlog_tail_follow() {
     # usrlogtf()    -- tail -f -n20 $_USRLOG
@@ -394,13 +414,13 @@ note() {
     # note()   -- _usrlog_append "#note  #note: $@"
     startstr="#NOTE	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
     #_usrlog_append "#note  #note: $@"
-    _usrlog_append "${startstr}NOTE: ${@}"
+    _usrlog_append "${startstr}#NOTE: ${@}"
 }
 todo() {
     # todo()   -- _usrlog_append "#note  #TODO: $@"
     startstr="#TODO	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
     #_usrlog_append "#note  #note: $@"
-    _usrlog_append "${startstr}TODO: ${@}"
+    _usrlog_append "${startstr}#TODO: ${@}"
 }
 
 usrlog_screenrec_ffmpeg() {

@@ -113,6 +113,9 @@ stat = status
 # tag
 t = tags
 
+# TODO
+todo = grep -n -f 'TODO|FIXME|XXX'
+
 # svn helpers
 # pip install hgsvn
 # hgimportsvn -r <latest> svn://path_to/svn/repo <example>
