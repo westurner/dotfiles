@@ -876,23 +876,23 @@ pull      -- git pull
     # xlck()            -- xlck $@
     # _xlck_install()   -- install xlck dependencies
     #   bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
-    # _xlck_setup_dpms  -- configure display with xset and dpms
+    # _xlck_setup_dpms() -- configure display with xset and dpms
     # _xlck_setup()     -- setup xlck (export _XLCK=(this) &amp;&amp; _xlck_setup_dpms)
     # _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
     # _xlck_i3lock()    -- start i3lock with a dark gray background
-    # xlock_lock        -- lock the current display
+    # xlock_lock()      -- lock the current display
     #   note: this will be run before suspend to RAM and Disk.
     # _suspend_to_ram()     -- echo mem &gt; /sys/power/state
     # _suspend_to_disk()    -- echo disk &gt; /sys/power/state
     #  note: this does not work on many machines
-    # _dbus_halt()      -- send a dbus stop msg ConsoleKit
-    # _dbus_halt()      -- send a dbus reboot msg to ConsoleKit
-    # _dbus_halt()      -- send a dbus suspend msg to ConsoleKit
+    # _dbus_halt()      -- send a dbus stop msg to ConsoleKit
+    # _dbus_reboot()    -- send a dbus reboot msg to ConsoleKit
+    # _dbus_suspend()   -- send a dbus suspend msg to ConsoleKit
     # _dbus_hibernate() -- send a dbus hibernate msg to ConsoleKit
     # xlck_lock_suspend_ram()   -- lock and suspend to RAM
     # xlck_lock_suspend_disk()  -- lock and suspend to disk
     # xlck_suspend_ram()        -- lock and suspend to RAM
-    # xlck_suspend_disk         -- lock and suspend to disk
+    # xlck_suspend_disk()       -- lock and suspend to disk
     # xlck_start()              -- start xlck
     # xlck_stop()               -- stop xlck
     # xlck_restart()            -- stop and start xlck
@@ -901,8 +901,8 @@ pull      -- git pull
     # xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
     # xlck_status()     -- xlck_xautolock_status
     # xlck_status_all() -- pgrep &#39;xautolock|xlock|i3lock&#39;, ps ufw
-    # xlck_status_this_display    -- show status for this $DISPLAY
-    # _xlck_xautolock
+    # xlck_status_this_display()  -- show status for this $DISPLAY
+    # _xlck_xautolock()           -- start xautolock (see: xlck_start)
    
    
 </pre></div>
