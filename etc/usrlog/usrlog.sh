@@ -133,8 +133,14 @@ _usrlog_set__TERM_ID () {
 
 _usrlog_echo_title () {
     # _usrlog_echo_title   -- set window title
-    local _USRLOG_WINDOW_TITLE="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}"
-    USRLOG_WINDOW_TITLE=${_USRLOG_WINDOW_TITLE:-"$@"}
+    local title="${WINDOW_TITLE:+"$WINDOW_TITLE "}"
+    if [ -n "$_APP" ]; then
+        title="${title}($_APP) "
+    else
+        title="${title}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}"
+    fi
+    title="${title} ${USER}@${HOSTNAME}:${PWD}"
+    USRLOG_WINDOW_TITLE=${title:-"$@"}
     if [ -n $CLICOLOR ]; then
         echo -ne "\033]0;${USRLOG_WINDOW_TITLE}\007"
     else
