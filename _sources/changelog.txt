@@ -10,9 +10,13 @@ Git Commit Log
 | Releases: https://github.com/westurner/dotfiles/commits/master
 | Development: https://github.com/westurner/dotfiles/commits/develop
 
+.. code:: bash
+
+
+   git shortnocolor --graph
+   git l 
+   gl
+
 .. command-output:: test -d ../.git && \
    git -C ../ log --pretty=format:'%h %cr %cn %s' --graph \
-   # git shortnocolor --graph \
-   # git l \
-   $ gl
    :shell:
