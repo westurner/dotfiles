@@ -190,30 +190,117 @@ we dotfiles otherproject
 <div class="section" id="shell-command">
 <h3>Shell Command<a class="headerlink" href="#shell-command" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-text"><div class="highlight"><pre>$ python ../src/dotfiles/venv/ipython_config.py --help
-Usage: ipython_config.py [-b|--print-bash] [-t] [-e] [-E&lt;virtualenv&gt;] [appname]
+usage: venv [-h] [-e] [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
+            [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]]
+            [--VENVSTRAPP [VENVSTRAPP_]]
+            [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
+            [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]]
+            [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]]
+            [--platform PLATFORM] [--print-json]
+            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars]
+            [--print-bash] [--print-bash-filename [PRINT_BASH_FILENAME]]
+            [--print-bash-cdalias]
+            [--print-bash-cdalias-filename [PRINT_BASH_CDALIAS_FILENAME]] [-Z]
+            [--print-zsh-filename [PRINT_ZSH_FILENAME]] [--print-vim-cdalias]
+            [--print-vim-cdalias-filename [PRINT_VIM_CDALIAS_FILENAME]]
+            [--command RUN_COMMAND] [--run-bash] [--run-make] [--run-editp]
+            [--run-terminal] [--pathall] [--pwrk PATH__WRK]
+            [--pworkonhome PATH_WORKON_HOME] [--pvirtualenv] [--psrc] [--pwrd]
+            [--pdotfiles] [--prel] [--pkg-resource-path] [--diff] [-v] [-q]
+            [-t] [--version]
+            [VENVSTR] [VENVSTRAPP] ...
 
-dotfiles.venv.ipython_config.py
+venv is a configuration utility for virtual environments.
 
-Options:
+positional arguments:
+  VENVSTR               a name of a virtualenv in WORKON_HOME OR a full path
+                        to a VIRTUAL_ENV
+  VENVSTRAPP            a path within _SRC (_WRD=_SRC/VENVSTRAPP)
+  args
+
+optional arguments:
   -h, --help            show this help message and exit
-  -E, --from-shell-environ
-  -p, --print, --print-json, --json
-                        Print venv configuration as JSON
-  -b, --bash, --print-bash, --zsh, --print-zsh
-                        Print venv configuration for Bash, ZSH
-  -x RUN_COMMAND, --cmd=RUN_COMMAND, --command=RUN_COMMAND
+  -e, --from-environ    Build venv.env.environ from keys in os.environ
+  --__WRK [__WRK], --WRK [__WRK], --wrk [__WRK]
+                        Path to workspace -- ~/-wrk
+  --__DOTFILES [__DOTFILES], --DOTFILES [__DOTFILES], --dotfiles [__DOTFILES]
+                        Path to ${__DOTFILES} symlink -- ~/-dotfiles
+  --WORKON_HOME [WORKON_HOME], --workonhome [WORKON_HOME], --wh [WORKON_HOME]
+                        Path to ${WORKON_HOME} directory containing
+                        VIRTUAL_ENVs
+  --VENVSTR [VENVSTR_], --venvstr [VENVSTR_], --ve [VENVSTR_]
+                        Path to VIRTUAL_ENV --
+                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME} (or a dirname in
+                        $WORKON_HOME)
+  --VENVSTRAPP [VENVSTRAPP_], --venvstrapp [VENVSTRAPP_]
+                        Subpath within {VIRTUAL_ETC}/src/
+  --VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME], --virtual-env-name [VIRTUAL_ENV_NAME], --vename [VIRTUAL_ENV_NAME]
+                        dirname in WORKON_HOME --
+                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+  --VENVPREFIX [VENVPREFIX], --venvprefix [VENVPREFIX], --prefix [VENVPREFIX]
+                        Prefix for _SRC, _ETC, _WRD if [ -z VIRTUAL_ENV ]
+  --VIRTUAL_ENV [VIRTUAL_ENV], --virtual-env [VIRTUAL_ENV]
+                        Path to a $VIRTUAL_ENV
+  --_SRC [_SRC], --SRC [_SRC], --src [_SRC]
+                        Path to source -- ${VIRTUAL_ENV}/src&quot;)
+  --_APP [_APP], --APP [_APP], --app [_APP]
+                        Path component string -- ${_SRC}/${_APP}
+  --_WRD [_WRD], --WRD [_WRD], --wrd [_WRD]
+                        Path to working directory -- ${_SRC}/${_APP}
+  --platform PLATFORM   Platform string (default: None)
+  --print-json          Print venv configuration as JSON
+  --print-json-filename [PRINT_JSON_FILENAME]
+                        Path to write venv env JSON to
+  --print-vars          Print vars
+  --print-bash, --bash  Print Bash shell configuration
+  --print-bash-filename [PRINT_BASH_FILENAME], --bf [PRINT_BASH_FILENAME]
+                        Path to write Bash shell configuration into
+  --print-bash-cdalias, --bash-cdalias
+                        Print Bash cdalias script
+  --print-bash-cdalias-filename [PRINT_BASH_CDALIAS_FILENAME], --bcdf [PRINT_BASH_CDALIAS_FILENAME]
+                        Path to write Bash cdalias shell configuration into
+  -Z, --print-zsh       Print ZSH shell configuration
+  --print-zsh-filename [PRINT_ZSH_FILENAME], --zf [PRINT_ZSH_FILENAME]
+                        Print ZSH shell configuration
+  --print-vim-cdalias, --vim
+                        Print vimscript configuration
+  --print-vim-cdalias-filename [PRINT_VIM_CDALIAS_FILENAME], --vcdf [PRINT_VIM_CDALIAS_FILENAME]
+                        Path to write cdalias vimscript into
+  --command RUN_COMMAND, --cmd RUN_COMMAND, -x RUN_COMMAND
                         Run a command in a venv-configured shell
-  -t, --terminals, --open-terminals
+  --run-bash, --xbash, -xb
+                        Run bash in the specified venv
+  --run-make, --xmake, -xmake
+                        Run (cd $_WRD; make $@) in the specified venv
+  --run-editp, --open-editors, --edit, -E
+                        Open $EDITOR_ with venv.project_files [$PROJECT_FILES]
+  --run-terminal, --open-terminals, --terminals, -T
                         Open terminals within the venv [gnome-terminal]
-  -e, --editors, --open-editors
-                        Open an editor with venv._project_files
-                        [$PROJECT_FILES]
-  --platform=PLATFORM   Platform to generate configuration for
-  -v, --verbose         
-  -q, --quiet           
-  -T, --test            
+  --pathall, -a, --all-paths, --ap
+                        Print possible paths for the given path
+  --pwrk PATH__WRK, --wrk-path PATH__WRK
+                        Print $__WRK/$@
+  --pworkonhome PATH_WORKON_HOME, --workonhome-path PATH_WORKON_HOME, --pwh PATH_WORKON_HOME
+                        Print $__WORKON_HOME/$@
+  --pvirtualenv, --virtualenv-path, --pv
+                        Print $VIRTUAL_ENV/${@}
+  --psrc, --src-path, --ps
+                        Print $_SRC/${@}
+  --pwrd, --wrd-path, --pw
+                        Print $_WRD/${@}
+  --pdotfiles, --dotfiles-path, --pd
+                        Print ${__DOTFILES}/${path}
+  --prel, --relative-path
+                        Print ${@}
+  --pkg-resource-path   Path from pkg_resources.TODOTODO
+  --diff, --show-diffs
+  -v, --verbose
+  -q, --quiet
+  -t, --test
+  --version
 
-Copyright 2014 Wes Turner. New BSD License
+argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP)
+or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
 </pre></div>
 </div>
 </div>
@@ -252,194 +339,78 @@ and IPython configuration.</p>
 <p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">--bash</span></code>:</p>
 <div class="highlight-text"><div class="highlight"><pre>$ python ../src/dotfiles/venv/ipython_config.py dotfiles --bash \
 | sed &quot;s,${HOME},~,g&quot;
-export VIRTUAL_ENV=&#39;~/wrk/.ve/dotfiles&#39;
-export VIRTUAL_ENV_NAME=&#39;dotfiles&#39;
-export _BIN=&#39;~/wrk/.ve/dotfiles/bin&#39;
-export _ETC=&#39;~/wrk/.ve/dotfiles/etc&#39;
-export _ETCOPT=&#39;~/wrk/.ve/dotfiles/etc/opt&#39;
-export _HOME=&#39;~/wrk/.ve/dotfiles/home&#39;
-export _ROOT=&#39;~/wrk/.ve/dotfiles/root&#39;
-export _LIB=&#39;~/wrk/.ve/dotfiles/lib&#39;
-export _PYLIB=&#39;~/wrk/.ve/dotfiles/lib/python2.7&#39;
-export _PYSITE=&#39;~/wrk/.ve/dotfiles/lib/python2.7/site-packages&#39;
-export _MNT=&#39;~/wrk/.ve/dotfiles/mnt&#39;
-export _MEDIA=&#39;~/wrk/.ve/dotfiles/media&#39;
-export _OPT=&#39;~/wrk/.ve/dotfiles/opt&#39;
-export _SBIN=&#39;~/wrk/.ve/dotfiles/sbin&#39;
-export _SRC=&#39;~/wrk/.ve/dotfiles/src&#39;
-export _SRV=&#39;~/wrk/.ve/dotfiles/srv&#39;
-export _TMP=&#39;~/wrk/.ve/dotfiles/tmp&#39;
-export _USR=&#39;~/wrk/.ve/dotfiles/usr&#39;
-export _USRBIN=&#39;~/wrk/.ve/dotfiles/usr/bin&#39;
-export _USRINCLUDE=&#39;~/wrk/.ve/dotfiles/usr/include&#39;
-export _USRLIB=&#39;~/wrk/.ve/dotfiles/usr/lib&#39;
-export _USRLOCAL=&#39;~/wrk/.ve/dotfiles/usr/local&#39;
-export _USRSBIN=&#39;~/wrk/.ve/dotfiles/usr/sbin&#39;
-export _USRSHARE=&#39;~/wrk/.ve/dotfiles/usr/share&#39;
-export _USRSRC=&#39;~/wrk/.ve/dotfiles/usr/src&#39;
-export _VAR=&#39;~/wrk/.ve/dotfiles/var&#39;
-export _VARCACHE=&#39;~/wrk/.ve/dotfiles/var/cache&#39;
-export _VARLIB=&#39;~/wrk/.ve/dotfiles/var/lib&#39;
-export _VARLOCK=&#39;~/wrk/.ve/dotfiles/var/lock&#39;
-export _LOG=&#39;~/wrk/.ve/dotfiles/var/log&#39;
-export _VARMAIL=&#39;~/wrk/.ve/dotfiles/var/mail&#39;
-export _VAROPT=&#39;~/wrk/.ve/dotfiles/var/opt&#39;
-export _VARRUN=&#39;~/wrk/.ve/dotfiles/var/run&#39;
-export _VARSPOOL=&#39;~/wrk/.ve/dotfiles/var/spool&#39;
-export _VARTMP=&#39;~/wrk/.ve/dotfiles/var/tmp&#39;
-export _WWW=&#39;~/wrk/.ve/dotfiles/var/www&#39;
-export _USRLOG=&#39;~/wrk/.ve/dotfiles/.usrlog&#39;
-export HISTFILE=&#39;~/wrk/.ve/dotfiles/.bash_history&#39;
-export HISTSIZE=1000000
-export HISTFILESIZE=1000000
-export PAGER=&#39;/usr/bin/less -R&#39;
-export _APP=&#39;dotfiles&#39;
-export _WRD=&#39;~/wrk/.ve/dotfiles/src/dotfiles&#39;
-export VIMBIN=&#39;/usr/bin/vim&#39;
-export GVIMBIN=&#39;/usr/local/bin/gvim&#39;
-export MVIMBIN=&#39;/usr/local/bin/mvim&#39;
-export GUIVIMBIN=&#39;/usr/local/bin/mvim&#39;
-export VIMCONF=&#39;--servername dotfiles&#39;
-export _EDIT_=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&#39;
-export EDITOR_=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&#39;
-export _IPSESSKEY=&#39;~/wrk/.ve/dotfiles/src/.sessionkey&#39;
-export _NOTEBOOKS=&#39;~/wrk/.ve/dotfiles/src/notebooks&#39;
-export _IPQTLOG=&#39;~/wrk/.ve/dotfiles/.ipqt.log&#39;
-export _WRD_SETUPY=&#39;~/wrk/.ve/dotfiles/src/dotfiles/setup.py&#39;
-export _TEST_=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&#39;
-export _CFG=&#39;~/wrk/.ve/dotfiles/etc/development.ini&#39;
-export _EDITCFG_=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent ~/wrk/.ve/dotfiles/etc/development.ini&#39;
-export _SHELL_=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)&#39;
-export _SERVE_=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)&#39;
-export PROJECT_FILES=&#39;README.rst CHANGES.rst TODO.rst Makefile setup.py requirements.txt .hgignore .gitignore .hg/hgrc  dotfiles docs&#39;
-export _SVCFG=&#39;~/wrk/.ve/dotfiles/etc/supervisord.conf&#39;
-export _SVCFG_=&#39; -c &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot;&#39;
-eval &#39;cdb () {
-    cd &quot;${_BIN}&quot;/$@
-}&#39;;
-eval &#39;cde () {
-    cd &quot;${_ETC}&quot;/$@
-}&#39;;
-eval &#39;cdh () {
-    cd &quot;${HOME}&quot;/$@
-}&#39;;
-eval &#39;cdl () {
-    cd &quot;${_LIB}&quot;/$@
-}&#39;;
-eval &#39;cdlog () {
-    cd &quot;${_LOG}&quot;/$@
-}&#39;;
-eval &#39;cdp () {
-    cd &quot;${PROJECT_HOME}&quot;/$@
-}&#39;;
-eval &#39;cdph () {
-    cd &quot;${PROJECT_HOME}&quot;/$@
-}&#39;;
-eval &#39;cdpylib () {
-    cd &quot;${_PYLIB}&quot;/$@
-}&#39;;
-eval &#39;cdpysite () {
-    cd &quot;${_PYSITE}&quot;/$@
-}&#39;;
-eval &#39;cds () {
-    cd &quot;${_SRC}&quot;/$@
-}&#39;;
-eval &#39;cdv () {
-    cd &quot;${VIRTUAL_ENV}&quot;/$@
-}&#39;;
-eval &#39;cdve () {
-    cd &quot;${VIRTUAL_ENV}&quot;/$@
-}&#39;;
-eval &#39;cdvar () {
-    cd &quot;${_VAR}&quot;/$@
-}&#39;;
-eval &#39;cdwh () {
-    cd &quot;${WORKON_HOME}&quot;/$@
-}&#39;;
-eval &#39;cdwrk () {
-    cd &quot;${WORKON_HOME}&quot;/$@
-}&#39;;
-eval &#39;cdw () {
-    cd &quot;${_WRD}&quot;/$@
-}&#39;;
-eval &#39;cd- () {
-    cd &quot;${_WRD}&quot;/$@
-}&#39;;
-eval &#39;cdww () {
-    cd &quot;${_WWW}&quot;/$@
-}&#39;;
-eval &#39;cdwww () {
-    cd &quot;${_WWW}&quot;/$@
-}&#39;;
-eval &#39;cdhelp () {
-    set | grep &quot;^cd.*()&quot; | cut -f1 -d&quot; &quot; #$@
-}&#39;;
-eval &#39;edit- () {
-    ${_EDIT_} $@
-}&#39;;
-alias gvim-=&#39;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&#39;
-eval &#39;ipskey () {
-    (python -c &quot;import os; print os.urandom(128).encode(\&quot;base64\&quot;)&quot; &gt; &quot;${_IPSESSKEY}&quot; ) &amp;&amp; chmod 0600 &quot;${_IPSESSKEY}&quot;; # $@
-}&#39;;
-eval &#39;ipnb () {
-    ipython notebook --secure --Session.keyfile=&quot;${_IPSESSKEY}&quot; --notebook-dir=&quot;${_NOTEBOOKS}&quot; --deep-reload $@
-}&#39;;
-eval &#39;ipqt () {
-    ipython qtconsole --secure --Session.keyfile=&quot;${_IPSESSKEY}&quot; --logappend=&quot;${_IPQTLOG}&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=&quot;Monaco&quot; --ConsoleWidget.font_size=11 $@
-}&#39;;
-eval &#39;grinv () {
-    grin --follow $@ &quot;${VIRTUAL_ENV}&quot;
-}&#39;;
-eval &#39;grindv () {
-    grind --follow $@ --dirs &quot;${VIRTUAL_ENV}&quot;
-}&#39;;
-eval &#39;grins () {
-    grin --follow $@ &quot;${_SRC}&quot;
-}&#39;;
-eval &#39;grinds () {
-    grind --follow $@ --dirs &quot;${_SRC}&quot;
-}&#39;;
-alias test-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&#39;
-alias testr-=&#39;reset &amp;&amp; (cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&#39;
-alias nose-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; nosetests)&#39;
-eval &#39;grinw () {
-    grin --follow $@ &quot;${_WRD}&quot;
-}&#39;;
-eval &#39;grin- () {
-    grin --follow $@ &quot;${_WRD}&quot;
-}&#39;;
-eval &#39;grindw () {
-    grind --follow $@ --dirs &quot;${_WRD}&quot;
-}&#39;;
-eval &#39;grind- () {
-    grind --follow $@ --dirs &quot;${_WRD}&quot;
-}&#39;;
-alias hgv-=&#39;hg view -R &quot;${_WRD}&quot;&#39;
-alias hgl-=&#39;hg -R &quot;${_WRD}&quot; log&#39;
-eval &#39;editcfg () {
-    &quot;${_EDITCFG_}&quot; $@
-}&#39;;
-alias serve-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)&#39;
-alias shell-=&#39;(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)&#39;
-eval &#39;e () {
-    ${_EDIT_} $@
-}&#39;;
-eval &#39;editp () {
-    $GUIVIMBIN $VIMCONF $PROJECT_FILES $@
-}&#39;;
-eval &#39;makewrd () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
-}&#39;;
-eval &#39;make- () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
-}&#39;;
-eval &#39;mw () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $@)
-}&#39;;
-alias ssv=&#39;supervisord -c &quot;${_SVCFG}&quot;&#39;
-alias sv=&#39;supervisorctl -c &quot;${_SVCFG}&quot;&#39;
-alias svt=&#39;sv tail -f&#39;
-alias svd=&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; supervisorctl -c &quot;${_SVCFG}&quot; tail -f dev&#39;
+INFO:venv:main()	{&#39;*argv&#39;: (&#39;dotfiles&#39;, &#39;--bash&#39;),
+INFO:venv:main()	 &#39;_argv&#39;: [&#39;dotfiles&#39;, &#39;--bash&#39;],
+INFO:venv:main()	 &#39;args&#39;: [&#39;--bash&#39;],
+INFO:venv:main()	 &#39;opts&#39;: {&#39;VENVPREFIX&#39;: None,
+INFO:venv:main()	          &#39;VENVSTR&#39;: &#39;dotfiles&#39;,
+INFO:venv:main()	          &#39;VENVSTRAPP&#39;: None,
+INFO:venv:main()	          &#39;VENVSTRAPP_&#39;: None,
+INFO:venv:main()	          &#39;VENVSTR_&#39;: None,
+INFO:venv:main()	          &#39;VIRTUAL_ENV&#39;: None,
+INFO:venv:main()	          &#39;VIRTUAL_ENV_NAME&#39;: None,
+INFO:venv:main()	          &#39;WORKON_HOME&#39;: None,
+INFO:venv:main()	          &#39;_APP&#39;: None,
+INFO:venv:main()	          &#39;_SRC&#39;: None,
+INFO:venv:main()	          &#39;_WRD&#39;: None,
+INFO:venv:main()	          &#39;__DOTFILES&#39;: None,
+INFO:venv:main()	          &#39;__WRK&#39;: None,
+INFO:venv:main()	          &#39;all_paths&#39;: False,
+INFO:venv:main()	          &#39;args&#39;: [&#39;--bash&#39;],
+INFO:venv:main()	          &#39;from_environ&#39;: False,
+INFO:venv:main()	          &#39;open_editors&#39;: False,
+INFO:venv:main()	          &#39;open_terminals&#39;: False,
+INFO:venv:main()	          &#39;path_VIRTUAL_ENV&#39;: False,
+INFO:venv:main()	          &#39;path_WORKON_HOME&#39;: None,
+INFO:venv:main()	          &#39;path__DOTFILES&#39;: False,
+INFO:venv:main()	          &#39;path__SRC&#39;: False,
+INFO:venv:main()	          &#39;path__WRD&#39;: False,
+INFO:venv:main()	          &#39;path__WRK&#39;: None,
+INFO:venv:main()	          &#39;pkg_resource_path&#39;: False,
+INFO:venv:main()	          &#39;platform&#39;: None,
+INFO:venv:main()	          &#39;print_bash&#39;: None,
+INFO:venv:main()	          &#39;print_bash_cdalias&#39;: False,
+INFO:venv:main()	          &#39;print_bash_cdalias_filename&#39;: &#39;venv.cdalias.sh&#39;,
+INFO:venv:main()	          &#39;print_bash_filename&#39;: &#39;venv.bash.sh&#39;,
+INFO:venv:main()	          &#39;print_json&#39;: False,
+INFO:venv:main()	          &#39;print_json_filename&#39;: &#39;venv.json&#39;,
+INFO:venv:main()	          &#39;print_vars&#39;: None,
+INFO:venv:main()	          &#39;print_vim_cdalias&#39;: False,
+INFO:venv:main()	          &#39;print_vim_cdalias_filename&#39;: &#39;venv.cdalias.vim&#39;,
+INFO:venv:main()	          &#39;print_zsh&#39;: False,
+INFO:venv:main()	          &#39;print_zsh_filename&#39;: &#39;venv.zsh.sh&#39;,
+INFO:venv:main()	          &#39;quiet&#39;: False,
+INFO:venv:main()	          &#39;relative_path&#39;: False,
+INFO:venv:main()	          &#39;run_bash&#39;: False,
+INFO:venv:main()	          &#39;run_command&#39;: None,
+INFO:venv:main()	          &#39;run_make&#39;: False,
+INFO:venv:main()	          &#39;run_tests&#39;: False,
+INFO:venv:main()	          &#39;show_diffs&#39;: False,
+INFO:venv:main()	          &#39;verbose&#39;: False,
+INFO:venv:main()	          &#39;version&#39;: False},
+INFO:venv:main()	 &#39;sys.argv&#39;: [&#39;../src/dotfiles/venv/ipython_config.py&#39;, &#39;dotfiles&#39;, &#39;--bash&#39;]}
+INFO:venv:main args	{&#39;existing_value&#39;: None,
+INFO:venv:main args	 &#39;msg&#39;: &#39;commandline options intersect with env&#39;,
+INFO:venv:main args	 &#39;value&#39;: &#39;dotfiles&#39;,
+INFO:venv:main args	 &#39;varname&#39;: &#39;VENVSTR&#39;}
+INFO:venv:main_env	# &lt;main_env&gt;
+INFO:venv:main_env	{
+INFO:venv:main_env	  &quot;environ&quot;: {
+INFO:venv:main_env	    &quot;VENVSTR&quot;: &quot;dotfiles&quot;
+INFO:venv:main_env	  }, 
+INFO:venv:main_env	  &quot;aliases&quot;: {}
+INFO:venv:main_env	}
+INFO:venv:main_env	# &lt;/main_env&gt;
+INFO:venv:Venv.build	# &lt;Venv.build&gt;
+INFO:venv:Venv.build	{&#39;conf&#39;: {&#39;VENVPREFIX&#39;: None,
+INFO:venv:Venv.build	          &#39;VENVSTR&#39;: None,
+INFO:venv:Venv.build	          &#39;VENVSTRAPP&#39;: None,
+INFO:venv:Venv.build	          &#39;debug&#39;: False,
+INFO:venv:Venv.build	          &#39;dont_reflect&#39;: True,
+INFO:venv:Venv.build	          &#39;from_environ&#39;: False,
+INFO:venv:Venv.build	          &#39;show_diffs&#39;: False},
+INFO:venv:Venv.build	 &#39;env&#39;: Env: &quot;## &lt;env&gt;\nVENVSTR=&#39;dotfiles&#39;\n## &lt;/env&gt;&quot;}
+INFO:venv:Venv.build	# &lt;/Venv.build&gt;
 </pre></div>
 </div>
 </div>
@@ -448,124 +419,26 @@ alias svd=&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; sup
 <p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">--print</span></code>:</p>
 <div class="highlight-text"><div class="highlight"><pre>$ python ../src/dotfiles/venv/ipython_config.py dotfiles --print \
 | sed &quot;s,${HOME},~,g&quot;
-{
-  &quot;env&quot;: {
-    &quot;VIRTUAL_ENV&quot;: &quot;~/wrk/.ve/dotfiles&quot;, 
-    &quot;VIRTUAL_ENV_NAME&quot;: &quot;dotfiles&quot;, 
-    &quot;_BIN&quot;: &quot;~/wrk/.ve/dotfiles/bin&quot;, 
-    &quot;_ETC&quot;: &quot;~/wrk/.ve/dotfiles/etc&quot;, 
-    &quot;_ETCOPT&quot;: &quot;~/wrk/.ve/dotfiles/etc/opt&quot;, 
-    &quot;_HOME&quot;: &quot;~/wrk/.ve/dotfiles/home&quot;, 
-    &quot;_ROOT&quot;: &quot;~/wrk/.ve/dotfiles/root&quot;, 
-    &quot;_LIB&quot;: &quot;~/wrk/.ve/dotfiles/lib&quot;, 
-    &quot;_PYLIB&quot;: &quot;~/wrk/.ve/dotfiles/lib/python2.7&quot;, 
-    &quot;_PYSITE&quot;: &quot;~/wrk/.ve/dotfiles/lib/python2.7/site-packages&quot;, 
-    &quot;_MNT&quot;: &quot;~/wrk/.ve/dotfiles/mnt&quot;, 
-    &quot;_MEDIA&quot;: &quot;~/wrk/.ve/dotfiles/media&quot;, 
-    &quot;_OPT&quot;: &quot;~/wrk/.ve/dotfiles/opt&quot;, 
-    &quot;_SBIN&quot;: &quot;~/wrk/.ve/dotfiles/sbin&quot;, 
-    &quot;_SRC&quot;: &quot;~/wrk/.ve/dotfiles/src&quot;, 
-    &quot;_SRV&quot;: &quot;~/wrk/.ve/dotfiles/srv&quot;, 
-    &quot;_TMP&quot;: &quot;~/wrk/.ve/dotfiles/tmp&quot;, 
-    &quot;_USR&quot;: &quot;~/wrk/.ve/dotfiles/usr&quot;, 
-    &quot;_USRBIN&quot;: &quot;~/wrk/.ve/dotfiles/usr/bin&quot;, 
-    &quot;_USRINCLUDE&quot;: &quot;~/wrk/.ve/dotfiles/usr/include&quot;, 
-    &quot;_USRLIB&quot;: &quot;~/wrk/.ve/dotfiles/usr/lib&quot;, 
-    &quot;_USRLOCAL&quot;: &quot;~/wrk/.ve/dotfiles/usr/local&quot;, 
-    &quot;_USRSBIN&quot;: &quot;~/wrk/.ve/dotfiles/usr/sbin&quot;, 
-    &quot;_USRSHARE&quot;: &quot;~/wrk/.ve/dotfiles/usr/share&quot;, 
-    &quot;_USRSRC&quot;: &quot;~/wrk/.ve/dotfiles/usr/src&quot;, 
-    &quot;_VAR&quot;: &quot;~/wrk/.ve/dotfiles/var&quot;, 
-    &quot;_VARCACHE&quot;: &quot;~/wrk/.ve/dotfiles/var/cache&quot;, 
-    &quot;_VARLIB&quot;: &quot;~/wrk/.ve/dotfiles/var/lib&quot;, 
-    &quot;_VARLOCK&quot;: &quot;~/wrk/.ve/dotfiles/var/lock&quot;, 
-    &quot;_LOG&quot;: &quot;~/wrk/.ve/dotfiles/var/log&quot;, 
-    &quot;_VARMAIL&quot;: &quot;~/wrk/.ve/dotfiles/var/mail&quot;, 
-    &quot;_VAROPT&quot;: &quot;~/wrk/.ve/dotfiles/var/opt&quot;, 
-    &quot;_VARRUN&quot;: &quot;~/wrk/.ve/dotfiles/var/run&quot;, 
-    &quot;_VARSPOOL&quot;: &quot;~/wrk/.ve/dotfiles/var/spool&quot;, 
-    &quot;_VARTMP&quot;: &quot;~/wrk/.ve/dotfiles/var/tmp&quot;, 
-    &quot;_WWW&quot;: &quot;~/wrk/.ve/dotfiles/var/www&quot;, 
-    &quot;_USRLOG&quot;: &quot;~/wrk/.ve/dotfiles/.usrlog&quot;, 
-    &quot;HISTFILE&quot;: &quot;~/wrk/.ve/dotfiles/.bash_history&quot;, 
-    &quot;HISTSIZE&quot;: 1000000, 
-    &quot;HISTFILESIZE&quot;: 1000000, 
-    &quot;PAGER&quot;: &quot;/usr/bin/less -R&quot;, 
-    &quot;_APP&quot;: &quot;dotfiles&quot;, 
-    &quot;_WRD&quot;: &quot;~/wrk/.ve/dotfiles/src/dotfiles&quot;, 
-    &quot;VIMBIN&quot;: &quot;/usr/bin/vim&quot;, 
-    &quot;GVIMBIN&quot;: &quot;/usr/local/bin/gvim&quot;, 
-    &quot;MVIMBIN&quot;: &quot;/usr/local/bin/mvim&quot;, 
-    &quot;GUIVIMBIN&quot;: &quot;/usr/local/bin/mvim&quot;, 
-    &quot;VIMCONF&quot;: &quot;--servername dotfiles&quot;, 
-    &quot;_EDIT_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-    &quot;EDITOR_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-    &quot;_IPSESSKEY&quot;: &quot;~/wrk/.ve/dotfiles/src/.sessionkey&quot;, 
-    &quot;_NOTEBOOKS&quot;: &quot;~/wrk/.ve/dotfiles/src/notebooks&quot;, 
-    &quot;_IPQTLOG&quot;: &quot;~/wrk/.ve/dotfiles/.ipqt.log&quot;, 
-    &quot;_WRD_SETUPY&quot;: &quot;~/wrk/.ve/dotfiles/src/dotfiles/setup.py&quot;, 
-    &quot;_TEST_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;, 
-    &quot;_CFG&quot;: &quot;~/wrk/.ve/dotfiles/etc/development.ini&quot;, 
-    &quot;_EDITCFG_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent ~/wrk/.ve/dotfiles/etc/development.ini&quot;, 
-    &quot;_SHELL_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;, 
-    &quot;_SERVE_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;, 
-    &quot;PROJECT_FILES&quot;: &quot;README.rst CHANGES.rst TODO.rst Makefile setup.py requirements.txt .hgignore .gitignore .hg/hgrc  dotfiles docs&quot;, 
-    &quot;_SVCFG&quot;: &quot;~/wrk/.ve/dotfiles/etc/supervisord.conf&quot;, 
-    &quot;_SVCFG_&quot;: &quot; -c \&quot;~/wrk/.ve/dotfiles/etc/supervisord.conf\&quot;&quot;
-  }, 
-  &quot;aliases&quot;: {
-    &quot;cdb&quot;: &quot;cd \&quot;${_BIN}\&quot;/%l&quot;, 
-    &quot;cde&quot;: &quot;cd \&quot;${_ETC}\&quot;/%l&quot;, 
-    &quot;cdh&quot;: &quot;cd \&quot;${HOME}\&quot;/%l&quot;, 
-    &quot;cdl&quot;: &quot;cd \&quot;${_LIB}\&quot;/%l&quot;, 
-    &quot;cdlog&quot;: &quot;cd \&quot;${_LOG}\&quot;/%l&quot;, 
-    &quot;cdp&quot;: &quot;cd \&quot;${PROJECT_HOME}\&quot;/%l&quot;, 
-    &quot;cdph&quot;: &quot;cd \&quot;${PROJECT_HOME}\&quot;/%l&quot;, 
-    &quot;cdpylib&quot;: &quot;cd \&quot;${_PYLIB}\&quot;/%l&quot;, 
-    &quot;cdpysite&quot;: &quot;cd \&quot;${_PYSITE}\&quot;/%l&quot;, 
-    &quot;cds&quot;: &quot;cd \&quot;${_SRC}\&quot;/%l&quot;, 
-    &quot;cdv&quot;: &quot;cd \&quot;${VIRTUAL_ENV}\&quot;/%l&quot;, 
-    &quot;cdve&quot;: &quot;cd \&quot;${VIRTUAL_ENV}\&quot;/%l&quot;, 
-    &quot;cdvar&quot;: &quot;cd \&quot;${_VAR}\&quot;/%l&quot;, 
-    &quot;cdwh&quot;: &quot;cd \&quot;${WORKON_HOME}\&quot;/%l&quot;, 
-    &quot;cdwrk&quot;: &quot;cd \&quot;${WORKON_HOME}\&quot;/%l&quot;, 
-    &quot;cdw&quot;: &quot;cd \&quot;${_WRD}\&quot;/%l&quot;, 
-    &quot;cd-&quot;: &quot;cd \&quot;${_WRD}\&quot;/%l&quot;, 
-    &quot;cdww&quot;: &quot;cd \&quot;${_WWW}\&quot;/%l&quot;, 
-    &quot;cdwww&quot;: &quot;cd \&quot;${_WWW}\&quot;/%l&quot;, 
-    &quot;cdhelp&quot;: &quot;set | grep \&quot;^cd.*()\&quot; | cut -f1 -d\&quot; \&quot; #%l&quot;, 
-    &quot;edit-&quot;: &quot;${_EDIT_} %l&quot;, 
-    &quot;gvim-&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-    &quot;ipskey&quot;: &quot;(python -c \&quot;import os; print os.urandom(128).encode(\\\&quot;base64\\\&quot;)\&quot; &gt; \&quot;${_IPSESSKEY}\&quot; ) &amp;&amp; chmod 0600 \&quot;${_IPSESSKEY}\&quot;; # %l&quot;, 
-    &quot;ipnb&quot;: &quot;ipython notebook --secure --Session.keyfile=\&quot;${_IPSESSKEY}\&quot; --notebook-dir=\&quot;${_NOTEBOOKS}\&quot; --deep-reload %l&quot;, 
-    &quot;ipqt&quot;: &quot;ipython qtconsole --secure --Session.keyfile=\&quot;${_IPSESSKEY}\&quot; --logappend=\&quot;${_IPQTLOG}\&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=\&quot;Monaco\&quot; --ConsoleWidget.font_size=11 %l&quot;, 
-    &quot;grinv&quot;: &quot;grin --follow %l \&quot;${VIRTUAL_ENV}\&quot;&quot;, 
-    &quot;grindv&quot;: &quot;grind --follow %l --dirs \&quot;${VIRTUAL_ENV}\&quot;&quot;, 
-    &quot;grins&quot;: &quot;grin --follow %l \&quot;${_SRC}\&quot;&quot;, 
-    &quot;grinds&quot;: &quot;grind --follow %l --dirs \&quot;${_SRC}\&quot;&quot;, 
-    &quot;test-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;, 
-    &quot;testr-&quot;: &quot;reset &amp;&amp; (cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;, 
-    &quot;nose-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; nosetests)&quot;, 
-    &quot;grinw&quot;: &quot;grin --follow %l \&quot;${_WRD}\&quot;&quot;, 
-    &quot;grin-&quot;: &quot;grin --follow %l \&quot;${_WRD}\&quot;&quot;, 
-    &quot;grindw&quot;: &quot;grind --follow %l --dirs \&quot;${_WRD}\&quot;&quot;, 
-    &quot;grind-&quot;: &quot;grind --follow %l --dirs \&quot;${_WRD}\&quot;&quot;, 
-    &quot;hgv-&quot;: &quot;hg view -R \&quot;${_WRD}\&quot;&quot;, 
-    &quot;hgl-&quot;: &quot;hg -R \&quot;${_WRD}\&quot; log&quot;, 
-    &quot;editcfg&quot;: &quot;\&quot;${_EDITCFG_}\&quot; %l&quot;, 
-    &quot;serve-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;, 
-    &quot;shell-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;, 
-    &quot;e&quot;: &quot;${_EDIT_} %l&quot;, 
-    &quot;editp&quot;: &quot;$GUIVIMBIN $VIMCONF $PROJECT_FILES %l&quot;, 
-    &quot;makewrd&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-    &quot;make-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-    &quot;mw&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-    &quot;ssv&quot;: &quot;supervisord -c \&quot;${_SVCFG}\&quot;&quot;, 
-    &quot;sv&quot;: &quot;supervisorctl -c \&quot;${_SVCFG}\&quot;&quot;, 
-    &quot;svt&quot;: &quot;sv tail -f&quot;, 
-    &quot;svd&quot;: &quot;supervisorctl -c \&quot;${_SVCFG}\&quot; restart dev &amp;&amp; supervisorctl -c \&quot;${_SVCFG}\&quot; tail -f dev&quot;
-  }
-}
+usage: venv [-h] [-e] [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
+            [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]]
+            [--VENVSTRAPP [VENVSTRAPP_]]
+            [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
+            [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]]
+            [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]]
+            [--platform PLATFORM] [--print-json]
+            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars]
+            [--print-bash] [--print-bash-filename [PRINT_BASH_FILENAME]]
+            [--print-bash-cdalias]
+            [--print-bash-cdalias-filename [PRINT_BASH_CDALIAS_FILENAME]] [-Z]
+            [--print-zsh-filename [PRINT_ZSH_FILENAME]] [--print-vim-cdalias]
+            [--print-vim-cdalias-filename [PRINT_VIM_CDALIAS_FILENAME]]
+            [--command RUN_COMMAND] [--run-bash] [--run-make] [--run-editp]
+            [--run-terminal] [--pathall] [--pwrk PATH__WRK]
+            [--pworkonhome PATH_WORKON_HOME] [--pvirtualenv] [--psrc] [--pwrd]
+            [--pdotfiles] [--prel] [--pkg-resource-path] [--diff] [-v] [-q]
+            [-t] [--version]
+            [VENVSTR] [VENVSTRAPP] ...
+venv: error: ambiguous option: --print could match --print-vars, --print-bash-filename, --print-bash-cdalias, --print-vim-cdalias-filename, --print-json-filename, --print-bash-cdalias-filename, --print-bash, --print-zsh, --print-json, --print-zsh-filename, --print-vim-cdalias
 </pre></div>
 </div>
 </div>

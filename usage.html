@@ -238,6 +238,7 @@ pull      -- git pull
   #
   ## 02-bashrc.platform.sh      -- platform things
   #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX 
+  ## 03-bashrc.darwin.sh
   #
   ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
   #
@@ -339,6 +340,21 @@ pull      -- git pull
     # detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
    
    
+#### etc/bash/03-bashrc.darwin.sh
+### bashrc.darwin.sh
+# softwareupdate                -- install OSX updates
+#  | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+#  softwareupdate -l        # --list
+#  softwareupdate -i --all  # --install --all
+#  softwareupdate -i -r     # --install --recommended
+# if __IS_MAC:
+    # finder()    -- open Finder.app
+    # finder-killall()  -- close all Finder.app instances
+    # finder-restart()  -- close all and start Finder.app
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+   
+   
 #### etc/bash/04-bashrc.TERM.sh
 ### bashrc.TERM.sh
     # configure_TERM            -- configure the $TERM variable (man terminfo)
@@ -353,6 +369,9 @@ pull      -- git pull
     # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     # dotfiles_status()         -- print dotfiles_status
     # ds()                      -- print dotfiles_status
+# https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+    # debug-on()                 -- set -x -v
+    # debug-off()                -- set +x +v
     # log_dotfiles_state()      -- save current environment to logfiles
     # dotfiles_initialize()     -- virtualenvwrapper initialize
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
@@ -390,12 +409,14 @@ pull      -- git pull
 #### etc/bash/07-bashrc.virtualenvwrapper.sh
 ### bashrc.virtualenvwrapper.sh
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
+#
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
     # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
     # lsve()                -- list virtualenvs in $WORKON_HOME
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
     # backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+    # TODO: adjust paths beyond the shebang
     # rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
    
    
@@ -411,14 +432,14 @@ pull      -- git pull
     # __PROJECTSRC -- path to local project settings script
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
     # PATH=&quot;~/.local/bin:$PATH&quot; (if not already there)
-    # _VENV       -- path to local venv config script (executable)
+    # __VENV      -- path to local venv config script (executable)
 ## Functions
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
     # venv -b   -- print bash configuration
     # venv -p   -- print IPython configuration as JSON
     # _venv &lt;args&gt; -- call $_VENV -E $@ (for the current environment)
-    # we()         -- workon a virtualenv and load venv (TAB-completion)
+    # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME (&quot;dotfiles&quot;)
     #  param $2: $_APP (&quot;dotfiles&quot;) [default: $1)
     #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
@@ -427,26 +448,9 @@ pull      -- git pull
     #  examples:
     #   we dotfiles
     #   we dotfiles dotfiles
-## cd functions
-    # cdb()     -- cd $_BIN
-    # cde()     -- cd $_ETC
-    # cdh()     -- cd $HOME
-    # cdl()     -- cd $_LIB
-    # cdlog()   -- cd $_LOG
-    # cdp()     -- cd $PROJECT_HOME
-    # cdph()    -- cd $PROJECT_HOME
-    # cdpylib() -- cd $_PYLIB
-    # cdpysite()-- cd $_PYSITE
-    # cds()     -- cd $_SRC
-    # cdv()     -- cd $VIRTUAL_ENV
-    # cdve()    -- cd $WORKON_HOME
-    # cdvar()   -- cd $_VAR
-    # cdw()     -- cd $_WRD
-    # cdwrd     -- cd $_WRD
-    # cdwh      -- cd $WORKON_HOME
-    # cdwrk()   -- cd $WORKON_HOME
-    # cdww()    -- cd $_WWW
-    # cdwww()   -- cd $_WWW
+        # TODO
+    # we()          -- workon_venv
+# CdAlias functions and completions
 ## Grin search
 # virtualenv / virtualenvwrapper
     # grinv()   -- grin $VIRTUAL_ENV
@@ -458,7 +462,12 @@ pull      -- git pull
     # grin-()   -- grin _WRD
     # grindw()  -- grind $_WRD
     # grind-()  -- grind $_WRD
+    # edit_grin_w() -- edit $(grinw -l $@)
+    # egw           -- edit $(grinw -l $@)
+# ctags
     # grindctags()      -- generate ctags from grind (in ./tags)
+        # brew install ctags
+        # apt-get install exuberant-ctags
     # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
     # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
     # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
@@ -481,6 +490,9 @@ pull      -- git pull
     # mw()      -- cd $_WRD &amp;&amp; make $@
     # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
+    #           &quot;WINDOW_TITLE (venvprompt) [debian_chroot]&quot;
+    # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
+    # TODO: CONDA
     # _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
    
    
@@ -767,6 +779,132 @@ pull      -- git pull
 #### etc/bash/99-bashrc.after.sh
    
    
+#### etc/usrlog/usrlog.sh
+##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
+#
+#  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
+#  _USRLOG  (str): current -usrlog.log file to append REPL command strings to
+#  _TERM_ID (str): a terminal identifier with which command loglines will
+#  be appended (default: _usrlog_randstr)
+#
+    # _usrlog_get_prefix()    -- get a dirpath for the current usrlog
+    #                            (VIRTUAL_ENV or HOME)
+    # _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
+    # _usrlog_set_HISTFILE()   -- configure shell history
+    #  history -a   -- append any un-flushed lines to $HISTFILE
+    #  history -c &amp;&amp; history -r $HISTFILE   -- clear; reload $HISTFILE
+    # _usrlog_set_HIST()    -- set shell $HIST&lt;...&gt; variables
+    # see HISTSIZE and HISTFILESIZE in bash(1)
+    # note that HOSTNAME and USER come from the environ
+    # and MUST be evaluated at the time HISTTIMEFORMAT is set.
+    # ... or force ignoredups and ignorespace
+    # HISTCONTROL=ignoredups:ignorespace
+    # append current lines to history
+        # append to the history file, don&#39;t overwrite it
+        # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+        # replace newlines with semicolons
+        # enable autocd (if available)
+    # _usrlog_randstr      -- Generate a random string
+    #   $1: number of characters
+    # _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
+    # _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
+    #   $1: terminal name
+    # _usrlog_echo_title   -- set window title
+    # _usrlog_set_title()  --  set xterm title
+    # _usrlog_setup()      -- configure usrlog for the current shell
+    # setup bash
+    # setup zsh
+    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    #   $1: text (command) to log
+    #   note: _TERM_ID must not contain a tab character (tr &#39;\t&#39; &#39; &#39;)
+    #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
+    # example:
+    #   2014-11-15T06:42:00-0600	dotfiles	 8311  ls
+      # (pwd -p)?
+       # this from HISTORY
+    # _usrlog_append_oldstype -- Write a line to $_USRLOG
+    #   $1: text (command) to log
+    # examples:
+    #   # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    #   #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+    # _usrlog_parse_newstyle -- Parse a newstyle HISTTIMEFORMAT usrlog
+    # with pyline
+    # TODO: handle HISTTIMEFORMAT=&quot;&quot; (&quot; histn  &lt;cmd&gt;&quot;)
+    # TODO: handle newlines
+    # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
+## usrlog.sh API
+    # termid()      -- echo $_TERM_ID
+    # set_term_id() -- set $_TERM_ID to a randomstr or $1
+    # stid()        -- set $_TERM_ID to a randomstr or $1
+    # st()          -- set $_TERM_ID to a randomstr or $1
+## Old (hist, histgrep, histgrep_session)
+    # less()       --  less the current session log
+    # histgrep()   -- egrep $@ $_USRLOG
+    # histgrep_session()    -- grep for specific sessions
+    #   $1: session name
+    #   $2: don&#39;t strip the line prefix
+## New (u*, usrlog*)
+    # usrlogt()     -- tail -n20 $_USRLOG
+    # ut()          -- tail -n20 $_USRLOG
+    # usrlogtf()    -- tail -f -n20 $_USRLOG
+    # utf()         -- tail -f -n20 $_USRLOG
+    # usrlog_grep() -- egrep -n $_USRLOG
+    # ug()          -- egrep -n $_USRLOG
+    # usrlog_grin() -- grin -s $@ $_USRLOG
+    # ugrin()       -- grin -s $@ $_USRLOG
+    # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
+    # ugall()              -- grep usrlogs (drop filenames with -h)
+    # usrlog_grin_all()    -- grin usrlogs
+    # usrlog_grin_all()    -- grin usrlogs
+    # note()   -- _usrlog_append &quot;#note  #note: $@&quot;
+    # todo()   -- _usrlog_append &quot;#note  #TODO: $@&quot;
+    # usrlog_screenrec_ffmpeg() -- record a screencast
+    #   $1: destination directory (use /tmp if possible)
+    #   $2: video name to append to datestamp
+    # Press &quot;q&quot; to stop recording
+## calls _usrlog_setup when sourced
+   
+   
+#### etc/xlck.sh
+## xlck.sh
+## bash script for working with xautolock, xlock, and/or i3lock
+## as well as issuing suspend, shutdown, and restart commands
+## Requirements:
+#
+#  sudo apt-get install xautolock xlockmore i3lock
+    # xlck()            -- xlck $@
+    # _xlck_install()   -- install xlck dependencies
+    #   bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
+    # _xlck_setup_dpms  -- configure display with xset and dpms
+    # _xlck_setup()     -- setup xlck (export _XLCK=(this) &amp;&amp; _xlck_setup_dpms)
+    # _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
+    # _xlck_i3lock()    -- start i3lock with a dark gray background
+    # xlock_lock        -- lock the current display
+    #   note: this will be run before suspend to RAM and Disk.
+    # _suspend_to_ram()     -- echo mem &gt; /sys/power/state
+    # _suspend_to_disk()    -- echo disk &gt; /sys/power/state
+    #  note: this does not work on many machines
+    # _dbus_halt()      -- send a dbus stop msg ConsoleKit
+    # _dbus_halt()      -- send a dbus reboot msg to ConsoleKit
+    # _dbus_halt()      -- send a dbus suspend msg to ConsoleKit
+    # _dbus_hibernate() -- send a dbus hibernate msg to ConsoleKit
+    # xlck_lock_suspend_ram()   -- lock and suspend to RAM
+    # xlck_lock_suspend_disk()  -- lock and suspend to disk
+    # xlck_suspend_ram()        -- lock and suspend to RAM
+    # xlck_suspend_disk         -- lock and suspend to disk
+    # xlck_start()              -- start xlck
+    # xlck_stop()               -- stop xlck
+    # xlck_restart()            -- stop and start xlck
+    # xlck_xautolock_pgrep_display()-- find xautolock on this display
+    # xlck_xautolock_status()       -- show xlck status 
+    # xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
+    # xlck_status()     -- xlck_xautolock_status
+    # xlck_status_all() -- pgrep &#39;xautolock|xlock|i3lock&#39;, ps ufw
+    # xlck_status_this_display    -- show status for this $DISPLAY
+    # _xlck_xautolock
+   
+   
 </pre></div>
 </div>
 <span class="target" id="index-4"></span></div>
@@ -780,6 +918,11 @@ pull      -- git pull
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_vim_rst</span></code>:</p>
 <div class="highlight-none"><div class="highlight"><pre>   # etc/vim/vimrc
 &quot; .vimrc
+&quot; ==========
+&quot; ::
+&quot;   git clone https://github.com/westurner/dotvim
+&quot;   git clone ssh://git@github.com/westurner/dotvim
+&quot;   make help
 &quot;
 &quot; Vim Reference
 &quot; ---------------
@@ -864,7 +1007,11 @@ pull      -- git pull
 &quot;  zC               --  fold close recursive
 &quot;  zx               --  undo manual fold actions
 &quot;  zX               --  undo manual fold actions and recompute
-&quot;  zR               --  open all folds
+&quot;  zM               --  fold close all but current (focus)
+&quot;  zR               --  fold open all (review)
+&quot;
+&quot;  :Voom [format]   --  open VOom outline sidebar
+&quot;  &lt;leader&gt; t       --  :TagBarToggle &quot; outline sidebar
 &quot;
 &quot; Etiquette
 &quot;  &lt;leader&gt; i       --  toggle unprintables
@@ -872,7 +1019,9 @@ pull      -- git pull
 &quot;  &lt;leader&gt; sc      --  clear highlighting
 &quot;
 &quot; set window title to vim title (display full path)
-&quot;  :ListMappings    --  list .vimrc mapping comments
+&quot; print the document path
+&quot;
+&quot;  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
 &quot;  &lt;space&gt; -- &lt;leader&gt;
 &quot;  ,    --  &lt;leader&gt; == &lt;comma&gt;
 &quot;  ;;   --  &lt;esc&gt; == double semicolon
@@ -1024,6 +1173,7 @@ pull      -- git pull
 &quot; all errors)
 &quot; Colors
 &quot;  :PatchColors     --  load local colorizing postsets
+&quot; call PatchColors()    -- call PatchColors when sourced
 &quot; List highlight colors
 &quot; Python
 &quot;  Wrap at 72 chars for comments.
@@ -1035,6 +1185,7 @@ pull      -- git pull
 &quot; Default to fourtabs
 &quot;  :Threetabs   -- set to three (3) soft tabs (e.g. RST)
 &quot;  :Twotabs     -- set to two (2) soft tabs
+&quot;  :Onetab      -- set to one soft tab
 &quot;  :CurrentBuffer -- display number of current buffer
 &quot;  &lt;leader&gt; 2   -- diffget from bufnr 2
 &quot;  &lt;leader&gt; 3   -- diffget from bufnr 3
@@ -1048,6 +1199,16 @@ pull      -- git pull
 &quot;  &lt;C-Down&gt; -- decrease font size
 &quot;  &lt;F3&gt;     -- insert ReST date heading
 &quot; Trac
+&quot; References
+&quot;
+&quot;   - https://dev.launchpad.net/UltimateVimPythonSetup
+&quot;   - https://github.com/kennethreitz/dotfiles/blob/master/.vimrc
+&quot;   - https://bitbucket.org/sjl/dotfiles/src/tip/vim/.vimrc#cl-716
+&quot;   - http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+&quot;   - http://stackoverflow.com/questions/1551231
+&quot;   - http://superuser.com/questions/117969/is-there-a-way-to-move-a-split-page-to-a-new-tab-in-vim
+&quot;   - http://sontek.net/turning-vim-into-a-modern-python-ide
+&quot;   - http://vim.wikia.com/wiki/VimTip320
    
    
    # etc/vim/vimrc.full.bundles.vimrc
@@ -1146,8 +1307,9 @@ pull      -- git pull
 &quot;  :Voom [&lt;format&gt;] -- open Voom outline tab
 &quot;  :Voom rest       -- open ReStructuredText outline
 &quot;  ggg?G
+&quot;  &lt;leader&gt; V   -- toggle Voom outline sidebar
 &quot; TagBar        -- source tag browser [help tagbar]
-&quot;  &lt;leader&gt; t   -- toggle TagBar&quot;
+&quot;  &lt;leader&gt; t   -- toggle TagBar outline sidebar&quot;
 &quot; Vim Session   -- save and restore sessions between exits [help session]
 &quot;  :SaveSession &lt;name&gt;  -- save a session
 &quot;  :OpenSession &lt;name&gt;  -- open a saved session
@@ -1203,6 +1365,8 @@ pull      -- git pull
 &quot;  aM    --  Select a function or method. Ex: vaM, daM, yaM, caM
 &quot;  iM    --  Select inner function or method. Ex: viM, diM, yiM, ciM
 &quot;  g:pymode_python = { &#39;python&#39;, &#39;python3&#39;, &#39;disable&#39; }
+&quot;
+&quot;  set g:pymode_python &#39;disable&#39; (start time, occasional completion stall)
 &quot;  :PymodeLintToggle    -- toggle lint checking
 &quot;  :PymodeLintAuto      -- autofix current buffer pep8 errors
 &quot; - auto-show an error window
@@ -1217,6 +1381,12 @@ pull      -- git pull
 &quot;   EE = ERROR
 &quot;   II = INFO
 &quot;   FF = PYFLAKES
+&quot; :PyModeLint       -- lint current buffer (once)
+&quot; :PyModeLintToggle -- toggle lint
+&quot;
+&quot; :PyModeLintAuto   -- auto-lint the current buffer (once)
+&quot;                       (commit before and after)
+&quot;
 &quot;  &lt;F7&gt;     -- set debugger breakpoints
 &quot;  auto lookup breakpoint cmd (pdb, ipdb, pudb)&quot;
 &quot;  Searches upward for a .ropeproject file (that should be .vcs-ignored)
@@ -1253,6 +1423,7 @@ pull      -- git pull
 &quot;  &lt;leader&gt;te       --  pytest error
 &quot; Pyrex         -- Pyrex syntax
 &quot; Jinja         -- Jinja Templates syntax
+&quot; os.vim   -- Operating System [help os]
 &quot; clickbable.vim -- click-able links
 &quot; Riv.vim   -- ReStructuredText [help riv]
 &quot;  :RivIntro
@@ -1260,6 +1431,7 @@ pull      -- git pull
 &quot;  :RivPrimer
 &quot;  :RivSpecification
 &quot;  :RivCheatSheet
+&quot; let g:riv_fold_level = -1
 &quot; Salt      -- Salt syntax
 &quot; Trac      -- Trac [help trac]
 &quot; webapi-vim -- vim web API [help webapi[-{html, http, json, xml}]]

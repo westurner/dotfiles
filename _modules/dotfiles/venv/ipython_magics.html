@@ -224,8 +224,8 @@
 </div>
     <span class="nd">@line_magic</span>
 <div class="viewcode-block" id="VenvMagics.cdve"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdve">[docs]</a>    <span class="k">def</span> <span class="nf">cdve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;cdve()           -- cd ${VIRTUAL_ENV}/${@}&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;cdve()           -- cd ${WORKON_HOME}/${@}&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 </div>
     <span class="nd">@line_magic</span>
 <div class="viewcode-block" id="VenvMagics.cdvirtualenv"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdvirtualenv">[docs]</a>    <span class="k">def</span> <span class="nf">cdvirtualenv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
@@ -249,8 +249,8 @@
 </div>
     <span class="nd">@line_magic</span>
 <div class="viewcode-block" id="VenvMagics.cdwrk"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdwrk">[docs]</a>    <span class="k">def</span> <span class="nf">cdwrk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;cdwrk()          -- cd ${WORKON_HOME}/${@}&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;cdwrk()          -- cd ${PROJECT_HOME}/${@}&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;PROJECT_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 </div>
     <span class="nd">@line_magic</span>
 <div class="viewcode-block" id="VenvMagics.cdwh"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdwh">[docs]</a>    <span class="k">def</span> <span class="nf">cdwh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
@@ -270,7 +270,12 @@
     <span class="nd">@line_magic</span>
 <div class="viewcode-block" id="VenvMagics.cdhelp"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdhelp">[docs]</a>    <span class="k">def</span> <span class="nf">cdhelp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;cdhelp()         -- list cd commands&quot;&quot;&quot;</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;cd&#39;</span><span class="p">)))</span>
+        <span class="k">print</span><span class="p">(</span>
+            <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="s">&quot;{} #{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">attrname</span><span class="p">,</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrname</span><span class="p">)))</span>
+                    <span class="k">for</span> <span class="n">attrname</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">attrname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;cd&#39;</span><span class="p">)))</span>
 </div>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_dotfiles_status</span><span class="p">():</span>

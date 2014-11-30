@@ -171,8 +171,8 @@
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">scripts/bootstrap_dotfiles.sh</span></code> installs symlinks in <code class="docutils literal"><span class="pre">$HOME</span></code>
-(such as <code class="docutils literal"><span class="pre">~/.bashrc</span></code> -&gt; <code class="docutils literal"><span class="pre">${__DOTFILES}/etc/bashrc</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">etc/bashrc</span></code> sources <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code></li>
+(such as <code class="docutils literal"><span class="pre">~/.bashrc</span></code> -&gt; <code class="docutils literal"><span class="pre">${__DOTFILES}/etc/.bashrc</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">etc/.bashrc</span></code> sources <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code></li>
 <li><code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code> sources a documented,
 ordered sequence of Bash scripts</li>
 <li><code class="docutils literal"><span class="pre">etc/zsh/00-zshrc.before.sh</span></code> sources a documented,
@@ -228,6 +228,7 @@ ls ~/.dotfiles
 <span class="c"># to the current dotfiles repository.</span>
 <span class="c"># All dotfiles symlinks are relative to ${__DOTFILES}.</span>
 <span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.dotfiles&quot;</span>
+<span class="nv">_WRD</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="s2">/dotfiles/src/dotfiles&quot;</span>
 ls -ld <span class="nv">$__DOTFILES</span> <span class="o">||</span> ln -s <span class="nv">$_WRD</span> <span class="nv">$__DOTFILES</span>
 
 <span class="c"># There should be symlinks for each dotfile: e.g.</span>
@@ -293,7 +294,9 @@ mkdir <span class="nv">$VIRTUAL_ENV</span>/src
 </div>
 <p>Install the dotfiles (symlink dotfiles into <code class="docutils literal"><span class="pre">$HOME</span></code>, install the
 dotfiles package, and install additional helpful packages):</p>
-<div class="highlight-bash"><div class="highlight"><pre>git clone ssh://git@github.com/westurner/dotfiles <span class="o">&amp;&amp;</span> <span class="nb">cd </span>dotfiles
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Clone the dotfiles git repository</span>
+git clone ssh://git@github.com/westurner/dotfiles <span class="o">&amp;&amp;</span> <span class="nb">cd </span>dotfiles
+
 <span class="c"># Install and symlink dotfiles and dotvim</span>
 scripts/bootstrap_dotfiles.sh -I -R
 
