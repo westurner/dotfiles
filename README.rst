@@ -40,46 +40,60 @@ See: `Usage`_ and `Venv`_ for documentation.
 .. _venv: https://westurner.github.io/dotfiles/venv.html
 
 
-Examples
+Quickstart
 ------------
 
-Installing the dotfiles
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is a verbose example of installing and working with a
+``VIRTUAL_ENV`` in ``WORKON_HOME`` named "``dotfiles``".
 
-.. code-block:: bash
+See `Install the dotfiles`_ for more terse installation instructions.
+
+.. code:: bash
 
 
     # clone and install dotfiles and dotvim
     # with venv-style paths (_SRC, _APP, _WRD)
 
-    # WORKON_HOME       -- base path for virtualenvs [virtualenvwrapper]
-    WORKON_HOME="~/wrk/.ve"
-    test -d ${WORKON_HOME} || mkdir -p ${WORKON_HOME}
+    # __WRK             -- base path for workspace               [venv]
+    __WRK="$HOME/-wrk"
+    cd $__WRK                     # cdwrk                        [venv]
 
-    # VIRTUAL_ENV_NAME  -- basename for VIRTUAL_ENV [venv]
+    # WORKON_HOME       -- path to virtualenv dirs  [virtualenvwrapper]
+    WORKON_HOME="${__WRK}/-ve27"  # ~/-wrk/-ve27
+    test -d ${WORKON_HOME} || mkdir -p ${WORKON_HOME}
+    cd $WORKON_HOME               # cdworkonhome cdwh cdve       [venv]
+
+    # VIRTUAL_ENV_NAME  -- basename for VIRTUAL_ENV              [venv]
     VIRTUAL_ENV_NAME="dotfiles"
 
-    # VIRTUAL_ENV       -- current virtualenv prefix [virtualenv]
+    # VIRTUAL_ENV       -- current virtualenv path         [virtualenv]
     VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
-    _SRC="$[VIRTUAL_ENV}/src"
+    cd $VIRTUAL_ENV               # cdv cdvirtualenv [venv, virtualenvwrapper]
+
+    # _SRC              -- basepath of source repositories (e.g. for pip) 
+    _SRC="${VIRTUAL_ENV}/src"
+    cd $_SRC                      # cdsrc cds                    [venv]
 
     # _APP              -- basename of current working directory [venv]
     _APP="dotfiles"
-    # _WRD              -- working directory [venv]
-    _WRD="${_SRC}/${_APP}"      # ${WORKON_HOME}/dotfiles/src/dotfiles
+
+    # _WRD              -- working directory path                [venv]
+    _WRD="${_SRC}/${_APP}"        # cdwrd cdw                    [venv]
 
     git clone https://github.com/westurner/dotfiles $_WRD
     git clone https://github.com/westurner/dotvim ${_WRD}/etc/vim
-    cd $_WRD                    # cdw [venv]
+    cd $_WRD                      # cdwrd cdw                    [venv]
 
+    # __DOTFILES        -- symlink root for current dotfiles     [venv]
     __DOTFILES="${HOME}/.dotfiles"
     ln -s $_WRD $__DOTFILES
     ls ~/.dotfiles
-   
+    cd $__DOTFILES                # cddotfiles cdd               [venv]
+  
+    ## Install the dotfiles
     $_WRD/scripts/bootstrap_dotfiles.sh -h
     $_WRD/scripts/bootstrap_dotfiles.sh -I      # or: make install
-
-    # TODO: move / replicate this in bootstrap_dotfiles.sh
+    $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 
 
 Bash
@@ -88,30 +102,39 @@ Bash
 | Documentation: https://westurner.github.io/dotfiles/usage.html#bash
 
 
-.. code-block:: bash
+.. code:: bash
 
     # There should be a symlink from ~/.dotfiles
     # to the current dotfiles repository.
     # All dotfiles symlinks are relative to ${__DOTFILES}.
-    __DOTFILES="${HOME}/.dotfiles"
+    __DOTFILES="${HOME}/-dotfiles"
+    __WRK="${HOME}/-wrk"
+    WORKON_HOME="${__WRK}/-ve27"
     _WRD="${WORKON_HOME}/dotfiles/src/dotfiles"
     ls -ld $__DOTFILES || ln -s $_WRD $__DOTFILES
-
-    # There should be symlinks for each dotfile: e.g.
-    # ln -s ~/.dotfiles/etc/.bashrc ~/.bashrc
-    # ln -s ~/.dotfiles/etc/vim/vimrc ~/.vimrc
-    # ln -s ~/.dotfiles/etc/vim ~/.vim
-    # Create these symlinks with bootstrap_dotfiles.sh
+    # Create dotfiles symlinks with bootstrap_dotfiles.sh -S
     $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 
+At this point, there should be symlinks for each dotfile (e.g.):
 
-.. code-block:: bash
-   
-   source ~/.bashrc
-   # source dotfiles/etc/bash/00-bashrc.before.sh
+.. code:: bash
 
+    # ln -s ~/-dotfiles/etc/.bashrc    ~/.bashrc
+    # ln -s ~/-dotfiles/etc/.gitconfig ~/.gitconfig
+    # ln -s ~/-dotfiles/etc/.hgrc      ~/.hgrc
+    # ln -s ~/-dotfiles/etc/vim/vimrc  ~/.vimrc
+    # ln -s ~/-dotfiles/etc/vim        ~/.vim
 
-.. code-block:: bash
+Source ``~/.bashrc`` to load the Bash configuration:
+
+.. code:: bash
+
+   source ~/.bashrc  # ( source dotfiles/etc/bash/00-bashrc.before.sh )
+
+Reload the dotfiles and print status information with ``dr`` and ``ds`` 
+(again):
+
+.. code:: bash
 
    dotfiles_status  # print dotfiles environment variables
    ds               # print dotfiles environment variables
@@ -127,7 +150,7 @@ vimrc
 
 Vim configuration should be cloned to ``${__DOTFILES}/etc/vim``.
 
-.. code-block:: bash
+.. code:: bash
 
    make dotvim_clone dotvim_install
 
@@ -166,7 +189,7 @@ and installs the ``dotfiles`` Python package.
 Create a :ref:`virtualenv` with :ref:`virtualenvwrapper`
 named "``dotfiles``":
 
-.. code-block:: bash
+.. code:: bash
 
     [sudo] pip install virtualenvwrapper
     source $(which 'virtualenvwrapper.sh')
@@ -174,31 +197,26 @@ named "``dotfiles``":
     mkdir $VIRTUAL_ENV/src
     cd $VIRTUAL_ENV/src
 
-Install the dotfiles (symlink dotfiles into ``$HOME``, install the
-dotfiles package, and install additional helpful packages):
-
-.. code-block:: bash
-
     # Clone the dotfiles git repository
     git clone ssh://git@github.com/westurner/dotfiles && cd dotfiles
 
     # Install and symlink dotfiles and dotvim
     scripts/bootstrap_dotfiles.sh -I -R
 
-    # (Optional) Install dotfiles scripts into ~/.local/bin (pip --user)
+    # (Optional) Also install dotfiles scripts into ~/.local/bin (pip --user)
     scripts/bootstrap_dotfiles.sh -I -u
 
 
 .. _dotfiles git repository: https://github.com/westurner/dotfiles
 
-.. note:: See the `Installing the dotfiles`_ example, which uses
+.. note:: See the `dotfiles venv example`_ which uses
    venv-style paths.
 
 
 Upgrade the dotfiles
 ----------------------
 
-.. code-block:: bash
+.. code:: bash
 
    # Check for any changes to symlinked dotfiles
    cd ~/.dotfiles && git status && git diff
