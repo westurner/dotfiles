@@ -373,6 +373,8 @@
     # gsn      -- 'git stash save'
     # gss      -- 'git stash save'
     # gitr     -- 'git remote -v'
+    # hga      -- 'hg add'
+    # gac      -- 'git add $@[1:]; git commit $1'
     # hgl      -- 'hg glog --pager=yes'
     # hgs      -- 'hg status'
     # hgd      -- 'hg diff'
