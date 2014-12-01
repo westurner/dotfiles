@@ -66,6 +66,19 @@ _loadaliases () {
     # gitr     -- 'git remote -v'
     alias gitr='git remote -v'
 
+    # hga      -- 'hg add'
+    alias hga='hg add'
+
+    hgac () {
+    # gac      -- 'git add $@[1:]; git commit $1'
+        local msg=${1:-""}
+        shift
+        local files=$@
+        hg diff ${files}
+        if [ -n "${msg}" ]; then
+            hg commit -m "${msg}" ${files}
+        fi
+    }
     # hgl      -- 'hg glog --pager=yes'
     alias hgl='hg glog --pager=yes'
     # hgs      -- 'hg status'
