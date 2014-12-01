@@ -29,5 +29,5 @@ and docstring extraction:
    gl
 
 .. command-output:: test -d ../.git && \
-   git -C ../ log --pretty=format:'%h %ci %cn %s' --graph \
+   git -C ../ log --pretty=format:'%h %ci %s [%cn]' --graph
    :shell:
