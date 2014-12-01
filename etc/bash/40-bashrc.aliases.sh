@@ -28,6 +28,17 @@ _loadaliases () {
 
     # ga       -- 'git add'
     alias ga='git add'
+
+    gac () {
+    # gac      -- 'git add $@[1:]; git commit $1'
+        local msg=${1:-""}
+        shift
+        local files=$@
+        git diff ${files}
+        if [ -n "${msg}" ]; then
+            git commit ${files} -m "${msg}"
+        fi
+    }
     # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     # gs       -- 'git status'
@@ -42,6 +53,10 @@ _loadaliases () {
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
     alias gdc='git diff --cached'
+    # gsi      -- 'git is; git diff; git diff --cached'
+    alias gsi='(set -x; git is; git diff; git diff --cached)'
+    # gsiw      -- 'git -C $_WRD gsi'
+    alias gsiw='(cd $_WRD; gsi)'
     # gsl      -- 'git stash list'
     alias gsl='git stash list'
     # gsn      -- 'git stash save'
