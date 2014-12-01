@@ -377,6 +377,8 @@
     # gitr     -- 'git remote -v'
     # hga      -- 'hg add'
     # hgac()   -- 'hg add $@[1:]; hg commit $1'
+    #   $1 (str): quoted commit message
+    #   $2- (list): file paths
     # hgl      -- 'hg glog --pager=yes'
     # hgs      -- 'hg status'
     # hgd      -- 'hg diff'
