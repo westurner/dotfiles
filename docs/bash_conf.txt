@@ -359,7 +359,9 @@
     # grinp    -- 'grin --sys-path'
     # fumnt    -- 'fusermount -u'
     # ga       -- 'git add'
-    # gac      -- 'git add $@[1:]; git commit $1'
+    # gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
+    #   $1 (str): quoted commit message
+    #   $2- (list): file paths
     # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     # gs       -- 'git status'
     # gd       -- 'git diff'
@@ -374,7 +376,7 @@
     # gss      -- 'git stash save'
     # gitr     -- 'git remote -v'
     # hga      -- 'hg add'
-    # gac      -- 'git add $@[1:]; git commit $1'
+    # hgac()   -- 'hg add $@[1:]; hg commit $1'
     # hgl      -- 'hg glog --pager=yes'
     # hgs      -- 'hg status'
     # hgd      -- 'hg diff'
