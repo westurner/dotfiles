@@ -25,15 +25,6 @@ Goals
   
 Usage
 =======
-
-* ``scripts/bootstrap_dotfiles.sh`` installs symlinks in ``$HOME``
-  (such as ``~/.bashrc`` -> ``${__DOTFILES}/etc/.bashrc``)
-* ``etc/.bashrc`` sources ``etc/bash/00-bashrc.before.sh``
-* ``etc/bash/00-bashrc.before.sh`` sources a documented,
-  ordered sequence of Bash scripts
-* ``etc/zsh/00-zshrc.before.sh`` sources a documented,
-  ordered sequence of ZSH scripts
-
 See: `Usage`_ and `Venv`_ for documentation.
 
 .. _usage: https://westurner.github.io/dotfiles/usage.html
@@ -85,9 +76,9 @@ See `Install the dotfiles`_ for more terse installation instructions.
     cd $_WRD                      # cdwrd cdw                    [venv]
 
     # __DOTFILES        -- symlink root for current dotfiles     [venv]
-    __DOTFILES="${HOME}/.dotfiles"
+    __DOTFILES="${HOME}/-dotfiles"
     ln -s $_WRD $__DOTFILES
-    ls ~/.dotfiles
+    ls ~/-dotfiles
     cd $__DOTFILES                # cddotfiles cdd               [venv]
   
     ## Install the dotfiles
@@ -104,7 +95,7 @@ Bash
 
 .. code:: bash
 
-    # There should be a symlink from ~/.dotfiles
+    # There should be a symlink from ~/-dotfiles
     # to the current dotfiles repository.
     # All dotfiles symlinks are relative to ${__DOTFILES}.
     __DOTFILES="${HOME}/-dotfiles"
@@ -191,20 +182,35 @@ named "``dotfiles``":
 
 .. code:: bash
 
-    [sudo] pip install virtualenvwrapper
-    source $(which 'virtualenvwrapper.sh')
-    mkvirtualenv dotfiles
+    # Install virtualenvwrapper
+    pip install virtualenvwrapper   # apt-get install python-virtualenvwrapper
+    source $(which 'virtualenvwrapper.sh')    # 07-bashrc.virtualenvwrapper.sh
+
+    export WORKON_HOME="~/-wrk/-ve27"                    # __WRK/-ve python2.7      
+    mkdir -p $WORKON_HOME
+  
+    # Create a virtualenvwrapper virtualenv
+    mkvirtualenv dotfiles  # workon dotfiles
     mkdir $VIRTUAL_ENV/src
     cd $VIRTUAL_ENV/src
 
     # Clone the dotfiles git repository
-    git clone ssh://git@github.com/westurner/dotfiles && cd dotfiles
+    branch="master"     # stable
+    # branch="develop"  # development
+    git clone ssh://git@github.com/westurner/dotfiles -b ${branch}
+    cd dotfiles
 
-    # Install and symlink dotfiles and dotvim
-    scripts/bootstrap_dotfiles.sh -I -R
+    # Install dotfiles pkg, symlinks, and extra pip requirements
+    scripts/bootstrap_dotfiles.sh -I -R         # -I calls -S
 
-    # (Optional) Also install dotfiles scripts into ~/.local/bin (pip --user)
-    scripts/bootstrap_dotfiles.sh -I -u
+With Python builds that haven't set a prefix which is writeable
+by the current user, you can also install into ``~/.local`` with
+``pip --user``:
+
+.. code:: bash
+
+    # (Optional) Also install pkg and reqs into ~/.local/bin (pip --user)
+    # scripts/bootstrap_dotfiles.sh -I -R -u
 
 
 .. _dotfiles git repository: https://github.com/westurner/dotfiles
@@ -213,13 +219,88 @@ named "``dotfiles``":
    venv-style paths.
 
 
+Source the dotfiles
+---------------------
+* Bash (and ZSH) configuation sets are sequentially numbered 00-99.
+
+  `00-bashrc.before.sh`_
+
+* ZSH loads much of the standard Bash configuration, and oh-my-zsh.
+
+  ``00-zshrc.before.sh`_
+
+* `bootstrap_dotfiles.sh`_ ``-S``
+  installs dotfiles ``${__DOTFILES}`` symlinks.
+
+  .. code:: bash
+
+      ln -s ~/-dotfiles/etc/.bashrc ~/.bashrc
+      ln -s ~/-dotfiles/etc/.zshrc ~/.zshrc
+
+.. code:: bash
+
+   # Source the dotfiles
+   source ~/.bashrc                                         # source ~/.zshrc
+
+   # source ${__DOTFILES}/etc/.bashrc
+   ## source ${__DOTFILES}/etc/bash/00-bashrc.before.sh     # dotfiles_reload
+   ### dotfiles configuration sequence                # (\d\d)-bashrc.(.*).sh
+   #### source ${__DOTFILES}/etc/bash/99-bashrc.after.sh
+   ##### source ${__PROJECTSRC}                     # ${__WRK}/.projectsrc.sh
+
+   # print venv configuration
+   dotfiles_status
+   ds
+
+.. code:: bash
+
+    Last login: Tue Dec  2 15:01:56 on ttys000
+    #
+    # dotfiles_reload()
+    #ntid  _TERM_ID="#SElGeTf5VcA"  #_USRLOG="/Users/W/-usrlog.log"
+    # dotfiles_status()
+    HOSTNAME='nb-mb1'
+    USER='W'
+    __WRK='/Users/W/-wrk'
+    PROJECT_HOME='/Users/W/-wrk'
+    WORKON_HOME='/Users/W/-wrk/-ve'
+    VIRTUAL_ENV_NAME=''
+    VIRTUAL_ENV=''
+    _SRC=''
+    _APP=''
+    _WRD=''
+    _USRLOG='/Users/W/-usrlog.log'
+    _TERM_ID='#SElGeTf5VcA'
+    PATH='/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+    __DOTFILES='/Users/W/-dotfiles'
+    #
+    # cd /
+    #SElGeTf5VcA W@nb-mb1:/
+    $
+    $ stid 'dotfiles'
+    #stid  _TERM_ID="dotfiles"  #_TERM_ID__="dotfiles install"  #_USRLOG="/Users/W/-usrlog.log"
+    # stid 'dotfiles'
+    dotfiles W@nb-mb1:/
+    $ 
+    
+
+.. _00-bashrc.before.sh:
+    https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh
+
+.. _00-zshrc.before.sh:
+    https://github.com/westurner/dotfiles/blob/master/etc/zsh/00-zshrc.before.sh
+
+.. _bootstrap_dotfiles.sh:
+    https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
+
+
 Upgrade the dotfiles
 ----------------------
 
 .. code:: bash
 
    # Check for any changes to symlinked dotfiles
-   cd ~/.dotfiles && git status && git diff
+   cdd && git status && git diff                                # cddotfiles
 
    # Pull and upgrade dotfiles and dotvim (later)
    scripts/bootstrap_dotfiles.sh -U
