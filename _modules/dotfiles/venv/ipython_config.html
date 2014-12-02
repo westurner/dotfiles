@@ -480,22 +480,45 @@
 <span class="c"># which can then be transformed to:</span>
 <span class="c"># * ipython aliases (&quot;echo %l; ping -t %s -n %s&quot;)</span>
 
-<span class="c"># CdAlias</span>
-<span class="c"># * bash functions (cdwrd, cdw) with tab completion</span>
-<span class="c"># * ipython magics (%cdwrd, cdwrd, cdw)</span>
-<span class="c"># * vim functions  (:Cdwrd)</span>
 </div></div>
 <div class="viewcode-block" id="CmdAlias"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.CmdAlias">[docs]</a><span class="k">class</span> <span class="nc">CmdAlias</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmdstr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cmdstr (str): command alias</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cmdstr</span> <span class="o">=</span> <span class="n">cmdstr</span>
 
-<div class="viewcode-block" id="CmdAlias.to_shell_str"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.CmdAlias.to_shell_str">[docs]</a>    <span class="k">def</span> <span class="nf">to_shell_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,):</span>
+<div class="viewcode-block" id="CmdAlias.to_shell_str"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.CmdAlias.to_shell_str">[docs]</a>    <span class="k">def</span> <span class="nf">to_shell_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate an alias or function for bash/zsh</span>
+
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            name (str): funcname to override default</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: self.cmdstr (AS-IS)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmdstr</span>
 </div>
 <div class="viewcode-block" id="CmdAlias.to_ipython_alias"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.CmdAlias.to_ipython_alias">[docs]</a>    <span class="k">def</span> <span class="nf">to_ipython_alias</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate an alias for IPython</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: self.cmdstr (AS-IS)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmdstr</span>
 </div>
 <div class="viewcode-block" id="CmdAlias.to_vim_function"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.CmdAlias.to_vim_function">[docs]</a>    <span class="k">def</span> <span class="nf">to_vim_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a vim function</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplemented: See IpyAlias.to_vim_function</span>
+<span class="sd">            str: self.cmdstr (AS-IS)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="bp">NotImplemented</span>
 </div>
     <span class="n">__str__</span> <span class="o">=</span> <span class="n">to_shell_str</span>
@@ -517,9 +540,9 @@
 <span class="sd">        Args:</span>
 <span class="sd">            cmdstr (str): if cmdstr contains ``%s`` or ``%l``,</span>
 <span class="sd">                it will be expanded to a shell function</span>
-<span class="sd">                Keyword Arguments:</span>
+<span class="sd">        Keyword Arguments:</span>
 <span class="sd">            name (str): None to set at serialization</span>
-<span class="sd">                (so that ``$ type cmd`` is flat)</span>
+<span class="sd">                (so that ``$ type cmd`` shows the actual command)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cmdstr</span> <span class="o">=</span> <span class="n">cmdstr</span>
@@ -555,18 +578,37 @@
 </div></div>
 <div class="viewcode-block" id="CdAlias"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.CdAlias">[docs]</a><span class="k">class</span> <span class="nc">CdAlias</span><span class="p">(</span><span class="n">CmdAlias</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expand a command string into ``cd`` change directory</span>
-<span class="sd">    functions for Bash, ZSH, IPython, Vim.</span>
+<span class="sd">    A CmdAlias for ``cd`` change directory</span>
+<span class="sd">    functions with venv paths (e.g. $_WRD)</span>
+<span class="sd">    for Bash, ZSH, IPython, Vim.</span>
+
+<span class="sd">    * venv.sh bash functions with tab-completion (cdwrd, cdw, cdw&lt;tab&gt;)</span>
+<span class="sd">    * ipython_magics.py: ipython magics (%cdwrd, cdwrd, cdw)</span>
+<span class="sd">    * venv.vim: vim functions  (:Cdwrd)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathvar</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            pathvar (str): path variable to cd to</span>
-<span class="sd">        Keyword Args:</span>
+<span class="sd">        Keyword Arguments:</span>
 <span class="sd">            name (str): alias name (default: ``pathvar.lower.replace(&#39;_&#39;,&#39;&#39;)``)</span>
-<span class="sd">                _WRD -&gt; wrd</span>
+<span class="sd">                _WRD -&gt; cdwrd, :Cdwrd</span>
 <span class="sd">                WORKON_HOME -&gt; workonhome</span>
 <span class="sd">            aliases (list[str]): additional alias names (e.g. [&#39;cdw&#39;,])</span>
+
+<span class="sd">        .. py:attribute:: BASH_ALIAS_TEMPLATE</span>
+
+<span class="sd">        .. py:attribute:: BASH_FUNCTION_TEMPLATE</span>
+
+<span class="sd">        .. py:attribute:: BASH_COMPLETION_TEMPLATE</span>
+
+<span class="sd">        .. py:attribute:: IPYTHON_MAGICS_FILE_HEADER</span>
+
+<span class="sd">        .. py:attribute:: IPYTHON_METHOD_TEMPLATE</span>
+
+<span class="sd">        .. py:attribute:: VIM_COMMAND_TEMPLATE</span>
+
+<span class="sd">        .. py:attribute:: VIM_FUNCTION_TEMPLATE</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">pathvar</span> <span class="o">=</span> <span class="n">pathvar</span>
@@ -619,29 +661,55 @@
 <span class="sd">        return self.cd(&#39;{pathvar}&#39;, line)</span>
 <span class="sd">&#39;&#39;&#39;</span><span class="p">)</span>
 
+    <span class="n">VIM_HEADER_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="sd">&#39;&#39;&#39;\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;&quot; ### venv.vim\n\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;function! Cd_help() {\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;    :verbose command Cd\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;endfunction\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;command! -nargs=* Cdhelp call Cd_help()\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;\n&#39;&#39;&#39;</span><span class="p">)</span>
+
     <span class="n">VIM_FUNCTION_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="sd">&#39;&#39;&#39;function! {vim_func_name}()\n&#39;&#39;&#39;</span>
-    <span class="sd">&#39;&#39;&#39;    &quot; {vim_func_name}() -- cd ${pathvar}\n&#39;&#39;&#39;</span>
-    <span class="sd">&#39;&#39;&#39;    cd ${pathvar}\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;function! {vim_func_name}(...)\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;    &quot; {vim_func_name}() -- cd ${pathvar}/$1\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;    if a:0 &gt; 0\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;       let pathname = join([${pathvar}, a:1], &quot;/&quot;)\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;    else\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;       let pathname = &quot;${pathvar}&quot;\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;    endif\n&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;    execute &#39;cd&#39; pathname \n&#39;&#39;&#39;</span>
     <span class="sd">&#39;&#39;&#39;    pwd\n&#39;&#39;&#39;</span>
     <span class="sd">&#39;&#39;&#39;endfunction\n&#39;&#39;&#39;</span>
     <span class="p">)</span>
     <span class="n">VIM_COMMAND_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
     <span class="sd">&#39;&#39;&#39;&quot;   :{cmd_name} -- {vim_func_name}()\n&#39;&#39;&#39;</span>
-    <span class="sd">&quot;&quot;&quot;command! -nargs=* {cmd_name} call {vim_func_name}()\n&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;command! -nargs=* {cmd_name} call {vim_func_name}(&lt;f-args&gt;)\n&quot;&quot;&quot;</span>
     <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vim_cmd_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: e.g &quot;Cdwrd&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&quot;Cd{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vim_cmd_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: self.vim_cmd_name + self.aliases.title()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">vim_cmd_name</span><span class="p">,]</span> <span class="o">+</span>
             <span class="p">[</span><span class="n">alias</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliases</span>
              <span class="k">if</span> <span class="ow">not</span> <span class="n">alias</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)])</span>
 
 <div class="viewcode-block" id="CdAlias.to_vim_function"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.CdAlias.to_vim_function">[docs]</a>    <span class="k">def</span> <span class="nf">to_vim_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: vim function block</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">conf</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">conf</span><span class="p">[</span><span class="s">&#39;pathvar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathvar</span>
         <span class="n">conf</span><span class="p">[</span><span class="s">&#39;vim_func_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;Cd_&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathvar</span>
@@ -677,13 +745,27 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bash_func_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: e.g. &quot;cdwrd&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&quot;cd{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bash_func_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: self.bash_func_name + self.aliases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bash_func_name</span><span class="p">,]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliases</span>
 
 <div class="viewcode-block" id="CdAlias.to_bash_function"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.CdAlias.to_bash_function">[docs]</a>    <span class="k">def</span> <span class="nf">to_bash_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_completions</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            include_completions (bool): generate inline Bash completions</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: bash function block</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">conf</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">conf</span><span class="p">[</span><span class="s">&#39;pathvar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathvar</span>
         <span class="n">conf</span><span class="p">[</span><span class="s">&#39;bash_func_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bash_func_name</span>
@@ -732,7 +814,9 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Keyword Arguments:</span>
-<span class="sd">            func (callable):</span>
+<span class="sd">            func (callable): ``function(env=None, **kwargs)``</span>
+<span class="sd">            name (str): a name for the step</span>
+<span class="sd">            conf (dict): a configuration dict (instead of kwargs) for this step</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">func</span><span class="p">:</span>
             <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_FUNC</span>
@@ -745,12 +829,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">conf</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;conf&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: a name for this Step</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;func_name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;func_name&#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: a name for this Step</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_name</span><span class="p">()</span>
 
     <span class="nd">@name.setter</span>
@@ -758,17 +850,37 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
 
     <span class="k">def</span> <span class="nf">_iteritems</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields:</span>
+<span class="sd">            tuple: (&#39;attrname&#39;, obj)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">yield</span> <span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">yield</span> <span class="p">(</span><span class="s">&#39;func&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
         <span class="k">yield</span> <span class="p">(</span><span class="s">&#39;conf&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Step.asdict"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Step.asdict">[docs]</a>    <span class="k">def</span> <span class="nf">asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            OrderedDict: OrderedDict(self._iteritems())</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iteritems</span><span class="p">())</span>
 </div>
 <div class="viewcode-block" id="Step.build_print_kwargs_env"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Step.build_print_kwargs_env">[docs]</a>    <span class="k">def</span> <span class="nf">build_print_kwargs_env</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Default ``build_*_env`` Step.func function to print ``env``</span>
+
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            env (:py:mod:`Env`): Env object (default: None)</span>
+<span class="sd">            kwargs (dict): kwargs dict</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :py:mod:`Env`: updated Env</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">env</span> <span class="o">=</span> <span class="n">Env</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Note: StepBuilder also does env.copy before each step</span>
+            <span class="c"># making this unnecessary for many build_*_env functions</span>
             <span class="n">env</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;kwargs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
@@ -782,6 +894,12 @@
 <div class="viewcode-block" id="Step.build"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Step.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call ``self.func(env=env, **self.conf.copy().update(**kwargs))``</span>
+
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            env (Env): Env object (default: None)</span>
+<span class="sd">            kwargs (dict): kwargs dict</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            obj: ``self.func(env=env, **self.conf.copy().update(**kwargs))``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">conf</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c"># TODO: verbose merge</span>
@@ -789,12 +907,18 @@
 
 </div></div>
 <div class="viewcode-block" id="PrintEnvStep"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.PrintEnvStep">[docs]</a><span class="k">class</span> <span class="nc">PrintEnvStep</span><span class="p">(</span><span class="n">Step</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print env and kwargs to stdout</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_name</span> <span class="o">=</span> <span class="s">&#39;print_env&#39;</span>
     <span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
     <span class="n">stderr</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
     <span class="n">func</span> <span class="o">=</span> <span class="n">Step</span><span class="o">.</span><span class="n">build_print_kwargs_env</span>
 </div>
 <div class="viewcode-block" id="PrintEnvStderrStep"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.PrintEnvStderrStep">[docs]</a><span class="k">class</span> <span class="nc">PrintEnvStderrStep</span><span class="p">(</span><span class="n">PrintEnvStep</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print env and kwargs to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_name</span> <span class="o">=</span> <span class="s">&#39;print_env_stderr&#39;</span>
     <span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
 
@@ -820,10 +944,18 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: self.conf.get(&#39;debug&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">show_diffs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: self.conf.get(&#39;show_diffs&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;show_diffs&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="StepBuilder.add_step"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.StepBuilder.add_step">[docs]</a>    <span class="k">def</span> <span class="nf">add_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -836,7 +968,7 @@
 <span class="sd">        Keyword Arguments:</span>
 <span class="sd">            name (str): function name (default: None)</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            Step: step object appended to self.steps</span>
+<span class="sd">            :py:mod:`Step`: Step object appended to self.steps</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">Step</span><span class="p">):</span>
             <span class="n">step</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -853,22 +985,24 @@
 </div>
 <div class="viewcode-block" id="StepBuilder.build_iter"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.StepBuilder.build_iter">[docs]</a>    <span class="k">def</span> <span class="nf">build_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show_diffs</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Build a generator of Env&#39;s from the</span>
+<span class="sd">        Build a generator of (Step, Env) tuples from the</span>
 <span class="sd">        functional composition of StepBuilder.steps</span>
-<span class="sd">        for the given Env.</span>
+<span class="sd">        given an initial :py:mod:`Env` (or None).</span>
 
 <span class="sd">        .. code:: python</span>
 
 <span class="sd">            # pseudocode</span>
-<span class="sd">            (step.build(env=env_previous.copy(),**conf)</span>
-<span class="sd">                for step in self.steps)</span>
+<span class="sd">            env_previous = Env()</span>
+<span class="sd">            for step in self.steps:</span>
+<span class="sd">                (step, env) = step.build(env=env_previous.copy(),**conf)</span>
+<span class="sd">                env_previous=env</span>
 
 <span class="sd">        Keyword Arguments:</span>
 <span class="sd">            env (Env): initial Env (default: None)</span>
 <span class="sd">            show_diffs (bool): show difflib.ndiffs of Envs between steps</span>
 <span class="sd">            debug (bool):</span>
 <span class="sd">        Yields:</span>
-<span class="sd">            tuple: (Step, Env): (env_0, env_1, env_n)</span>
+<span class="sd">            tuple: (:py:mod:`Step`, :py:mod:`Env`)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">env</span><span class="p">:</span>
             <span class="n">env0</span> <span class="o">=</span> <span class="n">env</span>
@@ -1901,8 +2035,8 @@
                  <span class="n">__DOTFILES</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">WORKON_HOME</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">VIRTUAL_ENV_NAME</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">VIRTUAL_ENV</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">VENVPREFIX</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">VIRTUAL_ENV</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">_SRC</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">_APP</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">_WRD</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -1920,9 +2054,10 @@
 
 <span class="sd">            env (Env): initial Env</span>
 
-<span class="sd">            VENVSTR (str): VIRTUAL_ENV_NAME or VIRTUAL_ENV</span>
+<span class="sd">            VENVSTR (str): VIRTUAL_ENV_NAME (&#39;dotfiles&#39;) or VIRTUAL_ENV</span>
+<span class="sd">                (&#39;$WORKON_HOME/dotfiles&#39;)</span>
 
-<span class="sd">            VENVSTRAPP (str): _APP</span>
+<span class="sd">            VENVSTRAPP (str): _APP (&#39;dotfiles&#39;, &#39;dotfiles/etc/bash&#39;)</span>
 
 <span class="sd">            __WRK (str): None (~/-wrk) OR</span>
 <span class="sd">                path to a workspace root</span>
@@ -1932,6 +2067,13 @@
 
 <span class="sd">                    test $__WRK == echo &quot;${HOME}/-wrk&quot;</span>
 <span class="sd">                    cdwrk</span>
+
+<span class="sd">            __DOTFILES (str): None or path to dotfiles symlink</span>
+
+<span class="sd">                .. code:: bash</span>
+
+<span class="sd">                    test &quot;${__DOTFILES}&quot; == &quot;~/-dotfiles&quot;</span>
+<span class="sd">                    cddotfiles ; cdd</span>
 
 <span class="sd">            WORKON_HOME (str): path to a ``WORKON_HOME`` directory</span>
 <span class="sd">                containing zero or more &#39;VIRTUAL_ENV`` directories</span>
@@ -1955,7 +2097,7 @@
 <span class="sd">                   or what is in ``os.environ``, if ``from_environ`` is True)</span>
 
 
-<span class="sd">            VENV__PREFIX (str): for when VIRTUAL_ENV is not set {/,~,~/-wrk}</span>
+<span class="sd">            VENVPREFIX (str): for when VIRTUAL_ENV is not set {/,~,~/-wrk}</span>
 <span class="sd">                some paths may not make sense with PREFIX=/.</span>
 <span class="sd">                #TODO: list sensible defaults</span>
 <span class="sd">                # the issue here is whether to raise an error when</span>
@@ -1998,13 +2140,6 @@
 <span class="sd">                    test &quot;${_SRC}/${_APP}&quot; == &quot;${_WRD}&quot;</span>
 <span class="sd">                    cdwrd ; cdw</span>
 
-<span class="sd">            __DOTFILES (str): None or path to dotfiles symlink</span>
-
-<span class="sd">                .. code:: bash</span>
-
-<span class="sd">                    test &quot;${__DOTFILES}&quot; == &quot;~/-dotfiles&quot;</span>
-<span class="sd">                    cddotfiles ; cdd</span>
-
 <span class="sd">            env (Env): an initial Env with zero or more values for self.env</span>
 <span class="sd">                (default: None)</span>
 <span class="sd">            from_environ (bool): read self.env from ``os.environ``</span>
@@ -2032,32 +2167,32 @@
         <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">env</span> <span class="o">=</span> <span class="n">Env</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">VIRTUAL_ENV</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VIRTUAL_ENV</span>
-        <span class="k">if</span> <span class="n">_APP</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_APP</span>
-        <span class="k">if</span> <span class="n">VIRTUAL_ENV_NAME</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VIRTUAL_ENV_NAME</span>
-        <span class="k">if</span> <span class="n">VENVPREFIX</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;VENVPREFIX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVPREFIX</span>
         <span class="k">if</span> <span class="n">VENVSTR</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;VENVSTR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVSTR</span>
         <span class="k">if</span> <span class="n">VENVSTRAPP</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVSTRAPP</span>
-        <span class="k">if</span> <span class="n">_SRC</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SRC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_SRC</span>
-        <span class="k">if</span> <span class="n">_WRD</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_WRD</span>
         <span class="k">if</span> <span class="n">__WRK</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">__WRK</span>
         <span class="k">if</span> <span class="n">__DOTFILES</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">env</span><span class="p">[</span><span class="s">&#39;__DOTFILES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">__DOTFILES</span>
+        <span class="k">if</span> <span class="n">WORKON_HOME</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WORKON_HOME</span>
+        <span class="k">if</span> <span class="n">VIRTUAL_ENV</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VIRTUAL_ENV</span>
+        <span class="k">if</span> <span class="n">VENVPREFIX</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;VENVPREFIX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVPREFIX</span>
+        <span class="k">if</span> <span class="n">_APP</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_APP</span>
+        <span class="k">if</span> <span class="n">VIRTUAL_ENV_NAME</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VIRTUAL_ENV_NAME</span>
+        <span class="k">if</span> <span class="n">_SRC</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SRC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_SRC</span>
+        <span class="k">if</span> <span class="n">_WRD</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_WRD</span>
 
         <span class="k">if</span> <span class="n">VENVSTR</span><span class="p">:</span>
             <span class="n">env</span> <span class="o">=</span> <span class="n">Venv</span><span class="o">.</span><span class="n">parse_VENVSTR</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
-
         <span class="n">built_envs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                               <span class="n">from_environ</span><span class="o">=</span><span class="n">from_environ</span><span class="p">,</span>
                               <span class="n">dont_reflect</span><span class="o">=</span><span class="n">dont_reflect</span><span class="p">,</span>
@@ -2065,9 +2200,7 @@
                               <span class="n">show_diffs</span><span class="o">=</span><span class="n">show_diffs</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">built_envs</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ConfigException</span><span class="p">(</span><span class="n">built_envs</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">built_envs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
         <span class="k">if</span> <span class="n">open_editors</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">open_editors</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">open_terminals</span><span class="p">:</span>
@@ -2083,22 +2216,31 @@
               <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
               <span class="n">show_diffs</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
               <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build Venv Steps with StepBuilder</span>
 
-        <span class="n">conf</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s">&#39;VENVSTR&#39;</span><span class="p">:</span> <span class="n">VENVSTR</span><span class="p">,</span>
-            <span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">:</span> <span class="n">VENVSTRAPP</span><span class="p">,</span>
-            <span class="s">&#39;VENVPREFIX&#39;</span><span class="p">:</span> <span class="n">VENVPREFIX</span><span class="p">,</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">VENVSTR</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">conf</span><span class="p">[</span><span class="s">&#39;VENVSTR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVSTR</span>
+        <span class="k">if</span> <span class="n">VENVSTRAPP</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">conf</span><span class="p">[</span><span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVSTRAP</span>
+        <span class="k">if</span> <span class="n">VENVPREFIX</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">conf</span><span class="p">[</span><span class="s">&#39;VENVPREFIX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVPREFIX</span>
+
+        <span class="n">conf</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
             <span class="s">&#39;from_environ&#39;</span><span class="p">:</span> <span class="n">from_environ</span><span class="p">,</span>
             <span class="s">&#39;dont_reflect&#39;</span><span class="p">:</span> <span class="n">dont_reflect</span><span class="p">,</span>
             <span class="s">&#39;debug&#39;</span><span class="p">:</span> <span class="n">debug</span><span class="p">,</span>
-            <span class="s">&#39;show_diffs&#39;</span><span class="p">:</span> <span class="n">show_diffs</span><span class="p">}</span>
+            <span class="s">&#39;show_diffs&#39;</span><span class="p">:</span> <span class="n">show_diffs</span><span class="p">,</span>
+        <span class="p">})</span>
 
         <span class="n">builder</span> <span class="o">=</span> <span class="n">StepBuilder</span><span class="p">(</span><span class="n">conf</span><span class="o">=</span><span class="n">conf</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">PrintEnvStderrStep</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_venv_activate_env</span><span class="p">)</span>
 
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_dotfiles_env</span><span class="p">)</span>
-        <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_usrlog_env</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_python_env</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_virtualenvwrapper_env</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_conda_env</span><span class="p">)</span>
@@ -2107,6 +2249,7 @@
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_venv_paths_full_env</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_venv_paths_cdalias_env</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_user_aliases_env</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_usrlog_env</span><span class="p">)</span>
         <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;Venv.build&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="n">conf</span><span class="p">),</span> <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
         <span class="n">new_env</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
         <span class="c">#logevent(&#39;Venv.build&#39;, dict(env=env, conf=conf), wrap=True, level=logging.INFO)</span>
@@ -2120,7 +2263,7 @@
                       <span class="n">from_environ</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                       <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the path to a virtualenv</span>
+<span class="sd">        Get the path to a virtualenv given a ``VENVSTR``</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            VENVSTR (str): a path to a virtualenv containing ``/``</span>
@@ -2177,15 +2320,20 @@
         <span class="c">#import ipdb</span>
         <span class="c">#ipdb.set_trace()</span>
         <span class="k">return</span> <span class="n">env</span>
-
 </div>
-<div class="viewcode-block" id="Venv.aliases"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.aliases">[docs]</a>    <span class="k">def</span> <span class="nf">aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            OrderedDict: self.env.aliases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">aliases</span>
-</div>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_configure_sys</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">from_environ</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">pyver</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Configure sys.path with the given env, or from from_environ</span>
+<span class="sd">        Configure ``sys.path`` with the given :py:mod:`Env`,</span>
+<span class="sd">        or from ``os.environ``.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            env (Env): Env to configure sys.path according to</span>
@@ -2202,6 +2350,8 @@
 <span class="sd">            an additional local copy of IPython installed,</span>
 <span class="sd">            the lack of an extensions path was causing errors</span>
 <span class="sd">            in regards to missing extensions.</span>
+
+<span class="sd">            If the path does not exist, it will not be added.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">from_environ</span><span class="p">:</span>
@@ -2407,6 +2557,7 @@
 <span class="sd">            str: block of vim script</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">yield</span> <span class="n">CdAlias</span><span class="o">.</span><span class="n">VIM_HEADER_TEMPLATE</span>
         <span class="c">#for k, v in self.env.items():</span>
         <span class="c">#    yield (&quot;export %s=%r&quot; % (k, v))</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">aliases</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

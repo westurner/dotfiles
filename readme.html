@@ -88,10 +88,7 @@
 <li><a class="reference internal" href="#">Dotfiles</a><ul>
 <li><a class="reference internal" href="#goals">Goals</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
-<li><a class="reference internal" href="#examples">Examples</a><ul>
-<li><a class="reference internal" href="#installing-the-dotfiles">Installing the dotfiles</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li><a class="reference internal" href="#bash">Bash</a></li>
 <li><a class="reference internal" href="#vimrc">vimrc</a></li>
 </ul>
@@ -99,6 +96,7 @@
 <li><a class="reference internal" href="#installation">Installation</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
+<li><a class="reference internal" href="#source-the-dotfiles">Source the dotfiles</a></li>
 <li><a class="reference internal" href="#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
 </ul>
 </li>
@@ -169,53 +167,56 @@
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">scripts/bootstrap_dotfiles.sh</span></code> installs symlinks in <code class="docutils literal"><span class="pre">$HOME</span></code>
-(such as <code class="docutils literal"><span class="pre">~/.bashrc</span></code> -&gt; <code class="docutils literal"><span class="pre">${__DOTFILES}/etc/.bashrc</span></code>)</li>
-<li><code class="docutils literal"><span class="pre">etc/.bashrc</span></code> sources <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code></li>
-<li><code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code> sources a documented,
-ordered sequence of Bash scripts</li>
-<li><code class="docutils literal"><span class="pre">etc/zsh/00-zshrc.before.sh</span></code> sources a documented,
-ordered sequence of ZSH scripts</li>
-</ul>
 <p>See: <a class="reference external" href="https://westurner.github.io/dotfiles/usage.html">Usage</a> and <a class="reference external" href="https://westurner.github.io/dotfiles/venv.html">Venv</a> for documentation.</p>
-<div class="section" id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="installing-the-dotfiles">
-<h4>Installing the dotfiles<a class="headerlink" href="#installing-the-dotfiles" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c"># clone and install dotfiles and dotvim</span>
-<span class="c"># with venv-style paths (_SRC, _APP, _WRD)</span>
+<div class="section" id="quickstart">
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h3>
+<p>This is a verbose example of installing and working with a
+<code class="docutils literal"><span class="pre">VIRTUAL_ENV</span></code> in <code class="docutils literal"><span class="pre">WORKON_HOME</span></code> named &#8220;<code class="docutils literal"><span class="pre">dotfiles</span></code>&#8221;.</p>
+<p>See <a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a> for more terse installation instructions.</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># clone and install dotfiles and dotvim
+# with venv-style paths (_SRC, _APP, _WRD)
 
-<span class="c"># WORKON_HOME       -- base path for virtualenvs [virtualenvwrapper]</span>
-<span class="nv">WORKON_HOME</span><span class="o">=</span><span class="s2">&quot;~/wrk/.ve&quot;</span>
-<span class="nb">test</span> -d <span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span>
+# __WRK             -- base path for workspace               [venv]
+__WRK=&quot;$HOME/-wrk&quot;
+cd $__WRK                     # cdwrk                        [venv]
 
-<span class="c"># VIRTUAL_ENV_NAME  -- basename for VIRTUAL_ENV [venv]</span>
-<span class="nv">VIRTUAL_ENV_NAME</span><span class="o">=</span><span class="s2">&quot;dotfiles&quot;</span>
+# WORKON_HOME       -- path to virtualenv dirs  [virtualenvwrapper]
+WORKON_HOME=&quot;${__WRK}/-ve27&quot;  # ~/-wrk/-ve27
+test -d ${WORKON_HOME} || mkdir -p ${WORKON_HOME}
+cd $WORKON_HOME               # cdworkonhome cdwh cdve       [venv]
 
-<span class="c"># VIRTUAL_ENV       -- current virtualenv prefix [virtualenv]</span>
-<span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">VIRTUAL_ENV_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="nv">_SRC</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$[</span><span class="s2">VIRTUAL_ENV}/src&quot;</span>
+# VIRTUAL_ENV_NAME  -- basename for VIRTUAL_ENV              [venv]
+VIRTUAL_ENV_NAME=&quot;dotfiles&quot;
 
-<span class="c"># _APP              -- basename of current working directory [venv]</span>
-<span class="nv">_APP</span><span class="o">=</span><span class="s2">&quot;dotfiles&quot;</span>
-<span class="c"># _WRD              -- working directory [venv]</span>
-<span class="nv">_WRD</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">_SRC</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">_APP</span><span class="si">}</span><span class="s2">&quot;</span>      <span class="c"># ${WORKON_HOME}/dotfiles/src/dotfiles</span>
+# VIRTUAL_ENV       -- current virtualenv path         [virtualenv]
+VIRTUAL_ENV=&quot;${WORKON_HOME}/${VIRTUAL_ENV_NAME}&quot;
+cd $VIRTUAL_ENV               # cdv cdvirtualenv [venv, virtualenvwrapper]
 
-git clone https://github.com/westurner/dotfiles <span class="nv">$_WRD</span>
-git clone https://github.com/westurner/dotvim <span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/etc/vim
-<span class="nb">cd</span> <span class="nv">$_WRD</span>                    <span class="c"># cdw [venv]</span>
+# _SRC              -- basepath of source repositories (e.g. for pip)
+_SRC=&quot;${VIRTUAL_ENV}/src&quot;
+cd $_SRC                      # cdsrc cds                    [venv]
 
-<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.dotfiles&quot;</span>
-ln -s <span class="nv">$_WRD</span> <span class="nv">$__DOTFILES</span>
-ls ~/.dotfiles
+# _APP              -- basename of current working directory [venv]
+_APP=&quot;dotfiles&quot;
 
-<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh -h
-<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh -I      <span class="c"># or: make install</span>
+# _WRD              -- working directory path                [venv]
+_WRD=&quot;${_SRC}/${_APP}&quot;        # cdwrd cdw                    [venv]
 
-<span class="c"># TODO: move / replicate this in bootstrap_dotfiles.sh</span>
+git clone https://github.com/westurner/dotfiles $_WRD
+git clone https://github.com/westurner/dotvim ${_WRD}/etc/vim
+cd $_WRD                      # cdwrd cdw                    [venv]
+
+# __DOTFILES        -- symlink root for current dotfiles     [venv]
+__DOTFILES=&quot;${HOME}/-dotfiles&quot;
+ln -s $_WRD $__DOTFILES
+ls ~/-dotfiles
+cd $__DOTFILES                # cddotfiles cdd               [venv]
+
+## Install the dotfiles
+$_WRD/scripts/bootstrap_dotfiles.sh -h
+$_WRD/scripts/bootstrap_dotfiles.sh -I      # or: make install
+$_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 </pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="bash">
@@ -224,29 +225,36 @@ ls ~/.dotfiles
 <div class="line">Source: <a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/etc/bash">https://github.com/westurner/dotfiles/tree/master/etc/bash</a></div>
 <div class="line">Documentation: <a class="reference external" href="https://westurner.github.io/dotfiles/usage.html#bash">https://westurner.github.io/dotfiles/usage.html#bash</a></div>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c"># There should be a symlink from ~/.dotfiles</span>
-<span class="c"># to the current dotfiles repository.</span>
-<span class="c"># All dotfiles symlinks are relative to ${__DOTFILES}.</span>
-<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.dotfiles&quot;</span>
-<span class="nv">_WRD</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="s2">/dotfiles/src/dotfiles&quot;</span>
-ls -ld <span class="nv">$__DOTFILES</span> <span class="o">||</span> ln -s <span class="nv">$_WRD</span> <span class="nv">$__DOTFILES</span>
-
-<span class="c"># There should be symlinks for each dotfile: e.g.</span>
-<span class="c"># ln -s ~/.dotfiles/etc/.bashrc ~/.bashrc</span>
-<span class="c"># ln -s ~/.dotfiles/etc/vim/vimrc ~/.vimrc</span>
-<span class="c"># ln -s ~/.dotfiles/etc/vim ~/.vim</span>
-<span class="c"># Create these symlinks with bootstrap_dotfiles.sh</span>
-<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh -S      <span class="c"># or: make install_symlinks</span>
+<div class="code bash highlight-python"><div class="highlight"><pre># There should be a symlink from ~/-dotfiles
+# to the current dotfiles repository.
+# All dotfiles symlinks are relative to ${__DOTFILES}.
+__DOTFILES=&quot;${HOME}/-dotfiles&quot;
+__WRK=&quot;${HOME}/-wrk&quot;
+WORKON_HOME=&quot;${__WRK}/-ve27&quot;
+_WRD=&quot;${WORKON_HOME}/dotfiles/src/dotfiles&quot;
+ls -ld $__DOTFILES || ln -s $_WRD $__DOTFILES
+# Create dotfiles symlinks with bootstrap_dotfiles.sh -S
+$_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 </pre></div>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">source</span> ~/.bashrc
-<span class="c"># source dotfiles/etc/bash/00-bashrc.before.sh</span>
+<p>At this point, there should be symlinks for each dotfile (e.g.):</p>
+<div class="code bash highlight-python"><div class="highlight"><pre><span class="c"># ln -s ~/-dotfiles/etc/.bashrc    ~/.bashrc</span>
+<span class="c"># ln -s ~/-dotfiles/etc/.gitconfig ~/.gitconfig</span>
+<span class="c"># ln -s ~/-dotfiles/etc/.hgrc      ~/.hgrc</span>
+<span class="c"># ln -s ~/-dotfiles/etc/vim/vimrc  ~/.vimrc</span>
+<span class="c"># ln -s ~/-dotfiles/etc/vim        ~/.vim</span>
 </pre></div>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre>dotfiles_status  <span class="c"># print dotfiles environment variables</span>
-ds               <span class="c"># print dotfiles environment variables</span>
-dotfiles_reload  <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.before.sh</span>
-dr               <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.before.sh</span>
+<p>Source <code class="docutils literal"><span class="pre">~/.bashrc</span></code> to load the Bash configuration:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>source ~/.bashrc  # ( source dotfiles/etc/bash/00-bashrc.before.sh )
+</pre></div>
+</div>
+<p>Reload the dotfiles and print status information with <code class="docutils literal"><span class="pre">dr</span></code> and <code class="docutils literal"><span class="pre">ds</span></code>
+(again):</p>
+<div class="code bash highlight-python"><div class="highlight"><pre><span class="n">dotfiles_status</span>  <span class="c"># print dotfiles environment variables</span>
+<span class="n">ds</span>               <span class="c"># print dotfiles environment variables</span>
+<span class="n">dotfiles_reload</span>  <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.before.sh</span>
+<span class="n">dr</span>               <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.before.sh</span>
 </pre></div>
 </div>
 </div>
@@ -257,7 +265,7 @@ dr               <span class="c"># source ${__DOTFILES}/etc/bash/00-bashrc.befor
 <div class="line">Documentation: <a class="reference external" href="https://westurner.github.io/dotfiles/usage.html#vim">https://westurner.github.io/dotfiles/usage.html#vim</a></div>
 </div>
 <p>Vim configuration should be cloned to <code class="docutils literal"><span class="pre">${__DOTFILES}/etc/vim</span></code>.</p>
-<div class="highlight-bash"><div class="highlight"><pre>make dotvim_clone dotvim_install
+<div class="code bash highlight-python"><div class="highlight"><pre>make dotvim_clone dotvim_install
 </pre></div>
 </div>
 </div>
@@ -285,37 +293,109 @@ clones the <a class="reference external" href="https://github.com/westurner/dotf
 and installs the <code class="docutils literal"><span class="pre">dotfiles</span></code> Python package.</p>
 <p>Create a <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> with <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>
 named &#8220;<code class="docutils literal"><span class="pre">dotfiles</span></code>&#8221;:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>sudo<span class="o">]</span> pip install virtualenvwrapper
-<span class="nb">source</span> <span class="k">$(</span>which <span class="s1">&#39;virtualenvwrapper.sh&#39;</span><span class="k">)</span>
-mkvirtualenv dotfiles
-mkdir <span class="nv">$VIRTUAL_ENV</span>/src
-<span class="nb">cd</span> <span class="nv">$VIRTUAL_ENV</span>/src
+<div class="code bash highlight-python"><div class="highlight"><pre># Install virtualenvwrapper
+pip install virtualenvwrapper   # apt-get install python-virtualenvwrapper
+source $(which &#39;virtualenvwrapper.sh&#39;)    # 07-bashrc.virtualenvwrapper.sh
+
+export WORKON_HOME=&quot;~/-wrk/-ve27&quot;                    # __WRK/-ve python2.7
+mkdir -p $WORKON_HOME
+
+# Create a virtualenvwrapper virtualenv
+mkvirtualenv dotfiles  # workon dotfiles
+mkdir $VIRTUAL_ENV/src
+cd $VIRTUAL_ENV/src
+
+# Clone the dotfiles git repository
+branch=&quot;master&quot;     # stable
+# branch=&quot;develop&quot;  # development
+git clone ssh://git@github.com/westurner/dotfiles -b ${branch}
+cd dotfiles
+
+# Install dotfiles pkg, symlinks, and extra pip requirements
+scripts/bootstrap_dotfiles.sh -I -R         # -I calls -S
 </pre></div>
 </div>
-<p>Install the dotfiles (symlink dotfiles into <code class="docutils literal"><span class="pre">$HOME</span></code>, install the
-dotfiles package, and install additional helpful packages):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Clone the dotfiles git repository</span>
-git clone ssh://git@github.com/westurner/dotfiles <span class="o">&amp;&amp;</span> <span class="nb">cd </span>dotfiles
-
-<span class="c"># Install and symlink dotfiles and dotvim</span>
-scripts/bootstrap_dotfiles.sh -I -R
-
-<span class="c"># (Optional) Install dotfiles scripts into ~/.local/bin (pip --user)</span>
-scripts/bootstrap_dotfiles.sh -I -u
+<p>With Python builds that haven&#8217;t set a prefix which is writeable
+by the current user, you can also install into <code class="docutils literal"><span class="pre">~/.local</span></code> with
+<code class="docutils literal"><span class="pre">pip</span> <span class="pre">--user</span></code>:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre><span class="c"># (Optional) Also install pkg and reqs into ~/.local/bin (pip --user)</span>
+<span class="c"># scripts/bootstrap_dotfiles.sh -I -R -u</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">See the <a class="reference internal" href="#installing-the-dotfiles">Installing the dotfiles</a> example, which uses
+<p class="last">See the <a href="#id7"><span class="problematic" id="id8">`dotfiles venv example`_</span></a> which uses
 venv-style paths.</p>
+</div>
+</div>
+<div class="section" id="source-the-dotfiles">
+<h3>Source the dotfiles<a class="headerlink" href="#source-the-dotfiles" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Bash (and ZSH) configuation sets are sequentially numbered 00-99.</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh">00-bashrc.before.sh</a></p>
+</li>
+<li><p class="first">ZSH loads much of the standard Bash configuration, and oh-my-zsh.</p>
+<p><a href="#id4"><span class="problematic" id="id5">``</span></a>00-zshrc.before.sh`_</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> <code class="docutils literal"><span class="pre">-S</span></code>
+installs dotfiles <code class="docutils literal"><span class="pre">${__DOTFILES}</span></code> symlinks.</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>ln -s ~/-dotfiles/etc/.bashrc ~/.bashrc
+ln -s ~/-dotfiles/etc/.zshrc ~/.zshrc
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="code bash highlight-python"><div class="highlight"><pre># Source the dotfiles
+source ~/.bashrc                                         # source ~/.zshrc
+
+# source ${__DOTFILES}/etc/.bashrc
+## source ${__DOTFILES}/etc/bash/00-bashrc.before.sh     # dotfiles_reload
+### dotfiles configuration sequence                # (\d\d)-bashrc.(.*).sh
+#### source ${__DOTFILES}/etc/bash/99-bashrc.after.sh
+##### source ${__PROJECTSRC}                     # ${__WRK}/.projectsrc.sh
+
+# print venv configuration
+dotfiles_status
+ds
+</pre></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre>Last login: Tue Dec  2 15:01:56 on ttys000
+#
+# dotfiles_reload()
+#ntid  _TERM_ID=&quot;#SElGeTf5VcA&quot;  #_USRLOG=&quot;/Users/W/-usrlog.log&quot;
+# dotfiles_status()
+HOSTNAME=&#39;nb-mb1&#39;
+USER=&#39;W&#39;
+__WRK=&#39;/Users/W/-wrk&#39;
+PROJECT_HOME=&#39;/Users/W/-wrk&#39;
+WORKON_HOME=&#39;/Users/W/-wrk/-ve&#39;
+VIRTUAL_ENV_NAME=&#39;&#39;
+VIRTUAL_ENV=&#39;&#39;
+_SRC=&#39;&#39;
+_APP=&#39;&#39;
+_WRD=&#39;&#39;
+_USRLOG=&#39;/Users/W/-usrlog.log&#39;
+_TERM_ID=&#39;#SElGeTf5VcA&#39;
+PATH=&#39;/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin&#39;
+__DOTFILES=&#39;/Users/W/-dotfiles&#39;
+#
+# cd /
+#SElGeTf5VcA W@nb-mb1:/
+$
+$ stid &#39;dotfiles&#39;
+#stid  _TERM_ID=&quot;dotfiles&quot;  #_TERM_ID__=&quot;dotfiles install&quot;  #_USRLOG=&quot;/Users/W/-usrlog.log&quot;
+# stid &#39;dotfiles&#39;
+dotfiles W@nb-mb1:/
+$
+</pre></div>
 </div>
 </div>
 <div class="section" id="upgrade-the-dotfiles">
 <h3>Upgrade the dotfiles<a class="headerlink" href="#upgrade-the-dotfiles" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Check for any changes to symlinked dotfiles</span>
-<span class="nb">cd</span> ~/.dotfiles <span class="o">&amp;&amp;</span> git status <span class="o">&amp;&amp;</span> git diff
+<div class="code bash highlight-python"><div class="highlight"><pre># Check for any changes to symlinked dotfiles
+cdd &amp;&amp; git status &amp;&amp; git diff                                # cddotfiles
 
-<span class="c"># Pull and upgrade dotfiles and dotvim (later)</span>
+# Pull and upgrade dotfiles and dotvim (later)
 scripts/bootstrap_dotfiles.sh -U
 </pre></div>
 </div>
@@ -347,10 +427,7 @@ scripts/bootstrap_dotfiles.sh -U
 <li><a class="reference internal" href="#">Dotfiles</a><ul>
 <li><a class="reference internal" href="#goals">Goals</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
-<li><a class="reference internal" href="#examples">Examples</a><ul>
-<li><a class="reference internal" href="#installing-the-dotfiles">Installing the dotfiles</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li><a class="reference internal" href="#bash">Bash</a></li>
 <li><a class="reference internal" href="#vimrc">vimrc</a></li>
 </ul>
@@ -358,6 +435,7 @@ scripts/bootstrap_dotfiles.sh -U
 <li><a class="reference internal" href="#installation">Installation</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
+<li><a class="reference internal" href="#source-the-dotfiles">Source the dotfiles</a></li>
 <li><a class="reference internal" href="#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
 </ul>
 </li>
