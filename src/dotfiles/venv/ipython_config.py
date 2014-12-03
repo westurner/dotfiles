@@ -7,33 +7,35 @@ dotfiles.venv.ipython_config
 ==============================
 ipython_config.py (venv)
 
-
-Objective: one file to configure a shell, IPython, and vim
-with no need to adjust $PATH, or prepend to ``sys.path``.
+Create virtual environment configurations
+with a standard filesystem hierarchy overlay
+and cd aliases for Bash, ZSH, Vim, and IPython
+for use with virtualenv, virtualevwrapper,
+and anything that has or should have
+a prefix like ``VIRTUAL_ENV`` and
+directories like
+``./bin``, ``./etc``, ``./var/log``, and ``./src``.
 
 Functional comparisons:
 
-    * T-Square
-    * Compass
-    * Table Sled
-    * Stencil
-    * Template
-    * Floorplan
+* T-Square, Compass, Table Sled, Stencil, Template, Floorplan, Lens
 
 
-Implementation
-================
+Venv Implementation
+-------------------
 
 - create an :py:mod:`Env` (``env = Env()``)
 - define ``__WRK`` workspace root
 - define ``VIRTUAL_ENV``, ``_SRC``, ``_ETC``, ``_WRD``
 - define ``WORKON_HOME``
+
 - create and add :py:mod:`Steps` (``builder.add_step(step_func)``)
   - define variables like ``env['__WRK']`` (``Venv.env.environ['PATH']``)
   - define IPython shell command aliases (``Env.aliases``,
     ``e``, ``ps``, ``git``, ``gitw``)
 - create a :py:mod:`StepBuilder` (``builder = StepBuilder()``)
 - build a new env from steps: ``new_env = builder.build(env)``
+
 - print an :py:mod:`Env`to:
 
   - ``--print-json`` -- JSON (Env.to_dict, Env.to_json)
@@ -44,131 +46,12 @@ Implementation
   - ``--print-zsh-cdalias`` -- ZSH configuration (Env.environ, Env.aliases)
   - ``--print-vim-cdalias`` -- Vim configuration (Env.aliases)
 
-
-
-Venv cd aliases
-------------------
-
-- define CdAliases that expand and complete where possible
+- generate and source CdAliases that expand and complete where possible
   (``cdwrk``, ``cdwrd``, ``cdw``)
-  - define venv.sh
-  - define venv.vim
-  - define venv.py (``dotfiles_status``, ``ds``)
-  - define venv_cdmagic.py (``cdwrk``, ``cdv``, ``cdsrc``, ``cdetc``, ``cdwrd``)
-  - #TODO: -> ipython_magic.py
-
-
-
-Usage
-=========
-
-.. code-block:: bash
-
-
-    __WRK="~/-wrk"                                # cdwrk # workspace
-    __DOTFILES="~/-dotfiles"                      # cdd cddotfiles
-    WORKON_HOME="${__WRK}/-ve27"                  # cdwh cdworkonhome
-
-    # create the $__DOTFILES symlink to the current repository working copy
-    # and clone the dotfiles repository into WORKON_HOME,
-    # if it's not already there
-
-    dotfiles_src="${WORKON_HOME}/dotfiles/src/dotfiles"  # _WRD/_APP
-    mkdir -p $(dirname ${dotfiles_src})
-    ln -s ${dotfiles_src} ${__DOTFILES}
-    git clone -R "${dotfiles_src}" ssh://git@github.com/westurner/dotfiles
-
-    ## Configure venv for the shell
-    # __VENV shell variable  -- echo ${__VENV}    # etc/bash/10-bashrc.venv.sh
-    # venv() shell function  -- ($__VENV $@)      # etc/bash/10-bashrc.venv.sh
-    # venv-() shell function -- ($__VENV -e $@)   # etc/bash/10-bashrc.venv.sh
-
-    __VENV=$(which venv.py);
-    __VENV="${__DOTFILES}/scripts/venv.py";
-    (cd $__DOTFILES; \
-        ln -s "src/dotfiles/venv/ipython_config.py" \
-              "etc/scripts/venv.py"
-    )
-
-    ## Define a new venv VIRTUAL_ENV with venv
-    venv.py --print-vars dotfiles
-    venv.py --print-vars --VIRTUAL_ENV="${WORKON_HOME}/dotfiles"
-    venv.py --print-vars --ve dotfiles
-    venv.py --print-bash --ve dotfiles
-    venv.py --bash dotfiles
-    venv.py -B dotfiles
-    venv.py --print-bash-cdalias --ve dotfiles
-
-    ## Note: the following two commands are different to argparse
-    # venv dotfiles --print-bash      # does not work
-    venv --print-bash dotfiles        # does work
-
-    ## Manually define a venv VIRTUAL_ENV just like venv
-    VIRTUAL_ENV_NAME="dotfiles"                   # "dotfiles"
-    _APP=$VIRTUAL_ENV_NAME                        # "dotfiles" [+"/etc/bash"]
-    VIRTUAL_ENV="$WORKON_HOME/$VIRTUAL_ENV_NAME"  # cdv cdvirtualenv
-    _ETC="${VIRTUAL_ENV}/etc"                     # cde cdetc
-    _SRC="${VIRTUAL_ENV}/src"                     # cds cdsrc
-    _WRD="${_SRC}/{_APP}"                         # cdw cdwrd
-
-    (set -x; test "$_WRD" == "~/-wrk/-ve27/dotfiles/src/dotfiles"; \
-        || echo "Exception: _WRD = '${_WRD}';" )
-
-CdAlias
------------------
-Each :py:mod:`CdAlias` in ``env.aliases``
-can be written at configuration time and
-manually (e.g. for a static dotfiles repo).  # TODO: XXX
-
-For example, ``CdAlias('__WRK')`` becomes ``cdwrk``
-(also ``%cdwrk``, ``:Cdwrk``).
-
-.. code:: bash
-
-    # Bash
-    cdwrk
-    cdwrk<tab>
-
-    # IPython
-    cdwrk
-    %cdwrk
-
-    # Vim
-    :Cdwrk
-    call Cd___WRK()
-
-
-Python API
--------------
-Python API (see Test_Env, Test_venv_main):
-
-.. code-block:: python
-
-    # venv.py console_script   # setup.py:setup.entry_points['console_scripts']
-    # lessv ./scripts/venv.py  # PATH=./scripts:$PATH
-    import dotfiles.venv.ipython_config as venv
-
-    #
-    VENVSTR="dotfiles"
-    _virtual_env_expected = os.path.join(
-        os.path.expanduser('~/-wrk/-ve27/'),
-        VENVSTR)
-
-    _virtual_env = Venv.get_venv_path(VENVSTR)
-    assert _virtual_env == _virtual_env_expected
-
-    env = venv.Env()
-    env['VIRTUAL_ENV'] = _virtual_env
-    print(env['VIRTUAL_ENV']
-    print(env.environ['VIRTUAL_ENV']
-    print(env)
-
-    env = build_venv_full(env.copy())
-    print(env)
-
-    env2 = Env()
-    venv = Venv(env=env2, VENVSTR="dotfiles")
-    assert venv.env['VIRTUAL_ENV'] == _virtual_env_expected
+  - define CdAliases in ipython_config.py (this file)
+  - generate venv.sh (``cdwrk``)
+  - generate venv.vim (``:Cdwrk``)
+  - generate venv_cdmagic.py (``%cdwrk``, ``cdwrk``)
 
 
 .. note::
@@ -302,14 +185,27 @@ def get_pyver(pyverstr=None):
     return pyver
 
 
-def get___WRK_default(env=None):
-    return os.path.expanduser('~/-wrk')
+def get___WRK_default(env=None, **kwargs):
+    if env is None:
+        env = Env()
+    __WRK = kwargs.get('__WRK',
+                       env.get('__WRK',
+                               os.path.expanduser('~/-wrk')))
+    log.debug('get__WRK\t%s' % {'__WRK': __WRK,
+                                'env[__WRK]': env.get('__WRK')})
+    return __WRK
 
 
-def get_WORKON_HOME_default(env=None, from_environ=False, default='-ve27'):
+def get_WORKON_HOME_default(env=None,
+                            from_environ=False,
+                            default='-ve27',
+                            **kwargs):
     """
-    Args:
-        env (dict): defaults to os.environ
+    Keyword Arguments:
+        env (dict): Env dict to read from (default: None)
+        from_environ (bool): read WORKON_HOME from os.environ
+        default (str): default WORKON_HOME dirname
+        __WRK (str):
 
     Returns:
         str: path to a ``WORKON_HOME`` directory
@@ -321,11 +217,13 @@ def get_WORKON_HOME_default(env=None, from_environ=False, default='-ve27'):
             env = Env.from_environ(os.environ)  # TODO: os.environ.copy()
         else:
             env = Env()
-        env['__WRK'] = get___WRK_default(env=env)
-    workon_home = env.get('WORKON_HOME')
+    env['__WRK'] = kwargs.get('__WRK',
+                              env.get('__WRK',
+                                      get___WRK_default(env=env)))
+    workon_home = env.get('WORKON_HOME') # TODO: WORKON_HOME_DEFAULT
     if workon_home:
         return workon_home
-    python27_home = env.get('PYTHON27_HOME')
+    python27_home = env.get('WORKON_HOME__py27')
     if python27_home:
         workon_home = python27_home
         return workon_home
@@ -358,22 +256,45 @@ class VenvJSONEncoder(json.JSONEncoder):
 # which can then be transformed to:
 # * ipython aliases ("echo %l; ping -t %s -n %s")
 
-# CdAlias
-# * bash functions (cdwrd, cdw) with tab completion
-# * ipython magics (%cdwrd, cdwrd, cdw)
-# * vim functions  (:Cdwrd)
 
 class CmdAlias(object):
+    """
+    """
     def __init__(self, cmdstr):
+        """
+        Args:
+            cmdstr (str): command alias
+        """
         self.cmdstr = cmdstr
 
-    def to_shell_str(self, name,):
+    def to_shell_str(self, name=None):
+        """
+        Generate an alias or function for bash/zsh
+
+        Keyword Arguments:
+            name (str): funcname to override default
+        Returns:
+            str: self.cmdstr (AS-IS)
+        """
         return self.cmdstr
 
     def to_ipython_alias(self):
+        """
+        Generate an alias for IPython
+
+        Returns:
+            str: self.cmdstr (AS-IS)
+        """
         return self.cmdstr
 
     def to_vim_function(self):
+        """
+        Generate a vim function
+
+        Raises:
+            NotImplemented: See IpyAlias.to_vim_function
+            str: self.cmdstr (AS-IS)
+        """
         raise NotImplemented
 
     __str__ = to_shell_str
@@ -395,9 +316,9 @@ class IpyAlias(CmdAlias):
         Args:
             cmdstr (str): if cmdstr contains ``%s`` or ``%l``,
                 it will be expanded to a shell function
-                Keyword Arguments:
+        Keyword Arguments:
             name (str): None to set at serialization
-                (so that ``$ type cmd`` is flat)
+                (so that ``$ type cmd`` shows the actual command)
         """
         self.name = name
         self.cmdstr = cmdstr
@@ -433,18 +354,37 @@ class IpyAlias(CmdAlias):
 
 class CdAlias(CmdAlias):
     """
-    Expand a command string into ``cd`` change directory
-    functions for Bash, ZSH, IPython, Vim.
+    A CmdAlias for ``cd`` change directory
+    functions with venv paths (e.g. $_WRD)
+    for Bash, ZSH, IPython, Vim.
+
+    * venv.sh bash functions with tab-completion (cdwrd, cdw, cdw<tab>)
+    * ipython_magics.py: ipython magics (%cdwrd, cdwrd, cdw)
+    * venv.vim: vim functions  (:Cdwrd)
     """
     def __init__(self, pathvar, name=None, aliases=None):
         """
         Args:
             pathvar (str): path variable to cd to
-        Keyword Args:
+        Keyword Arguments:
             name (str): alias name (default: ``pathvar.lower.replace('_','')``)
-                _WRD -> wrd
+                _WRD -> cdwrd, :Cdwrd
                 WORKON_HOME -> workonhome
             aliases (list[str]): additional alias names (e.g. ['cdw',])
+
+        .. py:attribute:: BASH_ALIAS_TEMPLATE
+
+        .. py:attribute:: BASH_FUNCTION_TEMPLATE
+
+        .. py:attribute:: BASH_COMPLETION_TEMPLATE
+
+        .. py:attribute:: IPYTHON_MAGICS_FILE_HEADER
+
+        .. py:attribute:: IPYTHON_METHOD_TEMPLATE
+
+        .. py:attribute:: VIM_COMMAND_TEMPLATE
+
+        .. py:attribute:: VIM_FUNCTION_TEMPLATE
         """
 
         self.pathvar = pathvar
@@ -497,29 +437,56 @@ class VenvMagics(Magics):
         return self.cd('{pathvar}', line)
 ''')
 
+    VIM_HEADER_TEMPLATE = (
+    '''\n'''
+    '''" ### venv.vim\n\n'''
+    '''function! Cd_help()\n'''
+    '''" cdhelp()           -- list cd commands\n'''
+    '''    :verbose command Cd\n'''
+    '''endfunction\n'''
+    '''command! -nargs=* Cdhelp call Cd_help()\n'''
+    '''\n''')
+
     VIM_FUNCTION_TEMPLATE = (
-    '''function! {vim_func_name}()\n'''
-    '''    " {vim_func_name}() -- cd ${pathvar}\n'''
-    '''    cd ${pathvar}\n'''
+    '''function! {vim_func_name}(...)\n'''
+    '''" {vim_func_name}()  -- cd ${pathvar}/$1\n'''
+    '''    if a:0 > 0\n'''
+    '''       let pathname = join([${pathvar}, a:1], "/")\n'''
+    '''    else\n'''
+    '''       let pathname = "${pathvar}"\n'''
+    '''    endif\n'''
+    '''    execute 'cd' pathname \n'''
     '''    pwd\n'''
     '''endfunction\n'''
     )
     VIM_COMMAND_TEMPLATE = (
     '''"   :{cmd_name} -- {vim_func_name}()\n'''
-    """command! -nargs=* {cmd_name} call {vim_func_name}()\n"""
+    """command! -nargs=* {cmd_name} call {vim_func_name}(<f-args>)\n"""
     )
 
     @property
     def vim_cmd_name(self):
+        """
+        Returns:
+            str: e.g "Cdwrd"
+        """
         return "Cd{}".format(self.name)
 
     @property
     def vim_cmd_names(self):
+        """
+        Returns:
+            list: self.vim_cmd_name + self.aliases.title()
+        """
         return ([self.vim_cmd_name,] +
             [alias.title() for alias in self.aliases
              if not alias.endswith('-')])
 
     def to_vim_function(self):
+        """
+        Returns:
+            str: vim function block
+        """
         conf = {}
         conf['pathvar'] = self.pathvar
         conf['vim_func_name'] = "Cd_" + self.pathvar
@@ -555,13 +522,27 @@ class VenvMagics(Magics):
 
     @property
     def bash_func_name(self):
+        """
+        Returns:
+            str: e.g. "cdwrd"
+        """
         return "cd{}".format(self.name)
 
     @property
     def bash_func_names(self):
+        """
+        Returns:
+            list: self.bash_func_name + self.aliases
+        """
         return [self.bash_func_name,] + self.aliases
 
     def to_bash_function(self, include_completions=True):
+        """
+        Keyword Arguments:
+            include_completions (bool): generate inline Bash completions
+        Returns:
+            str: bash function block
+        """
         conf = {}
         conf['pathvar'] = self.pathvar
         conf['bash_func_name'] = self.bash_func_name
@@ -610,7 +591,9 @@ class Step(object):
     def __init__(self, func=None, **kwargs):
         """
         Keyword Arguments:
-            func (callable):
+            func (callable): ``function(env=None, **kwargs)``
+            name (str): a name for the step
+            conf (dict): a configuration dict (instead of kwargs) for this step
         """
         if not func:
             func = self.DEFAULT_FUNC
@@ -623,12 +606,20 @@ class Step(object):
         self.conf = kwargs.get('conf', kwargs)
 
     def _get_name(self):
+        """
+        Returns:
+            str: a name for this Step
+        """
         if self._name is not None:
             return self._name
-        return getattr(self.func, 'func_name', '')
+        return getattr(self.func, 'func_name', repr(self.func))
 
     @property
     def name(self):
+        """
+        Returns:
+            str: a name for this Step
+        """
         return self._get_name()
 
     @name.setter
@@ -636,17 +627,37 @@ class Step(object):
         self._name = name
 
     def _iteritems(self):
+        """
+        Yields:
+            tuple: ('attrname', obj)
+        """
         yield ('name', self.name)
         yield ('func', self.func)
         yield ('conf', self.conf)
 
     def asdict(self):
+        """
+        Returns:
+            OrderedDict: OrderedDict(self._iteritems())
+        """
         return OrderedDict(self._iteritems())
 
     def build_print_kwargs_env(self, env=None, **kwargs):
+        """
+        Default ``build_*_env`` Step.func function to print ``env``
+
+        Keyword Arguments:
+            env (:py:mod:`Env`): Env object (default: None)
+            kwargs (dict): kwargs dict
+
+        Returns:
+            :py:mod:`Env`: updated Env
+        """
         if env is None:
             env = Env()
         else:
+            # Note: StepBuilder also does env.copy before each step
+            # making this unnecessary for many build_*_env functions
             env = env.copy()
         env['kwargs'] = kwargs
         output = env.to_json()
@@ -660,6 +671,12 @@ class Step(object):
     def build(self, env=None, **kwargs):
         """
         Call ``self.func(env=env, **self.conf.copy().update(**kwargs))``
+
+        Keyword Arguments:
+            env (Env): Env object (default: None)
+            kwargs (dict): kwargs dict
+        Returns:
+            obj: ``self.func(env=env, **self.conf.copy().update(**kwargs))``
         """
         conf = self.conf.copy()
         conf.update(kwargs)  # TODO: verbose merge
@@ -667,12 +684,18 @@ class Step(object):
 
 
 class PrintEnvStep(Step):
+    """
+    Print env and kwargs to stdout
+    """
     _name = 'print_env'
     stdout = sys.stdout
     stderr = sys.stderr
     func = Step.build_print_kwargs_env
 
 class PrintEnvStderrStep(PrintEnvStep):
+    """
+    Print env and kwargs to stderr
+    """
     _name = 'print_env_stderr'
     stdout = sys.stderr
 
@@ -698,10 +721,18 @@ class StepBuilder(object):
 
     @property
     def debug(self):
+        """
+        Returns:
+            str: self.conf.get('debug')
+        """
         return self.conf.get('debug')
 
     @property
     def show_diffs(self):
+        """
+        Returns:
+            str: self.conf.get('show_diffs')
+        """
         return self.conf.get('show_diffs')
 
     def add_step(self, func, **kwargs):
@@ -714,7 +745,7 @@ class StepBuilder(object):
         Keyword Arguments:
             name (str): function name (default: None)
         Returns:
-            Step: step object appended to self.steps
+            :py:mod:`Step`: Step object appended to self.steps
         """
         if isinstance(func, Step):
             step = func(**kwargs)
@@ -731,22 +762,24 @@ class StepBuilder(object):
 
     def build_iter(self, env=None, show_diffs=True, debug=False):
         """
-        Build a generator of Env's from the
+        Build a generator of (Step, Env) tuples from the
         functional composition of StepBuilder.steps
-        for the given Env.
+        given an initial :py:mod:`Env` (or None).
 
         .. code:: python
 
             # pseudocode
-            (step.build(env=env_previous.copy(),**conf)
-                for step in self.steps)
+            env_previous = Env()
+            for step in self.steps:
+                (step, env) = step.build(env=env_previous.copy(),**conf)
+                env_previous=env
 
         Keyword Arguments:
             env (Env): initial Env (default: None)
             show_diffs (bool): show difflib.ndiffs of Envs between steps
             debug (bool):
         Yields:
-            tuple: (Step, Env): (env_0, env_1, env_n)
+            tuple: (:py:mod:`Step`, :py:mod:`Env`)
         """
         if env:
             env0 = env
@@ -813,85 +846,105 @@ class StepBuilder(object):
 ## Build everything
 
 
-def build_dotfiles_env(env=None, HOME=None, __WRK=None, **kwargs):
+def lookup_from_kwargs_env(kwargs, env, attr, default=None):
     """
-    Configure dotfiles base environment
-
-    Other Parameters:
-        HOME (str): home path (``$HOME``, ``~``)
-        __WRK (str): workspace path (``$__WRK``, ``~/-wrk``)
 
     Args:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
-
+        kwargs (dict): kwargs dict
+        env (Env): :py:mod:`Env` dict
+        attr (str): attribute name
+        default (obj): default value to return if not found in kwargs or env
     Returns:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        obj: kwargs.get(attr, env.get(attr, default))
     """
-    if env is None:
-        env = Env()
-    if HOME is not None:
-        env['HOME'] = HOME
-    if __WRK is not None:
-        env['__WRK'] = __WRK
-
-    HOME = env.get('HOME')
-    if HOME is None:
-        env['HOME'] = os.path.expanduser('~')
-
-    __WRK = env.get('__WRK')
-    if __WRK is None:
-        env['__WRK'] = get___WRK_default()
-
-    env['__SRC'] = joinpath(env['__WRK'], '-src')
-    env['__DOTFILES'] = joinpath(env['HOME'], '-dotfiles')
-    return env
+    return kwargs.get(attr, env.get(attr, default))
 
 
-def build_python_env(env=None, **kwargs):
+
+
+def build_dotfiles_env(env=None,
+                       **kwargs):
     """
-    Configure python27 (2.7) and python34 (3.4)
-    with virtualenvs in ``-wrk/-ve27`` and ``-wrk/ve34``.
+    Configure dotfiles base environment (HOME, __WRK, __SRC, __DOTFILES)
 
     Keyword Arguments:
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        HOME (str): home path (``$HOME``, ``~``)
+        __WRK (str): workspace path (``$__WRK``, ``~/-wrk``)
+        __SRC (str): path to source repos (``$__WRK/-src``)
+        __DOTFILES (str): current dotfiles path (``~/-dotfiles``)
+
     Returns:
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
 
+        Sets:
+
+        * HOME
+        * __WRK
+        * __SRC
+        * __DOTFILES
     """
     if env is None:
         env = Env()
-        env['__WRK'] = get___WRK_default()
+    def lookup(attr, default=None):
+        return lookup_from_kwargs_env(kwargs, env, attr, default=default)
 
-    #env['PYTHON27_ROOT'] = joinpath(env['__WRK'], '-python27')
-    env['PYTHON27_HOME'] = joinpath(env['__WRK'], '-ve27')
-    #env['PYTHON34_ROOT'] = joinpath(env['__WRK'], '-python34')
-    env['PYTHON34_HOME'] = joinpath(env['__WRK'], '-ve34')
-
-    env['PYTHON_HOME'] = env['PYTHON27_HOME']    # ~/-wrk/-ve    # cdce
+    env['HOME']  = lookup('HOME',  default=os.path.expanduser('~'))
+    env['__WRK'] = lookup('__WRK', default=get___WRK_default(env))
+    env['__SRC'] = lookup('__SRC', default=joinpath(env['__WRK'], '-src'))
+    env['__DOTFILES'] = lookup('__DOTFILES',
+                               default=joinpath(env['HOME'], '-dotfiles'))
     return env
+
+
+# DEFAULT_WORKON_HOME_DEFAULT (str): variable holding path to WORKON_HOME
+DEFAULT_WORKON_HOME_DEFAULT = "WORKON_HOME__py27"
 
 
 def build_virtualenvwrapper_env(env=None, **kwargs):
     """
-
-    Other Parameters:
-        __WRK (str): workspace root (``$__WRK``, ``~/-wrk``)
+    Set WORKON_HOME to WORKON_HOME or WORKON_HOME_DEFAULT
 
     Keyword Arguments:
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        __WRK (str): workspace path (``$__WRK``, ``~/-wrk``)
+        WORKON_HOME_DEFAULT (str): variable name (default: ``WORKON_HOME__py27``)
+        WORKON_HOME__* (str): path to a WORKON_HOME set
     Returns:
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
-    """
 
+        Sets:
+
+        * WORKON_HOME__py27='${__WRK}/-ve27'
+        * WORKON_HOME__py34='${__WRK}/-ve34'
+        * WORKON_HOME__*=kwargs.get(WORKON_HOME__*)
+        * WORKON_HOME_DEFAULT='WORKON_HOME_py27'
+    """
     if env is None:
         env = Env()
-        env['__WRK'] = get___WRK_default()
+    def lookup(attr, default=None):
+        return lookup_from_kwargs_env(kwargs, env, attr, default=default)
+    env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
+    env['PROJECT_HOME'] = lookup('PROJECT_HOME',
+                                 default=env['__WRK'])      # cdprojecthome cdph
 
-    if not env.get('PYTHON27_HOME'):
-        env['PYTHON27_HOME'] = joinpath(env['__WRK'], '-ve27')
+    #env['PYTHON27_ROOT'] = joinpath(env['__WRK'], '-python27')
+    env['WORKON_HOME__py27'] = lookup('WORKON_HOME__py27',
+                                      default=joinpath(env['__WRK'], '-ve27'))
+    #env['PYTHON34_ROOT'] = joinpath(env['__WRK'], '-python34')
+    env['WORKON_HOME__py34'] = lookup('WORKON_HOME__py34',
+                                      default=joinpath(env['__WRK'], '-ve34'))
 
-    env['PROJECT_HOME'] = env['__WRK']          # ~/-wrk/       # cdph
-    env['WORKON_HOME'] = env['PYTHON27_HOME']   # ~/-wrk/-ve27/    # cdve
+    for key in kwargs:
+        if key.startswith("WORKON_HOME__"):
+            env[key] = kwargs.get(key)
+
+    env['WORKON_HOME_DEFAULT'] = lookup('WORKON_HOME_DEFAULT',
+                                        default=DEFAULT_WORKON_HOME_DEFAULT)
+
+    env['WORKON_HOME'] = lookup('WORKON_HOME',
+                                default=env[env['WORKON_HOME_DEFAULT']])
+    # cdworkonhome  cdwh
     return env
 
 
@@ -902,10 +955,10 @@ def build_conda_env(env=None, **kwargs):
 
     Other Parameters:
         __WRK (str): workspace root (``$__WRK``, ``~/-wrk``)
-        CONDA27_ROOT (str): path to conda27 root environment
-        CONDA27_HOME (str): path to conda27 envs (e.g. WORKON_HOME)
-        CONDA34_ROOT (str): path to conda34 root environment
-        CONDA34_HOME (str): path to conda34 envs (e.g. WORKON_HOME)
+        CONDA_ROOT__py27 (str): path to conda27 root environment
+        CONDA_HOME__py27 (str): path to conda27 envs (e.g. WORKON_HOME)
+        CONDA_ROOT__py34 (str): path to conda34 root environment
+        CONDA_HOME__py34 (str): path to conda34 envs (e.g. WORKON_HOME)
 
     Keyword Arguments:
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
@@ -914,8 +967,9 @@ def build_conda_env(env=None, **kwargs):
     """
     if env is None:
         env = Env()
-        env['__WRK'] = kwargs.get('__WRK', get___WRK_default())
-
+    def lookup(attr, default=None):
+        return lookup_from_kwargs_env(kwargs, env, attr, default=default)
+    env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
 
     # get default env paths
     confs = [
@@ -950,7 +1004,10 @@ def build_conda_env(env=None, **kwargs):
     return env
 
 
-def build_conda_cfg_env(env=None, CONDA_ROOT=None, CONDA_HOME=None, **kwargs):
+DEFAULT_CONDA_ROOT_DEFAULT='CONDA_ROOT__py27'
+DEFAULT_CONDA_HOME_DEFAULT='CONDA_HOME__py27'
+
+def build_conda_cfg_env(env=None, **kwargs):
     """
     Configure conda for a specific environment
     TODO build_venv_config
@@ -962,27 +1019,35 @@ def build_conda_cfg_env(env=None, CONDA_ROOT=None, CONDA_HOME=None, **kwargs):
     """
     if env is None:
         env = Env()
-        env['__WRK'] = get___WRK_default()
-        if CONDA_ROOT is None:
-            env['CONDA27_ROOT'] = joinpath(env['__WRK'], '-conda27')
-        if CONDA_HOME is None:
-            env['CONDA27_HOME'] = joinpath(env['__WRK'], '-ce27')
 
-    if CONDA_ROOT is None:
-        CONDA_ROOT = env.get('CONDA_ROOT', env.get('CONDA27_ROOT'))
-    if CONDA_HOME is None:
-        CONDA_HOME = env.get('CONDA_HOME', env.get('CONDA27_HOME'))
+    def lookup(attr, default=None):
+        return lookup_from_kwargs_env(kwargs, env, attr, default=default)
 
-    env['CONDA_ROOT'] = CONDA_ROOT
-    env['CONDA_HOME'] = CONDA_HOME
+    env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
+
+    env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
+                                 default=joinpath(env['__WRK'], '-conda27'))
+    env['CONDA_HOME__py27'] = lookup('CONDA_HOME__py27',
+                                 default=joinpath(env['__WRK'], '-ce27'))
+
+    env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
+                                 default=joinpath(env['__WRK'], '-conda34'))
+    env['CONDA_HOME__py34'] = lookup('CONDA_HOME__py27',
+                                 default=joinpath(env['__WRK'], '-ce34'))
+
+    env['CONDA_ROOT_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
+                                       default=DEFAULT_CONDA_ROOT_DEFAULT)
+    env['CONDA_HOME_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
+                                       default=DEFAULT_CONDA_HOME_DEFAULT)
+
+    env['CONDA_ROOT'] = lookup('CONDA_ROOT',
+                               default=env[env['CONDA_ROOT_DEFAULT']])
+    env['CONDA_HOME'] = lookup('CONDA_HOME',
+                               default=env[env['CONDA_HOME_DEFAULT']])
     return env
 
 
 def build_venv_paths_full_env(env=None,
-                              VENVSTR=None,
-                              VENVSTRAPP=None,
-                              VENVPREFIX=None,
-                              VIRTUAL_ENV=None,
                               pyver=None,
                               **kwargs):
     """
@@ -1003,51 +1068,29 @@ def build_venv_paths_full_env(env=None,
         - https://en.wikipedia.org/wiki/Unix_directory_structure
         - https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
     """
-    conf = {
-        'VENVSTR': VENVSTR,
-        'VENVSTRAPP': VENVSTRAPP,
-        'VENVPREFIX': VENVPREFIX,
-        'VIRTUAL_ENV': VIRTUAL_ENV,
-        'pyver': pyver}
     if env is None:
         env = Env()
+
+    def lookup(attr, default=None):
+        return lookup_from_kwargs_env(kwargs, env, attr, default=default)
+
     if pyver is None:
         pyver = get_pyver(pyver)
 
-    if VENVPREFIX is not None:
-        env['VENVPREFIX'] = VENVPREFIX
-    else:
-        VENVPREFIX = env.get('VENVPREFIX')
+    env['VENVPREFIX'] = lookup('VENVPREFIX')
+    env['VENVSTR'] = lookup('VENVSTR')
+    env['VENVSTRAPP'] = lookup('VENVSTRAPP')
+    env['VIRTUAL_ENV'] = lookup('VIRTUAL_ENV')
 
-    if VENVSTR is not None:
-        env['VENVSTR'] = VENVSTR
-    else:
-        VENVSTR = env.get('VENVSTR')
-
-    if VENVSTRAPP is not None:
-        env['VENVSTRAPP'] = VENVSTRAPP
-    else:
-        VENVSTRAPP = env.get('VENVSTRAPP')
-
-    if VIRTUAL_ENV is not None:
-        env['VIRTUAL_ENV'] = VIRTUAL_ENV
-    else:
-        VIRTUAL_ENV = env.get('VIRTUAL_ENV')
-
-    logevent('bpveenv', env)
-
+    VENVSTR = env.get('VENVSTR')
     if VENVSTR is not None:
         env = Venv.parse_VENVSTR(env=env,
-                                 VENVPREFIX=VENVPREFIX,
-                                 VENVSTR=VENVSTR,
-                                 VENVSTRAPP=VENVSTRAPP,
-                                 VIRTUAL_ENV=VIRTUAL_ENV,
-                                 pyver=pyver)
-
+                                 pyver=pyver,
+                                 **kwargs)
     VIRTUAL_ENV = env.get('VIRTUAL_ENV')
     VENVPREFIX = env.get('VENVPREFIX')
     if VENVPREFIX in (None, False):
-        if VIRTUAL_ENV:
+        if VIRTUAL_ENV is not None:
             VENVPREFIX = VIRTUAL_ENV
             env['VENVPREFIX'] = VIRTUAL_ENV
         else:
@@ -1062,7 +1105,6 @@ def build_venv_paths_full_env(env=None,
     env['_ETC']         = joinpath(VENVPREFIX, "etc")            # ./etc
     env['_ETCOPT']      = joinpath(VENVPREFIX, "etc", "opt")     # ./etc/opt
     env['_HOME']        = joinpath(VENVPREFIX, "home")           # ./home
-    env['_ROOT']        = joinpath(VENVPREFIX, "root")           # ./root
     env['_LIB']         = joinpath(VENVPREFIX, "lib")            # ./lib
     env['_PYLIB']       = joinpath(VENVPREFIX, "lib",       # ./lib/pythonN.N
                                     pyver)
@@ -1072,6 +1114,7 @@ def build_venv_paths_full_env(env=None,
     env['_MNT']         = joinpath(VENVPREFIX, "mnt")            # ./mnt
     env['_MEDIA']       = joinpath(VENVPREFIX, "media")          # ./media
     env['_OPT']         = joinpath(VENVPREFIX, "opt")            # ./opt
+    env['_ROOT']        = joinpath(VENVPREFIX, "root")           # ./root
     env['_SBIN']        = joinpath(VENVPREFIX, "sbin")           # ./sbin
     env['_SRC']         = joinpath(VENVPREFIX, "src")            # ./src
     env['_SRV']         = joinpath(VENVPREFIX, "srv")            # ./srv
@@ -1411,9 +1454,9 @@ def build_usrlog_env(env=None,
     """
     if env is None:
         env = Env()
-        env['HOME']     = os.path.expanduser('~')
+        env['HOME']     = env.get('HOME', os.path.expanduser('~'))
         env['__WRK']    = env.get('__WRK',
-                               joinpath(env['HOME'], '-wrk'))
+                                  get___WRK_default(env=env))
         #env['HOSTNAME'] = HOSTNAME
         #env['USER'] = USER
 
@@ -1465,8 +1508,7 @@ def build_venv_activate_env(env=None,
                         _SRC=None,
                         _WRD=None,
                         **kwargs):
-
-    conf = {
+    kwargs.update({
         'VENVPREFIX': VENVPREFIX,
         'VENVSTR': VENVSTR,
         'VENVSTRAPP': VENVSTRAPP,
@@ -1475,11 +1517,11 @@ def build_venv_activate_env(env=None,
         'VIRTUAL_ENV_NAME': VIRTUAL_ENV_NAME,
         '_APP': _APP,
         '_SRC': _SRC,
-        '_WRD': _WRD }
+        '_WRD': _WRD })
 
     VENVSTR_env = None
     if VENVSTR:
-        VENVSTR_env = Venv.parse_VENVSTR(env=env, **conf)
+        VENVSTR_env = Venv.parse_VENVSTR(env=env, **kwargs)
 
     if env is None:
         env = VENVSTR_env
@@ -1489,6 +1531,12 @@ def build_venv_activate_env(env=None,
                 if env.get(key) != value:
                     env[key] = value
                     log.debug("key override")
+
+
+    def lookup(attr, default=None):
+        return lookup_from_kwargs_env(kwargs, env, attr, default=default)
+
+    env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
 
     if VIRTUAL_ENV is not None:
         env['VIRTUAL_ENV'] = VIRTUAL_ENV
@@ -1513,7 +1561,7 @@ def build_venv_activate_env(env=None,
         if VIRTUAL_ENV_NAME is not None:
             _APP = VIRTUAL_ENV_NAME
         else:
-            _APP = ""
+            _APP = "-"
         env['_APP'] = _APP
 
     _ETC = env.get('_ETC')
@@ -1526,7 +1574,7 @@ def build_venv_activate_env(env=None,
         _SRC = joinpath(env['VIRTUAL_ENV'], 'src')
         env['_SRC'] = _SRC
 
-    _ERD = env.get('_WRD')
+    _WRD = env.get('_WRD')
     if _WRD is None:
         _WRD = joinpath(env['_SRC'], env['_APP'])
         env['_WRD'] = _WRD
@@ -1599,10 +1647,15 @@ class Env(object):
 
     def logevent(self, *args, **kwargs):
         #kwargs['logger'] = self.log
+        args = list(args)
+        if args[0].startswith('env'):
+            args[0] = 'env-{}:{}'.format(
+                str(hex(id(self)))[1:],
+                args[0][2:])
         return logevent(*args, **kwargs)
 
     def __setitem__(self, k, v):
-        self.logevent(    "env[k]=v", "{}={}".format(k, repr(v)))
+        self.logevent("env[k]=v", "{}={}".format(k, repr(v)))
         return self.environ.__setitem__(k, v)
 
     def __getitem__(self, k):
@@ -1628,7 +1681,7 @@ class Env(object):
         return self.environ.get(k, default)
 
     def copy(self):
-        logevent('env.copy', level=logging.DEBUG)
+        self.logevent('env.copy', level=logging.DEBUG)
         return copy.deepcopy(self)
 
     def __eq__(self, env):
@@ -1684,7 +1737,8 @@ class Env(object):
 
     def __repr__(self):
         # XXX
-        return "Env: " + repr(str(self))
+        return repr(self.to_dict())
+        #"Env: " + repr(str(self))
 
     def ndiff(self, other_env):
         """
@@ -1779,8 +1833,8 @@ class Venv(object):
                  __DOTFILES=None,
                  WORKON_HOME=None,
                  VIRTUAL_ENV_NAME=None,
-                 VIRTUAL_ENV=None,
                  VENVPREFIX=None,
+                 VIRTUAL_ENV=None,
                  _SRC=None,
                  _APP=None,
                  _WRD=None,
@@ -1790,7 +1844,8 @@ class Venv(object):
                  open_terminals=False,
                  dont_reflect=True,
                  debug=False,
-                 show_diffs=False):
+                 show_diffs=False,
+                 **kwargs):
         """
         Initialize a new Venv from a default configuration
 
@@ -1798,9 +1853,10 @@ class Venv(object):
 
             env (Env): initial Env
 
-            VENVSTR (str): VIRTUAL_ENV_NAME or VIRTUAL_ENV
+            VENVSTR (str): VIRTUAL_ENV_NAME ('dotfiles') or VIRTUAL_ENV
+                ('$WORKON_HOME/dotfiles')
 
-            VENVSTRAPP (str): _APP
+            VENVSTRAPP (str): _APP ('dotfiles', 'dotfiles/etc/bash')
 
             __WRK (str): None (~/-wrk) OR
                 path to a workspace root
@@ -1810,6 +1866,13 @@ class Venv(object):
 
                     test $__WRK == echo "${HOME}/-wrk"
                     cdwrk
+
+            __DOTFILES (str): None or path to dotfiles symlink
+
+                .. code:: bash
+
+                    test "${__DOTFILES}" == "~/-dotfiles"
+                    cddotfiles ; cdd
 
             WORKON_HOME (str): path to a ``WORKON_HOME`` directory
                 containing zero or more 'VIRTUAL_ENV`` directories
@@ -1833,7 +1896,7 @@ class Venv(object):
                    or what is in ``os.environ``, if ``from_environ`` is True)
 
 
-            VENV__PREFIX (str): for when VIRTUAL_ENV is not set {/,~,~/-wrk}
+            VENVPREFIX (str): for when VIRTUAL_ENV is not set {/,~,~/-wrk}
                 some paths may not make sense with PREFIX=/.
                 #TODO: list sensible defaults
                 # the issue here is whether to raise an error when
@@ -1876,13 +1939,6 @@ class Venv(object):
                     test "${_SRC}/${_APP}" == "${_WRD}"
                     cdwrd ; cdw
 
-            __DOTFILES (str): None or path to dotfiles symlink
-
-                .. code:: bash
-
-                    test "${__DOTFILES}" == "~/-dotfiles"
-                    cddotfiles ; cdd
-
             env (Env): an initial Env with zero or more values for self.env
                 (default: None)
             from_environ (bool): read self.env from ``os.environ``
@@ -1906,46 +1962,48 @@ class Venv(object):
                 env = Env.from_environ(os.environ)
             else:
                 raise Exception("both 'env' and 'from_environ=True' were specified")
-
         if env is None:
             env = Env()
 
-        if VIRTUAL_ENV is not None:
-            env['VIRTUAL_ENV'] = VIRTUAL_ENV
-        if _APP is not None:
-            env['_APP'] = _APP
-        if VIRTUAL_ENV_NAME is not None:
-            env['VIRTUAL_ENV_NAME'] = VIRTUAL_ENV_NAME
-        if VENVPREFIX is not None:
-            env['VENVPREFIX'] = VENVPREFIX
-        if VENVSTR is not None:
-            env['VENVSTR'] = VENVSTR
-        if VENVSTRAPP is not None:
-            env['VENVSTRAPP'] = VENVSTRAPP
-        if _SRC is not None:
-            env['_SRC'] = _SRC
-        if _WRD is not None:
-            env['_WRD'] = _WRD
-        if __WRK is not None:
-            env['__WRK'] = __WRK
-        if __DOTFILES is not None:
-            env['__DOTFILES'] = __DOTFILES
+        keys = [
+            'VENVSTR',
+            'VENVSTRAPP',
+            '__WRK',
+            '__DOTFILES',
+            'WORKON_HOME',
+            'VIRTUAL_ENV',
+            'VENVPREFIX',
+            '_APP',
+            'VIRTUAL_ENV_NAME',
+            '_SRC',
+            '_WRD']
 
+        kwargs = OrderedDict()
+        def lookup(attr, default=None):
+            return lookup_from_kwargs_env(kwargs, env, attr, default=default)
+
+        _SENTINEL = None
+        _vars = vars()
+        for key in keys:
+            value = _vars.get(key, _SENTINEL)
+            if value is not _SENTINEL:
+                kwargs[key] = value
+                env[key] = lookup(key)
+
+        VENVSTR = env['VENVSTR'] = lookup('VENVSTR')
         if VENVSTR:
-            env = Venv.parse_VENVSTR(env=env)
-
+            env = Venv.parse_VENVSTR(env=env,
+                                     from_environ=from_environ,
+                                     **kwargs)
         self.env = env
-
         built_envs = self.build(env=env,
-                              from_environ=from_environ,
-                              dont_reflect=dont_reflect,
-                              debug=debug,
-                              show_diffs=show_diffs)
+                                from_environ=from_environ,
+                                dont_reflect=dont_reflect,
+                                debug=debug,
+                                show_diffs=show_diffs)
         if not built_envs:
             raise ConfigException(built_envs)
-
         self.env = built_envs[-1]
-
         if open_editors:
             self.open_editors()
         if open_terminals:
@@ -1961,23 +2019,33 @@ class Venv(object):
               debug=False,
               show_diffs=False,
               ):
+        """
+        Build Venv Steps with StepBuilder
 
-        conf = {
-            'VENVSTR': VENVSTR,
-            'VENVSTRAPP': VENVSTRAPP,
-            'VENVPREFIX': VENVPREFIX,
+        """
+        conf = OrderedDict()
+
+        if VENVSTR is not None:
+            conf['VENVSTR'] = VENVSTR
+        if VENVSTRAPP is not None:
+            conf['VENVSTRAPP'] = VENVSTRAP
+        if VENVPREFIX is not None:
+            conf['VENVPREFIX'] = VENVPREFIX
+
+        conf.update({
             'from_environ': from_environ,
             'dont_reflect': dont_reflect,
             'debug': debug,
-            'show_diffs': show_diffs}
+            'show_diffs': show_diffs,
+        })
 
         builder = StepBuilder(conf=conf)
         builder.add_step(PrintEnvStderrStep)
-        builder.add_step(build_venv_activate_env)
 
         builder.add_step(build_dotfiles_env)
-        builder.add_step(build_python_env)
         builder.add_step(build_virtualenvwrapper_env)
+        builder.add_step(build_venv_activate_env)
+
         builder.add_step(build_conda_env)
         builder.add_step(build_conda_cfg_env)
         builder.add_step(build_venv_activate_env)
@@ -1985,7 +2053,10 @@ class Venv(object):
         builder.add_step(build_venv_paths_cdalias_env)
         builder.add_step(build_user_aliases_env)
         builder.add_step(build_usrlog_env)
-        logevent('Venv.build', dict(env=env, conf=conf), wrap=True, level=logging.INFO)
+        logevent('Venv.build',
+                 dict(env=env, conf=conf),
+                 wrap=True,
+                 level=logging.DEBUG)
         new_env = builder.build(env=env)
         #logevent('Venv.build', dict(env=env, conf=conf), wrap=True, level=logging.INFO)
         return new_env
@@ -1995,32 +2066,78 @@ class Venv(object):
                       VENVSTR=None,
                       VENVSTRAPP=None,
                       VENVPREFIX=None,
+                      VIRTUAL_ENV=None,
+                      VIRTUAL_ENV_NAME=None,
+                      _APP=None,
+                      _SRC=None,
+                      _WRD=None,
+                      __WRK=None,
+                      WORKON_HOME=None,
                       from_environ=False,
                       **kwargs):
         """
-        Get the path to a virtualenv
+        Get the path to a virtualenv given a ``VENVSTR``
 
-        Args:
+        Keyword Arguments:
+            env (Env):
             VENVSTR (str): a path to a virtualenv containing ``/``
                 OR just the name of a virtualenv in ``$WORKON_HOME``
+            VENVSTRAPP (str):
+            VENVPREFIX (str):
+            WORKON_HOME (str):
             from_environ (bool): whether to try and read from
                 ``os.environ["VIRTUAL_ENV"]``
         Returns:
             str: a path to a virtualenv (for ``$VIRTUAL_ENV``)
         """
+
+        _vars = vars()
+        keys = [
+            'VENVSTR',
+            'VENVSTRAPP',
+            'VENVPREFIX',
+            'VIRTUAL_ENV',
+            'VIRTUAL_ENV_NAME',
+            '_APP',
+            '_SRC',
+            '_WRD',
+            'WORKON_HOME',
+            '__WRK',
+        ]
+
+        SENTINEL = None
+        for key in keys:
+            value = _vars.get(key, SENTINEL)
+            if value is not SENTINEL:
+                kwargs[key] = value
+
         if from_environ is True:
+            if VENVSTR or VENVSTRAPP or VENVPREFIX:
+                raise ConfigException(
+                    "from_environ=True cannot be specified with any of "
+                    "[VENVSTR, VENVSTRAPP, VENVPREFIX]")
             env = Env.from_environ(os.environ)
         else:
             if env is None:
                 env = Env()
 
-        logevent('parse_VENVSTR', env)
+        def lookup(attr, default=None):
+            return lookup_from_kwargs_env(kwargs, env, attr, default=default)
 
-        VIRTUAL_ENV = env.get('VIRTUAL_ENV')
-        WORKON_HOME = env.get('WORKON_HOME')
+        logevent('parse_VENVSTR_input', {'kwargs': kwargs, 'env': env})
+
+        VIRTUAL_ENV = env['VIRTUAL_ENV'] = lookup('VIRTUAL_ENV')
+        WORKON_HOME = env['WORKON_HOME'] = lookup('WORKON_HOME',
+                                    default=get_WORKON_HOME_default())
         if WORKON_HOME is None:
-            WORKON_HOME = get_WORKON_HOME_default()
-            env['WORKON_HOME'] = WORKON_HOME
+            WORKON_HOME = env['WORKON_HOME'] = get_WORKON_HOME_default()
+
+        _APP = env['_APP'] = lookup('_APP')
+        VENVSTR = lookup('VENVSTR')
+        if VENVSTR is not None:
+            env['VENVSTR'] = VENVSTR
+        VENVSTRAPP = env['VENVSTRAPP'] = lookup('VENVSTRAPP')
+        VENVPREFIX = env['VENVPREFIX'] = lookup('VENVPREFIX')
 
         if VENVSTR is not None:
             if '/' not in VENVSTR:
@@ -2028,9 +2145,9 @@ class Venv(object):
             else:
                 VIRTUAL_ENV = os.path.abspath(VENVSTR)
             env['VENVSTR'] = VENVSTR
-        env['VIRTUAL_ENV'] = VIRTUAL_ENV
+            env['VIRTUAL_ENV'] = VIRTUAL_ENV
+            env['VENVPREFIX'] = VENVPREFIX = VIRTUAL_ENV
 
-        _APP = None
         if VENVSTRAPP is not None:
             VIRTUAL_ENV_NAME = VENVSTRAPP.split(os.path.sep)[0]
             _APP = VENVSTRAPP
@@ -2046,24 +2163,25 @@ class Venv(object):
         env['VIRTUAL_ENV_NAME'] = VIRTUAL_ENV_NAME
         env['_APP'] = _APP
 
-        if VENVPREFIX is None:
-            VENVPREFIX = env.get('VIRTUAL_ENV', None)
-        env['VENVPREFIX'] = VENVPREFIX
-
-        logevent('parse_VENVSTR', env)
+        logevent('parse_VENVSTR_output', {'env': env, 'kwargs': kwargs, })
 
         #import ipdb
         #ipdb.set_trace()
         return env
 
-
+    @property
     def aliases(self):
+        """
+        Returns:
+            OrderedDict: self.env.aliases
+        """
         return self.env.aliases
 
     @staticmethod
     def _configure_sys(env=None, from_environ=False, pyver=None):
         """
-        Configure sys.path with the given env, or from from_environ
+        Configure ``sys.path`` with the given :py:mod:`Env`,
+        or from ``os.environ``.
 
         Args:
             env (Env): Env to configure sys.path according to
@@ -2080,6 +2198,8 @@ class Venv(object):
             an additional local copy of IPython installed,
             the lack of an extensions path was causing errors
             in regards to missing extensions.
+
+            If the path does not exist, it will not be added.
 
         """
         if from_environ:
@@ -2285,6 +2405,7 @@ class Venv(object):
             str: block of vim script
         """
 
+        yield CdAlias.VIM_HEADER_TEMPLATE
         #for k, v in self.env.items():
         #    yield ("export %s=%r" % (k, v))
         for k, v in self.env.aliases.items():
@@ -2629,9 +2750,9 @@ class VenvTestUtils(object):
         if env is None:
             env = Env()
         env['__WRK']            = env.get('__WRK',
-                                          get___WRK_default())
+                                          get___WRK_default(env=env))
         env['WORKON_HOME']      = env.get('WORKON_HOME',
-                                          get_WORKON_HOME_default())
+                                          get_WORKON_HOME_default(env=env))
         env['VENVSTR']          = env.get('VENVSTR',
                                           'dotfiles')
         env['VENVSTRAPP']       = env.get('VENVSTRAPP',
@@ -2669,6 +2790,25 @@ class VenvTestUtils(object):
             # _stdout.seek(0), _stderr.seek(0)
             return output, _stdout, _stderr
         return __capture_io
+
+
+class Test_001_lookup(unittest.TestCase):
+
+    def test_100_lookup(self):
+        kwargs = {'True': True, 'envTrue': True,
+                  'isNone': None, 'kwargsTrue': True,
+                  'collide': 'kwargs'}
+        env = {'True': True, 'envTrue': True,
+               'isNone': None, 'envNone': True,
+               'collide': 'env'}
+        def lookup(attr, default=None):
+            return lookup_from_kwargs_env(kwargs, env, attr, default=default)
+        self.assertTrue(lookup('True'))
+        self.assertTrue(lookup('kwargsTrue'))
+        self.assertTrue(lookup('envTrue'))
+        self.assertEqual(lookup('collide'), 'kwargs')
+        self.assertIsNone(lookup('...'))
+        self.assertTrue(lookup('...', default=True))
 
 
 class Test_100_Env(unittest.TestCase):
@@ -2770,7 +2910,7 @@ class Test_250_Venv(unittest.TestCase):
         venv = Venv.parse_VENVSTR(VENVSTR=self.env['VENVSTR'])
         for attr in self.envattrs:
             self.assertIn(attr, venv)
-            self.assertEqual(venv[attr], self.env[attr], attr)
+            self.assertEqual(venv[attr], self.env[attr])
 
 
 class Test_300_venv_build_env(unittest.TestCase):
@@ -2780,7 +2920,7 @@ class Test_300_venv_build_env(unittest.TestCase):
     .. code:: python
 
         env = env.copy()
-        buildfunc = build_python_env
+        buildfunc = build_virtualenvwrapper_env
         new_env = buildfunc(env=env)
 
         new_env = buildfunc(env=env, **kwargs)
@@ -2791,39 +2931,33 @@ class Test_300_venv_build_env(unittest.TestCase):
         self.env = VenvTestUtils.build_env_test_fixture()
 
     @staticmethod
-    def print(self, *args, **kwargs):
-        print(*args, **kwargs)
+    def print_(self, *args, **kwargs):
+        print(args, kwargs)
 
     def test_100_build_dotfiles_env(self):
         env = build_dotfiles_env()
-        self.print(env)
+        self.print_(env)
         self.assertTrue(env)
 
     def test_200_build_usrlog_env(self):
         env = build_usrlog_env()
-        self.print(env)
-        self.assertTrue(env)
-
-    def test_300_build_python_env(self):
-        env = None
-        env = build_python_env()
-        self.print(env)
+        self.print_(env)
         self.assertTrue(env)
 
     def test_400_build_virtualenvwrapper_env(self):
         env = build_virtualenvwrapper_env()
-        self.print(env)
+        self.print_(env)
         self.assertTrue(env)
 
     def test_500_build_conda_env(self):
         env = build_conda_env()
-        self.print(env)
+        self.print_(env)
         self.assertTrue(env)
 
     def test_600_build_conda_cfg_env(self):
         env = build_conda_cfg_env()
         #env = build_conda_cfg_env(env=env, conda_root=None, conda_home=None)
-        self.print(env)
+        self.print_(env)
         self.assertTrue(env)
 
     def test_600_build_venv_paths_full_env__prefix_None(self):
@@ -2832,7 +2966,7 @@ class Test_300_venv_build_env(unittest.TestCase):
 
     def test_610_build_venv_paths_full_env__prefix_root(self):
         env = build_venv_paths_full_env(VENVPREFIX='/')
-        self.print(env)
+        self.print_(env)
         self.assertTrue(env)
         self.assertEqual(env['_BIN'], '/bin')
         self.assertEqual(env['_ETC'], '/etc')
@@ -2843,14 +2977,14 @@ class Test_300_venv_build_env(unittest.TestCase):
     def test_620_build_venv_paths_full_env__prefix_None(self):
         env = build_venv_activate_env(VENVSTR=self.env["VENVSTR"])
         env = build_venv_paths_full_env(env)
-        self.print(env)
+        self.print_(env)
         self.assertTrue(env)
         self.assertIn('VIRTUAL_ENV', env)
         self.assertEqual(env["VIRTUAL_ENV"], self.env["VIRTUAL_ENV"])
 
     def test_650_build_venv_paths_cdalias_env(self):
         env = build_venv_paths_cdalias_env()
-        self.print(env)
+        self.print_(env)
         self.assertTrue(env)
 
 
@@ -2897,6 +3031,29 @@ class Test_500_Venv(unittest.TestCase):
         self.assertTrue(venv)
         self.assertEqual(venv.env['VIRTUAL_ENV'], self.env['VIRTUAL_ENV'])
 
+    def test_050_venv__VENVSTR__WORKON_HOME(self):
+        WORKON_HOME = '/WRKON_HOME'
+        venv = Venv(self.env['VENVSTR'], WORKON_HOME=WORKON_HOME)
+        self.assertTrue(venv)
+        self.assertEqual(venv.env['WORKON_HOME'], WORKON_HOME)
+        self.assertEqual(venv.env['_WRD'],
+                         joinpath(WORKON_HOME,
+                                  self.env['VIRTUAL_ENV_NAME'],
+                                  'src',
+                                  self.env['VENVSTR']))
+
+    # TODO
+    #def test_060_venv__VENVSTR__WRK(self):
+        #__WRK = '/WRRK'
+        #venv = Venv(VENVSTR=self.env['VENVSTR'], __WRK=__WRK)
+        #self.assertTrue(venv)
+        #self.assertEqual(venv.env['__WRK'], __WRK)
+        #self.assertEqual(venv.env['_WRD'],
+                         #joinpath(__WRK,
+                                  #'-ve27',
+                                  #self.env['VIRTUAL_ENV_NAME'],
+                                  #'src',
+                                  #self.env['VENVSTR']))
 
 
 class Test_900_Venv_main(unittest.TestCase):
@@ -2907,9 +3064,9 @@ class Test_900_Venv_main(unittest.TestCase):
         self.main = VenvTestUtils.capture_io(main)
 
     def test_001_main_null(self):
-
-        retcode, stdout, stderr = self.main()
-        self.assertEqual(retcode, 0)
+        with self.assertRaises(SystemExit):
+            retcode, stdout, stderr = self.main()
+            self.assertEqual(retcode, 0)
 
     #calls SystemExit
     #def test_002_main_help(self):
@@ -2939,7 +3096,15 @@ class Test_900_Venv_main(unittest.TestCase):
         self.assertEqual(retcode, 0)
 
     def test_130_main_print_bash_VENVSTR_VENVSTRAPP(self):
-        retcode, stdout, stderr = self.main('--print-vars', self.env['VENVSTR'], self.env['_APP'])
+        (retcode, stdout, stderr) = (
+            self.main('--print-vars', self.env['VENVSTR'], self.env['_APP']))
+        self.assertEqual(retcode, 0)
+
+    def test_140_main_VENVSTR_WORKON_HOME(self):
+        retcode, stdout, stderr = (
+            self.main('--print-vars',
+                      '--WORKON_HOME','/WORKON_HOME',
+                      self.env['VENVSTR']))
         self.assertEqual(retcode, 0)
 
     def test_200_main_print_bash(self):
@@ -3260,11 +3425,17 @@ def build_venv_arg_parser():
 
 
 def comment_comment(strblock, **kwargs):
+    """
+    Args:
+        strblock (str): string block (possibly containing newlines)
+    Keyword Arguments:
+        kwargs (dict): kwargs for prepend_comment_char
+    Returns:
+        str: string with each line prefixed with comment char
+    """
     return u'\n'.join(
         prepend_comment_char(pprint.pformat(strblock),**kwargs))
 
-def dbglog(obj, file=sys.stderr):
-    return print(comment_comment(obj), file=file)
 
 def main(*argv, **kwargs):
     """
@@ -3285,7 +3456,7 @@ def main(*argv, **kwargs):
     opts = prs.parse_args(args=_argv)
     args = opts.args
 
-    if not opts.quiet:
+    if (not opts.quiet) or (not opts.version):
         logging.basicConfig()
         log = logging.getLogger(LOGNAME)
 
@@ -3300,11 +3471,22 @@ def main(*argv, **kwargs):
          "_argv": _argv,
          "args": args,
          "opts": opts.__dict__},
-             level=logging.INFO)
+             level=logging.DEBUG)
 
     if opts.run_tests:
         sys.argv = [sys.argv[0]] + opts.args
         sys.exit(unittest.main())
+
+    if opts.version:
+        # TODO: independently __version__ this standalone script
+        # and version-stamp --print-[...]
+        try:
+            import dotfiles
+            version = dotfiles.version
+            print(version, file=stdout)
+            return 0
+        except ImportError:
+            return 127
 
     ## build or create a new Env
     if opts.from_environ:
@@ -3314,7 +3496,7 @@ def main(*argv, **kwargs):
 
     ## read variables from options into the initial env dict
 
-    varnames = ['__WRK','__DOTFILES','WORKON_HOME',
+    varnames = ['__WRK', '__DOTFILES', 'WORKON_HOME',
                 'VENVSTR', 'VENVSTRAPP', 'VENVPREFIX',
                 'VIRTUAL_ENV_NAME', 'VIRTUAL_ENV', '_SRC', '_WRD']
 
@@ -3323,20 +3505,30 @@ def main(*argv, **kwargs):
         value = getattr(opts, varname, None)
         if value is not None:
             existing_value = env.get(varname)
-            if existing_value != value:
+            if existing_value is not None and existing_value != value:
                 logevent('main args', {
                     'msg': 'commandline options intersect with env',
                     'varname': varname,
                     'value': value,
-                    'existing_value': existing_value,
-                }, level=logging.INFO)
+                    'value_was': existing_value,
+                }, level=logging.DEBUG)
             env[varname] = value
     if opts.VENVSTR_:
         env['VENVSTR'] = opts.VENVSTR_
     if opts.VENVSTRAPP_:
         env['VENVSTRAPP'] = opts.VENVSTRAPP_
 
-    logevent('main_env', env, wrap=True, level=logging.INFO)
+    logevent('main_env', env, wrap=True, level=logging.DEBUG)
+
+    if not any((
+        env.get('VENVPREFIX'),
+        env.get('VIRTUAL_ENV'),
+        env.get('VENVSTR'),
+        opts.from_environ)):
+        prs.error("You must specify one of VENVSTR, VIRTUAL_ENV, VENVPREFIX, "
+                  "or -e|--from-environ")
+
+        # TODO: handle paths
 
     # virtualenv [, appname]
     venv = Venv(env=env,
@@ -3349,13 +3541,15 @@ def main(*argv, **kwargs):
     output = stdout
 
     if opts.print_vars:
-        # skip print(str(env)) if writing to json, bash, zsh, vim
-        if not any ((opts.print_json,
+        if any((opts.print_json,
                      opts.print_bash,
                      opts.print_bash_cdalias,
                      opts.print_zsh,
                      opts.print_vim_cdalias,
                      )):
+            prs.error("--print-vars specfied when\n"
+                      "writing to json, bash, zsh, or vim.")
+        else:
             for block in venv.generate_vars_env():
                 print(block, file=output)
 
@@ -3381,16 +3575,6 @@ def main(*argv, **kwargs):
         argstr = " ".join(opts.args)
         prcs = venv.call('cd $_WRD; make {}'.format(argstr))
 
-    if opts.version:
-        # TODO: independently __version__ this standalone script
-        # and version-stamp --print-[...]
-        try:
-            import dotfiles
-            version = dotfiles.version
-            print(version, file=stdout)
-            return 0
-        except ImportError:
-            return 127
 
     def get_pkg_resource_filename(filename):
         import pkg_resources
