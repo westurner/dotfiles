@@ -88,3 +88,6 @@ if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
         echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
     fi
 fi
+### </end dotfiles .bashrc>
+
+
