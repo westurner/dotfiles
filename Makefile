@@ -410,8 +410,8 @@ docs: localjs pip_install_requirements_docs.log
 	$(MAKE) -C docs clean html   # singlehtml
 
 DOCS_AUTOGEN_FILES:=docs/bash_conf.txt docs/i3_conf.txt docs/dotvim_conf.txt \
-	scripts/bashrc.load.sh \
-	scripts/zsh.load.sh
+	$(BASH_LOAD_SCRIPT) \
+	$(ZSH_LOAD_SCRIPT)
 
 docs_commit_autogen:
 	git add -f $(DOCS_AUTOGEN_FILES)
