@@ -108,11 +108,12 @@ Source the dotfiles
 ---------------------
 * Bash (and ZSH) configuation sets are sequentially numbered 00-99.
 
-  `00-bashrc.before.sh`_
+  `00-bashrc.before.sh`_ sources a documented, numerically sequential
+  sequence of bash scripts.
 
-* ZSH loads much of the standard Bash configuration, and oh-my-zsh.
+* ZSH loads much of the standard Bash configuration and oh-my-zsh.
 
-  ``00-zshrc.before.sh`_
+  `00-zshrc.before.sh`_
 
 * `bootstrap_dotfiles.sh`_ ``-S``
   installs dotfiles ``${__DOTFILES}`` symlinks.

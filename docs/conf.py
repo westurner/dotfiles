@@ -76,12 +76,17 @@ extensions = [
 ]
 
 try:
+    import sphinxcontrib.programoutput
+    programoutput_use_ansi = True
+except ImportError:
+    pass
+
+try:
     import sphinx_git
     extensions.append('sphinx_git')
 except ImportError:
     pass
     # TODO
-
 
 try:
     import sphinxcontrib.issuetracker
