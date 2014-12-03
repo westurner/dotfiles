@@ -42,6 +42,7 @@ class WebBrowser(object):
             self.setUp(*args, **kwargs)
         self.clsmap = self.get_CLSMAP()
 
+    @staticmethod
     def get_CLSMAP():
         clsmap = collections.OrderedDict()
         # classes = [cls for cls in dir() if cls.endswith('_WebBrowser')]
@@ -54,7 +55,7 @@ class WebBrowser(object):
         ]
         for cls in classes:
             for platformstr in cls.platforms:
-                x = clsmap.getdefault(platformstr, list())
+                x = clsmap.setdefault(platformstr, list())
                 x.append(cls)
         return clsmap
 
@@ -66,7 +67,7 @@ class WebBrowser(object):
         """
         if platform is None:
             platform = sys.platform
-        clsmap = get_CLSMAP()
+        clsmap = cls.get_CLSMAP()
         platform_classes = clsmap.get(platform,
                                  clsmap.get('*',
                                             (Python_webbrowser_WebBrowser,)))
@@ -125,18 +126,23 @@ class WebBrowser(object):
         full_url = 0j
 
         scheme, netloc, path, query, frag = urlparse.urlsplit(_url)
-        log.debug(urlparse.urlsplit(_url))
-        print("URLLL: %r", _url)
-        if scheme is None:
+        log.debug(dict(url=_url, split=tuple(urlparse.urlsplit(_url))))
+        if not scheme:
             if _url.startswith('//'):
                 full_url = _url
             else:
-                if netloc is None:
-                    print("PATHHH: %r" % path)
+                if not netloc:
                     if path in cls.ALWAYS_HTTPS_DOMAINS:
                         full_url = "https://{}".format(_url)
                     else:
-                        full_url = "http://{}".format(_url)
+                        if _url:
+                            if _url[0] in ('.', '/'):
+                                full_url = 'file://{}'.format(
+                                    os.path.abspath(_url)) # PWD
+                            else:
+                                full_url = "http://{}".format(_url)
+                        else:
+                            full_url = _url
                 elif netloc in cls.ALWAYS_HTTPS_DOMAINS:
                     full_url = 'https://{}'.format(_url)
                 else:
@@ -166,6 +172,7 @@ class WebBrowser(object):
         "github.com": 1,
         "github.io": 1,
         "bitbucket.org": 1,
+        "google.com": 1,
     }
 
 
@@ -243,20 +250,23 @@ class Test_WebBrowser(unittest.TestCase, WebBrowser):
         urls = [
 
             #("",""), # '' is not True
-            (".","."),
-            ("./", "./"),
-            ("./path?q#f","./path?q#f"),
-            ("/","/"),
-            ("/path", "/path"),
-            ("/test2.com","/test2.com"),
 
-            ("path?q#f", "path?q#f"),
-            ("example.org/path?q#f", "example.org/path?q#f"),
+            ("/", "file:///"),
+            ("/path", "file:///path"),
+            ("/test2.com","file:///test2.com"),
+
+            (".","file://" + os.path.abspath('.')),
+            ("./", "file://" + os.path.abspath("./")),
+            ("./path?q#f", "file://" + os.path.abspath("./path?q#f")),
+
+            ("path?q#f", "http://path?q#f"),
+            ("example.org/path?q#f", "http://example.org/path?q#f"),
 
             ("//","//"),
             ("//example.org", "//example.org"),
             ("//h/p?q#f", "//h/p?q#f"),
             ("//h/p?q#f/", "//h/p?q#f/"),
+
             ("http://h/p?q#f", "http://h/p?q#f"),
             ("https://h/p?q#f", "https://h/p?q#f"),
             ("file://path#fx", "file://path#fx"),
