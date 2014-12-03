@@ -303,6 +303,7 @@
 " The Bundle URLs are intentionally complete https URLs
 " * grep '^Bundle \'' vimrc.bundles
 " * sed -i 's\https://github.com/\ssh://git@github.com/\g'
+" venv.vim          -- venv cdalias commands like :Cdwrk, :Cdsrc, and :Cdwrd
 " Info.vim          -- vim infopages in vim [help info]
 "  :Info sed        --  view infopage for 'sed'
 "  <Space>          --  Scroll forward (page down).
