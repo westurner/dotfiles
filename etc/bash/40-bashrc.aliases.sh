@@ -30,7 +30,9 @@ _loadaliases () {
     alias ga='git add'
 
     gac () {
-    # gac      -- 'git add $@[1:]; git commit $1'
+    # gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
+    #   $1 (str): quoted commit message
+    #   $2- (list): file paths
         local msg=${1:-""}
         shift
         local files=$@
@@ -70,7 +72,9 @@ _loadaliases () {
     alias hga='hg add'
 
     hgac () {
-    # gac      -- 'git add $@[1:]; git commit $1'
+    # hgac()   -- 'hg add $@[1:]; hg commit $1'
+    #   $1 (str): quoted commit message
+    #   $2- (list): file paths
         local msg=${1:-""}
         shift
         local files=$@

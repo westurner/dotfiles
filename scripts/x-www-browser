@@ -3,6 +3,15 @@
 from __future__ import print_function
 """
 x_www_browser
+
+::
+
+    urls=(["http://en.wikipedia.org",
+           "http://en.wikipedia.org"
+           "en.wikipedia.org"])
+    output = list(WebBrowser.x_www_browser(urls))
+    print(output)
+
 """
 
 
@@ -13,12 +22,12 @@ import optparse
 import os
 import subprocess
 import sys
+import urlparse
 import warnings
 import webbrowser
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
-
 
 
 
@@ -110,18 +119,45 @@ class WebBrowser(object):
             url (str): URL to expand
         Returns:
             str: expanded URL or url
+
         """
         _url = url.strip()
-        if _url.startswith('http'):
-            full_url = _url
-        else:
-            if _url.split('/',1)[0] in cls.ALWAYS_HTTPS_DOMAINS:
-                full_url = 'https://{}'.format(_url)
+        full_url = 0j
+
+        scheme, netloc, path, query, frag = urlparse.urlsplit(_url)
+        log.debug(urlparse.urlsplit(_url))
+        print("URLLL: %r", _url)
+        if scheme is None:
+            if _url.startswith('//'):
+                full_url = _url
             else:
-                full_url = 'http://{}'.format(_url)
+                if netloc is None:
+                    print("PATHHH: %r" % path)
+                    if path in cls.ALWAYS_HTTPS_DOMAINS:
+                        full_url = "https://{}".format(_url)
+                    else:
+                        full_url = "http://{}".format(_url)
+                elif netloc in cls.ALWAYS_HTTPS_DOMAINS:
+                    full_url = 'https://{}'.format(_url)
+                else:
+                    full_url = 'http://{}'.format(_url)
+        else:
+            if scheme == 'http':
+                if netloc in cls.ALWAYS_HTTPS_DOMAINS:
+                    full_url = _url.replace('http:', 'https:', 1)
+                else:
+                    full_url = _url
+            else:
+                full_url = _url
+
+        assert full_url != 0j
+        if full_url is 0j:
+            raise Exception(_url)
+            # full_url = _url
+
         log.info({
             'url': url,
-            'full_url': url})
+            'full_url': full_url})
         return full_url
 
     ALWAYS_HTTPS_DOMAINS = {
@@ -205,7 +241,28 @@ class Test_WebBrowser(unittest.TestCase, WebBrowser):
     def test_expand_url(self):
 
         urls = [
-            ("http://wikipedia.org",     "http://wikipedia.org"),
+
+            #("",""), # '' is not True
+            (".","."),
+            ("./", "./"),
+            ("./path?q#f","./path?q#f"),
+            ("/","/"),
+            ("/path", "/path"),
+            ("/test2.com","/test2.com"),
+
+            ("path?q#f", "path?q#f"),
+            ("example.org/path?q#f", "example.org/path?q#f"),
+
+            ("//","//"),
+            ("//example.org", "//example.org"),
+            ("//h/p?q#f", "//h/p?q#f"),
+            ("//h/p?q#f/", "//h/p?q#f/"),
+            ("http://h/p?q#f", "http://h/p?q#f"),
+            ("https://h/p?q#f", "https://h/p?q#f"),
+            ("file://path#fx", "file://path#fx"),
+
+            # cls.ALWAYS_HTTPS_DOMAINS
+            ("http://wikipedia.org",     "https://wikipedia.org"),
             ("wikipedia.org",            "https://wikipedia.org"),
             ("en.wikipedia.org",         "https://en.wikipedia.org"),
             ("https://en.wikipedia.org", "https://en.wikipedia.org"),
