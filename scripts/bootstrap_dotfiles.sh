@@ -9,8 +9,8 @@
 # * for --user (as current user)
 #
 # * Clones into $VIRTUAL_ENV/src/dotfiles
-# * Symlinks $VIRTUAL_ENV/src/dotfiles) to ${HOME}/.dotfiles
-# * Symlinks from ~/.dotfiles/<...> into ${HOME}
+# * Symlinks $VIRTUAL_ENV/src/dotfiles) to ${HOME}/-dotfiles
+# * Symlinks from ~/-dotfiles/<...> into ${HOME}
 #
 # usage::
 #
@@ -60,36 +60,41 @@ if [ -n "$WORKON_HOME" ] && [[ ! -d "$WORKON_HOME" ]]; then
     mkdir -p $WORKON_HOME
 fi
 
-dotfiles_check_deps() {
-    ## Check paths for project dependencies
-    set -x
-    set +e
-    which bash
-    which python
+_dotfiles_check_deps() {
+    # dotfiles_check_deps   -- check for installed packages
+    type bash
+    type python
+    type pip
+    type virtualenv
+    type virtualenvwrapper.sh
     python -c "import setuptools, pkg_resources; print(pkg_resources.resource_filename('setuptools', ''))"
-    which git
-    which git-flow
-    which git-hf
-    which hg
-    which pip
-    which virtualenv
-    which virtualenvwrapper.sh
-    which dotfiles
+    type git
+    type git-flow
+    type git-hf
+    type hg
+    type venv.py
+    type venv
+    type dotfiles
     # && dotfiles --help
     echo "__DOTFILES='${__DOTFILES}'"
-    set -e
-    set +x
+    echo "__WRK='${__WRK}'"
+    echo "WORKON_HOME='${WORKON_HOME}'"
+}
+
+dotfiles_check_deps() {
+    #see: _dotfiles_check_deps
+    (set -x +e; _dotfiles_check_deps)
 }
 
 git_status() {
-    ## show git rev, branches, remotes
+    # git_status()      -- show git rev, branches, remotes
     (git branch -v && \
     git remote -v &&
     git status)
 }
 
 hg_status() {
-    ## show hg id, branches, paths
+    # hg_status()       -- show hg id, branches, paths
     pwd && \
     hg log \
         --pager never \
@@ -101,7 +106,7 @@ hg_status() {
 }
 
 show_status() {
-    ## show status for a (.hg or .git) repository
+    # show_status()     -- show status for a (.hg or .git) repository
     dir=${1:-$(pwd)}
     if [[ -d "${dir}/.hg" ]]; then
         hg_status
@@ -113,7 +118,7 @@ show_status() {
 }
 
 clone_or_update() {
-    # clone or pull and update (git or hg, git by default)
+    # clone_or_update() -- clone OR pull and update (git [or hg])
     url=$1
     rev=${2:-"master"}  # tip, master
     dest=$3
@@ -144,7 +149,7 @@ clone_or_update() {
 
 
 clone_dotfiles_repo() {
-    # clone or pull and update dotfiles_repo; then create symlinks
+    # clone_dotfiles_repo()         -- clone/up dotfiles_repo; create symlinks
     url=${DOTFILES_GIT_REPO_URL}
     rev=${DOTFILES_REPO_REV:-"master"}  # tip, master
     dest=${DOTFILES_REPO_DEST_PATH}
@@ -156,18 +161,24 @@ clone_dotfiles_repo() {
 
 
 clone_dotvim_repo(){
-    url=${DOTVIM_GIT_REPO_URL}
-    rev=${DOTVIM_REPO_REV:-"master"}  # tip, master
-    dest=${DOTVIM_REPO_DEST_PATH}
-
+    # clone_dotvim_repo()           -- clone dotvim to etc/vim
+    local url=${DOTVIM_GIT_REPO_URL}
+    local rev=${DOTVIM_REPO_REV:-"master"}  # tip, master
+    local dest=${DOTVIM_REPO_DEST_PATH}
     clone_or_update "${url}" "${rev}" "${dest}"
 }
 
+install_virtualenvwrapper() {
+    # install_virtualenvwrapper()   -- pip install virtualenvwrapper
+    pip install virtualenvwrapper
+    #   OR: (manually) apt-get install python-virtualenvwrapper
+}
+
 install_gitflow() {
-    ## Install gitflow git workflow [git flow help]
-    url="https://github.com/nvie/gitflow"
-    rev="master"
-    dest="${__DOTFILES}/src/gitflow"
+    # install_gitflow()     -- install gitflow git workflow [git flow help]
+    local url="https://github.com/nvie/gitflow"
+    local rev="master"
+    local dest="${__DOTFILES}/src/gitflow"
 
     clone_or_update "${url}" "${rev}" "${dest}"
 
@@ -175,10 +186,10 @@ install_gitflow() {
 }
 
 install_hubflow() {
-    ## Install hubflow git workflow [git hf help]
-    url="https://github.com/datasift/hubflow"
-    rev="master"
-    dest="${__DOTFILES}/src/hubflow"
+    # install_hubflow()     --  Install hubflow git workflow [git hf help]
+    local url="https://github.com/datasift/hubflow"
+    local rev="master"
+    local dest="${__DOTFILES}/src/hubflow"
 
     clone_or_update "${url}" "${rev}" "${dest}"
 
@@ -186,8 +197,8 @@ install_hubflow() {
 }
 
 get_md5sums() {
-    #  get_md5sums()    -- get md5sums for a path or directory
-    path=${1}
+    # get_md5sums()     -- get md5sums for a path or directory
+    local path=${1}
 
     if [ -x "/sbin/md5" ]; then
         MD5FUNC="md5"
@@ -210,29 +221,30 @@ get_md5sums() {
     fi
 }
 
-__readlink() {
-    ## readlink (OSX does not have readlink -f --canonicalize)
-    _path=$1
-    python -c "import os; print(os.path.realpath('$_path'))";
-    return $?
+__realpath() {
+    # __realpath()  -- os.path.realpath (~ readlink -f --canonicalize)
+    local _path=$1
+    python -c "import os,sys;print(os.path.realpath(sys.argv[1]))" "${_path}";
 }
 
 backup_and_symlink() {
-    ## Create symlink at $dest, pointing to $src
+    # backup_and_symlink()  -- Create symlink at $dest, pointing to $src
     # Args:
     #  filename: basename of file
     #  dest: location of symlink
     #  src: where symlink will point
     #  BKUPID: file suffix ( *.bkp.* ) (date)
-    filename=${1}
-    dest=${2:-"${HOME}/${filename}"}
-    src=${3:-"${__DOTFILES}/etc/${filename}"}
-    bkp=${dest}.bkp.${BKUPID}
+    local filename=${1}
+    local dest=${2:-"${HOME}/${filename}"}
+    local src=${3:-"${__DOTFILES}/etc/${filename}"}
+    local bkp=${dest}.bkp.${BKUPID}
+    local dest_md5=''
+    local src_md5=''
     #echo "# $filename $dest $src"
     if (test -a ${dest} || test -h ${dest}); then
         if [[ -s ${dest} ]]; then
-            dest_md5=$(__readlink $dest)
-            src_md5=$(__readlink $src)
+            dest_md5=$(__realpath $dest)
+            src_md5=$(__realpath $src)
         else
             dest_md5=$(get_md5sums $dest)
             src_md5=$(get_md5sums $src)
@@ -258,7 +270,7 @@ backup_and_symlink() {
             if [ -z "$src_md5" ] || [ -z "$dest_md5" ]; then
                 echo "# $src $dest"
                 if [ -h ${dest} ]; then
-                    actual=$(__readlink ${dest})
+                    local actual=$(__realpath ${dest})
                     if [ "$actual" != "$src" ]; then
                         mv ${dest} ${bkp}
                         echo "mv ${dest} ${bkp}"
