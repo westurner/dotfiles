@@ -281,31 +281,21 @@ call Cd___WRK()
 <h3>Shell Command<a class="headerlink" href="#shell-command" title="Permalink to this headline">¶</a></h3>
 <pre class="ansi-block literal-block">
 $ python ../src/dotfiles/venv/ipython_config.py --help
-usage: venv [-h] [-e] [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
-            [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]]
-            [--VENVSTRAPP [VENVSTRAPP_]]
-            [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
-            [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]]
-            [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]]
-            [--platform PLATFORM] [--print-json]
-            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars]
-            [--print-bash] [--print-bash-filename [PRINT_BASH_FILENAME]]
-            [--print-bash-cdalias]
-            [--print-bash-cdalias-filename [PRINT_BASH_CDALIAS_FILENAME]] [-Z]
+usage: venv [-h] [-e] [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]] [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]]
+            [--VENVSTRAPP [VENVSTRAPP_]] [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]] [--VENVPREFIX [VENVPREFIX]]
+            [--VIRTUAL_ENV [VIRTUAL_ENV]] [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]] [--platform PLATFORM] [--print-json]
+            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars] [--print-bash] [--print-bash-filename [PRINT_BASH_FILENAME]]
+            [--print-bash-cdalias] [--print-bash-cdalias-filename [PRINT_BASH_CDALIAS_FILENAME]] [-Z]
             [--print-zsh-filename [PRINT_ZSH_FILENAME]] [--print-vim-cdalias]
-            [--print-vim-cdalias-filename [PRINT_VIM_CDALIAS_FILENAME]]
-            [--command RUN_COMMAND] [--run-bash] [--run-make] [--run-editp]
-            [--run-terminal] [--pathall] [--pwrk PATH__WRK]
-            [--pworkonhome PATH_WORKON_HOME] [--pvirtualenv] [--psrc] [--pwrd]
-            [--pdotfiles] [--prel] [--pkg-resource-path] [--diff] [-v] [-q]
-            [-t] [--version]
+            [--print-vim-cdalias-filename [PRINT_VIM_CDALIAS_FILENAME]] [--command RUN_COMMAND] [--run-bash] [--run-make]
+            [--run-editp] [--run-terminal] [--pathall] [--pwrk PATH__WRK] [--pworkonhome PATH_WORKON_HOME] [--pvirtualenv] [--psrc]
+            [--pwrd] [--pdotfiles] [--prel] [--pkg-resource-path] [--diff] [-v] [-q] [-t] [--version]
             [VENVSTR] [VENVSTRAPP] ...
 
 venv is a configuration utility for virtual environments.
 
 positional arguments:
-  VENVSTR               a name of a virtualenv in WORKON_HOME OR a full path
-                        to a VIRTUAL_ENV
+  VENVSTR               a name of a virtualenv in WORKON_HOME OR a full path to a VIRTUAL_ENV
   VENVSTRAPP            a path within _SRC (_WRD=_SRC/VENVSTRAPP)
   args
 
@@ -317,17 +307,13 @@ optional arguments:
   --__DOTFILES [__DOTFILES], --DOTFILES [__DOTFILES], --dotfiles [__DOTFILES]
                         Path to ${__DOTFILES} symlink -- ~/-dotfiles
   --WORKON_HOME [WORKON_HOME], --workonhome [WORKON_HOME], --wh [WORKON_HOME]
-                        Path to ${WORKON_HOME} directory containing
-                        VIRTUAL_ENVs
+                        Path to ${WORKON_HOME} directory containing VIRTUAL_ENVs
   --VENVSTR [VENVSTR_], --venvstr [VENVSTR_], --ve [VENVSTR_]
-                        Path to VIRTUAL_ENV --
-                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME} (or a dirname in
-                        $WORKON_HOME)
+                        Path to VIRTUAL_ENV -- ${WORKON_HOME}/${VIRTUAL_ENV_NAME} (or a dirname in $WORKON_HOME)
   --VENVSTRAPP [VENVSTRAPP_], --venvstrapp [VENVSTRAPP_]
                         Subpath within {VIRTUAL_ETC}/src/
   --VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME], --virtual-env-name [VIRTUAL_ENV_NAME], --vename [VIRTUAL_ENV_NAME]
-                        dirname in WORKON_HOME --
-                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+                        dirname in WORKON_HOME -- ${WORKON_HOME}/${VIRTUAL_ENV_NAME}
   --VENVPREFIX [VENVPREFIX], --venvprefix [VENVPREFIX], --prefix [VENVPREFIX]
                         Prefix for _SRC, _ETC, _WRD if [ -z VIRTUAL_ENV ]
   --VIRTUAL_ENV [VIRTUAL_ENV], --virtual-env [VIRTUAL_ENV]
@@ -390,8 +376,8 @@ optional arguments:
   -t, --test
   --version
 
-argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP)
-or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
+argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP) or (--ve [--app]) must be specified first: venv --ve
+dotfiles -xmake.
 </pre>
 </div>
 <div class="section" id="python-api">
@@ -416,443 +402,1010 @@ and IPython configuration.</p>
 <pre class="ansi-block literal-block">
 $ python ../scripts/venv.py --print-bash dotfiles \
 | sed &quot;s,${HOME},~,g&quot;
-export VENVSTR='dotfiles'
-export VIRTUAL_ENV='~/-wrk/-ve27/dotfiles'
-export WORKON_HOME='~/-wrk/-ve27'
-export _APP='dotfiles'
-export VENVSTRAPP='dotfiles'
-export VENVPREFIX='~/-wrk/-ve27/dotfiles'
-export VIRTUAL_ENV_NAME='dotfiles'
-export HOME='~'
-export __WRK='~/-wrk'
-export __SRC='~/-wrk/-src'
-export __DOTFILES='~/-dotfiles'
-export PROJECT_HOME='~/-wrk'
-export WORKON_HOME__py27='~/-wrk/-ve27'
-export WORKON_HOME__py34='~/-wrk/-ve34'
-export WORKON_HOME_DEFAULT='WORKON_HOME__py27'
-export _ETC='~/-wrk/-ve27/dotfiles/etc'
-export _SRC='~/-wrk/-ve27/dotfiles/src'
-export _WRD='~/-wrk/-ve27/dotfiles/src/dotfiles'
-export CONDA27_ROOT='~/-wrk/-conda27'
-export CONDA27_HOME='~/-wrk/-ce27'
-export CONDA34_ROOT='~/-wrk/-conda34'
-export CONDA34_HOME='~/-wrk/-ce34'
-export CONDA_ROOT__py27='~/-wrk/-conda27'
-export CONDA_HOME__py27='~/-wrk/-ce27'
-export CONDA_ROOT__py34='~/-wrk/-conda34'
-export CONDA_HOME__py34='~/-wrk/-ce27'
-export CONDA_ROOT_DEFAULT='CONDA_ROOT__py27'
-export CONDA_HOME_DEFAULT='CONDA_HOME__py27'
-export CONDA_ROOT='~/-wrk/-conda27'
-export CONDA_HOME='~/-wrk/-ce27'
-export _BIN='~/-wrk/-ve27/dotfiles/bin'
-export _ETCOPT='~/-wrk/-ve27/dotfiles/etc/opt'
-export _HOME='~/-wrk/-ve27/dotfiles/home'
-export _LIB='~/-wrk/-ve27/dotfiles/lib'
-export _PYLIB='~/-wrk/-ve27/dotfiles/lib/python2.7'
-export _PYSITE='~/-wrk/-ve27/dotfiles/lib/python2.7/site-packages'
-export _MNT='~/-wrk/-ve27/dotfiles/mnt'
-export _MEDIA='~/-wrk/-ve27/dotfiles/media'
-export _OPT='~/-wrk/-ve27/dotfiles/opt'
-export _ROOT='~/-wrk/-ve27/dotfiles/root'
-export _SBIN='~/-wrk/-ve27/dotfiles/sbin'
-export _SRV='~/-wrk/-ve27/dotfiles/srv'
-export _TMP='~/-wrk/-ve27/dotfiles/tmp'
-export _USR='~/-wrk/-ve27/dotfiles/usr'
-export _USRBIN='~/-wrk/-ve27/dotfiles/usr/bin'
-export _USRINCLUDE='~/-wrk/-ve27/dotfiles/usr/include'
-export _USRLIB='~/-wrk/-ve27/dotfiles/usr/lib'
-export _USRLOCAL='~/-wrk/-ve27/dotfiles/usr/local'
-export _USRSBIN='~/-wrk/-ve27/dotfiles/usr/sbin'
-export _USRSHARE='~/-wrk/-ve27/dotfiles/usr/share'
-export _USRSRC='~/-wrk/-ve27/dotfiles/usr/src'
-export _VAR='~/-wrk/-ve27/dotfiles/var'
-export _VARCACHE='~/-wrk/-ve27/dotfiles/var/cache'
-export _VARLIB='~/-wrk/-ve27/dotfiles/var/lib'
-export _VARLOCK='~/-wrk/-ve27/dotfiles/var/lock'
-export _LOG='~/-wrk/-ve27/dotfiles/var/log'
-export _VARMAIL='~/-wrk/-ve27/dotfiles/var/mail'
-export _VAROPT='~/-wrk/-ve27/dotfiles/var/opt'
-export _VARRUN='~/-wrk/-ve27/dotfiles/var/run'
-export _VARSPOOL='~/-wrk/-ve27/dotfiles/var/spool'
-export _VARTMP='~/-wrk/-ve27/dotfiles/var/tmp'
-export _WWW='~/-wrk/-ve27/dotfiles/var/www'
-export PROJECT_FILES=''
-export VIMBIN='/usr/bin/vim'
-export GVIMBIN='/usr/local/bin/gvim'
-export MVIMBIN='/usr/local/bin/mvim'
-export GUIVIMBIN='/usr/local/bin/mvim'
-export VIMCONF='--servername dotfiles'
-export _EDIT_='/usr/local/bin/mvim --servername dotfiles --remote-tab-silent'
-export EDITOR_='/usr/local/bin/mvim --servername dotfiles --remote-tab-silent'
-export _NOTEBOOKS='~/-wrk/-ve27/dotfiles/src/notebooks'
-export _IPYSESKEY='~/-wrk/-ve27/dotfiles/src/.ipyseskey'
-export _IPQTLOG='~/-wrk/-ve27/dotfiles/.ipqt.log'
-export _WRD_SETUPY='~/-wrk/-ve27/dotfiles/src/dotfiles/setup.py'
-export _TEST_='(cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)'
-export _CFG='~/-wrk/-ve27/dotfiles/etc/development.ini'
-export _EDITCFG_='/usr/local/bin/mvim --servername dotfiles --remote-tab-silent ~/-wrk/-ve27/dotfiles/etc/development.ini'
-export _SHELL_='(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)'
-export _SERVE_='(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)'
-export _SVCFG='~/-wrk/-ve27/dotfiles/etc/supervisord.conf'
-export _SVCFG_=' -c &quot;~/-wrk/-ve27/dotfiles/etc/supervisord.conf&quot;'
-export __USRLOG='~/-usrlog.log'
-export _USRLOG='~/-wrk/-ve27/dotfiles/-usrlog.log'
-export _TERM_ID=''
-eval '
-cdhome () {
-    # cdhome()  -- cd HOME /$&#64;
-    cd &quot;$HOME&quot;/$&#64;
-}
-_cd_HOME_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdhome &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdh () {
-    # cdh() -- cd $HOME
-    cdhome $&#64;
-}
-complete -o default -o nospace -F _cd_HOME_complete cdhome
-complete -o default -o nospace -F _cd_HOME_complete cdh
-
-';
-eval '
-cdwrk () {
-    # cdwrk()  -- cd __WRK /$&#64;
-    cd &quot;$__WRK&quot;/$&#64;
-}
-_cd___WRK_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdwrk &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-complete -o default -o nospace -F _cd___WRK_complete cdwrk
-
-';
-eval '
-cddotfiles () {
-    # cddotfiles()  -- cd __DOTFILES /$&#64;
-    cd &quot;$__DOTFILES&quot;/$&#64;
-}
-_cd___DOTFILES_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cddotfiles &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdd () {
-    # cdd() -- cd $__DOTFILES
-    cddotfiles $&#64;
-}
-complete -o default -o nospace -F _cd___DOTFILES_complete cddotfiles
-complete -o default -o nospace -F _cd___DOTFILES_complete cdd
-
-';
-eval '
-cdprojecthome () {
-    # cdprojecthome()  -- cd PROJECT_HOME /$&#64;
-    cd &quot;$PROJECT_HOME&quot;/$&#64;
-}
-_cd_PROJECT_HOME_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdprojecthome &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdp () {
-    # cdp() -- cd $PROJECT_HOME
-    cdprojecthome $&#64;
-}
-cdph () {
-    # cdph() -- cd $PROJECT_HOME
-    cdprojecthome $&#64;
-}
-complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdprojecthome
-complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdp
-complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdph
-
-';
-eval '
-cdworkonhome () {
-    # cdworkonhome()  -- cd WORKON_HOME /$&#64;
-    cd &quot;$WORKON_HOME&quot;/$&#64;
-}
-_cd_WORKON_HOME_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdworkonhome &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdwh () {
-    # cdwh() -- cd $WORKON_HOME
-    cdworkonhome $&#64;
-}
-cdve () {
-    # cdve() -- cd $WORKON_HOME
-    cdworkonhome $&#64;
-}
-complete -o default -o nospace -F _cd_WORKON_HOME_complete cdworkonhome
-complete -o default -o nospace -F _cd_WORKON_HOME_complete cdwh
-complete -o default -o nospace -F _cd_WORKON_HOME_complete cdve
-
-';
-eval '
-cdcondahome () {
-    # cdcondahome()  -- cd CONDA_HOME /$&#64;
-    cd &quot;$CONDA_HOME&quot;/$&#64;
-}
-_cd_CONDA_HOME_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdcondahome &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cda () {
-    # cda() -- cd $CONDA_HOME
-    cdcondahome $&#64;
-}
-cdce () {
-    # cdce() -- cd $CONDA_HOME
-    cdcondahome $&#64;
-}
-complete -o default -o nospace -F _cd_CONDA_HOME_complete cdcondahome
-complete -o default -o nospace -F _cd_CONDA_HOME_complete cda
-complete -o default -o nospace -F _cd_CONDA_HOME_complete cdce
-
-';
-eval '
-cdvirtualenv () {
-    # cdvirtualenv()  -- cd VIRTUAL_ENV /$&#64;
-    cd &quot;$VIRTUAL_ENV&quot;/$&#64;
-}
-_cd_VIRTUAL_ENV_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdvirtualenv &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdv () {
-    # cdv() -- cd $VIRTUAL_ENV
-    cdvirtualenv $&#64;
-}
-complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdvirtualenv
-complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdv
-
-';
-eval '
-cdsrc () {
-    # cdsrc()  -- cd _SRC /$&#64;
-    cd &quot;$_SRC&quot;/$&#64;
-}
-_cd__SRC_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdsrc &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cds () {
-    # cds() -- cd $_SRC
-    cdsrc $&#64;
-}
-complete -o default -o nospace -F _cd__SRC_complete cdsrc
-complete -o default -o nospace -F _cd__SRC_complete cds
-
-';
-eval '
-cdwrd () {
-    # cdwrd()  -- cd _WRD /$&#64;
-    cd &quot;$_WRD&quot;/$&#64;
-}
-_cd__WRD_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdwrd &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdw () {
-    # cdw() -- cd $_WRD
-    cdwrd $&#64;
-}
-complete -o default -o nospace -F _cd__WRD_complete cdwrd
-complete -o default -o nospace -F _cd__WRD_complete cdw
-
-';
-eval '
-cdbin () {
-    # cdbin()  -- cd _BIN /$&#64;
-    cd &quot;$_BIN&quot;/$&#64;
-}
-_cd__BIN_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdbin &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdb () {
-    # cdb() -- cd $_BIN
-    cdbin $&#64;
-}
-complete -o default -o nospace -F _cd__BIN_complete cdbin
-complete -o default -o nospace -F _cd__BIN_complete cdb
-
-';
-eval '
-cdetc () {
-    # cdetc()  -- cd _ETC /$&#64;
-    cd &quot;$_ETC&quot;/$&#64;
-}
-_cd__ETC_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdetc &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cde () {
-    # cde() -- cd $_ETC
-    cdetc $&#64;
-}
-complete -o default -o nospace -F _cd__ETC_complete cdetc
-complete -o default -o nospace -F _cd__ETC_complete cde
-
-';
-eval '
-cdlib () {
-    # cdlib()  -- cd _LIB /$&#64;
-    cd &quot;$_LIB&quot;/$&#64;
-}
-_cd__LIB_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdlib &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdl () {
-    # cdl() -- cd $_LIB
-    cdlib $&#64;
-}
-complete -o default -o nospace -F _cd__LIB_complete cdlib
-complete -o default -o nospace -F _cd__LIB_complete cdl
-
-';
-eval '
-cdlog () {
-    # cdlog()  -- cd _LOG /$&#64;
-    cd &quot;$_LOG&quot;/$&#64;
-}
-_cd__LOG_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdlog &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-complete -o default -o nospace -F _cd__LOG_complete cdlog
-
-';
-eval '
-cdpylib () {
-    # cdpylib()  -- cd _PYLIB /$&#64;
-    cd &quot;$_PYLIB&quot;/$&#64;
-}
-_cd__PYLIB_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdpylib &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-complete -o default -o nospace -F _cd__PYLIB_complete cdpylib
-
-';
-eval '
-cdpysite () {
-    # cdpysite()  -- cd _PYSITE /$&#64;
-    cd &quot;$_PYSITE&quot;/$&#64;
-}
-_cd__PYSITE_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdpysite &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdsitepackages () {
-    # cdsitepackages() -- cd $_PYSITE
-    cdpysite $&#64;
-}
-complete -o default -o nospace -F _cd__PYSITE_complete cdpysite
-complete -o default -o nospace -F _cd__PYSITE_complete cdsitepackages
-
-';
-eval '
-cdvar () {
-    # cdvar()  -- cd _VAR /$&#64;
-    cd &quot;$_VAR&quot;/$&#64;
-}
-_cd__VAR_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdvar &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-complete -o default -o nospace -F _cd__VAR_complete cdvar
-
-';
-eval '
-cdwww () {
-    # cdwww()  -- cd _WWW /$&#64;
-    cd &quot;$_WWW&quot;/$&#64;
-}
-_cd__WWW_complete () {
-    local cur=&quot;$2&quot;;
-    COMPREPLY=($(cdwww &amp;&amp; compgen -d -- &quot;${cur}&quot; ))
-}
-cdww () {
-    # cdww() -- cd $_WWW
-    cdwww $&#64;
-}
-complete -o default -o nospace -F _cd__WWW_complete cdwww
-complete -o default -o nospace -F _cd__WWW_complete cdww
-
-';
-eval 'cdhelp () {
-    set | grep &quot;^cd.*()&quot; | cut -f1 -d&quot; &quot; #$&#64;
-}';
-eval 'edit- () {
-    ${_EDIT_} $&#64;
-}';
-alias gvim-='/usr/local/bin/mvim --servername dotfiles --remote-tab-silent'
-eval 'ipskey () {
-    (python -c &quot;import os; print os.urandom(128).encode(\&quot;base64\&quot;)&quot; &gt; &quot;${_IPYSESKEY}&quot; ) &amp;&amp; chmod 0600 &quot;${_IPYSESKEY}&quot;; # $&#64;
-}';
-eval 'ipnb () {
-    ipython notebook --secure --Session.keyfile=&quot;${_IPYSESKEY}&quot; --notebook-dir=&quot;${_NOTEBOOKS}&quot; --deep-reload $&#64;
-}';
-eval 'ipqt () {
-    ipython qtconsole --secure --Session.keyfile=&quot;${_IPYSESKEY}&quot; --logappend=&quot;${_IPQTLOG}&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=&quot;Monaco&quot; --ConsoleWidget.font_size=11 $&#64;
-}';
-eval 'grinv () {
-    grin --follow $&#64; &quot;${VIRTUAL_ENV}&quot;
-}';
-eval 'grindv () {
-    grind --follow $&#64; --dirs &quot;${VIRTUAL_ENV}&quot;
-}';
-eval 'grins () {
-    grin --follow $&#64; &quot;${_SRC}&quot;
-}';
-eval 'grinds () {
-    grind --follow $&#64; --dirs &quot;${_SRC}&quot;
-}';
-alias test-='(cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)'
-alias testr-='reset &amp;&amp; (cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)'
-alias nose-='(cd &quot;${_WRD}&quot; &amp;&amp; nosetests)'
-eval 'grinw () {
-    grin --follow $&#64; &quot;${_WRD}&quot;
-}';
-eval 'grin- () {
-    grin --follow $&#64; &quot;${_WRD}&quot;
-}';
-eval 'grindw () {
-    grind --follow $&#64; --dirs &quot;${_WRD}&quot;
-}';
-eval 'grind- () {
-    grind --follow $&#64; --dirs &quot;${_WRD}&quot;
-}';
-alias hgv-='hg view -R &quot;${_WRD}&quot;'
-alias hgl-='hg -R &quot;${_WRD}&quot; log'
-eval 'editcfg () {
-    &quot;${_EDITCFG_}&quot; $&#64;
-}';
-alias serve-='(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)'
-alias shell-='(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)'
-eval 'e () {
-    ${_EDIT_} $&#64;
-}';
-eval 'editp () {
-    $GUIVIMBIN $VIMCONF $PROJECT_FILES $&#64;
-}';
-eval 'makewrd () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $&#64;)
-}';
-eval 'make- () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $&#64;)
-}';
-eval 'mw () {
-    (cd &quot;${_WRD}&quot; &amp;&amp; make $&#64;)
-}';
-alias ssv='supervisord -c &quot;${_SVCFG}&quot;'
-alias sv='supervisorctl -c &quot;${_SVCFG}&quot;'
-alias svt='sv tail -f'
-alias svd='supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; supervisorctl -c &quot;${_SVCFG}&quot; tail -f dev'
+Traceback (most recent call last):
+  File &quot;../scripts/venv.py&quot;, line 3625, in &lt;module&gt;
+    sys.exit(main(*sys.argv[1:]))
+  File &quot;../scripts/venv.py&quot;, line 3565, in main
+    print(block, file=output)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+RuntimeError: maximum recursion depth exceeded while calling a Python object
 </pre>
 </div>
 <div class="section" id="json-configuration">
@@ -861,196 +1414,1010 @@ alias svd='supervisorctl -c &quot;${_SVCFG}&quot; restart dev &amp;&amp; supervi
 <pre class="ansi-block literal-block">
 $ python ../scripts/venv.py --print-json dotfiles \
 | sed &quot;s,${HOME},~,g&quot;
-{
-    &quot;env&quot;: {
-        &quot;environ&quot;: {
-            &quot;VENVSTR&quot;: &quot;dotfiles&quot;, 
-            &quot;VIRTUAL_ENV&quot;: &quot;~/-wrk/-ve27/dotfiles&quot;, 
-            &quot;WORKON_HOME&quot;: &quot;~/-wrk/-ve27&quot;, 
-            &quot;_APP&quot;: &quot;dotfiles&quot;, 
-            &quot;VENVSTRAPP&quot;: &quot;dotfiles&quot;, 
-            &quot;VENVPREFIX&quot;: &quot;~/-wrk/-ve27/dotfiles&quot;, 
-            &quot;VIRTUAL_ENV_NAME&quot;: &quot;dotfiles&quot;, 
-            &quot;HOME&quot;: &quot;~&quot;, 
-            &quot;__WRK&quot;: &quot;~/-wrk&quot;, 
-            &quot;__SRC&quot;: &quot;~/-wrk/-src&quot;, 
-            &quot;__DOTFILES&quot;: &quot;~/-dotfiles&quot;, 
-            &quot;PROJECT_HOME&quot;: &quot;~/-wrk&quot;, 
-            &quot;WORKON_HOME__py27&quot;: &quot;~/-wrk/-ve27&quot;, 
-            &quot;WORKON_HOME__py34&quot;: &quot;~/-wrk/-ve34&quot;, 
-            &quot;WORKON_HOME_DEFAULT&quot;: &quot;WORKON_HOME__py27&quot;, 
-            &quot;_ETC&quot;: &quot;~/-wrk/-ve27/dotfiles/etc&quot;, 
-            &quot;_SRC&quot;: &quot;~/-wrk/-ve27/dotfiles/src&quot;, 
-            &quot;_WRD&quot;: &quot;~/-wrk/-ve27/dotfiles/src/dotfiles&quot;, 
-            &quot;CONDA27_ROOT&quot;: &quot;~/-wrk/-conda27&quot;, 
-            &quot;CONDA27_HOME&quot;: &quot;~/-wrk/-ce27&quot;, 
-            &quot;CONDA34_ROOT&quot;: &quot;~/-wrk/-conda34&quot;, 
-            &quot;CONDA34_HOME&quot;: &quot;~/-wrk/-ce34&quot;, 
-            &quot;CONDA_ROOT__py27&quot;: &quot;~/-wrk/-conda27&quot;, 
-            &quot;CONDA_HOME__py27&quot;: &quot;~/-wrk/-ce27&quot;, 
-            &quot;CONDA_ROOT__py34&quot;: &quot;~/-wrk/-conda34&quot;, 
-            &quot;CONDA_HOME__py34&quot;: &quot;~/-wrk/-ce27&quot;, 
-            &quot;CONDA_ROOT_DEFAULT&quot;: &quot;CONDA_ROOT__py27&quot;, 
-            &quot;CONDA_HOME_DEFAULT&quot;: &quot;CONDA_HOME__py27&quot;, 
-            &quot;CONDA_ROOT&quot;: &quot;~/-wrk/-conda27&quot;, 
-            &quot;CONDA_HOME&quot;: &quot;~/-wrk/-ce27&quot;, 
-            &quot;_BIN&quot;: &quot;~/-wrk/-ve27/dotfiles/bin&quot;, 
-            &quot;_ETCOPT&quot;: &quot;~/-wrk/-ve27/dotfiles/etc/opt&quot;, 
-            &quot;_HOME&quot;: &quot;~/-wrk/-ve27/dotfiles/home&quot;, 
-            &quot;_LIB&quot;: &quot;~/-wrk/-ve27/dotfiles/lib&quot;, 
-            &quot;_PYLIB&quot;: &quot;~/-wrk/-ve27/dotfiles/lib/python2.7&quot;, 
-            &quot;_PYSITE&quot;: &quot;~/-wrk/-ve27/dotfiles/lib/python2.7/site-packages&quot;, 
-            &quot;_MNT&quot;: &quot;~/-wrk/-ve27/dotfiles/mnt&quot;, 
-            &quot;_MEDIA&quot;: &quot;~/-wrk/-ve27/dotfiles/media&quot;, 
-            &quot;_OPT&quot;: &quot;~/-wrk/-ve27/dotfiles/opt&quot;, 
-            &quot;_ROOT&quot;: &quot;~/-wrk/-ve27/dotfiles/root&quot;, 
-            &quot;_SBIN&quot;: &quot;~/-wrk/-ve27/dotfiles/sbin&quot;, 
-            &quot;_SRV&quot;: &quot;~/-wrk/-ve27/dotfiles/srv&quot;, 
-            &quot;_TMP&quot;: &quot;~/-wrk/-ve27/dotfiles/tmp&quot;, 
-            &quot;_USR&quot;: &quot;~/-wrk/-ve27/dotfiles/usr&quot;, 
-            &quot;_USRBIN&quot;: &quot;~/-wrk/-ve27/dotfiles/usr/bin&quot;, 
-            &quot;_USRINCLUDE&quot;: &quot;~/-wrk/-ve27/dotfiles/usr/include&quot;, 
-            &quot;_USRLIB&quot;: &quot;~/-wrk/-ve27/dotfiles/usr/lib&quot;, 
-            &quot;_USRLOCAL&quot;: &quot;~/-wrk/-ve27/dotfiles/usr/local&quot;, 
-            &quot;_USRSBIN&quot;: &quot;~/-wrk/-ve27/dotfiles/usr/sbin&quot;, 
-            &quot;_USRSHARE&quot;: &quot;~/-wrk/-ve27/dotfiles/usr/share&quot;, 
-            &quot;_USRSRC&quot;: &quot;~/-wrk/-ve27/dotfiles/usr/src&quot;, 
-            &quot;_VAR&quot;: &quot;~/-wrk/-ve27/dotfiles/var&quot;, 
-            &quot;_VARCACHE&quot;: &quot;~/-wrk/-ve27/dotfiles/var/cache&quot;, 
-            &quot;_VARLIB&quot;: &quot;~/-wrk/-ve27/dotfiles/var/lib&quot;, 
-            &quot;_VARLOCK&quot;: &quot;~/-wrk/-ve27/dotfiles/var/lock&quot;, 
-            &quot;_LOG&quot;: &quot;~/-wrk/-ve27/dotfiles/var/log&quot;, 
-            &quot;_VARMAIL&quot;: &quot;~/-wrk/-ve27/dotfiles/var/mail&quot;, 
-            &quot;_VAROPT&quot;: &quot;~/-wrk/-ve27/dotfiles/var/opt&quot;, 
-            &quot;_VARRUN&quot;: &quot;~/-wrk/-ve27/dotfiles/var/run&quot;, 
-            &quot;_VARSPOOL&quot;: &quot;~/-wrk/-ve27/dotfiles/var/spool&quot;, 
-            &quot;_VARTMP&quot;: &quot;~/-wrk/-ve27/dotfiles/var/tmp&quot;, 
-            &quot;_WWW&quot;: &quot;~/-wrk/-ve27/dotfiles/var/www&quot;, 
-            &quot;PROJECT_FILES&quot;: &quot;&quot;, 
-            &quot;VIMBIN&quot;: &quot;/usr/bin/vim&quot;, 
-            &quot;GVIMBIN&quot;: &quot;/usr/local/bin/gvim&quot;, 
-            &quot;MVIMBIN&quot;: &quot;/usr/local/bin/mvim&quot;, 
-            &quot;GUIVIMBIN&quot;: &quot;/usr/local/bin/mvim&quot;, 
-            &quot;VIMCONF&quot;: &quot;--servername dotfiles&quot;, 
-            &quot;_EDIT_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-            &quot;EDITOR_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-            &quot;_NOTEBOOKS&quot;: &quot;~/-wrk/-ve27/dotfiles/src/notebooks&quot;, 
-            &quot;_IPYSESKEY&quot;: &quot;~/-wrk/-ve27/dotfiles/src/.ipyseskey&quot;, 
-            &quot;_IPQTLOG&quot;: &quot;~/-wrk/-ve27/dotfiles/.ipqt.log&quot;, 
-            &quot;_WRD_SETUPY&quot;: &quot;~/-wrk/-ve27/dotfiles/src/dotfiles/setup.py&quot;, 
-            &quot;_TEST_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;, 
-            &quot;_CFG&quot;: &quot;~/-wrk/-ve27/dotfiles/etc/development.ini&quot;, 
-            &quot;_EDITCFG_&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent ~/-wrk/-ve27/dotfiles/etc/development.ini&quot;, 
-            &quot;_SHELL_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;, 
-            &quot;_SERVE_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;, 
-            &quot;_SVCFG&quot;: &quot;~/-wrk/-ve27/dotfiles/etc/supervisord.conf&quot;, 
-            &quot;_SVCFG_&quot;: &quot; -c \&quot;~/-wrk/-ve27/dotfiles/etc/supervisord.conf\&quot;&quot;, 
-            &quot;__USRLOG&quot;: &quot;~/-usrlog.log&quot;, 
-            &quot;_USRLOG&quot;: &quot;~/-wrk/-ve27/dotfiles/-usrlog.log&quot;, 
-            &quot;_TERM_ID&quot;: &quot;&quot;
-        }, 
-        &quot;aliases&quot;: {
-            &quot;cdhome&quot;: &quot;HOME&quot;, 
-            &quot;cdwrk&quot;: &quot;__WRK&quot;, 
-            &quot;cdddotfiles&quot;: &quot;__DOTFILES&quot;, 
-            &quot;cdprojecthome&quot;: &quot;PROJECT_HOME&quot;, 
-            &quot;cdworkonhome&quot;: &quot;WORKON_HOME&quot;, 
-            &quot;cdcondahome&quot;: &quot;CONDA_HOME&quot;, 
-            &quot;cdvirtualenv&quot;: &quot;VIRTUAL_ENV&quot;, 
-            &quot;cdsrc&quot;: &quot;_SRC&quot;, 
-            &quot;cdwrd&quot;: &quot;_WRD&quot;, 
-            &quot;cdbin&quot;: &quot;_BIN&quot;, 
-            &quot;cdetc&quot;: &quot;_ETC&quot;, 
-            &quot;cdlib&quot;: &quot;_LIB&quot;, 
-            &quot;cdlog&quot;: &quot;_LOG&quot;, 
-            &quot;cdpylib&quot;: &quot;_PYLIB&quot;, 
-            &quot;cdpysite&quot;: &quot;_PYSITE&quot;, 
-            &quot;cdvar&quot;: &quot;_VAR&quot;, 
-            &quot;cdwww&quot;: &quot;_WWW&quot;, 
-            &quot;cdhelp&quot;: &quot;set | grep \&quot;^cd.*()\&quot; | cut -f1 -d\&quot; \&quot; #%l&quot;, 
-            &quot;edit-&quot;: &quot;${_EDIT_} %l&quot;, 
-            &quot;gvim-&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-            &quot;ipskey&quot;: &quot;(python -c \&quot;import os; print os.urandom(128).encode(\\\&quot;base64\\\&quot;)\&quot; &gt; \&quot;${_IPYSESKEY}\&quot; ) &amp;&amp; chmod 0600 \&quot;${_IPYSESKEY}\&quot;; # %l&quot;, 
-            &quot;ipnb&quot;: &quot;ipython notebook --secure --Session.keyfile=\&quot;${_IPYSESKEY}\&quot; --notebook-dir=\&quot;${_NOTEBOOKS}\&quot; --deep-reload %l&quot;, 
-            &quot;ipqt&quot;: &quot;ipython qtconsole --secure --Session.keyfile=\&quot;${_IPYSESKEY}\&quot; --logappend=\&quot;${_IPQTLOG}\&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=\&quot;Monaco\&quot; --ConsoleWidget.font_size=11 %l&quot;, 
-            &quot;grinv&quot;: &quot;grin --follow %l \&quot;${VIRTUAL_ENV}\&quot;&quot;, 
-            &quot;grindv&quot;: &quot;grind --follow %l --dirs \&quot;${VIRTUAL_ENV}\&quot;&quot;, 
-            &quot;grins&quot;: &quot;grin --follow %l \&quot;${_SRC}\&quot;&quot;, 
-            &quot;grinds&quot;: &quot;grind --follow %l --dirs \&quot;${_SRC}\&quot;&quot;, 
-            &quot;test-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;, 
-            &quot;testr-&quot;: &quot;reset &amp;&amp; (cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;, 
-            &quot;nose-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; nosetests)&quot;, 
-            &quot;grinw&quot;: &quot;grin --follow %l \&quot;${_WRD}\&quot;&quot;, 
-            &quot;grin-&quot;: &quot;grin --follow %l \&quot;${_WRD}\&quot;&quot;, 
-            &quot;grindw&quot;: &quot;grind --follow %l --dirs \&quot;${_WRD}\&quot;&quot;, 
-            &quot;grind-&quot;: &quot;grind --follow %l --dirs \&quot;${_WRD}\&quot;&quot;, 
-            &quot;hgv-&quot;: &quot;hg view -R \&quot;${_WRD}\&quot;&quot;, 
-            &quot;hgl-&quot;: &quot;hg -R \&quot;${_WRD}\&quot; log&quot;, 
-            &quot;editcfg&quot;: &quot;\&quot;${_EDITCFG_}\&quot; %l&quot;, 
-            &quot;serve-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;, 
-            &quot;shell-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;, 
-            &quot;e&quot;: &quot;${_EDIT_} %l&quot;, 
-            &quot;editp&quot;: &quot;$GUIVIMBIN $VIMCONF $PROJECT_FILES %l&quot;, 
-            &quot;makewrd&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-            &quot;make-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-            &quot;mw&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-            &quot;ssv&quot;: &quot;supervisord -c \&quot;${_SVCFG}\&quot;&quot;, 
-            &quot;sv&quot;: &quot;supervisorctl -c \&quot;${_SVCFG}\&quot;&quot;, 
-            &quot;svt&quot;: &quot;sv tail -f&quot;, 
-            &quot;svd&quot;: &quot;supervisorctl -c \&quot;${_SVCFG}\&quot; restart dev &amp;&amp; supervisorctl -c \&quot;${_SVCFG}\&quot; tail -f dev&quot;
-        }
-    }, 
-    &quot;aliases&quot;: {
-        &quot;cdhome&quot;: &quot;HOME&quot;, 
-        &quot;cdwrk&quot;: &quot;__WRK&quot;, 
-        &quot;cdddotfiles&quot;: &quot;__DOTFILES&quot;, 
-        &quot;cdprojecthome&quot;: &quot;PROJECT_HOME&quot;, 
-        &quot;cdworkonhome&quot;: &quot;WORKON_HOME&quot;, 
-        &quot;cdcondahome&quot;: &quot;CONDA_HOME&quot;, 
-        &quot;cdvirtualenv&quot;: &quot;VIRTUAL_ENV&quot;, 
-        &quot;cdsrc&quot;: &quot;_SRC&quot;, 
-        &quot;cdwrd&quot;: &quot;_WRD&quot;, 
-        &quot;cdbin&quot;: &quot;_BIN&quot;, 
-        &quot;cdetc&quot;: &quot;_ETC&quot;, 
-        &quot;cdlib&quot;: &quot;_LIB&quot;, 
-        &quot;cdlog&quot;: &quot;_LOG&quot;, 
-        &quot;cdpylib&quot;: &quot;_PYLIB&quot;, 
-        &quot;cdpysite&quot;: &quot;_PYSITE&quot;, 
-        &quot;cdvar&quot;: &quot;_VAR&quot;, 
-        &quot;cdwww&quot;: &quot;_WWW&quot;, 
-        &quot;cdhelp&quot;: &quot;set | grep \&quot;^cd.*()\&quot; | cut -f1 -d\&quot; \&quot; #%l&quot;, 
-        &quot;edit-&quot;: &quot;${_EDIT_} %l&quot;, 
-        &quot;gvim-&quot;: &quot;/usr/local/bin/mvim --servername dotfiles --remote-tab-silent&quot;, 
-        &quot;ipskey&quot;: &quot;(python -c \&quot;import os; print os.urandom(128).encode(\\\&quot;base64\\\&quot;)\&quot; &gt; \&quot;${_IPYSESKEY}\&quot; ) &amp;&amp; chmod 0600 \&quot;${_IPYSESKEY}\&quot;; # %l&quot;, 
-        &quot;ipnb&quot;: &quot;ipython notebook --secure --Session.keyfile=\&quot;${_IPYSESKEY}\&quot; --notebook-dir=\&quot;${_NOTEBOOKS}\&quot; --deep-reload %l&quot;, 
-        &quot;ipqt&quot;: &quot;ipython qtconsole --secure --Session.keyfile=\&quot;${_IPYSESKEY}\&quot; --logappend=\&quot;${_IPQTLOG}\&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=\&quot;Monaco\&quot; --ConsoleWidget.font_size=11 %l&quot;, 
-        &quot;grinv&quot;: &quot;grin --follow %l \&quot;${VIRTUAL_ENV}\&quot;&quot;, 
-        &quot;grindv&quot;: &quot;grind --follow %l --dirs \&quot;${VIRTUAL_ENV}\&quot;&quot;, 
-        &quot;grins&quot;: &quot;grin --follow %l \&quot;${_SRC}\&quot;&quot;, 
-        &quot;grinds&quot;: &quot;grind --follow %l --dirs \&quot;${_SRC}\&quot;&quot;, 
-        &quot;test-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;, 
-        &quot;testr-&quot;: &quot;reset &amp;&amp; (cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;, 
-        &quot;nose-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; nosetests)&quot;, 
-        &quot;grinw&quot;: &quot;grin --follow %l \&quot;${_WRD}\&quot;&quot;, 
-        &quot;grin-&quot;: &quot;grin --follow %l \&quot;${_WRD}\&quot;&quot;, 
-        &quot;grindw&quot;: &quot;grind --follow %l --dirs \&quot;${_WRD}\&quot;&quot;, 
-        &quot;grind-&quot;: &quot;grind --follow %l --dirs \&quot;${_WRD}\&quot;&quot;, 
-        &quot;hgv-&quot;: &quot;hg view -R \&quot;${_WRD}\&quot;&quot;, 
-        &quot;hgl-&quot;: &quot;hg -R \&quot;${_WRD}\&quot; log&quot;, 
-        &quot;editcfg&quot;: &quot;\&quot;${_EDITCFG_}\&quot; %l&quot;, 
-        &quot;serve-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;, 
-        &quot;shell-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;, 
-        &quot;e&quot;: &quot;${_EDIT_} %l&quot;, 
-        &quot;editp&quot;: &quot;$GUIVIMBIN $VIMCONF $PROJECT_FILES %l&quot;, 
-        &quot;makewrd&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-        &quot;make-&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-        &quot;mw&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;, 
-        &quot;ssv&quot;: &quot;supervisord -c \&quot;${_SVCFG}\&quot;&quot;, 
-        &quot;sv&quot;: &quot;supervisorctl -c \&quot;${_SVCFG}\&quot;&quot;, 
-        &quot;svt&quot;: &quot;sv tail -f&quot;, 
-        &quot;svd&quot;: &quot;supervisorctl -c \&quot;${_SVCFG}\&quot; restart dev &amp;&amp; supervisorctl -c \&quot;${_SVCFG}\&quot; tail -f dev&quot;
-    }
-}
+Traceback (most recent call last):
+  File &quot;../scripts/venv.py&quot;, line 3625, in &lt;module&gt;
+    sys.exit(main(*sys.argv[1:]))
+  File &quot;../scripts/venv.py&quot;, line 3561, in main
+    print(venv.to_json(indent=4), file=output)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+  File &quot;../scripts/venv.py&quot;, line 91, in print
+    print(*args, **kwargs)
+RuntimeError: maximum recursion depth exceeded while calling a Python object
 </pre>
 </div>
 </div>
