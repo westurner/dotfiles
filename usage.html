@@ -155,7 +155,8 @@
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
 </div>
 <p><code class="docutils literal"><span class="pre">bash</span> <span class="pre">scripts/bootstrap_dotfiles.sh</span> <span class="pre">-h</span></code>:</p>
-<div class="highlight-text"><div class="highlight"><pre>$ bash ../scripts/bootstrap_dotfiles.sh -h
+<pre class="ansi-block literal-block">
+$ bash ../scripts/bootstrap_dotfiles.sh -h
 ## dotfiles_bootstrap -- a shell wrapper for cloning and installing
 ## Usage: bootstrap_dotfiles.sh &lt;actions&gt; &lt;options&gt;
 #
@@ -171,8 +172,7 @@
 ## Options
 #  -u   --  pip install --user (modified for other actions)
 #  -d   --  show debugging info (set -x)
-</pre></div>
-</div>
+</pre>
 </div>
 <div class="section" id="makefile">
 <span id="dotfiles-makefile"></span><span id="index-2"></span><h2>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h2>
@@ -180,7 +180,8 @@
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">https://github.com/westurner/dotfiles/blob/master/Makefile</a></div>
 </div>
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code>:</p>
-<div class="highlight-text"><div class="highlight"><pre>$ cd .. &amp;&amp; make help
+<pre class="ansi-block literal-block">
+$ cd .. &amp;&amp; make help
 dotfiles Makefile
 #################
 help         -- print dotfiles help
@@ -193,8 +194,8 @@ help_txt     -- print setup.py help as rst
 install      -- install dotfiles and dotvim [in a VIRTUAL_ENV]
 upgrade      -- upgrade dotfiles and dotvim [in a VIRTUAL_ENV]
 
-install_user -- install dotfiles and dotvim (with &#39;pip --user&#39;)
-upgrade_user -- upgrade dodtfiles and dotfile (with &#39;pip --user&#39;)
+install_user -- install dotfiles and dotvim (with 'pip --user')
+upgrade_user -- upgrade dodtfiles and dotfile (with 'pip --user')
 
 pip_upgrade pip              -- upgrade pip
 pip_install_requirements_all -- install all pip requirements
@@ -214,8 +215,7 @@ docs      -- build sphinx documentation
 gh-pages  -- overwrite the gh-pages branch with docs/_build/html
 push      -- git push
 pull      -- git pull
-</pre></div>
-</div>
+</pre>
 </div>
 <div class="section" id="bash">
 <span id="dotfiles-bash-config"></span><span id="index-3"></span><h2>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h2>
@@ -1235,6 +1235,7 @@ pull      -- git pull
 &quot; The Bundle URLs are intentionally complete https URLs
 &quot; * grep &#39;^Bundle \&#39;&#39; vimrc.bundles
 &quot; * sed -i &#39;s\https://github.com/\ssh://git@github.com/\g&#39;
+&quot; venv.vim          -- venv cdalias commands like :Cdwrk, :Cdsrc, and :Cdwrd
 &quot; Info.vim          -- vim infopages in vim [help info]
 &quot;  :Info sed        --  view infopage for &#39;sed&#39;
 &quot;  &lt;Space&gt;          --  Scroll forward (page down).

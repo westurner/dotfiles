@@ -276,12 +276,12 @@ for Bash, ZSH, IPython, Vim.</p>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.CdAlias.VIM_FUNCTION_TEMPLATE">
-<code class="descname">VIM_FUNCTION_TEMPLATE</code><em class="property"> = 'function! {vim_func_name}(...)\n    &quot; {vim_func_name}() -- cd ${pathvar}/$1\n    if a:0 &gt; 0\n       let pathname = join([${pathvar}, a:1], &quot;/&quot;)\n    else\n       let pathname = &quot;${pathvar}&quot;\n    endif\n    execute \'cd\' pathname \n    pwd\nendfunction\n'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.CdAlias.VIM_FUNCTION_TEMPLATE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VIM_FUNCTION_TEMPLATE</code><em class="property"> = 'function! {vim_func_name}(...)\n&quot; {vim_func_name}()  -- cd ${pathvar}/$1\n    if a:0 &gt; 0\n       let pathname = join([${pathvar}, a:1], &quot;/&quot;)\n    else\n       let pathname = &quot;${pathvar}&quot;\n    endif\n    execute \'cd\' pathname \n    pwd\nendfunction\n'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.CdAlias.VIM_FUNCTION_TEMPLATE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.CdAlias.VIM_HEADER_TEMPLATE">
-<code class="descname">VIM_HEADER_TEMPLATE</code><em class="property"> = '\n&quot; ### venv.vim\n\nfunction! Cd_help() {\n    :verbose command Cd\nendfunction\ncommand! -nargs=* Cdhelp call Cd_help()\n\n'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.CdAlias.VIM_HEADER_TEMPLATE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VIM_HEADER_TEMPLATE</code><em class="property"> = '\n&quot; ### venv.vim\n\nfunction! Cd_help()\n&quot; cdhelp()           -- list cd commands\n    :verbose command Cd\nendfunction\ncommand! -nargs=* Cdhelp call Cd_help()\n\n'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.CdAlias.VIM_HEADER_TEMPLATE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -661,7 +661,7 @@ and handles positional args <code class="docutils literal"><span class="pre">%s<
 <p>Print env and kwargs to stderr</p>
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout">
-<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x100f441e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x10483f1e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -697,12 +697,12 @@ kwargs dict</li>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStep.stderr">
-<code class="descname">stderr</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x100f441e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stderr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stderr</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x10483f1e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stderr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStep.stdout">
-<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stdout&gt;', mode 'w' at 0x100f44150&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stdout&gt;', mode 'w' at 0x10483f150&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stdout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -974,6 +974,17 @@ show difflib.ndiffs of Envs between steps</li>
 </dd></dl>
 
 <dl class="class">
+<dt id="dotfiles.venv.ipython_config.Test_001_lookup">
+<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Test_001_lookup</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_001_lookup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_001_lookup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="dotfiles.venv.ipython_config.Test_001_lookup.test_100_lookup">
+<code class="descname">test_100_lookup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_001_lookup.test_100_lookup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_001_lookup.test_100_lookup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="dotfiles.venv.ipython_config.Test_100_Env">
 <em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Test_100_Env</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_100_Env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_100_Env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
@@ -1052,15 +1063,15 @@ show difflib.ndiffs of Envs between steps</li>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
 <p>test each build step independently</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">env</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">buildfunc</span> <span class="o">=</span> <span class="n">build_python_env</span>
+<span class="n">buildfunc</span> <span class="o">=</span> <span class="n">build_virtualenvwrapper_env</span>
 <span class="n">new_env</span> <span class="o">=</span> <span class="n">buildfunc</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
 
 <span class="n">new_env</span> <span class="o">=</span> <span class="n">buildfunc</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="staticmethod">
-<dt id="dotfiles.venv.ipython_config.Test_300_venv_build_env.print">
-<em class="property">static </em><code class="descname">print</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_300_venv_build_env.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_300_venv_build_env.print" title="Permalink to this definition">¶</a></dt>
+<dt id="dotfiles.venv.ipython_config.Test_300_venv_build_env.print_">
+<em class="property">static </em><code class="descname">print_</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_300_venv_build_env.print_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_300_venv_build_env.print_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1076,11 +1087,6 @@ show difflib.ndiffs of Envs between steps</li>
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Test_300_venv_build_env.test_200_build_usrlog_env">
 <code class="descname">test_200_build_usrlog_env</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_300_venv_build_env.test_200_build_usrlog_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_200_build_usrlog_env" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.ipython_config.Test_300_venv_build_env.test_300_build_python_env">
-<code class="descname">test_300_build_python_env</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_300_venv_build_env.test_300_build_python_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_300_build_python_env" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1159,6 +1165,11 @@ show difflib.ndiffs of Envs between steps</li>
 <code class="descname">test_040_venv_with_environ</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_500_Venv.test_040_venv_with_environ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_500_Venv.test_040_venv_with_environ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="dotfiles.venv.ipython_config.Test_500_Venv.test_050_venv__VENVSTR__WORKON_HOME">
+<code class="descname">test_050_venv__VENVSTR__WORKON_HOME</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_500_Venv.test_050_venv__VENVSTR__WORKON_HOME"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_500_Venv.test_050_venv__VENVSTR__WORKON_HOME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -1196,6 +1207,11 @@ show difflib.ndiffs of Envs between steps</li>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="dotfiles.venv.ipython_config.Test_900_Venv_main.test_140_main_VENVSTR_WORKON_HOME">
+<code class="descname">test_140_main_VENVSTR_WORKON_HOME</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_900_Venv_main.test_140_main_VENVSTR_WORKON_HOME"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_900_Venv_main.test_140_main_VENVSTR_WORKON_HOME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="dotfiles.venv.ipython_config.Test_900_Venv_main.test_200_main_print_bash">
 <code class="descname">test_200_main_print_bash</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Test_900_Venv_main.test_200_main_print_bash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Test_900_Venv_main.test_200_main_print_bash" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1219,7 +1235,7 @@ show difflib.ndiffs of Envs between steps</li>
 
 <dl class="class">
 <dt id="dotfiles.venv.ipython_config.Venv">
-<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Venv</code><span class="sig-paren">(</span><em>VENVSTR=None</em>, <em>VENVSTRAPP=None</em>, <em>_Venv__WRK=None</em>, <em>_Venv__DOTFILES=None</em>, <em>WORKON_HOME=None</em>, <em>VIRTUAL_ENV_NAME=None</em>, <em>VENVPREFIX=None</em>, <em>VIRTUAL_ENV=None</em>, <em>_SRC=None</em>, <em>_APP=None</em>, <em>_WRD=None</em>, <em>env=None</em>, <em>from_environ=False</em>, <em>open_editors=False</em>, <em>open_terminals=False</em>, <em>dont_reflect=True</em>, <em>debug=False</em>, <em>show_diffs=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">Venv</code><span class="sig-paren">(</span><em>VENVSTR=None</em>, <em>VENVSTRAPP=None</em>, <em>_Venv__WRK=None</em>, <em>_Venv__DOTFILES=None</em>, <em>WORKON_HOME=None</em>, <em>VIRTUAL_ENV_NAME=None</em>, <em>VENVPREFIX=None</em>, <em>VIRTUAL_ENV=None</em>, <em>_SRC=None</em>, <em>_APP=None</em>, <em>_WRD=None</em>, <em>env=None</em>, <em>from_environ=False</em>, <em>open_editors=False</em>, <em>open_terminals=False</em>, <em>dont_reflect=True</em>, <em>debug=False</em>, <em>show_diffs=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>A virtual environment configuration generator</p>
 <dl class="attribute">
@@ -1350,16 +1366,23 @@ block of vim script</td>
 
 <dl class="staticmethod">
 <dt id="dotfiles.venv.ipython_config.Venv.parse_VENVSTR">
-<em class="property">static </em><code class="descname">parse_VENVSTR</code><span class="sig-paren">(</span><em>env=None</em>, <em>VENVSTR=None</em>, <em>VENVSTRAPP=None</em>, <em>VENVPREFIX=None</em>, <em>from_environ=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.parse_VENVSTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.parse_VENVSTR" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">parse_VENVSTR</code><span class="sig-paren">(</span><em>env=None</em>, <em>VENVSTR=None</em>, <em>VENVSTRAPP=None</em>, <em>VENVPREFIX=None</em>, <em>VIRTUAL_ENV=None</em>, <em>VIRTUAL_ENV_NAME=None</em>, <em>_APP=None</em>, <em>_SRC=None</em>, <em>_WRD=None</em>, <em>_Venv__WRK=None</em>, <em>WORKON_HOME=None</em>, <em>from_environ=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.parse_VENVSTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.parse_VENVSTR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the path to a virtualenv given a <code class="docutils literal"><span class="pre">VENVSTR</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>VENVSTR</strong> (<em>str</em>) &#8211; a path to a virtualenv containing <code class="docutils literal"><span class="pre">/</span></code>
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>env</strong> (<em>Env</em>)</li>
+<li><strong>VENVSTR</strong> (<em>str</em>) &#8211;
+a path to a virtualenv containing <code class="docutils literal"><span class="pre">/</span></code>
 OR just the name of a virtualenv in <code class="docutils literal"><span class="pre">$WORKON_HOME</span></code></li>
-<li><strong>from_environ</strong> (<em>bool</em>) &#8211; whether to try and read from
+<li><strong>VENVSTRAPP</strong> (<em>str</em>)</li>
+<li><strong>VENVPREFIX</strong> (<em>str</em>)</li>
+<li><strong>WORKON_HOME</strong> (<em>str</em>)</li>
+<li><strong>from_environ</strong> (<em>bool</em>) &#8211;
+whether to try and read from
 <code class="docutils literal"><span class="pre">os.environ[&quot;VIRTUAL_ENV&quot;]</span></code></li>
 </ul>
 </td>
@@ -1510,7 +1533,7 @@ and return (output, _stdout, _stderr)</p>
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.build_conda_cfg_env">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">build_conda_cfg_env</code><span class="sig-paren">(</span><em>env=None</em>, <em>CONDA_ROOT=None</em>, <em>CONDA_HOME=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#build_conda_cfg_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.build_conda_cfg_env" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">build_conda_cfg_env</code><span class="sig-paren">(</span><em>env=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#build_conda_cfg_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.build_conda_cfg_env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configure conda for a specific environment
 TODO build_venv_config</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1541,13 +1564,13 @@ with condaenvs in <code class="docutils literal"><span class="pre">-wrk/-ce27</s
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
 <li><strong>__WRK</strong> (<em>str</em>) &#8211;
 workspace root (<code class="docutils literal"><span class="pre">$__WRK</span></code>, <code class="docutils literal"><span class="pre">~/-wrk</span></code>)</li>
-<li><strong>CONDA27_ROOT</strong> (<em>str</em>) &#8211;
+<li><strong>CONDA_ROOT__py27</strong> (<em>str</em>) &#8211;
 path to conda27 root environment</li>
-<li><strong>CONDA27_HOME</strong> (<em>str</em>) &#8211;
+<li><strong>CONDA_HOME__py27</strong> (<em>str</em>) &#8211;
 path to conda27 envs (e.g. WORKON_HOME)</li>
-<li><strong>CONDA34_ROOT</strong> (<em>str</em>) &#8211;
+<li><strong>CONDA_ROOT__py34</strong> (<em>str</em>) &#8211;
 path to conda34 root environment</li>
-<li><strong>CONDA34_HOME</strong> (<em>str</em>) &#8211;
+<li><strong>CONDA_HOME__py34</strong> (<em>str</em>) &#8211;
 path to conda34 envs (e.g. WORKON_HOME)</li>
 </ul>
 </td>
@@ -1570,52 +1593,41 @@ path to conda34 envs (e.g. WORKON_HOME)</li>
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.build_dotfiles_env">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">build_dotfiles_env</code><span class="sig-paren">(</span><em>env=None</em>, <em>HOME=None</em>, <em>__WRK=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#build_dotfiles_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.build_dotfiles_env" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure dotfiles base environment</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
-<li><strong>HOME</strong> (<em>str</em>) &#8211;
-home path (<code class="docutils literal"><span class="pre">$HOME</span></code>, <code class="docutils literal"><span class="pre">~</span></code>)</li>
-<li><strong>__WRK</strong> (<em>str</em>) &#8211;
-workspace path (<code class="docutils literal"><span class="pre">$__WRK</span></code>, <code class="docutils literal"><span class="pre">~/-wrk</span></code>)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>env</strong> (<em>Env dict</em>) &#8211; <a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>env</strong> &#8211;
-<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Env dict</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="dotfiles.venv.ipython_config.build_python_env">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">build_python_env</code><span class="sig-paren">(</span><em>env=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#build_python_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.build_python_env" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure python27 (2.7) and python34 (3.4)
-with virtualenvs in <code class="docutils literal"><span class="pre">-wrk/-ve27</span></code> and <code class="docutils literal"><span class="pre">-wrk/ve34</span></code>.</p>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">build_dotfiles_env</code><span class="sig-paren">(</span><em>env=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#build_dotfiles_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.build_dotfiles_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure dotfiles base environment (HOME, __WRK, __SRC, __DOTFILES)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><strong>env</strong> (<em>Env dict</em>) &#8211;
-<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></td>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>env</strong> (<em>Env dict</em>) &#8211;
+<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></li>
+<li><strong>HOME</strong> (<em>str</em>) &#8211;
+home path (<code class="docutils literal"><span class="pre">$HOME</span></code>, <code class="docutils literal"><span class="pre">~</span></code>)</li>
+<li><strong>__WRK</strong> (<em>str</em>) &#8211;
+workspace path (<code class="docutils literal"><span class="pre">$__WRK</span></code>, <code class="docutils literal"><span class="pre">~/-wrk</span></code>)</li>
+<li><strong>__SRC</strong> (<em>str</em>) &#8211;
+path to source repos (<code class="docutils literal"><span class="pre">$__WRK/-src</span></code>)</li>
+<li><strong>__DOTFILES</strong> (<em>str</em>) &#8211;
+current dotfiles path (<code class="docutils literal"><span class="pre">~/-dotfiles</span></code>)</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>env</strong> &#8211;
-<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p><strong>env</strong> &#8211;
+<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></p>
+<p>Sets:</p>
+<ul class="simple">
+<li>HOME</li>
+<li>__WRK</li>
+<li>__SRC</li>
+<li>__DOTFILES</li>
+</ul>
+</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Env dict</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Env dict</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1740,7 +1752,7 @@ See: <a class="reference internal" href="#module-dotfiles.venv.ipython_magics" t
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.build_venv_paths_full_env">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">build_venv_paths_full_env</code><span class="sig-paren">(</span><em>env=None</em>, <em>VENVSTR=None</em>, <em>VENVSTRAPP=None</em>, <em>VENVPREFIX=None</em>, <em>VIRTUAL_ENV=None</em>, <em>pyver=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#build_venv_paths_full_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.build_venv_paths_full_env" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">build_venv_paths_full_env</code><span class="sig-paren">(</span><em>env=None</em>, <em>pyver=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#build_venv_paths_full_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.build_venv_paths_full_env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set variables for standard paths in the environment</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1783,22 +1795,37 @@ VIRTUAL_ENV, VENVPREFIX, VENVSTR, VENVSTRAPP))</p>
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.build_virtualenvwrapper_env">
 <code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">build_virtualenvwrapper_env</code><span class="sig-paren">(</span><em>env=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#build_virtualenvwrapper_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.build_virtualenvwrapper_env" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Set WORKON_HOME to WORKON_HOME or WORKON_HOME_DEFAULT</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><strong>__WRK</strong> (<em>str</em>) &#8211;
-workspace root (<code class="docutils literal"><span class="pre">$__WRK</span></code>, <code class="docutils literal"><span class="pre">~/-wrk</span></code>)</td>
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>env</strong> (<em>Env dict</em>) &#8211;
+<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></li>
+<li><strong>__WRK</strong> (<em>str</em>) &#8211;
+workspace path (<code class="docutils literal"><span class="pre">$__WRK</span></code>, <code class="docutils literal"><span class="pre">~/-wrk</span></code>)</li>
+<li><strong>WORKON_HOME_DEFAULT</strong> (<em>str</em>) &#8211;
+variable name (default: <code class="docutils literal"><span class="pre">WORKON_HOME__py27</span></code>)</li>
+<li><strong>WORKON_HOME__* (str): path to a WORKON_HOME set</strong></li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><strong>env</strong> (<em>Env dict</em>) &#8211;
-<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p><strong>env</strong> &#8211;
+<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></p>
+<p>Sets:</p>
+<ul class="simple">
+<li>WORKON_HOME__py27=&#8217;${__WRK}/-ve27&#8217;</li>
+<li>WORKON_HOME__py34=&#8217;${__WRK}/-ve34&#8217;</li>
+<li>WORKON_HOME__*=kwargs.get(WORKON_HOME__*)</li>
+<li>WORKON_HOME_DEFAULT=&#8217;WORKON_HOME_py27&#8217;</li>
+</ul>
+</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>env</strong> &#8211;
-<a class="reference internal" href="#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Env dict</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Env dict</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1807,12 +1834,23 @@ workspace root (<code class="docutils literal"><span class="pre">$__WRK</span></
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.comment_comment">
 <code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">comment_comment</code><span class="sig-paren">(</span><em>strblock</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#comment_comment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.comment_comment" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="dotfiles.venv.ipython_config.dbglog">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">dbglog</code><span class="sig-paren">(</span><em>obj</em>, <em>file=&lt;open file '&lt;stderr&gt;'</em>, <em>mode 'w' at 0x100f441e0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#dbglog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.dbglog" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strblock</strong> (<em>str</em>) &#8211; string block (possibly containing newlines)</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><strong>kwargs</strong> (<em>dict</em>) &#8211;
+kwargs for prepend_comment_char</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">string with each line prefixed with comment char</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.get_IPYTHON_ALIAS_DEFAULTS">
@@ -1831,16 +1869,28 @@ workspace root (<code class="docutils literal"><span class="pre">$__WRK</span></
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.get_WORKON_HOME_default">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">get_WORKON_HOME_default</code><span class="sig-paren">(</span><em>env=None</em>, <em>from_environ=False</em>, <em>default='-ve27'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#get_WORKON_HOME_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.get_WORKON_HOME_default" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">get_WORKON_HOME_default</code><span class="sig-paren">(</span><em>env=None</em>, <em>from_environ=False</em>, <em>default='-ve27'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#get_WORKON_HOME_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.get_WORKON_HOME_default" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>env</strong> (<em>dict</em>) &#8211; defaults to os.environ</td>
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>env</strong> (<em>dict</em>) &#8211;
+Env dict to read from (default: None)</li>
+<li><strong>from_environ</strong> (<em>bool</em>) &#8211;
+read WORKON_HOME from os.environ</li>
+<li><strong>default</strong> (<em>str</em>) &#8211;
+default WORKON_HOME dirname</li>
+<li><strong>__WRK</strong> (<em>str</em>)</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">path to a <code class="docutils literal"><span class="pre">WORKON_HOME</span></code> directory</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">path to a <code class="docutils literal"><span class="pre">WORKON_HOME</span></code> directory</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1848,7 +1898,7 @@ workspace root (<code class="docutils literal"><span class="pre">$__WRK</span></
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.get___WRK_default">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">get___WRK_default</code><span class="sig-paren">(</span><em>env=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#get___WRK_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.get___WRK_default" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">get___WRK_default</code><span class="sig-paren">(</span><em>env=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#get___WRK_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.get___WRK_default" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -1899,7 +1949,7 @@ as determined by <code class="docutils literal"><span class="pre">in_ipython_con
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.logevent">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">logevent</code><span class="sig-paren">(</span><em>event</em>, <em>obj=None</em>, <em>logger=&lt;logging.Logger object at 0x101df6c50&gt;</em>, <em>level=10</em>, <em>wrap=False</em>, <em>splitlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#logevent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.logevent" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">logevent</code><span class="sig-paren">(</span><em>event</em>, <em>obj=None</em>, <em>logger=&lt;logging.Logger object at 0x1056f7290&gt;</em>, <em>level=10</em>, <em>wrap=False</em>, <em>splitlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#logevent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.logevent" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1918,6 +1968,31 @@ as determined by <code class="docutils literal"><span class="pre">in_ipython_con
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dotfiles.venv.ipython_config.lookup_from_kwargs_env">
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">lookup_from_kwargs_env</code><span class="sig-paren">(</span><em>kwargs</em>, <em>env</em>, <em>attr</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#lookup_from_kwargs_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.lookup_from_kwargs_env" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>kwargs</strong> (<em>dict</em>) &#8211; kwargs dict</li>
+<li><strong>env</strong> (<em>Env</em>) &#8211; <code class="xref py py-mod docutils literal"><span class="pre">Env</span></code> dict</li>
+<li><strong>attr</strong> (<em>str</em>) &#8211; attribute name</li>
+<li><strong>default</strong> (<em>obj</em>) &#8211; default value to return if not found in kwargs or env</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">kwargs.get(attr, env.get(attr, default))</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">obj</p>
 </td>
 </tr>
 </tbody>
