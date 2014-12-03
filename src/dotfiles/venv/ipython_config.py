@@ -86,6 +86,10 @@ from os.path import join as joinpath
 
 if sys.version_info[0] == 2:
     STR_TYPES = basestring
+
+    def print(*args, **kwargs):
+        print(*args, **kwargs)
+
 else:
     STR_TYPES = str
 
