@@ -77,7 +77,6 @@ _rebuild_virtualenv() {
     echo "rebuild_virtualenv()"
     local venvname="${1}"
     local VIRTUAL_ENV=${2:-"${WORKON_HOME}/${venvname}"}
-    local _BIN="${VIRTUAL_ENV}/bin"
     rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
         ${_BIN}/pip ${_BIN}/pip-2.7 \
         ${_BIN}/easy_install ${_BIN}/easy_install-2.7 \
@@ -92,7 +91,8 @@ _rebuild_virtualenv() {
     deactivate
     mkvirtualenv ${venvname}
 
-    files=$(find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$')
+    _BIN__="${VIRTUAL_ENV}/bin"
+    files=$(find ${_BIN__} -type f | grep -v '.bak$' | grep -v 'python*$')
     head -n1 ${files}
     (cd ${_BIN}; \
         sed -i.bak "s,^#!(.*${venvname}/bin/python)(\d.*),#!${_BIN}/python," \
