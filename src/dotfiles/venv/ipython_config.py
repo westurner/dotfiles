@@ -87,8 +87,10 @@ from os.path import join as joinpath
 if sys.version_info[0] == 2:
     STR_TYPES = basestring
 
+    # workaround for Sphinx autodoc bug
+    import __builtin__
     def print(*args, **kwargs):
-        print(*args, **kwargs)
+        __builtin__.print(*args, **kwargs)
 
 else:
     STR_TYPES = str
@@ -98,7 +100,7 @@ log = logging.getLogger(LOGNAME)
 
 __THISFILE = os.path.abspath(__file__)
 #  __VENV_CMD = "python {~ipython_config.py}"
-__VENV_CMD = "python %s" % __THISFILE
+#  __VENV_CMD = "python %s" % __THISFILE
 
 
 def logevent(event,
