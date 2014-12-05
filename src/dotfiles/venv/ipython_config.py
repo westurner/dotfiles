@@ -79,7 +79,7 @@ import unittest
 from collections import OrderedDict
 from os.path import join as joinpath
 
-## try/except imports for IPython
+# try/except imports for IPython
 # import IPython
 # import zmq
 ## import sympy
@@ -89,6 +89,7 @@ if sys.version_info[0] == 2:
 
     # workaround for Sphinx autodoc bug
     import __builtin__
+
     def print(*args, **kwargs):
         __builtin__.print(*args, **kwargs)
 
@@ -120,7 +121,7 @@ def logevent(event,
     Returns:
         tuple: (event:str, output:str)
     """
-    eventstr = event.replace('\t','<tab/>')     # XXX: raises
+    eventstr = event.replace('\t', '<tab/>')     # XXX: raises
 
     def add_event_prefix(eventstr, line):
         return '{eventstr}\t{line}'.format(eventstr=eventstr, line=line)
@@ -139,7 +140,7 @@ def logevent(event,
 
     if splitlines:
         for line in output.splitlines():
-            _log(event, line) # TODO: comment?
+            _log(event, line)  # TODO: comment?
     else:
         _log(event, output)
 
@@ -149,14 +150,15 @@ def logevent(event,
     return (event, output)
 
 
-
-## Exception classes
+# Exception classes
 
 class ConfigException(Exception):
     pass
 
+
 class StepException(Exception):
     pass
+
 
 class StepConfigException(StepException, ConfigException):
     pass
@@ -174,7 +176,7 @@ def prepend_comment_char(strblock, commentchar="##"):
         yield " ".join((commentchar, line))
 
 
-## Constant getters (for now)
+# Constant getters (for now)
 
 def get_pyver(pyverstr=None):
     """
@@ -226,7 +228,7 @@ def get_WORKON_HOME_default(env=None,
     env['__WRK'] = kwargs.get('__WRK',
                               env.get('__WRK',
                                       get___WRK_default(env=env)))
-    workon_home = env.get('WORKON_HOME') # TODO: WORKON_HOME_DEFAULT
+    workon_home = env.get('WORKON_HOME')  # TODO: WORKON_HOME_DEFAULT
     if workon_home:
         return workon_home
     python27_home = env.get('WORKON_HOME__py27')
@@ -244,8 +246,8 @@ def get_WORKON_HOME_default(env=None,
     return workon_home
 
 
-
 class VenvJSONEncoder(json.JSONEncoder):
+
     def default(self, obj):
         if hasattr(obj, 'to_dict'):
             return dict(obj.to_dict())
@@ -253,19 +255,21 @@ class VenvJSONEncoder(json.JSONEncoder):
             # TODO: why is this necessary?
             return dict(obj)
         if isinstance(obj, CdAlias):
-            #return dict(type="cdalias",value=(obj.name, obj.pathvar))
+            # return dict(type="cdalias",value=(obj.name, obj.pathvar))
             return obj.pathvar
         return json.JSONEncoder.default(self, obj)
 
 ##############
-## define aliases as IPython aliases (which support %l and %s,%s)
+# define aliases as IPython aliases (which support %l and %s,%s)
 # which can then be transformed to:
 # * ipython aliases ("echo %l; ping -t %s -n %s")
 
 
 class CmdAlias(object):
+
     """
     """
+
     def __init__(self, cmdstr):
         """
         Args:
@@ -308,6 +312,7 @@ class CmdAlias(object):
 
 
 class IpyAlias(CmdAlias):
+
     """
     An IPython alias command string
     which expands to a shell function ``aliasname() { ... }``
@@ -317,6 +322,7 @@ class IpyAlias(CmdAlias):
 
         * TODO: IPython docs
     """
+
     def __init__(self, cmdstr, name=None):
         """
         Args:
@@ -367,6 +373,7 @@ class IpyAlias(CmdAlias):
 
 
 class CdAlias(CmdAlias):
+
     """
     A CmdAlias for ``cd`` change directory
     functions with venv paths (e.g. $_WRD)
@@ -376,6 +383,7 @@ class CdAlias(CmdAlias):
     * ipython_magics.py: ipython magics (%cdwrd, cdwrd, cdw)
     * venv.vim: vim functions  (:Cdwrd)
     """
+
     def __init__(self, pathvar, name=None, aliases=None):
         """
         Args:
@@ -405,14 +413,14 @@ class CdAlias(CmdAlias):
         self.cmdstr = "cd {}".format(self.pathvar)
 
         if name is None:
-            name = pathvar.lower().replace('_','')
+            name = pathvar.lower().replace('_', '')
         self.name = name
         if aliases is None:
             aliases = list()
         self.aliases = aliases
 
     IPYTHON_MAGICS_FILE_HEADER = (
-'''
+        '''
 #!/usr/bin/env ipython
 # dotfiles.venv.ipython_cdmagic
 from __future__ import print_function
@@ -444,7 +452,7 @@ class VenvMagics(Magics):
 ''')
 
     IPYTHON_METHOD_TEMPLATE = (
-'''
+        '''
     @line_magic
     def {ipy_func_name}(self, line):
         """ipy_func_name()    -- cd ${pathvar}/${@}"""
@@ -452,30 +460,30 @@ class VenvMagics(Magics):
 ''')
 
     VIM_HEADER_TEMPLATE = (
-    '''\n'''
-    '''" ### venv.vim\n\n'''
-    '''function! Cd_help()\n'''
-    '''" cdhelp()           -- list cd commands\n'''
-    '''    :verbose command Cd\n'''
-    '''endfunction\n'''
-    '''command! -nargs=* Cdhelp call Cd_help()\n'''
-    '''\n''')
+        '''\n'''
+        '''" ### venv.vim\n\n'''
+        '''function! Cd_help()\n'''
+        '''" cdhelp()           -- list cd commands\n'''
+        '''    :verbose command Cd\n'''
+        '''endfunction\n'''
+        '''command! -nargs=* Cdhelp call Cd_help()\n'''
+        '''\n''')
 
     VIM_FUNCTION_TEMPLATE = (
-    '''function! {vim_func_name}(...)\n'''
-    '''" {vim_func_name}()  -- cd ${pathvar}/$1\n'''
-    '''    if a:0 > 0\n'''
-    '''       let pathname = join([${pathvar}, a:1], "/")\n'''
-    '''    else\n'''
-    '''       let pathname = "${pathvar}"\n'''
-    '''    endif\n'''
-    '''    execute 'cd' pathname \n'''
-    '''    pwd\n'''
-    '''endfunction\n'''
+        '''function! {vim_func_name}(...)\n'''
+        '''" {vim_func_name}()  -- cd ${pathvar}/$1\n'''
+        '''    if a:0 > 0\n'''
+        '''       let pathname = join([${pathvar}, a:1], "/")\n'''
+        '''    else\n'''
+        '''       let pathname = "${pathvar}"\n'''
+        '''    endif\n'''
+        '''    execute 'cd' pathname \n'''
+        '''    pwd\n'''
+        '''endfunction\n'''
     )
     VIM_COMMAND_TEMPLATE = (
-    '''"   :{cmd_name} -- {vim_func_name}()\n'''
-    """command! -nargs=* {cmd_name} call {vim_func_name}(<f-args>)\n"""
+        '''"   :{cmd_name} -- {vim_func_name}()\n'''
+        """command! -nargs=* {cmd_name} call {vim_func_name}(<f-args>)\n"""
     )
 
     @property
@@ -492,9 +500,9 @@ class VenvMagics(Magics):
         Returns:
             list: self.vim_cmd_name + self.aliases.title()
         """
-        return ([self.vim_cmd_name,] +
-            [alias.title() for alias in self.aliases
-             if not alias.endswith('-')])
+        return ([self.vim_cmd_name, ] +
+                [alias.title() for alias in self.aliases
+                 if not alias.endswith('-')])
 
     def to_vim_function(self):
         """
@@ -509,29 +517,29 @@ class VenvMagics(Magics):
         output = CdAlias.VIM_FUNCTION_TEMPLATE.format(**conf)
         for cmd_name in conf['vim_cmd_names']:
             output = output + (CdAlias.VIM_COMMAND_TEMPLATE
-                .format(cmd_name=cmd_name,
-                        pathvar=conf['pathvar'],
-                        vim_func_name=conf['vim_func_name']))
+                               .format(cmd_name=cmd_name,
+                                       pathvar=conf['pathvar'],
+                                       vim_func_name=conf['vim_func_name']))
         return output
 
     BASH_FUNCTION_TEMPLATE = (
-    """{bash_func_name} () {{\n"""
-    """    # {bash_func_name}()  -- cd {pathvar} /$@\n"""
-    """    cd "${pathvar}"/$@\n"""
-    """}}\n"""
-    """{bash_compl_name} () {{\n"""
-    """    local cur="$2";\n"""
-    """    COMPREPLY=($({bash_func_name} && compgen -d -- "${{cur}}" ))\n"""
-    """}}\n"""
+        """{bash_func_name} () {{\n"""
+        """    # {bash_func_name}()  -- cd {pathvar} /$@\n"""
+        """    cd "${pathvar}"/$@\n"""
+        """}}\n"""
+        """{bash_compl_name} () {{\n"""
+        """    local cur="$2";\n"""
+        """    COMPREPLY=($({bash_func_name} && compgen -d -- "${{cur}}" ))\n"""
+        """}}\n"""
     )
     BASH_ALIAS_TEMPLATE = (
-    """{cmd_name} () {{\n"""
-    """    # {cmd_name}() -- cd ${pathvar}\n"""
-    """    {bash_func_name} $@\n"""
-    """}}\n"""
+        """{cmd_name} () {{\n"""
+        """    # {cmd_name}() -- cd ${pathvar}\n"""
+        """    {bash_func_name} $@\n"""
+        """}}\n"""
     )
     BASH_COMPLETION_TEMPLATE = (
-    """complete -o default -o nospace -F {bash_compl_name} {cmd_name}\n"""
+        """complete -o default -o nospace -F {bash_compl_name} {cmd_name}\n"""
     )
 
     @property
@@ -548,7 +556,7 @@ class VenvMagics(Magics):
         Returns:
             list: self.bash_func_name + self.aliases
         """
-        return [self.bash_func_name,] + self.aliases
+        return [self.bash_func_name, ] + self.aliases
 
     def to_bash_function(self, include_completions=True):
         """
@@ -562,22 +570,23 @@ class VenvMagics(Magics):
         conf['bash_func_name'] = self.bash_func_name
         conf['bash_func_names'] = self.bash_func_names
         conf['bash_compl_name'] = "_cd_%s_complete" % self.pathvar
+
         def _iter_bash_function(conf):
             yield (CdAlias.BASH_FUNCTION_TEMPLATE.format(**conf))
             for cmd_name in conf['bash_func_names'][1:]:
                 yield (CdAlias.BASH_ALIAS_TEMPLATE
-                    .format(cmd_name=cmd_name,
-                            pathvar=conf['pathvar'],
-                            bash_func_name=conf['bash_func_name']))
+                       .format(cmd_name=cmd_name,
+                               pathvar=conf['pathvar'],
+                               bash_func_name=conf['bash_func_name']))
             if include_completions:
                 for cmd_name in conf['bash_func_names']:
                     yield (CdAlias.BASH_COMPLETION_TEMPLATE
-                        .format(cmd_name=cmd_name,
-                                bash_compl_name=conf['bash_compl_name']))
+                           .format(cmd_name=cmd_name,
+                                   bash_compl_name=conf['bash_compl_name']))
 
         return ''.join(_iter_bash_function(conf))
 
-    #def to_shell_str(self):
+    # def to_shell_str(self):
     #    return 'cd {}/%l'.format(shell_varquote(self.PATH_VARIABLE))
     def to_shell_str(self):
         """
@@ -590,18 +599,19 @@ class VenvMagics(Magics):
     __str__ = to_shell_str
 
 
-
 #######################################
 # def build_*_env(env=None, **kwargs):
 #    return env
 #######################################
 
 class Step(object):
+
     """
     A build task step which builds or transforms an
     :py:mod:`Env`, by calling ``step.build(env=env, **step.conf)``
 
     """
+
     def __init__(self, func=None, **kwargs):
         """
         Keyword Arguments:
@@ -698,6 +708,7 @@ class Step(object):
 
 
 class PrintEnvStep(Step):
+
     """
     Print env and kwargs to stdout
     """
@@ -706,7 +717,9 @@ class PrintEnvStep(Step):
     stderr = sys.stderr
     func = Step.build_print_kwargs_env
 
+
 class PrintEnvStderrStep(PrintEnvStep):
+
     """
     Print env and kwargs to stderr
     """
@@ -715,9 +728,11 @@ class PrintEnvStderrStep(PrintEnvStep):
 
 
 class StepBuilder(object):
+
     """
     A class for building a sequence of steps which modify env
     """
+
     def __init__(self, **kwargs):
         # conf=None, steps=None, show_diffs=False, debug=False
         """
@@ -730,7 +745,9 @@ class StepBuilder(object):
         """
         self.steps = kwargs.pop("steps", list())
         self.conf = kwargs.get('conf', OrderedDict())
-        self.conf["show_diffs"] = kwargs.get('show_diffs', self.conf.get('show_diffs'))
+        self.conf["show_diffs"] = kwargs.get(
+            'show_diffs',
+            self.conf.get('show_diffs'))
         self.conf["debug"] = kwargs.get('debug', self.conf.get('debug'))
 
     @property
@@ -829,7 +846,7 @@ class StepBuilder(object):
                 env = new_env
             else:
                 logevent("# %r returned %r which is not an Env"
-                                    % (step.name, new_env))
+                         % (step.name, new_env))
             logevent('stepdict', step.__dict__, wrap=True)
 
     def build(self, *args, **kwargs):
@@ -854,10 +871,10 @@ class StepBuilder(object):
             return step_envs[-1]
         else:
             return None
-        #return step_envs
+        # return step_envs
 
 
-## Build everything
+# Build everything
 
 
 def lookup_from_kwargs_env(kwargs, env, attr, default=None):
@@ -872,8 +889,6 @@ def lookup_from_kwargs_env(kwargs, env, attr, default=None):
         obj: kwargs.get(attr, env.get(attr, default))
     """
     return kwargs.get(attr, env.get(attr, default))
-
-
 
 
 def build_dotfiles_env(env=None,
@@ -900,10 +915,11 @@ def build_dotfiles_env(env=None,
     """
     if env is None:
         env = Env()
+
     def lookup(attr, default=None):
         return lookup_from_kwargs_env(kwargs, env, attr, default=default)
 
-    env['HOME']  = lookup('HOME',  default=os.path.expanduser('~'))
+    env['HOME'] = lookup('HOME',  default=os.path.expanduser('~'))
     env['__WRK'] = lookup('__WRK', default=get___WRK_default(env))
     env['__SRC'] = lookup('__SRC', default=joinpath(env['__WRK'], '-src'))
     env['__DOTFILES'] = lookup('__DOTFILES',
@@ -936,6 +952,7 @@ def build_virtualenvwrapper_env(env=None, **kwargs):
     """
     if env is None:
         env = Env()
+
     def lookup(attr, default=None):
         return lookup_from_kwargs_env(kwargs, env, attr, default=default)
     env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
@@ -981,6 +998,7 @@ def build_conda_env(env=None, **kwargs):
     """
     if env is None:
         env = Env()
+
     def lookup(attr, default=None):
         return lookup_from_kwargs_env(kwargs, env, attr, default=default)
     env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
@@ -1011,15 +1029,16 @@ def build_conda_env(env=None, **kwargs):
         root_key = "{env_name}_ROOT".format(env_name=env_name)
         home_key = "{env_name}_HOME".format(env_name=env_name)
         env[root_key] = (kwargs.get(root_key, env.get(root_key)) or
-                            joinpath(env['__WRK'], env_root))
+                         joinpath(env['__WRK'], env_root))
         env[home_key] = (kwargs.get(home_key, env.get(home_key)) or
-                            joinpath(env['__WRK'], env_home))
+                         joinpath(env['__WRK'], env_home))
 
     return env
 
 
-DEFAULT_CONDA_ROOT_DEFAULT='CONDA_ROOT__py27'
-DEFAULT_CONDA_HOME_DEFAULT='CONDA_HOME__py27'
+DEFAULT_CONDA_ROOT_DEFAULT = 'CONDA_ROOT__py27'
+DEFAULT_CONDA_HOME_DEFAULT = 'CONDA_HOME__py27'
+
 
 def build_conda_cfg_env(env=None, **kwargs):
     """
@@ -1040,14 +1059,14 @@ def build_conda_cfg_env(env=None, **kwargs):
     env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
 
     env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
-                                 default=joinpath(env['__WRK'], '-conda27'))
+                                     default=joinpath(env['__WRK'], '-conda27'))
     env['CONDA_HOME__py27'] = lookup('CONDA_HOME__py27',
-                                 default=joinpath(env['__WRK'], '-ce27'))
+                                     default=joinpath(env['__WRK'], '-ce27'))
 
     env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
-                                 default=joinpath(env['__WRK'], '-conda34'))
+                                     default=joinpath(env['__WRK'], '-conda34'))
     env['CONDA_HOME__py34'] = lookup('CONDA_HOME__py27',
-                                 default=joinpath(env['__WRK'], '-ce34'))
+                                     default=joinpath(env['__WRK'], '-ce34'))
 
     env['CONDA_ROOT_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
                                        default=DEFAULT_CONDA_ROOT_DEFAULT)
@@ -1115,43 +1134,43 @@ def build_venv_paths_full_env(env=None,
                  })
             logevent('TODOlogname', errmsg)
             raise StepConfigException(errmsg)
-    env['_BIN']         = joinpath(VENVPREFIX, "bin")            # ./bin
-    env['_ETC']         = joinpath(VENVPREFIX, "etc")            # ./etc
-    env['_ETCOPT']      = joinpath(VENVPREFIX, "etc", "opt")     # ./etc/opt
-    env['_HOME']        = joinpath(VENVPREFIX, "home")           # ./home
-    env['_LIB']         = joinpath(VENVPREFIX, "lib")            # ./lib
-    env['_PYLIB']       = joinpath(VENVPREFIX, "lib",       # ./lib/pythonN.N
-                                    pyver)
-    env['_PYSITE']      = joinpath(VENVPREFIX,  # ./lib/pythonN.N/site-packages
-                                    "lib",
-                                    pyver, 'site-packages')
-    env['_MNT']         = joinpath(VENVPREFIX, "mnt")            # ./mnt
-    env['_MEDIA']       = joinpath(VENVPREFIX, "media")          # ./media
-    env['_OPT']         = joinpath(VENVPREFIX, "opt")            # ./opt
-    env['_ROOT']        = joinpath(VENVPREFIX, "root")           # ./root
-    env['_SBIN']        = joinpath(VENVPREFIX, "sbin")           # ./sbin
-    env['_SRC']         = joinpath(VENVPREFIX, "src")            # ./src
-    env['_SRV']         = joinpath(VENVPREFIX, "srv")            # ./srv
-    env['_TMP']         = joinpath(VENVPREFIX, "tmp")            # ./tmp
-    env['_USR']         = joinpath(VENVPREFIX, "usr")            # ./usr
-    env['_USRBIN']      = joinpath(VENVPREFIX, "usr","bin")      # ./usr/bin
-    env['_USRINCLUDE']  = joinpath(VENVPREFIX, "usr","include")  # ./usr/include
-    env['_USRLIB']      = joinpath(VENVPREFIX, "usr","lib")      # ./usr/lib
-    env['_USRLOCAL']    = joinpath(VENVPREFIX, "usr","local")    # ./usr/local
-    env['_USRSBIN']     = joinpath(VENVPREFIX, "usr","sbin")     # ./usr/sbin
-    env['_USRSHARE']    = joinpath(VENVPREFIX, "usr","share")    # ./usr/share
-    env['_USRSRC']      = joinpath(VENVPREFIX, "usr","src")      # ./usr/src
-    env['_VAR']         = joinpath(VENVPREFIX, "var")            # ./var
-    env['_VARCACHE']    = joinpath(VENVPREFIX, "var","cache")    # ./var/cache
-    env['_VARLIB']      = joinpath(VENVPREFIX, "var","lib")      # ./var/lib
-    env['_VARLOCK']     = joinpath(VENVPREFIX, "var","lock")     # ./var/lock
-    env['_LOG']         = joinpath(VENVPREFIX, "var","log")      # ./var/log
-    env['_VARMAIL']     = joinpath(VENVPREFIX, "var","mail")     # ./var/mail
-    env['_VAROPT']      = joinpath(VENVPREFIX, "var","opt")      # ./var/opt
-    env['_VARRUN']      = joinpath(VENVPREFIX, "var","run")      # ./var/run
-    env['_VARSPOOL']    = joinpath(VENVPREFIX, "var","spool")    # ./var/spool
-    env['_VARTMP']      = joinpath(VENVPREFIX, "var","tmp")      # ./var/tmp
-    env['_WWW']         = joinpath(VENVPREFIX, "var","www")      # ./var/www
+    env['_BIN'] = joinpath(VENVPREFIX, "bin")            # ./bin
+    env['_ETC'] = joinpath(VENVPREFIX, "etc")            # ./etc
+    env['_ETCOPT'] = joinpath(VENVPREFIX, "etc", "opt")     # ./etc/opt
+    env['_HOME'] = joinpath(VENVPREFIX, "home")           # ./home
+    env['_LIB'] = joinpath(VENVPREFIX, "lib")            # ./lib
+    env['_PYLIB'] = joinpath(VENVPREFIX, "lib",       # ./lib/pythonN.N
+                             pyver)
+    env['_PYSITE'] = joinpath(VENVPREFIX,  # ./lib/pythonN.N/site-packages
+                              "lib",
+                              pyver, 'site-packages')
+    env['_MNT'] = joinpath(VENVPREFIX, "mnt")            # ./mnt
+    env['_MEDIA'] = joinpath(VENVPREFIX, "media")          # ./media
+    env['_OPT'] = joinpath(VENVPREFIX, "opt")            # ./opt
+    env['_ROOT'] = joinpath(VENVPREFIX, "root")           # ./root
+    env['_SBIN'] = joinpath(VENVPREFIX, "sbin")           # ./sbin
+    env['_SRC'] = joinpath(VENVPREFIX, "src")            # ./src
+    env['_SRV'] = joinpath(VENVPREFIX, "srv")            # ./srv
+    env['_TMP'] = joinpath(VENVPREFIX, "tmp")            # ./tmp
+    env['_USR'] = joinpath(VENVPREFIX, "usr")            # ./usr
+    env['_USRBIN'] = joinpath(VENVPREFIX, "usr", "bin")      # ./usr/bin
+    env['_USRINCLUDE'] = joinpath(VENVPREFIX, "usr", "include")  # ./usr/include
+    env['_USRLIB'] = joinpath(VENVPREFIX, "usr", "lib")      # ./usr/lib
+    env['_USRLOCAL'] = joinpath(VENVPREFIX, "usr", "local")    # ./usr/local
+    env['_USRSBIN'] = joinpath(VENVPREFIX, "usr", "sbin")     # ./usr/sbin
+    env['_USRSHARE'] = joinpath(VENVPREFIX, "usr", "share")    # ./usr/share
+    env['_USRSRC'] = joinpath(VENVPREFIX, "usr", "src")      # ./usr/src
+    env['_VAR'] = joinpath(VENVPREFIX, "var")            # ./var
+    env['_VARCACHE'] = joinpath(VENVPREFIX, "var", "cache")    # ./var/cache
+    env['_VARLIB'] = joinpath(VENVPREFIX, "var", "lib")      # ./var/lib
+    env['_VARLOCK'] = joinpath(VENVPREFIX, "var", "lock")     # ./var/lock
+    env['_LOG'] = joinpath(VENVPREFIX, "var", "log")      # ./var/log
+    env['_VARMAIL'] = joinpath(VENVPREFIX, "var", "mail")     # ./var/mail
+    env['_VAROPT'] = joinpath(VENVPREFIX, "var", "opt")      # ./var/opt
+    env['_VARRUN'] = joinpath(VENVPREFIX, "var", "run")      # ./var/run
+    env['_VARSPOOL'] = joinpath(VENVPREFIX, "var", "spool")    # ./var/spool
+    env['_VARTMP'] = joinpath(VENVPREFIX, "var", "tmp")      # ./var/tmp
+    env['_WWW'] = joinpath(VENVPREFIX, "var", "www")      # ./var/www
     return env
 
 
@@ -1172,26 +1191,26 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
         env = Env()
     aliases = env.aliases
 
-    aliases['cdhome']        = CdAlias('HOME', aliases=['cdh'])
-    aliases['cdwrk']         = CdAlias('__WRK')
-    aliases['cdddotfiles']   = CdAlias('__DOTFILES', aliases=['cdd'])
+    aliases['cdhome'] = CdAlias('HOME', aliases=['cdh'])
+    aliases['cdwrk'] = CdAlias('__WRK')
+    aliases['cdddotfiles'] = CdAlias('__DOTFILES', aliases=['cdd'])
 
     aliases['cdprojecthome'] = CdAlias('PROJECT_HOME', aliases=['cdp', 'cdph'])
-    aliases['cdworkonhome']  = CdAlias('WORKON_HOME', aliases=['cdwh', 'cdve'])
-    aliases['cdcondahome']   = CdAlias('CONDA_HOME', aliases=['cda', 'cdce'])
+    aliases['cdworkonhome'] = CdAlias('WORKON_HOME', aliases=['cdwh', 'cdve'])
+    aliases['cdcondahome'] = CdAlias('CONDA_HOME', aliases=['cda', 'cdce'])
 
-    aliases['cdvirtualenv']  = CdAlias('VIRTUAL_ENV', aliases=['cdv'])
-    aliases['cdsrc']         = CdAlias('_SRC', aliases=['cds'])
-    aliases['cdwrd']         = CdAlias('_WRD', aliases=['cdw'])
+    aliases['cdvirtualenv'] = CdAlias('VIRTUAL_ENV', aliases=['cdv'])
+    aliases['cdsrc'] = CdAlias('_SRC', aliases=['cds'])
+    aliases['cdwrd'] = CdAlias('_WRD', aliases=['cdw'])
 
-    aliases['cdbin']         = CdAlias('_BIN', aliases=['cdb'])
-    aliases['cdetc']         = CdAlias('_ETC', aliases=['cde'])
-    aliases['cdlib']         = CdAlias('_LIB', aliases=['cdl'])
-    aliases['cdlog']         = CdAlias('_LOG')
-    aliases['cdpylib']       = CdAlias('_PYLIB')
-    aliases['cdpysite']      = CdAlias('_PYSITE', aliases=['cdsitepackages'])
-    aliases['cdvar']         = CdAlias('_VAR')
-    aliases['cdwww']         = CdAlias('_WWW', aliases=['cdww'])
+    aliases['cdbin'] = CdAlias('_BIN', aliases=['cdb'])
+    aliases['cdetc'] = CdAlias('_ETC', aliases=['cde'])
+    aliases['cdlib'] = CdAlias('_LIB', aliases=['cdl'])
+    aliases['cdlog'] = CdAlias('_LOG')
+    aliases['cdpylib'] = CdAlias('_PYLIB')
+    aliases['cdpysite'] = CdAlias('_PYSITE', aliases=['cdsitepackages'])
+    aliases['cdvar'] = CdAlias('_VAR')
+    aliases['cdwww'] = CdAlias('_WWW', aliases=['cdww'])
 
     aliases['cdhelp']        =  """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
     return env
@@ -1234,7 +1253,6 @@ def build_user_aliases_env(env=None,
     PROJECT_FILES = env.get('PROJECT_FILES', list())
     env['PROJECT_FILES'] = PROJECT_FILES
 
-
     VIRTUAL_ENV = env.get('VIRTUAL_ENV')
     if VIRTUAL_ENV is None:
         VIRTUAL_ENV = ""
@@ -1242,7 +1260,7 @@ def build_user_aliases_env(env=None,
         logging.debug('VIRTUAL_ENV is none')
         # raise Exception()
     VIRTUAL_ENV_NAME = env.get('VIRTUAL_ENV_NAME',
-                        VIRTUAL_ENV.split(os.path.sep)[0])
+                               VIRTUAL_ENV.split(os.path.sep)[0])
     _SRC = env.get('_SRC')
     if _SRC is None:
         if VIRTUAL_ENV:
@@ -1278,155 +1296,155 @@ def build_user_aliases_env(env=None,
         env['_WRD'] = _WRD
 
     # EDITOR configuration
-    env['VIMBIN']       = distutils.spawn.find_executable('vim')
-    env['GVIMBIN']      = distutils.spawn.find_executable('gvim')
-    env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
-    env['GUIVIMBIN']    = env.get('MVIMBIN', env.get('GVIMBIN'))
+    env['VIMBIN'] = distutils.spawn.find_executable('vim')
+    env['GVIMBIN'] = distutils.spawn.find_executable('gvim')
+    env['MVIMBIN'] = distutils.spawn.find_executable('mvim')
+    env['GUIVIMBIN'] = env.get('MVIMBIN', env.get('GVIMBIN'))
     # set the current vim servername to _APP
-    env['VIMCONF']      = "--servername %s" % (
-                            shell_quote(env['_APP']).strip('"'))
+    env['VIMCONF'] = "--servername %s" % (
+        shell_quote(env['_APP']).strip('"'))
     if not env.get('GUIVIMBIN'):
-        env['_EDIT_']   = "%s -f" % env.get('VIMBIN')
+        env['_EDIT_'] = "%s -f" % env.get('VIMBIN')
     else:
-        env['_EDIT_']   = '%s %s --remote-tab-silent' % (
-                            env.get('GUIVIMBIN'),
-                            env.get('VIMCONF'))
-    env['EDITOR_']      = env['_EDIT_']
+        env['_EDIT_'] = '%s %s --remote-tab-silent' % (
+            env.get('GUIVIMBIN'),
+            env.get('VIMCONF'))
+    env['EDITOR_'] = env['_EDIT_']
 
-    aliases['edit-']    = env['_EDIT_']
-    aliases['gvim-']    = env['_EDIT_']
-
+    aliases['edit-'] = env['_EDIT_']
+    aliases['gvim-'] = env['_EDIT_']
 
     # IPYTHON configuration
-    env['_NOTEBOOKS']   = joinpath(env.get('_SRC',
-                                    env.get('__WRK',
-                                    env.get('HOME'))),
-                                    'notebooks')
-    env['_IPYSESKEY']   = joinpath(env.get('_SRC', env.get('HOME')),
-                                    '.ipyseskey')
+    env['_NOTEBOOKS'] = joinpath(env.get('_SRC',
+                                         env.get('__WRK',
+                                                 env.get('HOME'))),
+                                 'notebooks')
+    env['_IPYSESKEY'] = joinpath(env.get('_SRC', env.get('HOME')),
+                                 '.ipyseskey')
     if sys.version_info.major == 2:
-        _new_ipnbkey="print os.urandom(128).encode(\\\"base64\\\")"
+        _new_ipnbkey = "print os.urandom(128).encode(\\\"base64\\\")"
     elif sys.version_info.major == 3:
-        _new_ipnbkey="print(os.urandom(128).encode(\\\"base64\\\"))"
+        _new_ipnbkey = "print(os.urandom(128).encode(\\\"base64\\\"))"
     else:
         raise KeyError(sys.version_info.major)
-    aliases['ipskey']   = ('(python -c \"'
-                            'import os;'
-                            ' {_new_ipnbkey}\"'
-                            ' > {_IPYSESKEY} )'
-                            ' && chmod 0600 {_IPYSESKEY};'
-                            ' # %l'
-                            ).format(
-                                _new_ipnbkey=_new_ipnbkey,
-                                _IPYSESKEY=shell_varquote('_IPYSESKEY'))
-    aliases['ipnb']     = ('ipython notebook'
-                            ' --secure'
-                            ' --Session.keyfile={_IPYSESKEY}'
-                            ' --notebook-dir={_NOTEBOOKS}'
-                            ' --deep-reload'
-                            ' %l').format(
-                                _IPYSESKEY=shell_varquote('_IPYSESKEY'),
-                                _NOTEBOOKS=shell_varquote('_NOTEBOOKS'))
+    aliases['ipskey'] = ('(python -c \"'
+                         'import os;'
+                         ' {_new_ipnbkey}\"'
+                         ' > {_IPYSESKEY} )'
+                         ' && chmod 0600 {_IPYSESKEY};'
+                         ' # %l'
+                         ).format(
+        _new_ipnbkey=_new_ipnbkey,
+        _IPYSESKEY=shell_varquote('_IPYSESKEY'))
+    aliases['ipnb'] = ('ipython notebook'
+                       ' --secure'
+                       ' --Session.keyfile={_IPYSESKEY}'
+                       ' --notebook-dir={_NOTEBOOKS}'
+                       ' --deep-reload'
+                       ' %l').format(
+        _IPYSESKEY=shell_varquote('_IPYSESKEY'),
+        _NOTEBOOKS=shell_varquote('_NOTEBOOKS'))
 
-    env['_IPQTLOG']     = joinpath(env['VIRTUAL_ENV'], '.ipqt.log')
-    aliases['ipqt']     = ('ipython qtconsole'
-                            ' --secure'
-                            ' --Session.keyfile={_IPYSESKEY}'
-                            ' --logappend={_IPQTLOG}'
-                            ' --deep-reload'
-                            #' --gui-completion'
-                            #' --existing=${_APP}'
-                            ' --pprint'
-                            #' --pdb'
-                            ' --colors=linux'
-                            ' --ConsoleWidget.font_family="Monaco"'
-                            ' --ConsoleWidget.font_size=11'
-                            ' %l').format(
-                                _IPYSESKEY=shell_varquote('_IPYSESKEY'),
-                                _APP=shell_varquote('_APP'),
-                                _IPQTLOG=shell_varquote('_IPQTLOG'))
+    env['_IPQTLOG'] = joinpath(env['VIRTUAL_ENV'], '.ipqt.log')
+    aliases['ipqt'] = ('ipython qtconsole'
+                       ' --secure'
+                       ' --Session.keyfile={_IPYSESKEY}'
+                       ' --logappend={_IPQTLOG}'
+                       ' --deep-reload'
+                       #' --gui-completion'
+                       #' --existing=${_APP}'
+                       ' --pprint'
+                       #' --pdb'
+                       ' --colors=linux'
+                       ' --ConsoleWidget.font_family="Monaco"'
+                       ' --ConsoleWidget.font_size=11'
+                       ' %l').format(
+        _IPYSESKEY=shell_varquote('_IPYSESKEY'),
+        _APP=shell_varquote('_APP'),
+        _IPQTLOG=shell_varquote('_IPQTLOG'))
 
-    aliases['grinv']    = 'grin --follow %%l %s' % shell_varquote('VIRTUAL_ENV')
-    aliases['grindv']   = 'grind --follow %%l --dirs %s' % shell_varquote('VIRTUAL_ENV')
+    aliases['grinv'] = 'grin --follow %%l %s' % shell_varquote('VIRTUAL_ENV')
+    aliases[
+        'grindv'] = 'grind --follow %%l --dirs %s' % shell_varquote('VIRTUAL_ENV')
 
-    aliases['grins']    = 'grin --follow %%l %s' % shell_varquote('_SRC')
-    aliases['grinds']   = 'grind --follow %%l --dirs %s' % shell_varquote('_SRC')
+    aliases['grins'] = 'grin --follow %%l %s' % shell_varquote('_SRC')
+    aliases['grinds'] = 'grind --follow %%l --dirs %s' % shell_varquote('_SRC')
 
     _WRD = env['_WRD']
     if os.path.exists(_WRD) or dont_reflect:
-        env['_WRD']         = _WRD
-        env['_WRD_SETUPY']  = joinpath(_WRD, 'setup.py')
-        env['_TEST_']       = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
-                                    _WRD=shell_varquote('_WRD'),
-                                    _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
-                                )
-        aliases['test-']    = env['_TEST_']
-        aliases['testr-']   = 'reset && %s' % env['_TEST_']
-        aliases['nose-']    = '(cd {_WRD} && nosetests)'.format(
-                                    _WRD=shell_varquote('_WRD'))
+        env['_WRD'] = _WRD
+        env['_WRD_SETUPY'] = joinpath(_WRD, 'setup.py')
+        env['_TEST_'] = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
+            _WRD=shell_varquote('_WRD'),
+            _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
+            )
+        aliases['test-'] = env['_TEST_']
+        aliases['testr-'] = 'reset && %s' % env['_TEST_']
+        aliases['nose-'] = '(cd {_WRD} && nosetests)'.format(
+            _WRD=shell_varquote('_WRD'))
 
-        aliases['grinw']    = 'grin --follow %l {_WRD}'.format(
-                                    _WRD=shell_varquote('_WRD'))
-        aliases['grin-']    = aliases['grinw']
-        aliases['grindw']   = 'grind --follow %l --dirs {_WRD}'.format(
-                                    _WRD=shell_varquote('_WRD'))
-        aliases['grind-']   = aliases['grindw']
+        aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
+            _WRD=shell_varquote('_WRD'))
+        aliases['grin-'] = aliases['grinw']
+        aliases['grindw'] = 'grind --follow %l --dirs {_WRD}'.format(
+            _WRD=shell_varquote('_WRD'))
+        aliases['grind-'] = aliases['grindw']
 
-        aliases['hgv-']     = "hg view -R {_WRD}".format(
-                                    _WRD=shell_varquote('_WRD'))
-        aliases['hgl-']     = "hg -R {_WRD} log".format(
-                                    _WRD=shell_varquote('_WRD'))
+        aliases['hgv-'] = "hg view -R {_WRD}".format(
+            _WRD=shell_varquote('_WRD'))
+        aliases['hgl-'] = "hg -R {_WRD} log".format(
+            _WRD=shell_varquote('_WRD'))
     else:
         self.log.error('app working directory %r not found' % _WRD)
 
     _CFG = joinpath(env['_ETC'], 'development.ini')
     if os.path.exists(_CFG) or dont_reflect:
-        env['_CFG']         = _CFG
-        env['_EDITCFG_']    = "{_EDIT_} {_CFG}".format(
-                                _EDIT_=env['_EDIT_'],
-                                _CFG=env['_CFG'])
-        aliases['editcfg']  = "{_EDITCFG} %l".format(
-                                _EDITCFG=shell_varquote('_EDITCFG_'))
+        env['_CFG'] = _CFG
+        env['_EDITCFG_'] = "{_EDIT_} {_CFG}".format(
+            _EDIT_=env['_EDIT_'],
+            _CFG=env['_CFG'])
+        aliases['editcfg'] = "{_EDITCFG} %l".format(
+            _EDITCFG=shell_varquote('_EDITCFG_'))
         # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
-        env['_SHELL_']      = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
-                                _BIN=shell_varquote('_BIN'),
-                                _CFG=shell_varquote('_CFG'),
-                                _WRD=shell_varquote('_WRD'))
-        env['_SERVE_']      =("(cd {_WRD} && {_BIN}/pserve"
-                                " --app-name=main"
-                                " --reload"
-                                " --monitor-restart {_CFG})").format(
-                                        _BIN=shell_varquote('_BIN'),
-                                        _WRD=shell_varquote('_WRD'),
-                                        _CFG=shell_varquote('_CFG'))
-        aliases['serve-']   = env['_SERVE_']
-        aliases['shell-']   = env['_SHELL_']
+        env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
+            _BIN=shell_varquote('_BIN'),
+            _CFG=shell_varquote('_CFG'),
+            _WRD=shell_varquote('_WRD'))
+        env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
+                          " --app-name=main"
+                          " --reload"
+                          " --monitor-restart {_CFG})").format(
+            _BIN=shell_varquote('_BIN'),
+            _WRD=shell_varquote('_WRD'),
+            _CFG=shell_varquote('_CFG'))
+        aliases['serve-'] = env['_SERVE_']
+        aliases['shell-'] = env['_SHELL_']
     else:
         logging.error('app configuration %r not found' % _CFG)
-        env['_CFG']         = ""
+        env['_CFG'] = ""
 
-    aliases['edit-']    = "${_EDIT_} %l"
-    aliases['e']        = aliases['edit-']
-    env['PROJECT_FILES']= " ".join(
-                            str(x) for x in PROJECT_FILES)
-    aliases['editp']    = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
-    aliases['makewrd']  = "(cd {_WRD} && make %l)".format(
-                                _WRD=shell_varquote('_WRD'))
-    aliases['make-']    = aliases['makewrd']
-    aliases['mw']       = aliases['makewrd']
+    aliases['edit-'] = "${_EDIT_} %l"
+    aliases['e'] = aliases['edit-']
+    env['PROJECT_FILES'] = " ".join(
+        str(x) for x in PROJECT_FILES)
+    aliases['editp'] = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
+    aliases['makewrd'] = "(cd {_WRD} && make %l)".format(
+        _WRD=shell_varquote('_WRD'))
+    aliases['make-'] = aliases['makewrd']
+    aliases['mw'] = aliases['makewrd']
 
     _SVCFG = env.get('_SVCFG', joinpath(env['_ETC'], 'supervisord.conf'))
     if os.path.exists(_SVCFG) or dont_reflect:
-        env['_SVCFG']   = _SVCFG
-        env['_SVCFG_']  = ' -c %s' % shell_quote(env['_SVCFG'])
+        env['_SVCFG'] = _SVCFG
+        env['_SVCFG_'] = ' -c %s' % shell_quote(env['_SVCFG'])
     else:
         logging.error('supervisord configuration %r not found' % _SVCFG)
-        env['_SVCFG_']  = ''
-    aliases['ssv']      = 'supervisord -c "${_SVCFG}"'
-    aliases['sv']       = 'supervisorctl -c "${_SVCFG}"'
-    aliases['svt']      = 'sv tail -f'
-    aliases['svd']      = ('supervisorctl -c "${_SVCFG}" restart dev'
-                        ' && supervisorctl -c "${_SVCFG}" tail -f dev')
+        env['_SVCFG_'] = ''
+    aliases['ssv'] = 'supervisord -c "${_SVCFG}"'
+    aliases['sv'] = 'supervisorctl -c "${_SVCFG}"'
+    aliases['svt'] = 'sv tail -f'
+    aliases['svd'] = ('supervisorctl -c "${_SVCFG}" restart dev'
+                      ' && supervisorctl -c "${_SVCFG}" tail -f dev')
     return env
 
 
@@ -1468,27 +1486,27 @@ def build_usrlog_env(env=None,
     """
     if env is None:
         env = Env()
-        env['HOME']     = env.get('HOME', os.path.expanduser('~'))
-        env['__WRK']    = env.get('__WRK',
-                                  get___WRK_default(env=env))
+        env['HOME'] = env.get('HOME', os.path.expanduser('~'))
+        env['__WRK'] = env.get('__WRK',
+                               get___WRK_default(env=env))
         #env['HOSTNAME'] = HOSTNAME
         #env['USER'] = USER
 
     #HOSTNAME = env.get('HOSTNAME')
-    #if HOSTNAME is None:
-        #if lookup_hostname:
+    # if HOSTNAME is None:
+        # if lookup_hostname:
             #HOSTNAME = os.environ.get('HOSTNAME')
-            #if HOSTNAME is None:
+            # if HOSTNAME is None:
                 #HOSTNAME = __import__('socket').gethostname()
         #env['HOSTNAME'] = HOSTNAME
-    #env['HISTTIMEFORMAT']   = '%F %T%z  {USER}  {HOSTNAME}  '.format(
-        #USER=env.get('USER','-'),
-        #HOSTNAME=env.get('HOSTNAME','-'))
+    # env['HISTTIMEFORMAT']   = '%F %T%z  {USER}  {HOSTNAME}  '.format(
+        # USER=env.get('USER','-'),
+        # HOSTNAME=env.get('HOSTNAME','-'))
     #env['HISTSIZE']         = 1000000
     #env['HISTFILESIZE']     = 1000000
 
     # user default usrlog
-    env['__USRLOG']     = joinpath(env['HOME'], '-usrlog.log')
+    env['__USRLOG'] = joinpath(env['HOME'], '-usrlog.log')
 
     # current usrlog
     if prefix is None:
@@ -1496,32 +1514,32 @@ def build_usrlog_env(env=None,
         if prefix is None:
             prefix = env.get('HOME', os.path.expanduser('~'))
 
-    env['_USRLOG']      = joinpath(prefix, "-usrlog.log")
-    env['_TERM_ID']     = _TERM_ID or ""
-    #env['_TERM_URI']    = _TERM_ID  # TODO
+    env['_USRLOG'] = joinpath(prefix, "-usrlog.log")
+    env['_TERM_ID'] = _TERM_ID or ""
+    # env['_TERM_URI']    = _TERM_ID  # TODO
 
     # shell HISTFILE
-    #if shell == 'bash':
+    # if shell == 'bash':
         #env['HISTFILE'] = joinpath(prefix, ".bash_history")
-    #elif shell == 'zsh':
+    # elif shell == 'zsh':
         #env['HISTFILE'] = joinpath(prefix, ".zsh_history")
-    #else:
+    # else:
         #env['HISTFILE'] = joinpath(prefix, '.history')
 
     return env
 
 
 def build_venv_activate_env(env=None,
-                        VENVSTR=None,
-                        VENVSTRAPP=None,
-                        from_environ=False,
-                        VENVPREFIX=None,
-                        VIRTUAL_ENV=None,
-                        VIRTUAL_ENV_NAME=None,
-                        _APP=None,
-                        _SRC=None,
-                        _WRD=None,
-                        **kwargs):
+                            VENVSTR=None,
+                            VENVSTRAPP=None,
+                            from_environ=False,
+                            VENVPREFIX=None,
+                            VIRTUAL_ENV=None,
+                            VIRTUAL_ENV_NAME=None,
+                            _APP=None,
+                            _SRC=None,
+                            _WRD=None,
+                            **kwargs):
     kwargs.update({
         'VENVPREFIX': VENVPREFIX,
         'VENVSTR': VENVSTR,
@@ -1531,7 +1549,7 @@ def build_venv_activate_env(env=None,
         'VIRTUAL_ENV_NAME': VIRTUAL_ENV_NAME,
         '_APP': _APP,
         '_SRC': _SRC,
-        '_WRD': _WRD })
+        '_WRD': _WRD})
 
     VENVSTR_env = None
     if VENVSTR:
@@ -1545,7 +1563,6 @@ def build_venv_activate_env(env=None,
                 if env.get(key) != value:
                     env[key] = value
                     log.debug("key override")
-
 
     def lookup(attr, default=None):
         return lookup_from_kwargs_env(kwargs, env, attr, default=default)
@@ -1594,7 +1611,9 @@ def build_venv_activate_env(env=None,
         env['_WRD'] = _WRD
     return env
 
+
 class Env(object):
+
     """
     OrderedDict of variables for/from ``os.environ``.
 
@@ -1620,16 +1639,17 @@ class Env(object):
         'PROJECT_HOME',     # ~/-wrk/ #$__WRK
         'WORKON_HOME',      # ~/-wrk/-ve27/
         # venv
-        'VENVPREFIX',      # ~/-wrk/-ve27/dotfiles/ # ${VENVPREFIX:-${VIRTUAL_ENV}}
+        # ~/-wrk/-ve27/dotfiles/ # ${VENVPREFIX:-${VIRTUAL_ENV}}
+        'VENVPREFIX',
         'VENV_STR',         # "dotfiles"
         'VENV_STR_APP',     # "dotfiles"
-        'VIRTUAL_ENV_NAME', # "dotfiles"
+        'VIRTUAL_ENV_NAME',  # "dotfiles"
         '_APP',             # dotfiles/tests
         # virtualenv
         'VIRTUAL_ENV',      # ~/-wrk/-ve27/dotfiles/  # ${VIRTUAL_ENV_NAME}
         # venv
-        '_SRC', # ~/-wrk/-ve27/dotfiles/src/  # ${VIRTUAL_ENV}/src
-        '_ETC', # ~/-wrk/-ve27/dotfiles/etc/  # ${VIRTUAL_ENV}/etc
+        '_SRC',  # ~/-wrk/-ve27/dotfiles/src/  # ${VIRTUAL_ENV}/src
+        '_ETC',  # ~/-wrk/-ve27/dotfiles/etc/  # ${VIRTUAL_ENV}/etc
 
         '_BIN',
         '_CFG',
@@ -1719,7 +1739,6 @@ class Env(object):
         """
         logevent('env.from_environ', environ, wrap=True, level=logging.DEBUG)
         return cls((k, environ.get(k, '')) for k in cls.osenviron_keys)
-
 
     def paths_to_variables(self, path_):
         """
@@ -1837,9 +1856,11 @@ def _shell_supports_declare_g():
 
 
 class Venv(object):
+
     """
     A virtual environment configuration generator
     """
+
     def __init__(self,
                  VENVSTR=None,
                  VENVSTRAPP=None,
@@ -1975,7 +1996,8 @@ class Venv(object):
             if env is None:
                 env = Env.from_environ(os.environ)
             else:
-                raise Exception("both 'env' and 'from_environ=True' were specified")
+                raise Exception(
+                    "both 'env' and 'from_environ=True' were specified")
         if env is None:
             env = Env()
 
@@ -1993,6 +2015,7 @@ class Venv(object):
             '_WRD']
 
         kwargs = OrderedDict()
+
         def lookup(attr, default=None):
             return lookup_from_kwargs_env(kwargs, env, attr, default=default)
 
@@ -2141,8 +2164,9 @@ class Venv(object):
         logevent('parse_VENVSTR_input', {'kwargs': kwargs, 'env': env})
 
         VIRTUAL_ENV = env['VIRTUAL_ENV'] = lookup('VIRTUAL_ENV')
-        WORKON_HOME = env['WORKON_HOME'] = lookup('WORKON_HOME',
-                                    default=get_WORKON_HOME_default())
+        WORKON_HOME = env['WORKON_HOME'] = lookup(
+            'WORKON_HOME',
+            default=get_WORKON_HOME_default())
         if WORKON_HOME is None:
             WORKON_HOME = env['WORKON_HOME'] = get_WORKON_HOME_default()
 
@@ -2180,7 +2204,7 @@ class Venv(object):
         logevent('parse_VENVSTR_output', {'env': env, 'kwargs': kwargs, })
 
         #import ipdb
-        #ipdb.set_trace()
+        # ipdb.set_trace()
         return env
 
     @property
@@ -2221,7 +2245,7 @@ class Venv(object):
         if pyver is None:
             pyver = get_pyver()
 
-        env['_PYLIB']  = joinpath(env['_LIB'], pyver)
+        env['_PYLIB'] = joinpath(env['_LIB'], pyver)
         env['_PYSITE'] = joinpath(env['_PYLIB'], 'site-packages')
 
         # emulate virtualenv check for no-global-site-packages.txt
@@ -2237,7 +2261,7 @@ class Venv(object):
             # XXX: append /usr/local/lib/{pyver}/IPython/extensions # TODO?
             ipython_extensions = (
                 '/usr/local/lib/%s/dist-packages/IPython/extensions'
-                                % pyver)
+                % pyver)
             if not os.path.exists(ipython_extensions):
                 log.info("IPython extensions not found: %r",
                          ipython_extensions)
@@ -2256,7 +2280,6 @@ class Venv(object):
             list: ``sys.path`` list from ``_configure_sys``.
         """
         return Venv._configure_sys(self.env)
-
 
     @classmethod
     def workon_project(cls, VENVSTR, **kwargs):
@@ -2330,7 +2353,7 @@ class Venv(object):
             try:
                 import sympy
                 c.InteractiveShellApp.extensions.append('sympyprinting')
-            except ImportError, e:
+            except ImportError as e:
                 pass
         if parallelmagic:
             try:
@@ -2349,7 +2372,8 @@ class Venv(object):
             c.StoreMagic.autorestore = storemagic_autorestore
 
         if venvaliases:
-            ipython_default_aliases = get_IPYTHON_ALIAS_DEFAULTS(platform=platform).items()
+            ipython_default_aliases = get_IPYTHON_ALIAS_DEFAULTS(
+                platform=platform).items()
             c.AliasManager.default_aliases.extend(ipython_default_aliases)
             ipython_alias_overlay = get_IPYTHON_ALIAS_OVERLAY()
             c.AliasManager.default_aliases.extend(ipython_alias_overlay)
@@ -2376,8 +2400,8 @@ class Venv(object):
         """
         def setup_func(c):
             c.AliasManager.user_aliases = [
-                (k,v) for (k,v) in self.env.aliases.items()
-                    if not k.startswith('cd')]
+                (k, v) for (k, v) in self.env.aliases.items()
+                if not k.startswith('cd')]
         return Venv._configure_ipython(*args, setup_func=setup_func, **kwargs)
 
     def generate_vars_env(self):
@@ -2396,7 +2420,8 @@ class Venv(object):
             str: block of bash script
         """
         for k, v in self.env.environ.items():
-            yield "export {VAR}={value}".format(VAR=k, value=repr(v)) # TODO: XXX:
+            # TODO: XXX:
+            yield "export {VAR}={value}".format(VAR=k, value=repr(v))
             # if _shell_supports_declare_g():
             #    yield "declare -grx %s=%r" % (k, v)
             # else:
@@ -2420,12 +2445,11 @@ class Venv(object):
         """
 
         yield CdAlias.VIM_HEADER_TEMPLATE
-        #for k, v in self.env.items():
+        # for k, v in self.env.items():
         #    yield ("export %s=%r" % (k, v))
         for k, v in self.env.aliases.items():
             if hasattr(v, 'to_vim_function'):
                 yield v.to_vim_function()
-
 
     @property
     def project_files(self):
@@ -2457,8 +2481,8 @@ class Venv(object):
     @property
     def PROJECT_FILES(self):
         PROJECT_FILES = ' '.join(
-                shell_quote(joinpath(self.env['_WRD'], fpath))
-                    for fpath in (self.project_files))
+            shell_quote(joinpath(self.env['_WRD'], fpath))
+            for fpath in (self.project_files))
         return PROJECT_FILES
 
     @property
@@ -2557,7 +2581,6 @@ class Venv(object):
         """
         return json.dumps(self, indent=indent, cls=VenvJSONEncoder)
 
-
     @staticmethod
     def update_os_environ(venv, environ=None):
         """
@@ -2571,7 +2594,6 @@ class Venv(object):
         environ = environ or os.environ
         environ.update((k, str(v)) for (k, v) in venv.env.environ.items())
         return environ
-
 
     def call(self, command):
         """
@@ -2705,11 +2727,13 @@ def get_IPYTHON_ALIAS_OVERLAY():
     )
     return IPYTHON_ALIAS_OVERLAY
 
+
 def get_USRLOG_ALIAS_OVERLAY():
     USRLOG_ALIAS_OVERLAY = (
         ('ut', 'tail $$_USRLOG'),
     )
     return USRLOG_ALIAS_OVERLAY
+
 
 def in_ipython_config():
     """
@@ -2754,8 +2778,11 @@ def ipython_imports():
         print(
             json.dumps(*args, indent=2))
 
-## Tests
+# Tests
+
+
 class VenvTestUtils(object):
+
     """
     Test fixtures for TestCases and examples
     """
@@ -2763,28 +2790,28 @@ class VenvTestUtils(object):
     def build_env_test_fixture(env=None):
         if env is None:
             env = Env()
-        env['__WRK']            = env.get('__WRK',
-                                          get___WRK_default(env=env))
-        env['WORKON_HOME']      = env.get('WORKON_HOME',
-                                          get_WORKON_HOME_default(env=env))
-        env['VENVSTR']          = env.get('VENVSTR',
-                                          'dotfiles')
-        env['VENVSTRAPP']       = env.get('VENVSTRAPP',
-                                          env['VENVSTR'])
-        env['_APP']             = env.get('_APP',
-                                          env['VENVSTR'])  #TODO || basename(VENVPREFIX)
+        env['__WRK'] = env.get('__WRK',
+                               get___WRK_default(env=env))
+        env['WORKON_HOME'] = env.get('WORKON_HOME',
+                                     get_WORKON_HOME_default(env=env))
+        env['VENVSTR'] = env.get('VENVSTR',
+                                 'dotfiles')
+        env['VENVSTRAPP'] = env.get('VENVSTRAPP',
+                                    env['VENVSTR'])
+        env['_APP'] = env.get('_APP',
+                              env['VENVSTR'])  # TODO || basename(VENVPREFIX)
         env['VIRTUAL_ENV_NAME'] = env.get('VIRTUAL_ENV_NAME',
                                           os.path.basename(
                                               env['VENVSTR']))
-        env['VIRTUAL_ENV']      = env.get('VIRTUAL_ENV',
-                                          joinpath(
-                                              env['WORKON_HOME'],
-                                              env['VIRTUAL_ENV_NAME']))
-        env['VENVPREFIX']       = env.get('VENVPREFIX',
-                                          env.get('VIRTUAL_ENV'))
-        env['_SRC']             = joinpath(env['VENVPREFIX'], 'src')
-        env['_ETC']             = joinpath(env['VENVPREFIX'], 'etc')
-        env['_WRD']             = joinpath(env['_SRC'], env['_APP'])
+        env['VIRTUAL_ENV'] = env.get('VIRTUAL_ENV',
+                                     joinpath(
+                                         env['WORKON_HOME'],
+                                         env['VIRTUAL_ENV_NAME']))
+        env['VENVPREFIX'] = env.get('VENVPREFIX',
+                                    env.get('VIRTUAL_ENV'))
+        env['_SRC'] = joinpath(env['VENVPREFIX'], 'src')
+        env['_ETC'] = joinpath(env['VENVPREFIX'], 'etc')
+        env['_WRD'] = joinpath(env['_SRC'], env['_APP'])
         return env
 
     @staticmethod
@@ -2794,11 +2821,12 @@ class VenvTestUtils(object):
         and return (output, _stdout, _stderr)
         """
         functools.wraps(f)
+
         def __capture_io(*args, **kwargs):
             # ... partial/wraps
             _stdout = kwargs.get('stdout', StringIO.StringIO())
             _stderr = kwargs.get(StringIO.StringIO())
-            ioconf = {"stdout":_stdout, "stderr":_stderr}
+            ioconf = {"stdout": _stdout, "stderr": _stderr}
             kwargs.update(ioconf)
             output = f(*args, **kwargs)
             # _stdout.seek(0), _stderr.seek(0)
@@ -2815,6 +2843,7 @@ class Test_001_lookup(unittest.TestCase):
         env = {'True': True, 'envTrue': True,
                'isNone': None, 'envNone': True,
                'collide': 'env'}
+
         def lookup(attr, default=None):
             return lookup_from_kwargs_env(kwargs, env, attr, default=default)
         self.assertTrue(lookup('True'))
@@ -2857,6 +2886,7 @@ class Test_100_Env(unittest.TestCase):
 
 
 class Test_200_StepBuilder(unittest.TestCase):
+
     def test_000_Step(self):
         def build_func(env, **kwargs):
             return env
@@ -2892,7 +2922,7 @@ class Test_250_Venv(unittest.TestCase):
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
         self.envattrs = ['VIRTUAL_ENV', 'VIRTUAL_ENV_NAME', '_APP',
-                     'VENVSTR', 'VENVSTRAPP', 'VENVPREFIX']
+                         'VENVSTR', 'VENVSTRAPP', 'VENVPREFIX']
 
     def test_000_venv_test_fixture(self):
         self.assertTrue(self.env)
@@ -2901,11 +2931,9 @@ class Test_250_Venv(unittest.TestCase):
             self.assertIn(attr, self.env.environ)
             self.assertEqual(self.env.get(attr), self.env[attr])
 
-
     def test_010_assert_venv_requires_VENVPREFIX__or__VIRTUAL_ENV(self):
         with self.assertRaises(Exception):
             venv = Venv()
-
 
     def test_100_Venv_parse_VENVSTR_env__and__VENVSTR(self):
         venv = Venv.parse_VENVSTR(env=self.env, VENVSTR=self.env['VENVSTR'])
@@ -2928,6 +2956,7 @@ class Test_250_Venv(unittest.TestCase):
 
 
 class Test_300_venv_build_env(unittest.TestCase):
+
     """
     test each build step independently
 
@@ -3001,7 +3030,6 @@ class Test_300_venv_build_env(unittest.TestCase):
         self.assertTrue(env)
 
 
-
 class Test_500_Venv(unittest.TestCase):
 
     def setUp(self):
@@ -3014,7 +3042,6 @@ class Test_500_Venv(unittest.TestCase):
 
         with self.assertRaises(Exception):
             venv = Venv()
-
 
     def test_005_venv(self):
         venv = Venv(VENVSTR=self.env['VENVSTR'])
@@ -3056,20 +3083,21 @@ class Test_500_Venv(unittest.TestCase):
                                   self.env['VENVSTR']))
 
     # TODO
-    #def test_060_venv__VENVSTR__WRK(self):
+    # def test_060_venv__VENVSTR__WRK(self):
         #__WRK = '/WRRK'
         #venv = Venv(VENVSTR=self.env['VENVSTR'], __WRK=__WRK)
-        #self.assertTrue(venv)
+        # self.assertTrue(venv)
         #self.assertEqual(venv.env['__WRK'], __WRK)
-        #self.assertEqual(venv.env['_WRD'],
-                         #joinpath(__WRK,
+        # self.assertEqual(venv.env['_WRD'],
+                         # joinpath(__WRK,
                                   #'-ve27',
-                                  #self.env['VIRTUAL_ENV_NAME'],
+                                  # self.env['VIRTUAL_ENV_NAME'],
                                   #'src',
-                                  #self.env['VENVSTR']))
+                                  # self.env['VENVSTR']))
 
 
 class Test_900_Venv_main(unittest.TestCase):
+
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
         # wrap main as self.main on setup to always capture IO
@@ -3081,8 +3109,8 @@ class Test_900_Venv_main(unittest.TestCase):
             retcode, stdout, stderr = self.main()
             self.assertEqual(retcode, 0)
 
-    #calls SystemExit
-    #def test_002_main_help(self):
+    # calls SystemExit
+    # def test_002_main_help(self):
     #    retcode, stdout, stderr = self.main('-h')
     #    self.assertEqual(retcode, 0)
     #    retcode, stdout, stderr = self.main('--help')
@@ -3092,10 +3120,12 @@ class Test_900_Venv_main(unittest.TestCase):
         retcode, stdout, stderr = self.main('dotfiles')
         self.assertEqual(retcode, 0)
 
-        retcode, stdout, stderr = self.main('--VIRTUAL_ENV', self.env['VIRTUAL_ENV'],
-                                            '--APP',self.env['_APP'])
+        retcode, stdout, stderr = self.main(
+            '--VIRTUAL_ENV', self.env['VIRTUAL_ENV'], '--APP', self.env
+            ['_APP'])
         self.assertEqual(retcode, 0)
-        retcode, stdout, stderr = self.main('--ve','dotfiles','--app','dotfiles')
+        retcode, stdout, stderr = self.main(
+            '--ve', 'dotfiles', '--app', 'dotfiles')
         self.assertEqual(retcode, 0)
 
     def test_110_main_VENVSTR(self):
@@ -3116,12 +3146,13 @@ class Test_900_Venv_main(unittest.TestCase):
     def test_140_main_VENVSTR_WORKON_HOME(self):
         retcode, stdout, stderr = (
             self.main('--print-vars',
-                      '--WORKON_HOME','/WORKON_HOME',
+                      '--WORKON_HOME', '/WORKON_HOME',
                       self.env['VENVSTR']))
         self.assertEqual(retcode, 0)
 
     def test_200_main_print_bash(self):
-        retcode, stdout, stderr = self.main('--print-bash', self.env['VENVSTR'], self.env['_APP'])
+        retcode, stdout, stderr = self.main(
+            '--print-bash', self.env['VENVSTR'], self.env['_APP'])
         self.assertEqual(retcode, 0)
 
     def test_200_main_print_bash(self):
@@ -3144,7 +3175,8 @@ class Test_900_Venv_main(unittest.TestCase):
         retcode, stdout, stderr = self.main('dotfiles', '--print-vim-cdalias')
         self.assertEqual(retcode, 0)
 
-## optparse.OptionParser
+# optparse.OptionParser
+
 
 def build_venv_arg_parser():
     """
@@ -3164,31 +3196,30 @@ def build_venv_arg_parser():
             "must be specified first: venv --ve dotfiles -xmake."),
     )
 
-
-    prs.add_argument('-e','--from-environ',
-                   help="Build venv.env.environ from keys in os.environ",
-                   dest='from_environ',
-                   action='store_true',
-                   )
+    prs.add_argument('-e', '--from-environ',
+                     help="Build venv.env.environ from keys in os.environ",
+                     dest='from_environ',
+                     action='store_true',
+                     )
     prs.add_argument('--__WRK', '--WRK', '--wrk',
-                   help="Path to workspace -- ~/-wrk",
-                   dest='__WRK',
-                   nargs='?',
-                   action='store',
-                   )
+                     help="Path to workspace -- ~/-wrk",
+                     dest='__WRK',
+                     nargs='?',
+                     action='store',
+                     )
     prs.add_argument('--__DOTFILES', '--DOTFILES', '--dotfiles',
                      help="Path to ${__DOTFILES} symlink -- ~/-dotfiles",
                      dest='__DOTFILES',
                      nargs='?',
                      action='store',
-                   )
+                     )
     prs.add_argument('--WORKON_HOME', '--workonhome', '--wh',
                      help=("Path to ${WORKON_HOME} directory "
-                     "containing VIRTUAL_ENVs"),
+                           "containing VIRTUAL_ENVs"),
                      dest='WORKON_HOME',
                      nargs='?',
                      action='store',
-                   )
+                     )
     prs.add_argument('--VENVSTR', '--venvstr', '--ve',
                      help=("Path to VIRTUAL_ENV -- "
                            "${WORKON_HOME}/${VIRTUAL_ENV_NAME} "
@@ -3203,14 +3234,13 @@ def build_venv_arg_parser():
                      nargs='?',
                      action='store')
 
-
     prs.add_argument('--VIRTUAL_ENV_NAME', '--virtual-env-name', '--vename',
                      help=("dirname in WORKON_HOME -- "
                            "${WORKON_HOME}/${VIRTUAL_ENV_NAME}"),
                      dest='VIRTUAL_ENV_NAME',
                      nargs='?',
                      action='store',
-                   )
+                     )
 
     prs.add_argument('--VENVPREFIX', '--venvprefix', '--prefix',
                      help='Prefix for _SRC, _ETC, _WRD if [ -z VIRTUAL_ENV ]',
@@ -3218,211 +3248,206 @@ def build_venv_arg_parser():
                      nargs='?',
                      action='store')
 
-
     prs.add_argument('--VIRTUAL_ENV', '--virtual-env',
                      help="Path to a $VIRTUAL_ENV",
                      dest='VIRTUAL_ENV',
                      nargs='?',
                      action='store',
-                   )
-
-
+                     )
 
     prs.add_argument('--_SRC', '--SRC', '--src',
                      help='Path to source -- ${VIRTUAL_ENV}/src")',
                      dest='_SRC',
                      nargs='?',
                      action='store',
-                    )
-    prs.add_argument('--_APP', '--APP',  '--app',  #  see also: --VENVSTRAPP
+                     )
+    prs.add_argument('--_APP', '--APP',  '--app',  # see also: --VENVSTRAPP
                      help="Path component string -- ${_SRC}/${_APP}",
                      dest='_APP',
                      nargs='?',
                      action='store',
-                   )
+                     )
     prs.add_argument('--_WRD', '--WRD', '--wrd',
                      help="Path to working directory -- ${_SRC}/${_APP}",
                      dest='_WRD',
                      nargs='?',
                      action='store',
-                   )
+                     )
 
     prs.add_argument('--platform',
-                   help='Platform string (default: None)',
-                   dest='platform',
-                   action='store',
-                   default=None,
-                   )
+                     help='Platform string (default: None)',
+                     dest='platform',
+                     action='store',
+                     default=None,
+                     )
 
     prs.add_argument('--print-json',
-                   help="Print venv configuration as JSON",
-                   dest='print_json',
-                   action='store_true',
-                   )
+                     help="Print venv configuration as JSON",
+                     dest='print_json',
+                     action='store_true',
+                     )
     prs.add_argument('--print-json-filename',
-                   help="Path to write venv env JSON to",
-                   dest='print_json_filename',
-                   nargs='?',
-                   action='store',
-                   default='venv.json',
-                   )
+                     help="Path to write venv env JSON to",
+                     dest='print_json_filename',
+                     nargs='?',
+                     action='store',
+                     default='venv.json',
+                     )
     prs.add_argument('--print-vars',
-                   help='Print vars',
-                   dest='print_vars',
-                   #nargs='?',
-                   action='store_true',
-                   default=None,
-                   )
+                     help='Print vars',
+                     dest='print_vars',
+                     # nargs='?',
+                     action='store_true',
+                     default=None,
+                     )
     prs.add_argument('--print-bash', '--bash',
-                   help="Print Bash shell configuration",
-                   dest='print_bash',
-                   action='store_true',
-                   default=None,
-                   #default='venv.bash.sh',
-                   )
+                     help="Print Bash shell configuration",
+                     dest='print_bash',
+                     action='store_true',
+                     default=None,
+                     # default='venv.bash.sh',
+                     )
     prs.add_argument('--print-bash-filename', '--bf',
-                   help="Path to write Bash shell configuration into",
-                   dest='print_bash_filename',
-                   nargs='?',
-                   action='store',
-                   default='venv.bash.sh',
-                   #default='venv.bash.sh',
-                   )
+                     help="Path to write Bash shell configuration into",
+                     dest='print_bash_filename',
+                     nargs='?',
+                     action='store',
+                     default='venv.bash.sh',
+                     # default='venv.bash.sh',
+                     )
     prs.add_argument('--print-bash-cdalias', '--bash-cdalias',
-                   help="Print Bash cdalias script",
-                   dest='print_bash_cdalias',
-                   action='store_true',
-                   )
+                     help="Print Bash cdalias script",
+                     dest='print_bash_cdalias',
+                     action='store_true',
+                     )
     prs.add_argument('--print-bash-cdalias-filename', '--bcdf',
-                   help="Path to write Bash cdalias shell configuration into",
-                   dest='print_bash_cdalias_filename',
-                   nargs='?',
-                   action='store',
-                   default='venv.cdalias.sh',
-                   #default='venv.bash.sh',
-                   )
+                     help="Path to write Bash cdalias shell configuration into",
+                     dest='print_bash_cdalias_filename',
+                     nargs='?',
+                     action='store',
+                     default='venv.cdalias.sh',
+                     # default='venv.bash.sh',
+                     )
     prs.add_argument('-Z', '--print-zsh',
-                   help="Print ZSH shell configuration",
-                   dest='print_zsh',
-                   action='store_true',
-                   )
+                     help="Print ZSH shell configuration",
+                     dest='print_zsh',
+                     action='store_true',
+                     )
     prs.add_argument('--print-zsh-filename', '--zf',
-                   help="Print ZSH shell configuration",
-                   dest='print_zsh_filename',
-                   action='store',
-                   nargs='?',
-                   default='venv.zsh.sh',
-                   )
+                     help="Print ZSH shell configuration",
+                     dest='print_zsh_filename',
+                     action='store',
+                     nargs='?',
+                     default='venv.zsh.sh',
+                     )
     prs.add_argument('--print-vim-cdalias', '--vim',
-                   help="Print vimscript configuration ",
-                   dest='print_vim_cdalias',
-                   action='store_true',
-                   )
+                     help="Print vimscript configuration ",
+                     dest='print_vim_cdalias',
+                     action='store_true',
+                     )
     prs.add_argument('--print-vim-cdalias-filename', '--vcdf',
-                   help="Path to write cdalias vimscript into",
-                   dest='print_vim_cdalias_filename',
-                   nargs='?',
-                   action='store',
-                   default='venv.cdalias.vim',
-                   )
+                     help="Path to write cdalias vimscript into",
+                     dest='print_vim_cdalias_filename',
+                     nargs='?',
+                     action='store',
+                     default='venv.cdalias.vim',
+                     )
 
     prs.add_argument('--command', '--cmd', '-x',
-                   help="Run a command in a venv-configured shell",
-                   dest='run_command',
-                   action='store',
-                   )
+                     help="Run a command in a venv-configured shell",
+                     dest='run_command',
+                     action='store',
+                     )
     prs.add_argument('--run-bash', '--xbash', '-xb',
-                   help="Run bash in the specified venv",
-                   dest='run_bash',
-                   action='store_true',
-                   )
+                     help="Run bash in the specified venv",
+                     dest='run_bash',
+                     action='store_true',
+                     )
     prs.add_argument('--run-make', '--xmake', '-xmake',
-                   help="Run (cd $_WRD; make $@) in the specified venv",
-                   dest='run_make',
-                   action='store_true',
-                   )
+                     help="Run (cd $_WRD; make $@) in the specified venv",
+                     dest='run_make',
+                     action='store_true',
+                     )
 
     prs.add_argument('--run-editp', '--open-editors', '--edit', '-E',
-                   help=("Open $EDITOR_ with venv.project_files"
-                         " [$PROJECT_FILES]"),
-                   dest='open_editors',
-                   action='store_true',
-                   default=False,
-                   )
-    prs.add_argument('--run-terminal', '--open-terminals','--terminals', '-T',
-                   help="Open terminals within the venv [gnome-terminal]",
-                   dest='open_terminals',
-                   action='store_true',
-                   default=False,
-                   )
+                     help=("Open $EDITOR_ with venv.project_files"
+                           " [$PROJECT_FILES]"),
+                     dest='open_editors',
+                     action='store_true',
+                     default=False,
+                     )
+    prs.add_argument('--run-terminal', '--open-terminals', '--terminals', '-T',
+                     help="Open terminals within the venv [gnome-terminal]",
+                     dest='open_terminals',
+                     action='store_true',
+                     default=False,
+                     )
 
-
-    prs.add_argument('--pathall','-a', '--all-paths', '--ap',
-        help="Print possible paths for the given path",
-        dest="all_paths",
-        action='store_true',
-        )
+    prs.add_argument('--pathall', '-a', '--all-paths', '--ap',
+                     help="Print possible paths for the given path",
+                     dest="all_paths",
+                     action='store_true',
+                     )
     prs.add_argument('--pwrk', '--wrk-path',
-        help="Print $__WRK/$@",
-        dest="path__WRK",
-        )
-    prs.add_argument('--pworkonhome', '--workonhome-path','--pwh',
-        help="Print $__WORKON_HOME/$@",
-        dest="path_WORKON_HOME",
-        )
+                     help="Print $__WRK/$@",
+                     dest="path__WRK",
+                     )
+    prs.add_argument('--pworkonhome', '--workonhome-path', '--pwh',
+                     help="Print $__WORKON_HOME/$@",
+                     dest="path_WORKON_HOME",
+                     )
     prs.add_argument('--pvirtualenv', '--virtualenv-path', '--pv',
-        help="Print $VIRTUAL_ENV/${@}",
-        dest='path_VIRTUAL_ENV',
-        action='store_true',
-        )
+                     help="Print $VIRTUAL_ENV/${@}",
+                     dest='path_VIRTUAL_ENV',
+                     action='store_true',
+                     )
     prs.add_argument('--psrc', '--src-path', '--ps',
-        help="Print $_SRC/${@}",
-        dest='path__SRC',
-        action='store_true',
-        )
+                     help="Print $_SRC/${@}",
+                     dest='path__SRC',
+                     action='store_true',
+                     )
     prs.add_argument('--pwrd', '--wrd-path', '--pw',
-        help="Print $_WRD/${@}",
-        dest='path__WRD',
-        action='store_true',
-        )
+                     help="Print $_WRD/${@}",
+                     dest='path__WRD',
+                     action='store_true',
+                     )
     prs.add_argument('--pdotfiles', '--dotfiles-path', '--pd',
-        help="Print ${__DOTFILES}/${path}",
-        dest='path__DOTFILES',
-        action='store_true',
-        )
-
+                     help="Print ${__DOTFILES}/${path}",
+                     dest='path__DOTFILES',
+                     action='store_true',
+                     )
 
     prs.add_argument('--prel', '--relative-path',
-        help="Print ${@}",
-        dest='relative_path',
-        action='store_true',
-        )
+                     help="Print ${@}",
+                     dest='relative_path',
+                     action='store_true',
+                     )
     prs.add_argument('--pkg-resource-path',
-        help="Path from pkg_resources.TODOTODO",
-        dest="pkg_resource_path",
-        action='store_true',
-        )
+                     help="Path from pkg_resources.TODOTODO",
+                     dest="pkg_resource_path",
+                     action='store_true',
+                     )
 
     prs.add_argument('--diff', '--show-diffs',
-                   dest='show_diffs',
-                   action='store_true',)
+                     dest='show_diffs',
+                     action='store_true',)
     prs.add_argument('-v', '--verbose',
-                   dest='verbose',
-                   action='store_true',)
+                     dest='verbose',
+                     action='store_true',)
     prs.add_argument('-q', '--quiet',
-                   dest='quiet',
-                   action='store_true',)
+                     dest='quiet',
+                     action='store_true',)
     prs.add_argument('-t', '--test',
-                   dest='run_tests',
-                   action='store_true',)
+                     dest='run_tests',
+                     action='store_true',)
     prs.add_argument('--version',
-                   dest='version',
-                   action='store_true',)
+                     dest='version',
+                     action='store_true',)
 
     prs.add_argument('VENVSTR',
                      help=(
-                     'a name of a virtualenv in WORKON_HOME '
-                     'OR a full path to a VIRTUAL_ENV'),
+                         'a name of a virtualenv in WORKON_HOME '
+                         'OR a full path to a VIRTUAL_ENV'),
                      nargs='?',
                      action='store',
                      )
@@ -3447,7 +3472,7 @@ def comment_comment(strblock, **kwargs):
         str: string with each line prefixed with comment char
     """
     return u'\n'.join(
-        prepend_comment_char(pprint.pformat(strblock),**kwargs))
+        prepend_comment_char(pprint.pformat(strblock), **kwargs))
 
 
 def main(*argv, **kwargs):
@@ -3479,11 +3504,11 @@ def main(*argv, **kwargs):
             log.setLevel(logging.INFO)  # DEFAULT
 
     logevent('main()',
-        {"sys.argv": sys.argv,
-         "*argv": argv,
-         "_argv": _argv,
-         "args": args,
-         "opts": opts.__dict__},
+             {"sys.argv": sys.argv,
+              "*argv": argv,
+              "_argv": _argv,
+              "args": args,
+              "opts": opts.__dict__},
              level=logging.DEBUG)
 
     if opts.run_tests:
@@ -3501,13 +3526,13 @@ def main(*argv, **kwargs):
         except ImportError:
             return 127
 
-    ## build or create a new Env
+    # build or create a new Env
     if opts.from_environ:
         env = Env.from_environ(os.environ, verbose=opts.verbose)
     else:
         env = Env()
 
-    ## read variables from options into the initial env dict
+    # read variables from options into the initial env dict
 
     varnames = ['__WRK', '__DOTFILES', 'WORKON_HOME',
                 'VENVSTR', 'VENVSTRAPP', 'VENVPREFIX',
@@ -3534,10 +3559,10 @@ def main(*argv, **kwargs):
     logevent('main_env', env, wrap=True, level=logging.DEBUG)
 
     if not any((
-        env.get('VENVPREFIX'),
-        env.get('VIRTUAL_ENV'),
-        env.get('VENVSTR'),
-        opts.from_environ)):
+            env.get('VENVPREFIX'),
+            env.get('VIRTUAL_ENV'),
+            env.get('VENVSTR'),
+            opts.from_environ)):
         prs.error("You must specify one of VENVSTR, VIRTUAL_ENV, VENVPREFIX, "
                   "or -e|--from-environ")
 
@@ -3555,11 +3580,11 @@ def main(*argv, **kwargs):
 
     if opts.print_vars:
         if any((opts.print_json,
-                     opts.print_bash,
-                     opts.print_bash_cdalias,
-                     opts.print_zsh,
-                     opts.print_vim_cdalias,
-                     )):
+                opts.print_bash,
+                opts.print_bash_cdalias,
+                opts.print_zsh,
+                opts.print_vim_cdalias,
+                )):
             prs.error("--print-vars specfied when\n"
                       "writing to json, bash, zsh, or vim.")
         else:
@@ -3588,7 +3613,6 @@ def main(*argv, **kwargs):
         argstr = " ".join(opts.args)
         prcs = venv.call('cd $_WRD; make {}'.format(argstr))
 
-
     def get_pkg_resource_filename(filename):
         import pkg_resources
         return pkg_resources.resource_filename(filename)
@@ -3611,9 +3635,8 @@ def main(*argv, **kwargs):
 
         if dotfiles_all_paths or opts.dotfiles_path:
             __DOTFILES = env.get('__DOTFILES',
-                                 os.path.sep.join('~','-dotfiles'))
+                                 os.path.sep.join('~', '-dotfiles'))
             env['__DOTFILES'] = __DOTFILES
-
 
         for pth in paths:
             resource_path = get_pkg_resource_filename(pth)
@@ -3625,7 +3648,6 @@ def main(*argv, **kwargs):
             if opts.all_paths or opts.dotfiles_path:
                 dotfiles_path = os.path.join(env['__DOTFILES'], relpath)
                 print(dotfiles_path, file=stdout)
-
 
     return 0
 
