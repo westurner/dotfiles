@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles.venv.ipython_config &mdash; dotfiles 0.6.4 documentation</title>
+    <title>dotfiles.venv.ipython_config &mdash; dotfiles 0.7.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    '../../../',
-            VERSION:     '0.6.4',
+            VERSION:     '0.7.0',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -63,7 +63,7 @@
 <script type="text/javascript" src="../../../_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.6.4 documentation" href="../../../index.html" />
+    <link rel="top" title="dotfiles 0.7.0 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body role="document">
@@ -76,7 +76,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">dotfiles 0.6.4 documentation</a>
+          <a class="navbar-brand" href="../../../index.html">dotfiles 0.7.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -209,8 +209,10 @@
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
     <span class="n">STR_TYPES</span> <span class="o">=</span> <span class="nb">basestring</span>
 
+    <span class="c"># workaround for Sphinx autodoc bug</span>
+    <span class="kn">import</span> <span class="nn">__builtin__</span>
 <div class="viewcode-block" id="print"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">__builtin__</span><span class="o">.</span><span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">STR_TYPES</span> <span class="o">=</span> <span class="nb">str</span>
@@ -220,7 +222,7 @@
 
 <span class="n">__THISFILE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
 <span class="c">#  __VENV_CMD = &quot;python {~ipython_config.py}&quot;</span>
-<span class="n">__VENV_CMD</span> <span class="o">=</span> <span class="s">&quot;python </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">__THISFILE</span>
+<span class="c">#  __VENV_CMD = &quot;python %s&quot; % __THISFILE</span>
 
 
 <div class="viewcode-block" id="logevent"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.logevent">[docs]</a><span class="k">def</span> <span class="nf">logevent</span><span class="p">(</span><span class="n">event</span><span class="p">,</span>
@@ -3788,7 +3790,7 @@
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-        <li><a href="../../../index.html">dotfiles 0.6.4 documentation</a></li>
+        <li><a href="../../../index.html">dotfiles 0.7.0 documentation</a></li>
     </ul>
     <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
