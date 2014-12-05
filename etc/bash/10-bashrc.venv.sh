@@ -14,27 +14,26 @@ export __SRC="${HOME}/src"
     # PATH="~/.local/bin:$PATH" (if not already there)
 add_to_path "${HOME}/.local/bin"
 
-    # _VENV       -- path to local venv config script (executable)
-export _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
+    # __VENV      -- path to local venv config script (executable)
+export __VENV="${__DOTFILES}/scripts/venv.py"
+
 
 ## Functions
-
 
 venv() {
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
     # venv -b   -- print bash configuration
     # venv -p   -- print IPython configuration as JSON
-    $_VENV $@
+    (set -x; $__VENV $@)
 }
-
 venv-() {
     # _venv <args> -- call $_VENV -E $@ (for the current environment)
-    venv -E $@
+    (set -x; $__VENV -e $@)
 }
 
-we() {   
-    # we()         -- workon a virtualenv and load venv (TAB-completion)
+workon_venv() {
+    # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
     #  param $2: $_APP ("dotfiles") [default: $1)
     #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
@@ -48,92 +47,24 @@ we() {
     history -a
 
     if [ -n "$1" ]; then
-        workon $1 && source <(venv --bash $@) && dotfiles_status
+        # TODO
+        workon $1  # sets VIRTUAL_ENV
+        source <(venv --print-bash $@)
+        dotfiles_status
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenv
     fi
 }
+we () {
+    # we()          -- workon_venv
+    workon_venv $@
+}
+complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
 
-
-## cd functions
-cdb () {
-    # cdb()     -- cd $_BIN
-    cd "${_BIN}"/$@
-}
-cde () {
-    # cde()     -- cd $_ETC
-    cd "${_ETC}"/$@
-}
-cdh () {
-    # cdh()     -- cd $HOME
-    cd "${HOME}"/$@
-}
-cdl () {
-    # cdl()     -- cd $_LIB
-    cd "${_LIB}"/$@
-}
-cdlog () {
-    # cdlog()   -- cd $_LOG
-    cd "${_LOG}"/$@
-}
-cdp () {
-    # cdp()     -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}"/$@
-}
-cdph () {
-    # cdph()    -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}"/$@
-}
-cdpylib () {
-    # cdpylib() -- cd $_PYLIB
-    cd "${_PYLIB}"/$@
-}
-cdpysite () {
-    # cdpysite()-- cd $_PYSITE
-    cd "${_PYSITE}"/$@
-}
-cds () {
-    # cds()     -- cd $_SRC
-    cd "${_SRC}"/$@
-}
-cdv () {
-    # cdv()     -- cd $VIRTUAL_ENV
-    cd "${VIRTUAL_ENV}"/$@
-}
-cdve () {
-    # cdve()    -- cd $WORKON_HOME
-    cd "${VIRTUAL_ENV}"/$@
-}
-cdvar () {
-    # cdvar()   -- cd $_VAR
-    cd "${_VAR}"/$@
-}
-cdw () {
-    # cdw()     -- cd $_WRD
-    cd "${_WRD}"/$@
-}
-cdwrd () {
-    # cdwrd     -- cd $_WRD
-    cd "${_WRD}"/$@
-}
-cdwh () {
-    # cdwh      -- cd $WORKON_HOME
-    cd "${WORKON_HOME}"/$@
-}
-cdwrk () {
-    # cdwrk()   -- cd $WORKON_HOME
-    cd "${WORKON_HOME}/$@"
-}
-cdww () {
-    # cdww()    -- cd $_WWW
-    cd "${_WWW}"/$@
-}
-cdwww () {
-    # cdwww()   -- cd $_WWW
-    cd "${_WWW}"/$@
-}
+# CdAlias functions and completions
+source ${__DOTFILES}/etc/venv/venv.sh
 
 ## Grin search
 # virtualenv / virtualenvwrapper
@@ -172,13 +103,26 @@ grind-() {
     grindw $@
 }
 
+edit_grin_w() {
+    # edit_grin_w() -- edit $(grinw -l $@)
+    edit $(grin w -l $@)
+}
+
+egw() {
+    # egw           -- edit $(grinw -l $@)
+    edit_grin_w $@
+}
+
+# ctags
 grindctags() {
     # grindctags()      -- generate ctags from grind (in ./tags)
     if [ -n "${__IS_MAC}" ]; then
+        # brew install ctags
         if [ -x "/usr/local/bin/ctags" ]; then
             ctagsbin="/usr/local/bin/ctags"
         fi
     else
+        # apt-get install exuberant-ctags
         ctagsbin=$(which ctags)
     fi
     (set -x;
@@ -202,8 +146,6 @@ grindctagss() {
     # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
     grindctags "${_SRC}"
 }
-
-
 
 _load_venv_aliases() {
     # _load_venv_aliases()  -- load venv aliases
@@ -256,19 +198,17 @@ mw() {
 _venv_set_prompt() {
     # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
-    if [ -n "$VIRTUAL_ENV_NAME" ]; then
-        if [ -n "$VIRTUAL_ENV" ]; then
-            export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
-        else
-            unset -v VIRTUAL_ENV_NAME
-        fi
-    fi
-    venv_prompt_prefix="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${debian_chroot:+"[$debian_chroot] "}"
+    #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
+    # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
+    local venvprompt=""
+    venvprompt=${_APP:-${VIRTUAL_ENV_NAME:-${VIRTUAL_ENV:+"$(basename $VIRTUAL_ENV)"}}}
+    # TODO: CONDA
+    export VENVPROMPT="${WINDOW_TITLE:+"$WINDOW_TITLE "}${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}"
     if [ -n "$BASH_VERSION" ]; then
         if [ "$color_prompt" == yes ]; then
-            PS1='${venv_prompt_prefix}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+            PS1='${VENVPROMPT}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
         else
-            PS1='${venv_prompt_prefix}\u@\h:\w\n\$ '
+            PS1='${VENVPROMPT}\u@\h:\w\n\$ '
             unset color_prompt
         fi
     fi

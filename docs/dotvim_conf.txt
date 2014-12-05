@@ -1,5 +1,10 @@
    # etc/vim/vimrc
 " .vimrc
+" ==========
+" ::
+"   git clone https://github.com/westurner/dotvim
+"   git clone ssh://git@github.com/westurner/dotvim
+"   make help
 "
 " Vim Reference
 " ---------------
@@ -84,7 +89,11 @@
 "  zC               --  fold close recursive
 "  zx               --  undo manual fold actions
 "  zX               --  undo manual fold actions and recompute
-"  zR               --  open all folds
+"  zM               --  fold close all but current (focus)
+"  zR               --  fold open all (review)
+"
+"  :Voom [format]   --  open VOom outline sidebar
+"  <leader> t       --  :TagBarToggle " outline sidebar
 "
 " Etiquette
 "  <leader> i       --  toggle unprintables
@@ -92,7 +101,9 @@
 "  <leader> sc      --  clear highlighting
 "
 " set window title to vim title (display full path)
-"  :ListMappings    --  list .vimrc mapping comments
+" print the document path
+"
+"  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
 "  <space> -- <leader>
 "  ,    --  <leader> == <comma>
 "  ;;   --  <esc> == double semicolon
@@ -244,6 +255,7 @@
 " all errors)
 " Colors
 "  :PatchColors     --  load local colorizing postsets
+" call PatchColors()    -- call PatchColors when sourced
 " List highlight colors
 " Python
 "  Wrap at 72 chars for comments.
@@ -255,6 +267,7 @@
 " Default to fourtabs
 "  :Threetabs   -- set to three (3) soft tabs (e.g. RST)
 "  :Twotabs     -- set to two (2) soft tabs
+"  :Onetab      -- set to one soft tab
 "  :CurrentBuffer -- display number of current buffer
 "  <leader> 2   -- diffget from bufnr 2
 "  <leader> 3   -- diffget from bufnr 3
@@ -268,6 +281,16 @@
 "  <C-Down> -- decrease font size
 "  <F3>     -- insert ReST date heading
 " Trac
+" References
+"
+"   - https://dev.launchpad.net/UltimateVimPythonSetup
+"   - https://github.com/kennethreitz/dotfiles/blob/master/.vimrc
+"   - https://bitbucket.org/sjl/dotfiles/src/tip/vim/.vimrc#cl-716
+"   - http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+"   - http://stackoverflow.com/questions/1551231
+"   - http://superuser.com/questions/117969/is-there-a-way-to-move-a-split-page-to-a-new-tab-in-vim
+"   - http://sontek.net/turning-vim-into-a-modern-python-ide
+"   - http://vim.wikia.com/wiki/VimTip320
    
    
    # etc/vim/vimrc.full.bundles.vimrc
@@ -280,6 +303,7 @@
 " The Bundle URLs are intentionally complete https URLs
 " * grep '^Bundle \'' vimrc.bundles
 " * sed -i 's\https://github.com/\ssh://git@github.com/\g'
+" venv.vim          -- venv cdalias commands like :Cdwrk, :Cdsrc, and :Cdwrd
 " Info.vim          -- vim infopages in vim [help info]
 "  :Info sed        --  view infopage for 'sed'
 "  <Space>          --  Scroll forward (page down).
@@ -366,8 +390,9 @@
 "  :Voom [<format>] -- open Voom outline tab
 "  :Voom rest       -- open ReStructuredText outline
 "  ggg?G
+"  <leader> V   -- toggle Voom outline sidebar
 " TagBar        -- source tag browser [help tagbar]
-"  <leader> t   -- toggle TagBar"
+"  <leader> t   -- toggle TagBar outline sidebar"
 " Vim Session   -- save and restore sessions between exits [help session]
 "  :SaveSession <name>  -- save a session
 "  :OpenSession <name>  -- open a saved session
@@ -423,6 +448,8 @@
 "  aM    --  Select a function or method. Ex: vaM, daM, yaM, caM
 "  iM    --  Select inner function or method. Ex: viM, diM, yiM, ciM
 "  g:pymode_python = { 'python', 'python3', 'disable' }
+"
+"  set g:pymode_python 'disable' (start time, occasional completion stall)
 "  :PymodeLintToggle    -- toggle lint checking
 "  :PymodeLintAuto      -- autofix current buffer pep8 errors
 " - auto-show an error window
@@ -437,6 +464,12 @@
 "   EE = ERROR
 "   II = INFO
 "   FF = PYFLAKES
+" :PyModeLint       -- lint current buffer (once)
+" :PyModeLintToggle -- toggle lint
+"
+" :PyModeLintAuto   -- auto-lint the current buffer (once)
+"                       (commit before and after)
+"
 "  <F7>     -- set debugger breakpoints
 "  auto lookup breakpoint cmd (pdb, ipdb, pudb)"
 "  Searches upward for a .ropeproject file (that should be .vcs-ignored)
@@ -473,6 +506,7 @@
 "  <leader>te       --  pytest error
 " Pyrex         -- Pyrex syntax
 " Jinja         -- Jinja Templates syntax
+" os.vim   -- Operating System [help os]
 " clickbable.vim -- click-able links
 " Riv.vim   -- ReStructuredText [help riv]
 "  :RivIntro
@@ -480,6 +514,7 @@
 "  :RivPrimer
 "  :RivSpecification
 "  :RivCheatSheet
+" let g:riv_fold_level = -1
 " Salt      -- Salt syntax
 " Trac      -- Trac [help trac]
 " webapi-vim -- vim web API [help webapi[-{html, http, json, xml}]]

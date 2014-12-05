@@ -57,6 +57,9 @@ target/
 
 ##########
 
+# OSX
+.DS_Store
+
 # UndoTree
 *.un~
 

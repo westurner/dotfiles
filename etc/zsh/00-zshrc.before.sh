@@ -1,7 +1,7 @@
 
 
 #  __DOTFILES -- local dotfiles repository clone
-export __DOTFILES="${HOME}/.dotfiles"
+export __DOTFILES=${__DOTFILES:-"${HOME}/-dotfiles"}
 
 if [ -d /Library ]; then
     export __IS_MAC='true'

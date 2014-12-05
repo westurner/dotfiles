@@ -80,7 +80,7 @@ fi
 #
 ### load the dotfiles
 #  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/.dotfiles
-__DOTFILES=${__DOTFILES:-"$HOME/.dotfiles"}
+__DOTFILES=${__DOTFILES:-"$HOME/-dotfiles"}
 if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
     _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
     if [[ -f "${_dotfiles_bashrc}" ]]; then
@@ -100,18 +100,20 @@ dotfiles_reload() {
   echo "#"
   echo "# dotfiles_reload()"
 
-  if [ -n $__DOTFILES ]; then
-  export __DOTFILES=${__DOTFILES}
-  else
-  _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
-  _dotfiles_link=${HOME}/.dotfiles
+  export __WRK="${HOME}/-wrk"
 
-  if [ -d $_dotfiles_link ]; then
-  __DOTFILES=${_dotfiles_link}
-  elif [ -d $_dotfiles_src ]; then
-  __DOTFILES=${_dotfiles_src}
-  fi
-  export __DOTFILES=${__DOTFILES}
+  if [ -n $__DOTFILES ]; then
+    export __DOTFILES=${__DOTFILES}
+  else
+    _dotfiles_src=${WORKON_HOME}/dotfiles/src/dotfiles
+    _dotfiles_link=${HOME}/-dotfiles
+
+    if [ -d $_dotfiles_link ]; then
+        __DOTFILES=${_dotfiles_link}
+    elif [ -d $_dotfiles_src ]; then
+        __DOTFILES=${_dotfiles_src}
+    fi
+    export __DOTFILES=${__DOTFILES}
   fi
 
   conf=${__DOTFILES}/etc/bash
@@ -130,6 +132,9 @@ dotfiles_reload() {
   #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX 
   if [ -n "${__IS_MAC}" ]; then
       export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
+
+  ## 03-bashrc.darwin.sh
+      source ${conf}/03-bashrc.darwin.sh
   fi
 
   #
@@ -399,6 +404,53 @@ detect_platform() {
 uname
 echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
 
+### bashrc.darwin.sh
+
+# softwareupdate                -- install OSX updates
+#  | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+#  softwareupdate -l        # --list
+#  softwareupdate -i --all  # --install --all
+#  softwareupdate -i -r     # --install --recommended
+
+if [ -z "${__IS_MAC}" ]; then
+    return
+fi
+# if __IS_MAC:
+
+export _FINDERBIN="/System/Library/CoreServices/Finder.app"
+
+finder () {
+    # finder()    -- open Finder.app
+    if [ -z "$@" ]; then
+        open "${_FINDERBIN}"
+    else
+        open -R $@
+    fi
+}
+
+finder-killall() {
+    # finder-killall()  -- close all Finder.app instances
+    killall Finder $_FINDERBIN;
+}
+
+finder-restart() {
+    # finder-restart()  -- close all and start Finder.app
+    finder-killall
+    finder
+}
+
+finder-show-hidden () {
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+    defaults write com.apple.finder AppleShowAllFiles YES
+    finder-killall
+}
+
+finder-hide-hidden () {
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+    defaults write com.apple.finder AppleShowAllFiles YES
+    finder-killall
+}
+
 ### bashrc.TERM.sh
 
 configure_TERM() {
@@ -466,18 +518,19 @@ dotfiles_status() {
     echo "# dotfiles_status()"
     echo "HOSTNAME='${HOSTNAME}'"
     echo "USER='${USER}'"
+    echo "__WRK='${__WRK}'"
     echo "PROJECT_HOME='${PROJECT_HOME}'"
     echo "WORKON_HOME='${WORKON_HOME}'"
     echo "VIRTUAL_ENV_NAME='${VIRTUAL_ENV_NAME}'"
     echo "VIRTUAL_ENV='${VIRTUAL_ENV}'"
-    echo "_USRLOG='${_USRLOG}'"
-    echo "_TERM_ID='${_TERM_ID}'"
     echo "_SRC='${_SRC}'"
     echo "_APP='${_APP}'"
     echo "_WRD='${_WRD}'"
     #echo "__DOCSWWW='${_DOCS}'"
     #echo "__SRC='${__SRC}'"
     #echo "__PROJECTSRC='${__PROJECTSRC}'"
+    echo "_USRLOG='${_USRLOG}'"
+    echo "_TERM_ID='${_TERM_ID}'"
     echo "PATH='${PATH}'"
     echo "__DOTFILES='${__DOTFILES}'"
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
@@ -495,6 +548,19 @@ ds() {
     #TERM_URI="${term_path}/${term_key}"
     #echo "TERM_URI='${TERM_URL}'"
 #}
+
+# https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+
+debug-on() {
+    # debug-on()                 -- set -x -v
+    set -x -v
+    shopt -s extdebug
+}
+debug-off() {
+    # debug-off()                -- set +x +v
+    set +x +v
+    shopt -s extdebug
+}
 
 log_dotfiles_state() {
     # log_dotfiles_state()      -- save current environment to logfiles
@@ -538,11 +604,19 @@ dotfiles_postactivate() {
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
-    test -n $_VENV \
-        && source <(python $_VENV -E --bash)
+    local bash_debug_output=$(
+        venv -e --verbose --diff --print-bash 2>&1 /dev/null)
+    local venv_return_code=$?
+    if [ ${venv_return_code} -eq 0 ]; then
+        test -n $_VENV \
+            && source <(venv -e --print-bash)
+    else
+        echo "${bash_debug_output}" # >2
+    fi
 
-    declare -f '_usrlog_setup' 2>&1 > /dev/null \
-        && _usrlog_setup
+    echo "setup usrlog"
+    declare -f '_setup_usrlog' 2>&1 > /dev/null \
+        && _setup_usrlog
    
     declare -f '_venv_set_prompt' 2>&1 > /dev/null \
         && _venv_set_prompt
@@ -610,6 +684,9 @@ dotfiles_postdeactivate() {
     unset _WRD_SETUPY
     unset _WWW
 
+    declare -f '_usrlog_set__USRLOG' 2>&1 > /dev/null \
+        && _usrlog_set__USRLOG
+   
     dotfiles_reload
 }
 
@@ -719,16 +796,16 @@ _setup_pyenv() {
 
 ## Conda / Anaconda
 
-_setup_anaconda() {
+_setup_conda() {
     # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
-    export _ANACONDA_ROOT="/opt/anaconda"
-    add_to_path "${_ANACONDA_ROOT}/bin"
+    export CONDA_ROOT="${CONDA_ROOT:-"/opt/anaconda"}"
+    add_to_path "${CONDA_ROOT}/bin"
 }
 
 workon_conda() {
     # workon_conda()        -- workon a conda + venv project
-    _conda_envname=${1}
-    _app=${2}
+    local _conda_envname=${1}
+    local _app=${2}
     we ${_conda_envname} ${_app}
     _setup_anaconda && \
         source activate ${WORKON_HOME}/.conda/${_conda_envname}
@@ -782,8 +859,9 @@ workon_conda_if_available() {
 ### bashrc.virtualenvwrapper.sh
 
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
-export PROJECT_HOME="${HOME}/wrk"
-export WORKON_HOME="${PROJECT_HOME}/.ve"
+#
+export PROJECT_HOME="${HOME}/-wrk"
+export WORKON_HOME="${PROJECT_HOME}/-ve"
 
 _setup_virtualenvwrapper () {
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
@@ -2143,29 +2221,42 @@ backup_virtualenvs() {
     echo BKPDIR="${bkpdir}"
 }
 
-rebuild_virtualenv() {
+_rebuild_virtualenv() {
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
     echo "rebuild_virtualenv()"
-    set -x
-    venvname="${1}"
-    virtual_env=${2:-"${WORKON_HOME}/${venvname}"}
-    set +x
-    bin="${virtual_env}/bin"
-    rm -fv ${bin}/python ${bin}/python2 ${bin}/python2.7 \
-        ${bin}/pip ${bin}/pip-2.7 \
-        ${bin}/easy_install ${bin}/easy_install-2.7 \
-        ${bin}/activate*
+    local venvname="${1}"
+    local VIRTUAL_ENV=${2:-"${WORKON_HOME}/${venvname}"}
+    rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
+        ${_BIN}/pip ${_BIN}/pip-2.7 \
+        ${_BIN}/easy_install ${_BIN}/easy_install-2.7 \
+        ${_BIN}/activate*
     pyver=$(python -c "import sys; print('{}.{}'.format(*sys.version_info[:2]))")
-    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
         -iname 'pip*' -delete
-    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
         -iname 'setuptools*' -delete
-    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
         -iname 'distribute*' -delete
     deactivate
     mkvirtualenv ${venvname}
-    #${bin}/pip install -v -v -r <(${bin}/pip freeze)
-    #${bin}/pip install -r ${_WRD}/requirements.txt
+
+    _BIN__="${VIRTUAL_ENV}/bin"
+    files=$(find ${_BIN__} -type f | grep -v '.bak$' | grep -v 'python*$')
+    head -n1 ${files}
+    (cd ${_BIN}; \
+        sed -i.bak "s,^#!(.*${venvname}/bin/python)(\d.*),#!${_BIN}/python," \
+        ${files} )
+    head -n1 ${files}
+    (cd ${_BIN}; rm -ifv ./*.bak)
+    echo "
+    # TODO: adjust paths beyond the shebang
+    #${_BIN}/pip install -v -v -r <(${_BIN}/pip freeze)
+    #${_BIN}/pip install -r ${_WRD}/requirements.txt
+    "
+}
+
+rebuild_virtualenv() {
+    (set -x; _rebuild_virtualenv $@)
 }
 
 rebuild_virtualenvs() {
@@ -2209,27 +2300,26 @@ export __SRC="${HOME}/src"
     # PATH="~/.local/bin:$PATH" (if not already there)
 add_to_path "${HOME}/.local/bin"
 
-    # _VENV       -- path to local venv config script (executable)
-export _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
+    # __VENV      -- path to local venv config script (executable)
+export __VENV="${__DOTFILES}/scripts/venv.py"
+
 
 ## Functions
-
 
 venv() {
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
     # venv -b   -- print bash configuration
     # venv -p   -- print IPython configuration as JSON
-    $_VENV $@
+    (set -x; $__VENV $@)
 }
-
 venv-() {
     # _venv <args> -- call $_VENV -E $@ (for the current environment)
-    venv -E $@
+    (set -x; $__VENV -e $@)
 }
 
-we() {   
-    # we()         -- workon a virtualenv and load venv (TAB-completion)
+workon_venv() {
+    # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
     #  param $2: $_APP ("dotfiles") [default: $1)
     #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
@@ -2243,19 +2333,37 @@ we() {
     history -a
 
     if [ -n "$1" ]; then
-        workon $1 && source <(venv --bash $@) && dotfiles_status
+        # TODO
+        workon $1  # sets VIRTUAL_ENV
+        source <(venv --print-bash $@)
+        dotfiles_status
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenv
     fi
 }
+we () {
+    # we()          -- workon_venv
+    workon_venv $@
+}
+complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
 
+# CdAlias functions and completions
+source ${__DOTFILES}/etc/venv/venv.sh
+### venv.sh         -- Generated venv.sh
+
+# generate with:
+# venv.py
 
 ## cd functions
 cdb () {
     # cdb()     -- cd $_BIN
     cd "${_BIN}"/$@
+}
+cdd () {
+    # cdd()     -- cd $__DOTFILES
+    cd "${__DOTFILES}"/$@
 }
 cde () {
     # cde()     -- cd $_ETC
@@ -2273,12 +2381,16 @@ cdlog () {
     # cdlog()   -- cd $_LOG
     cd "${_LOG}"/$@
 }
+cdprojecthome () {
+    # cdprojecthome()   -- cd $PROJECT_HOME
+    cd "${PROJECT_HOME}"/$@
+}
 cdp () {
-    # cdp()     -- cd $PROJECT_HOME
+    # cdp()             -- cd $PROJECT_HOME
     cd "${PROJECT_HOME}"/$@
 }
 cdph () {
-    # cdph()    -- cd $PROJECT_HOME
+    # cdph()            -- cd $PROJECT_HOME
     cd "${PROJECT_HOME}"/$@
 }
 cdpylib () {
@@ -2298,28 +2410,32 @@ cdv () {
     cd "${VIRTUAL_ENV}"/$@
 }
 cdve () {
-    # cdve()    -- cd $WORKON_HOME
+    # cdve()    -- cd $VIRTUAL_ENV
     cd "${VIRTUAL_ENV}"/$@
 }
 cdvar () {
     # cdvar()   -- cd $_VAR
     cd "${_VAR}"/$@
 }
-cdw () {
-    # cdw()     -- cd $_WRD
-    cd "${_WRD}"/$@
-}
-cdwrd () {
-    # cdwrd     -- cd $_WRD
-    cd "${_WRD}"/$@
+cdworkonhome () {
+   # cdworkonhome()  -- cd $WORKON_HOME
+   cd "${WORKON_HOME}"/$@
 }
 cdwh () {
     # cdwh      -- cd $WORKON_HOME
     cd "${WORKON_HOME}"/$@
 }
+cdwrd () {
+    # cdwrd     -- cd $_WRD
+    cd "${_WRD}"/$@
+}
+cdw () {
+    # cdw()     -- cd $_WRD
+    cd "${_WRD}"/$@
+}
 cdwrk () {
-    # cdwrk()   -- cd $WORKON_HOME
-    cd "${WORKON_HOME}/$@"
+    # cdwrk()   -- cd $PROJECT_HOME
+    cd "${PROJECT_HOME}/$@"
 }
 cdww () {
     # cdww()    -- cd $_WWW
@@ -2329,6 +2445,67 @@ cdwww () {
     # cdwww()   -- cd $_WWW
     cd "${_WWW}"/$@
 }
+
+   ## cd function bash completion
+
+
+_cd__WRK_complete () 
+{ 
+   local cur="$2";
+   COMPREPLY=($(cdwrk && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd__WRK_complete cdwrk
+
+_cd___DOTFILES_complete () 
+{ 
+   local cur="$2";
+   COMPREPLY=($(cdd && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd___DOTFILES_complete cdd
+
+_cd_PROJECT_HOME_complete () 
+{ 
+   local cur="$2";
+   COMPREPLY=($(cdprojecthome && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdprojecthome
+complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdph
+complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdp
+
+_cd_WORKON_HOME_complete () 
+{ 
+   local cur="$2";
+   COMPREPLY=($(cdprojecthome && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd_WORKON_HOME_complete cdworkonhome
+complete -o default -o nospace -F _cd_WORKON_HOME_complete cdwh
+
+_cd_VIRTUAL_ENV_complete () {
+   local cur="$2";
+   local venv="$VIRTUAL_ENV";
+   if [ -z "${venv}" ]; then
+      echo -e "\n# !ERR: VIRTUAL_ENV=\"\""
+      COMPREPLY=(echo "")
+      return 124
+   else
+      COMPREPLY=($(cdv && compgen -d -- "${cur}" ))
+   fi
+}
+#complete -o default -o nospace -F _cdvirtualenv_complete cdvirtualenv
+complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdve
+complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdv
+
+
+cdhelp() {
+   echo "cdhelp"
+}
+
+_cdhelp_complete () {
+   local cur="$2"
+   echo $@
+   COMPREPLY=($(cd ~ && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cdhelp_complete cdhelp
 
 ## Grin search
 # virtualenv / virtualenvwrapper
@@ -2367,13 +2544,26 @@ grind-() {
     grindw $@
 }
 
+edit_grin_w() {
+    # edit_grin_w() -- edit $(grinw -l $@)
+    edit $(grin w -l $@)
+}
+
+egw() {
+    # egw           -- edit $(grinw -l $@)
+    edit_grin_w $@
+}
+
+# ctags
 grindctags() {
     # grindctags()      -- generate ctags from grind (in ./tags)
     if [ -n "${__IS_MAC}" ]; then
+        # brew install ctags
         if [ -x "/usr/local/bin/ctags" ]; then
             ctagsbin="/usr/local/bin/ctags"
         fi
     else
+        # apt-get install exuberant-ctags
         ctagsbin=$(which ctags)
     fi
     (set -x;
@@ -2397,8 +2587,6 @@ grindctagss() {
     # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
     grindctags "${_SRC}"
 }
-
-
 
 _load_venv_aliases() {
     # _load_venv_aliases()  -- load venv aliases
@@ -2451,25 +2639,22 @@ mw() {
 _venv_set_prompt() {
     # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
-    if [ -n "$VIRTUAL_ENV_NAME" ]; then
-        if [ -n "$VIRTUAL_ENV" ]; then
-            export VIRTUAL_ENV_NAME="$(basename $VIRTUAL_ENV)"
-        else
-            unset -v VIRTUAL_ENV_NAME
-        fi
-    fi
-    venv_prompt_prefix="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${debian_chroot:+"[$debian_chroot] "}"
+    #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
+    # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
+    local venvprompt=""
+    venvprompt=${_APP:-${VIRTUAL_ENV_NAME:-${VIRTUAL_ENV:+"$(basename $VIRTUAL_ENV)"}}}
+    # TODO: CONDA
+    export VENVPROMPT="${WINDOW_TITLE:+"$WINDOW_TITLE "}${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}"
     if [ -n "$BASH_VERSION" ]; then
         if [ "$color_prompt" == yes ]; then
-            PS1='${venv_prompt_prefix}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+            PS1='${VENVPROMPT}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
         else
-            PS1='${venv_prompt_prefix}\u@\h:\w\n\$ '
+            PS1='${VENVPROMPT}\u@\h:\w\n\$ '
             unset color_prompt
         fi
     fi
 }
 _venv_set_prompt
-basename $VIRTUAL_ENV
 
 
 mkdirs_venv() {
@@ -2691,7 +2876,7 @@ lessg() {
 
 lesse() {
     # lesse()   -- less with current venv's vim server
-    ${EDITOR} $@
+    ${EDITOR_} $@
 }
 
 manv() {
@@ -2717,7 +2902,7 @@ mang() {
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        $GUIVIMBIN \
+        ${GUIVIMBIN} \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -2730,7 +2915,7 @@ mang() {
 
 mane() {
     # mane()    -- open manpage with venv's vim server
-    $GUIVIMBIN ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
+    ${GUIVIMBIN} ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
 }
 
 ### bashrc.usrlog.sh
@@ -2750,37 +2935,37 @@ mane() {
 
 _setup_usrlog() {
     # _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
-    source "${__DOTFILES}/etc/usrlog.sh"
+    source "${__DOTFILES}/etc/usrlog/usrlog.sh"
     #calls _usrlog_setup when sourced
 }
 _setup_usrlog
 #!/bin/sh
-##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
+##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
-#  _USRLOG (str): path to .usrlog file to which REPL commands are appended
-#
+#  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
+#  _USRLOG  (str): current -usrlog.log file to append REPL command strings to
 #  _TERM_ID (str): a terminal identifier with which command loglines will
 #  be appended (default: _usrlog_randstr)
+#
 
+_usrlog_get_prefix () {
+    # _usrlog_get_prefix()    -- get a dirpath for the current usrlog
+    #                            (VIRTUAL_ENV or HOME)
+    local prefix="${VENVPREFIX:-${VIRTUAL_ENV:-${HOME}}}"
+    echo "$prefix"
+}
 
 _usrlog_set__USRLOG () {
     # _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
-    if [ -n "$VIRTUAL_ENV" ]; then
-        prefix=${VIRTUAL_ENV}
-    else
-        prefix=${HOME}
-    fi
-    export _USRLOG="${prefix}/.usrlog"
-    export __USRLOG="${HOME}/.usrlog"
+    export __USRLOG="${HOME}/-usrlog.log"
+    prefix="$(_usrlog_get_prefix)"
+    export _USRLOG="${prefix}/-usrlog.log"
+
 }
 
 _usrlog_set_HISTFILE () {
     # _usrlog_set_HISTFILE()   -- configure shell history
-    if [ -n "$VIRTUAL_ENV" ]; then
-        prefix=${VIRTUAL_ENV}
-    else
-        prefix=${HOME}
-    fi
+    prefix="$(_usrlog_get_prefix)"
 
     #  history -a   -- append any un-flushed lines to $HISTFILE
     history -a
@@ -2806,7 +2991,10 @@ _usrlog_set_HIST() {
 
     #avoid duplicating datetimes in .usrlog
     #HISTTIMEFORMAT="%Y-%m-%dT%H:%M:%S%z" (iso8601)
-    HISTTIMEFORMAT=""
+    #HISTTIMEFORMAT="%t%Y-%m-%dT%H:%M:%S%z%t"
+    # note that HOSTNAME and USER come from the environ
+    # and MUST be evaluated at the time HISTTIMEFORMAT is set.
+    HISTTIMEFORMAT="%t%Y-%m-%dT%H:%M:%S%z%t${HOSTNAME}%t${USER}%t\$\$%t"  # %n  "
 
     #don't put duplicate lines in the history. See bash(1) for more options
     # ... or force ignoredups and ignorespace
@@ -2820,9 +3008,11 @@ _usrlog_set_HIST() {
 
     if [ -n "$BASH" ] ; then
         # append to the history file, don't overwrite it
+        # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
         shopt -s histappend > /dev/null 2>&1
         # replace newlines with semicolons
         shopt -s cmdhist > /dev/null 2>&1
+        shopt -s lithist > /dev/null 2>&1
 
         # enable autocd (if available)
         shopt -s autocd > /dev/null 2>&1
@@ -2830,7 +3020,6 @@ _usrlog_set_HIST() {
         setopt APPEND_HISTORY
         setopt EXTENDED_HISTORY
     fi
-
 }
 
 _usrlog_randstr() {
@@ -2860,7 +3049,6 @@ _usrlog_get__TERM_ID() {
     echo $_TERM_ID
 }
 
-
 _usrlog_set__TERM_ID () {
     # _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
     #   $1: terminal name
@@ -2869,13 +3057,12 @@ _usrlog_set__TERM_ID () {
         new_term_id="#$(_usrlog_randstr 8)"
     fi
     if [[ "${new_term_id}" != "${_TERM_ID}" ]]; then
+        #TODO: _usrlog_append_echo
         if [ -z "${_TERM_ID}" ]; then
-            RENAME_MSG="# new_term_id ::: ${new_term_id} [ ${_USRLOG} ]"
+            _usrlog_append "#ntid  _TERM_ID=\"${new_term_id}\"  #_USRLOG=\"${_USRLOG}\""
         else
-            RENAME_MSG="# set_term_id ::: ${_TERM_ID} -> ${new_term_id} [ ${_USRLOG} ]"
+            _usrlog_append "#stid  _TERM_ID=\"${new_term_id}\"  #_TERM_ID__=\"${_TERM_ID}\"  #_USRLOG=\"${_USRLOG}\""
         fi
-        echo $RENAME_MSG
-        _usrlog_append "$RENAME_MSG"
         export _TERM_ID="${new_term_id}"
         _usrlog_set_title
 
@@ -2884,14 +3071,21 @@ _usrlog_set__TERM_ID () {
     fi
 }
 
+
 _usrlog_echo_title () {
     # _usrlog_echo_title   -- set window title
-    _usrlog_window_title="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}"
-    usrlog_window_title=${_usrlog_window_title:-"$@"}
-    if [ -n $CLICOLOR ]; then
-        echo -ne "\033]0;${usrlog_window_title}\007"
+    local title="${WINDOW_TITLE:+"$WINDOW_TITLE "}"
+    if [ -n "$_APP" ]; then
+        title="${title}($_APP) "
     else
-        echo -ne "${usrlog_window_title}"
+        title="${title}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}"
+    fi
+    title="${title} ${USER}@${HOSTNAME}:${PWD}"
+    USRLOG_WINDOW_TITLE=${title:-"$@"}
+    if [ -n $CLICOLOR ]; then
+        echo -ne "\033]0;${USRLOG_WINDOW_TITLE}\007"
+    else
+        echo -ne "${USRLOG_WINDOW_TITLE}"
     fi
 }
 
@@ -2901,10 +3095,11 @@ _usrlog_set_title() {
     _usrlog_echo_title
 }
 
+
 _usrlog_setup() {
     # _usrlog_setup()      -- configure usrlog for the current shell
-    _usrlog="${1:-$_USRLOG}"
-    term_id="${2:-$_TERM_ID}"
+    local _usrlog="${1:-$_USRLOG}"
+    local term_id="${2:-$_TERM_ID}"
 
     _usrlog_set_HIST
 
@@ -2935,25 +3130,33 @@ _usrlog_append() {
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
     # example:
-    # #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
-    printf "%s\t%s\t%s\n" \
-        $(echo "${_TERM_ID}" | tr '\t' ' ') \
+    #   2014-11-15T06:42:00-0600	dotfiles	 8311  ls
+      # (pwd -p)?
+       # this from HISTORY
+    local cmd="${*}";
+    (printf "# %s\t%s\t%s\t%s\n" \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
-        "${*}" \
-            | tee -a $_USRLOG >&2
+        "$(echo "${_TERM_ID}" | tr '\t' ' ')" \
+        "$(echo "${PWD}" | tr '\t' ' ')" \
+        "$(echo "${cmd}" | tr '\n' ' ')" \
+        ) >> "${_USRLOG:-${__USRLOG}}" 2>/dev/null
+    printf "%s\n" \
+        "$(echo "${cmd}" | sed 's|.*	$$	\(.*\)|# \1|g')"
 }
 
 _usrlog_append_oldstyle() {
     # _usrlog_append_oldstype -- Write a line to $_USRLOG
     #   $1: text (command) to log
-    # example:
-    # # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    # examples:
+    #   # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    #   #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
     printf "# %-11s: %s : %s" \
         "$_TERM_ID" \
         "$(date +'%D %R.%S')" \
         "${1:-'\n'}" \
             | tee -a $_USRLOG >&2
 }
+
 
 _usrlog_writecmd() {
     # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
@@ -2972,7 +3175,56 @@ _usrlog_writecmd() {
 
 
 
+
+_usrlog_parse_newstyle() {
+    # _usrlog_parse_newstyle -- Parse a newstyle HISTTIMEFORMAT usrlog
+    # with pyline
+    # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
+    # TODO: handle newlines
+    local usrlog="${1:-${_USRLOG}}"
+    pyline.py -f "${usrlog}" \
+        -m collections \
+        '[collections.OrderedDict((
+            ("l", [l]),
+            ("date", w[0]),
+            ("id", w[1]),
+            ("path", w[2]),
+            ("histstr", w[3:]),
+            ("histn", w[3]),    # int or "#note"
+            ("histdate", (w[4] if len(w) > 4 else None)),
+            ("histhostname", (w[5] if len(w) > 5 else None)),
+            ("histuser", (w[6] if len(w) > 6 else None)),
+            ("histcmd", (w[8:] if len(w) > 8 else None)),
+            ))
+            for w in [ line.split("\t",8) ]
+                if len(w) >= 4]' \
+                    -O json
+}
+
+
+_usrlog_parse_cmds() {
+    # _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog
+    # with pyline
+    # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
+    # TODO: handle newlines (commands that start on the next line)
+    local usrlog="${1:-${_USRLOG}}"
+    test -n $usrlog && usrlog="-f ${usrlog}"
+    pyline.py ${usrlog} \
+        'list((
+            (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+            or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
+            or " ".join(w).rstrip())
+            for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]
+            )'
+}
+
+
+
 ## usrlog.sh API
+ut() {
+    # ut()  -- show recent commands
+    usrlog_tail $@ | _usrlog_parse_cmds
+}
 
 
 
@@ -3027,7 +3279,7 @@ histgrep_session () {
 ## New (u*, usrlog*)
 
 usrlog_tail() {
-    # usrlogt()     -- tail -n20 $_USRLOG
+    # usrlog_tail()     -- tail -n20 $_USRLOG
     if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
         tail ${_usrlog} 
@@ -3035,11 +3287,6 @@ usrlog_tail() {
         tail $_USRLOG
     fi
 }
-ut() {
-    # ut()          -- tail -n20 $_USRLOG
-    usrlog_tail ${@}
-}
-
 
 usrlog_tail_follow() {
     # usrlogtf()    -- tail -f -n20 $_USRLOG
@@ -3106,9 +3353,16 @@ ugrinall() {
 
 note() {
     # note()   -- _usrlog_append "#note  #note: $@"
-    _usrlog_append "#note  #note: $@"
+    startstr="#NOTE	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
+    #_usrlog_append "#note  #note: $@"
+    _usrlog_append "${startstr}#NOTE: ${@}"
 }
-
+todo() {
+    # todo()   -- _usrlog_append "#note  #TODO: $@"
+    startstr="#TODO	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
+    #_usrlog_append "#note  #note: $@"
+    _usrlog_append "${startstr}#TODO: ${@}"
+}
 
 usrlog_screenrec_ffmpeg() {
     # usrlog_screenrec_ffmpeg() -- record a screencast
@@ -3132,10 +3386,16 @@ usrlog_screenrec_ffmpeg() {
             2>&1 | tee "$FILENAME.log"
 }
 
+_setup_usrlog() {
+    # _setup_usrlog() -- call _usrlog_setup $@
+    _usrlog_setup $@
+}
 
 ## calls _usrlog_setup when sourced
 _usrlog_setup
-]0;#testing (dotfiles) W@nb-mb1:/Users/W/wrk/.ve/dotfiles/src/dotfiles
+_usrlog_get_prefix
+_usrlog_get_prefix
+]0;#testing (dotfiles)  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -3208,6 +3468,19 @@ _loadaliases () {
 
     # ga       -- 'git add'
     alias ga='git add'
+
+    gac () {
+    # gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
+    #   $1 (str): quoted commit message
+    #   $2- (list): file paths
+        local msg=${1:-""}
+        shift
+        local files=$@
+        git diff ${files}
+        if [ -n "${msg}" ]; then
+            git commit ${files} -m "${msg}"
+        fi
+    }
     # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     # gs       -- 'git status'
@@ -3222,6 +3495,10 @@ _loadaliases () {
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
     alias gdc='git diff --cached'
+    # gsi      -- 'git is; git diff; git diff --cached'
+    alias gsi='(set -x; git is; git diff; git diff --cached)'
+    # gsiw      -- 'git -C $_WRD gsi'
+    alias gsiw='(cd $_WRD; gsi)'
     # gsl      -- 'git stash list'
     alias gsl='git stash list'
     # gsn      -- 'git stash save'
@@ -3231,6 +3508,21 @@ _loadaliases () {
     # gitr     -- 'git remote -v'
     alias gitr='git remote -v'
 
+    # hga      -- 'hg add'
+    alias hga='hg add'
+
+    hgac () {
+    # hgac()   -- 'hg add $@[1:]; hg commit $1'
+    #   $1 (str): quoted commit message
+    #   $2- (list): file paths
+        local msg=${1:-""}
+        shift
+        local files=$@
+        hg diff ${files}
+        if [ -n "${msg}" ]; then
+            hg commit -m "${msg}" ${files}
+        fi
+    }
     # hgl      -- 'hg glog --pager=yes'
     alias hgl='hg glog --pager=yes'
     # hgs      -- 'hg status'
@@ -4215,17 +4507,21 @@ dotfiles_status
 # dotfiles_status()
 HOSTNAME='nb-mb1'
 USER='W'
-PROJECT_HOME='/Users/W/wrk'
-WORKON_HOME='/Users/W/wrk/.ve'
+__WRK='/Users/W/-wrk'
+PROJECT_HOME='/Users/W/-wrk'
+WORKON_HOME='/Users/W/-wrk/-ve'
 VIRTUAL_ENV_NAME='dotfiles'
-VIRTUAL_ENV='/Users/W/wrk/.ve/dotfiles'
-_USRLOG='/Users/W/wrk/.ve/dotfiles/.usrlog'
-_TERM_ID='#testing'
-_SRC='/Users/W/wrk/.ve/dotfiles/src'
+VIRTUAL_ENV='/Users/W/-wrk/-ve27/dotfiles'
+_SRC='/Users/W/-wrk/-ve27/dotfiles/src'
 _APP='dotfiles'
-_WRD='/Users/W/wrk/.ve/dotfiles/src/dotfiles'
-PATH='/Users/W/wrk/.ve/dotfiles/bin:/Users/W/.local/bin:/Users/W/.dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
-__DOTFILES='/Users/W/.dotfiles'
+_WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
+_USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
+_TERM_ID='#testing'
+PATH='/Users/W/wrk/-ve/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+__DOTFILES='/Users/W/-dotfiles'
 #
+### </end dotfiles .bashrc>
+
+
 exit
 exit

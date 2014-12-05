@@ -102,8 +102,8 @@ class VenvMagics(Magics):
 
     @line_magic
     def cdve(self, line):
-        """cdve()           -- cd ${VIRTUAL_ENV}/${@}"""
-        return self.cd('VIRTUAL_ENV', line)
+        """cdve()           -- cd ${WORKON_HOME}/${@}"""
+        return self.cd('WORKON_HOME', line)
 
     @line_magic
     def cdvirtualenv(self, line):
@@ -127,8 +127,8 @@ class VenvMagics(Magics):
 
     @line_magic
     def cdwrk(self, line):
-        """cdwrk()          -- cd ${WORKON_HOME}/${@}"""
-        return self.cd('WORKON_HOME', line)
+        """cdwrk()          -- cd ${PROJECT_HOME}/${@}"""
+        return self.cd('PROJECT_HOME', line)
 
     @line_magic
     def cdwh(self, line):
@@ -148,7 +148,12 @@ class VenvMagics(Magics):
     @line_magic
     def cdhelp(self, line):
         """cdhelp()         -- list cd commands"""
-        print("\n".join(x for x in dir(self) if x.startswith('cd')))
+        print(
+            "\n".join(
+                "{} #{}".format(
+                    attrname, dir(getattr(self, attrname)))
+                    for attrname in dir(self)
+                        if attrname.startswith('cd')))
 
     @staticmethod
     def _dotfiles_status():

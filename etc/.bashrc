@@ -79,7 +79,7 @@ fi
 #
 ### load the dotfiles
 #  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/.dotfiles
-__DOTFILES=${__DOTFILES:-"$HOME/.dotfiles"}
+__DOTFILES=${__DOTFILES:-"$HOME/-dotfiles"}
 if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
     _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
     if [[ -f "${_dotfiles_bashrc}" ]]; then
@@ -88,3 +88,6 @@ if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
         echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
     fi
 fi
+### </end dotfiles .bashrc>
+
+

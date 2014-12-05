@@ -1,8 +1,9 @@
 ### bashrc.virtualenvwrapper.sh
 
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
-export PROJECT_HOME="${HOME}/wrk"
-export WORKON_HOME="${PROJECT_HOME}/.ve"
+#
+export PROJECT_HOME="${HOME}/-wrk"
+export WORKON_HOME="${PROJECT_HOME}/-ve"
 
 _setup_virtualenvwrapper () {
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
@@ -71,29 +72,42 @@ backup_virtualenvs() {
     echo BKPDIR="${bkpdir}"
 }
 
-rebuild_virtualenv() {
+_rebuild_virtualenv() {
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
     echo "rebuild_virtualenv()"
-    set -x
-    venvname="${1}"
-    virtual_env=${2:-"${WORKON_HOME}/${venvname}"}
-    set +x
-    bin="${virtual_env}/bin"
-    rm -fv ${bin}/python ${bin}/python2 ${bin}/python2.7 \
-        ${bin}/pip ${bin}/pip-2.7 \
-        ${bin}/easy_install ${bin}/easy_install-2.7 \
-        ${bin}/activate*
+    local venvname="${1}"
+    local VIRTUAL_ENV=${2:-"${WORKON_HOME}/${venvname}"}
+    rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
+        ${_BIN}/pip ${_BIN}/pip-2.7 \
+        ${_BIN}/easy_install ${_BIN}/easy_install-2.7 \
+        ${_BIN}/activate*
     pyver=$(python -c "import sys; print('{}.{}'.format(*sys.version_info[:2]))")
-    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
         -iname 'pip*' -delete
-    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
         -iname 'setuptools*' -delete
-    find -E "${virtual_env}/lib/python${pyver}/site-packages" \
+    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
         -iname 'distribute*' -delete
     deactivate
     mkvirtualenv ${venvname}
-    #${bin}/pip install -v -v -r <(${bin}/pip freeze)
-    #${bin}/pip install -r ${_WRD}/requirements.txt
+
+    _BIN__="${VIRTUAL_ENV}/bin"
+    files=$(find ${_BIN__} -type f | grep -v '.bak$' | grep -v 'python*$')
+    head -n1 ${files}
+    (cd ${_BIN}; \
+        sed -i.bak "s,^#!(.*${venvname}/bin/python)(\d.*),#!${_BIN}/python," \
+        ${files} )
+    head -n1 ${files}
+    (cd ${_BIN}; rm -ifv ./*.bak)
+    echo "
+    # TODO: adjust paths beyond the shebang
+    #${_BIN}/pip install -v -v -r <(${_BIN}/pip freeze)
+    #${_BIN}/pip install -r ${_WRD}/requirements.txt
+    "
+}
+
+rebuild_virtualenv() {
+    (set -x; _rebuild_virtualenv $@)
 }
 
 rebuild_virtualenvs() {

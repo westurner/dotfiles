@@ -109,7 +109,10 @@ email = wes@wrd.nu
   gg = grep --break --heading -n
 
   # shallow clone
-  sc = clone --depth=1
+    sc = clone --depth=1
+
+  # TODO
+  todo = grep -n --full-name -E 'TODO|FIXME|XXX'
 
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset

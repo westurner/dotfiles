@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+dotfiles
 """
-
 
 def __read_version_txt():
     """
@@ -33,4 +33,5 @@ global version
 version = __version__ = __read_version_txt()
 
 from dotfiles import cli, venv
-__ALL__ = ['version', '__version__', 'venv', 'cli']
+__ALL__ = ['__main__', 'version', '__version__', 'venv', 'cli']
+__main__ = cli.cli.main

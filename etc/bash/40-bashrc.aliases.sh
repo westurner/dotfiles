@@ -28,6 +28,19 @@ _loadaliases () {
 
     # ga       -- 'git add'
     alias ga='git add'
+
+    gac () {
+    # gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
+    #   $1 (str): quoted commit message
+    #   $2- (list): file paths
+        local msg=${1:-""}
+        shift
+        local files=$@
+        git diff ${files}
+        if [ -n "${msg}" ]; then
+            git commit ${files} -m "${msg}"
+        fi
+    }
     # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     # gs       -- 'git status'
@@ -42,6 +55,10 @@ _loadaliases () {
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
     alias gdc='git diff --cached'
+    # gsi      -- 'git is; git diff; git diff --cached'
+    alias gsi='(set -x; git is; git diff; git diff --cached)'
+    # gsiw      -- 'git -C $_WRD gsi'
+    alias gsiw='(cd $_WRD; gsi)'
     # gsl      -- 'git stash list'
     alias gsl='git stash list'
     # gsn      -- 'git stash save'
@@ -51,6 +68,21 @@ _loadaliases () {
     # gitr     -- 'git remote -v'
     alias gitr='git remote -v'
 
+    # hga      -- 'hg add'
+    alias hga='hg add'
+
+    hgac () {
+    # hgac()   -- 'hg add $@[1:]; hg commit $1'
+    #   $1 (str): quoted commit message
+    #   $2- (list): file paths
+        local msg=${1:-""}
+        shift
+        local files=$@
+        hg diff ${files}
+        if [ -n "${msg}" ]; then
+            hg commit -m "${msg}" ${files}
+        fi
+    }
     # hgl      -- 'hg glog --pager=yes'
     alias hgl='hg glog --pager=yes'
     # hgs      -- 'hg status'

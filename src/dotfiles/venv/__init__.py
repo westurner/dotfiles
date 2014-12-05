@@ -51,7 +51,7 @@ For Bash/ZSH, ``etc/bash/10-bashrc.venv.sh`` sets:
 
 ``etc/bash/10-bashrc.venv.sh`` is sourced by
 ``etc/bash/00-bashrc.before.sh``, which is sourced by ``~/.bashrc``
-(a symlink to ``${__DOTFILES}/etc/bashrc`` created by
+(a symlink to ``${__DOTFILES}/etc/.bashrc`` created by
 :ref:`bootstrap_dotfiles.sh -S <bootstrap_dotfiles.sh>`).
 
 
@@ -66,7 +66,7 @@ must be symlinked into ``~/.ipython/profile_default``
 .. code-block:: bash
 
     # symlink paths relative to ${__DOTFILES}
-    __DOTFILES="~/.dotfiles"
+    __DOTFILES="~/-dotfiles"
 
     # working directory (path to the dotfiles repository)
     _WRD=${WORKON_HOME}/dotfiles/src/dotfiles
@@ -87,5 +87,5 @@ must be symlinked into ``~/.ipython/profile_default``
 
 """
 
-from dotfiles.venv import ipython_config
-__ALL__ = ['ipython_config']
+from dotfiles.venv import ipython_config, ipython_magics
+__ALL__ = ['ipython_config', 'ipython_magics']

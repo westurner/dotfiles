@@ -1,30 +1,30 @@
 #!/bin/sh
-##  usrlog.sh -- REPL command logs in userspace (per $VIRTUAL_ENV)
+##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
-#  _USRLOG (str): path to .usrlog file to which REPL commands are appended
-#
+#  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
+#  _USRLOG  (str): current -usrlog.log file to append REPL command strings to
 #  _TERM_ID (str): a terminal identifier with which command loglines will
 #  be appended (default: _usrlog_randstr)
+#
 
+_usrlog_get_prefix () {
+    # _usrlog_get_prefix()    -- get a dirpath for the current usrlog
+    #                            (VIRTUAL_ENV or HOME)
+    local prefix="${VENVPREFIX:-${VIRTUAL_ENV:-${HOME}}}"
+    echo "$prefix"
+}
 
 _usrlog_set__USRLOG () {
     # _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
-    if [ -n "$VIRTUAL_ENV" ]; then
-        prefix=${VIRTUAL_ENV}
-    else
-        prefix=${HOME}
-    fi
-    export _USRLOG="${prefix}/.usrlog"
-    export __USRLOG="${HOME}/.usrlog"
+    export __USRLOG="${HOME}/-usrlog.log"
+    prefix="$(_usrlog_get_prefix)"
+    export _USRLOG="${prefix}/-usrlog.log"
+
 }
 
 _usrlog_set_HISTFILE () {
     # _usrlog_set_HISTFILE()   -- configure shell history
-    if [ -n "$VIRTUAL_ENV" ]; then
-        prefix=${VIRTUAL_ENV}
-    else
-        prefix=${HOME}
-    fi
+    prefix="$(_usrlog_get_prefix)"
 
     #  history -a   -- append any un-flushed lines to $HISTFILE
     history -a
@@ -50,7 +50,10 @@ _usrlog_set_HIST() {
 
     #avoid duplicating datetimes in .usrlog
     #HISTTIMEFORMAT="%Y-%m-%dT%H:%M:%S%z" (iso8601)
-    HISTTIMEFORMAT=""
+    #HISTTIMEFORMAT="%t%Y-%m-%dT%H:%M:%S%z%t"
+    # note that HOSTNAME and USER come from the environ
+    # and MUST be evaluated at the time HISTTIMEFORMAT is set.
+    HISTTIMEFORMAT="%t%Y-%m-%dT%H:%M:%S%z%t${HOSTNAME}%t${USER}%t\$\$%t"  # %n  "
 
     #don't put duplicate lines in the history. See bash(1) for more options
     # ... or force ignoredups and ignorespace
@@ -64,9 +67,11 @@ _usrlog_set_HIST() {
 
     if [ -n "$BASH" ] ; then
         # append to the history file, don't overwrite it
+        # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
         shopt -s histappend > /dev/null 2>&1
         # replace newlines with semicolons
         shopt -s cmdhist > /dev/null 2>&1
+        shopt -s lithist > /dev/null 2>&1
 
         # enable autocd (if available)
         shopt -s autocd > /dev/null 2>&1
@@ -74,7 +79,6 @@ _usrlog_set_HIST() {
         setopt APPEND_HISTORY
         setopt EXTENDED_HISTORY
     fi
-
 }
 
 _usrlog_randstr() {
@@ -104,7 +108,6 @@ _usrlog_get__TERM_ID() {
     echo $_TERM_ID
 }
 
-
 _usrlog_set__TERM_ID () {
     # _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
     #   $1: terminal name
@@ -113,13 +116,12 @@ _usrlog_set__TERM_ID () {
         new_term_id="#$(_usrlog_randstr 8)"
     fi
     if [[ "${new_term_id}" != "${_TERM_ID}" ]]; then
+        #TODO: _usrlog_append_echo
         if [ -z "${_TERM_ID}" ]; then
-            RENAME_MSG="# new_term_id ::: ${new_term_id} [ ${_USRLOG} ]"
+            _usrlog_append "#ntid  _TERM_ID=\"${new_term_id}\"  #_USRLOG=\"${_USRLOG}\""
         else
-            RENAME_MSG="# set_term_id ::: ${_TERM_ID} -> ${new_term_id} [ ${_USRLOG} ]"
+            _usrlog_append "#stid  _TERM_ID=\"${new_term_id}\"  #_TERM_ID__=\"${_TERM_ID}\"  #_USRLOG=\"${_USRLOG}\""
         fi
-        echo $RENAME_MSG
-        _usrlog_append "$RENAME_MSG"
         export _TERM_ID="${new_term_id}"
         _usrlog_set_title
 
@@ -128,14 +130,21 @@ _usrlog_set__TERM_ID () {
     fi
 }
 
+
 _usrlog_echo_title () {
     # _usrlog_echo_title   -- set window title
-    _usrlog_window_title="${WINDOW_TITLE:+"$WINDOW_TITLE "}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}${USER}@${HOSTNAME}:${PWD}"
-    usrlog_window_title=${_usrlog_window_title:-"$@"}
-    if [ -n $CLICOLOR ]; then
-        echo -ne "\033]0;${usrlog_window_title}\007"
+    local title="${WINDOW_TITLE:+"$WINDOW_TITLE "}"
+    if [ -n "$_APP" ]; then
+        title="${title}($_APP) "
     else
-        echo -ne "${usrlog_window_title}"
+        title="${title}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}"
+    fi
+    title="${title} ${USER}@${HOSTNAME}:${PWD}"
+    USRLOG_WINDOW_TITLE=${title:-"$@"}
+    if [ -n $CLICOLOR ]; then
+        echo -ne "\033]0;${USRLOG_WINDOW_TITLE}\007"
+    else
+        echo -ne "${USRLOG_WINDOW_TITLE}"
     fi
 }
 
@@ -145,10 +154,11 @@ _usrlog_set_title() {
     _usrlog_echo_title
 }
 
+
 _usrlog_setup() {
     # _usrlog_setup()      -- configure usrlog for the current shell
-    _usrlog="${1:-$_USRLOG}"
-    term_id="${2:-$_TERM_ID}"
+    local _usrlog="${1:-$_USRLOG}"
+    local term_id="${2:-$_TERM_ID}"
 
     _usrlog_set_HIST
 
@@ -179,25 +189,33 @@ _usrlog_append() {
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
     # example:
-    # #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
-    printf "%s\t%s\t%s\n" \
-        $(echo "${_TERM_ID}" | tr '\t' ' ') \
+    #   2014-11-15T06:42:00-0600	dotfiles	 8311  ls
+      # (pwd -p)?
+       # this from HISTORY
+    local cmd="${*}";
+    (printf "# %s\t%s\t%s\t%s\n" \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
-        "${*}" \
-            | tee -a $_USRLOG >&2
+        "$(echo "${_TERM_ID}" | tr '\t' ' ')" \
+        "$(echo "${PWD}" | tr '\t' ' ')" \
+        "$(echo "${cmd}" | tr '\n' ' ')" \
+        ) >> "${_USRLOG:-${__USRLOG}}" 2>/dev/null
+    printf "%s\n" \
+        "$(echo "${cmd}" | sed 's|.*	$$	\(.*\)|# \1|g')"
 }
 
 _usrlog_append_oldstyle() {
     # _usrlog_append_oldstype -- Write a line to $_USRLOG
     #   $1: text (command) to log
-    # example:
-    # # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    # examples:
+    #   # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+    #   #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
     printf "# %-11s: %s : %s" \
         "$_TERM_ID" \
         "$(date +'%D %R.%S')" \
         "${1:-'\n'}" \
             | tee -a $_USRLOG >&2
 }
+
 
 _usrlog_writecmd() {
     # _usrlog_writecmd()    -- write the most recent command to $_USRLOG
@@ -216,7 +234,56 @@ _usrlog_writecmd() {
 
 
 
+
+_usrlog_parse_newstyle() {
+    # _usrlog_parse_newstyle -- Parse a newstyle HISTTIMEFORMAT usrlog
+    # with pyline
+    # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
+    # TODO: handle newlines
+    local usrlog="${1:-${_USRLOG}}"
+    pyline.py -f "${usrlog}" \
+        -m collections \
+        '[collections.OrderedDict((
+            ("l", [l]),
+            ("date", w[0]),
+            ("id", w[1]),
+            ("path", w[2]),
+            ("histstr", w[3:]),
+            ("histn", w[3]),    # int or "#note"
+            ("histdate", (w[4] if len(w) > 4 else None)),
+            ("histhostname", (w[5] if len(w) > 5 else None)),
+            ("histuser", (w[6] if len(w) > 6 else None)),
+            ("histcmd", (w[8:] if len(w) > 8 else None)),
+            ))
+            for w in [ line.split("\t",8) ]
+                if len(w) >= 4]' \
+                    -O json
+}
+
+
+_usrlog_parse_cmds() {
+    # _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog
+    # with pyline
+    # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
+    # TODO: handle newlines (commands that start on the next line)
+    local usrlog="${1:-${_USRLOG}}"
+    test -n $usrlog && usrlog="-f ${usrlog}"
+    pyline.py ${usrlog} \
+        'list((
+            (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+            or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
+            or " ".join(w).rstrip())
+            for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]
+            )'
+}
+
+
+
 ## usrlog.sh API
+ut() {
+    # ut()  -- show recent commands
+    usrlog_tail $@ | _usrlog_parse_cmds
+}
 
 
 
@@ -271,7 +338,7 @@ histgrep_session () {
 ## New (u*, usrlog*)
 
 usrlog_tail() {
-    # usrlogt()     -- tail -n20 $_USRLOG
+    # usrlog_tail()     -- tail -n20 $_USRLOG
     if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
         tail ${_usrlog} 
@@ -279,11 +346,6 @@ usrlog_tail() {
         tail $_USRLOG
     fi
 }
-ut() {
-    # ut()          -- tail -n20 $_USRLOG
-    usrlog_tail ${@}
-}
-
 
 usrlog_tail_follow() {
     # usrlogtf()    -- tail -f -n20 $_USRLOG
@@ -350,9 +412,16 @@ ugrinall() {
 
 note() {
     # note()   -- _usrlog_append "#note  #note: $@"
-    _usrlog_append "#note  #note: $@"
+    startstr="#NOTE	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
+    #_usrlog_append "#note  #note: $@"
+    _usrlog_append "${startstr}#NOTE: ${@}"
 }
-
+todo() {
+    # todo()   -- _usrlog_append "#note  #TODO: $@"
+    startstr="#TODO	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
+    #_usrlog_append "#note  #note: $@"
+    _usrlog_append "${startstr}#TODO: ${@}"
+}
 
 usrlog_screenrec_ffmpeg() {
     # usrlog_screenrec_ffmpeg() -- record a screencast
@@ -376,6 +445,10 @@ usrlog_screenrec_ffmpeg() {
             2>&1 | tee "$FILENAME.log"
 }
 
+_setup_usrlog() {
+    # _setup_usrlog() -- call _usrlog_setup $@
+    _usrlog_setup $@
+}
 
 ## calls _usrlog_setup when sourced
 _usrlog_setup
