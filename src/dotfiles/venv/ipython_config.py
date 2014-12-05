@@ -336,7 +336,15 @@ class IpyAlias(CmdAlias):
         Keyword Arguments:
             name (str): funcname to override default
         Returns:
-            str: ``alias name=repr(cmdstr)`` OR ``{cmdname} () {\n...\n}{...}``
+            str: an ``alias`` or a ``function()``
+
+            .. code:: bash
+
+                alias name=repr(cmdstr)
+                # or
+                cmdname () {
+                    cmdstr
+                }
         """
         alias = self.cmdstr
         name = getattr(self, 'name') if name is None else name
@@ -2925,10 +2933,9 @@ class Test_300_venv_build_env(unittest.TestCase):
 
     .. code:: python
 
+        kwargs = {}
         env = env.copy()
         buildfunc = build_virtualenvwrapper_env
-        new_env = buildfunc(env=env)
-
         new_env = buildfunc(env=env, **kwargs)
 
     """
