@@ -458,7 +458,15 @@
 <span class="sd">        Keyword Arguments:</span>
 <span class="sd">            name (str): funcname to override default</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            str: ``alias name=repr(cmdstr)`` OR ``{cmdname} () {\n...\n}{...}``</span>
+<span class="sd">            str: an ``alias`` or a ``function()``</span>
+
+<span class="sd">            .. code:: bash</span>
+
+<span class="sd">                alias name=repr(cmdstr)</span>
+<span class="sd">                # or</span>
+<span class="sd">                cmdname () {</span>
+<span class="sd">                    cmdstr</span>
+<span class="sd">                }</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">alias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmdstr</span>
         <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">name</span>
@@ -3047,10 +3055,9 @@
 
 <span class="sd">    .. code:: python</span>
 
+<span class="sd">        kwargs = {}</span>
 <span class="sd">        env = env.copy()</span>
 <span class="sd">        buildfunc = build_virtualenvwrapper_env</span>
-<span class="sd">        new_env = buildfunc(env=env)</span>
-
 <span class="sd">        new_env = buildfunc(env=env, **kwargs)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
