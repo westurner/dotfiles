@@ -73,6 +73,7 @@ include etc/.zshrc
 include etc/bash/00-bashrc.before.sh
 include etc/bash/01-bashrc.lib.sh
 include etc/bash/02-bashrc.platform.sh
+include etc/bash/03-bashrc.darwin.sh
 include etc/bash/04-bashrc.TERM.sh
 include etc/bash/05-bashrc.dotfiles.sh
 include etc/bash/06-bashrc.completion.sh
@@ -130,7 +131,10 @@ include etc/mutt/.muttrc
 include etc/python/lib/ipdb.py
 include etc/terminal/profile-Homebrew-mod.terminal
 include etc/tmux/tmuxp/3pane.yaml
-include etc/usrlog.sh
+include etc/usrlog/usrlog.sh
+include etc/venv/ipython_config.py
+include etc/venv/venv.py
+include etc/venv/venv.sh
 include etc/virtualenvwrapper/get_env_details
 include etc/virtualenvwrapper/initialize
 include etc/virtualenvwrapper/postactivate
@@ -559,9 +563,10 @@ include requirements/requirements-docs.txt
 include requirements/requirements-suggests.txt
 include requirements/requirements-testing.txt
 include runtests.py
+include scripts/_dotfiles_bash.log.sh
+include scripts/_dotfiles_zsh.log.sh
 include scripts/autorebuild-py
 include scripts/bashmarks_to_nerdtree.sh
-include scripts/bashrc.load.sh
 include scripts/bootstrap_dotfiles.sh
 include scripts/build_docs.py
 include scripts/deb_deps.py
@@ -569,6 +574,7 @@ include scripts/deb_search.py
 include scripts/dotfiles-bash.sh
 include scripts/dotfiles-i3.sh
 include scripts/dotfiles-vim.sh
+include scripts/dotfiles.sh
 include scripts/get_salt_sources.sh
 include scripts/gittagstohgtags.sh
 include scripts/greppaths.py
@@ -606,8 +612,8 @@ include scripts/setup_scipy_deb.py
 include scripts/setup_setuptools.sh
 include scripts/setup_vlc.sh
 include scripts/usrlog.py
+include scripts/venv.py
 include scripts/x-www-browser
-include scripts/zsh.load.sh
 include setup.cfg
 include setup.py
 include src/dotfiles/VERSION.txt
