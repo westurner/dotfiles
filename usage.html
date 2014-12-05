@@ -1235,7 +1235,40 @@ pull      -- git pull
 &quot; The Bundle URLs are intentionally complete https URLs
 &quot; * grep &#39;^Bundle \&#39;&#39; vimrc.bundles
 &quot; * sed -i &#39;s\https://github.com/\ssh://git@github.com/\g&#39;
-&quot; venv.vim          -- venv cdalias commands like :Cdwrk, :Cdsrc, and :Cdwrd
+&quot; venv.vim          -- venv CdAlias commands
+&quot;  :Cdhome -- Cd_HOME()
+&quot;  :Cdh -- Cd_HOME()
+&quot;  :Cdwrk -- Cd___WRK()
+&quot;  :Cddotfiles -- Cd___DOTFILES()
+&quot;  :Cdd -- Cd___DOTFILES()
+&quot;  :Cdprojecthome -- Cd_PROJECT_HOME()
+&quot;  :Cdp -- Cd_PROJECT_HOME()
+&quot;  :Cdph -- Cd_PROJECT_HOME()
+&quot;  :Cdworkonhome -- Cd_WORKON_HOME()
+&quot;  :Cdwh -- Cd_WORKON_HOME()
+&quot;  :Cdve -- Cd_WORKON_HOME()
+&quot;  :Cdcondahome -- Cd_CONDA_HOME()
+&quot;  :Cda -- Cd_CONDA_HOME()
+&quot;  :Cdce -- Cd_CONDA_HOME()
+&quot;  :Cdvirtualenv -- Cd_VIRTUAL_ENV()
+&quot;  :Cdv -- Cd_VIRTUAL_ENV()
+&quot;  :Cdsrc -- Cd__SRC()
+&quot;  :Cds -- Cd__SRC()
+&quot;  :Cdwrd -- Cd__WRD()
+&quot;  :Cdw -- Cd__WRD()
+&quot;  :Cdbin -- Cd__BIN()
+&quot;  :Cdb -- Cd__BIN()
+&quot;  :Cdetc -- Cd__ETC()
+&quot;  :Cde -- Cd__ETC()
+&quot;  :Cdlib -- Cd__LIB()
+&quot;  :Cdl -- Cd__LIB()
+&quot;  :Cdlog -- Cd__LOG()
+&quot;  :Cdpylib -- Cd__PYLIB()
+&quot;  :Cdpysite -- Cd__PYSITE()
+&quot;  :Cdsitepackages -- Cd__PYSITE()
+&quot;  :Cdvar -- Cd__VAR()
+&quot;  :Cdwww -- Cd__WWW()
+&quot;  :Cdww -- Cd__WWW()
 &quot; Info.vim          -- vim infopages in vim [help info]
 &quot;  :Info sed        --  view infopage for &#39;sed&#39;
 &quot;  &lt;Space&gt;          --  Scroll forward (page down).
@@ -1359,10 +1392,14 @@ pull      -- git pull
 &quot; :Ack [options] PATTERN [directory]    -- search for pattern
 &quot; :AckAdd [options] PATTERN [directory] -- add a search pattern
 &quot; :AckWindow [options] PATTERN          -- search all visible buffers&quot;
-&quot; vim-surround  -- paired tag wrappings [help surround]
-&quot;  ds   -- delete surroundings
-&quot;  cs   -- change surroundings
-&quot;
+&quot; vim-surround  -- add quotes/parenthesis/tags [help surround]
+&quot;  cs       -- change surrounding
+&quot;  ys       -- yank and surround (motion, text object)
+&quot;  yss      -- yank and surround current line
+&quot;  ds&quot;      -- remove double-quotes
+&quot;  cs&#39;&quot;     -- replace single-quotes with double quotes
+&quot;  cd&quot;&lt;q&gt;   -- surround with &lt;q&gt;...&lt;q/&gt;
+&quot;  dst      -- remove surrounding tag
 &quot; csapprox      -- adapt gvim colorschemes for terminal vim [help csapprox]
 &quot; UndoTree      -- visualize vim undotree
 &quot;  &lt;F5&gt;     -- Toggle UndoTree (? for help)
@@ -1452,6 +1489,31 @@ pull      -- git pull
 &quot; webapi-vim -- vim web API [help webapi[-{html, http, json, xml}]]
 &quot; gist-vim  -- Create a gist.github.com [help gist-vim]
 &quot; github-issues.vim     -- autocomplete, CRUD GitHub issues [help Gissues]
+&quot; html5.vim             -- HTML5, RDFa, microdata, WAI-ARIA
+&quot; vim-javascript        -- improved Javascript support
+&quot; vim-indent-guides     -- show indentation levels [help indent_guides]
+&quot; rainbow-parentheses   -- make nested parenthesis different colors
+&quot;  :RainbowParenthesesActivate
+&quot;  :RainbowParenthesesToggle
+&quot;  :RainbowParenthesesLoadRound
+&quot;  :RainbowParenthesesLoadSquare
+&quot;  :RainbowParenthesesLoadBraces
+&quot;  :RainbowParenthesesLoadChevrons
+&quot;  :RainbowParenthesesToggleAll
+    &quot; :RainbowParenthesesActivate
+&quot; l9                    -- utility library (for FuzzyFinder)
+&quot; FuzzyFinder           -- find files, buffers, tags, changes [help fuf]
+&quot;  :FufBuffer
+&quot;  :FufFile
+&quot;  :FufDir
+&quot;  :FufMruFile
+&quot;  :FufMruCmd
+&quot;  :FufTag
+&quot;  :FufJumpList
+&quot;  :FufChangeList
+&quot;  :FufQuickfix
+&quot;  :FufHelp
+&quot; abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
 &quot; All of your Bundles must be added before the following line
 &quot;
    
