@@ -51,7 +51,7 @@ Install the dotfiles
 
 The `bootstrap_dotfiles.sh`_ shell script:
 
-* clones the `dotfiles git repository`_ and `dotvim git repository`_
+* clones the ``dotfiles`` and ``dotvim`` repositories
 * creates symlinks from ``HOME`` to ``__DOTFILES``,
 * installs the ``dotfiles`` Python package,
 * installs additional requirements with :ref:`pip`
@@ -100,8 +100,7 @@ by the current user, you can also install into ``~/.local`` with
 
 .. _dotfiles git repository: https://github.com/westurner/dotfiles
 
-.. note:: See the `dotfiles venv example`_ which uses
-   venv-style paths.
+.. note:: See `Quickstart`_, which uses venv-style paths.
 
 
 Source the dotfiles
