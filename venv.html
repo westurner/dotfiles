@@ -164,10 +164,14 @@ provides a <a class="reference internal" href="#shell-command">shell command</a>
 for verbosely generating source-able <a class="reference internal" href="#shell-configuration">shell configuration</a>
 for a <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a>
 and <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a>,
-and generates CdAlias scripts for Bash, ZSH, IPython, and Vim</li>
-<li><a href="#id3"><span class="problematic" id="id4">`ipython_magics.py`_</span></a>
+and generates
+<a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAlias</span></code></a>
+scripts for Bash, ZSH, IPython, and Vim</li>
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py">ipython_magics.py</a>
 (<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_magics" title="dotfiles.venv.ipython_magics"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_magics</span></code></a>)
-configures CdAliases (<code class="docutils literal"><span class="pre">cdwrk</span></code>, <code class="docutils literal"><span class="pre">cdv</span></code>, <code class="docutils literal"><span class="pre">cdsrc</span></code>, <code class="docutils literal"><span class="pre">cdwrd</span></code>)
+configures
+<a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAliases</span></code></a>
+(<code class="docutils literal"><span class="pre">cdwrk</span></code>, <code class="docutils literal"><span class="pre">cdv</span></code>, <code class="docutils literal"><span class="pre">cdsrc</span></code>, <code class="docutils literal"><span class="pre">cdwrd</span></code>)
 and <code class="docutils literal"><span class="pre">dotfiles_status</span></code> (<code class="docutils literal"><span class="pre">ds</span></code>)
 for <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a>.</li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a>
@@ -189,9 +193,10 @@ venv --print-bash dotfiles
 venv --print-bash -E
 
 <span class="c"># run a bash subprocess within a virtual env</span>
+venv -x bash dotfiles
 venv -xb dotfiles
 
-<span class="c"># workon a virtualenvwrapper virtualenv (we) (source &lt;(venv -E --bash))</span>
+<span class="c"># workon a virtualenvwrapper virtualenv (source &lt;(venv -E --print-bash))</span>
 we dotfiles
 
 <span class="c"># workon ${WORKON_HOME}/dotfiles/src/otherproject (echo $_APP $_WRD)</span>
@@ -256,7 +261,8 @@ venv --print-bash dotfiles        <span class="c"># does work</span>
 </div>
 <div class="section" id="cdalias">
 <h2>CdAlias<a class="headerlink" href="#cdalias" title="Permalink to this headline">¶</a></h2>
-<p>Each <code class="xref py py-mod docutils literal"><span class="pre">CdAlias</span></code> in <code class="docutils literal"><span class="pre">env.aliases</span></code> is expanded for each output type.</p>
+<p>Each <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAlias</span></code></a>
+in <code class="docutils literal"><span class="pre">env.aliases</span></code> is expanded for each output type.</p>
 <p>For example, <code class="docutils literal"><span class="pre">CdAlias('__WRK')</span></code> becomes <code class="docutils literal"><span class="pre">cdwrk</span></code>, <code class="docutils literal"><span class="pre">%cdwrk</span></code>, and <code class="docutils literal"><span class="pre">:Cdwrk</span></code>:</p>
 <div class="code bash highlight-python"><div class="highlight"><pre># Bash
 cdwrk
