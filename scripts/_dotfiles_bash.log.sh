@@ -2309,8 +2309,8 @@ export __VENV="${__DOTFILES}/scripts/venv.py"
 venv() {
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
-    # venv -b   -- print bash configuration
-    # venv -p   -- print IPython configuration as JSON
+    # venv --print-bash   -- print bash configuration
+    # venv --print-json   -- print IPython configuration as JSON
     (set -x; $__VENV $@)
 }
 venv-() {
@@ -2333,7 +2333,6 @@ workon_venv() {
     history -a
 
     if [ -n "$1" ]; then
-        # TODO
         workon $1  # sets VIRTUAL_ENV
         source <(venv --print-bash $@)
         dotfiles_status

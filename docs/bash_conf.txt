@@ -210,8 +210,8 @@
 ## Functions
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
-    # venv -b   -- print bash configuration
-    # venv -p   -- print IPython configuration as JSON
+    # venv --print-bash   -- print bash configuration
+    # venv --print-json   -- print IPython configuration as JSON
     # _venv <args> -- call $_VENV -E $@ (for the current environment)
     # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
@@ -222,7 +222,6 @@
     #  examples:
     #   we dotfiles
     #   we dotfiles dotfiles
-        # TODO
     # we()          -- workon_venv
 # CdAlias functions and completions
 ## Grin search
