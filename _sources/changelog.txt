@@ -17,9 +17,9 @@ and docstring extraction:
 
 * `src/dotfiles/venv/ipython_config.py <https://github.com/westurner/dotfiles/blame/master/src/dotfiles/venv/ipython_config.py>`__
 * `etc/bash <https://github.com/westurner/dotfiles/commits/master/etc/bash>`__
-* `scripts/bashrc.load.sh <https://github.com/westurner/dotfiles/commits/develop/master/scripts/bashrc.load.sh>`__
+* `scripts/_dotfiles_bash.log.sh <https://github.com/westurner/dotfiles/commits/develop/scripts/_dotfiles_bash.log.sh>`__
 * `etc/zsh <https://github.com/westurner/dotfiles/commits/master/etc/zsh>`__
-* `scripts/zsh.load.sh <https://github.com/westurner/dotfiles/commits/develop/master/scripts/zsh.load.sh>`__
+* `scripts/_dotfiles_zsh.log.sh <https://github.com/westurner/dotfiles/commits/develop/scripts/_dotfiles_zsh.log.sh>`__
 
 .. code:: bash
 

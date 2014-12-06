@@ -47,7 +47,7 @@ to repackage upstream releases for the target platform(s).
 Apt
 ~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Advanced_Packaging_Tool>`_
-| Homepage: http://alioth.debian.org/projects/apt
+| Homepage: https://alioth.debian.org/projects/apt
 | Docs: https://wiki.debian.org/Apt
 | Docs: https://www.debian.org/doc/manuals/debian-reference/ch02.en.html
 | Docs: https://www.debian.org/doc/manuals/apt-howto/
@@ -114,7 +114,7 @@ package repository.
 Dpkg
 ~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Dpkg>`_
-| Homepage: http://wiki.debian.org/Teams/Dpkg
+| Homepage: https://wiki.debian.org/Teams/Dpkg
 | Docs: `<https://en.wikipedia.org/wiki/Debian_build_toolchain>`_
 | Docs: https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html
 | Docs: https://www.debian.org/doc/manuals/debian-faq/ch-pkgtools.en.html
@@ -289,7 +289,7 @@ Setuptools
 | Wikipedia: https://en.wikipedia.org/wiki/Setuptools
 | Docs: https://pythonhosted.org/setuptools/
 | Source: hg https://bitbucket.org/pypa/setuptools
-| PyPI: http://pypi.python.org/pypi/setuptools
+| PyPI: https://pypi.python.org/pypi/setuptools
 
 
 Setuptools is a :ref:`Python package <python packages>` for working with other
@@ -320,8 +320,8 @@ Setuptools is a :ref:`Python package <python packages>` for working with other
 Pip
 ++++++++++++++
 | Wikipedia: `<https://en.wikipedia.org/wiki/Pip_(package_manager)>`_
-| Homepage: http://www.pip-installer.org/
-| Docs: http://www.pip-installer.org/en/latest/user_guide.html
+| Homepage: https://pip.pypa.io/
+| Docs: https://pip.pypa.io/en/latest/user_guide.html
 | Docs: https://pip.readthedocs.org/en/latest/
 | Source: git https://github.com/pypa/pip
 | Pypi: https://pypi.python.org/pypi/pip
@@ -445,9 +445,9 @@ to be specified for each package in ``requirements.txt`` file.
 PyPI
 ++++++
 | Wikipedia: https://en.wikipedia.org/wiki/Python_Package_Index
-| Docs: http://wiki.python.org/moin/CheeseShop
-| Docs: http://wiki.python.org/moin/CheeseShopDev
-| Homepage: https://pypi.python.org/
+| Docs: https://wiki.python.org/moin/CheeseShop
+| Docs: https://wiki.python.org/moin/CheeseShopDev
+| Homepage: https://pypi.python.org/pypi
 | Source: https://bitbucket.org/pypa/pypi
 
 
@@ -460,7 +460,7 @@ PyPI is the Python Package Index.
 Warehouse
 ++++++++++
 | Homepage: https://warehouse.python.org/
-| Docs: https://warehouse.readthedocs.org/
+| Docs: https://warehouse.readthedocs.org/en/latest/
 | Source: https://github.com/pypa/warehouse
 
 
@@ -689,9 +689,9 @@ a key-value store with a D-Bus interface.
 Docker
 =================
 | Wikipedia: `<https://en.wikipedia.org/wiki/Docker_(software)>`_
-| Homepage: https://docker.io/
-| Docs: http://docs.docker.io/
-| Source: https://github.com/dotcloud/docker
+| Homepage: https://www.docker.com/
+| Docs: https://docs.docker.com/
+| Source: https://github.com/docker/docker
 
 
 Docker is an OS virtualization project which utilizes Linux LXC Containers
@@ -699,8 +699,8 @@ to partition process workloads all running under one kernel.
 
 Limitations
 
-* Writing to `/etc/hosts`: https://github.com/dotcloud/docker/issues/2267
-* Apt-get upgrade: https://github.com/dotcloud/docker/issues/3934
+* Writing to `/etc/hosts`: https://github.com/docker/docker/issues/2267
+* Apt-get upgrade: https://github.com/docker/docker/issues/3934
 
 
 .. index:: Docutils
@@ -867,8 +867,8 @@ IPython
 | Source: git https://github.com/ipython/ipython
 
 
-* https://registry.hub.docker.com/u/ipython
-* https://registry.hub.docker.com/u/jupyter
+* https://registry.hub.docker.com/repos/ipython/
+* https://registry.hub.docker.com/repos/jupyter/
 * https://github.com/jupyter
 
 
@@ -948,7 +948,7 @@ for parsing and indenting ("prettifying") JSON from the commandline ::
 JSON-LD
 ~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/JSON-LD
-| Homepage: https://json-ld.org
+| Homepage: http://json-ld.org
 | Docs: http://json-ld.org/playground/
 
 JSON-LD is a web standard for Linked Data in :ref:`JSON`.
@@ -1003,7 +1003,7 @@ An example from the JSON-LD Playground (`<http://goo.gl/xxZ410>`__):
 KDE
 =====
 | Wikipedia: https://en.wikipedia.org/wiki/KDE
-| Homepage: http://kde.org/
+| Homepage: https://www.kde.org/
 | Docs: https://docs.kde.org/
 | Docs: https://www.kde.org/documentation/
 | Source: https://techbase.kde.org/Getting_Started/Sources
@@ -1059,7 +1059,7 @@ and the :ref:`GNU/Linux <linux>` kernel build from Glibc.
 Libcloud
 ==================
 | Homepage: https://libcloud.apache.org/
-| Docs: https://libcloud.readthedocs.org/
+| Docs: https://libcloud.readthedocs.org/en/latest/
 | Docs: https://libcloud.readthedocs.org/en/latest/supported_providers.html
 | Source: git git://git.apache.org/libcloud.git
 | Source: git https://github.com/apache/libcloud
@@ -1232,7 +1232,7 @@ OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
 
 Packer
 =================
-| Homepage: http://www.packer.io/
+| Homepage: https://www.packer.io/
 | Docs: http://www.packer.io/docs
 | Docs: http://www.packer.io/docs/basics/terminology.html
 | Source: git https://github.com/mitchellh/packer
@@ -1718,7 +1718,7 @@ so, for example,
 Tox
 ==============
 | Homepage: https://testrun.org/tox/
-| Docs: https://tox.readthedocs.org
+| Docs: https://tox.readthedocs.org/en/latest/
 | Source: hg https://bitbucket.org/hpk42/tox
 | Pypi: https://pypi.python.org/pypi/tox
 
@@ -1752,7 +1752,7 @@ Ubuntu
 Vagrant
 ==================
 | Wikipedia: `<https://en.wikipedia.org/wiki/Vagrant_(software)>`_
-| Homepage: http://www.vagrantup.com/
+| Homepage: https://www.vagrantup.com/
 | Docs: http://docs.vagrantup.com/v2/
 | Source: git https://github.com/mitchellh/vagrant
 
@@ -1902,8 +1902,7 @@ Wasavi
 | Source: https://github.com/akahuku/wasavi
 
 
-
-* https://chrome.google.com/webstore/detail/dgogifpkoilgiofhhhodbodcfgomelhe
+* https://chrome.google.com/webstore/detail/wasavi/dgogifpkoilgiofhhhodbodcfgomelhe
 * https://addons.opera.com/en/extensions/details/wasavi/
 * https://addons.mozilla.org/en-US/firefox/addon/wasavi/
 
@@ -1938,7 +1937,7 @@ VirtualBox:
 Virtualenv
 ====================
 | Homepage: http://www.virtualenv.org
-| Docs: http://www.virtualenv.org/en/latest/
+| Docs: https://virtualenv.pypa.io/en/latest/
 | Source: git https://github.com/pypa/virtualenv
 | PyPI: https://pypi.python.org/pypi/virtualenv
 | IRC: #pip
