@@ -58,9 +58,9 @@ Bash
 
 Vim
 -----
-| https://github.com/westurner/dotfiles/blob/master/etc/.vimrc
 | https://github.com/westurner/dotvim/blob/master/vimrc
 | https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc
+| https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc
 
 ``make help_vim_rst``:
 
