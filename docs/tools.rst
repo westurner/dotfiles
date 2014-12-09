@@ -507,9 +507,19 @@ Conda
   both from ``PyPI`` and from ``CPAN`` (Perl)
 * Conda was originally created for the Anaconda Python Distribution,
   which installs packages written in :ref:`Python`,
-  R, Javascript, :ref:`Ruby`, C, Fortran
-* Conda (and :ref:`Anaconda`) packages are hosted by `<https://binstar.org>`,
+  R,
+  :ref:`Javascript`,
+  :ref:`Ruby`,
+  :ref:`C`,
+  :ref:`Fortran`
+* Conda (and :ref:`Anaconda`) packages are hosted by
+  `<https://binstar.org>`__,
   which hosts free public and paid private Conda packages.
+
+  * Anaconda Server is a paid offering that
+    "supports over 100 different repositories,
+    including PyPI, CRAN, conda, and the Anaconda repository."
+
 
 
 .. index:: Ruby Gem
@@ -574,7 +584,7 @@ Awk
 | Docs: https://www.gnu.org/software/gawk/manual/gawk.html
 | Source: git git://git.savannah.gnu.org/gawk.git
 
-AWK is a pattern programming language for matching and trasforming text.
+AWK is a pattern programming language for matching and transforming text.
 
 
 .. index:: Bash
