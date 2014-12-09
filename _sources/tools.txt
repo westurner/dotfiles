@@ -685,7 +685,7 @@ CoreOS
 | Source: https://github.com/coreos
 
 
-CoreOS is :ref:`Linux` distribution for highly available
+CoreOS is a :ref:`Linux` distribution for highly available
 distributed computing.
 
 CoreOS schedules redundant :ref:`docker` images with **fleet**
