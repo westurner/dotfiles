@@ -310,8 +310,8 @@ Setuptools is a :ref:`Python package <python packages>` for working with other
 * Setuptools can build :ref:`RPM` and :ref:`DEB` packages
   from python packages, with some extra configuration::
 
-    ``python setup.py bdist_rpm --help``
-    ``python setup.py --command-packages=stdeb.command bdist_deb --help``
+    python setup.py bdist_rpm --help
+    python setup.py --command-packages=stdeb.command bdist_deb --help
 
 
 .. index:: Pip
