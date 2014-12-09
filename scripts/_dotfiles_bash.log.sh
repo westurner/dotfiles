@@ -3394,7 +3394,7 @@ _setup_usrlog() {
 _usrlog_setup
 _usrlog_get_prefix
 _usrlog_get_prefix
-]0;#testing (dotfiles)  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
+]0;#testing (dotfiles/docs)  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -4512,7 +4512,7 @@ WORKON_HOME='/Users/W/-wrk/-ve'
 VIRTUAL_ENV_NAME='dotfiles'
 VIRTUAL_ENV='/Users/W/-wrk/-ve27/dotfiles'
 _SRC='/Users/W/-wrk/-ve27/dotfiles/src'
-_APP='dotfiles'
+_APP='dotfiles/docs'
 _WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
