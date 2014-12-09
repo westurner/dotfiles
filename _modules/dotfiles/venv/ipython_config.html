@@ -2187,7 +2187,7 @@
         <span class="k">if</span> <span class="n">VENVSTR</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">conf</span><span class="p">[</span><span class="s">&#39;VENVSTR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVSTR</span>
         <span class="k">if</span> <span class="n">VENVSTRAPP</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">conf</span><span class="p">[</span><span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVSTRAP</span>
+            <span class="n">conf</span><span class="p">[</span><span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVSTRAPP</span>
         <span class="k">if</span> <span class="n">VENVPREFIX</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">conf</span><span class="p">[</span><span class="s">&#39;VENVPREFIX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VENVPREFIX</span>
 
@@ -2868,7 +2868,7 @@
 <div class="viewcode-block" id="ipython_main"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.ipython_main">[docs]</a><span class="k">def</span> <span class="nf">ipython_main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to call if running within IPython,</span>
-<span class="sd">    as determined by ``in_ipython_config``.</span>
+<span class="sd">    as determined by ``in_ipython_config`` .</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">venv</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">if</span> <span class="s">&#39;VIRTUAL_ENV&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
@@ -3075,6 +3075,19 @@
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">envattrs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">venv</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">venv</span><span class="p">[</span><span class="n">attr</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Test_250_Venv.test_120_Venv_parse_VENVSTR_VENVSTR_VENVSTRAPP"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_250_Venv.test_120_Venv_parse_VENVSTR_VENVSTR_VENVSTRAPP">[docs]</a>    <span class="k">def</span> <span class="nf">test_120_Venv_parse_VENVSTR_VENVSTR_VENVSTRAPP</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">VENVSTRAPP</span> <span class="o">=</span> <span class="s">&#39;dotfiles/docs&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">VenvTestUtils</span><span class="o">.</span><span class="n">build_env_test_fixture</span><span class="p">(</span>
+            <span class="n">Env</span><span class="p">(</span><span class="n">VENVSTRAPP</span><span class="o">=</span><span class="n">VENVSTRAPP</span><span class="p">,</span> <span class="n">_APP</span><span class="o">=</span><span class="n">VENVSTRAPP</span><span class="p">))</span>
+        <span class="n">venv</span> <span class="o">=</span> <span class="n">Venv</span><span class="o">.</span><span class="n">parse_VENVSTR</span><span class="p">(</span><span class="n">VENVSTR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;VENVSTR&#39;</span><span class="p">],</span>
+                                  <span class="n">VENVSTRAPP</span><span class="o">=</span><span class="n">VENVSTRAPP</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">envattrs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">venv</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">venv</span><span class="p">[</span><span class="n">attr</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">venv</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">],</span> <span class="n">VENVSTRAPP</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">venv</span><span class="p">[</span><span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">],</span> <span class="n">VENVSTRAPP</span><span class="p">)</span>
 
 </div></div>
 <div class="viewcode-block" id="Test_300_venv_build_env"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_300_venv_build_env">[docs]</a><span class="k">class</span> <span class="nc">Test_300_venv_build_env</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -3178,6 +3191,21 @@
         <span class="n">venv</span> <span class="o">=</span> <span class="n">Venv</span><span class="p">(</span><span class="n">VENVSTR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">],</span> <span class="n">_APP</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;_APP&#39;</span><span class="p">,</span> <span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Test_500_Venv.test_011_venv__APP"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_500_Venv.test_011_venv__APP">[docs]</a>    <span class="k">def</span> <span class="nf">test_011_venv__APP</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">_APP</span> <span class="o">=</span> <span class="s">&quot;dotfiles/docs&quot;</span>
+        <span class="n">_env</span> <span class="o">=</span> <span class="n">Env</span><span class="p">(</span><span class="n">_APP</span><span class="o">=</span><span class="n">_APP</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">VenvTestUtils</span><span class="o">.</span><span class="n">build_env_test_fixture</span><span class="p">(</span><span class="n">_env</span><span class="p">)</span>
+
+        <span class="n">venv</span> <span class="o">=</span> <span class="n">Venv</span><span class="p">(</span><span class="n">VENVSTR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">],</span>
+                    <span class="n">_APP</span><span class="o">=</span><span class="n">_APP</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;_APP&#39;</span><span class="p">,</span> <span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_APP&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">venv</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">],</span>
+                         <span class="n">joinpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_SRC&#39;</span><span class="p">],</span> <span class="n">VENVSTRAPP</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Test_500_Venv.test_020_venv_from_null_environ"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Test_500_Venv.test_020_venv_from_null_environ">[docs]</a>    <span class="k">def</span> <span class="nf">test_020_venv_from_null_environ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">failUnlessRaises</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">Venv</span><span class="p">)</span>
