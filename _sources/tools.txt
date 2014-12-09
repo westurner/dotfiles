@@ -516,7 +516,9 @@ Conda
   `<https://binstar.org>`__,
   which hosts free public and paid private Conda packages.
 
-  * Anaconda Server is a paid offering that
+  * Anaconda Server is an internal
+    "Private, Secure Package Repository" 
+    that
     "supports over 100 different repositories,
     including PyPI, CRAN, conda, and the Anaconda repository."
 
