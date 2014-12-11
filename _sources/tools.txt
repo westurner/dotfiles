@@ -923,6 +923,22 @@ often with :ref:`Node.js` and :ref:`NPM` packages.
    and developer ecosystems.
 
 
+.. index:: Jinja2
+.. _jinja2:
+
+Jinja2
+=======
+| Wikipedia: `<https://en.wikipedia.org/wiki/Jinja_%28template_engine%29>`__
+| Homepage: http://jinja.pocoo.org/docs/dev/
+| Source: https://github.com/mitsuhiko/jinja2
+| Docs: https://jinja2.readthedocs.org/en/latest/
+| Docs: http://jinja.pocoo.org/docs/dev/
+
+Jinja (jinja2) is a templating engine written in :ref:`Python`.
+
+:ref:`Sphinx` and :ref:`Salt` are two projects that utilize Jinja2.
+
+
 .. index:: JSON
 .. _json:
 
