@@ -1641,6 +1641,7 @@ GNU Sed is a UNIX CLI utility for transforming text.
    OR: ``brew install gnu-sed``
 
    See: https://unix.stackexchange.com/questions/101059/sed-behaves-different-on-freebsd-and-on-linux
+
    See: https://superuser.com/questions/307165/newlines-in-sed-on-mac-os-x
 
 
