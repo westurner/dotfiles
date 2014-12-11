@@ -929,7 +929,7 @@ often with :ref:`Node.js` and :ref:`NPM` packages.
 Jinja2
 =======
 | Wikipedia: `<https://en.wikipedia.org/wiki/Jinja_%28template_engine%29>`__
-| Homepage: http://jinja.pocoo.org/docs/dev/
+| Homepage: http://jinja.pocoo.org/
 | Source: https://github.com/mitsuhiko/jinja2
 | Docs: https://jinja2.readthedocs.org/en/latest/
 | Docs: http://jinja.pocoo.org/docs/dev/
