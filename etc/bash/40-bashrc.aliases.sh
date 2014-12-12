@@ -41,10 +41,6 @@ _loadaliases () {
             git commit ${files} -m "${msg}"
         fi
     }
-    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
-    alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
-    # gs       -- 'git status'
-    alias gs='git status'
     # gb       -- 'git branch -v'
     alias gb='git branch -v'
     # gd       -- 'git diff'
@@ -57,8 +53,12 @@ _loadaliases () {
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
     alias gdc='git diff --cached'
+    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     # gr       -- 'git remote -v'
     alias gr='git remote -v'
+    # gs       -- 'git status'
+    alias gs='git status'
     # gsi      -- 'git is; git diff; git diff --cached'
     alias gsi='(set -x; git is; git diff; git diff --cached)'
     # gsiw      -- 'git -C $_WRD gsi'
