@@ -45,6 +45,8 @@ _loadaliases () {
     alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
     # gs       -- 'git status'
     alias gs='git status'
+    # gb       -- 'git branch -v'
+    alias gb='git branch -v'
     # gd       -- 'git diff'
     alias gd='git diff'
     # gds      -- 'git diff -p --stat'
