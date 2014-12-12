@@ -1,2 +1,6 @@
+
+# UndoTree
 *.un~
+
+# OSX
 .DS_Store
