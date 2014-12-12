@@ -55,6 +55,8 @@ _loadaliases () {
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
     alias gdc='git diff --cached'
+    # gr       -- 'git remote -v'
+    alias gr='git remote -v'
     # gsi      -- 'git is; git diff; git diff --cached'
     alias gsi='(set -x; git is; git diff; git diff --cached)'
     # gsiw      -- 'git -C $_WRD gsi'
