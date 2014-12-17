@@ -1360,6 +1360,14 @@ are written in Python. Gentoo :ref:`Portage` is written in Python.
 and :ref:`Virtualenvwrapper` are all written in Python.
 
 
+The Python community is generously supported by a number of sponsors
+and the Python Infrastructure Team:
+
+* https://www.python.org/psf/sponsorship/
+* https://www.python.org/psf/members/#sponsor-members
+* http://psf-salt.readthedocs.org/en/latest/overview/
+
+
 .. index:: Python 3
 .. _python3:
 
