@@ -48,7 +48,7 @@ workon_venv() {
 
     if [ -n "$1" ]; then
         workon $1  # sets VIRTUAL_ENV
-        source <(venv --print-bash $@)
+        source <($__VENV --print-bash $@)
         dotfiles_status
     else
         #if no arguments are specified, list virtual environments

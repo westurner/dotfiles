@@ -83,6 +83,7 @@ dotfiles_postmkvirtualenv() {
     declare -f 'mkdirs_venv' 2>&1 >/dev/null && mkdirs_venv
     test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
     echo ""
+    echo $(which pip)
     pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
     echo "pip_freeze='${pip_freeze}'"
     pip freeze | tee ${pip_freeze}
@@ -102,11 +103,11 @@ dotfiles_postactivate() {
     log_dotfiles_state 'postactivate'
 
     local bash_debug_output=$(
-        venv -e --verbose --diff --print-bash 2>&1 /dev/null)
+        $__VENV -e --verbose --diff --print-bash 2>&1 /dev/null)
     local venv_return_code=$?
     if [ ${venv_return_code} -eq 0 ]; then
-        test -n $_VENV \
-            && source <(venv -e --print-bash)
+        test -n $__VENV \
+            && source <($__VENV -e --print-bash)
     else
         echo "${bash_debug_output}" # >2
     fi
