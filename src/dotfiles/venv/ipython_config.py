@@ -1134,8 +1134,8 @@ def build_venv_paths_full_env(env=None,
                  'env': env.to_json(indent=2),
                  #'envstr': str(env),
                  })
-            logevent('TODOlogname', errmsg)
             raise StepConfigException(errmsg)
+    # TODO: align.vim
     env['_BIN'] = joinpath(VENVPREFIX, "bin")            # ./bin
     env['_ETC'] = joinpath(VENVPREFIX, "etc")            # ./etc
     env['_ETCOPT'] = joinpath(VENVPREFIX, "etc", "opt")     # ./etc/opt
@@ -2748,7 +2748,7 @@ def in_ipython_config():
 def ipython_main():
     """
     Function to call if running within IPython,
-    as determined by ``in_ipython_config``.
+    as determined by ``in_ipython_config`` .
     """
     venv = None
     if 'VIRTUAL_ENV' in os.environ:
