@@ -2067,7 +2067,7 @@ class Venv(object):
         if VENVSTR is not None:
             conf['VENVSTR'] = VENVSTR
         if VENVSTRAPP is not None:
-            conf['VENVSTRAPP'] = VENVSTRAP
+            conf['VENVSTRAPP'] = VENVSTRAPP
         if VENVPREFIX is not None:
             conf['VENVPREFIX'] = VENVPREFIX
 
