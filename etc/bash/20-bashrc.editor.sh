@@ -42,6 +42,13 @@ _setup_editor() {
 _setup_editor
 
 
+_setup_pager() {
+    # _setup_pager()    -- set PAGER='less'
+    export PAGER='less'
+}
+_setup_pager
+
+
 ggvim() {
     # ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
     ${EDITOR} $@ 2>&1 > /dev/null
