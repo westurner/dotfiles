@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Usage &mdash; dotfiles 0.7.0 documentation</title>
+    <title>Usage &mdash; westurner/dotfiles 0.7.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -42,6 +42,7 @@
 
 <link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="_static/css/local.css" type="text/css" />
 <link rel="stylesheet" href="_static/issuetracker.css" type="text/css" />
 <link rel="stylesheet" href="_static/changelog.css" type="text/css" />
     
@@ -63,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="dotfiles 0.7.0 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.7.0 documentation" href="index.html" />
     <link rel="next" title="Venv" href="venv.html" />
     <link rel="prev" title="Dotfiles" href="readme.html" /> 
   </head>
@@ -77,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">dotfiles 0.7.0 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -1201,6 +1202,7 @@ pull      -- git pull
 &quot;  :Threetabs   -- set to three (3) soft tabs (e.g. RST)
 &quot;  :Twotabs     -- set to two (2) soft tabs
 &quot;  :Onetab      -- set to one soft tab
+&quot;  :Hardtabs
 &quot;  :CurrentBuffer -- display number of current buffer
 &quot;  &lt;leader&gt; 2   -- diffget from bufnr 2
 &quot;  &lt;leader&gt; 3   -- diffget from bufnr 3
@@ -1237,39 +1239,39 @@ pull      -- git pull
 &quot; * grep &#39;^Bundle \&#39;&#39; vimrc.bundles
 &quot; * sed -i &#39;s\https://github.com/\ssh://git@github.com/\g&#39;
 &quot; venv.vim          -- venv CdAlias commands
-&quot;  :Cdhome         -- Cd_HOME()
-&quot;  :Cdh            -- Cd_HOME()
-&quot;  :Cdwrk          -- Cd___WRK()
-&quot;  :Cddotfiles     -- Cd___DOTFILES()
-&quot;  :Cdd            -- Cd___DOTFILES()
-&quot;  :Cdprojecthome  -- Cd_PROJECT_HOME()
-&quot;  :Cdp            -- Cd_PROJECT_HOME()
-&quot;  :Cdph           -- Cd_PROJECT_HOME()
-&quot;  :Cdworkonhome   -- Cd_WORKON_HOME()
-&quot;  :Cdwh           -- Cd_WORKON_HOME()
-&quot;  :Cdve           -- Cd_WORKON_HOME()
-&quot;  :Cdcondahome    -- Cd_CONDA_HOME()
-&quot;  :Cda            -- Cd_CONDA_HOME()
-&quot;  :Cdce           -- Cd_CONDA_HOME()
-&quot;  :Cdvirtualenv   -- Cd_VIRTUAL_ENV()
-&quot;  :Cdv            -- Cd_VIRTUAL_ENV()
-&quot;  :Cdsrc          -- Cd__SRC()
-&quot;  :Cds            -- Cd__SRC()
-&quot;  :Cdwrd          -- Cd__WRD()
-&quot;  :Cdw            -- Cd__WRD()
-&quot;  :Cdbin          -- Cd__BIN()
-&quot;  :Cdb            -- Cd__BIN()
-&quot;  :Cdetc          -- Cd__ETC()
-&quot;  :Cde            -- Cd__ETC()
-&quot;  :Cdlib          -- Cd__LIB()
-&quot;  :Cdl            -- Cd__LIB()
-&quot;  :Cdlog          -- Cd__LOG()
-&quot;  :Cdpylib        -- Cd__PYLIB()
-&quot;  :Cdpysite       -- Cd__PYSITE()
-&quot;  :Cdsitepackages -- Cd__PYSITE()
-&quot;  :Cdvar          -- Cd__VAR()
-&quot;  :Cdwww          -- Cd__WWW()
-&quot;  :Cdww           -- Cd__WWW()
+&quot;  :Cdhome          -- Cd_HOME()
+&quot;  :Cdh             -- Cd_HOME()
+&quot;  :Cdwrk           -- Cd___WRK()
+&quot;  :Cddotfiles      -- Cd___DOTFILES()
+&quot;  :Cdd             -- Cd___DOTFILES()
+&quot;  :Cdprojecthome   -- Cd_PROJECT_HOME()
+&quot;  :Cdp             -- Cd_PROJECT_HOME()
+&quot;  :Cdph            -- Cd_PROJECT_HOME()
+&quot;  :Cdworkonhome    -- Cd_WORKON_HOME()
+&quot;  :Cdwh            -- Cd_WORKON_HOME()
+&quot;  :Cdve            -- Cd_WORKON_HOME()
+&quot;  :Cdcondahome     -- Cd_CONDA_HOME()
+&quot;  :Cda             -- Cd_CONDA_HOME()
+&quot;  :Cdce            -- Cd_CONDA_HOME()
+&quot;  :Cdvirtualenv    -- Cd_VIRTUAL_ENV()
+&quot;  :Cdv             -- Cd_VIRTUAL_ENV()
+&quot;  :Cdsrc           -- Cd__SRC()
+&quot;  :Cds             -- Cd__SRC()
+&quot;  :Cdwrd           -- Cd__WRD()
+&quot;  :Cdw             -- Cd__WRD()
+&quot;  :Cdbin           -- Cd__BIN()
+&quot;  :Cdb             -- Cd__BIN()
+&quot;  :Cdetc           -- Cd__ETC()
+&quot;  :Cde             -- Cd__ETC()
+&quot;  :Cdlib           -- Cd__LIB()
+&quot;  :Cdl             -- Cd__LIB()
+&quot;  :Cdlog           -- Cd__LOG()
+&quot;  :Cdpylib         -- Cd__PYLIB()
+&quot;  :Cdpysite        -- Cd__PYSITE()
+&quot;  :Cdsitepackages  -- Cd__PYSITE()
+&quot;  :Cdvar           -- Cd__VAR()
+&quot;  :Cdwww           -- Cd__WWW()
+&quot;  :Cdww            -- Cd__WWW()
 &quot; Info.vim          -- vim infopages in vim [help info]
 &quot;  :Info sed        --  view infopage for &#39;sed&#39;
 &quot;  &lt;Space&gt;          --  Scroll forward (page down).
@@ -1875,7 +1877,7 @@ Execute python expressions over line-based files.</p>
           </div>
         </div>
          
-<div class="col-md-5 hidden-xs">
+<div class="col-md-5 hidden-xs" id="sidebar-wrapper">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -1937,15 +1939,16 @@ Execute python expressions over line-based files.</p>
       <div class="row footer-relbar">
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
-    <ul class="nav navbar-nav">
-        <li><a href="index.html">dotfiles 0.7.0 documentation</a></li>
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">westurner/dotfiles 0.7.0 documentation</a></li>
     </ul>
-    <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+<ul class="nav navbar-nav text-center">
       
         <li><a href="readme.html" title="Dotfiles" >previous</a></li>
         <li><a href="venv.html" title="Venv" >next</a></li>
         <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
-        <li><a href="genindex.html" title="General Index" >index</a></li> 
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">^top^</a></li> 
       
     </ul>
   </div>
@@ -1954,9 +1957,6 @@ Execute python expressions over line-based files.</p>
 
       <!-- footer -->
       <footer role="contentinfo">
-          <a href="#">^top^</a>
-          <br/>
-          <br/>
           &copy; <a href="license.html">Copyright</a> 2014, Wes Turner.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b1.
       </footer>
