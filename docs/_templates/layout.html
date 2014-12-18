@@ -3,9 +3,6 @@
       <!-- footer -->
       {%- block footer %}
       <footer role="contentinfo">
-          <a href="#">^top^</a>
-          <br/>
-          <br/>
       {%- if show_copyright %}
         {%- if hasdoc('license') %}
           {% trans path=pathto('license'), copyright=copyright|e %}&copy; <a href="{{ path }}">Copyright</a> {{ copyright }}.{% endtrans %}

@@ -133,7 +133,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = project_name
+project = project_src_path
 copyright = project_copyright
 
 # The version info for the project you're documenting, acts as replacement for
