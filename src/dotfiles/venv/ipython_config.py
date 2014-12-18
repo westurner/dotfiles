@@ -1067,7 +1067,7 @@ def build_conda_cfg_env(env=None, **kwargs):
 
     env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
                                      default=joinpath(env['__WRK'], '-conda34'))
-    env['CONDA_HOME__py34'] = lookup('CONDA_HOME__py27',
+    env['CONDA_HOME__py34'] = lookup('CONDA_HOME__py34',
                                      default=joinpath(env['__WRK'], '-ce34'))
 
     env['CONDA_ROOT_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
