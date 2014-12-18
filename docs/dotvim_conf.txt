@@ -304,39 +304,39 @@
 " * grep '^Bundle \'' vimrc.bundles
 " * sed -i 's\https://github.com/\ssh://git@github.com/\g'
 " venv.vim          -- venv CdAlias commands
-"  :Cdhome -- Cd_HOME()
-"  :Cdh -- Cd_HOME()
-"  :Cdwrk -- Cd___WRK()
-"  :Cddotfiles -- Cd___DOTFILES()
-"  :Cdd -- Cd___DOTFILES()
-"  :Cdprojecthome -- Cd_PROJECT_HOME()
-"  :Cdp -- Cd_PROJECT_HOME()
-"  :Cdph -- Cd_PROJECT_HOME()
-"  :Cdworkonhome -- Cd_WORKON_HOME()
-"  :Cdwh -- Cd_WORKON_HOME()
-"  :Cdve -- Cd_WORKON_HOME()
-"  :Cdcondahome -- Cd_CONDA_HOME()
-"  :Cda -- Cd_CONDA_HOME()
-"  :Cdce -- Cd_CONDA_HOME()
-"  :Cdvirtualenv -- Cd_VIRTUAL_ENV()
-"  :Cdv -- Cd_VIRTUAL_ENV()
-"  :Cdsrc -- Cd__SRC()
-"  :Cds -- Cd__SRC()
-"  :Cdwrd -- Cd__WRD()
-"  :Cdw -- Cd__WRD()
-"  :Cdbin -- Cd__BIN()
-"  :Cdb -- Cd__BIN()
-"  :Cdetc -- Cd__ETC()
-"  :Cde -- Cd__ETC()
-"  :Cdlib -- Cd__LIB()
-"  :Cdl -- Cd__LIB()
-"  :Cdlog -- Cd__LOG()
-"  :Cdpylib -- Cd__PYLIB()
-"  :Cdpysite -- Cd__PYSITE()
+"  :Cdhome         -- Cd_HOME()
+"  :Cdh            -- Cd_HOME()
+"  :Cdwrk          -- Cd___WRK()
+"  :Cddotfiles     -- Cd___DOTFILES()
+"  :Cdd            -- Cd___DOTFILES()
+"  :Cdprojecthome  -- Cd_PROJECT_HOME()
+"  :Cdp            -- Cd_PROJECT_HOME()
+"  :Cdph           -- Cd_PROJECT_HOME()
+"  :Cdworkonhome   -- Cd_WORKON_HOME()
+"  :Cdwh           -- Cd_WORKON_HOME()
+"  :Cdve           -- Cd_WORKON_HOME()
+"  :Cdcondahome    -- Cd_CONDA_HOME()
+"  :Cda            -- Cd_CONDA_HOME()
+"  :Cdce           -- Cd_CONDA_HOME()
+"  :Cdvirtualenv   -- Cd_VIRTUAL_ENV()
+"  :Cdv            -- Cd_VIRTUAL_ENV()
+"  :Cdsrc          -- Cd__SRC()
+"  :Cds            -- Cd__SRC()
+"  :Cdwrd          -- Cd__WRD()
+"  :Cdw            -- Cd__WRD()
+"  :Cdbin          -- Cd__BIN()
+"  :Cdb            -- Cd__BIN()
+"  :Cdetc          -- Cd__ETC()
+"  :Cde            -- Cd__ETC()
+"  :Cdlib          -- Cd__LIB()
+"  :Cdl            -- Cd__LIB()
+"  :Cdlog          -- Cd__LOG()
+"  :Cdpylib        -- Cd__PYLIB()
+"  :Cdpysite       -- Cd__PYSITE()
 "  :Cdsitepackages -- Cd__PYSITE()
-"  :Cdvar -- Cd__VAR()
-"  :Cdwww -- Cd__WWW()
-"  :Cdww -- Cd__WWW()
+"  :Cdvar          -- Cd__VAR()
+"  :Cdwww          -- Cd__WWW()
+"  :Cdww           -- Cd__WWW()
 " Info.vim          -- vim infopages in vim [help info]
 "  :Info sed        --  view infopage for 'sed'
 "  <Space>          --  Scroll forward (page down).
@@ -554,7 +554,7 @@
 " Pyrex         -- Pyrex syntax
 " Jinja         -- Jinja Templates syntax
 " os.vim   -- Operating System [help os]
-" clickbable.vim -- click-able links
+" clickable.vim -- click-able links
 " Riv.vim   -- ReStructuredText [help riv]
 "  :RivIntro
 "  :RivQuickStart
