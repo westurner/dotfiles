@@ -1135,44 +1135,44 @@ def build_venv_paths_full_env(env=None,
                  #'envstr': str(env),
                  })
             raise StepConfigException(errmsg)
-    # TODO: align.vim
-    env['_BIN'] = joinpath(VENVPREFIX, "bin")            # ./bin
-    env['_ETC'] = joinpath(VENVPREFIX, "etc")            # ./etc
-    env['_ETCOPT'] = joinpath(VENVPREFIX, "etc", "opt")     # ./etc/opt
-    env['_HOME'] = joinpath(VENVPREFIX, "home")           # ./home
-    env['_LIB'] = joinpath(VENVPREFIX, "lib")            # ./lib
-    env['_PYLIB'] = joinpath(VENVPREFIX, "lib",       # ./lib/pythonN.N
-                             pyver)
-    env['_PYSITE'] = joinpath(VENVPREFIX,  # ./lib/pythonN.N/site-packages
-                              "lib",
-                              pyver, 'site-packages')
-    env['_MNT'] = joinpath(VENVPREFIX, "mnt")            # ./mnt
-    env['_MEDIA'] = joinpath(VENVPREFIX, "media")          # ./media
-    env['_OPT'] = joinpath(VENVPREFIX, "opt")            # ./opt
-    env['_ROOT'] = joinpath(VENVPREFIX, "root")           # ./root
-    env['_SBIN'] = joinpath(VENVPREFIX, "sbin")           # ./sbin
-    env['_SRC'] = joinpath(VENVPREFIX, "src")            # ./src
-    env['_SRV'] = joinpath(VENVPREFIX, "srv")            # ./srv
-    env['_TMP'] = joinpath(VENVPREFIX, "tmp")            # ./tmp
-    env['_USR'] = joinpath(VENVPREFIX, "usr")            # ./usr
-    env['_USRBIN'] = joinpath(VENVPREFIX, "usr", "bin")      # ./usr/bin
+
+    env['_BIN']        = joinpath(VENVPREFIX, "bin")            # ./bin
+    env['_ETC']        = joinpath(VENVPREFIX, "etc")            # ./etc
+    env['_ETCOPT']     = joinpath(VENVPREFIX, "etc", "opt")     # ./etc/opt
+    env['_HOME']       = joinpath(VENVPREFIX, "home")           # ./home
+    env['_LIB']        = joinpath(VENVPREFIX, "lib")            # ./lib
+    env['_PYLIB']      = joinpath(VENVPREFIX, "lib",       # ./lib/pythonN.N
+                                 pyver)
+    env['_PYSITE']     = joinpath(VENVPREFIX,  # ./lib/pythonN.N/site-packages
+                                  "lib",
+                                  pyver, 'site-packages')
+    env['_MNT']        = joinpath(VENVPREFIX, "mnt")            # ./mnt
+    env['_MEDIA']      = joinpath(VENVPREFIX, "media")          # ./media
+    env['_OPT']        = joinpath(VENVPREFIX, "opt")            # ./opt
+    env['_ROOT']       = joinpath(VENVPREFIX, "root")           # ./root
+    env['_SBIN']       = joinpath(VENVPREFIX, "sbin")           # ./sbin
+    env['_SRC']        = joinpath(VENVPREFIX, "src")            # ./src
+    env['_SRV']        = joinpath(VENVPREFIX, "srv")            # ./srv
+    env['_TMP']        = joinpath(VENVPREFIX, "tmp")            # ./tmp
+    env['_USR']        = joinpath(VENVPREFIX, "usr")            # ./usr
+    env['_USRBIN']     = joinpath(VENVPREFIX, "usr", "bin")      # ./usr/bin
     env['_USRINCLUDE'] = joinpath(VENVPREFIX, "usr", "include")  # ./usr/include
-    env['_USRLIB'] = joinpath(VENVPREFIX, "usr", "lib")      # ./usr/lib
-    env['_USRLOCAL'] = joinpath(VENVPREFIX, "usr", "local")    # ./usr/local
-    env['_USRSBIN'] = joinpath(VENVPREFIX, "usr", "sbin")     # ./usr/sbin
-    env['_USRSHARE'] = joinpath(VENVPREFIX, "usr", "share")    # ./usr/share
-    env['_USRSRC'] = joinpath(VENVPREFIX, "usr", "src")      # ./usr/src
-    env['_VAR'] = joinpath(VENVPREFIX, "var")            # ./var
-    env['_VARCACHE'] = joinpath(VENVPREFIX, "var", "cache")    # ./var/cache
-    env['_VARLIB'] = joinpath(VENVPREFIX, "var", "lib")      # ./var/lib
-    env['_VARLOCK'] = joinpath(VENVPREFIX, "var", "lock")     # ./var/lock
-    env['_LOG'] = joinpath(VENVPREFIX, "var", "log")      # ./var/log
-    env['_VARMAIL'] = joinpath(VENVPREFIX, "var", "mail")     # ./var/mail
-    env['_VAROPT'] = joinpath(VENVPREFIX, "var", "opt")      # ./var/opt
-    env['_VARRUN'] = joinpath(VENVPREFIX, "var", "run")      # ./var/run
-    env['_VARSPOOL'] = joinpath(VENVPREFIX, "var", "spool")    # ./var/spool
-    env['_VARTMP'] = joinpath(VENVPREFIX, "var", "tmp")      # ./var/tmp
-    env['_WWW'] = joinpath(VENVPREFIX, "var", "www")      # ./var/www
+    env['_USRLIB']     = joinpath(VENVPREFIX, "usr", "lib")      # ./usr/lib
+    env['_USRLOCAL']   = joinpath(VENVPREFIX, "usr", "local")    # ./usr/local
+    env['_USRSBIN']    = joinpath(VENVPREFIX, "usr", "sbin")     # ./usr/sbin
+    env['_USRSHARE']   = joinpath(VENVPREFIX, "usr", "share")    # ./usr/share
+    env['_USRSRC']     = joinpath(VENVPREFIX, "usr", "src")      # ./usr/src
+    env['_VAR']        = joinpath(VENVPREFIX, "var")            # ./var
+    env['_VARCACHE']   = joinpath(VENVPREFIX, "var", "cache")    # ./var/cache
+    env['_VARLIB']     = joinpath(VENVPREFIX, "var", "lib")      # ./var/lib
+    env['_VARLOCK']    = joinpath(VENVPREFIX, "var", "lock")     # ./var/lock
+    env['_LOG']        = joinpath(VENVPREFIX, "var", "log")      # ./var/log
+    env['_VARMAIL']    = joinpath(VENVPREFIX, "var", "mail")     # ./var/mail
+    env['_VAROPT']     = joinpath(VENVPREFIX, "var", "opt")      # ./var/opt
+    env['_VARRUN']     = joinpath(VENVPREFIX, "var", "run")      # ./var/run
+    env['_VARSPOOL']   = joinpath(VENVPREFIX, "var", "spool")    # ./var/spool
+    env['_VARTMP']     = joinpath(VENVPREFIX, "var", "tmp")      # ./var/tmp
+    env['_WWW']        = joinpath(VENVPREFIX, "var", "www")      # ./var/www
     return env
 
 
@@ -1193,26 +1193,26 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
         env = Env()
     aliases = env.aliases
 
-    aliases['cdhome'] = CdAlias('HOME', aliases=['cdh'])
-    aliases['cdwrk'] = CdAlias('__WRK')
-    aliases['cdddotfiles'] = CdAlias('__DOTFILES', aliases=['cdd'])
+    aliases['cdhome']        = CdAlias('HOME',         aliases=['cdh'])
+    aliases['cdwrk']         = CdAlias('__WRK')
+    aliases['cdddotfiles']   = CdAlias('__DOTFILES',   aliases=['cdd'])
 
     aliases['cdprojecthome'] = CdAlias('PROJECT_HOME', aliases=['cdp', 'cdph'])
-    aliases['cdworkonhome'] = CdAlias('WORKON_HOME', aliases=['cdwh', 'cdve'])
-    aliases['cdcondahome'] = CdAlias('CONDA_HOME', aliases=['cda', 'cdce'])
+    aliases['cdworkonhome']  = CdAlias('WORKON_HOME',  aliases=['cdwh', 'cdve'])
+    aliases['cdcondahome']   = CdAlias('CONDA_HOME',   aliases=['cda', 'cdce'])
 
-    aliases['cdvirtualenv'] = CdAlias('VIRTUAL_ENV', aliases=['cdv'])
-    aliases['cdsrc'] = CdAlias('_SRC', aliases=['cds'])
-    aliases['cdwrd'] = CdAlias('_WRD', aliases=['cdw'])
+    aliases['cdvirtualenv']  = CdAlias('VIRTUAL_ENV',  aliases=['cdv'])
+    aliases['cdsrc']         = CdAlias('_SRC',         aliases=['cds'])
+    aliases['cdwrd']         = CdAlias('_WRD',         aliases=['cdw'])
 
-    aliases['cdbin'] = CdAlias('_BIN', aliases=['cdb'])
-    aliases['cdetc'] = CdAlias('_ETC', aliases=['cde'])
-    aliases['cdlib'] = CdAlias('_LIB', aliases=['cdl'])
-    aliases['cdlog'] = CdAlias('_LOG')
-    aliases['cdpylib'] = CdAlias('_PYLIB')
-    aliases['cdpysite'] = CdAlias('_PYSITE', aliases=['cdsitepackages'])
-    aliases['cdvar'] = CdAlias('_VAR')
-    aliases['cdwww'] = CdAlias('_WWW', aliases=['cdww'])
+    aliases['cdbin']         = CdAlias('_BIN',         aliases=['cdb'])
+    aliases['cdetc']         = CdAlias('_ETC',         aliases=['cde'])
+    aliases['cdlib']         = CdAlias('_LIB',         aliases=['cdl'])
+    aliases['cdlog']         = CdAlias('_LOG')
+    aliases['cdpylib']       = CdAlias('_PYLIB')
+    aliases['cdpysite']      = CdAlias('_PYSITE',    aliases=['cdsitepackages'])
+    aliases['cdvar']         = CdAlias('_VAR')
+    aliases['cdwww']         = CdAlias('_WWW',         aliases=['cdww'])
 
     aliases['cdhelp']        =  """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
     return env
