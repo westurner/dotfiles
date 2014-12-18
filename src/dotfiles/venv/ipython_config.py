@@ -2956,6 +2956,19 @@ class Test_250_Venv(unittest.TestCase):
             self.assertIn(attr, venv)
             self.assertEqual(venv[attr], self.env[attr])
 
+    def test_120_Venv_parse_VENVSTR_VENVSTR_VENVSTRAPP(self):
+        VENVSTRAPP = 'dotfiles/docs'
+        self.env = VenvTestUtils.build_env_test_fixture(
+            Env(VENVSTRAPP=VENVSTRAPP, _APP=VENVSTRAPP))
+        venv = Venv.parse_VENVSTR(VENVSTR=self.env['VENVSTR'],
+                                  VENVSTRAPP=VENVSTRAPP)
+        for attr in self.envattrs:
+            self.assertIn(attr, venv)
+            self.assertEqual(venv[attr], self.env[attr])
+
+        self.assertEqual(venv['_APP'], VENVSTRAPP)
+        self.assertEqual(venv['VENVSTRAPP'], VENVSTRAPP)
+
 
 class Test_300_venv_build_env(unittest.TestCase):
 
@@ -3058,6 +3071,21 @@ class Test_500_Venv(unittest.TestCase):
         venv = Venv(VENVSTR=self.env['VIRTUAL_ENV'], _APP=self.env['_APP'])
         self.assertIn('_APP', venv.env)
         self.assertEqual(venv.env['_APP'], self.env['_APP'])
+
+    def test_011_venv__APP(self):
+
+        _APP = "dotfiles/docs"
+        _env = Env(_APP=_APP)
+        self.env = VenvTestUtils.build_env_test_fixture(_env)
+
+        venv = Venv(VENVSTR=self.env['VIRTUAL_ENV'],
+                    _APP=_APP)
+        self.assertIn('_APP', venv.env)
+        self.assertEqual(venv.env['_APP'], self.env['_APP'])
+
+        self.assertEqual(venv.env['_WRD'],
+                         joinpath(self.env['_SRC'], VENVSTRAPP))
+        raise NotImplementedError()
 
     def test_020_venv_from_null_environ(self):
         self.failUnlessRaises(Exception, Venv)
