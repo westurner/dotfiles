@@ -361,13 +361,15 @@
     # gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
     #   $1 (str): quoted commit message
     #   $2- (list): file paths
-    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
-    # gs       -- 'git status'
+    # gb       -- 'git branch -v'
     # gd       -- 'git diff'
     # gds      -- 'git diff -p --stat'
     # gc       -- 'git commit'
     # gco      -- 'git checkout'
     # gdc      -- 'git diff --cached'
+    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    # gr       -- 'git remote -v'
+    # gs       -- 'git status'
     # gsi      -- 'git is; git diff; git diff --cached'
     # gsiw      -- 'git -C $_WRD gsi'
     # gsl      -- 'git stash list'
