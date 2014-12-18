@@ -355,6 +355,16 @@
 "  q                --  Quit browser.
 "
 " Signify   -- show git/hg file changes in gutter [help signify]
+"  <leader>gt       -- SignifyToggle
+"  <leader>gh       -- SignifyToggleHighlight
+"  <leader>gr       -- SignifyRefresh
+"  <leader>gd       -- SignifyDebug
+" hunk jumping
+"  <leader>gh       -- signify-next-hunk
+"  <leader>gk       -- signify-prev-hunk
+" hunk text object
+"  ic               -- signify inner textobj
+"  ac               -- signify outer textobj
 " Fugitive      -- Git commands and statusline display [help fugitive]
 " Lawrencium    -- Hg commands [help lawrencium]
 " NERDTree      -- File browser [help NERDTree]
