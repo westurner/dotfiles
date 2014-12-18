@@ -71,7 +71,6 @@ import logging
 import os
 import pprint
 import site
-import StringIO
 import subprocess
 import sys
 import unittest
@@ -86,6 +85,7 @@ from os.path import join as joinpath
 
 if sys.version_info[0] == 2:
     STR_TYPES = basestring
+    import StringIO
 
     # workaround for Sphinx autodoc bug
     import __builtin__
@@ -95,6 +95,8 @@ if sys.version_info[0] == 2:
 
 else:
     STR_TYPES = str
+    import io
+    StringIO = io.StringIO
 
 LOGNAME = 'venv'
 log = logging.getLogger(LOGNAME)
