@@ -587,13 +587,15 @@ pull      -- git pull
     # gac()    -- &#39;git diff ${files}; git commit -m $1 ${files}&#39;
     #   $1 (str): quoted commit message
     #   $2- (list): file paths
-    # gl       -- &#39;git log --pretty=format:&quot;%h : %an : %s&quot; --topo-order --graph&#39;
-    # gs       -- &#39;git status&#39;
+    # gb       -- &#39;git branch -v&#39;
     # gd       -- &#39;git diff&#39;
     # gds      -- &#39;git diff -p --stat&#39;
     # gc       -- &#39;git commit&#39;
     # gco      -- &#39;git checkout&#39;
     # gdc      -- &#39;git diff --cached&#39;
+    # gl       -- &#39;git log --pretty=format:&quot;%h : %an : %s&quot; --topo-order --graph&#39;
+    # gr       -- &#39;git remote -v&#39;
+    # gs       -- &#39;git status&#39;
     # gsi      -- &#39;git is; git diff; git diff --cached&#39;
     # gsiw      -- &#39;git -C $_WRD gsi&#39;
     # gsl      -- &#39;git stash list&#39;
