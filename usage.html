@@ -395,13 +395,12 @@ pull      -- git pull
 ## Pyenv
     # _setup_pyvenv()       -- set $PYENV_ROOT, add_to_path, and pyenv venvw
 ## Conda / Anaconda
-    # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
+    # _setup_anaconda()     -- set $CONDA_ROOT, add_to_path
     # workon_conda()        -- workon a conda + venv project
     # wec()                 -- workon a conda + venv project
     #                       note: tab-completion only shows regular virtualenvs
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     # rmvirtualenv_conda()  -- rmvirtualenv conda
-    #   TODO
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     # workon_conda_if_available()       -- workon_conda OR we OR workon
    
@@ -511,6 +510,7 @@ pull      -- git pull
     #   EDITOR_ (str):   $EDITOR || $GUIVIMBIN $VIMCONF --remote-tab-silent
     #   VIMCONF (str):   --servername ${VIRTUAL_ENV_NAME:-&#39;EDITOR&#39;}
     #   SUDO_EDITOR (str): $EDITOR
+    # _setup_pager()    -- set PAGER=&#39;less&#39;
     # ggvim()   -- ${EDITOR} $@ 2&gt;&amp;1 &gt;/dev/null
     # edits()   -- open $@ in ${GUIVIMBIN} --servername $1
     # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
@@ -1288,6 +1288,16 @@ pull      -- git pull
 &quot;  q                --  Quit browser.
 &quot;
 &quot; Signify   -- show git/hg file changes in gutter [help signify]
+&quot;  &lt;leader&gt;gt       -- SignifyToggle
+&quot;  &lt;leader&gt;gh       -- SignifyToggleHighlight
+&quot;  &lt;leader&gt;gr       -- SignifyRefresh
+&quot;  &lt;leader&gt;gd       -- SignifyDebug
+&quot; hunk jumping
+&quot;  &lt;leader&gt;gh       -- signify-next-hunk
+&quot;  &lt;leader&gt;gk       -- signify-prev-hunk
+&quot; hunk text object
+&quot;  ic               -- signify inner textobj
+&quot;  ac               -- signify outer textobj
 &quot; Fugitive      -- Git commands and statusline display [help fugitive]
 &quot; Lawrencium    -- Hg commands [help lawrencium]
 &quot; NERDTree      -- File browser [help NERDTree]
