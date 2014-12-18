@@ -16,7 +16,7 @@ x_www_browser
 
 
 import collections
-import distutils
+import distutils.spawn
 import logging
 import optparse
 import os
