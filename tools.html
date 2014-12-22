@@ -892,6 +892,53 @@ compiler for <a class="reference internal" href="#c"><em>C</em></a>.</p>
 </div>
 <p>Git is a distributed version control system for tracking a branching
 and merging repository of file revisions.</p>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/datasift/gitflow">https://github.com/datasift/gitflow</a></div>
+<div class="line">Docs: <a class="reference external" href="https://datasift.github.io/gitflow/">https://datasift.github.io/gitflow/</a></div>
+<div class="line">Docs: <a class="reference external" href="https://datasift.github.io/gitflow/IntroducingGitFlow.html">https://datasift.github.io/gitflow/IntroducingGitFlow.html</a></div>
+<div class="line">Docs: <a class="reference external" href="https://datasift.github.io/gitflow/TheHubFlowTools.html">https://datasift.github.io/gitflow/TheHubFlowTools.html</a></div>
+</div>
+<p>GitFlow adds extremely useful commands for working with Git and GitHub.</p>
+<p>Named branch workflow with mostly-automated merges between branches.</p>
+<p>Branch names are configurable; the defaults are as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Branch Name</strong></td>
+<td><dl class="first last docutils">
+<dt><strong>Description</strong></dt>
+<dd>(and <a class="reference external" href="https://westurner.github.io/dotfiles/workflow#code-labels">Code Labels</a></dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">master</span></code></td>
+<td>Stable trunk (latest release)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">develop</span></code></td>
+<td>Development main line</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">feature/&lt;name&gt;</span></code></td>
+<td>New features for the next release (e.g. <code class="docutils literal"><span class="pre">ENH</span></code>, <code class="docutils literal"><span class="pre">PRF</span></code>)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hotfix/&lt;name&gt;</span></code></td>
+<td>Fixes to merge to both <code class="docutils literal"><span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">develop</span></code>
+(e.g. <code class="docutils literal"><span class="pre">BUG</span></code>, <code class="docutils literal"><span class="pre">TST</span></code>, <code class="docutils literal"><span class="pre">DOC</span></code>)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">release/&lt;name&gt;</span></code></td>
+<td>In-progress release branches (e.g. <code class="docutils literal"><span class="pre">RLS</span></code>)</td>
+</tr>
+</tbody>
+</table>
+<div class="code bash highlight-python"><div class="highlight"><pre>git hf init
+# TODO: edit version prefix (v)
+# commit, commit, commit
+git hf release start 0.1.0
+git hf release finish 0.1.0
+</pre></div>
+</div>
 </div>
 <div class="section" id="gnome">
 <span id="index-45"></span><span id="id36"></span><h2>Gnome<a class="headerlink" href="#gnome" title="Permalink to this headline">¶</a></h2>
