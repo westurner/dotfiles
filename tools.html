@@ -939,13 +939,25 @@ between branches.</p>
 </tr>
 </tbody>
 </table>
-<div class="code bash highlight-python"><div class="highlight"><pre>git hf init
-# TODO: edit version prefix (v)
-# commit, commit, commit
+<div class="code bash highlight-python"><div class="highlight"><pre># git checkout master
+git hf init
+## Update versiontag in .git/config to prefix release tags with &#39;v&#39;
+# [hubflow &quot;prefix&quot;]
+# feature = feature/
+# release = release/
+# hotfix = hotfix/
+# support = support/
+# versiontag = v
+#
+## commit, commit, commit
 git hf release start 0.1.0
+## commit (e.g. update version in setup.py, release notes)
 git hf release finish 0.1.0
 </pre></div>
 </div>
+<p>The GitFlow HubFlow illustrations are very helpful for visualizing
+and understanding any DVCS workflow:
+<a class="reference external" href="https://datasift.github.io/gitflow/IntroducingGitFlow.html">https://datasift.github.io/gitflow/IntroducingGitFlow.html</a>.</p>
 </div>
 </div>
 <div class="section" id="gnome">
