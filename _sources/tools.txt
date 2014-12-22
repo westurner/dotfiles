@@ -801,16 +801,22 @@ Git is a distributed version control system for tracking a branching
 and merging repository of file revisions.
 
 
-GitFlow
----------
+.. _gitflow:
+
+.. index:: HubFlow
+
+HubFlow
+~~~~~~~~~
 | Src: https://github.com/datasift/gitflow
 | Docs: https://datasift.github.io/gitflow/
 | Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
 | Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
 
-GitFlow adds extremely useful commands for working with Git and GitHub.
+HubFlow is a fork of GitFlow 
+that adds extremely useful commands for working with Git and GitHub.
 
-Named branch workflow with mostly-automated merges between branches.
+HubFlow is a named branch workflow with mostly-automated merges
+between branches.
 
 Branch names are configurable; the defaults are as follows:
 
