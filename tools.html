@@ -939,7 +939,9 @@ between branches.</p>
 </tr>
 </tbody>
 </table>
-<div class="code bash highlight-python"><div class="highlight"><pre># git checkout master
+<p>Creating a new release with <a class="reference internal" href="#git"><em>Git</em></a> and HubFlow:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>git clone ssh://git@github.com/westurner/dotfiles
+# git checkout master
 git hf init
 ## Update versiontag in .git/config to prefix release tags with &#39;v&#39;
 # [hubflow &quot;prefix&quot;]
@@ -949,7 +951,9 @@ git hf init
 # support = support/
 # versiontag = v
 #
+git hf feature start print_hello_world
 ## commit, commit, commit
+git hf feature finish print_hello_world
 git hf release start 0.1.0
 ## commit (e.g. update version in setup.py, release notes)
 git hf release finish 0.1.0

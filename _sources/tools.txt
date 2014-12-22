@@ -837,8 +837,11 @@ Branch names are configurable; the defaults are as follows:
 | ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                                    |
 +--------------------+--------------------------------------------------------------------------------+
 
+Creating a new release with :ref:`Git` and HubFlow:
+
 .. code:: bash
 
+   git clone ssh://git@github.com/westurner/dotfiles
    # git checkout master
    git hf init
    ## Update versiontag in .git/config to prefix release tags with 'v'
@@ -849,7 +852,9 @@ Branch names are configurable; the defaults are as follows:
    # support = support/
    # versiontag = v
    #
+   git hf feature start print_hello_world
    ## commit, commit, commit
+   git hf feature finish print_hello_world
    git hf release start 0.1.0
    ## commit (e.g. update version in setup.py, release notes)
    git hf release finish 0.1.0
