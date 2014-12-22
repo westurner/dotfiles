@@ -823,7 +823,7 @@ Branch names are configurable; the defaults are as follows:
 
 +--------------------+--------------------------------------------------------------------------------+
 | **Branch Name**    | **Description**                                                                |
-|                    |  (and `Code Labels <https://westurner.github.io/wiki/workflow#code-labels>`__) |
+|                    | (and `Code Labels <https://westurner.github.io/wiki/workflow#code-labels>`__) |
 +--------------------+--------------------------------------------------------------------------------+
 | ``master``         | Stable trunk (latest release)                                                  |
 +--------------------+--------------------------------------------------------------------------------+
