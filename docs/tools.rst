@@ -801,6 +801,45 @@ Git is a distributed version control system for tracking a branching
 and merging repository of file revisions.
 
 
+GitFlow
+---------
+| Src: https://github.com/datasift/gitflow
+| Docs: https://datasift.github.io/gitflow/
+| Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
+| Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
+
+GitFlow adds extremely useful commands for working with Git and GitHub.
+
+Named branch workflow with mostly-automated merges between branches.
+
+Branch names are configurable; the defaults are as follows:
+
+
++--------------------+-----------------------------------------------------------------------------------+
+| **Branch Name**    | **Description**                                                                   |
+|                    |  (and `Code Labels <https://westurner.github.io/dotfiles/workflow#code-labels>`__ |
++--------------------+-----------------------------------------------------------------------------------+
+| ``master``         | Stable trunk (latest release)                                                     |
++--------------------+-----------------------------------------------------------------------------------+
+| ``develop``        | Development main line                                                             |
++--------------------+-----------------------------------------------------------------------------------+
+| ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)                         |
++--------------------+-----------------------------------------------------------------------------------+
+| ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                                 |
+|                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                                  |
++--------------------+-----------------------------------------------------------------------------------+
+| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                                       |
++--------------------+-----------------------------------------------------------------------------------+
+
+.. code:: bash
+
+   git hf init
+   # TODO: edit version prefix (v)
+   # commit, commit, commit
+   git hf release start 0.1.0
+   git hf release finish 0.1.0
+
+
 .. index:: Gnome
 .. _gnome:
 
