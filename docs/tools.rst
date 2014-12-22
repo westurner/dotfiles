@@ -839,11 +839,24 @@ Branch names are configurable; the defaults are as follows:
 
 .. code:: bash
 
+   # git checkout master
    git hf init
-   # TODO: edit version prefix (v)
-   # commit, commit, commit
+   ## Update versiontag in .git/config to prefix release tags with 'v'
+   # [hubflow "prefix"]
+   # feature = feature/
+   # release = release/
+   # hotfix = hotfix/
+   # support = support/
+   # versiontag = v
+   #
+   ## commit, commit, commit
    git hf release start 0.1.0
+   ## commit (e.g. update version in setup.py, release notes)
    git hf release finish 0.1.0
+
+The GitFlow HubFlow illustrations are very helpful for visualizing
+and understanding any DVCS workflow: 
+`<https://datasift.github.io/gitflow/IntroducingGitFlow.html>`__.
 
 
 .. index:: Gnome
