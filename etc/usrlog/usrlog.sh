@@ -266,11 +266,14 @@ _usrlog_parse_cmds() {
     # with pyline
     # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
     # TODO: handle newlines (commands that start on the next line)
+    # TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
+    # TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]
     local usrlog="${1:-${_USRLOG}}"
     test -n $usrlog && usrlog="-f ${usrlog}"
     pyline.py ${usrlog} \
         'list((
             (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+            or (" ".join(w[7:]).rstrip() if len(w) > 7 else None)
             or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
             or " ".join(w).rstrip())
             for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]
