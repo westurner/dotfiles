@@ -1298,10 +1298,10 @@ def build_user_aliases_env(env=None,
         env['_WRD'] = _WRD
 
     # EDITOR configuration
-    env['VIMBIN'] = distutils.spawn.find_executable('vim')
-    env['GVIMBIN'] = distutils.spawn.find_executable('gvim')
-    env['MVIMBIN'] = distutils.spawn.find_executable('mvim')
-    env['GUIVIMBIN'] = env.get('MVIMBIN', env.get('GVIMBIN'))
+    env['VIMBIN']       = distutils.spawn.find_executable('vim')
+    env['GVIMBIN']      = distutils.spawn.find_executable('gvim')
+    env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
+    env['GUIVIMBIN']    = env.get('GVIMBIN', env.get('MVIMBIN'))
     # set the current vim servername to _APP
     env['VIMCONF'] = "--servername %s" % (
         shell_quote(env['_APP']).strip('"'))
