@@ -4,5 +4,5 @@
 #
 # Executed by startx
 
-source ~/.dotfiles/etc/screensaver.sh
-_xautolock &
+bash ~/-dotfiles/etc/xlck.sh -S
+#_xautolock &
