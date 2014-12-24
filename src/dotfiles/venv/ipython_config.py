@@ -1557,7 +1557,6 @@ def build_user_aliases_env(env=None,
 
 def build_usrlog_env(env=None,
                      _TERM_ID=None,
-                     term_id_from_environ=True,
                      shell='bash',
                      prefix=None,
                      USER=None,
@@ -1623,8 +1622,10 @@ def build_usrlog_env(env=None,
             prefix = env.get('HOME', os.path.expanduser('~'))
 
     env['_USRLOG'] = joinpath(prefix, "-usrlog.log")
-    env['_TERM_ID'] = _TERM_ID if _TERM_ID is not None else (
-        term_id_from_environ and os.environ.get('_TERM_ID'))
+    #_term_id = _TERM_ID if _TERM_ID is not None else (
+    #    term_id_from_environ and os.environ.get('_TERM_ID'))
+    #if _term_id:
+    #    env['_TERM_ID'] = _term_id
     # env['_TERM_URI']    = _TERM_ID  # TODO
 
     # shell HISTFILE

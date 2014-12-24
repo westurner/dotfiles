@@ -80,7 +80,6 @@ export _SVCFG='/etc/supervisord.conf'
 export _SVCFG_=' -c "/etc/supervisord.conf"'
 export __USRLOG='/Users/W/-usrlog.log'
 export _USRLOG='-usrlog.log'
-export _TERM_ID='#d5Mt6hRyasc'
 eval '
 cdhome () {
     # cdhome            -- cd $HOME /$@
