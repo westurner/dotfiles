@@ -61,12 +61,17 @@ debug-off() {
 
 log_dotfiles_state() {
     # log_dotfiles_state()      -- save current environment to logfiles
+    # XXX:
     _log=${_LOG:-"${HOME}/var/log"}
+    if [ "${_log}" == "/var/log" ]; then
+        _log="${HOME}/var/log"
+    fi
     logkey=${1:-'99'}
-    logdir=${_log:-"var/log"}/venv.${logkey}/
+    logdir=${_log:-"var/log"}/venv.${VIRTUAL_ENV_NAME}.${logkey}/
     exportslogfile=${logdir}/exports.log
     envlogfile=${logdir}/exports_env.log
     test -n $logdir && test -d $logdir || mkdir -p $logdir
+    # XXX:
     export > $exportslogfile
     set > $envlogfile
 }
