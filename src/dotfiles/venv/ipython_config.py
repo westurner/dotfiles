@@ -404,7 +404,7 @@ class CdAlias(CmdAlias):
 
         .. py:attribute:: IPYTHON_MAGICS_FILE_HEADER
 
-        .. py:attribute:: IPYTHON_METHOD_TEMPLATE
+        .. py:attribute:: IPYTHON_MAGIC_METHOD_TEMPLATE
 
         .. py:attribute:: VIM_COMMAND_TEMPLATE
 
@@ -424,10 +424,23 @@ class CdAlias(CmdAlias):
     IPYTHON_MAGICS_FILE_HEADER = (
         '''
 #!/usr/bin/env ipython
-# dotfiles.venv.ipython_cdmagic
+# dotfiles.venv.ipython_magics
 from __future__ import print_function
 """
-IPython ``%cd`` ``%magic?`` commands
+IPython ``%magic`` commands
+
+* ``cd`` aliases
+* ``ds`` (``dotfiles_status``)
+* ``dr`` (``dotfiles_reload``)
+
+Installation
+--------------
+.. code-block:: bash
+
+    __DOTFILES="~/.dotfiles"
+    ipython_profile="profile_default"
+    ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \\
+        ~/.ipython/${ipython_profile}/startup/ipython_magics.py
 """
 import os
 try:
@@ -438,6 +451,7 @@ except ImportError:
     Magics = object
     magics_class = lambda cls, *args, **kwargs: cls
     line_magic = lambda func, *args, **kwargs: func
+
 @magics_class
 class VenvMagics(Magics):
     def cd(self, envvar, line):
@@ -450,20 +464,106 @@ class VenvMagics(Magics):
         """
         prefix = os.environ.get(envvar, "")
         path = os.path.join(prefix, line)
-        return self.shell.magic('cd %s' % path)
-''')
+        return self.shell.magic('cd %s' % path)''')
 
-    IPYTHON_METHOD_TEMPLATE = (
+    IPYTHON_MAGIC_METHOD_TEMPLATE = (
         '''
     @line_magic
     def {ipy_func_name}(self, line):
-        """ipy_func_name()    -- cd ${pathvar}/${@}"""
-        return self.cd('{pathvar}', line)
+        """{ipy_func_name}    -- cd ${pathvar}/${{@}}"""
+        return self.cd('{pathvar}', line)''')
+
+    IPYTHON_MAGICS_FOOTER = (
+        '''
+    @line_magic
+    def cdhelp(self, line):
+        """cdhelp()         -- list cd commands"""
+        for cdfunc in dir(self):
+            if cdfunc.startswith('cd') and cdfunc not in ('cdhelp','cd'):
+                docstr = getattr(self, cdfunc).__doc__.split('--',1)[-1].strip()
+                print("%%%-16s -- %s" % (cdfunc, docstr))
+
+    @staticmethod
+    def _dotfiles_status():
+        """
+        Print ``dotfiles_status``: venv variables
+        """
+        env_vars = [
+            'HOSTNAME',
+            'USER',
+            'PROJECT_HOME',
+            'WORKON_HOME',
+            'VIRTUAL_ENV_NAME',
+            'VIRTUAL_ENV',
+            '_USRLOG',
+            '_TERM_ID',
+            '_SRC',
+            '_APP',
+            '_WRD',
+            'PATH',
+            '__DOTFILES',
+        ]
+        environ = dict((var, os.environ.get(var)) for var in env_vars)
+        environ['HOSTNAME'] = __import__('socket').gethostname()
+        for var in env_vars:
+            print('{}="{}"'.format(var, "%s" % environ.get(var,'')))
+
+    @line_magic
+    def dotfiles_status(self, line):
+        """dotfiles_status()    -- print dotfiles_status() ."""
+        return self._dotfiles_status()
+
+    @line_magic
+    def ds(self, line):
+        """ds()                 -- print dotfiles_status() ."""
+        return self._dotfiles_status()
+
+    @staticmethod
+    def _dotfiles_reload():
+        """_dotfiles_reload()   -- print NotImplemented"""
+        print("NotImplemented: dotfiles_reload()")
+
+    @line_magic
+    def dotfiles_reload(self, line):
+        """dotfiles_reload()    -- print NotImplemented"""
+        return self._dotfiles_reload()
+
+    @line_magic
+    def dr(self, line):
+        """dr()                 -- print NotImplemented [dotfiles_reload()]"""
+        return self._dotfiles_reload()
+
+
+def main():
+    """
+    Register VenvMagics with IPython
+    """
+    import IPython
+    ip = IPython.get_ipython()
+    ip.register_magics(VenvMagics)
+
+
+if __name__ == "__main__":
+    main()
 ''')
+
+    def to_ipython_method(self):
+        """
+        Keyword Arguments:
+            include_completions (bool): generate inline Bash completions
+        Returns:
+            str: ipython method block
+        """
+
+        for cmd_name in self.bash_func_names:
+            yield (CdAlias.IPYTHON_MAGIC_METHOD_TEMPLATE.format(
+                pathvar=self.pathvar,
+                ipy_func_name=cmd_name))
 
     VIM_HEADER_TEMPLATE = (
         '''\n'''
-        '''" ### venv.vim\n\n'''
+        '''" ### venv.vim\n'''
+        '''" # Src: https://github.com/westurner/venv.vim\n\n'''
         '''function! Cd_help()\n'''
         '''" cdhelp()           -- list cd commands\n'''
         '''    :verbose command Cd\n'''
@@ -524,10 +624,17 @@ class VenvMagics(Magics):
                                        vim_func_name=conf['vim_func_name']))
         return output
 
+    BASH_CDALIAS_HEADER = (
+        '''#!/bin/sh\n'''
+        """## venv.sh\n"""
+        """# generated from $(venv --print-bash --prefix=/)\n"""
+        """\n""")
+
     BASH_FUNCTION_TEMPLATE = (
         """{bash_func_name} () {{\n"""
-        """    # {bash_func_name}()  -- cd {pathvar} /$@\n"""
-        """    cd "${pathvar}"/$@\n"""
+        """    # {bash_func_name:16}  -- cd ${pathvar} /$@\n"""
+        """    [ -z "${pathvar}" ] && echo "{pathvar} is not set" && return 1\n"""
+        """    cd "${pathvar}"${{@:+"/${{@}}"}}\n"""
         """}}\n"""
         """{bash_compl_name} () {{\n"""
         """    local cur="$2";\n"""
@@ -536,7 +643,7 @@ class VenvMagics(Magics):
     )
     BASH_ALIAS_TEMPLATE = (
         """{cmd_name} () {{\n"""
-        """    # {cmd_name}() -- cd ${pathvar}\n"""
+        """    # {cmd_name:16}  -- cd ${pathvar}\n"""
         """    {bash_func_name} $@\n"""
         """}}\n"""
     )
@@ -876,11 +983,10 @@ class StepBuilder(object):
         # return step_envs
 
 
-# Build everything
-
 
 def lookup_from_kwargs_env(kwargs, env, attr, default=None):
     """
+    __getitem__ from kwargs, env, or default.
 
     Args:
         kwargs (dict): kwargs dict
@@ -1214,7 +1320,8 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
     aliases['cdvar']         = CdAlias('_VAR')
     aliases['cdwww']         = CdAlias('_WWW',         aliases=['cdww'])
 
-    aliases['cdhelp']        =  """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
+    aliases['cdls']   = """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
+    aliases['cdhelp'] = """cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\s*#+\s+.*' 'rgx and l'"""
     return env
 
 
@@ -1288,11 +1395,8 @@ def build_user_aliases_env(env=None,
 
     _WRD = env.get('_WRD')
     if _WRD is None:
-        if _SRC:
-            if _APP:
-                _WRD = joinpath(env['_SRC'], env['_APP'])
-            else:
-                _WRD = env['_SRC']
+        if _SRC and _APP:
+            _WRD = joinpath(env['_SRC'], env['_APP'])
         else:
             _WRD = ""
         env['_WRD'] = _WRD
@@ -1303,8 +1407,12 @@ def build_user_aliases_env(env=None,
     env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
     env['GUIVIMBIN']    = env.get('GVIMBIN', env.get('MVIMBIN'))
     # set the current vim servername to _APP
+
+    VIMSERVER = '/'
+    if _APP:
+        VIMSERVER = _APP
     env['VIMCONF'] = "--servername %s" % (
-        shell_quote(env['_APP']).strip('"'))
+        shell_quote(VIMSERVER).strip('"'))
     if not env.get('GUIVIMBIN'):
         env['_EDIT_'] = "%s -f" % env.get('VIMBIN')
     else:
@@ -1376,14 +1484,12 @@ def build_user_aliases_env(env=None,
     if os.path.exists(_WRD) or dont_reflect:
         env['_WRD'] = _WRD
         env['_WRD_SETUPY'] = joinpath(_WRD, 'setup.py')
-        env['_TEST_'] = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
-            _WRD=shell_varquote('_WRD'),
+        env['_TEST_'] = "(cdwrd && python {_WRD_SETUPY} test)".format(
             _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
             )
         aliases['test-'] = env['_TEST_']
         aliases['testr-'] = 'reset && %s' % env['_TEST_']
-        aliases['nose-'] = '(cd {_WRD} && nosetests)'.format(
-            _WRD=shell_varquote('_WRD'))
+        aliases['nose-'] = '(cdwrd && nosetests)'
 
         aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
             _WRD=shell_varquote('_WRD'))
@@ -1408,16 +1514,14 @@ def build_user_aliases_env(env=None,
         aliases['editcfg'] = "{_EDITCFG} %l".format(
             _EDITCFG=shell_varquote('_EDITCFG_'))
         # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
-        env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
+        env['_SHELL_'] = "(cdwrd && {_BIN}/pshell {_CFG})".format(
             _BIN=shell_varquote('_BIN'),
-            _CFG=shell_varquote('_CFG'),
-            _WRD=shell_varquote('_WRD'))
-        env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
+            _CFG=shell_varquote('_CFG'),)
+        env['_SERVE_'] = ("(cdwrd && {_BIN}/pserve"
                           " --app-name=main"
                           " --reload"
                           " --monitor-restart {_CFG})").format(
             _BIN=shell_varquote('_BIN'),
-            _WRD=shell_varquote('_WRD'),
             _CFG=shell_varquote('_CFG'))
         aliases['serve-'] = env['_SERVE_']
         aliases['shell-'] = env['_SHELL_']
@@ -1430,10 +1534,11 @@ def build_user_aliases_env(env=None,
     env['PROJECT_FILES'] = " ".join(
         str(x) for x in PROJECT_FILES)
     aliases['editp'] = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
-    aliases['makewrd'] = "(cd {_WRD} && make %l)".format(
-        _WRD=shell_varquote('_WRD'))
-    aliases['make-'] = aliases['makewrd']
-    aliases['mw'] = aliases['makewrd']
+
+    aliases['makewrd'] = "(cdwrd && make %l)"
+    aliases['makew']   = aliases['makewrd']
+    aliases['make-']   = aliases['makewrd']
+    aliases['mw']      = aliases['makewrd']
 
     _SVCFG = env.get('_SVCFG', joinpath(env['_ETC'], 'supervisord.conf'))
     if os.path.exists(_SVCFG) or dont_reflect:
@@ -1452,6 +1557,7 @@ def build_user_aliases_env(env=None,
 
 def build_usrlog_env(env=None,
                      _TERM_ID=None,
+                     term_id_from_environ=True,
                      shell='bash',
                      prefix=None,
                      USER=None,
@@ -1517,7 +1623,8 @@ def build_usrlog_env(env=None,
             prefix = env.get('HOME', os.path.expanduser('~'))
 
     env['_USRLOG'] = joinpath(prefix, "-usrlog.log")
-    env['_TERM_ID'] = _TERM_ID or ""
+    env['_TERM_ID'] = _TERM_ID if _TERM_ID is not None else (
+        term_id_from_environ and os.environ.get('_TERM_ID'))
     # env['_TERM_URI']    = _TERM_ID  # TODO
 
     # shell HISTFILE
@@ -2413,16 +2520,21 @@ class Venv(object):
         for block in self.env.to_string_iter():
             yield block
 
-    def generate_bash_env(self):
+    def generate_bash_env(self, include_cdaliases=True):
         """
         Generate a ``source``-able script for the environment variables,
         aliases, and functions defined by the current ``Venv``.
+
+        Keyword Arguments:
+            include_cdaliases (bool): Include cdaliases in output (default: True)
 
         Yields:
             str: block of bash script
         """
         for k, v in self.env.environ.items():
             # TODO: XXX:
+            if v is None:
+                v = ''
             yield "export {VAR}={value}".format(VAR=k, value=repr(v))
             # if _shell_supports_declare_g():
             #    yield "declare -grx %s=%r" % (k, v)
@@ -2430,6 +2542,8 @@ class Venv(object):
             #     yield "export %s=%r" % (k, v
             #     yield("declare -r %k" % k, file=output)
         for k, v in self.env.aliases.items():
+            if include_cdaliases is False and isinstance(v, CdAlias):
+                continue
             bash_alias = None
             if hasattr(v, 'to_shell_str'):
                 bash_alias = v.to_shell_str()
@@ -2438,7 +2552,21 @@ class Venv(object):
                 bash_alias = _alias.to_shell_str()
             yield bash_alias
 
-    def generate_vim_env(self):
+    def generate_bash_cdalias(self):
+        """
+        Generate a ``source``-able script for cdalias functions
+
+        Yields:
+            str: block of bash script
+        """
+        yield CdAlias.BASH_CDALIAS_HEADER
+        for k, v in self.env.aliases.items():
+            if isinstance(v, CdAlias):
+                yield v.to_bash_function()
+            elif k in ('cdls', 'cdhelp'):
+                yield IpyAlias(v, k).to_shell_str()
+
+    def generate_vim_cdalias(self):
         """
         Generate a ``source``-able vimscript for vim
 
@@ -2452,6 +2580,21 @@ class Venv(object):
         for k, v in self.env.aliases.items():
             if hasattr(v, 'to_vim_function'):
                 yield v.to_vim_function()
+
+    def generate_ipython_magics(self):
+        """
+        Generate an ``ipython_magics.py`` file for IPython
+
+        Yields:
+            str: block of Python code
+        """
+
+        yield CdAlias.IPYTHON_MAGICS_FILE_HEADER
+        for k, v in self.env.aliases.items():
+            if hasattr(v, 'to_ipython_method'):
+                for block in v.to_ipython_method():
+                    yield block
+        yield CdAlias.IPYTHON_MAGICS_FOOTER
 
     @property
     def project_files(self):
@@ -3382,6 +3525,17 @@ def build_venv_arg_parser():
                      action='store',
                      default='venv.cdalias.vim',
                      )
+    prs.add_argument('--print-ipython-magics',
+                     help="Print IPython magic methods",
+                     dest="print_ipython_magics",
+                     action='store_true',)
+    prs.add_argument('--print-ipython-magics-filename',
+                     help="Path to write IPython magics into",
+                     dest='print_ipython_magics_filename',
+                     nargs='?',
+                     action='store',
+                     default='ipython_magics.py',
+                     )
 
     prs.add_argument('--command', '--cmd', '-x',
                      help="Run a command in a venv-configured shell",
@@ -3614,6 +3768,7 @@ def main(*argv, **kwargs):
                 opts.print_bash_cdalias,
                 opts.print_zsh,
                 opts.print_vim_cdalias,
+                opts.print_ipython_magics
                 )):
             prs.error("--print-vars specfied when\n"
                       "writing to json, bash, zsh, or vim.")
@@ -3628,8 +3783,16 @@ def main(*argv, **kwargs):
         for block in venv.generate_bash_env():
             print(block, file=output)
 
+    if opts.print_bash_cdalias:
+        for block in venv.generate_bash_cdalias():
+            print(block, file=output)
+
     if opts.print_vim_cdalias:
-        for block in venv.generate_vim_env():
+        for block in venv.generate_vim_cdalias():
+            print(block, file=output)
+
+    if opts.print_ipython_magics:
+        for block in venv.generate_ipython_magics():
             print(block, file=output)
 
     if opts.run_command:

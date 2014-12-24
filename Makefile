@@ -68,6 +68,8 @@ help:
 	@echo "push      -- git push"
 	@echo "pull      -- git pull"
 	@echo ""
+	@echo "generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim"
+	@echo ""
 
 help_setuppy:
 	python setup.py --help
@@ -532,3 +534,11 @@ update_brew_list:
 
 install_brew_formulas:
 	cat ./etc/brew/brew.list | xargs brew install
+
+_VENV:=./src/dotfiles/venv/ipython_config.py
+
+generate_venv:
+	# generate ipython_magics.py, venv.sh, and venv.vim
+	$(_VENV) --print-ipython-magics . > ./src/dotfiles/venv/ipython_magics.py
+	$(_VENV) --print-bash --prefix=/ > ./etc/venv/venv.sh 
+	$(_VENV) --print-vim-cdalias . > ./etc/venv/venv.vim

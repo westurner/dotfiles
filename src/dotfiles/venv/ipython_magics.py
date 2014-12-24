@@ -1,5 +1,7 @@
+
 #!/usr/bin/env ipython
-# dotfiles.venv.ipython_magic
+# dotfiles.venv.ipython_magics
+from __future__ import print_function
 """
 IPython ``%magic`` commands
 
@@ -13,7 +15,7 @@ Installation
 
     __DOTFILES="~/.dotfiles"
     ipython_profile="profile_default"
-    ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \\
+    ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \
         ~/.ipython/${ipython_profile}/startup/ipython_magics.py
 """
 import os
@@ -41,119 +43,177 @@ class VenvMagics(Magics):
         return self.shell.magic('cd %s' % path)
 
     @line_magic
-    def cdb(self, line):
-        """cdb()    -- cd ${_BIN}/${@}"""
-        return self.cd('_BIN', line)
-
-    @line_magic
-    def cde(self, line):
-        """cde()    -- cd ${_ETC}/${@}"""
-        return self.cd('_ETC', line)
-
-    @line_magic
-    def cdh(self, line):
-        """cdh()    -- cd ${HOME}/${@}"""
+    def cdhome(self, line):
+        """cdhome    -- cd $HOME/${@}"""
         return self.cd('HOME', line)
 
     @line_magic
-    def cdl(self, line):
-        """cdl()    -- cd ${_LIB}/${@}"""
-        return self.cd('_LIB', line)
+    def cdh(self, line):
+        """cdh    -- cd $HOME/${@}"""
+        return self.cd('HOME', line)
 
     @line_magic
-    def cdlog(self, line):
-        """cdlog()  -- cd ${_LOG}/${@}"""
-        return self.cd('_LOG', line)
+    def cdwrk(self, line):
+        """cdwrk    -- cd $__WRK/${@}"""
+        return self.cd('__WRK', line)
+
+    @line_magic
+    def cddotfiles(self, line):
+        """cddotfiles    -- cd $__DOTFILES/${@}"""
+        return self.cd('__DOTFILES', line)
+
+    @line_magic
+    def cdd(self, line):
+        """cdd    -- cd $__DOTFILES/${@}"""
+        return self.cd('__DOTFILES', line)
+
+    @line_magic
+    def cdprojecthome(self, line):
+        """cdprojecthome    -- cd $PROJECT_HOME/${@}"""
+        return self.cd('PROJECT_HOME', line)
 
     @line_magic
     def cdp(self, line):
-        """cdp()    -- cd ${PROJECT_HOME}/${@}"""
+        """cdp    -- cd $PROJECT_HOME/${@}"""
         return self.cd('PROJECT_HOME', line)
 
     @line_magic
     def cdph(self, line):
-        """cdph()   -- cd ${PROJECT_HOME}/${@}"""
+        """cdph    -- cd $PROJECT_HOME/${@}"""
         return self.cd('PROJECT_HOME', line)
 
     @line_magic
+    def cdworkonhome(self, line):
+        """cdworkonhome    -- cd $WORKON_HOME/${@}"""
+        return self.cd('WORKON_HOME', line)
+
+    @line_magic
+    def cdwh(self, line):
+        """cdwh    -- cd $WORKON_HOME/${@}"""
+        return self.cd('WORKON_HOME', line)
+
+    @line_magic
+    def cdve(self, line):
+        """cdve    -- cd $WORKON_HOME/${@}"""
+        return self.cd('WORKON_HOME', line)
+
+    @line_magic
+    def cdcondahome(self, line):
+        """cdcondahome    -- cd $CONDA_HOME/${@}"""
+        return self.cd('CONDA_HOME', line)
+
+    @line_magic
+    def cda(self, line):
+        """cda    -- cd $CONDA_HOME/${@}"""
+        return self.cd('CONDA_HOME', line)
+
+    @line_magic
+    def cdce(self, line):
+        """cdce    -- cd $CONDA_HOME/${@}"""
+        return self.cd('CONDA_HOME', line)
+
+    @line_magic
+    def cdvirtualenv(self, line):
+        """cdvirtualenv    -- cd $VIRTUAL_ENV/${@}"""
+        return self.cd('VIRTUAL_ENV', line)
+
+    @line_magic
+    def cdv(self, line):
+        """cdv    -- cd $VIRTUAL_ENV/${@}"""
+        return self.cd('VIRTUAL_ENV', line)
+
+    @line_magic
+    def cdsrc(self, line):
+        """cdsrc    -- cd $_SRC/${@}"""
+        return self.cd('_SRC', line)
+
+    @line_magic
+    def cds(self, line):
+        """cds    -- cd $_SRC/${@}"""
+        return self.cd('_SRC', line)
+
+    @line_magic
+    def cdwrd(self, line):
+        """cdwrd    -- cd $_WRD/${@}"""
+        return self.cd('_WRD', line)
+
+    @line_magic
+    def cdw(self, line):
+        """cdw    -- cd $_WRD/${@}"""
+        return self.cd('_WRD', line)
+
+    @line_magic
+    def cdbin(self, line):
+        """cdbin    -- cd $_BIN/${@}"""
+        return self.cd('_BIN', line)
+
+    @line_magic
+    def cdb(self, line):
+        """cdb    -- cd $_BIN/${@}"""
+        return self.cd('_BIN', line)
+
+    @line_magic
+    def cdetc(self, line):
+        """cdetc    -- cd $_ETC/${@}"""
+        return self.cd('_ETC', line)
+
+    @line_magic
+    def cde(self, line):
+        """cde    -- cd $_ETC/${@}"""
+        return self.cd('_ETC', line)
+
+    @line_magic
+    def cdlib(self, line):
+        """cdlib    -- cd $_LIB/${@}"""
+        return self.cd('_LIB', line)
+
+    @line_magic
+    def cdl(self, line):
+        """cdl    -- cd $_LIB/${@}"""
+        return self.cd('_LIB', line)
+
+    @line_magic
+    def cdlog(self, line):
+        """cdlog    -- cd $_LOG/${@}"""
+        return self.cd('_LOG', line)
+
+    @line_magic
     def cdpylib(self, line):
-        """cdpylib()    -- cd ${PYLIB)/${@}"""
+        """cdpylib    -- cd $_PYLIB/${@}"""
         return self.cd('_PYLIB', line)
 
     @line_magic
     def cdpysite(self, line):
-        """cdpysite()   -- cd ${PYSITE}/${@}"""
+        """cdpysite    -- cd $_PYSITE/${@}"""
         return self.cd('_PYSITE', line)
 
     @line_magic
     def cdsitepackages(self, line):
-        """cdsitepackages() -- cd ${_PYSITE}/${@}"""
+        """cdsitepackages    -- cd $_PYSITE/${@}"""
         return self.cd('_PYSITE', line)
 
     @line_magic
-    def cds(self, line):
-        """cds()            -- cd ${_SRC}/${@}"""
-        return self.cd('_SRC', line)
-
-    @line_magic
-    def cdv(self, line):
-        """cdv()            -- cd ${VIRTUAL_ENV}/${@}"""
-        return self.cd('VIRTUAL_ENV', line)
-
-    @line_magic
-    def cdve(self, line):
-        """cdve()           -- cd ${WORKON_HOME}/${@}"""
-        return self.cd('WORKON_HOME', line)
-
-    @line_magic
-    def cdvirtualenv(self, line):
-        """cdvirtualenv()   -- cd ${VIRTUAL_ENV}/${@}"""
-        return self.cd('VIRTUAL_ENV', line)
-
-    @line_magic
     def cdvar(self, line):
-        """cdvar()          -- cd ${_VAR}/${@}"""
+        """cdvar    -- cd $_VAR/${@}"""
         return self.cd('_VAR', line)
 
     @line_magic
-    def cdw(self, line):
-        """cdw()            -- cd ${_WRD}/${@}"""
-        return self.cd('_WRD', line)
-
-    @line_magic
-    def cdwrd(self, line):
-        """cdwrd()          -- cd ${_WRD}/${@}"""
-        return self.cd('_WRD', line)
-
-    @line_magic
-    def cdwrk(self, line):
-        """cdwrk()          -- cd ${PROJECT_HOME}/${@}"""
-        return self.cd('PROJECT_HOME', line)
-
-    @line_magic
-    def cdwh(self, line):
-        """cdwh()           -- cd ${WORKON_HOME}/${@}"""
-        return self.cd('WORKON_HOME', line)
-
-    @line_magic
-    def cdww(self, line):
-        """cdww()           -- cd ${_WWW}/${@}"""
+    def cdwww(self, line):
+        """cdwww    -- cd $_WWW/${@}"""
         return self.cd('_WWW', line)
 
     @line_magic
-    def cdwww(self, line):
-        """cdwww()          -- cd ${_WWW}/${@}"""
+    def cdww(self, line):
+        """cdww    -- cd $_WWW/${@}"""
         return self.cd('_WWW', line)
 
     @line_magic
     def cdhelp(self, line):
         """cdhelp()         -- list cd commands"""
-        print(
-            "\n".join(
-                "{} #{}".format(
-                    attrname, dir(getattr(self, attrname)))
-                    for attrname in dir(self)
-                        if attrname.startswith('cd')))
+        for cdfunc in dir(self):
+            if cdfunc.startswith('cd') and cdfunc not in ('cdhelp','cd'):
+                docstr = getattr(self, cdfunc).__doc__.split('--',1)[-1].strip()
+                print("%%%-16s -- %s" % (cdfunc, docstr))
 
     @staticmethod
     def _dotfiles_status():
@@ -206,7 +266,6 @@ class VenvMagics(Magics):
         return self._dotfiles_reload()
 
 
-
 def main():
     """
     Register VenvMagics with IPython
@@ -216,5 +275,6 @@ def main():
     ip.register_magics(VenvMagics)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
+
