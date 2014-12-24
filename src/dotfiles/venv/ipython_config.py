@@ -1273,7 +1273,7 @@ def build_user_aliases_env(env=None,
     _ETC = env.get('_ETC')
     if _ETC is None:
         if VIRTUAL_ENV:
-            _ETC = joinpath(env['VIRTUAL_ENV'], 'src')
+            _ETC = joinpath(env['VIRTUAL_ENV'], 'etc')
         else:
             _ETC = '/etc'
         env['_ETC'] = _ETC
