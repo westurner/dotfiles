@@ -136,7 +136,7 @@ email = wes@wrd.nu
 [core]
   autocrlf = false
   editor = vim
-	excludesfile = /Users/W/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [advice]
   statusHints = false
 [diff]

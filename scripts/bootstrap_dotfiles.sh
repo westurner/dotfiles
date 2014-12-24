@@ -314,6 +314,7 @@ symlink_zshrc() {
 
 symlink_hgrc() {
     backup_and_symlink .hgrc
+    backup_and_symlink .hgignore_global
     #TODO: set name in ~/.hgrc
 }
 
