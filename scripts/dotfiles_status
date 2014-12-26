@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ -z "$__DOTFILES" ]; then
+    echo 'err: __DOTFILES is not set.'
+    echo 'export __DOTFILES="$HOME/-dotfiles"'
+    return 1
+fi
+
+source $__DOTFILES/etc/bash/05-bashrc.dotfiles.sh
+dotfiles_status
