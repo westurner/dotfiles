@@ -990,13 +990,16 @@ class StepBuilder(object):
                      str.center(" %s " % step.name, 79, '#'),)
             logevent('%s build.conf' % step.name, self.conf, wrap=True)
             logevent('%s step.conf ' % step.name, step.conf, wrap=True)
-            logevent('%s env-in ' % step.name, env, wrap=True)
+            logevent('%s >>> %s' % (step.name, hex(id(env))),
+                     env, wrap=True)
             env = env.copy()
             conf = self.conf.copy()
             conf.update(**step.conf)
 
             new_env = step.build(env=env, **conf)
-            logevent('%s env-out' % step.name, new_env, wrap=True)
+            logevent('%s >>> %s' % (step.name, hex(id(new_env))),
+                     new_env,
+                     wrap=True)
 
             if isinstance(new_env, Env):
                 # logevent('%s new_env' % step.name, new_env, wrap=True)
@@ -2012,8 +2015,13 @@ class Env(object):
         Returns:
             Env: an Env environment built from the given environ dict
         """
-        logevent('env.from_environ', environ, wrap=True, level=logging.DEBUG)
-        return cls((k, environ.get(k, '')) for k in cls.osenviron_keys)
+        env = cls((k, environ.get(k, '')) for k in cls.osenviron_keys)
+        logevent('env.from_environ',
+                 env, # OrderedDict(environ).items(), indent=2),
+                 wrap=True,
+                 splitlines=True,
+                 level=logging.DEBUG)
+        return env
 
     def compress_paths(self, path_, keys=None):
         """
@@ -2424,6 +2432,8 @@ class Venv(object):
 
         _vars = vars()
         keys = [
+            '__WRK',
+            'WORKON_HOME',
             'VENVSTR',
             'VENVSTRAPP',
             'VENVPREFIX',
@@ -2432,8 +2442,6 @@ class Venv(object):
             '_APP',
             '_SRC',
             '_WRD',
-            'WORKON_HOME',
-            '__WRK',
         ]
 
         if env is None:
