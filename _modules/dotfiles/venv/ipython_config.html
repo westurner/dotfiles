@@ -1057,7 +1057,7 @@
 <span class="sd">        Add a step to ``self.steps``</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            func (Step or function or str): func(env=None, **kwargs)</span>
+<span class="sd">            func (Step or function or str): ``func(env=None, **kwargs)``</span>
 <span class="sd">            kwargs (dict): kwargs for Step.conf</span>
 <span class="sd">        Keyword Arguments:</span>
 <span class="sd">            name (str): function name (default: None)</span>
@@ -1113,13 +1113,16 @@
                      <span class="nb">str</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="s">&quot; </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="n">step</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="s">&#39;#&#39;</span><span class="p">),)</span>
             <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> build.conf&#39;</span> <span class="o">%</span> <span class="n">step</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
             <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> step.conf &#39;</span> <span class="o">%</span> <span class="n">step</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">step</span><span class="o">.</span><span class="n">conf</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-            <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> env-in &#39;</span> <span class="o">%</span> <span class="n">step</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> &gt;&gt;&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">env</span><span class="p">))),</span>
+                     <span class="n">env</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
             <span class="n">env</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">conf</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">step</span><span class="o">.</span><span class="n">conf</span><span class="p">)</span>
 
             <span class="n">new_env</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="o">**</span><span class="n">conf</span><span class="p">)</span>
-            <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> env-out&#39;</span> <span class="o">%</span> <span class="n">step</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">new_env</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> &gt;&gt;&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">new_env</span><span class="p">))),</span>
+                     <span class="n">new_env</span><span class="p">,</span>
+                     <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_env</span><span class="p">,</span> <span class="n">Env</span><span class="p">):</span>
                 <span class="c"># logevent(&#39;%s new_env&#39; % step.name, new_env, wrap=True)</span>
@@ -1469,13 +1472,13 @@
 <span class="sd">    Build CdAliases for standard paths</span>
 
 <span class="sd">    Keyword Args:</span>
-<span class="sd">        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`</span>
+<span class="sd">        env (Env dict): :py:class:`Env`</span>
 <span class="sd">    Returns:</span>
-<span class="sd">        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`</span>
-<span class="sd">            with ``.aliases`` extended.</span>
+<span class="sd">        env (Env dict): :py:class:`Env`</span>
+<span class="sd">        with ``.aliases`` extended.</span>
 
 <span class="sd">    .. note:: These do not work in IPython as they run in a subshell.</span>
-<span class="sd">        See: :py:mod:`dotfiles.venv.ipython_magics`.</span>
+<span class="sd">       See: :py:mod:`dotfiles.venv.ipython_magics`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">Env</span><span class="p">()</span>
@@ -2135,8 +2138,13 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Env: an Env environment built from the given environ dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;env.from_environ&#39;</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">osenviron_keys</span><span class="p">)</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">cls</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">osenviron_keys</span><span class="p">)</span>
+        <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;env.from_environ&#39;</span><span class="p">,</span>
+                 <span class="n">env</span><span class="p">,</span> <span class="c"># OrderedDict(environ).items(), indent=2),</span>
+                 <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">splitlines</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">env</span>
 </div>
 <div class="viewcode-block" id="Env.compress_paths"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env.compress_paths">[docs]</a>    <span class="k">def</span> <span class="nf">compress_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -2474,7 +2482,7 @@
               <span class="n">show_diffs</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
               <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Build Venv Steps with StepBuilder</span>
+<span class="sd">        Build :py:class:`Venv` :py:class:`Steps` with :py:class:`StepBuilder`</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">conf</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -2547,6 +2555,8 @@
 
         <span class="n">_vars</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">()</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s">&#39;__WRK&#39;</span><span class="p">,</span>
+            <span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span>
             <span class="s">&#39;VENVSTR&#39;</span><span class="p">,</span>
             <span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">,</span>
             <span class="s">&#39;VENVPREFIX&#39;</span><span class="p">,</span>
@@ -2555,8 +2565,6 @@
             <span class="s">&#39;_APP&#39;</span><span class="p">,</span>
             <span class="s">&#39;_SRC&#39;</span><span class="p">,</span>
             <span class="s">&#39;_WRD&#39;</span><span class="p">,</span>
-            <span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span>
-            <span class="s">&#39;__WRK&#39;</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -2708,16 +2716,17 @@
         <span class="k">return</span> <span class="n">Venv</span><span class="o">.</span><span class="n">_configure_sys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Venv.workon_project"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.workon_project">[docs]</a>    <span class="k">def</span> <span class="nf">workon_project</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">VENVSTR</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Venv.workon"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.workon">[docs]</a>    <span class="k">def</span> <span class="nf">workon</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">VENVSTR</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">VENVSTRAPP</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            VENVSTR (str): a path to a virtualenv containing ``/``</span>
 <span class="sd">                OR just the name of a virtualenv in ``$WORKON_HOME``</span>
+<span class="sd">            VENVSTRAPP (str): e.g. ``dotfiles`` or ``dotfiles/docs``</span>
 <span class="sd">            kwargs (dict): kwargs to pass to Venv (see ``Venv.__init__``)</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Venv: an intialized ``Venv``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">VENVSTR</span><span class="o">=</span><span class="n">VENVSTR</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">VENVSTR</span><span class="o">=</span><span class="n">VENVSTR</span><span class="p">,</span> <span class="n">VENVSTRAPP</span><span class="o">=</span><span class="n">VENVSTRAPP</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_configure_ipython</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -2850,7 +2859,9 @@
 
 <span class="sd">        Keyword Arguments:</span>
 <span class="sd">            shell_keyword (str): shell variable def (default: &quot;export &quot;)</span>
-<span class="sd">            include_aliases (bool): Include cdaliases in output (default: True)</span>
+<span class="sd">            include_paths (bool): Include environ vars in output (default: True)</span>
+<span class="sd">            include_aliases (bool): Include aliases in output (default: True)</span>
+<span class="sd">            include_cdaliases (bool): Include cdaliases in output (default: False)</span>
 <span class="sd">            compress_paths (bool): Compress paths to $VAR (default=False)</span>
 
 <span class="sd">        Yields:</span>

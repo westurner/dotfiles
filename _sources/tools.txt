@@ -1016,6 +1016,7 @@ JSON is an object representation in :ref:`Javascript` syntax
 which is now supported by libraries for many language.
 
 A list of objects with ``key`` and ``value`` attributes in JSON syntax:
+
 .. code-block:: javascript
 
     [
@@ -1386,7 +1387,8 @@ Perl
 
 
 
-Perl is a dynamically typed, C-based scripting language.
+Perl is a dynamically typed, :ref:`C`-based third-generation
+programming language.
 
 Many of the Debian system management tools are or were originally written
 in Perl.
