@@ -69,15 +69,14 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinxcontrib.napoleon',
-    'sphinxcontrib.ansi',
-    'sphinxcontrib.programoutput',
-    'sphinxcontrib.issuetracker',
     'edit_on_github'
 ]
 
 try:
     import sphinxcontrib.programoutput
-    # programoutput_use_ansi = True
+    extensions.append('sphinxcontrib.ansi')
+    extensions.append('sphinxcontrib.programoutput')
+    programoutput_use_ansi = True
 except ImportError:
     pass
 

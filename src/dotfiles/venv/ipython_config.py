@@ -1278,16 +1278,14 @@ def build_venv_paths_full_env(env=None,
     if pyver is None:
         pyver = get_pyver(pyver)
 
-    env['VENVPREFIX'] = lookup('VENVPREFIX')
+    env['VENVPREFIX'] = lookup('VENVPREFIX', default=lookup('VIRTUAL_ENV'))
     env['VENVSTR'] = lookup('VENVSTR')
     env['VENVSTRAPP'] = lookup('VENVSTRAPP')
     env['VIRTUAL_ENV'] = lookup('VIRTUAL_ENV')
 
-    VENVSTR = env.get('VENVSTR')
-    if VENVSTR is not None:
-        env = Venv.parse_VENVSTR(env=env,
-                                 pyver=pyver,
-                                 **kwargs)
+    env = Venv.parse_VENVSTR(env=env,
+                                pyver=pyver,
+                                **kwargs)
     VIRTUAL_ENV = env.get('VIRTUAL_ENV')
     VENVPREFIX = env.get('VENVPREFIX')
     if VENVPREFIX in (None, False):
@@ -2438,11 +2436,8 @@ class Venv(object):
             '__WRK',
         ]
 
-        SENTINEL = None
-        for key in keys:
-            value = _vars.get(key, SENTINEL)
-            if value is not SENTINEL:
-                kwargs[key] = value
+        if env is None:
+            env = Env()
 
         if from_environ is True:
             if VENVSTR or VENVSTRAPP or VENVPREFIX:
@@ -2450,30 +2445,28 @@ class Venv(object):
                     "from_environ=True cannot be specified with any of "
                     "[VENVSTR, VENVSTRAPP, VENVPREFIX]")
             env = Env.from_environ(os.environ)
-        else:
-            if env is None:
-                env = Env()
 
         def lookup(attr, default=None):
             return lookup_from_kwargs_env(kwargs, env, attr, default=default)
 
+        SENTINEL = None
+        for key in keys:
+            value = _vars.get(key, SENTINEL)
+            if value is not SENTINEL:
+                kwargs[key] = value
+                env[key] = lookup(key)
+
         logevent('parse_VENVSTR_input', {'kwargs': kwargs, 'env': env})
 
-        WORKON_HOME = env['WORKON_HOME'] = lookup(
-            'WORKON_HOME',
-            default=get_WORKON_HOME_default())
-        if WORKON_HOME is None:
-            WORKON_HOME = env['WORKON_HOME'] = get_WORKON_HOME_default()
-
-        VIRTUAL_ENV = env['VIRTUAL_ENV'] = lookup('VIRTUAL_ENV')
-
+        WORKON_HOME = lookup('WORKON_HOME', default=get_WORKON_HOME_default())
         VENVSTR = lookup('VENVSTR')
         if VENVSTR is not None:
             env['VENVSTR'] = VENVSTR
-        VENVSTRAPP = env['VENVSTRAPP'] = lookup('VENVSTRAPP', default=lookup('_APP'))
-        VENVPREFIX = env['VENVPREFIX'] = lookup('VENVPREFIX')
+        VENVSTRAPP = lookup('VENVSTRAPP', default=lookup('_APP'))
 
-        _APP = lookup('_APP')
+        _APP = lookup('_APP',
+                      default=lookup('VENVSTRAPP',
+                                     default=lookup('VENVSTR')))
 
         if VENVSTR is not None:
             if '/' not in VENVSTR:
@@ -2492,15 +2485,30 @@ class Venv(object):
             _APP = VIRTUAL_ENV_NAME
             VENVSTRAPP = _APP
 
+
+        if VIRTUAL_ENV is None:
+            VIRTUAL_ENV = lookup('VIRTUAL_ENV')
+            if VIRTUAL_ENV is None:
+                if WORKON_HOME and VIRTUAL_ENV_NAME:
+                    VIRTUAL_ENV = joinpath(WORKON_HOME, VIRTUAL_ENV_NAME)
+        if VIRTUAL_ENV:
+            env['VIRTUAL_ENV'] = VIRTUAL_ENV
+
+        VENVPREFIX = lookup('VENVPREFIX', default=VIRTUAL_ENV)
+
+
+        print(VENVPREFIX)
+        env['WORKON_HOME'] = WORKON_HOME
         env['VENVSTR'] = VENVSTR
         env['VENVSTRAPP'] = VENVSTRAPP
         env['_APP'] = _APP
         env['VIRTUAL_ENV_NAME'] = VIRTUAL_ENV_NAME
-        env['VENVPREFIX'] = VENVPREFIX = VIRTUAL_ENV
+        env['VENVPREFIX'] = VENVPREFIX
         env['VIRTUAL_ENV'] = VIRTUAL_ENV
 
         logevent('parse_VENVSTR_output', {'env': env, 'kwargs': kwargs, })
 
+        print(env.to_dict())
         #import ipdb
         # ipdb.set_trace()
         return env
@@ -2923,10 +2931,11 @@ class Venv(object):
         Returns:
             OrderedDict: OrderedDict(env=self.env, aliases=self.aliases)
         """
-        return OrderedDict(
-            env=self.env,
-            aliases=self.aliases,
-        )
+        return self.env.to_dict()
+        #OrderedDict(
+            #env=self.env,
+            ## aliases=self.aliases,
+        #)
 
     def to_json(self, indent=None):
         """
@@ -3155,7 +3164,8 @@ class VenvTestUtils(object):
         env['VENVSTRAPP'] = env.get('VENVSTRAPP',
                                     env['VENVSTR'])
         env['_APP'] = env.get('_APP',
-                              env['VENVSTR'])  # TODO || basename(VENVPREFIX)
+                              env.get('VENVSTRAPP',
+                                env['VENVSTR']))  # TODO || basename(VENVPREFIX)
         env['VIRTUAL_ENV_NAME'] = env.get('VIRTUAL_ENV_NAME',
                                           os.path.basename(
                                               env['VENVSTR']))
@@ -3163,8 +3173,7 @@ class VenvTestUtils(object):
                                      joinpath(
                                          env['WORKON_HOME'],
                                          env['VIRTUAL_ENV_NAME']))
-        env['VENVPREFIX'] = env.get('VENVPREFIX',
-                                    env.get('VIRTUAL_ENV'))
+        env['VENVPREFIX'] = env.get('VENVPREFIX') or env.get('VIRTUAL_ENV')
         env['_SRC'] = joinpath(env['VENVPREFIX'], 'src')
         env['_ETC'] = joinpath(env['VENVPREFIX'], 'etc')
         env['_WRD'] = joinpath(env['_SRC'], env['_APP'])
@@ -3292,36 +3301,44 @@ class Test_250_Venv(unittest.TestCase):
             venv = Venv()
 
     def test_100_Venv_parse_VENVSTR_env__and__VENVSTR(self):
-        venv = Venv.parse_VENVSTR(env=self.env, VENVSTR=self.env['VENVSTR'])
+        env = Venv.parse_VENVSTR(env=self.env, VENVSTR=self.env['VENVSTR'])
         for attr in self.envattrs:
-            self.assertIn(attr, venv)
-            self.assertEqual(venv[attr], self.env.environ[attr])
-            self.assertEqual(venv[attr], self.env[attr])
+            self.assertIn(attr, env)
+            self.assertEqual(env[attr], self.env.environ[attr])
+            self.assertEqual(env[attr], self.env[attr])
 
     def test_110_Venv_parse_VENVSTR_VENVSTR(self):
-        venv = Venv.parse_VENVSTR(VENVSTR=self.env['VENVSTR'])
+        env = Venv.parse_VENVSTR(VENVSTR=self.env['VENVSTR'])
         for attr in self.envattrs:
-            self.assertIn(attr, venv)
-            self.assertEqual(venv[attr], self.env[attr], attr)
+            self.assertIn(attr, env)
+            print(attr)
+            try:
+                self.assertEqual(env[attr], self.env[attr])
+            except:
+                print(attr)
+                raise
 
     def test_110_Venv_parse_VENVSTR_VENVSTR(self):
-        venv = Venv.parse_VENVSTR(VENVSTR=self.env['VENVSTR'])
+        env = Venv.parse_VENVSTR(VENVSTR=self.env['VENVSTR'])
         for attr in self.envattrs:
-            self.assertIn(attr, venv)
-            self.assertEqual(venv[attr], self.env[attr])
+            try:
+                self.assertEqual(env[attr], self.env[attr])
+            except:
+                self.assertEqual(attr+'-'+env[attr], attr)
+                raise
 
     def test_120_Venv_parse_VENVSTR_VENVSTR_VENVSTRAPP(self):
         VENVSTRAPP = 'dotfiles/docs'
         self.env = VenvTestUtils.build_env_test_fixture(
             Env(VENVSTRAPP=VENVSTRAPP, _APP=VENVSTRAPP))
-        venv = Venv.parse_VENVSTR(VENVSTR=self.env['VENVSTR'],
+        env = Venv.parse_VENVSTR(VENVSTR=self.env['VENVSTR'],
                                   VENVSTRAPP=VENVSTRAPP)
         for attr in self.envattrs:
-            self.assertIn(attr, venv)
-            self.assertEqual(venv[attr], self.env[attr])
+            self.assertIn(attr, env)
+            self.assertEqual(env[attr], self.env[attr])
 
-        self.assertEqual(venv['_APP'], VENVSTRAPP)
-        self.assertEqual(venv['VENVSTRAPP'], VENVSTRAPP)
+        self.assertEqual(env['_APP'], VENVSTRAPP)
+        self.assertEqual(env['VENVSTRAPP'], VENVSTRAPP)
 
 
 class Test_300_venv_build_env(unittest.TestCase):

@@ -185,9 +185,9 @@ Example Venv Configuration
 
 Shell Configuration
 ~~~~~~~~~~~~~~~~~~~~
-``venv.py --print-bash dotfiles``:
+``venv.py --print-bash --compress dotfiles``:
 
-.. command-output:: python ../scripts/venv.py --print-bash dotfiles \
+.. command-output:: python ../scripts/venv.py --print-bash --compress dotfiles \
    | sed "s,${HOME},~,g"
    :shell:
 
@@ -197,6 +197,7 @@ JSON Configuration
 ``venv.py --print-json dotfiles``:
 
 .. command-output:: python ../scripts/venv.py --print-json dotfiles \
+   | python ../scripts/venv.py --compress dotfiles \
    | sed "s,${HOME},~,g"
    :shell:
 
