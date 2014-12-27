@@ -930,8 +930,9 @@ workon_conda_if_available() {
 
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
 #
-export PROJECT_HOME="${HOME}/-wrk"
-export WORKON_HOME="${PROJECT_HOME}/-ve"
+export __WRK=${__WRK:-"${HOME}/-wrk"}
+export PROJECT_HOME="${__WRK}"
+export WORKON_HOME="${__WRK}/-ve27"
 
 _setup_virtualenvwrapper () {
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
@@ -2311,9 +2312,10 @@ _rebuild_virtualenv() {
     find -E "${_PYSITE}" -iname 'distribute*' -delete
     find -E "${_PYSITE}" -iname 'easy_install*' -delete
     find -E "${_PYSITE}" -iname 'python*' -delete
-    deactivate
-    mkvirtualenv ${VENVSTR}
-    workon ${VENVSTR}
+    declare -f 'deactivate' 2>&1 /dev/null && deactivate
+    mkvirtualenv -i setuptools -i wheel -i pip ${VENVSTR} 
+    #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
+    workon ${VENVSTR} && \
     we ${VENVSTR}
     _BIN="${VIRTUAL_ENV}/bin"
 
@@ -2322,13 +2324,14 @@ _rebuild_virtualenv() {
         return 1
     fi
 
-    files=$(find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$')
-    (cd ${_BIN}; \
-        head -n1 ${files}; \
-        sed -i.bak "s,^#!(.*${VENVSTR}/bin/python)(\d.*),#!${_BIN}/python," \
-        ${files} )
-    head -n1 ${files}
-    (cd ${_BIN}; rm -ifv ./*.bak)
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | xargs head -n1
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | LC_ALL=C xargs  sed -i.bak -E 's,^#!.*python.*,#!'${_BIN}'/python,'
+    find $_BIN -name '*.bak' -delete
+
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | xargs head -n1
     echo "
     # TODO: adjust paths beyond the shebang
     #${_BIN}/pip install -v -v -r <(${_BIN}/pip freeze)
@@ -4096,7 +4099,7 @@ _setup_usrlog() {
 _usrlog_setup
 _usrlog_get_prefix
 _usrlog_get_prefix
-]0;#testing  W@nb-mb1:/Users/W/-dotfiles
+]0;#testing (dotfiles)  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -5214,15 +5217,15 @@ HOSTNAME='nb-mb1'
 USER='W'
 __WRK='/Users/W/-wrk'
 PROJECT_HOME='/Users/W/-wrk'
-WORKON_HOME='/Users/W/-wrk/-ve'
-VIRTUAL_ENV_NAME=''
-VIRTUAL_ENV=''
-_SRC=''
-_APP=''
-_WRD=''
-_USRLOG='/Users/W/-usrlog.log'
+WORKON_HOME='/Users/W/-wrk/-ve27'
+VIRTUAL_ENV_NAME='dotfiles'
+VIRTUAL_ENV='/Users/W/-wrk/-ve27/dotfiles'
+_SRC='/Users/W/-wrk/-ve27/dotfiles/src'
+_APP='dotfiles'
+_WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
+_USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 __DOTFILES='/Users/W/-dotfiles'
 #
 ### </end dotfiles .bashrc>

@@ -556,6 +556,7 @@
 " Jinja         -- Jinja Templates syntax
 " os.vim   -- Operating System [help os]
 " clickable.vim -- click-able links
+" Bundle 'https://github.com/Rykka/clickable.vim' XXX TODO linux
 " Riv.vim   -- ReStructuredText [help riv]
 "  :RivIntro
 "  :RivQuickStart
