@@ -1,3 +1,25 @@
 -r requirements/requirements-dev.txt
 #-r requirements/requirements-docs.txt
 -r requirements/requirements-suggests.txt
+
+pyline
+#  src:
+#    -e git+https://github.com/westurner/pyline#egg=pyline
+#  doc:
+#    - https://pyline.readthedocs.org/en/latest/
+
+pyrpo
+#  src:
+#    -e git+https://github.com/westurner/pyrpo#egg=pyrpo
+#  doc:
+#    - https://pyrpo.readthedocs.org/en/latest/
+
+
+# pyinotify is not available on OSX
+#pyinotify
+#  src:
+#    -e git+https://github.com/seb-m/pyinotify#egg=pyinotify
+#  doc:
+#    - https://github.com/seb-m/pyinotify/wiki 
+#    - https://seb-m.github.io/pyinotify/
+
