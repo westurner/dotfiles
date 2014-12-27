@@ -2381,11 +2381,12 @@ __setup_dotfiles() {
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
 export __SRC="${__WRK}/src/src"
-[ ! -d $__SRC ] && mkdir -p \
-    ${__SRC}/git/github.com \
-    ${__SRC}/git/bitbucket.org \
-    ${__SRC}/hg/bitbucket.org
-
+if [ ! -d $__SRC ]; then
+    mkdir -p \
+        ${__SRC}/git/github.com \
+        ${__SRC}/git/bitbucket.org \
+        ${__SRC}/hg/bitbucket.org
+fi
 
     # PATH="~/.local/bin:$PATH" (if not already there)
 add_to_path "${HOME}/.local/bin"
