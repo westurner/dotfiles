@@ -934,7 +934,7 @@ class StepBuilder(object):
         Add a step to ``self.steps``
 
         Args:
-            func (Step or function or str): func(env=None, **kwargs)
+            func (Step or function or str): ``func(env=None, **kwargs)``
             kwargs (dict): kwargs for Step.conf
         Keyword Arguments:
             name (str): function name (default: None)
@@ -1349,13 +1349,13 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
     Build CdAliases for standard paths
 
     Keyword Args:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`Env`
     Returns:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
-            with ``.aliases`` extended.
+        env (Env dict): :py:class:`Env`
+        with ``.aliases`` extended.
 
     .. note:: These do not work in IPython as they run in a subshell.
-        See: :py:mod:`dotfiles.venv.ipython_magics`.
+       See: :py:mod:`dotfiles.venv.ipython_magics`.
     """
     if env is None:
         env = Env()
@@ -2359,7 +2359,7 @@ class Venv(object):
               show_diffs=False,
               ):
         """
-        Build Venv Steps with StepBuilder
+        Build :py:class:`Venv` :py:class:`Steps` with :py:class:`StepBuilder`
 
         """
         conf = OrderedDict()
@@ -2593,16 +2593,17 @@ class Venv(object):
         return Venv._configure_sys(self.env)
 
     @classmethod
-    def workon_project(cls, VENVSTR, **kwargs):
+    def workon(cls, env=None, VENVSTR=None, VENVSTRAPP=None, **kwargs):
         """
         Args:
             VENVSTR (str): a path to a virtualenv containing ``/``
                 OR just the name of a virtualenv in ``$WORKON_HOME``
+            VENVSTRAPP (str): e.g. ``dotfiles`` or ``dotfiles/docs``
             kwargs (dict): kwargs to pass to Venv (see ``Venv.__init__``)
         Returns:
             Venv: an intialized ``Venv``
         """
-        return cls(VENVSTR=VENVSTR, **kwargs)
+        return cls(env=env, VENVSTR=VENVSTR, VENVSTRAPP=VENVSTRAPP, **kwargs)
 
     @staticmethod
     def _configure_ipython(c=None,
@@ -2735,7 +2736,9 @@ class Venv(object):
 
         Keyword Arguments:
             shell_keyword (str): shell variable def (default: "export ")
-            include_aliases (bool): Include cdaliases in output (default: True)
+            include_paths (bool): Include environ vars in output (default: True)
+            include_aliases (bool): Include aliases in output (default: True)
+            include_cdaliases (bool): Include cdaliases in output (default: False)
             compress_paths (bool): Compress paths to $VAR (default=False)
 
         Yields:
