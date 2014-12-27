@@ -4,7 +4,12 @@ from __future__ import print_function
 Print psutil.Process.memory_info for processes with sockets open to
 the specified ports.
 """
-import psutil
+try:
+    import psutil
+except ImportError as e:
+    import warnings
+    warnings.warn(str(e))
+    psutil = object()
 import logging
 
 def net_connection_memory_info(ports=[80, 443]):
