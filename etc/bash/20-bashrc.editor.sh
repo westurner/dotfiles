@@ -26,7 +26,7 @@ _setup_editor() {
     export SUDO_EDITOR="${VIMBIN} -f"
 
     if [ -n "${GUIVIMBIN}" ]; then
-        export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'}"
+        export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-"/"}"
         export EDITOR="${GUIVIMBIN} -f"
         export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
         export SUDO_EDITOR="${GUIVIMBIN} -f"

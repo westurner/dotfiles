@@ -1,85 +1,8 @@
-export VENVPREFIX='/'
-export VENVSTR=''
-export HOME='/Users/W'
-export __WRK='/Users/W/-wrk'
-export __SRC='/Users/W/-wrk/-src'
-export __DOTFILES='/Users/W/-dotfiles'
-export PROJECT_HOME='/Users/W/-wrk'
-export WORKON_HOME__py27='/Users/W/-wrk/-ve27'
-export WORKON_HOME__py34='/Users/W/-wrk/-ve34'
-export WORKON_HOME_DEFAULT='WORKON_HOME__py27'
-export WORKON_HOME='/Users/W/-wrk/-ve27'
-export CONDA27_ROOT='/Users/W/-wrk/-conda27'
-export CONDA27_HOME='/Users/W/-wrk/-ce27'
-export CONDA34_ROOT='/Users/W/-wrk/-conda34'
-export CONDA34_HOME='/Users/W/-wrk/-ce34'
-export CONDA_ROOT__py27='/Users/W/-wrk/-conda27'
-export CONDA_HOME__py27='/Users/W/-wrk/-ce27'
-export CONDA_ROOT__py34='/Users/W/-wrk/-conda34'
-export CONDA_HOME__py34='/Users/W/-wrk/-ce34'
-export CONDA_ROOT_DEFAULT='CONDA_ROOT__py27'
-export CONDA_HOME_DEFAULT='CONDA_HOME__py27'
-export CONDA_ROOT='/Users/W/-wrk/-conda27'
-export CONDA_HOME='/Users/W/-wrk/-ce27'
-export VENVSTRAPP=''
-export VIRTUAL_ENV=''
-export _BIN='/bin'
-export _ETC='/etc'
-export _ETCOPT='/etc/opt'
-export _HOME='/home'
-export _LIB='/lib'
-export _PYLIB='/lib/python2.7'
-export _PYSITE='/lib/python2.7/site-packages'
-export _MNT='/mnt'
-export _MEDIA='/media'
-export _OPT='/opt'
-export _ROOT='/root'
-export _SBIN='/sbin'
-export _SRC='/src'
-export _SRV='/srv'
-export _TMP='/tmp'
-export _USR='/usr'
-export _USRBIN='/usr/bin'
-export _USRINCLUDE='/usr/include'
-export _USRLIB='/usr/lib'
-export _USRLOCAL='/usr/local'
-export _USRSBIN='/usr/sbin'
-export _USRSHARE='/usr/share'
-export _USRSRC='/usr/src'
-export _VAR='/var'
-export _VARCACHE='/var/cache'
-export _VARLIB='/var/lib'
-export _VARLOCK='/var/lock'
-export _LOG='/var/log'
-export _VARMAIL='/var/mail'
-export _VAROPT='/var/opt'
-export _VARRUN='/var/run'
-export _VARSPOOL='/var/spool'
-export _VARTMP='/var/tmp'
-export _WWW='/var/www'
-export PROJECT_FILES=''
-export _APP=''
-export _WRD=''
-export VIMBIN='/usr/bin/vim'
-export GVIMBIN='/usr/local/bin/gvim'
-export MVIMBIN='/usr/local/bin/mvim'
-export GUIVIMBIN='/usr/local/bin/gvim'
-export VIMCONF='--servername /'
-export _EDIT_='/usr/local/bin/gvim --servername / --remote-tab-silent'
-export EDITOR_='/usr/local/bin/gvim --servername / --remote-tab-silent'
-export _NOTEBOOKS='/src/notebooks'
-export _IPYSESKEY='/src/.ipyseskey'
-export _IPQTLOG='.ipqt.log'
-export _WRD_SETUPY='setup.py'
-export _TEST_='(cdwrd && python "${_WRD_SETUPY}" test)'
-export _CFG='/etc/development.ini'
-export _EDITCFG_='/usr/local/bin/gvim --servername / --remote-tab-silent /etc/development.ini'
-export _SHELL_='(cdwrd && "${_BIN}"/pshell "${_CFG}")'
-export _SERVE_='(cdwrd && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")'
-export _SVCFG='/etc/supervisord.conf'
-export _SVCFG_=' -c "/etc/supervisord.conf"'
-export __USRLOG='/Users/W/-usrlog.log'
-export _USRLOG='-usrlog.log'
+#!/bin/sh
+## venv.sh
+# generated from $(venv --print-bash --prefix=/)
+
+
 eval '
 cdhome () {
     # cdhome            -- cd $HOME /$@
@@ -384,11 +307,11 @@ complete -o default -o nospace -F _cd__WWW_complete cdww
 eval 'cdls () {
     set | grep "^cd.*()" | cut -f1 -d" " #$@
 }';
-alias cdhelp="cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
+alias cdhelp="cat $__DOTFILES${_ETC}/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
 eval 'edit- () {
     ${_EDIT_} $@
 }';
-alias gvim-='/usr/local/bin/gvim --servername / --remote-tab-silent'
+alias gvim-='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent'
 eval 'ipskey () {
     (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # $@
 }';
@@ -449,6 +372,9 @@ eval 'make- () {
 }';
 eval 'mw () {
     (cdwrd && make $@)
+}';
+eval 'makewepy () {
+    _logfile="${_LOG}/make.log.py"; (makew $@ 2>&1 | tee $_logfile) && e $_logfile
 }';
 alias ssv='supervisord -c "${_SVCFG}"'
 alias sv='supervisorctl -c "${_SVCFG}"'

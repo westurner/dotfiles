@@ -26,14 +26,36 @@ lessv () {
     # lessv()   -- less with less.vim and vim (g:tinyvim=1)
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
-            #read stdin
-            ${VIMBIN} --cmd "let g:tinyvim=1" \
+            if [ -n "$VIMPAGER_SYNTAX" ]; then
+                #read stdin
+                ${VIMBIN} --cmd "let g:tinyvim=1" \
+                    --cmd "runtime! macros/less.vim" \
+                    --cmd "set nomod" \
+                    --cmd "set noswf" \
+                    -c "set colorcolumn=0" \
+                    -c "map <C-End> <Esc>G" \
+                    -c "set syntax=${VIMPAGER_SYNTAX}" \
+                    -
+            else
+                ${VIMBIN} --cmd "let g:tinyvim=1" \
+                    --cmd "runtime! macros/less.vim" \
+                    --cmd "set nomod" \
+                    --cmd "set noswf" \
+                    -c "set colorcolumn=0" \
+                    -c "map <C-End> <Esc>G" \
+                    -
+            fi
+        elif [ -n "$VIMPAGER_SYNTAX" ]; then
+            ${VIMBIN} \
+                --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
                 --cmd "set noswf" \
                 -c "set colorcolumn=0" \
                 -c "map <C-End> <Esc>G" \
-                -
+                -c "set syntax=${VIMPAGER_SYNTAX}" \
+                ${@}
+
         else
             ${VIMBIN} \
                 --cmd "let g:tinyvim=1" \
@@ -42,14 +64,14 @@ lessv () {
                 --cmd "set noswf" \
                 -c "set colorcolumn=0" \
                 -c "map <C-End> <Esc>G" \
-                $@
+                ${@}
         fi
     else
         #Output is not a terminal, cat arguments or stdin
         if [ $# -eq 0 ]; then
             less
         else
-            less "$@"
+            less $@
         fi
     fi
 }

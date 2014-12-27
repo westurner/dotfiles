@@ -2,8 +2,9 @@
 
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
 #
-export PROJECT_HOME="${HOME}/-wrk"
-export WORKON_HOME="${PROJECT_HOME}/-ve"
+export __WRK=${__WRK:-"${HOME}/-wrk"}
+export PROJECT_HOME="${__WRK}"
+export WORKON_HOME="${__WRK}/-ve27"
 
 _setup_virtualenvwrapper () {
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
@@ -74,31 +75,43 @@ backup_virtualenvs() {
 
 _rebuild_virtualenv() {
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+    #    $1="$VENVSTR"
+    #    $2="$VIRTUAL_ENV"
     echo "rebuild_virtualenv()"
-    local venvname="${1}"
-    local VIRTUAL_ENV=${2:-"${WORKON_HOME}/${venvname}"}
-    rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
-        ${_BIN}/pip ${_BIN}/pip-2.7 \
-        ${_BIN}/easy_install ${_BIN}/easy_install-2.7 \
-        ${_BIN}/activate*
+    VENVSTR="${1}"
+    VIRTUAL_ENV=${2:-"${WORKON_HOME}/${VENVSTR}"}
+    _BIN="${VIRTUAL_ENV}/bin"
+    #rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
+        #${_BIN}/pip ${_BIN}/pip-2.7 \
+        #${_BIN}/easy_install ${_BIN}/easy_install-2.7 \
+        #${_BIN}/activate*
     pyver=$(python -c "import sys; print('{}.{}'.format(*sys.version_info[:2]))")
-    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
-        -iname 'pip*' -delete
-    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
-        -iname 'setuptools*' -delete
-    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
-        -iname 'distribute*' -delete
-    deactivate
-    mkvirtualenv ${venvname}
+    _PYSITE="${VIRTUAL_ENV}/lib/python${pyver}/site-packages"
+    find -E "${_PYSITE}" -iname 'activate*' -delete
+    find -E "${_PYSITE}" -iname 'pip*' -delete
+    find -E "${_PYSITE}" -iname 'setuptools*' -delete
+    find -E "${_PYSITE}" -iname 'distribute*' -delete
+    find -E "${_PYSITE}" -iname 'easy_install*' -delete
+    find -E "${_PYSITE}" -iname 'python*' -delete
+    declare -f 'deactivate' 2>&1 /dev/null && deactivate
+    mkvirtualenv ${VENVSTR}
+    workon ${VENVSTR}
+    we ${VENVSTR}
+    _BIN="${VIRTUAL_ENV}/bin"
 
-    _BIN__="${VIRTUAL_ENV}/bin"
-    files=$(find ${_BIN__} -type f | grep -v '.bak$' | grep -v 'python*$')
-    head -n1 ${files}
-    (cd ${_BIN}; \
-        sed -i.bak "s,^#!(.*${venvname}/bin/python)(\d.*),#!${_BIN}/python," \
-        ${files} )
-    head -n1 ${files}
-    (cd ${_BIN}; rm -ifv ./*.bak)
+    if [ "${_BIN}" == "/bin" ]; then
+        echo "err: _BIN='${_BIN}'"
+        return 1
+    fi
+
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | xargs head -n1
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | xargs  sed -i.bak -E 's,^#!.*python.*,#!'${_BIN}'/python,'
+    find $_BIN -name '*.bak' -delete
+
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | xargs head -n1
     echo "
     # TODO: adjust paths beyond the shebang
     #${_BIN}/pip install -v -v -r <(${_BIN}/pip freeze)
@@ -107,6 +120,9 @@ _rebuild_virtualenv() {
 }
 
 rebuild_virtualenv() {
+    #  rebuild_virtualenv()     -- rebuild a virtualenv
+    #    $1="$VENVSTR"
+    #    $2="$VIRTUAL_ENV"
     (set -x; _rebuild_virtualenv $@)
 }
 

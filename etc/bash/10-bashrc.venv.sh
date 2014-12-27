@@ -3,12 +3,15 @@
 ## Variables
 
     # __PROJECTSRC -- path to local project settings script
-export __PROJECTSRC="${PROJECT_HOME}/.projectsrc.sh"
+export __PROJECTSRC="${__WRK}/.projectsrc.sh"
 [ -f $__PROJECTSRC ] && source $__PROJECTSRC
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
-export __SRC="${HOME}/src"
-[ ! -d $__SRC ] && mkdir -p $__SRC/hg $__SRC/git
+export __SRC="${__WRK}/src/src"
+[ ! -d $__SRC ] && mkdir -p \
+    ${__SRC}/git/github.com \
+    ${__SRC}/git/bitbucket.org \
+    ${__SRC}/hg/bitbucket.org
 
 
     # PATH="~/.local/bin:$PATH" (if not already there)
@@ -46,13 +49,16 @@ workon_venv() {
     #append to shell history
     history -a
 
-    if [ -n "$1" ]; then
-        workon $1  # sets VIRTUAL_ENV
-        source <($__VENV --print-bash $@)
-        dotfiles_status
+    if [ -n "$1" ] && ([ -d "$WORKON_HOME/$1" ] || [ -d "${1}"]); then
+        workon $1 && \
+        source <($__VENV --print-bash $@) && \
+        dotfiles_status && \
+        declare -f '_venv_set_prompt' 2>&1 > /dev/null \
+            && _venv_set_prompt ${_TERM_ID:-$1}
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenv
+        return 1
     fi
 }
 we () {
@@ -64,6 +70,9 @@ complete -o default -o nospace -F _virtualenvs we
 
 # CdAlias functions and completions
 source ${__DOTFILES}/etc/venv/venv.sh
+if [ "$VENVPREFIX" == "/" ]; then
+    source ${__DOTFILES}/etc/venv/venv_root_prefix.sh
+fi
 
 ## Grin search
 # virtualenv / virtualenvwrapper
