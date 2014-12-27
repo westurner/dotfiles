@@ -268,6 +268,7 @@
 "  :Threetabs   -- set to three (3) soft tabs (e.g. RST)
 "  :Twotabs     -- set to two (2) soft tabs
 "  :Onetab      -- set to one soft tab
+"  :Hardtabs
 "  :CurrentBuffer -- display number of current buffer
 "  <leader> 2   -- diffget from bufnr 2
 "  <leader> 3   -- diffget from bufnr 3
@@ -303,7 +304,40 @@
 " The Bundle URLs are intentionally complete https URLs
 " * grep '^Bundle \'' vimrc.bundles
 " * sed -i 's\https://github.com/\ssh://git@github.com/\g'
-" venv.vim          -- venv cdalias commands like :Cdwrk, :Cdsrc, and :Cdwrd
+" venv.vim          -- venv CdAlias commands
+"  :Cdhome          -- Cd_HOME()
+"  :Cdh             -- Cd_HOME()
+"  :Cdwrk           -- Cd___WRK()
+"  :Cddotfiles      -- Cd___DOTFILES()
+"  :Cdd             -- Cd___DOTFILES()
+"  :Cdprojecthome   -- Cd_PROJECT_HOME()
+"  :Cdp             -- Cd_PROJECT_HOME()
+"  :Cdph            -- Cd_PROJECT_HOME()
+"  :Cdworkonhome    -- Cd_WORKON_HOME()
+"  :Cdwh            -- Cd_WORKON_HOME()
+"  :Cdve            -- Cd_WORKON_HOME()
+"  :Cdcondahome     -- Cd_CONDA_HOME()
+"  :Cda             -- Cd_CONDA_HOME()
+"  :Cdce            -- Cd_CONDA_HOME()
+"  :Cdvirtualenv    -- Cd_VIRTUAL_ENV()
+"  :Cdv             -- Cd_VIRTUAL_ENV()
+"  :Cdsrc           -- Cd__SRC()
+"  :Cds             -- Cd__SRC()
+"  :Cdwrd           -- Cd__WRD()
+"  :Cdw             -- Cd__WRD()
+"  :Cdbin           -- Cd__BIN()
+"  :Cdb             -- Cd__BIN()
+"  :Cdetc           -- Cd__ETC()
+"  :Cde             -- Cd__ETC()
+"  :Cdlib           -- Cd__LIB()
+"  :Cdl             -- Cd__LIB()
+"  :Cdlog           -- Cd__LOG()
+"  :Cdpylib         -- Cd__PYLIB()
+"  :Cdpysite        -- Cd__PYSITE()
+"  :Cdsitepackages  -- Cd__PYSITE()
+"  :Cdvar           -- Cd__VAR()
+"  :Cdwww           -- Cd__WWW()
+"  :Cdww            -- Cd__WWW()
 " Info.vim          -- vim infopages in vim [help info]
 "  :Info sed        --  view infopage for 'sed'
 "  <Space>          --  Scroll forward (page down).
@@ -322,6 +356,16 @@
 "  q                --  Quit browser.
 "
 " Signify   -- show git/hg file changes in gutter [help signify]
+"  <leader>gt       -- SignifyToggle
+"  <leader>gh       -- SignifyToggleHighlight
+"  <leader>gr       -- SignifyRefresh
+"  <leader>gd       -- SignifyDebug
+" hunk jumping
+"  <leader>gh       -- signify-next-hunk
+"  <leader>gk       -- signify-prev-hunk
+" hunk text object
+"  ic               -- signify inner textobj
+"  ac               -- signify outer textobj
 " Fugitive      -- Git commands and statusline display [help fugitive]
 " Lawrencium    -- Hg commands [help lawrencium]
 " NERDTree      -- File browser [help NERDTree]
@@ -427,10 +471,14 @@
 " :Ack [options] PATTERN [directory]    -- search for pattern
 " :AckAdd [options] PATTERN [directory] -- add a search pattern
 " :AckWindow [options] PATTERN          -- search all visible buffers"
-" vim-surround  -- paired tag wrappings [help surround]
-"  ds   -- delete surroundings
-"  cs   -- change surroundings
-"
+" vim-surround  -- add quotes/parenthesis/tags [help surround]
+"  cs       -- change surrounding
+"  ys       -- yank and surround (motion, text object)
+"  yss      -- yank and surround current line
+"  ds"      -- remove double-quotes
+"  cs'"     -- replace single-quotes with double quotes
+"  cd"<q>   -- surround with <q>...<q/>
+"  dst      -- remove surrounding tag
 " csapprox      -- adapt gvim colorschemes for terminal vim [help csapprox]
 " UndoTree      -- visualize vim undotree
 "  <F5>     -- Toggle UndoTree (? for help)
@@ -507,7 +555,8 @@
 " Pyrex         -- Pyrex syntax
 " Jinja         -- Jinja Templates syntax
 " os.vim   -- Operating System [help os]
-" clickbable.vim -- click-able links
+" clickable.vim -- click-able links
+" Bundle 'https://github.com/Rykka/clickable.vim' XXX TODO linux
 " Riv.vim   -- ReStructuredText [help riv]
 "  :RivIntro
 "  :RivQuickStart
@@ -520,6 +569,31 @@
 " webapi-vim -- vim web API [help webapi[-{html, http, json, xml}]]
 " gist-vim  -- Create a gist.github.com [help gist-vim]
 " github-issues.vim     -- autocomplete, CRUD GitHub issues [help Gissues]
+" html5.vim             -- HTML5, RDFa, microdata, WAI-ARIA
+" vim-javascript        -- improved Javascript support
+" vim-indent-guides     -- show indentation levels [help indent_guides]
+" rainbow-parentheses   -- make nested parenthesis different colors
+"  :RainbowParenthesesActivate
+"  :RainbowParenthesesToggle
+"  :RainbowParenthesesLoadRound
+"  :RainbowParenthesesLoadSquare
+"  :RainbowParenthesesLoadBraces
+"  :RainbowParenthesesLoadChevrons
+"  :RainbowParenthesesToggleAll
+    " :RainbowParenthesesActivate
+" l9                    -- utility library (for FuzzyFinder)
+" FuzzyFinder           -- find files, buffers, tags, changes [help fuf]
+"  :FufBuffer
+"  :FufFile
+"  :FufDir
+"  :FufMruFile
+"  :FufMruCmd
+"  :FufTag
+"  :FufJumpList
+"  :FufChangeList
+"  :FufQuickfix
+"  :FufHelp
+" abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
 " All of your Bundles must be added before the following line
 "
    
