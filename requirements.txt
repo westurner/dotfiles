@@ -20,3 +20,6 @@ pyrpo
 #    - https://github.com/seb-m/pyinotify/wiki 
 #    - https://seb-m.github.io/pyinotify/
 
+#psutil
+#sarge
+#structlog
