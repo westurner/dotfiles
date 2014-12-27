@@ -2496,8 +2496,6 @@ class Venv(object):
 
         VENVPREFIX = lookup('VENVPREFIX', default=VIRTUAL_ENV)
 
-
-        print(VENVPREFIX)
         env['WORKON_HOME'] = WORKON_HOME
         env['VENVSTR'] = VENVSTR
         env['VENVSTRAPP'] = VENVSTRAPP
@@ -2508,7 +2506,6 @@ class Venv(object):
 
         logevent('parse_VENVSTR_output', {'env': env, 'kwargs': kwargs, })
 
-        print(env.to_dict())
         #import ipdb
         # ipdb.set_trace()
         return env
