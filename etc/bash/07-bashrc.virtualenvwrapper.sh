@@ -94,8 +94,9 @@ _rebuild_virtualenv() {
     find -E "${_PYSITE}" -iname 'easy_install*' -delete
     find -E "${_PYSITE}" -iname 'python*' -delete
     declare -f 'deactivate' 2>&1 /dev/null && deactivate
-    mkvirtualenv ${VENVSTR}
-    workon ${VENVSTR}
+    mkvirtualenv -i setuptools -i wheel -i pip ${VENVSTR} 
+    #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
+    workon ${VENVSTR} && \
     we ${VENVSTR}
     _BIN="${VIRTUAL_ENV}/bin"
 
@@ -107,7 +108,7 @@ _rebuild_virtualenv() {
     find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
         | xargs head -n1
     find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
-        | xargs  sed -i.bak -E 's,^#!.*python.*,#!'${_BIN}'/python,'
+        | LC_ALL=C xargs  sed -i.bak -E 's,^#!.*python.*,#!'${_BIN}'/python,'
     find $_BIN -name '*.bak' -delete
 
     find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
