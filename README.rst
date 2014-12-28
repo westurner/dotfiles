@@ -1,3 +1,6 @@
+.. image:: https://badge.waffle.io/westurner/dotfiles.png?label=ready&title=Ready 
+ :target: https://waffle.io/westurner/dotfiles
+ :alt: 'Stories in Ready'
 
 ===========
 Dotfiles
