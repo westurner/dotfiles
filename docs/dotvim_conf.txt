@@ -260,22 +260,27 @@
 " Python
 "  Wrap at 72 chars for comments.
 "  read virtualenv's site-packages to vim path
-" TODO: python regex current buffer
-" :help if_pyth
+    " TODO: python regex current buffer
 " Tabsetting functions
 "  :Fourtabs    -- set to four (4) soft tabs (Default)
 " Default to fourtabs
-"  :Threetabs   -- set to three (3) soft tabs (e.g. RST)
+"  :Threetabs   -- set to three (3) soft tabs
 "  :Twotabs     -- set to two (2) soft tabs
-"  :Onetab      -- set to one soft tab
-"  :Hardtabs
+"  :Onetab      -- set to one (1) soft tab
+"  :Hardtabs    -- set to hard \t tabs (e.g. for Makefiles)
 "  :CurrentBuffer -- display number of current buffer
-"  <leader> 2   -- diffget from bufnr 2
-"  <leader> 3   -- diffget from bufnr 3
-"  <leader> 4   -- diffget from bufnr 4
-"  <leader> 2   -- diffget from bufnr 2
-"  <leader> 3   -- diffget from bufnr 3
-"  <leader> 4   -- diffget from bufnr 4
+"  diff           -- vimdiff, Hgvdiff, Gdiff
+"    :diffget   -- get from diff (overwrite or append)
+"    do         -- :diffget other block
+"    :diffput   -- put from diff (overwrite or append)
+"    dp         -- :diffput block 
+"
+"    <C-W><C-w> -- cycle between buffers
+"
+"  diffget maps   -- 3-way merge buffers
+"    <leader> 2   -- diffget from bufnr 2
+"    <leader> 3   -- diffget from bufnr 3
+"    <leader> 4   -- diffget from bufnr 4
 "  :Striptrailingwhitespace -- strip spaces at the end of lines
 " Adjust font-size
 "  <C-Up>   -- increase font size
@@ -498,6 +503,7 @@
 "  g:pymode_python = { 'python', 'python3', 'disable' }
 "
 "  set g:pymode_python 'disable' (start time, occasional completion stall)
+"  <leader> d    -- open pydoc
 "  :PymodeLintToggle    -- toggle lint checking
 "  :PymodeLintAuto      -- autofix current buffer pep8 errors
 " - auto-show an error window
@@ -554,6 +560,12 @@
 "  <leader>te       --  pytest error
 " Pyrex         -- Pyrex syntax
 " Jinja         -- Jinja Templates syntax
+" vim-coffee-script -- CoffeeScript syntax, indent
+" vim-haml          -- HAML, SASS, SCSS
+" vim-css3-syntax   -- CSS3
+" vim-css-color     -- show CSS color codes
+" vim-less          -- LESS CSS
+" vim-jade          -- Jade templates
 " os.vim   -- Operating System [help os]
 " clickable.vim -- click-able links
 " Bundle 'https://github.com/Rykka/clickable.vim' XXX TODO linux
