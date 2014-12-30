@@ -1622,7 +1622,7 @@ Python Distributions
 * Python(x,y)
 * WinPython
 * Pyzo
-* Algorete Loopy (ref:`Conda`)
+* Algorete Loopy (:ref:`Conda`)
 
 Scipy Stack Docker Containers
 
