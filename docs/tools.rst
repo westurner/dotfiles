@@ -645,7 +645,14 @@ C
 C is a third-generation programming language which affords relatively
 low-level machine access while providing helpful abstractions.
 
-The GNU/:ref:`Linux` kernel is written in C and compiled by :ref:`GCC`.
+The GNU/:ref:`Linux` kernel is written in C
+and often compiled by :ref:`GCC` or :ref:`Clang`
+for a particular architecture (see: ``man uname``)
+
+:ref:`Libc` libraries are written in C.
+
+Almost all of the projects linked here, at some point,
+utilize code written in C.
 
 
 .. index:: C++
@@ -659,6 +666,22 @@ C++
 
 C++ is a third-generation programming language
 which adds object orientation and a standard library to :ref:`C`.
+
+
+* C++ is an ISO specification: C++98, C++03, C++11 (C++0x), C++14, [ C++17 ]
+
+
+.. index:: Clang
+.. _clang:
+
+Clang
+======
+| Wikipedia: https://en.wikipedia.org/wiki/Clang
+| Homepage: http://clang.llvm.org/
+| Docs: http://clang.llvm.org/docs/
+| Docs: http://clang.llvm.org/docs/UsersManual.html
+
+Clang is a compiler front end for :ref:`C`, :ref:`C++`, and Objective C/++.
 
 
 .. index:: Compiz
@@ -889,7 +912,8 @@ Go
 | Source: hg https://code.google.com/p/go/
 
 
-Go is a relatively new statically-typed C-based language.
+Go is a statically-typed :reF:`C`-based third generation language.
+
 
 .. index:: Grep
 .. _grep:
@@ -927,24 +951,68 @@ I3wm
 | Docs: http://i3wm.org/docs/
 | Source: git git://code.i3wm.org/i3
 
+I3wm is a tiling window manager for :ref:`X11` (:ref:`Linux`)
+with extremely-configurable :ref:`Vim`-like keyboard shortcuts.
 
 * http://i3wm.org/downloads/
 
 
 .. index:: IPython
-.. _IPython:
+.. index:: ipython
+.. _ipython:
 
 IPython
 ========
 | Wikipedia: https://en.wikipedia.org/wiki/IPython
 | Homepage: http://ipython.org/
 | Docs: http://ipython.org/ipython-doc/stable/
+| Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
+| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 | Source: git https://github.com/ipython/ipython
 
+IPython is an interactive REPL and distributed computation framework
+written in :ref:`Python`.
+
+An IPython notebooks file (``.ipynb``) is a
+JSON document containing input and output
+for a linear sequence of cells;
+which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
+and edited through the web with
+IPython Notebook.
+
+.. code:: python
+
+    1 + 1
+    x = 1+1
+    print("1 + 1 = %d" (x))
+
+    # IPython
+    %<tab>      # list magic commands
+    ?           # help
+    %logstart?
+    %logstart -o logoutput.log.py
+    import json
+    json?   # print(__doc__)
+    json??  # print(__src)
+
+    # IPython shell
+    !cat ./README.rst; echo $PWD
+    lines = !ls -al
+    print(lines[0:])
+    %run -i -t sleep 5
+
+.. note:: IPython notebook runs code and shell commands as
+  the user the process is running as, on a remote or local machine.
+
+  IPython notebook supports more than 20 different languages.
+
+
+Reproducible :ref:`SciPy Stack <scipystack>` IPython Notebook servers
+(with process isolation and privilege separation):
 
 * https://registry.hub.docker.com/repos/ipython/
 * https://registry.hub.docker.com/repos/jupyter/
-* https://github.com/jupyter
+* https://registry.hub.docker.com/u/jupyter/tmpnb/
 
 
 .. index:: Java
@@ -1208,6 +1276,25 @@ A *Linux Distribution* is a collection of :ref:`Packages`
 compiled to work with a GNU/Linux kernel and a :ref:`libc`.
 
 
+.. index:: LLVM
+.. _llvm:
+
+LLVM
+=====
+| Wikipedia: https://en.wikipedia.org/wiki/LLVM
+| Homepage: http://llvm.org/
+| Source: git http://llvm.org/git/llvm.git
+| Docs: http://llvm.org/docs/
+| Docs: http://llvm.org/docs/GettingStarted.html
+| Docs: http://llvm.org/docs/ReleaseNotes.html
+| Docs: http://llvm.org/ProjectsWithLLVM/
+
+LLVM "*Low Level Virtual Machine*" is a reusable compiler infrastructure
+with frontends for many languages.
+
+* :ref:`Clang`
+* :ref:`PyPy`
+
 .. index:: Make
 .. _make:
 
@@ -1431,6 +1518,148 @@ and the Python Infrastructure Team:
 * https://www.python.org/psf/sponsorship/
 * https://www.python.org/psf/members/#sponsor-members
 * http://psf-salt.readthedocs.org/en/latest/overview/
+
+
+.. index:: CPython
+.. _cpython:
+
+CPython
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Python_(programming_language)>`_
+| Homepage: https://www.python.org/
+| Docs: https://docs.python.org/2/
+| Docs: https://docs.python.org/devguide/
+| Docs: https://docs.python.org/devguide/documenting.html
+| Docs: http://learnxinyminutes.com/docs/python/
+| Source: hg https://hg.python.org/cpython
+
+CPython is the reference :ref:`Python` language implementation written in
+:ref:`C`.
+
+* https://github.com/python/cpython/blob/master/Grammar/Grammar
+
+CPython can interface with other :ref:`C` libraries
+through a number of interfaces:
+
+* https://docs.python.org/2/c-api/
+* https://cffi.readthedocs.org/en/latest/
+* :ref:`Cython`
+
+
+.. index:: Cython
+.. _cython:
+
+Cython
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Cython
+| Hompage: http://cython.org/
+| PyPI: https://pypi.python.org/pypi/Cython
+| Docs: http://docs.cython.org/
+| Docs: http://docs.cython.org/src/userguide/language_basics.html
+
+Cython is a superset of :ref:`CPython` which adds static type definitions;
+making :ref:`CPython` code faster, in many cases.
+
+
+.. index:: NumPy
+.. _numpy:
+
+NumPy
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/NumPy
+| Homepage: http://www.numpy.org/
+| Src: https://github.com/numpy/numpy
+| Docs: http://docs.scipy.org/doc/numpy/
+
+NumPy is a library of array-based mathematical functions
+implemented in :ref:`C` and :ref:`Python`.
+
+* http://nbviewer.ipython.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-2-Numpy.ipynb
+* https://scipy-lectures.github.io/intro/numpy/index.html
+* https://scipy-lectures.github.io/advanced/advanced_numpy/index.html
+
+NumPy and other languages:
+
+* http://wiki.scipy.org/NumPy_for_Matlab_Users
+* https://github.com/ipython/ipython/wiki/Extensions-Index
+
+
+.. index:: SciPy
+.. _scipy:
+
+SciPy
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/SciPy
+| Homepage: http://scipy.org/ 
+| Src: https://github.com/scipy/scipy
+| Docs: http://www.scipy.org/docs.html
+| Docs: http://docs.scipy.org/doc/scipy/reference/
+| Docs: http://www.scipy.org/install.html
+
+SciPy is a set of science and engineering libraries
+for :ref:`Python`, primarily written in :ref:`C`.
+
+* http://nbviewer.ipython.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-3-Scipy.ipynb
+* https://scipy-lectures.github.io/intro/scipy.html
+
+The :ref:`SciPy Stack <scipystack>` specification
+includes the SciPy package and its dependencies.
+
+
+.. index:: SciPy
+.. _scipystack:
+
+SciPy Stack
+~~~~~~~~~~~~~
+| Docs: http://www.scipy.org/stackspec.html
+| Docs: http://www.scipy.org/install.html
+
+Python Distributions
+
+* Sage
+* :ref:`Anaconda` (:ref:`Conda`)
+* Enthought Canopy
+* Python(x,y)
+* WinPython
+* Pyzo
+* Algorete Loopy (ref:`Conda`)
+
+Scipy Stack Docker Containers
+
+* https://registry.hub.docker.com/u/ipython/ipython/
+* https://registry.hub.docker.com/u/ipython/scipystack/
+* https://registry.hub.docker.com/u/ipython/scipyserver/
+
+
+
+.. index:: PyPy
+.. _pypy:
+
+PyPy
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/PyPy
+| Homepage: http://pypy.org/
+| Source: https://bitbucket.org/pypy/pypy
+| Docs: http://buildbot.pypy.org/waterfall
+| Docs: https://pypy.readthedocs.org/en/latest/
+| Docs: https://pypy.readthedocs.org/en/latest/introduction.html
+
+PyPy is a JIT LLVM compiler for :ref:`Python` code
+written in RPython -- a restricted subset of :ref:`CPython` syntax --
+which compiles to :ref:`C`, and is often faster than :ref:`CPython`
+for many types of purposes.
+
+
+.. index:: NumPyPy
+.. _numpypy:
+
+NumPyPy
+~~~~~~~~
+NumPyPy is a port of NumPy to PyPy:
+
+| Src: https://bitbucket.org/pypy/numpypy
+| Docs: http://buildbot.pypy.org/numpy-status/latest.html
+| Docs: http://pypy.org/numpydonate.html
 
 
 .. index:: Python 3
