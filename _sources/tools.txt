@@ -1007,12 +1007,21 @@ IPython Notebook.
   IPython notebook supports more than 20 different languages.
 
 
-Reproducible :ref:`SciPy Stack <scipystack>` IPython Notebook servers
-(with process isolation and privilege separation):
+Reproducible :ref:`SciPy Stack <scipystack>`
+IPython / Jupyter Notebook servers
+implement best practices like process isolation and privilege separation:
 
 * https://registry.hub.docker.com/repos/ipython/
 * https://registry.hub.docker.com/repos/jupyter/
 * https://registry.hub.docker.com/u/jupyter/tmpnb/
+
+
+IPython / Jupyter Notebook Viewer (``nbviewer``)
+is an application for serving read-only
+versions of notebooks which have HTTP URIs.
+
+* http://nbviewer.ipython.org
+* https://github.com/jupyter/nbviewer
 
 
 .. index:: Java
@@ -1622,7 +1631,7 @@ Python Distributions
 * Python(x,y)
 * WinPython
 * Pyzo
-* Algorete Loopy (ref:`Conda`)
+* Algorete Loopy (:ref:`Conda`)
 
 Scipy Stack Docker Containers
 
@@ -1655,7 +1664,7 @@ for many types of purposes.
 
 NumPyPy
 ~~~~~~~~
-NumPyPy is a port of NumPy to PyPy:
+NumPyPy is a port of :ref:`NumPy` to :ref:`PyPy`:
 
 | Src: https://bitbucket.org/pypy/numpypy
 | Docs: http://buildbot.pypy.org/numpy-status/latest.html
