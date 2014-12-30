@@ -288,27 +288,19 @@ call Cd___WRK()
 <h3>Shell Command<a class="headerlink" href="#shell-command" title="Permalink to this headline">¶</a></h3>
 <pre class="ansi-block literal-block">
 $ python ../src/dotfiles/venv/ipython_config.py --help
-usage: venv [-h] [-V] [-v] [-D] [-T] [-q] [-t] [--platform PLATFORM] [-e]
-            [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
-            [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]]
-            [--VENVSTRAPP [VENVSTRAPP_]]
-            [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
-            [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]]
-            [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]] [--print-json]
-            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars]
-            [--print-bash] [--print-bash-all] [--print-bash-aliases]
-            [--print-bash-cdaliases] [-Z] [--print-vim-cdalias]
-            [--print-ipython-magics] [--command RUN_COMMAND] [--run-bash]
-            [--run-make] [--run-editp] [--run-terminal] [--pall] [--pwrk]
-            [--pworkonhome] [--pvirtualenv] [--psrc] [--pwrd] [--pdotfiles]
-            [--prel] [--pkg-resource-path] [--compress]
+usage: venv [-h] [-V] [-v] [-D] [-T] [-q] [-t] [--platform PLATFORM] [-e] [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
+            [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]] [--VENVSTRAPP [VENVSTRAPP_]] [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
+            [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]] [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]] [--print-json]
+            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars] [--print-bash] [--print-bash-all] [--print-bash-aliases]
+            [--print-bash-cdaliases] [-Z] [--print-vim-cdalias] [--print-ipython-magics] [--command RUN_COMMAND] [--run-bash]
+            [--run-make] [--run-editp] [--run-terminal] [--pall] [--pwrk] [--pworkonhome] [--pvirtualenv] [--psrc] [--pwrd]
+            [--pdotfiles] [--prel] [--pkg-resource-path] [--compress]
             [VENVSTR] [VENVSTRAPP] ...
 
 venv is a configuration utility for virtual environments.
 
 positional arguments:
-  VENVSTR               a name of a virtualenv in WORKON_HOME OR a full path
-                        to a VIRTUAL_ENV
+  VENVSTR               a name of a virtualenv in WORKON_HOME OR a full path to a VIRTUAL_ENV
   VENVSTRAPP            a path within _SRC (_WRD=_SRC/VENVSTRAPP)
   args
 
@@ -327,17 +319,13 @@ optional arguments:
   --__DOTFILES [__DOTFILES], --DOTFILES [__DOTFILES], --dotfiles [__DOTFILES]
                         Path to ${__DOTFILES} symlink -- ~/-dotfiles
   --WORKON_HOME [WORKON_HOME], --workonhome [WORKON_HOME], --wh [WORKON_HOME]
-                        Path to ${WORKON_HOME} directory containing
-                        VIRTUAL_ENVs
+                        Path to ${WORKON_HOME} directory containing VIRTUAL_ENVs
   --VENVSTR [VENVSTR_], --venvstr [VENVSTR_], --ve [VENVSTR_]
-                        Path to VIRTUAL_ENV --
-                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME} (or a dirname in
-                        $WORKON_HOME)
+                        Path to VIRTUAL_ENV -- ${WORKON_HOME}/${VIRTUAL_ENV_NAME} (or a dirname in $WORKON_HOME)
   --VENVSTRAPP [VENVSTRAPP_], --venvstrapp [VENVSTRAPP_]
                         Subpath within {VIRTUAL_ETC}/src/
   --VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME], --virtual-env-name [VIRTUAL_ENV_NAME], --vename [VIRTUAL_ENV_NAME]
-                        dirname in WORKON_HOME --
-                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+                        dirname in WORKON_HOME -- ${WORKON_HOME}/${VIRTUAL_ENV_NAME}
   --VENVPREFIX [VENVPREFIX], --venvprefix [VENVPREFIX], --prefix [VENVPREFIX]
                         Prefix for _SRC, _ETC, _WRD if [ -z VIRTUAL_ENV ]
   --VIRTUAL_ENV [VIRTUAL_ENV], --virtual-env [VIRTUAL_ENV]
@@ -391,8 +379,8 @@ optional arguments:
   --compress, --compress-paths
                         Path $VAR-ify the given paths from stdin
 
-argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP)
-or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
+argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP) or (--ve [--app]) must be specified first: venv --ve
+dotfiles -xmake.
 </pre>
 </div>
 <div class="section" id="python-api">
@@ -413,9 +401,9 @@ and IPython configuration.</p>
 <h2>Example Venv Configuration<a class="headerlink" href="#example-venv-configuration" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="shell-configuration">
 <h3>Shell Configuration<a class="headerlink" href="#shell-configuration" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">venv.py</span> <span class="pre">--print-bash</span> <span class="pre">--compress</span> <span class="pre">dotfiles</span></code>:</p>
+<p><code class="docutils literal"><span class="pre">venv.py</span> <span class="pre">--print-bash</span> <span class="pre">--compress</span> <span class="pre">dotfilesx</span> <span class="pre">dotfilesx/docs</span></code>:</p>
 <pre class="ansi-block literal-block">
-$ python ../scripts/venv.py --print-bash --compress dotfiles \
+$ python ../scripts/venv.py --print-bash --compress dotfilesx dotfilesx/docs \
 | sed &quot;s,${HOME},~,g&quot;
 export HOME=&quot;~&quot;
 export __WRK=&quot;${HOME}/-wrk&quot;
@@ -433,15 +421,15 @@ export CONDA_HOME_DEFAULT=&quot;CONDA_HOME__py27&quot;
 export CONDA_ROOT=&quot;${__WRK}/-conda27&quot;
 export CONDA_HOME=&quot;${__WRK}/-ce27&quot;
 export WORKON_HOME=&quot;${__WRK}/-ve27&quot;
-export VIRTUAL_ENV_NAME=&quot;dotfiles&quot;
-export VENVSTR=&quot;dotfiles&quot;
-export VENVSTRAPP=&quot;dotfiles&quot;
-export VIRTUAL_ENV=&quot;${WORKON_HOME}/dotfiles&quot;
-export VENVPREFIX=&quot;${WORKON_HOME}/dotfiles&quot;
-export _APP=&quot;dotfiles&quot;
+export VENVSTR=&quot;dotfilesx&quot;
+export VENVSTRAPP=&quot;${VENVSTR}/docs&quot;
+export VIRTUAL_ENV_NAME=&quot;${VENVSTR}&quot;
+export VIRTUAL_ENV=&quot;${WORKON_HOME}/${VENVSTR}&quot;
+export VENVPREFIX=&quot;${WORKON_HOME}/${VENVSTR}&quot;
+export _APP=&quot;${VENVSTRAPP}&quot;
 export _ETC=&quot;${VIRTUAL_ENV}/etc&quot;
 export _SRC=&quot;${VIRTUAL_ENV}/src&quot;
-export _WRD=&quot;${_SRC}/dotfiles&quot;
+export _WRD=&quot;${_SRC}/${VENVSTRAPP}&quot;
 export _BIN=&quot;${VIRTUAL_ENV}/bin&quot;
 export _ETCOPT=&quot;${_ETC}/opt&quot;
 export _HOME=&quot;${VIRTUAL_ENV}/home&quot;
@@ -480,16 +468,16 @@ export VIMBIN=&quot;/usr/bin/vim&quot;
 export GVIMBIN=&quot;/usr/local/bin/gvim&quot;
 export MVIMBIN=&quot;/usr/local/bin/mvim&quot;
 export GUIVIMBIN=&quot;/usr/local/bin/gvim&quot;
-export VIMCONF=&quot;--servername dotfiles&quot;
-export _EDIT_=&quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;
-export EDITOR_=&quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;
+export VIMCONF=&quot;--servername ${VENVSTRAPP}&quot;
+export _EDIT_=&quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent&quot;
+export EDITOR_=&quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent&quot;
 export _NOTEBOOKS=&quot;${_SRC}/notebooks&quot;
 export _IPYSESKEY=&quot;${_SRC}/.ipyseskey&quot;
 export _IPQTLOG=&quot;${VIRTUAL_ENV}/.ipqt.log&quot;
 export _WRD_SETUPY=&quot;${_WRD}/setup.py&quot;
 export _TEST_=&quot;(cdwrd &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&quot;
 export _CFG=&quot;${_ETC}/development.ini&quot;
-export _EDITCFG_=&quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini&quot;
+export _EDITCFG_=&quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent ${_ETC}/development.ini&quot;
 export _SHELL_=&quot;(cdwrd &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)&quot;
 export _SERVE_=&quot;(cdwrd &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)&quot;
 export _SVCFG=&quot;${_ETC}/supervisord.conf&quot;
@@ -506,8 +494,8 @@ export CONDA34_HOME=&quot;${__WRK}/-ce34&quot;
 <h3>JSON Configuration<a class="headerlink" href="#json-configuration" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">venv.py</span> <span class="pre">--print-json</span> <span class="pre">dotfiles</span></code>:</p>
 <pre class="ansi-block literal-block">
-$ python ../scripts/venv.py --print-json dotfiles \
-| python ../scripts/venv.py --compress dotfiles \
+$ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
+| python ../scripts/venv.py --compress dotfilesx dotfilesx/docs \
 | sed &quot;s,${HOME},~,g&quot;
 {
     &quot;environ&quot;: {
@@ -527,15 +515,15 @@ $ python ../scripts/venv.py --print-json dotfiles \
         &quot;CONDA_ROOT&quot;: &quot;${__WRK}/-conda27&quot;,
         &quot;CONDA_HOME&quot;: &quot;${__WRK}/-ce27&quot;,
         &quot;WORKON_HOME&quot;: &quot;${__WRK}/-ve27&quot;,
-        &quot;VIRTUAL_ENV_NAME&quot;: &quot;dotfiles&quot;,
-        &quot;VENVSTR&quot;: &quot;dotfiles&quot;,
-        &quot;VENVSTRAPP&quot;: &quot;dotfiles&quot;,
-        &quot;VIRTUAL_ENV&quot;: &quot;${WORKON_HOME}/dotfiles&quot;,
-        &quot;VENVPREFIX&quot;: &quot;${WORKON_HOME}/dotfiles&quot;,
-        &quot;_APP&quot;: &quot;dotfiles&quot;,
+        &quot;VENVSTR&quot;: &quot;${VENVSTR}&quot;,
+        &quot;VENVSTRAPP&quot;: &quot;${VENVSTRAPP}&quot;,
+        &quot;VIRTUAL_ENV_NAME&quot;: &quot;${VENVSTR}&quot;,
+        &quot;VIRTUAL_ENV&quot;: &quot;${WORKON_HOME}/${VENVSTR}&quot;,
+        &quot;VENVPREFIX&quot;: &quot;${WORKON_HOME}/${VENVSTR}&quot;,
+        &quot;_APP&quot;: &quot;${VENVSTRAPP}&quot;,
         &quot;_ETC&quot;: &quot;${VIRTUAL_ENV}/etc&quot;,
         &quot;_SRC&quot;: &quot;${VIRTUAL_ENV}/src&quot;,
-        &quot;_WRD&quot;: &quot;${_SRC}/dotfiles&quot;,
+        &quot;_WRD&quot;: &quot;${_SRC}/${VENVSTRAPP}&quot;,
         &quot;_BIN&quot;: &quot;${VIRTUAL_ENV}/bin&quot;,
         &quot;_ETCOPT&quot;: &quot;${_ETC}/opt&quot;,
         &quot;_HOME&quot;: &quot;${VIRTUAL_ENV}/home&quot;,
@@ -574,16 +562,16 @@ $ python ../scripts/venv.py --print-json dotfiles \
         &quot;GVIMBIN&quot;: &quot;/usr/local/bin/gvim&quot;,
         &quot;MVIMBIN&quot;: &quot;/usr/local/bin/mvim&quot;,
         &quot;GUIVIMBIN&quot;: &quot;/usr/local/bin/gvim&quot;,
-        &quot;VIMCONF&quot;: &quot;--servername dotfiles&quot;,
-        &quot;_EDIT_&quot;: &quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;,
-        &quot;EDITOR_&quot;: &quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;,
+        &quot;VIMCONF&quot;: &quot;--servername ${VENVSTRAPP}&quot;,
+        &quot;_EDIT_&quot;: &quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent&quot;,
+        &quot;EDITOR_&quot;: &quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent&quot;,
         &quot;_NOTEBOOKS&quot;: &quot;${_SRC}/notebooks&quot;,
         &quot;_IPYSESKEY&quot;: &quot;${_SRC}/.ipyseskey&quot;,
         &quot;_IPQTLOG&quot;: &quot;${VIRTUAL_ENV}/.ipqt.log&quot;,
         &quot;_WRD_SETUPY&quot;: &quot;${_WRD}/setup.py&quot;,
         &quot;_TEST_&quot;: &quot;(cdwrd &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;,
         &quot;_CFG&quot;: &quot;${_ETC}/development.ini&quot;,
-        &quot;_EDITCFG_&quot;: &quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini&quot;,
+        &quot;_EDITCFG_&quot;: &quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent ${_ETC}/development.ini&quot;,
         &quot;_SHELL_&quot;: &quot;(cdwrd &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;,
         &quot;_SERVE_&quot;: &quot;(cdwrd &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;,
         &quot;_SVCFG&quot;: &quot;${_ETC}/supervisord.conf&quot;,
@@ -616,7 +604,7 @@ $ python ../scripts/venv.py --print-json dotfiles \
         &quot;cdls&quot;: &quot;set | grep \&quot;^cd.*()\&quot; | cut -f1 -d\&quot; \&quot; #%l&quot;,
         &quot;cdhelp&quot;: &quot;cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'&quot;,
         &quot;edit-&quot;: &quot;${_EDIT_} %l&quot;,
-        &quot;gvim-&quot;: &quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;,
+        &quot;gvim-&quot;: &quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent&quot;,
         &quot;ipskey&quot;: &quot;(python -c \&quot;import os; print os.urandom(128).encode(\\\&quot;base64\\\&quot;)\&quot; &gt; \&quot;${_IPYSESKEY}\&quot; ) &amp;&amp; chmod 0600 \&quot;${_IPYSESKEY}\&quot;; # %l&quot;,
         &quot;ipnb&quot;: &quot;ipython notebook --secure --Session.keyfile=\&quot;${_IPYSESKEY}\&quot; --notebook-dir=\&quot;${_NOTEBOOKS}\&quot; --deep-reload %l&quot;,
         &quot;ipqt&quot;: &quot;ipython qtconsole --secure --Session.keyfile=\&quot;${_IPYSESKEY}\&quot; --logappend=\&quot;${_IPQTLOG}\&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=\&quot;Monaco\&quot; --ConsoleWidget.font_size=11 %l&quot;,

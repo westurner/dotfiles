@@ -1216,22 +1216,27 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 &quot; Python
 &quot;  Wrap at 72 chars for comments.
 &quot;  read virtualenv&#39;s site-packages to vim path
-&quot; TODO: python regex current buffer
-&quot; :help if_pyth
+    &quot; TODO: python regex current buffer
 &quot; Tabsetting functions
 &quot;  :Fourtabs    -- set to four (4) soft tabs (Default)
 &quot; Default to fourtabs
-&quot;  :Threetabs   -- set to three (3) soft tabs (e.g. RST)
+&quot;  :Threetabs   -- set to three (3) soft tabs
 &quot;  :Twotabs     -- set to two (2) soft tabs
-&quot;  :Onetab      -- set to one soft tab
-&quot;  :Hardtabs
+&quot;  :Onetab      -- set to one (1) soft tab
+&quot;  :Hardtabs    -- set to hard \t tabs (e.g. for Makefiles)
 &quot;  :CurrentBuffer -- display number of current buffer
-&quot;  &lt;leader&gt; 2   -- diffget from bufnr 2
-&quot;  &lt;leader&gt; 3   -- diffget from bufnr 3
-&quot;  &lt;leader&gt; 4   -- diffget from bufnr 4
-&quot;  &lt;leader&gt; 2   -- diffget from bufnr 2
-&quot;  &lt;leader&gt; 3   -- diffget from bufnr 3
-&quot;  &lt;leader&gt; 4   -- diffget from bufnr 4
+&quot;  diff           -- vimdiff, Hgvdiff, Gdiff
+&quot;    :diffget   -- get from diff (overwrite or append)
+&quot;    do         -- :diffget other block
+&quot;    :diffput   -- put from diff (overwrite or append)
+&quot;    dp         -- :diffput block 
+&quot;
+&quot;    &lt;C-W&gt;&lt;C-w&gt; -- cycle between buffers
+&quot;
+&quot;  diffget maps   -- 3-way merge buffers
+&quot;    &lt;leader&gt; 2   -- diffget from bufnr 2
+&quot;    &lt;leader&gt; 3   -- diffget from bufnr 3
+&quot;    &lt;leader&gt; 4   -- diffget from bufnr 4
 &quot;  :Striptrailingwhitespace -- strip spaces at the end of lines
 &quot; Adjust font-size
 &quot;  &lt;C-Up&gt;   -- increase font size
@@ -1454,6 +1459,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 &quot;  g:pymode_python = { &#39;python&#39;, &#39;python3&#39;, &#39;disable&#39; }
 &quot;
 &quot;  set g:pymode_python &#39;disable&#39; (start time, occasional completion stall)
+&quot;  &lt;leader&gt; d    -- open pydoc
 &quot;  :PymodeLintToggle    -- toggle lint checking
 &quot;  :PymodeLintAuto      -- autofix current buffer pep8 errors
 &quot; - auto-show an error window
@@ -1510,6 +1516,12 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 &quot;  &lt;leader&gt;te       --  pytest error
 &quot; Pyrex         -- Pyrex syntax
 &quot; Jinja         -- Jinja Templates syntax
+&quot; vim-coffee-script -- CoffeeScript syntax, indent
+&quot; vim-haml          -- HAML, SASS, SCSS
+&quot; vim-css3-syntax   -- CSS3
+&quot; vim-css-color     -- show CSS color codes
+&quot; vim-less          -- LESS CSS
+&quot; vim-jade          -- Jade templates
 &quot; os.vim   -- Operating System [help os]
 &quot; clickable.vim -- click-able links
 &quot; Bundle &#39;https://github.com/Rykka/clickable.vim&#39; XXX TODO linux

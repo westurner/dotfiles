@@ -1938,8 +1938,8 @@
         <span class="s">&#39;VENVPREFIX&#39;</span><span class="p">,</span>
         <span class="s">&#39;VENVSTR&#39;</span><span class="p">,</span>         <span class="c"># &quot;dotfiles&quot;</span>
         <span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">,</span>      <span class="c"># &quot;dotfiles&quot;, &quot;dotfiles/docs&quot;</span>
-        <span class="s">&#39;VIRTUAL_ENV_NAME&#39;</span><span class="p">,</span>  <span class="c"># &quot;dotfiles&quot;</span>
         <span class="s">&#39;_APP&#39;</span><span class="p">,</span>             <span class="c"># dotfiles/tests</span>
+        <span class="s">&#39;VIRTUAL_ENV_NAME&#39;</span><span class="p">,</span>  <span class="c"># &quot;dotfiles&quot;</span>
         <span class="c"># virtualenv</span>
         <span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">,</span>      <span class="c"># ~/-wrk/-ve27/dotfiles/  # ${VIRTUAL_ENV_NAME}</span>
         <span class="c"># venv</span>
@@ -1989,9 +1989,9 @@
         <span class="p">(</span><span class="s">&quot;CONDA_ROOT&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-conda27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_HOME&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;WORKON_HOME&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ve27&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;VIRTUAL_ENV_NAME&quot;</span><span class="p">,</span> <span class="s">&quot;dotfiles&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;VENVSTR&quot;</span><span class="p">,</span> <span class="s">&quot;dotfiles&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;VENVSTRAPP&quot;</span><span class="p">,</span> <span class="s">&quot;dotfiles&quot;</span><span class="p">),</span> <span class="c"># or None</span>
+        <span class="p">(</span><span class="s">&quot;VIRTUAL_ENV_NAME&quot;</span><span class="p">,</span> <span class="s">&quot;dotfiles&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;VIRTUAL_ENV&quot;</span><span class="p">,</span> <span class="s">&quot;${WORKON_HOME}/${VIRTUAL_ENV_NAME}&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;VENVPREFIX&quot;</span><span class="p">,</span> <span class="s">&quot;${VIRTUAL_ENV}&quot;</span><span class="p">),</span> <span class="c"># or /</span>
         <span class="p">(</span><span class="s">&quot;_APP&quot;</span><span class="p">,</span> <span class="s">&quot;dotfiles&quot;</span><span class="p">),</span>
@@ -2146,7 +2146,7 @@
                  <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">env</span>
 </div>
-<div class="viewcode-block" id="Env.compress_paths"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env.compress_paths">[docs]</a>    <span class="k">def</span> <span class="nf">compress_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Env.compress_paths"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env.compress_paths">[docs]</a>    <span class="k">def</span> <span class="nf">compress_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Given an arbitrary string,</span>
 <span class="sd">        replace absolute paths (starting with &#39;/&#39;)</span>
@@ -2175,6 +2175,14 @@
             <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">varname</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">STR_TYPES</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">):</span>
                 <span class="n">_path</span> <span class="o">=</span> <span class="n">_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">value</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="s">&#39;${</span><span class="si">%s</span><span class="s">}/&#39;</span> <span class="o">%</span> <span class="n">varname</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;VENVSTRAPP&#39;</span><span class="p">,</span> <span class="s">&#39;VENVSTR&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">keyname</span> <span class="o">==</span> <span class="n">varname</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">varname</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">STR_TYPES</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">_path</span><span class="p">:</span>
+                    <span class="n">_path</span> <span class="o">=</span> <span class="n">_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;${</span><span class="si">%s</span><span class="s">}&#39;</span> <span class="o">%</span> <span class="n">varname</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">_path</span>
 </div>
 <div class="viewcode-block" id="Env.to_string_iter"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Env.to_string_iter">[docs]</a>    <span class="k">def</span> <span class="nf">to_string_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -2182,7 +2190,7 @@
         <span class="n">compress_paths</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;compress_paths&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteritems_environ</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">compress_paths</span><span class="p">:</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress_paths</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress_paths</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
             <span class="k">yield</span> <span class="s">&quot;{name}={value}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
         <span class="k">yield</span> <span class="s">&#39;## &lt;/env&gt;&#39;</span>
 </div>
@@ -2874,7 +2882,7 @@
                 <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                     <span class="n">v</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
                 <span class="k">if</span> <span class="n">compress_paths</span><span class="p">:</span>
-                    <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">compress_paths</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">compress_paths</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
                 <span class="c"># if _shell_supports_declare_g():</span>
                 <span class="c">#   shell_keyword=&quot;declare -grx &quot;</span>
                 <span class="c">#    yield &quot;declare -grx %s=%r&quot; % (k, v)</span>
@@ -2899,7 +2907,7 @@
                     <span class="n">_alias</span> <span class="o">=</span> <span class="n">IpyAlias</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
                     <span class="n">bash_alias</span> <span class="o">=</span> <span class="n">_alias</span><span class="o">.</span><span class="n">to_shell_str</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">compress_paths</span><span class="p">:</span>
-                    <span class="n">bash_alias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">compress_paths</span><span class="p">(</span><span class="n">bash_alias</span><span class="p">)</span>
+                    <span class="n">bash_alias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">compress_paths</span><span class="p">(</span><span class="n">bash_alias</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="n">bash_alias</span>
 </div>
 <div class="viewcode-block" id="Venv.generate_bash_cdalias"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_config.Venv.generate_bash_cdalias">[docs]</a>    <span class="k">def</span> <span class="nf">generate_bash_cdalias</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

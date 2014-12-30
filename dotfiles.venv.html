@@ -552,7 +552,7 @@ self.cmdstr (AS-IS)</li>
 <p>OrderedDict of variables for/from <code class="docutils literal"><span class="pre">os.environ</span></code>.</p>
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Env.compress_paths">
-<code class="descname">compress_paths</code><span class="sig-paren">(</span><em>path_</em>, <em>keys=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Env.compress_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.compress_paths" title="Permalink to this definition">¶</a></dt>
+<code class="descname">compress_paths</code><span class="sig-paren">(</span><em>path_</em>, <em>keys=None</em>, <em>keyname=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Env.compress_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.compress_paths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given an arbitrary string,
 replace absolute paths (starting with &#8216;/&#8217;)
 with the longest matching Env path variables.</p>
@@ -648,12 +648,12 @@ with the longest matching Env path variables.</p>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.Env.osenviron_keys">
-<code class="descname">osenviron_keys</code><em class="property"> = OrderedDict([('__WRK', '${HOME}/-wrk'), ('__SRC', '${__WRK}/-src'), ('__DOTFILES', '${HOME}/-dotfiles'), ('WORKON_HOME__py27', '${__WRK}/-ve27'), ('WORKON_HOME__py34', '${__WRK}/-ve34'), ('WORKON_HOME_DEFAULT', 'WORKON_HOME__py27'), ('CONDA_ROOT__py27', '${__WRK}/-conda27'), ('CONDA_HOME__py27', '${__WRK}/-ce27'), ('CONDA_ROOT__py34', '${__WRK}/-conda34'), ('CONDA_HOME__py34', '${__WRK}/-ce34'), ('CONDA_ROOT_DEFAULT', 'CONDA_ROOT__py27'), ('CONDA_HOME_DEFAULT', 'CONDA_HOME__py27'), ('CONDA_ROOT', '${__WRK}/-conda27'), ('CONDA_HOME', '${__WRK}/-ce27'), ('WORKON_HOME', '${__WRK}/-ve27'), ('VIRTUAL_ENV_NAME', 'dotfiles'), ('VENVSTR', 'dotfiles'), ('VENVSTRAPP', 'dotfiles'), ('VIRTUAL_ENV', '${WORKON_HOME}/${VIRTUAL_ENV_NAME}'), ('VENVPREFIX', '${VIRTUAL_ENV}'), ('_APP', 'dotfiles'), ('_ETC', '${VIRTUAL_ENV}/etc'), ('_SRC', '${VIRTUAL_ENV}/src'), ('_WRD', '${_SRC}/dotfiles'), ('_BIN', '${VIRTUAL_ENV}/bin'), ('_ETCOPT', '${_ETC}/opt'), ('_HOME', '${VIRTUAL_ENV}/home'), ('_LIB', '${VIRTUAL_ENV}/lib'), ('_PYLIB', '${_LIB}/python2.7'), ('_PYSITE', '${_PYLIB}/site-packages'), ('_MNT', '${VIRTUAL_ENV}/mnt'), ('_MEDIA', '${VIRTUAL_ENV}/media'), ('_OPT', '${VIRTUAL_ENV}/opt'), ('_ROOT', '${VIRTUAL_ENV}/root'), ('_SBIN', '${VIRTUAL_ENV}/sbin'), ('_SRV', '${VIRTUAL_ENV}/srv'), ('_TMP', '${VIRTUAL_ENV}/tmp'), ('_USR', '${VIRTUAL_ENV}/usr'), ('_USRBIN', '${VIRTUAL_ENV}/usr/bin'), ('_USRINCLUDE', '${VIRTUAL_ENV}/usr/include'), ('_USRLIB', '${VIRTUAL_ENV}/usr/lib'), ('_USRLOCAL', '${VIRTUAL_ENV}/usr/local'), ('_USRLOCALBIN', '${VIRTUAL_ENV}/usr/local/bin'), ('_USRSBIN', '${VIRTUAL_ENV}/usr/sbin'), ('_USRSHARE', '${VIRTUAL_ENV}/usr/share'), ('_USRSRC', '${VIRTUAL_ENV}/usr/src'), ('_VAR', '${VIRTUAL_ENV}/var'), ('_VARCACHE', '${_VAR}/cache'), ('_VARLIB', '${_VAR}/lib'), ('_VARLOCK', '${_VAR}/lock'), ('_LOG', '${_VAR}/log'), ('_VARMAIL', '${_VAR}/mail'), ('_VAROPT', '${_VAR}/opt'), ('_VARRUN', '${_VAR}/run'), ('_VARSPOOL', '${_VAR}/spool'), ('_VARTMP', '${_VAR}/tmp'), ('_WWW', '${_VAR}/www'), ('PROJECT_FILES', ''), ('VIMBIN', '/usr/bin/vim'), ('GVIMBIN', '/usr/local/bin/gvim'), ('MVIMBIN', '/usr/local/bin/mvim'), ('GUIVIMBIN', '/usr/local/bin/gvim'), ('VIMCONF', '--servername dotfiles'), ('_EDIT_', '/usr/local/bin/gvim --servername dotfiles --remote-tab-silent'), ('EDITOR_', '/usr/local/bin/gvim --servername dotfiles --remote-tab-silent'), ('_NOTEBOOKS', '${_SRC}/notebooks'), ('_IPYSESKEY', '${_SRC}/.ipyseskey'), ('_IPQTLOG', '${VIRTUAL_ENV}/.ipqt.log'), ('_WRD_SETUPY', '${_WRD}/setup.py'), ('_TEST_', '(cdwrd &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)'), ('_CFG', '${_ETC}/development.ini'), ('_EDITCFG_', '/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini'), ('_SHELL_', '(cdwrd &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)'), ('_SERVE_', '(cdwrd &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)'), ('_SVCFG', '${_ETC}/supervisord.conf'), ('_SVCFG_', ' -c &quot;${_ETC}/supervisord.conf&quot;'), ('__USRLOG', '${HOME}/-usrlog.log'), ('_USRLOG', '${VIRTUAL_ENV}/-usrlog.log')])</em><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.osenviron_keys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">osenviron_keys</code><em class="property"> = OrderedDict([('__WRK', '${HOME}/-wrk'), ('__SRC', '${__WRK}/-src'), ('__DOTFILES', '${HOME}/-dotfiles'), ('WORKON_HOME__py27', '${__WRK}/-ve27'), ('WORKON_HOME__py34', '${__WRK}/-ve34'), ('WORKON_HOME_DEFAULT', 'WORKON_HOME__py27'), ('CONDA_ROOT__py27', '${__WRK}/-conda27'), ('CONDA_HOME__py27', '${__WRK}/-ce27'), ('CONDA_ROOT__py34', '${__WRK}/-conda34'), ('CONDA_HOME__py34', '${__WRK}/-ce34'), ('CONDA_ROOT_DEFAULT', 'CONDA_ROOT__py27'), ('CONDA_HOME_DEFAULT', 'CONDA_HOME__py27'), ('CONDA_ROOT', '${__WRK}/-conda27'), ('CONDA_HOME', '${__WRK}/-ce27'), ('WORKON_HOME', '${__WRK}/-ve27'), ('VENVSTR', 'dotfiles'), ('VENVSTRAPP', 'dotfiles'), ('VIRTUAL_ENV_NAME', 'dotfiles'), ('VIRTUAL_ENV', '${WORKON_HOME}/${VIRTUAL_ENV_NAME}'), ('VENVPREFIX', '${VIRTUAL_ENV}'), ('_APP', 'dotfiles'), ('_ETC', '${VIRTUAL_ENV}/etc'), ('_SRC', '${VIRTUAL_ENV}/src'), ('_WRD', '${_SRC}/dotfiles'), ('_BIN', '${VIRTUAL_ENV}/bin'), ('_ETCOPT', '${_ETC}/opt'), ('_HOME', '${VIRTUAL_ENV}/home'), ('_LIB', '${VIRTUAL_ENV}/lib'), ('_PYLIB', '${_LIB}/python2.7'), ('_PYSITE', '${_PYLIB}/site-packages'), ('_MNT', '${VIRTUAL_ENV}/mnt'), ('_MEDIA', '${VIRTUAL_ENV}/media'), ('_OPT', '${VIRTUAL_ENV}/opt'), ('_ROOT', '${VIRTUAL_ENV}/root'), ('_SBIN', '${VIRTUAL_ENV}/sbin'), ('_SRV', '${VIRTUAL_ENV}/srv'), ('_TMP', '${VIRTUAL_ENV}/tmp'), ('_USR', '${VIRTUAL_ENV}/usr'), ('_USRBIN', '${VIRTUAL_ENV}/usr/bin'), ('_USRINCLUDE', '${VIRTUAL_ENV}/usr/include'), ('_USRLIB', '${VIRTUAL_ENV}/usr/lib'), ('_USRLOCAL', '${VIRTUAL_ENV}/usr/local'), ('_USRLOCALBIN', '${VIRTUAL_ENV}/usr/local/bin'), ('_USRSBIN', '${VIRTUAL_ENV}/usr/sbin'), ('_USRSHARE', '${VIRTUAL_ENV}/usr/share'), ('_USRSRC', '${VIRTUAL_ENV}/usr/src'), ('_VAR', '${VIRTUAL_ENV}/var'), ('_VARCACHE', '${_VAR}/cache'), ('_VARLIB', '${_VAR}/lib'), ('_VARLOCK', '${_VAR}/lock'), ('_LOG', '${_VAR}/log'), ('_VARMAIL', '${_VAR}/mail'), ('_VAROPT', '${_VAR}/opt'), ('_VARRUN', '${_VAR}/run'), ('_VARSPOOL', '${_VAR}/spool'), ('_VARTMP', '${_VAR}/tmp'), ('_WWW', '${_VAR}/www'), ('PROJECT_FILES', ''), ('VIMBIN', '/usr/bin/vim'), ('GVIMBIN', '/usr/local/bin/gvim'), ('MVIMBIN', '/usr/local/bin/mvim'), ('GUIVIMBIN', '/usr/local/bin/gvim'), ('VIMCONF', '--servername dotfiles'), ('_EDIT_', '/usr/local/bin/gvim --servername dotfiles --remote-tab-silent'), ('EDITOR_', '/usr/local/bin/gvim --servername dotfiles --remote-tab-silent'), ('_NOTEBOOKS', '${_SRC}/notebooks'), ('_IPYSESKEY', '${_SRC}/.ipyseskey'), ('_IPQTLOG', '${VIRTUAL_ENV}/.ipqt.log'), ('_WRD_SETUPY', '${_WRD}/setup.py'), ('_TEST_', '(cdwrd &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)'), ('_CFG', '${_ETC}/development.ini'), ('_EDITCFG_', '/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini'), ('_SHELL_', '(cdwrd &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)'), ('_SERVE_', '(cdwrd &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)'), ('_SVCFG', '${_ETC}/supervisord.conf'), ('_SVCFG_', ' -c &quot;${_ETC}/supervisord.conf&quot;'), ('__USRLOG', '${HOME}/-usrlog.log'), ('_USRLOG', '${VIRTUAL_ENV}/-usrlog.log')])</em><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.osenviron_keys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.Env.osenviron_keys_classic">
-<code class="descname">osenviron_keys_classic</code><em class="property"> = ('VIMBIN', 'GVIMBIN', 'MVIMBIN', 'GUIVIMBIN', 'VIMCONF', 'EDITOR', 'EDITOR_', 'PAGER', '__WRK', '__DOTFILES', 'PROJECT_HOME', 'WORKON_HOME', 'WORKON_HOME__py27', 'WORKON_HOME__py34', 'VENVPREFIX', 'VENVSTR', 'VENVSTRAPP', 'VIRTUAL_ENV_NAME', '_APP', 'VIRTUAL_ENV', '_SRC', '_ETC', '_BIN', '_CFG', '_LIB', '_LOG', '_MNT', '_OPT', '_PYLIB', '_PYSITE', '_SRV', '_VAR', '_WRD', '_WRD_SETUPY', '_WWW', '__SRC', '__DOCSWWW', '_USRLOG', '__USRLOG', '_TERM_ID', '_TERM_URI')</em><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.osenviron_keys_classic" title="Permalink to this definition">¶</a></dt>
+<code class="descname">osenviron_keys_classic</code><em class="property"> = ('VIMBIN', 'GVIMBIN', 'MVIMBIN', 'GUIVIMBIN', 'VIMCONF', 'EDITOR', 'EDITOR_', 'PAGER', '__WRK', '__DOTFILES', 'PROJECT_HOME', 'WORKON_HOME', 'WORKON_HOME__py27', 'WORKON_HOME__py34', 'VENVPREFIX', 'VENVSTR', 'VENVSTRAPP', '_APP', 'VIRTUAL_ENV_NAME', 'VIRTUAL_ENV', '_SRC', '_ETC', '_BIN', '_CFG', '_LIB', '_LOG', '_MNT', '_OPT', '_PYLIB', '_PYSITE', '_SRV', '_VAR', '_WRD', '_WRD_SETUPY', '_WWW', '__SRC', '__DOCSWWW', '_USRLOG', '__USRLOG', '_TERM_ID', '_TERM_URI')</em><a class="headerlink" href="#dotfiles.venv.ipython_config.Env.osenviron_keys_classic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -720,7 +720,7 @@ cmdname () {
 <p>Print env and kwargs to stderr</p>
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout">
-<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x1097f41e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x10e9561e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -756,12 +756,12 @@ kwargs dict</li>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStep.stderr">
-<code class="descname">stderr</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x1097f41e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stderr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stderr</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x10e9561e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stderr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStep.stdout">
-<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stdout&gt;', mode 'w' at 0x1097f4150&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stdout&gt;', mode 'w' at 0x10e956150&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stdout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1415,7 +1415,7 @@ block of bash script</td>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.generate_bash_env">
-<code class="descname">generate_bash_env</code><span class="sig-paren">(</span><em>shell_keyword='export '</em>, <em>shell_quotefunc=&lt;function shell_quote at 0x10a636aa0&gt;</em>, <em>include_paths=True</em>, <em>include_aliases=True</em>, <em>include_cdaliases=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.generate_bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.generate_bash_env" title="Permalink to this definition">¶</a></dt>
+<code class="descname">generate_bash_env</code><span class="sig-paren">(</span><em>shell_keyword='export '</em>, <em>shell_quotefunc=&lt;function shell_quote at 0x10f7d8c80&gt;</em>, <em>include_paths=True</em>, <em>include_aliases=True</em>, <em>include_cdaliases=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.generate_bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.generate_bash_env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a <code class="docutils literal"><span class="pre">source</span></code>-able script for the environment variables,
 aliases, and functions defined by the current <code class="docutils literal"><span class="pre">Venv</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2078,7 +2078,7 @@ as determined by <code class="docutils literal"><span class="pre">in_ipython_con
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.logevent">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">logevent</code><span class="sig-paren">(</span><em>event</em>, <em>obj=None</em>, <em>logger=&lt;logging.Logger object at 0x10a62f110&gt;</em>, <em>level=10</em>, <em>func=None</em>, <em>lineno=None</em>, <em>modpath=None</em>, <em>show_modpath=None</em>, <em>wrap=False</em>, <em>splitlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#logevent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.logevent" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">logevent</code><span class="sig-paren">(</span><em>event</em>, <em>obj=None</em>, <em>logger=&lt;logging.Logger object at 0x10f7d08d0&gt;</em>, <em>level=10</em>, <em>func=None</em>, <em>lineno=None</em>, <em>modpath=None</em>, <em>show_modpath=None</em>, <em>wrap=False</em>, <em>splitlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#logevent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.logevent" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2215,20 +2215,10 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </div>
 <div class="section" id="module-dotfiles.venv.ipython_magics">
 <span id="dotfiles-venv-ipython-magics-module"></span><h2>dotfiles.venv.ipython_magics module<a class="headerlink" href="#module-dotfiles.venv.ipython_magics" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="dotfiles.venv.ipython_magics.magics_class">
-<code class="descclassname">dotfiles.venv.ipython_magics.</code><code class="descname">magics_class</code><span class="sig-paren">(</span><em>cls</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.ipython_magics.magics_class" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="dotfiles.venv.ipython_magics.line_magic">
-<code class="descclassname">dotfiles.venv.ipython_magics.</code><code class="descname">line_magic</code><span class="sig-paren">(</span><em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.ipython_magics.line_magic" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="class">
 <dt id="dotfiles.venv.ipython_magics.VenvMagics">
-<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_magics.</code><code class="descname">VenvMagics</code><a class="reference internal" href="_modules/dotfiles/venv/ipython_magics.html#VenvMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_magics.</code><code class="descname">VenvMagics</code><span class="sig-paren">(</span><em>shell=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_magics.html#VenvMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">IPython.core.magic.Magics</span></code></p>
 <dl class="method">
 <dt id="dotfiles.venv.ipython_magics.VenvMagics.cd">
 <code class="descname">cd</code><span class="sig-paren">(</span><em>envvar</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_magics.html#VenvMagics.cd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics.cd" title="Permalink to this definition">¶</a></dt>
@@ -2474,6 +2464,16 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 <code class="descname">dr</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_magics.html#VenvMagics.dr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics.dr" title="Permalink to this definition">¶</a></dt>
 <dd><p>dr()                 &#8211; print NotImplemented [dotfiles_reload()]</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="dotfiles.venv.ipython_magics.VenvMagics.magics">
+<code class="descname">magics</code><em class="property"> = {'cell': {}, 'line': {'cdd': 'cdd', 'cde': 'cde', 'cda': 'cda', 'cdb': 'cdb', 'cdl': 'cdl', 'cdsitepackages': 'cdsitepackages', 'cdsrc': 'cdsrc', 'cdv': 'cdv', 'cdw': 'cdw', 'cdp': 'cdp', 'cds': 'cds', 'cdbin': 'cdbin', 'cdwrd': 'cdwrd', 'cdwrk': 'cdwrk', 'dr': 'dr', 'cdhelp': 'cdhelp', 'cdpysite': 'cdpysite', 'cdetc': 'cdetc', 'cdve': 'cdve', 'cdworkonhome': 'cdworkonhome', 'cdvar': 'cdvar', 'cdww': 'cdww', 'cdpylib': 'cdpylib', 'cdlog': 'cdlog', 'cdh': 'cdh', 'cddotfiles': 'cddotfiles', 'cdcondahome': 'cdcondahome', 'cdwh': 'cdwh', 'ds': 'ds', 'cdhome': 'cdhome', 'cdwww': 'cdwww', 'dotfiles_status': 'dotfiles_status', 'cdph': 'cdph', 'cdvirtualenv': 'cdvirtualenv', 'cdprojecthome': 'cdprojecthome', 'cdce': 'cdce', 'dotfiles_reload': 'dotfiles_reload', 'cdlib': 'cdlib'}}</em><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics.magics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dotfiles.venv.ipython_magics.VenvMagics.registered">
+<code class="descname">registered</code><em class="property"> = True</em><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics.registered" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
