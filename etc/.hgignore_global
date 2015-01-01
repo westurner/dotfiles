@@ -1,0 +1,4 @@
+
+syntax:glob
+*.un~
+.DS_Store

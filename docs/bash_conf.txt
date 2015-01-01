@@ -29,10 +29,15 @@
   #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
   #
   ## 07-bashrc.python.sh        -- python
-  #  _setup_anaconda()  -- setup anaconda paths (manual)
   #  _setup_pyenv()     -- setup pyenv paths (manual)
+  #  _setup_conda()     -- setup conda paths (manual)
   #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
+  # backup_virtualenv($VENVSTR)  -- backup $WORKON_HOME/$VENVSTR -> ./-bkp/$VENVSTR
+  # backup_virtualenvs()         -- backup $WORKON_HOME/* -> ./-bkp/*
+  # rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
+  # rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
+  # TODO: restore
   #
   ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
   #  _setup_google_cloud()  -- setup google cloud paths
@@ -51,10 +56,16 @@
   ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
   #
   ## 20-bashrc.editor.sh        -- $EDITOR configuration
-  #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
-  #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
+  #  $_EDIT_  (str): cmdstring to open $@ (file list) in current editor
+  #  $EDITOR_ (str): cmdstring to open $@ (file list) in current editor
+  #
   ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
-  #  $PAGER (str): cmdstring to run pager (less/vim)
+  #  $PAGER   (str): cmdstring to run pager (less/vim)
+  #  lessv()    -- open in vim with less.vim
+  #                VIMPAGER_SYNTAX="python" lessv
+  #  lessg()    -- open in a gvim with less.vim
+  #                VIMPAGER_SYNTAX="python" lessv
+  #  lesse()    -- open with $EDITOR_
   #
   ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
   #  $_USRLOG (str): path to .usrlog command log
@@ -147,6 +158,8 @@
     # debug-on()                 -- set -x -v
     # debug-off()                -- set +x +v
     # log_dotfiles_state()      -- save current environment to logfiles
+    # XXX:
+    # XXX:
     # dotfiles_initialize()     -- virtualenvwrapper initialize
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     # dotfiles_preactivate()    -- virtualenvwrapper preactivate
@@ -169,13 +182,12 @@
 ## Pyenv
     # _setup_pyvenv()       -- set $PYENV_ROOT, add_to_path, and pyenv venvw
 ## Conda / Anaconda
-    # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
+    # _setup_anaconda()     -- set $CONDA_ROOT, add_to_path
     # workon_conda()        -- workon a conda + venv project
     # wec()                 -- workon a conda + venv project
     #                       note: tab-completion only shows regular virtualenvs
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     # rmvirtualenv_conda()  -- rmvirtualenv conda
-    #   TODO
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     # workon_conda_if_available()       -- workon_conda OR we OR workon
    
@@ -190,7 +202,12 @@
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
     # backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+    #    $1="$VENVSTR"
+    #    $2="$VIRTUAL_ENV"
     # TODO: adjust paths beyond the shebang
+    #  rebuild_virtualenv()     -- rebuild a virtualenv
+    #    $1="$VENVSTR"
+    #    $2="$VIRTUAL_ENV"
     # rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
    
    
@@ -210,8 +227,8 @@
 ## Functions
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
-    # venv -b   -- print bash configuration
-    # venv -p   -- print IPython configuration as JSON
+    # venv --print-bash   -- print bash configuration
+    # venv --print-json   -- print IPython configuration as JSON
     # _venv <args> -- call $_VENV -E $@ (for the current environment)
     # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
@@ -222,7 +239,6 @@
     #  examples:
     #   we dotfiles
     #   we dotfiles dotfiles
-        # TODO
     # we()          -- workon_venv
 # CdAlias functions and completions
 ## Grin search
@@ -286,6 +302,7 @@
     #   EDITOR_ (str):   $EDITOR || $GUIVIMBIN $VIMCONF --remote-tab-silent
     #   VIMCONF (str):   --servername ${VIRTUAL_ENV_NAME:-'EDITOR'}
     #   SUDO_EDITOR (str): $EDITOR
+    # _setup_pager()    -- set PAGER='less'
     # ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
     # edits()   -- open $@ in ${GUIVIMBIN} --servername $1
     # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
@@ -362,13 +379,15 @@
     # gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
     #   $1 (str): quoted commit message
     #   $2- (list): file paths
-    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
-    # gs       -- 'git status'
+    # gb       -- 'git branch -v'
     # gd       -- 'git diff'
     # gds      -- 'git diff -p --stat'
     # gc       -- 'git commit'
     # gco      -- 'git checkout'
     # gdc      -- 'git diff --cached'
+    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    # gr       -- 'git remote -v'
+    # gs       -- 'git status'
     # gsi      -- 'git is; git diff; git diff --cached'
     # gsiw      -- 'git -C $_WRD gsi'
     # gsl      -- 'git stash list'
@@ -619,6 +638,8 @@
     # with pyline
     # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
     # TODO: handle newlines (commands that start on the next line)
+    # TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
+    # TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]
 ## usrlog.sh API
     # ut()  -- show recent commands
     # termid()      -- echo $_TERM_ID

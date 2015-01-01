@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+source ${__DOTFILES}/etc/bash/29-bashrc.vimpagers.sh
+set -x
+${EDITOR_} ${@}

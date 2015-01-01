@@ -2,6 +2,7 @@
 username = Wes Turner <wes@wrd.nu>
 #ssh = ssh -o ClearAllForwardings=yes
 editor = vim
+ignore = ~/.hgignore_global
 
 [color]
 custom.date = blue

@@ -136,7 +136,7 @@ email = wes@wrd.nu
 [core]
   autocrlf = false
   editor = vim
-  excludesfile = ~/.yadr/git/gitignore
+	excludesfile = ~/.gitignore_global
 [advice]
   statusHints = false
 [diff]
@@ -150,3 +150,5 @@ email = wes@wrd.nu
 #    insteadOf = https://github.com/
 #    insteadOf = git://github.com/
 
+[github]
+	user = westurner

@@ -11,6 +11,9 @@ _usrlog_get_prefix () {
     # _usrlog_get_prefix()    -- get a dirpath for the current usrlog
     #                            (VIRTUAL_ENV or HOME)
     local prefix="${VENVPREFIX:-${VIRTUAL_ENV:-${HOME}}}"
+    if [ "${prefix}" == "/" ]; then
+        prefix=$HOME
+    fi
     echo "$prefix"
 }
 
@@ -125,8 +128,6 @@ _usrlog_set__TERM_ID () {
         export _TERM_ID="${new_term_id}"
         _usrlog_set_title
 
-        declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-            && _venv_set_prompt
     fi
 }
 
@@ -152,6 +153,8 @@ _usrlog_set_title() {
     # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
+    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
+        && _venv_set_prompt
 }
 
 
@@ -266,11 +269,14 @@ _usrlog_parse_cmds() {
     # with pyline
     # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
     # TODO: handle newlines (commands that start on the next line)
+    # TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
+    # TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]
     local usrlog="${1:-${_USRLOG}}"
     test -n $usrlog && usrlog="-f ${usrlog}"
     pyline.py ${usrlog} \
         'list((
             (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+            or (" ".join(w[7:]).rstrip() if len(w) > 7 else None)
             or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
             or " ".join(w).rstrip())
             for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]

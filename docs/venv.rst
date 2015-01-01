@@ -19,11 +19,15 @@ There are a few parts to "``venv``":
   for verbosely generating source-able `shell configuration`_
   for a :ref:`virtualenv`
   and :ref:`IPython`,
-  and generates CdAlias scripts for Bash, ZSH, IPython, and Vim
+  and generates
+  :py:class:`CdAlias <dotfiles.venv.ipython_config.CdAlias>`
+  scripts for Bash, ZSH, IPython, and Vim
 
 * `ipython_magics.py`_
   (:py:mod:`dotfiles.venv.ipython_magics`) 
-  configures CdAliases (``cdwrk``, ``cdv``, ``cdsrc``, ``cdwrd``)
+  configures
+  :py:class:`CdAliases <dotfiles.venv.ipython_config.CdAlias>`
+  (``cdwrk``, ``cdv``, ``cdsrc``, ``cdwrd``)
   and ``dotfiles_status`` (``ds``)
   for :ref:`IPython`.
 
@@ -38,7 +42,7 @@ There are a few parts to "``venv``":
     https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
 .. _ipython_config.py:
     https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
-.. _dotfiles.venv.ipython_magics.py:
+.. _ipython_magics.py:
     https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py
 
 
@@ -56,9 +60,10 @@ Quickstart
     venv --print-bash -E
 
     # run a bash subprocess within a virtual env
+    venv -x bash dotfiles
     venv -xb dotfiles
 
-    # workon a virtualenvwrapper virtualenv (we) (source <(venv -E --bash))
+    # workon a virtualenvwrapper virtualenv (source <(venv -E --print-bash))
     we dotfiles
 
     # workon ${WORKON_HOME}/dotfiles/src/otherproject (echo $_APP $_WRD)
@@ -126,7 +131,8 @@ Usage
 
 CdAlias
 -----------------
-Each :py:mod:`CdAlias` in ``env.aliases`` is expanded for each output type.
+Each :py:class:`CdAlias <dotfiles.venv.ipython_config.CdAlias>`
+in ``env.aliases`` is expanded for each output type.
 
 For example, ``CdAlias('__WRK')`` becomes ``cdwrk``, ``%cdwrk``, and ``:Cdwrk``:
 
@@ -179,9 +185,9 @@ Example Venv Configuration
 
 Shell Configuration
 ~~~~~~~~~~~~~~~~~~~~
-``venv.py --print-bash dotfiles``:
+``venv.py --print-bash --compress dotfilesx dotfilesx/docs``:
 
-.. command-output:: python ../scripts/venv.py --print-bash dotfiles \
+.. command-output:: python ../scripts/venv.py --print-bash --compress dotfilesx dotfilesx/docs \
    | sed "s,${HOME},~,g"
    :shell:
 
@@ -190,7 +196,8 @@ JSON Configuration
 ~~~~~~~~~~~~~~~~~~~
 ``venv.py --print-json dotfiles``:
 
-.. command-output:: python ../scripts/venv.py --print-json dotfiles \
+.. command-output:: python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
+   | python ../scripts/venv.py --compress dotfilesx dotfilesx/docs \
    | sed "s,${HOME},~,g"
    :shell:
 

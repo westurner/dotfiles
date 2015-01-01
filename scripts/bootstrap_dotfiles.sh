@@ -314,11 +314,13 @@ symlink_zshrc() {
 
 symlink_hgrc() {
     backup_and_symlink .hgrc
+    backup_and_symlink .hgignore_global
     #TODO: set name in ~/.hgrc
 }
 
 symlink_gitconfig() {
     backup_and_symlink .gitconfig
+    backup_and_symlink .gitignore_global
     #TODO: set name in ~/.gitconfig
 }
 

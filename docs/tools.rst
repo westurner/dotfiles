@@ -47,7 +47,7 @@ to repackage upstream releases for the target platform(s).
 Apt
 ~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Advanced_Packaging_Tool>`_
-| Homepage: http://alioth.debian.org/projects/apt
+| Homepage: https://alioth.debian.org/projects/apt
 | Docs: https://wiki.debian.org/Apt
 | Docs: https://www.debian.org/doc/manuals/debian-reference/ch02.en.html
 | Docs: https://www.debian.org/doc/manuals/apt-howto/
@@ -114,7 +114,7 @@ package repository.
 Dpkg
 ~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Dpkg>`_
-| Homepage: http://wiki.debian.org/Teams/Dpkg
+| Homepage: https://wiki.debian.org/Teams/Dpkg
 | Docs: `<https://en.wikipedia.org/wiki/Debian_build_toolchain>`_
 | Docs: https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html
 | Docs: https://www.debian.org/doc/manuals/debian-faq/ch-pkgtools.en.html
@@ -289,7 +289,7 @@ Setuptools
 | Wikipedia: https://en.wikipedia.org/wiki/Setuptools
 | Docs: https://pythonhosted.org/setuptools/
 | Source: hg https://bitbucket.org/pypa/setuptools
-| PyPI: http://pypi.python.org/pypi/setuptools
+| PyPI: https://pypi.python.org/pypi/setuptools
 
 
 Setuptools is a :ref:`Python package <python packages>` for working with other
@@ -310,8 +310,8 @@ Setuptools is a :ref:`Python package <python packages>` for working with other
 * Setuptools can build :ref:`RPM` and :ref:`DEB` packages
   from python packages, with some extra configuration::
 
-    ``python setup.py bdist_rpm --help``
-    ``python setup.py --command-packages=stdeb.command bdist_deb --help``
+    python setup.py bdist_rpm --help
+    python setup.py --command-packages=stdeb.command bdist_deb --help
 
 
 .. index:: Pip
@@ -320,8 +320,8 @@ Setuptools is a :ref:`Python package <python packages>` for working with other
 Pip
 ++++++++++++++
 | Wikipedia: `<https://en.wikipedia.org/wiki/Pip_(package_manager)>`_
-| Homepage: http://www.pip-installer.org/
-| Docs: http://www.pip-installer.org/en/latest/user_guide.html
+| Homepage: https://pip.pypa.io/
+| Docs: https://pip.pypa.io/en/latest/user_guide.html
 | Docs: https://pip.readthedocs.org/en/latest/
 | Source: git https://github.com/pypa/pip
 | Pypi: https://pypi.python.org/pypi/pip
@@ -445,9 +445,9 @@ to be specified for each package in ``requirements.txt`` file.
 PyPI
 ++++++
 | Wikipedia: https://en.wikipedia.org/wiki/Python_Package_Index
-| Docs: http://wiki.python.org/moin/CheeseShop
-| Docs: http://wiki.python.org/moin/CheeseShopDev
-| Homepage: https://pypi.python.org/
+| Docs: https://wiki.python.org/moin/CheeseShop
+| Docs: https://wiki.python.org/moin/CheeseShopDev
+| Homepage: https://pypi.python.org/pypi
 | Source: https://bitbucket.org/pypa/pypi
 
 
@@ -460,7 +460,7 @@ PyPI is the Python Package Index.
 Warehouse
 ++++++++++
 | Homepage: https://warehouse.python.org/
-| Docs: https://warehouse.readthedocs.org/
+| Docs: https://warehouse.readthedocs.org/en/latest/
 | Source: https://github.com/pypa/warehouse
 
 
@@ -507,9 +507,39 @@ Conda
   both from ``PyPI`` and from ``CPAN`` (Perl)
 * Conda was originally created for the Anaconda Python Distribution,
   which installs packages written in :ref:`Python`,
-  R, Javascript, :ref:`Ruby`, C, Fortran
-* Conda (and :ref:`Anaconda`) packages are hosted by `<https://binstar.org>`,
+  R,
+  :ref:`Javascript`,
+  :ref:`Ruby`,
+  :ref:`C`,
+  :ref:`Fortran`
+* Conda (and :ref:`Anaconda`) packages are hosted by
+  `<https://binstar.org>`__,
   which hosts free public and paid private Conda packages.
+
+  * Anaconda Server is an internal
+    "Private, Secure Package Repository" 
+    that
+    "supports over 100 different repositories,
+    including PyPI, CRAN, conda, and the Anaconda repository."
+
+To create a fresh conda env:
+
+.. code:: bash
+
+   # Python 2.7
+   conda env create -n exmpl2 --yes python readline pip
+   # conda install ipython-notebook
+
+   # Python 3.X
+   conda env create -n exmpl3 --yes python3 readline pip
+
+Work on a conda env:
+
+.. code:: bash
+
+   source activate exmpl2
+   conda list
+   source deactivate
 
 
 .. index:: Ruby Gem
@@ -574,7 +604,7 @@ Awk
 | Docs: https://www.gnu.org/software/gawk/manual/gawk.html
 | Source: git git://git.savannah.gnu.org/gawk.git
 
-AWK is a pattern programming language for matching and trasforming text.
+AWK is a pattern programming language for matching and transforming text.
 
 
 .. index:: Bash
@@ -633,7 +663,14 @@ C
 C is a third-generation programming language which affords relatively
 low-level machine access while providing helpful abstractions.
 
-The GNU/:ref:`Linux` kernel is written in C and compiled by :ref:`GCC`.
+The GNU/:ref:`Linux` kernel is written in C
+and often compiled by :ref:`GCC` or :ref:`Clang`
+for a particular architecture (see: ``man uname``)
+
+:ref:`Libc` libraries are written in C.
+
+Almost all of the projects linked here, at some point,
+utilize code written in C.
 
 
 .. index:: C++
@@ -647,6 +684,22 @@ C++
 
 C++ is a third-generation programming language
 which adds object orientation and a standard library to :ref:`C`.
+
+
+* C++ is an ISO specification: C++98, C++03, C++11 (C++0x), C++14, [ C++17 ]
+
+
+.. index:: Clang
+.. _clang:
+
+Clang
+======
+| Wikipedia: https://en.wikipedia.org/wiki/Clang
+| Homepage: http://clang.llvm.org/
+| Docs: http://clang.llvm.org/docs/
+| Docs: http://clang.llvm.org/docs/UsersManual.html
+
+Clang is a compiler front end for :ref:`C`, :ref:`C++`, and Objective C/++.
 
 
 .. index:: Compiz
@@ -675,7 +728,7 @@ CoreOS
 | Source: https://github.com/coreos
 
 
-CoreOS is :ref:`Linux` distribution for highly available
+CoreOS is a :ref:`Linux` distribution for highly available
 distributed computing.
 
 CoreOS schedules redundant :ref:`docker` images with **fleet**
@@ -689,9 +742,9 @@ a key-value store with a D-Bus interface.
 Docker
 =================
 | Wikipedia: `<https://en.wikipedia.org/wiki/Docker_(software)>`_
-| Homepage: https://docker.io/
-| Docs: http://docs.docker.io/
-| Source: https://github.com/dotcloud/docker
+| Homepage: https://www.docker.com/
+| Docs: https://docs.docker.com/
+| Source: https://github.com/docker/docker
 
 
 Docker is an OS virtualization project which utilizes Linux LXC Containers
@@ -699,8 +752,8 @@ to partition process workloads all running under one kernel.
 
 Limitations
 
-* Writing to `/etc/hosts`: https://github.com/dotcloud/docker/issues/2267
-* Apt-get upgrade: https://github.com/dotcloud/docker/issues/3934
+* Writing to `/etc/hosts`: https://github.com/docker/docker/issues/2267
+* Apt-get upgrade: https://github.com/docker/docker/issues/3934
 
 
 .. index:: Docutils
@@ -789,6 +842,69 @@ Git is a distributed version control system for tracking a branching
 and merging repository of file revisions.
 
 
+.. _hubflow:
+
+.. index:: HubFlow
+
+HubFlow
+~~~~~~~~~
+| Src: https://github.com/datasift/gitflow
+| Docs: https://datasift.github.io/gitflow/
+| Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
+| Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
+
+HubFlow is a fork of GitFlow 
+that adds extremely useful commands for working with Git and GitHub.
+
+HubFlow is a named branch workflow with mostly-automated merges
+between branches.
+
+Branch names are configurable; the defaults are as follows:
+
+
++--------------------+-------------------------------------------------------------------------------+
+| **Branch Name**    | **Description**                                                               |
+|                    | (and `Code Labels <https://westurner.github.io/wiki/workflow#code-labels>`__) |
++--------------------+-------------------------------------------------------------------------------+
+| ``master``         | Stable trunk (latest release)                                                 |
++--------------------+-------------------------------------------------------------------------------+
+| ``develop``        | Development main line                                                         |
++--------------------+-------------------------------------------------------------------------------+
+| ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)                     |
++--------------------+-------------------------------------------------------------------------------+
+| ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                             |
+|                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                              |
++--------------------+-------------------------------------------------------------------------------+
+| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                                   |
++--------------------+-------------------------------------------------------------------------------+
+
+Creating a new release with :ref:`Git` and HubFlow:
+
+.. code:: bash
+
+   git clone ssh://git@github.com/westurner/dotfiles
+   # git checkout master
+   git hf init
+   ## Update versiontag in .git/config to prefix release tags with 'v'
+   # [hubflow "prefix"]
+   # feature = feature/
+   # release = release/
+   # hotfix = hotfix/
+   # support = support/
+   # versiontag = v
+   #
+   git hf feature start print_hello_world
+   ## commit, commit, commit
+   git hf feature finish print_hello_world
+   git hf release start 0.1.0
+   ## commit (e.g. update version in setup.py, release notes)
+   git hf release finish 0.1.0
+
+The GitFlow HubFlow illustrations are very helpful for visualizing
+and understanding any DVCS workflow: 
+`<https://datasift.github.io/gitflow/IntroducingGitFlow.html>`__.
+
+
 .. index:: Gnome
 .. _gnome:
 
@@ -814,7 +930,8 @@ Go
 | Source: hg https://code.google.com/p/go/
 
 
-Go is a relatively new statically-typed C-based language.
+Go is a statically-typed :reF:`C`-based third generation language.
+
 
 .. index:: Grep
 .. _grep:
@@ -852,24 +969,80 @@ I3wm
 | Docs: http://i3wm.org/docs/
 | Source: git git://code.i3wm.org/i3
 
+I3wm is a tiling window manager for :ref:`X11` (:ref:`Linux`)
+with extremely-configurable :ref:`Vim`-like keyboard shortcuts.
 
 * http://i3wm.org/downloads/
 
 
 .. index:: IPython
-.. _IPython:
+.. index:: ipython
+.. _ipython:
 
 IPython
 ========
 | Wikipedia: https://en.wikipedia.org/wiki/IPython
 | Homepage: http://ipython.org/
 | Docs: http://ipython.org/ipython-doc/stable/
+| Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
+| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 | Source: git https://github.com/ipython/ipython
 
+IPython is an interactive REPL and distributed computation framework
+written in :ref:`Python`.
 
-* https://registry.hub.docker.com/u/ipython
-* https://registry.hub.docker.com/u/jupyter
-* https://github.com/jupyter
+An IPython notebooks file (``.ipynb``) is a
+JSON document containing input and output
+for a linear sequence of cells;
+which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
+and edited through the web with
+IPython Notebook.
+
+.. code:: python
+
+    1 + 1
+    x = 1+1
+    print("1 + 1 = %d" (x))
+
+    # IPython
+    ?                              # help
+    %lsmagic
+    %<tab>                         # list magic commands and aliases
+    %logstart?                     # help for the %logstart magic command
+    %logstart -o logoutput.log.py  # log input and output to a file
+    import json
+    json?                          # print(json.__doc__)
+    json??                         # print(inspect.getsource(json))
+
+    # IPython shell
+    !cat ./README.rst; echo $PWD   # run shell commands
+    lines = !ls -al                # capture shell command output
+    print(lines[0:])
+    %run -i -t example.py          # run a script with timing info,
+                                   # in the local namespace
+    %run -d example.py             # run a script with pdb
+    %pdb on                        # automatically run pdb on Exception
+
+.. note:: IPython notebook runs code and shell commands as
+  the user the process is running as, on a remote or local machine.
+
+  IPython notebook supports more than 20 different languages.
+
+Reproducible :ref:`SciPy Stack <scipystack>`
+IPython / Jupyter Notebook servers
+implement best practices like process isolation and privilege separation:
+
+* https://registry.hub.docker.com/repos/ipython/
+* https://registry.hub.docker.com/repos/jupyter/
+* https://registry.hub.docker.com/u/jupyter/tmpnb/
+
+
+IPython / Jupyter Notebook Viewer (``nbviewer``)
+is an application for serving read-only
+versions of notebooks which have HTTP URIs.
+
+* http://nbviewer.ipython.org
+* https://github.com/jupyter/nbviewer
 
 
 .. index:: Java
@@ -911,6 +1084,22 @@ often with :ref:`Node.js` and :ref:`NPM` packages.
    and developer ecosystems.
 
 
+.. index:: Jinja2
+.. _jinja2:
+
+Jinja2
+=======
+| Wikipedia: `<https://en.wikipedia.org/wiki/Jinja_%28template_engine%29>`__
+| Homepage: http://jinja.pocoo.org/
+| Source: https://github.com/mitsuhiko/jinja2
+| Docs: https://jinja2.readthedocs.org/en/latest/
+| Docs: http://jinja.pocoo.org/docs/dev/
+
+Jinja (jinja2) is a templating engine written in :ref:`Python`.
+
+:ref:`Sphinx` and :ref:`Salt` are two projects that utilize Jinja2.
+
+
 .. index:: JSON
 .. _json:
 
@@ -925,6 +1114,7 @@ JSON is an object representation in :ref:`Javascript` syntax
 which is now supported by libraries for many language.
 
 A list of objects with ``key`` and ``value`` attributes in JSON syntax:
+
 .. code-block:: javascript
 
     [
@@ -948,7 +1138,7 @@ for parsing and indenting ("prettifying") JSON from the commandline ::
 JSON-LD
 ~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/JSON-LD
-| Homepage: https://json-ld.org
+| Homepage: http://json-ld.org
 | Docs: http://json-ld.org/playground/
 
 JSON-LD is a web standard for Linked Data in :ref:`JSON`.
@@ -1003,7 +1193,7 @@ An example from the JSON-LD Playground (`<http://goo.gl/xxZ410>`__):
 KDE
 =====
 | Wikipedia: https://en.wikipedia.org/wiki/KDE
-| Homepage: http://kde.org/
+| Homepage: https://www.kde.org/
 | Docs: https://docs.kde.org/
 | Docs: https://www.kde.org/documentation/
 | Source: https://techbase.kde.org/Getting_Started/Sources
@@ -1059,7 +1249,7 @@ and the :ref:`GNU/Linux <linux>` kernel build from Glibc.
 Libcloud
 ==================
 | Homepage: https://libcloud.apache.org/
-| Docs: https://libcloud.readthedocs.org/
+| Docs: https://libcloud.readthedocs.org/en/latest/
 | Docs: https://libcloud.readthedocs.org/en/latest/supported_providers.html
 | Source: git git://git.apache.org/libcloud.git
 | Source: git https://github.com/apache/libcloud
@@ -1115,6 +1305,25 @@ written in :ref:`C`.
 A *Linux Distribution* is a collection of :ref:`Packages`
 compiled to work with a GNU/Linux kernel and a :ref:`libc`.
 
+
+.. index:: LLVM
+.. _llvm:
+
+LLVM
+=====
+| Wikipedia: https://en.wikipedia.org/wiki/LLVM
+| Homepage: http://llvm.org/
+| Source: git http://llvm.org/git/llvm.git
+| Docs: http://llvm.org/docs/
+| Docs: http://llvm.org/docs/GettingStarted.html
+| Docs: http://llvm.org/docs/ReleaseNotes.html
+| Docs: http://llvm.org/ProjectsWithLLVM/
+
+LLVM "*Low Level Virtual Machine*" is a reusable compiler infrastructure
+with frontends for many languages.
+
+* :ref:`Clang`
+* :ref:`PyPy`
 
 .. index:: Make
 .. _make:
@@ -1232,7 +1441,7 @@ OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
 
 Packer
 =================
-| Homepage: http://www.packer.io/
+| Homepage: https://www.packer.io/
 | Docs: http://www.packer.io/docs
 | Docs: http://www.packer.io/docs/basics/terminology.html
 | Source: git https://github.com/mitchellh/packer
@@ -1295,7 +1504,8 @@ Perl
 
 
 
-Perl is a dynamically typed, C-based scripting language.
+Perl is a dynamically typed, :ref:`C`-based third-generation
+programming language.
 
 Many of the Debian system management tools are or were originally written
 in Perl.
@@ -1330,6 +1540,156 @@ are written in Python. Gentoo :ref:`Portage` is written in Python.
 :ref:`Sphinx`, :ref:`Docutils`, :ref:`Mercurial`,
 :ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
 and :ref:`Virtualenvwrapper` are all written in Python.
+
+
+The Python community is generously supported by a number of sponsors
+and the Python Infrastructure Team:
+
+* https://www.python.org/psf/sponsorship/
+* https://www.python.org/psf/members/#sponsor-members
+* http://psf-salt.readthedocs.org/en/latest/overview/
+
+
+.. index:: CPython
+.. _cpython:
+
+CPython
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Python_(programming_language)>`_
+| Homepage: https://www.python.org/
+| Docs: https://docs.python.org/2/
+| Docs: https://docs.python.org/devguide/
+| Docs: https://docs.python.org/devguide/documenting.html
+| Docs: http://learnxinyminutes.com/docs/python/
+| Source: hg https://hg.python.org/cpython
+
+CPython is the reference :ref:`Python` language implementation written in
+:ref:`C`.
+
+* https://github.com/python/cpython/blob/master/Grammar/Grammar
+
+CPython can interface with other :ref:`C` libraries
+through a number of interfaces:
+
+* https://docs.python.org/2/c-api/
+* https://cffi.readthedocs.org/en/latest/
+* :ref:`Cython`
+
+
+.. index:: Cython
+.. _cython:
+
+Cython
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Cython
+| Hompage: http://cython.org/
+| PyPI: https://pypi.python.org/pypi/Cython
+| Docs: http://docs.cython.org/
+| Docs: http://docs.cython.org/src/userguide/language_basics.html
+
+Cython is a superset of :ref:`CPython` which adds static type definitions;
+making :ref:`CPython` code faster, in many cases.
+
+
+.. index:: NumPy
+.. _numpy:
+
+NumPy
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/NumPy
+| Homepage: http://www.numpy.org/
+| Src: https://github.com/numpy/numpy
+| Docs: http://docs.scipy.org/doc/numpy/
+
+NumPy is a library of array-based mathematical functions
+implemented in :ref:`C` and :ref:`Python`.
+
+* http://nbviewer.ipython.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-2-Numpy.ipynb
+* https://scipy-lectures.github.io/intro/numpy/index.html
+* https://scipy-lectures.github.io/advanced/advanced_numpy/index.html
+
+NumPy and other languages:
+
+* http://wiki.scipy.org/NumPy_for_Matlab_Users
+* https://github.com/ipython/ipython/wiki/Extensions-Index
+
+
+.. index:: SciPy
+.. _scipy:
+
+SciPy
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/SciPy
+| Homepage: http://scipy.org/ 
+| Src: https://github.com/scipy/scipy
+| Docs: http://www.scipy.org/docs.html
+| Docs: http://docs.scipy.org/doc/scipy/reference/
+| Docs: http://www.scipy.org/install.html
+
+SciPy is a set of science and engineering libraries
+for :ref:`Python`, primarily written in :ref:`C`.
+
+* http://nbviewer.ipython.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-3-Scipy.ipynb
+* https://scipy-lectures.github.io/intro/scipy.html
+
+The :ref:`SciPy Stack <scipystack>` specification
+includes the SciPy package and its dependencies.
+
+
+.. index:: SciPy
+.. _scipystack:
+
+SciPy Stack
+~~~~~~~~~~~~~
+| Docs: http://www.scipy.org/stackspec.html
+| Docs: http://www.scipy.org/install.html
+
+Python Distributions
+
+* Sage
+* :ref:`Anaconda` (:ref:`Conda`)
+* Enthought Canopy
+* Python(x,y)
+* WinPython
+* Pyzo
+* Algorete Loopy (:ref:`Conda`)
+
+Scipy Stack Docker Containers
+
+* https://registry.hub.docker.com/u/ipython/ipython/
+* https://registry.hub.docker.com/u/ipython/scipystack/
+* https://registry.hub.docker.com/u/ipython/scipyserver/
+
+
+
+.. index:: PyPy
+.. _pypy:
+
+PyPy
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/PyPy
+| Homepage: http://pypy.org/
+| Source: https://bitbucket.org/pypy/pypy
+| Docs: http://buildbot.pypy.org/waterfall
+| Docs: https://pypy.readthedocs.org/en/latest/
+| Docs: https://pypy.readthedocs.org/en/latest/introduction.html
+
+PyPy is a JIT LLVM compiler for :ref:`Python` code
+written in RPython -- a restricted subset of :ref:`CPython` syntax --
+which compiles to :ref:`C`, and is often faster than :ref:`CPython`
+for many types of purposes.
+
+
+.. index:: NumPyPy
+.. _numpypy:
+
+NumPyPy
+~~~~~~~~
+NumPyPy is a port of :ref:`NumPy` to :ref:`PyPy`:
+
+| Src: https://bitbucket.org/pypy/numpypy
+| Docs: http://buildbot.pypy.org/numpy-status/latest.html
+| Docs: http://pypy.org/numpydonate.html
 
 
 .. index:: Python 3
@@ -1629,6 +1989,7 @@ GNU Sed is a UNIX CLI utility for transforming text.
    OR: ``brew install gnu-sed``
 
    See: https://unix.stackexchange.com/questions/101059/sed-behaves-different-on-freebsd-and-on-linux
+
    See: https://superuser.com/questions/307165/newlines-in-sed-on-mac-os-x
 
 
@@ -1718,7 +2079,7 @@ so, for example,
 Tox
 ==============
 | Homepage: https://testrun.org/tox/
-| Docs: https://tox.readthedocs.org
+| Docs: https://tox.readthedocs.org/en/latest/
 | Source: hg https://bitbucket.org/hpk42/tox
 | Pypi: https://pypi.python.org/pypi/tox
 
@@ -1752,7 +2113,7 @@ Ubuntu
 Vagrant
 ==================
 | Wikipedia: `<https://en.wikipedia.org/wiki/Vagrant_(software)>`_
-| Homepage: http://www.vagrantup.com/
+| Homepage: https://www.vagrantup.com/
 | Docs: http://docs.vagrantup.com/v2/
 | Source: git https://github.com/mitchellh/vagrant
 
@@ -1902,8 +2263,7 @@ Wasavi
 | Source: https://github.com/akahuku/wasavi
 
 
-
-* https://chrome.google.com/webstore/detail/dgogifpkoilgiofhhhodbodcfgomelhe
+* https://chrome.google.com/webstore/detail/wasavi/dgogifpkoilgiofhhhodbodcfgomelhe
 * https://addons.opera.com/en/extensions/details/wasavi/
 * https://addons.mozilla.org/en-US/firefox/addon/wasavi/
 
@@ -1938,7 +2298,7 @@ VirtualBox:
 Virtualenv
 ====================
 | Homepage: http://www.virtualenv.org
-| Docs: http://www.virtualenv.org/en/latest/
+| Docs: https://virtualenv.pypa.io/en/latest/
 | Source: git https://github.com/pypa/virtualenv
 | PyPI: https://pypi.python.org/pypi/virtualenv
 | IRC: #pip

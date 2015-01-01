@@ -70,12 +70,17 @@ dotfiles_reload() {
 
   #
   ## 07-bashrc.python.sh        -- python
-  #  _setup_anaconda()  -- setup anaconda paths (manual)
   #  _setup_pyenv()     -- setup pyenv paths (manual)
+  #  _setup_conda()     -- setup conda paths (manual)
   source ${conf}/07-bashrc.python.sh
 
   #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
+  # backup_virtualenv($VENVSTR)  -- backup $WORKON_HOME/$VENVSTR -> ./-bkp/$VENVSTR
+  # backup_virtualenvs()         -- backup $WORKON_HOME/* -> ./-bkp/*
+  # rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
+  # rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
+  # TODO: restore
   source ${conf}/07-bashrc.virtualenvwrapper.sh
 
   #
@@ -102,11 +107,17 @@ dotfiles_reload() {
 
   #
   ## 20-bashrc.editor.sh        -- $EDITOR configuration
-  #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
-  #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
+  #  $_EDIT_  (str): cmdstring to open $@ (file list) in current editor
+  #  $EDITOR_ (str): cmdstring to open $@ (file list) in current editor
   source ${conf}/20-bashrc.editor.sh
+  #
   ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
-  #  $PAGER (str): cmdstring to run pager (less/vim)
+  #  $PAGER   (str): cmdstring to run pager (less/vim)
+  #  lessv()    -- open in vim with less.vim
+  #                VIMPAGER_SYNTAX="python" lessv
+  #  lessg()    -- open in a gvim with less.vim
+  #                VIMPAGER_SYNTAX="python" lessv
+  #  lesse()    -- open with $EDITOR_
   source ${conf}/29-bashrc.vimpagers.sh
 
   #

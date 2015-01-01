@@ -161,12 +161,17 @@ dotfiles_reload() {
 
   #
   ## 07-bashrc.python.sh        -- python
-  #  _setup_anaconda()  -- setup anaconda paths (manual)
   #  _setup_pyenv()     -- setup pyenv paths (manual)
+  #  _setup_conda()     -- setup conda paths (manual)
   source ${conf}/07-bashrc.python.sh
 
   #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
+  # backup_virtualenv($VENVSTR)  -- backup $WORKON_HOME/$VENVSTR -> ./-bkp/$VENVSTR
+  # backup_virtualenvs()         -- backup $WORKON_HOME/* -> ./-bkp/*
+  # rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
+  # rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
+  # TODO: restore
   source ${conf}/07-bashrc.virtualenvwrapper.sh
 
   #
@@ -193,11 +198,17 @@ dotfiles_reload() {
 
   #
   ## 20-bashrc.editor.sh        -- $EDITOR configuration
-  #  $_EDIT_ (str): cmdstring to open $@ (file list) in current editor
-  #  $EDITOR (str): cmdstring to open $@ (file list) in current editor
+  #  $_EDIT_  (str): cmdstring to open $@ (file list) in current editor
+  #  $EDITOR_ (str): cmdstring to open $@ (file list) in current editor
   source ${conf}/20-bashrc.editor.sh
+  #
   ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
-  #  $PAGER (str): cmdstring to run pager (less/vim)
+  #  $PAGER   (str): cmdstring to run pager (less/vim)
+  #  lessv()    -- open in vim with less.vim
+  #                VIMPAGER_SYNTAX="python" lessv
+  #  lessg()    -- open in a gvim with less.vim
+  #                VIMPAGER_SYNTAX="python" lessv
+  #  lesse()    -- open with $EDITOR_
   source ${conf}/29-bashrc.vimpagers.sh
 
   #
@@ -564,12 +575,17 @@ debug-off() {
 
 log_dotfiles_state() {
     # log_dotfiles_state()      -- save current environment to logfiles
+    # XXX:
     _log=${_LOG:-"${HOME}/var/log"}
+    if [ "${_log}" == "/var/log" ]; then
+        _log="${HOME}/var/log"
+    fi
     logkey=${1:-'99'}
-    logdir=${_log:-"var/log"}/venv.${logkey}/
+    logdir=${_log:-"var/log"}/venv.${VIRTUAL_ENV_NAME}.${logkey}/
     exportslogfile=${logdir}/exports.log
     envlogfile=${logdir}/exports_env.log
     test -n $logdir && test -d $logdir || mkdir -p $logdir
+    # XXX:
     export > $exportslogfile
     set > $envlogfile
 }
@@ -586,6 +602,7 @@ dotfiles_postmkvirtualenv() {
     declare -f 'mkdirs_venv' 2>&1 >/dev/null && mkdirs_venv
     test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
     echo ""
+    echo $(which pip)
     pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
     echo "pip_freeze='${pip_freeze}'"
     pip freeze | tee ${pip_freeze}
@@ -605,11 +622,11 @@ dotfiles_postactivate() {
     log_dotfiles_state 'postactivate'
 
     local bash_debug_output=$(
-        venv -e --verbose --diff --print-bash 2>&1 /dev/null)
+        $__VENV -e --verbose --diff --print-bash 2>&1 /dev/null)
     local venv_return_code=$?
     if [ ${venv_return_code} -eq 0 ]; then
-        test -n $_VENV \
-            && source <(venv -e --print-bash)
+        test -n $__VENV \
+            && source <($__VENV -e --print-bash)
     else
         echo "${bash_debug_output}" # >2
     fi
@@ -797,18 +814,39 @@ _setup_pyenv() {
 ## Conda / Anaconda
 
 _setup_conda() {
-    # _setup_anaconda()     -- set $ANACONDA_ROOT, add_to_path
-    export CONDA_ROOT="${CONDA_ROOT:-"/opt/anaconda"}"
+    # _setup_anaconda()     -- set $CONDA_ROOT, add_to_path
+    local _conda_pyver=${1}
+    source <($__VENV --prefix='.' --print-bash)
+    if [ "$_conda_pyver" == "27" ]; then
+        export CONDA_HOME=$CONDA_HOME__py27
+        export CONDA_ROOT=$CONDA_ROOT__py27
+    elif [ "$_conda_pyver" == "34" ]; then
+        export CONDA_HOME=$CONDA_HOME__py34
+        export CONDA_ROOT=$CONDA_ROOT__py34
+    else
+        export CONDA_HOME=${CONDA_HOME:-${CONDA_HOME__py27}}
+        export CONDA_ROOT=${CONDA_ROOT:-${CONDA_ROOT__py27}}
+    fi
+    export CONDA_ENVS_PATH=$CONDA_HOME
     add_to_path "${CONDA_ROOT}/bin"
 }
 
 workon_conda() {
     # workon_conda()        -- workon a conda + venv project
     local _conda_envname=${1}
-    local _app=${2}
-    we ${_conda_envname} ${_app}
-    _setup_anaconda && \
-        source activate ${WORKON_HOME}/.conda/${_conda_envname}
+    local _conda_pyver=${2}
+    local _app=${3}
+    _setup_conda ${_conda_pyver}
+    local CONDA_ENV=${CONDA_HOME}/${_conda_envname}
+    source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
+    source <(
+      $__VENV --wh="${CONDA_HOME}" --ve="${_conda_envname}" --app="${_app}" \
+      --print-bash)
+    dotfiles_status
+    deactivate() {
+        source deactivate
+        dotfiles_postdeactivate
+    }
 }
 complete -o default -o nospace -F _virtualenvs workon_conda
 
@@ -821,18 +859,50 @@ complete -o default -o nospace -F _virtualenvs wec
 
 mkvirtualenv_conda() {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
-    mkvirtualenv $@
-    _conda_envname=${1}
-    conda create --mkdir --prefix ${WORKON_HOME}/.conda/${_conda_envname} \
-        readline
-    workon_conda ${_conda_envname}
+    local _conda_envname=${1}
+    local _conda_pyver=${2}
+    shift; shift
+    local _conda_pkgs=${@}
+    _setup_conda ${_conda_pyver}
+    if [ -z "$CONDA_HOME" ]; then
+        echo "\$CONDA_HOME is not set. Exiting".
+        return
+    fi
+    local CONDA_ENV="${CONDA_HOME}/${_conda_envname}"
+    if [ "$_conda_pyver" == "27" ]; then
+        conda_python="python=2"
+    elif [ "$_conda_pyver" == "34" ]; then
+        conda_python="python=3"
+    else
+        conda_python="python=2"
+    fi
+    conda create --mkdir --prefix "${CONDA_ENV}" --yes \
+        ${conda_python} readline pip ${_conda_pkgs}
+
+    export VIRTUAL_ENV="${CONDA_ENV}"
+    workon_conda "${_conda_envname}" "${_conda_pyver}"
+    export VIRTUAL_ENV="${CONDA_ENV}"
+    dotfiles_postmkvirtualenv
+
+    echo ""
+    echo $(which conda)
+    conda_list=${_LOG}/conda.list.no-pip.postmkvirtualenv.txt
+    echo "conda_list=${conda_list}"
+    conda list -e --no-pip | tee "${conda_list}"
 }
 
 rmvirtualenv_conda() {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
-    rmvirtualenv $@
-    _conda_envname=${1}
-    #   TODO
+    local _conda_envname=${1}
+    local _conda_pyver=${2}
+    _setup_conda ${_conda_pyver}
+    local CONDA_ENV=${CONDA_HOME}/$_conda_envname
+    if [ -z "$CONDA_HOME" ]; then
+        echo "\$CONDA_HOME is not set. Exiting".
+        return
+    fi
+    echo "Removing ${CONDA_ENV}"
+    rm -rf "${CONDA_ENV}"
 }
 
 
@@ -860,8 +930,9 @@ workon_conda_if_available() {
 
 # sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
 #
-export PROJECT_HOME="${HOME}/-wrk"
-export WORKON_HOME="${PROJECT_HOME}/-ve"
+export __WRK=${__WRK:-"${HOME}/-wrk"}
+export PROJECT_HOME="${__WRK}"
+export WORKON_HOME="${__WRK}/-ve27"
 
 _setup_virtualenvwrapper () {
     # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
@@ -2223,31 +2294,44 @@ backup_virtualenvs() {
 
 _rebuild_virtualenv() {
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+    #    $1="$VENVSTR"
+    #    $2="$VIRTUAL_ENV"
     echo "rebuild_virtualenv()"
-    local venvname="${1}"
-    local VIRTUAL_ENV=${2:-"${WORKON_HOME}/${venvname}"}
-    rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
-        ${_BIN}/pip ${_BIN}/pip-2.7 \
-        ${_BIN}/easy_install ${_BIN}/easy_install-2.7 \
-        ${_BIN}/activate*
+    VENVSTR="${1}"
+    VIRTUAL_ENV=${2:-"${WORKON_HOME}/${VENVSTR}"}
+    _BIN="${VIRTUAL_ENV}/bin"
+    #rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
+        #${_BIN}/pip ${_BIN}/pip-2.7 \
+        #${_BIN}/easy_install ${_BIN}/easy_install-2.7 \
+        #${_BIN}/activate*
     pyver=$(python -c "import sys; print('{}.{}'.format(*sys.version_info[:2]))")
-    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
-        -iname 'pip*' -delete
-    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
-        -iname 'setuptools*' -delete
-    find -E "${VIRTUAL_ENV}/lib/python${pyver}/site-packages" \
-        -iname 'distribute*' -delete
-    deactivate
-    mkvirtualenv ${venvname}
+    _PYSITE="${VIRTUAL_ENV}/lib/python${pyver}/site-packages"
+    find -E "${_PYSITE}" -iname 'activate*' -delete
+    find -E "${_PYSITE}" -iname 'pip*' -delete
+    find -E "${_PYSITE}" -iname 'setuptools*' -delete
+    find -E "${_PYSITE}" -iname 'distribute*' -delete
+    find -E "${_PYSITE}" -iname 'easy_install*' -delete
+    find -E "${_PYSITE}" -iname 'python*' -delete
+    declare -f 'deactivate' 2>&1 /dev/null && deactivate
+    mkvirtualenv -i setuptools -i wheel -i pip ${VENVSTR} 
+    #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
+    workon ${VENVSTR} && \
+    we ${VENVSTR}
+    _BIN="${VIRTUAL_ENV}/bin"
 
-    _BIN__="${VIRTUAL_ENV}/bin"
-    files=$(find ${_BIN__} -type f | grep -v '.bak$' | grep -v 'python*$')
-    head -n1 ${files}
-    (cd ${_BIN}; \
-        sed -i.bak "s,^#!(.*${venvname}/bin/python)(\d.*),#!${_BIN}/python," \
-        ${files} )
-    head -n1 ${files}
-    (cd ${_BIN}; rm -ifv ./*.bak)
+    if [ "${_BIN}" == "/bin" ]; then
+        echo "err: _BIN='${_BIN}'"
+        return 1
+    fi
+
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | xargs head -n1
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | LC_ALL=C xargs  sed -i.bak -E 's,^#!.*python.*,#!'${_BIN}'/python,'
+    find $_BIN -name '*.bak' -delete
+
+    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+        | xargs head -n1
     echo "
     # TODO: adjust paths beyond the shebang
     #${_BIN}/pip install -v -v -r <(${_BIN}/pip freeze)
@@ -2256,6 +2340,9 @@ _rebuild_virtualenv() {
 }
 
 rebuild_virtualenv() {
+    #  rebuild_virtualenv()     -- rebuild a virtualenv
+    #    $1="$VENVSTR"
+    #    $2="$VIRTUAL_ENV"
     (set -x; _rebuild_virtualenv $@)
 }
 
@@ -2281,7 +2368,7 @@ _setup_google_cloud() {
 ## Variables
 
     # __PROJECTSRC -- path to local project settings script
-export __PROJECTSRC="${PROJECT_HOME}/.projectsrc.sh"
+export __PROJECTSRC="${__WRK}/.projectsrc.sh"
 [ -f $__PROJECTSRC ] && source $__PROJECTSRC
 
 __setup_dotfiles() {
@@ -2293,9 +2380,13 @@ __setup_dotfiles() {
 
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
-export __SRC="${HOME}/src"
-[ ! -d $__SRC ] && mkdir -p $__SRC/hg $__SRC/git
-
+export __SRC="${__WRK}/src/src"
+if [ ! -d $__SRC ]; then
+    mkdir -p \
+        ${__SRC}/git/github.com \
+        ${__SRC}/git/bitbucket.org \
+        ${__SRC}/hg/bitbucket.org
+fi
 
     # PATH="~/.local/bin:$PATH" (if not already there)
 add_to_path "${HOME}/.local/bin"
@@ -2309,8 +2400,8 @@ export __VENV="${__DOTFILES}/scripts/venv.py"
 venv() {
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
-    # venv -b   -- print bash configuration
-    # venv -p   -- print IPython configuration as JSON
+    # venv --print-bash   -- print bash configuration
+    # venv --print-json   -- print IPython configuration as JSON
     (set -x; $__VENV $@)
 }
 venv-() {
@@ -2332,14 +2423,16 @@ workon_venv() {
     #append to shell history
     history -a
 
-    if [ -n "$1" ]; then
-        # TODO
-        workon $1  # sets VIRTUAL_ENV
-        source <(venv --print-bash $@)
-        dotfiles_status
+    if [ -n "$1" ] && ([ -d "$WORKON_HOME/$1" ] || [ -d "${1}"]); then
+        workon $1 && \
+        source <($__VENV --print-bash $@) && \
+        dotfiles_status && \
+        declare -f '_venv_set_prompt' 2>&1 > /dev/null \
+            && _venv_set_prompt ${_TERM_ID:-$1}
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenv
+        return 1
     fi
 }
 we () {
@@ -2351,161 +2444,738 @@ complete -o default -o nospace -F _virtualenvs we
 
 # CdAlias functions and completions
 source ${__DOTFILES}/etc/venv/venv.sh
-### venv.sh         -- Generated venv.sh
+#!/bin/sh
+## venv.sh
+# generated from $(venv --print-bash --prefix=/)
 
-# generate with:
-# venv.py
 
-## cd functions
-cdb () {
-    # cdb()     -- cd $_BIN
-    cd "${_BIN}"/$@
+eval '
+cdhome () {
+    # cdhome            -- cd $HOME /$@
+    [ -z "$HOME" ] && echo "HOME is not set" && return 1
+    cd "$HOME"${@:+"/${@}"}
 }
-cdd () {
-    # cdd()     -- cd $__DOTFILES
-    cd "${__DOTFILES}"/$@
-}
-cde () {
-    # cde()     -- cd $_ETC
-    cd "${_ETC}"/$@
+_cd_HOME_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdhome && compgen -d -- "${cur}" ))
 }
 cdh () {
-    # cdh()     -- cd $HOME
-    cd "${HOME}"/$@
+    # cdh               -- cd $HOME
+    cdhome $@
 }
-cdl () {
-    # cdl()     -- cd $_LIB
-    cd "${_LIB}"/$@
+complete -o default -o nospace -F _cd_HOME_complete cdhome
+complete -o default -o nospace -F _cd_HOME_complete cdh
+
+';
+
+cdhome () {
+    # cdhome            -- cd $HOME /$@
+    [ -z "$HOME" ] && echo "HOME is not set" && return 1
+    cd "$HOME"${@:+"/${@}"}
 }
-cdlog () {
-    # cdlog()   -- cd $_LOG
-    cd "${_LOG}"/$@
+_cd_HOME_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdhome && compgen -d -- "${cur}" ))
 }
-cdprojecthome () {
-    # cdprojecthome()   -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}"/$@
+cdh () {
+    # cdh               -- cd $HOME
+    cdhome $@
 }
-cdp () {
-    # cdp()             -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}"/$@
-}
-cdph () {
-    # cdph()            -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}"/$@
-}
-cdpylib () {
-    # cdpylib() -- cd $_PYLIB
-    cd "${_PYLIB}"/$@
-}
-cdpysite () {
-    # cdpysite()-- cd $_PYSITE
-    cd "${_PYSITE}"/$@
-}
-cds () {
-    # cds()     -- cd $_SRC
-    cd "${_SRC}"/$@
-}
-cdv () {
-    # cdv()     -- cd $VIRTUAL_ENV
-    cd "${VIRTUAL_ENV}"/$@
-}
-cdve () {
-    # cdve()    -- cd $VIRTUAL_ENV
-    cd "${VIRTUAL_ENV}"/$@
-}
-cdvar () {
-    # cdvar()   -- cd $_VAR
-    cd "${_VAR}"/$@
-}
-cdworkonhome () {
-   # cdworkonhome()  -- cd $WORKON_HOME
-   cd "${WORKON_HOME}"/$@
-}
-cdwh () {
-    # cdwh      -- cd $WORKON_HOME
-    cd "${WORKON_HOME}"/$@
-}
-cdwrd () {
-    # cdwrd     -- cd $_WRD
-    cd "${_WRD}"/$@
-}
-cdw () {
-    # cdw()     -- cd $_WRD
-    cd "${_WRD}"/$@
-}
+complete -o default -o nospace -F _cd_HOME_complete cdhome
+complete -o default -o nospace -F _cd_HOME_complete cdh
+
+eval '
 cdwrk () {
-    # cdwrk()   -- cd $PROJECT_HOME
-    cd "${PROJECT_HOME}/$@"
+    # cdwrk             -- cd $__WRK /$@
+    [ -z "$__WRK" ] && echo "__WRK is not set" && return 1
+    cd "$__WRK"${@:+"/${@}"}
 }
-cdww () {
-    # cdww()    -- cd $_WWW
-    cd "${_WWW}"/$@
+_cd___WRK_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdwrk && compgen -d -- "${cur}" ))
 }
-cdwww () {
-    # cdwww()   -- cd $_WWW
-    cd "${_WWW}"/$@
-}
+complete -o default -o nospace -F _cd___WRK_complete cdwrk
 
-   ## cd function bash completion
+';
 
-
-_cd__WRK_complete () 
-{ 
-   local cur="$2";
-   COMPREPLY=($(cdwrk && compgen -d -- "${cur}" ))
+cdwrk () {
+    # cdwrk             -- cd $__WRK /$@
+    [ -z "$__WRK" ] && echo "__WRK is not set" && return 1
+    cd "$__WRK"${@:+"/${@}"}
 }
-complete -o default -o nospace -F _cd__WRK_complete cdwrk
-
-_cd___DOTFILES_complete () 
-{ 
-   local cur="$2";
-   COMPREPLY=($(cdd && compgen -d -- "${cur}" ))
+_cd___WRK_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdwrk && compgen -d -- "${cur}" ))
 }
+complete -o default -o nospace -F _cd___WRK_complete cdwrk
+
+eval '
+cddotfiles () {
+    # cddotfiles        -- cd $__DOTFILES /$@
+    [ -z "$__DOTFILES" ] && echo "__DOTFILES is not set" && return 1
+    cd "$__DOTFILES"${@:+"/${@}"}
+}
+_cd___DOTFILES_complete () {
+    local cur="$2";
+    COMPREPLY=($(cddotfiles && compgen -d -- "${cur}" ))
+}
+cdd () {
+    # cdd               -- cd $__DOTFILES
+    cddotfiles $@
+}
+complete -o default -o nospace -F _cd___DOTFILES_complete cddotfiles
 complete -o default -o nospace -F _cd___DOTFILES_complete cdd
 
-_cd_PROJECT_HOME_complete () 
-{ 
-   local cur="$2";
-   COMPREPLY=($(cdprojecthome && compgen -d -- "${cur}" ))
+';
+
+cddotfiles () {
+    # cddotfiles        -- cd $__DOTFILES /$@
+    [ -z "$__DOTFILES" ] && echo "__DOTFILES is not set" && return 1
+    cd "$__DOTFILES"${@:+"/${@}"}
+}
+_cd___DOTFILES_complete () {
+    local cur="$2";
+    COMPREPLY=($(cddotfiles && compgen -d -- "${cur}" ))
+}
+cdd () {
+    # cdd               -- cd $__DOTFILES
+    cddotfiles $@
+}
+complete -o default -o nospace -F _cd___DOTFILES_complete cddotfiles
+complete -o default -o nospace -F _cd___DOTFILES_complete cdd
+
+eval '
+cdprojecthome () {
+    # cdprojecthome     -- cd $PROJECT_HOME /$@
+    [ -z "$PROJECT_HOME" ] && echo "PROJECT_HOME is not set" && return 1
+    cd "$PROJECT_HOME"${@:+"/${@}"}
+}
+_cd_PROJECT_HOME_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdprojecthome && compgen -d -- "${cur}" ))
+}
+cdp () {
+    # cdp               -- cd $PROJECT_HOME
+    cdprojecthome $@
+}
+cdph () {
+    # cdph              -- cd $PROJECT_HOME
+    cdprojecthome $@
 }
 complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdprojecthome
-complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdph
 complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdp
+complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdph
 
-_cd_WORKON_HOME_complete () 
-{ 
-   local cur="$2";
-   COMPREPLY=($(cdprojecthome && compgen -d -- "${cur}" ))
+';
+
+cdprojecthome () {
+    # cdprojecthome     -- cd $PROJECT_HOME /$@
+    [ -z "$PROJECT_HOME" ] && echo "PROJECT_HOME is not set" && return 1
+    cd "$PROJECT_HOME"${@:+"/${@}"}
+}
+_cd_PROJECT_HOME_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdprojecthome && compgen -d -- "${cur}" ))
+}
+cdp () {
+    # cdp               -- cd $PROJECT_HOME
+    cdprojecthome $@
+}
+cdph () {
+    # cdph              -- cd $PROJECT_HOME
+    cdprojecthome $@
+}
+complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdprojecthome
+complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdp
+complete -o default -o nospace -F _cd_PROJECT_HOME_complete cdph
+
+eval '
+cdworkonhome () {
+    # cdworkonhome      -- cd $WORKON_HOME /$@
+    [ -z "$WORKON_HOME" ] && echo "WORKON_HOME is not set" && return 1
+    cd "$WORKON_HOME"${@:+"/${@}"}
+}
+_cd_WORKON_HOME_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdworkonhome && compgen -d -- "${cur}" ))
+}
+cdwh () {
+    # cdwh              -- cd $WORKON_HOME
+    cdworkonhome $@
+}
+cdve () {
+    # cdve              -- cd $WORKON_HOME
+    cdworkonhome $@
 }
 complete -o default -o nospace -F _cd_WORKON_HOME_complete cdworkonhome
 complete -o default -o nospace -F _cd_WORKON_HOME_complete cdwh
+complete -o default -o nospace -F _cd_WORKON_HOME_complete cdve
 
-_cd_VIRTUAL_ENV_complete () {
-   local cur="$2";
-   local venv="$VIRTUAL_ENV";
-   if [ -z "${venv}" ]; then
-      echo -e "\n# !ERR: VIRTUAL_ENV=\"\""
-      COMPREPLY=(echo "")
-      return 124
-   else
-      COMPREPLY=($(cdv && compgen -d -- "${cur}" ))
-   fi
+';
+
+cdworkonhome () {
+    # cdworkonhome      -- cd $WORKON_HOME /$@
+    [ -z "$WORKON_HOME" ] && echo "WORKON_HOME is not set" && return 1
+    cd "$WORKON_HOME"${@:+"/${@}"}
 }
-#complete -o default -o nospace -F _cdvirtualenv_complete cdvirtualenv
-complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdve
+_cd_WORKON_HOME_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdworkonhome && compgen -d -- "${cur}" ))
+}
+cdwh () {
+    # cdwh              -- cd $WORKON_HOME
+    cdworkonhome $@
+}
+cdve () {
+    # cdve              -- cd $WORKON_HOME
+    cdworkonhome $@
+}
+complete -o default -o nospace -F _cd_WORKON_HOME_complete cdworkonhome
+complete -o default -o nospace -F _cd_WORKON_HOME_complete cdwh
+complete -o default -o nospace -F _cd_WORKON_HOME_complete cdve
+
+eval '
+cdcondahome () {
+    # cdcondahome       -- cd $CONDA_HOME /$@
+    [ -z "$CONDA_HOME" ] && echo "CONDA_HOME is not set" && return 1
+    cd "$CONDA_HOME"${@:+"/${@}"}
+}
+_cd_CONDA_HOME_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdcondahome && compgen -d -- "${cur}" ))
+}
+cda () {
+    # cda               -- cd $CONDA_HOME
+    cdcondahome $@
+}
+cdce () {
+    # cdce              -- cd $CONDA_HOME
+    cdcondahome $@
+}
+complete -o default -o nospace -F _cd_CONDA_HOME_complete cdcondahome
+complete -o default -o nospace -F _cd_CONDA_HOME_complete cda
+complete -o default -o nospace -F _cd_CONDA_HOME_complete cdce
+
+';
+
+cdcondahome () {
+    # cdcondahome       -- cd $CONDA_HOME /$@
+    [ -z "$CONDA_HOME" ] && echo "CONDA_HOME is not set" && return 1
+    cd "$CONDA_HOME"${@:+"/${@}"}
+}
+_cd_CONDA_HOME_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdcondahome && compgen -d -- "${cur}" ))
+}
+cda () {
+    # cda               -- cd $CONDA_HOME
+    cdcondahome $@
+}
+cdce () {
+    # cdce              -- cd $CONDA_HOME
+    cdcondahome $@
+}
+complete -o default -o nospace -F _cd_CONDA_HOME_complete cdcondahome
+complete -o default -o nospace -F _cd_CONDA_HOME_complete cda
+complete -o default -o nospace -F _cd_CONDA_HOME_complete cdce
+
+eval '
+cdvirtualenv () {
+    # cdvirtualenv      -- cd $VIRTUAL_ENV /$@
+    [ -z "$VIRTUAL_ENV" ] && echo "VIRTUAL_ENV is not set" && return 1
+    cd "$VIRTUAL_ENV"${@:+"/${@}"}
+}
+_cd_VIRTUAL_ENV_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdvirtualenv && compgen -d -- "${cur}" ))
+}
+cdv () {
+    # cdv               -- cd $VIRTUAL_ENV
+    cdvirtualenv $@
+}
+complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdvirtualenv
 complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdv
 
+';
 
-cdhelp() {
-   echo "cdhelp"
+cdvirtualenv () {
+    # cdvirtualenv      -- cd $VIRTUAL_ENV /$@
+    [ -z "$VIRTUAL_ENV" ] && echo "VIRTUAL_ENV is not set" && return 1
+    cd "$VIRTUAL_ENV"${@:+"/${@}"}
 }
+_cd_VIRTUAL_ENV_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdvirtualenv && compgen -d -- "${cur}" ))
+}
+cdv () {
+    # cdv               -- cd $VIRTUAL_ENV
+    cdvirtualenv $@
+}
+complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdvirtualenv
+complete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdv
 
-_cdhelp_complete () {
-   local cur="$2"
-   echo $@
-   COMPREPLY=($(cd ~ && compgen -d -- "${cur}" ))
+eval '
+cdsrc () {
+    # cdsrc             -- cd $_SRC /$@
+    [ -z "$_SRC" ] && echo "_SRC is not set" && return 1
+    cd "$_SRC"${@:+"/${@}"}
 }
-complete -o default -o nospace -F _cdhelp_complete cdhelp
+_cd__SRC_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdsrc && compgen -d -- "${cur}" ))
+}
+cds () {
+    # cds               -- cd $_SRC
+    cdsrc $@
+}
+complete -o default -o nospace -F _cd__SRC_complete cdsrc
+complete -o default -o nospace -F _cd__SRC_complete cds
+
+';
+
+cdsrc () {
+    # cdsrc             -- cd $_SRC /$@
+    [ -z "$_SRC" ] && echo "_SRC is not set" && return 1
+    cd "$_SRC"${@:+"/${@}"}
+}
+_cd__SRC_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdsrc && compgen -d -- "${cur}" ))
+}
+cds () {
+    # cds               -- cd $_SRC
+    cdsrc $@
+}
+complete -o default -o nospace -F _cd__SRC_complete cdsrc
+complete -o default -o nospace -F _cd__SRC_complete cds
+
+eval '
+cdwrd () {
+    # cdwrd             -- cd $_WRD /$@
+    [ -z "$_WRD" ] && echo "_WRD is not set" && return 1
+    cd "$_WRD"${@:+"/${@}"}
+}
+_cd__WRD_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdwrd && compgen -d -- "${cur}" ))
+}
+cdw () {
+    # cdw               -- cd $_WRD
+    cdwrd $@
+}
+complete -o default -o nospace -F _cd__WRD_complete cdwrd
+complete -o default -o nospace -F _cd__WRD_complete cdw
+
+';
+
+cdwrd () {
+    # cdwrd             -- cd $_WRD /$@
+    [ -z "$_WRD" ] && echo "_WRD is not set" && return 1
+    cd "$_WRD"${@:+"/${@}"}
+}
+_cd__WRD_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdwrd && compgen -d -- "${cur}" ))
+}
+cdw () {
+    # cdw               -- cd $_WRD
+    cdwrd $@
+}
+complete -o default -o nospace -F _cd__WRD_complete cdwrd
+complete -o default -o nospace -F _cd__WRD_complete cdw
+
+eval '
+cdbin () {
+    # cdbin             -- cd $_BIN /$@
+    [ -z "$_BIN" ] && echo "_BIN is not set" && return 1
+    cd "$_BIN"${@:+"/${@}"}
+}
+_cd__BIN_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdbin && compgen -d -- "${cur}" ))
+}
+cdb () {
+    # cdb               -- cd $_BIN
+    cdbin $@
+}
+complete -o default -o nospace -F _cd__BIN_complete cdbin
+complete -o default -o nospace -F _cd__BIN_complete cdb
+
+';
+
+cdbin () {
+    # cdbin             -- cd $_BIN /$@
+    [ -z "$_BIN" ] && echo "_BIN is not set" && return 1
+    cd "$_BIN"${@:+"/${@}"}
+}
+_cd__BIN_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdbin && compgen -d -- "${cur}" ))
+}
+cdb () {
+    # cdb               -- cd $_BIN
+    cdbin $@
+}
+complete -o default -o nospace -F _cd__BIN_complete cdbin
+complete -o default -o nospace -F _cd__BIN_complete cdb
+
+eval '
+cdetc () {
+    # cdetc             -- cd $_ETC /$@
+    [ -z "$_ETC" ] && echo "_ETC is not set" && return 1
+    cd "$_ETC"${@:+"/${@}"}
+}
+_cd__ETC_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdetc && compgen -d -- "${cur}" ))
+}
+cde () {
+    # cde               -- cd $_ETC
+    cdetc $@
+}
+complete -o default -o nospace -F _cd__ETC_complete cdetc
+complete -o default -o nospace -F _cd__ETC_complete cde
+
+';
+
+cdetc () {
+    # cdetc             -- cd $_ETC /$@
+    [ -z "$_ETC" ] && echo "_ETC is not set" && return 1
+    cd "$_ETC"${@:+"/${@}"}
+}
+_cd__ETC_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdetc && compgen -d -- "${cur}" ))
+}
+cde () {
+    # cde               -- cd $_ETC
+    cdetc $@
+}
+complete -o default -o nospace -F _cd__ETC_complete cdetc
+complete -o default -o nospace -F _cd__ETC_complete cde
+
+eval '
+cdlib () {
+    # cdlib             -- cd $_LIB /$@
+    [ -z "$_LIB" ] && echo "_LIB is not set" && return 1
+    cd "$_LIB"${@:+"/${@}"}
+}
+_cd__LIB_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdlib && compgen -d -- "${cur}" ))
+}
+cdl () {
+    # cdl               -- cd $_LIB
+    cdlib $@
+}
+complete -o default -o nospace -F _cd__LIB_complete cdlib
+complete -o default -o nospace -F _cd__LIB_complete cdl
+
+';
+
+cdlib () {
+    # cdlib             -- cd $_LIB /$@
+    [ -z "$_LIB" ] && echo "_LIB is not set" && return 1
+    cd "$_LIB"${@:+"/${@}"}
+}
+_cd__LIB_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdlib && compgen -d -- "${cur}" ))
+}
+cdl () {
+    # cdl               -- cd $_LIB
+    cdlib $@
+}
+complete -o default -o nospace -F _cd__LIB_complete cdlib
+complete -o default -o nospace -F _cd__LIB_complete cdl
+
+eval '
+cdlog () {
+    # cdlog             -- cd $_LOG /$@
+    [ -z "$_LOG" ] && echo "_LOG is not set" && return 1
+    cd "$_LOG"${@:+"/${@}"}
+}
+_cd__LOG_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdlog && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd__LOG_complete cdlog
+
+';
+
+cdlog () {
+    # cdlog             -- cd $_LOG /$@
+    [ -z "$_LOG" ] && echo "_LOG is not set" && return 1
+    cd "$_LOG"${@:+"/${@}"}
+}
+_cd__LOG_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdlog && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd__LOG_complete cdlog
+
+eval '
+cdpylib () {
+    # cdpylib           -- cd $_PYLIB /$@
+    [ -z "$_PYLIB" ] && echo "_PYLIB is not set" && return 1
+    cd "$_PYLIB"${@:+"/${@}"}
+}
+_cd__PYLIB_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdpylib && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd__PYLIB_complete cdpylib
+
+';
+
+cdpylib () {
+    # cdpylib           -- cd $_PYLIB /$@
+    [ -z "$_PYLIB" ] && echo "_PYLIB is not set" && return 1
+    cd "$_PYLIB"${@:+"/${@}"}
+}
+_cd__PYLIB_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdpylib && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd__PYLIB_complete cdpylib
+
+eval '
+cdpysite () {
+    # cdpysite          -- cd $_PYSITE /$@
+    [ -z "$_PYSITE" ] && echo "_PYSITE is not set" && return 1
+    cd "$_PYSITE"${@:+"/${@}"}
+}
+_cd__PYSITE_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdpysite && compgen -d -- "${cur}" ))
+}
+cdsitepackages () {
+    # cdsitepackages    -- cd $_PYSITE
+    cdpysite $@
+}
+complete -o default -o nospace -F _cd__PYSITE_complete cdpysite
+complete -o default -o nospace -F _cd__PYSITE_complete cdsitepackages
+
+';
+
+cdpysite () {
+    # cdpysite          -- cd $_PYSITE /$@
+    [ -z "$_PYSITE" ] && echo "_PYSITE is not set" && return 1
+    cd "$_PYSITE"${@:+"/${@}"}
+}
+_cd__PYSITE_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdpysite && compgen -d -- "${cur}" ))
+}
+cdsitepackages () {
+    # cdsitepackages    -- cd $_PYSITE
+    cdpysite $@
+}
+complete -o default -o nospace -F _cd__PYSITE_complete cdpysite
+complete -o default -o nospace -F _cd__PYSITE_complete cdsitepackages
+
+eval '
+cdvar () {
+    # cdvar             -- cd $_VAR /$@
+    [ -z "$_VAR" ] && echo "_VAR is not set" && return 1
+    cd "$_VAR"${@:+"/${@}"}
+}
+_cd__VAR_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdvar && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd__VAR_complete cdvar
+
+';
+
+cdvar () {
+    # cdvar             -- cd $_VAR /$@
+    [ -z "$_VAR" ] && echo "_VAR is not set" && return 1
+    cd "$_VAR"${@:+"/${@}"}
+}
+_cd__VAR_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdvar && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _cd__VAR_complete cdvar
+
+eval '
+cdwww () {
+    # cdwww             -- cd $_WWW /$@
+    [ -z "$_WWW" ] && echo "_WWW is not set" && return 1
+    cd "$_WWW"${@:+"/${@}"}
+}
+_cd__WWW_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdwww && compgen -d -- "${cur}" ))
+}
+cdww () {
+    # cdww              -- cd $_WWW
+    cdwww $@
+}
+complete -o default -o nospace -F _cd__WWW_complete cdwww
+complete -o default -o nospace -F _cd__WWW_complete cdww
+
+';
+
+cdwww () {
+    # cdwww             -- cd $_WWW /$@
+    [ -z "$_WWW" ] && echo "_WWW is not set" && return 1
+    cd "$_WWW"${@:+"/${@}"}
+}
+_cd__WWW_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdwww && compgen -d -- "${cur}" ))
+}
+cdww () {
+    # cdww              -- cd $_WWW
+    cdwww $@
+}
+complete -o default -o nospace -F _cd__WWW_complete cdwww
+complete -o default -o nospace -F _cd__WWW_complete cdww
+
+eval 'cdls () {
+    set | grep "^cd.*()" | cut -f1 -d" " #$@
+}';
+cdls () {
+    set | grep "^cd.*()" | cut -f1 -d" " #$@
+}
+alias cdhelp="cat $__DOTFILES${_ETC}/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
+eval 'edit- () {
+    ${_EDIT_} $@
+}';
+edit- () {
+    ${_EDIT_} $@
+}
+alias gvim-='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent'
+eval 'ipskey () {
+    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # $@
+}';
+ipskey () {
+    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # $@
+}
+eval 'ipnb () {
+    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload $@
+}';
+ipnb () {
+    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload $@
+}
+eval 'ipqt () {
+    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 $@
+}';
+ipqt () {
+    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 $@
+}
+eval 'grinv () {
+    grin --follow $@ "${VIRTUAL_ENV}"
+}';
+grinv () {
+    grin --follow $@ "${VIRTUAL_ENV}"
+}
+eval 'grindv () {
+    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+}';
+grindv () {
+    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+}
+eval 'grins () {
+    grin --follow $@ "${_SRC}"
+}';
+grins () {
+    grin --follow $@ "${_SRC}"
+}
+eval 'grinds () {
+    grind --follow $@ --dirs "${_SRC}"
+}';
+grinds () {
+    grind --follow $@ --dirs "${_SRC}"
+}
+alias test-='(cdwrd && python "${_WRD_SETUPY}" test)'
+alias testr-='reset && (cdwrd && python "${_WRD_SETUPY}" test)'
+alias nose-='(cdwrd && nosetests)'
+eval 'grinw () {
+    grin --follow $@ "${_WRD}"
+}';
+grinw () {
+    grin --follow $@ "${_WRD}"
+}
+eval 'grin- () {
+    grin --follow $@ "${_WRD}"
+}';
+grin- () {
+    grin --follow $@ "${_WRD}"
+}
+eval 'grindw () {
+    grind --follow $@ --dirs "${_WRD}"
+}';
+grindw () {
+    grind --follow $@ --dirs "${_WRD}"
+}
+eval 'grind- () {
+    grind --follow $@ --dirs "${_WRD}"
+}';
+grind- () {
+    grind --follow $@ --dirs "${_WRD}"
+}
+alias hgv-='hg view -R "${_WRD}"'
+alias hgl-='hg -R "${_WRD}" log'
+eval 'editcfg () {
+    "${_EDITCFG_}" $@
+}';
+editcfg () {
+    "${_EDITCFG_}" $@
+}
+alias serve-='(cdwrd && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")'
+alias shell-='(cdwrd && "${_BIN}"/pshell "${_CFG}")'
+eval 'e () {
+    ${_EDIT_} $@
+}';
+e () {
+    ${_EDIT_} $@
+}
+eval 'editp () {
+    $GUIVIMBIN $VIMCONF $PROJECT_FILES $@
+}';
+editp () {
+    $GUIVIMBIN $VIMCONF $PROJECT_FILES $@
+}
+eval 'makewrd () {
+    (cdwrd && make $@)
+}';
+makewrd () {
+    (cdwrd && make $@)
+}
+eval 'makew () {
+    (cdwrd && make $@)
+}';
+makew () {
+    (cdwrd && make $@)
+}
+eval 'make- () {
+    (cdwrd && make $@)
+}';
+make- () {
+    (cdwrd && make $@)
+}
+eval 'mw () {
+    (cdwrd && make $@)
+}';
+mw () {
+    (cdwrd && make $@)
+}
+eval 'makewepy () {
+    _logfile="${_LOG}/make.log.py"; (makew $@ 2>&1 | tee $_logfile) && e $_logfile
+}';
+makewepy () {
+    _logfile="${_LOG}/make.log.py"; (makew $@ 2>&1 | tee $_logfile) && e $_logfile
+}
+alias ssv='supervisord -c "${_SVCFG}"'
+alias sv='supervisorctl -c "${_SVCFG}"'
+alias svt='sv tail -f'
+alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
+if [ "$VENVPREFIX" == "/" ]; then
+    source ${__DOTFILES}/etc/venv/venv_root_prefix.sh
+fi
 
 ## Grin search
 # virtualenv / virtualenvwrapper
@@ -2756,7 +3426,7 @@ _setup_editor() {
     export SUDO_EDITOR="${VIMBIN} -f"
 
     if [ -n "${GUIVIMBIN}" ]; then
-        export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-'EDITOR'}"
+        export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-"/"}"
         export EDITOR="${GUIVIMBIN} -f"
         export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
         export SUDO_EDITOR="${GUIVIMBIN} -f"
@@ -2770,6 +3440,13 @@ _setup_editor() {
     export _EDITOR="${EDITOR}"
 }
 _setup_editor
+
+
+_setup_pager() {
+    # _setup_pager()    -- set PAGER='less'
+    export PAGER='/usr/bin/less -R'
+}
+_setup_pager
 
 
 ggvim() {
@@ -2841,14 +3518,36 @@ lessv () {
     # lessv()   -- less with less.vim and vim (g:tinyvim=1)
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
-            #read stdin
-            ${VIMBIN} --cmd "let g:tinyvim=1" \
+            if [ -n "$VIMPAGER_SYNTAX" ]; then
+                #read stdin
+                ${VIMBIN} --cmd "let g:tinyvim=1" \
+                    --cmd "runtime! macros/less.vim" \
+                    --cmd "set nomod" \
+                    --cmd "set noswf" \
+                    -c "set colorcolumn=0" \
+                    -c "map <C-End> <Esc>G" \
+                    -c "set syntax=${VIMPAGER_SYNTAX}" \
+                    -
+            else
+                ${VIMBIN} --cmd "let g:tinyvim=1" \
+                    --cmd "runtime! macros/less.vim" \
+                    --cmd "set nomod" \
+                    --cmd "set noswf" \
+                    -c "set colorcolumn=0" \
+                    -c "map <C-End> <Esc>G" \
+                    -
+            fi
+        elif [ -n "$VIMPAGER_SYNTAX" ]; then
+            ${VIMBIN} \
+                --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
                 --cmd "set noswf" \
                 -c "set colorcolumn=0" \
                 -c "map <C-End> <Esc>G" \
-                -
+                -c "set syntax=${VIMPAGER_SYNTAX}" \
+                ${@}
+
         else
             ${VIMBIN} \
                 --cmd "let g:tinyvim=1" \
@@ -2857,14 +3556,14 @@ lessv () {
                 --cmd "set noswf" \
                 -c "set colorcolumn=0" \
                 -c "map <C-End> <Esc>G" \
-                $@
+                ${@}
         fi
     else
         #Output is not a terminal, cat arguments or stdin
         if [ $# -eq 0 ]; then
             less
         else
-            less "$@"
+            less $@
         fi
     fi
 }
@@ -2952,6 +3651,9 @@ _usrlog_get_prefix () {
     # _usrlog_get_prefix()    -- get a dirpath for the current usrlog
     #                            (VIRTUAL_ENV or HOME)
     local prefix="${VENVPREFIX:-${VIRTUAL_ENV:-${HOME}}}"
+    if [ "${prefix}" == "/" ]; then
+        prefix=$HOME
+    fi
     echo "$prefix"
 }
 
@@ -3066,8 +3768,6 @@ _usrlog_set__TERM_ID () {
         export _TERM_ID="${new_term_id}"
         _usrlog_set_title
 
-        declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-            && _venv_set_prompt
     fi
 }
 
@@ -3093,6 +3793,8 @@ _usrlog_set_title() {
     # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
+    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
+        && _venv_set_prompt
 }
 
 
@@ -3207,11 +3909,14 @@ _usrlog_parse_cmds() {
     # with pyline
     # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
     # TODO: handle newlines (commands that start on the next line)
+    # TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
+    # TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]
     local usrlog="${1:-${_USRLOG}}"
     test -n $usrlog && usrlog="-f ${usrlog}"
     pyline.py ${usrlog} \
         'list((
             (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+            or (" ".join(w[7:]).rstrip() if len(w) > 7 else None)
             or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
             or " ".join(w).rstrip())
             for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]
@@ -3481,10 +4186,8 @@ _loadaliases () {
             git commit ${files} -m "${msg}"
         fi
     }
-    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
-    alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
-    # gs       -- 'git status'
-    alias gs='git status'
+    # gb       -- 'git branch -v'
+    alias gb='git branch -v'
     # gd       -- 'git diff'
     alias gd='git diff'
     # gds      -- 'git diff -p --stat'
@@ -3495,6 +4198,12 @@ _loadaliases () {
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
     alias gdc='git diff --cached'
+    # gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    alias gl='git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+    # gr       -- 'git remote -v'
+    alias gr='git remote -v'
+    # gs       -- 'git status'
+    alias gs='git status'
     # gsi      -- 'git is; git diff; git diff --cached'
     alias gsi='(set -x; git is; git diff; git diff --cached)'
     # gsiw      -- 'git -C $_WRD gsi'
@@ -4509,7 +5218,7 @@ HOSTNAME='nb-mb1'
 USER='W'
 __WRK='/Users/W/-wrk'
 PROJECT_HOME='/Users/W/-wrk'
-WORKON_HOME='/Users/W/-wrk/-ve'
+WORKON_HOME='/Users/W/-wrk/-ve27'
 VIRTUAL_ENV_NAME='dotfiles'
 VIRTUAL_ENV='/Users/W/-wrk/-ve27/dotfiles'
 _SRC='/Users/W/-wrk/-ve27/dotfiles/src'
@@ -4517,7 +5226,7 @@ _APP='dotfiles'
 _WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/-wrk/-conda27/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 __DOTFILES='/Users/W/-dotfiles'
 #
 ### </end dotfiles .bashrc>

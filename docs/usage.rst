@@ -21,7 +21,7 @@ bootstrap_dotfiles.sh
 
 ``bash scripts/bootstrap_dotfiles.sh -h``:
 
-.. command-output:: bash ../scripts/bootstrap_dotfiles.sh -h
+.. command-output:: bash $_WRD/scripts/bootstrap_dotfiles.sh -h
    :shell:
 
 
@@ -34,7 +34,7 @@ Makefile
 
 ``make help``:
 
-.. command-output:: cd .. && make help
+.. command-output:: cd $_WRD && make help
    :shell:
 
 
@@ -49,7 +49,6 @@ Bash
 ``make help_bash_rst``:
 
 .. literalinclude:: bash_conf.txt
-   :language: none
 
 
 .. index:: Dotfiles Vim Configuration
@@ -58,14 +57,13 @@ Bash
 
 Vim
 -----
-| https://github.com/westurner/dotfiles/blob/master/etc/.vimrc
 | https://github.com/westurner/dotvim/blob/master/vimrc
 | https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc
+| https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc
 
 ``make help_vim_rst``:
 
 .. literalinclude:: dotvim_conf.txt
-   :language: none
 
 
 .. index:: Dotfiles i3wm Configuration
@@ -78,7 +76,6 @@ I3wm
 ``make help_i3_rst``:
 
 .. literalinclude:: i3_conf.txt
-   :language: none
 
 
 .. index:: Dotfiles Scripts

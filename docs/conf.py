@@ -49,9 +49,9 @@ project_description_oneline = (
     u'Documentation for the {} project'.format(project_name))
 project_og_site_name = project_src_path  # e.g. westurner/dotfiles
 
-edit_on_github_project = project_github_path
-edit_on_github_src_path = 'docs/'
-edit_on_github_branch = 'master'
+srclink_project = project_github_url  # project_github_path
+srclink_src_path = 'docs/'
+srclink_branch = 'master'
 
 # current_git_branch=subprocess.check_output("git b") && parse
 
@@ -69,15 +69,14 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinxcontrib.napoleon',
-    'sphinxcontrib.ansi',
-    'sphinxcontrib.programoutput',
-    'sphinxcontrib.issuetracker',
-    'edit_on_github'
+    'sphinxcontrib.srclinks'
 ]
 
 try:
     import sphinxcontrib.programoutput
-    # programoutput_use_ansi = True
+    extensions.append('sphinxcontrib.ansi')
+    extensions.append('sphinxcontrib.programoutput')
+    programoutput_use_ansi = True
 except ImportError:
     pass
 
@@ -133,7 +132,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = project_name
+project = project_src_path
 copyright = project_copyright
 
 # The version info for the project you're documenting, acts as replacement for
@@ -218,6 +217,7 @@ html_theme_options = {
     'content_width': '768px',
     'row_fixed': False,
     'noresponsive': False,
+    'noresponsiverelbar': True,
     'googlewebfont': False,
     'googlewebfont_url': 'http://fonts.googleapis.com/css?family=Lily+Script+One',
     'googlewebfont_style': u"font-family: 'Lily Script One' cursive;",
@@ -267,15 +267,15 @@ html_sidebars = {
     '**': [
         'localtoc.html',
         'relations.html',
-        'sourcelink.html',
         'searchbox.html',
+        'srclinks.html',
         'links.html',
         ],
     'index': [
         'globaltoc.html',
         'relations.html',
-        'sourcelink.html',
         'searchbox.html',
+        'srclinks.html',
         'links.html',
         ],
 }
@@ -441,6 +441,7 @@ def configure_meta_tags(app, pagename, templatename, context, doctree):
 
 def setup(app):
     app.add_javascript('js/local.js')
+    app.add_stylesheet('css/local.css')
     app.connect('html-page-context', configure_meta_tags)
 
 
