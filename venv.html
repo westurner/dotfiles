@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Venv &mdash; westurner/dotfiles 0.7.0 documentation</title>
+    <title>Venv &mdash; westurner/dotfiles 0.7.1 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.7.0',
+            VERSION:     '0.7.1',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.7.0 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.7.1 documentation" href="index.html" />
     <link rel="next" title="Tools" href="tools.html" />
     <link rel="prev" title="Usage" href="usage.html" /> 
   </head>
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.0 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -288,19 +288,27 @@ call Cd___WRK()
 <h3>Shell Command<a class="headerlink" href="#shell-command" title="Permalink to this headline">¶</a></h3>
 <pre class="ansi-block literal-block">
 $ python ../src/dotfiles/venv/ipython_config.py --help
-usage: venv [-h] [-V] [-v] [-D] [-T] [-q] [-t] [--platform PLATFORM] [-e] [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
-            [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]] [--VENVSTRAPP [VENVSTRAPP_]] [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
-            [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]] [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]] [--print-json]
-            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars] [--print-bash] [--print-bash-all] [--print-bash-aliases]
-            [--print-bash-cdaliases] [-Z] [--print-vim-cdalias] [--print-ipython-magics] [--command RUN_COMMAND] [--run-bash]
-            [--run-make] [--run-editp] [--run-terminal] [--pall] [--pwrk] [--pworkonhome] [--pvirtualenv] [--psrc] [--pwrd]
-            [--pdotfiles] [--prel] [--pkg-resource-path] [--compress]
+usage: venv [-h] [-V] [-v] [-D] [-T] [-q] [-t] [--platform PLATFORM] [-e]
+            [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
+            [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]]
+            [--VENVSTRAPP [VENVSTRAPP_]]
+            [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
+            [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]]
+            [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]] [--print-json]
+            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars]
+            [--print-bash] [--print-bash-all] [--print-bash-aliases]
+            [--print-bash-cdaliases] [-Z] [--print-vim-cdalias]
+            [--print-ipython-magics] [--command RUN_COMMAND] [--run-bash]
+            [--run-make] [--run-editp] [--run-terminal] [--pall] [--pwrk]
+            [--pworkonhome] [--pvirtualenv] [--psrc] [--pwrd] [--pdotfiles]
+            [--prel] [--pkg-resource-path] [--compress]
             [VENVSTR] [VENVSTRAPP] ...
 
 venv is a configuration utility for virtual environments.
 
 positional arguments:
-  VENVSTR               a name of a virtualenv in WORKON_HOME OR a full path to a VIRTUAL_ENV
+  VENVSTR               a name of a virtualenv in WORKON_HOME OR a full path
+                        to a VIRTUAL_ENV
   VENVSTRAPP            a path within _SRC (_WRD=_SRC/VENVSTRAPP)
   args
 
@@ -319,13 +327,17 @@ optional arguments:
   --__DOTFILES [__DOTFILES], --DOTFILES [__DOTFILES], --dotfiles [__DOTFILES]
                         Path to ${__DOTFILES} symlink -- ~/-dotfiles
   --WORKON_HOME [WORKON_HOME], --workonhome [WORKON_HOME], --wh [WORKON_HOME]
-                        Path to ${WORKON_HOME} directory containing VIRTUAL_ENVs
+                        Path to ${WORKON_HOME} directory containing
+                        VIRTUAL_ENVs
   --VENVSTR [VENVSTR_], --venvstr [VENVSTR_], --ve [VENVSTR_]
-                        Path to VIRTUAL_ENV -- ${WORKON_HOME}/${VIRTUAL_ENV_NAME} (or a dirname in $WORKON_HOME)
+                        Path to VIRTUAL_ENV --
+                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME} (or a dirname in
+                        $WORKON_HOME)
   --VENVSTRAPP [VENVSTRAPP_], --venvstrapp [VENVSTRAPP_]
                         Subpath within {VIRTUAL_ETC}/src/
   --VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME], --virtual-env-name [VIRTUAL_ENV_NAME], --vename [VIRTUAL_ENV_NAME]
-                        dirname in WORKON_HOME -- ${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+                        dirname in WORKON_HOME --
+                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME}
   --VENVPREFIX [VENVPREFIX], --venvprefix [VENVPREFIX], --prefix [VENVPREFIX]
                         Prefix for _SRC, _ETC, _WRD if [ -z VIRTUAL_ENV ]
   --VIRTUAL_ENV [VIRTUAL_ENV], --virtual-env [VIRTUAL_ENV]
@@ -379,8 +391,8 @@ optional arguments:
   --compress, --compress-paths
                         Path $VAR-ify the given paths from stdin
 
-argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP) or (--ve [--app]) must be specified first: venv --ve
-dotfiles -xmake.
+argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP)
+or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
 </pre>
 </div>
 <div class="section" id="python-api">
@@ -708,15 +720,6 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
   <h4>Next topic</h4>
   <p class="topless"><a href="tools.html"
                         title="next chapter">Tools</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/venv.txt"
-           rel="nofollow">Show Source</a></li>
-    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/venv.rst"
-           rel="nofollow">Show on GitHub</a></li>
-    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/venv.rst"
-           rel="nofollow">Edit on GitHub</a></li>
-  </ul>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
   <form class="search form-inline" action="search.html" method="get">
@@ -732,7 +735,38 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
     <p class="searchtip" style="font-size: 90%">
     Enter search terms or a module, class or function name.
     </p>
-</div><div class="widget">
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/venv.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/venv.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/venv.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/venv.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/venv.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
     <h3><a href="https://westurner.github.io/">@westurner</a></h3>
     <ul>
         <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
@@ -750,7 +784,7 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.7.0 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.7.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       

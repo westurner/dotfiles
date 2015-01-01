@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Tools &mdash; westurner/dotfiles 0.7.0 documentation</title>
+    <title>Tools &mdash; westurner/dotfiles 0.7.1 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.7.0',
+            VERSION:     '0.7.1',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.7.0 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.7.1 documentation" href="index.html" />
     <link rel="next" title="Dotfiles API" href="api.html" />
     <link rel="prev" title="Venv" href="venv.html" /> 
   </head>
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.0 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -1067,19 +1067,23 @@ x = 1+1
 print(&quot;1 + 1 = %d&quot; (x))
 
 # IPython
-%&lt;tab&gt;      # list magic commands
-?           # help
-%logstart?
-%logstart -o logoutput.log.py
+?                              # help
+%lsmagic
+%&lt;tab&gt;                         # list magic commands and aliases
+%logstart?                     # help for the %logstart magic command
+%logstart -o logoutput.log.py  # log input and output to a file
 import json
-json?   # print(__doc__)
-json??  # print(__src)
+json?                          # print(json.__doc__)
+json??                         # print(inspect.getsource(json))
 
 # IPython shell
-!cat ./README.rst; echo $PWD
-lines = !ls -al
+!cat ./README.rst; echo $PWD   # run shell commands
+lines = !ls -al                # capture shell command output
 print(lines[0:])
-%run -i -t sleep 5
+%run -i -t example.py          # run a script with timing info,
+                               # in the local namespace
+%run -d example.py             # run a script with pdb
+%pdb on                        # automatically run pdb on Exception
 </pre></div>
 </div>
 <div class="admonition note">
@@ -2458,15 +2462,6 @@ build upon X11.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="api.html"
                         title="next chapter">Dotfiles API</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/tools.txt"
-           rel="nofollow">Show Source</a></li>
-    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/tools.rst"
-           rel="nofollow">Show on GitHub</a></li>
-    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/tools.rst"
-           rel="nofollow">Edit on GitHub</a></li>
-  </ul>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
   <form class="search form-inline" action="search.html" method="get">
@@ -2482,7 +2477,38 @@ build upon X11.</p>
     <p class="searchtip" style="font-size: 90%">
     Enter search terms or a module, class or function name.
     </p>
-</div><div class="widget">
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tools.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/tools.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/tools.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/tools.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/tools.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
     <h3><a href="https://westurner.github.io/">@westurner</a></h3>
     <ul>
         <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
@@ -2500,7 +2526,7 @@ build upon X11.</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.7.0 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.7.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       

@@ -987,25 +987,28 @@ IPython Notebook.
     print("1 + 1 = %d" (x))
 
     # IPython
-    %<tab>      # list magic commands
-    ?           # help
-    %logstart?
-    %logstart -o logoutput.log.py
+    ?                              # help
+    %lsmagic
+    %<tab>                         # list magic commands and aliases
+    %logstart?                     # help for the %logstart magic command
+    %logstart -o logoutput.log.py  # log input and output to a file
     import json
-    json?   # print(__doc__)
-    json??  # print(__src)
+    json?                          # print(json.__doc__)
+    json??                         # print(inspect.getsource(json))
 
     # IPython shell
-    !cat ./README.rst; echo $PWD
-    lines = !ls -al
+    !cat ./README.rst; echo $PWD   # run shell commands
+    lines = !ls -al                # capture shell command output
     print(lines[0:])
-    %run -i -t sleep 5
+    %run -i -t example.py          # run a script with timing info,
+                                   # in the local namespace
+    %run -d example.py             # run a script with pdb
+    %pdb on                        # automatically run pdb on Exception
 
 .. note:: IPython notebook runs code and shell commands as
   the user the process is running as, on a remote or local machine.
 
   IPython notebook supports more than 20 different languages.
-
 
 Reproducible :ref:`SciPy Stack <scipystack>`
 IPython / Jupyter Notebook servers
