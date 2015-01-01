@@ -1815,8 +1815,8 @@ class Env(object):
         'VENVPREFIX',
         'VENVSTR',         # "dotfiles"
         'VENVSTRAPP',      # "dotfiles", "dotfiles/docs"
-        'VIRTUAL_ENV_NAME',  # "dotfiles"
         '_APP',             # dotfiles/tests
+        'VIRTUAL_ENV_NAME',  # "dotfiles"
         # virtualenv
         'VIRTUAL_ENV',      # ~/-wrk/-ve27/dotfiles/  # ${VIRTUAL_ENV_NAME}
         # venv
@@ -1866,9 +1866,9 @@ class Env(object):
         ("CONDA_ROOT", "${__WRK}/-conda27"),
         ("CONDA_HOME", "${__WRK}/-ce27"),
         ("WORKON_HOME", "${__WRK}/-ve27"),
-        ("VIRTUAL_ENV_NAME", "dotfiles"),
         ("VENVSTR", "dotfiles"),
         ("VENVSTRAPP", "dotfiles"), # or None
+        ("VIRTUAL_ENV_NAME", "dotfiles"),
         ("VIRTUAL_ENV", "${WORKON_HOME}/${VIRTUAL_ENV_NAME}"),
         ("VENVPREFIX", "${VIRTUAL_ENV}"), # or /
         ("_APP", "dotfiles"),
@@ -2023,7 +2023,7 @@ class Env(object):
                  level=logging.DEBUG)
         return env
 
-    def compress_paths(self, path_, keys=None):
+    def compress_paths(self, path_, keys=None, keyname=None):
         """
         Given an arbitrary string,
         replace absolute paths (starting with '/')
@@ -2052,6 +2052,14 @@ class Env(object):
             value = self.environ.get(varname)
             if isinstance(value, STR_TYPES) and value.startswith('/'):
                 _path = _path.replace(value + "/", '${%s}/' % varname)
+        for varname in ['VENVSTRAPP', 'VENVSTR']:
+            if keyname == varname:
+                continue
+            value = self.environ.get(varname)
+            if isinstance(value, STR_TYPES):
+                if value in _path:
+                    _path = _path.replace(value, '${%s}' % varname)
+
         return _path
 
     def to_string_iter(self, **kwargs):
@@ -2059,7 +2067,7 @@ class Env(object):
         compress_paths = kwargs.get('compress_paths')
         for name, value in self.iteritems_environ():
             if compress_paths:
-                value = self.compress_paths(value)
+                value = self.compress_paths(value, keyname=name)
             yield "{name}={value}".format(name=name, value=repr(value))
         yield '## </env>'
 
@@ -2751,7 +2759,7 @@ class Venv(object):
                 if v is None:
                     v = ''
                 if compress_paths:
-                    v = self.env.compress_paths(v)
+                    v = self.env.compress_paths(v, keyname=k)
                 # if _shell_supports_declare_g():
                 #   shell_keyword="declare -grx "
                 #    yield "declare -grx %s=%r" % (k, v)
@@ -2776,7 +2784,7 @@ class Venv(object):
                     _alias = IpyAlias(v, k)
                     bash_alias = _alias.to_shell_str()
                 if compress_paths:
-                    bash_alias = self.env.compress_paths(bash_alias)
+                    bash_alias = self.env.compress_paths(bash_alias, keyname=k)
                 yield bash_alias
 
     def generate_bash_cdalias(self):
