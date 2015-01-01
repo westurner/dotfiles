@@ -522,6 +522,24 @@ Conda
     "supports over 100 different repositories,
     including PyPI, CRAN, conda, and the Anaconda repository."
 
+To create a fresh conda env:
+
+.. code:: bash
+
+   # Python 2.7
+   conda env create -n exmpl2 --yes python readline pip
+   # conda install ipython-notebook
+
+   # Python 3.X
+   conda env create -n exmpl3 --yes python3 readline pip
+
+Work on a conda env:
+
+.. code:: bash
+
+   source activate exmpl2
+   conda list
+   source deactivate
 
 
 .. index:: Ruby Gem

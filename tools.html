@@ -685,6 +685,21 @@ including PyPI, CRAN, conda, and the Anaconda repository.&#8221;</li>
 </ul>
 </li>
 </ul>
+<p>To create a fresh conda env:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># Python 2.7
+conda env create -n exmpl2 --yes python readline pip
+# conda install ipython-notebook
+
+# Python 3.X
+conda env create -n exmpl3 --yes python3 readline pip
+</pre></div>
+</div>
+<p>Work on a conda env:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>source activate exmpl2
+conda list
+source deactivate
+</pre></div>
+</div>
 <span class="target" id="index-28"></span></div>
 </div>
 <div class="section" id="rubygems">
