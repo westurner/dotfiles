@@ -4100,7 +4100,7 @@ _setup_usrlog() {
 _usrlog_setup
 _usrlog_get_prefix
 _usrlog_get_prefix
-]0;#testing (dotfiles)  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
+]0;#testing  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -5219,14 +5219,14 @@ USER='W'
 __WRK='/Users/W/-wrk'
 PROJECT_HOME='/Users/W/-wrk'
 WORKON_HOME='/Users/W/-wrk/-ve27'
-VIRTUAL_ENV_NAME='dotfiles'
-VIRTUAL_ENV='/Users/W/-wrk/-ve27/dotfiles'
-_SRC='/Users/W/-wrk/-ve27/dotfiles/src'
-_APP='dotfiles'
-_WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
+VIRTUAL_ENV_NAME=''
+VIRTUAL_ENV=''
+_SRC=''
+_APP=''
+_WRD=''
 _USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/-wrk/-conda27/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+PATH='/Users/W/-wrk/-conda27/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 __DOTFILES='/Users/W/-dotfiles'
 #
 ### </end dotfiles .bashrc>
