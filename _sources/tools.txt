@@ -650,6 +650,29 @@ Bash Configuration::
 Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin
 
 
+.. index:: Binutils
+.. index:: GNU Binutils
+.. _binutils:
+
+Binutils
+==========
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_Binutils
+| Homepage: https://www.gnu.org/software/binutils/
+| Src: git git://sourceware.org/git/binutils-gdb.git
+| Docs: https://sourceware.org/binutils/docs-2.24/
+| Docs: https://sourceware.org/binutils/docs-2.24/binutils/index.html
+| Docs: https://sourceware.org/binutils/docs-2.24/as/index.html
+| Docs: https://sourceware.org/binutils/docs-2.24/ld/index.html
+
+GNU Binutils are a set of utilities for working with assembly and
+binary.
+
+:ref:`GCC` utilizes GNU Binutils to compile the GNU/:ref:`Linux` kernel
+and userspace.
+
+GAS, the GNU Assembler (``as``) assembles ASM code for linking by
+``ld``, the GNU linker.
+
 
 .. index:: C
 .. _c:
