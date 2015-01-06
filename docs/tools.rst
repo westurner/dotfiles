@@ -1014,7 +1014,7 @@ IPython
 IPython is an interactive REPL and distributed computation framework
 written in :ref:`Python`.
 
-An IPython notebooks file (``.ipynb``) is a
+An IPython notebook file (``.ipynb``) is a
 JSON document containing input and output
 for a linear sequence of cells;
 which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
