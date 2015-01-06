@@ -579,7 +579,8 @@ Version Control Systems
 | Wikipedia: https://en.wikipedia.org/wiki/Revision_control
 | Wikipedia: https://en.wikipedia.org/wiki/Distributed_revision_control
 
-Version Control Systems are designed to solve various problems
+Version Control Systems (VCS) --- or Revision Control Systems (RCS) --
+are designed to solve various problems
 in change management.
 
 * VCS store code in a **repository**.
@@ -587,9 +588,6 @@ in change management.
   or **revisions**
 * Changesets are **comitted** or **checked into** to a repository.
 * Changesets are **checked out** from a repository
-* Changesets are **pushed** to a different repository
-* Changesets are **pulled** from another repository into a *local*
-  **clone** or **copy** of a repository
 * Many/most VCS differentiate between the repository
   and a **working directory**, which is currently **checked out**
   to a specific *changeset* identified by a **revision identifier**;
@@ -606,6 +604,9 @@ in change management.
   changes from *colliding*
 * Distributed Version Control Systems (DVCS) (can) **clone** all **revisions**
   of every **branch** of a repository every time. *
+* DVCS changesets are **pushed** to a different repository
+* DVCS changesets are **pulled** from another repository into a *local*
+  **clone** or **copy** of a repository
 * Teams working with DVCS often designate a central repository
   hosted by a project forge service
   like SourceForge, GNU Savannah, GitHub, or BitBucket.
