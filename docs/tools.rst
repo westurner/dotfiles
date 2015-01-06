@@ -570,6 +570,215 @@ Yum is a tool for installing, upgrading, and uninstalling :ref:`RPM`
 packages.
 
 
+.. index:: Version Control Systems
+.. index:: Distributed Version Control Systems
+.. _vcs:
+
+Version Control Systems
+========================
+Version Control Systems are designed to solve various problems
+in change management.
+
+* VCS store code in a **repository**.
+* Changes to one or more files are called **changesets**, **commits**,
+  or **revisions**
+* Changesets are **comitted** to a repository.
+* Changesets are **pushed** to a different repository
+* Changesets are **pulled** from another repository into a *local*
+  **clone** or **copy** of a repository
+* Many/most VCS differentiate between the repository
+  and a working directory, which is currently **checked out**
+  to a specific **changeset** identified by a **revision identifier**;
+  possibly with **uncommitted** local changes.
+* Traditional VCS are centralized on a single point-of-failure.
+* Distributed Version Control Systems (DVCS) (can) **clone** all **revisions**
+  of every **branch** of a repository every time. *
+* Teams working with DVCS often designate a central repository
+  hosted by a project forge service
+  like SourceForge, GNU Savannah, GitHub, or BitBucket.
+* Contributors send **patches** which build upon a specific revision,
+  which can be applied by a maintainer with **commit access**
+  permissions.
+* Contributors **fork** a new **branch** from a specific revision,
+  commit changes, and then send a **pull request**,
+  which can be applied by a maintainer with **commit access**
+  permissions.
+
+
+.. index:: CVS
+.. _cvs:
+
+CVS
+~~~~~
+| Homepage: http://www.nongnu.org/cvs/
+| Homepage: http://savannah.nongnu.org/projects/cvs
+| Wikipedia: https://en.wikipedia.org/wiki/Concurrent_Versions_System
+| Docs: http://www.nongnu.org/cvs/#documentation
+
+CVS is a centralized version control system (VCS) written in :ref:`C`.
+
+CVS predates most/many other VCS.
+
+
+.. index:: Subversion
+.. _subversion:
+
+Subversion
+~~~~~~~~~~~~~
+| Homepage: https://subversion.apache.org/
+| Wikipedia: https://en.wikipedia.org/wiki/Apache_Subversion
+| Docs: https://subversion.apache.org/docs/
+| Docs: https://subversion.apache.org/quick-start
+| Source: svn http://svn.apache.org/repos/asf/subversion/trunk
+
+Apache Subversion (``svn``) is a centralized revision control system (VCS)
+written in :ref:`C`.
+
+To checkout a revision of a repository with ``svn``:
+
+.. code:: bash
+
+   svn co http://svn.apache.org/repos/asf/subversion/trunk subversion
+
+
+.. index:: Bazaar
+.. _bazaar:
+
+Bazaar
+~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_Bazaar
+| Homepage: http://bazaar.canonical.com/en/
+| Homepage: https://launchpad.net/bzr
+| Docs: http://doc.bazaar.canonical.com/en/
+| Docs: http://doc.bazaar.canonical.com/latest/en/mini-tutorial/index.html
+| Source: bzr lp:bzr
+
+GNU Bazaar (``bzr``) is a distributed revision control system (DVCS, RCS, VCS)
+written in :ref:`Python` and :ref:`C`.
+
+http://launchpad.net hosts Bazaar repositories;
+with special support from the ``bzr`` tool in the form of ``lp:`` urls
+like ``lp:bzr``.
+
+To clone a repository with ``bzr``:
+
+.. code:: bash
+
+  bzr branch lp:bzr
+
+
+
+.. index:: Git
+.. _git:
+
+Git
+~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Git_(software)>`_
+| Homepage: http://git-scm.com/
+| Docs: http://git-scm.com/documentation
+| Docs: http://git-scm.com/book/en/
+| Docs: http://documentup.com/skwp/git-workflows-book
+| Docs: http://learnxinyminutes.com/docs/git/
+| Source: git https://github.com/git/git
+
+
+Git is a distributed version control system for tracking a branching
+and merging repository of file revisions written in :ref:`C` (DVCS, VCS,
+RCS).
+
+To clone a repository with ``git``:
+
+.. code:: bash
+
+  git clone https://github.com/git/git
+
+
+.. index:: HubFlow
+.. _hubflow:
+
+HubFlow
++++++++++
+| Src: https://github.com/datasift/gitflow
+| Docs: https://datasift.github.io/gitflow/
+| Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
+| Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
+
+HubFlow is a fork of GitFlow 
+that adds extremely useful commands for working with Git and GitHub.
+
+HubFlow is a named branch workflow with mostly-automated merges
+between branches.
+
+Branch names are configurable; the defaults are as follows:
+
+
++--------------------+-------------------------------------------------------------------------------+
+| **Branch Name**    | **Description**                                                               |
+|                    | (and `Code Labels <https://westurner.github.io/wiki/workflow#code-labels>`__) |
++--------------------+-------------------------------------------------------------------------------+
+| ``master``         | Stable trunk (latest release)                                                 |
++--------------------+-------------------------------------------------------------------------------+
+| ``develop``        | Development main line                                                         |
++--------------------+-------------------------------------------------------------------------------+
+| ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)                     |
++--------------------+-------------------------------------------------------------------------------+
+| ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                             |
+|                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                              |
++--------------------+-------------------------------------------------------------------------------+
+| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                                   |
++--------------------+-------------------------------------------------------------------------------+
+
+Creating a new release with :ref:`Git` and HubFlow:
+
+.. code:: bash
+
+  git clone ssh://git@github.com/westurner/dotfiles
+  # git checkout master
+  git hf init
+  ## Update versiontag in .git/config to prefix release tags with 'v'
+  # [hubflow "prefix"]
+  # feature = feature/
+  # release = release/
+  # hotfix = hotfix/
+  # support = support/
+  # versiontag = v
+  #
+  git hf feature start print_hello_world
+  ## commit, commit, commit
+  git hf feature finish print_hello_world
+  git hf release start 0.1.0
+  ## commit (e.g. update version in setup.py, release notes)
+  git hf release finish 0.1.0
+
+The GitFlow HubFlow illustrations are very helpful for visualizing
+and understanding any DVCS workflow: 
+`<https://datasift.github.io/gitflow/IntroducingGitFlow.html>`__.
+
+
+.. index:: Hg
+.. index:: Mercurial
+.. _mercurial:
+
+Mercurial
+~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Mercurial
+| Homepage: http://hg.selenic.org/
+| Docs: http://mercurial.selenic.com/guide
+| Docs: http://hgbook.red-bean.com/
+| Source: hg http://selenic.com/hg
+| Source: hg http://hg.intevation.org/mercurial/crew
+
+Mercurial (``hg``) is a distributed revision control system
+written in :ref:`Python` and :ref:`C` (DVCS, VCS, RCS).
+
+To clone a repository with ``hg``:
+
+.. code:: bash
+
+   hg clone http://selenic.com/hg
+
+
+
 .. index:: Anaconda
 .. _anaconda:
 
@@ -648,31 +857,6 @@ Bash Configuration::
    ${HOME}/.bash_profile   # empty. preempts .profile
 
 Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin
-
-
-.. index:: Bazaar
-.. _bazaar:
-
-Bazaar
-==========
-| Wikipedia: https://en.wikipedia.org/wiki/GNU_Bazaar
-| Homepage: http://bazaar.canonical.com/en/
-| Homepage: https://launchpad.net/bzr
-| Docs: http://doc.bazaar.canonical.com/en/
-| Docs: http://doc.bazaar.canonical.com/latest/en/mini-tutorial/index.html
-| Source: bzr lp:bzr
-
-GNU Bazaar (``bzr``) is a distributed revision control system (DVCS, RCS, VCS).
-
-http://launchpad.net hosts Bazaar repositories;
-with special support from the ``bzr`` tool in the form of ``lp:`` urls
-like ``lp:bzr``.
-
-To clone a repository with ``bzr``:
-
-.. code:: bash
-
-   bzr branch lp:bzr
 
 
 .. index:: Binutils
@@ -870,93 +1054,6 @@ compiler for :ref:`C`.
 
 There are now GCC frontends for many languages, including
 :ref:`C++`, :ref:`Fortran`, :ref:`Java`, and :ref:`Go`.
-
-
-.. index:: Git
-.. _git:
-
-Git
-==============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Git_(software)>`_
-| Homepage: http://git-scm.com/
-| Docs: http://git-scm.com/documentation
-| Docs: http://git-scm.com/book/en/
-| Docs: http://documentup.com/skwp/git-workflows-book
-| Docs: http://learnxinyminutes.com/docs/git/
-| Source: git https://github.com/git/git
-
-
-Git is a distributed version control system for tracking a branching
-and merging repository of file revisions written in :ref:`C` (DVCS, VCS,
-RCS).
-
-To clone a repository with ``git``:
-
-.. code:: bash
-
-   git clone https://github.com/git/git
-
-
-.. index:: HubFlow
-.. _hubflow:
-
-HubFlow
-~~~~~~~~~
-| Src: https://github.com/datasift/gitflow
-| Docs: https://datasift.github.io/gitflow/
-| Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
-| Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
-
-HubFlow is a fork of GitFlow 
-that adds extremely useful commands for working with Git and GitHub.
-
-HubFlow is a named branch workflow with mostly-automated merges
-between branches.
-
-Branch names are configurable; the defaults are as follows:
-
-
-+--------------------+-------------------------------------------------------------------------------+
-| **Branch Name**    | **Description**                                                               |
-|                    | (and `Code Labels <https://westurner.github.io/wiki/workflow#code-labels>`__) |
-+--------------------+-------------------------------------------------------------------------------+
-| ``master``         | Stable trunk (latest release)                                                 |
-+--------------------+-------------------------------------------------------------------------------+
-| ``develop``        | Development main line                                                         |
-+--------------------+-------------------------------------------------------------------------------+
-| ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)                     |
-+--------------------+-------------------------------------------------------------------------------+
-| ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                             |
-|                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                              |
-+--------------------+-------------------------------------------------------------------------------+
-| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                                   |
-+--------------------+-------------------------------------------------------------------------------+
-
-Creating a new release with :ref:`Git` and HubFlow:
-
-.. code:: bash
-
-   git clone ssh://git@github.com/westurner/dotfiles
-   # git checkout master
-   git hf init
-   ## Update versiontag in .git/config to prefix release tags with 'v'
-   # [hubflow "prefix"]
-   # feature = feature/
-   # release = release/
-   # hotfix = hotfix/
-   # support = support/
-   # versiontag = v
-   #
-   git hf feature start print_hello_world
-   ## commit, commit, commit
-   git hf feature finish print_hello_world
-   git hf release start 0.1.0
-   ## commit (e.g. update version in setup.py, release notes)
-   git hf release finish 0.1.0
-
-The GitFlow HubFlow illustrations are very helpful for visualizing
-and understanding any DVCS workflow: 
-`<https://datasift.github.io/gitflow/IntroducingGitFlow.html>`__.
 
 
 .. index:: Gnome
@@ -1415,29 +1512,6 @@ Cons
 
 * Platform Portability: make is not installed everywhere
 * Global Variables: Parametrization with shell scripts
-
-
-.. index:: Hg
-.. index:: Mercurial
-.. _mercurial:
-
-Mercurial
-==========
-| Wikipedia: https://en.wikipedia.org/wiki/Mercurial
-| Homepage: http://hg.selenic.org/
-| Docs: http://mercurial.selenic.com/guide
-| Docs: http://hgbook.red-bean.com/
-| Source: hg http://selenic.com/hg
-| Source: hg http://hg.intevation.org/mercurial/crew
-
-Mercurial (``hg``) is a distributed revision control system
-written in :ref:`Python` and :ref:`C` (DVCS, VCS, RCS).
-
-To clone a repository with ``hg``:
-
-.. code:: bash
-
-   hg clone http://selenic.com/hg
 
 
 .. index:: MessagePack
@@ -2148,27 +2222,6 @@ so, for example,
             .. _anchor-name:
 
             :ref:`Anchor <anchor-name>`
-
-
-.. index:: Subversion
-.. _subversion:
-
-Subversion
-=============
-| Homepage: https://subversion.apache.org/
-| Wikipedia: https://en.wikipedia.org/wiki/Apache_Subversion
-| Docs: https://subversion.apache.org/docs/
-| Docs: https://subversion.apache.org/quick-start
-| Source: svn http://svn.apache.org/repos/asf/subversion/trunk
-
-Apache Subversion (``svn``) is a centralized revision control system (VCS)
-written in :ref:`C`.
-
-To checkout a revision of a repository with ``svn``:
-
-.. code:: bash
-
-   svn co http://svn.apache.org/repos/asf/subversion/trunk subversion
 
 
 .. index:: Tox
