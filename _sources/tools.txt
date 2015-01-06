@@ -1977,7 +1977,7 @@ one or more physical and virtual machines running various operating systems.
 
    Salt Cloud
       Salt Cloud can provision cloud image, instance, and networking services
-      with various cloud providers (libcloud):
+      with various cloud providers (:ref:`libcloud`):
 
       + Google Compute Engine (GCE) [KVM]
       + Amazon EC2 [Xen]
