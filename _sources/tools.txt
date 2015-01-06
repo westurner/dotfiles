@@ -671,7 +671,7 @@ binary.
 and userspace.
 
 GAS, the GNU Assembler (``as``) assembles ASM code for linking by
-``ld``, the GNU linker.
+the GNU linker (``ld``).
 
 
 .. index:: C
