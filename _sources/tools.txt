@@ -576,6 +576,9 @@ packages.
 
 Version Control Systems
 ========================
+| Wikipedia: https://en.wikipedia.org/wiki/Revision_control
+| Wikipedia: https://en.wikipedia.org/wiki/Distributed_revision_control
+
 Version Control Systems are designed to solve various problems
 in change management.
 
