@@ -585,7 +585,8 @@ in change management.
 * VCS store code in a **repository**.
 * Changes to one or more files are called **changesets**, **commits**,
   or **revisions**
-* Changesets are **comitted** to a repository.
+* Changesets are **comitted** or **checked into** to a repository.
+* Changesets are **checked out** from a repository
 * Changesets are **pushed** to a different repository
 * Changesets are **pulled** from another repository into a *local*
   **clone** or **copy** of a repository
@@ -593,7 +594,13 @@ in change management.
   and a working directory, which is currently **checked out**
   to a specific **changeset** identified by a **revision identifier**;
   possibly with **uncommitted** local changes.
+* A **branch** is forked from a line of development
+  and then **merged** back in.
+* Most projects designate a *main line* of development
+  referred to as a **trunk**, **master**, or **default** branch.
 * Traditional VCS are centralized on a single point-of-failure.
+* Some VCS have a concept of *locking* to prevent multiple peoples'
+  changes from *colliding*
 * Distributed Version Control Systems (DVCS) (can) **clone** all **revisions**
   of every **branch** of a repository every time. *
 * Teams working with DVCS often designate a central repository
