@@ -591,8 +591,8 @@ in change management.
 * Changesets are **pulled** from another repository into a *local*
   **clone** or **copy** of a repository
 * Many/most VCS differentiate between the repository
-  and a working directory, which is currently **checked out**
-  to a specific **changeset** identified by a **revision identifier**;
+  and a **working directory**, which is currently **checked out**
+  to a specific *changeset* identified by a **revision identifier**;
   possibly with **uncommitted** local changes.
 * A **branch** is forked from a line of development
   and then **merged** back in.
