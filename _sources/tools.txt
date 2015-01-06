@@ -1062,7 +1062,7 @@ implement best practices like process isolation and privilege separation:
 
 IPython / Jupyter Notebook Viewer (``nbviewer``)
 is an application for serving read-only
-versions of notebooks which have HTTP URIs.
+versions of notebooks which have HTTP URLs.
 
 * http://nbviewer.ipython.org
 * https://github.com/jupyter/nbviewer
