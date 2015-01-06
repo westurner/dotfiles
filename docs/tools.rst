@@ -598,6 +598,9 @@ in change management.
   and then **merged** back in.
 * Most projects designate a *main line* of development
   referred to as a **trunk**, **master**, or **default** branch.
+* Many projects work with *feature* and *release* branches,
+  which, ideally, eventually converge by being merged back into
+  **trunk**. (see: :ref:`HubFlow` for an excellent example of branching)
 * Traditional VCS are centralized on a single point-of-failure.
 * Some VCS have a concept of *locking* to prevent multiple peoples'
   changes from *colliding*
