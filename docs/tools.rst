@@ -1278,9 +1278,11 @@ Libcloud
 | Source: git https://github.com/apache/libcloud
 
 
-Apache Libcloud is a :ref:`Python` library
+Apache libcloud is a :ref:`Python` library
 which abstracts and unifies a large number of Cloud APIs for
 Compute Resources, Object Storage, Load Balancing, and DNS.
+
+:ref:`Salt` :term:`salt cloud` depends upon libcloud.
 
 
 .. index:: Libvirt
