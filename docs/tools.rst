@@ -629,7 +629,7 @@ CVS
 | Wikipedia: https://en.wikipedia.org/wiki/Concurrent_Versions_System
 | Docs: http://www.nongnu.org/cvs/#documentation
 
-CVS is a centralized version control system (VCS) written in :ref:`C`.
+CVS (``cvs``) is a centralized version control system (VCS) written in :ref:`C`.
 
 CVS predates most/many other VCS.
 
@@ -696,7 +696,7 @@ Git
 | Source: git https://github.com/git/git
 
 
-Git is a distributed version control system for tracking a branching
+Git (``git``) is a distributed version control system for tracking a branching
 and merging repository of file revisions written in :ref:`C` (DVCS, VCS,
 RCS).
 
