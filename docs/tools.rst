@@ -650,6 +650,31 @@ Bash Configuration::
 Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin
 
 
+.. index:: Bazaar
+.. _bazaar:
+
+Bazaar
+==========
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_Bazaar
+| Homepage: http://bazaar.canonical.com/en/
+| Homepage: https://launchpad.net/bzr
+| Docs: http://doc.bazaar.canonical.com/en/
+| Docs: http://doc.bazaar.canonical.com/latest/en/mini-tutorial/index.html
+| Source: bzr lp:bzr
+
+GNU Bazaar (``bzr``) is a distributed revision control system (DVCS, RCS, VCS).
+
+http://launchpad.net hosts Bazaar repositories;
+with special support from the ``bzr`` tool in the form of ``lp:`` urls
+like ``lp:bzr``.
+
+To clone a repository with ``bzr``:
+
+.. code:: bash
+
+   bzr branch lp:bzr
+
+
 .. index:: Binutils
 .. index:: GNU Binutils
 .. _binutils:
@@ -862,12 +887,18 @@ Git
 
 
 Git is a distributed version control system for tracking a branching
-and merging repository of file revisions.
+and merging repository of file revisions written in :ref:`C` (DVCS, VCS,
+RCS).
 
+To clone a repository with ``git``:
 
-.. _hubflow:
+.. code:: bash
+
+   git clone https://github.com/git/git
+
 
 .. index:: HubFlow
+.. _hubflow:
 
 HubFlow
 ~~~~~~~~~
@@ -1395,11 +1426,18 @@ Mercurial
 | Wikipedia: https://en.wikipedia.org/wiki/Mercurial
 | Homepage: http://hg.selenic.org/
 | Docs: http://mercurial.selenic.com/guide
+| Docs: http://hgbook.red-bean.com/
 | Source: hg http://selenic.com/hg
 | Source: hg http://hg.intevation.org/mercurial/crew
 
+Mercurial (``hg``) is a distributed revision control system
+written in :ref:`Python` and :ref:`C` (DVCS, VCS, RCS).
 
-* http://hgbook.red-bean.com/
+To clone a repository with ``hg``:
+
+.. code:: bash
+
+   hg clone http://selenic.com/hg
 
 
 .. index:: MessagePack
@@ -1780,6 +1818,20 @@ with regex and output transform features similar to
 Pyline can generate quoted CSV, :ref:`JSON`, HTML, etc.
 
 
+.. index:: Pyrpo
+.. _pyrpo:
+
+Pyrpo
+======
+| Homepage: https://github.com/westurner/pyrpo
+| Source: git https://github.com/westurner/pyrpo
+| Pypi: https://pypi.python.org/pypi/pyrpo
+
+Pyrpo is a tool for locating and generating reports
+from :ref:`Git`, :ref:`Mercurial`, :ref:`Bazaar`,
+and :ref:`Subversion` repositories.
+
+
 .. index:: Readline
 .. _readline:
 
@@ -2096,6 +2148,27 @@ so, for example,
             .. _anchor-name:
 
             :ref:`Anchor <anchor-name>`
+
+
+.. index:: Subversion
+.. _subversion:
+
+Subversion
+=============
+| Homepage: https://subversion.apache.org/
+| Wikipedia: https://en.wikipedia.org/wiki/Apache_Subversion
+| Docs: https://subversion.apache.org/docs/
+| Docs: https://subversion.apache.org/quick-start
+| Source: svn http://svn.apache.org/repos/asf/subversion/trunk
+
+Apache Subversion (``svn``) is a centralized revision control system (VCS)
+written in :ref:`C`.
+
+To checkout a revision of a repository with ``svn``:
+
+.. code:: bash
+
+   svn co http://svn.apache.org/repos/asf/subversion/trunk subversion
 
 
 .. index:: Tox
