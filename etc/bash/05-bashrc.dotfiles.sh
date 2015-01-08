@@ -62,6 +62,18 @@ cls() {
     #echo "TERM_URI='${TERM_URL}'"
 #}
 
+debug-env() {
+    _log=${_LOG:-"."}
+    OUTPUT=${1:-"${_log}/logfilename.$(date +"%FT%T%z").env.log"}
+    dotfiles_status
+    echo "## export"
+    export | tee $OUTPUT
+    echo "## alias"
+    alias | tee $OUTPUT
+    # echo "## lspath"
+    # lspath | tee $OUTPUT
+}
+
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
 debug-on() {
