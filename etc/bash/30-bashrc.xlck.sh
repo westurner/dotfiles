@@ -18,7 +18,7 @@
 _setup_xlck() {
     # _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
     if [ -z "${__IS_MAC}" ]; then
-        source "${__DOTFILES}/etc/xlck.sh"
+        source "${__DOTFILES}/scripts/xlck.sh"
     fi
 }
 

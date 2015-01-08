@@ -4,5 +4,7 @@
 #
 # Executed by startx
 
-bash ~/-dotfiles/etc/xlck.sh -S
-#_xautolock &
+__DOTFILES=${__DOTFILES:-"${HOME}/-dotfiles"}
+
+# start _xautolock &
+bash "$__DOTFILES/scripts/xlck.sh" -S
