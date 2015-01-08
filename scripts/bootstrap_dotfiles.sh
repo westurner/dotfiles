@@ -282,7 +282,7 @@ backup_and_symlink() {
                     true
                 fi
             else
-                echo "skipping ${src} -> ${dest}"
+                echo "## ln -s '${src}' '${dest}'"
                 #echo "... $src_md5 == $dest_md5"
             fi
         fi
@@ -314,7 +314,7 @@ symlink_zshrc() {
 
 symlink_hgrc() {
     backup_and_symlink .hgrc
-    backup_and_symlink .hgignore_global
+    backup_and_symlink .hgrc
     #TODO: set name in ~/.hgrc
 }
 
@@ -333,24 +333,24 @@ symlink_htoprc() {
 }
 
 symlink_mutt() {
-    backup_and_symlink mutt ${HOME}/.mutt
+    backup_and_symlink mutt "${HOME}/.mutt"
 }
 
 symlink_gtk() {
     backup_and_symlink .gtkrc
     backup_and_symlink .gtkrc-2.0
-    mkdir -p ${HOME}/.config/
+    mkdir -p "${HOME}/.config/"
     backup_and_symlink .config/gtk-3.0
 }
 
 symlink_mimeapps() {
     mkdir -p ${HOME}/.local/share/applications
     backup_and_symlink mimeapps.list \
-        ${HOME}/.local/share/applications/mimeapps.list
+        "${HOME}/.local/share/applications/mimeapps.list"
 }
 
 symlink_i3() {
-    backup_and_symlink .i3
+    backup_and_symlink i3 "${HOME}/.i3"
 }
 
 symlink_xinitrc_screensaver() {
@@ -364,8 +364,9 @@ symlink_xmodmap() {
 symlink_python() {
     backup_and_symlink .pythonrc
     backup_and_symlink .pydistutils.cfg
-    mkdir -p ${HOME}/.pip
+    mkdir -p "${HOME}/.pip"
     backup_and_symlink .pip/pip.conf
+    # TODO: .config/pip/.conf
     backup_and_symlink .pdbrc
     backup_and_symlink .noserc
 }
@@ -377,9 +378,9 @@ symlink_virtualenvwrapper() {
 symlink_venv() {
     #backup_and_symlink .ipython/profile_default
     #backup_and_symlink .ipython/profile_default/ipython_config.py
-    mkdir -p ${HOME}/.ipython/profile_default/
+    mkdir -p "${HOME}/.ipython/profile_default/"
     backup_and_symlink ipython/ipython_config.py \
-        ${HOME}/.ipython/profile_default/ipython_config.py
+        "${HOME}/.ipython/profile_default/ipython_config.py"
 }
 
 
@@ -445,7 +446,7 @@ dotfiles_install_bootstrap() {
     ## pip install --upgrade --editable and create symlinks
 
     if [ -z "$SETUP_PY_OPTS" ]; then
-        source ${_VIRTUAL_ENV}/bin/activate
+        source "${_VIRTUAL_ENV}/bin/activate"
     else
         deactivate_virtualenv
     fi
@@ -520,7 +521,7 @@ dotfiles_install() {
 
 dotfiles_install_requirements() {
     ## Install all pip requirements
-    ${PIP_INSTALL} -r ${DOTFILES_REPO_DEST_PATH}/requirements-all.txt
+    ${PIP_INSTALL} -r "${DOTFILES_REPO_DEST_PATH}/requirements-all.txt"
 }
 
 
@@ -541,13 +542,13 @@ pip_upgrade_local_pip() {
 
 pip_bootstrap_pip() {
     ## Install pip (and setuptools)
-    wget --continue https://bootstrap.pypa.io/get-pip.py
+    wget --continue "https://bootstrap.pypa.io/get-pip.py"
     python get-pip.py $SETUP_PY_OPTS
 }
 
 bootstrap_setuptools() {
     ## Install setuptools
-    wget --continue https://bootstrap.pypa.io/ez_setup.py
+    wget --continue "https://bootstrap.pypa.io/ez_setup.py"
     python ez_setup.py $SETUP_PY_OPTS
 }
 
@@ -588,12 +589,12 @@ dotfiles_bootstrap_usage() {
     echo "## Usage: $(basename ${0}) <actions> <options>";
     echo "#"
     echo "## Actions"
-    echo "#  -I   --  install the dotfiles";
-    echo "#  -S   --  symlink dotfiles into place";
-    echo "#  -U   --  update and upgrade dotfiles";
+    echo "#  -I   --  Install the dotfiles";
+    echo "#  -S   --  Install dotfiles symlinks";
+    echo "#  -U   --  Update and Upgrade the dotfiles";
     echo "#  -R   --  pip install -r requirements-all.txt"
-    echo "#  -G   --  install gitflow and hubflow"
-    echo "#  -C   --  check"
+    echo "#  -G   --  install Gitflow and hubflow"
+    echo "#  -C   --  check for installed components"
     echo "#  -h   --  print this help message"
     echo "#"
     echo "## Options"
