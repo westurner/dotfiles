@@ -16,7 +16,7 @@
 
 _setup_usrlog() {
     # _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
-    source "${__DOTFILES}/etc/usrlog/usrlog.sh"
+    source "${__DOTFILES}/scripts/usrlog.sh"
     #calls _usrlog_setup when sourced
 }
 _setup_usrlog
