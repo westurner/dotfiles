@@ -64,7 +64,7 @@ cls() {
 
 debug-env() {
     _log=${_LOG:-"."}
-    OUTPUT=${1:-"${_log}/debug-env.$(date +"%FT%T%z").env.log"}
+    OUTPUT=${1:-"${_log}/$(date +"%FT%T%z").debug-env.env.log"}
     dotfiles_status
     echo "## export"
     export | tee $OUTPUT
