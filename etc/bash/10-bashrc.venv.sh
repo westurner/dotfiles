@@ -212,7 +212,7 @@ _venv_set_prompt() {
     local venvprompt=""
     venvprompt=${_APP:-${VIRTUAL_ENV_NAME:-${VIRTUAL_ENV:+"$(basename $VIRTUAL_ENV)"}}}
     # TODO: CONDA
-    export VENVPROMPT="${WINDOW_TITLE:+"$WINDOW_TITLE "}${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}"
+    export VENVPROMPT="${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}${WINDOW_TITLE:+"$WINDOW_TITLE "}"
     if [ -n "$BASH_VERSION" ]; then
         if [ "$color_prompt" == yes ]; then
             PS1='${VENVPROMPT}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
