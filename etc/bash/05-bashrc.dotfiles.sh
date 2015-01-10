@@ -113,7 +113,7 @@ dotfiles_initialize() {
 dotfiles_postmkvirtualenv() {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     log_dotfiles_state 'postmkvirtualenv'
-    declare -f 'mkdirs_venv' 2>&1 >/dev/null && mkdirs_venv
+    declare -f 'venv_mkdirs' 2>&1 >/dev/null && venv_mkdirs
     test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
     echo ""
     echo $(which pip)
@@ -149,8 +149,8 @@ dotfiles_postactivate() {
     declare -f '_setup_usrlog' 2>&1 > /dev/null \
         && _setup_usrlog
    
-    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-        && _venv_set_prompt
+    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
+        && venv_set_prompt
 
 }
 

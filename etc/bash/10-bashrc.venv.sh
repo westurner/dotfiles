@@ -54,8 +54,8 @@ workon_venv() {
         workon $1 && \
         source <($__VENV --print-bash $@) && \
         dotfiles_status && \
-        declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-            && _venv_set_prompt ${_TERM_ID:-$1}
+        declare -f 'venv_set_prompt' 2>&1 > /dev/null \
+            && venv_set_prompt ${_TERM_ID:-$1}
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenv
@@ -156,8 +156,8 @@ grindctagss() {
     grindctags "${_SRC}"
 }
 
-_load_venv_aliases() {
-    # _load_venv_aliases()  -- load venv aliases
+_setup_venv_aliases() {
+    # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
     # ssv()     -- supervisord   -c ${_SVCFG}
@@ -189,7 +189,7 @@ _load_venv_aliases() {
     alias testr-='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
 
 }
-_load_venv_aliases
+_setup_venv_aliases
 
 makew() {
     # makew()   -- cd $_WRD && make $@
@@ -204,8 +204,8 @@ mw() {
     makew $@
 }
 
-_venv_set_prompt() {
-    # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+venv_set_prompt() {
+    # venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
     #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
     # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
@@ -222,18 +222,29 @@ _venv_set_prompt() {
         fi
     fi
 }
-_venv_set_prompt
+venv_set_prompt
 
 
-mkdirs_venv() {
-    # _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
-    prefix=${1}
+
+venv_ls() {
+    # venv_ls()     -- list virtualenv directories
+    prefix=${1:-${VIRTUAL_ENV}}
     if [ -z "${prefix}" ]; then
-        if [ -n "${VIRTUAL_ENV}" ]; then
-            prefix=${VIRTUAL_ENV}
-        else
-            return
-        fi
+        return
+    fi
+    #ls -ld ${prefix}/**
+    ls -ld $(find ${prefix} ${prefix}/lib -type d -maxdepth 2)
+}
+lsvenv() {
+    # lsvenv()      -- venv_ls()
+    venv_ls $@
+}
+
+venv_mkdirs() {
+    # venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+    prefix=${1:-${VIRTUAL_ENV}}
+    if [ -z "${prefix}" ]; then
+        return
     fi
     ensure_mkdir ${prefix}
     ensure_mkdir ${prefix}/bin
@@ -252,7 +263,6 @@ mkdirs_venv() {
     ensure_mkdir ${prefix}/var/run
     ensure_mkdir ${prefix}/var/www
 
-    #ls -ld ${prefix}/**
-    ls -ld $(find ${prefix} ${prefix}/lib -type d -maxdepth 2)
+    venv_ls
 }
 
