@@ -5,6 +5,9 @@ Dotfiles
 
 `GitHub`_ | `Documentation`_ | `ReadTheDocs`_
 
+.. image:: https://travis-ci.org/westurner/dotfiles.svg?branch=master
+   :target: https://travis-ci.org/westurner/dotfiles
+
 .. _GitHub: https://github.com/westurner/dotfiles
 .. _Documentation: https://westurner.github.io/dotfiles/   
 .. _ReadTheDocs: https://wrdfiles.readthedocs.org/en/latest/
