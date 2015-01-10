@@ -22,7 +22,7 @@ print_bash_comments() {
     # "   ## %s".format(filename)
     # "    %s".format(line)
     (cd $__DOTFILES;
-    for f in $(ls etc/bash/*.sh etc/usrlog/usrlog.sh etc/xlck.sh); do
+    for f in $(ls etc/bash/*.sh); do
         echo "#### $f";
         cat $f | scripts/pyline.py -r '^\s*#+\s+.*' 'rgx and l';
         echo "   ";

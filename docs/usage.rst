@@ -67,6 +67,7 @@ Vim
 
 
 .. index:: Dotfiles i3wm Configuration
+.. index:: I3wm configuration
 .. _dotfiles_i3wm:
 
 I3wm
@@ -79,7 +80,7 @@ I3wm
 
 
 .. index:: Dotfiles Scripts
-.. _scripts:
+.. _dotfiles_scripts:
 
 Scripts
 ---------
@@ -91,10 +92,13 @@ In ``scripts/``
    Convert `bashmarks` shortcut variables
    starting with ``DIR_`` to `NERDTreeBookmarks <NERDTree>`_ format::
 
-       l
+       export | grep 'DIR_'
+       l          # list bashmarks
+       s awesome  # save PWD as 'awesome' bashmark
+       g awesome  # goto the 'awesome' bashmark
        ./bashmarks_to_nerdtree.sh | tee ~/.NERDTreeBookmarks
 
-*bootstrap_dotfiles.sh**
+**bootstrap_dotfiles.sh**
    Clone, update, and install dotfiles in ``$HOME``
 
     See: `bootstrap_dotfiles.sh`_
@@ -134,6 +138,16 @@ In ``scripts/``
 
 **build_docs.py**
    Build sets of sphinx documentation projects
+
+**el**
+   Open args from stdin with ``EDITOR_`` or ``EDITOR``. Similar to
+   ``xargs``.
+
+   ``grep -l TODO | el`` opens files in ``EDITOR_``
+
+   ``grep -l TODO | el -x echo`` echos 'filename1 filename2 filenamen'
+
+   ``grep -l TODO | el -v --each -x echo`` runs echo ``n`` times, verbosely
 
 **greppaths.py**
    Grep
@@ -177,8 +191,18 @@ In ``scripts/``
 
    See: https://github.com/westurner/pyrpo
 
+**usrlog.sh**
+   **Log shell output** with (by default, unique)
+   TERM_IDs, PWD, start / finish times
+   to ``~/-usrlog.log`` 
+   or ``$VIRTUAL_ENV/-usrlog.log``.
+
 **usrlog.py**
    Search through ``.usrlog`` files
+
+**xlck.sh**
+   Wrap ``xautolock`` for screensaver, shutdown, suspend, resume config
+   (e.g. ``.xinitrc`` calls ``xlck.sh -S``)
 
 **x-www-browser**
    Launch browser tabs for each argument (OSX, Linux, webbrowser)
