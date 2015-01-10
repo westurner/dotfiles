@@ -1,8 +1,11 @@
 [user]
-name = Wes Turner
-email = wes@wrd.nu
+  name = Wes Turner
+  email = wes@wrd.nu
 
-# from: http://documentup.com/skwp/git-workflows-book#chapter-6-sneaking-git-through-the-backdoor/appendix-a-the-gitconfig 
+[github]
+  user = westurner
+
+# from: http://documentup.com/skwp/git-workflows-book
 
 [color]
   ui = true
@@ -56,6 +59,7 @@ email = wes@wrd.nu
 
   # log
   l = log --graph --date=short
+  l3 = log -n3 --graph --date=short
   changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
   short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
   changelog = log --pretty=format:\" * %s\"
@@ -63,6 +67,7 @@ email = wes@wrd.nu
 
   # show unpushed changes
   unpushed = log --stat origin/master..HEAD
+  outgoing = log --stat origin/master..HEAD
 
   # file overview
   fo = log --pretty=oneline --shortstat --abrev-commit
@@ -109,7 +114,7 @@ email = wes@wrd.nu
   gg = grep --break --heading -n
 
   # shallow clone
-    sc = clone --depth=1
+  sc = clone --depth=1
 
   # TODO
   todo = grep -n --full-name -E 'TODO|FIXME|XXX'
@@ -118,13 +123,13 @@ email = wes@wrd.nu
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
   prompt = false
-[mergetool "mvimdiff"]
-  cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
+[mergetool "gvimdiff"]
+  cmd="gvim -c 'Gdiff' $MERGED"     # use fugitive.vim :Gdiff for 3-way merge
   keepbackup=false
 [merge]
   summary = true
   verbosity = 1
-  tool = mvimdiff
+  tool = gvimdiff
 [apply]
   whitespace = nowarn
 [branch]
@@ -142,7 +147,7 @@ email = wes@wrd.nu
 [diff]
   # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
   # instead of a/b/c/d as prefixes for patches
-    mnemonicprefix = true
+  mnemonicprefix = true
 
 # Upgrade github URLs to SSH
 #[url "ssh://git@github.com/"]
@@ -150,5 +155,3 @@ email = wes@wrd.nu
 #    insteadOf = https://github.com/
 #    insteadOf = git://github.com/
 
-[github]
-	user = westurner
