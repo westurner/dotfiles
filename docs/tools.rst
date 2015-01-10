@@ -1,1 +1,1 @@
-./tools/tools.rst
+tools.git/tools.rst
