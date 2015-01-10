@@ -6,4 +6,5 @@
 | `github.com/westurner/tools/wiki <https://github.com/westurner/tools/wiki>`__
 | `westurner.github.io/tools/ <https://westurner.github.io/tools/>`__
 | `westurner.github.io/wiki/ <https://westurner.github.io/wiki/>`__
+| `westurner.github.io/provis/ <https://westurner.github.io/provis/>`__
 | `westurner.github.io <https://westurner.github.io/>`__
