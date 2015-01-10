@@ -1,0 +1,111 @@
+
+=========
+Ideas
+=========
+
+.. contents:: 
+
+Themes
+=======
+* URIs
+* Linked Data (RDF, RDFa, JSONLD)
+* Graphs, Nodes, Edges
+
+Projects
+=========
+* https://github.com/westurner/wiki/wiki/projects
+
+Twedges
+--------
+* (Directed) edges between tweets, later
+
+Trails
+-------
+* Sequences of actions
+
+  * https://bitbucket.org/westurner/browselinks
+
+Overlay
+--------
+* EAV visualization
+
+RDFLib Extensions
+-------------------
+* RDFLib IPython notebook
+
+  * https://bitbucket.org/westurner/rdflib_notebooks
+
+* RDF exploration CLI
+
+  * https://github.com/jonathanslenders/python-prompt-toolkit
+  * schema-aware tab-completion
+
+Sphinx Extensions
+-------------------
+* sphinxcontrib-RDF
+
+  * https://github.com/westurner/sphinxcontrib-rdf
+* sphinxcontrib-tmpipnb
+
+  * ipythonify source doctests
+
+
+Open Source Mailing List Extractor
+----------------------------------
+Use cases:
+
+* https://mail.python.org/pipermail/python-ideas/2014-December/030228.html
+* incentivization of actionable crossreferences
+* PEP research
+* "is this actionable?"
+* "are we voting?"
+
+
+* Crawl/parse/extract links and +1 from given thread(s)
+  
+  * Detect a few standard link types:
+
+    * Issue
+    * Src
+    * Doc
+    * Ref
+    * x-link
+
+  * +1s with expandable snippets? (like ``grep -C``)
+
+* There could be configurable per-list link heuristics:
+
+  * http[s]
+  * Issue: https://bugs.python.org/issue(\d+)
+  * Src: https://hg.python.org/<repo>/<path>
+  * Src: https://github.com/<org>/<project>/<path>
+  * Src: https://bitbucket.org/<org>/<project>/<path>
+  * Patch/Attachment: http[s]://bugs.python.org/(file[\d]+)/<filename(.diff)>
+  * Doc: https://docs.python.org/<ver>/<path>
+  * Wiki: https://wiki.python.org/moin/<path>
+  * Homepage: https://www.python.org/<path>
+  * PyPI pkg: https://pypi.python.org/pypi/<path>
+  * Warehouse pkg: https://warehouse.python.org/project/<path>
+  * Wikipedia: https://[lang].wikipedia.org/wiki/<page> --> (dbpedia:<page>)
+  * Build: http://buildbot.python.org/all/builders/AMD64%20Ubuntu%20LTS%203.4/builds/771
+
+
+* This could - most efficiently - be added to mailman
+  (e.g. in Postorious and/or HyperKitty)
+
+  * http://mailman-bundler.readthedocs.org/en/latest/
+  * http://pythonhosted.org//mailman/
+  * https://mail.python.org/mailman/listinfo/mailman-developers
+
+
+Path Library __div__ operator
+-------------------------------
+* build URI paths with ``/``
+
+  * https://pypi.python.org/pypi/path.py
+  * https://pypi.python.org/pypi/pathlib
+  * https://pypi.python.org/pypi/furl
+  * https://pypi.python.org/pypi/URLObject
+  * https://pypi.python.org/pypi/rdflib
+
+* ``*`` could be ``#``
