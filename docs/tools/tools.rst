@@ -1,10 +1,18 @@
 
+
+.. index:: westurner/tools
 .. index:: Tools
 .. _tools:
 
-=======
-Tools
-=======
+================
+westurner/tools
+================
+
+| Docs: https://westurner.github.io/tools/
+| Src: https://github.com/westurner/tools
+
+See Also: https://westurner.github.io/wiki/projects#tools
+
 
 .. index:: Packages
 .. _packages:
