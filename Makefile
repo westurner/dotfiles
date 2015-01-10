@@ -452,10 +452,10 @@ docs_tools_subtree_diff:
 docs_tools_subtree_merge: docs_tools_subtree_diff
 	# Pull in changes and generate a squashed commit
 	# git fetch
-	#   git checkout tools_branch
-	#   git pull
-	#   git checkout master
 	git fetch tools_remote
+	git checkout tools_branch
+	git pull
+	git checkout master
 	#git merge --squash -s subtree --no-commit tools_branch
 	git merge --squash -s ours -Xsubtree=docs/tools/ --no-commit tools_branch
 	git diff --cached
