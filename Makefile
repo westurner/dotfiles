@@ -247,13 +247,13 @@ copy_sidebar_to_readme: copy_sidebar_to_home
 copy_sidebars:
 	$(MAKE) copy_sidebar_to_footer
 	#$(MAKE) copy_sidebar_to_home
-	$(MAKE) copy_sidebar_to_readme
+	#$(MAKE) copy_sidebar_to_readme
 
 copy_sidebars_and_commit:
 	$(MAKE) copy_sidebars
 	git add Home.rest _Footer.rest
 	git commit _Footer.rest _Home.rest README.rst \
-		-m "DOC: Regenerate _Home, _Sidebar, _Footer, and README navigation"
+		-m "DOC: Regenerate _Home, _Sidebar, _Footer navigation"
 
 build: copy_sidebars rst2html_all html
 

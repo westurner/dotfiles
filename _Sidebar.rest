@@ -1,6 +1,3 @@
-
-Welcome to `<https://github.com/westurner/tools/wiki>`_
-
 - `Home <https://github.com/westurner/tools/wiki>`_
 - `Tools <https://github.com/westurner/tools/wiki/tools>`_
 

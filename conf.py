@@ -33,18 +33,18 @@ sys.path.insert(0, project_root)
 sys.path.insert(1, os.path.abspath('_ext'))
 
 # configure paths and names once
-project_name = "wiki"
-project_name_slug = "wiki"
+project_name = "tools"
+project_name_slug = "tools"
 project_orgname = "westurner"
 project_twitter_user = project_orgname
 project_author = u"Wes Turner"
-project_copyright = u'2014, {}'.format(project_author)
-project_github_path = "{}/{}".format(project_orgname, project_name)
+project_copyright = u'2015, {}'.format(project_author)
+project_src_path = "{}/{}".format(project_orgname, project_name)
+project_github_path = project_src_path
 project_github_url = "https://github.com/{}".format(project_github_path)
 project_src_url = project_github_url
-project_src_path = project_github_path
 project_url = project_github_url
-project_title = u'{}'.format(project_src_path)
+project_title = u'{}'.format(project_src_path) # orgname, project_name
 project_description_oneline = (
     u'Documentation for the {} project'.format(project_name))
 project_og_site_name = project_src_path  # e.g. westurner/dotfiles
@@ -81,7 +81,7 @@ autodoc_member_order = 'bysource'
 templates_path = ['_templates']
 
 # The suffix of source filenames.
-source_suffix = '.rest'
+source_suffix = '.rst'
 
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
@@ -221,6 +221,7 @@ html_sidebars = {
         'links.html',
         ],
     'index': [
+        'localtoc.html',
         'globaltoc.html',
         'relations.html',
         'srclinks.html',
