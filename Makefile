@@ -229,7 +229,7 @@ rst2html_all: build_setup
 
 copy_sidebar_to_footer:
 	echo '' > _Footer.rest
-	echo '`#top <#>`_' >> _Footer.rest
+	echo '`^top^ <#>`__' >> _Footer.rest
 	echo '' >> _Footer.rest
 	echo '*****' >> _Footer.rest
 	echo '' >> _Footer.rest
