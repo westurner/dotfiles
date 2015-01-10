@@ -441,7 +441,7 @@ docs_tools_subtree_setup:
 	git fetch tools_remote
 	git checkout -b tools_branch tools_remote/$(DOTFILES_DOCS_SRC_BRANCH)
 	git checkout $(DOTFILES_SRC_GIT_BRANCH)
-	git read-tree --prefix=docs/tools/ tools_branch
+	git read-tree --prefix=docs/tools.git/ tools_branch
 	git add docs/tools && \
 		git commit docs/tools -m "Merge in from $(DOTFILES_DOCS_SRC_REPO)"
 
@@ -457,7 +457,7 @@ docs_tools_subtree_merge: docs_tools_subtree_diff
 	git pull
 	git checkout master
 	#git merge --squash -s subtree --no-commit tools_branch
-	git merge --squash -s ours -Xsubtree=docs/tools/ --no-commit tools_branch
+	git merge --squash -s ours -Xsubtree=docs/tools.git/ --no-commit tools_branch
 	git diff --cached
 	git diff
 
