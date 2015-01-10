@@ -8,6 +8,12 @@ Dotfiles
 .. image:: https://travis-ci.org/westurner/dotfiles.svg?branch=master
    :target: https://travis-ci.org/westurner/dotfiles
 
+.. image:: https://img.shields.io/github/release/westurner/dotfiles.svg
+   :target: https://github.com/westurner/dotfiles/releases
+
+.. image:: https://img.shields.io/github/tag/westurner/dotfiles.svg
+   :target: https://github.com/westurner/dotfiles/tags
+
 .. _GitHub: https://github.com/westurner/dotfiles
 .. _Documentation: https://westurner.github.io/dotfiles/   
 .. _ReadTheDocs: https://wrdfiles.readthedocs.org/en/latest/
