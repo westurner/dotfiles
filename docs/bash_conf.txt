@@ -154,6 +154,11 @@
     # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     # dotfiles_status()         -- print dotfiles_status
     # ds()                      -- print dotfiles_status
+    # clr()                     -- clear scrollback
+        # osascript -e 'if application "Terminal" is frontmost then tell application "System Events" to keystroke "k" using command down'
+    # cls()                     -- clear scrollback and print dotfiles_status()
+    # echo "## lspath"
+    # lspath | tee $OUTPUT
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
     # debug-on()                 -- set -x -v
     # debug-off()                -- set +x +v
@@ -261,7 +266,7 @@
     # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
     # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
     # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
-    # _load_venv_aliases()  -- load venv aliases
+    # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
     # ssv()     -- supervisord   -c ${_SVCFG}
     # sv()      -- supervisorctl -c ${_SVCFG}
@@ -278,12 +283,14 @@
     # makew()   -- cd $_WRD && make $@
     # make-()   -- cd $_WRD && make $@
     # mw()      -- cd $_WRD && make $@
-    # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+    # venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
     #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
     # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
     # TODO: CONDA
-    # _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+    # venv_ls()     -- list virtualenv directories
+    # lsvenv()      -- venv_ls()
+    # venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
    
    
 #### etc/bash/11-bashrc.venv.pyramid.sh
@@ -581,7 +588,7 @@
 #### etc/bash/99-bashrc.after.sh
    
    
-#### etc/usrlog/usrlog.sh
+#### etc/bash/usrlog.sh
 ##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
 #  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
@@ -675,7 +682,7 @@
 ## calls _usrlog_setup when sourced
    
    
-#### etc/xlck.sh
+#### etc/bash/xlck.sh
 ## xlck.sh
 ## bash script for working with xautolock, xlock, and/or i3lock
 ## as well as issuing suspend, shutdown, and restart commands
