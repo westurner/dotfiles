@@ -5,7 +5,7 @@
 .. _tools:
 
 ================
-westurner/tools
+Tools
 ================
 
 | Docs: https://westurner.github.io/tools/
