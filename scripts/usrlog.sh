@@ -136,9 +136,9 @@ _usrlog_echo_title () {
     # _usrlog_echo_title   -- set window title
     local title="${WINDOW_TITLE:+"$WINDOW_TITLE "}"
     if [ -n "$_APP" ]; then
-        title="${title}($_APP) "
+        title="($_APP) ${title}"
     else
-        title="${title}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}"
+        title="${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) ${title}"}"
     fi
     title="${title} ${USER}@${HOSTNAME}:${PWD}"
     USRLOG_WINDOW_TITLE=${title:-"$@"}

@@ -1,0 +1,174 @@
+#!/usr/bin/env python
+"""
+el
+==
+
+Open args from stdin with EDITOR_ or EDITOR
+
+Usage:
+
+.. code:: bash
+
+    # edit files from ls
+    ls | el
+
+    # print lines from stdin
+    printf "one\ntwo" | el --each -x echo
+
+    printf "one\ntwo" | el
+
+    find . -type f -print0 | el -0 --each -x echo
+
+"""
+from __future__ import print_function
+import logging
+import os
+import subprocess
+import sys
+
+log = logging.getLogger('el')
+
+
+RET_ERR_EDITOR = 3
+
+def print_help():
+    print("%s [-h] [-q] [-0]" % sys.argv[0])
+    print("")
+    print("  --each|--map  ## for arg in args; do cmd arg; done")
+    print("  -f|--force    ## continue on error")
+    print("")
+    print("  -x  ## execute command")
+    print("  -e  ## execute EDITOR_ or EDITOR (default)")
+    print("")
+    print("  -0  ## split by \\0")
+    print("")
+    print("  -h  ## print_help() message")
+    print("  -v  ## verbose (logging.DEBUG)")
+    print("")
+
+
+def to_cmdstr(args):
+    _str = u''
+    quoted_args = []
+    for arg in args:
+        argstr = arg
+        if ' ' in args:  # TODO: re.match('\s',re.UNICODE)
+            argstr = "'%s'" % arg
+        quoted_args.append(argstr)
+    return ' '.join(quoted_args)
+
+
+def main(argv=None):
+
+    if argv is None:
+        argv = []
+    else:
+        _argv = argv[:]
+
+    if '-x' in argv:
+        switch = '-x'
+        xpos = argv.index('-x')
+        cmdargs = argv[xpos+1:]  # XXX
+        cmd = cmdargs  # + args
+        argv = argv[0:xpos]
+
+    if '-h' in argv or '--help' in argv:
+        print_help()
+        return 0
+
+    if '-v' in argv:
+        logging.basicConfig(
+            level=logging.DEBUG)
+        argv.remove('-v')
+
+    all_at_once = True
+    one_at_a_time = False
+    for x in ['--each', '--map']:
+        if x in argv:
+            one_at_a_time = True
+            all_at_once = False
+            argv.remove(x)
+
+    stop_on_error = True
+    if '-f' in argv or '--force' in argv:
+        stop_on_error = False
+    if '--stop-on-error' in argv:
+        stop_on_error = True
+
+    if '-0' in argv:
+        text = sys.stdin.read()
+        lines = args = text.split('\0')  # TODO: itersplit
+    else:
+        if one_at_a_time:
+            #lines_iter = ((l, l.strip()) for l in sys.stdin)
+            #args = (x[1] for x in lines_iter)
+            #args = (l.strip() for l in sys.stdin)
+            def iter_stdin(stdin):
+                for line in stdin:
+                    log.debug("> %r" % line)
+                    l = line.strip()
+                    if l:
+                        yield l
+            lines = iter(sys.stdin)
+            args = iter_stdin(lines)
+        else:
+            args = []
+            lines = []
+            for line in sys.stdin:
+                log.debug("> %r" % line)
+                lines.append(line)
+                args.append(line.strip())
+
+    log.debug("## Reading from stdin:")
+    if all_at_once:
+        log.debug('\n' + ''.join(lines))
+    elif one_at_a_time:
+        log.debug("%r" % lines)
+    log.debug("## args: %r" % args)
+
+    if cmdargs:
+        cmd = cmdargs  # + args
+    else:
+        env = os.environ
+        editorstr = env.get('EDITOR_', env.get('EDITOR'))
+        if editorstr is None:
+            log.error("Neither EDITOR_ nor EDITOR are set")
+            return RET_ERR_EDITOR
+        editor = shlex.split(editorstr)
+        log.debug("## editor: %r" % editor)
+        cmd = editor # + args
+    log.debug('## cmdarg: %r' % cmd)
+    log.debug('## cmdstr: %r' % to_cmdstr(cmd))
+
+    retcode = 0
+    if all_at_once:
+        _cmd = cmd + args
+        log.debug("# cmdarg: %r" % _cmd)
+        log.debug("# cmdstr: %r" % to_cmdstr(_cmd))
+        retcode = subprocess.call(_cmd)
+    elif one_at_a_time:
+        retcode = 0
+        error_count = 0
+        for path in args:
+            _cmd = cmd + [path]
+            log.debug("# cmdarg: %r" % _cmd)
+            log.debug("# cmdstr: %r" % to_cmdstr(_cmd))
+            _retcode = subprocess.call(_cmd)
+            log.debug("# _retcode: %d" % _retcode)
+            if _retcode != 0:
+                retcode += _retcode
+                error_count += 1
+                if stop_on_error:
+                    print("ERROR: Stopping early (use -f to continue on errors)",
+                          file=sys.stderr)
+                    break
+    else:
+        log.info(_cmd)
+        log.info(args)
+    return retcode
+
+
+
+
+if __name__ == "__main__":
+    sys.exit(main(argv=sys.argv))

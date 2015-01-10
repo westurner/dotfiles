@@ -38,6 +38,22 @@ ds() {
     dotfiles_status $@
 }
 
+clr() {
+    # clr()                     -- clear scrollback
+    if [ -d '/Library' ]; then # see __IS_MAC
+        # osascript -e 'if application "Terminal" is frontmost then tell application "System Events" to keystroke "k" using command down'
+        clear && printf '\e[3J'
+    else
+        reset
+    fi
+}
+
+
+cls() {
+    # cls()                     -- clear scrollback and print dotfiles_status()
+    clr ; dotfiles_status
+}
+
 #dotfiles_term_uri() {
     ##dotfiles_term_uri()        -- print a URI for the current _TERM_ID
     #term_path="${HOSTNAME}/usrlog/${USER}"
@@ -45,6 +61,18 @@ ds() {
     #TERM_URI="${term_path}/${term_key}"
     #echo "TERM_URI='${TERM_URL}'"
 #}
+
+debug-env() {
+    _log=${_LOG:-"."}
+    OUTPUT=${1:-"${_log}/$(date +"%FT%T%z").debug-env.env.log"}
+    dotfiles_status
+    echo "## export"
+    export | tee $OUTPUT
+    echo "## alias"
+    alias | tee $OUTPUT
+    # echo "## lspath"
+    # lspath | tee $OUTPUT
+}
 
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
@@ -85,7 +113,7 @@ dotfiles_initialize() {
 dotfiles_postmkvirtualenv() {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     log_dotfiles_state 'postmkvirtualenv'
-    declare -f 'mkdirs_venv' 2>&1 >/dev/null && mkdirs_venv
+    declare -f 'venv_mkdirs' 2>&1 >/dev/null && venv_mkdirs
     test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
     echo ""
     echo $(which pip)
@@ -121,8 +149,8 @@ dotfiles_postactivate() {
     declare -f '_setup_usrlog' 2>&1 > /dev/null \
         && _setup_usrlog
    
-    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-        && _venv_set_prompt
+    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
+        && venv_set_prompt
 
 }
 

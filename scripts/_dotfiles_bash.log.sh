@@ -552,6 +552,22 @@ ds() {
     dotfiles_status $@
 }
 
+clr() {
+    # clr()                     -- clear scrollback
+    if [ -d '/Library' ]; then # see __IS_MAC
+        # osascript -e 'if application "Terminal" is frontmost then tell application "System Events" to keystroke "k" using command down'
+        clear && printf '\e[3J'
+    else
+        reset
+    fi
+}
+
+
+cls() {
+    # cls()                     -- clear scrollback and print dotfiles_status()
+    clr ; dotfiles_status
+}
+
 #dotfiles_term_uri() {
     ##dotfiles_term_uri()        -- print a URI for the current _TERM_ID
     #term_path="${HOSTNAME}/usrlog/${USER}"
@@ -559,6 +575,18 @@ ds() {
     #TERM_URI="${term_path}/${term_key}"
     #echo "TERM_URI='${TERM_URL}'"
 #}
+
+debug-env() {
+    _log=${_LOG:-"."}
+    OUTPUT=${1:-"${_log}/$(date +"%FT%T%z").debug-env.env.log"}
+    dotfiles_status
+    echo "## export"
+    export | tee $OUTPUT
+    echo "## alias"
+    alias | tee $OUTPUT
+    # echo "## lspath"
+    # lspath | tee $OUTPUT
+}
 
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
@@ -599,7 +627,7 @@ dotfiles_initialize() {
 dotfiles_postmkvirtualenv() {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     log_dotfiles_state 'postmkvirtualenv'
-    declare -f 'mkdirs_venv' 2>&1 >/dev/null && mkdirs_venv
+    declare -f 'venv_mkdirs' 2>&1 >/dev/null && venv_mkdirs
     test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
     echo ""
     echo $(which pip)
@@ -635,8 +663,8 @@ dotfiles_postactivate() {
     declare -f '_setup_usrlog' 2>&1 > /dev/null \
         && _setup_usrlog
    
-    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-        && _venv_set_prompt
+    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
+        && venv_set_prompt
 
 }
 
@@ -2427,8 +2455,8 @@ workon_venv() {
         workon $1 && \
         source <($__VENV --print-bash $@) && \
         dotfiles_status && \
-        declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-            && _venv_set_prompt ${_TERM_ID:-$1}
+        declare -f 'venv_set_prompt' 2>&1 > /dev/null \
+            && venv_set_prompt ${_TERM_ID:-$1}
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenv
@@ -3258,8 +3286,8 @@ grindctagss() {
     grindctags "${_SRC}"
 }
 
-_load_venv_aliases() {
-    # _load_venv_aliases()  -- load venv aliases
+_setup_venv_aliases() {
+    # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
     # ssv()     -- supervisord   -c ${_SVCFG}
@@ -3291,7 +3319,7 @@ _load_venv_aliases() {
     alias testr-='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
 
 }
-_load_venv_aliases
+_setup_venv_aliases
 
 makew() {
     # makew()   -- cd $_WRD && make $@
@@ -3306,15 +3334,15 @@ mw() {
     makew $@
 }
 
-_venv_set_prompt() {
-    # _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+venv_set_prompt() {
+    # venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
     #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
     # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
     local venvprompt=""
     venvprompt=${_APP:-${VIRTUAL_ENV_NAME:-${VIRTUAL_ENV:+"$(basename $VIRTUAL_ENV)"}}}
     # TODO: CONDA
-    export VENVPROMPT="${WINDOW_TITLE:+"$WINDOW_TITLE "}${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}"
+    export VENVPROMPT="${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}${WINDOW_TITLE:+"$WINDOW_TITLE "}"
     if [ -n "$BASH_VERSION" ]; then
         if [ "$color_prompt" == yes ]; then
             PS1='${VENVPROMPT}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
@@ -3324,18 +3352,29 @@ _venv_set_prompt() {
         fi
     fi
 }
-_venv_set_prompt
+venv_set_prompt
 
 
-mkdirs_venv() {
-    # _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
-    prefix=${1}
+
+venv_ls() {
+    # venv_ls()     -- list virtualenv directories
+    prefix=${1:-${VIRTUAL_ENV}}
     if [ -z "${prefix}" ]; then
-        if [ -n "${VIRTUAL_ENV}" ]; then
-            prefix=${VIRTUAL_ENV}
-        else
-            return
-        fi
+        return
+    fi
+    #ls -ld ${prefix}/**
+    ls -ld $(find ${prefix} ${prefix}/lib -type d -maxdepth 2)
+}
+lsvenv() {
+    # lsvenv()      -- venv_ls()
+    venv_ls $@
+}
+
+venv_mkdirs() {
+    # venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+    prefix=${1:-${VIRTUAL_ENV}}
+    if [ -z "${prefix}" ]; then
+        return
     fi
     ensure_mkdir ${prefix}
     ensure_mkdir ${prefix}/bin
@@ -3354,8 +3393,7 @@ mkdirs_venv() {
     ensure_mkdir ${prefix}/var/run
     ensure_mkdir ${prefix}/var/www
 
-    #ls -ld ${prefix}/**
-    ls -ld $(find ${prefix} ${prefix}/lib -type d -maxdepth 2)
+    venv_ls
 }
 
 
@@ -3634,7 +3672,7 @@ mane() {
 
 _setup_usrlog() {
     # _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
-    source "${__DOTFILES}/etc/usrlog/usrlog.sh"
+    source "${__DOTFILES}/scripts/usrlog.sh"
     #calls _usrlog_setup when sourced
 }
 _setup_usrlog
@@ -3776,9 +3814,9 @@ _usrlog_echo_title () {
     # _usrlog_echo_title   -- set window title
     local title="${WINDOW_TITLE:+"$WINDOW_TITLE "}"
     if [ -n "$_APP" ]; then
-        title="${title}($_APP) "
+        title="($_APP) ${title}"
     else
-        title="${title}${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) "}"
+        title="${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) ${title}"}"
     fi
     title="${title} ${USER}@${HOSTNAME}:${PWD}"
     USRLOG_WINDOW_TITLE=${title:-"$@"}
@@ -4100,7 +4138,7 @@ _setup_usrlog() {
 _usrlog_setup
 _usrlog_get_prefix
 _usrlog_get_prefix
-]0;#testing (dotfiles)  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
+]0;(dotfiles) #testing  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -4139,7 +4177,7 @@ usrloge() {
 _setup_xlck() {
     # _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
     if [ -z "${__IS_MAC}" ]; then
-        source "${__DOTFILES}/etc/xlck.sh"
+        source "${__DOTFILES}/scripts/xlck.sh"
     fi
 }
 
