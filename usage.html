@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Usage &mdash; westurner/dotfiles 0.7.1 documentation</title>
+    <title>Usage &mdash; westurner/dotfiles 0.7.2 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.7.1',
+            VERSION:     '0.7.2',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.7.1 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.7.2 documentation" href="index.html" />
     <link rel="next" title="Venv" href="venv.html" />
     <link rel="prev" title="Dotfiles" href="readme.html" /> 
   </head>
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.1 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.2 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -148,7 +148,7 @@
 <li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools.html#bash"><em>Bash</em></a>, <a class="reference internal" href="tools.html#zsh"><em>ZSH</em></a>)</li>
 <li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools.html#vim"><em>Vim</em></a>)</li>
 <li>Manage windows on <a class="reference internal" href="tools.html#linux"><em>Linux</em></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools.html#i3wm"><em>I3wm</em></a>)</li>
-<li><a class="reference internal" href="#scripts"><em>Script</em></a> all the <a class="reference external" href="http://schema.org/Thing">things</a></li>
+<li><em class="xref std std-ref">Script</em> all the <a class="reference external" href="http://schema.org/Thing">things</a></li>
 </ul>
 <div class="section" id="bootstrap-dotfiles-sh">
 <span id="index-1"></span><span id="id2"></span><h2>bootstrap_dotfiles.sh<a class="headerlink" href="#bootstrap-dotfiles-sh" title="Permalink to this headline">¶</a></h2>
@@ -162,12 +162,12 @@ $ bash $_WRD/scripts/bootstrap_dotfiles.sh -h
 ## Usage: bootstrap_dotfiles.sh &lt;actions&gt; &lt;options&gt;
 #
 ## Actions
-#  -I   --  install the dotfiles
-#  -S   --  symlink dotfiles into place
-#  -U   --  update and upgrade dotfiles
+#  -I   --  Install the dotfiles
+#  -S   --  Install dotfiles symlinks
+#  -U   --  Update and Upgrade the dotfiles
 #  -R   --  pip install -r requirements-all.txt
-#  -G   --  install gitflow and hubflow
-#  -C   --  check
+#  -G   --  install Gitflow and hubflow
+#  -C   --  check for installed components
 #  -h   --  print this help message
 #
 ## Options
@@ -383,6 +383,11 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH</span>
     <span class="c"># dotfiles_status()         -- print dotfiles_status</span>
     <span class="c"># ds()                      -- print dotfiles_status</span>
+    <span class="c"># clr()                     -- clear scrollback</span>
+        <span class="c"># osascript -e &#39;if application &quot;Terminal&quot; is frontmost then tell application &quot;System Events&quot; to keystroke &quot;k&quot; using command down&#39;</span>
+    <span class="c"># cls()                     -- clear scrollback and print dotfiles_status()</span>
+    <span class="c"># echo &quot;## lspath&quot;</span>
+    <span class="c"># lspath | tee $OUTPUT</span>
 <span class="c"># https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin</span>
     <span class="c"># debug-on()                 -- set -x -v</span>
     <span class="c"># debug-off()                -- set +x +v</span>
@@ -490,7 +495,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)</span>
     <span class="c"># grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)</span>
     <span class="c"># grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)</span>
-    <span class="c"># _load_venv_aliases()  -- load venv aliases</span>
+    <span class="c"># _setup_venv_aliases()  -- load venv aliases</span>
     <span class="c">#   note: these are overwritten by `we` [`source &lt;(venv -b)`]</span>
     <span class="c"># ssv()     -- supervisord   -c ${_SVCFG}</span>
     <span class="c"># sv()      -- supervisorctl -c ${_SVCFG}</span>
@@ -507,12 +512,14 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># makew()   -- cd $_WRD &amp;&amp; make $@</span>
     <span class="c"># make-()   -- cd $_WRD &amp;&amp; make $@</span>
     <span class="c"># mw()      -- cd $_WRD &amp;&amp; make $@</span>
-    <span class="c"># _venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,</span>
+    <span class="c"># venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,</span>
     <span class="c">#                          and ${debian_chroot}</span>
     <span class="c">#           &quot;WINDOW_TITLE (venvprompt) [debian_chroot]&quot;</span>
     <span class="c"># try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)</span>
     <span class="c"># TODO: CONDA</span>
-    <span class="c"># _venv_ensure_paths()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} </span>
+    <span class="c"># venv_ls()     -- list virtualenv directories</span>
+    <span class="c"># lsvenv()      -- venv_ls()</span>
+    <span class="c"># venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} </span>
    
    
 <span class="c">#### etc/bash/11-bashrc.venv.pyramid.sh</span>
@@ -810,7 +817,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <span class="c">#### etc/bash/99-bashrc.after.sh</span>
    
    
-<span class="c">#### etc/usrlog/usrlog.sh</span>
+<span class="c">#### etc/bash/usrlog.sh</span>
 <span class="c">##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)</span>
 <span class="c">#</span>
 <span class="c">#  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)</span>
@@ -904,7 +911,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <span class="c">## calls _usrlog_setup when sourced</span>
    
    
-<span class="c">#### etc/xlck.sh</span>
+<span class="c">#### etc/bash/xlck.sh</span>
 <span class="c">## xlck.sh</span>
 <span class="c">## bash script for working with xautolock, xlock, and/or i3lock</span>
 <span class="c">## as well as issuing suspend, shutdown, and restart commands</span>
@@ -1643,9 +1650,9 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
    
 </pre></div>
 </div>
-</div>
+<span class="target" id="index-6"></span></div>
 <div class="section" id="i3wm">
-<span id="dotfiles-i3wm"></span><span id="index-6"></span><h2>I3wm<a class="headerlink" href="#i3wm" title="Permalink to this headline">¶</a></h2>
+<span id="dotfiles-i3wm"></span><span id="index-7"></span><h2>I3wm<a class="headerlink" href="#i3wm" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.i3/config">https://github.com/westurner/dotfiles/blob/master/etc/.i3/config</a></div>
 </div>
@@ -1822,7 +1829,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 </div>
 </div>
 <div class="section" id="scripts">
-<span id="index-7"></span><span id="id3"></span><h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
+<span id="dotfiles-scripts"></span><span id="index-8"></span><h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/scripts">https://github.com/westurner/dotfiles/tree/master/scripts</a></div>
 </div>
@@ -1831,12 +1838,15 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <dt><strong>bashmarks_to_nerdtree.sh</strong></dt>
 <dd><p class="first">Convert <cite>bashmarks</cite> shortcut variables
 starting with <code class="docutils literal"><span class="pre">DIR_</span></code> to <a class="reference external" href="NERDTree">NERDTreeBookmarks</a> format:</p>
-<div class="last highlight-python"><div class="highlight"><pre>l
+<div class="last highlight-python"><div class="highlight"><pre>export | grep &#39;DIR_&#39;
+l          # list bashmarks
+s awesome  # save PWD as &#39;awesome&#39; bashmark
+g awesome  # goto the &#39;awesome&#39; bashmark
 ./bashmarks_to_nerdtree.sh | tee ~/.NERDTreeBookmarks
 </pre></div>
 </div>
 </dd>
-<dt><em>bootstrap_dotfiles.sh*</em></dt>
+<dt><strong>bootstrap_dotfiles.sh</strong></dt>
 <dd><p class="first">Clone, update, and install dotfiles in <code class="docutils literal"><span class="pre">$HOME</span></code></p>
 <blockquote class="last">
 <div>See: <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></div></blockquote>
@@ -1866,6 +1876,13 @@ and pandas on OSX</dd>
 <dd>Search for a debian package</dd>
 <dt><strong>build_docs.py</strong></dt>
 <dd>Build sets of sphinx documentation projects</dd>
+<dt><strong>el</strong></dt>
+<dd><p class="first">Open args from stdin with <code class="docutils literal"><span class="pre">EDITOR_</span></code> or <code class="docutils literal"><span class="pre">EDITOR</span></code>. Similar to
+<code class="docutils literal"><span class="pre">xargs</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">grep</span> <span class="pre">-l</span> <span class="pre">TODO</span> <span class="pre">|</span> <span class="pre">el</span></code> opens files in <code class="docutils literal"><span class="pre">EDITOR_</span></code></p>
+<p><code class="docutils literal"><span class="pre">grep</span> <span class="pre">-l</span> <span class="pre">TODO</span> <span class="pre">|</span> <span class="pre">el</span> <span class="pre">-x</span> <span class="pre">echo</span></code> echos &#8216;filename1 filename2 filenamen&#8217;</p>
+<p class="last"><code class="docutils literal"><span class="pre">grep</span> <span class="pre">-l</span> <span class="pre">TODO</span> <span class="pre">|</span> <span class="pre">el</span> <span class="pre">-v</span> <span class="pre">--each</span> <span class="pre">-x</span> <span class="pre">echo</span></code> runs echo <code class="docutils literal"><span class="pre">n</span></code> times, verbosely</p>
+</dd>
 <dt><strong>greppaths.py</strong></dt>
 <dd>Grep</dd>
 <dt><strong>lsof.py</strong></dt>
@@ -1897,8 +1914,16 @@ Execute python expressions over line-based files.</p>
 <dd><p class="first">Wrap version control system commandline interfaces</p>
 <p class="last">See: <a class="reference external" href="https://github.com/westurner/pyrpo">https://github.com/westurner/pyrpo</a></p>
 </dd>
+<dt><strong>usrlog.sh</strong></dt>
+<dd><strong>Log shell output</strong> with (by default, unique)
+TERM_IDs, PWD, start / finish times
+to <code class="docutils literal"><span class="pre">~/-usrlog.log</span></code>
+or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</span></code>.</dd>
 <dt><strong>usrlog.py</strong></dt>
 <dd>Search through <code class="docutils literal"><span class="pre">.usrlog</span></code> files</dd>
+<dt><strong>xlck.sh</strong></dt>
+<dd>Wrap <code class="docutils literal"><span class="pre">xautolock</span></code> for screensaver, shutdown, suspend, resume config
+(e.g. <code class="docutils literal"><span class="pre">.xinitrc</span></code> calls <code class="docutils literal"><span class="pre">xlck.sh</span> <span class="pre">-S</span></code>)</dd>
 <dt><strong>x-www-browser</strong></dt>
 <dd>Launch browser tabs for each argument (OSX, Linux, webbrowser)</dd>
 </dl>
@@ -1997,7 +2022,7 @@ Execute python expressions over line-based files.</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.7.1 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.7.2 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
