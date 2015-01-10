@@ -5226,7 +5226,7 @@ _APP='dotfiles'
 _WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/-wrk/-conda27/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 __DOTFILES='/Users/W/-dotfiles'
 #
 ### </end dotfiles .bashrc>
