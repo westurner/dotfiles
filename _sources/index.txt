@@ -9,7 +9,7 @@ Contents
    readme
    usage
    venv
-   tools/index
+   tools
    api
    developing
    changelog
