@@ -66,7 +66,7 @@ Apt
 
 APT ("Advanced Packaging Tool") is the core of Debian package management.
 
-An APT package repository serves :ref:`Dpkg` packages.
+An APT package repository serves :ref:`DEB` packages created with :ref:`Dpkg`.
 
 An APT package repository can be accessed from a local filesystem
 or over a network protocol ("apt transports") like HTTP, HTTPS, RSYNC, FTP,
