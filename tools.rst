@@ -49,10 +49,10 @@ There is a package maintainer whose responsibilities include:
 to repackage upstream releases for the target platform(s).
 
 
-.. index:: Apt
+.. index:: APT
 .. _apt:
 
-Apt
+APT
 ~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Advanced_Packaging_Tool>`_
 | Homepage: https://alioth.debian.org/projects/apt
