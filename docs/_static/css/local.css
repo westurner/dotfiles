@@ -10,3 +10,22 @@
     margin-top: -1px;
     padding-top: 4px;
 }
+
+div.sidebar ul ul {
+    padding-left: 20px;
+}
+
+div.sidebar pre {
+    font-size: 9px;
+}
+
+div.sidebar h3 {
+    padding-top: 14px;
+    padding-left: 8px;
+    font-size: 20px;
+}
+
+div.body h1 {
+    border-bottom: 1px solid rgb(208, 208, 208);
+    padding-bottom: 10px;
+}
