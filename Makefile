@@ -106,7 +106,9 @@ help_bash_txt: help_bash
 ZSH_LOAD_SCRIPT=scripts/_dotfiles_zsh.log.sh
 help_zsh_txt:
 	## Write zsh output to ZSH_LOAD_SCRIPT
-	_TERM_ID="#testing" zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1 || true
+	_TERM_ID="#testing" \
+		DISABLE_AUTO_UPDATE=true \
+		zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1 || true
 
 
 help_vim:
