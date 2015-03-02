@@ -127,7 +127,11 @@
                   <input type="hidden" name="area" value="default" />
                 </form>
             </li>
+
+            
+
           </ul>
+
         </div>
       </div>
     </div>
@@ -138,10 +142,94 @@
 
       <!-- row -->
       <div class="row">
-        
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Dotfiles</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
+<li><a class="reference internal" href="#source-the-dotfiles">Source the dotfiles</a></li>
+<li><a class="reference internal" href="#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#further-dotfiles-resources">Further Dotfiles Resources</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Contents</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="next chapter">Usage</a></p>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/readme.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/readme.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/readme.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/readme.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/readme.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
+    <h3><a href="https://westurner.github.io/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.github.io/dotfiles/">westurner.github.io/dotfiles/</a></li>
+        <li><a href="https://westurner.github.io/wiki/">westurner.github.io/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
         
 
-        <div class="col-md-7">
+        <div class="col-md-9" id="content-wrapper">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -381,91 +469,7 @@ $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
             </div>
           </div>
         </div>
-         
-<div class="col-md-5 hidden-xs" id="sidebar-wrapper">
-  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Dotfiles</a><ul>
-<li><a class="reference internal" href="#goals">Goals</a></li>
-<li><a class="reference internal" href="#installation">Installation</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
-<li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
-<li><a class="reference internal" href="#source-the-dotfiles">Source the dotfiles</a></li>
-<li><a class="reference internal" href="#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#usage">Usage</a><ul>
-<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#further-dotfiles-resources">Further Dotfiles Resources</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Contents</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="usage.html"
-                        title="next chapter">Usage</a></p>
-<div id="searchbox" role="search">
-  <h3>Quick search</h3>
-  <form class="search form-inline" action="search.html" method="get">
-      <div class="input-append input-group">
-        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
-        <span class="input-group-btn">
-        <input type="submit" class="btn" value="Go" />
-        </span>
-      </div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/readme.txt"
-            rel="nofollow"
-            target="_blank">Source RST</a></li>
-    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/readme.rst"
-            rel="nofollow"
-            target="_blank">Source</a></li>
-    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/readme.rst"
-            rel="nofollow"
-            target="_blank">Edit</a></li>
-     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/readme.rst"
-             rel="nofollow"
-             target="_blank">History</a></li>
-     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/readme.rst"
-             rel="nofollow"
-             target="_blank">Annotate</a></li>
-  </ul>
-  <h3>Source</h3>
-  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
-      / <a href="https://github.com/westurner/dotfiles/tree/master"
-                rel="nofollow"
-                target="_blank"
-                font="monospace">master</a>
-  </h5>
-
-  <ul>
-    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
-    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
-    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
-  </ul><div class="widget">
-    <h3><a href="https://westurner.github.io/">@westurner</a></h3>
-    <ul>
-        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
-        <li><a href="https://westurner.github.io/dotfiles/">westurner.github.io/dotfiles/</a></li>
-        <li><a href="https://westurner.github.io/wiki/">westurner.github.io/wiki/</a></li>
-    </ul>
-</div>
-  </div>
-</div> 
+        
         
       </div><!-- /row -->
 
@@ -482,7 +486,7 @@ $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
         <li><a href="usage.html" title="Usage" >next</a></li>
         <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="genindex.html" title="General Index" >index</a></li>
-        <li><a href="#">^top^</a></li> 
+        <li><a href="#">top</a></li> 
       
     </ul>
   </div>
@@ -491,7 +495,7 @@ $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 
       <!-- footer -->
       <footer role="contentinfo">
-          &copy; <a href="license.html">Copyright</a> 2014, Wes Turner.
+          &copy; Copyright 2014, Wes Turner.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
       </footer>
       <!-- /footer -->

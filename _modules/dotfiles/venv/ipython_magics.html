@@ -100,7 +100,11 @@
                   <input type="hidden" name="area" value="default" />
                 </form>
             </li>
+
+            
+
           </ul>
+
         </div>
       </div>
     </div>
@@ -111,10 +115,37 @@
 
       <!-- row -->
       <div class="row">
-        
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../../../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div><div class="widget">
+    <h3><a href="https://westurner.github.io/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.github.io/dotfiles/">westurner.github.io/dotfiles/</a></li>
+        <li><a href="https://westurner.github.io/wiki/">westurner.github.io/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
         
 
-        <div class="col-md-7">
+        <div class="col-md-9" id="content-wrapper">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -406,34 +437,7 @@
             </div>
           </div>
         </div>
-         
-<div class="col-md-5 hidden-xs" id="sidebar-wrapper">
-  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-<div id="searchbox" role="search">
-  <h3>Quick search</h3>
-  <form class="search form-inline" action="../../../search.html" method="get">
-      <div class="input-append input-group">
-        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
-        <span class="input-group-btn">
-        <input type="submit" class="btn" value="Go" />
-        </span>
-      </div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div><div class="widget">
-    <h3><a href="https://westurner.github.io/">@westurner</a></h3>
-    <ul>
-        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
-        <li><a href="https://westurner.github.io/dotfiles/">westurner.github.io/dotfiles/</a></li>
-        <li><a href="https://westurner.github.io/wiki/">westurner.github.io/wiki/</a></li>
-    </ul>
-</div>
-  </div>
-</div> 
+        
         
       </div><!-- /row -->
 
@@ -449,7 +453,7 @@
         <li><a href="../../../py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="../../../genindex.html" title="General Index" >index</a></li>
         <li><a href="../../index.html" >Module code</a></li>
-        <li><a href="#">^top^</a></li> 
+        <li><a href="#">top</a></li> 
       
     </ul>
   </div>
@@ -458,7 +462,7 @@
 
       <!-- footer -->
       <footer role="contentinfo">
-          &copy; <a href="../../../license.html">Copyright</a> 2014, Wes Turner.
+          &copy; Copyright 2014, Wes Turner.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
       </footer>
       <!-- /footer -->
