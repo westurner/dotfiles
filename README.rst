@@ -201,16 +201,9 @@ Upgrade the dotfiles
    scripts/bootstrap_dotfiles.sh -U
 
 
-Usage
-=======
-See: `Usage`_ and `Venv`_ for documentation.
-
-.. _usage: https://westurner.github.io/dotfiles/usage.html
-.. _venv: https://westurner.github.io/dotfiles/venv.html
-
 
 Quickstart
-------------
+============
 
 This is a verbose example of installing and working with a
 ``VIRTUAL_ENV`` in ``WORKON_HOME`` named "``dotfiles``".
@@ -263,6 +256,12 @@ See `Install the dotfiles`_ for more terse installation instructions.
     $_WRD/scripts/bootstrap_dotfiles.sh -h      # help
     $_WRD/scripts/bootstrap_dotfiles.sh -I      # or: make install
     $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
+
+
+See: `Usage`_ and `Venv`_ for further documentation.
+
+.. _usage: https://westurner.github.io/dotfiles/usage.html
+.. _venv: https://westurner.github.io/dotfiles/venv.html
 
 
 
