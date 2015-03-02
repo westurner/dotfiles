@@ -190,9 +190,9 @@ A :py:mod:`dotfiles.venv.ipython_config.Venv` object
 builds:
 
 * a :py:mod:`dotfiles.venv.ipython_config.Env` ``OrderedDict``
-with ``$VIRTUAL_ENV``-relative paths and environment variables
-in a common filesystem hierarchy
-* an ``OrderedDict`` of command aliases
+  with ``$VIRTUAL_ENV``-relative paths and environment variables
+  in a standard filesystem hierarchy
+* an ``OrderedDict`` of command and `CdAlias`_ aliases
   
 A :py:mod:`dotfiles.venv.ipython_config.Venv` object can then be
 serialized:
