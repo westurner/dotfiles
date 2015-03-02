@@ -21,7 +21,7 @@ There are a few parts to ``venv``:
   and `CdAlias`_
   scripts for :ref:`Bash`, :ref:`ZSH`, :ref:`IPython`, and :ref:`Vim`.
 
-* ``ipython_magics.py``
+* `ipython_magics.py`_
   (:py:mod:`dotfiles.venv.ipython_magics`) 
   configures
   :py:class:`CdAliases <dotfiles.venv.ipython_config.CdAlias>`
