@@ -96,7 +96,8 @@ source $ZSH/oh-my-zsh.sh
 if [ "$DISABLE_AUTO_UPDATE" != "true" ]; then
   /usr/bin/env ZSH=$ZSH DISABLE_UPDATE_PROMPT=$DISABLE_UPDATE_PROMPT zsh -f $ZSH/tools/check_for_upgrade.sh
 fi
-
+[Oh My Zsh] Would you like to check for updates?
+Type Y to update oh-my-zsh: 
 # Initializes Oh My Zsh
 
 # add a function path
@@ -4951,6 +4952,11 @@ fi
 SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-t5hPhvyXC3Ll/agent.70906; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=70908; export SSH_AGENT_PID;
 #echo Agent pid 70908;
+SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-gIcl0cPeCE26/agent.42058; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=42060; export SSH_AGENT_PID;
+#echo Agent pid 42060;
+starting ssh-agent...
+Identity added: /Users/W/.ssh/id_rsa (/Users/W/.ssh/id_rsa)
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
