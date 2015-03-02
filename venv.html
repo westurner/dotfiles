@@ -491,11 +491,11 @@ or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
 <p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object
 builds:</p>
 <ul class="simple">
-<li>a <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a> <code class="docutils literal"><span class="pre">OrderedDict</span></code></li>
+<li>a <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a> <code class="docutils literal"><span class="pre">OrderedDict</span></code>
+with <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths and environment variables
+in a standard filesystem hierarchy</li>
+<li>an <code class="docutils literal"><span class="pre">OrderedDict</span></code> of command and <a class="reference internal" href="#cdalias">CdAlias</a> aliases</li>
 </ul>
-<p>with <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths and environment variables
-in a common filesystem hierarchy
-* an <code class="docutils literal"><span class="pre">OrderedDict</span></code> of command aliases</p>
 <p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object can then be
 serialized:</p>
 <ul class="simple">
