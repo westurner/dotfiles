@@ -294,6 +294,9 @@ mkdir -p <span class="nv">$_WRD</span>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">__WRK</span><span class="o">=</span><span class="s2">&quot;~/-wrk&quot;</span>                    <span class="c"># cdwrk</span>
 <span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__WRK</span><span class="si">}</span><span class="s2">&quot;</span>           <span class="c"># cdph cdprojecthome</span>
 <span class="nv">WORKON_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__WRK</span><span class="si">}</span><span class="s2">/-ve27&quot;</span>      <span class="c"># cdwh cdworkonhome</span>
+<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;~/-dotfiles&quot;</span>          <span class="c"># cdd  cddotfiles</span>
+                                  <span class="c"># a very special symlink to</span>
+                                  <span class="c"># $WORKON_HOME/dotfiles/src/dotfiles</span>
 
 <span class="nv">__VENV</span><span class="o">=</span><span class="k">$(</span>which venv.py<span class="k">)</span><span class="p">;</span>
 <span class="nv">__VENV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span><span class="s2">/scripts/venv.py&quot;</span>  <span class="c"># 10-bashrc.venv.sh</span>
@@ -350,15 +353,18 @@ For example, <code class="docutils literal"><span class="pre">CdAlias('__WRD')</
 cdwrd
 cdwrd&lt;tab&gt;
 cdwrd docs/
+cdw docs/
 
 # IPython
 %cdwrd
 cdwrd
 cdwrd docs/
+cdw docs/
 
 # Vim
 :Cdwrk
 :Cdwrk docs/
+:Cdw docs/
 </pre></div>
 </div>
 <p>At build time, the dotfiles Makefile generates the venv CdAlias scripts
