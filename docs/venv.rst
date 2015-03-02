@@ -90,6 +90,9 @@ Verbosely:
    __WRK="~/-wrk"                    # cdwrk
    PROJECT_HOME="${__WRK}"           # cdph cdprojecthome
    WORKON_HOME="${__WRK}/-ve27"      # cdwh cdworkonhome
+   __DOTFILES="~/-dotfiles"          # cdd  cddotfiles
+                                     # a very special symlink to
+                                     # $WORKON_HOME/dotfiles/src/dotfiles
 
    __VENV=$(which venv.py);
    __VENV="${__DOTFILES}/scripts/venv.py"  # 10-bashrc.venv.sh
@@ -151,15 +154,18 @@ For example, ``CdAlias('__WRD')`` is expanded to
   cdwrd
   cdwrd<tab>
   cdwrd docs/
+  cdw docs/
 
   # IPython
   %cdwrd
   cdwrd
   cdwrd docs/
+  cdw docs/
 
   # Vim
   :Cdwrk
   :Cdwrk docs/
+  :Cdw docs/
 
 At build time, the dotfiles Makefile generates the venv CdAlias scripts
 like so:
