@@ -229,7 +229,7 @@ rst2html_all: build_setup
 
 copy_sidebar_to_footer:
 	echo '' > _Footer.rest
-	echo '`^top^ <#>`__' >> _Footer.rest
+	echo '`#top <#>`_' >> _Footer.rest
 	echo '' >> _Footer.rest
 	echo '*****' >> _Footer.rest
 	echo '' >> _Footer.rest
@@ -247,15 +247,37 @@ copy_sidebar_to_readme: copy_sidebar_to_home
 copy_sidebars:
 	$(MAKE) copy_sidebar_to_footer
 	#$(MAKE) copy_sidebar_to_home
-	#$(MAKE) copy_sidebar_to_readme
+	$(MAKE) copy_sidebar_to_readme
 
 copy_sidebars_and_commit:
 	$(MAKE) copy_sidebars
 	git add Home.rest _Footer.rest
 	git commit _Footer.rest _Home.rest README.rst \
-		-m "DOC: Regenerate _Home, _Sidebar, _Footer navigation"
+		-m "DOC: Regenerate _Home, _Sidebar, _Footer, and README navigation"
 
-build: copy_sidebars rst2html_all html
+STATIC:=./_static
+LOCALJS=$(STATIC)/js/local.js
+LOCALCSS=$(STATIC)/css/local.css
+
+localjs:
+	echo '' > $(LOCALJS)
+	cat $(STATIC)/js/ga.js >> $(LOCALJS)
+	cat $(STATIC)/js/newtab.js >> $(LOCALJS)
+	cat $(STATIC)/js/affix-sidenav.js >> $(LOCALJS)
+
+localcss:
+	echo '' > $(LOCALCSS)
+	cat $(STATIC)/css/custom.css >> $(LOCALCSS)
+	cat $(STATIC)/css/leftnavbar.css >> $(LOCALCSS)
+	cat $(STATIC)/css/wiki.css >> $(LOCALCSS)
+
+
+build: copy_sidebars rst2html_all localjs localcss html singlehtml
+
+docs: build
+
+open:
+	open _build/html/index.html
 
 #clean:
 #	rm -rf ./_build
@@ -264,12 +286,15 @@ commit:
 	git commit
 
 setup:
+	# setup install requirements
 	$(MAKE) setup_pip_requirements
 
 setup_pip_requirements:
+	# install setup requirements with pip
 	pip install -r ./requirements.txt
 
 setup_git_remotes:
+	# git remote set origin, wiki to WIKI_REPO_URL[.wiki.git]
 	# git clone ssh://git@$(WIKI_REPO_URL)
 	git remote remove origin || true
 	git remote add origin ssh://git@$(WIKI_REPO_URL)
@@ -277,10 +302,12 @@ setup_git_remotes:
 	git remote add wiki ssh://git@$(WIKI_REPO_URL).wiki.git
 
 pull:
+	# git pull from origin master, wiki master
 	git pull origin master
 	git pull wiki master
 
 push:
+	# git push to origin master, wiki master, origin gh-pages
 	git push origin master
 	git push -f wiki master
 	git push -f origin gh-pages
@@ -289,4 +316,3 @@ gh-pages:
 	# Push docs to gh-pages branch with a .nojekyll file
 	ghp-import -n -p ./_build/html/
 	#ghp-import -n -p ./docs/_build/singlehtml/
-
