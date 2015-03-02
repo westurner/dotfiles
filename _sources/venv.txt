@@ -3,40 +3,61 @@
 .. index:: Venv
 .. _venv:   
 
+======
 Venv
 ======
 
-Overview
-----------
-Venv makes working with :ref:`virtualenvwrapper`, :ref:`Bash`, 
+Venv makes working with :ref:`virtualenv`, 
+:ref:`virtualenvwrapper`, :ref:`Bash`, :ref:`ZSH`,
 :ref:`Vim`, and :ref:`IPython` within a project context very easy.
 
-There are a few parts to "``venv``":
+There are a few parts to ``venv``:
 
 * `ipython_config.py`_
-  (:py:mod:`dotfiles.venv.ipython_config`)
-  provides a `shell command`_ (``venv.py``)
-  for verbosely generating source-able `shell configuration`_
-  for a :ref:`virtualenv`
-  and :ref:`IPython`,
-  and generates
-  :py:class:`CdAlias <dotfiles.venv.ipython_config.CdAlias>`
-  scripts for Bash, ZSH, IPython, and Vim
+  (:py:mod:`dotfiles.venv.ipython_config`) configures IPython at
+  startup.
+* `venv.py`_ is a symlink to ``ipython_config.py``.
+* `venv.py`_ is a CLI script for generating `shell configuration`_
+  and `CdAlias`_
+  scripts for :ref:`Bash`, :ref:`ZSH`, :ref:`IPython`, and :ref:`Vim`.
 
-* `ipython_magics.py`_
+* ``ipython_magics.py``
   (:py:mod:`dotfiles.venv.ipython_magics`) 
   configures
   :py:class:`CdAliases <dotfiles.venv.ipython_config.CdAlias>`
-  (``cdwrk``, ``cdv``, ``cdsrc``, ``cdwrd``)
-  and ``dotfiles_status`` (``ds``)
+  and the ``dotfiles_status`` (``ds``) command
   for :ref:`IPython`.
 
-* `10-bashrc.venv.sh`_
-  (:ref:`Usage > Bash <dotfiles_bash_config>`) 
-   
-  * for :ref:`Bash` (and :ref:`ZSH`)
-  * sets ``$__WRK``, ``$__DOTFILES``, and ``$WORKON_HOME``;
-  * defines functions like ``we()`` and ``e()``
+* `10-bashrc.venv.sh`_ configures :ref:`Bash` at startup
+  (see: :ref:`Usage > Bash <dotfiles_bash_config>`)
+
+To configure a shell, print relevant env variables (twice),
+``cd`` to the working directory (``$_WRD``),
+and open ``README.rst`` in a named :ref:`Vim` server for an existing
+venv named ``dotfiles``:
+
+.. code-block:: bash
+
+   we dotfiles; ds; cdwrd; e README.rst
+ 
+.. note::
+    For a new venv (as might be created with ``mkvirtualenv dotfiles``),
+    the ``$_SRC`` and ``$_WRD`` directories do not yet exist. You can
+    create these like so:
+
+    .. code-block:: bash
+
+        ## _APP=dotfiles _WRD=$VIRTUAL_ENV/src/$_APP
+        mkdir -p $_WRD
+
+    Or, to create a more complete :ref:`FHS` tree of directories under
+    ``$VIRTUAL_ENV``:
+
+    .. code-block:: bash
+
+        venv_mkdirs; mkdir -p $_WRD
+
+        
 
 .. _10-bashrc.venv.sh:
     https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
@@ -47,137 +68,139 @@ There are a few parts to "``venv``":
 
 
 
-Quickstart
-===========
+
+Working With Venv
+===================
+
+To work on a venv:
 
 .. code-block:: bash
 
-
-    # print shell configuration for a (hypothetical) dotfiles virtualenv
-    venv --print-bash dotfiles
-
-    # print shell configuration for the current ${VIRTUAL_ENV} [and ${_WRD}]
-    venv --print-bash -E
-
-    # run a bash subprocess within a virtual env
-    venv -x bash dotfiles
-    venv -xb dotfiles
-
-    # workon a virtualenvwrapper virtualenv (source <(venv -E --print-bash))
     we dotfiles
 
-    # workon ${WORKON_HOME}/dotfiles/src/otherproject (echo $_APP $_WRD)
-    we dotfiles otherproject
+
+``we`` is an alias for ``workon_venv``, which does
+``source <(venv.py -q --print-bash --ve=dotfiles)``.
 
 
-Usage
-=========
+Verbosely:
 
 .. code-block:: bash
 
-
-   __WRK="~/-wrk"                                # cdwrk # workspace
-   __DOTFILES="~/-dotfiles"                      # cdd cddotfiles
-   PROJECT_HOME="${__WRK}"                       # cdph cdprojecthome
-   WORKON_HOME="${__WRK}/-ve27"                  # cdwh cdworkonhome
+   __WRK="~/-wrk"                    # cdwrk
+   PROJECT_HOME="${__WRK}"           # cdph cdprojecthome
+   WORKON_HOME="${__WRK}/-ve27"      # cdwh cdworkonhome
 
    __VENV=$(which venv.py);
-   # ${__DOTFILES}/src/dotfiles/venv/ipython_config.py  # source
-   # ${__DOTFILES}/etc/ipython/ipython_config.py        # symlink
-   # ~/.ipython/profile_default/ipython_config.py       # symlink
-   # ${__DOTFILES}/scripts/venv.py                      # symlink ($PATH)
-   # ${VIRTUAL_ENV}/bin/venv                      # setup.py console_script
-   # ~/.local/bin/venv                            # setup.py console_script
+   __VENV="${__DOTFILES}/scripts/venv.py"  # 10-bashrc.venv.sh
+   # venv()  { (set -x; $__VENV $@)    }   # 10-bashrc.venv.sh
+   # venv-() { (set -x; $__VENV -e $@) }   # 10-bashrc.venv.sh
 
-   __VENV="${__DOTFILES}/scripts/venv.py"               # 10-bashrc.venv.sh
-   # venv()                 -- (set -x; $__VENV $@)     # 10-bashrc.venv.sh
-   # venv-()                -- (set -x; $__VENV -e $@)  # 10-bashrc.venv.sh
-
+   # These all print venv.py --help:
    $__VENV --help
    venv.py --help
    venv -h
 
-   # Generate venv CdAlias scripts
-   venv.py --print-bash-cdalias . | tee venv_cdalias.sh
-   venv.py --print-ipython-cdalias . | tee venv_cdmagic.py
-   venv.py --print-vim . | tee venv.vim
-
-   # Generate venv configuration for the "dotfiles" virtualenv
+   # Print environment variables for the "dotfiles" venv:
    venv.py --print-vars --VIRTUAL_ENV="${WORKON_HOME}/dotfiles"
    venv.py --print-vars --virtual-env="${WORKON_HOME}/dotfiles"
    venv.py --print-vars --ve="${WORKON_HOME}/dotfiles"
    venv.py --print-vars --ve dotfiles
    venv.py --print-vars dotfiles
-   venv.py --print-vars dotfiles
+
+   # Generate a source-able Bash configuration script
    venv.py --print-bash dotfiles
 
-   ## Workon the dotfiles virtualenv
-   source <(venv.py -q --print-bash dotfiles)
+   ## Workon the dotfiles virtualenv (in the current shell)
+   we dotfiles
 
-   ## Workon the dotfiles virtualenv (with a bash subprocess)
+   ## Workon the dotfiles virtualenv (with a bash subshell)
+   venv.py -x bash dotfiles
    venv.py -xb dotfiles
 
-   ## Workon the dotfiles virtualenv (after virtualenvwrapper workon)
-   workon dotfiles
-   source <(venv.py -q --print-bash --from-environ)
 
+.. note:: The following commands are different to argparse
+   (argument order matter with positional arguments)
 
-   ## Note: the following two commands are different to argparse:
-   ## (positional VENVSTR and VENVSTRAPP must come last,
-   ##  or be specified as --ve and --app)
-   venv dotfiles --print-bash        # does not work
-   venv --print-bash dotfiles        # does work
+   .. code-block:: bash
+
+       venv dotfiles --print-bash        # does not work
+       venv --print-bash dotfiles        # does work
+
+       # As a workaround, be explicit
+       venv --ve=dotfiles --print-bash   # does work
 
 
 CdAlias
 -----------------
-Each :py:class:`CdAlias <dotfiles.venv.ipython_config.CdAlias>`
-in ``env.aliases`` is expanded for each output type.
+Virtualenv paths can be really long.
 
-For example, ``CdAlias('__WRK')`` becomes ``cdwrk``, ``%cdwrk``, and ``:Cdwrk``:
+CdAliases make it easy to jump around to ``venv`` defined variables
+(like ``$_WRK`` (cdwrk), ``$WORKON_HOME`` (cdwh), ``VIRTUAL_ENV`` (cdv),
+``$_SRC`` (cds), and ``$_WRD`` (cdw)).
+
+Each :py:class:`CdAlias <dotfiles.venv.ipython_config.CdAlias>`
+defined in ``env.aliases`` is expanded for Bash, IPython, and Vim.
+For example, ``CdAlias('__WRD')`` is expanded to
+``cdwrd``, ``cdw``; ``%cdwrd``, ``cdw``, and ``:Cdwrk``,
+``:Cdw``:
 
 .. code:: bash
 
   # Bash
-  cdwrk
-  cdwrk<tab>
-  cdwrk -ve27
+  cdwrd
+  cdwrd<tab>
+  cdwrd docs/
 
   # IPython
-  %cdwrk
-  cdwrk
-  cdwrk -ve27
+  %cdwrd
+  cdwrd
+  cdwrd docs/
 
   # Vim
-  call Cd___WRK()
   :Cdwrk
-  :Cdwrk -ve27
+  :Cdwrk docs/
+
+At build time, the dotfiles Makefile generates the venv CdAlias scripts
+like so:
+
+.. code:: bash
+
+    # Generate venv CdAlias scripts
+    venv.py --print-bash-cdalias . | tee venv_cdalias.sh
+    venv.py --print-ipython-cdalias . | tee venv_cdmagic.py
+    venv.py --print-vim . | tee venv.vim
 
 
-
-Usage
-------
-
-Shell Command
-~~~~~~~~~~~~~~
+venv.py
+--------------
 .. command-output:: python ../src/dotfiles/venv/ipython_config.py --help
    :shell:
 
 
 Python API
 ~~~~~~~~~~~~
-Python API (see Test_Env, Test_venv_main):
 A :py:mod:`dotfiles.venv.ipython_config.Venv` object
-builds a :py:mod:`dotfiles.venv.ipython_config.Env` OrderedDict
-(``.env``)
+builds:
+
+* a :py:mod:`dotfiles.venv.ipython_config.Env` ``OrderedDict``
 with ``$VIRTUAL_ENV``-relative paths and environment variables
 in a common filesystem hierarchy
-and an OrderedDict of
-command aliases (``.aliases``), which can be serialized to
-a bash script (``venv --bash``), JSON (``venv --print``),
-and IPython configuration.
+* an ``OrderedDict`` of command aliases
+  
+A :py:mod:`dotfiles.venv.ipython_config.Venv` object can then be
+serialized:
 
+* ``--print-vars`` -- easy to read variables
+* ``--print-json`` -- quoted and escaped JSON
+* ``--print-bash`` -- quoted and escaped shell script
+* IPython ``%alias`` configuration dict (see ``%alias?``)
 
+There are a number of ``unittest.TestCase`` tests in
+:py:mod:`dotfiles.venv.ipython_config` (`ipython_config.py`_)
+for each of the build steps.
+
+``venv --verbose --show-diffs`` shows what is going on.
 
 
 Example Venv Configuration
@@ -190,6 +213,9 @@ Shell Configuration
 .. command-output:: python ../scripts/venv.py --print-bash --compress dotfilesx dotfilesx/docs \
    | sed "s,${HOME},~,g"
    :shell:
+
+.. note:: The ``--compress`` option is for documentation purposes only;
+   without this option, paths are expanded in full.
 
 
 JSON Configuration
@@ -228,5 +254,3 @@ To define a script environment just like venv:
    (set -x; test "$_WRD" == "${HOME}/-wrk/-ve27/dotfiles/src/dotfiles"; \
        || echo "Exception: _WRD = '${_WRD}';" )
 
-SeeAlso: ``unittest.TestCase`` tests in :py:mod:`dotfiles.venv.ipython_config`
-(`ipython_config.py`_).
