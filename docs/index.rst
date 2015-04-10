@@ -1,7 +1,7 @@
 
 
-Contents
-==========
+westurner/dotfiles
+===================
 
 .. toctree::
    :maxdepth: 4

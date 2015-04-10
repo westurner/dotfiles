@@ -9,7 +9,7 @@ Usage
 * Shell with `Bash`_ (:ref:`Bash`, :ref:`ZSH`)
 * Edit text files with `Vim`_ (:ref:`Vim`)
 * Manage windows on :ref:`Linux` platforms with `I3wm`_ (:ref:`I3wm`)
-* :ref:`Script <scripts>` all the `things <http://schema.org/Thing>`__
+* `Script <scripts>`_ all the `things <http://schema.org/Thing>`__
 
 
 .. index:: bootstrap_dotfiles.sh

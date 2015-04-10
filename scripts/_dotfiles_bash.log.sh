@@ -2451,7 +2451,7 @@ workon_venv() {
     #append to shell history
     history -a
 
-    if [ -n "$1" ] && ([ -d "$WORKON_HOME/$1" ] || [ -d "${1}"]); then
+    if [ -n "$1" ] && ( test -d "$WORKON_HOME/$1" || test -d "${1}" ); then
         workon $1 && \
         source <($__VENV --print-bash $@) && \
         dotfiles_status && \
@@ -2459,7 +2459,7 @@ workon_venv() {
             && venv_set_prompt ${_TERM_ID:-$1}
     else
         #if no arguments are specified, list virtual environments
-        lsvirtualenv
+        lsvirtualenvs
         return 1
     fi
 }
@@ -3068,7 +3068,7 @@ eval 'cdls () {
 cdls () {
     set | grep "^cd.*()" | cut -f1 -d" " #$@
 }
-alias cdhelp="cat $__DOTFILES${_ETC}/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
+alias cdhelp="cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
 eval 'edit- () {
     ${_EDIT_} $@
 }';
