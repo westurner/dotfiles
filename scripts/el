@@ -23,6 +23,7 @@ Usage:
 from __future__ import print_function
 import logging
 import os
+import shlex
 import subprocess
 import sys
 
@@ -64,11 +65,12 @@ def main(argv=None):
         argv = []
     else:
         _argv = argv[:]
+        _argv
 
+    cmdargs = None
     if '-x' in argv:
-        switch = '-x'
         xpos = argv.index('-x')
-        cmdargs = argv[xpos+1:]  # XXX
+        cmdargs = argv[xpos+1:]  # XXX: take everything after -x as cmdargs
         cmd = cmdargs  # + args
         argv = argv[0:xpos]
 
@@ -136,7 +138,7 @@ def main(argv=None):
             return RET_ERR_EDITOR
         editor = shlex.split(editorstr)
         log.debug("## editor: %r" % editor)
-        cmd = editor # + args
+        cmd = editor  # + args
     log.debug('## cmdarg: %r' % cmd)
     log.debug('## cmdstr: %r' % to_cmdstr(cmd))
 
