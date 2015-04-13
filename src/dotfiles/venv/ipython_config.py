@@ -1546,12 +1546,12 @@ def build_user_aliases_env(env=None,
     if os.path.exists(_WRD) or dont_reflect:
         env['_WRD'] = _WRD
         env['_WRD_SETUPY'] = joinpath(_WRD, 'setup.py')
-        env['_TEST_'] = "(cdwrd && python {_WRD_SETUPY} test)".format(
+        env['_TEST_'] = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
             _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
             )
         aliases['test-'] = env['_TEST_']
         aliases['testr-'] = 'reset && %s' % env['_TEST_']
-        aliases['nose-'] = '(cdwrd && nosetests)'
+        aliases['nose-'] = '(cd {_WRD} && nosetests)'
 
         aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
             _WRD=shell_varquote('_WRD'))
@@ -1576,10 +1576,10 @@ def build_user_aliases_env(env=None,
         aliases['editcfg'] = "{_EDITCFG} %l".format(
             _EDITCFG=shell_varquote('_EDITCFG_'))
         # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
-        env['_SHELL_'] = "(cdwrd && {_BIN}/pshell {_CFG})".format(
+        env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
             _BIN=shell_varquote('_BIN'),
             _CFG=shell_varquote('_CFG'),)
-        env['_SERVE_'] = ("(cdwrd && {_BIN}/pserve"
+        env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
                           " --app-name=main"
                           " --reload"
                           " --monitor-restart {_CFG})").format(
@@ -1597,7 +1597,7 @@ def build_user_aliases_env(env=None,
         str(x) for x in PROJECT_FILES)
     aliases['editp'] = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
 
-    aliases['makewrd'] = "(cdwrd && make %l)"
+    aliases['makewrd'] = "(cd {_WRD} && make %l)"
     aliases['makew']   = aliases['makewrd']
     aliases['make-']   = aliases['makewrd']
     aliases['mw']      = aliases['makewrd']
@@ -1920,11 +1920,11 @@ class Env(object):
         ("_IPYSESKEY", "${_SRC}/.ipyseskey"),
         ("_IPQTLOG", "${VIRTUAL_ENV}/.ipqt.log"),
         ("_WRD_SETUPY", "${_WRD}/setup.py"),
-        ("_TEST_", "(cdwrd && python \"${_WRD_SETUPY}\" test)"),
+        ("_TEST_", "(cd {_WRD} && python \"${_WRD_SETUPY}\" test)"),
         ("_CFG", "${_ETC}/development.ini"),
         ("_EDITCFG_", "/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini"),
-        ("_SHELL_", "(cdwrd && \"${_BIN}\"/pshell \"${_CFG}\")"),
-        ("_SERVE_", "(cdwrd && \"${_BIN}\"/pserve --app-name=main --reload --monitor-restart \"${_CFG}\")"),
+        ("_SHELL_", "(cd {_WRD} && \"${_BIN}\"/pshell \"${_CFG}\")"),
+        ("_SERVE_", "(cd {_WRD} && \"${_BIN}\"/pserve --app-name=main --reload --monitor-restart \"${_CFG}\")"),
         ("_SVCFG", "${_ETC}/supervisord.conf"),
         ("_SVCFG_", " -c \"${_ETC}/supervisord.conf\""),
         ("__USRLOG", "${HOME}/-usrlog.log"),
