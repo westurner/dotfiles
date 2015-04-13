@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 """
 el
 ==
@@ -10,7 +11,10 @@ Usage:
 .. code:: bash
 
     # edit files from ls
-    ls | el
+    ls | el -e
+
+    # edit files from find -print0
+    find . -depth 1 -print0 | el -0 -e
 
     # print lines from stdin
     printf "one\ntwo" | el --each -x echo
@@ -20,21 +24,30 @@ Usage:
     find . -type f -print0 | el -0 --each -x echo
 
 """
-from __future__ import print_function
+
+import codecs
+import distutils
 import logging
 import os
+import shlex
 import subprocess
 import sys
 
 log = logging.getLogger('el')
 
+DEFAULT_ENCODING = 'UTF7'
 
 RET_ERR_EDITOR = 3
 
-def print_help():
-    print("%s [-h] [-q] [-0]" % sys.argv[0])
+def print_help(file=sys.stdout):
+    def print(*args, **kwargs):
+        kwargs['file'] = file
+        return __builtins__.print(*args, **kwargs)
+    print("%s [-h] [-q] [-0] [-e] [-x <cmd>]" % sys.argv[0])
     print("")
-    print("  --each|--map  ## for arg in args; do cmd arg; done")
+    print(" el (Edit Lines): a line-based UNIX utility similar to xargs.")
+    print("")
+    print("  --each|--map  ## for arg in args; do cmd.format(arg); done")
     print("  -f|--force    ## continue on error")
     print("")
     print("  -x  ## execute command")
@@ -47,29 +60,140 @@ def print_help():
     print("")
 
 
-def to_cmdstr(args):
-    _str = u''
-    quoted_args = []
-    for arg in args:
-        argstr = arg
-        if ' ' in args:  # TODO: re.match('\s',re.UNICODE)
-            argstr = "'%s'" % arg
-        quoted_args.append(argstr)
-    return ' '.join(quoted_args)
+class Cmd(object):
+    def __init__(self, cmdlist):
+        self.cmdlist = cmdlist
 
 
-def main(argv=None):
+    @property
+    def cmd(self):
+        """
+        Returns:
+            list: an executable command
+        """
+        cmd = self._process_cmd(self.cmdlist)
+        # log.debug('_process_cmd: %r' % cmd)
+        return cmd
+
+    @staticmethod
+    def _to_cmdstr(args):
+        _str = u''
+        quoted_args = []
+        for arg in args:
+            argstr = arg
+            if ' ' in args:  # TODO: re.match('\s',re.UNICODE)
+                argstr = "'%s'" % arg
+            quoted_args.append(argstr)
+        return ' '.join(quoted_args)
+
+    def __str__(self):
+        return 'Cmd(%r) -> %r' % (
+            self.cmdlist, self._to_cmdstr(self.cmd))
+
+    @staticmethod
+    def _process_cmd(cmdlist):
+        find_executable = False
+        cmd = ' '.join(cmdlist)
+        if ' ' not in cmd:
+            if '/' not in cmd:
+                find_executable = True
+        else:
+            find_executable = True
+        if find_executable is False:
+            return cmdlist
+        else:
+            binname = cmdlist[0]
+            binpath = distutils.spawn.find_executable(binname)
+            if not binpath:
+                raise Exception("%r not found" % binname)
+            cmd_output = cmdlist[:]
+            cmd_output[0] = binpath
+            return cmd_output
+
+    @staticmethod
+    def _render_cmd(cmd, args, join_args=None):
+        log.debug('render_cmd(cmd,args): (%r, %r)' % (cmd, args))
+        def _render_cmd_iter(cmd, args, join_args=join_args):
+            added = False
+            for token in cmd:
+                if token and '{0}' in token:  # todo: support escaped '{{0}}', w/ regex (?)
+                    if token == '{0}':
+                        for x in args:
+                            yield x
+                        added = True
+                    else:
+                        if join_args:
+                            if isinstance(join_args, basestring):
+                                join_args = join_args.join
+                            argstr = join_args(args)
+                        else:
+                            argstr = args
+                        _token = token.format(argstr)  # TODO: does this mangle
+                        yield _token
+                        added = True
+                else:
+                    yield token
+        cmd = list(_render_cmd_iter(cmd, args))
+        log.debug('_render_cmd: %r' % cmd)
+        return cmd
+
+    def render(self, args, join_args=None):
+        cmd = self._render_cmd(self.cmd, args, join_args=None)
+        return cmd
+
+    @staticmethod
+    def get_editor_cmdlist():
+        env = os.environ
+        EDITOR = env.get('EDITOR')
+        EDITOR_ = env.get('EDITOR_')
+        log.debug("EDITOR=%r" % EDITOR)
+        log.debug("EDITOR_=%r" % EDITOR_)
+        editorstr = EDITOR_ or EDITOR
+        if editorstr is None:
+            log.error("Neither EDITOR_ nor EDITOR are set")
+            return RET_ERR_EDITOR
+        editor_cmdlist = shlex.split(editorstr)
+        log.debug("editor_cmdlist: %r" % editor_cmdlist)
+        return editor_cmdlist
+
+    @classmethod
+    def OpenEditorCmd(cls):
+        return cls(cls.get_editor_cmdlist())
+
+    @staticmethod
+    def _call(args, **kwargs):
+        return subprocess.call(args, **kwargs)
+
+    def run(self, args, **kwargs):
+        cmd = self.render(args, join_args=kwargs.pop('join_args', None))
+        log.info("cmd.run: %s" % cmd)
+        return self._call(cmd, **kwargs)
+
+
+class Conf(object):
+    pass
+
+
+def main(argv=None, stderr=sys.stderr):
 
     if argv is None:
         argv = []
     else:
         _argv = argv[:]
 
+    conf = Conf()
+    conf.cmd = None
+
+    cmdlist = None
     if '-x' in argv:
         switch = '-x'
         xpos = argv.index('-x')
-        cmdargs = argv[xpos+1:]  # XXX
-        cmd = cmdargs  # + args
+        cmdlist = argv[xpos+1:]
+        if len(cmdlist) == 1:
+            quotechars = '"\''
+            cmdstr = cmdlist[0].strip(quotechars)
+            cmdlist = shlex.split(cmdstr)
+        conf.cmd = Cmd(cmdlist)
         argv = argv[0:xpos]
 
     if '-h' in argv or '--help' in argv:
@@ -77,98 +201,104 @@ def main(argv=None):
         return 0
 
     if '-v' in argv:
-        logging.basicConfig(
-            level=logging.DEBUG)
-        argv.remove('-v')
+        count = argv.count('-v')
+        if count == 1:
+            logging.basicConfig(
+                level=logging.INFO)
+            argv.remove('-v')
+        if count == 2:
+            logging.basicConfig(
+                level=logging.DEBUG)
+            argv.remove('-v')
+            argv.remove('-v')
 
-    all_at_once = True
-    one_at_a_time = False
+    if '-t' in argv:
+        argv.remove('-t')
+        return unittest.main()
+
+    conf.open_in_editor = False
+    if '-e' in argv:
+        conf.open_in_editor = True
+        conf.cmd = Cmd.OpenEditorCmd()
+
+    if not (cmdlist or '-e' in argv):
+        errmsg = """Error: Must specify '-e' or '-x <cmd>' or '-x "cmd''"""
+        print(errmsg, file=sys.stderr)
+        print("", file=sys.stderr)
+        print_help()
+        # prs.error()
+        return 7
+
+    conf.all_at_once = True
+    conf.one_at_a_time = False
     for x in ['--each', '--map']:
         if x in argv:
-            one_at_a_time = True
-            all_at_once = False
+            conf.one_at_a_time = True
+            conf.all_at_once = False
             argv.remove(x)
 
-    stop_on_error = True
+    conf.stop_on_error = True
     if '-f' in argv or '--force' in argv:
-        stop_on_error = False
+        conf.stop_on_error = False
     if '--stop-on-error' in argv:
-        stop_on_error = True
+        conf.stop_on_error = True
+
+    _stdin = codecs.getreader(DEFAULT_ENCODING)(sys.stdin)
 
     if '-0' in argv:
-        text = sys.stdin.read()
+        text = _stdin.read()
         lines = args = text.split('\0')  # TODO: itersplit
     else:
-        if one_at_a_time:
-            #lines_iter = ((l, l.strip()) for l in sys.stdin)
-            #args = (x[1] for x in lines_iter)
-            #args = (l.strip() for l in sys.stdin)
-            def iter_stdin(stdin):
-                for line in stdin:
-                    log.debug("> %r" % line)
-                    l = line.strip()
-                    if l:
-                        yield l
-            lines = iter(sys.stdin)
-            args = iter_stdin(lines)
-        else:
-            args = []
-            lines = []
-            for line in sys.stdin:
-                log.debug("> %r" % line)
-                lines.append(line)
-                args.append(line.strip())
+        def iter_stdin(stdin):
+            for line in stdin:
+                log.debug(">>> %r" % line)
+                l = line.strip()
+                if l:
+                    yield l
+        lines = iter(_stdin)
+        args = list(iter_stdin(lines))
 
-    log.debug("## Reading from stdin:")
-    if all_at_once:
-        log.debug('\n' + ''.join(lines))
-    elif one_at_a_time:
-        log.debug("%r" % lines)
-    log.debug("## args: %r" % args)
-
-    if cmdargs:
-        cmd = cmdargs  # + args
-    else:
-        env = os.environ
-        editorstr = env.get('EDITOR_', env.get('EDITOR'))
-        if editorstr is None:
-            log.error("Neither EDITOR_ nor EDITOR are set")
-            return RET_ERR_EDITOR
-        editor = shlex.split(editorstr)
-        log.debug("## editor: %r" % editor)
-        cmd = editor # + args
-    log.debug('## cmdarg: %r' % cmd)
-    log.debug('## cmdstr: %r' % to_cmdstr(cmd))
-
+    log.info('cmd: %s' % conf.cmd)
+    log.debug("args: %r" % args)
     retcode = 0
-    if all_at_once:
-        _cmd = cmd + args
-        log.debug("# cmdarg: %r" % _cmd)
-        log.debug("# cmdstr: %r" % to_cmdstr(_cmd))
-        retcode = subprocess.call(_cmd)
-    elif one_at_a_time:
+    if conf.all_at_once:
+        retcode = conf.cmd.run(args, join_args=' ')
+    elif conf.one_at_a_time:
         retcode = 0
         error_count = 0
-        for path in args:
-            _cmd = cmd + [path]
-            log.debug("# cmdarg: %r" % _cmd)
-            log.debug("# cmdstr: %r" % to_cmdstr(_cmd))
-            _retcode = subprocess.call(_cmd)
-            log.debug("# _retcode: %d" % _retcode)
+        for arg in args:
+            _args = [arg]
+            _retcode = conf.cmd.run(_args)
+            log.debug("cmd.retcode: %d" % _retcode)
             if _retcode != 0:
                 retcode += _retcode
                 error_count += 1
-                if stop_on_error:
+                if conf.stop_on_error:
                     print("ERROR: Stopping early (use -f to continue on errors)",
                           file=sys.stderr)
                     break
     else:
-        log.info(_cmd)
+        log.info(conf.cmd)
         log.info(args)
     return retcode
 
 
+import unittest
+class TestEl(unittest.TestCase):
+    def test_main_help(self):
+        cmd = ['-h']
+        retcode = main(argv=cmd)
+        self.assertEqual(retcode, 0)
 
+    def test_main_must_specify_x_or_e(self):
+        cmd = ['-v']
+        retcode = main(argv=cmd)
+        self.assertEqual(retcode, 7)
+
+    def test_main_x(self):
+        cmd = ['-x', 'ls', '-l']
+        retcode = main(argv=cmd)
+        self.assertEqual(retcode, 0)
 
 if __name__ == "__main__":
     sys.exit(main(argv=sys.argv))
