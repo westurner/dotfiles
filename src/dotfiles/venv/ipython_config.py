@@ -1547,11 +1547,13 @@ def build_user_aliases_env(env=None,
         env['_WRD'] = _WRD
         env['_WRD_SETUPY'] = joinpath(_WRD, 'setup.py')
         env['_TEST_'] = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
+            _WRD=shell_varquote('_WRD'),
             _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
             )
         aliases['test-'] = env['_TEST_']
         aliases['testr-'] = 'reset && %s' % env['_TEST_']
-        aliases['nose-'] = '(cd {_WRD} && nosetests)'
+        aliases['nose-'] = '(cd {_WRD} && nosetests)'.format(
+            _WRD=shell_varquote('_WRD'))
 
         aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
             _WRD=shell_varquote('_WRD'))
@@ -1578,13 +1580,15 @@ def build_user_aliases_env(env=None,
         # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
         env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
             _BIN=shell_varquote('_BIN'),
-            _CFG=shell_varquote('_CFG'),)
+            _CFG=shell_varquote('_CFG'),
+            _WRD=shell_varquote('_WRD'))
         env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
                           " --app-name=main"
                           " --reload"
                           " --monitor-restart {_CFG})").format(
             _BIN=shell_varquote('_BIN'),
-            _CFG=shell_varquote('_CFG'))
+            _CFG=shell_varquote('_CFG'),
+            _WRD=shell_varquote('_WRD'))
         aliases['serve-'] = env['_SERVE_']
         aliases['shell-'] = env['_SHELL_']
     else:
@@ -1597,7 +1601,9 @@ def build_user_aliases_env(env=None,
         str(x) for x in PROJECT_FILES)
     aliases['editp'] = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
 
-    aliases['makewrd'] = "(cd {_WRD} && make %l)"
+    aliases['makewrd'] = "(cd {_WRD} && make %l)".format(
+            _WRD=shell_varquote('_WRD'))
+
     aliases['makew']   = aliases['makewrd']
     aliases['make-']   = aliases['makewrd']
     aliases['mw']      = aliases['makewrd']
