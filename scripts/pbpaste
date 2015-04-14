@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Shim to support something like pbpaste on Linux
+__IS_MAC=${__IS_MAC:-$(test $(uname -s) == "Darwin" && echo 'true')}
+if [ -n "${__IS_MAC}" ]; then
+    /usr/bin/pbpaste ${@}
+else
+    xclip -selection clipboard -o
+fi
