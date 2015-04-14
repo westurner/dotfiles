@@ -38,9 +38,19 @@ log = logging.getLogger('el')
 
 DEFAULT_ENCODING = 'UTF8'
 
+RET_OK = 0
 RET_ERR_EDITOR = 3
+RET_ERR_ARGS_EXPECTED = 7
+RET_ERR_IN_A_SUBCOMMAND = 22
+
 
 def print_help(file=sys.stdout):
+    """
+    Print help/usage information
+
+    Keyword Arguments:
+        file (file-like): file to ``print`` to (e.g. ``sys.stdout``)
+    """
     def print(*args, **kwargs):
         kwargs['file'] = file
         return __builtin__.print(*args, **kwargs)
@@ -62,48 +72,44 @@ def print_help(file=sys.stdout):
 
 
 class Cmd(object):
-    def __init__(self, cmdlist):
+    """
+    A shell command as a list that can be rendered with arguments.
+
+    (To avoid using string concatenation for OS commands; and instead
+    work with lists of arguments.)
+    """
+
+    def __init__(self, cmdlist=None):
+        self.set_cmdlist(cmdlist)
+
+    def set_cmdlist(self, cmdlist):
+        """
+        Set self.cmdlist (and self.cmd)
+
+        Args:
+            cmdlist (list[str]): shell command 'tokens'
+        """
+        if cmdlist is None:
+            cmdlist = []
         self.cmdlist = cmdlist
-
-
-    @property
-    def cmd(self):
-        """
-        Returns:
-            list: an executable command
-        """
-        cmd = self._process_cmd(self.cmdlist)
-        # log.debug('_process_cmd: %r' % cmd)
-        return cmd
-
-    @staticmethod
-    def _to_cmdstr(args):
-        _str = u''
-        quoted_args = []
-        for arg in args:
-            argstr = arg
-            if ' ' in args:  # TODO: re.match('\s',re.UNICODE)
-                argstr = "'%s'" % arg
-            quoted_args.append(argstr)
-        return ' '.join(quoted_args)
+        self.cmd = self._process_cmd(self.cmdlist)
+        # log.debug('cmd.set_cmdlist: %r' % cmd)
 
     def __str__(self):
-        return 'Cmd(%r) -> %r' % (
-            self.cmdlist, self._to_cmdstr(self.cmd))
+        return u'Cmd(%r)' % (self.cmdlist)
 
     @staticmethod
     def _process_cmd(cmdlist):
+        """
+        If cmdlist[0] is not a path
+        """
+        binname = cmdlist[0]
         find_executable = False
-        cmd = ' '.join(cmdlist)
-        if ' ' not in cmd:
-            if '/' not in cmd:
-                find_executable = True
-        else:
+        if '/' not in binname:
             find_executable = True
         if find_executable is False:
             return cmdlist
         else:
-            binname = cmdlist[0]
             binpath = distutils.spawn.find_executable(binname)
             if not binpath:
                 raise Exception("%r not found" % binname)
@@ -112,12 +118,38 @@ class Cmd(object):
             return cmd_output
 
     @staticmethod
-    def _render_cmd(cmd, args, join_args=None):
+    def _render_cmd(cmd, args, join_args=None, always_append_args=True):
+        """
+        Render a command like a template; with arguments as the context.
+
+        Insert or append args to the ``cmd`` list where ``{0}`` is found,
+        or, at the end, if ``{0}`` is not found
+        and ``always_append_args`` is ``True``.
+
+        Arguments:
+            cmd (list[str]): a list of commands, optionally containing ``{0}``
+                if ``{0}`` occurs in the middle of a term (e.g. is not quoted),
+                the arguments will be joined together with ``join_args``
+            args (list[str]): zero or more arguments to insert at ``{0}``
+                or append, if ``always_append_args`` is ``True.
+
+        Keyword Arguments:
+            join_args (None, str, or callable): function to join arguments by.
+                If ``join_args`` is a ``str``, the callable is ``strvalue.join``.
+                If ``join_args`` is ``None``, the arguments will not be joined.
+            always_append_args (bool): whether to append arguments by default
+                when the ``{0}`` pattern is not found
+
+        Returns:
+            list[str]: a command to execute (e.g. with ``subprocess.Popen``)
+        """
         log.debug('render_cmd(cmd,args): (%r, %r)' % (cmd, args))
+
         def _render_cmd_iter(cmd, args, join_args=join_args):
             added = False
             for token in cmd:
-                if token and '{0}' in token:  # todo: support escaped '{{0}}', w/ regex (?)
+                # todo: support escaped '{{0}}', w/ regex (?)
+                if token and '{0}' in token:
                     if token == '{0}':
                         for x in args:
                             yield x
@@ -134,13 +166,61 @@ class Cmd(object):
                         added = True
                 else:
                     yield token
+            if not added and always_append_args:
+                for x in args:
+                    yield x
         cmd = list(_render_cmd_iter(cmd, args))
         log.debug('_render_cmd: %r' % cmd)
         return cmd
 
-    def render(self, args, join_args=None):
-        cmd = self._render_cmd(self.cmd, args, join_args=None)
+    def render(self, args, join_args=None, always_append_args=True):
+        """
+        Call :py:method:`_render_cmd` with ``self.cmd`` and ``args
+        """
+        cmd = self._render_cmd(self.cmd, args,
+                               join_args=None,
+                               always_append_args=True)
         return cmd
+
+    @staticmethod
+    def _call(args, **kwargs):
+        """
+        Wraps subprocess.call
+
+        Arguments:
+            args (list[str]): args for subprocess.call
+                (subprocess.Popen.__init__:args[0])
+
+        Returns:
+            int: OS retcode from ``subprocess.call``
+        """
+        log.debug('subprocess.call(args,kwargs): (%r, %r)' % (args, kwargs))
+        return subprocess.call(args, **kwargs)
+
+    def run(self, args, **kwargs):
+        """
+        Preprocess args, render, and run the command with the given arguments
+
+        Arguments:
+            args (list[str]): arguments with which to render self.cmdlist
+                (e.g. as args for subprocess.call (subprocess.Popen)).
+
+        Returns:
+            int: OS retcode from ``subprocess.call``
+        """
+        if hasattr(self, 'preprocess_args'):
+            args = self.preprocess_args(args)
+            log.debug("cmd.preprocess_args [%s]: %r" % (
+                self.__class__.__name__, args))
+        cmd = self.render(args, join_args=kwargs.pop('join_args', None))
+        log.info("cmd.run: %s" % cmd)
+        return self._call(cmd, **kwargs)
+
+
+class OpenEditorCmd(Cmd):
+
+    def __init__(self, *args, **kwargs):
+        self.set_cmdlist(self.get_editor_cmdlist())
 
     @staticmethod
     def get_editor_cmdlist():
@@ -157,18 +237,13 @@ class Cmd(object):
         log.debug("editor_cmdlist: %r" % editor_cmdlist)
         return editor_cmdlist
 
-    @classmethod
-    def OpenEditorCmd(cls):
-        return cls(cls.get_editor_cmdlist())
-
-    @staticmethod
-    def _call(args, **kwargs):
-        return subprocess.call(args, **kwargs)
-
-    def run(self, args, **kwargs):
-        cmd = self.render(args, join_args=kwargs.pop('join_args', None))
-        log.info("cmd.run: %s" % cmd)
-        return self._call(cmd, **kwargs)
+    def preprocess_args(self, args):
+        """
+        If the line starts with +, shlex.split the args
+        """
+        if args and len(args) == 1 and args[0][0].lstrip()[0] == '+':
+            args = shlex.split(args[0])
+        return args
 
 
 class Conf(object):
@@ -220,15 +295,15 @@ def main(argv=None, stderr=sys.stderr):
     conf.open_in_editor = False
     if '-e' in argv:
         conf.open_in_editor = True
-        conf.cmd = Cmd.OpenEditorCmd()
+        conf.cmd = OpenEditorCmd()
 
     if not (cmdlist or '-e' in argv):
         errmsg = """Error: Must specify '-e' or '-x <cmd>' or '-x "cmd''"""
         print(errmsg, file=sys.stderr)
         print("", file=sys.stderr)
-        print_help()
+        print_help(file=sys.stderr)
         # prs.error()
-        return 7
+        return RET_ERR_ARGS_EXPECTED
 
     conf.all_at_once = True
     conf.one_at_a_time = False
@@ -252,31 +327,36 @@ def main(argv=None, stderr=sys.stderr):
     else:
         def iter_stdin(stdin):
             for line in stdin:
-                log.debug(">>> %r" % line)
+                log.info("stdin>>> %r" % line)
                 l = line.strip()
                 if l:
                     yield l
-        lines = iter(_stdin)
-        args = list(iter_stdin(lines))
+        lines = iter_stdin(iter(_stdin))
+        if conf.all_at_once:
+            args = list(lines)
+        else:
+            args = iter(lines)
 
     log.info('cmd: %s' % conf.cmd)
     log.debug("args: %r" % args)
-    retcode = 0
+    retcode = RET_OK
     if conf.all_at_once:
         retcode = conf.cmd.run(args, join_args=' ')
     elif conf.one_at_a_time:
-        retcode = 0
+        retcode = RET_OK
         error_count = 0
         for arg in args:
             _args = [arg]
             _retcode = conf.cmd.run(_args)
             log.debug("cmd.retcode: %d" % _retcode)
-            if _retcode != 0:
+            if _retcode != RET_OK:
+                retcode = RET_ERR_IN_A_SUBCOMMAND
                 retcode += _retcode
                 error_count += 1
                 if conf.stop_on_error:
-                    print("ERROR: Stopping early (use -f to continue on errors)",
-                          file=sys.stderr)
+                    print(
+                        "ERROR: Stopping early (use -f to continue on errors)",
+                        file=sys.stderr)
                     break
     else:
         log.info(conf.cmd)
@@ -285,6 +365,8 @@ def main(argv=None, stderr=sys.stderr):
 
 
 import unittest
+
+
 class TestEl(unittest.TestCase):
 
     def setUp(self):
