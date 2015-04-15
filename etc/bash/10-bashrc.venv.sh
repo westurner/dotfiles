@@ -7,7 +7,16 @@ export __PROJECTSRC="${__WRK}/.projectsrc.sh"
 [ -f $__PROJECTSRC ] && source $__PROJECTSRC
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
-export __SRC="${__WRK}/src/src"
+export __SRCVENV="${__WRK}/src"
+export __SRC="${__SRCVENV}/src"
+
+if [ ! -e "${__SRCVENV}" ]; then
+    if [ ! -d "${WORKON_HOME}/src" ]; then
+        mkvirtualenv -i pyrpo -i pyline -i pygitpages src
+    fi
+    ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
+fi
+
 if [ ! -d $__SRC ]; then
     mkdir -p \
         ${__SRC}/git/github.com \
