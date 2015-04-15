@@ -1483,8 +1483,8 @@ def build_user_aliases_env(env=None,
             env.get('VIMCONF'))
     env['EDITOR_'] = env['_EDIT_']
 
-    aliases['edit-'] = env['_EDIT_']
-    aliases['gvim-'] = env['_EDIT_']
+    aliases['editw'] = env['_EDIT_']
+    aliases['gvimw'] = env['_EDIT_']
 
     # IPYTHON configuration
     env['_NOTEBOOKS'] = joinpath(env.get('_SRC',
