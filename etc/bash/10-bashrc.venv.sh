@@ -99,22 +99,14 @@ grinw() {
     # grinw()   -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
-grin-() {
-    # grin-()   -- grin _WRD
-    grinw $@
-}
 grindw() {
     # grindw()  -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
 }
-grind-() {
-    # grind-()  -- grind $_WRD
-    grindw $@
-}
 
 edit_grin_w() {
     # edit_grin_w() -- edit $(grinw -l $@)
-    edit $(grin w -l $@)
+    edit $(grinw -l $@)
 }
 
 egw() {
