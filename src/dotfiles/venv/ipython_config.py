@@ -1383,7 +1383,7 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
     aliases['cdwww']         = CdAlias('_WWW',         aliases=['cdww'])
 
     aliases['cdls']   = """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
-    aliases['cdhelp'] = """cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\s*#+\s+.*' 'rgx and l'"""
+    aliases['cdhelp'] = """cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\s*#+\s+.*' 'rgx and l'"""
     return env
 
 
