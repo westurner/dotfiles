@@ -3056,6 +3056,7 @@ def get_IPYTHON_ALIAS_DEFAULTS(platform=None):
         ('ll', 'ls {} -al'.format(LS_COLOR_AUTO)),
         ('ls', 'ls {}'.format(LS_COLOR_AUTO)),
         ('lt', 'ls {} -altr'.format(LS_COLOR_AUTO)),
+        ('lll', 'ls {} -altr'.format(LS_COLOR_AUTO)),
         ('lz', 'ls {} -alZ'.format(LS_COLOR_AUTO)),
         ('lxc', 'lxc'),
         ('make', 'make'),
