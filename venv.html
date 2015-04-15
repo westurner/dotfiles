@@ -220,11 +220,11 @@
     <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
     <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
   </ul><div class="widget">
-    <h3><a href="https://westurner.github.io/">@westurner</a></h3>
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
     <ul>
         <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
-        <li><a href="https://westurner.github.io/dotfiles/">westurner.github.io/dotfiles/</a></li>
-        <li><a href="https://westurner.github.io/wiki/">westurner.github.io/wiki/</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
     </ul>
 </div>
   </div>
@@ -588,11 +588,11 @@ export _NOTEBOOKS=&quot;${_SRC}/notebooks&quot;
 export _IPYSESKEY=&quot;${_SRC}/.ipyseskey&quot;
 export _IPQTLOG=&quot;${VIRTUAL_ENV}/.ipqt.log&quot;
 export _WRD_SETUPY=&quot;${_WRD}/setup.py&quot;
-export _TEST_=&quot;(cdwrd &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&quot;
+export _TEST_=&quot;(cd &quot;${_WRD}&quot; &amp;&amp; python &quot;${_WRD_SETUPY}&quot; test)&quot;
 export _CFG=&quot;${_ETC}/development.ini&quot;
 export _EDITCFG_=&quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent ${_ETC}/development.ini&quot;
-export _SHELL_=&quot;(cdwrd &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)&quot;
-export _SERVE_=&quot;(cdwrd &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)&quot;
+export _SHELL_=&quot;(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pshell &quot;${_CFG}&quot;)&quot;
+export _SERVE_=&quot;(cd &quot;${_WRD}&quot; &amp;&amp; &quot;${_BIN}&quot;/pserve --app-name=main --reload --monitor-restart &quot;${_CFG}&quot;)&quot;
 export _SVCFG=&quot;${_ETC}/supervisord.conf&quot;
 export _SVCFG_=&quot; -c &quot;${_ETC}/supervisord.conf&quot;&quot;
 export _USRLOG=&quot;${VIRTUAL_ENV}/-usrlog.log&quot;
@@ -687,11 +687,11 @@ $ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
         &quot;_IPYSESKEY&quot;: &quot;${_SRC}/.ipyseskey&quot;,
         &quot;_IPQTLOG&quot;: &quot;${VIRTUAL_ENV}/.ipqt.log&quot;,
         &quot;_WRD_SETUPY&quot;: &quot;${_WRD}/setup.py&quot;,
-        &quot;_TEST_&quot;: &quot;(cdwrd &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;,
+        &quot;_TEST_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;,
         &quot;_CFG&quot;: &quot;${_ETC}/development.ini&quot;,
         &quot;_EDITCFG_&quot;: &quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent ${_ETC}/development.ini&quot;,
-        &quot;_SHELL_&quot;: &quot;(cdwrd &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;,
-        &quot;_SERVE_&quot;: &quot;(cdwrd &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;,
+        &quot;_SHELL_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;,
+        &quot;_SERVE_&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;,
         &quot;_SVCFG&quot;: &quot;${_ETC}/supervisord.conf&quot;,
         &quot;_SVCFG_&quot;: &quot; -c \&quot;${_ETC}/supervisord.conf\&quot;&quot;,
         &quot;_USRLOG&quot;: &quot;${VIRTUAL_ENV}/-usrlog.log&quot;,
@@ -720,9 +720,9 @@ $ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
         &quot;cdvar&quot;: &quot;_VAR&quot;,
         &quot;cdwww&quot;: &quot;_WWW&quot;,
         &quot;cdls&quot;: &quot;set | grep \&quot;^cd.*()\&quot; | cut -f1 -d\&quot; \&quot; #%l&quot;,
-        &quot;cdhelp&quot;: &quot;cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'&quot;,
-        &quot;edit-&quot;: &quot;${_EDIT_} %l&quot;,
-        &quot;gvim-&quot;: &quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent&quot;,
+        &quot;cdhelp&quot;: &quot;cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'&quot;,
+        &quot;editw&quot;: &quot;${_EDIT_} %l&quot;,
+        &quot;gvimw&quot;: &quot;/usr/local/bin/gvim --servername ${VENVSTRAPP} --remote-tab-silent&quot;,
         &quot;ipskey&quot;: &quot;(python -c \&quot;import os; print os.urandom(128).encode(\\\&quot;base64\\\&quot;)\&quot; &gt; \&quot;${_IPYSESKEY}\&quot; ) &amp;&amp; chmod 0600 \&quot;${_IPYSESKEY}\&quot;; # %l&quot;,
         &quot;ipnb&quot;: &quot;ipython notebook --secure --Session.keyfile=\&quot;${_IPYSESKEY}\&quot; --notebook-dir=\&quot;${_NOTEBOOKS}\&quot; --deep-reload %l&quot;,
         &quot;ipqt&quot;: &quot;ipython qtconsole --secure --Session.keyfile=\&quot;${_IPYSESKEY}\&quot; --logappend=\&quot;${_IPQTLOG}\&quot; --deep-reload --pprint --colors=linux --ConsoleWidget.font_family=\&quot;Monaco\&quot; --ConsoleWidget.font_size=11 %l&quot;,
@@ -730,24 +730,21 @@ $ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
         &quot;grindv&quot;: &quot;grind --follow %l --dirs \&quot;${VIRTUAL_ENV}\&quot;&quot;,
         &quot;grins&quot;: &quot;grin --follow %l \&quot;${_SRC}\&quot;&quot;,
         &quot;grinds&quot;: &quot;grind --follow %l --dirs \&quot;${_SRC}\&quot;&quot;,
-        &quot;test-&quot;: &quot;(cdwrd &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;,
-        &quot;testr-&quot;: &quot;reset &amp;&amp; (cdwrd &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;,
-        &quot;nose-&quot;: &quot;(cdwrd &amp;&amp; nosetests)&quot;,
+        &quot;testw&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;,
+        &quot;testwr&quot;: &quot;reset &amp;&amp; (cd \&quot;${_WRD}\&quot; &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;,
+        &quot;nosew&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; nosetests)&quot;,
         &quot;grinw&quot;: &quot;grin --follow %l \&quot;${_WRD}\&quot;&quot;,
-        &quot;grin-&quot;: &quot;grin --follow %l \&quot;${_WRD}\&quot;&quot;,
         &quot;grindw&quot;: &quot;grind --follow %l --dirs \&quot;${_WRD}\&quot;&quot;,
-        &quot;grind-&quot;: &quot;grind --follow %l --dirs \&quot;${_WRD}\&quot;&quot;,
-        &quot;hgv-&quot;: &quot;hg view -R \&quot;${_WRD}\&quot;&quot;,
-        &quot;hgl-&quot;: &quot;hg -R \&quot;${_WRD}\&quot; log&quot;,
+        &quot;hgwv&quot;: &quot;hg view -R \&quot;${_WRD}\&quot;&quot;,
+        &quot;hgwl&quot;: &quot;hg -R \&quot;${_WRD}\&quot; log&quot;,
         &quot;editcfg&quot;: &quot;\&quot;${_EDITCFG_}\&quot; %l&quot;,
-        &quot;serve-&quot;: &quot;(cdwrd &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;,
-        &quot;shell-&quot;: &quot;(cdwrd &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;,
+        &quot;servew&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;,
+        &quot;shellw&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;,
         &quot;e&quot;: &quot;${_EDIT_} %l&quot;,
         &quot;editp&quot;: &quot;$GUIVIMBIN $VIMCONF $PROJECT_FILES %l&quot;,
-        &quot;makewrd&quot;: &quot;(cdwrd &amp;&amp; make %l)&quot;,
-        &quot;makew&quot;: &quot;(cdwrd &amp;&amp; make %l)&quot;,
-        &quot;make-&quot;: &quot;(cdwrd &amp;&amp; make %l)&quot;,
-        &quot;mw&quot;: &quot;(cdwrd &amp;&amp; make %l)&quot;,
+        &quot;makewrd&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;,
+        &quot;makew&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;,
+        &quot;mw&quot;: &quot;(cd \&quot;${_WRD}\&quot; &amp;&amp; make %l)&quot;,
         &quot;makewepy&quot;: &quot;_logfile=\&quot;${_LOG}/make.log.py\&quot;; (makew %l 2&gt;&amp;1 | tee $_logfile) &amp;&amp; e $_logfile&quot;,
         &quot;ssv&quot;: &quot;supervisord -c \&quot;${_SVCFG}\&quot;&quot;,
         &quot;sv&quot;: &quot;supervisorctl -c \&quot;${_SVCFG}\&quot;&quot;,
