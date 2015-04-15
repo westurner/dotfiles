@@ -2487,7 +2487,7 @@ class Venv(object):
                       default=lookup('VENVSTRAPP',
                                      default=lookup('VENVSTR')))
 
-        if VENVSTR is not None:
+        if VENVSTR not in (None, ''):
             if '/' not in VENVSTR:
                 VIRTUAL_ENV = joinpath(WORKON_HOME, VENVSTR)
             else:
