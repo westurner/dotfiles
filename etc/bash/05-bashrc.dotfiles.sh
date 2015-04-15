@@ -110,9 +110,24 @@ dotfiles_initialize() {
     log_dotfiles_state 'initialize'
 }
 
+
+dotfiles_premkvirtualenv() {
+    # dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
+    if [ -n "${1}" ]; then
+        export VIRTUAL_ENV="${WORKON_HOME}/${1}"
+    fi
+}
+
 dotfiles_postmkvirtualenv() {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
+
     log_dotfiles_state 'postmkvirtualenv'
+
+    if [ -n "${VIRTUAL_ENV}" ]; then
+        echo "VIRTUAL_ENV is not set? (err: -1)"
+        return -1
+    fi
+
     declare -f 'venv_mkdirs' 2>&1 >/dev/null && venv_mkdirs
     test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
     echo ""
@@ -139,8 +154,9 @@ dotfiles_postactivate() {
         $__VENV -e --verbose --diff --print-bash 2>&1 /dev/null)
     local venv_return_code=$?
     if [ ${venv_return_code} -eq 0 ]; then
-        test -n $__VENV \
-            && source <($__VENV -e --print-bash)
+        if [ -n "${__VENV}" ]; then
+            source <($__VENV -e --print-bash)
+        fi
     else
         echo "${bash_debug_output}" # >2
     fi
@@ -148,7 +164,7 @@ dotfiles_postactivate() {
     echo "setup usrlog"
     declare -f '_setup_usrlog' 2>&1 > /dev/null \
         && _setup_usrlog
-   
+
     declare -f 'venv_set_prompt' 2>&1 > /dev/null \
         && venv_set_prompt
 
@@ -163,11 +179,14 @@ dotfiles_postdeactivate() {
     # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
     unset VIRTUAL_ENV_NAME
+    unset VENVSTR
+    unset VENVSTRAPP
+    unset VENVPREFIX
     unset _APP
     unset _BIN
     unset _CFG
     unset _EDITCFG_
-    unset _EDITOR
+    export EDITOR_=${EDITOR}
     unset _EDIT_
     unset _ETC
     unset _ETCOPT
@@ -216,7 +235,7 @@ dotfiles_postdeactivate() {
     unset _WWW
 
     declare -f '_usrlog_set__USRLOG' 2>&1 > /dev/null \
-        && _usrlog_set__USRLOG
-   
+        && _usrlog_set__USRLOG "${__USRLOG}"
+
     dotfiles_reload
 }
