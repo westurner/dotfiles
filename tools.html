@@ -1050,6 +1050,34 @@ that adds extremely useful commands for working with Git and GitHub.</p>
 <p>HubFlow is a named branch workflow with mostly-automated merges
 between branches.</p>
 <p>Branch names are configurable; the defaults are as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Branch Name</strong></td>
+<td><strong>Description</strong>
+(and <a class="reference external" href="https://westurner.org/wiki/workflow#code-labels">Code Labels</a>)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">master</span></code></td>
+<td>Stable trunk (latest release)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">develop</span></code></td>
+<td>Development main line</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">feature/&lt;name&gt;</span></code></td>
+<td>New features for the next release (e.g. <code class="docutils literal"><span class="pre">ENH</span></code>, <code class="docutils literal"><span class="pre">PRF</span></code>)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hotfix/&lt;name&gt;</span></code></td>
+<td>Fixes to merge to both <code class="docutils literal"><span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">develop</span></code>
+(e.g. <code class="docutils literal"><span class="pre">BUG</span></code>, <code class="docutils literal"><span class="pre">TST</span></code>, <code class="docutils literal"><span class="pre">DOC</span></code>)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">release/&lt;name&gt;</span></code></td>
+<td>In-progress release branches (e.g. <code class="docutils literal"><span class="pre">RLS</span></code>)</td>
+</tr>
+</tbody>
+</table>
 <p>Creating a new release with <a class="reference internal" href="#git"><em>Git</em></a> and HubFlow:</p>
 <div class="code bash highlight-python"><div class="highlight"><pre>git clone ssh://git@github.com/westurner/dotfiles
 # git checkout master
