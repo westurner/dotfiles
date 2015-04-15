@@ -3,7 +3,7 @@
 westurner/tools
 ================
 
-| Docs: https://westurner.github.io/tools/
+| Docs: https://westurner.org/tools/
 | Src: https://github.com/westurner/tools
 
 Tools Documentation
@@ -17,5 +17,5 @@ Contents:
 
 ******
 
-@ `westurner.github.io <https://westurner.github.io/>`__
+@ `westurner.org <https://westurner.org/>`__
 
