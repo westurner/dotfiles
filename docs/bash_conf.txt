@@ -422,11 +422,13 @@
         # ll       -- 'ls -alF -G'
         # ls       -- 'ls -G'
         # lt       -- 'ls -altr -G'
+        # lll      -- 'ls -altr -G'
     # else
         # la       -- 'ls -A --color=auto'
         # ll       -- 'ls -alF --color=auto'
         # ls       -- 'ls --color=auto'
         # lt       -- 'ls -altr --color=auto'
+        # lll      -- 'ls -altr --color=auto'
     # __IS_LINUX
         # psx      -- 'ps uxaw'
         # psf      -- 'ps uxawf'

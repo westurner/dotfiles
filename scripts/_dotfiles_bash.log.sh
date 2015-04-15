@@ -3068,14 +3068,14 @@ eval 'cdls () {
 cdls () {
     set | grep "^cd.*()" | cut -f1 -d" " #$@
 }
-alias cdhelp="cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
-eval 'edit- () {
+alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
+eval 'editw () {
     ${_EDIT_} $@
 }';
-edit- () {
+editw () {
     ${_EDIT_} $@
 }
-alias gvim-='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent'
+alias gvimw='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent'
 eval 'ipskey () {
     (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # $@
 }';
@@ -3118,19 +3118,13 @@ eval 'grinds () {
 grinds () {
     grind --follow $@ --dirs "${_SRC}"
 }
-alias test-='(cdwrd && python "${_WRD_SETUPY}" test)'
-alias testr-='reset && (cdwrd && python "${_WRD_SETUPY}" test)'
-alias nose-='(cdwrd && nosetests)'
+alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
+alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
+alias nosew='(cd "${_WRD}" && nosetests)'
 eval 'grinw () {
     grin --follow $@ "${_WRD}"
 }';
 grinw () {
-    grin --follow $@ "${_WRD}"
-}
-eval 'grin- () {
-    grin --follow $@ "${_WRD}"
-}';
-grin- () {
     grin --follow $@ "${_WRD}"
 }
 eval 'grindw () {
@@ -3139,22 +3133,16 @@ eval 'grindw () {
 grindw () {
     grind --follow $@ --dirs "${_WRD}"
 }
-eval 'grind- () {
-    grind --follow $@ --dirs "${_WRD}"
-}';
-grind- () {
-    grind --follow $@ --dirs "${_WRD}"
-}
-alias hgv-='hg view -R "${_WRD}"'
-alias hgl-='hg -R "${_WRD}" log'
+alias hgwv='hg view -R "${_WRD}"'
+alias hgwl='hg -R "${_WRD}" log'
 eval 'editcfg () {
     "${_EDITCFG_}" $@
 }';
 editcfg () {
     "${_EDITCFG_}" $@
 }
-alias serve-='(cdwrd && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")'
-alias shell-='(cdwrd && "${_BIN}"/pshell "${_CFG}")'
+alias servew='(cd "${_WRD}" && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")'
+alias shellw='(cd "${_WRD}" && "${_BIN}"/pshell "${_CFG}")'
 eval 'e () {
     ${_EDIT_} $@
 }';
@@ -3168,28 +3156,22 @@ editp () {
     $GUIVIMBIN $VIMCONF $PROJECT_FILES $@
 }
 eval 'makewrd () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }';
 makewrd () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }
 eval 'makew () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }';
 makew () {
-    (cdwrd && make $@)
-}
-eval 'make- () {
-    (cdwrd && make $@)
-}';
-make- () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }
 eval 'mw () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }';
 mw () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }
 eval 'makewepy () {
     _logfile="${_LOG}/make.log.py"; (makew $@ 2>&1 | tee $_logfile) && e $_logfile
@@ -3831,8 +3813,8 @@ _usrlog_set_title() {
     # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
-    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-        && _venv_set_prompt
+    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
+        && venv_set_prompt
 }
 
 
@@ -4305,6 +4287,8 @@ _loadaliases () {
         alias ls='ls -G'
         # lt       -- 'ls -altr -G'
         alias lt='ls -altr -G'
+        # lll      -- 'ls -altr -G'
+        alias lll='ls -altr -G'
     # else
     else
         # la       -- 'ls -A --color=auto'
@@ -4315,6 +4299,8 @@ _loadaliases () {
         alias ls='ls --color=auto'
         # lt       -- 'ls -altr --color=auto'
         alias lt='ls -altr --color=auto'
+        # lll      -- 'ls -altr --color=auto'
+        alias lll='ls -altr --color=auto'
     fi
 
     # __IS_LINUX
