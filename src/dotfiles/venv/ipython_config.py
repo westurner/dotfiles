@@ -1550,21 +1550,19 @@ def build_user_aliases_env(env=None,
             _WRD=shell_varquote('_WRD'),
             _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
             )
-        aliases['test-'] = env['_TEST_']
-        aliases['testr-'] = 'reset && %s' % env['_TEST_']
-        aliases['nose-'] = '(cd {_WRD} && nosetests)'.format(
+        aliases['testw'] = env['_TEST_']
+        aliases['testwr'] = 'reset && %s' % env['_TEST_']
+        aliases['nosew'] = '(cd {_WRD} && nosetests)'.format(
             _WRD=shell_varquote('_WRD'))
 
         aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
             _WRD=shell_varquote('_WRD'))
-        aliases['grin-'] = aliases['grinw']
         aliases['grindw'] = 'grind --follow %l --dirs {_WRD}'.format(
             _WRD=shell_varquote('_WRD'))
-        aliases['grind-'] = aliases['grindw']
 
-        aliases['hgv-'] = "hg view -R {_WRD}".format(
+        aliases['hgwv'] = "hg view -R {_WRD}".format(
             _WRD=shell_varquote('_WRD'))
-        aliases['hgl-'] = "hg -R {_WRD} log".format(
+        aliases['hgwl'] = "hg -R {_WRD} log".format(
             _WRD=shell_varquote('_WRD'))
     else:
         self.log.error('app working directory %r not found' % _WRD)
@@ -1589,14 +1587,14 @@ def build_user_aliases_env(env=None,
             _BIN=shell_varquote('_BIN'),
             _CFG=shell_varquote('_CFG'),
             _WRD=shell_varquote('_WRD'))
-        aliases['serve-'] = env['_SERVE_']
-        aliases['shell-'] = env['_SHELL_']
+        aliases['servew'] = env['_SERVE_']
+        aliases['shellw'] = env['_SHELL_']
     else:
         logging.error('app configuration %r not found' % _CFG)
         env['_CFG'] = ""
 
-    aliases['edit-'] = "${_EDIT_} %l"
-    aliases['e'] = aliases['edit-']
+    aliases['editw'] = "${_EDIT_} %l"
+    aliases['e'] = aliases['editw']
     env['PROJECT_FILES'] = " ".join(
         str(x) for x in PROJECT_FILES)
     aliases['editp'] = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
@@ -1605,7 +1603,6 @@ def build_user_aliases_env(env=None,
             _WRD=shell_varquote('_WRD'))
 
     aliases['makew']   = aliases['makewrd']
-    aliases['make-']   = aliases['makewrd']
     aliases['mw']      = aliases['makewrd']
 
     aliases['makewepy'] = "_logfile=\"${_LOG}/make.log.py\"; (makew %l 2>&1 | tee $_logfile) && e $_logfile"
