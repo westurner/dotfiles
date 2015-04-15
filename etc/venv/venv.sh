@@ -307,7 +307,7 @@ complete -o default -o nospace -F _cd__WWW_complete cdww
 eval 'cdls () {
     set | grep "^cd.*()" | cut -f1 -d" " #$@
 }';
-alias cdhelp="cat $__DOTFILES${_ETC}/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
+alias cdhelp="cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
 eval 'edit- () {
     ${_EDIT_} $@
 }';
