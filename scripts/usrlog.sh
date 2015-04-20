@@ -389,7 +389,15 @@ ugrin () {
 
 lsusrlogs() {
     # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
-    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog
+    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog ${WORKON_HOME}/*/-usrlog.log $@
+}
+usrlog_lately(){
+    # usrlog_lately()      -- lsusrlogs by mtime
+    lsusrlogs $@ | xargs ls -ltr
+}
+ull() {
+    # ull()                -- usrlog_lately() (lsusrlogs by mtime)
+    usrlog_lately $@
 }
 
 usrlog_grep_all() {
