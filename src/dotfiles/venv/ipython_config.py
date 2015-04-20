@@ -1552,7 +1552,7 @@ def build_user_aliases_env(env=None,
             )
         aliases['testw'] = env['_TEST_']
         aliases['testwr'] = 'reset && %s' % env['_TEST_']
-        aliases['nosew'] = '(cd {_WRD} && nosetests)'.format(
+        aliases['nosew'] = '(cd {_WRD} && nosetests %l)'.format(
             _WRD=shell_varquote('_WRD'))
 
         aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
@@ -1597,7 +1597,7 @@ def build_user_aliases_env(env=None,
     aliases['e'] = aliases['editw']
     env['PROJECT_FILES'] = " ".join(
         str(x) for x in PROJECT_FILES)
-    aliases['editp'] = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
+    aliases['editp'] = "${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} %l"
 
     aliases['makewrd'] = "(cd {_WRD} && make %l)".format(
             _WRD=shell_varquote('_WRD'))
