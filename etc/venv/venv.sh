@@ -335,7 +335,9 @@ eval 'grinds () {
 }';
 alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
 alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
-alias nosew='(cd "${_WRD}" && nosetests)'
+eval 'nosew () {
+    (cd "${_WRD}" && nosetests $@)
+}';
 eval 'grinw () {
     grin --follow $@ "${_WRD}"
 }';
@@ -353,7 +355,7 @@ eval 'e () {
     ${_EDIT_} $@
 }';
 eval 'editp () {
-    $GUIVIMBIN $VIMCONF $PROJECT_FILES $@
+    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} $@
 }';
 eval 'makewrd () {
     (cd "${_WRD}" && make $@)
