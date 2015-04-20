@@ -141,7 +141,8 @@
 [core]
   autocrlf = false
   editor = vim
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
+  pager = less -F -X
 [advice]
   statusHints = false
 [diff]
