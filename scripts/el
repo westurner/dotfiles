@@ -27,11 +27,12 @@ Usage:
 
 import __builtin__
 import codecs
-import distutils
+import distutils.spawn
 import logging
 import os
 import shlex
 import subprocess
+import StringIO
 import sys
 
 log = logging.getLogger('el')
@@ -44,31 +45,31 @@ RET_ERR_ARGS_EXPECTED = 7
 RET_ERR_IN_A_SUBCOMMAND = 22
 
 
-def print_help(file=sys.stdout):
+def print_help(argv=sys.argv, file=sys.stdout):
     """
     Print help/usage information
 
     Keyword Arguments:
         file (file-like): file to ``print`` to (e.g. ``sys.stdout``)
     """
-    def print(*args, **kwargs):
-        kwargs['file'] = file
-        return __builtin__.print(*args, **kwargs)
-    print("%s [-h] [-q] [-0] [-e] [-x <cmd>]" % sys.argv[0])
-    print("")
-    print(" el (Edit Lines): a line-based UNIX utility similar to xargs.")
-    print("")
-    print("  --each|--map  ## for arg in args; do cmd.format(arg); done")
-    print("  -f|--force    ## continue on error")
-    print("")
-    print("  -x  ## execute command")
-    print("  -e  ## execute EDITOR_ or EDITOR (default)")
-    print("")
-    print("  -0  ## split by \\0")
-    print("")
-    print("  -h  ## print_help() message")
-    print("  -v  ## verbose (logging.DEBUG)")
-    print("")
+    def usage_iter():
+        yield ("%s [-h] [-q] [-0] [-e] [-x <cmd>]" % argv[0])
+        yield ("")
+        yield (" el (Edit Lines): a line-based UNIX utility similar to xargs.")
+        yield ("")
+        yield ("  --each|--map  ## for arg in args; do cmd.format(arg); done")
+        yield ("  -f|--force    ## continue on error")
+        yield ("")
+        yield ("  -x  ## execute command")
+        yield ("  -e  ## execute EDITOR_ or EDITOR (default)")
+        yield ("")
+        yield ("  -0  ## split by \\0")
+        yield ("")
+        yield ("  -h  ## print_help() message")
+        yield ("  -v  ## verbose (logging.DEBUG)")
+        yield ("")
+
+    print('\n'.join(usage_iter()), file=file)
 
 
 class Cmd(object):
@@ -147,6 +148,9 @@ class Cmd(object):
 
         def _render_cmd_iter(cmd, args, join_args=join_args):
             added = False
+            if join_args:
+                if isinstance(join_args, basestring):
+                    join_args = join_args.join
             for token in cmd:
                 # todo: support escaped '{{0}}', w/ regex (?)
                 if token and '{0}' in token:
@@ -156,8 +160,6 @@ class Cmd(object):
                         added = True
                     else:
                         if join_args:
-                            if isinstance(join_args, basestring):
-                                join_args = join_args.join
                             argstr = join_args(args)
                         else:
                             argstr = args
@@ -169,7 +171,7 @@ class Cmd(object):
             if not added and always_append_args:
                 for x in args:
                     yield x
-        cmd = list(_render_cmd_iter(cmd, args))
+        cmd = list(_render_cmd_iter(cmd, args, join_args=join_args))
         log.debug('_render_cmd: %r' % cmd)
         return cmd
 
@@ -178,7 +180,7 @@ class Cmd(object):
         Call :py:method:`_render_cmd` with ``self.cmd`` and ``args
         """
         cmd = self._render_cmd(self.cmd, args,
-                               join_args=None,
+                               join_args=join_args,
                                always_append_args=True)
         return cmd
 
@@ -208,11 +210,12 @@ class Cmd(object):
         Returns:
             int: OS retcode from ``subprocess.call``
         """
+        join_args = kwargs.pop('join_args', None)
         if hasattr(self, 'preprocess_args'):
             args = self.preprocess_args(args)
             log.debug("cmd.preprocess_args [%s]: %r" % (
                 self.__class__.__name__, args))
-        cmd = self.render(args, join_args=kwargs.pop('join_args', None))
+        cmd = self.render(args, join_args=join_args)
         log.info("cmd.run: %s" % cmd)
         return self._call(cmd, **kwargs)
 
@@ -250,30 +253,41 @@ class Conf(object):
     pass
 
 
-def main(argv=None, stderr=sys.stderr):
+def main(argv=None, stdin=sys.stdin,
+                    stdout=sys.stdout,
+                    stderr=sys.stderr,
+                    encoding=DEFAULT_ENCODING):
 
     if argv is None:
-        argv = []
+        _argv = argv = []
     else:
-        _argv = argv[:]
+        _argv = argv
+        argv = _argv[:]
+
+    stdin = codecs.getreader(encoding)(stdin)
+    stdout = codecs.getwriter(encoding)(stdout)
 
     conf = Conf()
     conf.cmd = None
 
     cmdlist = None
     if '-x' in argv:
-        switch = '-x'
         xpos = argv.index('-x')
-        cmdlist = argv[xpos+1:]
+        cmdlist = argv[xpos + 1:]
         if len(cmdlist) == 1:
-            quotechars = '"\''
-            cmdstr = cmdlist[0].strip(quotechars)
-            cmdlist = shlex.split(cmdstr)
+            #quotechars = '"\''
+            cmdstr = cmdlist[0] # XXX: .strip(quotechars)
+            try:
+                cmdlist = shlex.split(cmdstr)
+            except ValueError as e:
+                log.debug(cmdstr)
+                log.exception(e)
+                raise
         conf.cmd = Cmd(cmdlist)
         argv = argv[0:xpos]
 
     if '-h' in argv or '--help' in argv:
-        print_help()
+        print_help(file=stdout)
         return 0
 
     if '-v' in argv:
@@ -297,11 +311,11 @@ def main(argv=None, stderr=sys.stderr):
         conf.open_in_editor = True
         conf.cmd = OpenEditorCmd()
 
-    if not (cmdlist or '-e' in argv):
-        errmsg = """Error: Must specify '-e' or '-x <cmd>' or '-x "cmd''"""
-        print(errmsg, file=sys.stderr)
-        print("", file=sys.stderr)
-        print_help(file=sys.stderr)
+    if not (cmdlist or conf.open_in_editor):
+        errmsg = '''Error: Must specify '-e' or '-x <cmd>' or '-x "cmd"'''
+        print(errmsg, file=stderr)
+        print("", file=stderr)
+        print_help(file=stderr)
         # prs.error()
         return RET_ERR_ARGS_EXPECTED
 
@@ -312,6 +326,7 @@ def main(argv=None, stderr=sys.stderr):
             conf.one_at_a_time = True
             conf.all_at_once = False
             argv.remove(x)
+            break
 
     conf.stop_on_error = True
     if '-f' in argv or '--force' in argv:
@@ -319,10 +334,9 @@ def main(argv=None, stderr=sys.stderr):
     if '--stop-on-error' in argv:
         conf.stop_on_error = True
 
-    _stdin = codecs.getreader(DEFAULT_ENCODING)(sys.stdin)
 
     if '-0' in argv:
-        text = _stdin.read()
+        text = stdin.read()
         lines = args = text.split('\0')  # TODO: itersplit
     else:
         def iter_stdin(stdin):
@@ -331,7 +345,7 @@ def main(argv=None, stderr=sys.stderr):
                 l = line.strip()
                 if l:
                     yield l
-        lines = iter_stdin(iter(_stdin))
+        lines = iter_stdin(iter(stdin))
         if conf.all_at_once:
             args = list(lines)
         else:
@@ -347,16 +361,15 @@ def main(argv=None, stderr=sys.stderr):
         error_count = 0
         for arg in args:
             _args = [arg]
-            _retcode = conf.cmd.run(_args)
+            _retcode = conf.cmd.run(_args, join_args=' ')
             log.debug("cmd.retcode: %d" % _retcode)
             if _retcode != RET_OK:
                 retcode = RET_ERR_IN_A_SUBCOMMAND
-                retcode += _retcode
                 error_count += 1
                 if conf.stop_on_error:
                     print(
                         "ERROR: Stopping early (use -f to continue on errors)",
-                        file=sys.stderr)
+                        file=stderr)
                     break
     else:
         log.info(conf.cmd)
@@ -366,31 +379,63 @@ def main(argv=None, stderr=sys.stderr):
 
 import unittest
 
+from contextlib import contextmanager
+
+@contextmanager
+def Capture():
+    new_out, new_err = StringIO.StringIO(), StringIO.StringIO()
+    # store refs to sys.stdout and sys.stderr
+    old_out, old_err = sys.stdout, sys.stderr
+    try:
+        sys.stdout, sys.stderr = new_out, new_err
+        yield sys.stdout, sys.stderr
+    finally:
+        # restore sys.stdin to original value
+        sys.stdout, sys.stderr = old_out, old_err
+
 
 class TestEl(unittest.TestCase):
 
-    def setUp(self):
-        self.__stdin = sys.stdin
-
-    def tearDown(self):
-        sys.stdin = self.__stdin
-
     def test_main_help(self):
         cmd = ['-h']
-        retcode = main(argv=cmd)
-        self.assertEqual(retcode, 0)
+        with Capture() as (out, err):
+            retcode = main(argv=cmd)
+            self.assertEqual(retcode, 0)
 
     def test_main_must_specify_x_or_e(self):
         cmd = ['-v']
-        retcode = main(argv=cmd)
-        self.assertEqual(retcode, 7)
+        with Capture() as (out, err):
+            retcode = main(argv=cmd)
+            self.assertEqual(retcode, 7)
 
-    def test_main_x(self):
-        cmd = ['-x', 'ls', '-l']
-        import StringIO
-        sys.stdin = StringIO.StringIO()
-        retcode = main(argv=cmd)
-        self.assertEqual(retcode, 0)
+    def test_main_ls_l(self):
+        with Capture() as (out, err):
+            cmd = ['-x', 'echo']
+            self._test_cmd(cmd)
+        with Capture() as (out, err):
+            cmd = ['-x', 'echo', '#', ]
+            self._test_cmd(cmd)
+        with Capture() as (out, err):
+            cmd = ['-x', 'echo', '#', '{0}']
+            self._test_cmd(cmd)
+        with Capture() as (out, err):
+            cmd = ['-x', "echo '{0}'"]
+            self._test_cmd(cmd)
+
+    def _test_cmd(self, cmd):
+        stdin_text = []
+        for n in range(3):
+            stdin_text.append(unicode(__file__) + '\n')
+        stdin = StringIO.StringIO(stdin_text)
+        with Capture() as (stdout, err):
+            sys.stdout = stdout
+            retcode = main(argv=cmd, stdin=stdin, stdout=stdout)
+            self.assertEqual(retcode, 0)
+        return stdout
+
 
 if __name__ == "__main__":
+    if '--TEST' in sys.argv:
+        sys.argv.remove('--TEST')
+        sys.exit(unittest.main())
     sys.exit(main(argv=sys.argv))
