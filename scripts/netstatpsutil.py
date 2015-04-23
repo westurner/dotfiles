@@ -15,6 +15,13 @@ except ImportError as e:
 import logging
 
 
+AccessDenied = None
+if hasattr(psutil, 'AccessDenied'):
+    AccessDenied = psutil.AccessDenied
+else:
+    AccessDenied = Exception
+
+
 def net_connection_memory_info(ports=[80, 443],
                                yield_pid=False,
                                yield_row=False,
@@ -32,7 +39,7 @@ def net_connection_memory_info(ports=[80, 443],
     """
     try:
         connections = psutil.net_connections()
-    except psutil.AccessDenied as e:
+    except AccessDenied as e:
         logging.error("Must have permissions")
         logging.exception(e)
         raise
