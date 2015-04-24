@@ -242,7 +242,8 @@ class OpenEditorCmd(Cmd):
 
     def preprocess_args(self, args):
         """
-        If the line starts with +, shlex.split the args
+        If args[0] starts with +, shlex.split args[0]
+        e.g. for '+123 README'
         """
         if args and len(args) == 1 and args[0][0].lstrip()[0] == '+':
             args = shlex.split(args[0])
