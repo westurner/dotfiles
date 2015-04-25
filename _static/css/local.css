@@ -85,5 +85,9 @@ footer {
         left: 25%;
         width: 75%;
     }
+
+    #sidebar-wrapper {
+        max-width: 25%
+    }
 }
 
