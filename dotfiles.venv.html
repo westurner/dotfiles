@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles.venv package &mdash; westurner/dotfiles 0.7.2 documentation</title>
+    <title>dotfiles.venv package &mdash; westurner/dotfiles 0.8.1 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.7.2',
+            VERSION:     '0.8.1',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.7.2 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index.html" />
     <link rel="up" title="Dotfiles API" href="api.html" />
     <link rel="next" title="Developing" href="developing.html" />
     <link rel="prev" title="dotfiles.cli package" href="dotfiles.cli.html" /> 
@@ -79,7 +79,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.2 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.8.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -804,7 +804,7 @@ cmdname () {
 <p>Print env and kwargs to stderr</p>
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout">
-<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x1086f61e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x1030af1e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -840,12 +840,12 @@ kwargs dict</li>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStep.stderr">
-<code class="descname">stderr</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x1086f61e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stderr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stderr</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x1030af1e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stderr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStep.stdout">
-<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stdout&gt;', mode 'w' at 0x1086f6150&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stdout&gt;', mode 'w' at 0x1030af150&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stdout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1494,7 +1494,7 @@ block of bash script</td>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.generate_bash_env">
-<code class="descname">generate_bash_env</code><span class="sig-paren">(</span><em>shell_keyword='export '</em>, <em>shell_quotefunc=&lt;function shell_quote at 0x1095e6d70&gt;</em>, <em>include_paths=True</em>, <em>include_aliases=True</em>, <em>include_cdaliases=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.generate_bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.generate_bash_env" title="Permalink to this definition">¶</a></dt>
+<code class="descname">generate_bash_env</code><span class="sig-paren">(</span><em>shell_keyword='export '</em>, <em>shell_quotefunc=&lt;function shell_quote at 0x103fa0e60&gt;</em>, <em>include_paths=True</em>, <em>include_aliases=True</em>, <em>include_cdaliases=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#Venv.generate_bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.generate_bash_env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a <code class="docutils literal"><span class="pre">source</span></code>-able script for the environment variables,
 aliases, and functions defined by the current <code class="docutils literal"><span class="pre">Venv</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2157,7 +2157,7 @@ as determined by <code class="docutils literal"><span class="pre">in_ipython_con
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.logevent">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">logevent</code><span class="sig-paren">(</span><em>event</em>, <em>obj=None</em>, <em>logger=&lt;logging.Logger object at 0x1095dba90&gt;</em>, <em>level=10</em>, <em>func=None</em>, <em>lineno=None</em>, <em>modpath=None</em>, <em>show_modpath=None</em>, <em>wrap=False</em>, <em>splitlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#logevent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.logevent" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">logevent</code><span class="sig-paren">(</span><em>event</em>, <em>obj=None</em>, <em>logger=&lt;logging.Logger object at 0x103f94c10&gt;</em>, <em>level=10</em>, <em>func=None</em>, <em>lineno=None</em>, <em>modpath=None</em>, <em>show_modpath=None</em>, <em>wrap=False</em>, <em>splitlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config.html#logevent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.logevent" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2580,7 +2580,7 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.7.2 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.8.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       

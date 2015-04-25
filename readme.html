@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Dotfiles &mdash; westurner/dotfiles 0.7.2 documentation</title>
+    <title>Dotfiles &mdash; westurner/dotfiles 0.8.1 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.7.2',
+            VERSION:     '0.8.1',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.7.2 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index.html" />
     <link rel="next" title="Usage" href="usage.html" />
     <link rel="prev" title="westurner/dotfiles" href="index.html" /> 
   </head>
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.2 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.8.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -231,7 +231,7 @@
                   
   <div class="section" id="dotfiles">
 <h1>Dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://github.com/westurner/dotfiles">GitHub</a> | <a class="reference external" href="https://westurner.github.io/dotfiles/">Documentation</a> | <a class="reference external" href="https://wrdfiles.readthedocs.org/en/latest/">ReadTheDocs</a></p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles">GitHub</a> | <a class="reference external" href="https://westurner.org/dotfiles/">Documentation</a> | <a class="reference external" href="https://wrdfiles.readthedocs.org/en/latest/">ReadTheDocs</a></p>
 <a class="reference external image-reference" href="https://github.com/westurner/dotfiles/releases"><img src="https://img.shields.io/github/release/westurner/dotfiles.svg" /></a>
 <a class="reference external image-reference" href="https://github.com/westurner/dotfiles/tags"><img src="https://img.shields.io/github/tag/westurner/dotfiles.svg" /></a>
 <a class="reference external image-reference" href="https://travis-ci.org/westurner/dotfiles"><img alt="https://travis-ci.org/westurner/dotfiles.svg?branch=master" src="https://travis-ci.org/westurner/dotfiles.svg?branch=master" /></a>
@@ -254,29 +254,29 @@
 <div class="section" id="requirements">
 <h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
 <p>Project requirements are installed by
-<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> and, optionally, also the <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">Makefile</a>.</p>
+<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> and/or, optionally, also a <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">Makefile</a>.</p>
 <ul class="simple">
-<li><a class="reference internal" href="tools.html#bash"><em>Bash</em></a>, <a class="reference internal" href="tools.html#git"><em>Git</em></a>, <a class="reference internal" href="tools.html#python"><em>Python</em></a>, <a class="reference internal" href="tools.html#pip"><em>Pip</em></a></li>
+<li><cite>Bash</cite>, <cite>Git</cite>, <cite>Python</cite>, <cite>pip</cite></li>
 </ul>
 </div>
 <div class="section" id="install-the-dotfiles">
 <span id="id2"></span><h3>Install the dotfiles<a class="headerlink" href="#install-the-dotfiles" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
-<div class="line">Documentation: <a class="reference external" href="https://westurner.github.io/dotfiles/">https://westurner.github.io/dotfiles/</a></div>
+<div class="line">Documentation: <a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a></div>
 </div>
 <p>The <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> shell script:</p>
 <ul class="simple">
 <li>clones the <code class="docutils literal"><span class="pre">dotfiles</span></code> and <code class="docutils literal"><span class="pre">dotvim</span></code> repositories</li>
 <li>creates symlinks from <code class="docutils literal"><span class="pre">HOME</span></code> to <code class="docutils literal"><span class="pre">__DOTFILES</span></code>,</li>
 <li>installs the <code class="docutils literal"><span class="pre">dotfiles</span></code> Python package,</li>
-<li>installs additional requirements with <a class="reference internal" href="tools.html#pip"><em>Pip</em></a></li>
+<li>installs additional requirements with <cite>pip</cite></li>
 </ul>
 <div class="code bash highlight-python"><div class="highlight"><pre>wget bootstrap_dotfiles.sh
 bash ./scripts/bootstrap_dotfiles.sh -I -R
 </pre></div>
 </div>
-<p>Create a <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> with <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>
+<p>Create a <cite>virtualenv</cite> with <cite>virtualenvwrapper</cite>
 named &#8220;<code class="docutils literal"><span class="pre">dotfiles</span></code>&#8221;:</p>
 <div class="code bash highlight-python"><div class="highlight"><pre># Install virtualenvwrapper
 pip install virtualenvwrapper   # apt-get install python-virtualenvwrapper
@@ -437,17 +437,21 @@ $_WRD/scripts/bootstrap_dotfiles.sh -I      # or: make install
 $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 </pre></div>
 </div>
-<p>See: <a class="reference external" href="https://westurner.github.io/dotfiles/usage.html">Usage</a> and <a class="reference external" href="https://westurner.github.io/dotfiles/venv.html">Venv</a> for further documentation.</p>
+<p>For further documentation, see:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://westurner.org/dotfiles/usage">https://westurner.org/dotfiles/usage</a></li>
+<li><a class="reference external" href="https://westurner.org/dotfiles/venv">https://westurner.org/dotfiles/venv</a></li>
+</ul>
 </div>
 <div class="section" id="further-dotfiles-resources">
 <h2>Further Dotfiles Resources<a class="headerlink" href="#further-dotfiles-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="https://dotfiles.github.io/">https://dotfiles.github.io/</a></li>
-<li><a class="reference external" href="https://westurner.github.io/wiki/workflow">https://westurner.github.io/wiki/workflow</a></li>
-<li><a class="reference external" href="https://westurner.github.io/dotfiles/">https://westurner.github.io/dotfiles/</a><ul>
-<li><a class="reference external" href="https://westurner.github.io/dotfiles/usage.html">https://westurner.github.io/dotfiles/usage.html</a></li>
-<li><a class="reference external" href="https://westurner.github.io/dotfiles/usage.html#bash">https://westurner.github.io/dotfiles/usage.html#bash</a></li>
-<li><a class="reference external" href="https://westurner.github.io/dotfiles/usage.html#vim">https://westurner.github.io/dotfiles/usage.html#vim</a></li>
+<li><a class="reference external" href="https://westurner.org/wiki/workflow">https://westurner.org/wiki/workflow</a></li>
+<li><a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a><ul>
+<li><a class="reference external" href="https://westurner.org/dotfiles/usage">https://westurner.org/dotfiles/usage</a></li>
+<li><a class="reference external" href="https://westurner.org/dotfiles/usage#bash">https://westurner.org/dotfiles/usage#bash</a></li>
+<li><a class="reference external" href="https://westurner.org/dotfiles/usage#vim">https://westurner.org/dotfiles/usage#vim</a></li>
 </ul>
 </li>
 </ul>
@@ -469,7 +473,7 @@ $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.7.2 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.8.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       

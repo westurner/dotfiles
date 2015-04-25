@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Usage &mdash; westurner/dotfiles 0.7.2 documentation</title>
+    <title>Usage &mdash; westurner/dotfiles 0.8.1 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.7.2',
+            VERSION:     '0.8.1',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.7.2 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index.html" />
     <link rel="next" title="Venv" href="venv.html" />
     <link rel="prev" title="Dotfiles" href="readme.html" /> 
   </head>
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.7.2 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.8.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -433,6 +433,10 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <span class="c">#### etc/bash/02-bashrc.platform.sh</span>
 <span class="c">### bashrc.platform.sh</span>
     <span class="c"># detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)</span>
+    <span class="c"># j()               -- jobs</span>
+    <span class="c"># f()               -- fg %$1</span>
+    <span class="c"># b()               -- bg %$1</span>
+    <span class="c"># killjob()         -- kill %$1</span>
    
    
 <span class="c">#### etc/bash/03-bashrc.darwin.sh</span>
@@ -476,6 +480,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># XXX:</span>
     <span class="c"># XXX:</span>
     <span class="c"># dotfiles_initialize()     -- virtualenvwrapper initialize</span>
+    <span class="c"># dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv</span>
     <span class="c"># dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv</span>
     <span class="c"># dotfiles_preactivate()    -- virtualenvwrapper preactivate</span>
     <span class="c"># dotfiles_postactivate()   -- virtualenvwrapper postactivate</span>
@@ -564,9 +569,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># grins()   -- grin $_SRC</span>
     <span class="c"># grinds()  -- grind $_SRC</span>
     <span class="c"># grinw()   -- grin $_WRD</span>
-    <span class="c"># grin-()   -- grin _WRD</span>
     <span class="c"># grindw()  -- grind $_WRD</span>
-    <span class="c"># grind-()  -- grind $_WRD</span>
     <span class="c"># edit_grin_w() -- edit $(grinw -l $@)</span>
     <span class="c"># egw           -- edit $(grinw -l $@)</span>
 <span class="c"># ctags</span>
@@ -624,6 +627,8 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># edits()   -- open $@ in ${GUIVIMBIN} --servername $1</span>
     <span class="c"># e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]</span>
     <span class="c"># edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]</span>
+    <span class="c"># editw()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@)</span>
+    <span class="c"># ew()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@) (&#39;excellent&#39;)</span>
     <span class="c"># editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]</span>
     <span class="c"># sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e</span>
     <span class="c"># sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e</span>
@@ -980,6 +985,8 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># usrlog_grin() -- grin -s $@ $_USRLOG</span>
     <span class="c"># ugrin()       -- grin -s $@ $_USRLOG</span>
     <span class="c"># lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
+    <span class="c"># usrlog_lately()      -- lsusrlogs by mtime</span>
+    <span class="c"># ull()                -- usrlog_lately() (lsusrlogs by mtime)</span>
     <span class="c"># usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)</span>
     <span class="c"># ugall()              -- grep usrlogs (drop filenames with -h)</span>
     <span class="c"># usrlog_grin_all()    -- grin usrlogs</span>
@@ -2029,7 +2036,7 @@ or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</sp
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.7.2 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.8.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
