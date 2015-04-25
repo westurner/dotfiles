@@ -64,9 +64,9 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index.html" />
-    <link rel="next" title="Tools" href="tools.html" />
-    <link rel="prev" title="Usage" href="usage.html" /> 
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index" />
+    <link rel="next" title="Tools" href="tools" />
+    <link rel="prev" title="Usage" href="usage" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.8.1 documentation</a>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -109,15 +109,15 @@
               </li>
 
             
-              <li><a href="usage.html" title="Usage" accesskey="P">previous </a></li>
-              <li><a href="tools.html" title="Tools" accesskey="N">next </a></li>
-              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
-              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+              <li><a href="usage" title="Usage" accesskey="P">previous </a></li>
+              <li><a href="tools" title="Tools" accesskey="N">next </a></li>
+              <li><a href="py-modindex" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex" title="General Index" accesskey="I">index </a></li>
             
             <li class="visible-xs"><a href="_sources/venv.txt" rel="nofollow">Show Source</a></li>
 
             <li class="visible-xs">
-                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search" method="get">
                   <div class="input-append input-group">
                     <input type="text" class="search-query form-control" name="q" placeholder="Search...">
                     <span class="input-group-btn">
@@ -146,7 +146,7 @@
          
 <div class="col-md-3 hidden-xs" id="sidebar-wrapper">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Venv</a><ul>
 <li><a class="reference internal" href="#working-with-venv">Working With Venv</a><ul>
@@ -168,14 +168,14 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="usage.html"
+  <p class="topless"><a href="usage"
                         title="previous chapter">Usage</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="tools.html"
+  <p class="topless"><a href="tools"
                         title="next chapter">Tools</a></p>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
-  <form class="search form-inline" action="search.html" method="get">
+  <form class="search form-inline" action="search" method="get">
       <div class="input-append input-group">
         <input type="text" class="search-query form-control" name="q" placeholder="Search...">
         <span class="input-group-btn">
@@ -239,30 +239,30 @@
                   
   <span class="target" id="index-0"></span><div class="section" id="venv">
 <span id="index-1"></span><span id="id1"></span><h1>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
-<p>Venv makes working with <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a>,
-<a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>, <a class="reference internal" href="tools.html#bash"><em>Bash</em></a>, <a class="reference internal" href="tools.html#zsh"><em>ZSH</em></a>,
-<a class="reference internal" href="tools.html#vim"><em>Vim</em></a>, and <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a> within a project context very easy.</p>
+<p>Venv makes working with <a class="reference internal" href="tools#virtualenv"><em>Virtualenv</em></a>,
+<a class="reference internal" href="tools#virtualenvwrapper"><em>Virtualenvwrapper</em></a>, <a class="reference internal" href="tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools#zsh"><em>ZSH</em></a>,
+<a class="reference internal" href="tools#vim"><em>Vim</em></a>, and <a class="reference internal" href="tools#ipython"><em>IPython</em></a> within a project context very easy.</p>
 <p>There are a few parts to <code class="docutils literal"><span class="pre">venv</span></code>:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">ipython_config.py</a>
-(<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a>) configures IPython at
+(<a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a>) configures IPython at
 startup.</li>
 <li><a class="reference internal" href="#venv-py">venv.py</a> is a symlink to <code class="docutils literal"><span class="pre">ipython_config.py</span></code>.</li>
 <li><a class="reference internal" href="#venv-py">venv.py</a> is a CLI script for generating <a class="reference internal" href="#shell-configuration">shell configuration</a>
 and <a class="reference internal" href="#cdalias">CdAlias</a>
-scripts for <a class="reference internal" href="tools.html#bash"><em>Bash</em></a>, <a class="reference internal" href="tools.html#zsh"><em>ZSH</em></a>, <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a>, and <a class="reference internal" href="tools.html#vim"><em>Vim</em></a>.</li>
+scripts for <a class="reference internal" href="tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools#zsh"><em>ZSH</em></a>, <a class="reference internal" href="tools#ipython"><em>IPython</em></a>, and <a class="reference internal" href="tools#vim"><em>Vim</em></a>.</li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py">ipython_magics.py</a>
-(<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_magics" title="dotfiles.venv.ipython_magics"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_magics</span></code></a>)
+(<a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_magics" title="dotfiles.venv.ipython_magics"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_magics</span></code></a>)
 configures
-<a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAliases</span></code></a>
+<a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAliases</span></code></a>
 and the <code class="docutils literal"><span class="pre">dotfiles_status</span></code> (<code class="docutils literal"><span class="pre">ds</span></code>) command
-for <a class="reference internal" href="tools.html#ipython"><em>IPython</em></a>.</li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <a class="reference internal" href="tools.html#bash"><em>Bash</em></a> at startup
-(see: <a class="reference internal" href="usage.html#dotfiles-bash-config"><em>Usage &gt; Bash</em></a>)</li>
+for <a class="reference internal" href="tools#ipython"><em>IPython</em></a>.</li>
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <a class="reference internal" href="tools#bash"><em>Bash</em></a> at startup
+(see: <a class="reference internal" href="usage#dotfiles-bash-config"><em>Usage &gt; Bash</em></a>)</li>
 </ul>
 <p>To configure a shell, print relevant env variables (twice),
 <code class="docutils literal"><span class="pre">cd</span></code> to the working directory (<code class="docutils literal"><span class="pre">$_WRD</span></code>),
-and open <code class="docutils literal"><span class="pre">README.rst</span></code> in a named <a class="reference internal" href="tools.html#vim"><em>Vim</em></a> server for an existing
+and open <code class="docutils literal"><span class="pre">README.rst</span></code> in a named <a class="reference internal" href="tools#vim"><em>Vim</em></a> server for an existing
 venv named <code class="docutils literal"><span class="pre">dotfiles</span></code>:</p>
 <div class="highlight-bash"><div class="highlight"><pre>we dotfiles<span class="p">;</span> ds<span class="p">;</span> cdwrd<span class="p">;</span> e README.rst
 </pre></div>
@@ -276,7 +276,7 @@ create these like so:</p>
 mkdir -p <span class="nv">$_WRD</span>
 </pre></div>
 </div>
-<p>Or, to create a more complete <a class="reference internal" href="tools.html#fhs"><em>Filesystem Hierarchy Standard</em></a> tree of directories under
+<p>Or, to create a more complete <a class="reference internal" href="tools#fhs"><em>Filesystem Hierarchy Standard</em></a> tree of directories under
 <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>:</p>
 <div class="last highlight-bash"><div class="highlight"><pre>venv_mkdirs<span class="p">;</span> mkdir -p <span class="nv">$_WRD</span>
 </pre></div>
@@ -344,7 +344,7 @@ venv --ve<span class="o">=</span>dotfiles --print-bash   <span class="c"># does 
 <p>CdAliases make it easy to jump around to <code class="docutils literal"><span class="pre">venv</span></code> defined variables
 (like <code class="docutils literal"><span class="pre">$_WRK</span></code> (cdwrk), <code class="docutils literal"><span class="pre">$WORKON_HOME</span></code> (cdwh), <code class="docutils literal"><span class="pre">VIRTUAL_ENV</span></code> (cdv),
 <code class="docutils literal"><span class="pre">$_SRC</span></code> (cds), and <code class="docutils literal"><span class="pre">$_WRD</span></code> (cdw)).</p>
-<p>Each <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAlias</span></code></a>
+<p>Each <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAlias</span></code></a>
 defined in <code class="docutils literal"><span class="pre">env.aliases</span></code> is expanded for Bash, IPython, and Vim.
 For example, <code class="docutils literal"><span class="pre">CdAlias('__WRD')</span></code> is expanded to
 <code class="docutils literal"><span class="pre">cdwrd</span></code>, <code class="docutils literal"><span class="pre">cdw</span></code>; <code class="docutils literal"><span class="pre">%cdwrd</span></code>, <code class="docutils literal"><span class="pre">cdw</span></code>, and <code class="docutils literal"><span class="pre">:Cdwrk</span></code>,
@@ -488,15 +488,15 @@ or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
 </pre>
 <div class="section" id="python-api">
 <h4>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h4>
-<p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object
+<p>A <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object
 builds:</p>
 <ul class="simple">
-<li>a <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a> <code class="docutils literal"><span class="pre">OrderedDict</span></code>
+<li>a <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a> <code class="docutils literal"><span class="pre">OrderedDict</span></code>
 with <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths and environment variables
 in a standard filesystem hierarchy</li>
 <li>an <code class="docutils literal"><span class="pre">OrderedDict</span></code> of command and <a class="reference internal" href="#cdalias">CdAlias</a> aliases</li>
 </ul>
-<p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object can then be
+<p>A <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object can then be
 serialized:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">--print-vars</span></code> &#8211; easy to read variables</li>
@@ -505,7 +505,7 @@ serialized:</p>
 <li>IPython <code class="docutils literal"><span class="pre">%alias</span></code> configuration dict (see <code class="docutils literal"><span class="pre">%alias?</span></code>)</li>
 </ul>
 <p>There are a number of <code class="docutils literal"><span class="pre">unittest.TestCase</span></code> tests in
-<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">ipython_config.py</a>)
+<a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">ipython_config.py</a>)
 for each of the build steps.</p>
 <p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">--verbose</span> <span class="pre">--show-diffs</span></code> shows what is going on.</p>
 </div>
@@ -798,14 +798,14 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.8.1 documentation</a></li>
+        <li><a href="index">westurner/dotfiles 0.8.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
-        <li><a href="usage.html" title="Usage" >previous</a></li>
-        <li><a href="tools.html" title="Tools" >next</a></li>
-        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
-        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="usage" title="Usage" >previous</a></li>
+        <li><a href="tools" title="Tools" >next</a></li>
+        <li><a href="py-modindex" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
     </ul>
