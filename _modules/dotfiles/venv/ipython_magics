@@ -51,7 +51,7 @@
             URL_ROOT:    '../../../',
             VERSION:     '0.8.1',
             COLLAPSE_INDEX: false,
-            FILE_SUFFIX: '.html',
+            FILE_SUFFIX: '',
             HAS_SOURCE:  true
   };
 </script>
@@ -64,8 +64,8 @@
 <script type="text/javascript" src="../../../_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="../../../index" />
+    <link rel="up" title="Module code" href="../../index" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
@@ -77,19 +77,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">westurner/dotfiles 0.8.1 documentation</a>
+          <a class="navbar-brand" href="../../../index">westurner/dotfiles 0.8.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 
             
-              <li><a href="../../../py-modindex.html" title="Python Module Index" >modules </a></li>
-              <li><a href="../../../genindex.html" title="General Index" accesskey="I">index </a></li>
-              <li><a href="../../index.html" accesskey="U">Module code</a></li>
+              <li><a href="../../../py-modindex" title="Python Module Index" >modules </a></li>
+              <li><a href="../../../genindex" title="General Index" accesskey="I">index </a></li>
+              <li><a href="../../index" accesskey="U">Module code</a></li>
             
 
             <li class="visible-xs">
-                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../../search.html" method="get">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../../search" method="get">
                   <div class="input-append input-group">
                     <input type="text" class="search-query form-control" name="q" placeholder="Search...">
                     <span class="input-group-btn">
@@ -120,7 +120,7 @@
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
-  <form class="search form-inline" action="../../../search.html" method="get">
+  <form class="search form-inline" action="../../../search" method="get">
       <div class="input-append input-group">
         <input type="text" class="search-query form-control" name="q" placeholder="Search...">
         <span class="input-group-btn">
@@ -183,8 +183,8 @@
 
 <span class="nd">@magics_class</span>
 <span class="k">class</span> <span class="nc">VenvMagics</span><span class="p">(</span><span class="n">Magics</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics">[docs]</a>    <span class="k">def</span> <span class="nf">cd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">envvar</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cd"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cd">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics">[docs]</a>    <span class="k">def</span> <span class="nf">cd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">envvar</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+<div class="viewcode-block" id="VenvMagics.cd"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cd">[docs]</a>        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Change directory</span>
 
 <span class="sd">        Args:</span>
@@ -197,172 +197,172 @@
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdhome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdhome"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdhome">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdhome    -- cd $HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdhome"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdhome">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdhome    -- cd $HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdh"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdh">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdh    -- cd $HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdh"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdh">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdh    -- cd $HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdwrk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdwrk"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdwrk">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdwrk    -- cd $__WRK/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdwrk"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdwrk">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdwrk    -- cd $__WRK/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;__WRK&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cddotfiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cddotfiles"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cddotfiles">[docs]</a>        <span class="sd">&quot;&quot;&quot;cddotfiles    -- cd $__DOTFILES/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cddotfiles"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cddotfiles">[docs]</a>        <span class="sd">&quot;&quot;&quot;cddotfiles    -- cd $__DOTFILES/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;__DOTFILES&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdd"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdd">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdd    -- cd $__DOTFILES/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdd"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdd">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdd    -- cd $__DOTFILES/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;__DOTFILES&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdprojecthome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdprojecthome"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdprojecthome">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdprojecthome    -- cd $PROJECT_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdprojecthome"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdprojecthome">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdprojecthome    -- cd $PROJECT_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;PROJECT_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdp"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdp">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdp    -- cd $PROJECT_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdp"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdp">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdp    -- cd $PROJECT_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;PROJECT_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdph"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdph">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdph    -- cd $PROJECT_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdph"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdph">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdph    -- cd $PROJECT_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;PROJECT_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdworkonhome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdworkonhome"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdworkonhome">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdworkonhome    -- cd $WORKON_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdworkonhome"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdworkonhome">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdworkonhome    -- cd $WORKON_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdwh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdwh"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdwh">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdwh    -- cd $WORKON_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdwh"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdwh">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdwh    -- cd $WORKON_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdve"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdve">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdve    -- cd $WORKON_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdve"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdve">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdve    -- cd $WORKON_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdcondahome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdcondahome"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdcondahome">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdcondahome    -- cd $CONDA_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdcondahome"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdcondahome">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdcondahome    -- cd $CONDA_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;CONDA_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cda"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cda">[docs]</a>        <span class="sd">&quot;&quot;&quot;cda    -- cd $CONDA_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cda"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cda">[docs]</a>        <span class="sd">&quot;&quot;&quot;cda    -- cd $CONDA_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;CONDA_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdce"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdce">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdce    -- cd $CONDA_HOME/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdce"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdce">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdce    -- cd $CONDA_HOME/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;CONDA_HOME&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdvirtualenv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdvirtualenv"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdvirtualenv">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdvirtualenv    -- cd $VIRTUAL_ENV/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdvirtualenv"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdvirtualenv">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdvirtualenv    -- cd $VIRTUAL_ENV/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdv"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdv">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdv    -- cd $VIRTUAL_ENV/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdv"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdv">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdv    -- cd $VIRTUAL_ENV/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdsrc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdsrc"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdsrc">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdsrc    -- cd $_SRC/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdsrc"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdsrc">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdsrc    -- cd $_SRC/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cds"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cds">[docs]</a>        <span class="sd">&quot;&quot;&quot;cds    -- cd $_SRC/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cds"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cds">[docs]</a>        <span class="sd">&quot;&quot;&quot;cds    -- cd $_SRC/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdwrd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdwrd"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdwrd">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdwrd    -- cd $_WRD/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdwrd"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdwrd">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdwrd    -- cd $_WRD/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdw"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdw">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdw    -- cd $_WRD/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdw"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdw">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdw    -- cd $_WRD/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdbin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdbin"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdbin">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdbin    -- cd $_BIN/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdbin"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdbin">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdbin    -- cd $_BIN/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_BIN&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdb"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdb">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdb    -- cd $_BIN/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdb"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdb">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdb    -- cd $_BIN/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_BIN&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdetc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdetc"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdetc">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdetc    -- cd $_ETC/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdetc"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdetc">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdetc    -- cd $_ETC/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_ETC&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cde"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cde">[docs]</a>        <span class="sd">&quot;&quot;&quot;cde    -- cd $_ETC/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cde"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cde">[docs]</a>        <span class="sd">&quot;&quot;&quot;cde    -- cd $_ETC/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_ETC&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdlib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdlib"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdlib">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdlib    -- cd $_LIB/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdlib"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdlib">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdlib    -- cd $_LIB/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_LIB&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdl"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdl">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdl    -- cd $_LIB/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdl"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdl">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdl    -- cd $_LIB/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_LIB&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdlog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdlog"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdlog">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdlog    -- cd $_LOG/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdlog"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdlog">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdlog    -- cd $_LOG/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_LOG&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdpylib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdpylib"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdpylib">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdpylib    -- cd $_PYLIB/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdpylib"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdpylib">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdpylib    -- cd $_PYLIB/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_PYLIB&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdpysite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdpysite"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdpysite">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdpysite    -- cd $_PYSITE/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdpysite"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdpysite">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdpysite    -- cd $_PYSITE/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_PYSITE&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdsitepackages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdsitepackages"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdsitepackages">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdsitepackages    -- cd $_PYSITE/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdsitepackages"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdsitepackages">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdsitepackages    -- cd $_PYSITE/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_PYSITE&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdvar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdvar"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdvar">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdvar    -- cd $_VAR/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdvar"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdvar">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdvar    -- cd $_VAR/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_VAR&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdwww</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdwww"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdwww">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdwww    -- cd $_WWW/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdwww"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdwww">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdwww    -- cd $_WWW/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_WWW&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdww</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdww"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdww">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdww    -- cd $_WWW/${@}&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdww"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdww">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdww    -- cd $_WWW/${@}&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s">&#39;_WWW&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">cdhelp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.cdhelp"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.cdhelp">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdhelp()         -- list cd commands&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.cdhelp"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdhelp">[docs]</a>        <span class="sd">&quot;&quot;&quot;cdhelp()         -- list cd commands&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">cdfunc</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">cdfunc</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;cd&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">cdfunc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;cdhelp&#39;</span><span class="p">,</span><span class="s">&#39;cd&#39;</span><span class="p">):</span>
                 <span class="n">docstr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cdfunc</span><span class="p">)</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;--&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -395,12 +395,12 @@
 
     <span class="nd">@line_magic</span>
     <span class="k">def</span> <span class="nf">dotfiles_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.dotfiles_status"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.dotfiles_status">[docs]</a>        <span class="sd">&quot;&quot;&quot;dotfiles_status()    -- print dotfiles_status() .&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.dotfiles_status"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.dotfiles_status">[docs]</a>        <span class="sd">&quot;&quot;&quot;dotfiles_status()    -- print dotfiles_status() .&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dotfiles_status</span><span class="p">()</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">ds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.ds"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.ds">[docs]</a>        <span class="sd">&quot;&quot;&quot;ds()                 -- print dotfiles_status() .&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.ds"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.ds">[docs]</a>        <span class="sd">&quot;&quot;&quot;ds()                 -- print dotfiles_status() .&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dotfiles_status</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span></div>
@@ -410,17 +410,17 @@
 
     <span class="nd">@line_magic</span>
     <span class="k">def</span> <span class="nf">dotfiles_reload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.dotfiles_reload"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.dotfiles_reload">[docs]</a>        <span class="sd">&quot;&quot;&quot;dotfiles_reload()    -- print NotImplemented&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.dotfiles_reload"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.dotfiles_reload">[docs]</a>        <span class="sd">&quot;&quot;&quot;dotfiles_reload()    -- print NotImplemented&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dotfiles_reload</span><span class="p">()</span>
 
     <span class="nd">@line_magic</span></div>
     <span class="k">def</span> <span class="nf">dr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<div class="viewcode-block" id="VenvMagics.dr"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.VenvMagics.dr">[docs]</a>        <span class="sd">&quot;&quot;&quot;dr()                 -- print NotImplemented [dotfiles_reload()]&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VenvMagics.dr"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.dr">[docs]</a>        <span class="sd">&quot;&quot;&quot;dr()                 -- print NotImplemented [dotfiles_reload()]&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dotfiles_reload</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span></div></div>
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../dotfiles.venv.html#dotfiles.venv.ipython_magics.main">[docs]</a>    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_magics.main">[docs]</a>    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Register VenvMagics with IPython</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">IPython</span>
@@ -446,13 +446,13 @@
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="../../../index.html">westurner/dotfiles 0.8.1 documentation</a></li>
+        <li><a href="../../../index">westurner/dotfiles 0.8.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
-        <li><a href="../../../py-modindex.html" title="Python Module Index" >modules</a></li>
-        <li><a href="../../../genindex.html" title="General Index" >index</a></li>
-        <li><a href="../../index.html" >Module code</a></li>
+        <li><a href="../../../py-modindex" title="Python Module Index" >modules</a></li>
+        <li><a href="../../../genindex" title="General Index" >index</a></li>
+        <li><a href="../../index" >Module code</a></li>
         <li><a href="#">top</a></li> 
       
     </ul>

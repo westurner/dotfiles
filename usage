@@ -51,7 +51,7 @@
             URL_ROOT:    './',
             VERSION:     '0.8.1',
             COLLAPSE_INDEX: false,
-            FILE_SUFFIX: '.html',
+            FILE_SUFFIX: '',
             HAS_SOURCE:  true
   };
 </script>
@@ -64,9 +64,9 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index.html" />
-    <link rel="next" title="Venv" href="venv.html" />
-    <link rel="prev" title="Dotfiles" href="readme.html" /> 
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index" />
+    <link rel="next" title="Venv" href="venv" />
+    <link rel="prev" title="Dotfiles" href="readme" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.8.1 documentation</a>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -101,15 +101,15 @@
               </li>
 
             
-              <li><a href="readme.html" title="Dotfiles" accesskey="P">previous </a></li>
-              <li><a href="venv.html" title="Venv" accesskey="N">next </a></li>
-              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
-              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+              <li><a href="readme" title="Dotfiles" accesskey="P">previous </a></li>
+              <li><a href="venv" title="Venv" accesskey="N">next </a></li>
+              <li><a href="py-modindex" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex" title="General Index" accesskey="I">index </a></li>
             
             <li class="visible-xs"><a href="_sources/usage.txt" rel="nofollow">Show Source</a></li>
 
             <li class="visible-xs">
-                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search" method="get">
                   <div class="input-append input-group">
                     <input type="text" class="search-query form-control" name="q" placeholder="Search...">
                     <span class="input-group-btn">
@@ -138,7 +138,7 @@
          
 <div class="col-md-3 hidden-xs" id="sidebar-wrapper">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Usage</a><ul>
 <li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
@@ -152,14 +152,14 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="readme.html"
+  <p class="topless"><a href="readme"
                         title="previous chapter">Dotfiles</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="venv.html"
+  <p class="topless"><a href="venv"
                         title="next chapter">Venv</a></p>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
-  <form class="search form-inline" action="search.html" method="get">
+  <form class="search form-inline" action="search" method="get">
       <div class="input-append input-group">
         <input type="text" class="search-query form-control" name="q" placeholder="Search...">
         <span class="input-group-btn">
@@ -224,11 +224,11 @@
   <div class="section" id="usage">
 <span id="index-0"></span><span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="readme.html#install-the-dotfiles"><em>Install the dotfiles</em></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
-<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools.html#make"><em>Make</em></a>)</li>
-<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools.html#bash"><em>Bash</em></a>, <a class="reference internal" href="tools.html#zsh"><em>ZSH</em></a>)</li>
-<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools.html#vim"><em>Vim</em></a>)</li>
-<li>Manage windows on <a class="reference internal" href="tools.html#linux"><em>Linux</em></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools.html#i3wm"><em>I3wm</em></a>)</li>
+<li><a class="reference internal" href="readme#install-the-dotfiles"><em>Install the dotfiles</em></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools#make"><em>Make</em></a>)</li>
+<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools#zsh"><em>ZSH</em></a>)</li>
+<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools#vim"><em>Vim</em></a>)</li>
+<li>Manage windows on <a class="reference internal" href="tools#linux"><em>Linux</em></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools#i3wm"><em>I3wm</em></a>)</li>
 <li><a class="reference external" href="scripts">Script</a> all the <a class="reference external" href="http://schema.org/Thing">things</a></li>
 </ul>
 <div class="section" id="bootstrap-dotfiles-sh">
@@ -2036,14 +2036,14 @@ or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</sp
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.8.1 documentation</a></li>
+        <li><a href="index">westurner/dotfiles 0.8.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
-        <li><a href="readme.html" title="Dotfiles" >previous</a></li>
-        <li><a href="venv.html" title="Venv" >next</a></li>
-        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
-        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="readme" title="Dotfiles" >previous</a></li>
+        <li><a href="venv" title="Venv" >next</a></li>
+        <li><a href="py-modindex" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
     </ul>

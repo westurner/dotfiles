@@ -51,7 +51,7 @@
             URL_ROOT:    './',
             VERSION:     '0.8.1',
             COLLAPSE_INDEX: false,
-            FILE_SUFFIX: '.html',
+            FILE_SUFFIX: '',
             HAS_SOURCE:  true
   };
 </script>
@@ -64,9 +64,9 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index.html" />
-    <link rel="next" title="dotfiles.cli package" href="dotfiles.cli.html" />
-    <link rel="prev" title="Tools" href="tools.html" /> 
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index" />
+    <link rel="next" title="dotfiles.cli package" href="dotfiles.cli" />
+    <link rel="prev" title="Tools" href="tools" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.8.1 documentation</a>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -96,15 +96,15 @@
               </li>
 
             
-              <li><a href="tools.html" title="Tools" accesskey="P">previous </a></li>
-              <li><a href="dotfiles.cli.html" title="dotfiles.cli package" accesskey="N">next </a></li>
-              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
-              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+              <li><a href="tools" title="Tools" accesskey="P">previous </a></li>
+              <li><a href="dotfiles.cli" title="dotfiles.cli package" accesskey="N">next </a></li>
+              <li><a href="py-modindex" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex" title="General Index" accesskey="I">index </a></li>
             
             <li class="visible-xs"><a href="_sources/api.txt" rel="nofollow">Show Source</a></li>
 
             <li class="visible-xs">
-                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search" method="get">
                   <div class="input-append input-group">
                     <input type="text" class="search-query form-control" name="q" placeholder="Search...">
                     <span class="input-group-btn">
@@ -133,7 +133,7 @@
          
 <div class="col-md-3 hidden-xs" id="sidebar-wrapper">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Dotfiles API</a><ul>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
@@ -142,14 +142,14 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="tools.html"
+  <p class="topless"><a href="tools"
                         title="previous chapter">Tools</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="dotfiles.cli.html"
+  <p class="topless"><a href="dotfiles.cli"
                         title="next chapter">dotfiles.cli package</a></p>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
-  <form class="search form-inline" action="search.html" method="get">
+  <form class="search form-inline" action="search" method="get">
       <div class="input-append input-group">
         <input type="text" class="search-query form-control" name="q" placeholder="Search...">
         <span class="input-group-btn">
@@ -218,21 +218,21 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="dotfiles.cli.html">dotfiles.cli package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dotfiles.cli.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dotfiles.cli.html#module-dotfiles.cli.cli">dotfiles.cli.cli module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dotfiles.cli">dotfiles.cli package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dotfiles.cli#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dotfiles.cli#module-dotfiles.cli.cli">dotfiles.cli.cli module</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dotfiles.venv.html">dotfiles.venv package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv.html#objectives">Objectives</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv.html#configuration">Configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="dotfiles.venv.html#shell">Shell</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dotfiles.venv.html#ipython">IPython</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dotfiles.venv">dotfiles.venv package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv#objectives">Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dotfiles.venv#shell">Shell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dotfiles.venv#ipython">IPython</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_config">dotfiles.venv.ipython_config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_magics">dotfiles.venv.ipython_magics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_config">dotfiles.venv.ipython_config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_magics">dotfiles.venv.ipython_magics module</a></li>
 </ul>
 </li>
 </ul>
@@ -255,14 +255,14 @@
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.8.1 documentation</a></li>
+        <li><a href="index">westurner/dotfiles 0.8.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
-        <li><a href="tools.html" title="Tools" >previous</a></li>
-        <li><a href="dotfiles.cli.html" title="dotfiles.cli package" >next</a></li>
-        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
-        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="tools" title="Tools" >previous</a></li>
+        <li><a href="dotfiles.cli" title="dotfiles.cli package" >next</a></li>
+        <li><a href="py-modindex" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
     </ul>

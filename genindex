@@ -1,0 +1,2009 @@
+
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
+    <!--
+    <meta property="og:description" content="Documentation for the dotfiles project" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
+    
+    <title>Index &mdash; westurner/dotfiles 0.8.1 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="_static/css/local.css" type="text/css" />
+<link rel="stylesheet" href="_static/issuetracker.css" type="text/css" />
+<link rel="stylesheet" href="_static/changelog.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.8.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/local.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.1 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+              <li><a href="py-modindex" title="Python Module Index" >modules </a></li>
+              <li><a href="#" title="General Index" accesskey="I">index </a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div><div class="widget">
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
+ 
+</div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CmdAlias.__repr__">__repr__() (dotfiles.venv.ipython_config.CmdAlias method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.__str__">__str__() (dotfiles.venv.ipython_config.CdAlias method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CmdAlias.__str__">(dotfiles.venv.ipython_config.CmdAlias method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder.add_step">add_step() (dotfiles.venv.ipython_config.StepBuilder method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.aliases">aliases (dotfiles.venv.ipython_config.Venv attribute)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-41">Anaconda</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-82">Apple OSX</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-3">Apt</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Step.asdict">asdict() (dotfiles.venv.ipython_config.Step method)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-96">awesome-python-testing</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-42">Awk</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-43">Bash</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.BASH_ALIAS_TEMPLATE">BASH_ALIAS_TEMPLATE (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.BASH_CDALIAS_HEADER">BASH_CDALIAS_HEADER (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.BASH_COMPLETION_TEMPLATE">BASH_COMPLETION_TEMPLATE (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.bash_func_name">bash_func_name (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.bash_func_names">bash_func_names (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.BASH_FUNCTION_TEMPLATE">BASH_FUNCTION_TEMPLATE (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-36">Bazaar</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-44">Binutils</a>
+  </dt>
+
+      
+  <dt><a href="usage#index-1">bootstrap_dotfiles.sh</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-4">Bower</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-7">Brew</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Step.build">build() (dotfiles.venv.ipython_config.Step method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder.build">(dotfiles.venv.ipython_config.StepBuilder method)</a>
+  </dt>
+
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.build">(dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_conda_cfg_env">build_conda_cfg_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_conda_env">build_conda_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_dotfiles_env">build_dotfiles_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.VenvTestUtils.build_env_test_fixture">build_env_test_fixture() (dotfiles.venv.ipython_config.VenvTestUtils static method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder.build_iter">build_iter() (dotfiles.venv.ipython_config.StepBuilder method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Step.build_print_kwargs_env">build_print_kwargs_env() (dotfiles.venv.ipython_config.Step method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_user_aliases_env">build_user_aliases_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_usrlog_env">build_usrlog_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_venv_activate_env">build_venv_activate_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_venv_arg_parser">build_venv_arg_parser() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_venv_paths_cdalias_env">build_venv_paths_cdalias_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_venv_paths_full_env">build_venv_paths_full_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.build_virtualenvwrapper_env">build_virtualenvwrapper_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-46">C</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-47">C++</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.call">call() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.VenvTestUtils.capture_io">capture_io() (dotfiles.venv.ipython_config.VenvTestUtils static method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cd">cd() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cda">cda() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias">CdAlias (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdb">cdb() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdbin">cdbin() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdce">cdce() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdcondahome">cdcondahome() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdd">cdd() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cddotfiles">cddotfiles() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cde">cde() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdetc">cdetc() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdh">cdh() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdhelp">cdhelp() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdhome">cdhome() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdl">cdl() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdlib">cdlib() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdlog">cdlog() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdp">cdp() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdph">cdph() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdprojecthome">cdprojecthome() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdpylib">cdpylib() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdpysite">cdpysite() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cds">cds() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdsitepackages">cdsitepackages() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdsrc">cdsrc() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdv">cdv() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdvar">cdvar() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdve">cdve() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdvirtualenv">cdvirtualenv() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdw">cdw() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdwh">cdwh() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdworkonhome">cdworkonhome() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdwrd">cdwrd() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdwrk">cdwrk() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdww">cdww() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.cdwww">cdwww() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="changelog#index-0">Changelog</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-48">Clang</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CmdAlias">CmdAlias (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.comment_comment">comment_comment() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-49">Compiz</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.compress_paths">compress_paths() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-28">Conda</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-27">Conda Package</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.ConfigException">ConfigException</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.configure_ipython">configure_ipython() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.configure_sys">configure_sys() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.copy">copy() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-50">CoreOS</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-88">CPython</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-34">CVS</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-89">Cython</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-5">DEB</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder.debug">debug (dotfiles.venv.ipython_config.StepBuilder attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.VenvJSONEncoder.default">default() (dotfiles.venv.ipython_config.VenvJSONEncoder method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Step.DEFAULT_FUNC">DEFAULT_FUNC() (dotfiles.venv.ipython_config.Step method)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-33">Distributed Version Control Systems</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-18">distutils</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-51">Docker</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-52">Docutils</a>
+  </dt>
+
+      
+  <dt><a href="api#module-dotfiles">dotfiles (module)</a>
+  </dt>
+
+      
+  <dt><a href="usage#index-3">Dotfiles Bash Configuration</a>
+  </dt>
+
+      
+  <dt><a href="usage#index-6">Dotfiles i3wm Configuration</a>
+  </dt>
+
+      
+  <dt><a href="usage#index-2">Dotfiles Makefile</a>
+  </dt>
+
+      
+  <dt><a href="usage#index-8">Dotfiles Scripts</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="usage#index-4">Dotfiles Vim Configuration</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.cli#module-dotfiles.cli">dotfiles.cli (module)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.cli#module-dotfiles.cli.cli">dotfiles.cli.cli (module)</a>
+  </dt>
+
+      
+  <dt><a href="venv#index-0">dotfiles.venv</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#module-dotfiles.venv">(module)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="dotfiles.venv#module-dotfiles.venv.ipython_config">dotfiles.venv.ipython_config (module)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#module-dotfiles.venv.ipython_magics">dotfiles.venv.ipython_magics (module)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.dotfiles_reload">dotfiles_reload() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.dotfiles_status">dotfiles_status() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="usage#index-5">Dotvim</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-6">Dpkg</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.dr">dr() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.ds">ds() (dotfiles.venv.ipython_magics.VenvMagics method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-15">Egg</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env">Env (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-54">Filesystem Hierarchy Standard</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-53">Fortran</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.from_environ">from_environ() (dotfiles.venv.ipython_config.Env class method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.PrintEnvStep.func">func() (dotfiles.venv.ipython_config.PrintEnvStep method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Step.func">(dotfiles.venv.ipython_config.Step method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-55">GCC</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.generate_bash_cdalias">generate_bash_cdalias() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.generate_bash_env">generate_bash_env() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.generate_ipython_magics">generate_ipython_magics() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.generate_vars_env">generate_vars_env() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.generate_vim_cdalias">generate_vim_cdalias() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.get">get() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.get___WRK_default">get___WRK_default() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.get_IPYTHON_ALIAS_DEFAULTS">get_IPYTHON_ALIAS_DEFAULTS() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.get_IPYTHON_ALIAS_OVERLAY">get_IPYTHON_ALIAS_OVERLAY() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.cli#dotfiles.cli.cli.get_pkg_resource_filename">get_pkg_resource_filename() (in module dotfiles.cli.cli)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.get_pyver">get_pyver() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.get_USRLOG_ALIAS_OVERLAY">get_USRLOG_ALIAS_OVERLAY() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.get_WORKON_HOME_default">get_WORKON_HOME_default() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-37">Git</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-73">Glibc</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-57">Gnome</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-45">GNU Binutils</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-56">GNU Compiler Collection</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-72">GNU Libc</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-76">GNU/Linux</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-58">Go</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-59">Grep</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-39">Hg</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-8">Homebrew</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-60">Htop</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-38">HubFlow</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-61">i3wm</a>
+  </dt>
+
+      
+  <dt><a href="usage#index-7">I3wm configuration</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.in_ipython_config">in_ipython_config() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.IpyAlias">IpyAlias (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-62">IPython</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-63">ipython</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.ipython_imports">ipython_imports() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.IPYTHON_MAGIC_METHOD_TEMPLATE">IPYTHON_MAGIC_METHOD_TEMPLATE (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.IPYTHON_MAGICS_FILE_HEADER">IPYTHON_MAGICS_FILE_HEADER (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.IPYTHON_MAGICS_FOOTER">IPYTHON_MAGICS_FOOTER (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.ipython_main">ipython_main() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.iteritems">iteritems() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.iteritems_environ">iteritems_environ() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.iterkeys">iterkeys() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-64">Java</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-65">Javascript</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-66">Jinja2</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-67">JSON</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-69">JSON-LD</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-68">JSONLD</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-70">KDE</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-71">Libc</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-74">Libcloud</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-75">Libvirt</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-77">Linux</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-78">LLVM</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.logevent">logevent() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.logevent">(in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.lookup_from_kwargs_env">lookup_from_kwargs_env() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.magics">magics (dotfiles.venv.ipython_magics.VenvMagics attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.cli#dotfiles.cli.cli.main">main() (in module dotfiles.cli.cli)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.main">(in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.main">(in module dotfiles.venv.ipython_magics)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="tools#index-79">Make</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-40">Mercurial</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-80">MessagePack</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.name">name (dotfiles.venv.ipython_config.Env attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Step.name">(dotfiles.venv.ipython_config.Step attribute)</a>
+  </dt>
+
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder.name">(dotfiles.venv.ipython_config.StepBuilder attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.ndiff">ndiff() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-10">Node Package Manager</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-81">Node.js</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-9">NPM</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-11">NuGet</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-90">NumPy</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-94">NumPyPy</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.open_editors">open_editors() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.open_terminals">open_terminals() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-83">OS X</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.osenviron_keys">osenviron_keys (dotfiles.venv.ipython_config.Env attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.osenviron_keys_classic">osenviron_keys_classic (dotfiles.venv.ipython_config.Env attribute)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-84">OSX</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-2">Packages</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-85">Packer</a>
+  </dt>
+
+      
+  <dt><a href="tools#term-packer-artifact"><strong>Packer Artifact</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-packer-build"><strong>Packer Build</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-packer-builder"><strong>Packer Builder</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-packer-post-processor"><strong>Packer Post-Processor</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-packer-provisioner"><strong>Packer Provisioner</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-packer-template"><strong>Packer Template</strong></a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.parse_VENVSTR">parse_VENVSTR() (dotfiles.venv.ipython_config.Venv static method)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-21">Peep</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-86">Perl</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-20">Pip</a>
+  </dt>
+
+      
+  <dt><a href="tools#term-pip-requirements-file"><strong>Pip Requirements File</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#index-12">Portage</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-13">Ports</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.prepend_comment_char">prepend_comment_char() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.print">print() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.print_">print_() (dotfiles.venv.ipython_config.Test_300_venv_build_env static method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.PrintEnvStderrStep">PrintEnvStderrStep (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.PrintEnvStep">PrintEnvStep (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.project_files">project_files (dotfiles.venv.ipython_config.Venv attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.PROJECT_FILES">PROJECT_FILES (dotfiles.venv.ipython_config.Venv attribute)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-97">Pyline</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-23">PyPI</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-93">PyPy</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-98">Pyrpo</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-87">Python</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-95">Python 3</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-16">Python Egg</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-22">Python Package Index</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-17">Python Packages</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-25">Python Wheel</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-99">Readline</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics.registered">registered (dotfiles.venv.ipython_magics.VenvMagics attribute)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-100">ReStructuredText</a>
+  </dt>
+
+      
+  <dt><a href="tools#term-restructuredtext-directive"><strong>ReStructuredText Directive</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-restructuredtext-role"><strong>ReStructuredText Role</strong></a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-14">RPM</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-101">Ruby</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-29">Ruby Gem</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-30">RubyGems</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-102">Salt</a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-bootstrap"><strong>Salt Bootstrap</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-cloud"><strong>Salt Cloud</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-environment"><strong>Salt Environment</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-grains"><strong>Salt Grains</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-master"><strong>Salt Master</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-minion"><strong>Salt Minion</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-minion-id"><strong>Salt Minion ID</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-modules"><strong>Salt Modules</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-pillar"><strong>Salt Pillar</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-renderers"><strong>Salt Renderers</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-ssh"><strong>Salt SSH</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-states"><strong>Salt States</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-salt-top-file"><strong>Salt Top File</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#index-91">SciPy</a>, <a href="tools#index-92">[1]</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-103">Sed</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_250_Venv.setUp">setUp() (dotfiles.venv.ipython_config.Test_250_Venv method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.setUp">(dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv.setUp">(dotfiles.venv.ipython_config.Test_500_Venv method)</a>
+  </dt>
+
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.setUp">(dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-19">setuptools</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.shell_quote">shell_quote() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.shell_varquote">shell_varquote() (in module dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder.show_diffs">show_diffs (dotfiles.venv.ipython_config.StepBuilder attribute)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-104">Sphinx</a>
+  </dt>
+
+      
+  <dt><a href="tools#term-sphinx-builder"><strong>Sphinx Builder</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-sphinx-directive"><strong>Sphinx Directive</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-sphinx-restructuredtext"><strong>Sphinx ReStructuredText</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-sphinx-role"><strong>Sphinx Role</strong></a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.PrintEnvStep.stderr">stderr (dotfiles.venv.ipython_config.PrintEnvStep attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout">stdout (dotfiles.venv.ipython_config.PrintEnvStderrStep attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.PrintEnvStep.stdout">(dotfiles.venv.ipython_config.PrintEnvStep attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Step">Step (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder">StepBuilder (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepConfigException">StepConfigException</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.StepException">StepException</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-35">Subversion</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.system">system() (dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_200_StepBuilder.test_000_Step">test_000_Step() (dotfiles.venv.ipython_config.Test_200_StepBuilder method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv.test_000_venv">test_000_venv() (dotfiles.venv.ipython_config.Test_500_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_250_Venv.test_000_venv_test_fixture">test_000_venv_test_fixture() (dotfiles.venv.ipython_config.Test_250_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_001_lookup">Test_001_lookup (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_001_main_null">test_001_main_null() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv.test_005_venv">test_005_venv() (dotfiles.venv.ipython_config.Test_500_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_250_Venv.test_010_assert_venv_requires_VENVPREFIX__or__VIRTUAL_ENV">test_010_assert_venv_requires_VENVPREFIX__or__VIRTUAL_ENV() (dotfiles.venv.ipython_config.Test_250_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_100_Env.test_010_Env">test_010_Env() (dotfiles.venv.ipython_config.Test_100_Env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv.test_010_venv__APP">test_010_venv__APP() (dotfiles.venv.ipython_config.Test_500_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv.test_011_venv__APP">test_011_venv__APP() (dotfiles.venv.ipython_config.Test_500_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_100_Env.test_020_Env_copy">test_020_Env_copy() (dotfiles.venv.ipython_config.Test_100_Env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv.test_020_venv_from_null_environ">test_020_venv_from_null_environ() (dotfiles.venv.ipython_config.Test_500_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv.test_030_venv_without_environ">test_030_venv_without_environ() (dotfiles.venv.ipython_config.Test_500_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv.test_050_venv__VENVSTR__WORKON_HOME">test_050_venv__VENVSTR__WORKON_HOME() (dotfiles.venv.ipython_config.Test_500_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_100_build_dotfiles_env">test_100_build_dotfiles_env() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_100_Env">Test_100_Env (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_001_lookup.test_100_lookup">test_100_lookup() (dotfiles.venv.ipython_config.Test_001_lookup method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_100_main">test_100_main() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_250_Venv.test_100_Venv_parse_VENVSTR_env__and__VENVSTR">test_100_Venv_parse_VENVSTR_env__and__VENVSTR() (dotfiles.venv.ipython_config.Test_250_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_110_main_VENVSTR">test_110_main_VENVSTR() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_250_Venv.test_110_Venv_parse_VENVSTR_VENVSTR">test_110_Venv_parse_VENVSTR_VENVSTR() (dotfiles.venv.ipython_config.Test_250_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_120_main_print_bash_VENVSTR">test_120_main_print_bash_VENVSTR() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_250_Venv.test_120_Venv_parse_VENVSTR_VENVSTR_VENVSTRAPP">test_120_Venv_parse_VENVSTR_VENVSTR_VENVSTRAPP() (dotfiles.venv.ipython_config.Test_250_Venv method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_130_main_print_bash_VENVSTR_VENVSTRAPP">test_130_main_print_bash_VENVSTR_VENVSTRAPP() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_140_main_VENVSTR_WORKON_HOME">test_140_main_VENVSTR_WORKON_HOME() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_200_build_usrlog_env">test_200_build_usrlog_env() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_200_main_print_bash">test_200_main_print_bash() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_200_main_print_bash_VENVSTR__APP">test_200_main_print_bash_VENVSTR__APP() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_200_StepBuilder">Test_200_StepBuilder (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_210_main_print_bash_aliases">test_210_main_print_bash_aliases() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_220_main_print_bash_cdaliases">test_220_main_print_bash_cdaliases() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_250_Venv">Test_250_Venv (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_300_main_print_zsh">test_300_main_print_zsh() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env">Test_300_venv_build_env (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_400_build_virtualenvwrapper_env">test_400_build_virtualenvwrapper_env() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main.test_400_main_print_vim">test_400_main_print_vim() (dotfiles.venv.ipython_config.Test_900_Venv_main method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_500_build_conda_env">test_500_build_conda_env() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_200_StepBuilder.test_500_StepBuilder">test_500_StepBuilder() (dotfiles.venv.ipython_config.Test_200_StepBuilder method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_500_Venv">Test_500_Venv (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_600_build_conda_cfg_env">test_600_build_conda_cfg_env() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_600_build_venv_paths_full_env__prefix_None">test_600_build_venv_paths_full_env__prefix_None() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_200_StepBuilder.test_600_StepBuilder">test_600_StepBuilder() (dotfiles.venv.ipython_config.Test_200_StepBuilder method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_610_build_venv_paths_full_env__prefix_root">test_610_build_venv_paths_full_env__prefix_root() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_620_build_venv_paths_full_env__prefix_None">test_620_build_venv_paths_full_env__prefix_None() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_300_venv_build_env.test_650_build_venv_paths_cdalias_env">test_650_build_venv_paths_cdalias_env() (dotfiles.venv.ipython_config.Test_300_venv_build_env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_900_Venv_main">Test_900_Venv_main (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.cli#dotfiles.cli.cli.Test_dotfiles">Test_dotfiles (class in dotfiles.cli.cli)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.cli#dotfiles.cli.cli.Test_dotfiles.test_dotfiles_main">test_dotfiles_main() (dotfiles.cli.cli.Test_dotfiles method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Test_100_Env.test_Env_from_environ">test_Env_from_environ() (dotfiles.venv.ipython_config.Test_100_Env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.cli#dotfiles.cli.cli.Test_dotfiles.test_get_pkg_resource_filename">test_get_pkg_resource_filename() (dotfiles.cli.cli.Test_dotfiles method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.to_bash_function">to_bash_function() (dotfiles.venv.ipython_config.CdAlias method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.to_dict">to_dict() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.to_dict">(dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CmdAlias.to_ipython_alias">to_ipython_alias() (dotfiles.venv.ipython_config.CmdAlias method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.to_ipython_method">to_ipython_method() (dotfiles.venv.ipython_config.CdAlias method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.to_json">to_json() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.to_json">(dotfiles.venv.ipython_config.Venv method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.to_shell_str">to_shell_str() (dotfiles.venv.ipython_config.CdAlias method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CmdAlias.to_shell_str">(dotfiles.venv.ipython_config.CmdAlias method)</a>
+  </dt>
+
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.IpyAlias.to_shell_str">(dotfiles.venv.ipython_config.IpyAlias method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Env.to_string_iter">to_string_iter() (dotfiles.venv.ipython_config.Env method)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.to_vim_function">to_vim_function() (dotfiles.venv.ipython_config.CdAlias method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CmdAlias.to_vim_function">(dotfiles.venv.ipython_config.CmdAlias method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="tools#index-1">Tools</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-105">Tox</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-106">Ubuntu</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.update_os_environ">update_os_environ() (dotfiles.venv.ipython_config.Venv static method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="usage#index-0">Usage</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-107">Vagrant</a>
+  </dt>
+
+      
+  <dt><a href="tools#term-vagrant-box"><strong>Vagrant Box</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-vagrant-cloud"><strong>Vagrant Cloud</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-vagrant-provider"><strong>Vagrant Provider</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-vagrant-provisioner"><strong>Vagrant Provisioner</strong></a>
+  </dt>
+
+      
+  <dt><a href="tools#term-vagrantfile"><strong>Vagrantfile</strong></a>
+  </dt>
+
+      
+  <dt><a href="venv#index-1">Venv</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv">(class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.VenvJSONEncoder">VenvJSONEncoder (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_magics.VenvMagics">VenvMagics (class in dotfiles.venv.ipython_magics)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.VenvTestUtils">VenvTestUtils (class in dotfiles.venv.ipython_config)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-32">Version Control Systems</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-108">Vim</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.vim_cmd_name">vim_cmd_name (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.vim_cmd_names">vim_cmd_names (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.VIM_COMMAND_TEMPLATE">VIM_COMMAND_TEMPLATE (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.VIM_FUNCTION_TEMPLATE">VIM_FUNCTION_TEMPLATE (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias.VIM_HEADER_TEMPLATE">VIM_HEADER_TEMPLATE (dotfiles.venv.ipython_config.CdAlias attribute)</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-109">Vimium</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-110">Vimperator</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-112">VirtualBox</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-113">Virtualenv</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-114">Virtualenvwrapper</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-24">Warehouse</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-111">Wasavi</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-115">Wayland</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-0">westurner/tools</a>
+  </dt>
+
+      
+  <dt><a href="tools#index-26">Wheel</a>
+  </dt>
+
+      
+  <dt><a href="dotfiles.venv#dotfiles.venv.ipython_config.Venv.workon">workon() (dotfiles.venv.ipython_config.Venv class method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-118">X Window System</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-119">X11</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-116">YAML</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-31">Yum</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="tools#index-117">ZSH</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index">westurner/dotfiles 0.8.1 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="py-modindex" title="Python Module Index" >modules</a></li>
+        <li><a href="#" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2014, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

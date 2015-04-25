@@ -51,7 +51,7 @@
             URL_ROOT:    './',
             VERSION:     '0.8.1',
             COLLAPSE_INDEX: false,
-            FILE_SUFFIX: '.html',
+            FILE_SUFFIX: '',
             HAS_SOURCE:  true
   };
 </script>
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index" />
  
 
 
@@ -79,18 +79,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.8.1 documentation</a>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.1 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 
             
               <li><a href="#" title="Python Module Index" >modules </a></li>
-              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+              <li><a href="genindex" title="General Index" accesskey="I">index </a></li>
             
 
             <li class="visible-xs">
-                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search" method="get">
                   <div class="input-append input-group">
                     <input type="text" class="search-query form-control" name="q" placeholder="Search...">
                     <span class="input-group-btn">
@@ -121,7 +121,7 @@
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
-  <form class="search form-inline" action="search.html" method="get">
+  <form class="search form-inline" action="search" method="get">
       <div class="input-append input-group">
         <input type="text" class="search-query form-control" name="q" placeholder="Search...">
         <span class="input-group-btn">
@@ -167,32 +167,32 @@
        <td><img src="_static/minus.png" class="toggler"
               id="toggle-1" style="display: none" alt="-" /></td>
        <td>
-       <a href="api.html#module-dotfiles"><code class="xref">dotfiles</code></a></td><td>
+       <a href="api#module-dotfiles"><code class="xref">dotfiles</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&nbsp;&nbsp;&nbsp;
-       <a href="dotfiles.cli.html#module-dotfiles.cli"><code class="xref">dotfiles.cli</code></a></td><td>
+       <a href="dotfiles.cli#module-dotfiles.cli"><code class="xref">dotfiles.cli</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&nbsp;&nbsp;&nbsp;
-       <a href="dotfiles.cli.html#module-dotfiles.cli.cli"><code class="xref">dotfiles.cli.cli</code></a></td><td>
+       <a href="dotfiles.cli#module-dotfiles.cli.cli"><code class="xref">dotfiles.cli.cli</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&nbsp;&nbsp;&nbsp;
-       <a href="dotfiles.venv.html#module-dotfiles.venv"><code class="xref">dotfiles.venv</code></a></td><td>
+       <a href="dotfiles.venv#module-dotfiles.venv"><code class="xref">dotfiles.venv</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&nbsp;&nbsp;&nbsp;
-       <a href="dotfiles.venv.html#module-dotfiles.venv.ipython_config"><code class="xref">dotfiles.venv.ipython_config</code></a></td><td>
+       <a href="dotfiles.venv#module-dotfiles.venv.ipython_config"><code class="xref">dotfiles.venv.ipython_config</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&nbsp;&nbsp;&nbsp;
-       <a href="dotfiles.venv.html#module-dotfiles.venv.ipython_magics"><code class="xref">dotfiles.venv.ipython_magics</code></a></td><td>
+       <a href="dotfiles.venv#module-dotfiles.venv.ipython_magics"><code class="xref">dotfiles.venv.ipython_magics</code></a></td><td>
        <em></em></td></tr>
    </table>
 
@@ -211,12 +211,12 @@
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.8.1 documentation</a></li>
+        <li><a href="index">westurner/dotfiles 0.8.1 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
         <li><a href="#" title="Python Module Index" >modules</a></li>
-        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="genindex" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
       
     </ul>
