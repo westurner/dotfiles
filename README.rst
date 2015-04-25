@@ -15,7 +15,7 @@ Dotfiles
    :target: https://travis-ci.org/westurner/dotfiles
 
 .. _GitHub: https://github.com/westurner/dotfiles
-.. _Documentation: https://westurner.github.io/dotfiles/   
+.. _Documentation: https://westurner.org/dotfiles/   
 .. _ReadTheDocs: https://wrdfiles.readthedocs.org/en/latest/
 
 
@@ -40,9 +40,9 @@ Installation
 Requirements
 ---------------
 Project requirements are installed by 
-`bootstrap_dotfiles.sh`_ and, optionally, also the `Makefile`_.
+`bootstrap_dotfiles.sh`_ and/or, optionally, also a `Makefile`_.
 
-* :ref:`Bash`, :ref:`Git`, :ref:`Python`, :ref:`pip`
+* `Bash`, `Git`, `Python`, `pip`
 
 .. _bootstrap_dotfiles.sh:
    https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
@@ -55,7 +55,7 @@ Project requirements are installed by
 Install the dotfiles
 ---------------------
 | Source: https://github.com/westurner/dotfiles
-| Documentation: https://westurner.github.io/dotfiles/
+| Documentation: https://westurner.org/dotfiles/
 
 
 The `bootstrap_dotfiles.sh`_ shell script:
@@ -63,7 +63,7 @@ The `bootstrap_dotfiles.sh`_ shell script:
 * clones the ``dotfiles`` and ``dotvim`` repositories
 * creates symlinks from ``HOME`` to ``__DOTFILES``,
 * installs the ``dotfiles`` Python package,
-* installs additional requirements with :ref:`pip`
+* installs additional requirements with `pip`
 
 .. code:: bash
 
@@ -71,7 +71,7 @@ The `bootstrap_dotfiles.sh`_ shell script:
    bash ./scripts/bootstrap_dotfiles.sh -I -R
 
 
-Create a :ref:`virtualenv` with :ref:`virtualenvwrapper`
+Create a `virtualenv` with `virtualenvwrapper`
 named "``dotfiles``":
 
 .. code:: bash
@@ -258,19 +258,19 @@ See `Install the dotfiles`_ for more terse installation instructions.
     $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
 
 
-See: `Usage`_ and `Venv`_ for further documentation.
+For further documentation, see:
 
-.. _usage: https://westurner.github.io/dotfiles/usage.html
-.. _venv: https://westurner.github.io/dotfiles/venv.html
+* https://westurner.org/dotfiles/usage
+* https://westurner.org/dotfiles/venv
 
 
 
 Further Dotfiles Resources
 ===========================
 * https://dotfiles.github.io/
-* https://westurner.github.io/wiki/workflow
-* https://westurner.github.io/dotfiles/
+* https://westurner.org/wiki/workflow
+* https://westurner.org/dotfiles/
 
-  * https://westurner.github.io/dotfiles/usage.html
-  * https://westurner.github.io/dotfiles/usage.html#bash
-  * https://westurner.github.io/dotfiles/usage.html#vim
+  * https://westurner.org/dotfiles/usage
+  * https://westurner.org/dotfiles/usage#bash
+  * https://westurner.org/dotfiles/usage#vim
