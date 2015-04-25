@@ -4,14 +4,24 @@
 
 ## http://shreevatsa.wordpress.com/2007/07/31/using-gmail-with-mutt-the-minimal-way/
 
-set imap_user = "wes.turner@gmail.com"
-set imap_pass = `zenity --password`
+#set imap_user = "<username>@gmail.com"
+#set imap_user = `cat "${__DOTFILES}/etc/keys/email/0/emailaddress"`
+set imap_user = `prompt6.py -g email/0/emailaddress`
+#set imap_pass = `zenity --password`
+set imap_pass = `prompt6.py -g email/0/pw@@`
 
-set smtp_url = "smtps://wes.turner@smtp.gmail.com:465/"
-set smtp_pass = `zenity --password`
+#set smtp_url = "smtps://wes.turner@smtp.gmail.com:465/"
+set smtp_url = `prompt6.py -g email/0/smtp_url`
 
-set from = "wes.turner@gmail.com"
-set realname = "Wes Turner"
+#set smtp_pass = `zenity --password`
+set smtp_pass = `prompt6.py -g email/0/pw@@` 
+
+
+#set from = "wes.turner@gmail.com"
+set from = `prompt6.py -g email/0/emailaddress`
+#
+#set realname = "First Last"
+set realname = `prompt6.py -g email/0/realname`
 
 set folder = "imaps://imap.gmail.com:993"
 set spoolfile = "+INBOX"
