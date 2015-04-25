@@ -1,3 +1,6 @@
 #!/bin/bash
 # This hook is run after a new virtualenv is created and before it is activated.
 
+declare -f 'dotfiles_premkvirtualenv' 2>&1 > /dev/null \
+    && dotfiles_premkvirtualenv $@
+
