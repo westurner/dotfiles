@@ -412,6 +412,26 @@ detect_platform() {
         export __IS_LINUX='true'
     fi
 }
+
+j() {
+    # j()               -- jobs
+    jobs
+}
+
+f() {
+    # f()               -- fg %$1
+    fg %${1}
+}
+
+b() {
+    # b()               -- bg %$1
+    bg %${1}
+}
+
+killjob() {
+    # killjob()         -- kill %$1
+    kill %${1}
+}
 uname
 echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
 
@@ -624,9 +644,24 @@ dotfiles_initialize() {
     log_dotfiles_state 'initialize'
 }
 
+
+dotfiles_premkvirtualenv() {
+    # dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
+    if [ -n "${1}" ]; then
+        export VIRTUAL_ENV="${WORKON_HOME}/${1}"
+    fi
+}
+
 dotfiles_postmkvirtualenv() {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
+
     log_dotfiles_state 'postmkvirtualenv'
+
+    if [ -n "${VIRTUAL_ENV}" ]; then
+        echo "VIRTUAL_ENV is not set? (err: -1)"
+        return -1
+    fi
+
     declare -f 'venv_mkdirs' 2>&1 >/dev/null && venv_mkdirs
     test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
     echo ""
@@ -653,8 +688,9 @@ dotfiles_postactivate() {
         $__VENV -e --verbose --diff --print-bash 2>&1 /dev/null)
     local venv_return_code=$?
     if [ ${venv_return_code} -eq 0 ]; then
-        test -n $__VENV \
-            && source <($__VENV -e --print-bash)
+        if [ -n "${__VENV}" ]; then
+            source <($__VENV -e --print-bash)
+        fi
     else
         echo "${bash_debug_output}" # >2
     fi
@@ -662,7 +698,7 @@ dotfiles_postactivate() {
     echo "setup usrlog"
     declare -f '_setup_usrlog' 2>&1 > /dev/null \
         && _setup_usrlog
-   
+
     declare -f 'venv_set_prompt' 2>&1 > /dev/null \
         && venv_set_prompt
 
@@ -677,11 +713,14 @@ dotfiles_postdeactivate() {
     # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
     unset VIRTUAL_ENV_NAME
+    unset VENVSTR
+    unset VENVSTRAPP
+    unset VENVPREFIX
     unset _APP
     unset _BIN
     unset _CFG
     unset _EDITCFG_
-    unset _EDITOR
+    export EDITOR_=${EDITOR}
     unset _EDIT_
     unset _ETC
     unset _ETCOPT
@@ -730,8 +769,8 @@ dotfiles_postdeactivate() {
     unset _WWW
 
     declare -f '_usrlog_set__USRLOG' 2>&1 > /dev/null \
-        && _usrlog_set__USRLOG
-   
+        && _usrlog_set__USRLOG "${__USRLOG}"
+
     dotfiles_reload
 }
 
@@ -2408,7 +2447,16 @@ __setup_dotfiles() {
 
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
-export __SRC="${__WRK}/src/src"
+export __SRCVENV="${__WRK}/src"
+export __SRC="${__SRCVENV}/src"
+
+if [ ! -e "${__SRCVENV}" ]; then
+    if [ ! -d "${WORKON_HOME}/src" ]; then
+        mkvirtualenv -i pyrpo -i pyline -i pygitpages src
+    fi
+    ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
+fi
+
 if [ ! -d $__SRC ]; then
     mkdir -p \
         ${__SRC}/git/github.com \
@@ -3120,7 +3168,12 @@ grinds () {
 }
 alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
 alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
-alias nosew='(cd "${_WRD}" && nosetests)'
+eval 'nosew () {
+    (cd "${_WRD}" && nosetests $@)
+}';
+nosew () {
+    (cd "${_WRD}" && nosetests $@)
+}
 eval 'grinw () {
     grin --follow $@ "${_WRD}"
 }';
@@ -3150,10 +3203,10 @@ e () {
     ${_EDIT_} $@
 }
 eval 'editp () {
-    $GUIVIMBIN $VIMCONF $PROJECT_FILES $@
+    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} $@
 }';
 editp () {
-    $GUIVIMBIN $VIMCONF $PROJECT_FILES $@
+    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} $@
 }
 eval 'makewrd () {
     (cd "${_WRD}" && make $@)
@@ -3211,22 +3264,14 @@ grinw() {
     # grinw()   -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
-grin-() {
-    # grin-()   -- grin _WRD
-    grinw $@
-}
 grindw() {
     # grindw()  -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
 }
-grind-() {
-    # grind-()  -- grind $_WRD
-    grindw $@
-}
 
 edit_grin_w() {
     # edit_grin_w() -- edit $(grinw -l $@)
-    edit $(grin w -l $@)
+    edit $(grinw -l $@)
 }
 
 egw() {
@@ -3492,6 +3537,26 @@ edit() {
     # edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} $@
 }
+
+editwrd() {
+    # editw()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@)
+    (for arg in $@; do echo $arg; done) | \
+        el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
+}
+
+ew() {
+    # ew()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@) ('excellent')
+    editwrd $@
+}
+_editwrd_complete() {
+    #echo "1" $1
+    #echo $2
+    #echo $@
+    local cur="$2";
+    COMPREPLY=($(cd $_WRD && ls $_WRD${1:+"/${1}*"} 2>/dev/null && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _editwrd_complete editwrd
+complete -o default -o nospace -F _editwrd_complete ew
 
 editcfg() {
     # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
@@ -4049,7 +4114,15 @@ ugrin () {
 
 lsusrlogs() {
     # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
-    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog
+    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog ${WORKON_HOME}/*/-usrlog.log $@
+}
+usrlog_lately(){
+    # usrlog_lately()      -- lsusrlogs by mtime
+    lsusrlogs $@ | xargs ls -ltr
+}
+ull() {
+    # ull()                -- usrlog_lately() (lsusrlogs by mtime)
+    usrlog_lately $@
 }
 
 usrlog_grep_all() {

@@ -4951,6 +4951,11 @@ fi
 SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-H24lgXwSY4Yo/agent.26031; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=26033; export SSH_AGENT_PID;
 #echo Agent pid 26033;
+SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-HpzTgSgRlT7c/agent.69627; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=69629; export SSH_AGENT_PID;
+#echo Agent pid 69629;
+starting ssh-agent...
+Identity added: /Users/W/.ssh/id_rsa (/Users/W/.ssh/id_rsa)
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
