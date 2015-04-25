@@ -310,6 +310,9 @@ html_sidebars = {
 # This is the file name suffix for HTML files (e.g. ".xhtml").
 #html_file_suffix = None
 
+# see: https://pypi.python.org/pypi/pgs (to auto-append .html to paths)
+html_link_suffix = ''
+
 # Filename affix
 filename_affix = "{}".format(project_name_slug)
 
