@@ -8,10 +8,10 @@
 Tools
 ================
 
-| Docs: https://westurner.github.io/tools/
+| Docs: https://westurner.org/tools/
 | Src: https://github.com/westurner/tools
 
-See Also: https://westurner.github.io/wiki/projects#tools
+See Also: https://westurner.org/wiki/projects#tools
 
 
 .. index:: Packages
@@ -736,7 +736,7 @@ Branch names are configurable; the defaults are as follows:
 
 +--------------------+-------------------------------------------------------------------------------+
 | **Branch Name**    | **Description**                                                               |
-|                    | (and `Code Labels <https://westurner.github.io/wiki/workflow#code-labels>`__) |
+|                    | (and `Code Labels <https://westurner.org/wiki/workflow#code-labels>`__) |
 +--------------------+-------------------------------------------------------------------------------+
 | ``master``         | Stable trunk (latest release)                                                 |
 +--------------------+-------------------------------------------------------------------------------+
@@ -1893,7 +1893,7 @@ http://docs.continuum.io/anaconda/pkg-docs.html
 
 awesome-python-testing
 ~~~~~~~~~~~~~~~~~~~~~~~~
-| Homepage: https://westurner.github.io/wiki/awesome-python-testing.html
+| Homepage: https://westurner.org/wiki/awesome-python-testing.html
 | Source: https://github.com/westurner/wiki/blob/master/awesome-python-testing.rest
 
 
