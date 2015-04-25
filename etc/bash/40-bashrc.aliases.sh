@@ -122,6 +122,8 @@ _loadaliases () {
         alias ls='ls -G'
         # lt       -- 'ls -altr -G'
         alias lt='ls -altr -G'
+        # lll      -- 'ls -altr -G'
+        alias lll='ls -altr -G'
     # else
     else
         # la       -- 'ls -A --color=auto'
@@ -132,6 +134,8 @@ _loadaliases () {
         alias ls='ls --color=auto'
         # lt       -- 'ls -altr --color=auto'
         alias lt='ls -altr --color=auto'
+        # lll      -- 'ls -altr --color=auto'
+        alias lll='ls -altr --color=auto'
     fi
 
     # __IS_LINUX

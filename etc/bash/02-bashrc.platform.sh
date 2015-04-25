@@ -10,3 +10,23 @@ detect_platform() {
         export __IS_LINUX='true'
     fi
 }
+
+j() {
+    # j()               -- jobs
+    jobs
+}
+
+f() {
+    # f()               -- fg %$1
+    fg %${1}
+}
+
+b() {
+    # b()               -- bg %$1
+    bg %${1}
+}
+
+killjob() {
+    # killjob()         -- kill %$1
+    kill %${1}
+}

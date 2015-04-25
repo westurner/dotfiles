@@ -5,23 +5,29 @@ from __future__ import print_function
 
 **pyline**
 
-A simple UNIX tool for line-based processing in Python.
+Pyline is a UNIX command-line tool for
+line-based processing in Python
+with regex and output transform features
+similar to grep, sed, and awk.
 
 Features:
 
-* Python str.split by a delimiter (``-F``)
+* Python ``str.split()`` by a delimiter (``-F``)
+* Python ``shlex.split(posix=True)`` with POSIX quote parsing (``--shlex``)
 * Python Regex (``-r``, ``--regex``, ``-R``, ``--regex-options``)
-* Output as txt, csv, ttsv, json (``-O``, ``-output-filetype``)
-* (Lazy) sorting (``-s``, ``--sort-asc``, ``-S``, ``--sort-desc``)
-* Create Path.py (or pathlib) objects from each line (``-p``)
-* namedtuples, ``yield``ing generators
+* Output as ``txt``, ``csv``, ``tsv``, ``json``, ``html``
+  (``-O|--output-filetype=csv``)
+* Output as Markdown/ReStructuredText ``checkbox`` lists
+  (``-O|--output-filetype=checkbox``)
+* (Lazy) sorting (``-s``, ``--sort-asc``, ``-S``, ``--sort-desc``) # XXX TODO
+* Path.py or pathlib objects from each line (``-p``)
+* ``namedtuple``s, ``yield``ing generators
 
 **Usage**
 
 Shell::
 
     pyline.py --help
-    pyline.py --test
 
     # Print every line (null transform)
     cat ~/.bashrc | pyline.py line
@@ -41,17 +47,23 @@ Shell::
     pyline.py -f ~/.bashrc 'w[-1:]'
 
     # Regex matching with groups
-    cat ~/.bashrc | pyline.py -n -r '^#(.*)' 'rgx and rgx.group()'
+    cat ~/.bashrc | pyline.py -n -r '^#(.*)' \
+        'rgx and (rgx.group(0), rgx.group(1))'
 
 
 """
 
+import cgi
 import csv
+import collections
+import codecs
 import json
 import logging
 import operator
 import textwrap
 import pprint
+import shlex as _shlex
+
 
 from collections import namedtuple
 
@@ -94,19 +106,25 @@ class PylineResult(Result):
     def __str__(self):
         result = self.result
         odelim = u'\t'  # TODO
+        odelim = unicode(odelim)
+
         if result is None or result is False:
             return result
 
         elif hasattr(self.result, 'itervalues'):
-            for col in self.result.itervalues():
-                return odelim.join(str(s) for s in self.result.itervalues())
+            result = odelim.join(unicode(s) for s in self.result.itervalues())
 
         elif hasattr(self.result, '__iter__'):
-            result = odelim.join(str(s) for s in result)
+            result = odelim.join(unicode(s) for s in result)
+
         else:
             if result[-1] == '\n':
                 result = result[:-1]
+
         return result
+
+    def __unicode__(self):
+        return self.__str__()
 
     def _numbered(self, **opts):
         yield self.n
@@ -132,44 +150,17 @@ class PylineResult(Result):
             unicode(odelim).join(str(x) for x in record))
 
 
-def _import_path_module():
-    """
-    Attempt to import a path module (path.py, pathlib, str)
-
-    Returns:
-        function: function to apply to each line
-    """
-    Path = None
-    try:
-        # First, try to import path.py (pip install path.py)
-        from path import path as Path
-    except ImportError:
-        log.debug("path.py not found (pip install path.py)")
-        try:
-            # Otherwise, try to import pathlib (pip install pathlib OR Py3.4+)
-            from pathlib import Path
-            pass
-        except ImportError:
-            log.error("pathlib not found (pip install pathlib)")
-            Path = str  # os.exists, os
-            pass
-    return Path
-
-Path = _import_path_module()
-
-
-def get_path_module():
-    return Path
-
-
 def pyline(iterable,
            cmd=None,
+           col_map=None,
            modules=[],
            regex=None,
            regex_options=None,
            path_tools_pathpy=False,
            path_tools_pathlib=False,
+           shlex=None,
            idelim=None,
+           idelim_split_max=-1,
            odelim="\t",
            **kwargs):
     """
@@ -183,6 +174,7 @@ def pyline(iterable,
         regex_options (TODO): Regex options: I L M S X U (see ``pydoc re``)
         path_tools (bool): try to cast each line to a file
         idelim (str): input delimiter
+        idelim_split_max (int): str.split(idelim, idelim_split_max)
         odelim (str): output delimiter
 
     Returns:
@@ -192,6 +184,9 @@ def pyline(iterable,
     for _importset in modules:
         for _import in _importset.split(','):
             locals()[_import] = __import__(_import.strip())
+
+    def debug(*args, **kwargs):
+        raise Exception(args, kwargs)
 
     _rgx = None
     if regex:
@@ -218,10 +213,11 @@ def pyline(iterable,
 
     Path = str
     if path_tools_pathpy:
-        Path = path.path
+        import path as pathpy
+        Path = pathpy.path
     if path_tools_pathlib:
+        import pathlib
         Path = pathlib.Path
-
 
     try:
         log.info("_cmd: %r" % cmd)
@@ -241,8 +237,11 @@ def pyline(iterable,
             else:
                 yield obj.__getslice__(k)
 
-    k = lambda obj, keys=(':',): [obj.__getslice__(k) for k in keys]
-    j = lambda args: odelim.join(str(_value) for _value in args)
+    def k(obj, keys=(':',)):
+        return [obj.__getslice__(k) for k in keys]
+
+    def j(args):
+        return odelim.join(str(_value) for _value in args)
     # from itertools import imap, repeat
     # j = lambda args: imap(str, izip_longest(args, repeat(odelim)))
 
@@ -254,9 +253,17 @@ def pyline(iterable,
 
     pp = pprint.pformat
 
+    if shlex:
+        def splitfunc(line):
+            return _shlex.split(line, posix=True)
+    else:
+        def splitfunc(line):
+            return line.strip().split(idelim, idelim_split_max)
+
     for i, line in enumerate(iterable):
         l = line
-        w = words = [w for w in line.strip().split(idelim)]
+        w = words = [_w for _w in splitfunc(line)]
+        rgx = _rgx and _rgx.match(line) or None
 
         p = path = None
         if path_tools_pathpy or path_tools_pathlib and line.rstrip():
@@ -265,8 +272,6 @@ def pyline(iterable,
             except Exception as e:
                 log.exception(e)
                 pass
-
-        rgx = _rgx and _rgx.match(line) or None
 
         # Note: eval
         try:
@@ -279,43 +284,122 @@ def pyline(iterable,
         yield PylineResult(i, result)
 
 
-def itemgetter_default(args, default=None):
+typestr_func_map = collections.OrderedDict((
+    ('b', bool),
+    ('bool', bool),
+    ('xsd:bool', bool),
+
+    ('bin', bin),
+    ('h', hex),
+    ('hex', hex),
+
+    ('i', int),
+    ('int', int),
+    ('xsd:integer', int),
+
+    ('f', float),
+    ('float', float),
+    ('xsd:float', float),
+
+    ('s', str),
+    ('str', str),
+    ('xsd:string', str),
+
+    ('u', unicode),
+    ('unicode', unicode),
+))
+
+
+def parse_column_map(col_mapstr, default=unicode):
     """
-    Return a callable object that fetches the given item(s) from its operand,
-    or the specified default value.
 
-    Similar to operator.itemgetter except returns ``default``
-    when the index does not exist
+    Args:
+        col_mapstr (str): e.g. "0,1,2,3" or "0,1,4:int"
+
+    Keyword Arguments:
+        default (callable): type casting callable
+
+    Yields:
+        tuple: (col, type casting function)
+
     """
-    if args is None:
-        columns = xrange(len(args))
-    else:
-        columns = args
-
-    def _itemgetter(row):
-        for col in columns:
-            try:
-                yield row[col]
-            except IndexError:
-                yield default
-    return _itemgetter
-
-
-def get_list_from_str(str_, cast_callable=int):
-    if not str_ or not str_.strip():
-        return []
-    return [cast_callable(x.strip()) for x in str_.split(',')]
+    if not col_mapstr or not col_mapstr.strip():
+        return
+    for _col_typestr in col_mapstr.split(','):
+        type_func = default
+        x = col_typestr = _col_typestr.strip()
+        # parse column::datatype mappings
+        if '::' in col_typestr:
+            x, typestr = col_typestr.split('::', 1)
+            x, typestr = x.strip(), typestr.strip()
+            type_func = typestr_func_map.get(typestr, default)
+        yield (x, type_func)
 
 
-def sort_by(sortstr, nl, reverse=False):
-    columns = get_list_from_str(sortstr)
-    log.debug("columns: %r" % columns)
+def build_column_map(col_map):
+    """
+    Args:
+        col_map (str or dict): col_mapstr or a dict
+    Returns:
+        dict: or OrderedDict of (col, type_func) mappings
+    """
+    #
+    if not col_map:
+        return {}
+    if hasattr(col_map, 'items'):
+        return col_map
+    return collections.OrderedDict(
+        parse_column_map(col_map, default=unicode)
+    )
 
-    # get_columns = operator.itemgetter(*columns)
-    get_columns = itemgetter_default(columns, default=None)
 
-    return sorted(nl,
-                  key=get_columns,
+def get_list_from_str(str_, idelim=',', type_func=int):
+    """
+    Split a string of integers separated by commas
+    """
+    return [type_func(x.strip()) for x in str_.split(idelim)]
+
+
+def sort_by(sortstr, iterable,
+            reverse=False,
+            col_map=None,
+            default_type=None,
+            default_value=None):
+    """
+    Arguments:
+        sortstr (str): sort string (comma separated list of column numbers)
+        iterable (iterable): iterable of lines/rows
+
+    Keyword Arguments:
+        reverse (bool): True to sort in reverse
+
+    Returns:
+        list: sorted list of lines/rows
+    """
+    def keyfunc_iter(obj):
+        if sortstr:
+            column_sequence = get_list_from_str(sortstr)
+        else:
+            column_sequence = xrange(len(obj))
+        for n in column_sequence:
+            type_func = col_map.get(str(n), default_type)
+            if n < len(obj.result):
+                if type_func:
+                    try:
+                        yield type_func(obj.result[n])
+                    except ValueError as e:
+                        print(type_func, obj.result[n], e)
+                        raise
+                else:
+                    yield obj.result[n]
+            else:
+                yield default_value
+
+    def keyfunc(obj):
+        return list(keyfunc_iter(obj))
+
+    return sorted(iterable,
+                  key=keyfunc,
                   reverse=reverse)
 
 
@@ -348,7 +432,7 @@ class ResultWriter(object):
         pass
 
     def write(self, obj):
-        print(obj, file=self._output)
+        print(unicode(obj), file=self._output)
 
     def write_numbered(self, obj):
         print(obj, file=self._output)
@@ -440,6 +524,7 @@ class ResultWriter_json(ResultWriter):
 
 class ResultWriter_html(ResultWriter):
     filetype = 'html'
+    escape_func = staticmethod(cgi.escape)
 
     def header(self, *args, **kwargs):
         attrs = kwargs.get('attrs')
@@ -447,7 +532,7 @@ class ResultWriter_html(ResultWriter):
         self._output.write("<tr>")
         if bool(attrs):
             for col in attrs:
-                self._output.write(u"<th>%s</th>" % col)
+                self._output.write(u"<th>%s</th>" % self.escape_func(col))
         self._output.write("</tr>")
 
     def _html_row(self, obj):
@@ -457,12 +542,13 @@ class ResultWriter_html(ResultWriter):
                 attr is not None and (' class="%s"' % attr) or '')
             if hasattr(col, '__iter__'):
                 for value in col:
-                    yield u'<span>%s</span>' % value
+                    yield u'<span>%s</span>' % self.escape_func(value)
             else:
                 # TODO
-                yield u'%s' % (
+                colvalue = (
                     col and hasattr(col, 'rstrip') and col.rstrip()
                     or str(col))
+                yield self.escape_func(colvalue)
             yield "</td>"
         yield "</tr>"
 
@@ -491,7 +577,22 @@ class ResultWriter_checkbox(ResultWriter):
 def get_option_parser():
     import optparse
     prs = optparse.OptionParser(
-        usage="%prog: [options] \"<command>\"",
+        usage=(
+            "%prog [-f<path>] [-o|--output-file=<path>] \n"
+            "              [-F|--input-delim='\\t'] \n"
+            "              [--input-delim-split-max=3] \n"
+            "              [-d|--output-delimiter='||'] \n"
+            "              [-n|--number-lines] \n"
+            "              [-m|--modules=<mod2>] \n"
+            "              [-p|--pathpy] [--pathlib] \n"
+            "              [-r '<rgx>'|--regex='<rgx>'] \n"
+            "              '<commandstr>'"
+        ),
+        description=(
+            "Pyline is a UNIX command-line tool for line-based processing "
+            "in Python with regex and output transform features "
+            "similar to grep, sed, and awk."
+            ),
         epilog=EPILOG)
 
     prs.add_option('-f',
@@ -509,7 +610,8 @@ def get_option_parser():
                    dest='output_filetype',
                    action='store',
                    default='txt',
-                   help="Output filetype <txt|csv|tsv|json> (default: txt)")
+                   help=("Output filetype <txt|csv|tsv|json|checkbox|html> "
+                         "(default: txt)"))
 
     prs.add_option('-F', '--input-delim',
                    dest='idelim',
@@ -518,6 +620,16 @@ def get_option_parser():
                    help=('Strings input field delimiter to split line'
                          ' into ``words`` by'
                          ' (default: None (whitespace)``'))
+    prs.add_option('--input-delim-split-max',
+                   dest='idelim_split_max',
+                   action='store',
+                   default=-1,
+                   type=int,
+                   help='words = line.strip().split(idelim, idelim_split_max)')
+    prs.add_option('--shlex',
+                   action='store_true',
+                   help='words = shlex.split(line)')
+
     prs.add_option('-d', '--output-delim',
                    dest='odelim',
                    default="\t",
@@ -550,6 +662,11 @@ def get_option_parser():
                    default='im',
                    help='Regex options: I L M S X U (see ``pydoc re``)')
 
+    prs.add_option('--cols',
+                   dest='col_mapstr',
+                   action='store',
+                   help='Optional column mappings (4::int, 0::unicode)')
+
     prs.add_option("-s", "--sort-asc",
                    dest="sort_asc",
                    action='store',
@@ -575,14 +692,11 @@ def get_option_parser():
     prs.add_option('-q', '--quiet',
                    dest='quiet',
                    action='store_true',)
-    prs.add_option('-t', '--test',
-                   dest='run_tests',
-                   action='store_true',)
 
     return prs
 
 
-def get_sort_function(opts):  # (sort_asc, sort_desc)
+def get_sort_function(opts, col_map=None):  # (sort_asc, sort_desc)
     # FIXME
     if hasattr(opts, 'sort_asc'):
         _sort_asc = opts.sort_asc
@@ -591,35 +705,23 @@ def get_sort_function(opts):  # (sort_asc, sort_desc)
         _sort_asc = opts.get('sort_asc')
         _sort_desc = opts.get('sort_desc')
 
+    sortstr = None
     sortfunc = None
     if _sort_asc:
-        logging.debug("sort_asc: %r" % _sort_asc)
-        if sortfunc is None:
-            def sortfunc(_output):
-                return sort_by(
-                    _sort_asc,
-                    _output,
-                    reverse=False)
-        else:
-            def sortfunc(_output):
-                return sort_by(
-                    _sort_asc,
-                    sortfunc(_output),
-                    reverse=False)
+        log.debug("sort_asc: %r" % _sort_asc)
+        sortstr = _sort_asc
+        reverse = False
     if _sort_desc:
-        logging.debug("sort_desc: %r" % _sort_desc)
-        if sortfunc is None:
-            def sortfunc(_output):
-                return sort_by(
-                    _sort_desc,
-                    _output,
-                    reverse=True)
-        else:
-            def sortfunc(_output):
-                return sort_by(
-                    _sort_desc,
-                    sortfunc(_output),
-                    reverse=True)
+        log.debug("sort_desc: %r" % _sort_desc)
+        sortstr = _sort_desc
+        reverse = True
+    if sortstr:
+        def sortfunc(_output):
+            return sort_by(
+                sortstr,
+                _output,
+                reverse=reverse,
+                col_map=col_map)
     return sortfunc
 
 
@@ -639,13 +741,11 @@ def main(*args):
             logging.getLogger().setLevel(logging.DEBUG)
             logging.debug(opts.__dict__)
 
-    if opts.run_tests:
-        import sys
-        sys.argv = [sys.argv[0]] + args
-        import unittest
-        exit(unittest.main())
+    col_map = {}
+    if opts.col_mapstr:
+        col_map = build_column_map(opts.col_mapstr)
 
-    sortfunc = get_sort_function(opts)
+    sortfunc = get_sort_function(opts, col_map=col_map)
 
     cmd = ' '.join(args)
     if not cmd.strip():
@@ -667,14 +767,16 @@ def main(*args):
 
     try:
         if opts.file is '-':
-            opts._file = sys.stdin
+            # opts._file = sys.stdin
+            opts._file = codecs.getreader('utf8')(sys.stdin)
         else:
-            opts._file = open(opts.file, 'r')
+            opts._file = codecs.open(opts.file, 'r', encoding='utf8')
 
         if opts.output is '-':
-            opts._output = sys.stdout
+            # opts._output = sys.stdout
+            opts._output = codecs.getwriter('utf8')(sys.stdout)
         else:
-            opts._output = open(opts.output, 'w')
+            opts._output = codecs.open(opts.output, 'w', encoding='utf8')
 
         writer, output_func = ResultWriter.get_writer(
             opts._output,
@@ -704,7 +806,9 @@ def main(*args):
 
         writer.footer()
     finally:
-        if getattr(opts._file, 'fileno', int)() not in (0, 1, 2):
+        if (getattr(
+                getattr(opts, '_file', codecs.EncodedFile),
+                'fileno', int)() not in (0, 1, 2)):
             opts._file.close()
 
         if opts.output != '-':

@@ -606,6 +606,7 @@
 "  :FufQuickfix
 "  :FufHelp
 " abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
+" fountain.vim          -- fountain.io syntax
 " All of your Bundles must be added before the following line
 "
    

@@ -1383,7 +1383,7 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
     aliases['cdwww']         = CdAlias('_WWW',         aliases=['cdww'])
 
     aliases['cdls']   = """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
-    aliases['cdhelp'] = """cat $__DOTFILES/etc/venv/venv.sh | pyline.py -r '^\s*#+\s+.*' 'rgx and l'"""
+    aliases['cdhelp'] = """cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\s*#+\s+.*' 'rgx and l'"""
     return env
 
 
@@ -1483,8 +1483,8 @@ def build_user_aliases_env(env=None,
             env.get('VIMCONF'))
     env['EDITOR_'] = env['_EDIT_']
 
-    aliases['edit-'] = env['_EDIT_']
-    aliases['gvim-'] = env['_EDIT_']
+    aliases['editw'] = env['_EDIT_']
+    aliases['gvimw'] = env['_EDIT_']
 
     # IPYTHON configuration
     env['_NOTEBOOKS'] = joinpath(env.get('_SRC',
@@ -1546,23 +1546,23 @@ def build_user_aliases_env(env=None,
     if os.path.exists(_WRD) or dont_reflect:
         env['_WRD'] = _WRD
         env['_WRD_SETUPY'] = joinpath(_WRD, 'setup.py')
-        env['_TEST_'] = "(cdwrd && python {_WRD_SETUPY} test)".format(
+        env['_TEST_'] = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
+            _WRD=shell_varquote('_WRD'),
             _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
             )
-        aliases['test-'] = env['_TEST_']
-        aliases['testr-'] = 'reset && %s' % env['_TEST_']
-        aliases['nose-'] = '(cdwrd && nosetests)'
+        aliases['testw'] = env['_TEST_']
+        aliases['testwr'] = 'reset && %s' % env['_TEST_']
+        aliases['nosew'] = '(cd {_WRD} && nosetests %l)'.format(
+            _WRD=shell_varquote('_WRD'))
 
         aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
             _WRD=shell_varquote('_WRD'))
-        aliases['grin-'] = aliases['grinw']
         aliases['grindw'] = 'grind --follow %l --dirs {_WRD}'.format(
             _WRD=shell_varquote('_WRD'))
-        aliases['grind-'] = aliases['grindw']
 
-        aliases['hgv-'] = "hg view -R {_WRD}".format(
+        aliases['hgwv'] = "hg view -R {_WRD}".format(
             _WRD=shell_varquote('_WRD'))
-        aliases['hgl-'] = "hg -R {_WRD} log".format(
+        aliases['hgwl'] = "hg -R {_WRD} log".format(
             _WRD=shell_varquote('_WRD'))
     else:
         self.log.error('app working directory %r not found' % _WRD)
@@ -1576,30 +1576,33 @@ def build_user_aliases_env(env=None,
         aliases['editcfg'] = "{_EDITCFG} %l".format(
             _EDITCFG=shell_varquote('_EDITCFG_'))
         # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
-        env['_SHELL_'] = "(cdwrd && {_BIN}/pshell {_CFG})".format(
+        env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
             _BIN=shell_varquote('_BIN'),
-            _CFG=shell_varquote('_CFG'),)
-        env['_SERVE_'] = ("(cdwrd && {_BIN}/pserve"
+            _CFG=shell_varquote('_CFG'),
+            _WRD=shell_varquote('_WRD'))
+        env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
                           " --app-name=main"
                           " --reload"
                           " --monitor-restart {_CFG})").format(
             _BIN=shell_varquote('_BIN'),
-            _CFG=shell_varquote('_CFG'))
-        aliases['serve-'] = env['_SERVE_']
-        aliases['shell-'] = env['_SHELL_']
+            _CFG=shell_varquote('_CFG'),
+            _WRD=shell_varquote('_WRD'))
+        aliases['servew'] = env['_SERVE_']
+        aliases['shellw'] = env['_SHELL_']
     else:
         logging.error('app configuration %r not found' % _CFG)
         env['_CFG'] = ""
 
-    aliases['edit-'] = "${_EDIT_} %l"
-    aliases['e'] = aliases['edit-']
+    aliases['editw'] = "${_EDIT_} %l"
+    aliases['e'] = aliases['editw']
     env['PROJECT_FILES'] = " ".join(
         str(x) for x in PROJECT_FILES)
-    aliases['editp'] = "$GUIVIMBIN $VIMCONF $PROJECT_FILES %l"
+    aliases['editp'] = "${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} %l"
 
-    aliases['makewrd'] = "(cdwrd && make %l)"
+    aliases['makewrd'] = "(cd {_WRD} && make %l)".format(
+            _WRD=shell_varquote('_WRD'))
+
     aliases['makew']   = aliases['makewrd']
-    aliases['make-']   = aliases['makewrd']
     aliases['mw']      = aliases['makewrd']
 
     aliases['makewepy'] = "_logfile=\"${_LOG}/make.log.py\"; (makew %l 2>&1 | tee $_logfile) && e $_logfile"
@@ -1920,11 +1923,11 @@ class Env(object):
         ("_IPYSESKEY", "${_SRC}/.ipyseskey"),
         ("_IPQTLOG", "${VIRTUAL_ENV}/.ipqt.log"),
         ("_WRD_SETUPY", "${_WRD}/setup.py"),
-        ("_TEST_", "(cdwrd && python \"${_WRD_SETUPY}\" test)"),
+        ("_TEST_", "(cd {_WRD} && python \"${_WRD_SETUPY}\" test)"),
         ("_CFG", "${_ETC}/development.ini"),
         ("_EDITCFG_", "/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini"),
-        ("_SHELL_", "(cdwrd && \"${_BIN}\"/pshell \"${_CFG}\")"),
-        ("_SERVE_", "(cdwrd && \"${_BIN}\"/pserve --app-name=main --reload --monitor-restart \"${_CFG}\")"),
+        ("_SHELL_", "(cd {_WRD} && \"${_BIN}\"/pshell \"${_CFG}\")"),
+        ("_SERVE_", "(cd {_WRD} && \"${_BIN}\"/pserve --app-name=main --reload --monitor-restart \"${_CFG}\")"),
         ("_SVCFG", "${_ETC}/supervisord.conf"),
         ("_SVCFG_", " -c \"${_ETC}/supervisord.conf\""),
         ("__USRLOG", "${HOME}/-usrlog.log"),
@@ -2484,7 +2487,7 @@ class Venv(object):
                       default=lookup('VENVSTRAPP',
                                      default=lookup('VENVSTR')))
 
-        if VENVSTR is not None:
+        if VENVSTR not in (None, ''):
             if '/' not in VENVSTR:
                 VIRTUAL_ENV = joinpath(WORKON_HOME, VENVSTR)
             else:
@@ -3053,6 +3056,7 @@ def get_IPYTHON_ALIAS_DEFAULTS(platform=None):
         ('ll', 'ls {} -al'.format(LS_COLOR_AUTO)),
         ('ls', 'ls {}'.format(LS_COLOR_AUTO)),
         ('lt', 'ls {} -altr'.format(LS_COLOR_AUTO)),
+        ('lll', 'ls {} -altr'.format(LS_COLOR_AUTO)),
         ('lz', 'ls {} -alZ'.format(LS_COLOR_AUTO)),
         ('lxc', 'lxc'),
         ('make', 'make'),

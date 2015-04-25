@@ -123,6 +123,10 @@
 #### etc/bash/02-bashrc.platform.sh
 ### bashrc.platform.sh
     # detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
+    # j()               -- jobs
+    # f()               -- fg %$1
+    # b()               -- bg %$1
+    # killjob()         -- kill %$1
    
    
 #### etc/bash/03-bashrc.darwin.sh
@@ -166,6 +170,7 @@
     # XXX:
     # XXX:
     # dotfiles_initialize()     -- virtualenvwrapper initialize
+    # dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     # dotfiles_preactivate()    -- virtualenvwrapper preactivate
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
@@ -254,9 +259,7 @@
     # grins()   -- grin $_SRC
     # grinds()  -- grind $_SRC
     # grinw()   -- grin $_WRD
-    # grin-()   -- grin _WRD
     # grindw()  -- grind $_WRD
-    # grind-()  -- grind $_WRD
     # edit_grin_w() -- edit $(grinw -l $@)
     # egw           -- edit $(grinw -l $@)
 # ctags
@@ -314,6 +317,8 @@
     # edits()   -- open $@ in ${GUIVIMBIN} --servername $1
     # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
     # edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
+    # editw()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@)
+    # ew()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@) ('excellent')
     # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
@@ -422,11 +427,13 @@
         # ll       -- 'ls -alF -G'
         # ls       -- 'ls -G'
         # lt       -- 'ls -altr -G'
+        # lll      -- 'ls -altr -G'
     # else
         # la       -- 'ls -A --color=auto'
         # ll       -- 'ls -alF --color=auto'
         # ls       -- 'ls --color=auto'
         # lt       -- 'ls -altr --color=auto'
+        # lll      -- 'ls -altr --color=auto'
     # __IS_LINUX
         # psx      -- 'ps uxaw'
         # psf      -- 'ps uxawf'
@@ -668,6 +675,8 @@
     # usrlog_grin() -- grin -s $@ $_USRLOG
     # ugrin()       -- grin -s $@ $_USRLOG
     # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # usrlog_lately()      -- lsusrlogs by mtime
+    # ull()                -- usrlog_lately() (lsusrlogs by mtime)
     # usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
     # ugall()              -- grep usrlogs (drop filenames with -h)
     # usrlog_grin_all()    -- grin usrlogs

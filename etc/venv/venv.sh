@@ -307,11 +307,11 @@ complete -o default -o nospace -F _cd__WWW_complete cdww
 eval 'cdls () {
     set | grep "^cd.*()" | cut -f1 -d" " #$@
 }';
-alias cdhelp="cat $__DOTFILES${_ETC}/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
-eval 'edit- () {
+alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
+eval 'editw () {
     ${_EDIT_} $@
 }';
-alias gvim-='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent'
+alias gvimw='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent'
 eval 'ipskey () {
     (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # $@
 }';
@@ -333,45 +333,38 @@ eval 'grins () {
 eval 'grinds () {
     grind --follow $@ --dirs "${_SRC}"
 }';
-alias test-='(cdwrd && python "${_WRD_SETUPY}" test)'
-alias testr-='reset && (cdwrd && python "${_WRD_SETUPY}" test)'
-alias nose-='(cdwrd && nosetests)'
-eval 'grinw () {
-    grin --follow $@ "${_WRD}"
+alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
+alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
+eval 'nosew () {
+    (cd "${_WRD}" && nosetests $@)
 }';
-eval 'grin- () {
+eval 'grinw () {
     grin --follow $@ "${_WRD}"
 }';
 eval 'grindw () {
     grind --follow $@ --dirs "${_WRD}"
 }';
-eval 'grind- () {
-    grind --follow $@ --dirs "${_WRD}"
-}';
-alias hgv-='hg view -R "${_WRD}"'
-alias hgl-='hg -R "${_WRD}" log'
+alias hgwv='hg view -R "${_WRD}"'
+alias hgwl='hg -R "${_WRD}" log'
 eval 'editcfg () {
     "${_EDITCFG_}" $@
 }';
-alias serve-='(cdwrd && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")'
-alias shell-='(cdwrd && "${_BIN}"/pshell "${_CFG}")'
+alias servew='(cd "${_WRD}" && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")'
+alias shellw='(cd "${_WRD}" && "${_BIN}"/pshell "${_CFG}")'
 eval 'e () {
     ${_EDIT_} $@
 }';
 eval 'editp () {
-    $GUIVIMBIN $VIMCONF $PROJECT_FILES $@
+    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} $@
 }';
 eval 'makewrd () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }';
 eval 'makew () {
-    (cdwrd && make $@)
-}';
-eval 'make- () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }';
 eval 'mw () {
-    (cdwrd && make $@)
+    (cd "${_WRD}" && make $@)
 }';
 eval 'makewepy () {
     _logfile="${_LOG}/make.log.py"; (makew $@ 2>&1 | tee $_logfile) && e $_logfile

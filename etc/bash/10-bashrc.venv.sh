@@ -7,7 +7,16 @@ export __PROJECTSRC="${__WRK}/.projectsrc.sh"
 [ -f $__PROJECTSRC ] && source $__PROJECTSRC
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
-export __SRC="${__WRK}/src/src"
+export __SRCVENV="${__WRK}/src"
+export __SRC="${__SRCVENV}/src"
+
+if [ ! -e "${__SRCVENV}" ]; then
+    if [ ! -d "${WORKON_HOME}/src" ]; then
+        mkvirtualenv -i pyrpo -i pyline -i pygitpages src
+    fi
+    ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
+fi
+
 if [ ! -d $__SRC ]; then
     mkdir -p \
         ${__SRC}/git/github.com \
@@ -50,7 +59,7 @@ workon_venv() {
     #append to shell history
     history -a
 
-    if [ -n "$1" ] && ([ -d "$WORKON_HOME/$1" ] || [ -d "${1}"]); then
+    if [ -n "$1" ] && ( test -d "$WORKON_HOME/$1" || test -d "${1}" ); then
         workon $1 && \
         source <($__VENV --print-bash $@) && \
         dotfiles_status && \
@@ -58,7 +67,7 @@ workon_venv() {
             && venv_set_prompt ${_TERM_ID:-$1}
     else
         #if no arguments are specified, list virtual environments
-        lsvirtualenv
+        lsvirtualenvs
         return 1
     fi
 }
@@ -99,22 +108,14 @@ grinw() {
     # grinw()   -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
-grin-() {
-    # grin-()   -- grin _WRD
-    grinw $@
-}
 grindw() {
     # grindw()  -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
 }
-grind-() {
-    # grind-()  -- grind $_WRD
-    grindw $@
-}
 
 edit_grin_w() {
     # edit_grin_w() -- edit $(grinw -l $@)
-    edit $(grin w -l $@)
+    edit $(grinw -l $@)
 }
 
 egw() {

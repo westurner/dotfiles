@@ -153,8 +153,8 @@ _usrlog_set_title() {
     # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
-    declare -f '_venv_set_prompt' 2>&1 > /dev/null \
-        && _venv_set_prompt
+    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
+        && venv_set_prompt
 }
 
 
@@ -389,7 +389,15 @@ ugrin () {
 
 lsusrlogs() {
     # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
-    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog
+    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog ${WORKON_HOME}/*/-usrlog.log $@
+}
+usrlog_lately(){
+    # usrlog_lately()      -- lsusrlogs by mtime
+    lsusrlogs $@ | xargs ls -ltr
+}
+ull() {
+    # ull()                -- usrlog_lately() (lsusrlogs by mtime)
+    usrlog_lately $@
 }
 
 usrlog_grep_all() {

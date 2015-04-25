@@ -5,7 +5,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 var keymap = {
-    "westurner.github.io": 'UA-46001060-1',
+    "westurner.org": 'UA-46001060-1',
 };
 
 if (document.location.hostname in keymap) {
@@ -19,3 +19,10 @@ if (document.location.hostname in keymap) {
 $(document).ready(function() {
     $("a[href^='http']").attr('target','_blank');
 });
+
+// <affix-sidenav>
+$(document).ready(function() {
+  $('#sidebar-wrapper').affix({
+  });
+})
+// </affix-sidenav>
