@@ -73,6 +73,26 @@ edit() {
     ${EDITOR_} $@
 }
 
+editwrd() {
+    # editw()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@)
+    (for arg in $@; do echo $arg; done) | \
+        el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
+}
+
+ew() {
+    # ew()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@) ('excellent')
+    editwrd $@
+}
+_editwrd_complete() {
+    #echo "1" $1
+    #echo $2
+    #echo $@
+    local cur="$2";
+    COMPREPLY=($(cd $_WRD && ls $_WRD${1:+"/${1}*"} 2>/dev/null && compgen -d -- "${cur}" ))
+}
+complete -o default -o nospace -F _editwrd_complete editwrd
+complete -o default -o nospace -F _editwrd_complete ew
+
 editcfg() {
     # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
     ${EDITOR_} ${_CFG}
