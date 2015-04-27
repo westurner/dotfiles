@@ -10,26 +10,32 @@ dotfiles_add_path() {
     fi
 }
 
+shell_escape_single() {
+    # shell_escape_single()
+    strtoescape=${1}
+    echo "'"$(echo ${strtoescape} | sed "s,','\"'\"',g")"'"
+}
+
 dotfiles_status() {
     # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
-    echo "HOSTNAME='${HOSTNAME}'"
-    echo "USER='${USER}'"
-    echo "__WRK='${__WRK}'"
-    echo "PROJECT_HOME='${PROJECT_HOME}'"
-    echo "WORKON_HOME='${WORKON_HOME}'"
-    echo "VIRTUAL_ENV_NAME='${VIRTUAL_ENV_NAME}'"
-    echo "VIRTUAL_ENV='${VIRTUAL_ENV}'"
-    echo "_SRC='${_SRC}'"
-    echo "_APP='${_APP}'"
-    echo "_WRD='${_WRD}'"
-    #echo "__DOCSWWW='${_DOCS}'"
-    #echo "__SRC='${__SRC}'"
-    #echo "__PROJECTSRC='${__PROJECTSRC}'"
-    echo "_USRLOG='${_USRLOG}'"
-    echo "_TERM_ID='${_TERM_ID}'"
-    echo "PATH='${PATH}'"
-    echo "__DOTFILES='${__DOTFILES}'"
+    echo HOSTNAME=$(shell_escape_single "${HOSTNAME}")
+    echo USER=$(shell_escape_single "${USER}")
+    echo __WRK=$(shell_escape_single "${__WRK}")
+    echo PROJECT_HOME=$(shell_escape_single "${PROJECT_HOME}")
+    echo WORKON_HOME=$(shell_escape_single "${WORKON_HOME}")
+    echo VIRTUAL_ENV_NAME=$(shell_escape_single "${VIRTUAL_ENV_NAME}")
+    echo VIRTUAL_ENV=$(shell_escape_single "${VIRTUAL_ENV}")
+    echo _SRC=$(shell_escape_single "${_SRC}")
+    echo _APP=$(shell_escape_single "${_APP}")
+    echo _WRD=$(shell_escape_single "${_WRD}")
+    #echo "__DOCSWWW=$(shell_escape_single "${_DOCS}")
+    #echo "__SRC=$(shell_escape_single "${__SRC}")
+    #echo "__PROJECTSRC=$(shell_escape_single "${__PROJECTSRC}")
+    echo _USRLOG=$(shell_escape_single "${_USRLOG}")
+    echo _TERM_ID=$(shell_escape_single "${_TERM_ID}")
+    echo PATH=$(shell_escape_single "${PATH}")
+    echo __DOTFILES=$(shell_escape_single "${__DOTFILES}")
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
     echo "#"
 }
