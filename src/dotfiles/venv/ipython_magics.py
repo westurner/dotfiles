@@ -98,19 +98,19 @@ class VenvMagics(Magics):
         return self.cd('WORKON_HOME', line)
 
     @line_magic
-    def cdcondahome(self, line):
-        """cdcondahome    -- cd $CONDA_HOME/${@}"""
-        return self.cd('CONDA_HOME', line)
+    def cdcondaenvspath(self, line):
+        """cdcondaenvspath    -- cd $CONDA_ENVS_PATH/${@}"""
+        return self.cd('CONDA_ENVS_PATH', line)
 
     @line_magic
     def cda(self, line):
-        """cda    -- cd $CONDA_HOME/${@}"""
-        return self.cd('CONDA_HOME', line)
+        """cda    -- cd $CONDA_ENVS_PATH/${@}"""
+        return self.cd('CONDA_ENVS_PATH', line)
 
     @line_magic
     def cdce(self, line):
-        """cdce    -- cd $CONDA_HOME/${@}"""
-        return self.cd('CONDA_HOME', line)
+        """cdce    -- cd $CONDA_ENVS_PATH/${@}"""
+        return self.cd('CONDA_ENVS_PATH', line)
 
     @line_magic
     def cdvirtualenv(self, line):

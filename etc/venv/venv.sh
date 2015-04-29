@@ -99,26 +99,26 @@ complete -o default -o nospace -F _cd_WORKON_HOME_complete cdve
 
 ';
 eval '
-cdcondahome () {
-    # cdcondahome       -- cd $CONDA_HOME /$@
-    [ -z "$CONDA_HOME" ] && echo "CONDA_HOME is not set" && return 1
-    cd "$CONDA_HOME"${@:+"/${@}"}
+cdcondaenvspath () {
+    # cdcondaenvspath   -- cd $CONDA_ENVS_PATH /$@
+    [ -z "$CONDA_ENVS_PATH" ] && echo "CONDA_ENVS_PATH is not set" && return 1
+    cd "$CONDA_ENVS_PATH"${@:+"/${@}"}
 }
-_cd_CONDA_HOME_complete () {
+_cd_CONDA_ENVS_PATH_complete () {
     local cur="$2";
-    COMPREPLY=($(cdcondahome && compgen -d -- "${cur}" ))
+    COMPREPLY=($(cdcondaenvspath && compgen -d -- "${cur}" ))
 }
 cda () {
-    # cda               -- cd $CONDA_HOME
-    cdcondahome $@
+    # cda               -- cd $CONDA_ENVS_PATH
+    cdcondaenvspath $@
 }
 cdce () {
-    # cdce              -- cd $CONDA_HOME
-    cdcondahome $@
+    # cdce              -- cd $CONDA_ENVS_PATH
+    cdcondaenvspath $@
 }
-complete -o default -o nospace -F _cd_CONDA_HOME_complete cdcondahome
-complete -o default -o nospace -F _cd_CONDA_HOME_complete cda
-complete -o default -o nospace -F _cd_CONDA_HOME_complete cdce
+complete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdcondaenvspath
+complete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cda
+complete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdce
 
 ';
 eval '

@@ -1158,9 +1158,9 @@ def build_conda_env(env=None, **kwargs):
     Other Parameters:
         __WRK (str): workspace root (``$__WRK``, ``~/-wrk``)
         CONDA_ROOT__py27 (str): path to conda27 root environment
-        CONDA_HOME__py27 (str): path to conda27 envs (e.g. WORKON_HOME)
+        CONDA_ENVS_PATH__py27 (str): path to conda27 envs (e.g. WORKON_HOME)
         CONDA_ROOT__py34 (str): path to conda34 root environment
-        CONDA_HOME__py34 (str): path to conda34 envs (e.g. WORKON_HOME)
+        CONDA_ENVS_PATH__py34 (str): path to conda34 envs (e.g. WORKON_HOME)
 
     Keyword Arguments:
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
@@ -1208,7 +1208,7 @@ def build_conda_env(env=None, **kwargs):
 
 
 DEFAULT_CONDA_ROOT_DEFAULT = 'CONDA_ROOT__py27'
-DEFAULT_CONDA_HOME_DEFAULT = 'CONDA_HOME__py27'
+DEFAULT_CONDA_ENVS_PATH_DEFAULT = 'CONDA_ENVS_PATH__py27'
 
 
 def build_conda_cfg_env(env=None, **kwargs):
@@ -1231,23 +1231,23 @@ def build_conda_cfg_env(env=None, **kwargs):
 
     env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
                                      default=joinpath(env['__WRK'], '-conda27'))
-    env['CONDA_HOME__py27'] = lookup('CONDA_HOME__py27',
+    env['CONDA_ENVS_PATH__py27'] = lookup('CONDA_ENVS_PATH__py27',
                                      default=joinpath(env['__WRK'], '-ce27'))
 
     env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
                                      default=joinpath(env['__WRK'], '-conda34'))
-    env['CONDA_HOME__py34'] = lookup('CONDA_HOME__py34',
+    env['CONDA_ENVS_PATH__py34'] = lookup('CONDA_ENVS_PATH__py34',
                                      default=joinpath(env['__WRK'], '-ce34'))
 
     env['CONDA_ROOT_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
                                        default=DEFAULT_CONDA_ROOT_DEFAULT)
-    env['CONDA_HOME_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
-                                       default=DEFAULT_CONDA_HOME_DEFAULT)
+    env['CONDA_ENVS_PATH_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
+                                       default=DEFAULT_CONDA_ENVS_PATH_DEFAULT)
 
     env['CONDA_ROOT'] = lookup('CONDA_ROOT',
                                default=env[env['CONDA_ROOT_DEFAULT']])
-    env['CONDA_HOME'] = lookup('CONDA_HOME',
-                               default=env[env['CONDA_HOME_DEFAULT']])
+    env['CONDA_ENVS_PATH'] = lookup('CONDA_ENVS_PATH',
+                               default=env[env['CONDA_ENVS_PATH_DEFAULT']])
     return env
 
 
@@ -1367,7 +1367,7 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
 
     aliases['cdprojecthome'] = CdAlias('PROJECT_HOME', aliases=['cdp', 'cdph'])
     aliases['cdworkonhome']  = CdAlias('WORKON_HOME',  aliases=['cdwh', 'cdve'])
-    aliases['cdcondahome']   = CdAlias('CONDA_HOME',   aliases=['cda', 'cdce'])
+    aliases['cdcondahome']   = CdAlias('CONDA_ENVS_PATH',   aliases=['cda', 'cdce'])
 
     aliases['cdvirtualenv']  = CdAlias('VIRTUAL_ENV',  aliases=['cdv'])
     aliases['cdsrc']         = CdAlias('_SRC',         aliases=['cds'])
@@ -1861,13 +1861,13 @@ class Env(object):
         ("WORKON_HOME__py34", "${__WRK}/-ve34"),
         ("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
         ("CONDA_ROOT__py27", "${__WRK}/-conda27"),
-        ("CONDA_HOME__py27", "${__WRK}/-ce27"),
+        ("CONDA_ENVS_PATH__py27", "${__WRK}/-ce27"),
         ("CONDA_ROOT__py34", "${__WRK}/-conda34"),
-        ("CONDA_HOME__py34", "${__WRK}/-ce34"),
+        ("CONDA_ENVS_PATH__py34", "${__WRK}/-ce34"),
         ("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
-        ("CONDA_HOME_DEFAULT", "CONDA_HOME__py27"),
+        ("CONDA_ENVS_PATH_DEFAULT", "CONDA_ENVS_PATH__py27"),
         ("CONDA_ROOT", "${__WRK}/-conda27"),
-        ("CONDA_HOME", "${__WRK}/-ce27"),
+        ("CONDA_ENVS_PATH", "${__WRK}/-ce27"),
         ("WORKON_HOME", "${__WRK}/-ve27"),
         ("VENVSTR", "dotfiles"),
         ("VENVSTRAPP", "dotfiles"), # or None

@@ -5,8 +5,8 @@
 dotfiles_add_path() {
     # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     if [ -d "${__DOTFILES}" ]; then
-        #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
-        add_to_path "${__DOTFILES}/scripts"
+        #PATH_prepend "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
+        PATH_prepend "${__DOTFILES}/scripts"
     fi
 }
 
@@ -93,21 +93,72 @@ debug-off() {
     shopt -s extdebug
 }
 
+_virtualenvwrapper_get_step_num() {
+
+    # Virtualenvwrapper numeric sequence
+    # * to make logs in /var/log/venv.nnn-stepname.log naturally ordered
+    #
+    # * 0xx : 'initialization' actions  : [initialize]
+    # * 1xx : 'creation' actions        : [pre|post]mk[virtualenv|project]
+    # * 2xx : 'vation' actions          : [pre|post][activate|deactivate]
+    # * 8xx : 'managment' actions       : [pre|post][cpvirtualenv|rmvirtualenv]
+    # * 868 : unknown
+    # * xx0 : 'pre' actions
+    # * xx9 : 'post' actions
+    # Source-ordered according to the virtualenvwrapper docs
+    # * https://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts
+    step=${1}
+    n="868"  # unknown
+    case ${step} in
+        "get_env_details")
+            n="800" ;;
+        "initialize")
+            n="010" ;;
+        "premkvirtualenv")
+            n="120" ;;
+        "postmkvirtualenv")
+            n="129" ;;
+        "precpvirtualenv")
+            n="820" ;;
+        "postcpvirtualenv")
+            n="829" ;;
+        "preactivate")
+            n="230" ;;
+        "postactivate")
+            n="239" ;;
+        "predeactivate")
+            n="290" ;;
+        "postdeactivate")
+            n="299" ;;
+        "prermvirtualenv")
+            n="810" ;;
+        "postrmvirtualenv")
+            n="819" ;;
+        "premkproject")
+            n="140" ;;
+        "postmkproject")
+            n="149" ;;
+    esac
+    echo "${n}"
+}
+
 log_dotfiles_state() {
     # log_dotfiles_state()      -- save current environment to logfiles
-    # XXX:
+    #   $1 -- logkey (virtualenvwrapper step name)
+    test -n "${DOTFILES_SKIP_LOG}" && echo '#DOTFILES_SKIP_LOG' && return
     _log=${_LOG:-"${HOME}/var/log"}
     if [ "${_log}" == "/var/log" ]; then
         _log="${HOME}/var/log"
     fi
-    logkey=${1:-'99'}
-    logdir=${_log:-"var/log"}/venv.${VIRTUAL_ENV_NAME}.${logkey}/
+    logkey=${1:-'log_dotfiles_state'}
+    stepnum="$(_virtualenvwrapper_get_step_num "${logkey}")"
+    logdir=${_log:-"var/log"}/venv..${VIRTUAL_ENV_NAME}..${stepnum}..${logkey}
     exportslogfile=${logdir}/exports.log
     envlogfile=${logdir}/exports_env.log
-    test -n $logdir && test -d $logdir || mkdir -p $logdir
+    test -n ${logdir} && test -d ${logdir} || mkdir -p ${logdir}
     # XXX:
-    export > $exportslogfile
-    set > $envlogfile
+    export > ${exportslogfile}
+    set > ${envlogfile}
 }
 
 
@@ -167,12 +218,11 @@ dotfiles_postactivate() {
         echo "${bash_debug_output}" # >2
     fi
 
-    echo "setup usrlog"
     declare -f '_setup_usrlog' 2>&1 > /dev/null \
         && _setup_usrlog
 
-    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
-        && venv_set_prompt
+    declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+        && _setup_venv_prompt
 
 }
 

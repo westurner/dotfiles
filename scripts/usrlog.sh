@@ -169,8 +169,8 @@ _usrlog_set_title() {
     # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
-    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
-        && venv_set_prompt
+    declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+        && _setup_venv_prompt
 }
 
 

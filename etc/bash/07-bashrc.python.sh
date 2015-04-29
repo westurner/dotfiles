@@ -24,9 +24,9 @@ _setup_pip
 ## Pyenv
 
 _setup_pyenv() {
-    # _setup_pyvenv()       -- set $PYENV_ROOT, add_to_path, and pyenv venvw
+    # _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw
     export PYENV_ROOT="${HOME}/.pyenv"
-    add_to_path "${PYENV_ROOT}/bin"
+    PATH_prepend "${PYENV_ROOT}/bin"
     eval "$(pyenv init -)"
     pyenv virtualenvwrapper
 }
@@ -34,64 +34,83 @@ _setup_pyenv() {
 ## Conda / Anaconda
 
 _setup_conda() {
-    # _setup_anaconda()     -- set $CONDA_ROOT, add_to_path
-    local _conda_pyver=${1}
+    # _setup_anaconda()     -- set $CONDA_ROOT, PATH_prepend
+    # $1 -- conda python version (27|34)
+    local _conda_envs_path=${1}
     source <($__VENV --prefix='.' --print-bash)
-    if [ "$_conda_pyver" == "27" ]; then
-        export CONDA_HOME=$CONDA_HOME__py27
-        export CONDA_ROOT=$CONDA_ROOT__py27
-    elif [ "$_conda_pyver" == "34" ]; then
-        export CONDA_HOME=$CONDA_HOME__py34
-        export CONDA_ROOT=$CONDA_ROOT__py34
-    else
-        export CONDA_HOME=${CONDA_HOME:-${CONDA_HOME__py27}}
+    if [ -z "${_conda_envs_path}" ]; then
+        export CONDA_ENVS_PATH=${CONDA_ENVS_PATH:-${CONDA_ENVS_PATH__py27}}
         export CONDA_ROOT=${CONDA_ROOT:-${CONDA_ROOT__py27}}
+    else
+        if [ "$_conda_envs_path" == "27" ]; then
+            export CONDA_ENVS_PATH=$CONDA_ENVS_PATH__py27
+            export CONDA_ROOT=$CONDA_ROOT__py27
+        elif [ "$_conda_envs_path" == "34" ]; then
+            export CONDA_ENVS_PATH=$CONDA_ENVS_PATH__py34
+            export CONDA_ROOT=$CONDA_ROOT__py34
+        else
+            export CONDA_ENVS_PATH=${_conda_envs_path}
+            export CONDA_ROOT=${CONDA_ROOT:-${CONDA_ROOT__py27}}
+        fi
     fi
-    export CONDA_ENVS_PATH=$CONDA_HOME
-    add_to_path "${CONDA_ROOT}/bin"
+    _setup_conda_path
+}
+
+_setup_conda_path() {
+    PATH_prepend "${CONDA_ROOT}/bin"
+}
+
+lscondaenvs() {
+    (cd ${CONDA_ENVS_PATH}; find . -maxdepth 1 -type d)
+}
+
+_condaenvs() {
+    local files=("${CONDA_ENVS_PATH}/$2"*)
+    [[ -e ${files[0]} ]] && COMPREPLY=( "${files[@]##*/}" )
 }
 
 workon_conda() {
     # workon_conda()        -- workon a conda + venv project
     local _conda_envname=${1}
-    local _conda_pyver=${2}
+    local _conda_envs_path=${2}
     local _app=${3}
-    _setup_conda ${_conda_pyver}
-    local CONDA_ENV=${CONDA_HOME}/${_conda_envname}
+    _setup_conda ${_conda_envs_path}
+    local CONDA_ENV=${CONDA_ENVS_PATH}/${_conda_envname}
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
     source <(
-      $__VENV --wh="${CONDA_HOME}" --ve="${_conda_envname}" --app="${_app}" \
+      $__VENV --wh="${CONDA_ENVS_PATH}" --ve="${_conda_envname}" --app="${_app}" \
       --print-bash)
+    declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
     dotfiles_status
     deactivate() {
         source deactivate
         dotfiles_postdeactivate
     }
 }
-complete -o default -o nospace -F _virtualenvs workon_conda
+complete -o default -o nospace -F _condaenvs workon_conda
 
 wec() {
     # wec()                 -- workon a conda + venv project
     #                       note: tab-completion only shows regular virtualenvs
     workon_conda $@
 }
-complete -o default -o nospace -F _virtualenvs wec
+complete -o default -o nospace -F _condaenvs wec
 
 mkvirtualenv_conda() {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     local _conda_envname=${1}
-    local _conda_pyver=${2}
+    local _conda_envs_path=${2}
     shift; shift
     local _conda_pkgs=${@}
-    _setup_conda ${_conda_pyver}
-    if [ -z "$CONDA_HOME" ]; then
-        echo "\$CONDA_HOME is not set. Exiting".
+    _setup_conda ${_conda_envs_path}
+    if [ -z "$CONDA_ENVS_PATH" ]; then
+        echo "\$CONDA_ENVS_PATH is not set. Exiting".
         return
     fi
-    local CONDA_ENV="${CONDA_HOME}/${_conda_envname}"
-    if [ "$_conda_pyver" == "27" ]; then
+    local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
+    if [ "$_conda_envs_path" == "27" ]; then
         conda_python="python=2"
-    elif [ "$_conda_pyver" == "34" ]; then
+    elif [ "$_conda_envs_path" == "34" ]; then
         conda_python="python=3"
     else
         conda_python="python=2"
@@ -100,7 +119,7 @@ mkvirtualenv_conda() {
         ${conda_python} readline pip ${_conda_pkgs}
 
     export VIRTUAL_ENV="${CONDA_ENV}"
-    workon_conda "${_conda_envname}" "${_conda_pyver}"
+    workon_conda "${_conda_envname}" "${_conda_envs_path}"
     export VIRTUAL_ENV="${CONDA_ENV}"
     dotfiles_postmkvirtualenv
 
@@ -114,11 +133,11 @@ mkvirtualenv_conda() {
 rmvirtualenv_conda() {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     local _conda_envname=${1}
-    local _conda_pyver=${2}
-    _setup_conda ${_conda_pyver}
-    local CONDA_ENV=${CONDA_HOME}/$_conda_envname
-    if [ -z "$CONDA_HOME" ]; then
-        echo "\$CONDA_HOME is not set. Exiting".
+    local _conda_envs_path=${2}
+    _setup_conda ${_conda_envs_path}
+    local CONDA_ENV=${CONDA_ENVS_PATH}/$_conda_envname
+    if [ -z "$CONDA_ENVS_PATH" ]; then
+        echo "\$CONDA_ENVS_PATH is not set. Exiting".
         return
     fi
     echo "Removing ${CONDA_ENV}"
