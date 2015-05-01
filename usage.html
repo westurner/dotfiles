@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Usage &mdash; westurner/dotfiles 0.8.1 documentation</title>
+    <title>Usage &mdash; westurner/dotfiles 0.8.2 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.8.1',
+            VERSION:     '0.8.2',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="index" />
+    <link rel="top" title="westurner/dotfiles 0.8.2 documentation" href="index" />
     <link rel="next" title="Venv" href="venv" />
     <link rel="prev" title="Dotfiles" href="readme" /> 
   </head>
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.1 documentation</a>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.2 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -215,7 +215,7 @@
 </div> 
         
 
-        <div class="col-md-9" id="content-wrapper">
+        <div class="col-md-9">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -224,11 +224,11 @@
   <div class="section" id="usage">
 <span id="index-0"></span><span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="readme#install-the-dotfiles"><em>Install the dotfiles</em></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
-<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools#make"><em>Make</em></a>)</li>
-<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools#zsh"><em>ZSH</em></a>)</li>
-<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools#vim"><em>Vim</em></a>)</li>
-<li>Manage windows on <a class="reference internal" href="tools#linux"><em>Linux</em></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools#i3wm"><em>I3wm</em></a>)</li>
+<li><a class="reference internal" href="readme#install-the-dotfiles"><span>Install the dotfiles</span></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools#make"><span>Make</span></a>)</li>
+<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools#bash"><span>Bash</span></a>, <a class="reference internal" href="tools#zsh"><span>ZSH</span></a>)</li>
+<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools#vim"><span>Vim</span></a>)</li>
+<li>Manage windows on <a class="reference internal" href="tools#linux"><span>Linux</span></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools#i3wm"><span>I3wm</span></a>)</li>
 <li><a class="reference external" href="scripts">Script</a> all the <a class="reference external" href="http://schema.org/Thing">things</a></li>
 </ul>
 <div class="section" id="bootstrap-dotfiles-sh">
@@ -264,6 +264,7 @@ $ bash $_WRD/scripts/bootstrap_dotfiles.sh -h
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code>:</p>
 <pre class="ansi-block literal-block">
 $ cd $_WRD &amp;&amp; make help
+make[2]: Entering directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 dotfiles Makefile
 #################
 help         -- print dotfiles help
@@ -299,6 +300,8 @@ push      -- git push
 pull      -- git pull
 
 generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
+
+make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 </pre>
 </div>
 <div class="section" id="bash">
@@ -411,10 +414,12 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <span class="c">## bash</span>
     <span class="c"># echo_args         -- echo $@ (for checking quoting)</span>
     <span class="c"># function_exists() -- check whether a bash function exists</span>
-    <span class="c"># add_to_path       -- prepend a directory to $PATH</span>
+  <span class="c"># PATH_prepend()     -- prepend a directory ($1) to $PATH</span>
     <span class="c">#   instead of:</span>
     <span class="c">#       export PATH=$dir:$PATH</span>
-    <span class="c">#       add_to_path $dir </span>
+    <span class="c">#       PATH_prepend $dir </span>
+    <span class="c"># PATH_remove()  -- remove a directory from $PATH</span>
+    <span class="c"># note: empty path components (&quot;::&quot;) will be stripped</span>
     <span class="c"># lightpath()       -- display $PATH with newlines</span>
     <span class="c"># lspath()          -- list files in each directory in $PATH</span>
     <span class="c"># lspath_less()     -- lspath with less (color)</span>
@@ -466,6 +471,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <span class="c">#### etc/bash/05-bashrc.dotfiles.sh</span>
 <span class="c">### bashrc.dotfiles.sh</span>
     <span class="c"># dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH</span>
+    <span class="c"># shell_escape_single()</span>
     <span class="c"># dotfiles_status()         -- print dotfiles_status</span>
     <span class="c"># ds()                      -- print dotfiles_status</span>
     <span class="c"># clr()                     -- clear scrollback</span>
@@ -476,8 +482,20 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <span class="c"># https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin</span>
     <span class="c"># debug-on()                 -- set -x -v</span>
     <span class="c"># debug-off()                -- set +x +v</span>
+    <span class="c"># Virtualenvwrapper numeric sequence</span>
+    <span class="c"># * to make logs in /var/log/venv.nnn-stepname.log naturally ordered</span>
+    <span class="c">#</span>
+    <span class="c"># * 0xx : &#39;initialization&#39; actions  : [initialize]</span>
+    <span class="c"># * 1xx : &#39;creation&#39; actions        : [pre|post]mk[virtualenv|project]</span>
+    <span class="c"># * 2xx : &#39;vation&#39; actions          : [pre|post][activate|deactivate]</span>
+    <span class="c"># * 8xx : &#39;managment&#39; actions       : [pre|post][cpvirtualenv|rmvirtualenv]</span>
+    <span class="c"># * 868 : unknown</span>
+    <span class="c"># * xx0 : &#39;pre&#39; actions</span>
+    <span class="c"># * xx9 : &#39;post&#39; actions</span>
+    <span class="c"># Source-ordered according to the virtualenvwrapper docs</span>
+    <span class="c"># * https://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts</span>
     <span class="c"># log_dotfiles_state()      -- save current environment to logfiles</span>
-    <span class="c"># XXX:</span>
+    <span class="c">#   $1 -- logkey (virtualenvwrapper step name)</span>
     <span class="c"># XXX:</span>
     <span class="c"># dotfiles_initialize()     -- virtualenvwrapper initialize</span>
     <span class="c"># dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv</span>
@@ -500,9 +518,10 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># _setup_python()       -- configure $PYTHONSTARTUP</span>
     <span class="c"># _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false</span>
 <span class="c">## Pyenv</span>
-    <span class="c"># _setup_pyvenv()       -- set $PYENV_ROOT, add_to_path, and pyenv venvw</span>
+    <span class="c"># _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw</span>
 <span class="c">## Conda / Anaconda</span>
-    <span class="c"># _setup_anaconda()     -- set $CONDA_ROOT, add_to_path</span>
+    <span class="c"># _setup_anaconda()     -- set $CONDA_ROOT, PATH_prepend</span>
+    <span class="c"># $1 -- conda python version (27|34)</span>
     <span class="c"># workon_conda()        -- workon a conda + venv project</span>
     <span class="c"># wec()                 -- workon a conda + venv project</span>
     <span class="c">#                       note: tab-completion only shows regular virtualenvs</span>
@@ -514,9 +533,22 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
    
 <span class="c">#### etc/bash/07-bashrc.virtualenvwrapper.sh</span>
 <span class="c">### bashrc.virtualenvwrapper.sh</span>
-<span class="c"># sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper</span>
 <span class="c">#</span>
-    <span class="c"># _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*</span>
+<span class="c"># Installing Virtualenvwrapper:</span>
+<span class="c">#   apt:</span>
+<span class="c">#     sudo apt-get install virtualenvwrapper</span>
+<span class="c">#   pip:</span>
+<span class="c">#     [sudo] pip install -U pip virtualenvwrapper</span>
+<span class="c">#</span>
+<span class="c">## Configure dotfiles/virtualenv root/prefix environment variables</span>
+<span class="c"># __WRK         workspace root</span>
+<span class="c"># PROJECT_HOME  virtualenvwrapper project directory (mkproject)</span>
+<span class="c"># WORKON_HOME   virtualenvwrapper virtualenv prefix</span>
+<span class="c">#               VIRTUAL_ENV=${WORKON_HOME}/${VIRTUAL_ENV_NAME}</span>
+<span class="c">#               _APP=${VIRTUAL_ENV_NAME}  #[/subpath]</span>
+<span class="c">#               _SRC=${VIRTUAL_ENV}/${_APP}</span>
+<span class="c">#               _WRD=${VIRTUAL_ENV}/${_APP}</span>
+    <span class="c"># _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*</span>
     <span class="c"># lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME</span>
     <span class="c"># lsve()                -- list virtualenvs in $WORKON_HOME</span>
     <span class="c"># backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]</span>
@@ -529,6 +561,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c">#    $1=&quot;$VENVSTR&quot;</span>
     <span class="c">#    $2=&quot;$VIRTUAL_ENV&quot;</span>
     <span class="c"># rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME</span>
+  <span class="c"># _setup_virtualenvwrapper_default_config # ~/.virtualenvs/</span>
    
    
 <span class="c">#### etc/bash/08-bashrc.gcloud.sh</span>
@@ -596,7 +629,7 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># makew()   -- cd $_WRD &amp;&amp; make $@</span>
     <span class="c"># make-()   -- cd $_WRD &amp;&amp; make $@</span>
     <span class="c"># mw()      -- cd $_WRD &amp;&amp; make $@</span>
-    <span class="c"># venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,</span>
+    <span class="c"># _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,</span>
     <span class="c">#                          and ${debian_chroot}</span>
     <span class="c">#           &quot;WINDOW_TITLE (venvprompt) [debian_chroot]&quot;</span>
     <span class="c"># try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)</span>
@@ -908,10 +941,26 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <span class="c">#### etc/bash/usrlog.sh</span>
 <span class="c">##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)</span>
 <span class="c">#</span>
+<span class="c"># Log shell commands with metadata as tab-separated lines to ${_USRLOG}</span>
+<span class="c"># with a shell identifier to differentiate between open windows,</span>
+<span class="c"># testing/screencast flows, etc</span>
+<span class="c">#</span>
+<span class="c"># By default, _USRLOG will be set to a random string prefixed with &#39;#&#39;</span>
+<span class="c"># by the `stid()` bash function (`_usrlog_set__TERM_ID()`)</span>
+<span class="c">#</span>
+<span class="c"># * _TERM_ID can be set to any string;</span>
+<span class="c"># * _TERM_ID is displayed in the PS1 prompt</span>
+<span class="c"># * _TERM_ID is displayed in the window title</span>
+<span class="c"># * _TERM_ID is reset to __TERM_ID upon &#39;deactivate&#39;</span>
+<span class="c">#   (westurner/dotfiles//etc/bash/07-bashrc.virtualenvwrapper.sh:</span>
+<span class="c">#    TODO: virtualenvwrapper, conda)</span>
+<span class="c">#</span>
+<span class="c"># Environment Variables:</span>
+<span class="c">#</span>
 <span class="c">#  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)</span>
 <span class="c">#  _USRLOG  (str): current -usrlog.log file to append REPL command strings to</span>
 <span class="c">#  _TERM_ID (str): a terminal identifier with which command loglines will</span>
-<span class="c">#  be appended (default: _usrlog_randstr)</span>
+<span class="c">#                  be appended (default: _usrlog_randstr)</span>
 <span class="c">#</span>
     <span class="c"># _usrlog_get_prefix()    -- get a dirpath for the current usrlog</span>
     <span class="c">#                            (VIRTUAL_ENV or HOME)</span>
@@ -1313,27 +1362,22 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 &quot; Python
 &quot;  Wrap at 72 chars for comments.
 &quot;  read virtualenv&#39;s site-packages to vim path
-    &quot; TODO: python regex current buffer
+&quot; TODO: python regex current buffer
+&quot; :help if_pyth
 &quot; Tabsetting functions
 &quot;  :Fourtabs    -- set to four (4) soft tabs (Default)
 &quot; Default to fourtabs
-&quot;  :Threetabs   -- set to three (3) soft tabs
+&quot;  :Threetabs   -- set to three (3) soft tabs (e.g. RST)
 &quot;  :Twotabs     -- set to two (2) soft tabs
-&quot;  :Onetab      -- set to one (1) soft tab
-&quot;  :Hardtabs    -- set to hard \t tabs (e.g. for Makefiles)
+&quot;  :Onetab      -- set to one soft tab
+&quot;  :Hardtabs
 &quot;  :CurrentBuffer -- display number of current buffer
-&quot;  diff           -- vimdiff, Hgvdiff, Gdiff
-&quot;    :diffget   -- get from diff (overwrite or append)
-&quot;    do         -- :diffget other block
-&quot;    :diffput   -- put from diff (overwrite or append)
-&quot;    dp         -- :diffput block 
-&quot;
-&quot;    &lt;C-W&gt;&lt;C-w&gt; -- cycle between buffers
-&quot;
-&quot;  diffget maps   -- 3-way merge buffers
-&quot;    &lt;leader&gt; 2   -- diffget from bufnr 2
-&quot;    &lt;leader&gt; 3   -- diffget from bufnr 3
-&quot;    &lt;leader&gt; 4   -- diffget from bufnr 4
+&quot;  &lt;leader&gt; 2   -- diffget from bufnr 2
+&quot;  &lt;leader&gt; 3   -- diffget from bufnr 3
+&quot;  &lt;leader&gt; 4   -- diffget from bufnr 4
+&quot;  &lt;leader&gt; 2   -- diffget from bufnr 2
+&quot;  &lt;leader&gt; 3   -- diffget from bufnr 3
+&quot;  &lt;leader&gt; 4   -- diffget from bufnr 4
 &quot;  :Striptrailingwhitespace -- strip spaces at the end of lines
 &quot; Adjust font-size
 &quot;  &lt;C-Up&gt;   -- increase font size
@@ -1556,7 +1600,6 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 &quot;  g:pymode_python = { &#39;python&#39;, &#39;python3&#39;, &#39;disable&#39; }
 &quot;
 &quot;  set g:pymode_python &#39;disable&#39; (start time, occasional completion stall)
-&quot;  &lt;leader&gt; d    -- open pydoc
 &quot;  :PymodeLintToggle    -- toggle lint checking
 &quot;  :PymodeLintAuto      -- autofix current buffer pep8 errors
 &quot; - auto-show an error window
@@ -1613,12 +1656,6 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 &quot;  &lt;leader&gt;te       --  pytest error
 &quot; Pyrex         -- Pyrex syntax
 &quot; Jinja         -- Jinja Templates syntax
-&quot; vim-coffee-script -- CoffeeScript syntax, indent
-&quot; vim-haml          -- HAML, SASS, SCSS
-&quot; vim-css3-syntax   -- CSS3
-&quot; vim-css-color     -- show CSS color codes
-&quot; vim-less          -- LESS CSS
-&quot; vim-jade          -- Jade templates
 &quot; os.vim   -- Operating System [help os]
 &quot; clickable.vim -- click-able links
 &quot; Bundle &#39;https://github.com/Rykka/clickable.vim&#39; XXX TODO linux
@@ -1659,7 +1696,6 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 &quot;  :FufQuickfix
 &quot;  :FufHelp
 &quot; abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
-&quot; fountain.vim          -- fountain.io syntax
 &quot; All of your Bundles must be added before the following line
 &quot;
    
@@ -1797,6 +1833,8 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <span class="c">#  # Hide edge borders</span>
 <span class="c">#  # Get WM_CLASS with $(xprop WM_CLASS)</span>
 <span class="c"># set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png</span>
+<span class="c">#</span>
+<span class="c">#  - Start gnome-settings-daemon (e.g. for anti-aliasing)</span>
 <span class="c">#  - Set X background</span>
 <span class="c">#  - Set X wallaper to (~/wallpaper.png)</span>
 <span class="c">#  - Start screensaver</span>
@@ -2036,7 +2074,7 @@ or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</sp
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index">westurner/dotfiles 0.8.1 documentation</a></li>
+        <li><a href="index">westurner/dotfiles 0.8.2 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
@@ -2054,7 +2092,7 @@ or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</sp
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
       </footer>
       <!-- /footer -->
 

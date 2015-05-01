@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles.venv.ipython_config &mdash; westurner/dotfiles 0.8.1 documentation</title>
+    <title>dotfiles.venv.ipython_config &mdash; westurner/dotfiles 0.8.2 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    '../../../',
-            VERSION:     '0.8.1',
+            VERSION:     '0.8.2',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="../../../_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.1 documentation" href="../../../index" />
+    <link rel="top" title="westurner/dotfiles 0.8.2 documentation" href="../../../index" />
     <link rel="up" title="Module code" href="../../index" /> 
   </head>
   <body role="document">
@@ -77,7 +77,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index">westurner/dotfiles 0.8.1 documentation</a>
+          <a class="navbar-brand" href="../../../index">westurner/dotfiles 0.8.2 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -145,7 +145,7 @@
 </div> 
         
 
-        <div class="col-md-9" id="content-wrapper">
+        <div class="col-md-9">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -1312,9 +1312,9 @@
 <span class="sd">    Other Parameters:</span>
 <span class="sd">        __WRK (str): workspace root (``$__WRK``, ``~/-wrk``)</span>
 <span class="sd">        CONDA_ROOT__py27 (str): path to conda27 root environment</span>
-<span class="sd">        CONDA_HOME__py27 (str): path to conda27 envs (e.g. WORKON_HOME)</span>
+<span class="sd">        CONDA_ENVS_PATH__py27 (str): path to conda27 envs (e.g. WORKON_HOME)</span>
 <span class="sd">        CONDA_ROOT__py34 (str): path to conda34 root environment</span>
-<span class="sd">        CONDA_HOME__py34 (str): path to conda34 envs (e.g. WORKON_HOME)</span>
+<span class="sd">        CONDA_ENVS_PATH__py34 (str): path to conda34 envs (e.g. WORKON_HOME)</span>
 
 <span class="sd">    Keyword Arguments:</span>
 <span class="sd">        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`</span>
@@ -1362,7 +1362,7 @@
 
 </div>
 <span class="n">DEFAULT_CONDA_ROOT_DEFAULT</span> <span class="o">=</span> <span class="s">&#39;CONDA_ROOT__py27&#39;</span>
-<span class="n">DEFAULT_CONDA_HOME_DEFAULT</span> <span class="o">=</span> <span class="s">&#39;CONDA_HOME__py27&#39;</span>
+<span class="n">DEFAULT_CONDA_ENVS_PATH_DEFAULT</span> <span class="o">=</span> <span class="s">&#39;CONDA_ENVS_PATH__py27&#39;</span>
 
 
 <div class="viewcode-block" id="build_conda_cfg_env"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_config.build_conda_cfg_env">[docs]</a><span class="k">def</span> <span class="nf">build_conda_cfg_env</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1385,23 +1385,23 @@
 
     <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT__py27&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ROOT__py27&#39;</span><span class="p">,</span>
                                      <span class="n">default</span><span class="o">=</span><span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="s">&#39;-conda27&#39;</span><span class="p">))</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_HOME__py27&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_HOME__py27&#39;</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH__py27&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS_PATH__py27&#39;</span><span class="p">,</span>
                                      <span class="n">default</span><span class="o">=</span><span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="s">&#39;-ce27&#39;</span><span class="p">))</span>
 
     <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT__py34&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ROOT__py34&#39;</span><span class="p">,</span>
                                      <span class="n">default</span><span class="o">=</span><span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="s">&#39;-conda34&#39;</span><span class="p">))</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_HOME__py34&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_HOME__py34&#39;</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH__py34&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS_PATH__py34&#39;</span><span class="p">,</span>
                                      <span class="n">default</span><span class="o">=</span><span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="s">&#39;-ce34&#39;</span><span class="p">))</span>
 
     <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT_DEFAULT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;DEFAULT_CONDA_ROOT&#39;</span><span class="p">,</span>
                                        <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_CONDA_ROOT_DEFAULT</span><span class="p">)</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_HOME_DEFAULT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;DEFAULT_CONDA_ROOT&#39;</span><span class="p">,</span>
-                                       <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_CONDA_HOME_DEFAULT</span><span class="p">)</span>
+    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH_DEFAULT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;DEFAULT_CONDA_ROOT&#39;</span><span class="p">,</span>
+                                       <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_CONDA_ENVS_PATH_DEFAULT</span><span class="p">)</span>
 
     <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ROOT&#39;</span><span class="p">,</span>
                                <span class="n">default</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT_DEFAULT&#39;</span><span class="p">]])</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_HOME&#39;</span><span class="p">,</span>
-                               <span class="n">default</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_HOME_DEFAULT&#39;</span><span class="p">]])</span>
+    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS_PATH&#39;</span><span class="p">,</span>
+                               <span class="n">default</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH_DEFAULT&#39;</span><span class="p">]])</span>
     <span class="k">return</span> <span class="n">env</span>
 
 </div>
@@ -1521,7 +1521,7 @@
 
     <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdprojecthome&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CdAlias</span><span class="p">(</span><span class="s">&#39;PROJECT_HOME&#39;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;cdp&#39;</span><span class="p">,</span> <span class="s">&#39;cdph&#39;</span><span class="p">])</span>
     <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdworkonhome&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">CdAlias</span><span class="p">(</span><span class="s">&#39;WORKON_HOME&#39;</span><span class="p">,</span>  <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;cdwh&#39;</span><span class="p">,</span> <span class="s">&#39;cdve&#39;</span><span class="p">])</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdcondahome&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">CdAlias</span><span class="p">(</span><span class="s">&#39;CONDA_HOME&#39;</span><span class="p">,</span>   <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;cda&#39;</span><span class="p">,</span> <span class="s">&#39;cdce&#39;</span><span class="p">])</span>
+    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdcondahome&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">CdAlias</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS_PATH&#39;</span><span class="p">,</span>   <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;cda&#39;</span><span class="p">,</span> <span class="s">&#39;cdce&#39;</span><span class="p">])</span>
 
     <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdvirtualenv&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">CdAlias</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">,</span>  <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;cdv&#39;</span><span class="p">])</span>
     <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;cdsrc&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="n">CdAlias</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">,</span>         <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;cds&#39;</span><span class="p">])</span>
@@ -2015,13 +2015,13 @@
         <span class="p">(</span><span class="s">&quot;WORKON_HOME__py34&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ve34&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;WORKON_HOME_DEFAULT&quot;</span><span class="p">,</span> <span class="s">&quot;WORKON_HOME__py27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_ROOT__py27&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-conda27&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;CONDA_HOME__py27&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce27&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;CONDA_ENVS_PATH__py27&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_ROOT__py34&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-conda34&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;CONDA_HOME__py34&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce34&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;CONDA_ENVS_PATH__py34&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce34&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_ROOT_DEFAULT&quot;</span><span class="p">,</span> <span class="s">&quot;CONDA_ROOT__py27&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;CONDA_HOME_DEFAULT&quot;</span><span class="p">,</span> <span class="s">&quot;CONDA_HOME__py27&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;CONDA_ENVS_PATH_DEFAULT&quot;</span><span class="p">,</span> <span class="s">&quot;CONDA_ENVS_PATH__py27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_ROOT&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-conda27&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;CONDA_HOME&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce27&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;CONDA_ENVS_PATH&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;WORKON_HOME&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ve27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;VENVSTR&quot;</span><span class="p">,</span> <span class="s">&quot;dotfiles&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;VENVSTRAPP&quot;</span><span class="p">,</span> <span class="s">&quot;dotfiles&quot;</span><span class="p">),</span> <span class="c"># or None</span>
@@ -4331,7 +4331,7 @@
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="../../../index">westurner/dotfiles 0.8.1 documentation</a></li>
+        <li><a href="../../../index">westurner/dotfiles 0.8.2 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
@@ -4348,7 +4348,7 @@
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
       </footer>
       <!-- /footer -->
 
