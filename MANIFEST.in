@@ -618,6 +618,7 @@ include scripts/mactool.py
 include scripts/netstatpsutil.py
 include scripts/nowireless.sh
 include scripts/optimizepath.py
+include scripts/osquery-all.sh
 include scripts/passwordstrength.py
 include scripts/pbcopy
 include scripts/pbpaste
@@ -654,7 +655,7 @@ include scripts/setup_vlc.sh
 include scripts/usrlog.py
 include scripts/usrlog.sh
 include scripts/venv.py
-include scripts/x-www-browser
+include scripts/web
 include scripts/xlck.sh
 include setup.cfg
 include setup.py
