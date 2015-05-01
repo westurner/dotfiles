@@ -101,10 +101,12 @@
 ## bash
     # echo_args         -- echo $@ (for checking quoting)
     # function_exists() -- check whether a bash function exists
-    # add_to_path       -- prepend a directory to $PATH
+  # PATH_prepend()     -- prepend a directory ($1) to $PATH
     #   instead of:
     #       export PATH=$dir:$PATH
-    #       add_to_path $dir 
+    #       PATH_prepend $dir 
+    # PATH_remove()  -- remove a directory from $PATH
+    # note: empty path components ("::") will be stripped
     # lightpath()       -- display $PATH with newlines
     # lspath()          -- list files in each directory in $PATH
     # lspath_less()     -- lspath with less (color)
@@ -156,6 +158,7 @@
 #### etc/bash/05-bashrc.dotfiles.sh
 ### bashrc.dotfiles.sh
     # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
+    # shell_escape_single()
     # dotfiles_status()         -- print dotfiles_status
     # ds()                      -- print dotfiles_status
     # clr()                     -- clear scrollback
@@ -166,8 +169,20 @@
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
     # debug-on()                 -- set -x -v
     # debug-off()                -- set +x +v
+    # Virtualenvwrapper numeric sequence
+    # * to make logs in /var/log/venv.nnn-stepname.log naturally ordered
+    #
+    # * 0xx : 'initialization' actions  : [initialize]
+    # * 1xx : 'creation' actions        : [pre|post]mk[virtualenv|project]
+    # * 2xx : 'vation' actions          : [pre|post][activate|deactivate]
+    # * 8xx : 'managment' actions       : [pre|post][cpvirtualenv|rmvirtualenv]
+    # * 868 : unknown
+    # * xx0 : 'pre' actions
+    # * xx9 : 'post' actions
+    # Source-ordered according to the virtualenvwrapper docs
+    # * https://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts
     # log_dotfiles_state()      -- save current environment to logfiles
-    # XXX:
+    #   $1 -- logkey (virtualenvwrapper step name)
     # XXX:
     # dotfiles_initialize()     -- virtualenvwrapper initialize
     # dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
@@ -190,9 +205,10 @@
     # _setup_python()       -- configure $PYTHONSTARTUP
     # _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
 ## Pyenv
-    # _setup_pyvenv()       -- set $PYENV_ROOT, add_to_path, and pyenv venvw
+    # _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw
 ## Conda / Anaconda
-    # _setup_anaconda()     -- set $CONDA_ROOT, add_to_path
+    # _setup_anaconda()     -- set $CONDA_ROOT, PATH_prepend
+    # $1 -- conda python version (27|34)
     # workon_conda()        -- workon a conda + venv project
     # wec()                 -- workon a conda + venv project
     #                       note: tab-completion only shows regular virtualenvs
@@ -204,9 +220,22 @@
    
 #### etc/bash/07-bashrc.virtualenvwrapper.sh
 ### bashrc.virtualenvwrapper.sh
-# sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
 #
-    # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
+# Installing Virtualenvwrapper:
+#   apt:
+#     sudo apt-get install virtualenvwrapper
+#   pip:
+#     [sudo] pip install -U pip virtualenvwrapper
+#
+## Configure dotfiles/virtualenv root/prefix environment variables
+# __WRK         workspace root
+# PROJECT_HOME  virtualenvwrapper project directory (mkproject)
+# WORKON_HOME   virtualenvwrapper virtualenv prefix
+#               VIRTUAL_ENV=${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+#               _APP=${VIRTUAL_ENV_NAME}  #[/subpath]
+#               _SRC=${VIRTUAL_ENV}/${_APP}
+#               _WRD=${VIRTUAL_ENV}/${_APP}
+    # _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
     # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
     # lsve()                -- list virtualenvs in $WORKON_HOME
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
@@ -219,6 +248,7 @@
     #    $1="$VENVSTR"
     #    $2="$VIRTUAL_ENV"
     # rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
+  # _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
    
    
 #### etc/bash/08-bashrc.gcloud.sh
@@ -286,7 +316,7 @@
     # makew()   -- cd $_WRD && make $@
     # make-()   -- cd $_WRD && make $@
     # mw()      -- cd $_WRD && make $@
-    # venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+    # _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
     #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
     # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
@@ -598,10 +628,26 @@
 #### etc/bash/usrlog.sh
 ##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
+# Log shell commands with metadata as tab-separated lines to ${_USRLOG}
+# with a shell identifier to differentiate between open windows,
+# testing/screencast flows, etc
+#
+# By default, _USRLOG will be set to a random string prefixed with '#'
+# by the `stid()` bash function (`_usrlog_set__TERM_ID()`)
+#
+# * _TERM_ID can be set to any string;
+# * _TERM_ID is displayed in the PS1 prompt
+# * _TERM_ID is displayed in the window title
+# * _TERM_ID is reset to __TERM_ID upon 'deactivate'
+#   (westurner/dotfiles//etc/bash/07-bashrc.virtualenvwrapper.sh:
+#    TODO: virtualenvwrapper, conda)
+#
+# Environment Variables:
+#
 #  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
 #  _USRLOG  (str): current -usrlog.log file to append REPL command strings to
 #  _TERM_ID (str): a terminal identifier with which command loglines will
-#  be appended (default: _usrlog_randstr)
+#                  be appended (default: _usrlog_randstr)
 #
     # _usrlog_get_prefix()    -- get a dirpath for the current usrlog
     #                            (VIRTUAL_ENV or HOME)

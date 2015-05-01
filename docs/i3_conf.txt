@@ -47,6 +47,8 @@
 #  # Hide edge borders
 #  # Get WM_CLASS with $(xprop WM_CLASS)
 # set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png
+#
+#  - Start gnome-settings-daemon (e.g. for anti-aliasing)
 #  - Set X background
 #  - Set X wallaper to (~/wallpaper.png)
 #  - Start screensaver
