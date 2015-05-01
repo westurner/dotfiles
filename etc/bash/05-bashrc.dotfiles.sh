@@ -5,31 +5,37 @@
 dotfiles_add_path() {
     # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     if [ -d "${__DOTFILES}" ]; then
-        #add_to_path "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
-        add_to_path "${__DOTFILES}/scripts"
+        #PATH_prepend "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
+        PATH_prepend "${__DOTFILES}/scripts"
     fi
+}
+
+shell_escape_single() {
+    # shell_escape_single()
+    strtoescape=${1}
+    echo "'"$(echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 }
 
 dotfiles_status() {
     # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
-    echo "HOSTNAME='${HOSTNAME}'"
-    echo "USER='${USER}'"
-    echo "__WRK='${__WRK}'"
-    echo "PROJECT_HOME='${PROJECT_HOME}'"
-    echo "WORKON_HOME='${WORKON_HOME}'"
-    echo "VIRTUAL_ENV_NAME='${VIRTUAL_ENV_NAME}'"
-    echo "VIRTUAL_ENV='${VIRTUAL_ENV}'"
-    echo "_SRC='${_SRC}'"
-    echo "_APP='${_APP}'"
-    echo "_WRD='${_WRD}'"
-    #echo "__DOCSWWW='${_DOCS}'"
-    #echo "__SRC='${__SRC}'"
-    #echo "__PROJECTSRC='${__PROJECTSRC}'"
-    echo "_USRLOG='${_USRLOG}'"
-    echo "_TERM_ID='${_TERM_ID}'"
-    echo "PATH='${PATH}'"
-    echo "__DOTFILES='${__DOTFILES}'"
+    echo HOSTNAME=$(shell_escape_single "${HOSTNAME}")
+    echo USER=$(shell_escape_single "${USER}")
+    echo __WRK=$(shell_escape_single "${__WRK}")
+    echo PROJECT_HOME=$(shell_escape_single "${PROJECT_HOME}")
+    echo WORKON_HOME=$(shell_escape_single "${WORKON_HOME}")
+    echo VIRTUAL_ENV_NAME=$(shell_escape_single "${VIRTUAL_ENV_NAME}")
+    echo VIRTUAL_ENV=$(shell_escape_single "${VIRTUAL_ENV}")
+    echo _SRC=$(shell_escape_single "${_SRC}")
+    echo _APP=$(shell_escape_single "${_APP}")
+    echo _WRD=$(shell_escape_single "${_WRD}")
+    #echo "__DOCSWWW=$(shell_escape_single "${_DOCS}")
+    #echo "__SRC=$(shell_escape_single "${__SRC}")
+    #echo "__PROJECTSRC=$(shell_escape_single "${__PROJECTSRC}")
+    echo _USRLOG=$(shell_escape_single "${_USRLOG}")
+    echo _TERM_ID=$(shell_escape_single "${_TERM_ID}")
+    echo PATH=$(shell_escape_single "${PATH}")
+    echo __DOTFILES=$(shell_escape_single "${__DOTFILES}")
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
     echo "#"
 }
@@ -87,21 +93,72 @@ debug-off() {
     shopt -s extdebug
 }
 
+_virtualenvwrapper_get_step_num() {
+
+    # Virtualenvwrapper numeric sequence
+    # * to make logs in /var/log/venv.nnn-stepname.log naturally ordered
+    #
+    # * 0xx : 'initialization' actions  : [initialize]
+    # * 1xx : 'creation' actions        : [pre|post]mk[virtualenv|project]
+    # * 2xx : 'vation' actions          : [pre|post][activate|deactivate]
+    # * 8xx : 'managment' actions       : [pre|post][cpvirtualenv|rmvirtualenv]
+    # * 868 : unknown
+    # * xx0 : 'pre' actions
+    # * xx9 : 'post' actions
+    # Source-ordered according to the virtualenvwrapper docs
+    # * https://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts
+    step=${1}
+    n="868"  # unknown
+    case ${step} in
+        "get_env_details")
+            n="800" ;;
+        "initialize")
+            n="010" ;;
+        "premkvirtualenv")
+            n="120" ;;
+        "postmkvirtualenv")
+            n="129" ;;
+        "precpvirtualenv")
+            n="820" ;;
+        "postcpvirtualenv")
+            n="829" ;;
+        "preactivate")
+            n="230" ;;
+        "postactivate")
+            n="239" ;;
+        "predeactivate")
+            n="290" ;;
+        "postdeactivate")
+            n="299" ;;
+        "prermvirtualenv")
+            n="810" ;;
+        "postrmvirtualenv")
+            n="819" ;;
+        "premkproject")
+            n="140" ;;
+        "postmkproject")
+            n="149" ;;
+    esac
+    echo "${n}"
+}
+
 log_dotfiles_state() {
     # log_dotfiles_state()      -- save current environment to logfiles
-    # XXX:
+    #   $1 -- logkey (virtualenvwrapper step name)
+    test -n "${DOTFILES_SKIP_LOG}" && echo '#DOTFILES_SKIP_LOG' && return
     _log=${_LOG:-"${HOME}/var/log"}
     if [ "${_log}" == "/var/log" ]; then
         _log="${HOME}/var/log"
     fi
-    logkey=${1:-'99'}
-    logdir=${_log:-"var/log"}/venv.${VIRTUAL_ENV_NAME}.${logkey}/
+    logkey=${1:-'log_dotfiles_state'}
+    stepnum="$(_virtualenvwrapper_get_step_num "${logkey}")"
+    logdir=${_log:-"var/log"}/venv..${VIRTUAL_ENV_NAME}..${stepnum}..${logkey}
     exportslogfile=${logdir}/exports.log
     envlogfile=${logdir}/exports_env.log
-    test -n $logdir && test -d $logdir || mkdir -p $logdir
+    test -n ${logdir} && test -d ${logdir} || mkdir -p ${logdir}
     # XXX:
-    export > $exportslogfile
-    set > $envlogfile
+    export > ${exportslogfile}
+    set > ${envlogfile}
 }
 
 
@@ -161,12 +218,11 @@ dotfiles_postactivate() {
         echo "${bash_debug_output}" # >2
     fi
 
-    echo "setup usrlog"
     declare -f '_setup_usrlog' 2>&1 > /dev/null \
         && _setup_usrlog
 
-    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
-        && venv_set_prompt
+    declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+        && _setup_venv_prompt
 
 }
 

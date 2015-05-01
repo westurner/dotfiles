@@ -1,13 +1,41 @@
 ### bashrc.virtualenvwrapper.sh
-
-# sudo apt-get install virtualenvwrapper || sudo pip install virtualenvwrapper
 #
-export __WRK=${__WRK:-"${HOME}/-wrk"}
-export PROJECT_HOME="${__WRK}"
-export WORKON_HOME="${__WRK}/-ve27"
+# Installing Virtualenvwrapper:
+#   apt:
+#     sudo apt-get install virtualenvwrapper
+#   pip:
+#     [sudo] pip install -U pip virtualenvwrapper
+#
 
-_setup_virtualenvwrapper () {
-    # _setup_virtualenvwrapper()    -- configure $VIRTUALENVWRAPPER_*
+## Configure dotfiles/virtualenv root/prefix environment variables
+# __WRK         workspace root
+# PROJECT_HOME  virtualenvwrapper project directory (mkproject)
+# WORKON_HOME   virtualenvwrapper virtualenv prefix
+#               VIRTUAL_ENV=${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+#               _APP=${VIRTUAL_ENV_NAME}  #[/subpath]
+#               _SRC=${VIRTUAL_ENV}/${_APP}
+#               _WRD=${VIRTUAL_ENV}/${_APP}
+
+_setup_virtualenvwrapper_default_config() {
+    export __WRK=${__WRK:-"${HOME}/workspace"}
+    export PROJECT_HOME="${__WRK}"
+    export WORKON_HOME="${HOME}/.virtualenvs"
+}
+_setup_virtualenvwrapper_dotfiles_config() {
+    export __WRK=${__WRK:-"${HOME}/-wrk"}
+    export PROJECT_HOME="${__WRK}"
+    export WORKON_HOME="${__WRK}/-ve27"
+}
+
+_setup_virtualenvwrapper_dirs() {
+    umask 027
+    mkdir -p "${__WRK}" || chmod o-rwx "${__WRK}"
+    mkdir -p "${PROJECT_HOME}" || chmod o-rwx "${PROJECT_HOME}"
+    mkdir -p "${WORKON_HOME}" || chmod o-rwx "${WORKON_HOME}"
+}
+
+_setup_virtualenvwrapper_config () {
+    # _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
     #export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
     export VIRTUALENVWRAPPER_SCRIPT=$(which virtualenvwrapper.sh)
@@ -21,7 +49,6 @@ _setup_virtualenvwrapper () {
     unset VIRTUALENV_DISTRIBUTE
     source "${VIRTUALENVWRAPPER_SCRIPT}"
 }
-_setup_virtualenvwrapper
 
 lsvirtualenvs() {
     # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
@@ -131,3 +158,22 @@ rebuild_virtualenvs() {
     # rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
     lsve rebuild_virtualenv
 }
+
+
+_setup_virtualenvwrapper_dotfiles_config  # ~/-wrk/-ve27 {-ve34,-ce27,-ce34}
+
+_setup_virtualenvwrapper() {
+  # _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
+  _setup_virtualenvwrapper_config
+  _setup_virtualenvwrapper_dirs
+}
+
+
+
+if [[ "$BASH_SOURCE" == "$0" ]]; then
+  _setup_virtualenvwrapper
+else
+  if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
+    _setup_virtualenvwrapper
+  fi
+fi

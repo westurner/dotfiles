@@ -25,7 +25,7 @@ if [ ! -d $__SRC ]; then
 fi
 
     # PATH="~/.local/bin:$PATH" (if not already there)
-add_to_path "${HOME}/.local/bin"
+PATH_prepend "${HOME}/.local/bin"
 
     # __VENV      -- path to local venv config script (executable)
 export __VENV="${__DOTFILES}/scripts/venv.py"
@@ -63,8 +63,8 @@ workon_venv() {
         workon $1 && \
         source <($__VENV --print-bash $@) && \
         dotfiles_status && \
-        declare -f 'venv_set_prompt' 2>&1 > /dev/null \
-            && venv_set_prompt ${_TERM_ID:-$1}
+        declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+            && _setup_venv_prompt ${_TERM_ID:-$1}
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenvs
@@ -205,8 +205,8 @@ mw() {
     makew $@
 }
 
-venv_set_prompt() {
-    # venv_set_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+_setup_venv_prompt() {
+    # _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
     #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
     # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
@@ -223,7 +223,7 @@ venv_set_prompt() {
         fi
     fi
 }
-venv_set_prompt
+_setup_venv_prompt
 
 
 

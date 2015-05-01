@@ -1,10 +1,26 @@
 #!/bin/sh
 ##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
+# Log shell commands with metadata as tab-separated lines to ${_USRLOG}
+# with a shell identifier to differentiate between open windows,
+# testing/screencast flows, etc
+#
+# By default, _USRLOG will be set to a random string prefixed with '#'
+# by the `stid()` bash function (`_usrlog_set__TERM_ID()`)
+#
+# * _TERM_ID can be set to any string;
+# * _TERM_ID is displayed in the PS1 prompt
+# * _TERM_ID is displayed in the window title
+# * _TERM_ID is reset to __TERM_ID upon 'deactivate'
+#   (westurner/dotfiles//etc/bash/07-bashrc.virtualenvwrapper.sh:
+#    TODO: virtualenvwrapper, conda)
+#
+# Environment Variables:
+#
 #  __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
 #  _USRLOG  (str): current -usrlog.log file to append REPL command strings to
 #  _TERM_ID (str): a terminal identifier with which command loglines will
-#  be appended (default: _usrlog_randstr)
+#                  be appended (default: _usrlog_randstr)
 #
 
 _usrlog_get_prefix () {
@@ -153,8 +169,8 @@ _usrlog_set_title() {
     # _usrlog_set_title()  --  set xterm title
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
-    declare -f 'venv_set_prompt' 2>&1 > /dev/null \
-        && venv_set_prompt
+    declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+        && _setup_venv_prompt
 }
 
 

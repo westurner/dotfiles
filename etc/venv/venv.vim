@@ -86,22 +86,22 @@ command! -nargs=* Cdwh call Cd_WORKON_HOME(<f-args>)
 "   :Cdve -- Cd_WORKON_HOME()
 command! -nargs=* Cdve call Cd_WORKON_HOME(<f-args>)
 
-function! Cd_CONDA_HOME(...)
-" Cd_CONDA_HOME()  -- cd $CONDA_HOME/$1
+function! Cd_CONDA_ENVS_PATH(...)
+" Cd_CONDA_ENVS_PATH()  -- cd $CONDA_ENVS_PATH/$1
     if a:0 > 0
-       let pathname = join([$CONDA_HOME, a:1], "/")
+       let pathname = join([$CONDA_ENVS_PATH, a:1], "/")
     else
-       let pathname = "$CONDA_HOME"
+       let pathname = "$CONDA_ENVS_PATH"
     endif
     execute 'cd' pathname 
     pwd
 endfunction
-"   :Cdcondahome -- Cd_CONDA_HOME()
-command! -nargs=* Cdcondahome call Cd_CONDA_HOME(<f-args>)
-"   :Cda -- Cd_CONDA_HOME()
-command! -nargs=* Cda call Cd_CONDA_HOME(<f-args>)
-"   :Cdce -- Cd_CONDA_HOME()
-command! -nargs=* Cdce call Cd_CONDA_HOME(<f-args>)
+"   :Cdcondaenvspath -- Cd_CONDA_ENVS_PATH()
+command! -nargs=* Cdcondaenvspath call Cd_CONDA_ENVS_PATH(<f-args>)
+"   :Cda -- Cd_CONDA_ENVS_PATH()
+command! -nargs=* Cda call Cd_CONDA_ENVS_PATH(<f-args>)
+"   :Cdce -- Cd_CONDA_ENVS_PATH()
+command! -nargs=* Cdce call Cd_CONDA_ENVS_PATH(<f-args>)
 
 function! Cd_VIRTUAL_ENV(...)
 " Cd_VIRTUAL_ENV()  -- cd $VIRTUAL_ENV/$1

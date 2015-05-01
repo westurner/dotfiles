@@ -18,22 +18,42 @@ function_exists() {
     return $?
 }
 
-add_to_path ()
+PATH_prepend ()
 {
-    # add_to_path       -- prepend a directory to $PATH
-    #http://superuser.com/questions/ \
-    #\ 39751/add-directory-to-path-if-its-not-already-there/39840#39840
-
+  # PATH_prepend()     -- prepend a directory ($1) to $PATH
     #   instead of:
     #       export PATH=$dir:$PATH
-    #       add_to_path $dir 
-
+    #       PATH_prepend $dir 
+    #http://superuser.com/questions/ \
+    #\ 39751/add-directory-to-path-if-its-not-already-there/39840#39840
     if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
         return 0
     fi
     export PATH=$1:$PATH
 }
 
+PATH_remove() {
+    # PATH_remove()  -- remove a directory from $PATH
+    # note: empty path components ("::") will be stripped
+    local _path=${1}
+    _PATH=$(echo "${PATH}" | tr ':' '\n' \
+      | grep -v '^$' \
+      | grep -v "^${_path}$" \
+      | tr '\n' ':')
+    export PATH=${_PATH}
+    echo $PATH
+}
+
+PATH_contains() {
+  local _path=${1}
+  local _output=$(echo "${PATH}" | tr ':' '\n' \
+    | grep "^${_path}$")
+  if [ -z "${output}" ]; then
+    return 1
+  else
+    echo "${output}"
+  fi
+}
 
 lightpath() {
     # lightpath()       -- display $PATH with newlines

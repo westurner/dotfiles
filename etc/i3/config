@@ -115,6 +115,10 @@ set $scratchpad_start_editor gvim --servername SCRATCHPAD --remote ~/TODO
 
 
 ## Autoruns
+#
+#  - Start gnome-settings-daemon (e.g. for anti-aliasing)
+exec --no-startup-id gnome-settings-daemon
+
 #  - Set X background
 exec --no-startup-id $set_xbackground
 
@@ -123,6 +127,7 @@ exec --no-startup-id $set_xwallpaper
 
 #  - Start screensaver
 exec --no-startup-id $screensaver_start
+
 
 # - Launch network applet (optional)
 # exec_always --no-startup-id $network_applet  # (optional)
