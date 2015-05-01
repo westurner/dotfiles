@@ -6329,15 +6329,9 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/tmp/ssh-UBzmFEy21847/agent.21847; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=21849; export SSH_AGENT_PID;
-#echo Agent pid 21849;
 SSH_AUTH_SOCK=/tmp/ssh-BZWGGIF31307/agent.31307; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=31309; export SSH_AGENT_PID;
 #echo Agent pid 31309;
-starting ssh-agent...
-Identity added: /home/wturner/.ssh/id_rsa (/home/wturner/.ssh/id_rsa)
-Identity added: /home/wturner/.ssh/id_ecdsa (/home/wturner/.ssh/id_ecdsa)
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
