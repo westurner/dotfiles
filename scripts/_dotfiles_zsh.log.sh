@@ -1,7 +1,1455 @@
-# system-wide environment settings for zsh(1)
-if [ -x /usr/libexec/path_helper ]; then
-	eval `/usr/libexec/path_helper -s`
+# /etc/zsh/zshenv: system-wide .zshenv file for zsh(1).
+#
+# This file is sourced on all invocations of the shell.
+# If the -f flag is present or if the NO_RCS option is
+# set within this file, all other initialization files
+# are skipped.
+#
+# This file should contain commands to set the command
+# search path, plus other important environment variables.
+# This file should not contain commands that produce
+# output or assume the shell is attached to a tty.
+#
+# Global Order: zshenv, zprofile, zshrc, zlogin
+
+if [[ -z "$PATH" || "$PATH" == "/bin:/usr/bin" ]]
+then
+	export PATH="/usr/local/bin:/usr/bin:/bin:/usr/games"
 fi
+# /etc/zsh/zshrc: system-wide .zshrc file for zsh(1).
+#
+# This file is sourced only for interactive shells. It
+# should contain commands to set up aliases, functions,
+# options, key bindings, etc.
+#
+# Global Order: zshenv, zprofile, zshrc, zlogin
+
+READNULLCMD=${PAGER:-/usr/bin/pager}
+
+if [[ "$TERM" != emacs ]]; then
+[[ -z "$terminfo[kdch1]" ]] || bindkey -M emacs "$terminfo[kdch1]" delete-char
+[[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
+[[ -z "$terminfo[kend]" ]] || bindkey -M emacs "$terminfo[kend]" end-of-line
+[[ -z "$terminfo[kich1]" ]] || bindkey -M emacs "$terminfo[kich1]" overwrite-mode
+[[ -z "$terminfo[kdch1]" ]] || bindkey -M vicmd "$terminfo[kdch1]" vi-delete-char
+[[ -z "$terminfo[khome]" ]] || bindkey -M vicmd "$terminfo[khome]" vi-beginning-of-line
+[[ -z "$terminfo[kend]" ]] || bindkey -M vicmd "$terminfo[kend]" vi-end-of-line
+[[ -z "$terminfo[kich1]" ]] || bindkey -M vicmd "$terminfo[kich1]" overwrite-mode
+
+[[ -z "$terminfo[cuu1]" ]] || bindkey -M viins "$terminfo[cuu1]" vi-up-line-or-history
+[[ -z "$terminfo[cuf1]" ]] || bindkey -M viins "$terminfo[cuf1]" vi-forward-char
+[[ -z "$terminfo[kcuu1]" ]] || bindkey -M viins "$terminfo[kcuu1]" vi-up-line-or-history
+[[ -z "$terminfo[kcud1]" ]] || bindkey -M viins "$terminfo[kcud1]" vi-down-line-or-history
+[[ -z "$terminfo[kcuf1]" ]] || bindkey -M viins "$terminfo[kcuf1]" vi-forward-char
+[[ -z "$terminfo[kcub1]" ]] || bindkey -M viins "$terminfo[kcub1]" vi-backward-char
+
+# ncurses fogyatekos
+[[ "$terminfo[kcuu1]" == "O"* ]] && bindkey -M viins "${terminfo[kcuu1]/O/[}" vi-up-line-or-history
+[[ "$terminfo[kcud1]" == "O"* ]] && bindkey -M viins "${terminfo[kcud1]/O/[}" vi-down-line-or-history
+[[ "$terminfo[kcuf1]" == "O"* ]] && bindkey -M viins "${terminfo[kcuf1]/O/[}" vi-forward-char
+[[ "$terminfo[kcub1]" == "O"* ]] && bindkey -M viins "${terminfo[kcub1]/O/[}" vi-backward-char
+[[ "$terminfo[khome]" == "O"* ]] && bindkey -M viins "${terminfo[khome]/O/[}" beginning-of-line
+[[ "$terminfo[kend]" == "O"* ]] && bindkey -M viins "${terminfo[kend]/O/[}" end-of-line
+[[ "$terminfo[khome]" == "O"* ]] && bindkey -M emacs "${terminfo[khome]/O/[}" beginning-of-line
+[[ "$terminfo[kend]" == "O"* ]] && bindkey -M emacs "${terminfo[kend]/O/[}" end-of-line
+fi
+
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+			     /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+
+unalias run-help
+autoload run-help
+
+# If you don't want compinit called here, place the line
+# skip_global_compinit=1
+# in your $ZDOTDIR/.zshenv or $ZDOTDIR/.zprofice
+if [[ -z "$skip_global_compinit" ]]; then
+  autoload -U compinit
+  compinit
+fi
+#files: 671	version: 4.3.17
+
+_comps=(
+'-' '_precommand'
+'.' '_source'
+'5g' '_go'
+'5l' '_go'
+'6g' '_go'
+'6l' '_go'
+'8g' '_go'
+'8l' '_go'
+'a2dismod' '_a2utils'
+'a2dissite' '_a2utils'
+'a2enmod' '_a2utils'
+'a2ensite' '_a2utils'
+'a2ps' '_a2ps'
+'aaaa' '_hosts'
+'aap' '_aap'
+'acpi' '_acpi'
+'acpitool' '_acpitool'
+'acroread' '_acroread'
+'adb' '_adb'
+'admin' '_sccs'
+'ali' '_mh'
+'alias' '_alias'
+'amaya' '_webbrowser'
+'analyseplugin' '_analyseplugin'
+'animate' '_imagemagick'
+'anno' '_mh'
+'ant' '_ant'
+'antiword' '_antiword'
+'aoss' '_precommand'
+'apache2ctl' '_apachectl'
+'apachectl' '_apachectl'
+'apm' '_apm'
+'appletviewer' '_java'
+'apropos' '_man'
+'apt-cache' '_apt'
+'apt-cdrom' '_apt'
+'apt-config' '_apt'
+'apt-file' '_apt-file'
+'apt-get' '_apt'
+'aptitude' '_aptitude'
+'apt-move' '_apt-move'
+'apt-show-versions' '_apt-show-versions'
+'apvlv' '_pdf'
+'arena' '_webbrowser'
+'arp' '_arp'
+'arping' '_arping'
+'-array-value-' '_value'
+'-assign-parameter-' '_assign'
+'at' '_at'
+'atq' '_at'
+'atrm' '_at'
+'attr' '_attr'
+'auto-apt' '_auto-apt'
+'autoload' '_typeset'
+'awk' '_awk'
+'axi-cache' '_axi-cache'
+'bash' '_sh'
+'batch' '_at'
+'baz' '_baz'
+'bg' '_jobs_bg'
+'bindkey' '_bindkey'
+'bison' '_bison'
+'bogofilter' '_bogofilter'
+'bogotune' '_bogofilter'
+'bogoutil' '_bogofilter'
+'-brace-parameter-' '_brace_parameter'
+'brctl' '_brctl'
+'btdownloadcurses' '_bittorrent'
+'btdownloadgui' '_bittorrent'
+'btdownloadheadless' '_bittorrent'
+'btlaunchmany' '_bittorrent'
+'btlaunchmanycurses' '_bittorrent'
+'btmakemetafile' '_bittorrent'
+'btreannounce' '_bittorrent'
+'btrename' '_bittorrent'
+'bts' '_bts'
+'btshowmetainfo' '_bittorrent'
+'bttrack' '_bittorrent'
+'bug' '_bug'
+'buildhash' '_ispell'
+'builtin' '_builtin'
+'bunzip2' '_bzip2'
+'burst' '_mh'
+'bzcat' '_bzip2'
+'bzip2' '_bzip2'
+'bzip2recover' '_bzip2'
+'bzr' '_bzr'
+'cal' '_cal'
+'calendar' '_calendar'
+'catchsegv' '_precommand'
+'ccal' '_ccal'
+'cd' '_cd'
+'cdbs-edit-patch' '_cdbs-edit-patch'
+'cdc' '_sccs'
+'cdcd' '_cdcd'
+'cdr' '_cdr'
+'cdrdao' '_cdrdao'
+'cdrecord' '_cdrecord'
+'certtool' '_gnutls'
+'cftp' '_twisted'
+'chage' '_users'
+'chdir' '_cd'
+'chflags' '_chflags'
+'chfn' '_users'
+'chgrp' '_chown'
+'chimera' '_webbrowser'
+'chkconfig' '_chkconfig'
+'chmod' '_chmod'
+'chown' '_chown'
+'chrt' '_chrt'
+'chsh' '_users'
+'ci' '_rcs'
+'ckeygen' '_twisted'
+'clear' '_nothing'
+'co' '_rcs'
+'comb' '_sccs'
+'combine' '_imagemagick'
+'comm' '_comm'
+'command' '_command'
+'-command-' '_autocd'
+'-command-line-' '_normal'
+'comp' '_mh'
+'compdef' '_compdef'
+'composite' '_imagemagick'
+'compress' '_compress'
+'conch' '_twisted'
+'-condition-' '_condition'
+'config.status' '_configure'
+'configure' '_configure'
+'convert' '_imagemagick'
+'coreadm' '_coreadm'
+'cowsay' '_cowsay'
+'cowthink' '_cowsay'
+'cp' '_cp'
+'cpio' '_cpio'
+'cplay' '_cplay'
+'crsh' '_cssh'
+'cryptsetup' '_cryptsetup'
+'csh' '_sh'
+'cssh' '_cssh'
+'csup' '_csup'
+'curl' '_urls'
+'cut' '_cut'
+'cvs' '_cvs'
+'cvsup' '_cvsup'
+'cygcheck' '_cygcheck'
+'cygcheck.exe' '_cygcheck'
+'cygpath' '_cygpath'
+'cygpath.exe' '_cygpath'
+'cygrunsrv' '_cygrunsrv'
+'cygrunsrv.exe' '_cygrunsrv'
+'cygserver' '_cygserver'
+'cygserver.exe' '_cygserver'
+'cygstart' '_cygstart'
+'cygstart.exe' '_cygstart'
+'dak' '_dak'
+'darcs' '_darcs'
+'date' '_date'
+'dch' '_debchange'
+'dchroot' '_dchroot'
+'dchroot-dsa' '_dchroot-dsa'
+'dcop' '_dcop'
+'dcopclient' '_dcop'
+'dcopfind' '_dcop'
+'dcopobject' '_dcop'
+'dcopref' '_dcop'
+'dcopstart' '_dcop'
+'dd' '_dd'
+'debchange' '_debchange'
+'debdiff' '_debdiff'
+'debfoster' '_debfoster'
+'debsign' '_debsign'
+'declare' '_typeset'
+'-default-' '_default'
+'defaults' '_defaults'
+'delta' '_sccs'
+'devtodo' '_devtodo'
+'df' '_directories'
+'dhclient' '_dhclient'
+'dhclient3' '_dhclient'
+'dhcpinfo' '_dhcpinfo'
+'dict' '_dict'
+'diff' '_diff'
+'diffstat' '_diffstat'
+'dillo' '_webbrowser'
+'dircmp' '_directories'
+'dirs' '_dirs'
+'disable' '_disable'
+'disown' '_jobs_fg'
+'display' '_imagemagick'
+'dist' '_mh'
+'django-admin' '_django'
+'django-admin.py' '_django'
+'dladm' '_dladm'
+'dlocate' '_dlocate'
+'dmake' '_make'
+'dmidecode' '_dmidecode'
+'docker' '_docker'
+'domainname' '_yp'
+'dosdel' '_floppy'
+'dosread' '_floppy'
+'dpatch-edit-patch' '_dpatch-edit-patch'
+'dpkg' '_dpkg'
+'dpkg-buildpackage' '_dpkg-buildpackage'
+'dpkg-cross' '_dpkg-cross'
+'dpkg-deb' '_dpkg'
+'dpkg-query' '_dpkg'
+'dpkg-reconfigure' '_dpkg'
+'dpkg-repack' '_dpkg-repack'
+'dpkg-source' '_dpkg_source'
+'dput' '_dput'
+'du' '_du'
+'dumpadm' '_dumpadm'
+'dumper' '_dumper'
+'dumper.exe' '_dumper'
+'dupload' '_dupload'
+'dvibook' '_dvi'
+'dviconcat' '_dvi'
+'dvicopy' '_dvi'
+'dvidvi' '_dvi'
+'dvips' '_dvi'
+'dviselect' '_dvi'
+'dvitodvi' '_dvi'
+'dvitype' '_dvi'
+'ecasound' '_ecasound'
+'echotc' '_echotc'
+'echoti' '_echoti'
+'egrep' '_grep'
+'elinks' '_elinks'
+'elm' '_elm'
+'emulate' '_emulate'
+'enable' '_enable'
+'enscript' '_enscript'
+'env' '_env'
+'epsffit' '_psutils'
+'-equal-' '_equal'
+'espeak' '_espeak'
+'ethtool' '_ethtool'
+'eval' '_precommand'
+'eview' '_vim'
+'evim' '_vim'
+'exec' '_precommand'
+'exim' '_vim'
+'explodepkg' '_pkgtool'
+'export' '_typeset'
+'express' '_webbrowser'
+'extcheck' '_java'
+'extractres' '_psutils'
+'fakeroot' '_fakeroot'
+'false' '_nothing'
+'fc' '_fc'
+'fc-list' '_xft_fonts'
+'fc-match' '_xft_fonts'
+'feh' '_feh'
+'fetch' '_fetch'
+'fetchmail' '_fetchmail'
+'ffmpeg' '_ffmpeg'
+'fg' '_jobs_fg'
+'fgrep' '_grep'
+'figlet' '_figlet'
+'find' '_find'
+'findaffix' '_ispell'
+'finger' '_finger'
+'fink' '_fink'
+'firefox' '_mozilla'
+'-first-' '_first'
+'fixdlsrps' '_psutils'
+'fixfmps' '_psutils'
+'fixmacps' '_psutils'
+'fixpsditps' '_psutils'
+'fixpspps' '_psutils'
+'fixscribeps' '_psutils'
+'fixtpps' '_psutils'
+'fixwfwps' '_psutils'
+'fixwpps' '_psutils'
+'fixwwps' '_psutils'
+'flasher' '_flasher'
+'flex' '_flex'
+'flist' '_mh'
+'flists' '_mh'
+'float' '_typeset'
+'fned' '_zed'
+'folder' '_mh'
+'folders' '_mh'
+'fortune' '_fortune'
+'forw' '_mh'
+'freebsd-update' '_freebsd-update'
+'fsh' '_fsh'
+'fstat' '_fstat'
+'ftp' '_hosts'
+'functions' '_typeset'
+'fuser' '_fuser'
+'fusermount' '_fusermount'
+'fwhois' '_whois'
+'g++' '_gcc'
+'galeon' '_webbrowser'
+'gcc' '_gcc'
+'gccgo' '_go'
+'gcore' '_gcore'
+'gdb' '_gdb'
+'gdiff' '_diff'
+'genisoimage' '_genisoimage'
+'get' '_sccs'
+'getafm' '_psutils'
+'getclip' '_getclip'
+'getclip.exe' '_getclip'
+'getconf' '_getconf'
+'getent' '_getent'
+'getfacl' '_getfacl'
+'getfacl.exe' '_getfacl'
+'getfattr' '_attr'
+'getmail' '_getmail'
+'getopts' '_vars'
+'gex' '_vim'
+'ggv' '_gnome-gv'
+'ghostscript' '_gs'
+'ghostview' '_pspdf'
+'git' '_git'
+'git-buildpackage' '_git-buildpackage'
+'git-cvsserver' '_git'
+'gitk' '_git'
+'git-receive-pack' '_git'
+'git-shell' '_git'
+'git-upload-archive' '_git'
+'git-upload-pack' '_git'
+'gln' '_ln'
+'global' '_global'
+'gls' '_ls'
+'gm' '_graphicsmagick'
+'gmake' '_make'
+'gmplayer' '_mplayer'
+'gnome-gv' '_gnome-gv'
+'gnupod_addsong' '_gnupod'
+'gnupod_addsong.pl' '_gnupod'
+'gnupod_check' '_gnupod'
+'gnupod_check.pl' '_gnupod'
+'gnupod_INIT' '_gnupod'
+'gnupod_INIT.pl' '_gnupod'
+'gnupod_search' '_gnupod'
+'gnupod_search.pl' '_gnupod'
+'gnutls-cli' '_gnutls'
+'gnutls-cli-debug' '_gnutls'
+'gofmt' '_go'
+'gpg' '_gpg'
+'gpgv' '_gpg'
+'gpg-zip' '_gpg'
+'gphoto2' '_gphoto2'
+'gprof' '_gprof'
+'gqview' '_gqview'
+'grail' '_webbrowser'
+'grep' '_grep'
+'grep-excuses' '_grep-excuses'
+'groff' '_groff'
+'groupadd' '_user_admin'
+'groupdel' '_groups'
+'groupmod' '_user_admin'
+'groups' '_users'
+'growisofs' '_growisofs'
+'gs' '_gs'
+'gsbj' '_pspdf'
+'gsdj' '_pspdf'
+'gsdj500' '_pspdf'
+'gslj' '_pspdf'
+'gslp' '_pspdf'
+'gsnd' '_pspdf'
+'gtar' '_tar'
+'guilt' '_guilt'
+'guilt-add' '_guilt'
+'guilt-applied' '_guilt'
+'guilt-delete' '_guilt'
+'guilt-files' '_guilt'
+'guilt-fold' '_guilt'
+'guilt-fork' '_guilt'
+'guilt-header' '_guilt'
+'guilt-help' '_guilt'
+'guilt-import' '_guilt'
+'guilt-import-commit' '_guilt'
+'guilt-init' '_guilt'
+'guilt-new' '_guilt'
+'guilt-next' '_guilt'
+'guilt-patchbomb' '_guilt'
+'guilt-pop' '_guilt'
+'guilt-prev' '_guilt'
+'guilt-push' '_guilt'
+'guilt-rebase' '_guilt'
+'guilt-refresh' '_guilt'
+'guilt-rm' '_guilt'
+'guilt-series' '_guilt'
+'guilt-status' '_guilt'
+'guilt-top' '_guilt'
+'guilt-unapplied' '_guilt'
+'gunzip' '_gzip'
+'gv' '_gv'
+'gview' '_vim'
+'gvim' '_vim'
+'gvimdiff' '_vim'
+'gzcat' '_gzip'
+'gzilla' '_webbrowser'
+'gzip' '_gzip'
+'hash' '_hash'
+'hdiutil' '_hdiutil'
+'help' '_sccs'
+'hg' '_hg'
+'hilite' '_precommand'
+'history' '_fc'
+'host' '_hosts'
+'hotjava' '_webbrowser'
+'hwinfo' '_hwinfo'
+'iceweasel' '_mozilla'
+'icombine' '_ispell'
+'iconv' '_iconv'
+'id' '_id'
+'identify' '_imagemagick'
+'ifconfig' '_ifconfig'
+'ifdown' '_net_interfaces'
+'iftop' '_iftop'
+'ifup' '_net_interfaces'
+'ijoin' '_ispell'
+'import' '_imagemagick'
+'inc' '_mh'
+'includeres' '_psutils'
+'inetadm' '_inetadm'
+'info' '_texinfo'
+'infocmp' '_terminals'
+'initctl' '_initctl'
+'insmod' '_modutils'
+'install-info' '_texinfo'
+'installpkg' '_pkgtool'
+'integer' '_typeset'
+'invoke-rc.d' '_invoke-rc.d'
+'ionice' '_ionice'
+'ip' '_ip'
+'ipset' '_ipset'
+'iptables' '_iptables'
+'iptables-restore' '_iptables'
+'iptables-save' '_iptables'
+'irssi' '_irssi'
+'ispell' '_ispell'
+'iwconfig' '_iwconfig'
+'jadetex' '_tex'
+'jar' '_java'
+'jarsigner' '_java'
+'java' '_java'
+'javac' '_java'
+'javadoc' '_java'
+'javah' '_java'
+'javap' '_java'
+'jdb' '_java'
+'jobs' '_jobs_builtin'
+'joe' '_joe'
+'join' '_join'
+'keytool' '_java'
+'kfmclient' '_kfmclient'
+'kill' '_kill'
+'killall' '_killall'
+'killall5' '_killall'
+'kioclient' '_kfmclient'
+'kldload' '_kld'
+'kldunload' '_kld'
+'knock' '_knock'
+'konqueror' '_webbrowser'
+'kpdf' '_pdf'
+'ksh' '_sh'
+'kvno' '_kvno'
+'last' '_last'
+'lastb' '_last'
+'latex' '_tex'
+'latexmk' '_tex'
+'ldd' '_ldd'
+'less' '_less'
+'let' '_math'
+'lftp' '_ncftp'
+'light' '_webbrowser'
+'lighty-disable-mod' '_lighttpd'
+'lighty-enable-mod' '_lighttpd'
+'limit' '_limit'
+'linda' '_linda'
+'links' '_links'
+'lintian' '_lintian'
+'lintian-info' '_lintian'
+'linux' '_uml'
+'ln' '_ln'
+'loadkeys' '_loadkeys'
+'local' '_typeset'
+'locate' '_locate'
+'log' '_nothing'
+'logname' '_nothing'
+'look' '_look'
+'lore' '_twisted'
+'losetup' '_losetup'
+'lp' '_lp'
+'lpadmin' '_lp'
+'lpinfo' '_lp'
+'lpoptions' '_lp'
+'lpq' '_lp'
+'lpr' '_lp'
+'lprm' '_lp'
+'lpstat' '_lp'
+'ls' '_ls'
+'lscfg' '_lscfg'
+'lsdev' '_lsdev'
+'lslv' '_lslv'
+'lsmod' '_modutils'
+'lsof' '_lsof'
+'lspv' '_lspv'
+'lsusb' '_lsusb'
+'lsvg' '_lsvg'
+'lynx' '_lynx'
+'lzop' '_lzop'
+'m-a' '_module-assistant'
+'madison' '_madison'
+'mail' '_mail'
+'Mail' '_mail'
+'mailx' '_mail'
+'make' '_make'
+'makeinfo' '_texinfo'
+'make-kpkg' '_make-kpkg'
+'makepkg' '_pkgtool'
+'man' '_man'
+'manage.py' '_django'
+'manhole' '_twisted'
+'mark' '_mh'
+'-math-' '_math'
+'matlab' '_matlab'
+'mattrib' '_mtools'
+'mcd' '_mtools'
+'mcopy' '_mtools'
+'md5sum' '_md5sum'
+'mdadm' '_mdadm'
+'mdel' '_mtools'
+'mdeltree' '_mtools'
+'mdir' '_mtools'
+'mdu' '_mtools'
+'members' '_members'
+'mencal' '_mencal'
+'mere' '_mere'
+'merge' '_rcs'
+'mergechanges' '_mergechanges'
+'metaflac' '_metaflac'
+'mformat' '_mtools'
+'mgv' '_pspdf'
+'mhlist' '_mh'
+'mhmail' '_mh'
+'mhn' '_mh'
+'mhparam' '_mh'
+'mhpath' '_mh'
+'mhshow' '_mh'
+'mhstore' '_mh'
+'mii-tool' '_mii-tool'
+'mkdir' '_mkdir'
+'mkisofs' '_growisofs'
+'mkshortcut' '_mkshortcut'
+'mkshortcut.exe' '_mkshortcut'
+'mktap' '_twisted'
+'mktunes' '_gnupod'
+'mktunes.pl' '_gnupod'
+'mkzsh' '_mkzsh'
+'mkzsh.exe' '_mkzsh'
+'mlabel' '_mtools'
+'mlocate' '_locate'
+'mmd' '_mtools'
+'mmm' '_webbrowser'
+'mmount' '_mtools'
+'mmove' '_mtools'
+'modinfo' '_modutils'
+'modprobe' '_modutils'
+'module' '_module'
+'module-assistant' '_module-assistant'
+'mogrify' '_imagemagick'
+'mondoarchive' '_mondo'
+'montage' '_imagemagick'
+'Mosaic' '_webbrowser'
+'mount' '_mount'
+'mozilla' '_mozilla'
+'mozilla-firefox' '_mozilla'
+'mozilla-xremote-client' '_mozilla'
+'mpc' '_mpc'
+'mplayer' '_mplayer'
+'mrd' '_mtools'
+'mread' '_mtools'
+'mren' '_mtools'
+'msgchk' '_mh'
+'mt' '_mt'
+'mtn' '_monotone'
+'mtoolstest' '_mtools'
+'mtr' '_mtr'
+'mtype' '_mtools'
+'munchlist' '_ispell'
+'mush' '_mail'
+'mutt' '_mutt'
+'mx' '_hosts'
+'mysql' '_mysql_utils'
+'mysqladmin' '_mysql_utils'
+'mysqldiff' '_mysqldiff'
+'mysqldump' '_mysql_utils'
+'mysqlimport' '_mysql_utils'
+'mysqlshow' '_mysql_utils'
+'nail' '_mail'
+'native2ascii' '_java'
+'nautilus' '_nautilus'
+'nc' '_netcat'
+'ncal' '_cal'
+'ncftp' '_ncftp'
+'ncl' '_nedit'
+'nedit' '_nedit'
+'nedit-nc' '_nedit'
+'netcat' '_netcat'
+'netrik' '_webbrowser'
+'netscape' '_netscape'
+'newgrp' '_groups'
+'next' '_mh'
+'nice' '_nice'
+'nm' '_nm'
+'nmap' '_nmap'
+'nmblookup' '_samba'
+'nmcli' '_nmcli'
+'nocorrect' '_precommand'
+'noglob' '_precommand'
+'nohup' '_precommand'
+'notmuch' '_notmuch'
+'npm' '_npm'
+'ns' '_hosts'
+'nslookup' '_nslookup'
+'ntalk' '_other_accounts'
+'odme' '_object_classes'
+'odmget' '_object_classes'
+'odmshow' '_object_classes'
+'ogg123' '_vorbis'
+'oggdec' '_vorbis'
+'oggenc' '_vorbis'
+'ogginfo' '_vorbis'
+'okular' '_okular'
+'open' '_open'
+'opera' '_webbrowser'
+'osc' '_osc'
+'p4' '_perforce'
+'p4d' '_perforce'
+'pack' '_pack'
+'packf' '_mh'
+'-parameter-' '_parameter'
+'parsehdlist' '_urpmi'
+'passwd' '_users'
+'patch' '_patch'
+'pax' '_pax'
+'pbuilder' '_pbuilder'
+'pcat' '_pack'
+'pcred' '_pids'
+'pdf2dsc' '_pdf'
+'pdf2ps' '_pdf'
+'pdffonts' '_pdf'
+'pdfimages' '_pdf'
+'pdfinfo' '_pdf'
+'pdfjadetex' '_tex'
+'pdflatex' '_tex'
+'pdfopt' '_pdf'
+'pdftex' '_tex'
+'pdftk' '_pdftk'
+'pdftopbm' '_pdf'
+'pdftops' '_pdf'
+'pdftotext' '_pdf'
+'perl' '_perl'
+'perldoc' '_perldoc'
+'pfctl' '_pfctl'
+'pfexec' '_pfexec'
+'pfiles' '_pids'
+'pflags' '_pids'
+'pgrep' '_pgrep'
+'phoenix' '_webbrowser'
+'php' '_php'
+'pick' '_mh'
+'pine' '_pine'
+'pinef' '_pine'
+'ping' '_ping'
+'piuparts' '_piuparts'
+'pkgadd' '_pkgadd'
+'pkg_add' '_bsd_pkg'
+'pkg-config' '_pkg-config'
+'pkg_create' '_bsd_pkg'
+'pkg_delete' '_bsd_pkg'
+'pkginfo' '_pkginfo'
+'pkg_info' '_bsd_pkg'
+'pkgrm' '_pkgrm'
+'pkgtool' '_pkgtool'
+'pkill' '_pgrep'
+'pldd' '_pids'
+'pmake' '_make'
+'pman' '_perl_modules'
+'pmap' '_pids'
+'pmcat' '_perl_modules'
+'pmdesc' '_perl_modules'
+'pmeth' '_perl_modules'
+'pmexp' '_perl_modules'
+'pmfunc' '_perl_modules'
+'pmload' '_perl_modules'
+'pmls' '_perl_modules'
+'pmpath' '_perl_modules'
+'pmvers' '_perl_modules'
+'podgrep' '_perl_modules'
+'podpath' '_perl_modules'
+'podtoc' '_perl_modules'
+'poff' '_pon'
+'policytool' '_java'
+'pon' '_pon'
+'popd' '_directory_stack'
+'portaudit' '_portaudit'
+'portlint' '_portlint'
+'portmaster' '_portmaster'
+'portsnap' '_portsnap'
+'postsuper' '_postfix'
+'powerd' '_powerd'
+'prcs' '_prcs'
+'prev' '_mh'
+'print' '_print'
+'printenv' '_printenv'
+'procstat' '_procstat'
+'prompt' '_prompt'
+'prs' '_sccs'
+'prt' '_sccs'
+'prun' '_pids'
+'ps2ascii' '_pspdf'
+'ps2epsi' '_ps'
+'ps2pdf' '_ps'
+'ps2pdf12' '_ps'
+'ps2pdf13' '_ps'
+'ps2pdf14' '_ps'
+'ps2pdfwr' '_ps'
+'ps2ps' '_ps'
+'psbook' '_psutils'
+'pscp' '_pscp'
+'pscp.exe' '_pscp'
+'psig' '_pids'
+'psmerge' '_psutils'
+'psmulti' '_ps'
+'psnup' '_psutils'
+'psresize' '_psutils'
+'psselect' '_psutils'
+'pstack' '_pids'
+'pstoedit' '_pspdf'
+'pstop' '_pids'
+'pstops' '_psutils'
+'pstotgif' '_pspdf'
+'pswrap' '_ps'
+'ptree' '_ptree'
+'pump' '_pump'
+'pushd' '_cd'
+'putclip' '_putclip'
+'putclip.exe' '_putclip'
+'pwait' '_pids'
+'pwdx' '_pids'
+'pydoc' '_pydoc'
+'pyhtmlizer' '_twisted'
+'python' '_python'
+'qemu' '_qemu'
+'qiv' '_qiv'
+'qtplay' '_qtplay'
+'querybts' '_bug'
+'quilt' '_quilt'
+'r' '_fc'
+'raggle' '_raggle'
+'rake' '_rake'
+'ranlib' '_ranlib'
+'rar' '_rar'
+'rc' '_sh'
+'rcp' '_rlogin'
+'rcs' '_rcs'
+'rcsdiff' '_rcs'
+'read' '_read'
+'readonly' '_typeset'
+'readshortcut' '_readshortcut'
+'readshortcut.exe' '_readshortcut'
+'rebootin' '_rebootin'
+'-redirect-' '_redirect'
+'-redirect-,<,bunzip2' '_bzip2'
+'-redirect-,<,bzip2' '_bzip2'
+'-redirect-,>,bzip2' '_bzip2'
+'-redirect-,<,compress' '_compress'
+'-redirect-,>,compress' '_compress'
+'-redirect-,-default-,-default-' '_files'
+'-redirect-,<,gunzip' '_gzip'
+'-redirect-,<,gzip' '_gzip'
+'-redirect-,>,gzip' '_gzip'
+'-redirect-,<,uncompress' '_compress'
+'refile' '_mh'
+'rehash' '_hash'
+'reload' '_initctl'
+'removepkg' '_pkgtool'
+'remsh' '_rlogin'
+'renice' '_renice'
+'repl' '_mh'
+'reportbug' '_bug'
+'reprepro' '_reprepro'
+'restart' '_initctl'
+'retawq' '_webbrowser'
+'rgview' '_vim'
+'rgvim' '_vim'
+'ri' '_ri'
+'rlogin' '_rlogin'
+'rm' '_rm'
+'rmadison' '_madison'
+'rmdel' '_sccs'
+'rmdir' '_directories'
+'rmf' '_mh'
+'rmic' '_java'
+'rmid' '_java'
+'rmiregistry' '_java'
+'rmm' '_mh'
+'rmmod' '_modutils'
+'rpm' '_rpm'
+'rpmbuild' '_rpmbuild'
+'rrdtool' '_rrdtool'
+'rsh' '_rlogin'
+'rsync' '_rsync'
+'rtin' '_tin'
+'rubber' '_rubber'
+'rubber-info' '_rubber'
+'rubber-pipe' '_rubber'
+'ruby' '_ruby'
+'rup' '_hosts'
+'rusage' '_precommand'
+'rview' '_vim'
+'rvim' '_vim'
+'rwho' '_hosts'
+'sabcmd' '_sablotron'
+'sact' '_sccs'
+'savecore' '_savecore'
+'scan' '_mh'
+'sccs' '_sccs'
+'sccsdiff' '_sccs'
+'sched' '_sched'
+'schedtool' '_schedtool'
+'schroot' '_schroot'
+'scp' '_ssh'
+'screen' '_screen'
+'sed' '_sed'
+'serialver' '_java'
+'service' '_service'
+'set' '_set'
+'setfacl' '_setfacl'
+'setfacl.exe' '_setfacl'
+'setfattr' '_attr'
+'setopt' '_setopt'
+'sftp' '_ssh'
+'sh' '_sh'
+'shift' '_arrays'
+'show' '_mh'
+'showchar' '_psutils'
+'showmount' '_showmount'
+'sisu' '_sisu'
+'skipstone' '_webbrowser'
+'slitex' '_tex'
+'slocate' '_locate'
+'slogin' '_ssh'
+'slrn' '_slrn'
+'smbclient' '_samba'
+'smbcontrol' '_samba'
+'smbstatus' '_samba'
+'smit' '_smit'
+'smitty' '_smit'
+'soa' '_hosts'
+'socket' '_socket'
+'sockstat' '_sockstat'
+'softwareupdate' '_softwareupdate'
+'sort' '_sort'
+'sortm' '_mh'
+'source' '_source'
+'spamassassin' '_spamassassin'
+'sqlite' '_sqlite'
+'sqlite3' '_sqlite'
+'sqsh' '_sqsh'
+'sr' '_surfraw'
+'srptool' '_gnutls'
+'ssh' '_ssh'
+'ssh-add' '_ssh'
+'ssh-agent' '_ssh'
+'sshfs' '_sshfs'
+'ssh-keygen' '_ssh'
+'star' '_tar'
+'start' '_initctl'
+'stat' '_stat'
+'status' '_initctl'
+'stg' '_stgit'
+'stop' '_initctl'
+'strace' '_strace'
+'strip' '_strip'
+'stty' '_stty'
+'su' '_su'
+'-subscript-' '_subscript'
+'sudo' '_sudo'
+'sudoedit' '_sudo'
+'surfraw' '_surfraw'
+'SuSEconfig' '_SuSEconfig'
+'svcadm' '_svcadm'
+'svccfg' '_svccfg'
+'svcprop' '_svcprop'
+'svcs' '_svcs'
+'svn' '_subversion'
+'svnadmin' '_subversion'
+'svnadmin-static' '_subversion'
+'svn-buildpackage' '_svn-buildpackage'
+'sync' '_nothing'
+'sysctl' '_sysctl'
+'systemctl' '_systemctl'
+'talk' '_other_accounts'
+'tap2deb' '_twisted'
+'tap2rpm' '_twisted'
+'tapconvert' '_twisted'
+'tar' '_tar'
+'tardy' '_tardy'
+'tcpdump' '_tcpdump'
+'tcp_open' '_tcpsys'
+'tcptraceroute' '_tcptraceroute'
+'tcsh' '_sh'
+'tda' '_devtodo'
+'tdd' '_devtodo'
+'tde' '_devtodo'
+'tdr' '_devtodo'
+'telnet' '_telnet'
+'tex' '_tex'
+'texi2dvi' '_texinfo'
+'texindex' '_texinfo'
+'tg' '_topgit'
+'tidy' '_tidy'
+'tig' '_git'
+'-tilde-' '_tilde'
+'time' '_precommand'
+'times' '_nothing'
+'tin' '_tin'
+'tkconch' '_twisted'
+'tkinfo' '_texinfo'
+'tkmktap' '_twisted'
+'tla' '_tla'
+'tmux' '_tmux'
+'todo' '_devtodo'
+'todo.sh' '_todo.sh'
+'toilet' '_toilet'
+'totdconfig' '_totd'
+'tpb' '_tpb'
+'tpconfig' '_tpconfig'
+'tpkg-debarch' '_toolchain-source'
+'tpkg-install' '_toolchain-source'
+'tpkg-install-libc' '_toolchain-source'
+'tpkg-make' '_toolchain-source'
+'tpkg-update' '_toolchain-source'
+'tracepath' '_tracepath'
+'tracepath6' '_tracepath'
+'traceroute' '_hosts'
+'trap' '_trap'
+'tree' '_tree'
+'trial' '_twisted'
+'true' '_nothing'
+'tryaffix' '_ispell'
+'ttyctl' '_ttyctl'
+'tunctl' '_uml'
+'tune2fs' '_tune2fs'
+'tunes2pod' '_gnupod'
+'tunes2pod.pl' '_gnupod'
+'twidge' '_twidge'
+'twistd' '_twisted'
+'txt' '_hosts'
+'type' '_which'
+'typeset' '_typeset'
+'ulimit' '_ulimit'
+'uml_mconsole' '_uml'
+'uml_moo' '_uml'
+'uml_switch' '_uml'
+'umount' '_mount'
+'unace' '_unace'
+'unalias' '_aliases'
+'uname' '_uname'
+'uncompress' '_compress'
+'unexpand' '_unexpand'
+'unfunction' '_functions'
+'unget' '_sccs'
+'unhash' '_unhash'
+'uniq' '_uniq'
+'unison' '_unison'
+'units' '_units'
+'unlimit' '_limits'
+'unpack' '_pack'
+'unrar' '_rar'
+'unset' '_vars'
+'unsetopt' '_unsetopt'
+'unzip' '_zip'
+'update-alternatives' '_update-alternatives'
+'update-rc.d' '_update-rc.d'
+'upgradepkg' '_pkgtool'
+'urpme' '_urpmi'
+'urpmf' '_urpmi'
+'urpmi' '_urpmi'
+'urpmi.addmedia' '_urpmi'
+'urpmi.removemedia' '_urpmi'
+'urpmi.update' '_urpmi'
+'urpmq' '_urpmi'
+'urxvt' '_urxvt'
+'uscan' '_uscan'
+'useradd' '_user_admin'
+'userdel' '_users'
+'usermod' '_user_admin'
+'uzbl' '_uzbl'
+'uzbl-browser' '_uzbl'
+'uzbl-tabbed' '_uzbl'
+'val' '_sccs'
+'valgrind' '_valgrind'
+'-value-' '_value'
+'-value-,ADB_TRACE,-default-' '_adb'
+'-value-,ANDROID_LOG_TAGS,-default-' '_adb'
+'-value-,ANDROID_SERIAL,-default-' '_adb'
+'-value-,ANT_ARGS,-default-' '_ant'
+'-value-,CFLAGS,-default-' '_gcc'
+'-value-,CPPFLAGS,-default-' '_gcc'
+'-value-,-default-,-command-' '_zargs'
+'-value-,-default-,-default-' '_value'
+'-value-,DISPLAY,-default-' '_x_display'
+'-value-,GREP_OPTIONS,-default-' '_grep'
+'-value-,GZIP,-default-' '_gzip'
+'-value-,LANG,-default-' '_locales'
+'-value-,LANGUAGE,-default-' '_locales'
+'-value-,LD_DEBUG,-default-' '_ld_debug'
+'-value-,LDFLAGS,-default-' '_gcc'
+'-value-,LESSCHARSET,-default-' '_less'
+'-value-,LESS,-default-' '_less'
+'-value-,LPDEST,-default-' '_printers'
+'-value-,P4CLIENT,-default-' '_perforce'
+'-value-,P4MERGE,-default-' '_perforce'
+'-value-,P4PORT,-default-' '_perforce'
+'-value-,P4USER,-default-' '_perforce'
+'-value-,PERLDOC,-default-' '_perldoc'
+'-value-,PRINTER,-default-' '_printers'
+'-value-,TERM,-default-' '_terminals'
+'-value-,TERMINFO_DIRS,-default-' '_dir_list'
+'-value-,TZ,-default-' '_time_zone'
+'-value-,VALGRIND_OPTS,-default-' '_valgrind'
+'-value-,WWW_HOME,-default-' '_urls'
+'-value-,XML_CATALOG_FILES,-default-' '_xmlsoft'
+'vared' '_vared'
+'-vared-' '_in_vared'
+'vcsh' '_vcsh'
+'vim' '_vim'
+'vim-addons' '_vim-addons'
+'vimdiff' '_vim'
+'vncserver' '_vnc'
+'vncviewer' '_vnc'
+'vorbiscomment' '_vorbiscomment'
+'vserver' '_vserver'
+'vux' '_vux'
+'vuxctl' '_vux'
+'w3m' '_w3m'
+'wait' '_wait'
+'wajig' '_wajig'
+'wanna-build' '_wanna-build'
+'websetroot' '_twisted'
+'wget' '_wget'
+'what' '_sccs'
+'whatis' '_man'
+'whence' '_which'
+'where' '_which'
+'whereis' '_whereis'
+'which' '_which'
+'whoami' '_nothing'
+'whois' '_whois'
+'whom' '_mh'
+'wiggle' '_wiggle'
+'wodim' '_cdrecord'
+'wpa_cli' '_wpa_cli'
+'write' '_users_on'
+'www' '_webbrowser'
+'xargs' '_xargs'
+'xauth' '_xauth'
+'xclip' '_xclip'
+'xdpyinfo' '_x_utils'
+'xdvi' '_xdvi'
+'xelatex' '_tex'
+'xetex' '_tex'
+'xev' '_x_utils'
+'xfd' '_x_utils'
+'xfig' '_xfig'
+'xfontsel' '_x_utils'
+'xhost' '_x_utils'
+'xkill' '_x_utils'
+'xli' '_xloadimage'
+'xloadimage' '_xloadimage'
+'xlsatoms' '_x_utils'
+'xmllint' '_xmlsoft'
+'xmms2' '_xmms2'
+'xmodmap' '_xmodmap'
+'xmosaic' '_webbrowser'
+'xon' '_x_utils'
+'xournal' '_xournal'
+'xpdf' '_xpdf'
+'xping' '_hosts'
+'xprop' '_x_utils'
+'xrandr' '_xrandr'
+'xrdb' '_x_utils'
+'xscreensaver-command' '_xscreensaver'
+'xset' '_xset'
+'xsetbg' '_xloadimage'
+'xsetroot' '_x_utils'
+'xsltproc' '_xmlsoft'
+'xterm' '_xterm'
+'xtightvncviewer' '_vnc'
+'xtp' '_imagemagick'
+'xv' '_xv'
+'xview' '_xloadimage'
+'xvnc4viewer' '_vnc'
+'xvncviewer' '_vnc'
+'xwd' '_x_utils'
+'xwininfo' '_x_utils'
+'xwit' '_xwit'
+'xwud' '_x_utils'
+'yast' '_yast'
+'yast2' '_yast'
+'ypbind' '_yp'
+'ypcat' '_yp'
+'ypmatch' '_yp'
+'yppasswd' '_yp'
+'yppoll' '_yp'
+'yppush' '_yp'
+'ypserv' '_yp'
+'ypset' '_yp'
+'ypwhich' '_yp'
+'ypxfr' '_yp'
+'ytalk' '_other_accounts'
+'yum' '_yum'
+'zargs' '_zargs'
+'-zcalc-line-' '_zcalc_line'
+'zcat' '_zcat'
+'zcompile' '_zcompile'
+'zcp' '_zmv'
+'zdelattr' '_zattr'
+'zdump' '_zdump'
+'zed' '_zed'
+'zen' '_webbrowser'
+'zfs' '_zfs'
+'zgetattr' '_zattr'
+'zip' '_zip'
+'zipinfo' '_zip'
+'zle' '_zle'
+'zlistattr' '_zattr'
+'zln' '_zmv'
+'zlogin' '_zlogin'
+'zmail' '_mail'
+'zmodload' '_zmodload'
+'zmv' '_zmv'
+'zone' '_hosts'
+'zpool' '_zpool'
+'zpty' '_zpty'
+'zsetattr' '_zattr'
+'zsh' '_sh'
+'zsh-mime-handler' '_zsh-mime-handler'
+'zstat' '_stat'
+'zstyle' '_zstyle'
+'ztodo' '_ztodo'
+'zxpdf' '_xpdf'
+'zypper' '_zypper'
+)
+
+_services=(
+'bzcat' 'bunzip2'
+'dch' 'debchange'
+'gnupod_addsong.pl' 'gnupod_addsong'
+'gnupod_check.pl' 'gnupod_check'
+'gnupod_INIT.pl' 'gnupod_INIT'
+'gnupod_search.pl' 'gnupod_search'
+'gzcat' 'gunzip'
+'iceweasel' 'firefox'
+'Mail' 'mail'
+'mailx' 'mail'
+'mktunes.pl' 'mktunes'
+'nail' 'mail'
+'ncl' 'nc'
+'nedit-nc' 'nc'
+'pcat' 'unpack'
+'-redirect-,<,bunzip2' 'bunzip2'
+'-redirect-,<,bzip2' 'bzip2'
+'-redirect-,>,bzip2' 'bunzip2'
+'-redirect-,<,compress' 'compress'
+'-redirect-,>,compress' 'uncompress'
+'-redirect-,<,gunzip' 'gunzip'
+'-redirect-,<,gzip' 'gzip'
+'-redirect-,>,gzip' 'gunzip'
+'-redirect-,<,uncompress' 'uncompress'
+'remsh' 'rsh'
+'slogin' 'ssh'
+'svnadmin-static' 'svnadmin'
+'tunes2pod.pl' 'tunes2pod'
+'xelatex' 'latex'
+'xetex' 'tex'
+)
+
+_patcomps=(
+'*/(init|rc[0-9S]#).d/*' '_init_d'
+'zf*' '_zftp'
+)
+
+_postpatcomps=(
+'(p[bgpn]m*|*top[bgpn]m)' '_pbm'
+'(texi(2*|ndex))' '_texi'
+'(tiff*|*2tiff|pal2rgb)' '_tiff'
+'-value-,(ftp|http(|s))_proxy,-default-' '_urls'
+'-value-,LC_*,-default-' '_locales'
+'-value-,*path,-default-' '_directories'
+'-value-,*PATH,-default-' '_dir_list'
+'-value-,RUBY(LIB|OPT|PATH),-default-' '_ruby'
+'*/X11(|R<4->)/*' '_x_arguments'
+'yodl(|2*)' '_yodl'
+)
+
+_compautos=(
+'_call_program' '+X'
+)
+
+zle -C _bash_complete-word .complete-word _bash_completions
+zle -C _bash_list-choices .list-choices _bash_completions
+zle -C _complete_debug .complete-word _complete_debug
+zle -C _complete_help .complete-word _complete_help
+zle -C _complete_tag .complete-word _complete_tag
+zle -C _correct_filename .complete-word _correct_filename
+zle -C _correct_word .complete-word _correct_word
+zle -C _expand_alias .complete-word _expand_alias
+zle -C _expand_word .complete-word _expand_word
+zle -C _history-complete-newer .complete-word _history_complete_word
+zle -C _history-complete-older .complete-word _history_complete_word
+zle -C _list_expansions .list-choices _expand_word
+zle -C _most_recent_file .complete-word _most_recent_file
+zle -C _next_tags .list-choices _next_tags
+zle -C _read_comp .complete-word _read_comp
+bindkey '^X^R' _read_comp
+bindkey '^X?' _complete_debug
+bindkey '^XC' _correct_filename
+bindkey '^Xa' _expand_alias
+bindkey '^Xc' _correct_word
+bindkey '^Xd' _list_expansions
+bindkey '^Xe' _expand_word
+bindkey '^Xh' _complete_help
+bindkey '^Xm' _most_recent_file
+bindkey '^Xn' _next_tags
+bindkey '^Xt' _complete_tag
+bindkey '^X~' _bash_list-choices
+bindkey '^[,' _history-complete-newer
+bindkey '^[/' _history-complete-older
+bindkey '^[~' _bash_complete-word
+
+autoload -Uz _a2ps _a2utils _aap _acpi _acpitool \
+            _acroread _adb _alias _aliases _all_labels \
+            _all_matches _alternative _analyseplugin _ant _antiword \
+            _apachectl _apm _approximate _apt _apt-file \
+            _aptitude _apt-move _apt-show-versions _arch_archives _arch_namespace \
+            _arg_compile _arguments _arp _arping _arrays \
+            _assign _at _attr _auto-apt _autocd \
+            _awk _axi-cache _bash_completions _baz _bind_addresses \
+            _bindkey _bison _bittorrent _bogofilter _brace_parameter \
+            _brctl _bsd_pkg _bts _bug _builtin \
+            _bzip2 _bzr _cache_invalid _cal _calendar \
+            _call_function _canonical_paths _ccal _cd _cdbs-edit-patch \
+            _cdcd _cdr _cdrdao _cdrecord _chflags \
+            _chkconfig _chmod _chown _chrt _combination \
+            _comm _command _command_names _compdef _complete \
+            _complete_debug _complete_help _complete_help_generic _complete_tag _compress \
+            _condition _configure _coreadm _correct _correct_filename \
+            _correct_word _cowsay _cp _cpio _cplay \
+            _cryptsetup _cssh _csup _ctags_tags _cut \
+            _cvs _cvsup _cygcheck _cygpath _cygrunsrv \
+            _cygserver _cygstart _dak _darcs _date \
+            _dchroot _dchroot-dsa _dcop _dd _debchange \
+            _debdiff _debfoster _deb_packages _debsign _default \
+            _defaults _delimiters _describe _description _devtodo \
+            _dhclient _dhcpinfo _dict _dict_words _diff \
+            _diff_options _diffstat _directories _directory_stack _dir_list \
+            _dirs _disable _dispatch _django _dladm \
+            _dlocate _dmidecode _docker _domains _dpatch-edit-patch \
+            _dpkg _dpkg-buildpackage _dpkg-cross _dpkg-repack _dpkg_source \
+            _dput _du _dumpadm _dumper _dupload \
+            _dvi _dynamic_directory_name _ecasound _echotc _echoti \
+            _elinks _elm _email_addresses _emulate _enable \
+            _enscript _env _equal _espeak _ethtool \
+            _expand _expand_alias _expand_word _fakeroot _fc \
+            _feh _fetch _fetchmail _ffmpeg _figlet \
+            _file_descriptors _files _file_systems _find _finger \
+            _fink _first _flasher _flex _floppy \
+            _fortune _freebsd-update _fsh _fstat _functions \
+            _fuse_arguments _fuser _fusermount _fuse_values _gcc \
+            _gcore _gdb _generic _genisoimage _getclip \
+            _getconf _getent _getfacl _getmail _git \
+            _git-buildpackage _global _global_tags _globflags _globqual_delims \
+            _globquals _gnome-gv _gnu_generic _gnupod _gnutls \
+            _go _gpg _gphoto2 _gprof _gqview \
+            _graphicsmagick _grep _grep-excuses _groff _groups \
+            _growisofs _gs _guard _guilt _gv \
+            _gzip _hash _have_glob_qual _hdiutil _hg \
+            _history _history_complete_word _history_modifiers _hosts _hwinfo \
+            _iconv _id _ifconfig _iftop _ignored \
+            _imagemagick _inetadm _initctl _init_d _in_vared \
+            _invoke-rc.d _ionice _ip _ipset _iptables \
+            _irssi _ispell _iwconfig _java _java_class \
+            _jobs _jobs_bg _jobs_builtin _jobs_fg _joe \
+            _join _kfmclient _kill _killall _kld \
+            _knock _kvno _last _ldd _ld_debug \
+            _less _lighttpd _limit _limits _linda \
+            _links _lintian _list _list_files _ln \
+            _loadkeys _locales _locate _logical_volumes _look \
+            _losetup _lp _ls _lscfg _lsdev \
+            _lslv _lsof _lspv _lsusb _lsvg \
+            _lynx _lzop _mac_applications _mac_files_for_application _madison \
+            _mail _mailboxes _main_complete _make _make-kpkg \
+            _man _match _math _matlab _md5sum \
+            _mdadm _members _mencal _menu _mere \
+            _mergechanges _message _metaflac _mh _mii-tool \
+            _mime_types _mkdir _mkshortcut _mkzsh _module \
+            _module-assistant _modutils _mondo _monotone _most_recent_file \
+            _mount _mozilla _mpc _mplayer _mt \
+            _mtools _mtr _multi_parts _mutt _my_accounts \
+            _mysqldiff _mysql_utils _nautilus _ncftp _nedit \
+            _netcat _net_interfaces _netscape _newsgroups _next_label \
+            _next_tags _nice _nm _nmap _nmcli \
+            _normal _nothing _notmuch _npm _nslookup \
+            _object_classes _okular _oldlist _open _options \
+            _options_set _options_unset _osc _other_accounts _pack \
+            _parameter _parameters _patch _path_commands _path_files \
+            _pax _pbm _pbuilder _pdf _pdftk \
+            _perforce _perl _perl_basepods _perldoc _perl_modules \
+            _pfctl _pfexec _pgrep _php _physical_volumes \
+            _pick_variant _pids _pine _ping _piuparts \
+            _pkgadd _pkg-config _pkginfo _pkg_instance _pkgrm \
+            _pkgtool _pon _portaudit _portlint _portmaster \
+            _ports _portsnap _postfix _powerd _prcs \
+            _precommand _prefix _print _printenv _printers \
+            _procstat _prompt _ps _pscp _pspdf \
+            _psutils _ptree _pump _putclip _pydoc \
+            _pyenv _python _qemu _qiv _qtplay \
+            _quilt _raggle _rake _ranlib _rar \
+            _rcs _read _read_comp _readshortcut _rebootin \
+            _redirect _regex_arguments _regex_words _remote_files _renice \
+            _reprepro _requested _retrieve_cache _retrieve_mac_apps _ri \
+            _rlogin _rm _rpm _rpmbuild _rrdtool \
+            _rsync _rubber _ruby _sablotron _samba \
+            _savecore _sccs _sched _schedtool _schroot \
+            _screen _sed _sep_parts _service _services \
+            _set _set_command _setfacl _setopt _setup \
+            _sh _showmount _signals _sisu _slrn \
+            _smit _socket _sockstat _softwareupdate _sort \
+            _source _spamassassin _sqlite _sqsh _ssh \
+            _sshfs _stat _stgit _store_cache _strace \
+            _strip _stty _su _sub_commands _subscript \
+            _subversion _sudo _suffix_alias_files _surfraw _SuSEconfig \
+            _svcadm _svccfg _svcprop _svcs _svcs_fmri \
+            _svn-buildpackage _sysctl _systemctl _tags _tar \
+            _tar_archive _tardy _tcpdump _tcpsys _tcptraceroute \
+            _telnet _terminals _tex _texi _texinfo \
+            _tidy _tiff _tilde _tilde_files _time_zone \
+            _tin _tla _tmux _todo.sh _toilet \
+            _toolchain-source _topgit _totd _tpb _tpconfig \
+            _tracepath _trap _tree _ttyctl _tune2fs \
+            _twidge _twisted _typeset _ulimit _uml \
+            _unace _uname _unexpand _unhash _uniq \
+            _unison _units _unsetopt _update-alternatives _update-rc.d \
+            _urls _urpmi _urxvt _uscan _user_admin \
+            _user_at_host _user_expand _users _users_on _uzbl \
+            _valgrind _value _values _vared _vars \
+            _vcsh _vim _vim-addons _vnc _volume_groups \
+            _vorbis _vorbiscomment _vserver _vux _w3m \
+            _wait _wajig _wakeup_capable_devices _wanna-build _wanted \
+            _webbrowser _wget _whereis _which _whois \
+            _wiggle _wpa_cli _xargs _x_arguments _xauth \
+            _x_borderwidth _xclip _x_color _x_colormapid _x_cursor \
+            _x_display _xdvi _x_extension _xfig _x_font \
+            _xft_fonts _x_geometry _x_keysym _xloadimage _x_locale \
+            _xmlsoft _xmms2 _x_modifier _xmodmap _x_name \
+            _xournal _xpdf _xrandr _x_resource _xscreensaver \
+            _x_selection_timeout _xset _xt_arguments _xterm _x_title \
+            _xt_session_id _x_utils _xv _x_visual _x_window \
+            _xwit _yast _yast2 _yodl _yp \
+            _yum _zargs _zattr _zcalc_line _zcat \
+            _zcompile _zdump _zed _zfs _zfs_dataset \
+            _zfs_pool _zftp _zip _zle _zlogin \
+            _zmodload _zmv _zpool _zpty _zsh-mime-handler \
+            _zstyle _ztodo _zypper
+autoload -Uz +X _call_program
+
+typeset -gUa _comp_assocs
+_comp_assocs=( '' )
 # Path to your oh-my-zsh installation.
 export ZSH=$__DOTFILES/etc/zsh/oh-my-zsh
 
@@ -825,84 +2273,10 @@ ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 # Load and run compinit
 autoload -U compinit
 compinit -i -d "${ZSH_COMPDUMP}"
-#files: 704	version: 5.0.2
+#files: 685	version: 4.3.17
 
 _comps=(
 '-' '_precommand'
-'-array-value-' '_value'
-'-assign-parameter-' '_assign'
-'-brace-parameter-' '_brace_parameter'
-'-command-' '_autocd'
-'-command-line-' '_normal'
-'-condition-' '_condition'
-'-default-' '_default'
-'-equal-' '_equal'
-'-first-' '_first'
-'-math-' '_math'
-'-parameter-' '_parameter'
-'-redirect-' '_redirect'
-'-redirect-,-default-,-default-' '_files'
-'-redirect-,<,bunzip2' '_bzip2'
-'-redirect-,<,bzip2' '_bzip2'
-'-redirect-,<,compress' '_compress'
-'-redirect-,<,gunzip' '_gzip'
-'-redirect-,<,gzip' '_gzip'
-'-redirect-,<,uncompress' '_compress'
-'-redirect-,<,unxz' '_xz'
-'-redirect-,<,xz' '_xz'
-'-redirect-,>,bzip2' '_bzip2'
-'-redirect-,>,compress' '_compress'
-'-redirect-,>,gzip' '_gzip'
-'-redirect-,>,xz' '_xz'
-'-subscript-' '_subscript'
-'-tilde-' '_tilde'
-'-value-' '_value'
-'-value-,-default-,-command-' '_zargs'
-'-value-,-default-,-default-' '_value'
-'-value-,ADB_TRACE,-default-' '_adb'
-'-value-,ANDROID_LOG_TAGS,-default-' '_adb'
-'-value-,ANDROID_SERIAL,-default-' '_adb'
-'-value-,ANT_ARGS,-default-' '_ant'
-'-value-,CFLAGS,-default-' '_gcc'
-'-value-,CPPFLAGS,-default-' '_gcc'
-'-value-,DISPLAY,-default-' '_x_display'
-'-value-,GREP_OPTIONS,-default-' '_grep'
-'-value-,GZIP,-default-' '_gzip'
-'-value-,LANG,-default-' '_locales'
-'-value-,LANGUAGE,-default-' '_locales'
-'-value-,LDFLAGS,-default-' '_gcc'
-'-value-,LESS,-default-' '_less'
-'-value-,LESSCHARSET,-default-' '_less'
-'-value-,LPDEST,-default-' '_printers'
-'-value-,P4CLIENT,-default-' '_perforce'
-'-value-,P4MERGE,-default-' '_perforce'
-'-value-,P4PORT,-default-' '_perforce'
-'-value-,P4USER,-default-' '_perforce'
-'-value-,PERLDOC,-default-' '_perldoc'
-'-value-,PRINTER,-default-' '_printers'
-'-value-,PROMPT,-default-' '_ps1234'
-'-value-,PROMPT2,-default-' '_ps1234'
-'-value-,PROMPT3,-default-' '_ps1234'
-'-value-,PROMPT4,-default-' '_ps1234'
-'-value-,PS1,-default-' '_ps1234'
-'-value-,PS2,-default-' '_ps1234'
-'-value-,PS3,-default-' '_ps1234'
-'-value-,PS4,-default-' '_ps1234'
-'-value-,RPROMPT,-default-' '_ps1234'
-'-value-,RPROMPT2,-default-' '_ps1234'
-'-value-,RPS1,-default-' '_ps1234'
-'-value-,RPS2,-default-' '_ps1234'
-'-value-,SPROMPT,-default-' '_ps1234'
-'-value-,TERM,-default-' '_terminals'
-'-value-,TERMINFO_DIRS,-default-' '_dir_list'
-'-value-,TZ,-default-' '_time_zone'
-'-value-,VALGRIND_OPTS,-default-' '_valgrind'
-'-value-,WWW_HOME,-default-' '_urls'
-'-value-,XML_CATALOG_FILES,-default-' '_xmlsoft'
-'-value-,XZ_DEFAULTS,-default-' '_xz'
-'-value-,XZ_OPT,-default-' '_xz'
-'-vared-' '_in_vared'
-'-zcalc-line-' '_zcalc_line'
 '.' '_source'
 '5g' '_go'
 '5l' '_go'
@@ -910,9 +2284,6 @@ _comps=(
 '6l' '_go'
 '8g' '_go'
 '8l' '_go'
-'Mail' '_mail'
-'Mosaic' '_webbrowser'
-'SuSEconfig' '_SuSEconfig'
 'a2dismod' '_a2utils'
 'a2dissite' '_a2utils'
 'a2enmod' '_a2utils'
@@ -944,13 +2315,15 @@ _comps=(
 'apt-config' '_apt'
 'apt-file' '_apt-file'
 'apt-get' '_apt'
+'aptitude' '_aptitude'
 'apt-move' '_apt-move'
 'apt-show-versions' '_apt-show-versions'
-'aptitude' '_aptitude'
 'apvlv' '_pdf'
 'arena' '_webbrowser'
 'arp' '_arp'
 'arping' '_arping'
+'-array-value-' '_value'
+'-assign-parameter-' '_assign'
 'at' '_at'
 'atq' '_at'
 'atrm' '_at'
@@ -962,13 +2335,13 @@ _comps=(
 'bash' '_sh'
 'batch' '_at'
 'baz' '_baz'
-'beadm' '_beadm'
 'bg' '_jobs_bg'
 'bindkey' '_bindkey'
 'bison' '_bison'
 'bogofilter' '_bogofilter'
 'bogotune' '_bogofilter'
 'bogoutil' '_bogofilter'
+'-brace-parameter-' '_brace_parameter'
 'brctl' '_brctl'
 'btdownloadcurses' '_bittorrent'
 'btdownloadgui' '_bittorrent'
@@ -978,7 +2351,6 @@ _comps=(
 'btmakemetafile' '_bittorrent'
 'btreannounce' '_bittorrent'
 'btrename' '_bittorrent'
-'btrfs' '_btrfs'
 'bts' '_bts'
 'btshowmetainfo' '_bittorrent'
 'bttrack' '_bittorrent'
@@ -992,11 +2364,9 @@ _comps=(
 'bzip2' '_bzip2'
 'bzip2recover' '_bzip2'
 'bzr' '_bzr'
-'c++' '_gcc'
 'cal' '_cal'
 'calendar' '_calendar'
 'catchsegv' '_precommand'
-'cc' '_gcc'
 'ccal' '_ccal'
 'cd' '_cd'
 'cdbs-edit-patch' '_cdbs-edit-patch'
@@ -1020,20 +2390,20 @@ _comps=(
 'chsh' '_users'
 'ci' '_rcs'
 'ckeygen' '_twisted'
-'clang' '_gcc'
-'clang++' '_gcc'
-'clay' '_clay'
 'clear' '_nothing'
 'co' '_rcs'
 'comb' '_sccs'
 'combine' '_imagemagick'
 'comm' '_comm'
 'command' '_command'
+'-command-' '_autocd'
+'-command-line-' '_normal'
 'comp' '_mh'
 'compdef' '_compdef'
 'composite' '_imagemagick'
 'compress' '_compress'
 'conch' '_twisted'
+'-condition-' '_condition'
 'config.status' '_configure'
 'configure' '_configure'
 'convert' '_imagemagick'
@@ -1065,8 +2435,6 @@ _comps=(
 'dak' '_dak'
 'darcs' '_darcs'
 'date' '_date'
-'dbus-monitor' '_dbus'
-'dbus-send' '_dbus'
 'dch' '_debchange'
 'dchroot' '_dchroot'
 'dchroot-dsa' '_dchroot-dsa'
@@ -1082,6 +2450,7 @@ _comps=(
 'debfoster' '_debfoster'
 'debsign' '_debsign'
 'declare' '_typeset'
+'-default-' '_default'
 'defaults' '_defaults'
 'delta' '_sccs'
 'devtodo' '_devtodo'
@@ -1105,6 +2474,7 @@ _comps=(
 'dlocate' '_dlocate'
 'dmake' '_make'
 'dmidecode' '_dmidecode'
+'docker' '_docker'
 'domainname' '_yp'
 'dosdel' '_floppy'
 'dosread' '_floppy'
@@ -1118,7 +2488,6 @@ _comps=(
 'dpkg-repack' '_dpkg-repack'
 'dpkg-source' '_dpkg_source'
 'dput' '_dput'
-'dtrace' '_dtrace'
 'du' '_du'
 'dumpadm' '_dumpadm'
 'dumper' '_dumper'
@@ -1132,7 +2501,6 @@ _comps=(
 'dviselect' '_dvi'
 'dvitodvi' '_dvi'
 'dvitype' '_dvi'
-'dwb' '_webbrowser'
 'ecasound' '_ecasound'
 'echotc' '_echotc'
 'echoti' '_echoti'
@@ -1143,14 +2511,13 @@ _comps=(
 'enable' '_enable'
 'enscript' '_enscript'
 'env' '_env'
-'epdfview' '_pdf'
 'epsffit' '_psutils'
+'-equal-' '_equal'
 'espeak' '_espeak'
 'ethtool' '_ethtool'
 'eval' '_precommand'
 'eview' '_vim'
 'evim' '_vim'
-'evince' '_pdf'
 'exec' '_precommand'
 'exim' '_vim'
 'explodepkg' '_pkgtool'
@@ -1176,6 +2543,7 @@ _comps=(
 'finger' '_finger'
 'fink' '_fink'
 'firefox' '_mozilla'
+'-first-' '_first'
 'fixdlsrps' '_psutils'
 'fixfmps' '_psutils'
 'fixmacps' '_psutils'
@@ -1191,8 +2559,6 @@ _comps=(
 'flist' '_mh'
 'flists' '_mh'
 'float' '_typeset'
-'flowadm' '_flowadm'
-'fmadm' '_fmadm'
 'fned' '_zed'
 'folder' '_mh'
 'folders' '_mh'
@@ -1234,13 +2600,13 @@ _comps=(
 'git-branch' '_git-branch'
 'git-buildpackage' '_git-buildpackage'
 'git-cvsserver' '_git'
+'github' '_github'
+'gitk' '_git'
 'git-receive-pack' '_git'
 'git-remote' '_git-remote'
 'git-shell' '_git'
 'git-upload-archive' '_git'
 'git-upload-pack' '_git'
-'github' '_github'
-'gitk' '_git'
 'gln' '_ln'
 'global' '_global'
 'gls' '_ls'
@@ -1248,25 +2614,23 @@ _comps=(
 'gmake' '_make'
 'gmplayer' '_mplayer'
 'gnome-gv' '_gnome-gv'
-'gnupod_INIT' '_gnupod'
-'gnupod_INIT.pl' '_gnupod'
 'gnupod_addsong' '_gnupod'
 'gnupod_addsong.pl' '_gnupod'
 'gnupod_check' '_gnupod'
 'gnupod_check.pl' '_gnupod'
+'gnupod_INIT' '_gnupod'
+'gnupod_INIT.pl' '_gnupod'
 'gnupod_search' '_gnupod'
 'gnupod_search.pl' '_gnupod'
 'gnutls-cli' '_gnutls'
 'gnutls-cli-debug' '_gnutls'
 'gofmt' '_go'
 'gpg' '_gpg'
-'gpg-zip' '_gpg'
 'gpgv' '_gpg'
+'gpg-zip' '_gpg'
 'gphoto2' '_gphoto2'
 'gprof' '_gprof'
 'gqview' '_gqview'
-'gradle' '_gradle'
-'gradlew' '_gradle'
 'grail' '_webbrowser'
 'grep' '_grep'
 'grep-excuses' '_grep-excuses'
@@ -1350,7 +2714,6 @@ _comps=(
 'invoke-rc.d' '_invoke-rc.d'
 'ionice' '_ionice'
 'ip' '_ip'
-'ipadm' '_ipadm'
 'ipset' '_ipset'
 'iptables' '_iptables'
 'iptables-restore' '_iptables'
@@ -1391,7 +2754,6 @@ _comps=(
 'less' '_less'
 'let' '_math'
 'lftp' '_ncftp'
-'lha' '_lha'
 'light' '_webbrowser'
 'lighty-disable-mod' '_lighttpd'
 'lighty-enable-mod' '_lighttpd'
@@ -1401,8 +2763,6 @@ _comps=(
 'lintian' '_lintian'
 'lintian-info' '_lintian'
 'linux' '_uml'
-'llvm-g++' '_gcc'
-'llvm-gcc' '_gcc'
 'ln' '_ln'
 'loadkeys' '_loadkeys'
 'local' '_typeset'
@@ -1430,22 +2790,22 @@ _comps=(
 'lsusb' '_lsusb'
 'lsvg' '_lsvg'
 'lynx' '_lynx'
-'lzcat' '_xz'
-'lzma' '_xz'
 'lzop' '_lzop'
 'm-a' '_module-assistant'
 'madison' '_madison'
 'mail' '_mail'
+'Mail' '_mail'
 'mailx' '_mail'
 'make' '_make'
-'make-kpkg' '_make-kpkg'
 'makeinfo' '_texinfo'
+'make-kpkg' '_make-kpkg'
 'makepkg' '_pkgtool'
 'man' '_man'
-'man-preview' '_man-preview'
 'manage.py' '_django'
 'manhole' '_twisted'
+'man-preview' '_man-preview'
 'mark' '_mh'
+'-math-' '_math'
 'matlab' '_matlab'
 'mattrib' '_mtools'
 'mcd' '_mtools'
@@ -1494,7 +2854,7 @@ _comps=(
 'mogrify' '_imagemagick'
 'mondoarchive' '_mondo'
 'montage' '_imagemagick'
-'mosh' '_mosh'
+'Mosaic' '_webbrowser'
 'mount' '_mount'
 'mozilla' '_mozilla'
 'mozilla-firefox' '_mozilla'
@@ -1532,11 +2892,9 @@ _comps=(
 'netcat' '_netcat'
 'netrik' '_webbrowser'
 'netscape' '_netscape'
-'netstat' '_netstat'
 'newgrp' '_groups'
 'next' '_mh'
 'nice' '_nice'
-'nkf' '_nkf'
 'nm' '_nm'
 'nmap' '_nmap'
 'nmblookup' '_samba'
@@ -1559,12 +2917,12 @@ _comps=(
 'okular' '_okular'
 'open' '_open'
 'opera' '_webbrowser'
-'opera-next' '_webbrowser'
 'osc' '_osc'
 'p4' '_perforce'
 'p4d' '_perforce'
 'pack' '_pack'
 'packf' '_mh'
+'-parameter-' '_parameter'
 'parsehdlist' '_urpmi'
 'passwd' '_users'
 'patch' '_patch'
@@ -1593,6 +2951,7 @@ _comps=(
 'pfiles' '_pids'
 'pflags' '_pids'
 'pgrep' '_pgrep'
+'phoenix' '_webbrowser'
 'php' '_php'
 'pick' '_mh'
 'pine' '_pine'
@@ -1600,14 +2959,13 @@ _comps=(
 'ping' '_ping'
 'pip' '_pip'
 'piuparts' '_piuparts'
-'pkg' '_pkg5'
-'pkg-config' '_pkg-config'
+'pkgadd' '_pkgadd'
 'pkg_add' '_bsd_pkg'
+'pkg-config' '_pkg-config'
 'pkg_create' '_bsd_pkg'
 'pkg_delete' '_bsd_pkg'
-'pkg_info' '_bsd_pkg'
-'pkgadd' '_pkgadd'
 'pkginfo' '_pkginfo'
+'pkg_info' '_bsd_pkg'
 'pkgrm' '_pkgrm'
 'pkgtool' '_pkgtool'
 'pkill' '_pgrep'
@@ -1641,11 +2999,9 @@ _comps=(
 'prev' '_mh'
 'print' '_print'
 'printenv' '_printenv'
-'printf' '_print'
 'procstat' '_procstat'
 'prompt' '_prompt'
 'prs' '_sccs'
-'prstat' '_prstat'
 'prt' '_sccs'
 'prun' '_pids'
 'ps2ascii' '_pspdf'
@@ -1671,7 +3027,7 @@ _comps=(
 'pstops' '_psutils'
 'pstotgif' '_pspdf'
 'pswrap' '_ps'
-'ptree' '_pids'
+'ptree' '_ptree'
 'pump' '_pump'
 'pushd' '_cd'
 'putclip' '_putclip'
@@ -1701,6 +3057,17 @@ _comps=(
 'readshortcut' '_readshortcut'
 'readshortcut.exe' '_readshortcut'
 'rebootin' '_rebootin'
+'-redirect-' '_redirect'
+'-redirect-,<,bunzip2' '_bzip2'
+'-redirect-,<,bzip2' '_bzip2'
+'-redirect-,>,bzip2' '_bzip2'
+'-redirect-,<,compress' '_compress'
+'-redirect-,>,compress' '_compress'
+'-redirect-,-default-,-default-' '_files'
+'-redirect-,<,gunzip' '_gzip'
+'-redirect-,<,gzip' '_gzip'
+'-redirect-,>,gzip' '_gzip'
+'-redirect-,<,uncompress' '_compress'
 'refile' '_mh'
 'rehash' '_hash'
 'reload' '_initctl'
@@ -1741,7 +3108,6 @@ _comps=(
 'rview' '_vim'
 'rvim' '_vim'
 'rwho' '_hosts'
-'rxvt' '_urxvt'
 'sabcmd' '_sablotron'
 'sact' '_sccs'
 'savecore' '_savecore'
@@ -1778,7 +3144,6 @@ _comps=(
 'smbstatus' '_samba'
 'smit' '_smit'
 'smitty' '_smit'
-'snoop' '_snoop'
 'soa' '_hosts'
 'socket' '_socket'
 'sockstat' '_sockstat'
@@ -1795,9 +3160,8 @@ _comps=(
 'ssh' '_ssh'
 'ssh-add' '_ssh'
 'ssh-agent' '_ssh'
-'ssh-copy-id' '_ssh'
-'ssh-keygen' '_ssh'
 'sshfs' '_sshfs'
+'ssh-keygen' '_ssh'
 'star' '_tar'
 'start' '_initctl'
 'stat' '_stat'
@@ -1808,21 +3172,22 @@ _comps=(
 'strip' '_strip'
 'stty' '_stty'
 'su' '_su'
+'-subscript-' '_subscript'
 'sudo' '_sudo'
 'sudoedit' '_sudo'
 'surfraw' '_surfraw'
+'SuSEconfig' '_SuSEconfig'
 'svcadm' '_svcadm'
 'svccfg' '_svccfg'
 'svcprop' '_svcprop'
 'svcs' '_svcs'
 'svn' '_subversion'
-'svn-buildpackage' '_svn-buildpackage'
 'svnadmin' '_subversion'
 'svnadmin-static' '_subversion'
+'svn-buildpackage' '_svn-buildpackage'
 'sync' '_nothing'
 'sysctl' '_sysctl'
-'systemctl' '_systemd'
-'systemd-loginctl' '_systemd'
+'systemctl' '_systemctl'
 'talk' '_other_accounts'
 'tap2deb' '_twisted'
 'tap2rpm' '_twisted'
@@ -1830,8 +3195,8 @@ _comps=(
 'tar' '_tar'
 'tardy' '_tardy'
 'task' '_task'
-'tcp_open' '_tcpsys'
 'tcpdump' '_tcpdump'
+'tcp_open' '_tcpsys'
 'tcptraceroute' '_tcptraceroute'
 'tcsh' '_sh'
 'tda' '_devtodo'
@@ -1845,6 +3210,7 @@ _comps=(
 'tg' '_topgit'
 'tidy' '_tidy'
 'tig' '_git'
+'-tilde-' '_tilde'
 'time' '_precommand'
 'times' '_nothing'
 'tin' '_tin'
@@ -1899,12 +3265,10 @@ _comps=(
 'unison' '_unison'
 'units' '_units'
 'unlimit' '_limits'
-'unlzma' '_xz'
 'unpack' '_pack'
 'unrar' '_rar'
 'unset' '_vars'
 'unsetopt' '_unsetopt'
-'unxz' '_xz'
 'unzip' '_zip'
 'update-alternatives' '_update-alternatives'
 'update-rc.d' '_update-rc.d'
@@ -1917,7 +3281,6 @@ _comps=(
 'urpmi.update' '_urpmi'
 'urpmq' '_urpmi'
 'urxvt' '_urxvt'
-'urxvtc' '_urxvt'
 'uscan' '_uscan'
 'useradd' '_user_admin'
 'userdel' '_users'
@@ -1927,7 +3290,39 @@ _comps=(
 'uzbl-tabbed' '_uzbl'
 'val' '_sccs'
 'valgrind' '_valgrind'
+'-value-' '_value'
+'-value-,ADB_TRACE,-default-' '_adb'
+'-value-,ANDROID_LOG_TAGS,-default-' '_adb'
+'-value-,ANDROID_SERIAL,-default-' '_adb'
+'-value-,ANT_ARGS,-default-' '_ant'
+'-value-,CFLAGS,-default-' '_gcc'
+'-value-,CPPFLAGS,-default-' '_gcc'
+'-value-,-default-,-command-' '_zargs'
+'-value-,-default-,-default-' '_value'
+'-value-,DISPLAY,-default-' '_x_display'
+'-value-,GREP_OPTIONS,-default-' '_grep'
+'-value-,GZIP,-default-' '_gzip'
+'-value-,LANG,-default-' '_locales'
+'-value-,LANGUAGE,-default-' '_locales'
+'-value-,LD_DEBUG,-default-' '_ld_debug'
+'-value-,LDFLAGS,-default-' '_gcc'
+'-value-,LESSCHARSET,-default-' '_less'
+'-value-,LESS,-default-' '_less'
+'-value-,LPDEST,-default-' '_printers'
+'-value-,P4CLIENT,-default-' '_perforce'
+'-value-,P4MERGE,-default-' '_perforce'
+'-value-,P4PORT,-default-' '_perforce'
+'-value-,P4USER,-default-' '_perforce'
+'-value-,PERLDOC,-default-' '_perldoc'
+'-value-,PRINTER,-default-' '_printers'
+'-value-,TERM,-default-' '_terminals'
+'-value-,TERMINFO_DIRS,-default-' '_dir_list'
+'-value-,TZ,-default-' '_time_zone'
+'-value-,VALGRIND_OPTS,-default-' '_valgrind'
+'-value-,WWW_HOME,-default-' '_urls'
+'-value-,XML_CATALOG_FILES,-default-' '_xmlsoft'
 'vared' '_vared'
+'-vared-' '_in_vared'
 'vcsh' '_vcsh'
 'vim' '_vim'
 'vim-addons' '_vim-addons'
@@ -2002,8 +3397,6 @@ _comps=(
 'xwininfo' '_x_utils'
 'xwit' '_xwit'
 'xwud' '_x_utils'
-'xz' '_xz'
-'xzcat' '_xz'
 'yast' '_yast'
 'yast2' '_yast'
 'ypbind' '_yp'
@@ -2019,7 +3412,7 @@ _comps=(
 'ytalk' '_other_accounts'
 'yum' '_yum'
 'zargs' '_zargs'
-'zathura' '_pspdf'
+'-zcalc-line-' '_zcalc_line'
 'zcat' '_zcat'
 'zcompile' '_zcompile'
 'zcp' '_zmv'
@@ -2039,7 +3432,6 @@ _comps=(
 'zmodload' '_zmodload'
 'zmv' '_zmv'
 'zone' '_hosts'
-'zoneadm' '_zoneadm'
 'zpool' '_zpool'
 'zpty' '_zpty'
 'zsetattr' '_zattr'
@@ -2053,43 +3445,36 @@ _comps=(
 )
 
 _services=(
-'-redirect-,<,bunzip2' 'bunzip2'
-'-redirect-,<,bzip2' 'bzip2'
-'-redirect-,<,compress' 'compress'
-'-redirect-,<,gunzip' 'gunzip'
-'-redirect-,<,gzip' 'gzip'
-'-redirect-,<,uncompress' 'uncompress'
-'-redirect-,<,unxz' 'unxz'
-'-redirect-,<,xz' 'xz'
-'-redirect-,>,bzip2' 'bunzip2'
-'-redirect-,>,compress' 'uncompress'
-'-redirect-,>,gzip' 'gunzip'
-'-redirect-,>,xz' 'unxz'
-'Mail' 'mail'
 'bzcat' 'bunzip2'
 'dch' 'debchange'
-'gnupod_INIT.pl' 'gnupod_INIT'
 'gnupod_addsong.pl' 'gnupod_addsong'
 'gnupod_check.pl' 'gnupod_check'
+'gnupod_INIT.pl' 'gnupod_INIT'
 'gnupod_search.pl' 'gnupod_search'
 'gzcat' 'gunzip'
 'iceweasel' 'firefox'
-'lzcat' 'unxz'
-'lzma' 'xz'
+'Mail' 'mail'
 'mailx' 'mail'
 'mktunes.pl' 'mktunes'
 'nail' 'mail'
 'ncl' 'nc'
 'nedit-nc' 'nc'
 'pcat' 'unpack'
+'-redirect-,<,bunzip2' 'bunzip2'
+'-redirect-,<,bzip2' 'bzip2'
+'-redirect-,>,bzip2' 'bunzip2'
+'-redirect-,<,compress' 'compress'
+'-redirect-,>,compress' 'uncompress'
+'-redirect-,<,gunzip' 'gunzip'
+'-redirect-,<,gzip' 'gzip'
+'-redirect-,>,gzip' 'gunzip'
+'-redirect-,<,uncompress' 'uncompress'
 'remsh' 'rsh'
 'slogin' 'ssh'
 'svnadmin-static' 'svnadmin'
 'tunes2pod.pl' 'tunes2pod'
-'unlzma' 'unxz'
 'xelatex' 'latex'
 'xetex' 'tex'
-'xzcat' 'unxz'
 )
 
 _patcomps=(
@@ -2101,12 +3486,12 @@ _postpatcomps=(
 '(p[bgpn]m*|*top[bgpn]m)' '_pbm'
 '(texi(2*|ndex))' '_texi'
 '(tiff*|*2tiff|pal2rgb)' '_tiff'
-'*/X11(|R<4->)/*' '_x_arguments'
 '-value-,(ftp|http(|s))_proxy,-default-' '_urls'
-'-value-,*PATH,-default-' '_dir_list'
-'-value-,*path,-default-' '_directories'
 '-value-,LC_*,-default-' '_locales'
+'-value-,*path,-default-' '_directories'
+'-value-,*PATH,-default-' '_dir_list'
 '-value-,RUBY(LIB|OPT|PATH),-default-' '_ruby'
+'*/X11(|R<4->)/*' '_x_arguments'
 'yodl(|2*)' '_yodl'
 )
 
@@ -2145,21 +3530,20 @@ bindkey '^[,' _history-complete-newer
 bindkey '^[/' _history-complete-older
 bindkey '^[~' _bash_complete-word
 
-autoload -Uz _SuSEconfig _a2ps _a2utils _aap _acpi \
-            _acpitool _acroread _adb _alias _aliases \
-            _all_labels _all_matches _alternative _analyseplugin _ant \
-            _antiword _apachectl _apm _approximate _apt \
-            _apt-file _apt-move _apt-show-versions _aptitude _arch_archives \
-            _arch_namespace _arg_compile _arguments _arp _arping \
-            _arrays _assign _at _attr _auto-apt \
-            _autocd _awk _axi-cache _bash_completions _baz \
-            _be_name _beadm _bind_addresses _bindkey _bison \
-            _bittorrent _bogofilter _brace_parameter _brctl _bsd_pkg \
-            _btrfs _bts _bug _builtin _bundler \
-            _bzip2 _bzr _cache_invalid _cal _calendar \
-            _call_function _canonical_paths _ccal _cd _cdbs-edit-patch \
-            _cdcd _cdr _cdrdao _cdrecord _chflags \
-            _chkconfig _chmod _chown _chrt _clay \
+autoload -Uz _a2ps _a2utils _aap _acpi _acpitool \
+            _acroread _adb _alias _aliases _all_labels \
+            _all_matches _alternative _analyseplugin _ant _antiword \
+            _apachectl _apm _approximate _apt _apt-file \
+            _aptitude _apt-move _apt-show-versions _arch_archives _arch_namespace \
+            _arg_compile _arguments _arp _arping _arrays \
+            _assign _at _attr _auto-apt _autocd \
+            _awk _axi-cache _bash_completions _baz _bind_addresses \
+            _bindkey _bison _bittorrent _bogofilter _brace_parameter \
+            _brctl _bsd_pkg _bts _bug _builtin \
+            _bundler _bzip2 _bzr _cache_invalid _cal \
+            _calendar _call_function _canonical_paths _ccal _cd \
+            _cdbs-edit-patch _cdcd _cdr _cdrdao _cdrecord \
+            _chflags _chkconfig _chmod _chown _chrt \
             _combination _comm _command _command_names _compdef \
             _complete _complete_debug _complete_help _complete_help_generic _complete_tag \
             _compress _condition _configure _coreadm _correct \
@@ -2167,43 +3551,42 @@ autoload -Uz _SuSEconfig _a2ps _a2utils _aap _acpi \
             _cplay _cryptsetup _cssh _csup _ctags_tags \
             _cut _cvs _cvsup _cygcheck _cygpath \
             _cygrunsrv _cygserver _cygstart _dak _darcs \
-            _date _dbus _dchroot _dchroot-dsa _dcop \
-            _dd _deb_packages _debchange _debdiff _debfoster \
-            _debsign _default _defaults _delimiters _describe \
-            _description _devtodo _dhclient _dhcpinfo _dict \
-            _dict_words _diff _diff_options _diffstat _dir_list \
-            _directories _directory_stack _dirs _disable _dispatch \
-            _django _dladm _dlocate _dmidecode _domains \
+            _date _dchroot _dchroot-dsa _dcop _dd \
+            _debchange _debdiff _debfoster _deb_packages _debsign \
+            _default _defaults _delimiters _describe _description \
+            _devtodo _dhclient _dhcpinfo _dict _dict_words \
+            _diff _diff_options _diffstat _directories _directory_stack \
+            _dir_list _dirs _disable _dispatch _django \
+            _dladm _dlocate _dmidecode _docker _domains \
             _dpatch-edit-patch _dpkg _dpkg-buildpackage _dpkg-cross _dpkg-repack \
-            _dpkg_source _dput _dtrace _du _dumpadm \
-            _dumper _dupload _dvi _dynamic_directory_name _ecasound \
-            _echotc _echoti _elinks _elm _email_addresses \
-            _emulate _enable _enscript _env _equal \
-            _espeak _ethtool _expand _expand_alias _expand_word \
-            _extract _fakeroot _fc _feh _fetch \
-            _fetchmail _ffmpeg _figlet _file_descriptors _file_systems \
-            _files _find _finger _fink _first \
-            _flasher _flex _floppy _flowadm _fmadm \
-            _fortune _freebsd-update _fsh _fstat _functions \
-            _fuse_arguments _fuse_values _fuser _fusermount _gcc \
-            _gcore _gdb _gem _generic _genisoimage \
-            _getclip _getconf _getent _getfacl _getmail \
-            _git _git-branch _git-buildpackage _git-remote _github \
-            _global _global_tags _globflags _globqual_delims _globquals \
-            _gnome-gv _gnu_generic _gnupod _gnutls _go \
-            _gpg _gphoto2 _gprof _gqview _gradle \
-            _graphicsmagick _grep _grep-excuses _groff _groups \
-            _growisofs _gs _guard _guilt _gv \
-            _gzip _hash _have_glob_qual _hdiutil _hg \
-            _history _history_complete_word _history_modifiers _hosts _hwinfo \
-            _iconv _id _ifconfig _iftop _ignored \
-            _imagemagick _in_vared _inetadm _init_d _initctl \
-            _invoke-rc.d _ionice _ip _ipadm _ipset \
+            _dpkg_source _dput _du _dumpadm _dumper \
+            _dupload _dvi _dynamic_directory_name _ecasound _echotc \
+            _echoti _elinks _elm _email_addresses _emulate \
+            _enable _enscript _env _equal _espeak \
+            _ethtool _expand _expand_alias _expand_word _extract \
+            _fakeroot _fc _feh _fetch _fetchmail \
+            _ffmpeg _figlet _file_descriptors _files _file_systems \
+            _find _finger _fink _first _flasher \
+            _flex _floppy _fortune _freebsd-update _fsh \
+            _fstat _functions _fuse_arguments _fuser _fusermount \
+            _fuse_values _gcc _gcore _gdb _gem \
+            _generic _genisoimage _getclip _getconf _getent \
+            _getfacl _getmail _git _git-branch _git-buildpackage \
+            _github _git-remote _global _global_tags _globflags \
+            _globqual_delims _globquals _gnome-gv _gnu_generic _gnupod \
+            _gnutls _go _gpg _gphoto2 _gprof \
+            _gqview _graphicsmagick _grep _grep-excuses _groff \
+            _groups _growisofs _gs _guard _guilt \
+            _gv _gzip _hash _have_glob_qual _hdiutil \
+            _hg _history _history_complete_word _history_modifiers _hosts \
+            _hwinfo _iconv _id _ifconfig _iftop \
+            _ignored _imagemagick _inetadm _initctl _init_d \
+            _in_vared _invoke-rc.d _ionice _ip _ipset \
             _iptables _irssi _ispell _iwconfig _java \
             _java_class _jobs _jobs_bg _jobs_builtin _jobs_fg \
             _joe _join _kfmclient _kill _killall \
             _kld _knock _kvno _last _ldd \
-            _less _lha _lighttpd _limit _limits \
+            _ld_debug _less _lighttpd _limit _limits \
             _linda _links _lintian _list _list_files \
             _ln _loadkeys _locales _locate _logical_volumes \
             _look _losetup _lp _ls _lscfg \
@@ -2215,27 +3598,26 @@ autoload -Uz _SuSEconfig _a2ps _a2utils _aap _acpi \
             _menu _mere _mergechanges _message _metaflac \
             _mh _mii-tool _mime_types _mkdir _mkshortcut \
             _mkzsh _module _module-assistant _modutils _mondo \
-            _monotone _mosh _most_recent_file _mount _mozilla \
-            _mpc _mplayer _mt _mtools _mtr \
-            _multi_parts _mutt _my_accounts _mysql_utils _mysqldiff \
-            _nautilus _ncftp _nedit _net_interfaces _netcat \
-            _netscape _netstat _newsgroups _next_label _next_tags \
-            _nice _nkf _nm _nmap _nmcli \
-            _normal _nothing _notmuch _npm _nslookup \
-            _object_classes _okular _oldlist _open _options \
-            _options_set _options_unset _osc _other_accounts _pack \
-            _parameter _parameters _patch _path_commands _path_files \
-            _pax _pbm _pbuilder _pdf _pdftk \
-            _pep8 _perforce _perl _perl_basepods _perl_modules \
-            _perldoc _pfctl _pfexec _pgrep _php \
-            _physical_volumes _pick_variant _pids _pine _ping \
-            _pip _piuparts _pkg-config _pkg5 _pkg_instance \
-            _pkgadd _pkginfo _pkgrm _pkgtool _pon \
-            _portaudit _portlint _portmaster _ports _portsnap \
-            _postfix _powerd _prcs _precommand _prefix \
-            _print _printenv _printers _procstat _prompt \
-            _prstat _ps _ps1234 _pscp _pspdf \
-            _psutils _ptree _pump _putclip _pydoc \
+            _monotone _most_recent_file _mount _mozilla _mpc \
+            _mplayer _mt _mtools _mtr _multi_parts \
+            _mutt _my_accounts _mysqldiff _mysql_utils _nautilus \
+            _ncftp _nedit _netcat _net_interfaces _netscape \
+            _newsgroups _next_label _next_tags _nice _nm \
+            _nmap _nmcli _normal _nothing _notmuch \
+            _npm _nslookup _object_classes _okular _oldlist \
+            _open _options _options_set _options_unset _osc \
+            _other_accounts _pack _parameter _parameters _patch \
+            _path_commands _path_files _pax _pbm _pbuilder \
+            _pdf _pdftk _pep8 _perforce _perl \
+            _perl_basepods _perldoc _perl_modules _pfctl _pfexec \
+            _pgrep _php _physical_volumes _pick_variant _pids \
+            _pine _ping _pip _piuparts _pkgadd \
+            _pkg-config _pkginfo _pkg_instance _pkgrm _pkgtool \
+            _pon _portaudit _portlint _portmaster _ports \
+            _portsnap _postfix _powerd _prcs _precommand \
+            _prefix _print _printenv _printers _procstat \
+            _prompt _ps _pscp _pspdf _psutils \
+            _ptree _pump _putclip _pydoc _pyenv \
             _pylint _python _qemu _qiv _qtplay \
             _quilt _raggle _rake _ranlib _rar \
             _rcs _read _read_comp _readshortcut _rebootin \
@@ -2247,13 +3629,13 @@ autoload -Uz _SuSEconfig _a2ps _a2utils _aap _acpi \
             _screen _sed _sep_parts _service _services \
             _set _set_command _setfacl _setopt _setup \
             _sh _showmount _signals _sisu _slrn \
-            _smit _snoop _socket _sockstat _softwareupdate \
-            _sort _source _spamassassin _sqlite _sqsh \
-            _ssh _sshfs _stat _stgit _store_cache \
-            _strace _strip _stty _su _sub_commands \
-            _subscript _subversion _sudo _suffix_alias_files _surfraw \
+            _smit _socket _sockstat _softwareupdate _sort \
+            _source _spamassassin _sqlite _sqsh _ssh \
+            _sshfs _stat _stgit _store_cache _strace \
+            _strip _stty _su _sub_commands _subscript \
+            _subversion _sudo _suffix_alias_files _surfraw _SuSEconfig \
             _svcadm _svccfg _svcprop _svcs _svcs_fmri \
-            _svn-buildpackage _sysctl _systemd _tags _tar \
+            _svn-buildpackage _sysctl _systemctl _tags _tar \
             _tar_archive _tardy _task _tcpdump _tcpsys \
             _tcptraceroute _telnet _terminals _tex _texi \
             _texinfo _tidy _tiff _tilde _tilde_files \
@@ -2270,21 +3652,20 @@ autoload -Uz _SuSEconfig _a2ps _a2utils _aap _acpi \
             _volume_groups _vorbis _vorbiscomment _vserver _vux \
             _w3m _wait _wajig _wakeup_capable_devices _wanna-build \
             _wanted _wd.sh _webbrowser _wget _whereis \
-            _which _whois _wiggle _wpa_cli _x_arguments \
-            _x_borderwidth _x_color _x_colormapid _x_cursor _x_display \
-            _x_extension _x_font _x_geometry _x_keysym _x_locale \
-            _x_modifier _x_name _x_resource _x_selection_timeout _x_title \
-            _x_utils _x_visual _x_window _xargs _xauth \
-            _xclip _xdvi _xfig _xft_fonts _xloadimage \
-            _xmlsoft _xmms2 _xmodmap _xournal _xpdf \
-            _xrandr _xscreensaver _xset _xt_arguments _xt_session_id \
-            _xterm _xv _xwit _xz _yast \
-            _yast2 _yodl _yp _yum _zargs \
-            _zattr _zcalc_line _zcat _zcompile _zdump \
-            _zed _zfs _zfs_dataset _zfs_keysource_props _zfs_pool \
-            _zftp _zip _zle _zlogin _zmodload \
-            _zmv _zoneadm _zones _zpool _zpty \
-            _zsh-mime-handler _zstyle _ztodo _zypper
+            _which _whois _wiggle _wpa_cli _xargs \
+            _x_arguments _xauth _x_borderwidth _xclip _x_color \
+            _x_colormapid _x_cursor _x_display _xdvi _x_extension \
+            _xfig _x_font _xft_fonts _x_geometry _x_keysym \
+            _xloadimage _x_locale _xmlsoft _xmms2 _x_modifier \
+            _xmodmap _x_name _xournal _xpdf _xrandr \
+            _x_resource _xscreensaver _x_selection_timeout _xset _xt_arguments \
+            _xterm _x_title _xt_session_id _x_utils _xv \
+            _x_visual _x_window _xwit _yast _yast2 \
+            _yodl _yp _yum _zargs _zattr \
+            _zcalc_line _zcat _zcompile _zdump _zed \
+            _zfs _zfs_dataset _zfs_pool _zftp _zip \
+            _zle _zlogin _zmodload _zmv _zpool \
+            _zpty _zsh-mime-handler _zstyle _ztodo _zypper
 autoload -Uz +X _call_program
 
 typeset -gUa _comp_assocs
@@ -4948,9 +6329,15 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-HpzTgSgRlT7c/agent.69627; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=69629; export SSH_AGENT_PID;
-#echo Agent pid 69629;
+SSH_AUTH_SOCK=/tmp/ssh-UBzmFEy21847/agent.21847; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=21849; export SSH_AGENT_PID;
+#echo Agent pid 21849;
+SSH_AUTH_SOCK=/tmp/ssh-BZWGGIF31307/agent.31307; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=31309; export SSH_AGENT_PID;
+#echo Agent pid 31309;
+starting ssh-agent...
+Identity added: /home/wturner/.ssh/id_rsa (/home/wturner/.ssh/id_rsa)
+Identity added: /home/wturner/.ssh/id_ecdsa (/home/wturner/.ssh/id_ecdsa)
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
@@ -4963,4 +6350,2938 @@ if [[ $(tty|grep -o '/dev/tty') = /dev/tty ]] ; then
 	fbterm
 	exit
 fi
-/Users/W/-dotfiles/etc/zsh/oh-my-zsh/plugins/fbterm/fbterm.plugin.zsh:4: command not found: fbterm
+# Authors:
+# https://github.com/AlexBio
+# https://github.com/dbb
+# https://github.com/Mappleconfusers
+#
+# Debian-related zsh aliases and functions for zsh
+
+# Use aptitude if installed, or apt-get if not.
+# You can just set apt_pref='apt-get' to override it.
+if [[ -e $( which -p aptitude 2>&1 ) ]]; then
+    apt_pref='aptitude'
+else
+    apt_pref='apt-get'
+fi
+
+# Use sudo by default if it's installed
+if [[ -e $( which -p sudo 2>&1 ) ]]; then
+    use_sudo=1
+fi
+
+# Aliases ###################################################################
+# These are for more obscure uses of apt-get and aptitude that aren't covered
+# below.
+alias age='apt-get'
+alias api='aptitude'
+
+# Some self-explanatory aliases
+alias acs="apt-cache search"
+alias aps='aptitude search'
+alias as="aptitude -F \"* %p -> %d \n(%v/%V)\" \
+		--no-gui --disable-columns search"	# search package
+
+# apt-file
+alias afs='apt-file search --regexp'
+
+
+# These are apt-get only
+alias asrc='apt-get source'
+alias app='apt-cache policy'
+
+# superuser operations ######################################################
+if [[ $use_sudo -eq 1 ]]; then
+# commands using sudo #######
+    alias aac='sudo $apt_pref autoclean'
+    alias abd='sudo $apt_pref build-dep'
+    alias ac='sudo $apt_pref clean'
+    alias ad='sudo $apt_pref update'
+    alias adg='sudo $apt_pref update && sudo $apt_pref upgrade'
+    alias adu='sudo $apt_pref update && sudo $apt_pref dist-upgrade'
+    alias afu='sudo apt-file update'
+    alias ag='sudo $apt_pref upgrade'
+    alias ai='sudo $apt_pref install'
+    # Install all packages given on the command line while using only the first word of each line:
+    # acs ... | ail
+    alias ail="sed -e 's/  */ /g' -e 's/ *//' | cut -s -d ' ' -f 1 | "' xargs sudo $apt_pref install'
+    alias ap='sudo $apt_pref purge'
+    alias ar='sudo $apt_pref remove'
+
+    # apt-get only
+    alias ads='sudo apt-get dselect-upgrade'
+
+    # Install all .deb files in the current directory.
+    # Warning: you will need to put the glob in single quotes if you use:
+    # glob_subst
+    alias dia='sudo dpkg -i ./*.deb'
+    alias di='sudo dpkg -i'
+
+    # Remove ALL kernel images and headers EXCEPT the one in use
+    alias kclean='sudo aptitude remove -P ?and(~i~nlinux-(ima|hea) \
+        ?not(~n`uname -r`))'
+
+
+# commands using su #########
+else
+    alias aac='su -ls \'$apt_pref autoclean\' root'
+    abd() {
+        cmd="su -lc '$apt_pref build-dep $@' root"
+        print "$cmd"
+        eval "$cmd"
+    }
+    alias ac='su -ls \'$apt_pref clean\' root'
+    alias ad='su -lc \'$apt_pref update\' root'
+    alias adg='su -lc \'$apt_pref update && aptitude safe-upgrade\' root'
+    alias adu='su -lc \'$apt_pref update && aptitude dist-upgrade\' root'
+    alias afu='su -lc "apt-file update"'
+    alias ag='su -lc \'$apt_pref safe-upgrade\' root'
+    ai() {
+        cmd="su -lc 'aptitude -P install $@' root"
+        print "$cmd"
+        eval "$cmd"
+    }
+    ap() {
+        cmd="su -lc '$apt_pref -P purge $@' root"
+        print "$cmd"
+        eval "$cmd"
+    }
+    ar() {
+        cmd="su -lc '$apt_pref -P remove $@' root"
+        print "$cmd"
+        eval "$cmd"
+    }
+
+    # Install all .deb files in the current directory
+    # Assumes glob_subst is off
+    alias dia='su -lc "dpkg -i ./*.deb" root'
+    alias di='su -lc "dpkg -i" root'
+
+    # Remove ALL kernel images and headers EXCEPT the one in use
+    alias kclean='su -lc '\''aptitude remove -P ?and(~i~nlinux-(ima|hea) \
+        ?not(~n`uname -r`))'\'' root'
+fi
+
+# Completion ################################################################
+
+#
+# Registers a compdef for $1 that calls $apt_pref with the commands $2
+# To do that it creates a new completion function called _apt_pref_$2
+#
+apt_pref_compdef() {
+    local f fb
+    f="_apt_pref_${2}"
+
+    eval "function ${f}() {
+        shift words; 
+	service=\"\$apt_pref\"; 
+	words=(\"\$apt_pref\" '$2' \$words); 
+	((CURRENT++))
+	test \"\${apt_pref}\" = 'aptitude' && _aptitude || _apt
+    }"
+
+    compdef "$f" "$1"
+}
+
+apt_pref_compdef aac "autoclean"
+apt_pref_compdef abd "build-dep"
+apt_pref_compdef ac  "clean"
+apt_pref_compdef ad  "update"
+apt_pref_compdef afu "update"
+apt_pref_compdef ag  "upgrade"
+apt_pref_compdef ai  "install"
+apt_pref_compdef ail "install"
+apt_pref_compdef ap  "purge"
+apt_pref_compdef ar  "remove"
+apt_pref_compdef ads "dselect-upgrade"
+
+# Misc. #####################################################################
+# print all installed packages
+alias allpkgs='aptitude search -F "%p" --disable-columns ~i'
+
+# Create a basic .deb package
+alias mydeb='time dpkg-buildpackage -rfakeroot -us -uc'
+
+
+# Functions #################################################################
+# create a simple script that can be used to 'duplicate' a system
+apt-copy() {
+    print '#!/bin/sh'"\n" > apt-copy.sh
+
+    cmd='$apt_pref install'
+
+    for p in ${(f)"$(aptitude search -F "%p" --disable-columns \~i)"}; {
+        cmd="${cmd} ${p}"
+    }
+
+    print $cmd "\n" >> apt-copy.sh
+
+    chmod +x apt-copy.sh
+}
+
+# Prints apt history
+# Usage:
+#   apt-history install
+#   apt-history upgrade
+#   apt-history remove
+#   apt-history rollback
+#   apt-history list
+# Based On: http://linuxcommando.blogspot.com/2008/08/how-to-show-apt-log-history.html
+apt-history () {
+  case "$1" in
+    install)
+      zgrep --no-filename 'install ' $(ls -rt /var/log/dpkg*)
+      ;;
+    upgrade|remove)
+      zgrep --no-filename $1 $(ls -rt /var/log/dpkg*)
+      ;;
+    rollback)
+      zgrep --no-filename upgrade $(ls -rt /var/log/dpkg*) | \
+        grep "$2" -A10000000 | \
+        grep "$3" -B10000000 | \
+        awk '{print $4"="$5}'
+      ;;
+    list)
+      zcat $(ls -rt /var/log/dpkg*)
+      ;;
+    *)
+      echo "Parameters:"
+      echo " install - Lists all packages that have been installed."
+      echo " upgrade - Lists all packages that have been upgraded."
+      echo " remove - Lists all packages that have been removed."
+      echo " rollback - Lists rollback information."
+      echo " list - Lists all contains of dpkg logs."
+      ;;
+  esac
+}
+
+# Kernel-package building shortcut
+kerndeb () {
+    # temporarily unset MAKEFLAGS ( '-j3' will fail )
+    MAKEFLAGS=$( print - $MAKEFLAGS | perl -pe 's/-j\s*[\d]+//g' )
+    print '$MAKEFLAGS set to '"'$MAKEFLAGS'"
+	appendage='-custom' # this shows up in $ (uname -r )
+    revision=$(date +"%Y%m%d") # this shows up in the .deb file name
+
+    make-kpkg clean
+
+    time fakeroot make-kpkg --append-to-version "$appendage" --revision \
+        "$revision" kernel_image kernel_headers
+}
+
+# List packages by size
+function apt-list-packages {
+    dpkg-query -W --showformat='${Installed-Size} ${Package} ${Status}\n' | \
+    grep -v deinstall | \
+    sort -n | \
+    awk '{print $1" "$2}'
+}
+
+## Aliases
+
+alias ys="yum search"                       # search package
+alias yp="yum info"                         # show package info
+alias yl="yum list"                         # list packages
+alias ygl="yum grouplist"                   # list package groups
+alias yli="yum list installed"              # print all installed packages
+alias ymc="yum makecache"                   # rebuilds the yum package list
+
+alias yu="sudo yum update"                  # upgrate packages
+alias yi="sudo yum install"                 # install package
+alias ygi="sudo yum groupinstall"           # install package group
+alias yr="sudo yum remove"                  # remove package
+alias ygr="sudo yum groupremove"            # remove pagage group
+alias yrl="sudo yum remove --remove-leaves" # remove package and leaves
+alias yc="sudo yum clean all"               # clean cache# Find python file
+alias pyfind='find . -name "*.py"'
+
+# Remove python compiled byte-code in either current directory or in a
+# list of specified directories
+function pyclean() {
+    ZSH_PYCLEAN_PLACES=${*:-'.'}
+    find ${ZSH_PYCLEAN_PLACES} -type f -name "*.py[co]" -delete
+    find ${ZSH_PYCLEAN_PLACES} -type d -name "__pycache__" -delete
+}
+
+# Grep among .py files
+alias pygrep='grep --include="*.py"'
+
+# Usage:
+# Just add pip to your installed plugins.
+
+# If you would like to change the cheeseshops used for autocomplete set
+# ZSH_PIP_INDEXES in your zshrc. If one of your indexes are bogus you won't get
+# any kind of error message, pip will just not autocomplete from them. Double
+# check!
+#
+# If you would like to clear your cache, go ahead and do a
+# "zsh-pip-clear-cache".
+
+ZSH_PIP_CACHE_FILE=~/.pip/zsh-cache
+ZSH_PIP_INDEXES=(https://pypi.python.org/simple/)
+
+zsh-pip-clear-cache() {
+  rm $ZSH_PIP_CACHE_FILE
+  unset piplist
+}
+
+zsh-pip-clean-packages() {
+    sed -n '/<a href/ s/.*>\([^<]\{1,\}\).*/\1/p'
+}
+
+zsh-pip-cache-packages() {
+  if [[ ! -d ${ZSH_PIP_CACHE_FILE:h} ]]; then
+      mkdir -p ${ZSH_PIP_CACHE_FILE:h}
+  fi
+
+  if [[ ! -f $ZSH_PIP_CACHE_FILE ]]; then
+      echo -n "(...caching package index...)"
+      tmp_cache=/tmp/zsh_tmp_cache
+      for index in $ZSH_PIP_INDEXES ; do
+          # well... I've already got two problems
+          curl $index 2>/dev/null | \
+              zsh-pip-clean-packages \
+               >> $tmp_cache
+      done
+      sort $tmp_cache | uniq | tr '\n' ' ' > $ZSH_PIP_CACHE_FILE
+      rm $tmp_cache
+  fi
+}
+
+# A test function that validates the regex against known forms of the simple
+# index. If you modify the regex to make it work for you, you should add a test
+# case in here and make sure that your changes don't break things for someone
+# else.
+zsh-pip-test-clean-packages() {
+    local expected
+    local actual
+    expected="0x10c-asm
+1009558_nester"
+
+    actual=$(echo -n "<html><head><title>Simple Index</title><meta name=\"api-version\" value=\"2\" /></head><body>
+<a href='0x10c-asm'>0x10c-asm</a><br/>
+<a href='1009558_nester'>1009558_nester</a><br/>
+</body></html>" | zsh-pip-clean-packages)
+
+    if [[ $actual != $expected ]] ; then
+        echo -e "python's simple index is broken:\n$actual\n  !=\n$expected"
+    else
+        echo "python's simple index is fine"
+    fi
+
+    actual=$(echo -n '<html>
+  <head>
+    <title>Simple Package Index</title>
+  </head>
+  <body>
+    <a href="0x10c-asm">0x10c-asm</a><br/>
+    <a href="1009558_nester">1009558_nester</a><br/>
+</body></html>' | zsh-pip-clean-packages)
+
+    if [[ $actual != $expected ]] ; then
+        echo -e "the djangopypi2 index is broken:\n$actual\n  !=\n$expected"
+    else
+        echo "the djangopypi2 index is fine"
+    fi
+}
+function virtualenv_prompt_info(){
+  if [[ -n $VIRTUAL_ENV ]]; then
+    printf "%s[%s] " "%{${fg[yellow]}%}" ${${VIRTUAL_ENV}:t}
+  fi
+}
+
+# disables prompt mangling in virtual_env/bin/activate
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+virtualenvwrapper='virtualenvwrapper.sh'
+if (( $+commands[$virtualenvwrapper] )); then
+  source ${${virtualenvwrapper}:c}
+
+  if [[ ! $DISABLE_VENV_CD -eq 1 ]]; then
+    # Automatically activate Git projects's virtual environments based on the
+    # directory name of the project. Virtual environment name can be overridden
+    # by placing a .venv file in the project root with a virtualenv name in it
+    function workon_cwd {
+        if [ ! $WORKON_CWD ]; then
+            WORKON_CWD=1
+            # Check if this is a Git repo
+            PROJECT_ROOT=`git rev-parse --show-toplevel 2> /dev/null`
+            if (( $? != 0 )); then
+                PROJECT_ROOT="."
+            fi
+            # Check for virtualenv name override
+            if [[ -f "$PROJECT_ROOT/.venv" ]]; then
+                ENV_NAME=`cat "$PROJECT_ROOT/.venv"`
+            elif [[ -f "$PROJECT_ROOT/.venv/bin/activate" ]];then
+                ENV_NAME="$PROJECT_ROOT/.venv"
+            elif [[ "$PROJECT_ROOT" != "." ]]; then
+                ENV_NAME=`basename "$PROJECT_ROOT"`
+            else
+                ENV_NAME=""
+            fi
+            if [[ "$ENV_NAME" != "" ]]; then
+                # Activate the environment only if it is not already active
+                if [[ "$VIRTUAL_ENV" != "$WORKON_HOME/$ENV_NAME" ]]; then
+                    if [[ -e "$WORKON_HOME/$ENV_NAME/bin/activate" ]]; then
+                        workon "$ENV_NAME" && export CD_VIRTUAL_ENV="$ENV_NAME"
+                    elif [[ -e "$ENV_NAME/bin/activate" ]]; then
+                        source $ENV_NAME/bin/activate && export CD_VIRTUAL_ENV="$ENV_NAME"
+                    fi
+                fi
+            elif [ $CD_VIRTUAL_ENV ]; then
+                # We've just left the repo, deactivate the environment
+                # Note: this only happens if the virtualenv was activated automatically
+                deactivate && unset CD_VIRTUAL_ENV
+            fi
+            unset PROJECT_ROOT
+            unset WORKON_CWD
+        fi
+    }
+
+    # Append workon_cwd to the chpwd_functions array, so it will be called on cd
+    # http://zsh.sourceforge.net/Doc/Release/Functions.html
+    # TODO: replace with 'add-zsh-hook chpwd workon_cwd' when oh-my-zsh min version is raised above 4.3.4
+    if (( ${+chpwd_functions} )); then
+        if (( $chpwd_functions[(I)workon_cwd] == 0 )); then
+            set -A chpwd_functions $chpwd_functions workon_cwd
+        fi
+    else
+        set -A chpwd_functions workon_cwd
+    fi
+  fi
+else
+  print "zsh virtualenvwrapper plugin: Cannot find ${virtualenvwrapper}. Please install with \`pip install virtualenvwrapper\`."
+fi
+# -*- mode: shell-script -*-
+#
+# Shell functions to act as wrapper for Ian Bicking's virtualenv
+# (http://pypi.python.org/pypi/virtualenv)
+#
+#
+# Copyright Doug Hellmann, All Rights Reserved
+#
+# Permission to use, copy, modify, and distribute this software and its
+# documentation for any purpose and without fee is hereby granted,
+# provided that the above copyright notice appear in all copies and that
+# both that copyright notice and this permission notice appear in
+# supporting documentation, and that the name of Doug Hellmann not be used
+# in advertising or publicity pertaining to distribution of the software
+# without specific, written prior permission.
+#
+# DOUG HELLMANN DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+# INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+# EVENT SHALL DOUG HELLMANN BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+# CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+#
+#
+# Project home page: http://www.doughellmann.com/projects/virtualenvwrapper/
+#
+#
+# Setup:
+#
+#  1. Create a directory to hold the virtual environments.
+#     (mkdir $HOME/.virtualenvs).
+#  2. Add a line like "export WORKON_HOME=$HOME/.virtualenvs"
+#     to your .bashrc.
+#  3. Add a line like "source /path/to/this/file/virtualenvwrapper.sh"
+#     to your .bashrc.
+#  4. Run: source ~/.bashrc
+#  5. Run: workon
+#  6. A list of environments, empty, is printed.
+#  7. Run: mkvirtualenv temp
+#  8. Run: workon
+#  9. This time, the "temp" environment is included.
+# 10. Run: workon temp
+# 11. The virtual environment is activated.
+#
+
+# Locate the global Python where virtualenvwrapper is installed.
+if [ "$VIRTUALENVWRAPPER_PYTHON" = "" ]
+then
+    VIRTUALENVWRAPPER_PYTHON="$(command \which python)"
+fi
+
+# Set the name of the virtualenv app to use.
+if [ "$VIRTUALENVWRAPPER_VIRTUALENV" = "" ]
+then
+    VIRTUALENVWRAPPER_VIRTUALENV="virtualenv"
+fi
+
+# Set the name of the virtualenv-clone app to use.
+if [ "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" = "" ]
+then
+    VIRTUALENVWRAPPER_VIRTUALENV_CLONE="virtualenv-clone"
+fi
+
+# Define script folder depending on the platorm (Win32/Unix)
+VIRTUALENVWRAPPER_ENV_BIN_DIR="bin"
+if [ "$OS" = "Windows_NT" ] && [ "$MSYSTEM" = "MINGW32" ]
+then
+    # Only assign this for msys, cygwin use standard Unix paths
+    # and its own python installation
+    VIRTUALENVWRAPPER_ENV_BIN_DIR="Scripts"
+fi
+
+# Let the user override the name of the file that holds the project
+# directory name.
+if [ "$VIRTUALENVWRAPPER_PROJECT_FILENAME" = "" ]
+then
+    export VIRTUALENVWRAPPER_PROJECT_FILENAME=".project"
+fi
+
+# Remember where we are running from.
+if [ -z "$VIRTUALENVWRAPPER_SCRIPT" ]
+then
+    if [ -n "$BASH" ]
+    then
+        export VIRTUALENVWRAPPER_SCRIPT="$BASH_SOURCE"
+    elif [ -n "$ZSH_VERSION" ]
+    then
+        export VIRTUALENVWRAPPER_SCRIPT="$0"
+    else
+        export VIRTUALENVWRAPPER_SCRIPT="${.sh.file}"
+    fi
+fi
+
+# Portable shell scripting is hard, let's go shopping.
+#
+# People insist on aliasing commands like 'cd', either with a real
+# alias or even a shell function. Under bash and zsh, "builtin" forces
+# the use of a command that is part of the shell itself instead of an
+# alias, function, or external command, while "command" does something
+# similar but allows external commands. Under ksh "builtin" registers
+# a new command from a shared library, but "command" will pick up
+# existing builtin commands. We need to use a builtin for cd because
+# we are trying to change the state of the current shell, so we use
+# "builtin" for bash and zsh but "command" under ksh.
+function virtualenvwrapper_cd {
+    if [ -n "$BASH" ]
+    then
+        builtin \cd "$@"
+    elif [ -n "$ZSH_VERSION" ]
+    then
+        builtin \cd -q "$@"
+    else
+        command \cd "$@"
+    fi
+}
+
+function virtualenvwrapper_expandpath {
+    if [ "$1" = "" ]; then
+        return 1
+    else
+        "$VIRTUALENVWRAPPER_PYTHON" -c "import os,sys; sys.stdout.write(os.path.normpath(os.path.expanduser(os.path.expandvars(\"$1\")))+'\n')"
+        return 0
+    fi
+}
+
+function virtualenvwrapper_absolutepath {
+    if [ "$1" = "" ]; then
+        return 1
+    else
+        "$VIRTUALENVWRAPPER_PYTHON" -c "import os,sys; sys.stdout.write(os.path.abspath(\"$1\")+'\n')"
+        return 0
+    fi
+}
+
+function virtualenvwrapper_derive_workon_home {
+    typeset workon_home_dir="$WORKON_HOME"
+
+    # Make sure there is a default value for WORKON_HOME.
+    # You can override this setting in your .bashrc.
+    if [ "$workon_home_dir" = "" ]
+    then
+        workon_home_dir="$HOME/.virtualenvs"
+    fi
+
+    # If the path is relative, prefix it with $HOME
+    # (note: for compatibility)
+    if echo "$workon_home_dir" | (unset GREP_OPTIONS; command \grep '^[^/~]' > /dev/null)
+    then
+        workon_home_dir="$HOME/$WORKON_HOME"
+    fi
+
+    # Only call on Python to fix the path if it looks like the
+    # path might contain stuff to expand.
+    # (it might be possible to do this in shell, but I don't know a
+    # cross-shell-safe way of doing it -wolever)
+    if echo "$workon_home_dir" | (unset GREP_OPTIONS; command \egrep '([\$~]|//)' >/dev/null)
+    then
+        # This will normalize the path by:
+        # - Removing extra slashes (e.g., when TMPDIR ends in a slash)
+        # - Expanding variables (e.g., $foo)
+        # - Converting ~s to complete paths (e.g., ~/ to /home/brian/ and ~arthur to /home/arthur)
+        workon_home_dir="$(virtualenvwrapper_expandpath "$workon_home_dir")"
+    fi
+
+    echo "$workon_home_dir"
+    return 0
+}
+
+# Check if the WORKON_HOME directory exists,
+# create it if it does not
+# seperate from creating the files in it because this used to just error
+# and maybe other things rely on the dir existing before that happens.
+function virtualenvwrapper_verify_workon_home {
+    RC=0
+    if [ ! -d "$WORKON_HOME/" ]
+    then
+        if [ "$1" != "-q" ]
+        then
+            echo "NOTE: Virtual environments directory $WORKON_HOME does not exist. Creating..." 1>&2
+        fi
+        mkdir -p "$WORKON_HOME"
+        RC=$?
+    fi
+    return $RC
+}
+
+#HOOK_VERBOSE_OPTION="-q"
+
+# Function to wrap mktemp so tests can replace it for error condition
+# testing.
+function virtualenvwrapper_mktemp {
+    command \mktemp "$@"
+}
+
+# Expects 1 argument, the suffix for the new file.
+function virtualenvwrapper_tempfile {
+    # Note: the 'X's must come last
+    typeset suffix=${1:-hook}
+    typeset file
+
+    file="$(virtualenvwrapper_mktemp -t virtualenvwrapper-$suffix-XXXXXXXXXX)"
+    if [ $? -ne 0 ] || [ -z "$file" ] || [ ! -f "$file" ]
+    then
+        echo "ERROR: virtualenvwrapper could not create a temporary file name." 1>&2
+        return 1
+    fi
+    echo $file
+    return 0
+}
+
+# Run the hooks
+function virtualenvwrapper_run_hook {
+    typeset hook_script
+    typeset result
+
+    hook_script="$(virtualenvwrapper_tempfile ${1}-hook)" || return 1
+
+    # Use a subshell to run the python interpreter with hook_loader so
+    # we can change the working directory. This avoids having the
+    # Python 3 interpreter decide that its "prefix" is the virtualenv
+    # if we happen to be inside the virtualenv when we start.
+    ( \
+        virtualenvwrapper_cd "$WORKON_HOME" &&
+        "$VIRTUALENVWRAPPER_PYTHON" -m 'virtualenvwrapper.hook_loader' \
+            $HOOK_VERBOSE_OPTION --script "$hook_script" "$@" \
+    )
+    result=$?
+
+    if [ $result -eq 0 ]
+    then
+        if [ ! -f "$hook_script" ]
+        then
+            echo "ERROR: virtualenvwrapper_run_hook could not find temporary file $hook_script" 1>&2
+            command \rm -f "$hook_script"
+            return 2
+        fi
+        # cat "$hook_script"
+        source "$hook_script"
+    elif [ "${1}" = "initialize" ]
+    then
+        cat - 1>&2 <<EOF 
+virtualenvwrapper.sh: There was a problem running the initialization hooks. 
+
+If Python could not import the module virtualenvwrapper.hook_loader,
+check that virtualenvwrapper has been installed for
+VIRTUALENVWRAPPER_PYTHON=$VIRTUALENVWRAPPER_PYTHON and that PATH is
+set properly.
+EOF
+    fi
+    command \rm -f "$hook_script"
+    return $result
+}
+
+# Set up tab completion.  (Adapted from Arthur Koziel's version at
+# http://arthurkoziel.com/2008/10/11/virtualenvwrapper-bash-completion/)
+function virtualenvwrapper_setup_tab_completion {
+    if [ -n "$BASH" ] ; then
+        _virtualenvs () {
+            local cur="${COMP_WORDS[COMP_CWORD]}"
+            COMPREPLY=( $(compgen -W "`virtualenvwrapper_show_workon_options`" -- ${cur}) )
+        }
+        _cdvirtualenv_complete () {
+            local cur="$2"
+            COMPREPLY=( $(cdvirtualenv && compgen -d -- "${cur}" ) )
+        }
+        _cdsitepackages_complete () {
+            local cur="$2"
+            COMPREPLY=( $(cdsitepackages && compgen -d -- "${cur}" ) )
+        }
+        complete -o nospace -F _cdvirtualenv_complete -S/ cdvirtualenv
+        complete -o nospace -F _cdsitepackages_complete -S/ cdsitepackages
+        complete -o default -o nospace -F _virtualenvs workon
+        complete -o default -o nospace -F _virtualenvs rmvirtualenv
+        complete -o default -o nospace -F _virtualenvs cpvirtualenv
+        complete -o default -o nospace -F _virtualenvs showvirtualenv
+    elif [ -n "$ZSH_VERSION" ] ; then
+        _virtualenvs () {
+            reply=( $(virtualenvwrapper_show_workon_options) )
+        }
+        _cdvirtualenv_complete () {
+            reply=( $(cdvirtualenv && ls -d ${1}*) )
+        }
+        _cdsitepackages_complete () {
+            reply=( $(cdsitepackages && ls -d ${1}*) )
+        }
+        compctl -K _virtualenvs workon rmvirtualenv cpvirtualenv showvirtualenv
+        compctl -K _cdvirtualenv_complete cdvirtualenv
+        compctl -K _cdsitepackages_complete cdsitepackages
+    fi
+}
+
+# Set up virtualenvwrapper properly
+function virtualenvwrapper_initialize {
+    export WORKON_HOME="$(virtualenvwrapper_derive_workon_home)"
+
+    virtualenvwrapper_verify_workon_home -q || return 1
+
+    # Set the location of the hook scripts
+    if [ "$VIRTUALENVWRAPPER_HOOK_DIR" = "" ]
+    then
+        export VIRTUALENVWRAPPER_HOOK_DIR="$WORKON_HOME"
+    fi
+
+    mkdir -p "$VIRTUALENVWRAPPER_HOOK_DIR"
+
+    virtualenvwrapper_run_hook "initialize"
+
+    virtualenvwrapper_setup_tab_completion
+
+    return 0
+}
+
+# Verify that the passed resource is in path and exists
+function virtualenvwrapper_verify_resource {
+    typeset exe_path="$(command \which "$1" | (unset GREP_OPTIONS; command \grep -v "not found"))"
+    if [ "$exe_path" = "" ]
+    then
+        echo "ERROR: virtualenvwrapper could not find $1 in your path" >&2
+        return 1
+    fi
+    if [ ! -e "$exe_path" ]
+    then
+        echo "ERROR: Found $1 in path as \"$exe_path\" but that does not exist" >&2
+        return 1
+    fi
+    return 0
+}
+
+
+# Verify that virtualenv is installed and visible
+function virtualenvwrapper_verify_virtualenv {
+    virtualenvwrapper_verify_resource $VIRTUALENVWRAPPER_VIRTUALENV
+}
+
+
+function virtualenvwrapper_verify_virtualenv_clone {
+    virtualenvwrapper_verify_resource $VIRTUALENVWRAPPER_VIRTUALENV_CLONE
+}
+
+
+# Verify that the requested environment exists
+function virtualenvwrapper_verify_workon_environment {
+    typeset env_name="$1"
+    if [ ! -d "$WORKON_HOME/$env_name" ]
+    then
+       echo "ERROR: Environment '$env_name' does not exist. Create it with 'mkvirtualenv $env_name'." >&2
+       return 1
+    fi
+    return 0
+}
+
+# Verify that the active environment exists
+function virtualenvwrapper_verify_active_environment {
+    if [ ! -n "${VIRTUAL_ENV}" ] || [ ! -d "${VIRTUAL_ENV}" ]
+    then
+        echo "ERROR: no virtualenv active, or active virtualenv is missing" >&2
+        return 1
+    fi
+    return 0
+}
+
+# Help text for mkvirtualenv
+function virtualenvwrapper_mkvirtualenv_help {
+    echo "Usage: mkvirtualenv [-a project_path] [-i package] [-r requirements_file] [virtualenv options] env_name"
+    echo
+    echo " -a project_path"
+    echo
+    echo "    Provide a full path to a project directory to associate with"
+    echo "    the new environment."
+    echo
+    echo " -i package"
+    echo
+    echo "    Install a package after the environment is created."
+    echo "    This option may be repeated."
+    echo
+    echo " -r requirements_file"
+    echo
+    echo "    Provide a pip requirements file to install a base set of packages"
+    echo "    into the new environment."
+    echo;
+    echo 'virtualenv help:';
+    echo;
+    "$VIRTUALENVWRAPPER_VIRTUALENV" $@;
+}
+
+# Create a new environment, in the WORKON_HOME.
+#
+# Usage: mkvirtualenv [options] ENVNAME
+# (where the options are passed directly to virtualenv)
+#
+#:help:mkvirtualenv: Create a new virtualenv in $WORKON_HOME
+function mkvirtualenv {
+    typeset -a in_args
+    typeset -a out_args
+    typeset -i i
+    typeset tst
+    typeset a
+    typeset envname
+    typeset requirements
+    typeset packages
+    typeset interpreter
+    typeset project
+
+    in_args=( "$@" )
+
+    if [ -n "$ZSH_VERSION" ]
+    then
+        i=1
+        tst="-le"
+    else
+        i=0
+        tst="-lt"
+    fi
+    while [ $i $tst $# ]
+    do
+        a="${in_args[$i]}"
+        # echo "arg $i : $a"
+        case "$a" in
+            -a)
+                i=$(( $i + 1 ))
+                project="${in_args[$i]}"
+                if [ ! -d "$project" ]
+                then
+                    echo "Cannot associate project with $project, it is not a directory" 1>&2
+                    return 1
+                fi
+                project="$(virtualenvwrapper_absolutepath ${project})";;
+            -h|--help)
+                virtualenvwrapper_mkvirtualenv_help $a;
+                return;;
+            -i)
+                i=$(( $i + 1 ));
+                packages="$packages ${in_args[$i]}";;
+            -p|--python*)
+                if echo "$a" | grep -q "="
+                then
+                    interpreter="$(echo "$a" | cut -f2 -d=)"
+                else
+                    i=$(( $i + 1 ))
+                    interpreter="${in_args[$i]}"
+                fi;
+                interpreter="$(virtualenvwrapper_absolutepath "$interpreter")";;
+            -r)
+                i=$(( $i + 1 ));
+                requirements="${in_args[$i]}";
+                requirements="$(virtualenvwrapper_expandpath "$requirements")";;
+            *)
+                if [ ${#out_args} -gt 0 ]
+                then
+                    out_args=( "${out_args[@]-}" "$a" )
+                else
+                    out_args=( "$a" )
+                fi;;
+        esac
+        i=$(( $i + 1 ))
+    done
+
+    if [ ! -z $interpreter ]
+    then
+        out_args=( "--python=$interpreter" ${out_args[@]} )
+    fi;
+
+    set -- "${out_args[@]}"
+
+    eval "envname=\$$#"
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_virtualenv || return 1
+    (
+        [ -n "$ZSH_VERSION" ] && setopt SH_WORD_SPLIT
+        virtualenvwrapper_cd "$WORKON_HOME" &&
+        "$VIRTUALENVWRAPPER_VIRTUALENV" $VIRTUALENVWRAPPER_VIRTUALENV_ARGS "$@" &&
+        [ -d "$WORKON_HOME/$envname" ] && \
+            virtualenvwrapper_run_hook "pre_mkvirtualenv" "$envname"
+    )
+    typeset RC=$?
+    [ $RC -ne 0 ] && return $RC
+
+    # If they passed a help option or got an error from virtualenv,
+    # the environment won't exist.  Use that to tell whether
+    # we should switch to the environment and run the hook.
+    [ ! -d "$WORKON_HOME/$envname" ] && return 0
+
+    # If they gave us a project directory, set it up now
+    # so the activate hooks can find it.
+    if [ ! -z "$project" ]
+    then
+        setvirtualenvproject "$WORKON_HOME/$envname" "$project"
+        RC=$?
+        [ $RC -ne 0 ] && return $RC
+    fi
+
+    # Now activate the new environment
+    workon "$envname"
+
+    if [ ! -z "$requirements" ]
+    then
+        pip install -r "$requirements"
+    fi
+
+    for a in $packages
+    do
+        pip install $a
+    done
+
+    virtualenvwrapper_run_hook "post_mkvirtualenv"
+}
+
+#:help:rmvirtualenv: Remove a virtualenv
+function rmvirtualenv {
+    virtualenvwrapper_verify_workon_home || return 1
+    if [ ${#@} = 0 ]
+    then
+        echo "Please specify an enviroment." >&2
+        return 1
+    fi
+
+    # support to remove several environments
+    typeset env_name
+    for env_name in $@
+    do
+        echo "Removing $env_name..."
+        typeset env_dir="$WORKON_HOME/$env_name"
+        if [ "$VIRTUAL_ENV" = "$env_dir" ]
+        then
+            echo "ERROR: You cannot remove the active environment ('$env_name')." >&2
+            echo "Either switch to another environment, or run 'deactivate'." >&2
+            return 1
+        fi
+
+        if [ ! -d "$env_dir" ]; then
+            echo "Did not find environment $env_dir to remove." >&2
+        fi
+
+        # Move out of the current directory to one known to be
+        # safe, in case we are inside the environment somewhere.
+        typeset prior_dir="$(pwd)"
+        virtualenvwrapper_cd "$WORKON_HOME"
+
+        virtualenvwrapper_run_hook "pre_rmvirtualenv" "$env_name"
+        command \rm -rf "$env_dir"
+        virtualenvwrapper_run_hook "post_rmvirtualenv" "$env_name"
+
+        # If the directory we used to be in still exists, move back to it.
+        if [ -d "$prior_dir" ]
+        then
+            virtualenvwrapper_cd "$prior_dir"
+        fi
+    done
+}
+
+# List the available environments.
+function virtualenvwrapper_show_workon_options {
+    virtualenvwrapper_verify_workon_home || return 1
+    # NOTE: DO NOT use ls or cd here because colorized versions spew control 
+    #       characters into the output list.
+    # echo seems a little faster than find, even with -depth 3.
+    #
+    # 1. Look for environments by finding the activate scripts.
+    #    Use a subshell so we can suppress the message printed
+    #    by zsh if the glob pattern fails to match any files.
+    # 2. Strip the WORKON_HOME prefix from each name.
+    # 3. Strip the bindir/activate script suffix.
+    # 4. Format the output to show one name on a line.
+    # 5. Eliminate any lines with * on them because that means there 
+    #    were no envs.
+    (virtualenvwrapper_cd "$WORKON_HOME" && echo */$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate) 2>/dev/null \
+        | command \sed "s|/$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate||g" \
+        | command \fmt -w 1 \
+        | (unset GREP_OPTIONS; command \egrep -v '^\*$') 2>/dev/null
+}
+
+function _lsvirtualenv_usage {
+    echo "lsvirtualenv [-blh]"
+    echo "  -b -- brief mode"
+    echo "  -l -- long mode"
+    echo "  -h -- this help message"
+}
+
+#:help:lsvirtualenv: list virtualenvs
+function lsvirtualenv {
+
+    typeset long_mode=true
+    if command -v "getopts" &> /dev/null
+    then
+        # Use getopts when possible
+        OPTIND=1
+        while getopts ":blh" opt "$@"
+        do
+            case "$opt" in
+                l) long_mode=true;;
+                b) long_mode=false;;
+                h)  _lsvirtualenv_usage;
+                    return 1;;
+                ?) echo "Invalid option: -$OPTARG" >&2;
+                    _lsvirtualenv_usage;
+                    return 1;;
+            esac
+        done
+    else
+        # fallback on getopt for other shell
+        typeset -a args
+        args=($(getopt blh "$@"))
+        if [ $? != 0 ]
+        then
+            _lsvirtualenv_usage
+            return 1
+        fi
+        for opt in $args
+        do
+            case "$opt" in
+                -l) long_mode=true;;
+                -b) long_mode=false;;
+                -h) _lsvirtualenv_usage;
+                    return 1;;
+            esac
+        done
+    fi
+
+    if $long_mode
+    then
+        allvirtualenv showvirtualenv "$env_name"
+    else
+        virtualenvwrapper_show_workon_options
+    fi
+}
+
+#:help:showvirtualenv: show details of a single virtualenv
+function showvirtualenv {
+    typeset env_name="$1"
+    if [ -z "$env_name" ]
+    then
+        if [ -z "$VIRTUAL_ENV" ]
+        then
+            echo "showvirtualenv [env]"
+            return 1
+        fi
+        env_name=$(basename "$VIRTUAL_ENV")
+    fi
+
+    virtualenvwrapper_run_hook "get_env_details" "$env_name"
+    echo
+}
+
+# Show help for workon
+function virtualenvwrapper_workon_help {
+    echo "Usage: workon env_name"
+    echo ""
+    echo "           Deactivate any currently activated virtualenv"
+    echo "           and activate the named environment, triggering"
+    echo "           any hooks in the process."
+    echo ""
+    echo "       workon"
+    echo ""
+    echo "           Print a list of available environments."
+    echo "           (See also lsvirtualenv -b)"
+    echo ""
+    echo "       workon (-h|--help)"
+    echo ""
+    echo "           Show this help message."
+    echo ""
+}
+
+#:help:workon: list or change working virtualenvs
+function workon {
+    in_args=( "$@" )
+
+    if [ -n "$ZSH_VERSION" ]
+    then
+        i=1
+        tst="-le"
+    else
+        i=0
+        tst="-lt"
+    fi
+    while [ $i $tst $# ]
+    do
+        a="${in_args[$i]}"
+        case "$a" in
+            -h|--help)
+                virtualenvwrapper_workon_help;
+                return 0;;
+        esac
+        i=$(( $i + 1 ))
+    done
+
+    typeset env_name="$1"
+    if [ "$env_name" = "" ]
+    then
+        lsvirtualenv -b
+        return 1
+    fi
+
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_workon_environment $env_name || return 1
+
+    activate="$WORKON_HOME/$env_name/$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate"
+    if [ ! -f "$activate" ]
+    then
+        echo "ERROR: Environment '$WORKON_HOME/$env_name' does not contain an activate script." >&2
+        return 1
+    fi
+
+    # Deactivate any current environment "destructively"
+    # before switching so we use our override function,
+    # if it exists.
+    type deactivate >/dev/null 2>&1
+    if [ $? -eq 0 ]
+    then
+        deactivate
+        unset -f deactivate >/dev/null 2>&1
+    fi
+
+    virtualenvwrapper_run_hook "pre_activate" "$env_name"
+
+    source "$activate"
+
+    # Save the deactivate function from virtualenv under a different name
+    virtualenvwrapper_original_deactivate=`typeset -f deactivate | sed 's/deactivate/virtualenv_deactivate/g'`
+    eval "$virtualenvwrapper_original_deactivate"
+    unset -f deactivate >/dev/null 2>&1
+
+    # Replace the deactivate() function with a wrapper.
+    eval 'deactivate () {
+        typeset env_postdeactivate_hook
+        typeset old_env
+
+        # Call the local hook before the global so we can undo
+        # any settings made by the local postactivate first.
+        virtualenvwrapper_run_hook "pre_deactivate"
+
+        env_postdeactivate_hook="$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/postdeactivate"
+        old_env=$(basename "$VIRTUAL_ENV")
+
+        # Call the original function.
+        virtualenv_deactivate $1
+
+        virtualenvwrapper_run_hook "post_deactivate" "$old_env"
+
+        if [ ! "$1" = "nondestructive" ]
+        then
+            # Remove this function
+            unset -f virtualenv_deactivate >/dev/null 2>&1
+            unset -f deactivate >/dev/null 2>&1
+        fi
+
+    }'
+
+    virtualenvwrapper_run_hook "post_activate"
+
+    return 0
+}
+
+
+# Prints the Python version string for the current interpreter.
+function virtualenvwrapper_get_python_version {
+    # Uses the Python from the virtualenv rather than
+    # VIRTUALENVWRAPPER_PYTHON because we're trying to determine the
+    # version installed there so we can build up the path to the
+    # site-packages directory.
+    "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/python" -V 2>&1 | cut -f2 -d' ' | cut -f-2 -d.
+}
+
+# Prints the path to the site-packages directory for the current environment.
+function virtualenvwrapper_get_site_packages_dir {
+    "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/python" -c "import distutils; print(distutils.sysconfig.get_python_lib())"
+}
+
+# Path management for packages outside of the virtual env.
+# Based on a contribution from James Bennett and Jannis Leidel.
+#
+# add2virtualenv directory1 directory2 ...
+#
+# Adds the specified directories to the Python path for the
+# currently-active virtualenv. This will be done by placing the
+# directory names in a path file named
+# "virtualenv_path_extensions.pth" inside the virtualenv's
+# site-packages directory; if this file does not exist, it will be
+# created first.
+#
+#:help:add2virtualenv: add directory to the import path
+function add2virtualenv {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_active_environment || return 1
+
+    site_packages="`virtualenvwrapper_get_site_packages_dir`"
+
+    if [ ! -d "${site_packages}" ]
+    then
+        echo "ERROR: currently-active virtualenv does not appear to have a site-packages directory" >&2
+        return 1
+    fi
+
+    # Prefix with _ to ensure we are loaded as early as possible,
+    # and at least before easy_install.pth.
+    path_file="$site_packages/_virtualenv_path_extensions.pth"
+
+    if [ "$*" = "" ]
+    then
+        echo "Usage: add2virtualenv dir [dir ...]"
+        if [ -f "$path_file" ]
+        then
+            echo
+            echo "Existing paths:"
+            cat "$path_file" | grep -v "^import"
+        fi
+        return 1
+    fi
+
+    remove=0
+    if [ "$1" = "-d" ]
+    then
+        remove=1
+        shift
+    fi
+
+    if [ ! -f "$path_file" ]
+    then
+        echo "import sys; sys.__plen = len(sys.path)" > "$path_file" || return 1
+        echo "import sys; new=sys.path[sys.__plen:]; del sys.path[sys.__plen:]; p=getattr(sys,'__egginsert',0); sys.path[p:p]=new; sys.__egginsert = p+len(new)" >> "$path_file" || return 1
+    fi
+
+    for pydir in "$@"
+    do
+        absolute_path="$(virtualenvwrapper_absolutepath "$pydir")"
+        if [ "$absolute_path" != "$pydir" ]
+        then
+            echo "Warning: Converting \"$pydir\" to \"$absolute_path\"" 1>&2
+        fi
+
+        if [ $remove -eq 1 ]
+        then
+            sed -i.tmp "\:^$absolute_path$: d" "$path_file"
+        else
+            sed -i.tmp '1 a\
+'"$absolute_path"'
+' "$path_file"
+        fi
+        rm -f "${path_file}.tmp"
+    done
+    return 0
+}
+
+# Does a ``cd`` to the site-packages directory of the currently-active
+# virtualenv.
+#:help:cdsitepackages: change to the site-packages directory
+function cdsitepackages {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_active_environment || return 1
+    typeset site_packages="`virtualenvwrapper_get_site_packages_dir`"
+    virtualenvwrapper_cd "$site_packages"/$1
+}
+
+# Does a ``cd`` to the root of the currently-active virtualenv.
+#:help:cdvirtualenv: change to the $VIRTUAL_ENV directory
+function cdvirtualenv {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_active_environment || return 1
+    virtualenvwrapper_cd $VIRTUAL_ENV/$1
+}
+
+# Shows the content of the site-packages directory of the currently-active
+# virtualenv
+#:help:lssitepackages: list contents of the site-packages directory
+function lssitepackages {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_active_environment || return 1
+    typeset site_packages="`virtualenvwrapper_get_site_packages_dir`"
+    ls $@ "$site_packages"
+
+    path_file="$site_packages/_virtualenv_path_extensions.pth"
+    if [ -f "$path_file" ]
+    then
+        echo
+        echo "_virtualenv_path_extensions.pth:"
+        cat "$path_file"
+    fi
+}
+
+# Toggles the currently-active virtualenv between having and not having
+# access to the global site-packages.
+#:help:toggleglobalsitepackages: turn access to global site-packages on/off
+function toggleglobalsitepackages {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_active_environment || return 1
+    typeset no_global_site_packages_file="`virtualenvwrapper_get_site_packages_dir`/../no-global-site-packages.txt"
+    if [ -f $no_global_site_packages_file ]; then
+        rm $no_global_site_packages_file
+        [ "$1" = "-q" ] || echo "Enabled global site-packages"
+    else
+        touch $no_global_site_packages_file
+        [ "$1" = "-q" ] || echo "Disabled global site-packages"
+    fi
+}
+
+#:help:cpvirtualenv: duplicate the named virtualenv to make a new one
+function cpvirtualenv {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_virtualenv_clone || return 1
+
+    typeset src_name="$1"
+    typeset trg_name="$2"
+    typeset src
+    typeset trg 
+
+    # without a source there is nothing to do
+    if [ "$src_name" = "" ]; then
+        echo "Please provide a valid virtualenv to copy."
+        return 1
+    else
+        # see if its already in workon
+        if [ ! -e "$WORKON_HOME/$src_name" ]; then
+            # so its a virtualenv we are importing
+            # make sure we have a full path
+            # and get the name
+            src="$(virtualenvwrapper_expandpath "$src_name")"
+            # final verification
+            if [ ! -e "$src" ]; then
+                echo "Please provide a valid virtualenv to copy."
+                return 1
+            fi
+            src_name="$(basename "$src")"
+        else
+           src="$WORKON_HOME/$src_name"
+        fi
+    fi
+
+    if [ "$trg_name" = "" ]; then
+        # target not given, assume
+        # same as source
+        trg="$WORKON_HOME/$src_name"
+        trg_name="$src_name"
+    else
+        trg="$WORKON_HOME/$trg_name"
+    fi
+    trg="$(virtualenvwrapper_expandpath "$trg")"
+
+    # validate trg does not already exist
+    # catch copying virtualenv in workon home
+    # to workon home
+    if [ -e "$trg" ]; then
+        echo "$trg_name virtualenv already exists."
+        return 1
+    fi
+
+    echo "Copying $src_name as $trg_name..."
+    (
+        [ -n "$ZSH_VERSION" ] && setopt SH_WORD_SPLIT 
+        virtualenvwrapper_cd "$WORKON_HOME" &&
+        "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" "$src" "$trg" 
+        [ -d "$trg" ] && 
+            virtualenvwrapper_run_hook "pre_cpvirtualenv" "$src" "$trg_name" &&
+            virtualenvwrapper_run_hook "pre_mkvirtualenv" "$trg_name"
+    )
+    typeset RC=$?
+    [ $RC -ne 0 ] && return $RC
+
+    [ ! -d "$WORKON_HOME/$trg_name" ] && return 1
+
+    # Now activate the new environment
+    workon "$trg_name"
+
+    virtualenvwrapper_run_hook "post_mkvirtualenv"
+    virtualenvwrapper_run_hook "post_cpvirtualenv"
+}
+
+#
+# virtualenvwrapper project functions
+#
+
+# Verify that the PROJECT_HOME directory exists
+function virtualenvwrapper_verify_project_home {
+    if [ -z "$PROJECT_HOME" ]
+    then
+        echo "ERROR: Set the PROJECT_HOME shell variable to the name of the directory where projects should be created." >&2
+        return 1
+    fi
+    if [ ! -d "$PROJECT_HOME" ]
+    then
+        [ "$1" != "-q" ] && echo "ERROR: Project directory '$PROJECT_HOME' does not exist.  Create it or set PROJECT_HOME to an existing directory." >&2
+        return 1
+    fi
+    return 0
+}
+
+# Given a virtualenv directory and a project directory,
+# set the virtualenv up to be associated with the
+# project
+#:help:setvirtualenvproject: associate a project directory with a virtualenv
+function setvirtualenvproject {
+    typeset venv="$1"
+    typeset prj="$2"
+    if [ -z "$venv" ]
+    then
+        venv="$VIRTUAL_ENV"
+    fi
+    if [ -z "$prj" ]
+    then
+        prj="$(pwd)"
+    else
+        prj=$(virtualenvwrapper_absolutepath "${prj}")
+    fi
+
+    # If what we were given isn't a directory, see if it is under
+    # $WORKON_HOME.
+    if [ ! -d "$venv" ]
+    then
+        venv="$WORKON_HOME/$venv"
+    fi
+    if [ ! -d "$venv" ]
+    then
+        echo "No virtualenv $(basename $venv)" 1>&2
+        return 1
+    fi
+
+    # Make sure we have a valid project setting
+    if [ ! -d "$prj" ]
+    then
+        echo "Cannot associate virtualenv with \"$prj\", it is not a directory" 1>&2
+        return 1
+    fi
+
+    echo "Setting project for $(basename $venv) to $prj"
+    echo "$prj" > "$venv/$VIRTUALENVWRAPPER_PROJECT_FILENAME"
+}
+
+# Show help for mkproject
+function virtualenvwrapper_mkproject_help {
+    echo "Usage: mkproject [-f|--force] [-t template] [virtualenv options] project_name"
+    echo
+    echo "-f, --force    Create the virtualenv even if the project directory"
+    echo "               already exists"
+    echo
+    echo "Multiple templates may be selected.  They are applied in the order"
+    echo "specified on the command line."
+    echo
+    echo "mkvirtualenv help:"
+    echo
+    mkvirtualenv -h
+    echo
+    echo "Available project templates:"
+    echo
+    "$VIRTUALENVWRAPPER_PYTHON" -c 'from virtualenvwrapper.hook_loader import main; main()' -l project.template
+}
+
+#:help:mkproject: create a new project directory and its associated virtualenv
+function mkproject {
+    typeset -a in_args
+    typeset -a out_args
+    typeset -i i
+    typeset tst
+    typeset a
+    typeset t
+    typeset force
+    typeset templates
+
+    in_args=( "$@" )
+    force=0
+
+    if [ -n "$ZSH_VERSION" ]
+    then
+        i=1
+        tst="-le"
+    else
+        i=0
+        tst="-lt"
+    fi
+    while [ $i $tst $# ]
+    do
+        a="${in_args[$i]}"
+        case "$a" in
+            -h|--help)
+                virtualenvwrapper_mkproject_help;
+                return;;
+            -f|--force)
+                force=1;;
+            -t)
+                i=$(( $i + 1 ));
+                templates="$templates ${in_args[$i]}";;
+            *)
+                if [ ${#out_args} -gt 0 ]
+                then
+                    out_args=( "${out_args[@]-}" "$a" )
+                else
+                    out_args=( "$a" )
+                fi;;
+        esac
+        i=$(( $i + 1 ))
+    done
+
+    set -- "${out_args[@]}"
+
+    # echo "templates $templates"
+    # echo "remainder $@"
+    # return 0
+
+    eval "typeset envname=\$$#"
+    virtualenvwrapper_verify_project_home || return 1
+
+    if [ -d "$PROJECT_HOME/$envname" -a $force -eq 0 ]
+    then
+        echo "Project $envname already exists." >&2
+        return 1
+    fi
+
+    mkvirtualenv "$@" || return 1
+
+    virtualenvwrapper_cd "$PROJECT_HOME"
+
+    virtualenvwrapper_run_hook "project.pre_mkproject" $envname
+
+    echo "Creating $PROJECT_HOME/$envname"
+    mkdir -p "$PROJECT_HOME/$envname"
+    setvirtualenvproject "$VIRTUAL_ENV" "$PROJECT_HOME/$envname"
+
+    virtualenvwrapper_cd "$PROJECT_HOME/$envname"
+
+    for t in $templates
+    do
+        echo
+        echo "Applying template $t"
+        # For some reason zsh insists on prefixing the template
+        # names with a space, so strip them out before passing
+        # the value to the hook loader.
+        virtualenvwrapper_run_hook --name $(echo $t | sed 's/^ //') "project.template" "$envname" "$PROJECT_HOME/$envname"
+    done
+
+    virtualenvwrapper_run_hook "project.post_mkproject"
+}
+
+#:help:cdproject: change directory to the active project
+function cdproject {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_active_environment || return 1
+    if [ -f "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_PROJECT_FILENAME" ]
+    then
+        typeset project_dir="$(cat "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_PROJECT_FILENAME")"
+        if [ ! -z "$project_dir" ]
+        then
+            virtualenvwrapper_cd "$project_dir"
+        else
+            echo "Project directory $project_dir does not exist" 1>&2
+            return 1
+        fi
+    else
+        echo "No project set in $VIRTUAL_ENV/$VIRTUALENVWRAPPER_PROJECT_FILENAME" 1>&2
+        return 1
+    fi
+    return 0
+}
+
+#
+# Temporary virtualenv
+#
+# Originally part of virtualenvwrapper.tmpenv plugin
+#
+#:help:mktmpenv: create a temporary virtualenv
+function mktmpenv {
+    typeset tmpenvname
+    typeset RC
+
+    # Generate a unique temporary name
+    tmpenvname=$("$VIRTUALENVWRAPPER_PYTHON" -c 'import uuid,sys; sys.stdout.write(uuid.uuid4()+"\n")' 2>/dev/null)
+    if [ -z "$tmpenvname" ]
+    then
+        # This python does not support uuid
+        tmpenvname=$("$VIRTUALENVWRAPPER_PYTHON" -c 'import random,sys; sys.stdout.write(hex(random.getrandbits(64))[2:-1]+"\n")' 2>/dev/null)
+    fi
+    tmpenvname="tmp-$tmpenvname"
+
+    # Create the environment
+    mkvirtualenv "$@" "$tmpenvname"
+    RC=$?
+    if [ $RC -ne 0 ]
+    then
+        return $RC
+    fi
+
+    # Change working directory
+    cdvirtualenv
+
+    # Create the tmpenv marker file
+    echo "This is a temporary environment. It will be deleted when you run 'deactivate'." | tee "$VIRTUAL_ENV/README.tmpenv"
+
+    # Update the postdeactivate script
+    cat - >> "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/postdeactivate" <<EOF
+if [ -f "$VIRTUAL_ENV/README.tmpenv" ]
+then
+    echo "Removing temporary environment:" $(basename "$VIRTUAL_ENV")
+    rmvirtualenv $(basename "$VIRTUAL_ENV")
+fi
+EOF
+}
+
+#
+# Remove all installed packages from the env
+#
+#:help:wipeenv: remove all packages installed in the current virtualenv
+function wipeenv {
+    virtualenvwrapper_verify_workon_home || return 1
+    virtualenvwrapper_verify_active_environment || return 1
+
+    typeset req_file="$(virtualenvwrapper_tempfile "requirements.txt")"
+    pip freeze | egrep -v '(distribute|wsgiref)' > "$req_file"
+    if [ -n "$(cat "$req_file")" ]
+    then
+        echo "Uninstalling packages:"
+        cat "$req_file"
+        echo
+        pip uninstall -y $(cat "$req_file" | sed 's/>/=/g' | cut -f1 -d=)
+    else
+        echo "Nothing to remove."
+    fi
+    rm -f "$req_file"
+}
+
+#
+# Run a command in each virtualenv
+#
+#:help:allvirtualenv: run a command in all virtualenvs
+function allvirtualenv {
+    virtualenvwrapper_verify_workon_home || return 1
+    typeset d
+
+    virtualenvwrapper_show_workon_options | while read d
+    do
+        [ ! -d "$WORKON_HOME/$d" ] && continue
+        echo "$d"
+        echo "$d" | sed 's/./=/g'
+        # Activate the environment, but not with workon
+        # because we don't want to trigger any hooks.
+        (source "$WORKON_HOME/$d/$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate";
+            virtualenvwrapper_cd "$VIRTUAL_ENV";
+            "$@")
+        echo
+    done
+}
+
+#:help:virtualenvwrapper: show this help message
+function virtualenvwrapper {
+	cat <<EOF
+
+virtualenvwrapper is a set of extensions to Ian Bicking's virtualenv
+tool.  The extensions include wrappers for creating and deleting
+virtual environments and otherwise managing your development workflow,
+making it easier to work on more than one project at a time without
+introducing conflicts in their dependencies.
+
+For more information please refer to the documentation:
+
+    http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html
+
+Commands available:
+
+EOF
+
+    typeset helpmarker="#:help:"
+    cat  "$VIRTUALENVWRAPPER_SCRIPT" \
+        | grep "^$helpmarker" \
+        | sed -e "s/^$helpmarker/  /g" \
+        | sort \
+        | sed -e 's/$/\'$'\n/g'
+}
+
+#
+# Invoke the initialization functions
+#
+virtualenvwrapper_initialize
+# initialize
+# user_scripts
+#
+# Run user-provided scripts
+#
+[ -f "$VIRTUALENVWRAPPER_HOOK_DIR/initialize" ] && source "$VIRTUALENVWRAPPER_HOOK_DIR/initialize"
+#!/bin/bash
+## virtualenvwrapper/initialize
+# This hook is run during the startup phase when loading virtualenvwrapper.sh.
+
+function_exists() {
+    ## function_exists()    -- check whether function 'name' exists
+    declare -f $1 2>&1 > /dev/null
+    return $?
+}
+
+## source the dotfiles_ functions if $__DOTFILES is set
+declare -f 'dotfiles_initialize' 2>&1 > /dev/null \
+    && dotfiles_initialize
+# Aliases
+alias pylint-quick='pylint --reports=n --include-ids=y'
+compdef _pylint-quick pylint-quick='pylint --reports=n --include-ids=y'# Plugin for highligthing file content
+# Plugin highlights file content based on the filename extension.
+# If no highlighting method supported for given extension then it tries 
+# guess it by looking for file content.
+
+alias colorize='colorize_via_pygmentize'
+
+colorize_via_pygmentize() {
+    if [ ! -x $(which pygmentize) ]; then
+        echo package \'pygmentize\' is not installed!
+        exit -1
+    fi
+
+    if [ $# -eq 0 ]; then
+        pygmentize -g $@
+    fi
+
+    for FNAME in $@
+    do
+        filename=$(basename "$FNAME")
+        lexer=`pygmentize -N \"$filename\"`
+        if [ "Z$lexer" != "Ztext" ]; then
+            pygmentize -l $lexer "$FNAME"
+        else
+            pygmentize -g "$FNAME"
+        fi
+    done
+}# TODO: Make this compatible with rvm.
+#       Run sudo gem on the system ruby, not the active ruby.
+alias sgem='sudo gem'
+
+# Find ruby file
+alias rfind='find . -name "*.rb" | xargs grep -n'
+alias gemb="gem build *.gemspec"
+alias gemp="gem push *.gem"
+
+# gemy GEM 0.0.0 = gem yank GEM -v 0.0.0
+function gemy {
+	gem yank $1 -v $2
+}fpath=($rvm_path/scripts/zsh/Completion $fpath)
+
+alias rubies='rvm list rubies'
+alias gemsets='rvm gemset list'
+
+local ruby18='ruby-1.8.7'
+local ruby19='ruby-1.9.3'
+local ruby20='ruby-2.0.0'
+
+function rb18 {
+	if [ -z "$1" ]; then
+		rvm use "$ruby18"
+	else
+		rvm use "$ruby18@$1"
+	fi
+}
+
+_rb18() {compadd `ls -1 $rvm_path/gems | grep "^$ruby18@" | sed -e "s/^$ruby18@//" | awk '{print $1}'`}
+compdef _rb18 rb18
+
+function rb19 {
+	if [ -z "$1" ]; then
+		rvm use "$ruby19"
+	else
+		rvm use "$ruby19@$1"
+	fi
+}
+
+_rb19() {compadd `ls -1 $rvm_path/gems | grep "^$ruby19@" | sed -e "s/^$ruby19@//" | awk '{print $1}'`}
+compdef _rb19 rb19
+
+function rb20 {
+	if [ -z "$1" ]; then
+		rvm use "$ruby20"
+	else
+		rvm use "$ruby20@$1"
+	fi
+}
+
+_rb20() {compadd `ls -1 $rvm_path/gems | grep "^$ruby20@" | sed -e "s/^$ruby20@//" | awk '{print $1}'`}
+compdef _rb20 rb20
+
+function rvm-update {
+	rvm get head
+}
+
+# TODO: Make this usable w/o rvm.
+function gems {
+	local current_ruby=`rvm-prompt i v p`
+	local current_gemset=`rvm-prompt g`
+
+	gem list $@ | sed \
+		-Ee "s/\([0-9, \.]+( .+)?\)/$fg[blue]&$reset_color/g" \
+		-Ee "s|$(echo $rvm_path)|$fg[magenta]\$rvm_path$reset_color|g" \
+		-Ee "s/$current_ruby@global/$fg[yellow]&$reset_color/g" \
+		-Ee "s/$current_ruby$current_gemset$/$fg[green]&$reset_color/g"
+}
+
+function _rvm_completion {
+  source $rvm_path"/scripts/zsh/Completion/_rvm"
+}
+compdef _rvm_completion rvm
+alias be="bundle exec"
+alias bl="bundle list"
+alias bp="bundle package"
+alias bo="bundle open"
+alias bu="bundle update"
+
+# The following is based on https://github.com/gma/bundler-exec
+
+bundled_commands=(annotate berks cap capify cucumber foodcritic foreman guard irb jekyll kitchen knife middleman nanoc puma rackup rainbows rake rspec ruby shotgun spec spin spork strainer tailor taps thin thor unicorn unicorn_rails)
+
+# Remove $UNBUNDLED_COMMANDS from the bundled_commands list
+for cmd in $UNBUNDLED_COMMANDS; do
+  bundled_commands=(${bundled_commands#$cmd});
+done
+
+## Functions
+
+bi() {
+  if _bundler-installed && _within-bundled-project; then
+    local bundler_version=`bundle version | cut -d' ' -f3`
+    if [[ $bundler_version > '1.4.0' || $bundler_version = '1.4.0' ]]; then
+      if [[ "$(uname)" == 'Darwin' ]]
+      then
+        local cores_num="$(sysctl hw.ncpu | awk '{print $2}')"
+      else
+        local cores_num="$(nproc)"
+      fi
+      bundle install --jobs=$cores_num $@
+    else
+      bundle install $@
+    fi
+  else
+    echo "Can't 'bundle install' outside a bundled project"
+  fi
+}
+
+_bundler-installed() {
+  which bundle > /dev/null 2>&1
+}
+
+_within-bundled-project() {
+  local check_dir=$PWD
+  while [ $check_dir != "/" ]; do
+    [ -f "$check_dir/Gemfile" ] && return
+    check_dir="$(dirname $check_dir)"
+  done
+  false
+}
+
+_run-with-bundler() {
+  if _bundler-installed && _within-bundled-project; then
+    bundle exec $@
+  else
+    $@
+  fi
+}
+
+## Main program
+for cmd in $bundled_commands; do
+  eval "function unbundled_$cmd () { $cmd \$@ }"
+  eval "function bundled_$cmd () { _run-with-bundler $cmd \$@}"
+  alias $cmd=bundled_$cmd
+
+  if which _$cmd > /dev/null 2>&1; then
+        compdef _$cmd bundled_$cmd=$cmd
+  fi
+done
+
+# Thank you Jim for everything you contributed to the Ruby and open source community 
+# over the years. We will miss you dearly.
+alias jimweirich="rake"  
+
+alias rake="noglob rake" # allows square brackts for rake task invocation
+alias brake='noglob bundle exec rake' # execute the bundled rake gem
+alias srake='noglob sudo rake' # noglob must come before sudo
+alias sbrake='noglob sudo bundle exec rake' # altogether now ... 
+
+
+_rake_refresh () {
+  if [ -f .rake_tasks ]; then
+    rm .rake_tasks
+  fi
+  echo "Generating .rake_tasks..." > /dev/stderr
+  _rake_generate
+  cat .rake_tasks
+}
+
+_rake_does_task_list_need_generating () {
+  if [ ! -f .rake_tasks ]; then return 0;
+  else
+    if [[ $(uname -s) == 'Darwin' ]]; then
+      accurate=$(stat -f%m .rake_tasks)
+      changed=$(stat -f%m Rakefile)
+    else
+      accurate=$(stat -c%Y .rake_tasks)
+      changed=$(stat -c%Y Rakefile)
+    fi
+    return $(expr $accurate '>=' $changed)
+  fi
+}
+
+_rake_generate () {
+  rake --silent --tasks | cut -d " " -f 2 > .rake_tasks
+}
+
+_rake () {
+  if [ -f Rakefile ]; then
+    if _rake_does_task_list_need_generating; then
+      echo "\nGenerating .rake_tasks..." > /dev/stderr
+      _rake_generate
+    fi
+    compadd `cat .rake_tasks`
+  fi
+}
+
+compdef _rake rake
+alias rake_refresh='_rake_refresh'
+_ant_does_target_list_need_generating () {
+  [ ! -f .ant_targets ] && return 0;
+  [ .ant_targets -nt build.xml ] && return 0;
+  return 1;
+}
+
+_ant () {
+  if [ -f build.xml ]; then
+    if _ant_does_target_list_need_generating; then
+     sed -n '/<target/s/<target.*name="\([^"]*\).*$/\1/p' build.xml > .ant_targets
+    fi
+    compadd `cat .ant_targets`
+  fi
+}
+
+compdef _ant ant
+# mvn-color based on https://gist.github.com/1027800
+export BOLD=`tput bold`
+export UNDERLINE_ON=`tput smul`
+export UNDERLINE_OFF=`tput rmul`
+export TEXT_BLACK=`tput setaf 0`
+export TEXT_RED=`tput setaf 1`
+export TEXT_GREEN=`tput setaf 2`
+export TEXT_YELLOW=`tput setaf 3`
+export TEXT_BLUE=`tput setaf 4`
+export TEXT_MAGENTA=`tput setaf 5`
+export TEXT_CYAN=`tput setaf 6`
+export TEXT_WHITE=`tput setaf 7`
+export BACKGROUND_BLACK=`tput setab 0`
+export BACKGROUND_RED=`tput setab 1`
+export BACKGROUND_GREEN=`tput setab 2`
+export BACKGROUND_YELLOW=`tput setab 3`
+export BACKGROUND_BLUE=`tput setab 4`
+export BACKGROUND_MAGENTA=`tput setab 5`
+export BACKGROUND_CYAN=`tput setab 6`
+export BACKGROUND_WHITE=`tput setab 7`
+export RESET_FORMATTING=`tput sgr0`
+
+ 
+# Wrapper function for Maven's mvn command.
+mvn-color()
+{
+  (
+  # Filter mvn output using sed. Before filtering set the locale to C, so invalid characters won't break some sed implementations
+  unset LANG
+  LC_CTYPE=C mvn $@ | sed -e "s/\(\[INFO\]\)\(.*\)/${TEXT_BLUE}${BOLD}\1${RESET_FORMATTING}\2/g" \
+               -e "s/\(\[INFO\]\ BUILD SUCCESSFUL\)/${BOLD}${TEXT_GREEN}\1${RESET_FORMATTING}/g" \
+               -e "s/\(\[WARNING\]\)\(.*\)/${BOLD}${TEXT_YELLOW}\1${RESET_FORMATTING}\2/g" \
+               -e "s/\(\[ERROR\]\)\(.*\)/${BOLD}${TEXT_RED}\1${RESET_FORMATTING}\2/g" \
+               -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/${BOLD}${TEXT_GREEN}Tests run: \1${RESET_FORMATTING}, Failures: ${BOLD}${TEXT_RED}\2${RESET_FORMATTING}, Errors: ${BOLD}${TEXT_RED}\3${RESET_FORMATTING}, Skipped: ${BOLD}${TEXT_YELLOW}\4${RESET_FORMATTING}/g"
+ 
+  # Make sure formatting is reset
+  echo -ne ${RESET_FORMATTING}
+  )
+}
+ 
+# Override the mvn command with the colorized one.
+#alias mvn="mvn-color"
+
+# aliases
+alias mvncie='mvn clean install eclipse:eclipse'
+alias mvnci='mvn clean install'
+alias mvne='mvn eclipse:eclipse'
+alias mvnce='mvn clean eclipse:clean eclipse:eclipse'
+alias mvnd='mvn deploy'
+alias mvnp='mvn package'
+alias mvnc='mvn clean'
+alias mvncom='mvn compile'
+alias mvnt='mvn test'
+alias mvnag='mvn archetype:generate'
+alias mvn-updates='mvn versions:display-dependency-updates'
+alias mvntc7='mvn tomcat7:run' 
+alias mvntc='mvn tomcat:run'
+alias mvnjetty='mvn jetty:run'
+
+
+function listMavenCompletions { 
+     reply=(
+        # common lifecycle
+        clean process-resources compile process-test-resources test-compile test package verify install deploy site
+        
+        # common plugins
+        deploy failsafe install site surefire checkstyle javadoc jxr pmd ant antrun archetype assembly dependency enforcer gpg help release repository source eclipse idea jetty cargo jboss tomcat tomcat6 tomcat7 exec versions war ear ejb android scm buildnumber nexus repository sonar license hibernate3 liquibase flyway gwt
+       
+        # deploy
+        deploy:deploy-file
+        # failsafe
+        failsafe:integration-test failsafe:verify
+        # install
+        install:install-file
+        # site
+        site:site site:deploy site:run site:stage site:stage-deploy
+        # surefire
+        surefire:test
+            
+        # checkstyle
+        checkstyle:checkstyle checkstyle:check
+        # javadoc
+        javadoc:javadoc javadoc:jar javadoc:aggregate
+        # jxr
+        jxr:jxr
+        # pmd
+        pmd:pmd pmd:cpd pmd:check pmd:cpd-check
+
+        # ant
+        ant:ant ant:clean
+        # antrun
+        antrun:run
+        # archetype
+        archetype:generate archetype:create-from-project archetype:crawl
+        # assembly
+        assembly:single assembly:assembly
+        # dependency
+        dependency:analyze dependency:analyze-dep-mgt dependency:analyze-only dependency:analyze-report dependency:build-classpath dependency:copy dependency:copy-dependencies dependency:get dependency:go-offline dependency:list dependency:purge-local-repository dependency:resolve dependency:resolve-plugins dependency:sources dependency:tree dependency:unpack dependency:unpack-dependencies
+        # enforcer
+        enforcer:enforce
+        # gpg
+        gpg:sign gpg:sign-and-deploy-file
+        # help
+        help:active-profiles help:all-profiles help:describe help:effective-pom help:effective-settings help:evaluate help:expressions help:system
+        # release
+        release:clean release:prepare release:rollback release:perform release:stage release:branch release:update-versions
+        # repository
+        repository:bundle-create repository:bundle-pack
+        # source
+        source:aggregate source:jar source:jar-no-fork
+            
+        # eclipse
+        eclipse:clean eclipse:eclipse
+        # idea
+        idea:clean idea:idea
+            
+        # jetty
+        jetty:run jetty:run-exploded
+        # cargo
+        cargo:start cargo:run cargo:stop cargo:deploy cargo:undeploy cargo:help
+        # jboss
+        jboss:start jboss:stop jboss:deploy jboss:undeploy jboss:redeploy
+        # tomcat
+        tomcat:start tomcat:stop tomcat:deploy tomcat:undeploy tomcat:redeploy
+        # tomcat6
+        tomcat6:run tomcat6:run-war tomcat6:run-war-only tomcat6:stop tomcat6:deploy tomcat6:undeploy
+        # tomcat7
+        tomcat7:run tomcat7:run-war tomcat7:run-war-only tomcat7:deploy
+        # exec
+        exec:exec exec:java
+        # versions
+        versions:display-dependency-updates versions:display-plugin-updates versions:display-property-updates versions:update-parent versions:update-properties versions:update-child-modules versions:lock-snapshots versions:unlock-snapshots versions:resolve-ranges versions:set versions:use-releases versions:use-next-releases versions:use-latest-releases versions:use-next-snapshots versions:use-latest-snapshots versions:use-next-versions versions:use-latest-versions versions:commit versions:revert
+        # scm
+        scm:add scm:checkin scm:checkout scm:update scm:status
+        # buildnumber
+        buildnumber:create buildnumber:create-timestamp buildnumber:help buildnumber:hgchangeset
+
+        # war
+        war:war war:exploded war:inplace war:manifest
+        # ear
+        ear:ear ear:generate-application-xml
+        # ejb
+        ejb:ejb
+        # android
+        android:apk android:apklib android:deploy android:deploy-dependencies android:dex android:emulator-start android:emulator-stop android:emulator-stop-all android:generate-sources android:help android:instrument android:manifest-update android:pull android:push android:redeploy android:run android:undeploy android:unpack android:version-update android:zipalign android:devices
+        # nexus
+        nexus:staging-list nexus:staging-close nexus:staging-drop nexus:staging-release nexus:staging-build-promotion nexus:staging-profiles-list nexus:settings-download
+        # repository
+        repository:bundle-create repository:bundle-pack repository:help
+
+        # sonar
+        sonar:sonar
+        # license
+        license:format license:check
+        # hibernate3
+        hibernate3:hbm2ddl hibernate3:help
+        # liquibase
+        liquibase:changelogSync liquibase:changelogSyncSQL liquibase:clearCheckSums liquibase:dbDoc liquibase:diff liquibase:dropAll liquibase:help liquibase:migrate liquibase:listLocks liquibase:migrateSQL liquibase:releaseLocks liquibase:rollback liquibase:rollbackSQL liquibase:status liquibase:tag liquibase:update liquibase:updateSQL liquibase:updateTestingRollback
+        # flyway
+        flyway:clean flyway:history flyway:init flyway:migrate flyway:status flyway:validate
+        # gwt
+        gwt:browser gwt:clean gwt:compile gwt:compile-report gwt:css gwt:debug gwt:eclipse gwt:eclipseTest gwt:generateAsync gwt:help gwt:i18n gwt:mergewebxml gwt:resources gwt:run gwt:sdkInstall gwt:source-jar gwt:soyc gwt:test
+
+        # options
+        -Dmaven.test.skip=true -DskipTests -Dmaven.surefire.debug -DenableCiProfile -Dpmd.skip=true -Dcheckstyle.skip=true -Dtycho.mode=maven
+
+        # arguments
+        -am -amd -B -C -c -cpu -D -e -emp -ep -f -fae -ff -fn -gs -h -l -N -npr -npu -nsu -o -P -pl -q -rf -s -T -t -U -up -V -v -X
+
+        cli:execute cli:execute-phase 
+        archetype:generate generate-sources 
+        cobertura:cobertura
+        -Dtest= `if [ -d ./src/test/java ] ; then find ./src/test/java -type f -name '*.java' | grep -v svn | sed 's?.*/\([^/]*\)\..*?-Dtest=\1?' ; fi`
+    ); 
+}
+
+compctl -K listMavenCompletions mvn
+alias bi="bower install"
+alias bl="bower list"
+alias bs="bower search"
+
+_bower_installed_packages () {
+    bower_package_list=$(bower ls --no-color 2>/dev/null| awk 'NR>3{print p}{p=$0}'| cut -d ' ' -f 2|sed 's/#.*//')
+}
+_bower ()
+{
+    local -a _1st_arguments _no_color _dopts _save_dev _force_lastest _production
+    local expl
+    typeset -A opt_args
+
+    _no_color=('--no-color[Do not print colors (available in all commands)]')
+
+    _dopts=(
+        '(--save)--save[Save installed packages into the project"s bower.json dependencies]'
+        '(--force)--force[Force fetching remote resources even if a local copy exists on disk]'
+    )
+
+    _save_dev=('(--save-dev)--save-dev[Save installed packages into the project"s bower.json devDependencies]')
+
+    _force_lastest=('(--force-latest)--force-latest[Force latest version on conflict]')
+
+    _production=('(--production)--production[Do not install project devDependencies]')
+
+    _1st_arguments=(
+    'cache-clean:Clean the Bower cache, or the specified package caches' \
+    'help:Display help information about Bower' \
+    'info:Version info and description of a particular package' \
+    'init:Interactively create a bower.json file' \
+    'install:Install a package locally' \
+    'link:Symlink a package folder' \
+    'lookup:Look up a package URL by name' \
+    'register:Register a package' \
+    'search:Search for a package by name' \
+    'uninstall:Remove a package' \
+    'update:Update a package' \
+    {ls,list}:'[List all installed packages]'
+    )
+    _arguments \
+    $_no_color \
+    '*:: :->subcmds' && return 0
+
+    if (( CURRENT == 1 )); then
+        _describe -t commands "bower subcommand" _1st_arguments
+        return
+    fi
+
+    case "$words[1]" in
+        install)
+        _arguments \
+        $_dopts \
+        $_save_dev \
+        $_force_lastest \
+        $_no_color \
+        $_production
+        ;;
+        update)
+        _arguments \
+        $_dopts \
+        $_no_color \
+        $_force_lastest
+        _bower_installed_packages
+        compadd "$@" $(echo $bower_package_list)
+        ;;
+        uninstall)
+        _arguments \
+        $_no_color \
+        $_dopts
+        _bower_installed_packages
+        compadd "$@" $(echo $bower_package_list)
+        ;;
+        *)
+        $_no_color \
+        ;;
+    esac
+
+}
+
+compdef _bower bower
+# if using GNU screen, let the zsh tell screen what the title and hardstatus
+# of the tab window should be.
+if [[ "$TERM" == screen* ]]; then
+  if [[ $_GET_PATH == '' ]]; then
+    _GET_PATH='echo $PWD | sed "s/^\/Users\//~/;s/^\/home\//~/;s/^~$USER/~/"'
+  fi
+  if [[ $_GET_HOST == '' ]]; then
+    _GET_HOST='echo $HOST | sed "s/\..*//"'
+  fi
+
+  # use the current user as the prefix of the current tab title 
+  TAB_TITLE_PREFIX='"`'$_GET_HOST'`:`'$_GET_PATH' | sed "s:..*/::"`$PROMPT_CHAR"'
+  # when at the shell prompt, show a truncated version of the current path (with
+  # standard ~ replacement) as the rest of the title.
+  TAB_TITLE_PROMPT='$SHELL:t'
+  # when running a command, show the title of the command as the rest of the
+  # title (truncate to drop the path to the command)
+  TAB_TITLE_EXEC='$cmd[1]:t'
+
+  # use the current path (with standard ~ replacement) in square brackets as the
+  # prefix of the tab window hardstatus.
+  TAB_HARDSTATUS_PREFIX='"[`'$_GET_PATH'`] "'
+  # when at the shell prompt, use the shell name (truncated to remove the path to
+  # the shell) as the rest of the title
+  TAB_HARDSTATUS_PROMPT='$SHELL:t'
+  # when running a command, show the command name and arguments as the rest of
+  # the title
+  TAB_HARDSTATUS_EXEC='$cmd'
+
+  # tell GNU screen what the tab window title ($1) and the hardstatus($2) should be
+  function screen_set()
+  {
+    # set the tab window title (%t) for screen
+    print -nR $'\033k'$1$'\033'\\\
+
+    # set hardstatus of tab window (%h) for screen
+    print -nR $'\033]0;'$2$'\a'
+  }
+  # called by zsh before executing a command
+  function preexec()
+  {
+    local -a cmd; cmd=(${(z)1}) # the command string
+    eval "tab_title=$TAB_TITLE_PREFIX:$TAB_TITLE_EXEC"
+    eval "tab_hardstatus=$TAB_HARDSTATUS_PREFIX:$TAB_HARDSTATUS_EXEC"
+    screen_set $tab_title $tab_hardstatus
+  }
+  # called by zsh before showing the prompt
+  function precmd()
+  {
+    eval "tab_title=$TAB_TITLE_PREFIX:$TAB_TITLE_PROMPT"
+    eval "tab_hardstatus=$TAB_HARDSTATUS_PREFIX:$TAB_HARDSTATUS_PROMPT"
+    screen_set $tab_title $tab_hardstatus
+  }
+fi#
+# Aliases
+#
+
+alias ta='tmux attach -t'
+alias ts='tmux new-session -s'
+alias tl='tmux list-sessions'
+
+# Only run if tmux is actually installed
+if which tmux &> /dev/null
+	then
+	# Configuration variables
+	#
+	# Automatically start tmux
+	[[ -n "$ZSH_TMUX_AUTOSTART" ]] || ZSH_TMUX_AUTOSTART=false
+	# Only autostart once. If set to false, tmux will attempt to
+	# autostart every time your zsh configs are reloaded.
+	[[ -n "$ZSH_TMUX_AUTOSTART_ONCE" ]] || ZSH_TMUX_AUTOSTART_ONCE=true
+	# Automatically connect to a previous session if it exists
+	[[ -n "$ZSH_TMUX_AUTOCONNECT" ]] || ZSH_TMUX_AUTOCONNECT=true
+	# Automatically close the terminal when tmux exits
+	[[ -n "$ZSH_TMUX_AUTOQUIT" ]] || ZSH_TMUX_AUTOQUIT=$ZSH_TMUX_AUTOSTART
+	# Set term to screen or screen-256color based on current terminal support
+	[[ -n "$ZSH_TMUX_FIXTERM" ]] || ZSH_TMUX_FIXTERM=true
+	# Set '-CC' option for iTerm2 tmux integration
+	[[ -n "$ZSH_TMUX_ITERM2" ]] || ZSH_TMUX_ITERM2=false
+	# The TERM to use for non-256 color terminals.
+	# Tmux states this should be screen, but you may need to change it on
+	# systems without the proper terminfo
+	[[ -n "$ZSH_TMUX_FIXTERM_WITHOUT_256COLOR" ]] || ZSH_TMUX_FIXTERM_WITHOUT_256COLOR="screen"
+	# The TERM to use for 256 color terminals.
+	# Tmux states this should be screen-256color, but you may need to change it on
+	# systems without the proper terminfo
+	[[ -n "$ZSH_TMUX_FIXTERM_WITH_256COLOR" ]] || ZSH_TMUX_FIXTERM_WITH_256COLOR="screen-256color"
+
+
+	# Get the absolute path to the current directory
+	local zsh_tmux_plugin_path="$(cd "$(dirname "$0")" && pwd)"
+
+	# Determine if the terminal supports 256 colors
+	if [[ `tput colors` == "256" ]]
+	then
+		export ZSH_TMUX_TERM=$ZSH_TMUX_FIXTERM_WITH_256COLOR
+	else
+		export ZSH_TMUX_TERM=$ZSH_TMUX_FIXTERM_WITHOUT_256COLOR
+	fi
+
+	# Set the correct local config file to use.
+    if [[ "$ZSH_TMUX_ITERM2" == "false" ]] && [[ -f $HOME/.tmux.conf || -h $HOME/.tmux.conf ]]
+	then
+		#use this when they have a ~/.tmux.conf
+		export _ZSH_TMUX_FIXED_CONFIG="$zsh_tmux_plugin_path/tmux.extra.conf"
+	else
+		#use this when they don't have a ~/.tmux.conf
+		export _ZSH_TMUX_FIXED_CONFIG="$zsh_tmux_plugin_path/tmux.only.conf"
+	fi
+
+	# Wrapper function for tmux.
+	function _zsh_tmux_plugin_run()
+	{
+		# We have other arguments, just run them
+		if [[ -n "$@" ]]
+		then
+			\tmux $@
+		# Try to connect to an existing session.
+		elif [[ "$ZSH_TMUX_AUTOCONNECT" == "true" ]]
+		then
+			\tmux `[[ "$ZSH_TMUX_ITERM2" == "true" ]] && echo '-CC '` attach || \tmux `[[ "$ZSH_TMUX_ITERM2" == "true" ]] && echo '-CC '` `[[ "$ZSH_TMUX_FIXTERM" == "true" ]] && echo '-f '$_ZSH_TMUX_FIXED_CONFIG` new-session
+			[[ "$ZSH_TMUX_AUTOQUIT" == "true" ]] && exit
+		# Just run tmux, fixing the TERM variable if requested.
+		else
+			\tmux `[[ "$ZSH_TMUX_ITERM2" == "true" ]] && echo '-CC '` `[[ "$ZSH_TMUX_FIXTERM" == "true" ]] && echo '-f '$_ZSH_TMUX_FIXED_CONFIG`
+			[[ "$ZSH_TMUX_AUTOQUIT" == "true" ]] && exit
+		fi
+	}
+
+	# Use the completions for tmux for our function
+	compdef _tmux _zsh_tmux_plugin_run
+
+	# Alias tmux to our wrapper function.
+	alias tmux=_zsh_tmux_plugin_run
+
+	# Autostart if not already in tmux and enabled.
+	if [[ ! -n "$TMUX" && "$ZSH_TMUX_AUTOSTART" == "true" ]]
+	then
+		# Actually don't autostart if we already did and multiple autostarts are disabled.
+		if [[ "$ZSH_TMUX_AUTOSTART_ONCE" == "false" || "$ZSH_TMUX_AUTOSTARTED" != "true" ]]
+		then
+			export ZSH_TMUX_AUTOSTARTED=true
+			_zsh_tmux_plugin_run
+		fi
+	fi
+else
+	print "zsh tmux plugin: tmux not found. Please install tmux before using this plugin."
+fi
+################################################################################
+# Author: Pete Clark
+# Email: pete[dot]clark[at]gmail[dot]com
+# Version: 0.1 (05/24/2011)
+# License: WTFPL<http://sam.zoy.org/wtfpl/>
+#
+# This oh-my-zsh plugin adds smart tab completion for
+# TaskWarrior<http://taskwarrior.org/>. It uses the zsh tab completion
+# script (_task) distributed with TaskWarrior for the completion definitions.
+#
+# Typing task[tabtab] will give you a list of current tasks, task 66[tabtab]
+# gives a list of available modifications for that task, etc.
+################################################################################
+
+zstyle ':completion:*:*:task:*' verbose yes
+zstyle ':completion:*:*:task:*:descriptions' format '%U%B%d%b%u'
+
+zstyle ':completion:*:*:task:*' group-name ''
+
+alias t=task
+compdef _task t=task
+# ------------------------------------------------------------------------------
+#          FILE:  extract.plugin.zsh
+#   DESCRIPTION:  oh-my-zsh plugin file.
+#        AUTHOR:  Sorin Ionescu (sorin.ionescu@gmail.com)
+#       VERSION:  1.0.1
+# ------------------------------------------------------------------------------
+
+
+function extract() {
+  local remove_archive
+  local success
+  local file_name
+  local extract_dir
+
+  if (( $# == 0 )); then
+    echo "Usage: extract [-option] [file ...]"
+    echo
+    echo Options:
+    echo "    -r, --remove    Remove archive."
+    echo
+    echo "Report bugs to <sorin.ionescu@gmail.com>."
+  fi
+
+  remove_archive=1
+  if [[ "$1" == "-r" ]] || [[ "$1" == "--remove" ]]; then
+    remove_archive=0 
+    shift
+  fi
+
+  while (( $# > 0 )); do
+    if [[ ! -f "$1" ]]; then
+      echo "extract: '$1' is not a valid file" 1>&2
+      shift
+      continue
+    fi
+
+    success=0
+    file_name="$( basename "$1" )"
+    extract_dir="$( echo "$file_name" | sed "s/\.${1##*.}//g" )"
+    case "$1" in
+      (*.tar.gz|*.tgz) tar xvzf "$1" ;;
+      (*.tar.bz2|*.tbz|*.tbz2) tar xvjf "$1" ;;
+      (*.tar.xz|*.txz) tar --xz --help &> /dev/null \
+        && tar --xz -xvf "$1" \
+        || xzcat "$1" | tar xvf - ;;
+      (*.tar.zma|*.tlz) tar --lzma --help &> /dev/null \
+        && tar --lzma -xvf "$1" \
+        || lzcat "$1" | tar xvf - ;;
+      (*.tar) tar xvf "$1" ;;
+      (*.gz) gunzip "$1" ;;
+      (*.bz2) bunzip2 "$1" ;;
+      (*.xz) unxz "$1" ;;
+      (*.lzma) unlzma "$1" ;;
+      (*.Z) uncompress "$1" ;;
+      (*.zip|*.war|*.jar) unzip "$1" -d $extract_dir ;;
+      (*.rar) unrar x -ad "$1" ;;
+      (*.7z) 7za x "$1" ;;
+      (*.deb)
+        mkdir -p "$extract_dir/control"
+        mkdir -p "$extract_dir/data"
+        cd "$extract_dir"; ar vx "../${1}" > /dev/null
+        cd control; tar xzvf ../control.tar.gz
+        cd ../data; tar xzvf ../data.tar.gz
+        cd ..; rm *.tar.gz debian-binary
+        cd ..
+      ;;
+      (*) 
+        echo "extract: '$1' cannot be extracted" 1>&2
+        success=1 
+      ;; 
+    esac
+
+    (( success = $success > 0 ? $success : $? ))
+    (( $success == 0 )) && (( $remove_archive == 0 )) && rm "$1"
+    shift
+  done
+}
+
+alias x=extract
+
+# ------------------------------------------------------------------------------
+#          FILE:  osx.plugin.zsh
+#   DESCRIPTION:  oh-my-zsh plugin file.
+#        AUTHOR:  Sorin Ionescu (sorin.ionescu@gmail.com)
+#       VERSION:  1.1.0
+# ------------------------------------------------------------------------------
+
+function tab() {
+  local command="cd \\\"$PWD\\\"; clear; "
+  (( $# > 0 )) && command="${command}; $*"
+
+  the_app=$(
+    osascript 2>/dev/null <<EOF
+      tell application "System Events"
+        name of first item of (every process whose frontmost is true)
+      end tell
+EOF
+  )
+
+  [[ "$the_app" == 'Terminal' ]] && {
+    osascript 2>/dev/null <<EOF
+      tell application "System Events"
+        tell process "Terminal" to keystroke "t" using command down
+        tell application "Terminal" to do script "${command}" in front window
+      end tell
+EOF
+  }
+
+  [[ "$the_app" == 'iTerm' ]] && {
+    osascript 2>/dev/null <<EOF
+      tell application "iTerm"
+        set current_terminal to current terminal
+        tell current_terminal
+          launch session "Default Session"
+          set current_session to current session
+          tell current_session
+            write text "${command}"
+          end tell
+        end tell
+      end tell
+EOF
+  }
+}
+
+function vsplit_tab() {
+  local command="cd \\\"$PWD\\\""
+  (( $# > 0 )) && command="${command}; $*"
+
+  the_app=$(
+    osascript 2>/dev/null <<EOF
+      tell application "System Events"
+        name of first item of (every process whose frontmost is true)
+      end tell
+EOF
+  )
+
+  [[ "$the_app" == 'iTerm' ]] && {
+    osascript 2>/dev/null <<EOF
+      tell application "iTerm" to activate
+
+      tell application "System Events"
+        tell process "iTerm"
+          tell menu item "Split Vertically With Current Profile" of menu "Shell" of menu bar item "Shell" of menu bar 1
+            click
+          end tell
+        end tell
+        keystroke "${command}; clear;"
+        keystroke return
+      end tell
+EOF
+  }
+}
+
+function split_tab() {
+  local command="cd \\\"$PWD\\\""
+  (( $# > 0 )) && command="${command}; $*"
+
+  the_app=$(
+    osascript 2>/dev/null <<EOF
+      tell application "System Events"
+        name of first item of (every process whose frontmost is true)
+      end tell
+EOF
+  )
+
+  [[ "$the_app" == 'iTerm' ]] && {
+    osascript 2>/dev/null <<EOF
+      tell application "iTerm" to activate
+
+      tell application "System Events"
+        tell process "iTerm"
+          tell menu item "Split Horizontally With Current Profile" of menu "Shell" of menu bar item "Shell" of menu bar 1
+            click
+          end tell
+        end tell
+        keystroke "${command}; clear;"
+        keystroke return
+      end tell
+EOF
+  }
+}
+
+function pfd() {
+  osascript 2>/dev/null <<EOF
+    tell application "Finder"
+      return POSIX path of (target of window 1 as alias)
+    end tell
+EOF
+}
+
+function pfs() {
+  osascript 2>/dev/null <<EOF
+    set output to ""
+    tell application "Finder" to set the_selection to selection
+    set item_count to count the_selection
+    repeat with item_index from 1 to count the_selection
+      if item_index is less than item_count then set the_delimiter to "\n"
+      if item_index is item_count then set the_delimiter to ""
+      set output to output & ((item item_index of the_selection as alias)'s POSIX path) & the_delimiter
+    end repeat
+EOF
+}
+
+function cdf() {
+  cd "$(pfd)"
+}
+
+function pushdf() {
+  pushd "$(pfd)"
+}
+
+function quick-look() {
+  (( $# > 0 )) && qlmanage -p $* &>/dev/null &
+}
+
+function man-preview() {
+  man -t "$@" | open -f -a Preview
+}
+
+function trash() {
+  local trash_dir="${HOME}/.Trash"
+  local temp_ifs=$IFS
+  IFS=$'\n'
+  for item in "$@"; do
+    if [[ -e "$item" ]]; then
+      item_name="$(basename $item)"
+      if [[ -e "${trash_dir}/${item_name}" ]]; then
+        mv -f "$item" "${trash_dir}/${item_name} $(date "+%H-%M-%S")"
+      else
+        mv -f "$item" "${trash_dir}/"
+      fi
+    fi
+  done
+  IFS=$temp_ifs
+}
+
+function vncviewer() {
+  open vnc://$@
+}
+
+# iTunes control function
+function itunes() {
+	local opt=$1
+	shift
+	case "$opt" in
+		launch|play|pause|stop|rewind|resume|quit)
+			;;
+		mute)
+			opt="set mute to true"
+			;;
+		unmute)
+			opt="set mute to false"
+			;;
+		next|previous)
+			opt="$opt track"
+			;;
+		""|-h|--help)
+			echo "Usage: itunes <option>"
+			echo "option:"
+			echo "\tlaunch|play|pause|stop|rewind|resume|quit"
+			echo "\tmute|unmute\tcontrol volume set"
+			echo "\tnext|previous\tplay next or previous track"
+			echo "\thelp\tshow this message and exit"
+			return 0
+			;;
+		*)
+			print "Unknown option: $opt"
+			return 1
+			;;
+	esac
+	osascript -e "tell application \"iTunes\" to $opt"
+}
+
+# ------------------------------------------------------------------------------
+#          FILE:  compleat.plugin.zsh
+#   DESCRIPTION:  oh-my-zsh plugin file.
+#        AUTHOR:  Sorin Ionescu (sorin.ionescu@gmail.com)
+#       VERSION:  1.0.0
+# ------------------------------------------------------------------------------
+
+if (( ${+commands[compleat]} )); then
+  local prefix="${commands[compleat]:h:h}"
+  local setup="${prefix}/share/compleat-1.0/compleat_setup" 
+
+  if [[ -f "$setup" ]]; then
+    if ! bashcompinit >/dev/null 2>&1; then
+      autoload -U bashcompinit
+      bashcompinit -i
+    fi
+
+    source "$setup" 
+  fi
+fi
+
+# Load all of your custom configurations from custom/
+for config_file ($ZSH_CUSTOM/*.zsh(N)); do
+  source $config_file
+done
+# Add yourself some shortcuts to projects you often work on
+# Example:
+#
+# brainstormr=/Users/robbyrussell/Projects/development/planetargon/brainstormr
+#unset config_file
+
+# Load the theme
+if [ "$ZSH_THEME" = "random" ]; then
+  themes=($ZSH/themes/*zsh-theme)
+  N=${#themes[@]}
+  ((N=(RANDOM%N)+1))
+  RANDOM_THEME=${themes[$N]}
+  source "$RANDOM_THEME"
+  echo "[oh-my-zsh] Random theme '$RANDOM_THEME' loaded..."
+else
+  if [ ! "$ZSH_THEME" = ""  ]; then
+    if [ -f "$ZSH_CUSTOM/$ZSH_THEME.zsh-theme" ]; then
+      source "$ZSH_CUSTOM/$ZSH_THEME.zsh-theme"
+    elif [ -f "$ZSH_CUSTOM/themes/$ZSH_THEME.zsh-theme" ]; then
+      source "$ZSH_CUSTOM/themes/$ZSH_THEME.zsh-theme"
+    else
+      source "$ZSH/themes/$ZSH_THEME.zsh-theme"
+    fi
+  fi
+fi
+function prompt_char {
+	if [ $UID -eq 0 ]; then echo "#"; else echo $; fi
+}
+
+PROMPT='%(!.%{$fg_bold[red]%}.%{$fg_bold[green]%}%n@)%m %{$fg_bold[blue]%}%(!.%1~.%~) $(git_prompt_info)$(hg_prompt_info)$(virtualenv_prompt_info)
+%_$(prompt_char)%{$reset_color%} '
+
+ZSH_THEME_GIT_PROMPT_PREFIX="("
+ZSH_THEME_GIT_PROMPT_SUFFIX=") "
+
+ZSH_THEME_HG_PROMPT_PREFIX="("
+ZSH_THEME_HG_PROMPT_SUFFIX=" "
+ZSH_THEME_HG_PROMPT_DIRTY="*) "
+ZSH_THEME_HG_PROMPT_CLEAN=") "
+
+# User configuration
+
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+#
+source $__DOTFILES/etc/zsh/00-zshrc.before.sh
+
+
+#  __DOTFILES -- local dotfiles repository clone
+export __DOTFILES=${__DOTFILES:-"${HOME}/-dotfiles"}
+
+if [ -d /Library ]; then
+    export __IS_MAC='true'
+else:
+    export __IS_LINUX='true'
+fi
+
+dotfiles_zsh_reload() {
+    echo "# Reloading zsh configuration..."
+    _zsh_conf=$__DOTFILES/etc/zsh
+  #source ~/.zshrc
+    #source 00-zshrc.before.sh
+
+      ## lib: zsh functions
+      source $_zsh_conf/01-zshrc.lib.sh
+
+      ## bash: read bash config with bash_source function
+      source $_zsh_conf/05-zshrc.bashrc.sh
+
+    ## after:
+    source $_zsh_conf/99-zshrc.after.sh
+}
+
+dotfiles_zsh_reload
+# Reloading zsh configuration...
+
+funcdir=${__DOTFILES}/etc/zsh/functions/
+
+source $funcdir/bash_source.sh
+#!/bin/zsh
+# bash_source -- load bash scripts with zsh options
+
+emulate -R zsh -c 'autoload -Uz is-at-least'
+if is-at-least 5.0.0; then
+	emulate -R sh -o kshglob +o shglob +o ignorebraces -o bash_rematch -c '
+		function bash_source {
+			source "$@"
+		}
+	'
+else
+	emulate -R sh -c '
+		function bash_source {
+			# Do note that functions about to be defined will not be set
+			# with these options when run
+			setopt kshglob noshglob braceexpand bash_rematch
+			source "$@"
+		}
+	'
+fi
+
+# usage::
+#   bash_source "$@"
+
+#source $funcdir/lesspipe.sh
+
+# list all path key components leading to file
+lspath () {
+        if [ "$1" = "${1##/}" ]
+        then
+	    pathlist=(/ ${(s:/:)PWD} ${(s:/:)1})
+	else
+	    pathlist=(/ ${(s:/:)1})
+	fi
+        allpaths=()
+        filepath=$pathlist[0]
+        shift pathlist
+        for i in $pathlist[@]
+        do
+                allpaths=($allpaths[@] $filepath)
+                filepath="${filepath%/}/$i"
+        done
+        allpaths=($allpaths[@] $filepath)
+        ls -ldZ "$allpaths[@]"
+        if [ -n "$2" ]; then
+            getfacl "$allpaths[@]"
+        fi
+}
+
+# requires:
+#  bash_source function
+#  $__DOTFILES
+
+bash_source $__DOTFILES/etc/bash/00-bashrc.before.sh
+#
+# dotfiles_reload()
+# TERM='xterm'
+TERM='screen'
+_configure_bash_completion:14: command not found: shopt
+/etc/bash_completion:59: command not found: shopt
+/etc/bash_completion:65: command not found: complete
+/etc/bash_completion:72: command not found: complete
+/etc/bash_completion:73: command not found: complete
+/etc/bash_completion:74: command not found: complete
+/etc/bash_completion:76: command not found: complete
+/etc/bash_completion:77: command not found: complete
+/etc/bash_completion:79: command not found: complete
+/etc/bash_completion:80: command not found: complete
+/etc/bash_completion:81: command not found: complete
+/etc/bash_completion:82: command not found: complete
+/etc/bash_completion:83: command not found: complete
+/etc/bash_completion:84: command not found: complete
+/etc/bash_completion:85: command not found: complete
+/etc/bash_completion:86: command not found: complete
+/etc/bash_completion:87: command not found: complete
+/etc/bash_completion:88: command not found: complete
+/etc/bash_completion:89: command not found: complete
+/etc/bash_completion:90: command not found: complete
+/etc/bash_completion:91: command not found: complete
+/etc/bash_completion:92: command not found: complete
+/etc/bash_completion:93: command not found: complete
+/etc/bash_completion:94: command not found: complete
+/etc/bash_completion:95: command not found: complete
+/etc/bash_completion:96: command not found: complete
+/etc/bash_completion:97: command not found: complete
+/etc/bash_completion:98: command not found: complete
+/etc/bash_completion:99: command not found: complete
+/etc/bash_completion:100: command not found: complete
+/etc/bash_completion:101: command not found: complete
+/etc/bash_completion:102: command not found: complete
+/etc/bash_completion:103: command not found: complete
+/etc/bash_completion:104: command not found: complete
+/etc/bash_completion:105: command not found: complete
+/etc/bash_completion:106: command not found: complete
+/etc/bash_completion:107: command not found: complete
+/etc/bash_completion:108: command not found: complete
+/etc/bash_completion:110: command not found: complete
+/etc/bash_completion:111: command not found: complete
+/etc/bash_completion:112: command not found: complete
+/etc/bash_completion:113: command not found: complete
+/etc/bash_completion:114: command not found: complete
+/etc/bash_completion:115: command not found: complete
+/etc/bash_completion:116: command not found: complete
+/etc/bash_completion:117: command not found: complete
+/etc/bash_completion:118: command not found: complete
+/etc/bash_completion:119: command not found: complete
+/etc/bash_completion:120: command not found: complete
+/etc/bash_completion:121: command not found: complete
+/etc/bash_completion:122: command not found: complete
+/etc/bash_completion:123: command not found: complete
+/etc/bash_completion:124: command not found: complete
+/etc/bash_completion:125: command not found: complete
+/etc/bash_completion:126: command not found: complete
+/etc/bash_completion:132: command not found: complete
+/etc/bash_completion:135: command not found: complete
+/etc/bash_completion:138: command not found: complete
+/etc/bash_completion:141: command not found: complete
+/etc/bash_completion:144: command not found: complete
+/etc/bash_completion:147: command not found: complete
+/etc/bash_completion:150: command not found: complete
+/etc/bash_completion:153: command not found: complete
+/etc/bash_completion:156: command not found: complete
+/etc/bash_completion:159: command not found: complete
+/etc/bash_completion:162: command not found: complete
+/etc/bash_completion:246: parse error near `]]'
+/home/wturner/-dotfiles/etc/bash/07-bashrc.python.sh:90: command not found: complete
+/home/wturner/-dotfiles/etc/bash/07-bashrc.python.sh:97: command not found: complete
+/home/wturner/-dotfiles/etc/bash/10-bashrc.venv.sh:78: command not found: complete
+/home/wturner/-dotfiles/etc/bash/10-bashrc.venv.sh:79: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:6: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:6: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:24: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:37: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:37: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:55: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:55: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:55: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:78: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:78: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:78: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:101: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:101: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:101: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:124: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:124: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:142: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:142: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:160: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:160: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:178: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:178: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:196: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:196: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:214: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:214: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:232: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:245: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:258: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:258: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:276: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:289: command not found: complete
+/home/wturner/-dotfiles/etc/venv/venv.sh:289: command not found: complete
+/home/wturner/-dotfiles/etc/bash/20-bashrc.editor.sh:93: command not found: complete
+/home/wturner/-dotfiles/etc/bash/20-bashrc.editor.sh:94: command not found: complete
+_configure_lesspipe:4: command not found: lesspipe.sh
+_usrlog_set_HIST:fc:20: event not found: -a
+_usrlog_set_HISTFILE:fc:5: event not found: -a
+_usrlog_set_HISTFILE:fc:16: event not found: -c
+]0;(dotfiles) #testing  wturner@:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles# dotfiles_status()
+HOSTNAME=''
+USER='wturner'
+__WRK='/home/wturner/-wrk'
+PROJECT_HOME='/home/wturner/-wrk'
+WORKON_HOME='/home/wturner/-wrk/-ve27'
+VIRTUAL_ENV_NAME='dotfiles'
+VIRTUAL_ENV='/home/wturner/-wrk/-ve27/dotfiles'
+_SRC='/home/wturner/-wrk/-ve27/dotfiles/src'
+_APP='dotfiles'
+_WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
+_USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
+_TERM_ID='#testing'
+PATH='/home/wturner/bin:/usr/local/bin:/srv/wrk/.ve/dotfiles/bin:/home/wturner/.local/bin:/home/wturner/-dotfiles/scripts:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games'
+__DOTFILES='/home/wturner/-dotfiles'
+#
+# 99-zsh.after.sh
+
+
+
+# <Home> / <End>
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
