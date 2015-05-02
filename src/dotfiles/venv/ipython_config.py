@@ -1193,13 +1193,13 @@ def build_conda_env(env=None, **kwargs):
     # get default env paths
     confs = [
         dict(
-            env_prefix="CONDA",
+            env_prefix="__py",
             env_suffix="27",
             env_root_prefix="-conda",
             env_home_prefix="-ce",
         ),
         dict(
-            env_prefix="CONDA",
+            env_prefix="__py",
             env_suffix="34",
             env_root_prefix="-conda",
             env_home_prefix="-ce",
@@ -1213,8 +1213,8 @@ def build_conda_env(env=None, **kwargs):
         # -ce27
         env_home = "{env_home_prefix}{env_suffix}".format(**conf)
 
-        root_key = "{env_name}_ROOT".format(env_name=env_name)
-        home_key = "{env_name}_HOME".format(env_name=env_name)
+        root_key = "CONDA_ROOT{env_name}".format(env_name=env_name)
+        home_key = "CONDA_ENVS_PATH{env_name}".format(env_name=env_name)
         env[root_key] = (kwargs.get(root_key, env.get(root_key)) or
                          joinpath(env['__WRK'], env_root))
         env[home_key] = (kwargs.get(home_key, env.get(home_key)) or
