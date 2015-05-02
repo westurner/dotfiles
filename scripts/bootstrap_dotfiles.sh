@@ -41,7 +41,7 @@ __DOTFILES_SYMLINK="${HOME}/-dotfiles"  # ~/-dotfiles
 
 ## dotfiles repository
 DOTFILES_REPO_DEST_PATH="${_WRD}"
-DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/vim"
+DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/.vim"
 
 DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
 #DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
@@ -300,8 +300,8 @@ symlink_home_dotfiles() {
 }
 
 symlink_etc_vim() {
-    backup_and_symlink vim/vimrc ${HOME}/.vimrc
-    backup_and_symlink vim/ ${HOME}/.vim
+    backup_and_symlink .vim/vimrc ${HOME}/.vimrc
+    backup_and_symlink .vim/ ${HOME}/.vim
 }
 
 symlink_bashrc() {
