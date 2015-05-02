@@ -13,7 +13,7 @@ Installation
 --------------
 .. code-block:: bash
 
-    __DOTFILES="~/.dotfiles"
+    __DOTFILES="${HOME}/-dotfiles"
     ipython_profile="profile_default"
     ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \
         ~/.ipython/${ipython_profile}/startup/ipython_magics.py
@@ -39,8 +39,8 @@ class VenvMagics(Magics):
             line (str): path to append to envvar
         """
         prefix = os.environ.get(envvar, "")
-        path = os.path.join(prefix, line)
-        return self.shell.magic('cd %s' % path)
+        path = os.path.join(prefix, line.lstrip('/\\'))
+        return self.shell.magic('cd %s' % repr(unicode(path))[1:])
 
     @line_magic
     def cdhome(self, line):

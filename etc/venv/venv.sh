@@ -305,71 +305,91 @@ complete -o default -o nospace -F _cd__WWW_complete cdww
 
 ';
 eval 'cdls () {
-    set | grep "^cd.*()" | cut -f1 -d" " #$@
+    set | grep "^cd.*()" | cut -f1 -d" " #${@}
 }';
-alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
-eval 'editw () {
-    ${_EDIT_} $@
+alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'" ;
+eval 'ew () {
+    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
 }';
-alias gvimw='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent'
+eval '_ew__complete () {
+    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}';
+complete -o default -o nospace -F _ew__complete ew ;
+alias gvimw='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent' ;
 eval 'ipskey () {
-    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # $@
+    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # ${@}
 }';
 eval 'ipnb () {
-    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload $@
+    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload ${@}
 }';
 eval 'ipqt () {
-    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 $@
+    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 ${@}
 }';
 eval 'grinv () {
-    grin --follow $@ "${VIRTUAL_ENV}"
+    grin --follow ${@} "${VIRTUAL_ENV}"
 }';
 eval 'grindv () {
-    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+    grind --follow ${@} --dirs "${VIRTUAL_ENV}"
 }';
 eval 'grins () {
-    grin --follow $@ "${_SRC}"
+    grin --follow ${@} "${_SRC}"
 }';
 eval 'grinds () {
-    grind --follow $@ --dirs "${_SRC}"
+    grind --follow ${@} --dirs "${_SRC}"
 }';
-alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
-alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
+alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)' ;
+alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)' ;
 eval 'nosew () {
-    (cd "${_WRD}" && nosetests $@)
+    (cd "${_WRD}" && nosetests ${@})
+}';
+eval 'lsw () {
+    (cd "${_WRD}"; ls $(test -n ""${__IS_MAC}"" && echo "-G" || echo "--color=auto") ${@})
+}';
+eval '_lsw__complete () {
+    local cur=${2};
+            COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}';
+complete -o default -o nospace -F _lsw__complete lsw ;
+alias findw='find "${_WRD}"' ;
+eval 'grepw () {
+    grep ${@} "${_WRD}"
 }';
 eval 'grinw () {
-    grin --follow $@ "${_WRD}"
+    grin --follow ${@} "${_WRD}"
 }';
 eval 'grindw () {
-    grind --follow $@ --dirs "${_WRD}"
+    grind --follow ${@} --dirs "${_WRD}"
 }';
-alias hgwv='hg view -R "${_WRD}"'
-alias hgwl='hg -R "${_WRD}" log'
+alias hgwv='hg view -R "${_WRD}"' ;
+alias hgwl='hg -R "${_WRD}" log' ;
 eval 'editcfg () {
-    "${_EDITCFG_}" $@
+    "${_EDITCFG_}" ${@}
 }';
-alias servew='(cd "${_WRD}" && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")'
-alias shellw='(cd "${_WRD}" && "${_BIN}"/pshell "${_CFG}")'
-eval 'e () {
-    ${_EDIT_} $@
+alias servew='(cd "${_WRD}" && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")' ;
+alias shellw='(cd "${_WRD}" && "${_BIN}"/pshell "${_CFG}")' ;
+eval 'ew () {
+    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
 }';
+eval '_ew__complete () {
+    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}';
+complete -o default -o nospace -F _ew__complete ew ;
 eval 'editp () {
-    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} $@
+    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} ${@}
 }';
 eval 'makewrd () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }';
 eval 'makew () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }';
 eval 'mw () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }';
 eval 'makewepy () {
-    _logfile="${_LOG}/make.log.py"; (makew $@ 2>&1 | tee $_logfile) && e $_logfile
+    _logfile="${_LOG}/make.log.py"; (makew ${@} 2>&1 | tee $_logfile) && e $_logfile
 }';
-alias ssv='supervisord -c "${_SVCFG}"'
-alias sv='supervisorctl -c "${_SVCFG}"'
-alias svt='sv tail -f'
-alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
+alias ssv='supervisord -c "${_SVCFG}"' ;
+alias sv='supervisorctl -c "${_SVCFG}"' ;
+alias svt='sv tail -f' ;
+alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev' ;

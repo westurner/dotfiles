@@ -88,7 +88,7 @@ _editwrd_complete() {
     #echo $2
     #echo $@
     local cur="$2";
-    COMPREPLY=($(cd $_WRD && ls $_WRD${1:+"/${1}*"} 2>/dev/null && compgen -d -- "${cur}" ))
+    COMPREPLY=($(cd $_WRD && compgen -f -- "${cur}" ))
 }
 complete -o default -o nospace -F _editwrd_complete editwrd
 complete -o default -o nospace -F _editwrd_complete ew

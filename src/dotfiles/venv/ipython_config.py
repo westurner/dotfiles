@@ -305,6 +305,10 @@ class VenvJSONEncoder(json.JSONEncoder):
         if isinstance(obj, OrderedDict):
             # TODO: why is this necessary?
             return dict(obj)
+        if hasattr(obj, 'to_bash_function'):
+            return obj.to_bash_function()
+        if hasattr(obj, 'to_shell_str'):
+            return obj.to_shell_str()
         if isinstance(obj, CdAlias):
             # return dict(type="cdalias",value=(obj.name, obj.pathvar))
             return obj.pathvar
@@ -348,15 +352,15 @@ class CmdAlias(object):
         """
         return self.cmdstr
 
-    def to_vim_function(self):
-        """
-        Generate a vim function
+    #def to_vim_function(self):
+    #    """
+    #    Generate a vim function
 
-        Raises:
-            NotImplemented: See IpyAlias.to_vim_function
-            str: self.cmdstr (AS-IS)
-        """
-        raise NotImplemented
+    #    Raises:
+    #        NotImplemented: See IpyAlias.to_vim_function
+    #        str: self.cmdstr (AS-IS)
+    #    """
+    #    raise NotImplemented
 
     __str__ = to_shell_str
     __repr__ = to_shell_str
@@ -374,7 +378,7 @@ class IpyAlias(CmdAlias):
         * TODO: IPython docs
     """
 
-    def __init__(self, cmdstr, name=None):
+    def __init__(self, cmdstr, name=None, complfuncstr=None):
         """
         Args:
             cmdstr (str): if cmdstr contains ``%s`` or ``%l``,
@@ -385,6 +389,7 @@ class IpyAlias(CmdAlias):
         """
         self.name = name
         self.cmdstr = cmdstr
+        self.complfuncstr = complfuncstr
 
     def to_shell_str(self, name=None):
         """
@@ -413,14 +418,25 @@ class IpyAlias(CmdAlias):
             while '%s' in _alias:
                 count += 1
                 _alias = _alias.replace('%s', '${%d}' % count, 1)
-            _aliasmacro = (
-                'eval \'{cmdname} () {{\n    {aliasfunc}\n}}\';'.format(
-                    cmdname=name,
-                    aliasfunc=_alias))
-            return _aliasmacro.replace('%l', '$@')
+            _aliasmacro_tmpl = (
+                u'eval \'{funcname} () {{\n    {funcstr}\n}}\';')
+            _aliasmacro = _aliasmacro_tmpl.format(
+                funcname=name,
+                funcstr=_alias)
+            _aliasmacro = _aliasmacro.replace('%l', '${@}')
+            if self.complfuncstr:
+                complfuncname = '_%s__complete' % name
+                _aliasmacro = u'%s\n%s\ncomplete -o default -o nospace -F %s %s ;' % (
+                    _aliasmacro,
+                    _aliasmacro_tmpl.format(
+                        funcname=complfuncname,
+                        funcstr=self.complfuncstr.strip()),
+                    complfuncname,
+                    name)
+            return _aliasmacro
 
         # TODO: repr(alias) / shell_quote / mangling #XXX
-        return 'alias {}={}'.format(name, repr(alias))
+        return 'alias {}={} ;'.format(name, repr(alias))
 
 
 class CdAlias(CmdAlias):
@@ -486,7 +502,7 @@ Installation
 --------------
 .. code-block:: bash
 
-    __DOTFILES="~/.dotfiles"
+    __DOTFILES="${HOME}/-dotfiles"
     ipython_profile="profile_default"
     ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \\
         ~/.ipython/${ipython_profile}/startup/ipython_magics.py
@@ -512,8 +528,8 @@ class VenvMagics(Magics):
             line (str): path to append to envvar
         """
         prefix = os.environ.get(envvar, "")
-        path = os.path.join(prefix, line)
-        return self.shell.magic('cd %s' % path)''')
+        path = os.path.join(prefix, line.lstrip('/\\\\'))
+        return self.shell.magic('cd %s' % repr(unicode(path))[1:])''')
 
     IPYTHON_MAGIC_METHOD_TEMPLATE = (
         '''
@@ -1555,6 +1571,20 @@ def build_user_aliases_env(env=None,
         aliases['nosew'] = '(cd {_WRD} && nosetests %l)'.format(
             _WRD=shell_varquote('_WRD'))
 
+        aliases['lsw'] = IpyAlias(
+            '(cd {_WRD}; ls $(test -n "{__IS_MAC}" && echo "-G" || echo "--color=auto") %l)'.format(
+                _WRD=shell_varquote('_WRD'),
+                __IS_MAC=shell_varquote('__IS_MAC')),
+            name='lsw',
+            complfuncstr="""local cur=${2};
+            COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));"""
+        )
+
+        aliases['findw'] = 'find {_WRD}'.format(
+            _WRD=shell_varquote('_WRD'))
+        aliases['grepw'] = 'grep %l {_WRD}'.format(
+            _WRD=shell_varquote('_WRD'))
+
         aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
             _WRD=shell_varquote('_WRD'))
         aliases['grindw'] = 'grind --follow %l --dirs {_WRD}'.format(
@@ -1565,7 +1595,7 @@ def build_user_aliases_env(env=None,
         aliases['hgwl'] = "hg -R {_WRD} log".format(
             _WRD=shell_varquote('_WRD'))
     else:
-        self.log.error('app working directory %r not found' % _WRD)
+        log.error('app working directory %r not found' % _WRD)
 
     _CFG = joinpath(env['_ETC'], 'development.ini')
     if os.path.exists(_CFG) or dont_reflect:
@@ -1593,7 +1623,15 @@ def build_user_aliases_env(env=None,
         logging.error('app configuration %r not found' % _CFG)
         env['_CFG'] = ""
 
-    aliases['editw'] = "${_EDIT_} %l"
+    aliases['editw'] = IpyAlias(
+        # "(cd ${_WRD}; ${_EDIT_} %l)",
+        ("""(for arg in %l; do echo $arg; done) | """
+        '''el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"'''),
+        name='ew',
+        complfuncstr=(
+    """local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));"""
+    ))
+
     aliases['e'] = aliases['editw']
     env['PROJECT_FILES'] = " ".join(
         str(x) for x in PROJECT_FILES)
@@ -2101,7 +2139,14 @@ class Env(object):
         return OrderedDict(self.iteritems())
 
     def to_json(self, *args, **kwargs):
-        return json.dumps(self.to_dict(), *args, cls=VenvJSONEncoder, **kwargs)
+        _dict = self.to_dict()
+        try:
+            jsonstr = json.dumps(_dict, *args, cls=VenvJSONEncoder, **kwargs)
+            return jsonstr
+        except Exception as e:
+            print('\n\n\n\n\n')
+            print(pprint.pformat(_dict))
+            raise
 
 
 def shell_quote(var):
