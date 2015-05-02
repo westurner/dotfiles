@@ -29,7 +29,7 @@ PATH_prepend ()
     if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
         return 0
     fi
-    export PATH=$1:$PATH
+    export PATH=${1}:${PATH}
 }
 
 PATH_remove() {
@@ -41,18 +41,18 @@ PATH_remove() {
       | grep -v "^${_path}$" \
       | tr '\n' ':')
     export PATH=${_PATH}
-    echo $PATH
 }
 
 PATH_contains() {
-  local _path=${1}
-  local _output=$(echo "${PATH}" | tr ':' '\n' \
-    | grep "^${_path}$")
-  if [ -z "${output}" ]; then
-    return 1
-  else
-    echo "${output}"
-  fi
+    # PATH_contains() -- test whether $PATH contains $1
+    local _path=${1}
+    local _output=$(echo "${PATH}" | tr ':' '\n' \
+      | grep "^${_path}$")
+    if [ -z "${output}" ]; then
+        return 1
+    else
+        echo "${output}"
+    fi
 }
 
 lightpath() {
