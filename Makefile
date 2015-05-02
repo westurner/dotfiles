@@ -295,7 +295,8 @@ pip_install_requirements_testing:
 
 pip_install_requirements_docs.log:
 	# Install package documentation tools
-	$(PIP_INSTALL) -r ./requirements/requirements-docs.txt
+	#$(PIP_INSTALL) -r ./requirements/requirements-docs.txt
+	$(PIP_INSTALL) -r ./docs/requirements.txt
 	touch pip_install_requirements_docs.log
 
 pip_install_requirements_suggests:
