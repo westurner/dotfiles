@@ -1,67 +1,4 @@
-# System-wide .bashrc file for interactive bash(1) shells.
-
-# To enable the settings / commands in this file for login shells as well,
-# this file has to be sourced in /etc/profile.
-
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, overwrite the one in /etc/profile)
-PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-
-# Commented out, don't overwrite xterm -T "title" -n "icontitle" by default.
-# If this is an xterm set the title to user@host:dir
-#case "$TERM" in
-#xterm*|rxvt*)
-#    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-#    ;;
-#*)
-#    ;;
-#esac
-
-# enable bash completion in interactive shells
-#if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-#    . /etc/bash_completion
-#fi
-
-# sudo hint
-if [ ! -e "$HOME/.sudo_as_admin_successful" ] && [ ! -e "$HOME/.hushlogin" ] ; then
-    case " $(groups) " in *\ admin\ *)
-    if [ -x /usr/bin/sudo ]; then
-	cat <<-EOF
-	To run a command as administrator (user "root"), use "sudo <command>".
-	See "man sudo_root" for details.
-	
-	EOF
-    fi
-    esac
-fi
-
-# if the command-not-found package is installed, use it
-if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then
-	function command_not_found_handle {
-	        # check because c-n-f could've been removed in the meantime
-                if [ -x /usr/lib/command-not-found ]; then
-		   /usr/bin/python /usr/lib/command-not-found -- "$1"
-                   return $?
-                elif [ -x /usr/share/command-not-found/command-not-found ]; then
-		   /usr/bin/python /usr/share/command-not-found/command-not-found -- "$1"
-                   return $?
-		else
-		   printf "%s: command not found\n" "$1" >&2
-		   return 127
-		fi
-	}
-fi
+bash: no job control in this shell
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -88,11 +25,6 @@ shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-SHELL=/bin/sh lesspipe)"
-SHELL=/bin/sh lesspipe)
-SHELL=/bin/sh lesspipe
-export LESSOPEN="| /usr/bin/lesspipe %s";
-export LESSCLOSE="/usr/bin/lesspipe %s %s";
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -140,62 +72,10 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-dircolors -b)"
-dircolors -b)
-dircolors -b
-LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:';
-export LS_COLORS
 
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
 fi
-#
-#   bash_completion - programmable completion functions for bash 3.2+
-#
-#   Copyright © 2006-2008, Ian Macdonald <ian@caliban.org>
-#             © 2009-2011, Bash Completion Maintainers
-#                     <bash-completion-devel@lists.alioth.debian.org>
-#
-#   This program is free software; you can redistribute it and/or modify
-#   it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation; either version 2, or (at your option)
-#   any later version.
-#
-#   This program is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#   along with this program; if not, write to the Free Software Foundation,
-#   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-#
-#   The latest version of this software can be obtained here:
-#
-#   http://bash-completion.alioth.debian.org/
-#
-#   RELEASE: 1.3
-
-if [[ $- == *v* ]]; then
-    BASH_COMPLETION_ORIGINAL_V_VALUE="-v"
-else
-    BASH_COMPLETION_ORIGINAL_V_VALUE="+v"
-fi
-
-if [[ -n $BASH_COMPLETION_DEBUG ]]; then
-    set -v
-else
-    set +v
-fi
-unset BASH_COMPLETION_ORIGINAL_V_VALUE
-
-# Local variables:
-# mode: shell-script
-# sh-basic-offset: 4
-# sh-indent-comment: t
-# indent-tabs-mode: nil
-# End:
-# ex: ts=4 sw=4 et filetype=sh
 
 #
 ### load the dotfiles
@@ -572,8 +452,55 @@ killjob() {
     # killjob()         -- kill %$1
     kill %${1}
 }
-uname)
 uname
+echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
+
+### bashrc.darwin.sh
+
+# softwareupdate                -- install OSX updates
+#  | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+#  softwareupdate -l        # --list
+#  softwareupdate -i --all  # --install --all
+#  softwareupdate -i -r     # --install --recommended
+
+if [ -z "${__IS_MAC}" ]; then
+    return
+fi
+# if __IS_MAC:
+
+export _FINDERBIN="/System/Library/CoreServices/Finder.app"
+
+finder () {
+    # finder()    -- open Finder.app
+    if [ -z "$@" ]; then
+        open "${_FINDERBIN}"
+    else
+        open -R $@
+    fi
+}
+
+finder-killall() {
+    # finder-killall()  -- close all Finder.app instances
+    killall Finder $_FINDERBIN;
+}
+
+finder-restart() {
+    # finder-restart()  -- close all and start Finder.app
+    finder-killall
+    finder
+}
+
+finder-show-hidden () {
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+    defaults write com.apple.finder AppleShowAllFiles YES
+    finder-killall
+}
+
+finder-hide-hidden () {
+    # finder-show-hidden()    -- show .hidden files in Finder.app
+    defaults write com.apple.finder AppleShowAllFiles YES
+    finder-killall
+}
 
 ### bashrc.TERM.sh
 
@@ -624,8 +551,6 @@ configure_TERM_CLICOLOR() {
 
     # configure_TERM when sourced
 configure_TERM
-echo $TERMCAP | grep -q screen)"
-echo $TERMCAP | grep -q screen)
 echo $TERMCAP | grep -q screen
 
 ### bashrc.dotfiles.sh
@@ -947,6 +872,8 @@ _configure_bash_completion() {
     fi
 }
 _configure_bash_completion
+which brew 2>/dev/null || false
+brew --prefix
 #
 #   bash_completion - programmable completion functions for bash 3.2+
 #
@@ -1360,53 +1287,13 @@ _setup_google_cloud() {
     # __PROJECTSRC -- path to local project settings script
 export __PROJECTSRC="${__WRK}/.projectsrc.sh"
 [ -f $__PROJECTSRC ] && source $__PROJECTSRC
-## Local  projects
 
-
-
-tw () {
-    we techw
-    alias grinw='grinw -d _build,deliverables -e .pdf,.js -i self'
-    docs="$VIRTUAL_ENV/src/techw"
-    editor="ggvim --servername techw -p"
-
-    cd $_WRD
-    _editp \
-        $_WRD/index.rst \
-        $_WRD/report.rst \
-        $_WRD/slides.rst \
-        $_WRD/references.bib \
-        $_WRD/research_plan.rst \
-        $_WRD/research_log.rst \
-        $_WRD/glossary.bib 
-
-    if [ -n "$1" ]; then
-        if [ -n "$2" ]; then
-            cd $_WRD
-            make auto_html
-            # make latex
-            # make latexpdf
-        fi
-        wopen http://code/docs
-        wopen http://code/docs/docutils
-        wopen http://code/docs/sphinx
-    fi
+__setup_dotfiles() {
+    # __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
+    we dotfiles
+    cdw
+    e $_USRLOG && editp
 }
-
-provis () {
-    we provis
-    alias spp='sudo puppetd -tv'
-}
-
-EGGPROXY_URL="http://code:38383"
-
-eggproxy () {
-    we eggproxy
-    wopen $EGGPROXY_URL
-    ${_EDIT_} ${VIRTUAL_ENV}
-}
-
-
 
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
@@ -2074,131 +1961,167 @@ complete -o default -o nospace -F _cd__WWW_complete cdwww
 complete -o default -o nospace -F _cd__WWW_complete cdww
 
 eval 'cdls () {
-    set | grep "^cd.*()" | cut -f1 -d" " #$@
+    set | grep "^cd.*()" | cut -f1 -d" " #${@}
 }';
 cdls () {
-    set | grep "^cd.*()" | cut -f1 -d" " #$@
+    set | grep "^cd.*()" | cut -f1 -d" " #${@}
 }
-alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"
-eval 'editw () {
-    ${_EDIT_} $@
+alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'" ;
+eval 'ew () {
+    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
 }';
-editw () {
-    ${_EDIT_} $@
+ew () {
+    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
 }
-alias gvimw='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent'
+eval '_ew__complete () {
+    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}';
+_ew__complete () {
+    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _ew__complete ew ;
+alias gvimw='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent' ;
 eval 'ipskey () {
-    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # $@
+    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # ${@}
 }';
 ipskey () {
-    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # $@
+    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # ${@}
 }
 eval 'ipnb () {
-    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload $@
+    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload ${@}
 }';
 ipnb () {
-    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload $@
+    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload ${@}
 }
 eval 'ipqt () {
-    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 $@
+    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 ${@}
 }';
 ipqt () {
-    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 $@
+    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 ${@}
 }
 eval 'grinv () {
-    grin --follow $@ "${VIRTUAL_ENV}"
+    grin --follow ${@} "${VIRTUAL_ENV}"
 }';
 grinv () {
-    grin --follow $@ "${VIRTUAL_ENV}"
+    grin --follow ${@} "${VIRTUAL_ENV}"
 }
 eval 'grindv () {
-    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+    grind --follow ${@} --dirs "${VIRTUAL_ENV}"
 }';
 grindv () {
-    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+    grind --follow ${@} --dirs "${VIRTUAL_ENV}"
 }
 eval 'grins () {
-    grin --follow $@ "${_SRC}"
+    grin --follow ${@} "${_SRC}"
 }';
 grins () {
-    grin --follow $@ "${_SRC}"
+    grin --follow ${@} "${_SRC}"
 }
 eval 'grinds () {
-    grind --follow $@ --dirs "${_SRC}"
+    grind --follow ${@} --dirs "${_SRC}"
 }';
 grinds () {
-    grind --follow $@ --dirs "${_SRC}"
+    grind --follow ${@} --dirs "${_SRC}"
 }
-alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
-alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)'
+alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)' ;
+alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)' ;
 eval 'nosew () {
-    (cd "${_WRD}" && nosetests $@)
+    (cd "${_WRD}" && nosetests ${@})
 }';
 nosew () {
-    (cd "${_WRD}" && nosetests $@)
+    (cd "${_WRD}" && nosetests ${@})
+}
+eval 'lsw () {
+    (cd "${_WRD}"; ls $(test -n ""${__IS_MAC}"" && echo "-G" || echo "--color=auto") ${@})
+}';
+lsw () {
+    (cd "${_WRD}"; ls $(test -n ""${__IS_MAC}"" && echo "-G" || echo "--color=auto") ${@})
+}
+eval '_lsw__complete () {
+    local cur=${2};
+            COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}';
+_lsw__complete () {
+    local cur=${2};
+            COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _lsw__complete lsw ;
+alias findw='find "${_WRD}"' ;
+eval 'grepw () {
+    grep ${@} "${_WRD}"
+}';
+grepw () {
+    grep ${@} "${_WRD}"
 }
 eval 'grinw () {
-    grin --follow $@ "${_WRD}"
+    grin --follow ${@} "${_WRD}"
 }';
 grinw () {
-    grin --follow $@ "${_WRD}"
+    grin --follow ${@} "${_WRD}"
 }
 eval 'grindw () {
-    grind --follow $@ --dirs "${_WRD}"
+    grind --follow ${@} --dirs "${_WRD}"
 }';
 grindw () {
-    grind --follow $@ --dirs "${_WRD}"
+    grind --follow ${@} --dirs "${_WRD}"
 }
-alias hgwv='hg view -R "${_WRD}"'
-alias hgwl='hg -R "${_WRD}" log'
+alias hgwv='hg view -R "${_WRD}"' ;
+alias hgwl='hg -R "${_WRD}" log' ;
 eval 'editcfg () {
-    "${_EDITCFG_}" $@
+    "${_EDITCFG_}" ${@}
 }';
 editcfg () {
-    "${_EDITCFG_}" $@
+    "${_EDITCFG_}" ${@}
 }
-alias servew='(cd "${_WRD}" && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")'
-alias shellw='(cd "${_WRD}" && "${_BIN}"/pshell "${_CFG}")'
-eval 'e () {
-    ${_EDIT_} $@
+alias servew='(cd "${_WRD}" && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")' ;
+alias shellw='(cd "${_WRD}" && "${_BIN}"/pshell "${_CFG}")' ;
+eval 'ew () {
+    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
 }';
-e () {
-    ${_EDIT_} $@
+ew () {
+    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
 }
+eval '_ew__complete () {
+    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}';
+_ew__complete () {
+    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _ew__complete ew ;
 eval 'editp () {
-    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} $@
+    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} ${@}
 }';
 editp () {
-    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} $@
+    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} ${@}
 }
 eval 'makewrd () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }';
 makewrd () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }
 eval 'makew () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }';
 makew () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }
 eval 'mw () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }';
 mw () {
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }
 eval 'makewepy () {
-    _logfile="${_LOG}/make.log.py"; (makew $@ 2>&1 | tee $_logfile) && e $_logfile
+    _logfile="${_LOG}/make.log.py"; (makew ${@} 2>&1 | tee $_logfile) && e $_logfile
 }';
 makewepy () {
-    _logfile="${_LOG}/make.log.py"; (makew $@ 2>&1 | tee $_logfile) && e $_logfile
+    _logfile="${_LOG}/make.log.py"; (makew ${@} 2>&1 | tee $_logfile) && e $_logfile
 }
-alias ssv='supervisord -c "${_SVCFG}"'
-alias sv='supervisorctl -c "${_SVCFG}"'
-alias svt='sv tail -f'
-alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
+alias ssv='supervisord -c "${_SVCFG}"' ;
+alias sv='supervisorctl -c "${_SVCFG}"' ;
+alias svt='sv tail -f' ;
+alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev' ;
 if [ "$VENVPREFIX" == "/" ]; then
     source ${__DOTFILES}/etc/venv/venv_root_prefix.sh
 fi
@@ -2343,7 +2266,6 @@ _setup_venv_prompt() {
     fi
 }
 _setup_venv_prompt
-basename $VIRTUAL_ENV)"}}}
 
 
 
@@ -2517,7 +2439,7 @@ _editwrd_complete() {
     #echo $2
     #echo $@
     local cur="$2";
-    COMPREPLY=($(cd $_WRD && ls $_WRD${1:+"/${1}*"} 2>/dev/null && compgen -d -- "${cur}" ))
+    COMPREPLY=($(cd $_WRD && compgen -f -- "${cur}" ))
 }
 complete -o default -o nospace -F _editwrd_complete editwrd
 complete -o default -o nospace -F _editwrd_complete ew
@@ -2546,8 +2468,10 @@ _configure_lesspipe() {
     fi
 }
 _configure_lesspipe
-which lesspipe.sh 2>/dev/null || false)
 which lesspipe.sh 2>/dev/null || false
+${lesspipe}
+LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
+export LESSOPEN
 
 
 vimpager() {
@@ -3169,14 +3093,9 @@ _setup_usrlog() {
 
 ## calls _usrlog_setup when sourced
 _usrlog_setup
-_usrlog_get_prefix)"
-_usrlog_get_prefix)
 _usrlog_get_prefix
-_usrlog_get_prefix)"
-_usrlog_get_prefix)
 _usrlog_get_prefix
-]0;(dotfiles) #testing  wturner@create.wrd.nu:/home/wturner/-wrk/-ve27/dotfiles/src/dotfilesbasename $VIRTUAL_ENV)"}}}
-
+]0;(dotfiles) #testing  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -4294,104 +4213,48 @@ host_docs () {
 
 dotfiles_status
 # dotfiles_status()
-shell_escape_single "${HOSTNAME}")
-shell_escape_single "${HOSTNAME}")
 shell_escape_single "${HOSTNAME}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-HOSTNAME='create.wrd.nu'
-shell_escape_single "${USER}")
-shell_escape_single "${USER}")
+HOSTNAME='nb-mb1'
 shell_escape_single "${USER}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-USER='wturner'
-shell_escape_single "${__WRK}")
-shell_escape_single "${__WRK}")
+USER='W'
 shell_escape_single "${__WRK}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-__WRK='/home/wturner/-wrk'
-shell_escape_single "${PROJECT_HOME}")
-shell_escape_single "${PROJECT_HOME}")
+__WRK='/Users/W/-wrk'
 shell_escape_single "${PROJECT_HOME}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-PROJECT_HOME='/home/wturner/-wrk'
-shell_escape_single "${WORKON_HOME}")
-shell_escape_single "${WORKON_HOME}")
+PROJECT_HOME='/Users/W/-wrk'
 shell_escape_single "${WORKON_HOME}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-WORKON_HOME='/home/wturner/-wrk/-ve27'
-shell_escape_single "${VIRTUAL_ENV_NAME}")
-shell_escape_single "${VIRTUAL_ENV_NAME}")
+WORKON_HOME='/Users/W/-wrk/-ve27'
 shell_escape_single "${VIRTUAL_ENV_NAME}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
 VIRTUAL_ENV_NAME='dotfiles'
-shell_escape_single "${VIRTUAL_ENV}")
-shell_escape_single "${VIRTUAL_ENV}")
 shell_escape_single "${VIRTUAL_ENV}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-VIRTUAL_ENV='/home/wturner/-wrk/-ve27/dotfiles'
-shell_escape_single "${_SRC}")
-shell_escape_single "${_SRC}")
+VIRTUAL_ENV='/Users/W/-wrk/-ve27/dotfiles'
 shell_escape_single "${_SRC}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-_SRC='/home/wturner/-wrk/-ve27/dotfiles/src'
-shell_escape_single "${_APP}")
-shell_escape_single "${_APP}")
+_SRC='/Users/W/-wrk/-ve27/dotfiles/src'
 shell_escape_single "${_APP}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
 _APP='dotfiles'
-shell_escape_single "${_WRD}")
-shell_escape_single "${_WRD}")
 shell_escape_single "${_WRD}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-_WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
-shell_escape_single "${_USRLOG}")
-shell_escape_single "${_USRLOG}")
+_WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
 shell_escape_single "${_USRLOG}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-_USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
-shell_escape_single "${_TERM_ID}")
-shell_escape_single "${_TERM_ID}")
+_USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
 shell_escape_single "${_TERM_ID}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
 _TERM_ID='#testing'
-shell_escape_single "${PATH}")
-shell_escape_single "${PATH}")
 shell_escape_single "${PATH}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-PATH='/srv/wrk/.ve/dotfiles/bin:/home/wturner/.local/bin:/home/wturner/-dotfiles/scripts:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games'
-shell_escape_single "${__DOTFILES}")
-shell_escape_single "${__DOTFILES}")
+PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 shell_escape_single "${__DOTFILES}"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
-echo ${strtoescape} | sed "s,','\"'\"',g")"'"
 echo ${strtoescape} | sed "s,','\"'\"',g"
-__DOTFILES='/home/wturner/-dotfiles'
+__DOTFILES='/Users/W/-dotfiles'
 #
 ### </end dotfiles .bashrc>
 
