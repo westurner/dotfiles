@@ -23,6 +23,10 @@ dotfiles_status() {
     echo USER=$(shell_escape_single "${USER}")
     echo __WRK=$(shell_escape_single "${__WRK}")
     echo PROJECT_HOME=$(shell_escape_single "${PROJECT_HOME}")
+    test -n "${CONDA_ROOT}" && \
+        echo CONDA_ROOT=$(shell_escape_single "${CONDA_ROOT}")
+    test -n "${CONDA_ENVS_PATH}" && \
+        echo CONDA_ENVS_PATH=$(shell_escape_single "${CONDA_ENVS_PATH}")
     echo WORKON_HOME=$(shell_escape_single "${WORKON_HOME}")
     echo VIRTUAL_ENV_NAME=$(shell_escape_single "${VIRTUAL_ENV_NAME}")
     echo VIRTUAL_ENV=$(shell_escape_single "${VIRTUAL_ENV}")
@@ -234,6 +238,7 @@ dotfiles_predeactivate() {
 dotfiles_postdeactivate() {
     # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
+    unset VIRTUAL_ENV
     unset VIRTUAL_ENV_NAME
     unset VENVSTR
     unset VENVSTRAPP

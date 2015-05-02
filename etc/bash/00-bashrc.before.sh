@@ -71,8 +71,12 @@ dotfiles_reload() {
   #
   ## 07-bashrc.python.sh        -- python
   #  _setup_pyenv()     -- setup pyenv paths (manual)
-  #  _setup_conda()     -- setup conda paths (manual)
   source ${conf}/07-bashrc.python.sh
+
+  #
+  ## 08-bashrc.conda.sh         -- conda
+  #  _setup_conda()     -- setup conda paths (manual)
+  source ${conf}/08-bashrc.conda.sh
 
   #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
