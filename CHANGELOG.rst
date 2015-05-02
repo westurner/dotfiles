@@ -4,8 +4,15 @@ Changelog
 
 .. code:: bash
 
-    git log v0.1.0..HEAD
-    git log v0.1.1..v0.1.2
+    git log --graph v0.1.1..HEAD
+    git log --format='* %s [%h]' v0.8.2..HEAD
+
+0.8.3
+------
+* UBY: docs/_static/css/local.css: #sidebar-wrapper max-width:25% [d3e1408]
+* BUG,ENH: editw completion, lsw(), findw(), grepw() [9f95863]
+* REf: .gitignore: etc/vim -> etc/.vim [c1edfea]
+* BLD,REF: scripts/bootstrap_dotfiles.sh: etc/vim -> etc/.vim (for grinw and grindw) [bc2b0ac]
 
 
 0.8.2
