@@ -84,6 +84,6 @@ docs/build.current.log
 # dotfiles
 .usrlog
 deb_dist/
-etc/vim
+etc/.vim
 tmp
 
