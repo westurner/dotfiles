@@ -69,10 +69,10 @@ i = log -l1 --template "{label('custom.date', date|isodate)} {label('custom.rev'
 is = log -l1 --template "{label('custom.date', date|isodate)} {label('custom.rev', node|short)} ({branch}; {tags}; {bookmarks}) {desc} [{label('custom.author', author)}]\n" --stat
 
 # log
-l = log -G --pager=yes
-changes = log --pager=yes --template='{rev} {node|short} {date|isodate} {author|user} ({join(tags, ", ")}) {desc}\n{file_mods % "M  {file}\n"}{file_adds % "A  {file}\n"}{file_dels % "D  {file}\n"}\n'
-cl = log -G --style changelog --pager=yes
-short = log -G --style=compact --pager=yes
+l = log -G --removed --template "{node|short} ({branch};{bookmarks};{tags})\t{desc}\t[{author}]\n" --pager=yes
+changes = log --removed --pager=yes --template='{rev} {node|short} {date|isodate} {author|user} ({join(tags, ", ")}) {desc}\n{file_mods % "M  {file}\n"}{file_adds % "A  {file}\n"}{file_dels % "D  {file}\n"}\n'
+cl = log -G --removed --style changelog --pager=yes
+short = log -G --removed --style=compact --pager=yes
 
 # pull
 pl = pull
