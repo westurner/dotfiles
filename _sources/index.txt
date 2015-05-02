@@ -9,7 +9,7 @@ Tools
 ================
 
 | Docs: https://westurner.org/tools/
-| Src: https://github.com/westurner/tools
+| Src: https://gjuithub.com/westurner/tools
 
 See Also: https://westurner.org/wiki/projects#tools
 
@@ -1205,6 +1205,7 @@ Reproducible :ref:`SciPy Stack <scipystack>`
 IPython / Jupyter Notebook servers
 implement best practices like process isolation and privilege separation:
 
+* https://github.com/ipython/ipython/wiki/Install:-Docker
 * https://registry.hub.docker.com/repos/ipython/
 * https://registry.hub.docker.com/repos/jupyter/
 * https://registry.hub.docker.com/u/jupyter/tmpnb/
