@@ -138,11 +138,12 @@ grindctags() {
     (set -x;
     path=${1:-'.'}
     grindargs=${2}
-    cd ${path}; grind --follow ${grindargs} \
+    cd ${path};
+    grind --follow ${grindargs} \
         | grep -v 'min.js$' \
         | ${ctagsbin} -L - 2>tags.err && \
     wc -l ${path}/tags.err;
-    ls -alh ${path}/tags;)
+    ls -alhtr ${path}/tags*;)
 }
 grindctagssys() {
     # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
@@ -161,6 +162,9 @@ _setup_venv_aliases() {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
+    # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
+    source ${__DOTFILES}/scripts/makew
+
     # ssv()     -- supervisord   -c ${_SVCFG}
     alias ssv='supervisord -c "${_SVCFG}"'
     # sv()      -- supervisorctl -c ${_SVCFG}
@@ -170,15 +174,11 @@ _setup_venv_aliases() {
     # svt()     -- supervisorctl -c "${_SVCFG}" tail -f
     alias svt='sv tail -f'
 
-    # hgw()     -- hg -R  ${_WRD}
-    alias hgw='hg -R "${_WRD}"'
-    # hg-()     -- hg -R  ${_WRD}
-    alias hg-='hg -R "${_WRD}"'
+    # hgw       -- hg -R  ${_WRD}   [scripts/hgw <TAB>]
+    source "${__DOTFILES}/scripts/hgw"
 
-    # gitw()    -- git -C ${_WRD}
-    alias gitw='git -C "${_WRD}"'
-    # git-()    -- git -C ${_WRD}
-    alias git-='git -C "${_WRD}"'
+    # gitw      -- git -C ${_WRD}   [scripts/gitw <TAB>]
+    source "${__DOTFILES}/scripts/gitw"
 
     # serve-()  -- ${_SERVE_}
     alias serve-='${_SERVE_}'
@@ -192,18 +192,6 @@ _setup_venv_aliases() {
 }
 _setup_venv_aliases
 
-makew() {
-    # makew()   -- cd $_WRD && make $@
-    (cd "${_WRD}" && make $@)
-}
-make-() {
-    # make-()   -- cd $_WRD && make $@
-    makew $@
-}
-mw() {
-    # mw()      -- cd $_WRD && make $@
-    makew $@
-}
 
 _setup_venv_prompt() {
     # _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,

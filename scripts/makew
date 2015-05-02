@@ -1,0 +1,20 @@
+#!/bin/sh
+## 
+
+_makew() {
+    # makew()   -- cd $_WRD && make $@
+    (cd "${_WRD}" && make ${@})
+}
+_makew_complete() {
+    local cur=${2}
+    # see: /usr/local/etc/bash_completion.d/make (brew)
+    COMPREPLY=( $( compgen -W "$( make -C ${_WRD} -qp 2>/dev/null | \
+    awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ \
+    {split($1,A,/ /);for(i in A)print A[i]}' )" \
+    -- "$cur" ) )
+}
+complete -F _makew_complete makew
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    _makew ${@}
+fi

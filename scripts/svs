@@ -1,0 +1,15 @@
+#!/bin/sh
+## 
+sv() {
+    #  sv()                     -- supervisorctl -c $_SVCFG
+    supervisorctl -c "${_SVCFG}" ${@}
+}
+
+svs() {
+    #  svs()                    -- supervisorctl -c $_SVCFG status $@
+    sv status $@
+}
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    svs ${@}
+fi

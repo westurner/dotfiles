@@ -1,0 +1,15 @@
+#!/bin/sh
+## 
+sv() {
+    #  sv()                     -- supervisorctl -c $_SVCFG
+    supervisorctl -c "${_SVCFG}" ${@}
+}
+
+svr() {
+    #  svr()                    -- supervisorctl -c $_SVCFG restart $@
+    sv restart $@
+}
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    svr ${@}
+fi

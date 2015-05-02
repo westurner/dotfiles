@@ -1,0 +1,14 @@
+#!/bin/sh
+## 
+sv() {
+    #  sv()                     -- supervisorctl -c $_SVCFG
+    supervisorctl -c "${_SVCFG}" ${@}
+}
+
+sve() {
+    ${EDITOR_:-${EDITOR}} ${_SVCFG}
+}
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    sv ${@}
+fi

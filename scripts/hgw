@@ -1,0 +1,14 @@
+#!/bin/sh
+## 
+function __hgw() {
+    #  hgw()                    -- hg -R "${_WRD}" $@
+    hg -R "${_WRD}" $@
+}
+
+# see: /mercurial/contrib/bash_completion
+complete -o bashdefault -o default -o nospace -F _hg hgw \
+    || complete -o default -o nospace -F _hg hgw
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    __hgw ${@}
+fi

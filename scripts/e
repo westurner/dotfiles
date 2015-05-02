@@ -1,0 +1,15 @@
+#!/bin/sh
+## 
+edit () {
+    #  edit()   -- EDITOR_ or EDITOR $@
+    ${EDITOR_:-${EDITOR}} $@
+}
+
+e () {
+    # e()       -- EDTIOR or EDITOR $@
+    edit ${@}
+}
+
+if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+    edit $@
+fi

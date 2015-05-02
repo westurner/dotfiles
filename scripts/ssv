@@ -1,0 +1,24 @@
+#!/bin/sh
+## 
+supervisord_start () {
+    #  supervisord_start()      -- start supervisord -c $_SVCFG
+    supervisord -c "${_SVCFG}"
+}
+ssv() {
+    #  ssv()                    -- start supervisord -c $_SVCFG
+    supervisord_start $@
+}
+sv() {
+    #  sv()                     -- supervisorctl -c $_SVCFG
+    supervisorctl -c "${_SVCFG}" ${@}
+}
+
+supervisord_stop () {
+    #  supervisord_start()      -- start supervisord
+    supervisorctl -c "${_SVCFG}" "shutdown"
+}
+
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    supervisord_start ${@}
+fi

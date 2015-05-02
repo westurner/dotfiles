@@ -1,0 +1,9 @@
+#!/bin/sh
+## 
+sve() {
+    ${EDITOR_:-${EDITOR}} ${1:-${_SVCFG}}
+}
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    sve ${1}
+fi
