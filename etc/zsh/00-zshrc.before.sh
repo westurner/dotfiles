@@ -25,6 +25,9 @@ dotfiles_zsh_reload() {
     source $_zsh_conf/99-zshrc.after.sh
 }
 
+function dr () {
+    #  dr()     -- dotfiles_zsh_reload $@
+    dotfiles_zsh_reload $@
+}
+
 dotfiles_zsh_reload
-
-
