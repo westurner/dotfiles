@@ -1,0 +1,12 @@
+%echo Generating a default key
+Key-Type: default
+Subkey-Type: default
+Name-Real: p6
+Name-Comment: p6
+Name-Email: p6@localhost
+Expire-Date: 0
+%pubring p6.pub
+%secring p6.sec
+# Do a commit here, so that we can later print "done" :-)
+%commit
+%echo done
