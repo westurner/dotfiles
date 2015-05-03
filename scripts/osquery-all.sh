@@ -1,17 +1,25 @@
 #!/bin/sh -x
-## 
-osq="./osquery"
-formats='html csv json'
-tables=$(osqueryi --json '.schema' | pyline 'l and l.split("CREATE VIRTUAL TABLE")[-1].split(" USING ")[0]')
+## osquery-all.sh - SELECT * FROM osquery.* > ./static/html/index.html + {...}
+#
+# Generate CSV, JSON, and HTML from all rows and columns of each table
+#
+# Requires:
+#   pip install pyline
 
+function osquery_init() {
+    osq="${1:-"./osquery"}"
+    formats='html csv json'
+    tables=$(osqueryi --json '.schema' | pyline \
+            'l and l.split("CREATE VIRTUAL TABLE")[-1].split(" USING ")[0]')
+}
 
-set_facls() {
+function osquery_set_facls() {
     umask 027
     mkdir -p ${osq}
 }
 
-write_indexhtml() {
-    set_facls
+function osquery_write_indexhtml() {
+    osquery_set_facls
     osq=${osq}
     formats=${formats}
     tables=${tables}
@@ -38,11 +46,14 @@ write_indexhtml() {
     echo "</div></body></html>" >> ${indexhtml}
 }
 
-do_osquery_all() {
-    set_facls
-    osq=${osq}
+function osquery_all() {
+    osquery_set_facls
+    # osquery_init
+    osq=${1:-${osq}}
     formats=${formats}
     tables=${tables}
+
+    osquery_write_indexhtml
 
     for tbl in ${tables}; do
         for fmt in "csv" "json"; do 
@@ -67,12 +78,64 @@ do_osquery_all() {
     done
 }
 
-main() {
-    write_indexhtml
-    do_osquery_all
+function osquery_all_help() {
+    echo "Usage: ${0} [<destdir=./osquery>]"
+    echo
+    echo "Description: SELECT * FROM osquery.* > destdir/{CSV, JSON, HTML}"
+    echo 
 }
 
 
-if [[ "$BASH_SOURCE" == "$0" ]]; then
-    main $@
+function osquery_all_main() {
+    while getopts "d:DsP:h" opt; do
+        case "${opt}" in
+            d)
+                osqa_opts_destdir="${OPTARG}";
+                ;;
+            D)
+                osqa_opts_dated=true;
+                ;;
+            s)
+                osqa_opts_serve=true;
+                ;;
+            P)
+                osqa_opts_port=${OPTARG}
+                ;;
+            h)
+                osqa_opts_help=true;
+                ;;
+        esac
+    done
+    test -n "${osqa_opts_help}" && osquery_all_help && return 0
+
+    destroot=${osqa_opts_destdir:-"./osquery"}
+    destdir="${destroot}"
+    if [ -n "${osqa_opts_dated}" ]; then
+        datetime=$(date +'%FT%T%z')
+        destdir="${destroot}/${datetime}"
+    fi
+    osquery_init ${destdir}
+    # osquery_all ${destdir}
+    if [ -z $? ]; then
+        if [ -n "${osqa_opts_dated}" ]; then
+            cursymlink="${destroot}/latest"
+            if [ -e "${cursymlink}" ]; then
+                rm "${cursymlink}"
+            fi
+            (cd "${destroot}"; \
+                rm ./latest || true; \
+                ln -s "./${datetime}" ./latest)
+        fi
+    fi
+
+    if [ -n "${osqa_opts_serve}" ]; then
+        port=${osqa_opts_port:-"8089"}
+        pgs -p ${destroot} -P ${port}
+    fi
+    return $?
+}
+
+if [ "$BASH_SOURCE" == "$0" ]; then
+    osquery_all_main ${@}
+    exit
 fi
