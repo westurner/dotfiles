@@ -616,6 +616,7 @@ dotfiles_bootstrap_main () {
             I)
                 I=${OPTARG};
                 DO_INSTALL="true"
+                DO_SYMLINK="true"
                 ;;
             S)
                 S=${OPTARG};
@@ -650,8 +651,7 @@ dotfiles_bootstrap_main () {
     done
 
     if [ -n "$DEBUG_BOOTSTRAP" ]; then
-        set -x
-        set -v
+        set -x -v
     fi
 
     if [ -n "$DO_CHECK" ]; then
@@ -676,12 +676,12 @@ dotfiles_bootstrap_main () {
     if [ -n "$DO_CHECK" ]; then
         dotfiles_check_deps
     fi
-
 }
 
 ## execute main if called as a script
 ## (e.g. not with `source`)
-if [[ "$BASH_SOURCE" == $0 ]]; then
-    dotfiles_bootstrap_main $@
+if [ "${BASH_SOURCE}" == "${0}" ]; then
+    dotfiles_bootstrap_main ${@}
+    exit
 fi
 

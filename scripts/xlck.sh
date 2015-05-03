@@ -290,4 +290,5 @@ xlck_main () {
 if [[ "$BASH_SOURCE" == "$0" ]]; then
   _xlck_setup
   xlck_main $@
+  exit
 fi

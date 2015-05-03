@@ -6,7 +6,9 @@ __IS_MAC=${__IS_MAC:-$(test $(uname -s) == "Darwin" && echo 'true')}
 
 if [ -n "${__IS_MAC}" ]; then
     cat | /usr/bin/pbcopy
+    exit
 else
     # copy to selection buffer AND clipboard
     cat | xclip -i -sel c -f | xclip -i -sel p
+    exit
 fi

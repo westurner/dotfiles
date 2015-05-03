@@ -3,12 +3,15 @@
 sv() {
     #  sv()                     -- supervisorctl -c $_SVCFG
     supervisorctl -c "${_SVCFG}" ${@}
+    return
 }
 
 sve() {
     ${EDITOR_:-${EDITOR}} ${_SVCFG}
+    return
 }
 
 if [[ ${BASH_SOURCE} == "${0}" ]]; then
     sv ${@}
+    exit
 fi

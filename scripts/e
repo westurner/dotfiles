@@ -3,13 +3,16 @@
 edit () {
     #  edit()   -- EDITOR_ or EDITOR $@
     ${EDITOR_:-${EDITOR}} $@
+    return
 }
 
 e () {
     # e()       -- EDTIOR or EDITOR $@
     edit ${@}
+    return
 }
 
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
-    edit $@
+if [ "${BASH_SOURCE}" == "${0}" ]; then
+    edit ${@}
+    exit
 fi

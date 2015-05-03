@@ -7,10 +7,12 @@ editwrd ()
     (for arg in ${@}; do echo "${arg}"; done) \
         | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
     )
+    return
 }
 
 ew () {
     editwrd $@
+    return
 }
 _ew__complete () {
     local cur=${2};
@@ -19,6 +21,7 @@ _ew__complete () {
 complete -o default -o nospace -F _ew__complete editwrd
 complete -o default -o nospace -F _ew__complete ew
 
-if [[ ${BASH_SOURCE} == "${0}" ]]; then
+if [ ${BASH_SOURCE} == "${0}" ]; then
     editwrd ${@}
+    exit
 fi

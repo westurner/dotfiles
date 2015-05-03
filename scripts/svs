@@ -3,13 +3,16 @@
 sv() {
     #  sv()                     -- supervisorctl -c $_SVCFG
     supervisorctl -c "${_SVCFG}" ${@}
+    return
 }
 
 svs() {
     #  svs()                    -- supervisorctl -c $_SVCFG status $@
     sv status $@
+    return
 }
 
 if [[ ${BASH_SOURCE} == "${0}" ]]; then
     svs ${@}
+    exit
 fi

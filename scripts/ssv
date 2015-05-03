@@ -3,22 +3,27 @@
 supervisord_start () {
     #  supervisord_start()      -- start supervisord -c $_SVCFG
     supervisord -c "${_SVCFG}"
+    return
 }
 ssv() {
     #  ssv()                    -- start supervisord -c $_SVCFG
     supervisord_start $@
+    return
 }
 sv() {
     #  sv()                     -- supervisorctl -c $_SVCFG
     supervisorctl -c "${_SVCFG}" ${@}
+    return
 }
 
 supervisord_stop () {
     #  supervisord_start()      -- start supervisord
     supervisorctl -c "${_SVCFG}" "shutdown"
+    return
 }
 
 
 if [[ ${BASH_SOURCE} == "${0}" ]]; then
     supervisord_start ${@}
+    exit
 fi

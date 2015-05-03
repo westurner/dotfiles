@@ -2,8 +2,10 @@
 ## 
 sve() {
     ${EDITOR_:-${EDITOR}} ${1:-${_SVCFG}}
+    return
 }
 
 if [[ ${BASH_SOURCE} == "${0}" ]]; then
     sve ${1}
+    exit
 fi

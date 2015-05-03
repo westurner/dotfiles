@@ -23,7 +23,7 @@ __gdd() {
     ${GITBIN} status
 }
 
-if [[ "$BASH_SOURCE" == "$0" ]]; then
-  gdd $@
+if [ "$BASH_SOURCE" == "$0" ]; then
+  gdd ${@}
+  exit
 fi
-
