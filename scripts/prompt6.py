@@ -190,7 +190,13 @@ def shell_escape(str_):
     return repr(unicode(str_))[1:]
 
 
-def gpg_encrypt(filelike, key_name=None):
+def gpg_encrypt(filelike,
+                homedir="~/.gnupg",
+                trust_model="always",
+                user='p6',
+                secring='p6.sec',
+                pubring='p6.pub',
+                key_name=None):
     """
     Arguments:
         filelike (file-like or str): data to transform
@@ -202,15 +208,17 @@ def gpg_encrypt(filelike, key_name=None):
     Returns:
         str: subprocess.check_output(cmd, shell=True, stdin=filelike)
     """
-    cmd_tmpl = ("""cat | gpg --homedir ~/.gnupg --trust-model=always"""
+    cmd_tmpl = ("""cat | gpg --homedir={homedir} --trust-model={trust_model}"""
                 """ --encrypt --armor"""
-                """ --secret-keyring={secret_keyring} --keyring={keyring}"""
+                """ --secret-keyring={secring} --keyring={pubring}"""
                 """ -u {user} -r {key_name}""")
     cmd = cmd_tmpl.format(
-        user=shell_escape('p6'),
-        secret_keyring='p6.sec',
-        keyring='p6.pub',
-        key_name=shell_escape(key_name))
+        homedir=shell_escape(os.expanduser(homedir)),
+        user=shell_escape(user),
+        secring=shell_escape(secring),
+        pubring=shell_escape(pubring),
+        key_name=shell_escape(key_name),
+        trust_model=shell_escape(trust_model))
     if isinstance(filelike, basestring):
         filelike = StringIO.StringIO(filelike)
     log.log(LOG_TRACE, 'subprocess.Popen(%r)', cmd)
@@ -224,27 +232,34 @@ def gpg_encrypt(filelike, key_name=None):
     return stdout
 
 
-def gpg_decrypt(filelike, key_name=None):
+def gpg_decrypt(filelike,
+                homedir='~/.gnupg',
+                user='p6',
+                secring='p6.sec',
+                pubring='p6.pub'):
     """
     Arguments:
         filelike (file-like or str): data to transform
                                      (if str: StringIO(str))
 
     Keyword Arguments:
-        key_name (unicode): dest_user
+        user (unicode): user to decrypt as
 
     Returns:
         str: subprocess.check_output(cmd, shell=True, stdin=filelike)
     """
     cmd_tmpl = (
-        """cat | gpg --homedir ~/.gnupg --trust-model=always"""
+        """cat | gpg"""
+        """ --homedir {homedir}"""
         """ --decrypt"""
-        """ --secret-keyring={secret_keyring} --keyring={keyring} -u {user}""")
+        """ --secret-keyring={secring}"""
+        """ --keyring={pubring}"""
+        """ -u {user}""")
     cmd = cmd_tmpl.format(
-        user=shell_escape('p6'),
-        secret_keyring='p6.sec',
-        keyring='p6.pub',
-        key_name=shell_escape(key_name))
+        homedir=shell_escape(os.expanduser(homedir)),
+        user=shell_escape(user),
+        secring=shell_escape(secring),
+        pubring=shell_escape(pubring))
     if isinstance(filelike, basestring):
         filelike = StringIO.StringIO(filelike)
     log.log(LOG_TRACE, 'subprocess.Popen(%r)', cmd)
