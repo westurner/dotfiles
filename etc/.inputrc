@@ -1,84 +1,90 @@
 
-## readline .inputrc
+### .inputrc -- readline configuration
+## Bash readline quickstart
+#  https://www.gnu.org/software/bash/manual/html_node/Command-Line-Editing.html#Command-Line-Editing
+#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html
+#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
+#   * https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html#Readline-vi-Mode
 #
-#   ## Bash 'bind'
-#   help bind
-#   # list bindings
-#   bind -p
-#   bind -P | grep -v 'is not bound'
-#   # read bindings
-#   bind -f ~/.inputrc
-#
-# do not bell on tab-completion
+    #  help bind
+    #  # list bindings
+    #  bind -p
+    #  bind -P | grep -v 'is not bound'
+    #  # read bindings
+    #  bind -f ~/.inputrc
+    #
+# - do not bell on tab-completion
 set bell-style none
+# - show visible bell (flash the screen)
 set bell-style visible
 
 set show-all-if-ambiguous on
 set completion-ignore-case on
 # menu-complete-display-prefix on
+    # <OSX_opt>-k   -- reset screen
 
 ## vi-mode
-# Various terminals have vi-mode settings:
-# - bash: set -o vi
-# - ksh: set -o vi
-# - zsh: bindkey -v
-# - tcsh: bindkey -v
-#
-
+    #  Various terminals have vi-mode settings:
+    #  - bash: set -o vi  (default: set -o emacs)
+    #  - ksh:  set -o vi
+    #  - zsh:  bindkey -v
+    #  - tcsh: bindkey -v
+    #
 set editing-mode vi
-
 $if mode=vi
+  ## vi-command keymap
   set keymap vi-command
 
-    # <ctrl> l  -- clear screen
+    #  <ctrl> l  -- clear screen
     "\C-l": clear-screen
 
-    # <ctrl> k  -- clear whole line
+    #  <ctrl> k  -- clear whole line
     "\C-k": kill-whole-line
 
-    # <ctrl> a  -- move to beginning of line (^)
+    #  <ctrl> a  -- move to beginning of line (^)
     "\C-a": vi-insert-beg
-    # <ctrl> [  -- move to beginning of line (^)
+    #  <ctrl> [  -- move to beginning of line (^)
     "\C-[": vi-insert-beg
 
-    # <ctrl> e  -- move to end of line ($)
+    #  <ctrl> e  -- move to end of line ($)
     "\C-e": vi-append-eol
-    # <ctrl> ]  -- move to end of line ($)
+    #  <ctrl> ]  -- move to end of line ($)
     "\C-]": vi-append-eol
 
-    # <ctrl> w  -- delete last word
+    #  <ctrl> w  -- delete last word
     "\C-w": backward-kill-word
 
-    # <ctrl> gx -- expand without executing
+    #  <ctrl> gx -- expand without executing
     "\C-gx": glob-expand-word
 
+  ## vi-insert keymap
   set keymap vi-insert
 
-    # emulate a few options from "set -o emacs":
-    # <ctrl> l  -- clear screen
+    #  emulate a few options from "set -o emacs":
+    #  <ctrl> l  -- clear screen
     "\C-l": clear-screen
 
-    # <ctrl> k  -- clear whole line
+    #  <ctrl> k  -- clear whole line
     "\C-k": kill-whole-line
 
-    # <ctrl> a  -- move to beginning of line (^)
+    #  <ctrl> a  -- move to beginning of line (^)
     "\C-a": vi-insert-beg
-    # <ctrl> [  -- move to beginning of line (^)
+    #  <ctrl> [  -- move to beginning of line (^)
     "\C-[": vi-insert-beg
 
-    # <ctrl> e  -- move to end of line ($)
+    #  <ctrl> e  -- move to end of line ($)
     "\C-e": vi-append-eol
-    # <ctrl> ]  -- move to end of line ($)
+    #  <ctrl> ]  -- move to end of line ($)
     "\C-]": vi-append-eol
 
-    # <ctrl> w  -- delete last word
+    #  <ctrl> w  -- delete last word
     "\C-w": backward-kill-word
 
-    # <ctrl> gx -- glob expand without executing
+    #  <ctrl> gx -- glob expand without executing
     "\C-gx": glob-expand-word
 $endif
 
 $if mode=emacs
-    # see: bindkey -p
+    #  see: bindkey -p
 $endif
 
