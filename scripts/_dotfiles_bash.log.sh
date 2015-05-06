@@ -162,8 +162,12 @@ dotfiles_reload() {
   #
   ## 07-bashrc.python.sh        -- python
   #  _setup_pyenv()     -- setup pyenv paths (manual)
-  #  _setup_conda()     -- setup conda paths (manual)
   source ${conf}/07-bashrc.python.sh
+
+  #
+  ## 08-bashrc.conda.sh         -- conda
+  #  _setup_conda()     -- setup conda paths (manual)
+  source ${conf}/08-bashrc.conda.sh
 
   #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
@@ -295,7 +299,7 @@ PATH_prepend ()
     if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
         return 0
     fi
-    export PATH=$1:$PATH
+    export PATH=${1}:${PATH}
 }
 
 PATH_remove() {
@@ -307,18 +311,18 @@ PATH_remove() {
       | grep -v "^${_path}$" \
       | tr '\n' ':')
     export PATH=${_PATH}
-    echo $PATH
 }
 
 PATH_contains() {
-  local _path=${1}
-  local _output=$(echo "${PATH}" | tr ':' '\n' \
-    | grep "^${_path}$")
-  if [ -z "${output}" ]; then
-    return 1
-  else
-    echo "${output}"
-  fi
+    # PATH_contains() -- test whether $PATH contains $1
+    local _path=${1}
+    local _output=$(echo "${PATH}" | tr ':' '\n' \
+      | grep "^${_path}$")
+    if [ -z "${output}" ]; then
+        return 1
+    else
+        echo "${output}"
+    fi
 }
 
 lightpath() {
@@ -577,6 +581,10 @@ dotfiles_status() {
     echo USER=$(shell_escape_single "${USER}")
     echo __WRK=$(shell_escape_single "${__WRK}")
     echo PROJECT_HOME=$(shell_escape_single "${PROJECT_HOME}")
+    test -n "${CONDA_ROOT}" && \
+        echo CONDA_ROOT=$(shell_escape_single "${CONDA_ROOT}")
+    test -n "${CONDA_ENVS_PATH}" && \
+        echo CONDA_ENVS_PATH=$(shell_escape_single "${CONDA_ENVS_PATH}")
     echo WORKON_HOME=$(shell_escape_single "${WORKON_HOME}")
     echo VIRTUAL_ENV_NAME=$(shell_escape_single "${VIRTUAL_ENV_NAME}")
     echo VIRTUAL_ENV=$(shell_escape_single "${VIRTUAL_ENV}")
@@ -788,6 +796,7 @@ dotfiles_predeactivate() {
 dotfiles_postdeactivate() {
     # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
+    unset VIRTUAL_ENV
     unset VIRTUAL_ENV_NAME
     unset VENVSTR
     unset VENVSTRAPP
@@ -954,13 +963,44 @@ _setup_pyenv() {
     pyenv virtualenvwrapper
 }
 
+
+### bashrc.conda.sh
+
 ## Conda / Anaconda
 
+_setup_conda_defaults() {
+    # _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
+    #    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
+    #                 (default: ${__WRK})
+    local __wrk=${1:-${__WRK}}
+    export CONDA_ENVS_PATH__py27="${__wrk}/-ce27"
+    export CONDA_ENVS_PATH__py34="${__wrk}/-ce34"
+    export CONDA_ENVS_PATH_DEFAULT="CONDA_ENVS_PATH__py27"
+    export CONDA_ENVS_PATH="${__wrk}/-ce27"
+
+    export CONDA_ROOT__py27="${__wrk}/-conda27"
+    export CONDA_ROOT__py34="${__wrk}/-conda34"
+    export CONDA_ROOT_DEFAULT="CONDA_ROOT__py27"
+    export CONDA_ROOT="${__wrk}/-conda27"
+}
+
 _setup_conda() {
-    # _setup_anaconda()     -- set $CONDA_ROOT, PATH_prepend
-    # $1 -- conda python version (27|34)
+    # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
+    #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
+    #                                                   CONDA_ENVS_PATH__py27)
+    #   $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
+    #                                                   CONDA_ROOT__py27)
+    #
+    #  Usage:
+    #   _setup_conda    # __py27
+    #   _setup_conda 27 # __py27
+    #   _setup_conda 34 # __py34
+    #   _setup_conda ~/envs             # __py27
+    #   _setup_conda ~/envs/ /opt/conda # /opt/conda
+    #
     local _conda_envs_path=${1}
-    source <($__VENV --prefix='.' --print-bash)
+    local _conda_root_path=${2}
+    _setup_conda_defaults "${__WRK}"
     if [ -z "${_conda_envs_path}" ]; then
         export CONDA_ENVS_PATH=${CONDA_ENVS_PATH:-${CONDA_ENVS_PATH__py27}}
         export CONDA_ROOT=${CONDA_ROOT:-${CONDA_ROOT__py27}}
@@ -973,18 +1013,31 @@ _setup_conda() {
             export CONDA_ROOT=$CONDA_ROOT__py34
         else
             export CONDA_ENVS_PATH=${_conda_envs_path}
-            export CONDA_ROOT=${CONDA_ROOT:-${CONDA_ROOT__py27}}
+            export CONDA_ROOT=(
+            ${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py27}}})
         fi
     fi
     _setup_conda_path
 }
 
 _setup_conda_path() {
-    PATH_prepend "${CONDA_ROOT}/bin"
+    _unsetup_conda_path_all
+    PATH_prepend "${CONDA_ROOT}/bin" 2>&1> /dev/null
+}
+
+_unsetup_conda_path_all() {
+    PATH_remove "${CONDA_ROOT}/bin" 2>&1 > /dev/null
+    PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1> /dev/null
+    PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1> /dev/null
+    declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
 }
 
 lscondaenvs() {
-    (cd ${CONDA_ENVS_PATH}; find . -maxdepth 1 -type d)
+    paths=$(  \
+    ( echo "${CONDA_ENVS_PATH}"; \
+    echo "${CONDA_ENVS_PATH__py27}";  \
+    echo "${CONDA_ENVS_PATH__py34}";) | uniq)
+    (set -x; find ${paths} -maxdepth 1 -type d)
 }
 
 _condaenvs() {
@@ -2180,11 +2233,12 @@ grindctags() {
     (set -x;
     path=${1:-'.'}
     grindargs=${2}
-    cd ${path}; grind --follow ${grindargs} \
+    cd ${path};
+    grind --follow ${grindargs} \
         | grep -v 'min.js$' \
         | ${ctagsbin} -L - 2>tags.err && \
     wc -l ${path}/tags.err;
-    ls -alh ${path}/tags;)
+    ls -alhtr ${path}/tags*;)
 }
 grindctagssys() {
     # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
@@ -2203,6 +2257,9 @@ _setup_venv_aliases() {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
+    # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
+    source ${__DOTFILES}/scripts/makew
+
     # ssv()     -- supervisord   -c ${_SVCFG}
     alias ssv='supervisord -c "${_SVCFG}"'
     # sv()      -- supervisorctl -c ${_SVCFG}
@@ -2212,15 +2269,11 @@ _setup_venv_aliases() {
     # svt()     -- supervisorctl -c "${_SVCFG}" tail -f
     alias svt='sv tail -f'
 
-    # hgw()     -- hg -R  ${_WRD}
-    alias hgw='hg -R "${_WRD}"'
-    # hg-()     -- hg -R  ${_WRD}
-    alias hg-='hg -R "${_WRD}"'
+    # hgw       -- hg -R  ${_WRD}   [scripts/hgw <TAB>]
+    source "${__DOTFILES}/scripts/hgw"
 
-    # gitw()    -- git -C ${_WRD}
-    alias gitw='git -C "${_WRD}"'
-    # git-()    -- git -C ${_WRD}
-    alias git-='git -C "${_WRD}"'
+    # gitw      -- git -C ${_WRD}   [scripts/gitw <TAB>]
+    source "${__DOTFILES}/scripts/gitw"
 
     # serve-()  -- ${_SERVE_}
     alias serve-='${_SERVE_}'
@@ -2233,19 +2286,55 @@ _setup_venv_aliases() {
 
 }
 _setup_venv_aliases
+#!/bin/sh
+## 
 
-makew() {
+_makew() {
     # makew()   -- cd $_WRD && make $@
-    (cd "${_WRD}" && make $@)
+    (cd "${_WRD}" && make ${@})
 }
-make-() {
-    # make-()   -- cd $_WRD && make $@
-    makew $@
+_makew_complete() {
+    local cur=${2}
+    # see: /usr/local/etc/bash_completion.d/make (brew)
+    COMPREPLY=( $( compgen -W "$( make -C ${_WRD} -qp 2>/dev/null | \
+    awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ \
+    {split($1,A,/ /);for(i in A)print A[i]}' )" \
+    -- "$cur" ) )
 }
-mw() {
-    # mw()      -- cd $_WRD && make $@
-    makew $@
+complete -F _makew_complete makew
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    _makew ${@}
+fi
+#!/bin/sh
+## 
+function __hgw() {
+    #  hgw()                    -- hg -R "${_WRD}" $@
+    hg -R "${_WRD}" $@
 }
+
+# see: /mercurial/contrib/bash_completion
+complete -o bashdefault -o default -o nospace -F _hg hgw \
+    || complete -o default -o nospace -F _hg hgw
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    __hgw ${@}
+fi
+#!/bin/
+## 
+function gitw () {
+    #  gitw()                    -- git -C "${_WRD}" $@
+    git -C "${_WRD}" $@
+}
+declare -f '__git_complete' 2>&1 >/dev/null && __git_complete gitw __git_main
+__git_wrap__git_main () { __git_func_wrap __git_main ; }
+declare -f '__git_complete' 2>&1 >/dev/null && __git_complete gitkw __gitk_main
+__git_wrap__gitk_main () { __git_func_wrap __gitk_main ; }
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    gitw ${@}
+fi
+
 
 _setup_venv_prompt() {
     # _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
@@ -4225,6 +4314,12 @@ __WRK='/Users/W/-wrk'
 shell_escape_single "${PROJECT_HOME}"
 echo ${strtoescape} | sed "s,','\"'\"',g"
 PROJECT_HOME='/Users/W/-wrk'
+shell_escape_single "${CONDA_ROOT}"
+echo ${strtoescape} | sed "s,','\"'\"',g"
+CONDA_ROOT='/Users/W/-wrk/-conda27'
+shell_escape_single "${CONDA_ENVS_PATH}"
+echo ${strtoescape} | sed "s,','\"'\"',g"
+CONDA_ENVS_PATH='/Users/W/-wrk/-ce27'
 shell_escape_single "${WORKON_HOME}"
 echo ${strtoescape} | sed "s,','\"'\"',g"
 WORKON_HOME='/Users/W/-wrk/-ve27'

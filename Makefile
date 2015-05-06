@@ -99,8 +99,10 @@ help_bash:
 	_TERM_ID="#testing" bash -i -v -c 'exit' > $(BASH_LOAD_SCRIPT) 2>&1
 
 help_bash_txt: help_bash
-	## Write docs/bash_conf.txt
-	_TERM_ID="#testing" bash scripts/dotfiles-bash.sh > docs/bash_conf.txt
+	## Write docs/usage/bash_conf.txt
+	_TERM_ID="#testing" \
+		bash scripts/dotfiles-bash.sh \
+			> docs/usage/bash_conf.txt
 
 
 ZSH_LOAD_SCRIPT=scripts/_dotfiles_zsh.log.sh
@@ -117,17 +119,32 @@ help_vim:
 		$(MAKE) -C etc/vim help
 
 help_vim_txt:
-	## Write docs/dotvim_conf.txt
-	bash scripts/dotfiles-vim.sh > docs/dotvim_conf.txt
+	## Write docs/usage/dotvim_conf.txt
+	bash scripts/dotfiles-vim.sh \
+		> docs/usage/dotvim_conf.txt
 
 
 help_i3:
 	$(MAKE) -C etc/.i3 help_i3
 
 help_i3_txt:
-	bash ./scripts/dotfiles-i3.sh > docs/i3_conf.txt
+	bash ./scripts/dotfiles-i3.sh \
+		> docs/usage/i3_conf.txt
 
-help_txt: help_setuppy_txt help_bash_txt help_vim_txt help_i3_txt help_zsh_txt
+help_readline:
+	cat ~/.inputrc | egrep '(^(\s+)?##+ |^(\s+)?#  )'
+
+help_readline_txt:
+	cat etc/.inputrc | egrep '(^(\s+)?##+ |^(\s+)?#  )' \
+		> docs/usage/readline_conf.txt
+
+help_txt: \
+	help_setuppy_txt \
+	help_readline_txt \
+	help_bash_txt \
+	help_vim_txt \
+	help_i3_txt \
+	help_zsh_txt
 
 help_all:
 	$(MAKE) help
@@ -417,7 +434,11 @@ docs: localcss localjs pip_install_requirements_docs.log
 	$(MAKE) docs_commit_autogen
 	$(MAKE) -C docs clean html   # singlehtml
 
-DOCS_AUTOGEN_FILES:=docs/bash_conf.txt docs/i3_conf.txt docs/dotvim_conf.txt \
+DOCS_AUTOGEN_FILES:=\
+	docs/usage/bash_conf.txt \
+	docs/usage/i3_conf.txt \
+	docs/usage/dotvim_conf.txt \
+	docs/usage/readline_conf.txt \
 	$(BASH_LOAD_SCRIPT) \
 	$(ZSH_LOAD_SCRIPT)
 
