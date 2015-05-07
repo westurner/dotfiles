@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+## pulse.sh -- PulseAudio RTP server/client setup / configuration
+
 export PULSE_SERVER=${PULSE_SERVER:-"10.2.2.2"}
 SOUNDCHECK="/usr/share/sounds/alsa/Front_Center.wav"
 
@@ -49,7 +51,7 @@ function pulse_status(){
 }
 
 function pulse_help() {
-    echo "usage: $0 <install_server|install_client|start|status|stop>"
+    echo "usage: $0 <install_server|install_client|start|status|stop|restart>"
 
 }
 
