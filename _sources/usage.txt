@@ -47,7 +47,7 @@ Readline
 
 ``make help_inputrc_rst``:
 
-.. literalinclude:: usage/inputrc_conf.txt
+.. literalinclude:: usage/readline_conf.txt
 
 
 .. index:: Dotfiles Bash Configuration

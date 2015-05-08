@@ -309,6 +309,46 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.inputrc">https://github.com/westurner/dotfiles/blob/master/etc/.inputrc</a></div>
 </div>
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_inputrc_rst</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">### .inputrc -- readline configuration</span>
+<span class="c">## Bash readline quickstart</span>
+<span class="c">#  https://www.gnu.org/software/bash/manual/html_node/Command-Line-Editing.html#Command-Line-Editing</span>
+<span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html</span>
+<span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html</span>
+<span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html#Readline-vi-Mode</span>
+    <span class="c">#  help bind</span>
+    <span class="c">#  # list bindings</span>
+    <span class="c">#  bind -p</span>
+    <span class="c">#  bind -P | grep -v &#39;is not bound&#39;</span>
+    <span class="c">#  # read bindings</span>
+    <span class="c">#  bind -f ~/.inputrc</span>
+<span class="c">## vi-mode</span>
+    <span class="c">#  Various terminals have vi-mode settings:</span>
+    <span class="c">#  - bash: set -o vi  (default: set -o emacs)</span>
+    <span class="c">#  - ksh:  set -o vi</span>
+    <span class="c">#  - zsh:  bindkey -v</span>
+    <span class="c">#  - tcsh: bindkey -v</span>
+  <span class="c">## vi-command keymap</span>
+    <span class="c">#  &lt;ctrl&gt; l  -- clear screen</span>
+    <span class="c">#  &lt;ctrl&gt; k  -- clear whole line</span>
+    <span class="c">#  &lt;ctrl&gt; a  -- move to beginning of line (^)</span>
+    <span class="c">#  &lt;ctrl&gt; [  -- move to beginning of line (^)</span>
+    <span class="c">#  &lt;ctrl&gt; e  -- move to end of line ($)</span>
+    <span class="c">#  &lt;ctrl&gt; ]  -- move to end of line ($)</span>
+    <span class="c">#  &lt;ctrl&gt; w  -- delete last word</span>
+    <span class="c">#  &lt;ctrl&gt; gx -- expand without executing</span>
+  <span class="c">## vi-insert keymap</span>
+    <span class="c">#  emulate a few options from &quot;set -o emacs&quot;:</span>
+    <span class="c">#  &lt;ctrl&gt; l  -- clear screen</span>
+    <span class="c">#  &lt;ctrl&gt; k  -- clear whole line</span>
+    <span class="c">#  &lt;ctrl&gt; a  -- move to beginning of line (^)</span>
+    <span class="c">#  &lt;ctrl&gt; [  -- move to beginning of line (^)</span>
+    <span class="c">#  &lt;ctrl&gt; e  -- move to end of line ($)</span>
+    <span class="c">#  &lt;ctrl&gt; ]  -- move to end of line ($)</span>
+    <span class="c">#  &lt;ctrl&gt; w  -- delete last word</span>
+    <span class="c">#  &lt;ctrl&gt; gx -- glob expand without executing</span>
+    <span class="c">#  see: bindkey -p</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="bash">
 <span id="dotfiles-bash-config"></span><span id="index-4"></span><h2>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h2>
