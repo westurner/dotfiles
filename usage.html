@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Usage &mdash; westurner/dotfiles 0.8.2 documentation</title>
+    <title>Usage &mdash; westurner/dotfiles 0.8.3 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.8.2',
+            VERSION:     '0.8.3',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.2 documentation" href="index" />
+    <link rel="top" title="westurner/dotfiles 0.8.3 documentation" href="index" />
     <link rel="next" title="Venv" href="venv" />
     <link rel="prev" title="Dotfiles" href="readme" /> 
   </head>
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.2 documentation</a>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.3 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -89,6 +89,7 @@
 <li><a class="reference internal" href="#">Usage</a><ul>
 <li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
 <li><a class="reference internal" href="#makefile">Makefile</a></li>
+<li><a class="reference internal" href="#readline">Readline</a></li>
 <li><a class="reference internal" href="#bash">Bash</a></li>
 <li><a class="reference internal" href="#vim">Vim</a></li>
 <li><a class="reference internal" href="#i3wm">I3wm</a></li>
@@ -143,6 +144,7 @@
 <li><a class="reference internal" href="#">Usage</a><ul>
 <li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
 <li><a class="reference internal" href="#makefile">Makefile</a></li>
+<li><a class="reference internal" href="#readline">Readline</a></li>
 <li><a class="reference internal" href="#bash">Bash</a></li>
 <li><a class="reference internal" href="#vim">Vim</a></li>
 <li><a class="reference internal" href="#i3wm">I3wm</a></li>
@@ -215,7 +217,7 @@
 </div> 
         
 
-        <div class="col-md-9">
+        <div class="col-md-9" id="content-wrapper">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -224,11 +226,11 @@
   <div class="section" id="usage">
 <span id="index-0"></span><span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="readme#install-the-dotfiles"><span>Install the dotfiles</span></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
-<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools#make"><span>Make</span></a>)</li>
-<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools#bash"><span>Bash</span></a>, <a class="reference internal" href="tools#zsh"><span>ZSH</span></a>)</li>
-<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools#vim"><span>Vim</span></a>)</li>
-<li>Manage windows on <a class="reference internal" href="tools#linux"><span>Linux</span></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools#i3wm"><span>I3wm</span></a>)</li>
+<li><a class="reference internal" href="readme#install-the-dotfiles"><em>Install the dotfiles</em></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools#make"><em>Make</em></a>)</li>
+<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools#zsh"><em>ZSH</em></a>)</li>
+<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools#vim"><em>Vim</em></a>)</li>
+<li>Manage windows on <a class="reference internal" href="tools#linux"><em>Linux</em></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools#i3wm"><em>I3wm</em></a>)</li>
 <li><a class="reference external" href="scripts">Script</a> all the <a class="reference external" href="http://schema.org/Thing">things</a></li>
 </ul>
 <div class="section" id="bootstrap-dotfiles-sh">
@@ -264,7 +266,6 @@ $ bash $_WRD/scripts/bootstrap_dotfiles.sh -h
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code>:</p>
 <pre class="ansi-block literal-block">
 $ cd $_WRD &amp;&amp; make help
-make[2]: Entering directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 dotfiles Makefile
 #################
 help         -- print dotfiles help
@@ -300,12 +301,17 @@ push      -- git push
 pull      -- git pull
 
 generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
-
-make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 </pre>
 </div>
+<div class="section" id="readline">
+<span id="dotfiles-readline-config"></span><span id="index-3"></span><h2>Readline<a class="headerlink" href="#readline" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.inputrc">https://github.com/westurner/dotfiles/blob/master/etc/.inputrc</a></div>
+</div>
+<p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_inputrc_rst</span></code>:</p>
+</div>
 <div class="section" id="bash">
-<span id="dotfiles-bash-config"></span><span id="index-3"></span><h2>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h2>
+<span id="dotfiles-bash-config"></span><span id="index-4"></span><h2>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.bashrc">https://github.com/westurner/dotfiles/blob/master/etc/.bashrc</a></div>
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh">https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh</a></div>
@@ -343,6 +349,8 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
   <span class="c">#</span>
   <span class="c">## 07-bashrc.python.sh        -- python</span>
   <span class="c">#  _setup_pyenv()     -- setup pyenv paths (manual)</span>
+  <span class="c">#</span>
+  <span class="c">## 08-bashrc.conda.sh         -- conda</span>
   <span class="c">#  _setup_conda()     -- setup conda paths (manual)</span>
   <span class="c">#</span>
   <span class="c">## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper</span>
@@ -420,6 +428,7 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
     <span class="c">#       PATH_prepend $dir </span>
     <span class="c"># PATH_remove()  -- remove a directory from $PATH</span>
     <span class="c"># note: empty path components (&quot;::&quot;) will be stripped</span>
+    <span class="c"># PATH_contains() -- test whether $PATH contains $1</span>
     <span class="c"># lightpath()       -- display $PATH with newlines</span>
     <span class="c"># lspath()          -- list files in each directory in $PATH</span>
     <span class="c"># lspath_less()     -- lspath with less (color)</span>
@@ -519,16 +528,6 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
     <span class="c"># _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false</span>
 <span class="c">## Pyenv</span>
     <span class="c"># _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw</span>
-<span class="c">## Conda / Anaconda</span>
-    <span class="c"># _setup_anaconda()     -- set $CONDA_ROOT, PATH_prepend</span>
-    <span class="c"># $1 -- conda python version (27|34)</span>
-    <span class="c"># workon_conda()        -- workon a conda + venv project</span>
-    <span class="c"># wec()                 -- workon a conda + venv project</span>
-    <span class="c">#                       note: tab-completion only shows regular virtualenvs</span>
-    <span class="c"># mkvirtualenv_conda()  -- mkvirtualenv and conda create</span>
-    <span class="c"># rmvirtualenv_conda()  -- rmvirtualenv conda</span>
-    <span class="c"># mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv</span>
-    <span class="c"># workon_conda_if_available()       -- workon_conda OR we OR workon</span>
    
    
 <span class="c">#### etc/bash/07-bashrc.virtualenvwrapper.sh</span>
@@ -562,6 +561,34 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
     <span class="c">#    $2=&quot;$VIRTUAL_ENV&quot;</span>
     <span class="c"># rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME</span>
   <span class="c"># _setup_virtualenvwrapper_default_config # ~/.virtualenvs/</span>
+   
+   
+<span class="c">#### etc/bash/08-bashrc.conda.sh</span>
+<span class="c">### bashrc.conda.sh</span>
+<span class="c">## Conda / Anaconda</span>
+    <span class="c"># _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*</span>
+    <span class="c">#    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT</span>
+    <span class="c">#                 (default: ${__WRK})</span>
+    <span class="c"># _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO</span>
+    <span class="c">#   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,</span>
+    <span class="c">#                                                   CONDA_ENVS_PATH__py27)</span>
+    <span class="c">#   $2 (pathstr or &quot;&quot;)       -- lookup($2, CONDA_ROOT,</span>
+    <span class="c">#                                                   CONDA_ROOT__py27)</span>
+    <span class="c">#</span>
+    <span class="c">#  Usage:</span>
+    <span class="c">#   _setup_conda    # __py27</span>
+    <span class="c">#   _setup_conda 27 # __py27</span>
+    <span class="c">#   _setup_conda 34 # __py34</span>
+    <span class="c">#   _setup_conda ~/envs             # __py27</span>
+    <span class="c">#   _setup_conda ~/envs/ /opt/conda # /opt/conda</span>
+    <span class="c">#</span>
+    <span class="c"># workon_conda()        -- workon a conda + venv project</span>
+    <span class="c"># wec()                 -- workon a conda + venv project</span>
+    <span class="c">#                       note: tab-completion only shows regular virtualenvs</span>
+    <span class="c"># mkvirtualenv_conda()  -- mkvirtualenv and conda create</span>
+    <span class="c"># rmvirtualenv_conda()  -- rmvirtualenv conda</span>
+    <span class="c"># mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv</span>
+    <span class="c"># workon_conda_if_available()       -- workon_conda OR we OR workon</span>
    
    
 <span class="c">#### etc/bash/08-bashrc.gcloud.sh</span>
@@ -614,21 +641,17 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
     <span class="c"># grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)</span>
     <span class="c"># _setup_venv_aliases()  -- load venv aliases</span>
     <span class="c">#   note: these are overwritten by `we` [`source &lt;(venv -b)`]</span>
+    <span class="c"># makew     -- make -C &quot;${WRD}&quot; ${@}    [scripts/makew &lt;TAB&gt;]</span>
     <span class="c"># ssv()     -- supervisord   -c ${_SVCFG}</span>
     <span class="c"># sv()      -- supervisorctl -c ${_SVCFG}</span>
     <span class="c"># svd()     -- supervisorctl -c ${_SVCFG} restart &amp;&amp; sv tail -f dev</span>
     <span class="c"># svt()     -- supervisorctl -c &quot;${_SVCFG}&quot; tail -f</span>
-    <span class="c"># hgw()     -- hg -R  ${_WRD}</span>
-    <span class="c"># hg-()     -- hg -R  ${_WRD}</span>
-    <span class="c"># gitw()    -- git -C ${_WRD}</span>
-    <span class="c"># git-()    -- git -C ${_WRD}</span>
+    <span class="c"># hgw       -- hg -R  ${_WRD}   [scripts/hgw &lt;TAB&gt;]</span>
+    <span class="c"># gitw      -- git -C ${_WRD}   [scripts/gitw &lt;TAB&gt;]</span>
     <span class="c"># serve-()  -- ${_SERVE_}</span>
     <span class="c"># shell-()  -- ${_SHELL_}</span>
     <span class="c"># test-()   -- cd ${_WRD} &amp;&amp; python setup.py test</span>
     <span class="c"># testr-()  -- reset; cd ${_WRD} &amp;&amp; python setup.py test</span>
-    <span class="c"># makew()   -- cd $_WRD &amp;&amp; make $@</span>
-    <span class="c"># make-()   -- cd $_WRD &amp;&amp; make $@</span>
-    <span class="c"># mw()      -- cd $_WRD &amp;&amp; make $@</span>
     <span class="c"># _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,</span>
     <span class="c">#                          and ${debian_chroot}</span>
     <span class="c">#           &quot;WINDOW_TITLE (venvprompt) [debian_chroot]&quot;</span>
@@ -809,38 +832,6 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
     <span class="c"># chown-sme()       -- sudo chown -Rv user</span>
     <span class="c"># chown-sme-mine()  -- sudo chown -Rv user:user &amp;&amp; chmod -Rv go-rwx</span>
     <span class="c"># chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)</span>
-    <span class="c"># new-sh()          -- create and open a new shell script at $1</span>
-    <span class="c"># diff-dirs()       -- list differences between directories</span>
-    <span class="c"># diff-stdin()      -- diff the output of two commands</span>
-    <span class="c"># wopen()           -- open path/URI/URL $1 in a new browser tab</span>
-    <span class="c">#                      see: scripts/x-www-browser</span>
-    <span class="c"># find-largefiles() -- find files larger than size (default: +10M)</span>
-    <span class="c"># find-pdf()        -- find pdfs and print info with pdfinfo</span>
-    <span class="c"># find-lately()     -- list and sort files in paths $@ by ISO8601 mtime</span>
-    <span class="c">#                      stderr &gt; lately.$(date).errors</span>
-    <span class="c">#                      stdout &gt; lately.$(date).files</span>
-    <span class="c">#                      stdout &gt; lately.$(date).sorted</span>
-    <span class="c">#                      note: </span>
-    <span class="c"># find-setuid()     -- find all setuid and setgid files</span>
-    <span class="c">#                      stderr &gt; find-setuid.errors</span>
-    <span class="c">#                      stdout &gt; find-setuid.files</span>
-    <span class="c"># find-startup()    -- find common startup files in common locations</span>
-    <span class="c"># find-ssl()        -- find .pem and .db files and print their metadata</span>
-    <span class="c"># find-dpkgfile()   -- search dpkgs with apt-file</span>
-    <span class="c"># find-dpkgfiles()  -- sort dpkg /var/lib/dpkg/info/&lt;name&gt;.list</span>
-    <span class="c"># deb-chksums()     -- check dpkg md5 checksums with md5sums</span>
-    <span class="c"># deb-mkrepo()      -- create dpkg Packages.gz and Sources.gz from dir ${1}</span>
-    <span class="c"># mnt-chroot-bind() -- bind mount linux chroot directories</span>
-    <span class="c"># mnt-cifs()        -- mount a CIFS mount</span>
-    <span class="c"># mnt-davfs()       -- mount a WebDAV mount</span>
-    <span class="c"># lsof-sh()         -- something like lsof</span>
-    <span class="c"># lsof-net()        -- lsof the network things</span>
-    <span class="c"># net-stat()        -- print networking information</span>
-    <span class="c"># ssh-prx()         -- SSH SOCKS</span>
-    <span class="c"># strace-()         -- strace with helpful options</span>
-    <span class="c"># strace-f()        -- strace -e trace=file + helpful options</span>
-    <span class="c"># strace-f-noeno()  -- strace -e trace=file | grep -v ENOENT</span>
-    <span class="c"># hgst()            -- hg diff --stat, hg status, hg diff</span>
    
    
 <span class="c">#### etc/bash/50-bashrc.bashmarks.sh</span>
@@ -1091,16 +1082,16 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
    
 </pre></div>
 </div>
-<span class="target" id="index-4"></span></div>
+<span class="target" id="index-5"></span></div>
 <div class="section" id="vim">
-<span id="dotvim"></span><span id="index-5"></span><h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<span id="dotvim"></span><span id="index-6"></span><h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc">https://github.com/westurner/dotvim/blob/master/vimrc</a></div>
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc">https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc</a></div>
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc">https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc</a></div>
 </div>
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_vim_rst</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>   # etc/vim/vimrc
+<div class="highlight-python"><div class="highlight"><pre>   # etc/.vim/vimrc
 &quot; .vimrc
 &quot; ==========
 &quot; ::
@@ -1362,22 +1353,27 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 &quot; Python
 &quot;  Wrap at 72 chars for comments.
 &quot;  read virtualenv&#39;s site-packages to vim path
-&quot; TODO: python regex current buffer
-&quot; :help if_pyth
+    &quot; TODO: python regex current buffer
 &quot; Tabsetting functions
 &quot;  :Fourtabs    -- set to four (4) soft tabs (Default)
 &quot; Default to fourtabs
-&quot;  :Threetabs   -- set to three (3) soft tabs (e.g. RST)
+&quot;  :Threetabs   -- set to three (3) soft tabs
 &quot;  :Twotabs     -- set to two (2) soft tabs
-&quot;  :Onetab      -- set to one soft tab
-&quot;  :Hardtabs
+&quot;  :Onetab      -- set to one (1) soft tab
+&quot;  :Hardtabs    -- set to hard \t tabs (e.g. for Makefiles)
 &quot;  :CurrentBuffer -- display number of current buffer
-&quot;  &lt;leader&gt; 2   -- diffget from bufnr 2
-&quot;  &lt;leader&gt; 3   -- diffget from bufnr 3
-&quot;  &lt;leader&gt; 4   -- diffget from bufnr 4
-&quot;  &lt;leader&gt; 2   -- diffget from bufnr 2
-&quot;  &lt;leader&gt; 3   -- diffget from bufnr 3
-&quot;  &lt;leader&gt; 4   -- diffget from bufnr 4
+&quot;  diff           -- vimdiff, Hgvdiff, Gdiff
+&quot;    :diffget   -- get from diff (overwrite or append)
+&quot;    do         -- :diffget other block
+&quot;    :diffput   -- put from diff (overwrite or append)
+&quot;    dp         -- :diffput block 
+&quot;
+&quot;    &lt;C-W&gt;&lt;C-w&gt; -- cycle between buffers
+&quot;
+&quot;  diffget maps   -- 3-way merge buffers
+&quot;    &lt;leader&gt; 2   -- diffget from bufnr 2
+&quot;    &lt;leader&gt; 3   -- diffget from bufnr 3
+&quot;    &lt;leader&gt; 4   -- diffget from bufnr 4
 &quot;  :Striptrailingwhitespace -- strip spaces at the end of lines
 &quot; Adjust font-size
 &quot;  &lt;C-Up&gt;   -- increase font size
@@ -1396,7 +1392,7 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 &quot;   - http://vim.wikia.com/wiki/VimTip320
    
    
-   # etc/vim/vimrc.full.bundles.vimrc
+   # etc/.vim/vimrc.full.bundles.vimrc
 &quot; Bundle            -- Vim bundle manager [help bundle]
 &quot; :BundleList          - list configured plugins
 &quot; :BundleInstall(!)    - install (update) plugins
@@ -1600,6 +1596,7 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 &quot;  g:pymode_python = { &#39;python&#39;, &#39;python3&#39;, &#39;disable&#39; }
 &quot;
 &quot;  set g:pymode_python &#39;disable&#39; (start time, occasional completion stall)
+&quot;  &lt;leader&gt; d    -- open pydoc
 &quot;  :PymodeLintToggle    -- toggle lint checking
 &quot;  :PymodeLintAuto      -- autofix current buffer pep8 errors
 &quot; - auto-show an error window
@@ -1656,6 +1653,12 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 &quot;  &lt;leader&gt;te       --  pytest error
 &quot; Pyrex         -- Pyrex syntax
 &quot; Jinja         -- Jinja Templates syntax
+&quot; vim-coffee-script -- CoffeeScript syntax, indent
+&quot; vim-haml          -- HAML, SASS, SCSS
+&quot; vim-css3-syntax   -- CSS3
+&quot; vim-css-color     -- show CSS color codes
+&quot; vim-less          -- LESS CSS
+&quot; vim-jade          -- Jade templates
 &quot; os.vim   -- Operating System [help os]
 &quot; clickable.vim -- click-able links
 &quot; Bundle &#39;https://github.com/Rykka/clickable.vim&#39; XXX TODO linux
@@ -1696,11 +1699,12 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 &quot;  :FufQuickfix
 &quot;  :FufHelp
 &quot; abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
+&quot; fountain.vim          -- fountain.io syntax
 &quot; All of your Bundles must be added before the following line
 &quot;
    
    
-   # etc/vim/vimrc.tinyvim.bundles.vimrc
+   # etc/.vim/vimrc.tinyvim.bundles.vimrc
 &quot; Bundle            -- Vim bundle manager [help bundle]
 &quot; :BundleList          - list configured plugins
 &quot; :BundleInstall(!)    - install (update) plugins
@@ -1777,9 +1781,9 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
    
 </pre></div>
 </div>
-<span class="target" id="index-6"></span></div>
+<span class="target" id="index-7"></span></div>
 <div class="section" id="i3wm">
-<span id="dotfiles-i3wm"></span><span id="index-7"></span><h2>I3wm<a class="headerlink" href="#i3wm" title="Permalink to this headline">¶</a></h2>
+<span id="dotfiles-i3wm"></span><span id="index-8"></span><h2>I3wm<a class="headerlink" href="#i3wm" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.i3/config">https://github.com/westurner/dotfiles/blob/master/etc/.i3/config</a></div>
 </div>
@@ -1958,7 +1962,7 @@ make[2]: Leaving directory `/srv/wrk/.ve/dotfiles/src/dotfiles'
 </div>
 </div>
 <div class="section" id="scripts">
-<span id="dotfiles-scripts"></span><span id="index-8"></span><h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
+<span id="dotfiles-scripts"></span><span id="index-9"></span><h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/scripts">https://github.com/westurner/dotfiles/tree/master/scripts</a></div>
 </div>
@@ -2074,7 +2078,7 @@ or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</sp
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index">westurner/dotfiles 0.8.2 documentation</a></li>
+        <li><a href="index">westurner/dotfiles 0.8.3 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
@@ -2092,7 +2096,7 @@ or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</sp
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
       </footer>
       <!-- /footer -->
 

@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Changelog &mdash; westurner/dotfiles 0.8.2 documentation</title>
+    <title>Changelog &mdash; westurner/dotfiles 0.8.3 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.8.2',
+            VERSION:     '0.8.3',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.2 documentation" href="index" />
+    <link rel="top" title="westurner/dotfiles 0.8.3 documentation" href="index" />
     <link rel="next" title="License" href="license" />
     <link rel="prev" title="Developing" href="developing" /> 
   </head>
@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.2 documentation</a>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.3 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -87,8 +87,9 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
-<li><a class="reference internal" href="#id2">0.8.2</a></li>
-<li><a class="reference internal" href="#id3">0.01</a></li>
+<li><a class="reference internal" href="#id2">0.8.3</a></li>
+<li><a class="reference internal" href="#id3">0.8.2</a></li>
+<li><a class="reference internal" href="#id4">0.01</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#git-commit-log">Git Commit Log</a></li>
@@ -138,8 +139,9 @@
   <h3><a href="index">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
-<li><a class="reference internal" href="#id2">0.8.2</a></li>
-<li><a class="reference internal" href="#id3">0.01</a></li>
+<li><a class="reference internal" href="#id2">0.8.3</a></li>
+<li><a class="reference internal" href="#id3">0.8.2</a></li>
+<li><a class="reference internal" href="#id4">0.01</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#git-commit-log">Git Commit Log</a></li>
@@ -209,7 +211,7 @@
 </div> 
         
 
-        <div class="col-md-9">
+        <div class="col-md-9" id="content-wrapper">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -217,12 +219,21 @@
                   
   <div class="section" id="changelog">
 <span id="index-0"></span><span id="id1"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
-<div class="code bash highlight-python"><div class="highlight"><pre>git log v0.1.0..HEAD
-git log v0.1.1..v0.1.2
+<div class="code bash highlight-python"><div class="highlight"><pre>git log --graph v0.1.1..HEAD
+git log --format=&#39;* %s [%h]&#39; v0.8.2..HEAD
 </pre></div>
 </div>
 <div class="section" id="id2">
-<h2>0.8.2<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>0.8.3<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>UBY: docs/_static/css/local.css: #sidebar-wrapper max-width:25% [d3e1408]</li>
+<li>BUG,ENH: editw completion, lsw(), findw(), grepw() [9f95863]</li>
+<li>REf: .gitignore: etc/vim -&gt; etc/.vim [c1edfea]</li>
+<li>BLD,REF: scripts/bootstrap_dotfiles.sh: etc/vim -&gt; etc/.vim (for grinw and grindw) [bc2b0ac]</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>0.8.2<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>SEC,BUG: shell_escape_single in dotfiles_status() (ds())</li>
 <li>BUG: x-www-browser -&gt; web (system lockup from xdg-open loop)</li>
@@ -239,8 +250,8 @@ git log v0.1.1..v0.1.2
 <li>UBY,ENH: scripts/osquery-all.sh: Bootstrap CSS (table-striped table-hover)</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>0.01<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>0.01<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Created dotfiles project</li>
 </ul>
@@ -271,29 +282,85 @@ gl
 <pre class="ansi-block literal-block">
 $ test -d ../.git &amp;&amp; \
 git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
-*   6845b8c  (HEAD, origin/develop, develop) 2015-05-01 18:16:52 -0500 [Wes Turner]
-|\  Merge tag 'v0.8.2' into develop
-| *   dc671a9  (tag: v0.8.2, origin/master, origin/HEAD, master) 2015-05-01 18:16:39 -0500 [Wes Turner]
-| |\  Merge branch 'release/0.8.2'
-| | * 8f20176  (release/0.8.2) 2015-05-01 18:16:02 -0500 [Wes Turner]
-| | | BLD: Makefile: pip install -r ./docs/requirements.txt
-| | * 9a78cae  2015-05-01 18:15:33 -0500 [Wes Turner]
+* dcbf02d  (HEAD, release/0.8.3) 2015-05-08 02:20:03 -0500 [Wes Turner]
+| DOC: autogenerated usage docs
+* e8a9fec  (origin/release/0.8.3) 2015-05-07 13:50:39 -0500 [Wes Turner]
+| DOC: scripts/pulse.sh: PulseAudio RTP server/client config script
+* de3466c  2015-05-05 23:54:11 -0500 [Wes Turner]
+| BUG: scripts/prompt6.py: more template args
+* e61fb0b  2015-05-05 23:53:32 -0500 [Wes Turner]
+| BLD: update usage (docs/usage/*_conf.txt)
+* ceb8ac2  2015-05-05 23:52:37 -0500 [Wes Turner]
+| DOC: etc/.inputrc: &lt;OSX_opts&gt;-k -- clear
+* 4aa9dd6  2015-05-03 11:17:58 -0500 [Wes Turner]
+| BUG,CLN: scripts/{bootstrap_dotfiles.sh,e,ew,gdd,pbcopy,pbpaste,ssv,sv,sve,svr,svs,xlck.sh}
+* 9bcf918  2015-05-03 11:17:19 -0500 [Wes Turner]
+| ENH: scripts/osquery-all.sh: opts -d &lt;path&gt; -D (dated) -s
+* 6443445  2015-05-03 11:16:16 -0500 [Wes Turner]
+| ENH: prompt6.py, this.sh: POC
+* ee31678  2015-05-03 11:12:46 -0500 [Wes Turner]
+| ENH,CLN: scripts/pulse.sh: exit statuses
+* 861e6a8  2015-05-02 18:48:50 -0500 [Wes Turner]
+| BUG: etc/zsh/00-zsh.before.sh: add dr() -&gt; dotfiles_zsh_reload()
+* 17bea9a  2015-05-02 18:48:18 -0500 [Wes Turner]
+| CLN: etc/venv/venv_root_prefix.sh: remove old CONDA27, CONDA34 paths
+* 18a5b20  2015-05-02 18:46:03 -0500 [Wes Turner]
+| ENH,REF: 08-bashrc.conda.sh: add CONDA* to dotfiles_status()
+* 219db69  2015-05-02 18:44:41 -0500 [Wes Turner]
+| CLN: /etc/bash/01-bashrc.lib.sh: PATH_add(), PATH_remove(), PATH_contains()
+* 6b9317a  2015-05-02 16:29:22 -0500 [Wes Turner]
+| ENH,REF: scripts: e,ew,gitw,hgw,makew,ssv,sv,sve,svr,svs
+* da76b51  2015-05-02 11:59:17 -0500 [Wes Turner]
+| REF,BLD: scripts/dotfiles-vim.sh: etc/vim -&gt; etc/.vim
+* d1b8948  2015-05-02 11:58:26 -0500 [Wes Turner]
+| DOC: autogenerated usage docs
+* 168f90d  2015-05-02 11:54:08 -0500 [Wes Turner]
+| BUG,CLN: ipython_config.py: remove extra/old CONDA paths
+* 2b47841  2015-05-02 01:19:55 -0500 [Wes Turner]
+| ENH,REF: etc/.hgrc: 'hg l,long' colors, hg l -&gt; long'
+* df441eb  2015-05-02 01:08:12 -0500 [Wes Turner]
+| ENH: etc/.hgrc: add --removed, 'hg l --stat'
+* 6151fdf  2015-05-02 00:23:30 -0500 [Wes Turner]
+| DOC: autogenerated usage docs
+* bad67c2  2015-05-02 00:22:35 -0500 [Wes Turner]
+| DOC: autogenerated usage docs
+* 22e55a5  2015-05-02 00:22:25 -0500 [Wes Turner]
+| RLS: VERSION.txt: 0.8.3
+* 724863a  2015-05-02 00:22:06 -0500 [Wes Turner]
+| RLS: CHANGELOG.rst: v0.8.3, git log cmds
+*   7b50fe1  (origin/develop, develop) 2015-05-02 00:06:04 -0500 [Wes Turner]
+|\  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+| *   6845b8c  2015-05-01 18:16:52 -0500 [Wes Turner]
+| |\  Merge tag 'v0.8.2' into develop
+| | *   dc671a9  (tag: v0.8.2, origin/master, origin/HEAD) 2015-05-01 18:16:39 -0500 [Wes Turner]
+| | |\  Merge branch 'release/0.8.2'
+| | | * 8f20176  2015-05-01 18:16:02 -0500 [Wes Turner]
+| | | | BLD: Makefile: pip install -r ./docs/requirements.txt
+| | | * 9a78cae  2015-05-01 18:15:33 -0500 [Wes Turner]
+| | | | UBY: docs/_static/css/local.css: #sidebar-wrapper max-width:25%
+| | | * 8239781  2015-05-01 18:14:41 -0500 [Wes Turner]
+| | | | RLS: MANIFEST.in: autogenerated git_manifest
+| | | * 6f7ea54  2015-05-01 18:11:47 -0500 [Wes Turner]
+| | | | DOC: autogenerated usage docs
+| | | * c86bf6b  2015-05-01 18:11:08 -0500 [Wes Turner]
+| | | | DOC: autogenerated usage docs
+| | | * d619c89  2015-05-01 18:08:45 -0500 [Wes Turner]
+| | | | RLS: VERSION.txt: 0.8.2
+| | | * b4e535d  2015-05-01 18:06:56 -0500 [Wes Turner]
+| | | | RLS: CHANGELOG.rst: v0.8.2
+| | | * 0514992  2015-05-01 18:01:23 -0500 [Wes Turner]
+| | |/  ENH: etc/i3/config: Start gnome-settings-daemon (e.g. for anti-aliasing)
+| |/|   
+| * | 337ebf5  2015-05-01 17:41:28 -0500 [Wes Turner]
+| | | BUG: x-www-browser -&gt; web (system lockup from xdg-open loop)
+* | | d3e1408  2015-05-02 00:05:41 -0500 [Wes Turner]
 | | | UBY: docs/_static/css/local.css: #sidebar-wrapper max-width:25%
-| | * 8239781  2015-05-01 18:14:41 -0500 [Wes Turner]
-| | | RLS: MANIFEST.in: autogenerated git_manifest
-| | * 6f7ea54  2015-05-01 18:11:47 -0500 [Wes Turner]
-| | | DOC: autogenerated usage docs
-| | * c86bf6b  2015-05-01 18:11:08 -0500 [Wes Turner]
-| | | DOC: autogenerated usage docs
-| | * d619c89  2015-05-01 18:08:45 -0500 [Wes Turner]
-| | | RLS: VERSION.txt: 0.8.2
-| | * b4e535d  2015-05-01 18:06:56 -0500 [Wes Turner]
-| | | RLS: CHANGELOG.rst: v0.8.2
-| | * 0514992  2015-05-01 18:01:23 -0500 [Wes Turner]
-| |/  ENH: etc/i3/config: Start gnome-settings-daemon (e.g. for anti-aliasing)
-|/|   
-* | 337ebf5  2015-05-01 17:41:28 -0500 [Wes Turner]
-| | BUG: x-www-browser -&gt; web (system lockup from xdg-open loop)
+* | | 9f95863  2015-05-02 00:03:59 -0500 [Wes Turner]
+| | | BUG,ENH: editw completion, lsw(), findw(), grepw()
+* | | c1edfea  2015-05-01 23:55:43 -0500 [Wes Turner]
+| | | REf: .gitignore: etc/vim -&gt; etc/.vim
+* | | bc2b0ac  2015-05-01 21:28:55 -0500 [Wes Turner]
+|/ /  BLD,REF: scripts/bootstrap_dotfiles.sh: etc/vim -&gt; etc/.vim (for grinw and grindw)
 * | 82935c1  2015-04-29 05:44:40 -0500 [Wes Turner]
 | | REF,BUG: CONDA_ENVS_PATH, _setup_venv_prompt, _virtualenvwrapper_get_step_num, _setup_virtualenvwrapper_dotfiles_config, _setup_virtualenvwrapper_dotfiles_config, wec/workon_conda completion, and only load virtualenvwrapper once
 * | fd3eb40  2015-04-27 21:31:52 -0500 [Wes Turner]
@@ -311,7 +378,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * |   4551af4  2015-04-25 03:48:43 -0500 [Wes Turner]
 |\ \  Merge tag 'v0.8.1' into develop
 | |/  
-| *   1d51e02  (tag: v0.8.1) 2015-04-25 03:37:56 -0500 [Wes Turner]
+| *   1d51e02  (tag: v0.8.1, master) 2015-04-25 03:37:56 -0500 [Wes Turner]
 | |\  Merge branch 'release/0.8.1'
 | | * 1c3c82d  2015-04-25 03:36:50 -0500 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.8.1
@@ -377,7 +444,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | BUG: dotfiles_postdeactivate (unset VENVSTR, VENVSTRAPP, VENVPREFIX, reset EDITOR_, reset _USRLOG)
 * | 2fdd8a6  2015-04-15 09:52:21 -0500 [Wes Turner]
 | | BUG: venv -e --print-bash sets VIRTUAL_ENV=&quot;${WORKON_HOME}/&quot;
-* | 64032ba  2015-04-14 22:25:55 -0500 [Wes Turner]
+* | 64032ba  (create/develop) 2015-04-14 22:25:55 -0500 [Wes Turner]
 | | DOC: autogenerated usage docs
 * | 32c0703  2015-04-14 22:25:36 -0500 [Wes Turner]
 | | DOC,REF: tools.rst: fix table after sed
@@ -454,7 +521,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * |   231f3a6  2015-01-10 09:22:27 -0600 [Wes Turner]
 |\ \  Merge tag 'v0.7.2' into develop
 | |/  
-| *   ceec639  (tag: v0.7.2, bb/master) 2015-01-10 09:22:01 -0600 [Wes Turner]
+| *   ceec639  (tag: v0.7.2, create/master, bb/master) 2015-01-10 09:22:01 -0600 [Wes Turner]
 | |\  Merge branch 'release/0.7.2'
 | | * 98e1ada  2015-01-10 09:21:49 -0600 [Wes Turner]
 | | | RLS: MANIFEST.in: autogenerated git_manifest
@@ -3571,7 +3638,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index">westurner/dotfiles 0.8.2 documentation</a></li>
+        <li><a href="index">westurner/dotfiles 0.8.3 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
@@ -3589,7 +3656,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
       </footer>
       <!-- /footer -->
 

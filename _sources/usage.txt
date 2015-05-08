@@ -38,6 +38,18 @@ Makefile
    :shell:
 
 
+.. index:: Dotfiles Readline Configuration
+.. _dotfiles_readline_config:
+
+Readline
+---------
+| https://github.com/westurner/dotfiles/blob/master/etc/.inputrc
+
+``make help_inputrc_rst``:
+
+.. literalinclude:: usage/inputrc_conf.txt
+
+
 .. index:: Dotfiles Bash Configuration
 .. _dotfiles_bash_config:
 
@@ -48,7 +60,7 @@ Bash
 
 ``make help_bash_rst``:
 
-.. literalinclude:: bash_conf.txt
+.. literalinclude:: usage/bash_conf.txt
 
 
 .. index:: Dotfiles Vim Configuration
@@ -63,7 +75,7 @@ Vim
 
 ``make help_vim_rst``:
 
-.. literalinclude:: dotvim_conf.txt
+.. literalinclude:: usage/dotvim_conf.txt
 
 
 .. index:: Dotfiles i3wm Configuration
@@ -76,7 +88,7 @@ I3wm
 
 ``make help_i3_rst``:
 
-.. literalinclude:: i3_conf.txt
+.. literalinclude:: usage/i3_conf.txt
 
 
 .. index:: Dotfiles Scripts

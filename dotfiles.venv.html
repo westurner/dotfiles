@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles.venv package &mdash; westurner/dotfiles 0.8.2 documentation</title>
+    <title>dotfiles.venv package &mdash; westurner/dotfiles 0.8.3 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.8.2',
+            VERSION:     '0.8.3',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -64,7 +64,7 @@
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.8.2 documentation" href="index" />
+    <link rel="top" title="westurner/dotfiles 0.8.3 documentation" href="index" />
     <link rel="up" title="Dotfiles API" href="api" />
     <link rel="next" title="Developing" href="developing" />
     <link rel="prev" title="dotfiles.cli package" href="dotfiles.cli" /> 
@@ -79,7 +79,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.2 documentation</a>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.3 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -223,7 +223,7 @@
 </div> 
         
 
-        <div class="col-md-9">
+        <div class="col-md-9" id="content-wrapper">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -235,16 +235,16 @@
 <h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference internal" href="#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">ipython_config.py</a>):</p>
 <ul class="simple">
-<li>Set variables for standard <a class="reference internal" href="tools#virtualenv"><span>Virtualenv</span></a> paths in the environment dict</li>
-<li>Define <a class="reference internal" href="tools#ipython"><span>IPython</span></a> aliases</li>
+<li>Set variables for standard <a class="reference internal" href="tools#virtualenv"><em>Virtualenv</em></a> paths in the environment dict</li>
+<li>Define <a class="reference internal" href="tools#ipython"><em>IPython</em></a> aliases</li>
 <li>Serialize variables and aliases to:<ul>
-<li><a class="reference internal" href="tools#ipython"><span>IPython</span></a> configuration (variables, aliases)</li>
-<li><a class="reference internal" href="tools#bash"><span>Bash</span></a>/<a class="reference internal" href="tools#zsh"><span>ZSH</span></a> configuration (variables, aliases, functions):<ul>
+<li><a class="reference internal" href="tools#ipython"><em>IPython</em></a> configuration (variables, aliases)</li>
+<li><a class="reference internal" href="tools#bash"><em>Bash</em></a>/<a class="reference internal" href="tools#zsh"><em>ZSH</em></a> configuration (variables, aliases, functions):<ul>
 <li><code class="docutils literal"><span class="pre">venv</span> <span class="pre">-E</span> <span class="pre">--bash</span></code></li>
 <li><code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">--bash</span></code></li>
 </ul>
 </li>
-<li><a class="reference internal" href="tools#json"><span>JSON</span></a> (variables, aliases) [<code class="docutils literal"><span class="pre">--print</span></code>]<ul>
+<li><a class="reference internal" href="tools#json"><em>JSON</em></a> (variables, aliases) [<code class="docutils literal"><span class="pre">--print</span></code>]<ul>
 <li><code class="docutils literal"><span class="pre">venv</span> <span class="pre">-E</span> <span class="pre">--json</span></code></li>
 <li><code class="docutils literal"><span class="pre">venv</span> <span class="pre">dotfiles</span> <span class="pre">json</span></code></li>
 </ul>
@@ -254,7 +254,7 @@
 </ul>
 <p><a class="reference internal" href="#module-dotfiles.venv.ipython_magics" title="dotfiles.venv.ipython_magics"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_magics</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py">ipython_magics.py</a>):</p>
 <ul class="simple">
-<li>Configure <a class="reference internal" href="tools#ipython"><span>IPython</span></a> <code class="docutils literal"><span class="pre">%magic</span></code> commands<ul>
+<li>Configure <a class="reference internal" href="tools#ipython"><em>IPython</em></a> <code class="docutils literal"><span class="pre">%magic</span></code> commands<ul>
 <li><code class="docutils literal"><span class="pre">cd*</span></code> &#8211; change directories (<code class="docutils literal"><span class="pre">%cdhelp</span></code>, <code class="docutils literal"><span class="pre">%cdp</span></code>, <code class="docutils literal"><span class="pre">%cdwh</span></code>, <code class="docutils literal"><span class="pre">%cdv</span></code>,
 <code class="docutils literal"><span class="pre">%cds</span></code>, <code class="docutils literal"><span class="pre">%cdw</span></code>)</li>
 <li><code class="docutils literal"><span class="pre">ds</span></code>  &#8211; print dotfiles_status</li>
@@ -278,7 +278,7 @@ venv<span class="o">()</span> <span class="o">{</span>
 <p><code class="docutils literal"><span class="pre">etc/bash/10-bashrc.venv.sh</span></code> is sourced by
 <code class="docutils literal"><span class="pre">etc/bash/00-bashrc.before.sh</span></code>, which is sourced by <code class="docutils literal"><span class="pre">~/.bashrc</span></code>
 (a symlink to <code class="docutils literal"><span class="pre">${__DOTFILES}/etc/.bashrc</span></code> created by
-<a class="reference internal" href="usage#bootstrap-dotfiles-sh"><span>bootstrap_dotfiles.sh -S</span></a>).</p>
+<a class="reference internal" href="usage#bootstrap-dotfiles-sh"><em>bootstrap_dotfiles.sh -S</em></a>).</p>
 </div>
 <div class="section" id="ipython">
 <h3>IPython<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h3>
@@ -348,7 +348,7 @@ for Bash, ZSH, IPython, Vim.</p>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.CdAlias.IPYTHON_MAGICS_FILE_HEADER">
-<code class="descname">IPYTHON_MAGICS_FILE_HEADER</code><em class="property"> = '\n#!/usr/bin/env ipython\n# dotfiles.venv.ipython_magics\nfrom __future__ import print_function\n&quot;&quot;&quot;\nIPython ``%magic`` commands\n\n* ``cd`` aliases\n* ``ds`` (``dotfiles_status``)\n* ``dr`` (``dotfiles_reload``)\n\nInstallation\n--------------\n.. code-block:: bash\n\n    __DOTFILES=&quot;~/.dotfiles&quot;\n    ipython_profile=&quot;profile_default&quot;\n    ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \\\n        ~/.ipython/${ipython_profile}/startup/ipython_magics.py\n&quot;&quot;&quot;\nimport os\ntry:\n    from IPython.core.magic import (Magics, magics_class, line_magic)\nexcept ImportError:\n    print(&quot;ImportError: IPython&quot;)\n    # Mock IPython for building docs\n    Magics = object\n    magics_class = lambda cls, *args, **kwargs: cls\n    line_magic = lambda func, *args, **kwargs: func\n\n&#64;magics_class\nclass VenvMagics(Magics):\n    def cd(self, envvar, line):\n        &quot;&quot;&quot;\n        Change directory\n\n        Args:\n            envvar (str): os.environ variable name\n            line (str): path to append to envvar\n        &quot;&quot;&quot;\n        prefix = os.environ.get(envvar, &quot;&quot;)\n        path = os.path.join(prefix, line)\n        return self.shell.magic(\'cd %s\' % path)'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.CdAlias.IPYTHON_MAGICS_FILE_HEADER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">IPYTHON_MAGICS_FILE_HEADER</code><em class="property"> = '\n#!/usr/bin/env ipython\n# dotfiles.venv.ipython_magics\nfrom __future__ import print_function\n&quot;&quot;&quot;\nIPython ``%magic`` commands\n\n* ``cd`` aliases\n* ``ds`` (``dotfiles_status``)\n* ``dr`` (``dotfiles_reload``)\n\nInstallation\n--------------\n.. code-block:: bash\n\n    __DOTFILES=&quot;${HOME}/-dotfiles&quot;\n    ipython_profile=&quot;profile_default&quot;\n    ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \\\n        ~/.ipython/${ipython_profile}/startup/ipython_magics.py\n&quot;&quot;&quot;\nimport os\ntry:\n    from IPython.core.magic import (Magics, magics_class, line_magic)\nexcept ImportError:\n    print(&quot;ImportError: IPython&quot;)\n    # Mock IPython for building docs\n    Magics = object\n    magics_class = lambda cls, *args, **kwargs: cls\n    line_magic = lambda func, *args, **kwargs: func\n\n&#64;magics_class\nclass VenvMagics(Magics):\n    def cd(self, envvar, line):\n        &quot;&quot;&quot;\n        Change directory\n\n        Args:\n            envvar (str): os.environ variable name\n            line (str): path to append to envvar\n        &quot;&quot;&quot;\n        prefix = os.environ.get(envvar, &quot;&quot;)\n        path = os.path.join(prefix, line.lstrip(\'/\\\\\'))\n        return self.shell.magic(\'cd %s\' % repr(unicode(path))[1:])'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.CdAlias.IPYTHON_MAGICS_FILE_HEADER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -601,26 +601,6 @@ funcname to override default</td>
 </table>
 </dd></dl>
 
-<dl class="method">
-<dt id="dotfiles.venv.ipython_config.CmdAlias.to_vim_function">
-<code class="descname">to_vim_function</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config#CmdAlias.to_vim_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.CmdAlias.to_vim_function" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a vim function</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><code class="xref py py-exc docutils literal"><span class="pre">NotImplemented</span></code> &#8211;
-See IpyAlias.to_vim_function</li>
-<li><code class="xref py py-exc docutils literal"><span class="pre">str</span></code> &#8211;
-self.cmdstr (AS-IS)</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="exception">
@@ -759,7 +739,7 @@ with the longest matching Env path variables.</p>
 
 <dl class="class">
 <dt id="dotfiles.venv.ipython_config.IpyAlias">
-<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">IpyAlias</code><span class="sig-paren">(</span><em>cmdstr</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config#IpyAlias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.IpyAlias" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">IpyAlias</code><span class="sig-paren">(</span><em>cmdstr</em>, <em>name=None</em>, <em>complfuncstr=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config#IpyAlias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.IpyAlias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dotfiles.venv.ipython_config.CmdAlias" title="dotfiles.venv.ipython_config.CmdAlias"><code class="xref py py-class docutils literal"><span class="pre">dotfiles.venv.ipython_config.CmdAlias</span></code></a></p>
 <p>An IPython alias command string
 which expands to a shell function <code class="docutils literal"><span class="pre">aliasname()</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code>
@@ -804,7 +784,7 @@ cmdname () {
 <p>Print env and kwargs to stderr</p>
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout">
-<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w'&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x104c2f1e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStderrStep.stdout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -831,10 +811,7 @@ kwargs dict</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mod:<cite>Env</cite>: updated Env</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:py</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="xref py py-mod docutils literal"><span class="pre">Env</span></code>: updated Env</p>
 </td>
 </tr>
 </tbody>
@@ -843,12 +820,12 @@ kwargs dict</li>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStep.stderr">
-<code class="descname">stderr</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w'&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stderr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stderr</code><em class="property"> = &lt;open file '&lt;stderr&gt;', mode 'w' at 0x104c2f1e0&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stderr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.PrintEnvStep.stdout">
-<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stdout&gt;', mode 'w'&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stdout</code><em class="property"> = &lt;open file '&lt;stdout&gt;', mode 'w' at 0x104c2f150&gt;</em><a class="headerlink" href="#dotfiles.venv.ipython_config.PrintEnvStep.stdout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -876,10 +853,7 @@ kwargs dict</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mod:<cite>Env</cite>: updated Env</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:py</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="xref py py-mod docutils literal"><span class="pre">Env</span></code>: updated Env</p>
 </td>
 </tr>
 </tbody>
@@ -945,10 +919,7 @@ kwargs dict</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mod:<cite>Env</cite>: updated Env</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:py</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="xref py py-mod docutils literal"><span class="pre">Env</span></code>: updated Env</p>
 </td>
 </tr>
 </tbody>
@@ -972,10 +943,7 @@ kwargs dict</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mod:<cite>Env</cite>: updated Env</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:py</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="xref py py-mod docutils literal"><span class="pre">Env</span></code>: updated Env</p>
 </td>
 </tr>
 </tbody>
@@ -1023,10 +991,7 @@ kwargs dict</li>
 function name (default: None)</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mod:<cite>Step</cite>: Step object appended to self.steps</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:py</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="xref py py-mod docutils literal"><span class="pre">Step</span></code>: Step object appended to self.steps</p>
 </td>
 </tr>
 </tbody>
@@ -1046,9 +1011,7 @@ and return the last Env.</p>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><strong>debug</strong> (<em>bool</em>) &#8211;
 log.debug(env)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the last env returned from <code class="docutils literal"><span class="pre">.build_iter</span></code></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Env or None</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Env or None: the last env returned from <code class="docutils literal"><span class="pre">.build_iter</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -1511,7 +1474,7 @@ block of bash script</td>
 
 <dl class="method">
 <dt id="dotfiles.venv.ipython_config.Venv.generate_bash_env">
-<code class="descname">generate_bash_env</code><span class="sig-paren">(</span><em>shell_keyword='export '</em>, <em>shell_quotefunc=&lt;function shell_quote at 0x2862050&gt;</em>, <em>include_paths=True</em>, <em>include_aliases=True</em>, <em>include_cdaliases=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config#Venv.generate_bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.generate_bash_env" title="Permalink to this definition">¶</a></dt>
+<code class="descname">generate_bash_env</code><span class="sig-paren">(</span><em>shell_keyword='export '</em>, <em>shell_quotefunc=&lt;function shell_quote at 0x105f286e0&gt;</em>, <em>include_paths=True</em>, <em>include_aliases=True</em>, <em>include_cdaliases=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config#Venv.generate_bash_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.Venv.generate_bash_env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a <code class="docutils literal"><span class="pre">source</span></code>-able script for the environment variables,
 aliases, and functions defined by the current <code class="docutils literal"><span class="pre">Venv</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1639,9 +1602,9 @@ whether to try and read from
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><code class="xref py py-exc docutils literal"><span class="pre">Exception</span></code> &#8211;
+<li><code class="xref py py-exc docutils literal"><span class="pre">Exception</span></code> &#8211; 
 if <code class="docutils literal"><span class="pre">cmd</span></code> is None</li>
-<li><code class="xref py py-exc docutils literal"><span class="pre">NotImplementedError</span></code> &#8211;
+<li><code class="xref py py-exc docutils literal"><span class="pre">NotImplementedError</span></code> &#8211; 
 if <code class="docutils literal"><span class="pre">cmd</span></code> is a tuple</li>
 </ul>
 </td>
@@ -1942,9 +1905,7 @@ to -usrlog.log.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">options for the commandline interface</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">optparse.OptionParser</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">optparse.OptionParser: options for the commandline interface</td>
 </tr>
 </tbody>
 </table>
@@ -2005,7 +1966,7 @@ path to a VIRTUAL_ENV (default: None)</li>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">Env dict</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#dotfiles.venv.ipython_config.StepConfigException" title="dotfiles.venv.ipython_config.StepConfigException"><code class="xref py py-exc docutils literal"><span class="pre">StepConfigException</span></code></a> &#8211;
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#dotfiles.venv.ipython_config.StepConfigException" title="dotfiles.venv.ipython_config.StepConfigException"><code class="xref py py-exc docutils literal"><span class="pre">StepConfigException</span></code></a> &#8211; 
 When not any((
 VIRTUAL_ENV, VENVPREFIX, VENVSTR, VENVSTRAPP))</p>
 </td>
@@ -2035,8 +1996,7 @@ VIRTUAL_ENV, VENVPREFIX, VENVSTR, VENVSTRAPP))</p>
 workspace path (<code class="docutils literal"><span class="pre">$__WRK</span></code>, <code class="docutils literal"><span class="pre">~/-wrk</span></code>)</li>
 <li><strong>WORKON_HOME_DEFAULT</strong> (<em>str</em>) &#8211;
 variable name (default: <code class="docutils literal"><span class="pre">WORKON_HOME__py27</span></code>)</li>
-<li><strong>WORKON_HOME__*</strong> (<em>str</em>) &#8211;
-path to a WORKON_HOME set</li>
+<li><strong>WORKON_HOME__* (str): path to a WORKON_HOME set</strong></li>
 </ul>
 </td>
 </tr>
@@ -2177,7 +2137,7 @@ as determined by <code class="docutils literal"><span class="pre">in_ipython_con
 
 <dl class="function">
 <dt id="dotfiles.venv.ipython_config.logevent">
-<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">logevent</code><span class="sig-paren">(</span><em>event</em>, <em>obj=None</em>, <em>logger=&lt;logging.Logger object at 0x2859ad0&gt;</em>, <em>level=10</em>, <em>func=None</em>, <em>lineno=None</em>, <em>modpath=None</em>, <em>show_modpath=None</em>, <em>wrap=False</em>, <em>splitlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config#logevent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.logevent" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">dotfiles.venv.ipython_config.</code><code class="descname">logevent</code><span class="sig-paren">(</span><em>event</em>, <em>obj=None</em>, <em>logger=&lt;logging.Logger object at 0x105f20a50&gt;</em>, <em>level=10</em>, <em>func=None</em>, <em>lineno=None</em>, <em>modpath=None</em>, <em>show_modpath=None</em>, <em>wrap=False</em>, <em>splitlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_config#logevent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_config.logevent" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2600,7 +2560,7 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index">westurner/dotfiles 0.8.2 documentation</a></li>
+        <li><a href="index">westurner/dotfiles 0.8.3 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
@@ -2619,7 +2579,7 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
       </footer>
       <!-- /footer -->
 
