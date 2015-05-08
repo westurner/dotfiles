@@ -1,0 +1,38 @@
+### .inputrc -- readline configuration
+## Bash readline quickstart
+#  https://www.gnu.org/software/bash/manual/html_node/Command-Line-Editing.html#Command-Line-Editing
+#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html
+#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
+#   * https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html#Readline-vi-Mode
+    #  help bind
+    #  # list bindings
+    #  bind -p
+    #  bind -P | grep -v 'is not bound'
+    #  # read bindings
+    #  bind -f ~/.inputrc
+## vi-mode
+    #  Various terminals have vi-mode settings:
+    #  - bash: set -o vi  (default: set -o emacs)
+    #  - ksh:  set -o vi
+    #  - zsh:  bindkey -v
+    #  - tcsh: bindkey -v
+  ## vi-command keymap
+    #  <ctrl> l  -- clear screen
+    #  <ctrl> k  -- clear whole line
+    #  <ctrl> a  -- move to beginning of line (^)
+    #  <ctrl> [  -- move to beginning of line (^)
+    #  <ctrl> e  -- move to end of line ($)
+    #  <ctrl> ]  -- move to end of line ($)
+    #  <ctrl> w  -- delete last word
+    #  <ctrl> gx -- expand without executing
+  ## vi-insert keymap
+    #  emulate a few options from "set -o emacs":
+    #  <ctrl> l  -- clear screen
+    #  <ctrl> k  -- clear whole line
+    #  <ctrl> a  -- move to beginning of line (^)
+    #  <ctrl> [  -- move to beginning of line (^)
+    #  <ctrl> e  -- move to end of line ($)
+    #  <ctrl> ]  -- move to end of line ($)
+    #  <ctrl> w  -- delete last word
+    #  <ctrl> gx -- glob expand without executing
+    #  see: bindkey -p
