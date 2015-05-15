@@ -9,7 +9,7 @@ Tools
 ================
 
 | Docs: https://westurner.org/tools/
-| Src: https://gjuithub.com/westurner/tools
+| Src: https://github.com/westurner/tools
 
 See Also: https://westurner.org/wiki/projects#tools
 
