@@ -1074,6 +1074,8 @@ between branches.</p>
 # git checkout master
 git hf init
 ## Update versiontag in .git/config to prefix release tags with &#39;v&#39;
+git config hubflow.prefix.versiontag=v
+#cat .git/config # ...
 # [hubflow &quot;prefix&quot;]
 # feature = feature/
 # release = release/
@@ -1081,12 +1083,14 @@ git hf init
 # support = support/
 # versiontag = v
 #
-git hf feature start print_hello_world
+git hf feature start ENH_print_hello_world
 ## commit, commit, commit
-git hf feature finish print_hello_world
+git hf feature finish ENH_print_hello_world   # ENH&lt;TAB&gt;
 git hf release start 0.1.0
-## commit (e.g. update version in setup.py, release notes)
+## commit (e.g. update __version__, setup.py, release notes)
 git hf release finish 0.1.0
+git hf release finish 0.1.0
+git tag | grep &#39;v0.1.0&#39;
 </pre></div>
 </div>
 <p>The GitFlow HubFlow illustrations are very helpful for visualizing
