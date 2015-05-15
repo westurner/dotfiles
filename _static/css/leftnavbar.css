@@ -5,6 +5,7 @@
         position: relative;
         left: 25%;
         width: 75%;
+        float: none;
     }
 }
 
