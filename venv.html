@@ -65,7 +65,7 @@
 <script type="text/javascript">
 </script>
     <link rel="top" title="westurner/dotfiles 0.8.3 documentation" href="index" />
-    <link rel="next" title="Tools" href="tools" />
+    <link rel="next" title="Tools" href="tools/index" />
     <link rel="prev" title="Usage" href="usage" /> 
   </head>
   <body role="document">
@@ -110,7 +110,7 @@
 
             
               <li><a href="usage" title="Usage" accesskey="P">previous </a></li>
-              <li><a href="tools" title="Tools" accesskey="N">next </a></li>
+              <li><a href="tools/index" title="Tools" accesskey="N">next </a></li>
               <li><a href="py-modindex" title="Python Module Index" >modules </a></li>
               <li><a href="genindex" title="General Index" accesskey="I">index </a></li>
             
@@ -171,7 +171,7 @@
   <p class="topless"><a href="usage"
                         title="previous chapter">Usage</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="tools"
+  <p class="topless"><a href="tools/index"
                         title="next chapter">Tools</a></p>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
@@ -239,9 +239,9 @@
                   
   <span class="target" id="index-0"></span><div class="section" id="venv">
 <span id="index-1"></span><span id="id1"></span><h1>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
-<p>Venv makes working with <a class="reference internal" href="tools#virtualenv"><em>Virtualenv</em></a>,
-<a class="reference internal" href="tools#virtualenvwrapper"><em>Virtualenvwrapper</em></a>, <a class="reference internal" href="tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools#zsh"><em>ZSH</em></a>,
-<a class="reference internal" href="tools#vim"><em>Vim</em></a>, and <a class="reference internal" href="tools#ipython"><em>IPython</em></a> within a project context very easy.</p>
+<p>Venv makes working with <a class="reference internal" href="tools/tools#virtualenv"><em>Virtualenv</em></a>,
+<a class="reference internal" href="tools/tools#virtualenvwrapper"><em>Virtualenvwrapper</em></a>, <a class="reference internal" href="tools/tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/tools#zsh"><em>ZSH</em></a>,
+<a class="reference internal" href="tools/tools#vim"><em>Vim</em></a>, and <a class="reference internal" href="tools/tools#ipython"><em>IPython</em></a> within a project context very easy.</p>
 <p>There are a few parts to <code class="docutils literal"><span class="pre">venv</span></code>:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">ipython_config.py</a>
@@ -250,19 +250,19 @@ startup.</li>
 <li><a class="reference internal" href="#venv-py">venv.py</a> is a symlink to <code class="docutils literal"><span class="pre">ipython_config.py</span></code>.</li>
 <li><a class="reference internal" href="#venv-py">venv.py</a> is a CLI script for generating <a class="reference internal" href="#shell-configuration">shell configuration</a>
 and <a class="reference internal" href="#cdalias">CdAlias</a>
-scripts for <a class="reference internal" href="tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools#zsh"><em>ZSH</em></a>, <a class="reference internal" href="tools#ipython"><em>IPython</em></a>, and <a class="reference internal" href="tools#vim"><em>Vim</em></a>.</li>
+scripts for <a class="reference internal" href="tools/tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/tools#zsh"><em>ZSH</em></a>, <a class="reference internal" href="tools/tools#ipython"><em>IPython</em></a>, and <a class="reference internal" href="tools/tools#vim"><em>Vim</em></a>.</li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py">ipython_magics.py</a>
 (<a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_magics" title="dotfiles.venv.ipython_magics"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_magics</span></code></a>)
 configures
 <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAliases</span></code></a>
 and the <code class="docutils literal"><span class="pre">dotfiles_status</span></code> (<code class="docutils literal"><span class="pre">ds</span></code>) command
-for <a class="reference internal" href="tools#ipython"><em>IPython</em></a>.</li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <a class="reference internal" href="tools#bash"><em>Bash</em></a> at startup
+for <a class="reference internal" href="tools/tools#ipython"><em>IPython</em></a>.</li>
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <a class="reference internal" href="tools/tools#bash"><em>Bash</em></a> at startup
 (see: <a class="reference internal" href="usage#dotfiles-bash-config"><em>Usage &gt; Bash</em></a>)</li>
 </ul>
 <p>To configure a shell, print relevant env variables (twice),
 <code class="docutils literal"><span class="pre">cd</span></code> to the working directory (<code class="docutils literal"><span class="pre">$_WRD</span></code>),
-and open <code class="docutils literal"><span class="pre">README.rst</span></code> in a named <a class="reference internal" href="tools#vim"><em>Vim</em></a> server for an existing
+and open <code class="docutils literal"><span class="pre">README.rst</span></code> in a named <a class="reference internal" href="tools/tools#vim"><em>Vim</em></a> server for an existing
 venv named <code class="docutils literal"><span class="pre">dotfiles</span></code>:</p>
 <div class="highlight-bash"><div class="highlight"><pre>we dotfiles<span class="p">;</span> ds<span class="p">;</span> cdwrd<span class="p">;</span> e README.rst
 </pre></div>
@@ -276,7 +276,7 @@ create these like so:</p>
 mkdir -p <span class="nv">$_WRD</span>
 </pre></div>
 </div>
-<p>Or, to create a more complete <a class="reference internal" href="tools#fhs"><em>Filesystem Hierarchy Standard</em></a> tree of directories under
+<p>Or, to create a more complete <a class="reference internal" href="tools/tools#fhs"><em>Filesystem Hierarchy Standard</em></a> tree of directories under
 <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>:</p>
 <div class="last highlight-bash"><div class="highlight"><pre>venv_mkdirs<span class="p">;</span> mkdir -p <span class="nv">$_WRD</span>
 </pre></div>
@@ -798,7 +798,7 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
 <ul class="nav navbar-nav text-center">
       
         <li><a href="usage" title="Usage" >previous</a></li>
-        <li><a href="tools" title="Tools" >next</a></li>
+        <li><a href="tools/index" title="Tools" >next</a></li>
         <li><a href="py-modindex" title="Python Module Index" >modules</a></li>
         <li><a href="genindex" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
