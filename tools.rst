@@ -49,6 +49,26 @@ There is a package maintainer whose responsibilities include:
 to repackage upstream releases for the target platform(s).
 
 
+.. index:: Anaconda
+.. _anaconda:
+
+Anaconda
+~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)>`__
+| Homepage: https://store.continuum.io/cshop/anaconda/
+| Docs: http://docs.continuum.io/anaconda/
+| Docs: http://docs.continuum.io/anaconda/pkg-docs.html
+
+
+Anaconda is a maintained distribution of many popular :ref:`Python Packages`.
+
+Anaconda works with :ref:`Conda` packages.
+
+.. note:: `<https://en.wikipedia.org/wiki/Anaconda_(installer)>`__ (1999)
+   is the installer for :ref:`RPM`-based :ref:`Linux` distributions; which is
+   also written in :ref:`Python` (and :ref:`C`).
+
+
 .. index:: APT
 .. _apt:
 
@@ -719,7 +739,7 @@ To clone a repository with ``git``:
 .. _hubflow:
 
 HubFlow
-+++++++++
+~~~~~~~~~
 | Src: https://github.com/datasift/gitflow
 | Docs: https://datasift.github.io/gitflow/
 | Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
@@ -804,119 +824,16 @@ To clone a repository with ``hg``:
    hg clone http://selenic.com/hg
 
 
-
-.. index:: Anaconda
-.. _anaconda:
-
-Anaconda
-==========
-| Wikipedia: `<https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)>`__
-| Homepage: https://store.continuum.io/cshop/anaconda/
-| Docs: http://docs.continuum.io/anaconda/
-| Docs: http://docs.continuum.io/anaconda/pkg-docs.html
-
-
-Anaconda is a maintained distribution of many popular :ref:`Python Packages`.
-
-Anaconda works with :ref:`Conda` packages.
-
-.. note:: `<https://en.wikipedia.org/wiki/Anaconda_(installer)>`__ (1999)
-   is the installer for :ref:`RPM`-based :ref:`Linux` distributions; which is
-   also written in :ref:`Python` (and :ref:`C`).
-
-
-.. index:: Awk
-.. _awk:
-
-Awk
-=====
-| Wikipedia: `<https://en.wikipedia.org/wiki/AWK>`__
-| Docs: https://en.wikipedia.org/wiki/AWK#Versions_and_implementations
-| GNU Awk
-| Project: https://savannah.gnu.org/projects/gawk/
-| Homepage: https://www.gnu.org/software/gawk/
-| Docs: https://www.gnu.org/software/gawk/manual/
-| Docs: https://www.gnu.org/software/gawk/manual/gawk.html
-| Source: git git://git.savannah.gnu.org/gawk.git
-
-AWK is a pattern programming language for matching and transforming text.
-
-
-.. index:: Bash
-.. _bash:
-
-Bash
-===============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>`__
-| Homepage: http://www.gnu.org/software/bash/
-| Docs: https://www.gnu.org/software/bash/manual/
-| Source: git git://git.savannah.gnu.org/bash.git
-
-
-Bash, the Bourne-again shell.
-
-.. code-block:: bash
-
-   type bash
-   bash --help
-   help help
-   help type
-   apropos bash
-   info bash
-   man bash
-
-* Designed to work with unix command outputs and return codes
-* Functions
-* Portability: sh (sh, bash, dash, zsh) shell scripts are mostly
-  compatible
-* Logging::
-
-   set -x  # print commands and arguments
-   set -v  # print source
-
-Bash Configuration::
-
-   /etc/profile
-   /etc/bash.bashrc
-   /etc/profile.d/*.sh
-   ${HOME}/.profile        /etc/skel/.profile   # PATH=+$HOME/bin  # umask
-   ${HOME}/.bash_profile   # empty. preempts .profile
-
-Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin
-
-
-.. index:: Binutils
-.. index:: GNU Binutils
-.. _binutils:
-
-Binutils
-==========
-| Wikipedia: https://en.wikipedia.org/wiki/GNU_Binutils
-| Homepage: https://www.gnu.org/software/binutils/
-| Src: git git://sourceware.org/git/binutils-gdb.git
-| Docs: https://sourceware.org/binutils/docs-2.24/
-| Docs: https://sourceware.org/binutils/docs-2.24/binutils/index.html
-| Docs: https://sourceware.org/binutils/docs-2.24/as/index.html
-| Docs: https://sourceware.org/binutils/docs-2.24/ld/index.html
-
-GNU Binutils are a set of utilities for working with assembly and
-binary.
-
-:ref:`GCC` utilizes GNU Binutils to compile the GNU/:ref:`Linux` kernel
-and userspace.
-
-GAS, the GNU Assembler (``as``) assembles ASM code for linking by
-the GNU linker (``ld``).
-
+Languages
+===========
 
 .. index:: C
 .. _c:
 
 C
-==
+~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/C_(programming_language)>`__
 | Docs: http://learnxinyminutes.com/docs/c/
-
 
 C is a third-generation programming language which affords relatively
 low-level machine access while providing helpful abstractions.
@@ -931,465 +848,11 @@ Almost all of the projects linked here, at some point,
 utilize code written in C.
 
 
-.. index:: C++
-.. _c++:
-
-C++
-====
-| Wikipedia: `<https://en.wikipedia.org/wiki/C++>`__
-| Docs: http://learnxinyminutes.com/docs/c++/
-
-
-C++ is a third-generation programming language
-which adds object orientation and a standard library to :ref:`C`.
-
-
-* C++ is an ISO specification: C++98, C++03, C++11 (C++0x), C++14, [ C++17 ]
-
-
-.. index:: Clang
-.. _clang:
-
-Clang
-======
-| Wikipedia: https://en.wikipedia.org/wiki/Clang
-| Homepage: http://clang.llvm.org/
-| Docs: http://clang.llvm.org/docs/
-| Docs: http://clang.llvm.org/docs/UsersManual.html
-
-Clang is a compiler front end for :ref:`C`, :ref:`C++`, and Objective C/++.
-
-
-.. index:: Compiz
-.. _compiz:
-
-Compiz
-=======
-| Wikipedia: https://en.wikipedia.org/wiki/Compiz
-| Homepage: https://launchpad.net/compiz
-| Docs: http://wiki.compiz.org/
-| Source: bzr branch lp:compiz
-
-
-Compiz is a window compositing layer for :ref:`X11` which adds
-lots of cool and productivity-enhancing visual capabilities.
-
-
-.. index:: CoreOS
-.. _coreos:
-
-CoreOS
-========
-| Wikipedia: https://en.wikipedia.org/wiki/CoreOS
-| Homepage: https://coreos.com/
-| Docs: https://coreos.com/docs/
-| Source: https://github.com/coreos
-
-
-CoreOS is a :ref:`Linux` distribution for highly available
-distributed computing.
-
-CoreOS schedules redundant :ref:`docker` images with **fleet**
-and **systemd** according to configuration stored in **etcd**,
-a key-value store with a D-Bus interface.
-
-
-.. index:: Docker
-.. _docker:
-
-Docker
-=================
-| Wikipedia: `<https://en.wikipedia.org/wiki/Docker_(software)>`_
-| Homepage: https://www.docker.com/
-| Docs: https://docs.docker.com/
-| Source: https://github.com/docker/docker
-
-
-Docker is an OS virtualization project which utilizes Linux LXC Containers
-to partition process workloads all running under one kernel.
-
-Limitations
-
-* Writing to `/etc/hosts`: https://github.com/docker/docker/issues/2267
-* Apt-get upgrade: https://github.com/docker/docker/issues/3934
-
-
-.. index:: Docutils
-.. _docutils:
-
-Docutils
-===================
-| Homepage: http://docutils.sourceforge.net
-| Docs: http://docutils.sourceforge.net/docs/
-| Docs: http://docutils.sourceforge.net/rst.html
-| Docs: http://docutils.sourceforge.net/docs/ref/doctree.html
-| Source: svn http://svn.code.sf.net/p/docutils/code/trunk
-
-
-Docutils is a text processing system which 'parses" :ref:`ReStructuredText`
-lightweight markup language into a doctree which it serializes into
-HTML, LaTeX, man-pages, Open Document files, XML, and a number of other
-formats.
-
-
-.. index:: Fortran
-.. _fortran:
-
-Fortran
-========
-| Wikipedia: https://en.wikipedia.org/wiki/Fortran
-
-
-Fortran (or FORTRAN) is a third-generation programming language
-frequently used for mathematical and scientific computing.
-
-
-.. index:: Filesystem Hierarchy Standard
-.. _fhs:
-
-Filesystem Hierarchy Standard
-=======================================
-| Wikipedia: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
-| Website: http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs
-
-
-The Filesystem Hierarchy Standard is a well-worn industry-supported
-system file naming structure.
-
-:ref:`Ubuntu` and :ref:`Virtualenv` implement
-a Filesystem Hierarchy.
-
-:ref:`Docker` layers filesystem hierarchies with aufs and now
-also btrfs subvolumes.
-
-
-.. index:: GCC
-.. index:: GNU Compiler Collection
-.. _gcc:
-
-GCC
-====
-| Wikipedia: https://en.wikipedia.org/wiki/GNU_Compiler_Collection
-| Homepage: https://gcc.gnu.org/
-| Docs: https://gcc.gnu.org/onlinedocs/
-| Source: git ssh://gcc.gnu.org/git/gcc.git
-
-
-The GNU Compiler Collection started as a Free and Open Source
-compiler for :ref:`C`.
-
-There are now GCC frontends for many languages, including
-:ref:`C++`, :ref:`Fortran`, :ref:`Java`, and :ref:`Go`.
-
-
-.. index:: Gnome
-.. _gnome:
-
-Gnome
-======
-| Wikipedia: https://en.wikipedia.org/wiki/GNOME
-| Homepage: http://www.gnome.org/
-| Docs: https://help.gnome.org/
-| Source: https://git.gnome.org/browse/
-
-
-* https://wiki.gnome.org/GnomeLove
-
-
-.. index:: Go
-.. _go:
-
-Go
-=============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Go_(programming_language)>`_
-| Homepage: http://golang.org/
-| Docs: http://golang.org/doc/
-| Source: hg https://code.google.com/p/go/
-
-
-Go is a statically-typed :reF:`C`-based third generation language.
-
-
-.. index:: Grep
-.. _grep:
-
-Grep
-=============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Grep>`__
-| Homepage: https://www.gnu.org/software/grep/
-| Project: https://savannah.gnu.org/projects/grep/
-| Docs: https://www.gnu.org/software/grep/manual/
-| Docs: https://www.gnu.org/software/grep/manual/grep.html
-| Source: git git://git.savannah.gnu.org/grep.git
-
-Grep is a UXIX CLI utility for pattern-based text matching.
-
-
-.. index:: Htop
-.. _htop:
-
-Htop
-=====
-| Wikipedia: https://en.wikipedia.org/wiki/Htop
-| Homepage: http://hisham.hm/htop/
-| Source: git http://hisham.hm/htop/
-
-
-
-.. index:: i3wm
-.. _i3wm:
-
-I3wm
-=========
-| Wikipedia: `<https://en.wikipedia.org/wiki/I3_(window_manager)>`__
-| Homepage: http://i3wm.org/
-| Docs: http://i3wm.org/docs/
-| Source: git git://code.i3wm.org/i3
-
-I3wm is a tiling window manager for :ref:`X11` (:ref:`Linux`)
-with extremely-configurable :ref:`Vim`-like keyboard shortcuts.
-
-* http://i3wm.org/downloads/
-
-
-.. index:: IPython
-.. index:: ipython
-.. _ipython:
-
-IPython
-========
-| Wikipedia: https://en.wikipedia.org/wiki/IPython
-| Homepage: http://ipython.org/
-| Docs: http://ipython.org/ipython-doc/stable/
-| Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
-| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
-| Source: git https://github.com/ipython/ipython
-
-IPython is an interactive REPL and distributed computation framework
-written in :ref:`Python`.
-
-An IPython notebook file (``.ipynb``) is a
-JSON document containing input and output
-for a linear sequence of cells;
-which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
-and edited through the web with
-IPython Notebook.
-
-.. code:: python
-
-    1 + 1
-    x = 1+1
-    print("1 + 1 = %d" (x))
-
-    # IPython
-    ?                              # help
-    %lsmagic
-    %<tab>                         # list magic commands and aliases
-    %logstart?                     # help for the %logstart magic command
-    %logstart -o logoutput.log.py  # log input and output to a file
-    import json
-    json?                          # print(json.__doc__)
-    json??                         # print(inspect.getsource(json))
-
-    # IPython shell
-    !cat ./README.rst; echo $PWD   # run shell commands
-    lines = !ls -al                # capture shell command output
-    print(lines[0:])
-    %run -i -t example.py          # run a script with timing info,
-                                   # in the local namespace
-    %run -d example.py             # run a script with pdb
-    %pdb on                        # automatically run pdb on Exception
-
-.. note:: IPython notebook runs code and shell commands as
-  the user the process is running as, on a remote or local machine.
-
-  IPython notebook supports more than 20 different languages.
-
-Reproducible :ref:`SciPy Stack <scipystack>`
-IPython / Jupyter Notebook servers
-implement best practices like process isolation and privilege separation:
-
-* https://github.com/ipython/ipython/wiki/Install:-Docker
-* https://registry.hub.docker.com/repos/ipython/
-* https://registry.hub.docker.com/repos/jupyter/
-* https://registry.hub.docker.com/u/jupyter/tmpnb/
-
-
-IPython / Jupyter Notebook Viewer (``nbviewer``)
-is an application for serving read-only
-versions of notebooks which have HTTP URLs.
-
-* http://nbviewer.ipython.org
-* https://github.com/jupyter/nbviewer
-
-
-.. index:: Java
-.. _Java:
-
-Java
-=====
-| Wikipedia: `<https://en.wikipedia.org/wiki/Java_(programming_language)>`__
-| Docs: http://javadocs.org/
-| Docs: http://learnxinyminutes.com/docs/java/
-
-
-Java is a third-generation programming language which is
-compiled into code that runs in a virtual machine
-(``JVM``) written in :ref:`C` for many different operating systems.
-
-
-.. index:: Javascript
-.. _Javascript:
-
-JavaScript
-===========
-| Wikipedia: https://en.wikipedia.org/wiki/JavaScript
-| Docs: https://en.wikipedia.org/wiki/ECMAScript
-| Docs: http://learnxinyminutes.com/docs/javascript/
-
-
-JavaScript is a third-generation programming language
-designed to run in an interpreter; now specified as *ECMAScript*.
-
-All major web browsers support Javascript.
-
-Client-side (web) applications can be written in Javascript.
-
-Server-side (web) applications can be written in Javascript,
-often with :ref:`Node.js` and :ref:`NPM` packages.
-
-.. note:: Java and JavaScript are two distinctly different languages
-   and developer ecosystems.
-
-
-.. index:: Jinja2
-.. _jinja2:
-
-Jinja2
-=======
-| Wikipedia: `<https://en.wikipedia.org/wiki/Jinja_%28template_engine%29>`__
-| Homepage: http://jinja.pocoo.org/
-| Source: https://github.com/mitsuhiko/jinja2
-| Docs: https://jinja2.readthedocs.org/en/latest/
-| Docs: http://jinja.pocoo.org/docs/dev/
-
-Jinja (jinja2) is a templating engine written in :ref:`Python`.
-
-:ref:`Sphinx` and :ref:`Salt` are two projects that utilize Jinja2.
-
-
-.. index:: JSON
-.. _json:
-
-JSON
-===============
-| Wikipedia: https://en.wikipedia.org/wiki/JSON
-| Homepage: http://json.org/
-| Docs: http://learnxinyminutes.com/docs/json/
-
-
-JSON is an object representation in :ref:`Javascript` syntax
-which is now supported by libraries for many language.
-
-A list of objects with ``key`` and ``value`` attributes in JSON syntax:
-
-.. code-block:: javascript
-
-    [
-    { "key": "language", "value": "Javascript" },
-    { "key": "version", "value": 1 },
-    { "key": "example", "value": true },
-    ]
-
-Machine-generated JSON is often not very readable, because it doesn't
-contain extra spaces or newlines.
-The :ref:`Python` JSON library contains a utility
-for parsing and indenting ("prettifying") JSON from the commandline ::
-
-    cat example.json | python -m json.tool
-
-
-.. index:: JSONLD
-.. index:: JSON-LD
-.. _json-ld:
-
-JSON-LD
-~~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/JSON-LD
-| Homepage: http://json-ld.org
-| Docs: http://json-ld.org/playground/
-
-JSON-LD is a web standard for Linked Data in :ref:`JSON`.
-
-An example from the JSON-LD Playground (`<http://goo.gl/xxZ410>`__):
-
-.. code-block:: javascript
-
-   {
-      "@context": {
-       "gr": "http://purl.org/goodrelations/v1#",
-       "pto": "http://www.productontology.org/id/",
-       "foaf": "http://xmlns.com/foaf/0.1/",
-       "xsd": "http://www.w3.org/2001/XMLSchema#",
-       "foaf:page": {
-         "@type": "@id"
-       },
-       "gr:acceptedPaymentMethods": {
-         "@type": "@id"
-       },
-       "gr:hasBusinessFunction": {
-         "@type": "@id"
-       },
-       "gr:hasCurrencyValue": {
-         "@type": "xsd:float"
-       }
-      },
-      "@id": "http://example.org/cars/for-sale#tesla",
-      "@type": "gr:Offering",
-      "gr:name": "Used Tesla Roadster",
-      "gr:description": "Need to sell fast and furiously",
-      "gr:hasBusinessFunction": "gr:Sell",
-      "gr:acceptedPaymentMethods": "gr:Cash",
-      "gr:hasPriceSpecification": {
-       "gr:hasCurrencyValue": "85000",
-       "gr:hasCurrency": "USD"
-      },
-      "gr:includes": {
-       "@type": [
-         "gr:Individual",
-         "pto:Vehicle"
-       ],
-       "gr:name": "Tesla Roadster",
-       "foaf:page": "http://www.teslamotors.com/roadster"
-      }
-   }
-
-
-.. index:: KDE
-.. _kde:
-
-KDE
-=====
-| Wikipedia: https://en.wikipedia.org/wiki/KDE
-| Homepage: https://www.kde.org/
-| Docs: https://docs.kde.org/
-| Docs: https://www.kde.org/documentation/
-| Source: https://techbase.kde.org/Getting_Started/Sources
-| Source: https://techbase.kde.org/Getting_Started/Sources/Subversion
-| Source: https://techbase.kde.org/Development/Git
-| Source: https://projects.kde.org/projects
-
-
-KDE is a GUI framework built on Qt.
-
-KWin is the main KDE window manager for :ref:`X11`.
-
-
 .. index:: Libc
 .. _libc:
 
 Libc
-======
+++++++
 | Wikipedia: https://en.wikipedia.org/wiki/C_POSIX_library
 
 A libc is a standard library of :ref:`C` routines.
@@ -1406,8 +869,9 @@ Libc implementations:
 .. index:: Glibc
 .. _glibc:
 
+------
 Glibc
-~~~~~~
+------
 | Wikipedia: https://en.wikipedia.org/wiki/GNU_C_Library
 | Homepage: https://www.gnu.org/software/libc/
 | Docs: https://www.gnu.org/software/libc/documentation.html
@@ -1421,146 +885,89 @@ Many :ref:`Linux` packages
 and the :ref:`GNU/Linux <linux>` kernel build from Glibc.
 
 
-.. index:: Libcloud
-.. _libcloud:
+.. index:: C++
+.. _c++:
 
-Libcloud
-==================
-| Homepage: https://libcloud.apache.org/
-| Docs: https://libcloud.readthedocs.org/en/latest/
-| Docs: https://libcloud.readthedocs.org/en/latest/supported_providers.html
-| Source: git git://git.apache.org/libcloud.git
-| Source: git https://github.com/apache/libcloud
+C++
+~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/C++>`__
+| Docs: http://learnxinyminutes.com/docs/c++/
 
+C++ is a third-generation programming language
+which adds object orientation and a standard library to :ref:`C`.
 
-Apache libcloud is a :ref:`Python` library
-which abstracts and unifies a large number of Cloud APIs for
-Compute Resources, Object Storage, Load Balancing, and DNS.
-
-:ref:`Salt` :term:`salt cloud` depends upon libcloud.
+* C++ is an ISO specification: C++98, C++03, C++11 (C++0x), C++14, [ C++17 ]
 
 
-.. index:: Libvirt
-.. _libvirt:
+.. index:: Fortran
+.. _fortran:
 
-Libvirt
-=================
-| Wikipedia: https://libvirt.org/
-| Homepage: https://libvirt.org/
-| Docs: https://libvirt.org/docs.html
-| Docs: https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.virt.html
-| Source: git git://libvirt.org/libvirt-appdev-guide.git
+Fortran
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Fortran
 
 
-Libvirt is a system for platform virtualization with
-various :ref:`Linux` hypervisors.
+Fortran (or FORTRAN) is a third-generation programming language
+frequently used for mathematical and scientific computing.
 
-* KVM/QEMU
-* Xen
-* LXC
-* OpenVZ
-* VirtualBox
+Some of the :ref:`SciPy` libraries build
+optimized mathematical Fortran routines.
 
 
-.. index:: GNU/Linux
-.. index:: Linux
-.. _linux:
+.. index:: Go
+.. _go:
 
-Linux
-================
-| Wikipedia: https://en.wikipedia.org/wiki/Linux
-| Homepage: https://www.kernel.org/
-| Docs: https://www.kernel.org/doc/
-| Source: git https://github.com/torvalds/linux
+Go
+~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Go_(programming_language)>`_
+| Homepage: http://golang.org/
+| Docs: http://golang.org/doc/
+| Source: hg https://code.google.com/p/go/
 
-
-GNU/Linux is a free and open source operating system kernel
-written in :ref:`C`.
-
-.. code-block:: bash
-
-   uname -a; echo "Linux"
-   uname -o; echo "GNU/Linux"
-
-A *Linux Distribution* is a collection of :ref:`Packages`
-compiled to work with a GNU/Linux kernel and a :ref:`libc`.
+Go is a statically-typed :reF:`C`-based third generation language.
 
 
-.. index:: LLVM
-.. _llvm:
+.. index:: Java
+.. _Java:
 
-LLVM
-=====
-| Wikipedia: https://en.wikipedia.org/wiki/LLVM
-| Homepage: http://llvm.org/
-| Source: git http://llvm.org/git/llvm.git
-| Docs: http://llvm.org/docs/
-| Docs: http://llvm.org/docs/GettingStarted.html
-| Docs: http://llvm.org/docs/ReleaseNotes.html
-| Docs: http://llvm.org/ProjectsWithLLVM/
+Java
+~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Java_(programming_language)>`__
+| Docs: http://javadocs.org/
+| Docs: http://learnxinyminutes.com/docs/java/
 
-LLVM "*Low Level Virtual Machine*" is a reusable compiler infrastructure
-with frontends for many languages.
-
-* :ref:`Clang`
-* :ref:`PyPy`
-
-.. index:: Make
-.. _make:
-
-Make
-===============
-| Wikipedia: `<https://en.wikipedia.org/wiki/Make_(software)>`_
-| Homepage:  https://www.gnu.org/software/make/
-| Project: https://savannah.gnu.org/projects/make/
-| Docs:  https://www.gnu.org/software/make/manual/make.html
-| Source: git git://git.savannah.gnu.org/make.git
+Java is a third-generation programming language which is
+compiled into code that runs in a virtual machine
+(``JVM``) written in :ref:`C` for many different operating systems.
 
 
-GNU Make is a classic, ubiquitous software build tool
-designed for file-based source code compilation.
+.. index:: Javascript
+.. _Javascript:
 
-:ref:`Bash`, :ref:`Python`, and the GNU/:ref:`Linux` kernel
-are all built with Make.
+JavaScript
+~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/JavaScript
+| Docs: https://en.wikipedia.org/wiki/ECMAScript
+| Docs: http://learnxinyminutes.com/docs/javascript/
 
-Make build task chains are represented in a ``Makefile``.
+JavaScript is a third-generation programming language
+designed to run in an interpreter; now specified as *ECMAScript*.
 
-Pros
+All major web browsers support Javascript.
 
-* Simple, easy to read syntax
-* Designed to build files on disk
-* Nesting: ``make -C <path> <taskname>``
-* Variable Syntax: ``$(VARIABLE_NAME)``
-* Bash completion: ``make <tab>``
-* Python: Parseable with disutils.text_file Text File
-* Logging: command names and values to stdout
+Client-side (web) applications can be written in Javascript.
 
-Cons
+Server-side (web) applications can be written in Javascript,
+often with :ref:`Node.js` and :ref:`NPM` packages.
 
-* Platform Portability: make is not installed everywhere
-* Global Variables: Parametrization with shell scripts
-
-
-.. index:: MessagePack
-.. _msgpack:
-
-MessagePack
-=====================
-| Wikipedia: https://en.wikipedia.org/wiki/MessagePack
-| Homepage: http://msgpack.org/
-
-
-MessagePack is a data interchange format
-with implementations in many languages.
-
-:ref:`Salt`
-
+.. note:: Java and JavaScript are two distinctly different languages
+   and developer ecosystems.
 
 .. index:: Node.js
 .. _node.js:
 
 Node.js
-=========
++++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/Node.js
 | Homepage: http://www.nodejs.org
 | Source: https://github.com/joyent/node
@@ -1570,103 +977,32 @@ Node.js is a framework for :ref:`Javascript` applications
 written in :ref:`C`, :ref:`C++`, and :ref:`Javascript`.
 
 
-.. index:: Apple OSX
-.. index:: OS X
-.. index:: OSX
-.. _osx:
 
-OS X
-=====
-| Wikipedia: https://en.wikipedia.org/wiki/OS_X
-| Homepage: http://www.apple.com/osx
-| Docs: https://developer.apple.com/technologies/mac/
-| Docs: https://developer.apple.com/library/mac/navigation/
-| Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/
-| Source: https://www.apple.com/opensource/
+.. index:: Jinja2
+.. _jinja2:
 
+Jinja2
+~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Jinja_%28template_engine%29>`__
+| Homepage: http://jinja.pocoo.org/
+| Source: https://github.com/mitsuhiko/jinja2
+| Docs: https://jinja2.readthedocs.org/en/latest/
+| Docs: http://jinja.pocoo.org/docs/dev/
 
-OS X is a UNIX operating system based upon the Mach kernel from NeXTSTEP,
-which was partially derived from NetBSD and FreeBSD.
+Jinja (jinja2) is a templating engine written in :ref:`Python`.
 
-OS X GUI support is built from XFree86/X.org :ref:`X11`.
-
-OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
-``readlink``, and ``find``.
-
-:ref:`Homebrew` installs and maintains packages for OS X.
-
-.. code-block:: bash
-
-   uname; echo "Darwin"
-
-
-.. index:: Packer
-.. _packer:
-
-Packer
-=================
-| Homepage: https://www.packer.io/
-| Docs: http://www.packer.io/docs
-| Docs: http://www.packer.io/docs/basics/terminology.html
-| Source: git https://github.com/mitchellh/packer
-
-
-Packer generates machine images for multiple platforms, clouds,
-and hypervisors from a parameterizable template.
-
-.. glossary::
-
-   Packer Artifact
-      Build products: machine image and manifest
-
-   Packer Template
-      JSON build definitions with optional variables and templating
-
-   Packer Build
-      Task defined by a JSON file containing build steps
-      which produce a machine image
-
-   Packer Builder
-      Packer components which produce machine images
-      for one of many platforms:
-
-      - VirtualBox
-      - Docker
-      - OpenStack
-      - GCE
-      - EC2
-      - VMware
-      - QEMU (KVM, Xen)
-      - http://www.packer.io/docs/templates/builders.html
-
-   Packer Provisioner
-      Packer components for provisioning machine images at build time
-
-      - Shell scripts
-      - File uploads
-      - ansible
-      - chef
-      - solo
-      - puppet
-      - salt
-
-   Packer Post-Processor
-      Packer components for compressing and uploading built machine images
-
-
+:ref:`Sphinx` and :ref:`Salt` are two projects that utilize Jinja2.
 
 .. index:: Perl
 .. _perl:
 
 Perl
-===============
+~~~~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Perl
 | Homepage: http://www.perl.org/
 | Project: http://dev.perl.org/perl5/
 | Docs: http://www.perl.org/docs.html
 | Source: git git://perl5.git.perl.org/perl.git
-
-
 
 Perl is a dynamically typed, :ref:`C`-based third-generation
 programming language.
@@ -1679,7 +1015,7 @@ in Perl.
 .. _python:
 
 Python
-=================
+~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Python_(programming_language)>`_
 | Homepage: https://www.python.org/
 | Docs: https://docs.python.org/2/
@@ -1687,7 +1023,6 @@ Python
 | Docs: https://docs.python.org/devguide/documenting.html
 | Docs: http://learnxinyminutes.com/docs/python/
 | Source: hg https://hg.python.org/cpython
-
 
 Python is a dynamically-typed, :ref:`C`-based third-generation
 programming language.
@@ -1718,7 +1053,7 @@ and the Python Infrastructure Team:
 .. _cpython:
 
 CPython
-~~~~~~~~
+++++++++
 | Wikipedia: `<https://en.wikipedia.org/wiki/Python_(programming_language)>`_
 | Homepage: https://www.python.org/
 | Docs: https://docs.python.org/2/
@@ -1744,7 +1079,7 @@ through a number of interfaces:
 .. _cython:
 
 Cython
-~~~~~~~~
+++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/Cython
 | Hompage: http://cython.org/
 | PyPI: https://pypi.python.org/pypi/Cython
@@ -1759,7 +1094,7 @@ making :ref:`CPython` code faster, in many cases.
 .. _numpy:
 
 NumPy
-~~~~~~
+++++++
 | Wikipedia: https://en.wikipedia.org/wiki/NumPy
 | Homepage: http://www.numpy.org/
 | Src: https://github.com/numpy/numpy
@@ -1782,7 +1117,7 @@ NumPy and other languages:
 .. _scipy:
 
 SciPy
-~~~~~~~~
+++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/SciPy
 | Homepage: http://scipy.org/ 
 | Src: https://github.com/scipy/scipy
@@ -1804,7 +1139,7 @@ includes the SciPy package and its dependencies.
 .. _scipystack:
 
 SciPy Stack
-~~~~~~~~~~~~~
++++++++++++++
 | Docs: http://www.scipy.org/stackspec.html
 | Docs: http://www.scipy.org/install.html
 
@@ -1830,7 +1165,7 @@ Scipy Stack Docker Containers
 .. _pypy:
 
 PyPy
-~~~~~
++++++
 | Wikipedia: https://en.wikipedia.org/wiki/PyPy
 | Homepage: http://pypy.org/
 | Source: https://bitbucket.org/pypy/pypy
@@ -1848,7 +1183,7 @@ for many types of purposes.
 .. _numpypy:
 
 NumPyPy
-~~~~~~~~
+++++++++
 NumPyPy is a port of :ref:`NumPy` to :ref:`PyPy`:
 
 | Src: https://bitbucket.org/pypy/numpypy
@@ -1860,7 +1195,7 @@ NumPyPy is a port of :ref:`NumPy` to :ref:`PyPy`:
 .. _python3:
 
 Python 3
-~~~~~~~~~~
+++++++++++
 | Docs: https://docs.python.org/3/
 | Docs: https://docs.python.org/3/howto/pyporting.html
 | Docs: https://docs.python.org/3/howto/cporting.html
@@ -1897,68 +1232,44 @@ http://docs.continuum.io/anaconda/pkg-docs.html
 .. _awesome-python-testing:
 
 awesome-python-testing
-~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++
 | Homepage: https://westurner.org/wiki/awesome-python-testing.html
 | Source: https://github.com/westurner/wiki/blob/master/awesome-python-testing.rest
 
 
-.. index:: Pyline
-.. _pyline:
+.. index:: Tox
+.. _tox:
 
-Pyline
-========
-| Homepage: https://github.com/westurner/pyline
-| Docs: https://pyline.readthedocs.org/en/latest/
-| Source: git https://github.com/westurner/pyline
-| Pypi: https://pypi.python.org/pypi/pyline
-
-Pyline is a UNIX command-line tool for line-based processing in Python
-with regex and output transform features similar to
-:ref:`grep`, :ref:`sed`, and :ref:`awk`.
-
-Pyline can generate quoted CSV, :ref:`JSON`, HTML, etc.
+Tox
+++++++++++++++
+| Homepage: https://testrun.org/tox/
+| Docs: https://tox.readthedocs.org/en/latest/
+| Source: hg https://bitbucket.org/hpk42/tox
+| Pypi: https://pypi.python.org/pypi/tox
 
 
-.. index:: Pyrpo
-.. _pyrpo:
+Tox is a build automation tool designed to build and test Python projects
+with multiple language versions and environments
+in separate :ref:`virtualenvs <virtualenv>`.
 
-Pyrpo
-======
-| Homepage: https://github.com/westurner/pyrpo
-| Source: git https://github.com/westurner/pyrpo
-| Pypi: https://pypi.python.org/pypi/pyrpo
+Run the py27 environment::
 
-Pyrpo is a tool for locating and generating reports
-from :ref:`Git`, :ref:`Mercurial`, :ref:`Bazaar`,
-and :ref:`Subversion` repositories.
+   tox -v -e py27
+   tox --help
 
-
-.. index:: Readline
-.. _readline:
-
-Readline
-=========
-| Wikipedia: https://en.wikipedia.org/wiki/GNU_Readline
-| Homepage: http://tiswww.case.edu/php/chet/readline/rltop.html
-| Docs: http://tiswww.case.edu/php/chet/readline/readline.html
-| Docs: http://tiswww.case.edu/php/chet/readline/history.html
-| Docs: http://tiswww.case.edu/php/chet/readline/rluserman.html
-| Source: ftp ftp://ftp.gnu.org/gnu/readline/readline-6.3.tar.gz
-| Pypi: https://pypi.python.org/pypi/gnureadline
 
 
 .. index:: ReStructuredText
 .. _restructuredtext:
 
 ReStructuredText
-==========================
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/ReStructuredText
 | Homepage: http://docutils.sourceforge.net/rst.html
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/directives.html
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
 | Docs: http://sphinx-doc.org/rest.html
-
 
 ReStructuredText (RST, ReST) is a plaintext
 lightweight markup language commonly used for
@@ -1998,24 +1309,300 @@ Pandoc also supports a form of ReStructuredText.
 .. _ruby:
 
 Ruby
-===============
+~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Ruby_(programming_language)>`_
 | Homepage: https://www.ruby-lang.org/
 | Docs: https://www.ruby-lang.org/en/documentation/
 | Docs: http://learnxinyminutes.com/docs/ruby/
 | Source: svn http://svn.ruby-lang.org/repos/ruby/trunk
 
-
 Ruby is a dynamically-typed programming language.
 
 :ref:`Vagrant` is written in Ruby.
+
+
+.. index:: YAML
+.. _yaml:
+
+YAML
+~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/YAML
+| Homepage: http://yaml.org
+| Docs: http://learnxinyminutes.com/docs/yaml/
+
+
+YAML ("YAML Ain't Markup Language") is a concise data serialization format.
+
+
+Most :ref:`Salt` states and pillar data are written in YAML. Here's an
+example ``top.sls`` file:
+
+.. code-block:: yaml
+
+   base:
+    '*':
+      - openssh
+    '*-webserver':
+      - webserver
+    '*-workstation':
+      - gnome
+      - i3
+
+
+.. index:: Compilers
+.. _compilers:
+
+Compilers
+==========
+
+.. index:: Binutils
+.. index:: GNU Binutils
+.. _binutils:
+
+Binutils
+~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_Binutils
+| Homepage: https://www.gnu.org/software/binutils/
+| Src: git git://sourceware.org/git/binutils-gdb.git
+| Docs: https://sourceware.org/binutils/docs-2.24/
+| Docs: https://sourceware.org/binutils/docs-2.24/binutils/index.html
+| Docs: https://sourceware.org/binutils/docs-2.24/as/index.html
+| Docs: https://sourceware.org/binutils/docs-2.24/ld/index.html
+
+GNU Binutils are a set of utilities for working with assembly and
+binary.
+
+:ref:`GCC` utilizes GNU Binutils to compile the GNU/:ref:`Linux` kernel
+and userspace.
+
+GAS, the GNU Assembler (``as``) assembles ASM code for linking by
+the GNU linker (``ld``).
+
+
+.. index:: Clang
+.. _clang:
+
+Clang
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Clang
+| Homepage: http://clang.llvm.org/
+| Docs: http://clang.llvm.org/docs/
+| Docs: http://clang.llvm.org/docs/UsersManual.html
+
+Clang is a compiler front end for :ref:`C`, :ref:`C++`, and Objective C/++.
+
+
+.. index:: GCC
+.. index:: GNU Compiler Collection
+.. _gcc:
+
+GCC
+~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_Compiler_Collection
+| Homepage: https://gcc.gnu.org/
+| Docs: https://gcc.gnu.org/onlinedocs/
+| Source: git ssh://gcc.gnu.org/git/gcc.git
+
+
+The GNU Compiler Collection started as a Free and Open Source
+compiler for :ref:`C`.
+
+There are now GCC frontends for many languages, including
+:ref:`C++`, :ref:`Fortran`, :ref:`Java`, and :ref:`Go`.
+
+
+.. index:: LLVM
+.. _llvm:
+
+LLVM
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/LLVM
+| Homepage: http://llvm.org/
+| Source: git http://llvm.org/git/llvm.git
+| Docs: http://llvm.org/docs/
+| Docs: http://llvm.org/docs/GettingStarted.html
+| Docs: http://llvm.org/docs/ReleaseNotes.html
+| Docs: http://llvm.org/ProjectsWithLLVM/
+
+LLVM "*Low Level Virtual Machine*" is a reusable compiler infrastructure
+with frontends for many languages.
+
+* :ref:`Clang`
+* :ref:`PyPy`
+
+
+
+.. index:: Operating Systems
+.. _operating-systems:
+
+Operating Systems
+===================
+
+.. index:: CoreOS
+.. _coreos:
+
+CoreOS
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/CoreOS
+| Homepage: https://coreos.com/
+| Docs: https://coreos.com/docs/
+| Source: https://github.com/coreos
+
+
+CoreOS is a :ref:`Linux` distribution for highly available
+distributed computing.
+
+CoreOS schedules redundant :ref:`docker` images with **fleet**
+and **systemd** according to configuration stored in **etcd**,
+a key-value store with a D-Bus interface.
+
+
+
+.. index:: GNU/Linux
+.. index:: Linux
+.. _linux:
+
+Linux
+~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Linux
+| Homepage: https://www.kernel.org/
+| Docs: https://www.kernel.org/doc/
+| Source: git https://github.com/torvalds/linux
+
+GNU/Linux is a free and open source operating system kernel
+written in :ref:`C`.
+
+.. code-block:: bash
+
+   uname -a; echo "Linux"
+   uname -o; echo "GNU/Linux"
+
+A *Linux Distribution* is a collection of :ref:`Packages`
+compiled to work with a GNU/Linux kernel and a :ref:`libc`.
+
+
+
+.. index:: Apple OSX
+.. index:: OS X
+.. index:: OSX
+.. _osx:
+
+OS X
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/OS_X
+| Homepage: http://www.apple.com/osx
+| Docs: https://developer.apple.com/technologies/mac/
+| Docs: https://developer.apple.com/library/mac/navigation/
+| Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/
+| Source: https://www.apple.com/opensource/
+
+
+OS X is a UNIX operating system based upon the Mach kernel from NeXTSTEP,
+which was partially derived from NetBSD and FreeBSD.
+
+OS X GUI support is built from XFree86/X.org :ref:`X11`.
+
+OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
+``readlink``, and ``find``.
+
+:ref:`Homebrew` installs and maintains packages for OS X.
+
+.. code-block:: bash
+
+   uname; echo "Darwin"
+
+
+.. index:: Ubuntu
+.. _ubuntu:
+
+Ubuntu
+~~~~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>`_
+| Homepage: http://www.ubuntu.com/
+| Docs: https://help.ubuntu.com/
+| Source: https://launchpad.net/ubuntu
+| Source: http://archive.ubuntu.com/
+| Source: http://releases.ubuntu.com/
+
+
+.. index:: Windows
+.. _windows:
+
+Windows
+~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Microsoft_Windows
+| Homepage: http://windows.microsoft.com/
+| Docs: https://www.microsoft.com/enable/products/docs/
+| Docs: 
+
+Windows is a NT-kernel based operating system.
+
+There used to be a POSIX compatibility mode.
+
+Chocolatey maintains a set of :ref:`NuGet` packages for Windows.
+
+A few annotated excerpts from this Chocolatey :ref:`NuGet` :ref:`PowerShell` script
+https://gist.github.com/westurner/10950476#file-cinst_workstation_minimal-ps1
+::
+
+    cinst GnuWin
+    cinst sysinternals      # Process Explorer XP
+    cinst 7zip
+    cinst curl
+
+* Cygwin Windows Linux Userspace: ~ https://chocolatey.org/packages/Cygwin
+* https://github.com/giampaolo/psutil/blob/master/psutil/_psutil_windows.c
+* http://winappdbg.sourceforge.net/#related-projects
+
+
+.. index:: Configuration Management
+.. _configuration-management:
+
+Configuration Management
+==========================
+
+.. index:: Make
+.. _make:
+
+Make
+~~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Make_(software)>`_
+| Homepage:  https://www.gnu.org/software/make/
+| Project: https://savannah.gnu.org/projects/make/
+| Docs:  https://www.gnu.org/software/make/manual/make.html
+| Source: git git://git.savannah.gnu.org/make.git
+
+
+GNU Make is a classic, ubiquitous software build tool
+designed for file-based source code compilation.
+
+:ref:`Bash`, :ref:`Python`, and the GNU/:ref:`Linux` kernel
+are all built with Make.
+
+Make build task chains are represented in a ``Makefile``.
+
+Pros
+
+* Simple, easy to read syntax
+* Designed to build files on disk
+* Nesting: ``make -C <path> <taskname>``
+* Variable Syntax: ``$(VARIABLE_NAME)``
+* Bash completion: ``make <tab>``
+* Python: Parseable with disutils.text_file Text File
+* Logging: command names and values to stdout
+
+Cons
+
+* Platform Portability: make is not installed everywhere
+* Global Variables: Parametrization with shell scripts
+
 
 
 .. index:: Salt
 .. _salt:
 
 Salt
-===============
+~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Salt_(software)>`_
 | Homepage: http://www.saltstack.com
 | Docs: https://docs.saltstack.com/en/latest/
@@ -2140,170 +1727,152 @@ one or more physical and virtual machines running various operating systems.
       + KVM
 
 
-.. index:: Sed
-.. _sed:
 
-Sed
-=================
-| Wikipedia: `<https://en.wikipedia.org/wiki/Sed>`__
-| Homepage: https://www.gnu.org/software/sed/ 
-| Project: https://savannah.gnu.org/projects/sed
-| Docs: https://www.gnu.org/software/sed/manual/
-| Docs: https://www.gnu.org/software/sed/manual/sed.html
-| Docs: http://sed.sourceforge.net/
-| Source: git git.savannah.gnu.org/sed.git
+.. index:: Virtualization
+.. virtualization:
 
-GNU Sed is a UNIX CLI utility for transforming text.
+Virtualization
+=============== 
 
-.. note:: BSD Sed
+.. index:: Docker
+.. _docker:
 
-   Use ``<Ctrl-V><tab>`` for explicit tabs (as ``\t`` does not work)
+Docker
+~~~~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Docker_(software)>`_
+| Homepage: https://www.docker.com/
+| Docs: https://docs.docker.com/
+| Source: https://github.com/docker/docker
 
-   Use ``\\\n`` or ``'$'\n`` for newlines (as ``\n`` does not work)
+Docker is an OS virtualization project which utilizes Linux LXC Containers
+to partition process workloads all running under one kernel.
 
-   ``sed -E`` should be consistent extended regular expressions
-   between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).
+Limitations
 
-   OR: ``brew install gnu-sed``
-
-   See: https://unix.stackexchange.com/questions/101059/sed-behaves-different-on-freebsd-and-on-linux
-
-   See: https://superuser.com/questions/307165/newlines-in-sed-on-mac-os-x
+* Writing to `/etc/hosts`: https://github.com/docker/docker/issues/2267
+* Apt-get upgrade: https://github.com/docker/docker/issues/3934
 
 
-.. index:: Sphinx
-.. _sphinx:
+.. index:: Libcloud
+.. _libcloud:
 
-Sphinx
-=================
-| Wikipedia: `<https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)>`_
-| Homepage: https://pypi.python.org/pypi/Sphinx
-| Docs: http://sphinx-doc.org/contents.html
-| Docs: http://sphinx-doc.org/markup/code.html
-| Docs: http://pygments.org/docs/lexers/
-| Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
-| Source: hg https://bitbucket.org/birkenfeld/sphinx/
-| Pypi: https://pypi.python.org/pypi/Sphinx
+Libcloud
+~~~~~~~~~~~~~~~~~~
+| Homepage: https://libcloud.apache.org/
+| Docs: https://libcloud.readthedocs.org/en/latest/
+| Docs: https://libcloud.readthedocs.org/en/latest/supported_providers.html
+| Source: git git://git.apache.org/libcloud.git
+| Source: git https://github.com/apache/libcloud
+
+Apache libcloud is a :ref:`Python` library
+which abstracts and unifies a large number of Cloud APIs for
+Compute Resources, Object Storage, Load Balancing, and DNS.
+
+:ref:`Salt` :term:`salt cloud` depends upon libcloud.
 
 
-Sphinx is a tool for working with
-:ref:`ReStructuredText` documentation trees
-and rendering them into HTML, PDF, LaTeX, ePub,
-and a number of other formats.
+.. index:: Libvirt
+.. _libvirt:
 
-Sphinx extends :ref:`Docutils` with a number of useful markup behaviors
-which are not supported by other ReStructuredText parsers.
+Libvirt
+~~~~~~~~~~~~~~~~~
+| Wikipedia: https://libvirt.org/
+| Homepage: https://libvirt.org/
+| Docs: https://libvirt.org/docs.html
+| Docs: https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.virt.html
+| Source: git git://libvirt.org/libvirt-appdev-guide.git
 
-Most other ReStructuredText parsers do not support Sphinx directives;
-so, for example,
+Libvirt is a system for platform virtualization with
+various :ref:`Linux` hypervisors.
 
-* GitHub and BitBucket do not support Sphinx but do support ReStructuredText
-  so README.rst containing Sphinx tags renders in plaintext or raises errors.
+* KVM/QEMU
+* Xen
+* LXC
+* OpenVZ
+* VirtualBox
 
-  For example, the index page of this
-  :ref:`Sphinx` documentation set is generated from
-  a file named ``index.rst`` and referenced by ``docs/conf.py``.
 
-  * Input: https://raw.githubusercontent.com/westurner/provis/master/docs/index.rst
-  * Output: https://github.com/westurner/provis/blob/master/docs/index.rst
-  * Output: *ReadTheDocs*: http://provis.readthedocs.org/en/latest/
+.. index:: Packer
+.. _packer:
+
+Packer
+~~~~~~~~~~~~~~~~~
+| Homepage: https://www.packer.io/
+| Docs: http://www.packer.io/docs
+| Docs: http://www.packer.io/docs/basics/terminology.html
+| Source: git https://github.com/mitchellh/packer
+
+Packer generates machine images for multiple platforms, clouds,
+and hypervisors from a parameterizable template.
 
 .. glossary::
 
-   Sphinx Builder
-      Render Sphinx :ref:`ReStructuredText` into various forms:
+   Packer Artifact
+      Build products: machine image and manifest
 
-         * HTML
-         * LaTeX
-         * PDF
-         * ePub
+   Packer Template
+      JSON build definitions with optional variables and templating
 
-      See: `Sphinx Builders <http://sphinx-doc.org/builders.html>`_
+   Packer Build
+      Task defined by a JSON file containing build steps
+      which produce a machine image
 
-   Sphinx ReStructuredText
-      Sphinx extends :ref:`ReStructuredText` with roles and directives
-      which only work with Sphinx.
+   Packer Builder
+      Packer components which produce machine images
+      for one of many platforms:
 
-   Sphinx Directive
-      Sphinx extensions of :ref:`Docutils` :ref:`ReStructuredText` directives.
+      - VirtualBox
+      - Docker
+      - OpenStack
+      - GCE
+      - EC2
+      - VMware
+      - QEMU (KVM, Xen)
+      - http://www.packer.io/docs/templates/builders.html
 
-      Most other ReStructuredText parsers do not support Sphinx directives.
+   Packer Provisioner
+      Packer components for provisioning machine images at build time
 
-      .. code-block:: rest
+      - Shell scripts
+      - File uploads
+      - ansible
+      - chef
+      - solo
+      - puppet
+      - salt
 
-         .. toctree::
+   Packer Post-Processor
+      Packer components for compressing and uploading built machine images
 
-            readme
-            installation
-            usage
-
-      See: `Sphinx Directives <http://sphinx-doc.org/rest.html#directives>`_
-
-   Sphinx Role
-      Sphinx extensions of :ref:`Docutils` :ref:`RestructuredText` roles
-
-      Most other ReStructured
-
-      .. code-block:: rest
-
-            .. _anchor-name:
-
-            :ref:`Anchor <anchor-name>`
-
-
-.. index:: Tox
-.. _tox:
-
-Tox
-==============
-| Homepage: https://testrun.org/tox/
-| Docs: https://tox.readthedocs.org/en/latest/
-| Source: hg https://bitbucket.org/hpk42/tox
-| Pypi: https://pypi.python.org/pypi/tox
-
-
-Tox is a build automation tool designed to build and test Python projects
-with multiple language versions and environments
-in separate :ref:`virtualenvs <virtualenv>`.
-
-Run the py27 environment::
-
-   tox -v -e py27
-   tox --help
-
-
-.. index:: Ubuntu
-.. _ubuntu:
-
-Ubuntu
-=================
-| Wikipedia: `<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>`_
-| Homepage: http://www.ubuntu.com/
-| Docs: https://help.ubuntu.com/
-| Source: https://launchpad.net/ubuntu
-| Source: http://archive.ubuntu.com/
-| Source: http://releases.ubuntu.com/
 
 
 .. index:: Vagrant
 .. _vagrant:
 
 Vagrant
-==================
+~~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Vagrant_(software)>`_
 | Homepage: https://www.vagrantup.com/
 | Docs: http://docs.vagrantup.com/v2/
 | Source: git https://github.com/mitchellh/vagrant
 
 
-Vagrant is a tool for creating and managing virtual machine instances
+Vagrant is a tool written in :ref:`Ruby`
+for creating and managing virtual machine instances
 with CPU, RAM, Storage, and Networking.
 
 * Vagrant:
 
+  * Works with a number of Cloud :ref:`Virtualization` providers:
+
+    * VirtualBox
+    * AWS
+    * GCE
+    * OpenStack
+
   * provides helpful commandline porcelain on top of
     :ref:`VirtualBox` ``VboxManage``
-  * installs *Vagrant Boxes*
+  * installs and lifecycles *Vagrant Boxes*
 
 ::
 
@@ -2390,68 +1959,12 @@ with CPU, RAM, Storage, and Networking.
    DNS, the default route, and to ensure ``vagrant ssh`` connectivity.
 
 
-.. index:: Vim
-.. _vim:
-
-Vim
-====
-| Wikipedia: `<https://en.wikipedia.org/wiki/Vim_(text_editor)>`__
-| Homepage: http://www.vim.org/
-| Docs: http://www.vim.org/docs.php
-| Source: hg https://vim.googlecode.com/hg/
-
-
-* https://github.com/scrooloose/nerdtree
-* https://github.com/westurner/dotvim
-
-
-.. index:: Vimium
-.. _vimium:
-
-Vimium
-~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Vimium
-| Homepage: https://vimium.github.io/
-| Source: git https://github.com/philc/vimium
-
-
-* https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
-
-
-.. index:: Vimperator
-.. _vimperator:
-
-Vimperator
-~~~~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Vimperator
-| Homepage: http://www.vimperator.org/
-| Source: https://github.com/vimperator/vimperator-labs
-
-
-* https://addons.mozilla.org/en-US/firefox/addon/vimperator/
-
-
-.. index:: Wasavi
-.. _wasavi:
-
-Wasavi
-~~~~~~~
-| Homepage: http://appsweets.net/wasavi/
-| Docs: http://appsweets.net/wasavi/
-| Source: https://github.com/akahuku/wasavi
-
-
-* https://chrome.google.com/webstore/detail/wasavi/dgogifpkoilgiofhhhodbodcfgomelhe
-* https://addons.opera.com/en/extensions/details/wasavi/
-* https://addons.mozilla.org/en-US/firefox/addon/wasavi/
-
-
 
 .. index:: VirtualBox
 .. _virtualbox:
 
 VirtualBox
-=====================
+~~~~~~~~~~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/VirtualBox
 | Homepage: https://www.virtualbox.org/
 | Docs: https://www.virtualbox.org/wiki/Documentation
@@ -2470,17 +1983,341 @@ VirtualBox:
 :ref:`Vagrant` scripts VirtualBox.
 
 
+.. index:: Shells
+.. shells:
+
+Shells
+========
+
+.. index:: Bash
+.. _bash:
+
+Bash
+~~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>`__
+| Homepage: http://www.gnu.org/software/bash/
+| Docs: https://www.gnu.org/software/bash/manual/
+| Source: git git://git.savannah.gnu.org/bash.git
+
+GNU Bash, the Bourne-again shell.
+
+.. code-block:: bash
+
+   type bash
+   bash --help
+   help help
+   help type
+   apropos bash
+   info bash
+   man bash
+
+* Designed to work with unix command outputs and return codes
+* Functions
+* Portability: sh (sh, bash, dash, zsh) shell scripts are mostly
+  compatible
+* Logging::
+
+   set -x  # print commands and arguments
+   set -v  # print source
+
+Bash Configuration::
+
+   /etc/profile
+   /etc/bash.bashrc
+   /etc/profile.d/*.sh
+   ${HOME}/.profile        /etc/skel/.profile   # PATH=+$HOME/bin  # umask
+   ${HOME}/.bash_profile   # empty. preempts .profile
+
+Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin
+
+
+.. index:: Readline
+.. _readline:
+
+Readline
+~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/GNU_Readline
+| Homepage: http://tiswww.case.edu/php/chet/readline/rltop.html
+| Docs: http://tiswww.case.edu/php/chet/readline/readline.html
+| Docs: http://tiswww.case.edu/php/chet/readline/history.html
+| Docs: http://tiswww.case.edu/php/chet/readline/rluserman.html
+| Source: ftp ftp://ftp.gnu.org/gnu/readline/readline-6.3.tar.gz
+| Pypi: https://pypi.python.org/pypi/gnureadline
+
+
+.. index:: IPython
+.. index:: ipython
+.. _ipython:
+
+IPython
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/IPython
+| Homepage: http://ipython.org/
+| Docs: http://ipython.org/ipython-doc/stable/
+| Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
+| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
+| Source: git https://github.com/ipython/ipython
+
+IPython is an interactive REPL and distributed computation framework
+written in :ref:`Python`.
+
+An IPython notebook file (``.ipynb``) is a
+JSON document containing input and output
+for a linear sequence of cells;
+which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
+and edited through the web with
+IPython Notebook.
+
+.. code:: python
+
+    1 + 1
+    x = 1+1
+    print("1 + 1 = %d" (x))
+
+    # IPython
+    ?                              # help
+    %lsmagic
+    %<tab>                         # list magic commands and aliases
+    %logstart?                     # help for the %logstart magic command
+    %logstart -o logoutput.log.py  # log input and output to a file
+    import json
+    json?                          # print(json.__doc__)
+    json??                         # print(inspect.getsource(json))
+
+    # IPython shell
+    !cat ./README.rst; echo $PWD   # run shell commands
+    lines = !ls -al                # capture shell command output
+    print(lines[0:])
+    %run -i -t example.py          # run a script with timing info,
+                                   # in the local namespace
+    %run -d example.py             # run a script with pdb
+    %pdb on                        # automatically run pdb on Exception
+
+.. note:: IPython notebook runs code and shell commands as
+  the user the process is running as, on a remote or local machine.
+
+  IPython notebook supports more than 20 different languages.
+
+Reproducible :ref:`SciPy Stack <scipystack>`
+IPython / Jupyter Notebook servers
+implement best practices like process isolation and privilege separation:
+
+* https://github.com/ipython/ipython/wiki/Install:-Docker
+* https://registry.hub.docker.com/repos/ipython/
+* https://registry.hub.docker.com/repos/jupyter/
+* https://registry.hub.docker.com/u/jupyter/tmpnb/
+
+
+IPython / Jupyter Notebook Viewer (``nbviewer``)
+is an application for serving read-only
+versions of notebooks which have HTTP URLs.
+
+* http://nbviewer.ipython.org
+* https://github.com/jupyter/nbviewer
+
+
+
+.. index:: ZSH
+.. _zsh:
+
+ZSH
+~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Z_shell
+| Homepage: http://www.zsh.org/
+| Docs: http://zsh.sourceforge.net/Guide/zshguide.html
+| Docs: http://zsh.sourceforge.net/Doc/
+| Source: git git://git.code.sf.net/p/zsh/code
+
+
+* https://github.com/robbyrussell/oh-my-zsh
+
+
+.. index:: Shell Utilities
+.. shell-utilities:
+
+Shell Utilities
+=================
+
+
+.. index:: Awk
+.. _awk:
+
+Awk
+~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/AWK>`__
+| Docs: https://en.wikipedia.org/wiki/AWK#Versions_and_implementations
+| GNU Awk
+| Project: https://savannah.gnu.org/projects/gawk/
+| Homepage: https://www.gnu.org/software/gawk/
+| Docs: https://www.gnu.org/software/gawk/manual/
+| Docs: https://www.gnu.org/software/gawk/manual/gawk.html
+| Source: git git://git.savannah.gnu.org/gawk.git
+
+AWK is a pattern programming language for matching and transforming text.
+
+.. index:: Grep
+.. _grep:
+
+Grep
+~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Grep>`__
+| Homepage: https://www.gnu.org/software/grep/
+| Project: https://savannah.gnu.org/projects/grep/
+| Docs: https://www.gnu.org/software/grep/manual/
+| Docs: https://www.gnu.org/software/grep/manual/grep.html
+| Source: git git://git.savannah.gnu.org/grep.git
+
+Grep is a UXIX CLI utility for pattern-based text matching.
+
+
+.. index:: Htop
+.. _htop:
+
+Htop
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Htop
+| Homepage: http://hisham.hm/htop/
+| Source: git http://hisham.hm/htop/
+
+
+.. index:: Pyline
+.. _pyline:
+
+Pyline
+~~~~~~~~
+| Homepage: https://github.com/westurner/pyline
+| Docs: https://pyline.readthedocs.org/en/latest/
+| Source: git https://github.com/westurner/pyline
+| Pypi: https://pypi.python.org/pypi/pyline
+
+Pyline is a UNIX command-line tool for line-based processing in Python
+with regex and output transform features similar to
+:ref:`grep`, :ref:`sed`, and :ref:`awk`.
+
+Pyline can generate quoted CSV, :ref:`JSON`, HTML, etc.
+
+
+.. index:: Pyrpo
+.. _pyrpo:
+
+Pyrpo
+~~~~~~
+| Homepage: https://github.com/westurner/pyrpo
+| Source: git https://github.com/westurner/pyrpo
+| Pypi: https://pypi.python.org/pypi/pyrpo
+
+Pyrpo is a tool for locating and generating reports
+from :ref:`Git`, :ref:`Mercurial`, :ref:`Bazaar`,
+and :ref:`Subversion` repositories.
+
+
+.. index:: Sed
+.. _sed:
+
+Sed
+~~~~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Sed>`__
+| Homepage: https://www.gnu.org/software/sed/ 
+| Project: https://savannah.gnu.org/projects/sed
+| Docs: https://www.gnu.org/software/sed/manual/
+| Docs: https://www.gnu.org/software/sed/manual/sed.html
+| Docs: http://sed.sourceforge.net/
+| Source: git git.savannah.gnu.org/sed.git
+
+GNU Sed is a UNIX CLI utility for transforming text.
+
+.. note:: BSD Sed
+
+   Use ``<Ctrl-V><tab>`` for explicit tabs (as ``\t`` does not work)
+
+   Use ``\\\n`` or ``'$'\n`` for newlines (as ``\n`` does not work)
+
+   ``sed -E`` should be consistent extended regular expressions
+   between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).
+
+   OR: ``brew install gnu-sed``
+
+   See: https://unix.stackexchange.com/questions/101059/sed-behaves-different-on-freebsd-and-on-linux
+
+   See: https://superuser.com/questions/307165/newlines-in-sed-on-mac-os-x
+
+
+.. index:: Dotfiles
+.. _dotfiles:
+
+Dotfiles
+==========
+
+Userspace configuration in files that are often prefixed with "dot"
+(e.g. ``~/.bashrc`` for :ref:`Bash`)
+
+| Src: https://github.com/westurner/dotfiles
+| Docs: https://westurner.org/dotfiles/
+
+
+.. index:: Dotvim
+.. _dotvim:
+
+Dotvim
+~~~~~~~~
+
+| Src: https://github.com/westurner/dotvim
+| Docs: https://westurner.org/dotfiles/usage#vim
+
+
+
+.. index:: Venv
+.. _venv:
+
+Venv
+~~~~~
+
+| Docs: https://westurner.org/dotfiles/venv/
+
+Venv is a tool for making working with :ref:`Virtualenv`,
+:ref:`Virtualenvwrapper`, :ref:`Bash`, :ref:`ZSH`, :ref:`Vim`,
+and :ref:`IPython` within a project context very easy.
+
+Venv defines standard paths, environment variables, and aliases
+for routinizing workflow.
+
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| var name            | description                    | cdaliases                | example                            |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``HOME``            | user home directory            | cdh, cdhome              | ~/                                 |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``__WRK``           | workspace root                 | cdwrk                    | ~/-wrk                             |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``WORKON_HOME``     | virtualenvs root               | cdwh, cdworkonhome, cdve | ~/-wrk/-ve27                       |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``CONDA_ENVS_PATH`` | condaenvs root                 | cdch, cdcondahome        | ~/-wrk/-ce27                       |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``VIRTUAL_ENV``     | virtualenv root                | cdv, cdvirtualenv        | ~/-wrk/-ve27/dotfiles              |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``_BIN``            | virtualenv executables         | cdb, cdbin               | ~/-wrk/-ve27/dotfiles/bin          |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``_ETC``            | virtualenv configuration       | cd, cdetc                | ~/-wrk/-ve27/dotfiles/etc          |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``_LOG``            | virtualenv log directory       | cdlog                    | ~/-wrk/-ve27/dotfiles/var/log      |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``_SRC``            | virtualenv source repositories | cds, cdsrc               | ~/-wrk/-ve27/dotfiles/src          |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+| ``_WRD``            | virtualenv working directory   | cdw, cdwrd               | ~/-wrk/-ve27/dotfiles/src/dotfiles |
++---------------------+--------------------------------+--------------------------+------------------------------------+
+
+
+
+
 .. index:: Virtualenv
 .. _virtualenv:
 
 Virtualenv
-====================
+~~~~~~~~~~~~~~~~~~~~
 | Homepage: http://www.virtualenv.org
 | Docs: https://virtualenv.pypa.io/en/latest/
 | Source: git https://github.com/pypa/virtualenv
 | PyPI: https://pypi.python.org/pypi/virtualenv
 | IRC: #pip
-
 
 Virtualenv is a tool for creating reproducible :ref:`Python` environments.
 
@@ -2542,11 +2379,10 @@ A standard virtual environment::
 .. _virtualenvwrapper:
 
 Virtualenvwrapper
-===========================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 | Docs: http://virtualenvwrapper.readthedocs.org/en/latest/
 | Source: hg https://bitbucket.org/dhellmann/virtualenvwrapper
 | PyPI: https://pypi.python.org/pypi/virtualenvwrapper
-
 
 Virtualenvwrapper is a tool which extends virtualenvwrapper.
 
@@ -2599,11 +2435,109 @@ Virtualenvwrapper is sourced into the shell::
    lsvirtualenvs; ls -d $WORKON_HOME                # venv: lsve; lsve 'ls -d'
 
 
+
+
+.. index:: Window Managers
+.. window-managers:
+
+Window Managers
+================
+
+.. index:: Compiz
+.. _compiz:
+
+Compiz
+~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Compiz
+| Homepage: https://launchpad.net/compiz
+| Docs: http://wiki.compiz.org/
+| Source: bzr branch lp:compiz
+
+
+Compiz is a window compositing layer for :ref:`X11` which adds
+lots of cool and productivity-enhancing visual capabilities.
+
+Compiz works with :ref:`Gnome`, :ref:`KDE`, and :ref:`Qt` applications.
+
+
+.. index:: Gnome
+.. _gnome:
+
+Gnome
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/GNOME
+| Homepage: http://www.gnome.org/
+| Docs: https://help.gnome.org/
+| Source: https://git.gnome.org/browse/
+
+
+* https://wiki.gnome.org/GnomeLove
+
+
+.. index:: i3wm
+.. _i3wm:
+
+i3wm
+~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/I3_(window_manager)>`__
+| Homepage: http://i3wm.org/
+| Docs: http://i3wm.org/docs/
+| Source: git git://code.i3wm.org/i3
+
+i3wm is a tiling window manager for :ref:`X11` (:ref:`Linux`)
+with extremely-configurable :ref:`Vim`-like keyboard shortcuts.
+
+i3wm works with :ref:`Gnome`, :ref:`KDE`, and :ref:`Qt` applications.
+
+* http://i3wm.org/downloads/
+
+
+.. index:: KDE
+.. _kde:
+
+KDE
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/KDE
+| Homepage: https://www.kde.org/
+| Docs: https://docs.kde.org/
+| Docs: https://www.kde.org/documentation/
+| Source: https://techbase.kde.org/Getting_Started/Sources
+| Source: https://techbase.kde.org/Getting_Started/Sources/Subversion
+| Source: https://techbase.kde.org/Development/Git
+| Source: https://projects.kde.org/projects
+
+
+KDE is a GUI framework built on Qt.
+
+KWin is the main KDE window manager for :ref:`X11`.
+
+
+.. index:: Qt
+.. _qt:
+
+Qt
+~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Qt_Project
+| Homepage: https://qt-project.org/
+| Homepage: http://qt.io/
+| Docs: http://doc.qt.io/
+| Docs: http://doc.qt.io/qt-5/qtexamplesandtutorials.html
+| Docs: http://www.qt.io/contribute/
+| Docs: http://wiki.qt.io/Main_Page
+| Docs: https://wiki.qt.io/Get_the_Source
+| Docs:
+| Src: git http://code.qt.io/cgit/
+
+Qt is a Graphical User Interface toolkit for
+developing applications with
+Android, iOS, :ref:`OSX`, Windows, Embedded :ref:`Linux`, and :ref:`X11`.
+
+
 .. index:: Wayland
 .. _wayland:
 
 Wayland
-=========
+~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Wayland_(display_server_protocol)>`_
 | Homepage: http://wayland.freedesktop.org/
 | Source:
@@ -2616,55 +2550,12 @@ Wayland is an alternative to :ref:`X11` servers like XFree86 and X.org.
 The reference Wayland implementation, Weston, is written in :ref:`C`.
 
 
-.. index:: YAML
-.. _yaml:
-
-YAML
-==============
-| Wikipedia: https://en.wikipedia.org/wiki/YAML
-| Homepage: http://yaml.org
-| Docs: http://learnxinyminutes.com/docs/yaml/
-
-
-YAML ("YAML Ain't Markup Language") is a concise data serialization format.
-
-
-Most :ref:`Salt` states and pillar data are written in YAML. Here's an
-example ``top.sls`` file:
-
-.. code-block:: yaml
-
-   base:
-    '*':
-      - openssh
-    '*-webserver':
-      - webserver
-    '*-workstation':
-      - gnome
-      - i3
-
-
-.. index:: ZSH
-.. _zsh:
-
-ZSH
-====
-| Wikipedia: https://en.wikipedia.org/wiki/Z_shell
-| Homepage: http://www.zsh.org/
-| Docs: http://zsh.sourceforge.net/Guide/zshguide.html
-| Docs: http://zsh.sourceforge.net/Doc/
-| Source: git git://git.code.sf.net/p/zsh/code
-
-
-* https://github.com/robbyrussell/oh-my-zsh
-
-
 .. index:: X Window System
 .. index:: X11
 .. _x11:
 
 X11
-====
+~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/X_Window_System
 | Homepage: http://www.x.org/
 | Docs: http://www.x.org/wiki/Documentation/
@@ -2679,6 +2570,296 @@ X11 window managers.
 
 :ref:`Gnome`, :ref:`KDE`, :ref:`I3wm`, :ref:`OSX`, and :ref:`Compiz`
 build upon X11.
+
+
+.. index:: Documentation
+.. _documentation-tools:
+
+Documentation Tools
+=====================
+
+
+.. index:: Docutils
+.. _docutils:
+
+Docutils
+~~~~~~~~~~~~~~~~~~~
+| Homepage: http://docutils.sourceforge.net
+| Docs: http://docutils.sourceforge.net/docs/
+| Docs: http://docutils.sourceforge.net/rst.html
+| Docs: http://docutils.sourceforge.net/docs/ref/doctree.html
+| Source: svn http://svn.code.sf.net/p/docutils/code/trunk
+
+
+Docutils is a text processing system which 'parses" :ref:`ReStructuredText`
+lightweight markup language into a doctree which it serializes into
+HTML, LaTeX, man-pages, Open Document files, XML, and a number of other
+formats.
+
+
+.. index:: Sphinx
+.. _sphinx:
+
+Sphinx
+~~~~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)>`_
+| Homepage: https://pypi.python.org/pypi/Sphinx
+| Docs: http://sphinx-doc.org/contents.html
+| Docs: http://sphinx-doc.org/markup/code.html
+| Docs: http://pygments.org/docs/lexers/
+| Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
+| Source: hg https://bitbucket.org/birkenfeld/sphinx/
+| Pypi: https://pypi.python.org/pypi/Sphinx
+
+
+Sphinx is a tool for working with
+:ref:`ReStructuredText` documentation trees
+and rendering them into HTML, PDF, LaTeX, ePub,
+and a number of other formats.
+
+Sphinx extends :ref:`Docutils` with a number of useful markup behaviors
+which are not supported by other ReStructuredText parsers.
+
+Most other ReStructuredText parsers do not support Sphinx directives;
+so, for example,
+
+* GitHub and BitBucket do not support Sphinx but do support ReStructuredText
+  so README.rst containing Sphinx tags renders in plaintext or raises errors.
+
+  For example, the index page of this
+  :ref:`Sphinx` documentation set is generated from
+  a file named ``index.rst`` and referenced by ``docs/conf.py``.
+
+  * Input: https://raw.githubusercontent.com/westurner/provis/master/docs/index.rst
+  * Output: https://github.com/westurner/provis/blob/master/docs/index.rst
+  * Output: *ReadTheDocs*: http://provis.readthedocs.org/en/latest/
+
+.. glossary::
+
+   Sphinx Builder
+      Render Sphinx :ref:`ReStructuredText` into various forms:
+
+         * HTML
+         * LaTeX
+         * PDF
+         * ePub
+
+      See: `Sphinx Builders <http://sphinx-doc.org/builders.html>`_
+
+   Sphinx ReStructuredText
+      Sphinx extends :ref:`ReStructuredText` with roles and directives
+      which only work with Sphinx.
+
+   Sphinx Directive
+      Sphinx extensions of :ref:`Docutils` :ref:`ReStructuredText` directives.
+
+      Most other ReStructuredText parsers do not support Sphinx directives.
+
+      .. code-block:: rest
+
+         .. toctree::
+
+            readme
+            installation
+            usage
+
+      See: `Sphinx Directives <http://sphinx-doc.org/rest.html#directives>`_
+
+   Sphinx Role
+      Sphinx extensions of :ref:`Docutils` :ref:`RestructuredText` roles
+
+      Most other ReStructured
+
+      .. code-block:: rest
+
+            .. _anchor-name:
+
+            :ref:`Anchor <anchor-name>`
+
+
+.. index:: Standards
+.. _standards:
+
+Standards
+============
+
+.. index:: Filesystem Hierarchy Standard
+.. _fhs:
+
+Filesystem Hierarchy Standard
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+| Website: http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs
+
+
+The Filesystem Hierarchy Standard is a well-worn industry-supported
+system file naming structure.
+
+:ref:`Ubuntu` and :ref:`Virtualenv` implement
+a Filesystem Hierarchy.
+
+:ref:`Docker` layers filesystem hierarchies with aufs and now
+also btrfs subvolumes.
+
+
+.. index:: JSON
+.. _json:
+
+JSON
+~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/JSON
+| Homepage: http://json.org/
+| Docs: http://learnxinyminutes.com/docs/json/
+
+
+JSON is an object representation in :ref:`Javascript` syntax
+which is now supported by libraries for many language.
+
+A list of objects with ``key`` and ``value`` attributes in JSON syntax:
+
+.. code-block:: javascript
+
+    [
+    { "key": "language", "value": "Javascript" },
+    { "key": "version", "value": 1 },
+    { "key": "example", "value": true },
+    ]
+
+Machine-generated JSON is often not very readable, because it doesn't
+contain extra spaces or newlines.
+The :ref:`Python` JSON library contains a utility
+for parsing and indenting ("prettifying") JSON from the commandline ::
+
+    cat example.json | python -m json.tool
+
+
+.. index:: JSONLD
+.. index:: JSON-LD
+.. _json-ld:
+
+JSON-LD
+~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/JSON-LD
+| Homepage: http://json-ld.org
+| Docs: http://json-ld.org/playground/
+
+JSON-LD is a web standard for Linked Data in :ref:`JSON`.
+
+An example from the JSON-LD Playground (`<http://goo.gl/xxZ410>`__):
+
+.. code-block:: javascript
+
+   {
+      "@context": {
+       "gr": "http://purl.org/goodrelations/v1#",
+       "pto": "http://www.productontology.org/id/",
+       "foaf": "http://xmlns.com/foaf/0.1/",
+       "xsd": "http://www.w3.org/2001/XMLSchema#",
+       "foaf:page": {
+         "@type": "@id"
+       },
+       "gr:acceptedPaymentMethods": {
+         "@type": "@id"
+       },
+       "gr:hasBusinessFunction": {
+         "@type": "@id"
+       },
+       "gr:hasCurrencyValue": {
+         "@type": "xsd:float"
+       }
+      },
+      "@id": "http://example.org/cars/for-sale#tesla",
+      "@type": "gr:Offering",
+      "gr:name": "Used Tesla Roadster",
+      "gr:description": "Need to sell fast and furiously",
+      "gr:hasBusinessFunction": "gr:Sell",
+      "gr:acceptedPaymentMethods": "gr:Cash",
+      "gr:hasPriceSpecification": {
+       "gr:hasCurrencyValue": "85000",
+       "gr:hasCurrency": "USD"
+      },
+      "gr:includes": {
+       "@type": [
+         "gr:Individual",
+         "pto:Vehicle"
+       ],
+       "gr:name": "Tesla Roadster",
+       "foaf:page": "http://www.teslamotors.com/roadster"
+      }
+   }
+
+
+.. index:: MessagePack
+.. _msgpack:
+
+MessagePack
+~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/MessagePack
+| Homepage: http://msgpack.org/
+
+
+MessagePack is a data interchange format
+with implementations in many languages.
+
+:ref:`Salt`
+
+
+.. index:: Vim
+.. _vim:
+
+Vim
+====
+| Wikipedia: `<https://en.wikipedia.org/wiki/Vim_(text_editor)>`__
+| Homepage: http://www.vim.org/
+| Docs: http://www.vim.org/docs.php
+| Source: hg https://vim.googlecode.com/hg/
+
+
+* https://github.com/scrooloose/nerdtree
+* https://github.com/westurner/dotvim
+
+
+.. index:: Vimium
+.. _vimium:
+
+Vimium
+~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Vimium
+| Homepage: https://vimium.github.io/
+| Source: git https://github.com/philc/vimium
+
+
+* https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+
+
+.. index:: Vimperator
+.. _vimperator:
+
+Vimperator
+~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Vimperator
+| Homepage: http://www.vimperator.org/
+| Source: https://github.com/vimperator/vimperator-labs
+
+
+* https://addons.mozilla.org/en-US/firefox/addon/vimperator/
+
+
+.. index:: Wasavi
+.. _wasavi:
+
+Wasavi
+~~~~~~~
+| Homepage: http://appsweets.net/wasavi/
+| Docs: http://appsweets.net/wasavi/
+| Source: https://github.com/akahuku/wasavi
+
+
+* https://chrome.google.com/webstore/detail/wasavi/dgogifpkoilgiofhhhodbodcfgomelhe
+* https://addons.opera.com/en/extensions/details/wasavi/
+* https://addons.mozilla.org/en-US/firefox/addon/wasavi/
+
+
 
 *****
 
