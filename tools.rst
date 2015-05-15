@@ -758,6 +758,8 @@ Creating a new release with :ref:`Git` and HubFlow:
   # git checkout master
   git hf init
   ## Update versiontag in .git/config to prefix release tags with 'v'
+  git config hubflow.prefix.versiontag=v
+  #cat .git/config # ...
   # [hubflow "prefix"]
   # feature = feature/
   # release = release/
@@ -765,12 +767,14 @@ Creating a new release with :ref:`Git` and HubFlow:
   # support = support/
   # versiontag = v
   #
-  git hf feature start print_hello_world
+  git hf feature start ENH_print_hello_world
   ## commit, commit, commit
-  git hf feature finish print_hello_world
+  git hf feature finish ENH_print_hello_world   # ENH<TAB>
   git hf release start 0.1.0
-  ## commit (e.g. update version in setup.py, release notes)
+  ## commit (e.g. update __version__, setup.py, release notes)
   git hf release finish 0.1.0
+  git hf release finish 0.1.0
+  git tag | grep 'v0.1.0'
 
 The GitFlow HubFlow illustrations are very helpful for visualizing
 and understanding any DVCS workflow: 
