@@ -123,14 +123,14 @@ clone_or_update() {
     rev=${2:-"master"}  # tip, master
     dest=$3
     echo ""
-    if [ -d "${dest}/.git" ]; then
+    if [ -e "${dest}/.git" ]; then
         echo "## pulling from ${url} ---> ${dest}"
         (set -x; cd $dest && \
             git_status && \
             git checkout "$rev" && \
             git pull && \
             git_status);
-    elif [ -d "${dest}/.hg" ]; then
+    elif [ -e "${dest}/.hg" ]; then
         default_path=$(cd $dest && hg paths | grep default) 
         echo "## pulling from ${default_path} ---> ${dest}"
         (set -x; cd $dest && echo "cd $(pwd)" && \
@@ -140,7 +140,7 @@ clone_or_update() {
             hg_status);
     else
         echo "## cloning from ${url} ---> ${dest}"
-        (set -x; git clone ${url} ${dest} && \
+        (set -x; git clone --recursive ${url} ${dest} && \
             cd $dest && \
             git checkout "$rev" && \
             git_status)
