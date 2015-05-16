@@ -2669,7 +2669,7 @@ class Venv(object):
                            storemagic=True,
                            storemagic_autorestore=False,
                            autoreload=True,
-                           deep_reload=True,
+                           deep_reload=False,
 
                            venvaliases=True,
                            usrlog=True,
