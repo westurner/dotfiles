@@ -6,7 +6,9 @@ gdd() {
 }
 
 __gdd() {
-    local GIT_OPTS="--color=always"
+    if [ "${TERM}" != "dumb" ]; then
+        local GIT_OPTS="--color=always"
+    fi
     local GITBIN=$(which git)
 
     if [ -n "${1}" ]; then
@@ -15,11 +17,11 @@ __gdd() {
     fi
     export GIT_PAGER="less -R | cat"
 
+    ${GITBIN} log -n3 --stat --decorate=full ${GIT_OPTS}
     ${GITBIN} diff ${GIT_OPTS} 
     ${GITBIN} diff ${GIT_OPTS} --stat
     ${GITBIN} diff ${GIT_OPTS} --cached
     ${GITBIN} diff ${GIT_OPTS} --cached --stat
-    ${GITBIN} log -n3 --stat --decorate=full ${GIT_OPTS}
     ${GITBIN} status
 }
 

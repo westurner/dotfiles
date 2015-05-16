@@ -1,0 +1,35 @@
+#!/bin/sh
+## 
+
+function hgst () {
+    (_hgst ${@}; return)
+    return
+}
+
+function _hgst() {
+    # hgst()            -- hg diff --stat, hg status, hg diff
+    repo=${1:-"$(pwd)"}
+    shift
+
+    hgopts="-R ${repo} --pager=no"
+
+    if [ -n "$(echo "$@" | grep "color")" ]; then
+        hgopts="${hgopts} --color=always"
+    fi
+    echo "###"
+    echo "## ${repo}"
+    echo '###'
+    (set -x; hg ${hgopts} diff --stat | sed 's/^/## /')
+    echo '###'
+    (set -x; hg ${hgopts} status | sed 's/^/## /')
+    echo '###'
+    (set -x; hg ${hgopts} diff)
+    echo '###'
+    return
+}
+
+
+if [ "${BASH_SOURCE}" == "${0}" ]; then
+    hgst ${@}
+    exit
+fi
