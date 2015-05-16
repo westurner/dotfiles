@@ -272,7 +272,8 @@ class PyTestCommand(RunCommand):
         uniq_pths = []
         for key in pthdict:
             values = pthdict[key]
-            uniq_pth = next(v for v in values if v.endswith('.py'))
+            uniq_pth = next(v for v in values if v.endswith('.py')
+                            and os.path.exists(v))
             uniq_pths.append(uniq_pth)
             # log.info("%r", uniq_pth)
 
