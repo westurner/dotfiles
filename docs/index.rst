@@ -9,7 +9,7 @@ westurner/dotfiles
    readme
    usage
    venv
-   tools
+   tools/tools
    api
    developing
    changelog

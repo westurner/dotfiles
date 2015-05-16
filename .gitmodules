@@ -1,0 +1,3 @@
+[submodule "docs/tools"]
+	path = docs/tools
+	url = ssh://git@github.com/westurner/tools
