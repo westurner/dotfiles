@@ -85,7 +85,10 @@ help_setuppy_txt:
 		| sed "s|^\s\s| \0|g"; \
 	echo ""
 	for _cmd in \
-		`python setup.py --help-commands | grep '^  \w' | $(PYLINE) 'w and w[0]'`;	do \
+		`python setup.py --help-commands \
+			| grep '^  \w' \
+			| $(PYLINE) 'w and w[0]' \
+			| sort`; do \
 		echo ""; echo ""; \
 		python setup.py --help "$${_cmd}" \
 			| scripts/pyline.py '(6 < i < i_last - 13) and l' \
