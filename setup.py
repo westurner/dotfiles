@@ -251,25 +251,33 @@ class PyTestCommand(RunCommand):
     def run(self):
         cmd = [sys.executable,
                os.path.join(SETUPPY_PATH, 'runtests.py')]
-        cmd.extend([
-            os.path.join(SETUPPY_PATH, 'etc/ipython/ipython_config.py'),
-        ])
 
-        globp_pkg_src = os.path.join(SETUPPY_PATH, 'src/dotfiles/*.py')
-        globp_pkg_src_ipython = os.path.join(SETUPPY_PATH, 'src/dotfiles/venv/*.py')
-        cmd.extend(sorted(glob.glob(globp_pkg_src)))
-        cmd.extend(sorted(glob.glob(globp_pkg_src_ipython)))
+        pths = []
+        fnglobs = (
+            'etc/ipython/ipython_config.py',
+            'src/dotfiles/*.py',
+            'src/dotfiles/venv/*.py',
+            'scripts/*.py',
+            'bin/*')
+        for fnglob in fnglobs:
+            pths.extend(sorted(glob.glob(
+                os.path.join(SETUPPY_PATH, fnglob))))
 
-        globp_pkg_scripts = os.path.join(SETUPPY_PATH, 'scripts/*.py')
-        cmd.extend(sorted(glob.glob(globp_pkg_scripts)))
+        import collections
+        pthdict = collections.OrderedDict()
+        for pth in pths:
+            realpath = os.path.realpath(pth)
+            pthdict.setdefault(realpath, [])
+            pthdict[realpath].append(pth)
 
-        globp_pkg_bin = os.path.join(SETUPPY_PATH, 'bin/*')
-        cmd.extend(glob.glob(globp_pkg_bin))
+        uniq_pths = []
+        for key in pthdict:
+            values = pthdict[key]
+            uniq_pth = next(v for v in values if v.endswith('.py'))
+            uniq_pths.append(uniq_pth)
+            log.info("%r", uniq_pth)
 
-        cmdlist = list(cmd)
-        for x in cmdlist:
-            log.info(x)
-
+        cmdlist = cmd + uniq_pths
         errno = subprocess.call(cmdlist)
         raise SystemExit(errno)
 
