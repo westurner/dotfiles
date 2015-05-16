@@ -254,9 +254,8 @@ class PyTestCommand(RunCommand):
 
         pths = []
         fnglobs = (
-            'etc/ipython/ipython_config.py',
-            'src/dotfiles/*.py',
             'src/dotfiles/venv/*.py',
+            'src/dotfiles/*.py',
             'scripts/*.py',
             'bin/*')
         for fnglob in fnglobs:
@@ -275,7 +274,7 @@ class PyTestCommand(RunCommand):
             values = pthdict[key]
             uniq_pth = next(v for v in values if v.endswith('.py'))
             uniq_pths.append(uniq_pth)
-            log.info("%r", uniq_pth)
+            # log.info("%r", uniq_pth)
 
         cmdlist = cmd + uniq_pths
         errno = subprocess.call(cmdlist)
