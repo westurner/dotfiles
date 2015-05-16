@@ -1,6 +1,6 @@
 [submodule "docs/tools"]
 	path = docs/tools
-	url = ssh://git@github.com/westurner/tools
+	url = https://github.com/westurner/tools
 [submodule "src/gitflow"]
 	path = src/gitflow
 	url = https://github.com/westurner/gitflow
