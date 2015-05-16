@@ -87,3 +87,4 @@ deb_dist/
 etc/.vim
 tmp
 
+-p6/

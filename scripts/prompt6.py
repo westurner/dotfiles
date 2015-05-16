@@ -213,7 +213,7 @@ def gpg_encrypt(filelike,
                 """ --secret-keyring={secring} --keyring={pubring}"""
                 """ -u {user} -r {key_name}""")
     cmd = cmd_tmpl.format(
-        homedir=shell_escape(os.expanduser(homedir)),
+        homedir=shell_escape(os.path.expanduser(homedir)),
         user=shell_escape(user),
         secring=shell_escape(secring),
         pubring=shell_escape(pubring),
@@ -236,7 +236,8 @@ def gpg_decrypt(filelike,
                 homedir='~/.gnupg',
                 user='p6',
                 secring='p6.sec',
-                pubring='p6.pub'):
+                pubring='p6.pub',
+                key_name=None):
     """
     Arguments:
         filelike (file-like or str): data to transform
@@ -256,7 +257,7 @@ def gpg_decrypt(filelike,
         """ --keyring={pubring}"""
         """ -u {user}""")
     cmd = cmd_tmpl.format(
-        homedir=shell_escape(os.expanduser(homedir)),
+        homedir=shell_escape(os.path.expanduser(homedir)),
         user=shell_escape(user),
         secring=shell_escape(secring),
         pubring=shell_escape(pubring))
@@ -283,7 +284,7 @@ class OnDiskGPGKeyValueStore(OnDiskKeyValueStore):
     def get(self, key, default=DEFAULT):
         key = self.transform_key(key)
         data = self.disk_store.get(key, default=default)
-        _value = gpg_decrypt(data, key_name=self.conf['key_name'])
+        _value = gpg_decrypt(data)  # , key_name=self.conf['key_name'])
         return _value
 
     def set(self, key, value):
