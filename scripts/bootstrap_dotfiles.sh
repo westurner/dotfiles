@@ -123,25 +123,25 @@ clone_or_update() {
     rev=${2:-"master"}  # tip, master
     dest=$3
     echo ""
-    if [[ -d "${dest}/.git" ]]; then
+    if [ -d "${dest}/.git" ]; then
         echo "## pulling from ${url} ---> ${dest}"
-        (cd $dest && echo "cd $(pwd)" && \
+        (set -x; cd $dest && \
             git_status && \
-            git pull "$url" && \
             git checkout "$rev" && \
+            git pull && \
             git_status);
-    elif [[ -d "${dest}/.hg" ]]; then
+    elif [ -d "${dest}/.hg" ]; then
         default_path=$(cd $dest && hg paths | grep default) 
         echo "## pulling from ${default_path} ---> ${dest}"
-        (cd $dest && echo "cd $(pwd)" && \
+        (set -x; cd $dest && echo "cd $(pwd)" && \
             hg_status && \
             hg pull && \
             hg update -r "$rev" && \
             hg_status);
     else
         echo "## cloning from ${url} ---> ${dest}"
-        (git clone ${url} ${dest} && \
-            cd $dest && echo "cd $(pwd)" && \
+        (set -x; git clone ${url} ${dest} && \
+            cd $dest && \
             git checkout "$rev" && \
             git_status)
     fi
@@ -176,22 +176,26 @@ install_virtualenvwrapper() {
 
 install_gitflow() {
     # install_gitflow()     -- install gitflow git workflow [git flow help]
-    local url="https://github.com/nvie/gitflow"
+    #local url="https://github.com/nvie/gitflow"
+    local url="https://github.com/westurner/gitflow"
     local rev="master"
     local dest="${__DOTFILES}/src/gitflow"
 
     clone_or_update "${url}" "${rev}" "${dest}"
+    (cd "${dest}"; git submodule init && git submodule update)
 
     INSTALL_PREFIX="${HOME}/.local/bin" bash ${dest}/contrib/gitflow-installer.sh
 }
 
 install_hubflow() {
     # install_hubflow()     --  Install hubflow git workflow [git hf help]
-    local url="https://github.com/datasift/hubflow"
+    #local url="https://github.com/datasift/gitflow"
+    local url="https://github.com/westurner/hubflow"
     local rev="master"
     local dest="${__DOTFILES}/src/hubflow"
 
     clone_or_update "${url}" "${rev}" "${dest}"
+    (cd "${dest}"; git submodule init && git submodule update)
 
     INSTALL_PREFIX="${HOME}/.local/bin" bash ${dest}/install.sh
 }
