@@ -34,14 +34,17 @@ finder-restart() {
     finder
 }
 
+finder-hide-hidden () {
+    # finder-hide-hidden()    -- hide .hidden files in Finder.app
+    #                            (and close all Finder windows)
+    defaults write com.apple.finder AppleShowAllFiles NO
+    finder-killall
+}
+
 finder-show-hidden () {
     # finder-show-hidden()    -- show .hidden files in Finder.app
+    #                            (and close all Finder windows)
     defaults write com.apple.finder AppleShowAllFiles YES
     finder-killall
 }
 
-finder-hide-hidden () {
-    # finder-show-hidden()    -- show .hidden files in Finder.app
-    defaults write com.apple.finder AppleShowAllFiles YES
-    finder-killall
-}
