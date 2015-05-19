@@ -65,13 +65,16 @@ help:
 	@echo "edit   -- edit the project main files README.rst"
 	@echo "test   -- run tests"
 	@echo "build  -- build a python sdist"
+	@echo "generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim"
+	@echo ""
+	@echo "start-release -- start a new release named $${VERSION}"
+	@echo "release 		 -- finish a release named $${VERSION}"
 	@echo ""
 	@echo "docs      -- build sphinx documentation"
 	@echo "gh-pages  -- overwrite the gh-pages branch with docs/_build/html"
+	@echo ""
 	@echo "push      -- git push"
 	@echo "pull      -- git pull"
-	@echo ""
-	@echo "generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim"
 	@echo ""
 
 help_setuppy:
@@ -524,10 +527,12 @@ update_manifest:
 
 start-release:
 	# start a release
+	#   VERSION (str): version string without prefix (e.g "0.8.3")
 	git hf release start $(VERSION)
 
 release: clean
 	# finish a release that is already started
+	#   VERSION (str): version string without prefix (e.g "0.8.3")
 	test -n $(VERSION)
 	#git hf release start $(VERSION)
 	echo $(VERSION) > ./VERSION.txt
