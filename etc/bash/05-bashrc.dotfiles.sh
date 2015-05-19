@@ -13,7 +13,8 @@ dotfiles_add_path() {
 shell_escape_single() {
     # shell_escape_single()
     strtoescape=${1}
-    echo "'"$(echo ${strtoescape} | sed "s,','\"'\"',g")"'"
+    output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
+    echo "'"${output}"'"
 }
 
 dotfiles_status() {
@@ -23,10 +24,12 @@ dotfiles_status() {
     echo USER=$(shell_escape_single "${USER}")
     echo __WRK=$(shell_escape_single "${__WRK}")
     echo PROJECT_HOME=$(shell_escape_single "${PROJECT_HOME}")
-    test -n "${CONDA_ROOT}" && \
+    if [ -n "${CONDA_ROOT}" ]; then
         echo CONDA_ROOT=$(shell_escape_single "${CONDA_ROOT}")
-    test -n "${CONDA_ENVS_PATH}" && \
+    fi
+    if [ -n "${CONDA_ENVS_PATH}" ]; then
         echo CONDA_ENVS_PATH=$(shell_escape_single "${CONDA_ENVS_PATH}")
+    fi
     echo WORKON_HOME=$(shell_escape_single "${WORKON_HOME}")
     echo VIRTUAL_ENV_NAME=$(shell_escape_single "${VIRTUAL_ENV_NAME}")
     echo VIRTUAL_ENV=$(shell_escape_single "${VIRTUAL_ENV}")
