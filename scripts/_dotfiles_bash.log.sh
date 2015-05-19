@@ -494,17 +494,20 @@ finder-restart() {
     finder
 }
 
+finder-hide-hidden () {
+    # finder-hide-hidden()    -- hide .hidden files in Finder.app
+    #                            (and close all Finder windows)
+    defaults write com.apple.finder AppleShowAllFiles NO
+    finder-killall
+}
+
 finder-show-hidden () {
     # finder-show-hidden()    -- show .hidden files in Finder.app
+    #                            (and close all Finder windows)
     defaults write com.apple.finder AppleShowAllFiles YES
     finder-killall
 }
 
-finder-hide-hidden () {
-    # finder-show-hidden()    -- show .hidden files in Finder.app
-    defaults write com.apple.finder AppleShowAllFiles YES
-    finder-killall
-}
 
 ### bashrc.TERM.sh
 
@@ -571,7 +574,8 @@ dotfiles_add_path() {
 shell_escape_single() {
     # shell_escape_single()
     strtoescape=${1}
-    echo "'"$(echo ${strtoescape} | sed "s,','\"'\"',g")"'"
+    output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
+    echo "'"${output}"'"
 }
 
 dotfiles_status() {
@@ -581,10 +585,12 @@ dotfiles_status() {
     echo USER=$(shell_escape_single "${USER}")
     echo __WRK=$(shell_escape_single "${__WRK}")
     echo PROJECT_HOME=$(shell_escape_single "${PROJECT_HOME}")
-    test -n "${CONDA_ROOT}" && \
+    if [ -n "${CONDA_ROOT}" ]; then
         echo CONDA_ROOT=$(shell_escape_single "${CONDA_ROOT}")
-    test -n "${CONDA_ENVS_PATH}" && \
+    fi
+    if [ -n "${CONDA_ENVS_PATH}" ]; then
         echo CONDA_ENVS_PATH=$(shell_escape_single "${CONDA_ENVS_PATH}")
+    fi
     echo WORKON_HOME=$(shell_escape_single "${WORKON_HOME}")
     echo VIRTUAL_ENV_NAME=$(shell_escape_single "${VIRTUAL_ENV_NAME}")
     echo VIRTUAL_ENV=$(shell_escape_single "${VIRTUAL_ENV}")
@@ -3091,25 +3097,107 @@ ug() {
     usrlog_grep ${@}
 }
 
+#function usrlog_grep_session_id() {
+#    # usrlog_grep_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+#    (set -x;
+#    local _term_id=${1:-"${_TERM_ID}"};
+#    local _usrlog=${2:-"${_USRLOG}"};
+#    egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
+#}
+
 usrlog_grin() {
     # usrlog_grin() -- grin -s $@ $_USRLOG
-    set -x
-    args=${@}
-    grin -s "${args}" ${_USRLOG}
-    set +x
+    local args=${@}
+    (set -x; 
+    grin -s "${args}" "${_USRLOG}")
 }
 ugrin () {
     # ugrin()       -- grin -s $@ $_USRLOG
     usrlog_grin ${@}
 }
 
-lsusrlogs() {
-    # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
-    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog ${WORKON_HOME}/*/-usrlog.log $@
+
+function usrlog_grin_session_id() {
+    # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+    (set -x;
+    local _term_id="${1:-"${_TERM_ID}"}";
+    local _usrlog="${2:-"${_USRLOG}"}";
+    grin -s '# [\d\-:TZ\s]+\t'${_term_id}'\t(.*)$' ${_usrlog} --no-color;);
 }
+
+
+function usrlog_grin_session_id_cmds() {
+    # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+    (set -x;
+    local _term_id="${1:-"${_TERM_ID}"}";
+    local _usrlog="${2:-"${_USRLOG}"}";
+    _usrlog_parse_cmds <(\
+        grin -N --no-color --without-filename -s \
+            '# [\d\-:TZ\s]+\t'${_term_id}'\t(.*)$' \
+            "${_usrlog}";)
+    );
+}
+
+
+function usrlog_grin_session_id_all() {
+    # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+    #                                  in column position 
+    #   :returns: unsorted list of log entries in files
+    #             listed by mtime and then cat
+    #           
+    # .. warning:: output lines are in file sequence but otherwise
+    #               unsorted 
+    # 
+    (set -x;
+    local _term_id=${1:-"${_TERM_ID}"}; \
+    local _usrlog=${2:-"${_USRLOG}"}; \
+    local _usrlogs=$(lsusrlogs_date_desc);
+    grin -s     '# [\d\-:TZ\s]+\t'${_term_id}'\t' ${_usrlogs} --no-color;)
+}
+ugrins () {
+    # ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
+    usrlog_grin_session_id_all ${@}
+}
+
+function usrlog_grin_session_id_all_cmds() {
+    # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+    #                                  in column position 
+    (set -x;
+    local _term_id=${1:-"${_TERM_ID}"}; \
+    local _usrlog=${2:-"${_USRLOG}"}; \
+    local _usrlogs=$(lsusrlogs_date_asc);
+    _usrlog_parse_cmds <(\
+        grin -N --no-color --without-filename -s \
+            '# [\d\-:TZ\s]+\t'${_term_id}'\t' \
+            "${_usrlogs}";);
+    );
+}
+
+
+lsusrlogs_date_desc() {
+    # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    #                            (oldest first)
+    ls -tr \
+        "${__USRLOG}" \
+        ${WORKON_HOME}/*/.usrlog \
+        ${WORKON_HOME}/*/-usrlog.log $@
+}
+lsusrlogs_date_asc() {
+    # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    #                            (newest first)
+    ls -t \
+        "${__USRLOG}" \
+        ${WORKON_HOME}/*/.usrlog \
+        ${WORKON_HOME}/*/-usrlog.log $@
+}
+lsusrlogs () {
+    # lsusrlogs()             -- list usrlogs (oldest first)
+    lsusrlogs_date_desc $@
+}
+
 usrlog_lately(){
     # usrlog_lately()      -- lsusrlogs by mtime
-    lsusrlogs $@ | xargs ls -ltr
+    lsusrlogs_date_desc $@ | xargs ls -ltr
 }
 ull() {
     # ull()                -- usrlog_lately() (lsusrlogs by mtime)
@@ -4015,52 +4103,52 @@ host_docs () {
 dotfiles_status
 # dotfiles_status()
 shell_escape_single "${HOSTNAME}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 HOSTNAME='nb-mb1'
 shell_escape_single "${USER}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 USER='W'
 shell_escape_single "${__WRK}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 __WRK='/Users/W/-wrk'
 shell_escape_single "${PROJECT_HOME}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 PROJECT_HOME='/Users/W/-wrk'
 shell_escape_single "${CONDA_ROOT}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 CONDA_ROOT='/Users/W/-wrk/-conda27'
 shell_escape_single "${CONDA_ENVS_PATH}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 CONDA_ENVS_PATH='/Users/W/-wrk/-ce27'
 shell_escape_single "${WORKON_HOME}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 WORKON_HOME='/Users/W/-wrk/-ve27'
 shell_escape_single "${VIRTUAL_ENV_NAME}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 VIRTUAL_ENV_NAME='dotfiles'
 shell_escape_single "${VIRTUAL_ENV}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 VIRTUAL_ENV='/Users/W/-wrk/-ve27/dotfiles'
 shell_escape_single "${_SRC}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 _SRC='/Users/W/-wrk/-ve27/dotfiles/src'
 shell_escape_single "${_APP}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 _APP='dotfiles'
 shell_escape_single "${_WRD}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 _WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
 shell_escape_single "${_USRLOG}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 _USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
 shell_escape_single "${_TERM_ID}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 _TERM_ID='#testing'
 shell_escape_single "${PATH}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
-PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
+echo "${strtoescape}" | sed "s,','\"'\"',g"
+PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/-wrk/-conda27/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin:'
 shell_escape_single "${__DOTFILES}"
-echo ${strtoescape} | sed "s,','\"'\"',g"
+echo "${strtoescape}" | sed "s,','\"'\"',g"
 __DOTFILES='/Users/W/-dotfiles'
 #
 ### </end dotfiles .bashrc>

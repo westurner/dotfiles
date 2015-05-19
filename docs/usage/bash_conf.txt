@@ -145,8 +145,10 @@
     # finder()    -- open Finder.app
     # finder-killall()  -- close all Finder.app instances
     # finder-restart()  -- close all and start Finder.app
+    # finder-hide-hidden()    -- hide .hidden files in Finder.app
+    #                            (and close all Finder windows)
     # finder-show-hidden()    -- show .hidden files in Finder.app
-    # finder-show-hidden()    -- show .hidden files in Finder.app
+    #                            (and close all Finder windows)
    
    
 #### etc/bash/04-bashrc.TERM.sh
@@ -703,9 +705,31 @@
     # utf()         -- tail -f -n20 $_USRLOG
     # usrlog_grep() -- egrep -n $_USRLOG
     # ug()          -- egrep -n $_USRLOG
+#    # usrlog_grep_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+#    (set -x;
+#    local _term_id=${1:-"${_TERM_ID}"};
+#    local _usrlog=${2:-"${_USRLOG}"};
+#    egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
     # usrlog_grin() -- grin -s $@ $_USRLOG
     # ugrin()       -- grin -s $@ $_USRLOG
-    # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+    # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+    # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+    #                                  in column position 
+    #   :returns: unsorted list of log entries in files
+    #             listed by mtime and then cat
+    #           
+    # .. warning:: output lines are in file sequence but otherwise
+    #               unsorted 
+    # 
+    # ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
+    # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+    #                                  in column position 
+    # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    #                            (oldest first)
+    # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    #                            (newest first)
+    # lsusrlogs()             -- list usrlogs (oldest first)
     # usrlog_lately()      -- lsusrlogs by mtime
     # ull()                -- usrlog_lately() (lsusrlogs by mtime)
     # usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
