@@ -247,6 +247,9 @@ To define a script environment just like venv:
    PROJECT_HOME="${__WRK}"                       # cdph cdprojecthome
    WORKON_HOME="${__WRK}/-ve27"                  # cdwh cdworkonhome
 
+   CONDA_ROOT="${__WRK}/-conda27"                # $CONDA_ROOT__py27
+   CONDA_ENVS_PATH="${__WRK}/-ce27"              # cdce cda cdcondaenvspath
+
    VIRTUAL_ENV_NAME="dotfiles"                   # 'dotfiles'
    _APP=$VIRTUAL_ENV_NAME                        # 'dotfiles[/p/a/t/h]'
    VIRTUAL_ENV="$WORKON_HOME/$VIRTUAL_ENV_NAME"  # cdv cdvirtualenv

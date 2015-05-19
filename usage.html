@@ -294,13 +294,16 @@ clean  -- remove .pyc, .pyo, __pycache__/ etc
 edit   -- edit the project main files README.rst
 test   -- run tests
 build  -- build a python sdist
+generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
+
+start-release -- start a new release named 
+release 		 -- finish a release named 
 
 docs      -- build sphinx documentation
 gh-pages  -- overwrite the gh-pages branch with docs/_build/html
+
 push      -- git push
 pull      -- git pull
-
-generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
 </pre>
 </div>
 <div class="section" id="readline">
@@ -504,8 +507,10 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># finder()    -- open Finder.app</span>
     <span class="c"># finder-killall()  -- close all Finder.app instances</span>
     <span class="c"># finder-restart()  -- close all and start Finder.app</span>
+    <span class="c"># finder-hide-hidden()    -- hide .hidden files in Finder.app</span>
+    <span class="c">#                            (and close all Finder windows)</span>
     <span class="c"># finder-show-hidden()    -- show .hidden files in Finder.app</span>
-    <span class="c"># finder-show-hidden()    -- show .hidden files in Finder.app</span>
+    <span class="c">#                            (and close all Finder windows)</span>
    
    
 <span class="c">#### etc/bash/04-bashrc.TERM.sh</span>
@@ -1062,9 +1067,31 @@ generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
     <span class="c"># utf()         -- tail -f -n20 $_USRLOG</span>
     <span class="c"># usrlog_grep() -- egrep -n $_USRLOG</span>
     <span class="c"># ug()          -- egrep -n $_USRLOG</span>
+<span class="c">#    # usrlog_grep_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;</span>
+<span class="c">#    (set -x;</span>
+<span class="c">#    local _term_id=${1:-&quot;${_TERM_ID}&quot;};</span>
+<span class="c">#    local _usrlog=${2:-&quot;${_USRLOG}&quot;};</span>
+<span class="c">#    egrep &quot;# [\d-T:Z ]+\t${_term_id}\t&quot; ${_USRLOG} )</span>
     <span class="c"># usrlog_grin() -- grin -s $@ $_USRLOG</span>
     <span class="c"># ugrin()       -- grin -s $@ $_USRLOG</span>
-    <span class="c"># lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
+    <span class="c"># usrlog_grin_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;</span>
+    <span class="c"># usrlog_grin_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;</span>
+    <span class="c"># usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID</span>
+    <span class="c">#                                  in column position </span>
+    <span class="c">#   :returns: unsorted list of log entries in files</span>
+    <span class="c">#             listed by mtime and then cat</span>
+    <span class="c">#           </span>
+    <span class="c"># .. warning:: output lines are in file sequence but otherwise</span>
+    <span class="c">#               unsorted </span>
+    <span class="c"># </span>
+    <span class="c"># ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position</span>
+    <span class="c"># usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID</span>
+    <span class="c">#                                  in column position </span>
+    <span class="c"># lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
+    <span class="c">#                            (oldest first)</span>
+    <span class="c"># lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
+    <span class="c">#                            (newest first)</span>
+    <span class="c"># lsusrlogs()             -- list usrlogs (oldest first)</span>
     <span class="c"># usrlog_lately()      -- lsusrlogs by mtime</span>
     <span class="c"># ull()                -- usrlog_lately() (lsusrlogs by mtime)</span>
     <span class="c"># usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)</span>
