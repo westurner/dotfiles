@@ -11,8 +11,8 @@ function __set_facls () {
 	chmod go-rw ${_VARLOG}
 	(umask 0026; mkdir -p ${_VARCACHE} || true)
 	chmod go-rw ${_VARCACHE}
-	(umask 0026; mkdir -p ${_VARCACHE_SSH} || true)
-	chmod go-rw ${_VARCACHE_SSH}
+	(umask 0026; mkdir -p ${_VARCACHE_SSP} || true)
+	chmod go-rw ${_VARCACHE_SSP}
 }
 
 function _setup_ssp () {
@@ -22,20 +22,48 @@ function _setup_ssp () {
     _VARRUN="${_VARRUN}"
 
     _VARCACHE=${_VARCACHE:-${VIRTUAL_ENV:+"${VIRTUAL_ENV}/var/cache"}}
-    _VARCACHE_SSH=${_VARCACHE}/ssh
+    _VARCACHE_SSP=${_VARCACHE}/ssp
     _VARLOG=${_VARLOG:-${VIRTUAL_ENV:+"${VIRTUAL_ENV}/var/log"}}
 
     _VARCACHE="${_VARCACHE:-"."}"
-    _VARCACHE_SSH="${_VARCACHE_SSH:-"."}"
+    _VARCACHE_SSP="${_VARCACHE_SSP:-"."}"
     _VARLOG="${_VARLOG:-"."}"
 
     _VARRUN="${_VARRUN:-'.'}" # XXX
 
-    SSP_PID_FILE=${_VARCACHE_SSH}/.pid
+    SSP_PID_FILE=${_VARCACHE_SSP}/.pid
 }
 ## SSH 
 
-function ssp_open () {
+function _comment_prefix() {
+    (set +x; sed 's/^\(.*\)$/# \1/g')
+    return
+}
+
+function ssp_status () {
+    _setup_ssp
+    if [ -f "${SSP_PID_FILE}" ]; then
+        SSP_PID=$(cat "${SSP_PID_FILE}")
+    fi
+    printf "SSP_PROXY_PORT=%d\n" "${SSP_PROXY_PORT}" 
+    printf "SSP_PID=%d\n" "${SSP_PID}"
+    if [ -n "${SSP_PID}" ]; then
+        echo "# {"
+        (set -x; ps -p "${SSP_PID}" 2>&1 | _comment_prefix)
+        echo "# }"
+    fi
+}
+
+function ssp_check() {
+    (set -x;
+    which ssh;
+    ssh -V 2>&1;
+    ) | _comment_prefix
+    echo SSP_USERHOST="${SSP_USERHOST}";
+    ssp_status
+}
+
+function ssp_start () {
 
     #  $1 (str)     -- SSP_USERHOST
     #  $2 (str)     -- SSP_RPORT 
@@ -44,14 +72,14 @@ function ssp_open () {
     #                   Defaults:
     #                      Mac: 127.0.0.1
     #                      Linux: 10.10.10.10
+    
     SSP_USERHOST=${1:-${SSP_USERHOST}}
     if [ -z "${SSP_USERHOST}" ]; then
         echo "Err: SSP_USERHOST unspecified"
         echo "SSP_USERHOST='user@host -p 22'"
+        return 1
     fi
-
     SSP_LOCPORT=${2:-${SSP_LOCPORT:-"1080"}}
-
     SSP_LOCADDR=${3:-${SSP_LOCADDR}}
     if [ -n "${__IS_LINUX}" ]; then
         SSP_LOCADDR=${3:-"10.10.10.10"}
@@ -60,37 +88,47 @@ function ssp_open () {
     else
         SSP_LOCADDR="127.0.0.1"
     fi
-
-    SSP_LOCHOSTPORT="${SSP_LOCADDR}:${SSP_LOCPORT}"
+    SSP_LOCHOSTPORT="${SSP_LOCADDR:+"${SSP_LOCADDR}:"}${SSP_LOCPORT}"
     _setup_ssp
 	test -n "${SSP_USERHOST}" || (echo "SSP_USERHOST=${SSP_USERHOST}" && exit 1)
 	__set_facls
 	date +'%F %T%z'
+    SSP_SSH_OPTS="${SSP_SSH_OPTS:-""}"  # SSP_SSH_OPTS="-v"
     if [ -n "${_VARLOG}" ]; then
-        { set -m; \
-            (ssh -v -N -D${SSP_LOCHOSTPORT} ${SSP_USERHOST} 2>&1 | \
-                tee ${_VARLOG}/ssp.log) & \
-            echo "${!}" > ${SSP_PID_FILE} ; \
-            cat ${SSP_PID_FILE}; \
-            fg; }
+        { 
+            (
+                (
+                    ssh ${SSP_SSH_OPTS} \
+                        -N -D${SSP_LOCHOSTPORT} ${SSP_USERHOST} 2>&1 &
+                    echo "${!}" > ${SSP_PID_FILE} ;
+                ) | tee "${_VARLOG}/ssp.log" ;
+            ) &
+            cat ${SSP_PID_FILE};
+        }
     else
-        { set -m; \
-            (ssh -v -N -D${SSP_LOCHOSTPORT} ${SSP_USERHOST}) & \
-            echo "${!}" > ${SSP_PID_FILE} ; \
-            cat ${SSP_PID_FILE}; \
-            fg; }
+        {
+            (
+                ssh ${SSP_SSH_OPTS} \
+                    -N -D${SSP_LOCHOSTPORT} ${SSP_USERHOST}
+            ) &
+            echo "${!}" > ${SSP_PID_FILE} ;
+            cat ${SSP_PID_FILE} ;
+        }
     fi
 }
 
 # $(SSP_PID_FILE): open-ssh
 
-function ssp_close () {
+function ssp_stop () {
     _setup_ssp
 	test -f ${SSP_PID_FILE}
-	(umask 0026; mkdir -p ${_VARCACHE_SSH})
-	kill -9 $(shell cat "${SSP_PID_FILE}") || true
-	rm ${SSP_PID_FILE}
+	(umask 0026; mkdir -p ${_VARCACHE_SSP})
+    if [ -f "${SSP_PID_FILE}" ]; then
+        kill -9 $(cat "${SSP_PID_FILE}") || true
+        rm ${SSP_PID_FILE}
+    fi
 	__set_facls
+    ssp_status
 }
 
 
@@ -129,38 +167,68 @@ function _ssp_ () {
 
 function ssp_usage () {
     echo "# $0"
-    echo "Usage: $(basename $0) [-o|-c] [-h]";
+    local cmdname=$(basename ${0})
+    echo "Usage: ${cmdname} [start|stop|check|status] [-h]"
     echo ""
-    echo "  -o  --  (o)pen the SOCKS tunnel"
-    echo "  -c  --  (c)lose the SOCKS tunnel"
+    echo '    SSP_USERHOST="user@hostorip -p 22"'" ${cmdname} start"
+    echo "    ${cmdname} status"
+    echo "    ${cmdname} stop"
+    echo "    ${cmdname} check"
+    echo ""
+    echo "  -s,start   --  start the SOCKS tunnel process"
+    echo "  -p,stop    --  stop the SOCKS tunnel process"
+    echo "  -c,check   --  check the SOCKS tunnel process"
+    echo "  -u,status  --  check the SOCKS tunnel process"
     echo ""
     echo "  -h  --  help"
     echo ""
 }
 
+function ssp_parse_opts () {
+    case "${1}" in
+        s|S|start|open)
+            _ssp_opts_start=true
+            ;;
+        p|P|stop|close)
+            _ssp_opts_stop=true
+            ;;
+        c|C|check)
+            _ssp_opts_check=true
+            ;;
+        u|U|status)
+            _ssp_opts_status=true
+            ;;
+        h|H|help)
+            _ssp_opts_help=true
+            ;;
+    esac
+}
+
 function ssp_main () {
 
-    while getopts "och" opt; do
-        case "${opt}" in
-            o|open|start)
-                _ssp_opts_start=true
-                ;;
-            c|close|stop)
-                _ssp_opts_stop=true
-                ;;
-            h)
-                _ssp_opts_help=true
-                ;;
-        esac
+    while getopts "osScpPChH" opt; do
+        ssp_parse_opts "${opt}"
+    done
+
+    for arg in "${@}"; do
+        ssp_parse_opts "${arg}"
     done
 
     haverunacmd=
     if [ -n "${_ssp_opts_start}" ]; then
-        ssp_open
+        ssp_start
         haverunacmd=true
     fi
     if [ -n "${_ssp_opts_stop}" ]; then
-        ssp_close
+        ssp_stop
+        haverunacmd=true
+    fi
+    if [ -n "${_ssp_opts_check}" ]; then
+        ssp_check
+        haverunacmd=true
+    fi
+    if [ -n "${_ssp_opts_status}" ]; then
+        ssp_status
         haverunacmd=true
     fi
     if [ -n "${_ssp_opts_help}" ] || [ -z "${haverunacmd}" ]; then
