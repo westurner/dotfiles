@@ -570,6 +570,11 @@ Work on a conda env:
    source deactivate
 
 
+* https://github.com/conda/conda-env
+* https://github.com/conda/conda-build
+* https://github.com/conda/conda-recipes
+   
+
 .. index:: Ruby Gem
 .. index:: RubyGems
 .. _rubygems:

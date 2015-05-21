@@ -893,6 +893,11 @@ pull      -- git pull
    
 <span class="c">#### etc/bash/70-bashrc.repos.sh</span>
 <span class="c">### 70-bashrc.repos.sh</span>
+    <span class="c">#  gitc()   -- git commit ${2:} -m ${1}; git log -n1 </span>
+    <span class="c">#  gitc()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 </span>
+    <span class="c">#  msg()        -- set a commit message for the current context</span>
+    <span class="c">#  gitcmsg()    -- gitc &quot;${_MSG}&quot; ${@}</span>
+    <span class="c">#  gitcaddmsg()    -- gitc &quot;${_MSG}&quot; ${@}</span>
 <span class="c">#</span>
 <span class="c">#</span>
 <span class="c">#</span>
