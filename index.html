@@ -963,10 +963,13 @@ from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python
 </li>
 <li><p class="first">An <code class="docutils literal"><span class="pre">environment.yml</span></code> lists conda and <a class="reference internal" href="tools.html#pip"><em>Pip</em></a> packages
 to be installed with conda-env.</p>
-<p># Export and environment.yml
-source deactivate; conda env export -n root | tee environment.yml</p>
-<p># Create an environment from an environment.yml
-conda env create -n example -f ./environment.yml</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># Export and environment.yml
+source deactivate; conda env export -n root | tee environment.yml
+
+# Create an environment from an environment.yml
+conda env create -n example -f ./environment.yml
+</pre></div>
+</div>
 </li>
 <li><p class="first">Conda was originally created for the Anaconda Python Distribution,
 which installs packages written in <a class="reference internal" href="tools.html#python"><em>Python</em></a>,
