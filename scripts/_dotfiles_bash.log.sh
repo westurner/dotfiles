@@ -606,6 +606,10 @@ dotfiles_status() {
     echo __DOTFILES=$(shell_escape_single "${__DOTFILES}")
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
     echo "#"
+    if [ -n "${_MSG}" ]; then
+        echo _MSG=$(shell_escape_single "${_MSG}")
+        echo '#'
+    fi
 }
 ds() {
     # ds()                      -- print dotfiles_status
@@ -3738,6 +3742,59 @@ lsbashmarks () {
 
 ### 70-bashrc.repos.sh
 
+
+function git-commit() {
+    #  gitc()   -- git commit ${2:} -m ${1}; git log -n1 
+    (set -x;
+    msg="${1}";
+    shift;
+    files="${@}";
+    git commit ${files} -m "${msg}" && \
+    git log -n1 --stat --decorate=full --color=always;
+    )
+    return
+}
+
+function git-add-commit() {
+    #  gitc()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
+    (set -x;
+    msg="${1}";
+    shift;
+    files="${@}";
+    git add ${files};
+    git commit ${files} -m "${msg}" && \
+    git log -n1 --stat --decorate=full --color=always;
+    )
+    return
+}
+
+function msg() {
+    #  msg()        -- set a commit message for the current context
+    if [ -z "${@}" ]; then
+        echo _MSG="${_MSG}"
+    elif [ -n "${@}" ]; then
+        if [ "${1}" == "clear" ]; then
+            unset _MSG
+        else
+            export _MSG="${@}"
+        fi
+        echo _MSG="${_MSG}"
+    fi
+}
+
+function git-commit-msg() {
+    #  gitcmsg()    -- gitc "${_MSG}" ${@}
+    git-commit "${_MSG}" ${@} && msg clear
+    return
+}
+
+function git-add-commit-msg() {
+    #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
+    git-add-commit "${_MSG}" ${@} && msg clear
+    return
+}
+
+
 #objectives:
 #* [ ] create a dotfiles venv (should already be created by dotfiles install)
 #* [ ] create a src venv (for managing a local set of repositories)
@@ -4146,7 +4203,7 @@ echo "${strtoescape}" | sed "s,','\"'\"',g"
 _TERM_ID='#testing'
 shell_escape_single "${PATH}"
 echo "${strtoescape}" | sed "s,','\"'\"',g"
-PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/-wrk/-conda27/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin:'
+PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
 shell_escape_single "${__DOTFILES}"
 echo "${strtoescape}" | sed "s,','\"'\"',g"
 __DOTFILES='/Users/W/-dotfiles'

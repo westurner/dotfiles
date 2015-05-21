@@ -531,6 +531,11 @@
    
 #### etc/bash/70-bashrc.repos.sh
 ### 70-bashrc.repos.sh
+    #  gitc()   -- git commit ${2:} -m ${1}; git log -n1 
+    #  gitc()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
+    #  msg()        -- set a commit message for the current context
+    #  gitcmsg()    -- gitc "${_MSG}" ${@}
+    #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
 #
 #
 #
