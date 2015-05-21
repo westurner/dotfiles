@@ -531,8 +531,24 @@ Conda
 
 
 * Conda installs packages written in any language; especially Python
+* Conda packages are basically tar archives with build, link (optional), and
+  uninstall (optional) scripts.
+* Conda packages are generated from a conda build recipe
+  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``
+  by conda-build.
 * ``conda skeleton`` can automatically create conda packages
-  both from ``PyPI`` and from ``CPAN`` (Perl)
+  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
+* An ``environment.yml`` lists conda and :ref:`pip` packages
+  to be installed with conda-env.
+
+  .. code:: bash
+
+  # Export and environment.yml
+  source deactivate; conda env export -n root | tee environment.yml
+
+  # Create an environment from an environment.yml
+  conda env create -n example -f ./environment.yml
+
 * Conda was originally created for the Anaconda Python Distribution,
   which installs packages written in :ref:`Python`,
   R,

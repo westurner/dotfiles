@@ -957,20 +957,38 @@ of additional speed and platform-consistency advantages.</li>
 <div class="line">Source: git <a class="reference external" href="https://github.com/conda/conda">https://github.com/conda/conda</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/conda">https://pypi.python.org/pypi/conda</a></div>
 </div>
-<ul class="simple">
-<li>Conda installs packages written in any language; especially Python</li>
-<li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda packages
-both from <code class="docutils literal"><span class="pre">PyPI</span></code> and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</li>
-<li>Conda was originally created for the Anaconda Python Distribution,
+<ul>
+<li><p class="first">Conda installs packages written in any language; especially Python</p>
+</li>
+<li><p class="first">Conda packages are basically tar archives with build, link (optional), and
+uninstall (optional) scripts.</p>
+</li>
+<li><p class="first">Conda packages are generated from a conda build recipe
+with a <code class="docutils literal"><span class="pre">meta.yaml</span></code>, a <code class="docutils literal"><span class="pre">build.sh</span></code>, and/or a <code class="docutils literal"><span class="pre">build.bat</span></code>
+by conda-build.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda packages
+from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python), <code class="docutils literal"><span class="pre">CRAN</span></code> (R), and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</p>
+</li>
+<li><p class="first">An <code class="docutils literal"><span class="pre">environment.yml</span></code> lists conda and <a class="reference internal" href="#pip"><em>Pip</em></a> packages
+to be installed with conda-env.</p>
+<p># Export and environment.yml
+source deactivate; conda env export -n root | tee environment.yml</p>
+<p># Create an environment from an environment.yml
+conda env create -n example -f ./environment.yml</p>
+</li>
+<li><p class="first">Conda was originally created for the Anaconda Python Distribution,
 which installs packages written in <a class="reference internal" href="#python"><em>Python</em></a>,
 R,
 <a class="reference internal" href="#javascript"><em>JavaScript</em></a>,
 <a class="reference internal" href="#ruby"><em>Ruby</em></a>,
 <a class="reference internal" href="#c"><em>C</em></a>,
-<a class="reference internal" href="#fortran"><em>Fortran</em></a></li>
-<li>Conda (and <a class="reference internal" href="#anaconda"><em>Anaconda</em></a>) packages are hosted by
+<a class="reference internal" href="#fortran"><em>Fortran</em></a></p>
+</li>
+<li><p class="first">Conda (and <a class="reference internal" href="#anaconda"><em>Anaconda</em></a>) packages are hosted by
 <a class="reference external" href="https://binstar.org">https://binstar.org</a>,
-which hosts free public and paid private Conda packages.<ul>
+which hosts free public and paid private Conda packages.</p>
+<ul class="simple">
 <li>Anaconda Server is an internal
 &#8220;Private, Secure Package Repository&#8221;
 that
