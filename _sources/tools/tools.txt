@@ -543,11 +543,11 @@ Conda
 
   .. code:: bash
 
-  # Export and environment.yml
-  source deactivate; conda env export -n root | tee environment.yml
+      # Export and environment.yml
+      source deactivate; conda env export -n root | tee environment.yml
 
-  # Create an environment from an environment.yml
-  conda env create -n example -f ./environment.yml
+      # Create an environment from an environment.yml
+      conda env create -n example -f ./environment.yml
 
 * Conda was originally created for the Anaconda Python Distribution,
   which installs packages written in :ref:`Python`,
