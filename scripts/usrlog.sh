@@ -47,7 +47,7 @@ _usrlog_set_HISTFILE () {
 
     #  history -a   -- append any un-flushed lines to $HISTFILE
     history -a
-   
+
     if [ -n "$ZSH_VERSION" ]; then
         export HISTFILE="${prefix}/.zsh_history"
     elif [ -n "$BASH" ]; then
@@ -203,7 +203,7 @@ _usrlog_setup() {
 }
 
 _usrlog_append() {
-    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp
     #   $1: text (command) to log
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
@@ -259,16 +259,21 @@ _usrlog_parse_newstyle() {
     # with pyline
     # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
     # TODO: handle newlines
-    local usrlog="${1:-${_USRLOG}}"
-    pyline.py -f "${usrlog}" \
+    local usrlog="${1}"
+    if [ -n "${usrlog}" ]; then
+        if [ "${usrlog}" != "-" ]; then
+            usrlog="-f ${usrlog}"
+        fi
+    fi
+    pyline.py ${usrlog} \
         -m collections \
         '[collections.OrderedDict((
             ("l", [l]),
-            ("date", w[0]),
+            ("date", w[0].lstrip("# ")),
             ("id", w[1]),
             ("path", w[2]),
             ("histstr", w[3:]),
-            ("histn", w[3]),    # int or "#note"
+            ("histn", w[3].strip()),    # int or "#note"
             ("histdate", (w[4] if len(w) > 4 else None)),
             ("histhostname", (w[5] if len(w) > 5 else None)),
             ("histuser", (w[6] if len(w) > 6 else None)),
@@ -287,8 +292,12 @@ _usrlog_parse_cmds() {
     # TODO: handle newlines (commands that start on the next line)
     # TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
     # TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]
-    local usrlog="${1:-${_USRLOG}}"
-    test -n $usrlog && usrlog="-f ${usrlog}"
+    local usrlog="${1}"
+    if [ -n "${usrlog}" ]; then
+        if [ "${usrlog}" != "-" ]; then
+            usrlog="-f ${usrlog}"
+        fi
+    fi
     pyline.py ${usrlog} \
         'list((
             (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
@@ -297,6 +306,9 @@ _usrlog_parse_cmds() {
             or " ".join(w).rstrip())
             for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]
             )'
+}
+ugp() {
+    _usrlog_parse_cmds ${@}
 }
 
 
@@ -340,7 +352,7 @@ hist() {
 
 histgrep () {
     # histgrep()   -- egrep $@ $_USRLOG
-    egrep $@ $_USRLOG 
+    egrep $@ $_USRLOG
 }
 
 histgrep_session () {
@@ -363,7 +375,7 @@ usrlog_tail() {
     # usrlog_tail()     -- tail -n20 $_USRLOG
     if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
-        tail ${_usrlog} 
+        tail ${_usrlog}
     else
         tail $_USRLOG
     fi
@@ -383,7 +395,7 @@ usrlog_grep() {
     # usrlog_grep() -- egrep -n $_USRLOG
     set -x
     args=${@}
-    egrep -n "${args}" ${_USRLOG}
+    egrep -n "${args}" "${_USRLOG}"
     set +x
 }
 ug() {
@@ -391,25 +403,129 @@ ug() {
     usrlog_grep ${@}
 }
 
+#function usrlog_grep_session_id() {
+#    # usrlog_grep_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+#    (set -x;
+#    local _term_id=${1:-"${_TERM_ID}"};
+#    local _usrlog=${2:-"${_USRLOG}"};
+#    egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
+#}
+
+_usrlog_grep_venvs() {
+    egrep ${@} '((we[c]?)|workon|workon_conda|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
+
+}
+usrlog_grep_venvs() {
+    cat ${@:-${_USRLOG}} | _usrlog_grep_venvs
+}
+ugv() {
+    usrlog_grep_venvs ${@}
+}
+
+_usrlog_grep_todos() {
+    egrep -i '(todo|fixme|xxx)'
+
+}
+usrlog_grep_todos() {
+    cat "${1:-${_USRLOG}}" | _usrlog_grep_todos
+}
+ugt() {
+    usrlog_grep_todos ${@}
+}
+
 usrlog_grin() {
     # usrlog_grin() -- grin -s $@ $_USRLOG
-    set -x
-    args=${@}
-    grin -s "${args}" ${_USRLOG}
-    set +x
+    local args=${@}
+    (set -x;
+    grin -s "${args}" "${_USRLOG}")
 }
 ugrin () {
     # ugrin()       -- grin -s $@ $_USRLOG
     usrlog_grin ${@}
 }
 
-lsusrlogs() {
-    # lsusrlogs()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
-    ls -tr "${__USRLOG}" ${WORKON_HOME}/*/.usrlog ${WORKON_HOME}/*/-usrlog.log $@
+
+usrlog_grin_session_id() {
+    # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+    (set -x;
+    local _term_id="${1:-"${_TERM_ID}"}";
+    local _usrlog="${2:-"${_USRLOG}"}";
+    grin -s '# [\d\-:TZ\s]+\t'${_term_id}'\t(.*)$' ${_usrlog} --no-color;);
 }
+
+
+usrlog_grin_session_id_cmds() {
+    # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+    (set -x;
+    local _term_id="${1:-"${_TERM_ID}"}";
+    local _usrlog="${2:-"${_USRLOG}"}";
+    grin -N --no-color --without-filename -s \
+        '# [\d\-:TZ\s]+\t'${_term_id}'\t(.*)$' \
+        "${_usrlog}" \
+            | _usrlog_parse_cmds -  ;
+    );
+}
+
+
+usrlog_grin_session_id_all() {
+    # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+    #                                  in column position
+    #   :returns: unsorted list of log entries in files
+    #             listed by mtime and then cat
+    #
+    # .. warning:: output lines are in file sequence but otherwise
+    #               unsorted
+    #
+    (set -x;
+    local _term_id=${1:-"${_TERM_ID}"}; \
+    local _usrlog=${2:-"${_USRLOG}"}; \
+    local _usrlogs=$(lsusrlogs_date_desc);
+    grin -s     '# [\d\-:TZ\s]+\t'${_term_id}'\t' ${_usrlogs} --no-color;)
+}
+ugrins () {
+    # ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
+    usrlog_grin_session_id_all ${@}
+}
+
+usrlog_grin_session_id_all_cmds() {
+    # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+    #                                  in column position
+    (set -x;
+    local _term_id=${1:-"${_TERM_ID}"}; \
+    local _usrlog=${2:-"${_USRLOG}"}; \
+    local _usrlogs=$(lsusrlogs_date_asc);
+    grin -N --no-color --without-filename -s \
+        '# [\d\-:TZ\s]+\t'${_term_id}'\t' \
+        "${_usrlogs}" \
+        | _usrlog_parse_cmds -  ;
+    );
+}
+
+
+lsusrlogs_date_desc() {
+    # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    #                            (oldest first)
+    ls -tr \
+        "${__USRLOG}" \
+        ${WORKON_HOME}/*/.usrlog \
+        ${WORKON_HOME}/*/-usrlog.log $@
+}
+lsusrlogs_date_asc() {
+    # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+    #                            (newest first)
+    ls -t \
+        "${__USRLOG}" \
+        ${WORKON_HOME}/*/.usrlog \
+        ${WORKON_HOME}/*/-usrlog.log $@
+}
+lsusrlogs () {
+    # lsusrlogs()             -- list usrlogs (oldest first)
+    lsusrlogs_date_desc $@
+}
+
 usrlog_lately(){
     # usrlog_lately()      -- lsusrlogs by mtime
-    lsusrlogs $@ | xargs ls -ltr
+    lsusrlogs_date_desc $@ | xargs ls -ltr
 }
 ull() {
     # ull()                -- usrlog_lately() (lsusrlogs by mtime)
