@@ -50,6 +50,24 @@ Shell::
     cat ~/.bashrc | pyline.py -n -r '^#(.*)' \
         'rgx and (rgx.group(0), rgx.group(1))'
 
+    # Call a module function
+    cat > pf.py << EOF
+    def backwards(line):
+        return line[::-1]
+    EOF
+    echo "wrd.nu" | pyline -m pf 'pf.backwards(l)'
+
+.. note:: This file should only import from the standard library
+    so that it is vendorable by copying one file::
+
+    .. code:: bash
+
+        # pip install pyline
+        pyline      # -> pyline:main entry_point
+
+        # vendored as pyline.py
+        cp ./pyline.py ${__DOTFILES}/scripts/pyline.py
+        pyline.py   # -> ${__DOTFILES}/scripts/pyline.py
 
 """
 
@@ -59,7 +77,6 @@ import collections
 import codecs
 import json
 import logging
-import operator
 import textwrap
 import pprint
 import shlex as _shlex
@@ -69,7 +86,8 @@ from collections import namedtuple
 
 EPILOG = __doc__  # """  """
 
-REGEX_DOC = """I  IGNORECASE  Perform case-insensitive matching.
+REGEX_DOC = """
+I  IGNORECASE  Perform case-insensitive matching.
 L  LOCALE      Make \w, \W, \b, \B, dependent on the current locale.
 M  MULTILINE   "^" matches the beginning of lines (after a newline)
                 as well as the string.
@@ -81,7 +99,7 @@ U  UNICODE     Make \w, \W, \b, \B, dependent on the Unicode locale."""
 REGEX_OPTIONS = dict(
     (l[0],
         (l[1:14].strip(), l[15:]))
-    for l in REGEX_DOC.split('\n'))
+    for l in REGEX_DOC.split('\n') if l)
 
 STANDARD_REGEXES = {}
 
@@ -152,6 +170,7 @@ class PylineResult(Result):
 
 def pyline(iterable,
            cmd=None,
+           codefunc=None,
            col_map=None,
            modules=[],
            regex=None,
@@ -169,6 +188,7 @@ def pyline(iterable,
     Args:
         iterable (iterable): iterable of strings (e.g. sys.stdin or a file)
         cmd (str): python command string
+        codefunc (callable): alternative to cmd ``codefunc(locals())``
         modules ([str]): list of modules to import
         regex (str): regex pattern to match (with groups)
         regex_options (TODO): Regex options: I L M S X U (see ``pydoc re``)
@@ -202,15 +222,6 @@ def pyline(iterable,
         log.debug("_rgx = %r" % _regexstr)
         _rgx = re.compile(_regexstr)
 
-    if cmd is None:
-        if regex:
-            cmd = "rgx and rgx.groups()"
-            # cmd = "rgx and rgx.groupdict()"
-        else:
-            cmd = "line"
-        if path_tools_pathpy or path_tools_pathlib:
-            cmd = "p"
-
     Path = str
     if path_tools_pathpy:
         import path as pathpy
@@ -219,14 +230,25 @@ def pyline(iterable,
         import pathlib
         Path = pathlib.Path
 
-    try:
-        log.info("_cmd: %r" % cmd)
-        codeobj = compile(cmd, 'command', 'eval')
-    except Exception as e:
-        e.message = "%s\ncmd: %s" % (e.message, cmd)
-        log.error(repr(cmd))
-        log.exception(e)
-        raise
+    if cmd is None and codefunc is None:
+        if regex:
+            cmd = "rgx and rgx.groups()"
+            # cmd = "rgx and rgx.groupdict()"
+        else:
+            cmd = "line"
+        if path_tools_pathpy or path_tools_pathlib:
+            cmd = "p"
+
+    codeobj = None
+    if cmd:
+        try:
+            log.info("_cmd: %r" % cmd)
+            codeobj = compile(cmd, 'command', 'eval')
+        except Exception as e:
+            e.message = "%s\ncmd: %s" % (e.message, cmd)
+            log.error(repr(cmd))
+            log.exception(e)
+            raise
 
     def item_keys(obj, keys):
         if isinstance(keys, (str, unicode)):
@@ -246,7 +268,7 @@ def pyline(iterable,
     # j = lambda args: imap(str, izip_longest(args, repeat(odelim)))
 
     i_last = None
-    if 'i_last' in cmd:
+    if cmd and 'i_last' in cmd:
         # Consume the whole file into a list (to count lines)
         iterable = list(iterable)
         i_last = len(iterable)
@@ -260,6 +282,7 @@ def pyline(iterable,
         def splitfunc(line):
             return line.strip().split(idelim, idelim_split_max)
 
+    global_ctxt = globals()
     for i, line in enumerate(iterable):
         l = line
         w = words = [_w for _w in splitfunc(line)]
@@ -272,10 +295,14 @@ def pyline(iterable,
             except Exception as e:
                 log.exception(e)
                 pass
-
-        # Note: eval
         try:
-            result = eval(codeobj, globals(), locals())  # ...
+            if codeobj:
+                # Note: eval
+                result = eval(codeobj, global_ctxt, locals())  # ...
+            elif codefunc:
+                ctxt = global_ctxt.copy()
+                ctxt.update(locals())
+                result = codefunc(ctxt)
         except Exception as e:
             e.cmd = cmd
             log.exception(repr(cmd))
@@ -599,68 +626,60 @@ def get_option_parser():
                    dest='file',
                    action='store',
                    default='-',
-                   help="Input file (default: '-' for stdin)")
-
-    prs.add_option('-o', '--output-file',
-                   dest='output',
-                   action='store',
-                   default='-',
-                   help="Output file (default: '-' for stdout)")
-    prs.add_option('-O', '--output-filetype',
-                   dest='output_filetype',
-                   action='store',
-                   default='txt',
-                   help=("Output filetype <txt|csv|tsv|json|checkbox|html> "
-                         "(default: txt)"))
+                   help="Input file  #default: '-' for stdin")
 
     prs.add_option('-F', '--input-delim',
                    dest='idelim',
                    action='store',
                    default=None,
-                   help=('Strings input field delimiter to split line'
-                         ' into ``words`` by'
-                         ' (default: None (whitespace)``'))
-    prs.add_option('--input-delim-split-max',
+                   help=('words = line.split(-F)'
+                         '  #default: None (whitespace)'))
+    prs.add_option('--max', '--input-delim-split-max',
                    dest='idelim_split_max',
                    action='store',
                    default=-1,
                    type=int,
-                   help='words = line.strip().split(idelim, idelim_split_max)')
+                   help='words = line.split(-F, --max)')
     prs.add_option('--shlex',
                    action='store_true',
                    help='words = shlex.split(line)')
 
+    prs.add_option('-o', '--output-file',
+                   dest='output',
+                   action='store',
+                   default='-',
+                   help="Output file  #default: '-' for stdout")
     prs.add_option('-d', '--output-delim',
                    dest='odelim',
                    default="\t",
-                   help=('String output delimiter for lists and tuples'
-                         ' (default: \t (tab))``'))
-
-    prs.add_option('-m', '--modules',
-                   dest='modules',
-                   action='append',
-                   default=[],
-                   help='Module name to import (default: []) see -p and -r')
-
+                   help='String output delimiter for lists and tuples'
+                        '''  #default: '\\t' (tab, chr(9), $'\\t')''')
+    prs.add_option('-O', '--output-filetype',
+                   dest='output_filetype',
+                   action='store',
+                   default='txt',
+                   help=("Output filetype <txt|csv|tsv|json|checkbox|html> "
+                         "  #default: txt"))
     prs.add_option('-p', '--pathpy',
                    dest='path_tools_pathpy',
                    action='store_true',
-                   help='Create path.py objects (p) from each ``line``')
+                   help='p = path.Path(line); import path  '
+                        ' #pip install path.py')
 
     prs.add_option('--pathlib',
                    dest='path_tools_pathlib',
                    action='store_true',
-                   help='Create pathlib objects (p) from each ``line``')
+                   help=('p = pathlib.Path(line); import pathlib'))
 
     prs.add_option('-r', '--regex',
                    dest='regex',
                    action='store',
-                   help='Regex to compile and match as ``rgx``')
+                   help='rgx = re.compile(-r).match(line)')
     prs.add_option('-R', '--regex-options',
                    dest='regex_options',
                    action='store',
-                   default='im',
-                   help='Regex options: I L M S X U (see ``pydoc re``)')
+                   default='',
+                   help='Regex options: I L M S X U (ref: `$ pydoc re`)')
 
     prs.add_option('--cols',
                    dest='col_mapstr',
@@ -670,16 +689,22 @@ def get_option_parser():
     prs.add_option("-s", "--sort-asc",
                    dest="sort_asc",
                    action='store',
-                   help="Sort Ascending by field number")
+                   help=("sorted(lines, key=itemgetter(*-s))"))
     prs.add_option("-S", "--sort-desc",
                    dest="sort_desc",
                    action='store',
-                   help="Reverse the sort order")
+                   help=("sorted(lines, key=itemgetter(*-S), reverse=True)"))
 
     prs.add_option('-n', '--number-lines',
                    dest='number_lines',
                    action='store_true',
                    help='Print line numbers of matches')
+
+    prs.add_option('-m', '--modules',
+                   dest='modules',
+                   action='append',
+                   default=[],
+                   help='for m in modules: import m  #default: []')
 
     prs.add_option('-i', '--ipython',
                    dest='start_ipython',
