@@ -62,7 +62,7 @@
   l3 = log -n3 --graph --date=short
   changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
   short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
-  changelog = log --pretty=format:\" * %s\"
+  changelog = log --pretty=format:\" * %s [%h]\"
   shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
 
   # show unpushed changes
