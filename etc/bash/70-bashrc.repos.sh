@@ -1,6 +1,59 @@
 
 ### 70-bashrc.repos.sh
 
+
+function git-commit() {
+    #  gitc()   -- git commit ${2:} -m ${1}; git log -n1 
+    (set -x;
+    msg="${1}";
+    shift;
+    files="${@}";
+    git commit ${files} -m "${msg}" && \
+    git log -n1 --stat --decorate=full --color=always;
+    )
+    return
+}
+
+function git-add-commit() {
+    #  gitc()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
+    (set -x;
+    msg="${1}";
+    shift;
+    files="${@}";
+    git add ${files};
+    git commit ${files} -m "${msg}" && \
+    git log -n1 --stat --decorate=full --color=always;
+    )
+    return
+}
+
+function msg() {
+    #  msg()        -- set a commit message for the current context
+    if [ -z "${@}" ]; then
+        echo _MSG="${_MSG}"
+    elif [ -n "${@}" ]; then
+        if [ "${1}" == "clear" ]; then
+            unset _MSG
+        else
+            export _MSG="${@}"
+        fi
+        echo _MSG="${_MSG}"
+    fi
+}
+
+function git-commit-msg() {
+    #  gitcmsg()    -- gitc "${_MSG}" ${@}
+    git-commit "${_MSG}" ${@} && msg clear
+    return
+}
+
+function git-add-commit-msg() {
+    #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
+    git-add-commit "${_MSG}" ${@} && msg clear
+    return
+}
+
+
 #objectives:
 #* [ ] create a dotfiles venv (should already be created by dotfiles install)
 #* [ ] create a src venv (for managing a local set of repositories)

@@ -45,6 +45,10 @@ dotfiles_status() {
     echo __DOTFILES=$(shell_escape_single "${__DOTFILES}")
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
     echo "#"
+    if [ -n "${_MSG}" ]; then
+        echo _MSG=$(shell_escape_single "${_MSG}")
+        echo '#'
+    fi
 }
 ds() {
     # ds()                      -- print dotfiles_status
