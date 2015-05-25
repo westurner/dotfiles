@@ -83,14 +83,15 @@ _condaenvs() {
 workon_conda() {
     # workon_conda()        -- workon a conda + venv project
     local _conda_envname=${1}
-    local _conda_envs_path=${2}
-    local _app=${3}
+    local _venvstrapp=${2}
+    local _conda_envs_path=${3}
     _setup_conda ${_conda_envs_path}
-    local CONDA_ENV=${CONDA_ENVS_PATH}/${_conda_envname}
+    local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
-    source <(
-      $__VENV --wh="${CONDA_ENVS_PATH}" --ve="${_conda_envname}" --app="${_app}" \
-      --print-bash)
+    source <(set -x;
+      $__VENV --wh="${CONDA_ENVS_PATH}" \
+        --ve="${CONDA_ENV}" --venvstrapp="${_venvstrapp}" \
+        --print-bash)
     declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
     dotfiles_status
     deactivate() {
