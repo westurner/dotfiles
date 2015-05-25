@@ -6,6 +6,7 @@ or for connections on the specified ports.
 
 """
 import collections
+import subprocess
 try:
     import psutil
 except ImportError as e:
@@ -13,6 +14,8 @@ except ImportError as e:
     warnings.warn(str(e))
     psutil = object()
 import logging
+
+log = logging
 
 
 AccessDenied = None
@@ -26,7 +29,8 @@ def net_connection_memory_info(ports=[80, 443],
                                yield_pid=False,
                                yield_row=False,
                                yield_dict=False,
-                               yield_str=True):
+                               yield_str=False,
+                               yield_process=False):
     """
     Print psutil.Process.memory_info for processes with sockets open to
     the specified ports.
@@ -68,7 +72,8 @@ def net_connection_memory_info(ports=[80, 443],
     ]
 
     def joinrow(cols, nonestr=None):
-        return '\t'.join(((unicode(s) if s is not None else nonestr) for s in cols))
+        return '\t'.join(((unicode(s) if s is not None else nonestr)
+                          for s in cols))
 
     if yield_str:
         yield joinrow(cols)
@@ -81,7 +86,13 @@ def net_connection_memory_info(ports=[80, 443],
             lhost, lport = cnx.laddr
         if cnx.raddr:
             rhost, rport = cnx.raddr
-        row = [lport, lhost, rport, rhost, p.username(), p.pid, ' '.join(p.cmdline())]
+        row = [lport,
+               lhost,
+               rport,
+               rhost,
+               p.username(),
+               p.pid,
+               ' '.join(p.cmdline())]
         if yield_row:
             yield row
         if yield_dict or yield_str:
@@ -92,6 +103,8 @@ def net_connection_memory_info(ports=[80, 443],
                 yield attrs
         if yield_str:
             yield joinrow(row, nonestr='-')
+        if yield_process:
+            yield p
 
 
 def main():
@@ -99,6 +112,16 @@ def main():
     args = []
     ports = []
     just_the_pid = False
+    kill = False
+    if '--kill' in sys.argv:
+        _i = sys.argv.index('--kill')
+        sys.argv.remove('--kill')
+        kill = True
+        ksig = 15
+        try:
+            ksig = int(sys.argv[_i])
+        except IndexError:
+            pass
     if '--pid' in sys.argv:
         sys.argv.remove('--pid')
         just_the_pid = True
@@ -108,16 +131,39 @@ def main():
     kwargs = {
         'ports': ports,
     }
-    if just_the_pid:
-        kwargs['yield_pid'] = True
-        kwargs['yield_str'] = False
-        kwargs['yield_dict'] = False
-        kwargs['yield_row'] = False
-    else:
-        kwargs['yield_str'] = True
+    if kill:
+        retval = 0
 
-    for str_ in net_connection_memory_info(**kwargs):
-        print(str_)
+        print("#Before")
+        for p in net_connection_memory_info(ports=ports, yield_str=True):
+            print(p)
+        print("#...")
+        for p in net_connection_memory_info(ports=ports, yield_process=True):
+            try:
+                cmd = ('kill', '-%d' % ksig, '%r' % p.pid)
+                print(cmd)
+                p.send_signal(ksig)
+            except Exception as e:
+                log.exception(e)
+                retval = 3
+                pass
+        print("#After")
+        for p in net_connection_memory_info(ports=ports, yield_str=True):
+            print(p)
+        return retval
+    else:
+        if just_the_pid:
+            kwargs['yield_pid'] = True
+            kwargs['yield_str'] = False
+            kwargs['yield_dict'] = False
+            kwargs['yield_row'] = False
+        else:
+            kwargs['yield_str'] = True
+
+        for str_ in net_connection_memory_info(**kwargs):
+            print(str_)
+
+
     return 0
 
 
