@@ -1605,17 +1605,27 @@ Make build task chains are represented in a ``Makefile``.
 Pros
 
 * Simple, easy to read syntax
-* Designed to build files on disk
+* Designed to build files on disk (see: ``.PHONY``)
 * Nesting: ``make -C <path> <taskname>``
-* Variable Syntax: ``$(VARIABLE_NAME)``
+* Variable Syntax: ``$(VARIABLE_NAME)`` or ``${VARIABLE_NAME}``
 * Bash completion: ``make <tab>``
-* Python: Parseable with disutils.text_file Text File
-* Logging: command names and values to stdout
+* Python: Initially parseable with *disutils.text_file*
+* Logging: command names and values print to stdout (unless prefixed
+  with ``@``)
 
 Cons
 
 * Platform Portability: make is not installed everywhere
-* Global Variables: Parametrization with shell scripts
+* Global Variables: parametrization with shell scripts
+  
+.. code:: bash
+
+   VARIABLE_NAME="value" make test
+   make test VARIABLE_NAME="value"
+
+   # ...
+   export VARIABLE_NAME="value"
+   make test
 
 
 
