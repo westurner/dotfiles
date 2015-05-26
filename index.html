@@ -1827,18 +1827,27 @@ are all built with Make.</p>
 <p>Pros</p>
 <ul class="simple">
 <li>Simple, easy to read syntax</li>
-<li>Designed to build files on disk</li>
+<li>Designed to build files on disk (see: <code class="docutils literal"><span class="pre">.PHONY</span></code>)</li>
 <li>Nesting: <code class="docutils literal"><span class="pre">make</span> <span class="pre">-C</span> <span class="pre">&lt;path&gt;</span> <span class="pre">&lt;taskname&gt;</span></code></li>
-<li>Variable Syntax: <code class="docutils literal"><span class="pre">$(VARIABLE_NAME)</span></code></li>
+<li>Variable Syntax: <code class="docutils literal"><span class="pre">$(VARIABLE_NAME)</span></code> or <code class="docutils literal"><span class="pre">${VARIABLE_NAME}</span></code></li>
 <li>Bash completion: <code class="docutils literal"><span class="pre">make</span> <span class="pre">&lt;tab&gt;</span></code></li>
-<li>Python: Parseable with disutils.text_file Text File</li>
-<li>Logging: command names and values to stdout</li>
+<li>Python: Initially parseable with <em>disutils.text_file</em></li>
+<li>Logging: command names and values print to stdout (unless prefixed
+with <code class="docutils literal"><span class="pre">&#64;</span></code>)</li>
 </ul>
 <p>Cons</p>
 <ul class="simple">
 <li>Platform Portability: make is not installed everywhere</li>
-<li>Global Variables: Parametrization with shell scripts</li>
+<li>Global Variables: parametrization with shell scripts</li>
 </ul>
+<div class="code bash highlight-python"><div class="highlight"><pre>VARIABLE_NAME=&quot;value&quot; make test
+make test VARIABLE_NAME=&quot;value&quot;
+
+# ...
+export VARIABLE_NAME=&quot;value&quot;
+make test
+</pre></div>
+</div>
 </div>
 <div class="section" id="salt">
 <span id="index-86"></span><span id="id67"></span><h3>Salt<a class="headerlink" href="#salt" title="Permalink to this headline">¶</a></h3>
