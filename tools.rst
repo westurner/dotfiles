@@ -2538,7 +2538,7 @@ KDE
 | Source: https://projects.kde.org/projects
 
 
-KDE is a GUI framework built on Qt.
+KDE is a GUI framework built on :ref:`Qt`.
 
 KWin is the main KDE window manager for :ref:`X11`.
 
@@ -2556,7 +2556,6 @@ Qt
 | Docs: http://www.qt.io/contribute/
 | Docs: http://wiki.qt.io/Main_Page
 | Docs: https://wiki.qt.io/Get_the_Source
-| Docs:
 | Src: git http://code.qt.io/cgit/
 
 Qt is a Graphical User Interface toolkit for
