@@ -2592,16 +2592,16 @@ source /etc/bash_completion.d/virtualenvwrapper
 <p class="first admonition-title">Note</p>
 <p class="last"><a class="reference internal" href="tools.html#venv"><em>Venv</em></a> extends <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="tools.html#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="nv">$PROJECT_HOME</span><span class="p">;</span> <span class="nb">echo</span> ~/workspace             <span class="c"># venv: ~/wrk</span>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="nv">$PROJECT_HOME</span><span class="p">;</span> <span class="nb">echo</span> ~/workspace             <span class="c"># venv: ~/-wrk</span>
 <span class="nb">cd</span> <span class="nv">$PROJECT_HOME</span>                                 <span class="c"># venv: cdp; cdph</span>
-<span class="nb">echo</span> <span class="nv">$WORKON_HOME</span><span class="p">;</span>  <span class="nb">echo</span> ~/.virtualenvs          <span class="c"># venv: ~/wrk/.ve</span>
+<span class="nb">echo</span> <span class="nv">$WORKON_HOME</span><span class="p">;</span>  <span class="nb">echo</span> ~/.virtualenvs          <span class="c"># venv: ~/-wrk/-ve27</span>
 <span class="nb">cd</span> <span class="nv">$WORKON_HOME</span>                                  <span class="c"># venv: cdwh; cdwrk</span>
 
 mkvirtualenv example
 workon example                                   <span class="c"># venv: we example</span>
 
 cdvirtualenv<span class="p">;</span> <span class="nb">cd</span> <span class="nv">$VIRTUAL_ENV</span>                    <span class="c"># venv: cdv</span>
-<span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span><span class="p">;</span> <span class="nb">echo</span> ~/.virtualenvs/example   <span class="c"># venv: ~/wrk/.ve/example</span>
+<span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span><span class="p">;</span> <span class="nb">echo</span> ~/.virtualenvs/example   <span class="c"># venv: ~/-wrk/-ve27/example</span>
 
 mkdir src <span class="p">;</span> <span class="nb">cd </span>src/                              <span class="c"># venv: cds; cd $_SRC</span>
 

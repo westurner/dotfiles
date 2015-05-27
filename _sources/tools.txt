@@ -2438,16 +2438,16 @@ Virtualenvwrapper is sourced into the shell::
 
 .. code-block:: bash
 
-   echo $PROJECT_HOME; echo ~/workspace             # venv: ~/wrk
+   echo $PROJECT_HOME; echo ~/workspace             # venv: ~/-wrk
    cd $PROJECT_HOME                                 # venv: cdp; cdph
-   echo $WORKON_HOME;  echo ~/.virtualenvs          # venv: ~/wrk/.ve
+   echo $WORKON_HOME;  echo ~/.virtualenvs          # venv: ~/-wrk/-ve27
    cd $WORKON_HOME                                  # venv: cdwh; cdwrk
 
    mkvirtualenv example
    workon example                                   # venv: we example
 
    cdvirtualenv; cd $VIRTUAL_ENV                    # venv: cdv
-   echo $VIRTUAL_ENV; echo ~/.virtualenvs/example   # venv: ~/wrk/.ve/example
+   echo $VIRTUAL_ENV; echo ~/.virtualenvs/example   # venv: ~/-wrk/-ve27/example
 
    mkdir src ; cd src/                              # venv: cds; cd $_SRC
 
