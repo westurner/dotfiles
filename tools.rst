@@ -2304,6 +2304,7 @@ Venv
 ~~~~~
 
 | Docs: https://westurner.org/dotfiles/venv
+| Docs: https://westurner.org/dotfiles/dotfiles.venv
 | Src: https://github.com/westurner/dotfiles/blob/develop/src/dotfiles/venv/
 | Src: https://github.com/westurner/dotfiles/blob/develop/etc/bash/10-bashrc.venv.sh
 
@@ -2362,9 +2363,13 @@ To generate this venv config:
 
 To generate a default venv config with a prefix of ``/``:
 
+.. code:: bash
+
     venv --print-bash --prefix=/
 
 To launch an interactive shell within a venv:
+
+.. code:: bash
 
     venv --run-bash dotfiles
     venv -xb dotfiles
@@ -2372,13 +2377,10 @@ To launch an interactive shell within a venv:
 .. note:: ``pyvenv`` is the :ref:`Virtualenv` -like functionality
    now included in :ref:`Python >= 3.3 <python3>` (``python3 -m venv``)
 
-   | Docs: https://docs.python.org/3/library/venv.html
+   * pyvenv docs: https://docs.python.org/3/library/venv.html
 
    venv imports as ``dotfiles.venv.ipython_config``
    because :ref:`Sphinx` API docs at:
-
-   | Docs: https://westurner.org/dotfiles/dotfiles.venv
-   | Docs: https://westurner.org/dotfiles/venv
 
    dotfiles.venv is undertested with Py3k.
 
