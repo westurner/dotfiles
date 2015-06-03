@@ -2356,6 +2356,7 @@ To generate this venv config:
 
 .. code:: bash
 
+   python -m dotfiles.venv.ipython_config --print-bash dotfiles
    venv.py --print-bash dotfiles
    venv --print-bash dotfiles docs
    venv --print-bash dotfiles ~/path
@@ -2377,13 +2378,7 @@ To launch an interactive shell within a venv:
 .. note:: ``pyvenv`` is the :ref:`Virtualenv` -like functionality
    now included in :ref:`Python >= 3.3 <python3>` (``python3 -m venv``)
 
-   * pyvenv docs: https://docs.python.org/3/library/venv.html
-
-   venv imports as ``dotfiles.venv.ipython_config``
-   because :ref:`Sphinx` API docs at:
-
-   dotfiles.venv is undertested with Py3k.
-
+   Python pyvenv docs: https://docs.python.org/3/library/venv.html
 
 .. index:: Virtualenv
 .. _virtualenv:
