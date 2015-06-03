@@ -2303,7 +2303,9 @@ Dotvim
 Venv
 ~~~~~
 
-| Docs: https://westurner.org/dotfiles/venv/
+| Docs: https://westurner.org/dotfiles/venv
+| Src: https://github.com/westurner/dotfiles/blob/develop/src/dotfiles/venv/
+| Src: https://github.com/westurner/dotfiles/blob/develop/etc/bash/10-bashrc.venv.sh
 
 Venv is a tool for making working with :ref:`Virtualenv`,
 :ref:`Virtualenvwrapper`, :ref:`Bash`, :ref:`ZSH`, :ref:`Vim`,
@@ -2312,31 +2314,71 @@ and :ref:`IPython` within a project context very easy.
 Venv defines standard paths, environment variables, and aliases
 for routinizing workflow.
 
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| var name            | description                    | cdaliases                | example                            |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``HOME``            | user home directory            | cdh, cdhome              | ~/                                 |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``__WRK``           | workspace root                 | cdwrk                    | ~/-wrk                             |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``WORKON_HOME``     | virtualenvs root               | cdwh, cdworkonhome, cdve | ~/-wrk/-ve27                       |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``CONDA_ENVS_PATH`` | condaenvs root                 | cdch, cdcondahome        | ~/-wrk/-ce27                       |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``VIRTUAL_ENV``     | virtualenv root                | cdv, cdvirtualenv        | ~/-wrk/-ve27/dotfiles              |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_BIN``            | virtualenv executables         | cdb, cdbin               | ~/-wrk/-ve27/dotfiles/bin          |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_ETC``            | virtualenv configuration       | cd, cdetc                | ~/-wrk/-ve27/dotfiles/etc          |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_LOG``            | virtualenv log directory       | cdlog                    | ~/-wrk/-ve27/dotfiles/var/log      |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_SRC``            | virtualenv source repositories | cds, cdsrc               | ~/-wrk/-ve27/dotfiles/src          |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_WRD``            | virtualenv working directory   | cdw, cdwrd               | ~/-wrk/-ve27/dotfiles/src/dotfiles |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| **var name**        | **description**                | **cdaliases**                        | **example path**                       |
+|                     |                                |                                      |                                        |
+|                     |                                | Bash: ``cdhelp``                     |                                        |
+|                     |                                |                                      |                                        |
+|                     |                                | IPython: ``%cdhelp``                 |                                        |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``HOME``            | user home directory            | Bash/ZSH: ``cdh``, ``cdhome``        | ~/                                     |
+|                     |                                |                                      |                                        |
+|                     |                                | IPython: ``%cdh``, ``%cdhome``       |                                        |
+|                     |                                |                                      |                                        |
+|                     |                                | Vim: ``:Cdh``, ``:Cdhome``           |                                        |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``__WRK``           | workspace root                 | ``cdwrk`` (ibid.)                    | ~/-wrk                                 |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``WORKON_HOME``     | virtualenvs root               | ``cdwh``, ``cdworkonhome``, ``cdve`` | ~/-wrk/-ve27                           |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``CONDA_ENVS_PATH`` | condaenvs root                 | ``cdch``, ``cdcondahome``            | ~/-wrk/-ce27                           |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``VIRTUAL_ENV``     | virtualenv root                | ``cdv``, ``cdvirtualenv``            | ~/-wrk/-ve27/``dotfiles``              |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_BIN``            | virtualenv executables         | ``cdb``, ``cdbin``                   | ~/-wrk/-ve27/dotfiles/``bin``          |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_ETC``            | virtualenv configuration       | ``cd``, ``cdetc``                    | ~/-wrk/-ve27/dotfiles/``etc``          |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_LIB``            | virtualenv lib directory       | ``cdl``, ``cdlib``                   | ~/-wrk/-ve27/dotfiles/``lib``          |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_LOG``            | virtualenv log directory       | ``cdlog``                            | ~/-wrk/-ve27/dotfiles/``var/log``      |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_SRC``            | virtualenv source repositories | ``cds``, ``cdsrc``                   | ~/-wrk/-ve27/dotfiles/``src``          |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_WRD``            | virtualenv working directory   | ``cdw``, ``cdwrd``                   | ~/-wrk/-ve27/dotfiles/``src/dotfiles`` |
+|                     |                                |                                      |                                        |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
 
+To generate this venv config:
 
+.. code:: bash
+
+   venv.py --print-bash dotfiles
+   venv --print-bash dotfiles docs
+   venv --print-bash dotfiles ~/path
+   venv --print-bash ~/-wrk/-ve27/dotfiles ~/path
+
+To generate a default venv config with a prefix of ``/``:
+
+    venv --print-bash --prefix=/
+
+To launch an interactive shell within a venv:
+
+    venv --run-bash dotfiles
+    venv -xb dotfiles
+
+.. note:: ``pyvenv`` is the :ref:`Virtualenv` -like functionality
+   now included in :ref:`Python >= 3.3 <python3>` (``python3 -m venv``)
+
+   | Docs: https://docs.python.org/3/library/venv.html
+
+   venv imports as ``dotfiles.venv.ipython_config``
+   because :ref:`Sphinx` API docs at:
+
+   | Docs: https://westurner.org/dotfiles/dotfiles.venv
+   | Docs: https://westurner.org/dotfiles/venv
+
+   venv is undertested with Py3k.
 
 
 .. index:: Virtualenv
