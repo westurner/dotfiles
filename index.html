@@ -2432,6 +2432,7 @@ between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).</p>
 <span id="index-109"></span><span id="id86"></span><h3>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/venv">https://westurner.org/dotfiles/venv</a></div>
+<div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/dotfiles.venv">https://westurner.org/dotfiles/dotfiles.venv</a></div>
 <div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/develop/src/dotfiles/venv/">https://github.com/westurner/dotfiles/blob/develop/src/dotfiles/venv/</a></div>
 <div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/develop/etc/bash/10-bashrc.venv.sh">https://github.com/westurner/dotfiles/blob/develop/etc/bash/10-bashrc.venv.sh</a></div>
 </div>
@@ -2525,25 +2526,23 @@ venv --print-bash ~/-wrk/-ve27/dotfiles ~/path
 </pre></div>
 </div>
 <p>To generate a default venv config with a prefix of <code class="docutils literal"><span class="pre">/</span></code>:</p>
-<blockquote>
-<div>venv &#8211;print-bash &#8211;prefix=/</div></blockquote>
+<div class="code bash highlight-python"><div class="highlight"><pre>venv --print-bash --prefix=/
+</pre></div>
+</div>
 <p>To launch an interactive shell within a venv:</p>
-<blockquote>
-<div>venv &#8211;run-bash dotfiles
-venv -xb dotfiles</div></blockquote>
+<div class="code bash highlight-python"><div class="highlight"><pre>venv --run-bash dotfiles
+venv -xb dotfiles
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p><code class="docutils literal"><span class="pre">pyvenv</span></code> is the <a class="reference internal" href="tools.html#virtualenv"><em>Virtualenv</em></a> -like functionality
 now included in <a class="reference internal" href="tools.html#python3"><em>Python &gt;= 3.3</em></a> (<code class="docutils literal"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">venv</span></code>)</p>
-<div class="line-block">
-<div class="line">Docs: <a class="reference external" href="https://docs.python.org/3/library/venv.html">https://docs.python.org/3/library/venv.html</a></div>
-</div>
+<ul class="simple">
+<li>pyvenv docs: <a class="reference external" href="https://docs.python.org/3/library/venv.html">https://docs.python.org/3/library/venv.html</a></li>
+</ul>
 <p>venv imports as <code class="docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code>
 because <a class="reference internal" href="tools.html#sphinx"><em>Sphinx</em></a> API docs at:</p>
-<div class="line-block">
-<div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/dotfiles.venv">https://westurner.org/dotfiles/dotfiles.venv</a></div>
-<div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/venv">https://westurner.org/dotfiles/venv</a></div>
-</div>
 <p class="last">dotfiles.venv is undertested with Py3k.</p>
 </div>
 </div>
