@@ -2323,17 +2323,17 @@ for routinizing workflow.
 |                     |                                |                                      |                                        |
 |                     |                                | Vim: ``:Cdhelp``                     |                                        |
 +---------------------+--------------------------------+--------------------------------------+----------------------------------------+
-| ``HOME``            | user home directory            | Bash/ZSH: ``cdh``, ``cdhome``        | ~/                                     |
+| ``HOME``            | user home directory            | Bash/ZSH: ``cdh``, ``cdhome``        | ``~/``                                 |
 |                     |                                |                                      |                                        |
 |                     |                                | IPython: ``%cdh``, ``%cdhome``       |                                        |
 |                     |                                |                                      |                                        |
 |                     |                                | Vim: ``:Cdh``, ``:Cdhome``           |                                        |
 +---------------------+--------------------------------+--------------------------------------+----------------------------------------+
-| ``__WRK``           | workspace root                 | ``cdwrk`` (ibid.)                    | ~/-wrk                                 |
+| ``__WRK``           | workspace root                 | ``cdwrk`` (ibid.)                    | ~/``-wrk``                             |
 +---------------------+--------------------------------+--------------------------------------+----------------------------------------+
-| ``WORKON_HOME``     | virtualenvs root               | ``cdwh``, ``cdworkonhome``, ``cdve`` | ~/-wrk/-ve27                           |
+| ``WORKON_HOME``     | virtualenvs root               | ``cdwh``, ``cdworkonhome``, ``cdve`` | ~/-wrk/``-ve27``                       |
 +---------------------+--------------------------------+--------------------------------------+----------------------------------------+
-| ``CONDA_ENVS_PATH`` | condaenvs root                 | ``cdch``, ``cdcondahome``            | ~/-wrk/-ce27                           |
+| ``CONDA_ENVS_PATH`` | condaenvs root                 | ``cdch``, ``cdcondahome``            | ~/-wrk/``-ce27``                       |
 +---------------------+--------------------------------+--------------------------------------+----------------------------------------+
 | ``VIRTUAL_ENV``     | virtualenv root                | ``cdv``, ``cdvirtualenv``            | ~/-wrk/-ve27/``dotfiles``              |
 +---------------------+--------------------------------+--------------------------------------+----------------------------------------+
@@ -2380,7 +2380,7 @@ To launch an interactive shell within a venv:
    | Docs: https://westurner.org/dotfiles/dotfiles.venv
    | Docs: https://westurner.org/dotfiles/venv
 
-   venv is undertested with Py3k.
+   dotfiles.venv is undertested with Py3k.
 
 
 .. index:: Virtualenv
