@@ -1554,15 +1554,16 @@ that is built from :ref:`RPM` packages.
 
 .. index:: RHEL
 .. index:: RedHat Enterprise Linux
+.. _rhel:
 
-RHEL
-++++++
+RedHat
+++++++++
 | Wikipedia: `<https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux>`__
 | Homepage: https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux
 | Docs: https://access.redhat.com/documentation/en-US/
 | Docs: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/
 
-RHEL (RedHat Enterprise Linux)
+RedHat Enterprise Linux ("RHEL")
 is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages.
 
@@ -1573,7 +1574,7 @@ that is built from :ref:`RPM` packages.
 --------
 CentOS
 --------
-| Wikipedia:
+| Wikipedia: https://en.wikipedia.org/wiki/CentOS
 | Homepage: https://www.centos.org/
 | Download: https://www.centos.org/download/
 | Docs: https://wiki.centos.org/
@@ -1581,6 +1582,39 @@ CentOS
 | DockerHub: https://registry.hub.docker.com/_/centos/
 
 CentOS is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`RPM` packages
+which is derived from :ref:`RHEL`.
+
+
+.. index:: Scientific Linux
+.. _scientific-linux:
+
+Scientific Linux
+-----------------
+| Wikipedia: https://en.wikipedia.org/wiki/Scientific_Linux
+| Homepage: https://en.wikipedia.org/wiki/Scientific_Linux
+
+Scientific Linux is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`RPM` packages
+which is derived from :ref:`CentOS`.
+which is derived from :ref:`RHEL`.
+
+* ``rdfs:seeAlso`` :ref:`Anaconda` (:ref:`Conda`)
+* ``rdfs:seeAlso`` :ref:`Portage`
+
+
+.. index:: Oracle Linux
+.. _oracle-linux:
+
+------------
+Oracle
+------------
+| Wikipedia: https://en.wikipedia.org/wiki/Oracle_Linux
+| Homepage: http://www.oracle.com/linux
+| Docs: http://www.oracle.com/us/technologies/linux/resources/index.html
+| Docs: http://www.oracle.com/us/technologies/linux/openstack/overview/index.html
+
+Oracle Linux is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
 which is derived from :ref:`RHEL`.
 
@@ -1622,6 +1656,9 @@ ChromiumOS is a :ref:`Linux Distribution <linux-distributions>`
 built on :ref:`Portage`.
 
 
+.. index:: Crouton
+.. _crouton:
+
 ------------
 Crouton
 ------------
@@ -1631,6 +1668,7 @@ Crouton ("Chromium OS Universal Chroot Environment")
 installs and debootstraps a :ref:`Linux Distribution`
 (i.e. :ref:`Debian` or :ref:`Ubuntu`)
 within a :ref:`ChromiumOS` or :ref:`ChromeOS` chroot.
+
 
 .. index:: ChromeOS
 .. _chromeos:
@@ -1912,6 +1950,50 @@ UEFI
 
 Configuration Management
 ==========================
+| Wikipedia: https://en.wikipedia.org/wiki/Software_configuration_management
+| Wikipedia: https://en.wikipedia.org/wiki/Comparison_of_open-source_configuration_management_software
+
+
+.. index:: Ansible
+.. _ansible:
+
+Ansible
+~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Ansible_(software)>`__
+| Homepage: http://ansible.com/
+| Source: https://github.com/ansible/ansible
+
+Ansible is a :ref:`Configuration Management` tool
+written in :ref:`Python`
+which runs idempotent Ansible Playbooks
+written in :ref:`YAML`
+for managing
+one or more physical and virtual machines running various operating systems
+over SSH.
+
+
+.. index:: JuJu
+.. _juju:
+
+Juju
+~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Juju_(software)>`__
+| Homepage: https://jujucharms.com/
+| Source:
+| Docs: https://jujucharms.com/docs/
+| TcpPort: 8001
+| Twitter: http://www.twitter.com/ubuntucloud
+
+Juju is a :ref:`Configuration Management` tool
+written in :ref:`Python`
+which runs Juju Charms
+written in :ref:`Python`
+on one or more systems over SSH,
+for managing
+one or more physical and virtual machines running :ref:`Ubuntu`.
+
+* https://github.com/juju/juju/issues/470
+
 
 .. index:: Make
 .. _make:
@@ -1959,6 +2041,46 @@ Cons
    make test
 
 
+.. index:: osquery
+.. _osquery:
+
+osquery
+~~~~~~~~
+| Homepage: https://osquery.io/
+| Src: https://github.com/facebook/osquery 
+| Docs: https://osquery.io/docs/tables/
+| Docs: https://osquery.readthedocs.org/en/stable/
+| Tools: https://westurner.org/tools/#osquery
+
+OSQuery is a tool for reading and querying
+many sources of system data
+with SQL
+for :ref:`OSX` and :ref:`Linux`.
+
+* https://github.com/westurner/dotfiles/blob/develop/scripts/osquery-all.sh
+
+
+.. index:: Puppet
+.. _puppet:
+
+Puppet
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Puppet_(software)>`__
+| Homepage: https://puppetlabs.com/
+| Docs: http://docs.puppetlabs.com/
+| Docs: http://docs.puppetlabs.com/puppet/
+| Source: git https://github.com/puppetlabs
+| TcpPort: 8140
+
+Puppet is a :ref:`Configuration Management` system
+written in :ref:`Ruby`
+which runs Puppet Modules
+written in Puppet DSL or :ref:`Ruby`
+for managing
+one or more physical and virtual machines running various operating systems.
+
+* https://github.com/nanliu/puppet-transport
+
 
 .. index:: Salt
 .. _salt:
@@ -1976,9 +2098,15 @@ Salt
 | Source: git https://github.com/saltstack/salt
 | Pypi: https://pypi.python.org/pypi/salt
 | IRC: #salt
+| TcpPort: 4505
+| TcpPort: 4506
 
 
-Salt is an open source configuration management system for managing
+Salt is a :ref:`Configuration Management` system
+written in :ref:`Python`
+which runs Salt Formulas
+written in :ref:`YAML`, :ref:`Jinja2`, :ref:`Python`
+for managing
 one or more physical and virtual machines running various operating systems.
 
 .. glossary::
