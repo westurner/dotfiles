@@ -1500,6 +1500,7 @@ Debian
 | Wikipedia: `<https://en.wikipedia.org/wiki/Debian>`__
 | Homepage: https://www.debian.org/
 | Download: https://www.debian.org/distrib/
+| DockerHub: https://registry.hub.docker.com/_/debian/
 | Docs: https://www.debian.org/doc/
 | Docs: https://www.debian.org/doc/manuals/debian-reference/
 | Docs: https://www.debian.org/doc/#manuals
@@ -1523,6 +1524,7 @@ Ubuntu
 | Source: http://archive.ubuntu.com/
 | Source: http://releases.ubuntu.com/
 | Download: http://www.ubuntu.com/download
+| DockerHub: https://registry.hub.docker.com/_/ubuntu/
 | Docs: https://help.ubuntu.com/
 | Q&A: https://askubuntu.com
 
@@ -1602,6 +1604,8 @@ Gentoo
 Gentoo is a :ref:`Linux Distribution <linux-distributions>`
 built on :ref:`Portage`.
 
+* https://registry.hub.docker.com/search?q=gentoo (Stage 3 + Portage)
+
 
 .. index:: ChromiumOS
 .. _chromiumos:
@@ -1617,6 +1621,16 @@ ChromiumOS
 ChromiumOS is a :ref:`Linux Distribution <linux-distributions>`
 built on :ref:`Portage`.
 
+
+------------
+Crouton
+------------
+| Source: https://github.com/dnschneid/crouton
+
+Crouton ("Chromium OS Universal Chroot Environment") 
+installs and debootstraps a :ref:`Linux Distribution`
+(i.e. :ref:`Debian` or :ref:`Ubuntu`)
+within a :ref:`ChromiumOS` or :ref:`ChromeOS` chroot.
 
 .. index:: ChromeOS
 .. _chromeos:
@@ -1645,8 +1659,11 @@ CoreOS
 ++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/CoreOS
 | Homepage: https://coreos.com/
-| Docs: https://coreos.com/docs/
 | Source: https://github.com/coreos
+| Docs: https://coreos.com/docs/
+| Docs: https://coreos.com/docs/#running-coreos
+| Docs: https://coreos.com/docs/running-coreos/platforms/vagrant/
+| Docs: 
 
 CoreOS is a :ref:`Linux Distribution <linux-distributions>`
 for highly available distributed computing.
@@ -1654,6 +1671,16 @@ for highly available distributed computing.
 CoreOS schedules redundant :ref:`docker` images with **fleet**
 and **systemd** according to configuration stored in **etcd**,
 a key-value store with a D-Bus interface.
+
+* CoreOS runs on very many platforms
+* CoreOS does not provide a package manager
+* CoreOS schedules Docker
+
+* CoreOS -- Operating System
+* etcd -- Consensus and Discovery
+* rkt -- Container Runtime
+* fleet -- Distributed init system (etcd, systemd)
+* flannel -- Networking
 
 
 
@@ -2088,6 +2115,51 @@ Limitations
 * Apt-get upgrade: https://github.com/docker/docker/issues/3934
 
 
+.. index:: Kubernetes
+.. _kubernetes:
+
+Kubernetes
+~~~~~~~~~~~
+| Homepage: http://kubernetes.io/
+| Source: https://github.com/GoogleCloudPlatform/kubernetes
+| Docs: http://kubernetes.io/gettingstarted/
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/docker.md
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/vagrant.md
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/coreos.md
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/mesos.md
+| Q&A: http://stackoverflow.com/questions/tagged/kubernetes
+| Twitter: https://twitter.com/googlecloud
+
+Kubernetes is a highly-available distributed cluster scheduler
+which works with groups of :ref:`Docker` containers
+called Pods.
+
+
+.. index:: Kubernetes-Mesos
+.. _kubernetes-mesos:
+
+Kubernetes-Mesos
+~~~~~~~~~~~~~~~~~
+| Source: https://github.com/mesosphere/kubernetes-mesos
+
+kubernetes-mesos integrates
+:ref:`Kubernetes` :ref:`Docker` Pod scheduling with :ref:`Mesos`.
+
+.. epigraph::
+
+    Kubernetes and Mesos are a match made in heaven.
+
+    Kubernetes enables the Pod,
+    an abstraction that represents a group of co-located containers, along
+    with Labels for service discovery, load-balancing, and replication control.
+
+    Mesos provides the fine-grained resource allocations for pods
+    across nodes in a cluster,
+    and facilitates resource sharing
+    among Kubernetes and other frameworks running on the same cluster.
+
+
+
 .. index:: Libcloud
 .. _libcloud:
 
@@ -2125,6 +2197,41 @@ various :ref:`Linux` hypervisors.
 * LXC
 * OpenVZ
 * VirtualBox
+
+
+.. index:: Mesos
+.. _mesos:
+
+Mesos
+~~~~~~
+| Homepage: https://mesos.apache.org/
+| Source: git https://github.com/apache/mesos
+| Q&A: https://stackoverflow.com/tags/mesos
+| Twitter: https://twitter.com/ApacheMesos
+
+Apache Mesos is a highly-available distributed datacenter operating system,
+for which there are many different task/process/service schedulers.
+
+.. epigraph::
+
+    Apache Mesos abstracts CPU, memory, storage,
+    and other compute resources away from machines (physical or virtual),
+    enabling fault-tolerant and elastic distributed systems
+    to easily be built and run effectively.
+
+
+.. index:: Mesosphere
+.. _mesosphere:
+
+Mesosphere
+~~~~~~~~~~~~~
+| Homepage: https://mesosphere.com/
+| Source: https://github.com/mesosphere
+| Q&A: https://stackoverflow.com/tags/mesosphere
+| Twitter: https://twitter.com/mesosphere
+
+* Apache :ref:`Mesos` is a core Mesosphere service
+
 
 
 .. index:: Packer
