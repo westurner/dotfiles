@@ -561,7 +561,7 @@ Conda
   which hosts free public and paid private Conda packages.
 
   * Anaconda Server is an internal
-    "Private, Secure Package Repository" 
+    "Private, Secure Package Repository"
     that
     "supports over 100 different repositories,
     including PyPI, CRAN, conda, and the Anaconda repository."
@@ -589,7 +589,7 @@ Work on a conda env:
 * https://github.com/conda/conda-env
 * https://github.com/conda/conda-build
 * https://github.com/conda/conda-recipes
-   
+
 
 .. index:: Ruby Gem
 .. index:: RubyGems
@@ -766,7 +766,7 @@ HubFlow
 | Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
 | Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
 
-HubFlow is a fork of GitFlow 
+HubFlow is a fork of GitFlow
 that adds extremely useful commands for working with Git and GitHub.
 
 HubFlow is a named branch workflow with mostly-automated merges
@@ -818,7 +818,7 @@ Creating a new release with :ref:`Git` and HubFlow:
   git tag | grep 'v0.1.0'
 
 The GitFlow HubFlow illustrations are very helpful for visualizing
-and understanding any DVCS workflow: 
+and understanding any DVCS workflow:
 `<https://datasift.github.io/gitflow/IntroducingGitFlow.html>`__.
 
 
@@ -1140,7 +1140,7 @@ NumPy and other languages:
 SciPy
 ++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/SciPy
-| Homepage: http://scipy.org/ 
+| Homepage: http://scipy.org/
 | Src: https://github.com/scipy/scipy
 | Docs: http://www.scipy.org/docs.html
 | Docs: http://docs.scipy.org/doc/scipy/reference/
@@ -1459,11 +1459,175 @@ with frontends for many languages.
 Operating Systems
 ===================
 
+.. index:: GNU/Linux
+.. index:: Linux
+.. _linux:
+
+Linux
+~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Linux
+| Homepage: https://www.kernel.org/
+| Docs: https://www.kernel.org/doc/
+| Source: git https://github.com/torvalds/linux
+
+GNU/Linux ("Linux") is a free and open source operating system kernel
+written in :ref:`C`.
+
+.. code-block:: bash
+
+   uname -a; echo "Linux"
+   uname -o; echo "GNU/Linux"
+
+
+.. index:: Linux Distributions
+.. _linux-distributions:
+
+Linux Distributions
+~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Linux_distribution
+
+A *Linux Distribution* is a collection of :ref:`Packages`
+compiled to work with a :ref:`GNU/Linux <linux>` kernel and a :ref:`libc`.
+
+* https://commons.wikimedia.org/wiki/File:Linux_Distribution_Timeline_with_Android.svg
+
+
+.. index:: Debian
+.. _debian:
+
+Debian
++++++++++++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Debian>`__
+| Homepage: https://www.debian.org/
+| Download: https://www.debian.org/distrib/
+| Docs: https://www.debian.org/doc/
+| Docs: https://www.debian.org/doc/manuals/debian-reference/
+| Docs: https://www.debian.org/doc/#manuals
+| Docs: https://www.debian.org/doc/debian-policy/ (main, contrib, non-free)
+| Docs: https://www.debian.org/releases/stable/releasenotes
+| Docs: https://www.debian.org/releases/stable/amd64/release-notes/
+| Docs: https://www.debian.org/releases/stable/i386/release-notes/
+| Docs: https://www.debian.org/releases/stable/i386/release-notes/
+
+
+.. index:: Ubuntu
+.. _ubuntu:
+
+Ubuntu
++++++++++++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>`_
+| Homepage: http://www.ubuntu.com/
+| Docs: https://help.ubuntu.com/
+| Source: https://launchpad.net/ubuntu
+| Source: http://archive.ubuntu.com/
+| Source: http://releases.ubuntu.com/
+
+.. index:: Fedora
+.. _fedora:
+
+Fedora
++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Fedora_(operating_system)>`__
+| Homepage: https://getfedora.org/
+| Download: https://getfedora.org/en/workstation/download/
+| Download: https://getfedora.org/en/server/download/
+| Download: https://getfedora.org/en/cloud/download/
+| Docs: https://docs.fedoraproject.org/en-US/index.html
+| Docs: https://fedoraproject.org/wiki/Fedora_Project_Wiki
+| Docs: https://fedoraproject.org/wiki/EPEL
+
+Fedora is a :ref:`Linux` distribution
+that is built from :ref:`RPM` packages.
+
+.. index:: RHEL
+.. index:: RedHat Enterprise Linux
+
+RHEL
+++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux>`__
+| Homepage: https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux
+| Docs: https://access.redhat.com/documentation/en-US/
+| Docs: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/
+
+RHEL (RedHat Enterprise Linux) is a :ref:`Linux` distribution
+that is built from :ref:`RPM` packages.
+
+
+.. index:: CentOS
+.. _centos:
+
+--------
+CentOS
+--------
+| Wikipedia:
+| Homepage: https://www.centos.org/
+| Download: https://www.centos.org/download/
+| Docs: https://wiki.centos.org/
+| Docs: https://www.centos.org/docs/
+| DockerHub: https://registry.hub.docker.com/_/centos/
+
+CentOS is a :ref:`Linux` distribution
+that is built from :ref:`RPM` packages
+which is derived from :ref:`RHEL`.
+
+
+.. index:: Gentoo
+.. _gentoo:
+
+Gentoo
+++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Gentoo
+| Homepage: https://gentoo.org/
+| Source: https://github.com/gentoo
+| Source: git https://github.com/gentoo/portage
+| Docs: https://wiki.gentoo.org/wiki/
+| Docs: https://wiki.gentoo.org/wiki/Handbook:Main_Page
+| Docs: https://wiki.gentoo.org/wiki/Handbook:AMD64
+| Docs: https://wiki.gentoo.org/wiki/Handbook:X86
+| Docs: https://wiki.gentoo.org/wiki/Project:Portage
+| Docs: https://wiki.gentoo.org/wiki/Project:Hardened
+
+Gentoo is a :ref:`Linux` distribution built on :ref:`Portage`.
+
+
+.. index:: ChromiumOS
+.. _chromiumos:
+
+ChromiumOS
++++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Chromium_OS
+| Homepage: https://www.chromium.org/chromium-os
+| Docs: https://www.chromium.org/chromium-os/quick-start-guide
+| Docs: https://www.chromium.org/chromium-os/developer-guide
+| Source: https://chromium.googlesource.com/ (``chromiumos*/``)
+
+ChromiumOS is a :ref:`Linux` distribution built on :ref:`Portage`.
+
+
+.. index:: ChromeOS
+.. _chromeos:
+
+ChromeOS
++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Chrome_OS
+
+ChromeOS is a :ref:`Linux` distribution built on :ref:`ChromiumOS`
+and :ref:`Portage`.
+
+* ChromeOS powers Chromebook notebooks
+
+  * https://en.wikipedia.org/wiki/Chromebook
+
+* ChromeOS powers the Chromebox business videoconferencing appliances
+
+  * https://en.wikipedia.org/wiki/Chromebox
+
+
 .. index:: CoreOS
 .. _coreos:
 
 CoreOS
-~~~~~~~~
+++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/CoreOS
 | Homepage: https://coreos.com/
 | Docs: https://coreos.com/docs/
@@ -1479,27 +1643,73 @@ a key-value store with a D-Bus interface.
 
 
 
-.. index:: GNU/Linux
-.. index:: Linux
-.. _linux:
 
-Linux
-~~~~~~~~~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Linux
-| Homepage: https://www.kernel.org/
-| Docs: https://www.kernel.org/doc/
-| Source: git https://github.com/torvalds/linux
 
-GNU/Linux is a free and open source operating system kernel
-written in :ref:`C`.
+.. index:: Linux Notes
+.. _linux-notes:
 
-.. code-block:: bash
+Linux Notes
++++++++++++++
 
-   uname -a; echo "Linux"
-   uname -o; echo "GNU/Linux"
+* https://github.com/westurner/provis
 
-A *Linux Distribution* is a collection of :ref:`Packages`
-compiled to work with a GNU/Linux kernel and a :ref:`libc`.
+  * https://github.com/saltstack/salt-bootstrap
+
+    curl -L https://bootstrap.saltstack.com scripts/bootstrap-salt.sh
+
+  * Masterless Salt Config: ``make salt_local_highstate_test``
+
+    * [ ] Workstation role
+
+----------------
+Linux Dual Boot
+----------------
+* [ ] GRUB chainloader to partition boot record
+
+  * Ubuntu and Fedora GRUB try to autodiscover Windows partitions
+
+
+.. index:: Android
+.. _android:
+
+Android
++++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Android_(operating_system)>`__
+| Homepage: https://www.android.com/
+| Homepage: https://developer.android.com/
+
+
+.. index:: Android SDK
+.. _android sdk:
+
+-------------
+Android SDK
+-------------
+| Homepage: https://developer.android.com/sdk/
+| Source: https://android.googlesource.com/
+| Source: https://github.com/android
+| Docs: https://developer.android.com/sdk/
+| Docs: https://developer.android.com/sdk/installing/index.html
+| Docs: https://developer.android.com/sdk/installing/adding-packages.html
+| Docs: https://source.android.com/source/index.html
+| Docs: https://source.android.com/source/downloading.html
+| Docs: https://source.android.com/source/developing.html
+| Docs: https://source.android.com/source/contributing.html
+| Docs: https://sites.google.com/a/android.com/tools/build
+| Docs: https://developer.android.com/tools/workflow/index.html
+
+
+
+.. index:: Android Studio
+.. _android studio:
+
+----------------
+Android Studio
+----------------
+|
+| Homepage: https://developer.android.com/tools/studio/index.html
+| Docs: https://developer.android.com/tools/workflow/index.html
+| Docs: https://sites.google.com/a/android.com/tools/build/studio
 
 
 
@@ -1532,18 +1742,64 @@ OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
 
    uname; echo "Darwin"
 
+OSX Notes
+++++++++++
+* https://github.com/westurner/dotfiles/blob/master/scripts/ ``setup_*.sh``
 
-.. index:: Ubuntu
-.. _ubuntu:
+  * [ ] Manually updae to latest versions (of zip, tar.gz, .dmg)
+  * [ ] Port to salt formulas
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_chrome.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_chromium.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_firefox.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_adobereader.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_vlc.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_f.lux.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_powerline_fonts.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_macvim.sh
+  * [ ] Miniconda #dotfiles (setup_miniconda.sh?)
 
-Ubuntu
-~~~~~~~~~~~~~~~~~
-| Wikipedia: `<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>`_
-| Homepage: http://www.ubuntu.com/
-| Docs: https://help.ubuntu.com/
-| Source: https://launchpad.net/ubuntu
-| Source: http://archive.ubuntu.com/
-| Source: http://releases.ubuntu.com/
+* https://github.com/westurner/provis
+
+  * [ ] https://github.com/westurner/provis/compare/feature/osx_support
+
+    * [ ] create / remap "root" group
+  * [ ] http://docs.saltstack.com/en/latest/topics/installation/osx.html
+
+
+    ``brew install saltstack`` OR ``pip install salt``
+
+
+-------------
+OSX Reinstall
+--------------
+* [ ] Generate installation media
+* [ ] Reboot to recovery partition
+* [ ] Adjust partitions
+* [ ] Format?
+* [ ] Install OS
+* [ ] (wait)
+* [ ] Manual time/date/language config
+* [ ] Run workstation provis scripts
+
+------------------
+OSX Fresh Install
+------------------
+* [ ] Generate / obtain installation media
+* [ ] Boot from installation media
+* [ ] Manual time/date/language config
+* [ ] Run workstation provis scripts
+
+
+--------------
+OSX Dual Boot
+--------------
+
+* http://www.howtogeek.com/187410/how-to-install-and-dual-boot-linux-on-a-mac/
+* http://www.rodsbooks.com/refind/installing.html#osx
+
+
 
 
 .. index:: Windows
@@ -1554,13 +1810,16 @@ Windows
 | Wikipedia: https://en.wikipedia.org/wiki/Microsoft_Windows
 | Homepage: http://windows.microsoft.com/
 | Docs: https://www.microsoft.com/enable/products/docs/
-| Docs: 
+| Docs:
 
 Windows is a NT-kernel based operating system.
 
 There used to be a POSIX compatibility mode.
 
 Chocolatey maintains a set of :ref:`NuGet` packages for Windows.
+
+Windows Notes
++++++++++++++++
 
 A few annotated excerpts from this Chocolatey :ref:`NuGet` :ref:`PowerShell` script
 https://gist.github.com/westurner/10950476#file-cinst_workstation_minimal-ps1
@@ -1571,9 +1830,40 @@ https://gist.github.com/westurner/10950476#file-cinst_workstation_minimal-ps1
     cinst 7zip
     cinst curl
 
+* [ ] Install Chocolatey NuGet package manager: http://chocolatey.org
+* [ ] Install packages listed here: https://gist.github.com/westurner/10950476
+
+  * [ ] (Optional) uncomment salt first (optionally specify master) [OR Install salt]
+
+* [ ] Install salt: http://docs.saltstack.com/en/latest/topics/installation/windows.html
+
+* ``<Win>+R`` (Start > Run)
+* [ ] Run ``services.msc`` and log/prune unutilized services (e.g. workstation, server)
+
+  * https://en.wikipedia.org/wiki/Windows_service
+
+------------------
+Windows Dual Boot
+------------------
+* [ ] Windows MBR chainloads to parition GRUB (`Linux`_)
+* [ ] Ubuntu WUBI .exe Linux Installer (XP, 7, 8*)
+
+  * It's now better to install to a separate partition from a bootable ISO
+
+-----
+UEFI
+-----
+| Wikipedia: https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface
+
+* https://help.ubuntu.com/community/UEFI
+
+
+
 * Cygwin Windows Linux Userspace: ~ https://chocolatey.org/packages/Cygwin
 * https://github.com/giampaolo/psutil/blob/master/psutil/_psutil_windows.c
 * http://winappdbg.sourceforge.net/#related-projects
+
+
 
 
 .. index:: Configuration Management
@@ -1617,7 +1907,7 @@ Cons
 
 * Platform Portability: make is not installed everywhere
 * Global Variables: parametrization with shell scripts
-  
+
 .. code:: bash
 
    VARIABLE_NAME="value" make test
@@ -1763,7 +2053,7 @@ one or more physical and virtual machines running various operating systems.
 .. virtualization:
 
 Virtualization
-=============== 
+===============
 
 .. index:: Docker
 .. _docker:
@@ -2248,7 +2538,7 @@ and :ref:`Subversion` repositories.
 Sed
 ~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Sed>`__
-| Homepage: https://www.gnu.org/software/sed/ 
+| Homepage: https://www.gnu.org/software/sed/
 | Project: https://savannah.gnu.org/projects/sed
 | Docs: https://www.gnu.org/software/sed/manual/
 | Docs: https://www.gnu.org/software/sed/manual/sed.html
@@ -2642,6 +2932,481 @@ X11 window managers.
 :ref:`Gnome`, :ref:`KDE`, :ref:`I3wm`, :ref:`OSX`, and :ref:`Compiz`
 build upon X11.
 
+.. index:: Browsers
+.. _browsers:
+
+
+Browsers
+==========
+
+Chrome
+~~~~~~~
+
+Chrome DevTools
+++++++++++++++++
+| Homepage: https://developer.chrome.com/devtools
+| Docs: https://developer.chrome.com/devtools
+
+* Right-click > "Inspect Element"
+* OSX: ``<option>`` + ``<command>`` + ``i``
+
+
+Chrome Extensions
++++++++++++++++++++
+
+**Accessibility**
+
+* `Accessibility Developer Tools`_
+* `ChromeVox`_
+* `Deluminate`_
+* `High Contrast`_
+* `Spectrum`_
+* `Stylish`_
+
+
+**Safety**
+
+* `Ghostery`_
+* `HTTPS Everywhere`_
+* `uBlock`_
+
+**Content**
+
+* `Hypothesis`_
+* `Pocket`_
+
+**Tab**
+
+* `OneTab`_
+* `Snipe`_
+* `Tabs Outliner`_
+
+**Development**
+
+* `FireBug`_ (see: `Chrome DevTools`_)
+* `FireLogger for Chrome`_
+* `JSONView`_
+* `Postman`_
+* `React Developer Tools`_
+* `Requirify`_
+* `Web Developer`_
+
+**Vim**
+
+* `Vimium`_
+* `Wasavi`_
+
+pbm
+++++
+| Source: https://github.com/westurner/pbm
+
+* backup and organize :ref:`Chrome` ``Bookmarks`` JSON in an offline batch
+* date-based transforms
+* quicklinks
+* starred bookmarks (with trailing ``##``)
+
+
+Chrome Android
+~~~~~~~~~~~~~~~
+**Extensions**
+
+Chrome Android does not support extensions.
+
+**Tools**
+
+Wandroid
+++++++++++
+| Source: hg https://bitbucket.org/westurner/wandroid
+
+ + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/config.py
+ + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/userdata.py
+
+Firefox
+~~~~~~~~
+
+Firefox Extensions
++++++++++++++++++++
+**Accessibility**
+
+* `Stylish`_
+
+**Safety**
+
+* `Ghostery`_
+* `HTTPS Everywhere`_
+* `uBlock`_
+
+**Tabs**
+
+* `OneTab`_
+* `Tree Style Tab`_
+
+**Development**
+
+* `FireBug`_
+* `FireLogger`_
+* `Web Developer`_
+
+**Vim**
+
+* `Vimperator`_
+* `Wasavi`_
+
+Firefox Android
+~~~~~~~~~~~~~~~~
+
+Firefox Android Extensions
++++++++++++++++++++++++++++
+* `Ghostery`_
+* `HTTPS Everywhere`_
+
+
+Safari
+~~~~~~~
+
+Safari Extensions
++++++++++++++++++++
+**Safety**
+
+* `Ghostery`_
+* `uBlock`_
+
+
+Safari iOS
+~~~~~~~~~~~~~~~
+
+
+Browser Extensions
+====================
+
+Accessibility Extensions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Google Chrome Accesibility Extensions:
+  https://chrome.google.com/webstore/category/ext/22-accessibility?hl=en
+* Mozilla Firefox Accesibility Extensions:
+  `<https://addons.mozilla.org/en-US/firefox/search/?q=accessibility>`__
+
+Accessibility Developer Tools
+++++++++++++++++++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/accessibility-developer-t/fpkknkljclfencbdbgkenhalefipecmb
+
+ChromeVox
+++++++++++
+| Homepage: http://www.chromevox.com/
+| ChromeExt: https://chrome.google.com/webstore/detail/chromevox/kgejglhpjiefppelpmljglcjbhoiplfn
+
+Deluminate
++++++++++++
+| Homepage: https://deluminate.github.io/
+| Source: https://github.com/abstiles/deluminate
+| ChromeExt: https://chrome.google.com/webstore/detail/deluminate/iebboopaeangfpceklajfohhbpkkfiaa
+
+
+High Contrast
+++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/high-contrast/djcfdncoelnlbldjfhinnjlhdjlikmph
+
+
+Spectrum
++++++++++
+| Source: https://github.com/lvivski/spectrum
+| ChromeExt: https://chrome.google.com/webstore/detail/spectrum/ofclemegkcmilinpcimpjkfhjfgmhieb
+
+Stylish
+++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/stylish/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/2108/addon-2108-latest.xpi
+| Docs: https://userstyles.org/help/
+| Docs: https://userstyles.org/help/stylish_chrome
+| Docs: https://userstyles.org/help/stylish_firefox
+
+* https://userstyles.org/
+
+Safety Extensions
+~~~~~~~~~~~~~~~~~~~
+
+Ghostery
+++++++++++
+| Homepage: https://www.ghostery.com/en/home
+| Source: https://www.ghostery.com/en/download
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/ghostery/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/9609/addon-9609-latest.xpi
+| ChromeExt: https://chrome.google.com/webstore/detail/ghostery/mlomiejdfkolichcflejclcbmpeaniij
+| OperaExt: https://addons.opera.com/addons/extensions/details/ghostery/
+| SafariExt: https://www.ghostery.com/safari/Ghostery.safariextz
+| MSIEExt: https://www.ghostery.com/ie/ghostery-ie.exe
+| AndroidApp: https://play.google.com/store/apps/details?id=com.ghostery.android.ghostery
+| iOSApp: https://itunes.apple.com/us/app/ghostery/id472789016
+| FirefoxAndroidXPI: https://addons.mozilla.org/android/downloads/latest/ghostery
+| FirefoxAndroidExt: https://addons.mozilla.org/en-US/android/addon/ghostery/
+
+HTTPS Everywhere
++++++++++++++++++
+| Homepage: https://www.eff.org/https-everywhere
+| Source: https://github.com/EFForg/https-everywhere
+| ChromeExt: https://chrome.google.com/webstore/detail/gcbommkclmclpchllfjekcdonpmejbdp
+| FirefoxXPI: https://www.eff.org/files/https-everywhere-latest.xpi
+| FirefoxAndroidXPI: https://www.eff.org/files/https-everywhere-android.xpi
+| Twitter: https://twitter.com/HTTPSEverywhere
+
+uBlock
+++++++++
+| Homepage: https://www.ublock.org/
+| Source: https://github.com/chrisaljoudi/ublock
+| Download: https://github.com/chrisaljoudi/uBlock/releases/latest
+| ChromeExt: https://chrome.google.com/webstore/detail/ublock/epcnnfbjfcgphgdmggkamkmgojdagdnn
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/ublock/
+| SafariExt: https://extensions.apple.com/details/?id=net.gorhill.uBlock-96G4BAKDQ9
+| Docs: https://www.ublock.org/faq/
+
+.. code:: bash
+
+   _repo="chrisaljoudi/ublock"
+   curl -s "https://api.github.com/repos/${_repo}/releases" > ./releases.json
+   cat releases.json \
+       | grep browser_download_url \
+       | pyline 'w and w[1][1:-1]' \
+       | pyline --regex \
+           '.*download/(.*)/(uBlock.(firefox.xpi|chromium.zip))$' \
+           'rgx and rgx.group(1,2)'
+
+Content Extensions
+~~~~~~~~~~~~~~~~~~~~
+
+Hypothesis
++++++++++++
+| Homepage: https://hypothes.is/
+| Source: https://github.com/hypothesis/h
+| ChromeExt: https://chrome.google.com/webstore/detail/hypothesis-web-pdf-annota/bjfhmglciegochdpefhhlphglcehbmek
+| Twitter: https://twitter.com/hypothes_is
+
+Hypothesis can also be included as a sidebar on a site:
+
+.. code:: html
+
+   <script async defer src="//hypothes.is/embed.js"></script>
+
+Pocket
++++++++
+| Homepage: https://getpocket.com/
+| ChromeApp: https://chrome.google.com/webstore/detail/pocket/mjcnijlhddpbdemagnpefmlkjdagkogk
+| ChromeExt: https://chrome.google.com/webstore/detail/save-to-pocket/niloccemoadcdkdjlinkgdfekeahmflj
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/read-it-later/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/7661/addon-7661-latest.xpi
+
+
+Zotero
+++++++++
+| Homepage: https://www.zotero.org/
+| ChromeExt: https://chrome.google.com/webstore/detail/zotero-connector/ekhagklcjbdpajgpjgmbionohlpdbjgc
+| FirefoxXPI: https://download.zotero.org/extension/zotero-4.0.26.4.xpi
+| SafariExt: https://download.zotero.org/connector/safari/Zotero_Connector-4.0.21-1.safariextz
+| Download: https://www.zotero.org/download/
+| Docs: https://www.zotero.org/support/
+| Docs: https://www.zotero.org/support/sync
+| Docs: https://www.zotero.org/support/kb/webdav_services
+
+Zotero archives and tags resources with bibliographic metadata.
+
+* Zotero is really helpful for research.
+* Zotero can store a full-page archive of a given resource (e.g. HTML, PDF)
+* Zotero can store and synchronize data on Zotero's servers
+  with Zotero File Storage
+* Zotero can store and synchronize data over WebDAV
+* Zotero can export a collection of resources' bibliographic metadata
+  in one of many citation styles ("CSL") (e.g. MLA, APA, [Journal XYZ])
+
+  * https://www.zotero.org/styles
+  * http://citationstyles.org/
+
+* Zotero can export a collection of resources' bibliographic metadata
+  as RDF
+
+-------------------------------
+[ ] Zotero and Schema.org RDFa
+-------------------------------
+* https://forums.zotero.org/discussion/35992/export-to-schemaorg-rdfa-andor-microdata/
+
+> How would I go about adding HTML + RDFa [1] and/or HTML + Microdata [2] export templates with Schema.org classes and properties to Zotero?
+
+* https://groups.google.com/forum/#!topic/zotero-dev/rJnMZYrhwM4
+* https://lists.w3.org/Archives/Public/public-vocabs/2014Apr/0202.html
+  (COinS, Citeproc-js, OpenAnnotation (+1))
+
+Tab Extensions
+~~~~~~~~~~~~~~~~
+
+OneTab
++++++++
+| Homepage: https://www.one-tab.com/
+| ChromeExt: https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/onetab/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/525044/addon-525044-latest.xpi
+
+* https://github.com/Greduan/chrome-ext-tabulator
+
+Snipe
++++++++
+| Homepage: http://joe.sh/snipe
+| Source: https://github.com/josephschmitt/Snipe
+| ChromeExt: https://chrome.google.com/webstore/detail/snipe/glmjakogmemenallddiiajdgjfoogegl
+
+Tabs Outliner
+++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/tabs-outliner/eggkanocgddhmamlbiijnphhppkpkmkl
+
+Tree Style Tab
++++++++++++++++
+| Homepage: http://piro.sakura.ne.jp/xul/_treestyletab.html.en
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
+
+
+Development Extensions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+FireBug
++++++++++
+| Homepage: http://getfirebug.com/
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/firebug/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/1843/addon-1843-latest.xpi
+| ChromeExt: https://chrome.google.com/extensions/detail/bmagokdooijbeehmkpknfglimnifench
+
+* https://getfirebug.com/firebuglite
+* https://getfirebug.com/wiki/index.php/Firebug_Extensions
+
+FireLogger
+++++++++++++
+| Homepage: http://firelogger.binaryage.com/
+| Source: https://github.com/binaryage/firelogger
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/firelogger/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/file/226289/firelogger-1.3-fx.xpi
+| Docs: https://github.com/binaryage/firelogger/wiki
+
+* Python: https://github.com/binaryage/firelogger.py
+* PHP: https://github.com/binaryage/firelogger.php
+* ColdFusion: http://cffirelogger.riaforge.org/
+* Java: https://github.com/clescot/webappender
+
+FireLogger for Chrome
+++++++++++++++++++++++
+| Source: https://github.com/MattSkala/chrome-firelogger
+| ChromeExt: https://chrome.google.com/webstore/detail/firelogger-for-chrome/hmagilfopmdjkeomnjpchokglfdfjfeh
+
+See: `FireLogger`_
+
+JSONView
++++++++++
+| Source: https://github.com/gildas-lormeau/JSONView-for-Chrome
+| ChromeExt: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
+
+
+Postman
+++++++++
+| Source: https://github.com/a85/POSTMan-Chrome-Extension
+| ChromeExt: https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm
+| Twitter: https://twitter.com/postmanclient
+
+React Developer Tools
+++++++++++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
+
+
+Requirify
++++++++++++
+| Homepage: https://wzrd.in/
+| Source: https://github.com/mathisonian/requirify
+| ChromeExt: https://chrome.google.com/webstore/detail/requirify/gajpkncnknlljkhblhllcnnfjpbcmebm
+| NPM: https://www.npmjs.com/package/requirify
+| Docs: https://github.com/jfhbrook/browserify-cdn
+
+Requirify adds `NPM`_ modules to the local namespace (e.g. from `Chrome DevTools`_
+JS console).
+
+> require() npm modules in the browser console
+
+.. code::javascript
+
+    require('jquery');
+    require('d3');
+
+----------------
+Local-requirify
+----------------
+| NPM: https://www.npmjs.com/package/local-requirify
+
+Require local `NPM`_ modules with `Requirify`_
+
+Web Developer
+++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm
+| Homepage: http://chrispederick.com/work/web-developer/
+| Source: https://github.com/chrispederick/web-developer/
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/web-developer/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/60/addon-60-latest.xpi
+
+Web Developer Extension, originally just for Firefox, adds many
+useful developer tools and bookmarklets in a structured menu.
+
+.. index:: Vim Extensions
+.. _vim-extensions:
+
+Vim Extensions
+~~~~~~~~~~~~~~~~
+
+.. index:: Vimium
+.. _vimium:
+
+Vimium
++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Vimium
+| Homepage: https://vimium.github.io/
+| Source: git https://github.com/philc/vimium
+| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+
+Vimium is a Chrome Extension which adds vim-like functionality.
+
+
++---------------+---------------------+--+--+
+| **function**  | **vimium shortcut** |  |  |
++---------------+---------------------+--+--+
+|  help         | ``?``               |  |  |
++---------------+---------------------+--+--+
+|  jump to link | ``f``               |  |  |
++---------------+---------------------+--+--+
+|  ...          |                     |  |  |
++---------------+---------------------+--+--+
+
+.. index:: Vimperator
+.. _vimperator:
+
+Vimperator
++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Vimperator
+| Homepage: http://www.vimperator.org/
+| Source: https://github.com/vimperator/vimperator-labs
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/vimperator/
+
+Vimperator connects a JS shell with VIM command interpretation
+to the Firefox API, with vim-like functionality.
+
+* ``vimperatorrc`` can configure settings in ``about:config``
+
+.. index:: Wasavi
+.. _wasavi:
+
+Wasavi
++++++++
+| Homepage: http://appsweets.net/wasavi/
+| Source: https://github.com/akahuku/wasavi
+| ChromeExt: https://chrome.google.com/webstore/detail/wasavi/dgogifpkoilgiofhhhodbodcfgomelhe
+| OperaExt: https://addons.opera.com/en/extensions/details/wasavi/
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/wasavi/
+| Docs: http://appsweets.net/wasavi/
+
+Wasavi converts the focused ``textarea`` to an in-page editor with
+vim-like functionality.
 
 .. index:: Documentation
 .. _documentation-tools:
@@ -2753,6 +3518,12 @@ so, for example,
 
 Standards
 ============
+
+References:
+
+* https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards
+* https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards
+
 
 .. index:: Filesystem Hierarchy Standard
 .. _fhs:
