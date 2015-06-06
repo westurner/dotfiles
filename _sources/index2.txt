@@ -12,7 +12,8 @@ Contents:
 
 .. toctree::
 
-   tools
+   README
+   index
 
 
 ******
