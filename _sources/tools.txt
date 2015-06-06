@@ -1508,7 +1508,8 @@ Debian
 | Docs: https://www.debian.org/releases/stable/i386/release-notes/
 | Docs: https://www.debian.org/releases/stable/amd64/release-notes/
 
-Debian is a :ref:`Linux Distribution`
+Debian
+is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`DEB` packages.
 
 .. index:: Ubuntu
@@ -1525,7 +1526,8 @@ Ubuntu
 | Docs: https://help.ubuntu.com/
 | Q&A: https://askubuntu.com
 
-Ubuntu is a :ref:`Linux Distribution`
+Ubuntu
+is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`DEB` packages
 which are often derived from :ref:`Debian` packages.
 
@@ -1544,7 +1546,8 @@ Fedora
 | Docs: https://fedoraproject.org/wiki/Fedora_Project_Wiki
 | Docs: https://fedoraproject.org/wiki/EPEL
 
-Fedora is a :ref:`Linux Distribution`
+Fedora
+is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages.
 
 .. index:: RHEL
@@ -1557,7 +1560,8 @@ RHEL
 | Docs: https://access.redhat.com/documentation/en-US/
 | Docs: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/
 
-RHEL (RedHat Enterprise Linux) is a :ref:`Linux Distribution`
+RHEL (RedHat Enterprise Linux)
+is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages.
 
 
@@ -1574,7 +1578,7 @@ CentOS
 | Docs: https://www.centos.org/docs/
 | DockerHub: https://registry.hub.docker.com/_/centos/
 
-CentOS is a :ref:`Linux Distribution`
+CentOS is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
 which is derived from :ref:`RHEL`.
 
@@ -1595,7 +1599,8 @@ Gentoo
 | Docs: https://wiki.gentoo.org/wiki/Project:Portage
 | Docs: https://wiki.gentoo.org/wiki/Project:Hardened
 
-Gentoo is a :ref:`Linux Distribution` built on :ref:`Portage`.
+Gentoo is a :ref:`Linux Distribution <linux-distributions>`
+built on :ref:`Portage`.
 
 
 .. index:: ChromiumOS
@@ -1609,7 +1614,8 @@ ChromiumOS
 | Docs: https://www.chromium.org/chromium-os/developer-guide
 | Source: https://chromium.googlesource.com/ (``chromiumos*/``)
 
-ChromiumOS is a :ref:`Linux Distribution` built on :ref:`Portage`.
+ChromiumOS is a :ref:`Linux Distribution <linux-distributions>`
+built on :ref:`Portage`.
 
 
 .. index:: ChromeOS
@@ -1619,7 +1625,8 @@ ChromeOS
 +++++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/Chrome_OS
 
-ChromeOS is a :ref:`Linux Distribution` built on :ref:`ChromiumOS`
+ChromeOS is a :ref:`Linux Distribution <linux-distributions>`
+built on :ref:`ChromiumOS`
 and :ref:`Portage`.
 
 * ChromeOS powers Chromebooks
@@ -1641,8 +1648,8 @@ CoreOS
 | Docs: https://coreos.com/docs/
 | Source: https://github.com/coreos
 
-CoreOS is a :ref:`Linux` distribution for highly available
-distributed computing.
+CoreOS is a :ref:`Linux Distribution <linux-distributions>`
+for highly available distributed computing.
 
 CoreOS schedules redundant :ref:`docker` images with **fleet**
 and **systemd** according to configuration stored in **etcd**,
