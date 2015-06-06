@@ -242,7 +242,12 @@ copy_sidebar_to_home:
 	cat _Sidebar.rest >> Home.rest
 
 copy_sidebar_to_readme: copy_sidebar_to_home
-	cp Home.rest README.rst
+	echo '' > README.rst
+	echo '===============' >> README.rst
+	echo 'westurner/tools' >> README.rst
+	echo '===============' >> README.rst
+	echo '' >> README.rst
+	cat Home.rest >> README.rst
 
 copy_sidebars:
 	$(MAKE) copy_sidebar_to_footer
@@ -272,7 +277,7 @@ localcss:
 	cat $(STATIC)/css/wiki.css >> $(LOCALCSS)
 
 
-build: copy_sidebars rst2html_all localjs localcss html singlehtml
+build: copy_sidebars rst2html_all localjs localcss html
 
 docs: build
 

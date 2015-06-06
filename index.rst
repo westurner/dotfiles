@@ -1850,7 +1850,7 @@ OSX Notes
     ``brew install saltstack`` OR ``pip install salt``
 
 
--------------
+--------------
 OSX Reinstall
 --------------
 * [ ] Generate installation media
