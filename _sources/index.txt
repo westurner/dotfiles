@@ -1665,7 +1665,7 @@ Crouton
 | Source: https://github.com/dnschneid/crouton
 
 Crouton ("Chromium OS Universal Chroot Environment") 
-installs and debootstraps a :ref:`Linux Distribution`
+installs and debootstraps a :ref:`Linux Distribution <linux-distributions>`
 (i.e. :ref:`Debian` or :ref:`Ubuntu`)
 within a :ref:`ChromiumOS` or :ref:`ChromeOS` chroot.
 
@@ -1946,7 +1946,7 @@ UEFI
 
 
 .. index:: Configuration Management
-.. _configuration-management:
+.. _configuration management:
 
 Configuration Management
 ==========================
@@ -2219,7 +2219,7 @@ one or more physical and virtual machines running various operating systems.
 
 
 .. index:: Virtualization
-.. virtualization:
+.. _virtualization:
 
 Virtualization
 ===============
@@ -2826,6 +2826,17 @@ versions of notebooks which have HTTP URLs.
 * https://github.com/jupyter/nbviewer
 
 
+.. index:: PowerShell
+.. index:: Windows PowerShell
+.. _powershell:
+
+PowerShell
+~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Windows_PowerShell
+| Homepage: https://microsoft.com/powershell
+
+Windows PowerShell is a shell for :ref:`Windows`.
+
 
 .. index:: ZSH
 .. _zsh:
@@ -3328,8 +3339,14 @@ build upon X11.
 Browsers
 ==========
 
+.. index:: Chrome
+.. _chrome:
+
 Chrome
 ~~~~~~~
+
+.. index:: Chrome DevTools
+.. _chrome-devtools:
 
 Chrome DevTools
 ++++++++++++++++
@@ -3339,6 +3356,7 @@ Chrome DevTools
 * Right-click > "Inspect Element"
 * OSX: ``<option>`` + ``<command>`` + ``i``
 
+.. index:: Chrome Extensions
 
 Chrome Extensions
 +++++++++++++++++++
@@ -3385,6 +3403,9 @@ Chrome Extensions
 * `Vimium`_
 * `Wasavi`_
 
+.. index:: pbm
+.. _pbm:
+
 pbm
 ++++
 | Source: https://github.com/westurner/pbm
@@ -3394,6 +3415,8 @@ pbm
 * quicklinks
 * starred bookmarks (with trailing ``##``)
 
+.. index:: Chrome Android
+.. _chrome android:
 
 Chrome Android
 ~~~~~~~~~~~~~~~
@@ -3401,7 +3424,8 @@ Chrome Android
 
 Chrome Android does not support extensions.
 
-**Tools**
+.. index:: Wandroid
+.. _wandroid:
 
 Wandroid
 ++++++++++
@@ -3410,8 +3434,15 @@ Wandroid
  + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/config.py
  + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/userdata.py
 
+
+.. index:: Firefox
+.. _firefox:
+
 Firefox
 ~~~~~~~~
+
+.. index:: Firefox Extensions
+.. _firefox extensions:
 
 Firefox Extensions
 +++++++++++++++++++
@@ -3441,8 +3472,14 @@ Firefox Extensions
 * `Vimperator`_
 * `Wasavi`_
 
+.. index:: Firefox Android
+.. _firefox android:
+
 Firefox Android
 ~~~~~~~~~~~~~~~~
+
+.. index:: Firefox Android Extensions
+.. _firefox android extensions:
 
 Firefox Android Extensions
 +++++++++++++++++++++++++++
@@ -3450,8 +3487,14 @@ Firefox Android Extensions
 * `HTTPS Everywhere`_
 
 
+.. index:: Safari
+.. _safari:
+
 Safari
 ~~~~~~~
+
+.. index:: Safari Extensions
+.. _safari extension:
 
 Safari Extensions
 +++++++++++++++++++
@@ -3461,12 +3504,20 @@ Safari Extensions
 * `uBlock`_
 
 
+.. index:: Safari iOS
+.. _safari ios:
+
 Safari iOS
 ~~~~~~~~~~~~~~~
 
+.. index:: Browser Extensions
+.. _browser extensions:
 
 Browser Extensions
 ====================
+
+.. index:: Browser Extensions > Accessibility
+.. _accessibility extensions:
 
 Accessibility Extensions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3476,14 +3527,26 @@ Accessibility Extensions
 * Mozilla Firefox Accesibility Extensions:
   `<https://addons.mozilla.org/en-US/firefox/search/?q=accessibility>`__
 
+
+.. index:: Accessibility Developer Tools
+.. _accessibility developer tools:
+
 Accessibility Developer Tools
 ++++++++++++++++++++++++++++++
 | ChromeExt: https://chrome.google.com/webstore/detail/accessibility-developer-t/fpkknkljclfencbdbgkenhalefipecmb
+
+
+.. index:: ChromeVox
+.. _chromevox:
 
 ChromeVox
 ++++++++++
 | Homepage: http://www.chromevox.com/
 | ChromeExt: https://chrome.google.com/webstore/detail/chromevox/kgejglhpjiefppelpmljglcjbhoiplfn
+
+
+.. index:: Deluminate
+.. _deluminate:
 
 Deluminate
 +++++++++++
@@ -3492,15 +3555,25 @@ Deluminate
 | ChromeExt: https://chrome.google.com/webstore/detail/deluminate/iebboopaeangfpceklajfohhbpkkfiaa
 
 
+.. index:: High Contrast
+.. _high contrast:
+
 High Contrast
 ++++++++++++++
 | ChromeExt: https://chrome.google.com/webstore/detail/high-contrast/djcfdncoelnlbldjfhinnjlhdjlikmph
 
 
+.. index:: Spectrum
+.. _spectrum:
+
 Spectrum
 +++++++++
 | Source: https://github.com/lvivski/spectrum
 | ChromeExt: https://chrome.google.com/webstore/detail/spectrum/ofclemegkcmilinpcimpjkfhjfgmhieb
+
+
+.. index:: Stylish
+.. _stylish:
 
 Stylish
 ++++++++
@@ -3513,8 +3586,16 @@ Stylish
 
 * https://userstyles.org/
 
+
+.. index:: Browser Extensions > Safety
+.. index:: Safety Extensions
+.. _safety extensions:
+
 Safety Extensions
 ~~~~~~~~~~~~~~~~~~~
+
+.. index:: Ghostery
+.. _ghostery:
 
 Ghostery
 ++++++++++
@@ -3531,6 +3612,10 @@ Ghostery
 | FirefoxAndroidXPI: https://addons.mozilla.org/android/downloads/latest/ghostery
 | FirefoxAndroidExt: https://addons.mozilla.org/en-US/android/addon/ghostery/
 
+
+.. index:: HTTPS Everywhere
+.. _https everywhere:
+
 HTTPS Everywhere
 +++++++++++++++++
 | Homepage: https://www.eff.org/https-everywhere
@@ -3539,6 +3624,9 @@ HTTPS Everywhere
 | FirefoxXPI: https://www.eff.org/files/https-everywhere-latest.xpi
 | FirefoxAndroidXPI: https://www.eff.org/files/https-everywhere-android.xpi
 | Twitter: https://twitter.com/HTTPSEverywhere
+
+.. index:: uBlock
+.. _ublock:
 
 uBlock
 ++++++++
@@ -3561,8 +3649,16 @@ uBlock
            '.*download/(.*)/(uBlock.(firefox.xpi|chromium.zip))$' \
            'rgx and rgx.group(1,2)'
 
+
+.. index:: Browser Extensions > Content
+.. index:: Content Extensions
+.. _content-extensions:
+
 Content Extensions
 ~~~~~~~~~~~~~~~~~~~~
+
+.. index:: Hypothesis
+.. _hypothesis:
 
 Hypothesis
 +++++++++++
@@ -3577,6 +3673,10 @@ Hypothesis can also be included as a sidebar on a site:
 
    <script async defer src="//hypothes.is/embed.js"></script>
 
+
+.. index:: Pocket
+.. _pocket:
+
 Pocket
 +++++++
 | Homepage: https://getpocket.com/
@@ -3585,6 +3685,9 @@ Pocket
 | FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/read-it-later/
 | FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/7661/addon-7661-latest.xpi
 
+
+.. index:: Zotero
+.. _zotero:
 
 Zotero
 ++++++++
@@ -3613,6 +3716,9 @@ Zotero archives and tags resources with bibliographic metadata.
 * Zotero can export a collection of resources' bibliographic metadata
   as RDF
 
+
+.. index:: Zotero and Schema.org RDFa
+
 -------------------------------
 [ ] Zotero and Schema.org RDFa
 -------------------------------
@@ -3624,8 +3730,16 @@ Zotero archives and tags resources with bibliographic metadata.
 * https://lists.w3.org/Archives/Public/public-vocabs/2014Apr/0202.html
   (COinS, Citeproc-js, OpenAnnotation (+1))
 
+
+.. index:: Browser Extensions > Tabs
+.. index:: Tab Extensions
+.. _tab extensions:
+
 Tab Extensions
 ~~~~~~~~~~~~~~~~
+
+.. index:: OneTab
+.. _onetab:
 
 OneTab
 +++++++
@@ -3636,15 +3750,27 @@ OneTab
 
 * https://github.com/Greduan/chrome-ext-tabulator
 
+
+.. index:: Snipe
+.. _snipe:
+
 Snipe
 +++++++
 | Homepage: http://joe.sh/snipe
 | Source: https://github.com/josephschmitt/Snipe
 | ChromeExt: https://chrome.google.com/webstore/detail/snipe/glmjakogmemenallddiiajdgjfoogegl
 
+
+.. index:: Tabs Outliner
+.. _tabs outliner:
+
 Tabs Outliner
 ++++++++++++++
 | ChromeExt: https://chrome.google.com/webstore/detail/tabs-outliner/eggkanocgddhmamlbiijnphhppkpkmkl
+
+
+.. index:: Tree Style Tab
+.. _tree style tab:
 
 Tree Style Tab
 +++++++++++++++
@@ -3652,8 +3778,15 @@ Tree Style Tab
 | FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
 
 
+.. index:: Browser Extensions > Development
+.. index:: Development Extensions
+.. _development extensions:
+
 Development Extensions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. index:: FireBug
+.. _firebug:
 
 FireBug
 +++++++++
@@ -3664,6 +3797,10 @@ FireBug
 
 * https://getfirebug.com/firebuglite
 * https://getfirebug.com/wiki/index.php/Firebug_Extensions
+
+
+.. index:: FireLogger
+.. _firelogger:
 
 FireLogger
 ++++++++++++
@@ -3678,6 +3815,10 @@ FireLogger
 * ColdFusion: http://cffirelogger.riaforge.org/
 * Java: https://github.com/clescot/webappender
 
+
+.. index:: FireLogger for Chrome
+.. _firelogger for chrome:
+
 FireLogger for Chrome
 ++++++++++++++++++++++
 | Source: https://github.com/MattSkala/chrome-firelogger
@@ -3685,11 +3826,18 @@ FireLogger for Chrome
 
 See: `FireLogger`_
 
+
+.. index:: JSONView
+.. _jsonview:
+
 JSONView
 +++++++++
 | Source: https://github.com/gildas-lormeau/JSONView-for-Chrome
 | ChromeExt: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
 
+
+.. index:: Postman
+.. _postman:
 
 Postman
 ++++++++
@@ -3697,10 +3845,17 @@ Postman
 | ChromeExt: https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm
 | Twitter: https://twitter.com/postmanclient
 
+
+.. index:: React Developer Tools
+.. _react developer tools:
+
 React Developer Tools
 ++++++++++++++++++++++
 | ChromeExt: https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
 
+
+.. index:: Requirify
+.. _requirify:
 
 Requirify
 +++++++++++
@@ -3720,12 +3875,20 @@ JS console).
     require('jquery');
     require('d3');
 
+
+.. index:: local-requirify
+.. _local-requirify:
+
 ----------------
 Local-requirify
 ----------------
 | NPM: https://www.npmjs.com/package/local-requirify
 
 Require local `NPM`_ modules with `Requirify`_
+
+
+.. index:: Web Developer Extension
+.. _web developer extension:
 
 Web Developer
 ++++++++++++++
