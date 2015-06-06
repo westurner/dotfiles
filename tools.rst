@@ -2224,6 +2224,26 @@ one or more physical and virtual machines running various operating systems.
 Virtualization
 ===============
 
+.. index:: Cgroups
+.. _cgroups:
+
+Cgroups
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Cgroups>`__
+| Docs: https://www.kernel.org/doc/Documentation/cgroups/
+| Docs: http://www.freedesktop.org/wiki/Software/systemd/ControlGroupInterface/
+| Docs: https://docs.fedoraproject.org/en-US/Fedora/17/html-single/Resource_Management_Guide/index.html#sec-How_Control_Groups_Are_Organized
+| Docs: https://wiki.archlinux.org/index.php/Cgroups
+
+Cgroups are a :ref:`Linux` mechanism for containerizing
+groups of processes and resources.
+
+* https://chimeracoder.github.io/docker-without-docker/#1
+
+  * ``systemd-nspawn``, ``systemd-cgroup``
+  * ``machinectl``, ``systemctl``, ``journalctl``,
+
+
 .. index:: Docker
 .. _docker:
 
@@ -2287,6 +2307,21 @@ kubernetes-mesos integrates
     among Kubernetes and other frameworks running on the same cluster.
 
 
+.. index:: KVM
+.. _KVM:
+
+KVM
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine
+| Homepage: http://www.linux-kvm.org/
+| Docs: http://www.linux-kvm.org/page/Documents
+
+KVM is a full virtualization platform with support for
+Intel VT and AMD-V; which supports running
+various guest operating systems,
+each with their own kernel,
+on a given host machine.
+
 
 .. index:: Libcloud
 .. _libcloud:
@@ -2314,17 +2349,51 @@ Libvirt
 | Wikipedia: https://libvirt.org/
 | Homepage: https://libvirt.org/
 | Docs: https://libvirt.org/docs.html
+| Docs: https://libvirt.org/cgroups.html
 | Docs: https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.virt.html
 | Source: git git://libvirt.org/libvirt-appdev-guide.git
 
 Libvirt is a system for platform virtualization with
 various :ref:`Linux` hypervisors.
 
-* KVM/QEMU
 * Xen
-* LXC
-* OpenVZ
-* VirtualBox
+* QEMU, :ref:`KVM`
+* OpenVZ, :ref:`LXC`
+* :ref:`VirtualBox`
+
+
+.. index:: LXC
+.. _LXC:
+
+LXC
+~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/LXC
+| Homepage: https://linuxcontainers.org/
+| Docs: https://linuxcontainers.org/lxc/documentation/
+| Source: https://github.com/lxc/lxc
+
+LXC ("Linux Containers"),
+written in :ref:`C`,
+builds upon :ref:`Linux` :ref:`Cgroups`
+to provide containerized OS chroots
+(all running under :ref:`the host kernel <linux>`).
+
+LXC is included in recent :ref:`Linux` kernels.
+
+
+.. index:: LXD
+.. _LXD:
+
+LXD
+~~~~
+| Homepage: https://linuxcontainers.org/lxd/
+| Docs: https://linuxcontainers.org/lxd/
+| Source: https://github.com/lxc/lxd
+
+LXD,
+written in :ref:`Go`,
+builds upon :ref:`LXC` to provide a system-wide daemon
+and an :ref:`OpenStack` Nova hypervisor plugin.
 
 
 .. index:: Mesos
@@ -2360,6 +2429,77 @@ Mesosphere
 
 * Apache :ref:`Mesos` is a core Mesosphere service
 
+
+.. index:: OpenStack
+.. _openstack:
+
+OpenStack
+~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/OpenStack
+| Homepage: https://www.openstack.org/
+| Source: https://git.openstack.org
+| Source: https://github.com/openstack
+| Q&A: https://stackoverflow.com/questions/tagged/openstack
+| Docs: http://docs.openstack.org/
+| Docs: https://wiki.openstack.org/
+| Docs: https://wiki.openstack.org/wiki/Get_OpenStack
+| Twitter: https://twitter.com/openstack
+
+OpenStack is a platform of infrastructure services
+for running a cloud datacenter.
+
+OpenStack can be installed on one machine with enough RAM,
+or many thousands of machines.
+
+OpenStack Nova implements a Hypervisor API
+which abstracts various :ref:`Virtualization` providers
+(e.g. :ref:`KVM`, :ref:`Docker`, :ref:`LXC`, :ref:`LXD`).
+
+* https://wiki.openstack.org/wiki/HypervisorSupportMatrix
+* http://docs.openstack.org/developer/nova/support-matrix.html
+
+OpenStack Swift implements redundant HTTP-based Object Storage
+as a service.
+
+OpenStack Keystone implements cluster/grid/cloud-level
+authentication and authorization
+as a service.
+
+OpenStack Horizon is the web-based OpenStack Dashboard,
+which is written in Django.
+
+OpenStack can configure enterprise networking services
+and DNS, DHCP, VLANs, SDN.
+
+OpenStack makes it possible for end-users to create a new virtual
+machine from the available pool of resources.
+
+``rdfs:seeAlso`` :ref:`Libcloud`.
+
+
+.. index:: OpenStack DevStack
+.. _openstack-devstack:
+
+OpenStack DevStack
+~~~~~~~~~~~~~~~~~~
+| Docs: http://docs.openstack.org/developer/devstack/
+| Docs: http://docs.openstack.org/developer/devstack/overview.html
+| Source: git https://github.com/openstack-dev/devstack
+| Issues: https://launchpad.net/devstack
+
+OpenStack DevStack is a default development configuration
+for :ref:`OpenStack`.
+
+* https://github.com/openstack-dev/devstack-vagrant
+
+There are many alternatives to and implementations of OpenStack DevStack:
+
+* https://github.com/saltstack-formulas/openstack-standalone-formula
+* https://github.com/CSSCorp/openstack-automation
+* https://github.com/openstack-ansible/openstack-ansible
+* https://forge.puppetlabs.com/puppetlabs/openstack
+* https://jujucharms.com/q/openstack
+* https://anvil.readthedocs.org/en/latest/topics/summary.html
 
 
 .. index:: Packer
