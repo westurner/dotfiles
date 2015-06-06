@@ -983,9 +983,9 @@ _setup_conda_defaults() {
     #    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
     #                 (default: ${__WRK})
     local __wrk=${1:-${__WRK}}
-    export CONDA_ENVS_PATH__py27="${__wrk}/-ce27"
-    export CONDA_ENVS_PATH__py34="${__wrk}/-ce34"
-    export CONDA_ENVS_PATH_DEFAULT="CONDA_ENVS_PATH__py27"
+    export CONDA_ENVS__py27="${__wrk}/-ce27"
+    export CONDA_ENVS__py34="${__wrk}/-ce34"
+    export CONDA_ENVS_DEFAULT="CONDA_ENVS__py27"
     export CONDA_ENVS_PATH="${__wrk}/-ce27"
 
     export CONDA_ROOT__py27="${__wrk}/-conda27"
@@ -997,7 +997,7 @@ _setup_conda_defaults() {
 _setup_conda() {
     # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
     #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
-    #                                                   CONDA_ENVS_PATH__py27)
+    #                                                   CONDA_ENVS__py27)
     #   $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
     #                                                   CONDA_ROOT__py27)
     #
@@ -1012,14 +1012,14 @@ _setup_conda() {
     local _conda_root_path=${2}
     _setup_conda_defaults "${__WRK}"
     if [ -z "${_conda_envs_path}" ]; then
-        export CONDA_ENVS_PATH=${CONDA_ENVS_PATH:-${CONDA_ENVS_PATH__py27}}
+        export CONDA_ENVS_PATH=${CONDA_ENVS_PATH:-${CONDA_ENVS__py27}}
         export CONDA_ROOT=${CONDA_ROOT:-${CONDA_ROOT__py27}}
     else
         if [ "$_conda_envs_path" == "27" ]; then
-            export CONDA_ENVS_PATH=$CONDA_ENVS_PATH__py27
+            export CONDA_ENVS_PATH=$CONDA_ENVS__py27
             export CONDA_ROOT=$CONDA_ROOT__py27
         elif [ "$_conda_envs_path" == "34" ]; then
-            export CONDA_ENVS_PATH=$CONDA_ENVS_PATH__py34
+            export CONDA_ENVS_PATH=$CONDA_ENVS__py34
             export CONDA_ROOT=$CONDA_ROOT__py34
         else
             export CONDA_ENVS_PATH=${_conda_envs_path}
@@ -1045,8 +1045,8 @@ _unsetup_conda_path_all() {
 lscondaenvs() {
     paths=$(  \
     ( echo "${CONDA_ENVS_PATH}"; \
-    echo "${CONDA_ENVS_PATH__py27}";  \
-    echo "${CONDA_ENVS_PATH__py34}";) | uniq)
+    echo "${CONDA_ENVS__py27}";  \
+    echo "${CONDA_ENVS__py34}";) | uniq)
     (set -x; find ${paths} -maxdepth 1 -type d)
 }
 
@@ -1058,14 +1058,15 @@ _condaenvs() {
 workon_conda() {
     # workon_conda()        -- workon a conda + venv project
     local _conda_envname=${1}
-    local _conda_envs_path=${2}
-    local _app=${3}
+    local _venvstrapp=${2}
+    local _conda_envs_path=${3}
     _setup_conda ${_conda_envs_path}
-    local CONDA_ENV=${CONDA_ENVS_PATH}/${_conda_envname}
+    local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
-    source <(
-      $__VENV --wh="${CONDA_ENVS_PATH}" --ve="${_conda_envname}" --app="${_app}" \
-      --print-bash)
+    source <(set -x;
+      $__VENV --wh="${CONDA_ENVS_PATH}" \
+        --ve="${CONDA_ENV}" --venvstrapp="${_venvstrapp}" \
+        --print-bash)
     declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
     dotfiles_status
     deactivate() {
@@ -1358,6 +1359,24 @@ __setup_dotfiles() {
     e $_USRLOG && editp
 }
 
+ideally() {
+    terminal we westurner # {wiki,westurner.github.io}
+    terminal we dotfiles
+    terminal we wrd docs
+
+    terminal we provis
+
+    # cat ~/-usrlog.log | _usrlog_parse_cmds - | egrep '(mkvirtualenv|mkvirtualenv_conda)'
+    _usrlog_parse_cmds - \
+        | egrep '((we[c]?)|workon|workon_conda|mkvirtualenv|mkvirtualenv_conda)(.*)'
+    ls -ltr $(lsusrlogs)
+}
+
+usrlog_grep_venvs() {
+    _usrlog_parse_cmds - \
+        | egrep '((we[c]?)|workon|workon_conda|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)'
+
+}
 
     # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
 export __SRCVENV="${__WRK}/src"
@@ -1365,7 +1384,7 @@ export __SRC="${__SRCVENV}/src"
 
 if [ ! -e "${__SRCVENV}" ]; then
     if [ ! -d "${WORKON_HOME}/src" ]; then
-        mkvirtualenv -i pyrpo -i pyline -i pygitpages src
+        mkvirtualenv -i pyrpo -i pyline -i pgs src
     fi
     ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
 fi
@@ -1393,8 +1412,8 @@ venv() {
     # venv --print-json   -- print IPython configuration as JSON
     (set -x; $__VENV $@)
 }
-venv-() {
-    # _venv <args> -- call $_VENV -E $@ (for the current environment)
+venvw() {
+    # venvw $@ -- venv -E $@ (for the current environment)
     (set -x; $__VENV -e $@)
 }
 
@@ -2030,161 +2049,6 @@ cdls () {
     set | grep "^cd.*()" | cut -f1 -d" " #${@}
 }
 alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'" ;
-eval 'ew () {
-    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
-}';
-ew () {
-    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
-}
-eval '_ew__complete () {
-    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
-}';
-_ew__complete () {
-    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
-}
-complete -o default -o nospace -F _ew__complete ew ;
-alias gvimw='${_USRLOCALBIN}/gvim --servername / --remote-tab-silent' ;
-eval 'ipskey () {
-    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # ${@}
-}';
-ipskey () {
-    (python -c "import os; print os.urandom(128).encode(\"base64\")" > "${_IPYSESKEY}" ) && chmod 0600 "${_IPYSESKEY}"; # ${@}
-}
-eval 'ipnb () {
-    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload ${@}
-}';
-ipnb () {
-    ipython notebook --secure --Session.keyfile="${_IPYSESKEY}" --notebook-dir="${_NOTEBOOKS}" --deep-reload ${@}
-}
-eval 'ipqt () {
-    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 ${@}
-}';
-ipqt () {
-    ipython qtconsole --secure --Session.keyfile="${_IPYSESKEY}" --logappend="${_IPQTLOG}" --deep-reload --pprint --colors=linux --ConsoleWidget.font_family="Monaco" --ConsoleWidget.font_size=11 ${@}
-}
-eval 'grinv () {
-    grin --follow ${@} "${VIRTUAL_ENV}"
-}';
-grinv () {
-    grin --follow ${@} "${VIRTUAL_ENV}"
-}
-eval 'grindv () {
-    grind --follow ${@} --dirs "${VIRTUAL_ENV}"
-}';
-grindv () {
-    grind --follow ${@} --dirs "${VIRTUAL_ENV}"
-}
-eval 'grins () {
-    grin --follow ${@} "${_SRC}"
-}';
-grins () {
-    grin --follow ${@} "${_SRC}"
-}
-eval 'grinds () {
-    grind --follow ${@} --dirs "${_SRC}"
-}';
-grinds () {
-    grind --follow ${@} --dirs "${_SRC}"
-}
-alias testw='(cd "${_WRD}" && python "${_WRD_SETUPY}" test)' ;
-alias testwr='reset && (cd "${_WRD}" && python "${_WRD_SETUPY}" test)' ;
-eval 'nosew () {
-    (cd "${_WRD}" && nosetests ${@})
-}';
-nosew () {
-    (cd "${_WRD}" && nosetests ${@})
-}
-eval 'lsw () {
-    (cd "${_WRD}"; ls $(test -n ""${__IS_MAC}"" && echo "-G" || echo "--color=auto") ${@})
-}';
-lsw () {
-    (cd "${_WRD}"; ls $(test -n ""${__IS_MAC}"" && echo "-G" || echo "--color=auto") ${@})
-}
-eval '_lsw__complete () {
-    local cur=${2};
-            COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
-}';
-_lsw__complete () {
-    local cur=${2};
-            COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
-}
-complete -o default -o nospace -F _lsw__complete lsw ;
-alias findw='find "${_WRD}"' ;
-eval 'grepw () {
-    grep ${@} "${_WRD}"
-}';
-grepw () {
-    grep ${@} "${_WRD}"
-}
-eval 'grinw () {
-    grin --follow ${@} "${_WRD}"
-}';
-grinw () {
-    grin --follow ${@} "${_WRD}"
-}
-eval 'grindw () {
-    grind --follow ${@} --dirs "${_WRD}"
-}';
-grindw () {
-    grind --follow ${@} --dirs "${_WRD}"
-}
-alias hgwv='hg view -R "${_WRD}"' ;
-alias hgwl='hg -R "${_WRD}" log' ;
-eval 'editcfg () {
-    "${_EDITCFG_}" ${@}
-}';
-editcfg () {
-    "${_EDITCFG_}" ${@}
-}
-alias servew='(cd "${_WRD}" && "${_BIN}"/pserve --app-name=main --reload --monitor-restart "${_CFG}")' ;
-alias shellw='(cd "${_WRD}" && "${_BIN}"/pshell "${_CFG}")' ;
-eval 'ew () {
-    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
-}';
-ew () {
-    (for arg in ${@}; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
-}
-eval '_ew__complete () {
-    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
-}';
-_ew__complete () {
-    local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
-}
-complete -o default -o nospace -F _ew__complete ew ;
-eval 'editp () {
-    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} ${@}
-}';
-editp () {
-    ${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} ${@}
-}
-eval 'makewrd () {
-    (cd "${_WRD}" && make ${@})
-}';
-makewrd () {
-    (cd "${_WRD}" && make ${@})
-}
-eval 'makew () {
-    (cd "${_WRD}" && make ${@})
-}';
-makew () {
-    (cd "${_WRD}" && make ${@})
-}
-eval 'mw () {
-    (cd "${_WRD}" && make ${@})
-}';
-mw () {
-    (cd "${_WRD}" && make ${@})
-}
-eval 'makewepy () {
-    _logfile="${_LOG}/make.log.py"; (makew ${@} 2>&1 | tee $_logfile) && e $_logfile
-}';
-makewepy () {
-    _logfile="${_LOG}/make.log.py"; (makew ${@} 2>&1 | tee $_logfile) && e $_logfile
-}
-alias ssv='supervisord -c "${_SVCFG}"' ;
-alias sv='supervisorctl -c "${_SVCFG}"' ;
-alias svt='sv tail -f' ;
-alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev' ;
 if [ "$VENVPREFIX" == "/" ]; then
     source ${__DOTFILES}/etc/venv/venv_root_prefix.sh
 fi
@@ -2267,17 +2131,15 @@ _setup_venv_aliases() {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
-    # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
-    source ${__DOTFILES}/scripts/makew
+    source "${__DOTFILES}/scripts/e"
+    source "${__DOTFILES}/scripts/ew"
 
-    # ssv()     -- supervisord   -c ${_SVCFG}
-    alias ssv='supervisord -c "${_SVCFG}"'
-    # sv()      -- supervisorctl -c ${_SVCFG}
-    alias sv='supervisorctl -c "${_SVCFG}"'
-    # svd()     -- supervisorctl -c ${_SVCFG} restart && sv tail -f dev
-    alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
-    # svt()     -- supervisorctl -c "${_SVCFG}" tail -f
-    alias svt='sv tail -f'
+    # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
+    source "${__DOTFILES}/scripts/makew"
+
+    
+    source "${__DOTFILES}/scripts/ssv"
+    _setup_supervisord
 
     # hgw       -- hg -R  ${_WRD}   [scripts/hgw <TAB>]
     source "${__DOTFILES}/scripts/hgw"
@@ -2286,16 +2148,63 @@ _setup_venv_aliases() {
     source "${__DOTFILES}/scripts/gitw"
 
     # serve-()  -- ${_SERVE_}
-    alias serve-='${_SERVE_}'
+    # alias serve-='${_SERVE_}'
     # shell-()  -- ${_SHELL_}
-    alias shell-='${_SHELL_}'
+    # alias shell-='${_SHELL_}'
     # test-()   -- cd ${_WRD} && python setup.py test
-    alias test-='(cd ${_WRD} && python "${_WRD_SETUPY}" test)'
+    alias testpyw='(cd ${_WRD} && python "${_WRD_SETUPY}" test)'
     # testr-()  -- reset; cd ${_WRD} && python setup.py test
-    alias testr-='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
+    alias testpywr='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
 
 }
 _setup_venv_aliases
+#!/usr/bin/env bash
+## 
+function edit {
+    #  edit()   -- EDITOR_ or EDITOR $@
+    ${GUIVIMBIN} --servername ${VIRTUAL_ENV_NAME:-"/"} \
+        --remote-tab-silent \
+        ${@}
+    return
+}
+
+function e {
+    # e()       -- EDTIOR or EDITOR $@
+    edit ${@}
+    return
+}
+
+if [ "${BASH_SOURCE}" == "${0}" ]; then
+    edit ${@}
+    exit
+fi
+#!/bin/sh
+## 
+editwrd () 
+{
+    #
+    (cd $_WRD;
+    (for arg in ${@}; do echo "${arg}"; done) \
+        | el --each -x 'e {0}'
+    )
+    return
+}
+
+ew () {
+    editwrd $@
+    return
+}
+_ew__complete () {
+    local cur=${2};
+    COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _ew__complete editwrd
+complete -o default -o nospace -F _ew__complete ew
+
+if [ ${BASH_SOURCE} == "${0}" ]; then
+    editwrd ${@}
+    exit
+fi
 #!/bin/sh
 ## 
 
@@ -2315,6 +2224,66 @@ complete -F _makew_complete makew
 
 if [[ ${BASH_SOURCE} == "${0}" ]]; then
     _makew ${@}
+fi
+#!/bin/sh
+
+function _setup_supervisord() {
+    #  _setup_supervisord()      -- 
+    local svcfg=${1:-${_SVCFG}}
+    if [ -z "${svcfg}" ]; then
+        if [ -n "${VIRTUAL_ENV}" ]; then
+            local _svcfg="${VIRTUAL_ENV}/etc/supervisord.conf"
+        else
+            local _svcfg="supervisord.conf"
+        fi
+        if [ -n "${_svcfg}" ]; then
+            svcfg="${_svcfg}"
+        fi
+    fi
+    export _SVCFG="${svcfg}"
+}
+
+## 
+function supervisord_start() {
+    #  supervisord_start()      -- start supervisord -c $_SVCFG
+    supervisord -c "${_SVCFG}"
+    return
+}
+function ssv() {
+    #  ssv()                    -- start supervisord -c $_SVCFG
+    supervisord_start $@
+    return
+}
+function sv() {
+    #  sv()                     -- supervisorctl -c $_SVCFG
+    supervisorctl -c "${_SVCFG}" ${@}
+    return
+}
+
+function svd() {
+    # svd()     -- supervisorctl -c ${_SVCFG} restart && sv tail -f dev
+    name=${1:-"dev"}
+    sv restart ${name} && sv tail -f ${name}
+}
+
+function svt() {
+    # svt()     -- supervisorctl -c ${_SVCFG} tail -f
+    name=${1}
+    sv tail -f ${name}
+}
+
+
+function supervisord_stop() {
+    #  supervisord_start()      -- start supervisord
+    supervisorctl -c "${_SVCFG}" "shutdown"
+    return
+}
+
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    _setup_supervisord
+    supervisord_start ${@}
+    exit
 fi
 #!/bin/sh
 ## 
@@ -2513,44 +2482,14 @@ edits() {
 }
 
 
-e() {
-    # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
-    ${EDITOR_} $@
-}
-
-edit() {
-    # edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
-    ${EDITOR_} $@
-}
-
-editwrd() {
-    # editw()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@)
-    (for arg in $@; do echo $arg; done) | \
-        el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
-}
-
-ew() {
-    # ew()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@) ('excellent')
-    editwrd $@
-}
-_editwrd_complete() {
-    #echo "1" $1
-    #echo $2
-    #echo $@
-    local cur="$2";
-    COMPREPLY=($(cd $_WRD && compgen -f -- "${cur}" ))
-}
-complete -o default -o nospace -F _editwrd_complete editwrd
-complete -o default -o nospace -F _editwrd_complete ew
-
 editcfg() {
     # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
-    ${EDITOR_} ${_CFG}
+    e ${_CFG}
 }
 
 sudoe() {
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
-    EDITOR=${SUDO_EDITOR} sudo -e $@
+    EDITOR="${SUDO_EDITOR}" sudo -e $@
 }
 sudovim() {
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
@@ -2757,7 +2696,7 @@ _usrlog_set_HISTFILE () {
 
     #  history -a   -- append any un-flushed lines to $HISTFILE
     history -a
-   
+
     if [ -n "$ZSH_VERSION" ]; then
         export HISTFILE="${prefix}/.zsh_history"
     elif [ -n "$BASH" ]; then
@@ -2913,7 +2852,7 @@ _usrlog_setup() {
 }
 
 _usrlog_append() {
-    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp
     #   $1: text (command) to log
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
@@ -2969,16 +2908,21 @@ _usrlog_parse_newstyle() {
     # with pyline
     # TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
     # TODO: handle newlines
-    local usrlog="${1:-${_USRLOG}}"
-    pyline.py -f "${usrlog}" \
+    local usrlog="${1}"
+    if [ -n "${usrlog}" ]; then
+        if [ "${usrlog}" != "-" ]; then
+            usrlog="-f ${usrlog}"
+        fi
+    fi
+    pyline.py ${usrlog} \
         -m collections \
         '[collections.OrderedDict((
             ("l", [l]),
-            ("date", w[0]),
+            ("date", w[0].lstrip("# ")),
             ("id", w[1]),
             ("path", w[2]),
             ("histstr", w[3:]),
-            ("histn", w[3]),    # int or "#note"
+            ("histn", w[3].strip()),    # int or "#note"
             ("histdate", (w[4] if len(w) > 4 else None)),
             ("histhostname", (w[5] if len(w) > 5 else None)),
             ("histuser", (w[6] if len(w) > 6 else None)),
@@ -2997,8 +2941,12 @@ _usrlog_parse_cmds() {
     # TODO: handle newlines (commands that start on the next line)
     # TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
     # TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]
-    local usrlog="${1:-${_USRLOG}}"
-    test -n $usrlog && usrlog="-f ${usrlog}"
+    local usrlog="${1}"
+    if [ -n "${usrlog}" ]; then
+        if [ "${usrlog}" != "-" ]; then
+            usrlog="-f ${usrlog}"
+        fi
+    fi
     pyline.py ${usrlog} \
         'list((
             (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
@@ -3007,6 +2955,9 @@ _usrlog_parse_cmds() {
             or " ".join(w).rstrip())
             for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]
             )'
+}
+ugp() {
+    _usrlog_parse_cmds ${@}
 }
 
 
@@ -3050,7 +3001,7 @@ hist() {
 
 histgrep () {
     # histgrep()   -- egrep $@ $_USRLOG
-    egrep $@ $_USRLOG 
+    egrep $@ $_USRLOG
 }
 
 histgrep_session () {
@@ -3073,7 +3024,7 @@ usrlog_tail() {
     # usrlog_tail()     -- tail -n20 $_USRLOG
     if [ -n "$@" ]; then
         _usrlog=${@:-${_USRLOG}}
-        tail ${_usrlog} 
+        tail ${_usrlog}
     else
         tail $_USRLOG
     fi
@@ -3093,7 +3044,7 @@ usrlog_grep() {
     # usrlog_grep() -- egrep -n $_USRLOG
     set -x
     args=${@}
-    egrep -n "${args}" ${_USRLOG}
+    egrep -n "${args}" "${_USRLOG}"
     set +x
 }
 ug() {
@@ -3109,10 +3060,32 @@ ug() {
 #    egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
 #}
 
+_usrlog_grep_venvs() {
+    egrep ${@} '((we[c]?)|workon|workon_conda|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
+
+}
+usrlog_grep_venvs() {
+    cat ${@:-${_USRLOG}} | _usrlog_grep_venvs
+}
+ugv() {
+    usrlog_grep_venvs ${@}
+}
+
+_usrlog_grep_todos() {
+    egrep -i '(todo|fixme|xxx)'
+
+}
+usrlog_grep_todos() {
+    cat "${1:-${_USRLOG}}" | _usrlog_grep_todos
+}
+ugt() {
+    usrlog_grep_todos ${@}
+}
+
 usrlog_grin() {
     # usrlog_grin() -- grin -s $@ $_USRLOG
     local args=${@}
-    (set -x; 
+    (set -x;
     grin -s "${args}" "${_USRLOG}")
 }
 ugrin () {
@@ -3121,7 +3094,7 @@ ugrin () {
 }
 
 
-function usrlog_grin_session_id() {
+usrlog_grin_session_id() {
     # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
     (set -x;
     local _term_id="${1:-"${_TERM_ID}"}";
@@ -3130,28 +3103,28 @@ function usrlog_grin_session_id() {
 }
 
 
-function usrlog_grin_session_id_cmds() {
+usrlog_grin_session_id_cmds() {
     # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
     (set -x;
     local _term_id="${1:-"${_TERM_ID}"}";
     local _usrlog="${2:-"${_USRLOG}"}";
-    _usrlog_parse_cmds <(\
-        grin -N --no-color --without-filename -s \
-            '# [\d\-:TZ\s]+\t'${_term_id}'\t(.*)$' \
-            "${_usrlog}";)
+    grin -N --no-color --without-filename -s \
+        '# [\d\-:TZ\s]+\t'${_term_id}'\t(.*)$' \
+        "${_usrlog}" \
+            | _usrlog_parse_cmds -  ;
     );
 }
 
 
-function usrlog_grin_session_id_all() {
+usrlog_grin_session_id_all() {
     # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
-    #                                  in column position 
+    #                                  in column position
     #   :returns: unsorted list of log entries in files
     #             listed by mtime and then cat
-    #           
+    #
     # .. warning:: output lines are in file sequence but otherwise
-    #               unsorted 
-    # 
+    #               unsorted
+    #
     (set -x;
     local _term_id=${1:-"${_TERM_ID}"}; \
     local _usrlog=${2:-"${_USRLOG}"}; \
@@ -3163,17 +3136,17 @@ ugrins () {
     usrlog_grin_session_id_all ${@}
 }
 
-function usrlog_grin_session_id_all_cmds() {
+usrlog_grin_session_id_all_cmds() {
     # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
-    #                                  in column position 
+    #                                  in column position
     (set -x;
     local _term_id=${1:-"${_TERM_ID}"}; \
     local _usrlog=${2:-"${_USRLOG}"}; \
     local _usrlogs=$(lsusrlogs_date_asc);
-    _usrlog_parse_cmds <(\
-        grin -N --no-color --without-filename -s \
-            '# [\d\-:TZ\s]+\t'${_term_id}'\t' \
-            "${_usrlogs}";);
+    grin -N --no-color --without-filename -s \
+        '# [\d\-:TZ\s]+\t'${_term_id}'\t' \
+        "${_usrlogs}" \
+        | _usrlog_parse_cmds -  ;
     );
 }
 

@@ -254,7 +254,7 @@
     #                 (default: ${__WRK})
     # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
     #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
-    #                                                   CONDA_ENVS_PATH__py27)
+    #                                                   CONDA_ENVS__py27)
     #   $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
     #                                                   CONDA_ROOT__py27)
     #
@@ -292,7 +292,7 @@
     # venv -h   -- print venv --help
     # venv --print-bash   -- print bash configuration
     # venv --print-json   -- print IPython configuration as JSON
-    # _venv <args> -- call $_VENV -E $@ (for the current environment)
+    # venvw $@ -- venv -E $@ (for the current environment)
     # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
     #  param $2: $_APP ("dotfiles") [default: $1)
@@ -325,14 +325,12 @@
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
     # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
-    # ssv()     -- supervisord   -c ${_SVCFG}
-    # sv()      -- supervisorctl -c ${_SVCFG}
-    # svd()     -- supervisorctl -c ${_SVCFG} restart && sv tail -f dev
-    # svt()     -- supervisorctl -c "${_SVCFG}" tail -f
     # hgw       -- hg -R  ${_WRD}   [scripts/hgw <TAB>]
     # gitw      -- git -C ${_WRD}   [scripts/gitw <TAB>]
     # serve-()  -- ${_SERVE_}
+    # alias serve-='${_SERVE_}'
     # shell-()  -- ${_SHELL_}
+    # alias shell-='${_SHELL_}'
     # test-()   -- cd ${_WRD} && python setup.py test
     # testr-()  -- reset; cd ${_WRD} && python setup.py test
     # _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
@@ -364,10 +362,6 @@
     # _setup_pager()    -- set PAGER='less'
     # ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
     # edits()   -- open $@ in ${GUIVIMBIN} --servername $1
-    # e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
-    # edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]
-    # editw()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@)
-    # ew()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@) ('excellent')
     # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
@@ -668,7 +662,7 @@
     # _usrlog_setup()      -- configure usrlog for the current shell
     # setup bash
     # setup zsh
-    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp 
+    # _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp
     #   $1: text (command) to log
     #   note: _TERM_ID must not contain a tab character (tr '\t' ' ')
     #   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
@@ -720,16 +714,16 @@
     # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
     # usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
     # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
-    #                                  in column position 
+    #                                  in column position
     #   :returns: unsorted list of log entries in files
     #             listed by mtime and then cat
-    #           
+    #
     # .. warning:: output lines are in file sequence but otherwise
-    #               unsorted 
-    # 
+    #               unsorted
+    #
     # ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
     # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
-    #                                  in column position 
+    #                                  in column position
     # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     #                            (oldest first)
     # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
