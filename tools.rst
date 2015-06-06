@@ -1664,7 +1664,7 @@ Crouton
 ------------
 | Source: https://github.com/dnschneid/crouton
 
-Crouton ("Chromium OS Universal Chroot Environment") 
+Crouton ("Chromium OS Universal Chroot Environment")
 installs and debootstraps a :ref:`Linux Distribution <linux-distributions>`
 (i.e. :ref:`Debian` or :ref:`Ubuntu`)
 within a :ref:`ChromiumOS` or :ref:`ChromeOS` chroot.
@@ -1701,7 +1701,7 @@ CoreOS
 | Docs: https://coreos.com/docs/
 | Docs: https://coreos.com/docs/#running-coreos
 | Docs: https://coreos.com/docs/running-coreos/platforms/vagrant/
-| Docs: 
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/coreos.md
 
 CoreOS is a :ref:`Linux Distribution <linux-distributions>`
 for highly available distributed computing.
@@ -2047,7 +2047,7 @@ Cons
 osquery
 ~~~~~~~~
 | Homepage: https://osquery.io/
-| Src: https://github.com/facebook/osquery 
+| Src: https://github.com/facebook/osquery
 | Docs: https://osquery.io/docs/tables/
 | Docs: https://osquery.readthedocs.org/en/stable/
 | Tools: https://westurner.org/tools/#osquery
@@ -3381,6 +3381,7 @@ Chrome Extensions
 
 * `Hypothesis`_
 * `Pocket`_
+* `Zotero`_
 
 **Tab**
 
@@ -3456,6 +3457,11 @@ Firefox Extensions
 * `HTTPS Everywhere`_
 * `uBlock`_
 
+**Content**
+
+* `Pocket`_
+* `Zotero`_
+
 **Tabs**
 
 * `OneTab`_
@@ -3503,12 +3509,21 @@ Safari Extensions
 * `Ghostery`_
 * `uBlock`_
 
+**Content**
+
+* `Zotero`_
+* `Pocket`_
+
+
 
 .. index:: Safari iOS
 .. _safari ios:
 
 Safari iOS
 ~~~~~~~~~~~~~~~
+
+* `Pocket`_
+
 
 .. index:: Browser Extensions
 .. _browser extensions:
@@ -3684,6 +3699,8 @@ Pocket
 | ChromeExt: https://chrome.google.com/webstore/detail/save-to-pocket/niloccemoadcdkdjlinkgdfekeahmflj
 | FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/read-it-later/
 | FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/7661/addon-7661-latest.xpi
+| SafariLink: https://getpocket.com/safari/
+| iOSLink: https://getpocket.com/ios/
 
 
 .. index:: Zotero
@@ -3703,6 +3720,7 @@ Zotero
 Zotero archives and tags resources with bibliographic metadata.
 
 * Zotero is really helpful for research.
+* Browsers other than Firefox connect to Zotero Standalone
 * Zotero can store a full-page archive of a given resource (e.g. HTML, PDF)
 * Zotero can store and synchronize data on Zotero's servers
   with Zotero File Storage
@@ -4221,9 +4239,7 @@ Vimium
 | Wikipedia: https://en.wikipedia.org/wiki/Vimium
 | Homepage: https://vimium.github.io/
 | Source: git https://github.com/philc/vimium
-
-
-* https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
 
 
 .. index:: Vimperator
@@ -4234,9 +4250,7 @@ Vimperator
 | Wikipedia: https://en.wikipedia.org/wiki/Vimperator
 | Homepage: http://www.vimperator.org/
 | Source: https://github.com/vimperator/vimperator-labs
-
-
-* https://addons.mozilla.org/en-US/firefox/addon/vimperator/
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/vimperator/
 
 
 .. index:: Wasavi
