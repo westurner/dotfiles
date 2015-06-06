@@ -1505,10 +1505,11 @@ Debian
 | Docs: https://www.debian.org/doc/#manuals
 | Docs: https://www.debian.org/doc/debian-policy/ (main, contrib, non-free)
 | Docs: https://www.debian.org/releases/stable/releasenotes
+| Docs: https://www.debian.org/releases/stable/i386/release-notes/
 | Docs: https://www.debian.org/releases/stable/amd64/release-notes/
-| Docs: https://www.debian.org/releases/stable/i386/release-notes/
-| Docs: https://www.debian.org/releases/stable/i386/release-notes/
 
+Debian is a :ref:`Linux Distribution`
+that is built from :ref:`DEB` packages.
 
 .. index:: Ubuntu
 .. _ubuntu:
@@ -1517,10 +1518,17 @@ Ubuntu
 +++++++++++++++++
 | Wikipedia: `<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>`_
 | Homepage: http://www.ubuntu.com/
-| Docs: https://help.ubuntu.com/
 | Source: https://launchpad.net/ubuntu
 | Source: http://archive.ubuntu.com/
 | Source: http://releases.ubuntu.com/
+| Download: http://www.ubuntu.com/download
+| Docs: https://help.ubuntu.com/
+| Q&A: https://askubuntu.com
+
+Ubuntu is a :ref:`Linux Distribution`
+that is built from :ref:`DEB` packages
+which are often derived from :ref:`Debian` packages.
+
 
 .. index:: Fedora
 .. _fedora:
@@ -1536,7 +1544,7 @@ Fedora
 | Docs: https://fedoraproject.org/wiki/Fedora_Project_Wiki
 | Docs: https://fedoraproject.org/wiki/EPEL
 
-Fedora is a :ref:`Linux` distribution
+Fedora is a :ref:`Linux Distribution`
 that is built from :ref:`RPM` packages.
 
 .. index:: RHEL
@@ -1549,7 +1557,7 @@ RHEL
 | Docs: https://access.redhat.com/documentation/en-US/
 | Docs: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/
 
-RHEL (RedHat Enterprise Linux) is a :ref:`Linux` distribution
+RHEL (RedHat Enterprise Linux) is a :ref:`Linux Distribution`
 that is built from :ref:`RPM` packages.
 
 
@@ -1566,7 +1574,7 @@ CentOS
 | Docs: https://www.centos.org/docs/
 | DockerHub: https://registry.hub.docker.com/_/centos/
 
-CentOS is a :ref:`Linux` distribution
+CentOS is a :ref:`Linux Distribution`
 that is built from :ref:`RPM` packages
 which is derived from :ref:`RHEL`.
 
@@ -1587,7 +1595,7 @@ Gentoo
 | Docs: https://wiki.gentoo.org/wiki/Project:Portage
 | Docs: https://wiki.gentoo.org/wiki/Project:Hardened
 
-Gentoo is a :ref:`Linux` distribution built on :ref:`Portage`.
+Gentoo is a :ref:`Linux Distribution` built on :ref:`Portage`.
 
 
 .. index:: ChromiumOS
@@ -1601,7 +1609,7 @@ ChromiumOS
 | Docs: https://www.chromium.org/chromium-os/developer-guide
 | Source: https://chromium.googlesource.com/ (``chromiumos*/``)
 
-ChromiumOS is a :ref:`Linux` distribution built on :ref:`Portage`.
+ChromiumOS is a :ref:`Linux Distribution` built on :ref:`Portage`.
 
 
 .. index:: ChromeOS
@@ -1611,14 +1619,14 @@ ChromeOS
 +++++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/Chrome_OS
 
-ChromeOS is a :ref:`Linux` distribution built on :ref:`ChromiumOS`
+ChromeOS is a :ref:`Linux Distribution` built on :ref:`ChromiumOS`
 and :ref:`Portage`.
 
-* ChromeOS powers Chromebook notebooks
+* ChromeOS powers Chromebooks
 
   * https://en.wikipedia.org/wiki/Chromebook
 
-* ChromeOS powers the Chromebox business videoconferencing appliances
+* ChromeOS powers Chromeboxes
 
   * https://en.wikipedia.org/wiki/Chromebox
 
@@ -1632,7 +1640,6 @@ CoreOS
 | Homepage: https://coreos.com/
 | Docs: https://coreos.com/docs/
 | Source: https://github.com/coreos
-
 
 CoreOS is a :ref:`Linux` distribution for highly available
 distributed computing.
