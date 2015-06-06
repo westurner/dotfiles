@@ -561,7 +561,7 @@ Conda
   which hosts free public and paid private Conda packages.
 
   * Anaconda Server is an internal
-    "Private, Secure Package Repository" 
+    "Private, Secure Package Repository"
     that
     "supports over 100 different repositories,
     including PyPI, CRAN, conda, and the Anaconda repository."
@@ -589,7 +589,7 @@ Work on a conda env:
 * https://github.com/conda/conda-env
 * https://github.com/conda/conda-build
 * https://github.com/conda/conda-recipes
-   
+
 
 .. index:: Ruby Gem
 .. index:: RubyGems
@@ -766,7 +766,7 @@ HubFlow
 | Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
 | Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
 
-HubFlow is a fork of GitFlow 
+HubFlow is a fork of GitFlow
 that adds extremely useful commands for working with Git and GitHub.
 
 HubFlow is a named branch workflow with mostly-automated merges
@@ -818,7 +818,7 @@ Creating a new release with :ref:`Git` and HubFlow:
   git tag | grep 'v0.1.0'
 
 The GitFlow HubFlow illustrations are very helpful for visualizing
-and understanding any DVCS workflow: 
+and understanding any DVCS workflow:
 `<https://datasift.github.io/gitflow/IntroducingGitFlow.html>`__.
 
 
@@ -1140,7 +1140,7 @@ NumPy and other languages:
 SciPy
 ++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/SciPy
-| Homepage: http://scipy.org/ 
+| Homepage: http://scipy.org/
 | Src: https://github.com/scipy/scipy
 | Docs: http://www.scipy.org/docs.html
 | Docs: http://docs.scipy.org/doc/scipy/reference/
@@ -1459,26 +1459,6 @@ with frontends for many languages.
 Operating Systems
 ===================
 
-.. index:: CoreOS
-.. _coreos:
-
-CoreOS
-~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/CoreOS
-| Homepage: https://coreos.com/
-| Docs: https://coreos.com/docs/
-| Source: https://github.com/coreos
-
-
-CoreOS is a :ref:`Linux` distribution for highly available
-distributed computing.
-
-CoreOS schedules redundant :ref:`docker` images with **fleet**
-and **systemd** according to configuration stored in **etcd**,
-a key-value store with a D-Bus interface.
-
-
-
 .. index:: GNU/Linux
 .. index:: Linux
 .. _linux:
@@ -1490,7 +1470,7 @@ Linux
 | Docs: https://www.kernel.org/doc/
 | Source: git https://github.com/torvalds/linux
 
-GNU/Linux is a free and open source operating system kernel
+GNU/Linux ("Linux") is a free and open source operating system kernel
 written in :ref:`C`.
 
 .. code-block:: bash
@@ -1498,8 +1478,317 @@ written in :ref:`C`.
    uname -a; echo "Linux"
    uname -o; echo "GNU/Linux"
 
+
+.. index:: Linux Distributions
+.. _linux-distributions:
+
+Linux Distributions
+~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Linux_distribution
+
 A *Linux Distribution* is a collection of :ref:`Packages`
-compiled to work with a GNU/Linux kernel and a :ref:`libc`.
+compiled to work with a :ref:`GNU/Linux <linux>` kernel and a :ref:`libc`.
+
+* https://commons.wikimedia.org/wiki/File:Linux_Distribution_Timeline_with_Android.svg
+
+
+.. index:: Debian
+.. _debian:
+
+Debian
++++++++++++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Debian>`__
+| Homepage: https://www.debian.org/
+| Download: https://www.debian.org/distrib/
+| DockerHub: https://registry.hub.docker.com/_/debian/
+| Docs: https://www.debian.org/doc/
+| Docs: https://www.debian.org/doc/manuals/debian-reference/
+| Docs: https://www.debian.org/doc/#manuals
+| Docs: https://www.debian.org/doc/debian-policy/ (main, contrib, non-free)
+| Docs: https://www.debian.org/releases/stable/releasenotes
+| Docs: https://www.debian.org/releases/stable/i386/release-notes/
+| Docs: https://www.debian.org/releases/stable/amd64/release-notes/
+
+Debian
+is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`DEB` packages.
+
+.. index:: Ubuntu
+.. _ubuntu:
+
+Ubuntu
++++++++++++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>`_
+| Homepage: http://www.ubuntu.com/
+| Source: https://launchpad.net/ubuntu
+| Source: http://archive.ubuntu.com/
+| Source: http://releases.ubuntu.com/
+| Download: http://www.ubuntu.com/download
+| DockerHub: https://registry.hub.docker.com/_/ubuntu/
+| Docs: https://help.ubuntu.com/
+| Q&A: https://askubuntu.com
+
+Ubuntu
+is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`DEB` packages
+which are often derived from :ref:`Debian` packages.
+
+
+.. index:: Fedora
+.. _fedora:
+
+Fedora
++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Fedora_(operating_system)>`__
+| Homepage: https://getfedora.org/
+| Download: https://getfedora.org/en/workstation/download/
+| Download: https://getfedora.org/en/server/download/
+| Download: https://getfedora.org/en/cloud/download/
+| Docs: https://docs.fedoraproject.org/en-US/index.html
+| Docs: https://fedoraproject.org/wiki/Fedora_Project_Wiki
+| Docs: https://fedoraproject.org/wiki/EPEL
+
+Fedora
+is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`RPM` packages.
+
+.. index:: RHEL
+.. index:: RedHat Enterprise Linux
+.. _rhel:
+
+RedHat
+++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux>`__
+| Homepage: https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux
+| Docs: https://access.redhat.com/documentation/en-US/
+| Docs: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/
+
+RedHat Enterprise Linux ("RHEL")
+is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`RPM` packages.
+
+
+.. index:: CentOS
+.. _centos:
+
+--------
+CentOS
+--------
+| Wikipedia: https://en.wikipedia.org/wiki/CentOS
+| Homepage: https://www.centos.org/
+| Download: https://www.centos.org/download/
+| Docs: https://wiki.centos.org/
+| Docs: https://www.centos.org/docs/
+| DockerHub: https://registry.hub.docker.com/_/centos/
+
+CentOS is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`RPM` packages
+which is derived from :ref:`RHEL`.
+
+
+.. index:: Scientific Linux
+.. _scientific-linux:
+
+Scientific Linux
+-----------------
+| Wikipedia: https://en.wikipedia.org/wiki/Scientific_Linux
+| Homepage: https://en.wikipedia.org/wiki/Scientific_Linux
+
+Scientific Linux is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`RPM` packages
+which is derived from :ref:`CentOS`.
+which is derived from :ref:`RHEL`.
+
+* ``rdfs:seeAlso`` :ref:`Anaconda` (:ref:`Conda`)
+* ``rdfs:seeAlso`` :ref:`Portage`
+
+
+.. index:: Oracle Linux
+.. _oracle-linux:
+
+------------
+Oracle
+------------
+| Wikipedia: https://en.wikipedia.org/wiki/Oracle_Linux
+| Homepage: http://www.oracle.com/linux
+| Docs: http://www.oracle.com/us/technologies/linux/resources/index.html
+| Docs: http://www.oracle.com/us/technologies/linux/openstack/overview/index.html
+
+Oracle Linux is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`RPM` packages
+which is derived from :ref:`RHEL`.
+
+
+.. index:: Gentoo
+.. _gentoo:
+
+Gentoo
+++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Gentoo
+| Homepage: https://gentoo.org/
+| Source: https://github.com/gentoo
+| Source: git https://github.com/gentoo/portage
+| Docs: https://wiki.gentoo.org/wiki/
+| Docs: https://wiki.gentoo.org/wiki/Handbook:Main_Page
+| Docs: https://wiki.gentoo.org/wiki/Handbook:AMD64
+| Docs: https://wiki.gentoo.org/wiki/Handbook:X86
+| Docs: https://wiki.gentoo.org/wiki/Project:Portage
+| Docs: https://wiki.gentoo.org/wiki/Project:Hardened
+
+Gentoo is a :ref:`Linux Distribution <linux-distributions>`
+built on :ref:`Portage`.
+
+* https://registry.hub.docker.com/search?q=gentoo (Stage 3 + Portage)
+
+
+.. index:: ChromiumOS
+.. _chromiumos:
+
+ChromiumOS
++++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Chromium_OS
+| Homepage: https://www.chromium.org/chromium-os
+| Docs: https://www.chromium.org/chromium-os/quick-start-guide
+| Docs: https://www.chromium.org/chromium-os/developer-guide
+| Source: https://chromium.googlesource.com/ (``chromiumos*/``)
+
+ChromiumOS is a :ref:`Linux Distribution <linux-distributions>`
+built on :ref:`Portage`.
+
+
+.. index:: Crouton
+.. _crouton:
+
+------------
+Crouton
+------------
+| Source: https://github.com/dnschneid/crouton
+
+Crouton ("Chromium OS Universal Chroot Environment")
+installs and debootstraps a :ref:`Linux Distribution <linux-distributions>`
+(i.e. :ref:`Debian` or :ref:`Ubuntu`)
+within a :ref:`ChromiumOS` or :ref:`ChromeOS` chroot.
+
+
+.. index:: ChromeOS
+.. _chromeos:
+
+ChromeOS
++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Chrome_OS
+
+ChromeOS is a :ref:`Linux Distribution <linux-distributions>`
+built on :ref:`ChromiumOS`
+and :ref:`Portage`.
+
+* ChromeOS powers Chromebooks
+
+  * https://en.wikipedia.org/wiki/Chromebook
+
+* ChromeOS powers Chromeboxes
+
+  * https://en.wikipedia.org/wiki/Chromebox
+
+
+.. index:: CoreOS
+.. _coreos:
+
+CoreOS
+++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/CoreOS
+| Homepage: https://coreos.com/
+| Source: https://github.com/coreos
+| Docs: https://coreos.com/docs/
+| Docs: https://coreos.com/docs/#running-coreos
+| Docs: https://coreos.com/docs/running-coreos/platforms/vagrant/
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/coreos.md
+
+CoreOS is a :ref:`Linux Distribution <linux-distributions>`
+for highly available distributed computing.
+
+CoreOS schedules redundant :ref:`docker` images with **fleet**
+and **systemd** according to configuration stored in **etcd**,
+a key-value store with a D-Bus interface.
+
+* CoreOS runs on very many platforms
+* CoreOS does not provide a package manager
+* CoreOS schedules Docker
+
+* CoreOS -- Operating System
+* etcd -- Consensus and Discovery
+* rkt -- Container Runtime
+* fleet -- Distributed init system (etcd, systemd)
+* flannel -- Networking
+
+
+
+
+
+.. index:: Linux Notes
+.. _linux-notes:
+
+Linux Notes
++++++++++++++
+
+* https://github.com/westurner/provis
+
+  * https://github.com/saltstack/salt-bootstrap
+
+    curl -L https://bootstrap.saltstack.com scripts/bootstrap-salt.sh
+
+  * Masterless Salt Config: ``make salt_local_highstate_test``
+
+    * [ ] Workstation role
+
+----------------
+Linux Dual Boot
+----------------
+* [ ] GRUB chainloader to partition boot record
+
+  * Ubuntu and Fedora GRUB try to autodiscover Windows partitions
+
+
+.. index:: Android
+.. _android:
+
+Android
++++++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/Android_(operating_system)>`__
+| Homepage: https://www.android.com/
+| Homepage: https://developer.android.com/
+
+
+.. index:: Android SDK
+.. _android sdk:
+
+-------------
+Android SDK
+-------------
+| Homepage: https://developer.android.com/sdk/
+| Source: https://android.googlesource.com/
+| Source: https://github.com/android
+| Docs: https://developer.android.com/sdk/
+| Docs: https://developer.android.com/sdk/installing/index.html
+| Docs: https://developer.android.com/sdk/installing/adding-packages.html
+| Docs: https://source.android.com/source/index.html
+| Docs: https://source.android.com/source/downloading.html
+| Docs: https://source.android.com/source/developing.html
+| Docs: https://source.android.com/source/contributing.html
+| Docs: https://sites.google.com/a/android.com/tools/build
+| Docs: https://developer.android.com/tools/workflow/index.html
+
+
+
+.. index:: Android Studio
+.. _android studio:
+
+----------------
+Android Studio
+----------------
+|
+| Homepage: https://developer.android.com/tools/studio/index.html
+| Docs: https://developer.android.com/tools/workflow/index.html
+| Docs: https://sites.google.com/a/android.com/tools/build/studio
 
 
 
@@ -1532,18 +1821,64 @@ OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
 
    uname; echo "Darwin"
 
+OSX Notes
+++++++++++
+* https://github.com/westurner/dotfiles/blob/master/scripts/ ``setup_*.sh``
 
-.. index:: Ubuntu
-.. _ubuntu:
+  * [ ] Manually updae to latest versions (of zip, tar.gz, .dmg)
+  * [ ] Port to salt formulas
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_chrome.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_chromium.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_firefox.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_adobereader.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_vlc.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_f.lux.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_powerline_fonts.sh
+  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_macvim.sh
+  * [ ] Miniconda #dotfiles (setup_miniconda.sh?)
 
-Ubuntu
-~~~~~~~~~~~~~~~~~
-| Wikipedia: `<https://en.wikipedia.org/wiki/Ubuntu_(operating_system)>`_
-| Homepage: http://www.ubuntu.com/
-| Docs: https://help.ubuntu.com/
-| Source: https://launchpad.net/ubuntu
-| Source: http://archive.ubuntu.com/
-| Source: http://releases.ubuntu.com/
+* https://github.com/westurner/provis
+
+  * [ ] https://github.com/westurner/provis/compare/feature/osx_support
+
+    * [ ] create / remap "root" group
+  * [ ] http://docs.saltstack.com/en/latest/topics/installation/osx.html
+
+
+    ``brew install saltstack`` OR ``pip install salt``
+
+
+--------------
+OSX Reinstall
+--------------
+* [ ] Generate installation media
+* [ ] Reboot to recovery partition
+* [ ] Adjust partitions
+* [ ] Format?
+* [ ] Install OS
+* [ ] (wait)
+* [ ] Manual time/date/language config
+* [ ] Run workstation provis scripts
+
+------------------
+OSX Fresh Install
+------------------
+* [ ] Generate / obtain installation media
+* [ ] Boot from installation media
+* [ ] Manual time/date/language config
+* [ ] Run workstation provis scripts
+
+
+--------------
+OSX Dual Boot
+--------------
+
+* http://www.howtogeek.com/187410/how-to-install-and-dual-boot-linux-on-a-mac/
+* http://www.rodsbooks.com/refind/installing.html#osx
+
+
 
 
 .. index:: Windows
@@ -1554,13 +1889,16 @@ Windows
 | Wikipedia: https://en.wikipedia.org/wiki/Microsoft_Windows
 | Homepage: http://windows.microsoft.com/
 | Docs: https://www.microsoft.com/enable/products/docs/
-| Docs: 
+| Docs:
 
 Windows is a NT-kernel based operating system.
 
 There used to be a POSIX compatibility mode.
 
 Chocolatey maintains a set of :ref:`NuGet` packages for Windows.
+
+Windows Notes
++++++++++++++++
 
 A few annotated excerpts from this Chocolatey :ref:`NuGet` :ref:`PowerShell` script
 https://gist.github.com/westurner/10950476#file-cinst_workstation_minimal-ps1
@@ -1571,16 +1909,91 @@ https://gist.github.com/westurner/10950476#file-cinst_workstation_minimal-ps1
     cinst 7zip
     cinst curl
 
+* [ ] Install Chocolatey NuGet package manager: http://chocolatey.org
+* [ ] Install packages listed here: https://gist.github.com/westurner/10950476
+
+  * [ ] (Optional) uncomment salt first (optionally specify master) [OR Install salt]
+
+* [ ] Install salt: http://docs.saltstack.com/en/latest/topics/installation/windows.html
+
+* ``<Win>+R`` (Start > Run)
+* [ ] Run ``services.msc`` and log/prune unutilized services (e.g. workstation, server)
+
+  * https://en.wikipedia.org/wiki/Windows_service
+
+------------------
+Windows Dual Boot
+------------------
+* [ ] Windows MBR chainloads to parition GRUB (`Linux`_)
+* [ ] Ubuntu WUBI .exe Linux Installer (XP, 7, 8*)
+
+  * It's now better to install to a separate partition from a bootable ISO
+
+-----
+UEFI
+-----
+| Wikipedia: https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface
+
+* https://help.ubuntu.com/community/UEFI
+
+
+
 * Cygwin Windows Linux Userspace: ~ https://chocolatey.org/packages/Cygwin
 * https://github.com/giampaolo/psutil/blob/master/psutil/_psutil_windows.c
 * http://winappdbg.sourceforge.net/#related-projects
 
 
+
+
 .. index:: Configuration Management
-.. _configuration-management:
+.. _configuration management:
 
 Configuration Management
 ==========================
+| Wikipedia: https://en.wikipedia.org/wiki/Software_configuration_management
+| Wikipedia: https://en.wikipedia.org/wiki/Comparison_of_open-source_configuration_management_software
+
+
+.. index:: Ansible
+.. _ansible:
+
+Ansible
+~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Ansible_(software)>`__
+| Homepage: http://ansible.com/
+| Source: https://github.com/ansible/ansible
+
+Ansible is a :ref:`Configuration Management` tool
+written in :ref:`Python`
+which runs idempotent Ansible Playbooks
+written in :ref:`YAML`
+for managing
+one or more physical and virtual machines running various operating systems
+over SSH.
+
+
+.. index:: JuJu
+.. _juju:
+
+Juju
+~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Juju_(software)>`__
+| Homepage: https://jujucharms.com/
+| Source:
+| Docs: https://jujucharms.com/docs/
+| TcpPort: 8001
+| Twitter: http://www.twitter.com/ubuntucloud
+
+Juju is a :ref:`Configuration Management` tool
+written in :ref:`Python`
+which runs Juju Charms
+written in :ref:`Python`
+on one or more systems over SSH,
+for managing
+one or more physical and virtual machines running :ref:`Ubuntu`.
+
+* https://github.com/juju/juju/issues/470
+
 
 .. index:: Make
 .. _make:
@@ -1605,18 +2018,68 @@ Make build task chains are represented in a ``Makefile``.
 Pros
 
 * Simple, easy to read syntax
-* Designed to build files on disk
+* Designed to build files on disk (see: ``.PHONY``)
 * Nesting: ``make -C <path> <taskname>``
-* Variable Syntax: ``$(VARIABLE_NAME)``
+* Variable Syntax: ``$(VARIABLE_NAME)`` or ``${VARIABLE_NAME}``
 * Bash completion: ``make <tab>``
-* Python: Parseable with disutils.text_file Text File
-* Logging: command names and values to stdout
+* Python: Initially parseable with *disutils.text_file*
+* Logging: command names and values print to stdout (unless prefixed
+  with ``@``)
 
 Cons
 
 * Platform Portability: make is not installed everywhere
-* Global Variables: Parametrization with shell scripts
+* Global Variables: parametrization with shell scripts
 
+.. code:: bash
+
+   VARIABLE_NAME="value" make test
+   make test VARIABLE_NAME="value"
+
+   # ...
+   export VARIABLE_NAME="value"
+   make test
+
+
+.. index:: osquery
+.. _osquery:
+
+osquery
+~~~~~~~~
+| Homepage: https://osquery.io/
+| Src: https://github.com/facebook/osquery
+| Docs: https://osquery.io/docs/tables/
+| Docs: https://osquery.readthedocs.org/en/stable/
+| Tools: https://westurner.org/tools/#osquery
+
+OSQuery is a tool for reading and querying
+many sources of system data
+with SQL
+for :ref:`OSX` and :ref:`Linux`.
+
+* https://github.com/westurner/dotfiles/blob/develop/scripts/osquery-all.sh
+
+
+.. index:: Puppet
+.. _puppet:
+
+Puppet
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Puppet_(software)>`__
+| Homepage: https://puppetlabs.com/
+| Docs: http://docs.puppetlabs.com/
+| Docs: http://docs.puppetlabs.com/puppet/
+| Source: git https://github.com/puppetlabs
+| TcpPort: 8140
+
+Puppet is a :ref:`Configuration Management` system
+written in :ref:`Ruby`
+which runs Puppet Modules
+written in Puppet DSL or :ref:`Ruby`
+for managing
+one or more physical and virtual machines running various operating systems.
+
+* https://github.com/nanliu/puppet-transport
 
 
 .. index:: Salt
@@ -1635,9 +2098,15 @@ Salt
 | Source: git https://github.com/saltstack/salt
 | Pypi: https://pypi.python.org/pypi/salt
 | IRC: #salt
+| TcpPort: 4505
+| TcpPort: 4506
 
 
-Salt is an open source configuration management system for managing
+Salt is a :ref:`Configuration Management` system
+written in :ref:`Python`
+which runs Salt Formulas
+written in :ref:`YAML`, :ref:`Jinja2`, :ref:`Python`
+for managing
 one or more physical and virtual machines running various operating systems.
 
 .. glossary::
@@ -1750,10 +2219,30 @@ one or more physical and virtual machines running various operating systems.
 
 
 .. index:: Virtualization
-.. virtualization:
+.. _virtualization:
 
 Virtualization
-=============== 
+===============
+
+.. index:: Cgroups
+.. _cgroups:
+
+Cgroups
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Cgroups>`__
+| Docs: https://www.kernel.org/doc/Documentation/cgroups/
+| Docs: http://www.freedesktop.org/wiki/Software/systemd/ControlGroupInterface/
+| Docs: https://docs.fedoraproject.org/en-US/Fedora/17/html-single/Resource_Management_Guide/index.html#sec-How_Control_Groups_Are_Organized
+| Docs: https://wiki.archlinux.org/index.php/Cgroups
+
+Cgroups are a :ref:`Linux` mechanism for containerizing
+groups of processes and resources.
+
+* https://chimeracoder.github.io/docker-without-docker/#1
+
+  * ``systemd-nspawn``, ``systemd-cgroup``
+  * ``machinectl``, ``systemctl``, ``journalctl``,
+
 
 .. index:: Docker
 .. _docker:
@@ -1772,6 +2261,66 @@ Limitations
 
 * Writing to `/etc/hosts`: https://github.com/docker/docker/issues/2267
 * Apt-get upgrade: https://github.com/docker/docker/issues/3934
+
+
+.. index:: Kubernetes
+.. _kubernetes:
+
+Kubernetes
+~~~~~~~~~~~
+| Homepage: http://kubernetes.io/
+| Source: https://github.com/GoogleCloudPlatform/kubernetes
+| Docs: http://kubernetes.io/gettingstarted/
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/docker.md
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/vagrant.md
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/coreos.md
+| Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/mesos.md
+| Q&A: http://stackoverflow.com/questions/tagged/kubernetes
+| Twitter: https://twitter.com/googlecloud
+
+Kubernetes is a highly-available distributed cluster scheduler
+which works with groups of :ref:`Docker` containers
+called Pods.
+
+
+.. index:: Kubernetes-Mesos
+.. _kubernetes-mesos:
+
+Kubernetes-Mesos
+~~~~~~~~~~~~~~~~~
+| Source: https://github.com/mesosphere/kubernetes-mesos
+
+kubernetes-mesos integrates
+:ref:`Kubernetes` :ref:`Docker` Pod scheduling with :ref:`Mesos`.
+
+.. epigraph::
+
+    Kubernetes and Mesos are a match made in heaven.
+
+    Kubernetes enables the Pod,
+    an abstraction that represents a group of co-located containers, along
+    with Labels for service discovery, load-balancing, and replication control.
+
+    Mesos provides the fine-grained resource allocations for pods
+    across nodes in a cluster,
+    and facilitates resource sharing
+    among Kubernetes and other frameworks running on the same cluster.
+
+
+.. index:: KVM
+.. _KVM:
+
+KVM
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine
+| Homepage: http://www.linux-kvm.org/
+| Docs: http://www.linux-kvm.org/page/Documents
+
+KVM is a full virtualization platform with support for
+Intel VT and AMD-V; which supports running
+various guest operating systems,
+each with their own kernel,
+on a given host machine.
 
 
 .. index:: Libcloud
@@ -1800,17 +2349,157 @@ Libvirt
 | Wikipedia: https://libvirt.org/
 | Homepage: https://libvirt.org/
 | Docs: https://libvirt.org/docs.html
+| Docs: https://libvirt.org/cgroups.html
 | Docs: https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.virt.html
 | Source: git git://libvirt.org/libvirt-appdev-guide.git
 
 Libvirt is a system for platform virtualization with
 various :ref:`Linux` hypervisors.
 
-* KVM/QEMU
 * Xen
-* LXC
-* OpenVZ
-* VirtualBox
+* QEMU, :ref:`KVM`
+* OpenVZ, :ref:`LXC`
+* :ref:`VirtualBox`
+
+
+.. index:: LXC
+.. _LXC:
+
+LXC
+~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/LXC
+| Homepage: https://linuxcontainers.org/
+| Docs: https://linuxcontainers.org/lxc/documentation/
+| Source: https://github.com/lxc/lxc
+
+LXC ("Linux Containers"),
+written in :ref:`C`,
+builds upon :ref:`Linux` :ref:`Cgroups`
+to provide containerized OS chroots
+(all running under :ref:`the host kernel <linux>`).
+
+LXC is included in recent :ref:`Linux` kernels.
+
+
+.. index:: LXD
+.. _LXD:
+
+LXD
+~~~~
+| Homepage: https://linuxcontainers.org/lxd/
+| Docs: https://linuxcontainers.org/lxd/
+| Source: https://github.com/lxc/lxd
+
+LXD,
+written in :ref:`Go`,
+builds upon :ref:`LXC` to provide a system-wide daemon
+and an :ref:`OpenStack` Nova hypervisor plugin.
+
+
+.. index:: Mesos
+.. _mesos:
+
+Mesos
+~~~~~~
+| Homepage: https://mesos.apache.org/
+| Source: git https://github.com/apache/mesos
+| Q&A: https://stackoverflow.com/tags/mesos
+| Twitter: https://twitter.com/ApacheMesos
+
+Apache Mesos is a highly-available distributed datacenter operating system,
+for which there are many different task/process/service schedulers.
+
+.. epigraph::
+
+    Apache Mesos abstracts CPU, memory, storage,
+    and other compute resources away from machines (physical or virtual),
+    enabling fault-tolerant and elastic distributed systems
+    to easily be built and run effectively.
+
+
+.. index:: Mesosphere
+.. _mesosphere:
+
+Mesosphere
+~~~~~~~~~~~~~
+| Homepage: https://mesosphere.com/
+| Source: https://github.com/mesosphere
+| Q&A: https://stackoverflow.com/tags/mesosphere
+| Twitter: https://twitter.com/mesosphere
+
+* Apache :ref:`Mesos` is a core Mesosphere service
+
+
+.. index:: OpenStack
+.. _openstack:
+
+OpenStack
+~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/OpenStack
+| Homepage: https://www.openstack.org/
+| Source: https://git.openstack.org
+| Source: https://github.com/openstack
+| Q&A: https://stackoverflow.com/questions/tagged/openstack
+| Docs: http://docs.openstack.org/
+| Docs: https://wiki.openstack.org/
+| Docs: https://wiki.openstack.org/wiki/Get_OpenStack
+| Twitter: https://twitter.com/openstack
+
+OpenStack is a platform of infrastructure services
+for running a cloud datacenter.
+
+OpenStack can be installed on one machine with enough RAM,
+or many thousands of machines.
+
+OpenStack Nova implements a Hypervisor API
+which abstracts various :ref:`Virtualization` providers
+(e.g. :ref:`KVM`, :ref:`Docker`, :ref:`LXC`, :ref:`LXD`).
+
+* https://wiki.openstack.org/wiki/HypervisorSupportMatrix
+* http://docs.openstack.org/developer/nova/support-matrix.html
+
+OpenStack Swift implements redundant HTTP-based Object Storage
+as a service.
+
+OpenStack Keystone implements cluster/grid/cloud-level
+authentication and authorization
+as a service.
+
+OpenStack Horizon is the web-based OpenStack Dashboard,
+which is written in Django.
+
+OpenStack can configure enterprise networking services
+and DNS, DHCP, VLANs, SDN.
+
+OpenStack makes it possible for end-users to create a new virtual
+machine from the available pool of resources.
+
+``rdfs:seeAlso`` :ref:`Libcloud`.
+
+
+.. index:: OpenStack DevStack
+.. _openstack-devstack:
+
+OpenStack DevStack
+~~~~~~~~~~~~~~~~~~
+| Docs: http://docs.openstack.org/developer/devstack/
+| Docs: http://docs.openstack.org/developer/devstack/overview.html
+| Source: git https://github.com/openstack-dev/devstack
+| Issues: https://launchpad.net/devstack
+
+OpenStack DevStack is a default development configuration
+for :ref:`OpenStack`.
+
+* https://github.com/openstack-dev/devstack-vagrant
+
+There are many alternatives to and implementations of OpenStack DevStack:
+
+* https://github.com/saltstack-formulas/openstack-standalone-formula
+* https://github.com/CSSCorp/openstack-automation
+* https://github.com/openstack-ansible/openstack-ansible
+* https://forge.puppetlabs.com/puppetlabs/openstack
+* https://jujucharms.com/q/openstack
+* https://anvil.readthedocs.org/en/latest/topics/summary.html
 
 
 .. index:: Packer
@@ -2137,6 +2826,17 @@ versions of notebooks which have HTTP URLs.
 * https://github.com/jupyter/nbviewer
 
 
+.. index:: PowerShell
+.. index:: Windows PowerShell
+.. _powershell:
+
+PowerShell
+~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Windows_PowerShell
+| Homepage: https://microsoft.com/powershell
+
+Windows PowerShell is a shell for :ref:`Windows`.
+
 
 .. index:: ZSH
 .. _zsh:
@@ -2238,7 +2938,7 @@ and :ref:`Subversion` repositories.
 Sed
 ~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Sed>`__
-| Homepage: https://www.gnu.org/software/sed/ 
+| Homepage: https://www.gnu.org/software/sed/
 | Project: https://savannah.gnu.org/projects/sed
 | Docs: https://www.gnu.org/software/sed/manual/
 | Docs: https://www.gnu.org/software/sed/manual/sed.html
@@ -2293,7 +2993,10 @@ Dotvim
 Venv
 ~~~~~
 
-| Docs: https://westurner.org/dotfiles/venv/
+| Docs: https://westurner.org/dotfiles/venv
+| Docs: https://westurner.org/dotfiles/dotfiles.venv
+| Src: https://github.com/westurner/dotfiles/blob/develop/src/dotfiles/venv/
+| Src: https://github.com/westurner/dotfiles/blob/develop/etc/bash/10-bashrc.venv.sh
 
 Venv is a tool for making working with :ref:`Virtualenv`,
 :ref:`Virtualenvwrapper`, :ref:`Bash`, :ref:`ZSH`, :ref:`Vim`,
@@ -2302,32 +3005,70 @@ and :ref:`IPython` within a project context very easy.
 Venv defines standard paths, environment variables, and aliases
 for routinizing workflow.
 
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| var name            | description                    | cdaliases                | example                            |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``HOME``            | user home directory            | cdh, cdhome              | ~/                                 |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``__WRK``           | workspace root                 | cdwrk                    | ~/-wrk                             |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``WORKON_HOME``     | virtualenvs root               | cdwh, cdworkonhome, cdve | ~/-wrk/-ve27                       |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``CONDA_ENVS_PATH`` | condaenvs root                 | cdch, cdcondahome        | ~/-wrk/-ce27                       |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``VIRTUAL_ENV``     | virtualenv root                | cdv, cdvirtualenv        | ~/-wrk/-ve27/dotfiles              |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_BIN``            | virtualenv executables         | cdb, cdbin               | ~/-wrk/-ve27/dotfiles/bin          |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_ETC``            | virtualenv configuration       | cd, cdetc                | ~/-wrk/-ve27/dotfiles/etc          |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_LOG``            | virtualenv log directory       | cdlog                    | ~/-wrk/-ve27/dotfiles/var/log      |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_SRC``            | virtualenv source repositories | cds, cdsrc               | ~/-wrk/-ve27/dotfiles/src          |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
-| ``_WRD``            | virtualenv working directory   | cdw, cdwrd               | ~/-wrk/-ve27/dotfiles/src/dotfiles |
-+---------------------+--------------------------------+--------------------------+------------------------------------+
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| **var name**        | **description**                | **cdaliases**                        | **example path**                       |
+|                     |                                |                                      |                                        |
+|                     |                                | Bash: ``cdhelp``                     |                                        |
+|                     |                                |                                      |                                        |
+|                     |                                | IPython: ``%cdhelp``                 |                                        |
+|                     |                                |                                      |                                        |
+|                     |                                | Vim: ``:Cdhelp``                     |                                        |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``HOME``            | user home directory            | Bash/ZSH: ``cdh``, ``cdhome``        | ``~/``                                 |
+|                     |                                |                                      |                                        |
+|                     |                                | IPython: ``%cdh``, ``%cdhome``       |                                        |
+|                     |                                |                                      |                                        |
+|                     |                                | Vim: ``:Cdh``, ``:Cdhome``           |                                        |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``__WRK``           | workspace root                 | ``cdwrk`` (ibid.)                    | ~/``-wrk``                             |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``WORKON_HOME``     | virtualenvs root               | ``cdwh``, ``cdworkonhome``, ``cdve`` | ~/-wrk/``-ve27``                       |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``CONDA_ENVS_PATH`` | condaenvs root                 | ``cdch``, ``cdcondahome``            | ~/-wrk/``-ce27``                       |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``VIRTUAL_ENV``     | virtualenv root                | ``cdv``, ``cdvirtualenv``            | ~/-wrk/-ve27/``dotfiles``              |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_BIN``            | virtualenv executables         | ``cdb``, ``cdbin``                   | ~/-wrk/-ve27/dotfiles/``bin``          |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_ETC``            | virtualenv configuration       | ``cd``, ``cdetc``                    | ~/-wrk/-ve27/dotfiles/``etc``          |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_LIB``            | virtualenv lib directory       | ``cdl``, ``cdlib``                   | ~/-wrk/-ve27/dotfiles/``lib``          |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_LOG``            | virtualenv log directory       | ``cdlog``                            | ~/-wrk/-ve27/dotfiles/``var/log``      |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_SRC``            | virtualenv source repositories | ``cds``, ``cdsrc``                   | ~/-wrk/-ve27/dotfiles/``src``          |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
+| ``_WRD``            | virtualenv working directory   | ``cdw``, ``cdwrd``                   | ~/-wrk/-ve27/dotfiles/``src/dotfiles`` |
+|                     |                                |                                      |                                        |
++---------------------+--------------------------------+--------------------------------------+----------------------------------------+
 
+To generate this venv config:
 
+.. code:: bash
 
+   python -m dotfiles.venv.ipython_config --print-bash dotfiles
+   venv.py --print-bash dotfiles
+   venv --print-bash dotfiles docs
+   venv --print-bash dotfiles ~/path
+   venv --print-bash ~/-wrk/-ve27/dotfiles ~/path
+
+To generate a default venv config with a prefix of ``/``:
+
+.. code:: bash
+
+    venv --print-bash --prefix=/
+
+To launch an interactive shell within a venv:
+
+.. code:: bash
+
+    venv --run-bash dotfiles
+    venv -xb dotfiles
+
+.. note:: ``pyvenv`` is the :ref:`Virtualenv` -like functionality
+   now included in :ref:`Python >= 3.3 <python3>` (``python3 -m venv``)
+
+   Python pyvenv docs: https://docs.python.org/3/library/venv.html
 
 .. index:: Virtualenv
 .. _virtualenv:
@@ -2428,16 +3169,16 @@ Virtualenvwrapper is sourced into the shell::
 
 .. code-block:: bash
 
-   echo $PROJECT_HOME; echo ~/workspace             # venv: ~/wrk
+   echo $PROJECT_HOME; echo ~/workspace             # venv: ~/-wrk
    cd $PROJECT_HOME                                 # venv: cdp; cdph
-   echo $WORKON_HOME;  echo ~/.virtualenvs          # venv: ~/wrk/.ve
+   echo $WORKON_HOME;  echo ~/.virtualenvs          # venv: ~/-wrk/-ve27
    cd $WORKON_HOME                                  # venv: cdwh; cdwrk
 
    mkvirtualenv example
    workon example                                   # venv: we example
 
    cdvirtualenv; cd $VIRTUAL_ENV                    # venv: cdv
-   echo $VIRTUAL_ENV; echo ~/.virtualenvs/example   # venv: ~/wrk/.ve/example
+   echo $VIRTUAL_ENV; echo ~/.virtualenvs/example   # venv: ~/-wrk/-ve27/example
 
    mkdir src ; cd src/                              # venv: cds; cd $_SRC
 
@@ -2528,7 +3269,7 @@ KDE
 | Source: https://projects.kde.org/projects
 
 
-KDE is a GUI framework built on Qt.
+KDE is a GUI framework built on :ref:`Qt`.
 
 KWin is the main KDE window manager for :ref:`X11`.
 
@@ -2546,7 +3287,6 @@ Qt
 | Docs: http://www.qt.io/contribute/
 | Docs: http://wiki.qt.io/Main_Page
 | Docs: https://wiki.qt.io/Get_the_Source
-| Docs:
 | Src: git http://code.qt.io/cgit/
 
 Qt is a Graphical User Interface toolkit for
@@ -2592,6 +3332,653 @@ X11 window managers.
 :ref:`Gnome`, :ref:`KDE`, :ref:`I3wm`, :ref:`OSX`, and :ref:`Compiz`
 build upon X11.
 
+.. index:: Browsers
+.. _browsers:
+
+
+Browsers
+==========
+
+.. index:: Chrome
+.. _chrome:
+
+Chrome
+~~~~~~~
+
+.. index:: Chrome DevTools
+.. _chrome-devtools:
+
+Chrome DevTools
+++++++++++++++++
+| Homepage: https://developer.chrome.com/devtools
+| Docs: https://developer.chrome.com/devtools
+
+* Right-click > "Inspect Element"
+* OSX: ``<option>`` + ``<command>`` + ``i``
+
+.. index:: Chrome Extensions
+
+Chrome Extensions
++++++++++++++++++++
+
+**Accessibility**
+
+* `Accessibility Developer Tools`_
+* `ChromeVox`_
+* `Deluminate`_
+* `High Contrast`_
+* `Spectrum`_
+* `Stylish`_
+
+
+**Safety**
+
+* `Ghostery`_
+* `HTTPS Everywhere`_
+* `uBlock`_
+
+**Content**
+
+* `Hypothesis`_
+* `Pocket`_
+* `Zotero`_
+
+**Tab**
+
+* `OneTab`_
+* `Snipe`_
+* `Tabs Outliner`_
+
+**Development**
+
+* `FireBug`_ (see: `Chrome DevTools`_)
+* `FireLogger for Chrome`_
+* `JSONView`_
+* `Postman`_
+* `React Developer Tools`_
+* `Requirify`_
+* `Web Developer`_
+
+**Vim**
+
+* `Vimium`_
+* `Wasavi`_
+
+.. index:: pbm
+.. _pbm:
+
+pbm
+++++
+| Source: git https://github.com/westurner/pbm
+| PyPI: https://pypi.python.org/pypi/pbm
+| Warehouse: https://warehouse.python.org/project/pbm
+
+* backup and organize :ref:`Chrome` ``Bookmarks`` JSON in an offline batch
+* date-based transforms
+* quicklinks
+* starred bookmarks (with trailing ``##``)
+
+.. index:: Chrome Android
+.. _chrome android:
+
+Chrome Android
+~~~~~~~~~~~~~~~
+**Extensions**
+
+Chrome Android does not support extensions.
+
+.. index:: Wandroid
+.. _wandroid:
+
+Wandroid
+++++++++++
+| Source: hg https://bitbucket.org/westurner/wandroid
+
+ + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/config.py
+ + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/userdata.py
+
+
+.. index:: Firefox
+.. _firefox:
+
+Firefox
+~~~~~~~~
+
+.. index:: Firefox Extensions
+.. _firefox extensions:
+
+Firefox Extensions
++++++++++++++++++++
+**Accessibility**
+
+* `Stylish`_
+
+**Safety**
+
+* `Ghostery`_
+* `HTTPS Everywhere`_
+* `uBlock`_
+
+**Content**
+
+* `Pocket`_
+* `Zotero`_
+
+**Tabs**
+
+* `OneTab`_
+* `Tree Style Tab`_
+
+**Development**
+
+* `FireBug`_
+* `FireLogger`_
+* `Web Developer`_
+
+**Vim**
+
+* `Vimperator`_
+* `Wasavi`_
+
+.. index:: Firefox Android
+.. _firefox android:
+
+Firefox Android
+~~~~~~~~~~~~~~~~
+
+.. index:: Firefox Android Extensions
+.. _firefox android extensions:
+
+Firefox Android Extensions
++++++++++++++++++++++++++++
+* `Ghostery`_
+* `HTTPS Everywhere`_
+
+
+.. index:: Safari
+.. _safari:
+
+Safari
+~~~~~~~
+
+.. index:: Safari Extensions
+.. _safari extension:
+
+Safari Extensions
++++++++++++++++++++
+**Safety**
+
+* `Ghostery`_
+* `uBlock`_
+
+**Content**
+
+* `Zotero`_
+* `Pocket`_
+
+
+
+.. index:: Safari iOS
+.. _safari ios:
+
+Safari iOS
+~~~~~~~~~~~~~~~
+
+* `Pocket`_
+
+
+.. index:: Browser Extensions
+.. _browser extensions:
+
+Browser Extensions
+====================
+
+.. index:: Browser Extensions > Accessibility
+.. _accessibility extensions:
+
+Accessibility Extensions
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Google Chrome Accesibility Extensions:
+  https://chrome.google.com/webstore/category/ext/22-accessibility?hl=en
+* Mozilla Firefox Accesibility Extensions:
+  `<https://addons.mozilla.org/en-US/firefox/search/?q=accessibility>`__
+
+
+.. index:: Accessibility Developer Tools
+.. _accessibility developer tools:
+
+Accessibility Developer Tools
+++++++++++++++++++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/accessibility-developer-t/fpkknkljclfencbdbgkenhalefipecmb
+
+
+.. index:: ChromeVox
+.. _chromevox:
+
+ChromeVox
+++++++++++
+| Homepage: http://www.chromevox.com/
+| ChromeExt: https://chrome.google.com/webstore/detail/chromevox/kgejglhpjiefppelpmljglcjbhoiplfn
+
+
+.. index:: Deluminate
+.. _deluminate:
+
+Deluminate
++++++++++++
+| Homepage: https://deluminate.github.io/
+| Source: https://github.com/abstiles/deluminate
+| ChromeExt: https://chrome.google.com/webstore/detail/deluminate/iebboopaeangfpceklajfohhbpkkfiaa
+
+
+.. index:: High Contrast
+.. _high contrast:
+
+High Contrast
+++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/high-contrast/djcfdncoelnlbldjfhinnjlhdjlikmph
+
+
+.. index:: Spectrum
+.. _spectrum:
+
+Spectrum
++++++++++
+| Source: https://github.com/lvivski/spectrum
+| ChromeExt: https://chrome.google.com/webstore/detail/spectrum/ofclemegkcmilinpcimpjkfhjfgmhieb
+
+
+.. index:: Stylish
+.. _stylish:
+
+Stylish
+++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/stylish/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/2108/addon-2108-latest.xpi
+| Docs: https://userstyles.org/help/
+| Docs: https://userstyles.org/help/stylish_chrome
+| Docs: https://userstyles.org/help/stylish_firefox
+
+* https://userstyles.org/
+
+
+.. index:: Browser Extensions > Safety
+.. index:: Safety Extensions
+.. _safety extensions:
+
+Safety Extensions
+~~~~~~~~~~~~~~~~~~~
+
+.. index:: Ghostery
+.. _ghostery:
+
+Ghostery
+++++++++++
+| Homepage: https://www.ghostery.com/en/home
+| Source: https://www.ghostery.com/en/download
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/ghostery/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/9609/addon-9609-latest.xpi
+| ChromeExt: https://chrome.google.com/webstore/detail/ghostery/mlomiejdfkolichcflejclcbmpeaniij
+| OperaExt: https://addons.opera.com/addons/extensions/details/ghostery/
+| SafariExt: https://www.ghostery.com/safari/Ghostery.safariextz
+| MSIEExt: https://www.ghostery.com/ie/ghostery-ie.exe
+| AndroidApp: https://play.google.com/store/apps/details?id=com.ghostery.android.ghostery
+| iOSApp: https://itunes.apple.com/us/app/ghostery/id472789016
+| FirefoxAndroidXPI: https://addons.mozilla.org/android/downloads/latest/ghostery
+| FirefoxAndroidExt: https://addons.mozilla.org/en-US/android/addon/ghostery/
+
+
+.. index:: HTTPS Everywhere
+.. _https everywhere:
+
+HTTPS Everywhere
++++++++++++++++++
+| Homepage: https://www.eff.org/https-everywhere
+| Source: https://github.com/EFForg/https-everywhere
+| ChromeExt: https://chrome.google.com/webstore/detail/gcbommkclmclpchllfjekcdonpmejbdp
+| FirefoxXPI: https://www.eff.org/files/https-everywhere-latest.xpi
+| FirefoxAndroidXPI: https://www.eff.org/files/https-everywhere-android.xpi
+| Twitter: https://twitter.com/HTTPSEverywhere
+
+.. index:: uBlock
+.. _ublock:
+
+uBlock
+++++++++
+| Homepage: https://www.ublock.org/
+| Source: https://github.com/chrisaljoudi/ublock
+| Download: https://github.com/chrisaljoudi/uBlock/releases/latest
+| ChromeExt: https://chrome.google.com/webstore/detail/ublock/epcnnfbjfcgphgdmggkamkmgojdagdnn
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/ublock/
+| SafariExt: https://extensions.apple.com/details/?id=net.gorhill.uBlock-96G4BAKDQ9
+| Docs: https://www.ublock.org/faq/
+
+.. code:: bash
+
+   _repo="chrisaljoudi/ublock"
+   curl -s "https://api.github.com/repos/${_repo}/releases" > ./releases.json
+   cat releases.json \
+       | grep browser_download_url \
+       | pyline 'w and w[1][1:-1]' \
+       | pyline --regex \
+           '.*download/(.*)/(uBlock.(firefox.xpi|chromium.zip))$' \
+           'rgx and rgx.group(1,2)'
+
+
+.. index:: Browser Extensions > Content
+.. index:: Content Extensions
+.. _content-extensions:
+
+Content Extensions
+~~~~~~~~~~~~~~~~~~~~
+
+.. index:: Hypothesis
+.. _hypothesis:
+
+Hypothesis
++++++++++++
+| Homepage: https://hypothes.is/
+| Source: https://github.com/hypothesis/h
+| ChromeExt: https://chrome.google.com/webstore/detail/hypothesis-web-pdf-annota/bjfhmglciegochdpefhhlphglcehbmek
+| Twitter: https://twitter.com/hypothes_is
+
+Hypothesis can also be included as a sidebar on a site:
+
+.. code:: html
+
+   <script async defer src="//hypothes.is/embed.js"></script>
+
+
+.. index:: Pocket
+.. _pocket:
+
+Pocket
++++++++
+| Homepage: https://getpocket.com/
+| ChromeApp: https://chrome.google.com/webstore/detail/pocket/mjcnijlhddpbdemagnpefmlkjdagkogk
+| ChromeExt: https://chrome.google.com/webstore/detail/save-to-pocket/niloccemoadcdkdjlinkgdfekeahmflj
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/read-it-later/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/7661/addon-7661-latest.xpi
+| SafariLink: https://getpocket.com/safari/
+| iOSLink: https://getpocket.com/ios/
+
+
+.. index:: Zotero
+.. _zotero:
+
+Zotero
+++++++++
+| Homepage: https://www.zotero.org/
+| ChromeExt: https://chrome.google.com/webstore/detail/zotero-connector/ekhagklcjbdpajgpjgmbionohlpdbjgc
+| FirefoxXPI: https://download.zotero.org/extension/zotero-4.0.26.4.xpi
+| SafariExt: https://download.zotero.org/connector/safari/Zotero_Connector-4.0.21-1.safariextz
+| Download: https://www.zotero.org/download/
+| Docs: https://www.zotero.org/support/
+| Docs: https://www.zotero.org/support/sync
+| Docs: https://www.zotero.org/support/kb/webdav_services
+
+Zotero archives and tags resources with bibliographic metadata.
+
+* Zotero is really helpful for research.
+* Browsers other than Firefox connect to Zotero Standalone
+* Zotero can store a full-page archive of a given resource (e.g. HTML, PDF)
+* Zotero can store and synchronize data on Zotero's servers
+  with Zotero File Storage
+* Zotero can store and synchronize data over WebDAV
+* Zotero can export a collection of resources' bibliographic metadata
+  in one of many citation styles ("CSL") (e.g. MLA, APA, [Journal XYZ])
+
+  * https://www.zotero.org/styles
+  * http://citationstyles.org/
+
+* Zotero can export a collection of resources' bibliographic metadata
+  as RDF
+
+
+.. index:: Zotero and Schema.org RDFa
+
+-------------------------------
+[ ] Zotero and Schema.org RDFa
+-------------------------------
+* https://forums.zotero.org/discussion/35992/export-to-schemaorg-rdfa-andor-microdata/
+
+> How would I go about adding HTML + RDFa [1] and/or HTML + Microdata [2] export templates with Schema.org classes and properties to Zotero?
+
+* https://groups.google.com/forum/#!topic/zotero-dev/rJnMZYrhwM4
+* https://lists.w3.org/Archives/Public/public-vocabs/2014Apr/0202.html
+  (COinS, Citeproc-js, OpenAnnotation (+1))
+
+
+.. index:: Browser Extensions > Tabs
+.. index:: Tab Extensions
+.. _tab extensions:
+
+Tab Extensions
+~~~~~~~~~~~~~~~~
+
+.. index:: OneTab
+.. _onetab:
+
+OneTab
++++++++
+| Homepage: https://www.one-tab.com/
+| ChromeExt: https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/onetab/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/525044/addon-525044-latest.xpi
+
+* https://github.com/Greduan/chrome-ext-tabulator
+
+
+.. index:: Snipe
+.. _snipe:
+
+Snipe
++++++++
+| Homepage: http://joe.sh/snipe
+| Source: https://github.com/josephschmitt/Snipe
+| ChromeExt: https://chrome.google.com/webstore/detail/snipe/glmjakogmemenallddiiajdgjfoogegl
+
+
+.. index:: Tabs Outliner
+.. _tabs outliner:
+
+Tabs Outliner
+++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/tabs-outliner/eggkanocgddhmamlbiijnphhppkpkmkl
+
+
+.. index:: Tree Style Tab
+.. _tree style tab:
+
+Tree Style Tab
++++++++++++++++
+| Homepage: http://piro.sakura.ne.jp/xul/_treestyletab.html.en
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/
+
+
+.. index:: Browser Extensions > Development
+.. index:: Development Extensions
+.. _development extensions:
+
+Development Extensions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. index:: FireBug
+.. _firebug:
+
+FireBug
++++++++++
+| Homepage: http://getfirebug.com/
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/firebug/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/1843/addon-1843-latest.xpi
+| ChromeExt: https://chrome.google.com/extensions/detail/bmagokdooijbeehmkpknfglimnifench
+
+* https://getfirebug.com/firebuglite
+* https://getfirebug.com/wiki/index.php/Firebug_Extensions
+
+
+.. index:: FireLogger
+.. _firelogger:
+
+FireLogger
+++++++++++++
+| Homepage: http://firelogger.binaryage.com/
+| Source: https://github.com/binaryage/firelogger
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/firelogger/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/file/226289/firelogger-1.3-fx.xpi
+| Docs: https://github.com/binaryage/firelogger/wiki
+
+* Python: https://github.com/binaryage/firelogger.py
+* PHP: https://github.com/binaryage/firelogger.php
+* ColdFusion: http://cffirelogger.riaforge.org/
+* Java: https://github.com/clescot/webappender
+
+
+.. index:: FireLogger for Chrome
+.. _firelogger for chrome:
+
+FireLogger for Chrome
+++++++++++++++++++++++
+| Source: https://github.com/MattSkala/chrome-firelogger
+| ChromeExt: https://chrome.google.com/webstore/detail/firelogger-for-chrome/hmagilfopmdjkeomnjpchokglfdfjfeh
+
+See: `FireLogger`_
+
+
+.. index:: JSONView
+.. _jsonview:
+
+JSONView
++++++++++
+| Source: https://github.com/gildas-lormeau/JSONView-for-Chrome
+| ChromeExt: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
+
+
+.. index:: Postman
+.. _postman:
+
+Postman
+++++++++
+| Source: https://github.com/a85/POSTMan-Chrome-Extension
+| ChromeExt: https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm
+| Twitter: https://twitter.com/postmanclient
+
+
+.. index:: React Developer Tools
+.. _react developer tools:
+
+React Developer Tools
+++++++++++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
+
+
+.. index:: Requirify
+.. _requirify:
+
+Requirify
++++++++++++
+| Homepage: https://wzrd.in/
+| Source: https://github.com/mathisonian/requirify
+| ChromeExt: https://chrome.google.com/webstore/detail/requirify/gajpkncnknlljkhblhllcnnfjpbcmebm
+| NPM: https://www.npmjs.com/package/requirify
+| Docs: https://github.com/jfhbrook/browserify-cdn
+
+Requirify adds `NPM`_ modules to the local namespace (e.g. from `Chrome DevTools`_
+JS console).
+
+> require() npm modules in the browser console
+
+.. code::javascript
+
+    require('jquery');
+    require('d3');
+
+
+.. index:: local-requirify
+.. _local-requirify:
+
+----------------
+Local-requirify
+----------------
+| NPM: https://www.npmjs.com/package/local-requirify
+
+Require local `NPM`_ modules with `Requirify`_
+
+
+.. index:: Web Developer Extension
+.. _web developer extension:
+
+Web Developer
+++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm
+| Homepage: http://chrispederick.com/work/web-developer/
+| Source: https://github.com/chrispederick/web-developer/
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/web-developer/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/60/addon-60-latest.xpi
+
+Web Developer Extension, originally just for Firefox, adds many
+useful developer tools and bookmarklets in a structured menu.
+
+.. index:: Vim Extensions
+.. _vim-extensions:
+
+Vim Extensions
+~~~~~~~~~~~~~~~~
+
+.. index:: Vimium
+.. _vimium:
+
+Vimium
++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Vimium
+| Homepage: https://vimium.github.io/
+| Source: git https://github.com/philc/vimium
+| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+
+Vimium is a Chrome Extension which adds vim-like functionality.
+
+
++---------------+---------------------+--+--+
+| **function**  | **vimium shortcut** |  |  |
++---------------+---------------------+--+--+
+|  help         | ``?``               |  |  |
++---------------+---------------------+--+--+
+|  jump to link | ``f``               |  |  |
++---------------+---------------------+--+--+
+|  ...          |                     |  |  |
++---------------+---------------------+--+--+
+
+.. index:: Vimperator
+.. _vimperator:
+
+Vimperator
++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Vimperator
+| Homepage: http://www.vimperator.org/
+| Source: https://github.com/vimperator/vimperator-labs
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/vimperator/
+
+Vimperator connects a JS shell with VIM command interpretation
+to the Firefox API, with vim-like functionality.
+
+* ``vimperatorrc`` can configure settings in ``about:config``
+
+.. index:: Wasavi
+.. _wasavi:
+
+Wasavi
++++++++
+| Homepage: http://appsweets.net/wasavi/
+| Source: https://github.com/akahuku/wasavi
+| ChromeExt: https://chrome.google.com/webstore/detail/wasavi/dgogifpkoilgiofhhhodbodcfgomelhe
+| OperaExt: https://addons.opera.com/en/extensions/details/wasavi/
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/wasavi/
+| Docs: http://appsweets.net/wasavi/
+
+Wasavi converts the focused ``textarea`` to an in-page editor with
+vim-like functionality.
 
 .. index:: Documentation
 .. _documentation-tools:
@@ -2703,6 +4090,12 @@ so, for example,
 
 Standards
 ============
+
+References:
+
+* https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards
+* https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards
+
 
 .. index:: Filesystem Hierarchy Standard
 .. _fhs:
@@ -2848,9 +4241,7 @@ Vimium
 | Wikipedia: https://en.wikipedia.org/wiki/Vimium
 | Homepage: https://vimium.github.io/
 | Source: git https://github.com/philc/vimium
-
-
-* https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
 
 
 .. index:: Vimperator
@@ -2861,9 +4252,7 @@ Vimperator
 | Wikipedia: https://en.wikipedia.org/wiki/Vimperator
 | Homepage: http://www.vimperator.org/
 | Source: https://github.com/vimperator/vimperator-labs
-
-
-* https://addons.mozilla.org/en-US/firefox/addon/vimperator/
+| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/vimperator/
 
 
 .. index:: Wasavi

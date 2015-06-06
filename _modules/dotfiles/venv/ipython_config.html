@@ -184,9 +184,11 @@
 <span class="sd">- define ``WORKON_HOME``</span>
 
 <span class="sd">- create and add :py:mod:`Steps` (``builder.add_step(step_func)``)</span>
+
 <span class="sd">  - define variables like ``env[&#39;__WRK&#39;]`` (``Venv.env.environ[&#39;PATH&#39;]``)</span>
 <span class="sd">  - define IPython shell command aliases (``Env.aliases``,</span>
 <span class="sd">    ``e``, ``ps``, ``git``, ``gitw``)</span>
+
 <span class="sd">- create a :py:mod:`StepBuilder` (``builder = StepBuilder()``)</span>
 <span class="sd">- build a new env from steps: ``new_env = builder.build(env)``</span>
 
@@ -202,6 +204,7 @@
 
 <span class="sd">- generate and source CdAliases that expand and complete where possible</span>
 <span class="sd">  (``cdwrk``, ``cdwrd``, ``cdw``)</span>
+
 <span class="sd">  - define CdAliases in ipython_config.py (this file)</span>
 <span class="sd">  - generate venv.sh (``cdwrk``)</span>
 <span class="sd">  - generate venv.vim (``:Cdwrk``)</span>
@@ -1328,9 +1331,9 @@
 <span class="sd">    Other Parameters:</span>
 <span class="sd">        __WRK (str): workspace root (``$__WRK``, ``~/-wrk``)</span>
 <span class="sd">        CONDA_ROOT__py27 (str): path to conda27 root environment</span>
-<span class="sd">        CONDA_ENVS_PATH__py27 (str): path to conda27 envs (e.g. WORKON_HOME)</span>
+<span class="sd">        CONDA_ENVS__py27 (str): path to conda27 envs (e.g. WORKON_HOME)</span>
 <span class="sd">        CONDA_ROOT__py34 (str): path to conda34 root environment</span>
-<span class="sd">        CONDA_ENVS_PATH__py34 (str): path to conda34 envs (e.g. WORKON_HOME)</span>
+<span class="sd">        CONDA_ENVS__py34 (str): path to conda34 envs (e.g. WORKON_HOME)</span>
 
 <span class="sd">    Keyword Arguments:</span>
 <span class="sd">        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`</span>
@@ -1368,7 +1371,7 @@
         <span class="n">env_home</span> <span class="o">=</span> <span class="s">&quot;{env_home_prefix}{env_suffix}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">conf</span><span class="p">)</span>
 
         <span class="n">root_key</span> <span class="o">=</span> <span class="s">&quot;CONDA_ROOT{env_name}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">env_name</span><span class="o">=</span><span class="n">env_name</span><span class="p">)</span>
-        <span class="n">home_key</span> <span class="o">=</span> <span class="s">&quot;CONDA_ENVS_PATH{env_name}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">env_name</span><span class="o">=</span><span class="n">env_name</span><span class="p">)</span>
+        <span class="n">home_key</span> <span class="o">=</span> <span class="s">&quot;CONDA_ENVS{env_name}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">env_name</span><span class="o">=</span><span class="n">env_name</span><span class="p">)</span>
         <span class="n">env</span><span class="p">[</span><span class="n">root_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">root_key</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">root_key</span><span class="p">))</span> <span class="ow">or</span>
                          <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="n">env_root</span><span class="p">))</span>
         <span class="n">env</span><span class="p">[</span><span class="n">home_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">home_key</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">home_key</span><span class="p">))</span> <span class="ow">or</span>
@@ -1378,7 +1381,7 @@
 
 </div>
 <span class="n">DEFAULT_CONDA_ROOT_DEFAULT</span> <span class="o">=</span> <span class="s">&#39;CONDA_ROOT__py27&#39;</span>
-<span class="n">DEFAULT_CONDA_ENVS_PATH_DEFAULT</span> <span class="o">=</span> <span class="s">&#39;CONDA_ENVS_PATH__py27&#39;</span>
+<span class="n">DEFAULT_CONDA_ENVS_DEFAULT</span> <span class="o">=</span> <span class="s">&#39;CONDA_ENVS__py27&#39;</span>
 
 
 <div class="viewcode-block" id="build_conda_cfg_env"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_config.build_conda_cfg_env">[docs]</a><span class="k">def</span> <span class="nf">build_conda_cfg_env</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1401,23 +1404,23 @@
 
     <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT__py27&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ROOT__py27&#39;</span><span class="p">,</span>
                                      <span class="n">default</span><span class="o">=</span><span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="s">&#39;-conda27&#39;</span><span class="p">))</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH__py27&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS_PATH__py27&#39;</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS__py27&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS__py27&#39;</span><span class="p">,</span>
                                      <span class="n">default</span><span class="o">=</span><span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="s">&#39;-ce27&#39;</span><span class="p">))</span>
 
     <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT__py34&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ROOT__py34&#39;</span><span class="p">,</span>
                                      <span class="n">default</span><span class="o">=</span><span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="s">&#39;-conda34&#39;</span><span class="p">))</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH__py34&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS_PATH__py34&#39;</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS__py34&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS__py34&#39;</span><span class="p">,</span>
                                      <span class="n">default</span><span class="o">=</span><span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;__WRK&#39;</span><span class="p">],</span> <span class="s">&#39;-ce34&#39;</span><span class="p">))</span>
 
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT_DEFAULT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;DEFAULT_CONDA_ROOT&#39;</span><span class="p">,</span>
-                                       <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_CONDA_ROOT_DEFAULT</span><span class="p">)</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH_DEFAULT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;DEFAULT_CONDA_ROOT&#39;</span><span class="p">,</span>
-                                       <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_CONDA_ENVS_PATH_DEFAULT</span><span class="p">)</span>
+    <span class="c">#env[&#39;CONDA_ROOT_DEFAULT&#39;] = lookup(&#39;CONDA_ROOT_DEFAULT&#39;,</span>
+    <span class="c">#                                   default=DEFAULT_CONDA_ROOT_DEFAULT)</span>
+    <span class="c">#env[&#39;CONDA_ENVS_DEFAULT&#39;] = lookup(&#39;CONDA_ENVS_DEFAULT&#39;,</span>
+    <span class="c">#                                   default=DEFAULT_CONDA_ENVS_DEFAULT)</span>
 
     <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ROOT&#39;</span><span class="p">,</span>
-                               <span class="n">default</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ROOT_DEFAULT&#39;</span><span class="p">]])</span>
+                               <span class="n">default</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="n">DEFAULT_CONDA_ROOT_DEFAULT</span><span class="p">])</span>
     <span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lookup</span><span class="p">(</span><span class="s">&#39;CONDA_ENVS_PATH&#39;</span><span class="p">,</span>
-                               <span class="n">default</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;CONDA_ENVS_PATH_DEFAULT&#39;</span><span class="p">]])</span>
+                               <span class="n">default</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="n">DEFAULT_CONDA_ENVS_DEFAULT</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">env</span>
 
 </div>
@@ -1633,185 +1636,198 @@
             <span class="n">_WRD</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
         <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_WRD</span>
 
-    <span class="c"># EDITOR configuration</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIMBIN&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;vim&#39;</span><span class="p">)</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;gvim&#39;</span><span class="p">)</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;mvim&#39;</span><span class="p">)</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">))</span>
-    <span class="c"># set the current vim servername to _APP</span>
+    <span class="k">def</span> <span class="nf">build_editor_env</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+        <span class="c"># EDITOR configuration</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIMBIN&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;vim&#39;</span><span class="p">)</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;gvim&#39;</span><span class="p">)</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">spawn</span><span class="o">.</span><span class="n">find_executable</span><span class="p">(</span><span class="s">&#39;mvim&#39;</span><span class="p">)</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GVIMBIN&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;MVIMBIN&#39;</span><span class="p">))</span>
+        <span class="c"># set the current vim servername to _APP</span>
+        <span class="n">VIMSERVER</span> <span class="o">=</span> <span class="s">&#39;/&#39;</span>
+        <span class="k">if</span> <span class="n">_APP</span><span class="p">:</span>
+            <span class="n">VIMSERVER</span> <span class="o">=</span> <span class="n">_APP</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIMCONF&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;--servername </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">shell_quote</span><span class="p">(</span><span class="n">VIMSERVER</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">):</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> -f&quot;</span> <span class="o">%</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;VIMBIN&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> --remote-tab-silent&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">),</span>
+                <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;VIMCONF&#39;</span><span class="p">))</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;EDITOR_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">aliases</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;gvimw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">env</span>
 
-    <span class="n">VIMSERVER</span> <span class="o">=</span> <span class="s">&#39;/&#39;</span>
-    <span class="k">if</span> <span class="n">_APP</span><span class="p">:</span>
-        <span class="n">VIMSERVER</span> <span class="o">=</span> <span class="n">_APP</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;VIMCONF&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;--servername </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span>
-        <span class="n">shell_quote</span><span class="p">(</span><span class="n">VIMSERVER</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">):</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> -f&quot;</span> <span class="o">%</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;VIMBIN&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> --remote-tab-silent&#39;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;GUIVIMBIN&#39;</span><span class="p">),</span>
-            <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;VIMCONF&#39;</span><span class="p">))</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;EDITOR_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">build_ipython_env</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+        <span class="c"># IPYTHON configuration</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_NOTEBOOKS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">,</span>
+                                            <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;__WRK&#39;</span><span class="p">,</span>
+                                                    <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;HOME&#39;</span><span class="p">))),</span>
+                                    <span class="s">&#39;notebooks&#39;</span><span class="p">)</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPYSESKEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;HOME&#39;</span><span class="p">)),</span>
+                                    <span class="s">&#39;.ipyseskey&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">_new_ipnbkey</span> <span class="o">=</span> <span class="s">&quot;print os.urandom(128).encode(</span><span class="se">\\\&quot;</span><span class="s">base64</span><span class="se">\\\&quot;</span><span class="s">)&quot;</span>
+        <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">_new_ipnbkey</span> <span class="o">=</span> <span class="s">&quot;print(os.urandom(128).encode(</span><span class="se">\\\&quot;</span><span class="s">base64</span><span class="se">\\\&quot;</span><span class="s">))&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span><span class="p">)</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">aliases</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ipskey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;(python -c </span><span class="se">\&quot;</span><span class="s">&#39;</span>
+                            <span class="s">&#39;import os;&#39;</span>
+                            <span class="s">&#39; {_new_ipnbkey}</span><span class="se">\&quot;</span><span class="s">&#39;</span>
+                            <span class="s">&#39; &gt; {_IPYSESKEY} )&#39;</span>
+                            <span class="s">&#39; &amp;&amp; chmod 0600 {_IPYSESKEY};&#39;</span>
+                            <span class="s">&#39; # %l&#39;</span>
+                            <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">_new_ipnbkey</span><span class="o">=</span><span class="n">_new_ipnbkey</span><span class="p">,</span>
+            <span class="n">_IPYSESKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPYSESKEY&#39;</span><span class="p">))</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ipnb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;ipython notebook&#39;</span>
+                        <span class="s">&#39; --secure&#39;</span>
+                        <span class="s">&#39; --Session.keyfile={_IPYSESKEY}&#39;</span>
+                        <span class="s">&#39; --notebook-dir={_NOTEBOOKS}&#39;</span>
+                        <span class="s">&#39; --deep-reload&#39;</span>
+                        <span class="s">&#39; %l&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">_IPYSESKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPYSESKEY&#39;</span><span class="p">),</span>
+            <span class="n">_NOTEBOOKS</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_NOTEBOOKS&#39;</span><span class="p">))</span>
 
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;gvimw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">]</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPQTLOG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">],</span> <span class="s">&#39;.ipqt.log&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ipqt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;ipython qtconsole&#39;</span>
+                        <span class="s">&#39; --secure&#39;</span>
+                        <span class="s">&#39; --Session.keyfile={_IPYSESKEY}&#39;</span>
+                        <span class="s">&#39; --logappend={_IPQTLOG}&#39;</span>
+                        <span class="s">&#39; --deep-reload&#39;</span>
+                        <span class="c">#&#39; --gui-completion&#39;</span>
+                        <span class="c">#&#39; --existing=${_APP}&#39;</span>
+                        <span class="s">&#39; --pprint&#39;</span>
+                        <span class="c">#&#39; --pdb&#39;</span>
+                        <span class="s">&#39; --colors=linux&#39;</span>
+                        <span class="s">&#39; --ConsoleWidget.font_family=&quot;Monaco&quot;&#39;</span>
+                        <span class="s">&#39; --ConsoleWidget.font_size=11&#39;</span>
+                        <span class="s">&#39; %l&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">_IPYSESKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPYSESKEY&#39;</span><span class="p">),</span>
+            <span class="n">_APP</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_APP&#39;</span><span class="p">),</span>
+            <span class="n">_IPQTLOG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPQTLOG&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">env</span>
 
-    <span class="c"># IPYTHON configuration</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;_NOTEBOOKS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">,</span>
-                                         <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;__WRK&#39;</span><span class="p">,</span>
-                                                 <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;HOME&#39;</span><span class="p">))),</span>
-                                 <span class="s">&#39;notebooks&#39;</span><span class="p">)</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPYSESKEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;HOME&#39;</span><span class="p">)),</span>
-                                 <span class="s">&#39;.ipyseskey&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">_new_ipnbkey</span> <span class="o">=</span> <span class="s">&quot;print os.urandom(128).encode(</span><span class="se">\\\&quot;</span><span class="s">base64</span><span class="se">\\\&quot;</span><span class="s">)&quot;</span>
-    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">_new_ipnbkey</span> <span class="o">=</span> <span class="s">&quot;print(os.urandom(128).encode(</span><span class="se">\\\&quot;</span><span class="s">base64</span><span class="se">\\\&quot;</span><span class="s">))&quot;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span><span class="p">)</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ipskey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;(python -c </span><span class="se">\&quot;</span><span class="s">&#39;</span>
-                         <span class="s">&#39;import os;&#39;</span>
-                         <span class="s">&#39; {_new_ipnbkey}</span><span class="se">\&quot;</span><span class="s">&#39;</span>
-                         <span class="s">&#39; &gt; {_IPYSESKEY} )&#39;</span>
-                         <span class="s">&#39; &amp;&amp; chmod 0600 {_IPYSESKEY};&#39;</span>
-                         <span class="s">&#39; # %l&#39;</span>
-                         <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">_new_ipnbkey</span><span class="o">=</span><span class="n">_new_ipnbkey</span><span class="p">,</span>
-        <span class="n">_IPYSESKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPYSESKEY&#39;</span><span class="p">))</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ipnb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;ipython notebook&#39;</span>
-                       <span class="s">&#39; --secure&#39;</span>
-                       <span class="s">&#39; --Session.keyfile={_IPYSESKEY}&#39;</span>
-                       <span class="s">&#39; --notebook-dir={_NOTEBOOKS}&#39;</span>
-                       <span class="s">&#39; --deep-reload&#39;</span>
-                       <span class="s">&#39; %l&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">_IPYSESKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPYSESKEY&#39;</span><span class="p">),</span>
-        <span class="n">_NOTEBOOKS</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_NOTEBOOKS&#39;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">build_grin_env</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">aliases</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grin --follow </span><span class="si">%%</span><span class="s">l </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span>
+            <span class="s">&#39;grindv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grind --follow </span><span class="si">%%</span><span class="s">l --dirs </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">)</span>
 
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;_IPQTLOG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">],</span> <span class="s">&#39;.ipqt.log&#39;</span><span class="p">)</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ipqt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;ipython qtconsole&#39;</span>
-                       <span class="s">&#39; --secure&#39;</span>
-                       <span class="s">&#39; --Session.keyfile={_IPYSESKEY}&#39;</span>
-                       <span class="s">&#39; --logappend={_IPQTLOG}&#39;</span>
-                       <span class="s">&#39; --deep-reload&#39;</span>
-                       <span class="c">#&#39; --gui-completion&#39;</span>
-                       <span class="c">#&#39; --existing=${_APP}&#39;</span>
-                       <span class="s">&#39; --pprint&#39;</span>
-                       <span class="c">#&#39; --pdb&#39;</span>
-                       <span class="s">&#39; --colors=linux&#39;</span>
-                       <span class="s">&#39; --ConsoleWidget.font_family=&quot;Monaco&quot;&#39;</span>
-                       <span class="s">&#39; --ConsoleWidget.font_size=11&#39;</span>
-                       <span class="s">&#39; %l&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">_IPYSESKEY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPYSESKEY&#39;</span><span class="p">),</span>
-        <span class="n">_APP</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_APP&#39;</span><span class="p">),</span>
-        <span class="n">_IPQTLOG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_IPQTLOG&#39;</span><span class="p">))</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grin --follow </span><span class="si">%%</span><span class="s">l </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grind --follow </span><span class="si">%%</span><span class="s">l --dirs </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">env</span>
 
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grin --follow </span><span class="si">%%</span><span class="s">l </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">)</span>
-    <span class="n">aliases</span><span class="p">[</span>
-        <span class="s">&#39;grindv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grind --follow </span><span class="si">%%</span><span class="s">l --dirs </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;VIRTUAL_ENV&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">build_wrd_aliases_env</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+        <span class="n">_WRD</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">aliases</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_WRD</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
 
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grin --follow </span><span class="si">%%</span><span class="s">l </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">)</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grind --follow </span><span class="si">%%</span><span class="s">l --dirs </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_SRC&#39;</span><span class="p">)</span>
-
-    <span class="n">_WRD</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_WRD</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_WRD</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_WRD_SETUPY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">_WRD</span><span class="p">,</span> <span class="s">&#39;setup.py&#39;</span><span class="p">)</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TEST_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; python {_WRD_SETUPY} test)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">),</span>
-            <span class="n">_WRD_SETUPY</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD_SETUPY&#39;</span><span class="p">)</span>
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;lsw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">IpyAlias</span><span class="p">(</span>
+                <span class="s">&#39;(cd {_WRD}; ls $(test -n &quot;{__IS_MAC}&quot; &amp;&amp; echo &quot;-G&quot; || echo &quot;--color=auto&quot;) %l)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">),</span>
+                    <span class="n">__IS_MAC</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;__IS_MAC&#39;</span><span class="p">)),</span>
+                <span class="n">name</span><span class="o">=</span><span class="s">&#39;lsw&#39;</span><span class="p">,</span>
+                <span class="n">complfuncstr</span><span class="o">=</span><span class="s">&quot;&quot;&quot;local cur=${2};</span>
+<span class="s">                COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));&quot;&quot;&quot;</span>
             <span class="p">)</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;testw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TEST_&#39;</span><span class="p">]</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;testwr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;reset &amp;&amp; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TEST_&#39;</span><span class="p">]</span>
+
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;findw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;find {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grepw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grep %l {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grin --follow %l {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grindw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grind --follow %l --dirs {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;PROJECT_FILES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PROJECT_FILES</span><span class="p">)</span>
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;ew ${PROJECT_FILES} %l&quot;</span>
+
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; make %l)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makew&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span>
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewlog&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s">&quot;_logfile=</span><span class="se">\&quot;</span><span class="s">${_VARLOG}/make.log</span><span class="se">\&quot;</span><span class="s">; &quot;</span>
+                <span class="s">&quot;(makew %l 2&gt;&amp;1 | tee $_logfile) &amp;&amp; e $_logfile&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;app working directory </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_WRD</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">env</span>
+
+    <span class="k">def</span> <span class="nf">build_python_testing_env</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">aliases</span>
+        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TESTPY_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; python setup.py test)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;testpyw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TESTPY_&#39;</span><span class="p">]</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;testpywr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;reset &amp;&amp; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_TESTPY_&#39;</span><span class="p">]</span>
         <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;nosew&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;(cd {_WRD} &amp;&amp; nosetests %l)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">env</span>
 
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;lsw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">IpyAlias</span><span class="p">(</span>
-            <span class="s">&#39;(cd {_WRD}; ls $(test -n &quot;{__IS_MAC}&quot; &amp;&amp; echo &quot;-G&quot; || echo &quot;--color=auto&quot;) %l)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">),</span>
-                <span class="n">__IS_MAC</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;__IS_MAC&#39;</span><span class="p">)),</span>
-            <span class="n">name</span><span class="o">=</span><span class="s">&#39;lsw&#39;</span><span class="p">,</span>
-            <span class="n">complfuncstr</span><span class="o">=</span><span class="s">&quot;&quot;&quot;local cur=${2};</span>
-<span class="s">            COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));&quot;&quot;&quot;</span>
-        <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">build_pyramid_env</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">dont_reflect</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="n">_CFG</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">],</span> <span class="s">&#39;development.ini&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dont_reflect</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_CFG</span><span class="p">):</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_CFG</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDITCFG_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;{_EDIT_} {_CFG}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">_EDIT_</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">],</span>
+                <span class="n">_CFG</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">])</span>
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editcfg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;{_EDITCFG} %l&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">_EDITCFG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_EDITCFG_&#39;</span><span class="p">))</span>
+            <span class="c"># Pyramid pshell &amp; pserve (#TODO: test -f manage.py (django))</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SHELL_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; {_BIN}/pshell {_CFG})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">_BIN</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_BIN&#39;</span><span class="p">),</span>
+                <span class="n">_CFG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_CFG&#39;</span><span class="p">),</span>
+                <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SERVE_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;(cd {_WRD} &amp;&amp; {_BIN}/pserve&quot;</span>
+                              <span class="s">&quot; --app-name=main&quot;</span>
+                              <span class="s">&quot; --reload&quot;</span>
+                              <span class="s">&quot; --monitor-restart {_CFG})&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">_BIN</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_BIN&#39;</span><span class="p">),</span>
+                <span class="n">_CFG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_CFG&#39;</span><span class="p">),</span>
+                <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;servew&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SERVE_&#39;</span><span class="p">]</span>
+            <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;shellw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SHELL_&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;app configuration </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_CFG</span><span class="p">)</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">env</span>
 
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;findw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;find {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grepw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grep %l {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">build_supervisord_env</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+        <span class="n">_SVCFG</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">,</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">],</span> <span class="s">&#39;supervisord.conf&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_SVCFG</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_SVCFG</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39; -c </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;supervisord configuration </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_SVCFG</span><span class="p">)</span>
+            <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">aliases</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ssv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;supervisord -c &quot;${_SVCFG}&quot;&#39;</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;sv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;supervisorctl -c &quot;${_SVCFG}&quot;&#39;</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;svt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;sv tail -f&#39;</span>
+        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;svd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev&#39;</span>
+                        <span class="s">&#39; &amp;&amp; supervisorctl -c &quot;${_SVCFG}&quot; tail -f dev&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">env</span>
 
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grinw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grin --follow %l {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;grindw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;grind --follow %l --dirs {_WRD}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
-
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;hgwv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;hg view -R {_WRD}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;hgwl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;hg -R {_WRD} log&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;app working directory </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_WRD</span><span class="p">)</span>
-
-    <span class="n">_CFG</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">],</span> <span class="s">&#39;development.ini&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_CFG</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_CFG</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDITCFG_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;{_EDIT_} {_CFG}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_EDIT_</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_EDIT_&#39;</span><span class="p">],</span>
-            <span class="n">_CFG</span><span class="o">=</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">])</span>
-        <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editcfg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;{_EDITCFG} %l&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_EDITCFG</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_EDITCFG_&#39;</span><span class="p">))</span>
-        <span class="c"># Pyramid pshell &amp; pserve (#TODO: test -f manage.py (django))</span>
-        <span class="c">#env[&#39;_SHELL_&#39;] = &quot;(cd {_WRD} &amp;&amp; {_BIN}/pshell {_CFG})&quot;.format(</span>
-        <span class="c">#    _BIN=shell_varquote(&#39;_BIN&#39;),</span>
-        <span class="c">#    _CFG=shell_varquote(&#39;_CFG&#39;),</span>
-        <span class="c">#    _WRD=shell_varquote(&#39;_WRD&#39;))</span>
-        <span class="c">#env[&#39;_SERVE_&#39;] = (&quot;(cd {_WRD} &amp;&amp; {_BIN}/pserve&quot;</span>
-        <span class="c">#                  &quot; --app-name=main&quot;</span>
-        <span class="c">#                  &quot; --reload&quot;</span>
-        <span class="c">#                  &quot; --monitor-restart {_CFG})&quot;).format(</span>
-        <span class="c">#    _BIN=shell_varquote(&#39;_BIN&#39;),</span>
-        <span class="c">#    _CFG=shell_varquote(&#39;_CFG&#39;),</span>
-        <span class="c">#    _WRD=shell_varquote(&#39;_WRD&#39;))</span>
-        <span class="c">#aliases[&#39;servew&#39;] = env[&#39;_SERVE_&#39;]</span>
-        <span class="c">#aliases[&#39;shellw&#39;] = env[&#39;_SHELL_&#39;]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;app configuration </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_CFG</span><span class="p">)</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_CFG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">IpyAlias</span><span class="p">(</span><span class="s">&#39;echo the&#39;</span><span class="p">,</span>
-        <span class="c"># &quot;(cd ${_WRD}; ${_EDIT_} %l)&quot;,</span>
-        <span class="c"># &#39;&#39;&#39;echo &quot;%l&quot; | pyline -m shlex &#39;l and &quot;\n&quot;.join(shlex.split(l))&#39; | &quot;&quot;&quot;</span>
-        <span class="c">#(&#39;&#39;&#39;((for arg in %l; do echo $arg; done) | el --each -x &quot;${EDITOR_:-${EDITOR}} &quot;${_WRD}/{0}&quot;)&#39;&#39;&#39;),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s">&#39;ew&#39;</span><span class="p">,</span>
-        <span class="n">complfuncstr</span><span class="o">=</span><span class="p">(</span>
-    <span class="sd">&quot;&quot;&quot;local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));&quot;&quot;&quot;</span>
-    <span class="p">))</span>
-
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editw&#39;</span><span class="p">]</span>
-    <span class="n">env</span><span class="p">[</span><span class="s">&#39;PROJECT_FILES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-        <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PROJECT_FILES</span><span class="p">)</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;editp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} %l&quot;</span>
-
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; make %l)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_WRD</span><span class="o">=</span><span class="n">shell_varquote</span><span class="p">(</span><span class="s">&#39;_WRD&#39;</span><span class="p">))</span>
-
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makew&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;mw&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewrd&#39;</span><span class="p">]</span>
-
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;makewepy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;_logfile=</span><span class="se">\&quot;</span><span class="s">${_LOG}/make.log.py</span><span class="se">\&quot;</span><span class="s">; (makew %l 2&gt;&amp;1 | tee $_logfile) &amp;&amp; e $_logfile&quot;</span>
-
-    <span class="n">_SVCFG</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">,</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_ETC&#39;</span><span class="p">],</span> <span class="s">&#39;supervisord.conf&#39;</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_SVCFG</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dont_reflect</span><span class="p">:</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_SVCFG</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39; -c </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">shell_quote</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG&#39;</span><span class="p">])</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;supervisord configuration </span><span class="si">%r</span><span class="s"> not found&#39;</span> <span class="o">%</span> <span class="n">_SVCFG</span><span class="p">)</span>
-        <span class="n">env</span><span class="p">[</span><span class="s">&#39;_SVCFG_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;ssv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;supervisord -c &quot;${_SVCFG}&quot;&#39;</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;sv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;supervisorctl -c &quot;${_SVCFG}&quot;&#39;</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;svt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;sv tail -f&#39;</span>
-    <span class="n">aliases</span><span class="p">[</span><span class="s">&#39;svd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;supervisorctl -c &quot;${_SVCFG}&quot; restart dev&#39;</span>
-                      <span class="s">&#39; &amp;&amp; supervisorctl -c &quot;${_SVCFG}&quot; tail -f dev&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">env</span>
+    <span class="n">funcs</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">build_editor_env</span><span class="p">,</span>
+        <span class="n">build_ipython_env</span><span class="p">,</span>
+        <span class="n">build_grin_env</span><span class="p">,</span>
+        <span class="n">build_wrd_aliases_env</span><span class="p">,</span>
+        <span class="n">build_python_testing_env</span><span class="p">,</span>
+        <span class="n">build_pyramid_env</span><span class="p">,</span>
+        <span class="n">build_supervisord_env</span><span class="p">]</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">StepBuilder</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">funcs</span><span class="p">:</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
 
 </div>
 <div class="viewcode-block" id="build_usrlog_env"><a class="viewcode-back" href="../../../dotfiles.venv#dotfiles.venv.ipython_config.build_usrlog_env">[docs]</a><span class="k">def</span> <span class="nf">build_usrlog_env</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -2049,15 +2065,16 @@
         <span class="p">(</span><span class="s">&quot;__DOTFILES&quot;</span><span class="p">,</span> <span class="s">&quot;${HOME}/-dotfiles&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;__WRK&quot;</span><span class="p">,</span> <span class="s">&quot;${HOME}/-wrk&quot;</span><span class="p">),</span>
         <span class="c">#(&quot;PROJECT_HOME&quot;, &quot;${HOME}/-wrk&quot;),</span>
+        <span class="p">(</span><span class="s">&quot;PROJECT_HOME&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;WORKON_HOME__py27&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ve27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;WORKON_HOME__py34&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ve34&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;WORKON_HOME_DEFAULT&quot;</span><span class="p">,</span> <span class="s">&quot;WORKON_HOME__py27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_ROOT__py27&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-conda27&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;CONDA_ENVS_PATH__py27&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce27&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;CONDA_ENVS__py27&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_ROOT__py34&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-conda34&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;CONDA_ENVS_PATH__py34&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce34&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;CONDA_ROOT_DEFAULT&quot;</span><span class="p">,</span> <span class="s">&quot;CONDA_ROOT__py27&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;CONDA_ENVS_PATH_DEFAULT&quot;</span><span class="p">,</span> <span class="s">&quot;CONDA_ENVS_PATH__py27&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;CONDA_ENVS__py34&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce34&quot;</span><span class="p">),</span>
+        <span class="c">#(&quot;CONDA_ROOT_DEFAULT&quot;, &quot;CONDA_ROOT__py27&quot;),</span>
+        <span class="c">#(&quot;CONDA_ENVS_DEFAULT&quot;, &quot;CONDA_ENVS__py27&quot;),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_ROOT&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-conda27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;CONDA_ENVS_PATH&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ce27&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;WORKON_HOME&quot;</span><span class="p">,</span> <span class="s">&quot;${__WRK}/-ve27&quot;</span><span class="p">),</span>
@@ -2103,27 +2120,27 @@
         <span class="p">(</span><span class="s">&quot;_VARSPOOL&quot;</span><span class="p">,</span> <span class="s">&quot;${_VAR}/spool&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;_VARTMP&quot;</span><span class="p">,</span> <span class="s">&quot;${_VAR}/tmp&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&quot;_WWW&quot;</span><span class="p">,</span> <span class="s">&quot;${_VAR}/www&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;PROJECT_FILES&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;VIMBIN&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/bin/vim&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;GVIMBIN&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/local/bin/gvim&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;MVIMBIN&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/local/bin/mvim&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;GUIVIMBIN&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/local/bin/gvim&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;VIMCONF&quot;</span><span class="p">,</span> <span class="s">&quot;--servername dotfiles&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_EDIT_&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;EDITOR_&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_NOTEBOOKS&quot;</span><span class="p">,</span> <span class="s">&quot;${_SRC}/notebooks&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_IPYSESKEY&quot;</span><span class="p">,</span> <span class="s">&quot;${_SRC}/.ipyseskey&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_IPQTLOG&quot;</span><span class="p">,</span> <span class="s">&quot;${VIRTUAL_ENV}/.ipqt.log&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_WRD_SETUPY&quot;</span><span class="p">,</span> <span class="s">&quot;${_WRD}/setup.py&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_TEST_&quot;</span><span class="p">,</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; python </span><span class="se">\&quot;</span><span class="s">${_WRD_SETUPY}</span><span class="se">\&quot;</span><span class="s"> test)&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_CFG&quot;</span><span class="p">,</span> <span class="s">&quot;${_ETC}/development.ini&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_EDITCFG_&quot;</span><span class="p">,</span> <span class="s">&quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_SHELL_&quot;</span><span class="p">,</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; </span><span class="se">\&quot;</span><span class="s">${_BIN}</span><span class="se">\&quot;</span><span class="s">/pshell </span><span class="se">\&quot;</span><span class="s">${_CFG}</span><span class="se">\&quot;</span><span class="s">)&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_SERVE_&quot;</span><span class="p">,</span> <span class="s">&quot;(cd {_WRD} &amp;&amp; </span><span class="se">\&quot;</span><span class="s">${_BIN}</span><span class="se">\&quot;</span><span class="s">/pserve --app-name=main --reload --monitor-restart </span><span class="se">\&quot;</span><span class="s">${_CFG}</span><span class="se">\&quot;</span><span class="s">)&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_SVCFG&quot;</span><span class="p">,</span> <span class="s">&quot;${_ETC}/supervisord.conf&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_SVCFG_&quot;</span><span class="p">,</span> <span class="s">&quot; -c </span><span class="se">\&quot;</span><span class="s">${_ETC}/supervisord.conf</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;__USRLOG&quot;</span><span class="p">,</span> <span class="s">&quot;${HOME}/-usrlog.log&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">&quot;_USRLOG&quot;</span><span class="p">,</span> <span class="s">&quot;${VIRTUAL_ENV}/-usrlog.log&quot;</span><span class="p">),</span>
+        <span class="c">#(&quot;PROJECT_FILES&quot;, &quot;&quot;),</span>
+        <span class="c">#(&quot;VIMBIN&quot;, &quot;/usr/bin/vim&quot;),</span>
+        <span class="c">#(&quot;GVIMBIN&quot;, &quot;/usr/local/bin/gvim&quot;),</span>
+        <span class="c">#(&quot;MVIMBIN&quot;, &quot;/usr/local/bin/mvim&quot;),</span>
+        <span class="c">#(&quot;GUIVIMBIN&quot;, &quot;/usr/local/bin/gvim&quot;),</span>
+        <span class="c">#(&quot;VIMCONF&quot;, &quot;--servername dotfiles&quot;),</span>
+        <span class="c">#(&quot;_EDIT_&quot;, &quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;),</span>
+        <span class="c">#(&quot;EDITOR_&quot;, &quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent&quot;),</span>
+        <span class="c">#(&quot;_NOTEBOOKS&quot;, &quot;${_SRC}/notebooks&quot;),</span>
+        <span class="c">#(&quot;_IPYSESKEY&quot;, &quot;${_SRC}/.ipyseskey&quot;),</span>
+        <span class="c">#(&quot;_IPQTLOG&quot;, &quot;${VIRTUAL_ENV}/.ipqt.log&quot;),</span>
+        <span class="c">#(&quot;_WRD_SETUPY&quot;, &quot;${_WRD}/setup.py&quot;),</span>
+        <span class="c">#(&quot;_TEST_&quot;, &quot;(cd {_WRD} &amp;&amp; python \&quot;${_WRD_SETUPY}\&quot; test)&quot;),</span>
+        <span class="c">#(&quot;_CFG&quot;, &quot;${_ETC}/development.ini&quot;),</span>
+        <span class="c">#(&quot;_EDITCFG_&quot;, &quot;/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini&quot;),</span>
+        <span class="c">#(&quot;_SHELL_&quot;, &quot;(cd {_WRD} &amp;&amp; \&quot;${_BIN}\&quot;/pshell \&quot;${_CFG}\&quot;)&quot;),</span>
+        <span class="c">#(&quot;_SERVE_&quot;, &quot;(cd {_WRD} &amp;&amp; \&quot;${_BIN}\&quot;/pserve --app-name=main --reload --monitor-restart \&quot;${_CFG}\&quot;)&quot;),</span>
+        <span class="c">#(&quot;_SVCFG&quot;, &quot;${_ETC}/supervisord.conf&quot;),</span>
+        <span class="c">#(&quot;_SVCFG_&quot;, &quot; -c \&quot;${_ETC}/supervisord.conf\&quot;&quot;),</span>
+        <span class="c">#(&quot;__USRLOG&quot;, &quot;${HOME}/-usrlog.log&quot;),</span>
+        <span class="c">#(&quot;_USRLOG&quot;, &quot;${VIRTUAL_ENV}/-usrlog.log&quot;),</span>
     <span class="p">))</span>
 
 
@@ -2567,6 +2584,8 @@
               <span class="n">dont_reflect</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
               <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
               <span class="n">show_diffs</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+              <span class="n">build_user_aliases</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+              <span class="n">build_userlog_env</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
               <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Build :py:class:`Venv` :py:class:`Steps` with :py:class:`StepBuilder`</span>
@@ -2600,8 +2619,15 @@
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_venv_activate_env</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_venv_paths_full_env</span><span class="p">)</span>
         <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_venv_paths_cdalias_env</span><span class="p">)</span>
-        <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_user_aliases_env</span><span class="p">)</span>
-        <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_usrlog_env</span><span class="p">)</span>
+
+        <span class="c"># if you would like to fork, fork.</span>
+        <span class="c"># if you would like to submit a patch or a pull request, please do.</span>
+
+        <span class="k">if</span> <span class="n">build_user_aliases</span><span class="p">:</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_user_aliases_env</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">build_usrlog_env</span><span class="p">:</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">add_step</span><span class="p">(</span><span class="n">build_usrlog_env</span><span class="p">)</span>
+
         <span class="n">logevent</span><span class="p">(</span><span class="s">&#39;Venv.build&#39;</span><span class="p">,</span>
                  <span class="nb">dict</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="n">conf</span><span class="p">),</span>
                  <span class="n">wrap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>

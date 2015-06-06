@@ -227,10 +227,10 @@
 <span id="index-0"></span><span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><a class="reference internal" href="readme#install-the-dotfiles"><em>Install the dotfiles</em></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
-<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools/tools#make"><em>Make</em></a>)</li>
-<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools/tools#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/tools#zsh"><em>ZSH</em></a>)</li>
-<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools/tools#vim"><em>Vim</em></a>)</li>
-<li>Manage windows on <a class="reference internal" href="tools/tools#linux"><em>Linux</em></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools/tools#i3wm"><em>i3wm</em></a>)</li>
+<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools/index#make"><em>Make</em></a>)</li>
+<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools/index#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a>)</li>
+<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools/index#vim"><em>Vim</em></a>)</li>
+<li>Manage windows on <a class="reference internal" href="tools/index#linux"><em>Linux</em></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools/index#i3wm"><em>i3wm</em></a>)</li>
 <li><a class="reference external" href="scripts">Script</a> all the <a class="reference external" href="http://schema.org/Thing">things</a></li>
 </ul>
 <div class="section" id="bootstrap-dotfiles-sh">
@@ -616,7 +616,7 @@ pull      -- git pull
     <span class="c">#                 (default: ${__WRK})</span>
     <span class="c"># _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO</span>
     <span class="c">#   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,</span>
-    <span class="c">#                                                   CONDA_ENVS_PATH__py27)</span>
+    <span class="c">#                                                   CONDA_ENVS__py27)</span>
     <span class="c">#   $2 (pathstr or &quot;&quot;)       -- lookup($2, CONDA_ROOT,</span>
     <span class="c">#                                                   CONDA_ROOT__py27)</span>
     <span class="c">#</span>
@@ -654,7 +654,7 @@ pull      -- git pull
     <span class="c"># venv -h   -- print venv --help</span>
     <span class="c"># venv --print-bash   -- print bash configuration</span>
     <span class="c"># venv --print-json   -- print IPython configuration as JSON</span>
-    <span class="c"># _venv &lt;args&gt; -- call $_VENV -E $@ (for the current environment)</span>
+    <span class="c"># venvw $@ -- venv -E $@ (for the current environment)</span>
     <span class="c"># workon_venv() -- workon a virtualenv and load venv (TAB-completion)</span>
     <span class="c">#  param $1: $VIRTUAL_ENV_NAME (&quot;dotfiles&quot;)</span>
     <span class="c">#  param $2: $_APP (&quot;dotfiles&quot;) [default: $1)</span>
@@ -687,14 +687,12 @@ pull      -- git pull
     <span class="c"># _setup_venv_aliases()  -- load venv aliases</span>
     <span class="c">#   note: these are overwritten by `we` [`source &lt;(venv -b)`]</span>
     <span class="c"># makew     -- make -C &quot;${WRD}&quot; ${@}    [scripts/makew &lt;TAB&gt;]</span>
-    <span class="c"># ssv()     -- supervisord   -c ${_SVCFG}</span>
-    <span class="c"># sv()      -- supervisorctl -c ${_SVCFG}</span>
-    <span class="c"># svd()     -- supervisorctl -c ${_SVCFG} restart &amp;&amp; sv tail -f dev</span>
-    <span class="c"># svt()     -- supervisorctl -c &quot;${_SVCFG}&quot; tail -f</span>
     <span class="c"># hgw       -- hg -R  ${_WRD}   [scripts/hgw &lt;TAB&gt;]</span>
     <span class="c"># gitw      -- git -C ${_WRD}   [scripts/gitw &lt;TAB&gt;]</span>
     <span class="c"># serve-()  -- ${_SERVE_}</span>
+    <span class="c"># alias serve-=&#39;${_SERVE_}&#39;</span>
     <span class="c"># shell-()  -- ${_SHELL_}</span>
+    <span class="c"># alias shell-=&#39;${_SHELL_}&#39;</span>
     <span class="c"># test-()   -- cd ${_WRD} &amp;&amp; python setup.py test</span>
     <span class="c"># testr-()  -- reset; cd ${_WRD} &amp;&amp; python setup.py test</span>
     <span class="c"># _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,</span>
@@ -726,10 +724,6 @@ pull      -- git pull
     <span class="c"># _setup_pager()    -- set PAGER=&#39;less&#39;</span>
     <span class="c"># ggvim()   -- ${EDITOR} $@ 2&gt;&amp;1 &gt;/dev/null</span>
     <span class="c"># edits()   -- open $@ in ${GUIVIMBIN} --servername $1</span>
-    <span class="c"># e()       -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]</span>
-    <span class="c"># edit()    -- ${EDITOR_} $@      [ --servername $VIRTUAL_ENV_NAME ]</span>
-    <span class="c"># editw()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@)</span>
-    <span class="c"># ew()   -- ${EDITOR_} ${_WRD}/$arg (for arg in $@) (&#39;excellent&#39;)</span>
     <span class="c"># editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]</span>
     <span class="c"># sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e</span>
     <span class="c"># sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e</span>
@@ -1030,7 +1024,7 @@ pull      -- git pull
     <span class="c"># _usrlog_setup()      -- configure usrlog for the current shell</span>
     <span class="c"># setup bash</span>
     <span class="c"># setup zsh</span>
-    <span class="c"># _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp </span>
+    <span class="c"># _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp</span>
     <span class="c">#   $1: text (command) to log</span>
     <span class="c">#   note: _TERM_ID must not contain a tab character (tr &#39;\t&#39; &#39; &#39;)</span>
     <span class="c">#   note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key</span>
@@ -1082,16 +1076,16 @@ pull      -- git pull
     <span class="c"># usrlog_grin_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;</span>
     <span class="c"># usrlog_grin_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;</span>
     <span class="c"># usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID</span>
-    <span class="c">#                                  in column position </span>
+    <span class="c">#                                  in column position</span>
     <span class="c">#   :returns: unsorted list of log entries in files</span>
     <span class="c">#             listed by mtime and then cat</span>
-    <span class="c">#           </span>
+    <span class="c">#</span>
     <span class="c"># .. warning:: output lines are in file sequence but otherwise</span>
-    <span class="c">#               unsorted </span>
-    <span class="c"># </span>
+    <span class="c">#               unsorted</span>
+    <span class="c">#</span>
     <span class="c"># ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position</span>
     <span class="c"># usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID</span>
-    <span class="c">#                                  in column position </span>
+    <span class="c">#                                  in column position</span>
     <span class="c"># lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
     <span class="c">#                            (oldest first)</span>
     <span class="c"># lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
