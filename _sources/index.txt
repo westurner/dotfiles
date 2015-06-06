@@ -3409,7 +3409,9 @@ Chrome Extensions
 
 pbm
 ++++
-| Source: https://github.com/westurner/pbm
+| Source: git https://github.com/westurner/pbm
+| PyPI: https://pypi.python.org/pypi/pbm
+| Warehouse: https://warehouse.python.org/project/pbm
 
 * backup and organize :ref:`Chrome` ``Bookmarks`` JSON in an offline batch
 * date-based transforms
