@@ -123,6 +123,21 @@ Bower is "a package manager for the web" (:ref:`Javascript` packages)
 built on :ref:`NPM`.
 
 
+.. index:: Cabal
+.. _cabal:
+
+Cabal
+~~~~~~
+| Homepage: https://www.haskell.org/cabal/
+| Docs: http://hackage.haskell.org/
+| Docs: https://www.haskell.org/cabal/users-guide/
+| Docs: https://www.haskell.org/cabal/release/cabal-latest/doc/API/Cabal/
+
+Cabal is a package manager for :ref:`Haskell` packages.
+
+Hackage is the community Cabal package index: https://hackage.haskell.org/
+
+
 .. index:: DEB
 .. _deb:
 
@@ -602,8 +617,7 @@ RubyGems
 | Docs: http://guides.rubygems.org/
 | Source: https://github.com/rubygems/rubygems
 
-
-* RubyGems installs Ruby Gems
+RubyGems is a package manager for :ref:`Ruby` packages ("Gems").
 
 
 .. index:: Yum
@@ -848,6 +862,156 @@ To clone a repository with ``hg``:
 Languages
 ===========
 
+.. index:: Lightweight Markup Languages
+.. _lightweight markup language:
+
+Lightweight Markup Language
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Lightweight_markup_language
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Lightweight_markup_languages
+
+
+.. index:: BBCode
+.. _bbcode:
+
+BBCode
+++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/BBCode
+| Homepage: http://www.bbcode.org/
+| Docs: http://www.bbcode.org/reference.php
+| Docs: http://www.bbcode.org/examples/
+
+BBCode is a :ref:`Lightweight markup language`
+often used by bulletin boards and forums.
+
+
+.. index:: Markdown
+.. _markdown:
+
+Markdown
+++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Markdown
+| Homepage: https://daringfireball.net/projects/markdown/
+| Standard: https://daringfireball.net/projects/markdown/syntax
+| Docs: http://www.w3.org/community/markdown/wiki/MarkdownImplementations
+| Docs: http://learnxinyminutes.com/docs/markdown/
+| Docs: https://guides.github.com/features/mastering-markdown/
+| Docs: https://help.github.com/articles/github-flavored-markdown/
+| Docs: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+| FileExt: ``.Md``
+| FileExt: ``.md``
+
+Markdown is a :ref:`Lightweight markup language`
+which can be parsed and transformed to
+valid :ref:`HTML`.
+
+
+.. index:: MediaWiki Markup
+.. _mediawiki markup:
+
+MediaWiki Markup
+++++++++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Help:Wiki_markup
+| Standard: https://www.mediawiki.org/wiki/Markup_spec
+| Docs: https://en.wikipedia.org/wiki/Help:Wiki_markup#Link_to_another_namespace
+| Docs: https://www.mediawiki.org/wiki/Help:Formatting
+| Docs: https://meta.wikimedia.org/wiki/Help:Wikitext_examples
+| Docs: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
+
+MediaWiki Markup is a
+:ref:`Lightweight markup language`
+"WikiText"
+which can be parsed and transformed to
+valid :ref:`HTML`
+that is utilized by Wikipedia.
+
+
+.. index:: RD
+.. index:: Ruby Document Format
+.. _rd:
+
+RD
+++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Ruby_Document_format
+| Standard: https://github.com/uwabami/rdtool/blob/master/doc/rd-draft.rd
+| Standard: https://github.com/uwabami/rdtool/blob/master/doc/rd-draft.rd.ja
+
+RD is a :ref:`Lightweight markup language` for documenting :ref:`Ruby`
+code and programs.
+
+
+.. index:: Rdoc
+.. _rdoc:
+
+RDoc
+++++++
+| Source: https://github.com/rdoc/rdoc
+| Docs: http://docs.seattlerb.org/rdoc/
+| Docs: https://raw.githubusercontent.com/rdoc/rdoc/master/ExampleRDoc.rdoc
+
+RDoc is a tool and a
+:ref:`Lightweight markup language`
+for generating HTML and command-line documentation
+for :ref:`Ruby` projects.
+
+To not build RDoc docs when installing a :ref:`Gem <RubyGems>`:
+
+.. code:: bash
+
+   gem install --no-rdoc --no-ri
+   gem install --no-document
+   gem install -N
+
+
+.. index:: ReStructuredText
+.. _restructuredtext:
+
+ReStructuredText
+++++++++++++++++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/ReStructuredText
+| Homepage: http://docutils.sourceforge.net/rst.html
+| Docs: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
+| Docs: http://docutils.sourceforge.net/docs/ref/rst/directives.html
+| Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
+| Docs: http://sphinx-doc.org/rest.html
+
+ReStructuredText (RST, ReST) is a
+:ref:`Lightweight markup language` commonly used for
+narrative documentation and {Python, C, Java, ...} docstrings
+which can be parsed and transformed to
+valid :ref:`HTML`, ePub, LaTeX, PDF.
+
+:ref:`Sphinx` is built on :ref:`Docutils`,
+the primary implementation of ReStructuredText.
+
+:ref:`Pandoc` also supports a form of ReStructuredText.
+
+.. glossary::
+
+   ReStructuredText Directive
+      Actionable blocks of ReStructuredText
+
+      .. code-block:: rest
+
+         .. include:: goals.rst
+
+         .. contents:: Table of Contents
+            :depth: 3
+
+         .. include:: LICENSE
+
+
+   ReStructuredText Role
+      RestructuredText role extensions
+
+      .. code-block:: rest
+
+            .. _anchor-name:
+
+            :ref:`Anchor <anchor-name>`
+
+
+
 .. index:: C
 .. _c:
 
@@ -933,6 +1097,26 @@ frequently used for mathematical and scientific computing.
 
 Some of the :ref:`SciPy` libraries build
 optimized mathematical Fortran routines.
+
+
+.. index:: Haskell
+.. _haskell:
+
+Haskell
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Haskell_(programming_language)>`__
+| Homepage: https://www.haskell.org/
+| Download: https://www.haskell.org/downloads
+| Download: https://www.haskell.org/platform/
+| Docs: https://www.haskell.org/documentation
+| Docs: http://learnxinyminutes.com/docs/haskell/
+| Docs: http://learnyouahaskell.com/chapters
+| Docs: https://en.wikipedia.org/wiki/Haskell_features
+
+Haskell is a strongly staticly typed purely functional
+programming language.
+
+:ref:`Cabal` manages :ref:`Haskell` packages.
 
 
 .. index:: Go
@@ -1278,52 +1462,6 @@ Run the py27 environment::
    tox -v -e py27
    tox --help
 
-
-
-.. index:: ReStructuredText
-.. _restructuredtext:
-
-ReStructuredText
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/ReStructuredText
-| Homepage: http://docutils.sourceforge.net/rst.html
-| Docs: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
-| Docs: http://docutils.sourceforge.net/docs/ref/rst/directives.html
-| Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
-| Docs: http://sphinx-doc.org/rest.html
-
-ReStructuredText (RST, ReST) is a plaintext
-lightweight markup language commonly used for
-narrative documentation and Python docstrings.
-
-:ref:`Sphinx` is built on :ref:`Docutils`,
-which is the primary implementation of ReStructuredText.
-
-Pandoc also supports a form of ReStructuredText.
-
-.. glossary::
-
-   ReStructuredText Directive
-      Actionable blocks of ReStructuredText
-
-      .. code-block:: rest
-
-         .. include:: goals.rst
-
-         .. contents:: Table of Contents
-            :depth: 3
-
-         .. include:: LICENSE
-
-
-   ReStructuredText Role
-      RestructuredText role extensions
-
-      .. code-block:: rest
-
-            .. _anchor-name:
-
-            :ref:`Anchor <anchor-name>`
 
 
 .. index:: Ruby
@@ -3993,17 +4131,41 @@ Documentation Tools
 Docutils
 ~~~~~~~~~~~~~~~~~~~
 | Homepage: http://docutils.sourceforge.net
+| PyPI: https://pypi.python.org/pypi/docutils
 | Docs: http://docutils.sourceforge.net/docs/
 | Docs: http://docutils.sourceforge.net/rst.html
 | Docs: http://docutils.sourceforge.net/docs/ref/doctree.html
 | Source: svn http://svn.code.sf.net/p/docutils/code/trunk
 
+Docutils is a :ref:`Python` library which 'parses" :ref:`ReStructuredText`
+lightweight markup language into a doctree (~DOM)
+which can be serialized into
+HTML, ePub, MOBI, LaTeX, man pages,
+Open Document files,
+XML, JSON, and a number of other formats.
 
-Docutils is a text processing system which 'parses" :ref:`ReStructuredText`
-lightweight markup language into a doctree which it serializes into
-HTML, LaTeX, man-pages, Open Document files, XML, and a number of other
-formats.
 
+.. index:: Pandoc
+.. _pandoc:
+
+Pandoc
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Pandoc
+| Homepage: http://pandoc.org/
+| Docs: http://pandoc.org/README.html
+| Docs: http://pandoc.org/releases.html
+| Download: https://github.com/jgm/pandoc/releases
+| BrewPkg: pandoc
+| AptPkg: pandoc
+| YumPkg: pandoc
+
+Pandoc is a "universal" markup converter written in :ref:`Haskell`
+which can convert between HTML,
+:ref:`BBCode`,
+:ref:`Markdown`,
+:ref:`MediaWiki Markup <mediawiki markup>`,
+:ref:`ReStructuredText`,
+HTML, and a number of other formats.
 
 .. index:: Sphinx
 .. _sphinx:
@@ -4032,25 +4194,31 @@ Most other ReStructuredText parsers do not support Sphinx directives;
 so, for example,
 
 * GitHub and BitBucket do not support Sphinx but do support ReStructuredText
-  so README.rst containing Sphinx tags renders in plaintext or raises errors.
+  so ``README.rst`` containing Sphinx tags renders in plaintext or raises errors.
 
   For example, the index page of this
   :ref:`Sphinx` documentation set is generated from
-  a file named ``index.rst`` and referenced by ``docs/conf.py``.
+  a file named ``index.rst`` that referenced by ``docs/conf.py``,
+  which is utilized by ``sphinx-build`` in the ``Makefile``.
 
-  * Input: https://raw.githubusercontent.com/westurner/provis/master/docs/index.rst
-  * Output: https://github.com/westurner/provis/blob/master/docs/index.rst
-  * Output: *ReadTheDocs*: http://provis.readthedocs.org/en/latest/
+  * Input: https://raw.githubusercontent.com/westurner/tools/master/index.rst
+  * Output: https://github.com/westurner/tools/blob/master/index.rst
+  * Output: *ReadTheDocs*: https://westurner.org/tools/
 
 .. glossary::
 
    Sphinx Builder
-      Render Sphinx :ref:`ReStructuredText` into various forms:
+      A Sphinx Builder transforms :ref:`ReStructuredText` into various
+      output forms:
 
          * HTML
          * LaTeX
          * PDF
          * ePub
+         * MOBI
+         * JSON
+         * OpenDocument (OpenOffice)
+         * Office Open XML (MS Word)
 
       See: `Sphinx Builders <http://sphinx-doc.org/builders.html>`_
 
