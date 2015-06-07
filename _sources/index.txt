@@ -4194,15 +4194,16 @@ Most other ReStructuredText parsers do not support Sphinx directives;
 so, for example,
 
 * GitHub and BitBucket do not support Sphinx but do support ReStructuredText
-  so README.rst containing Sphinx tags renders in plaintext or raises errors.
+  so ``README.rst`` containing Sphinx tags renders in plaintext or raises errors.
 
   For example, the index page of this
   :ref:`Sphinx` documentation set is generated from
-  a file named ``index.rst`` and referenced by ``docs/conf.py``.
+  a file named ``index.rst`` that referenced by ``docs/conf.py``,
+  which is utilized by ``sphinx-build`` in the ``Makefile``.
 
-  * Input: https://raw.githubusercontent.com/westurner/provis/master/docs/index.rst
-  * Output: https://github.com/westurner/provis/blob/master/docs/index.rst
-  * Output: *ReadTheDocs*: http://provis.readthedocs.org/en/latest/
+  * Input: https://raw.githubusercontent.com/westurner/tools/master/index.rst
+  * Output: https://github.com/westurner/tools/blob/master/index.rst
+  * Output: *ReadTheDocs*: https://westurner.org/tools/
 
 .. glossary::
 

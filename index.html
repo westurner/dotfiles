@@ -4378,14 +4378,15 @@ which are not supported by other ReStructuredText parsers.</p>
 so, for example,</p>
 <ul>
 <li><p class="first">GitHub and BitBucket do not support Sphinx but do support ReStructuredText
-so README.rst containing Sphinx tags renders in plaintext or raises errors.</p>
+so <code class="docutils literal"><span class="pre">README.rst</span></code> containing Sphinx tags renders in plaintext or raises errors.</p>
 <p>For example, the index page of this
 <a class="reference internal" href="#sphinx"><em>Sphinx</em></a> documentation set is generated from
-a file named <code class="docutils literal"><span class="pre">index.rst</span></code> and referenced by <code class="docutils literal"><span class="pre">docs/conf.py</span></code>.</p>
+a file named <code class="docutils literal"><span class="pre">index.rst</span></code> that referenced by <code class="docutils literal"><span class="pre">docs/conf.py</span></code>,
+which is utilized by <code class="docutils literal"><span class="pre">sphinx-build</span></code> in the <code class="docutils literal"><span class="pre">Makefile</span></code>.</p>
 <ul class="simple">
-<li>Input: <a class="reference external" href="https://raw.githubusercontent.com/westurner/provis/master/docs/index.rst">https://raw.githubusercontent.com/westurner/provis/master/docs/index.rst</a></li>
-<li>Output: <a class="reference external" href="https://github.com/westurner/provis/blob/master/docs/index.rst">https://github.com/westurner/provis/blob/master/docs/index.rst</a></li>
-<li>Output: <em>ReadTheDocs</em>: <a class="reference external" href="http://provis.readthedocs.org/en/latest/">http://provis.readthedocs.org/en/latest/</a></li>
+<li>Input: <a class="reference external" href="https://raw.githubusercontent.com/westurner/tools/master/index.rst">https://raw.githubusercontent.com/westurner/tools/master/index.rst</a></li>
+<li>Output: <a class="reference external" href="https://github.com/westurner/tools/blob/master/index.rst">https://github.com/westurner/tools/blob/master/index.rst</a></li>
+<li>Output: <em>ReadTheDocs</em>: <a class="reference external" href="https://westurner.org/tools/">https://westurner.org/tools/</a></li>
 </ul>
 </li>
 </ul>
