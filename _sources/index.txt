@@ -907,7 +907,7 @@ valid :ref:`HTML`.
 
 
 .. index:: MediaWiki Markup
-.. _mediawiki syntax:
+.. _mediawiki markup:
 
 MediaWiki Markup
 ++++++++++++++++++
@@ -4163,7 +4163,7 @@ Pandoc is a "universal" markup converter written in :ref:`Haskell`
 which can convert between HTML,
 :ref:`BBCode`,
 :ref:`Markdown`,
-:ref:`MediaWiki Markup`,
+:ref:`MediaWiki Markup <mediawiki markup>`,
 :ref:`ReStructuredText`,
 HTML, and a number of other formats.
 
