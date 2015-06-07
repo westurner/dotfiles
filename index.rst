@@ -4208,12 +4208,17 @@ so, for example,
 .. glossary::
 
    Sphinx Builder
-      Render Sphinx :ref:`ReStructuredText` into various forms:
+      A Sphinx Builder transforms :ref:`ReStructuredText` into various
+      output forms:
 
          * HTML
          * LaTeX
          * PDF
          * ePub
+         * MOBI
+         * JSON
+         * OpenDocument (OpenOffice)
+         * Office Open XML (MS Word)
 
       See: `Sphinx Builders <http://sphinx-doc.org/builders.html>`_
 
