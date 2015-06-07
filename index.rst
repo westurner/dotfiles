@@ -617,8 +617,7 @@ RubyGems
 | Docs: http://guides.rubygems.org/
 | Source: https://github.com/rubygems/rubygems
 
-
-* RubyGems installs Ruby Gems
+RubyGems is a package manager for :ref:`Ruby` packages ("Gems").
 
 
 .. index:: Yum
@@ -899,9 +898,10 @@ Markdown
 | Docs: https://guides.github.com/features/mastering-markdown/
 | Docs: https://help.github.com/articles/github-flavored-markdown/
 | Docs: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+| FileExt: ``.Md``
+| FileExt: ``.md``
 
-Markdown (.Md, .md) is a plaintext
-lightweight markup language
+Markdown is a :ref:`Lightweight markup language`
 which can be parsed and transformed to
 valid :ref:`HTML`.
 
@@ -918,8 +918,9 @@ MediaWiki Markup
 | Docs: https://meta.wikimedia.org/wiki/Help:Wikitext_examples
 | Docs: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 
-MediaWiki syntax () is a plaintext
-lightweight markup language
+MediaWiki Markup is a
+:ref:`Lightweight markup language`
+"WikiText"
 which can be parsed and transformed to
 valid :ref:`HTML`
 that is utilized by Wikipedia.
@@ -953,7 +954,7 @@ RDoc is a tool and a
 for generating HTML and command-line documentation
 for :ref:`Ruby` projects.
 
-To not build RDoc docs when installing a :ref:`Gem <RubyGems>`_:
+To not build RDoc docs when installing a :ref:`Gem <RubyGems>`:
 
 .. code:: bash
 
@@ -974,16 +975,16 @@ ReStructuredText
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
 | Docs: http://sphinx-doc.org/rest.html
 
-ReStructuredText (RST, ReST) is a plaintext
-lightweight markup language commonly used for
-narrative documentation and Python docstrings
+ReStructuredText (RST, ReST) is a
+:ref:`Lightweight markup language` commonly used for
+narrative documentation and {Python, C, Java, ...} docstrings
 which can be parsed and transformed to
 valid :ref:`HTML`, ePub, LaTeX, PDF.
 
 :ref:`Sphinx` is built on :ref:`Docutils`,
 the primary implementation of ReStructuredText.
 
-Pandoc also supports a form of ReStructuredText.
+:ref:`Pandoc` also supports a form of ReStructuredText.
 
 .. glossary::
 
