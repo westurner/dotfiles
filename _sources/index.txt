@@ -1116,7 +1116,9 @@ Haskell
 Haskell is a strongly staticly typed purely functional
 programming language.
 
-:ref:`Cabal` manages :ref:`Haskell` packages.
+:ref:`Cabal` is the Haskell package manager.
+
+:ref:`Pandoc` is written in Haskell.
 
 
 .. index:: Go
@@ -1163,7 +1165,7 @@ All major web browsers support Javascript.
 Client-side (web) applications can be written in Javascript.
 
 Server-side (web) applications can be written in Javascript,
-often with :ref:`Node.js` and :ref:`NPM` packages.
+often with :ref:`Node.js`, :ref:`NPM`, and :ref:`Bower` packages.
 
 .. note:: Java and JavaScript are two distinctly different languages
    and developer ecosystems.
@@ -1223,11 +1225,18 @@ Python
 ~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Python_(programming_language)>`_
 | Homepage: https://www.python.org/
+| Source: hg https://hg.python.org/cpython
 | Docs: https://docs.python.org/2/
 | Docs: https://docs.python.org/devguide/
 | Docs: https://docs.python.org/devguide/documenting.html
+| Docs: https://wiki.python.org/moin/PythonBooks
+| Docs: http://www.onlineprogrammingbooks.com/python/
+| Docs: https://www.reddit.com/r/learnpython/wiki/index
+| Docs: https://www.reddit.com/r/learnpython/wiki/books
+| Docs: https://www.quora.com/Python-programming-language-1/What-are-the-best-books-courses-for-learning-Python
+| Docs: https://en.wikiversity.org/wiki/Python
+| Docs: https://www.class-central.com/search?q=python
 | Docs: http://learnxinyminutes.com/docs/python/
-| Source: hg https://hg.python.org/cpython
 
 Python is a dynamically-typed, :ref:`C`-based third-generation
 programming language.
