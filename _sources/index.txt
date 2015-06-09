@@ -4419,6 +4419,26 @@ so, for example,
             A link to :ref:`anchor <anchor-name>`.
 
 
+.. index:: Tinkerer
+.. _tinkerer:
+
+Tinkerer
+~~~~~~~~~
+| Homepage: http://tinkerer.me/
+| Source: https://github.com/vladris/tinkerer
+
+Tinkerer is a very simple static blogging website generation tool
+written in :ref:`Python` which extends :ref:`Sphinx`
+and generates `HTML` from :ref:`ReStructuredText`.
+
+Static HTML pages generated with Tinkerer do not require
+a serverside application, and can be easily hosted with GitHub Pages
+or any other web hosting service.
+
+* https://github.com/westurner/westurner.github.io/tree/source
+  (``Makefile``, ``conf.py``)
+
+
 .. index:: Standards
 .. _standards:
 
