@@ -3246,7 +3246,9 @@ Venv is a tool for making working with :ref:`Virtualenv`,
 :ref:`Virtualenvwrapper`, :ref:`Bash`, :ref:`ZSH`, :ref:`Vim`,
 and :ref:`IPython` within a project context very easy.
 
-Venv defines standard paths, environment variables, and aliases
+Venv defines standard :ref:`fhs` and :ref:`Python` paths,
+environment variables,
+and aliases
 for routinizing workflow.
 
 +---------------------+--------------------------------+--------------------------------------+----------------------------------------+
@@ -4464,6 +4466,7 @@ The Filesystem Hierarchy Standard is a well-worn industry-supported
 system file naming structure.
 
 :ref:`Ubuntu` and :ref:`Virtualenv` implement
+a Filesystem Hierarchy. Likewise, :ref:`Venv` implements
 a Filesystem Hierarchy.
 
 :ref:`Docker` layers filesystem hierarchies with aufs and now
