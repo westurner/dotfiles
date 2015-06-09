@@ -1739,7 +1739,7 @@ CentOS
 
 CentOS is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 
 .. index:: Scientific Linux
@@ -1753,7 +1753,7 @@ Scientific Linux
 Scientific Linux is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
 which is derived from :ref:`CentOS`.
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 * ``rdfs:seeAlso`` :ref:`Anaconda` (:ref:`Conda`)
 * ``rdfs:seeAlso`` :ref:`Portage`
@@ -1772,7 +1772,7 @@ Oracle
 
 Oracle Linux is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 
 .. index:: Gentoo
