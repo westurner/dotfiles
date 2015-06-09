@@ -3689,8 +3689,8 @@ Wandroid
 ++++++++++
 | Source: hg https://bitbucket.org/westurner/wandroid
 
- + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/config.py
- + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/userdata.py
++ https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/config.py
++ https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/userdata.py
 
 
 .. index:: Firefox
