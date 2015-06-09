@@ -8,9 +8,16 @@ usrlog
 import codecs
 import collections
 import logging
+import pprint
 import re
 
 log = logging
+
+ISODATETIME_RGX = re.compile(
+    '\d\d\d\d\-\d\d\-\d\dT?\d\d:\d\d')
+
+ISODATETIME_LOOSE_RGX = re.compile(
+    '[\d\-T: \+Z]+')
 
 dateutil = None
 arrow = None
@@ -21,6 +28,7 @@ except ImportError:
     try:
         import arrow
     except ImportError:
+        import datetime
         pass
 
 if dateutil:
@@ -44,6 +52,19 @@ else:
             iso8601_strptime = '%Y-%m-%dT%H:%M:%S'
             return datetime.datetime.strptime(iso8601_strptime, _datestr)
 
+def try_parse_datestr(datestr):
+    _output = None
+    try:
+        mobj = ISODATETIME_LOOSE_RGX.match(datestr)
+        if mobj:
+            _datestr = mobj.group(0)
+            _output = parse_date(_datestr)
+    except TypeError as e:
+        log.exception(e)
+        log.exception(datestr)
+        raise ValueError(e)
+    return _output
+
 
 class Usrlog(object):
     date_rgxstr = '^#? ?(\d\d\d\d-\d\d-\d\dT?\d\d:\d\d:\d\d[-\+\d]+)\t(.*)'
@@ -63,9 +84,9 @@ class Usrlog(object):
                 # print("iso8601date: %r" % date)
                 if thisline:
                     yield u''.join(thisline)
-                thisline = [l]
+                thisline = [l.decode('utf8')]
             else:
-                thisline.append(l)
+                thisline.append(l.decode('utf8'))
         yield u''.join(thisline)
 
     def read_file_lines_joined(self, **kwargs):
@@ -103,7 +124,7 @@ class Usrlog(object):
     def parse_line_to_dict(self, line, halt_on_error=False):  # TODO: lbt
         w = line.split('\t', 8)
         try:
-            if len(w) >= 1 and w[1].startswith('#ntid'):
+            if len(w) >= 2 and w[1].startswith('#ntid'):
                 result = collections.OrderedDict((
                     ("line", line),
                     ("words", w),
@@ -131,6 +152,20 @@ class Usrlog(object):
                     ("histuser", None),
                     ("histcmd", w[2]),
                     ))
+            elif len(w) == 1:
+                result = collections.OrderedDict((
+                    ("line", line),
+                    ("words", w),
+                    ("date", None),
+                    ("id", None),
+                    ("path", None),
+                    ("histstr", None),
+                    ("histn", None),    # int or "#note"
+                    ("histdate", None),
+                    ("histhostname", None),
+                    ("histuser", None),
+                    ("histcmd", line),
+                    ))
             else:
                 result = collections.OrderedDict((
                     ("line", line),
@@ -157,46 +192,61 @@ class Usrlog(object):
             if _date.startswith('# '):
                 result['date'] = _date = _date[2:]
 
+        _histcmd = result['histcmd']
         _histn = result.get('histn')
-        if _histn and _histn.startswith('#ntid'):
-            histcmd = result['histcmd']
-            if not histcmd:
-                result['histcmd'] = result.pop('histn').rstrip()
-            else:
-                log.error(result)
-                raise Exception(result)
+        if not _histcmd:
+            if _histn:
+                if _histn[:5] in ('#ntid', '#TODO'):
+                    result['histcmd'] = result['histn'].rstrip()
+                    result['histn'] = None
 
         _date = result['date']
-        _histdate = result['histdate']
-        if _date and _histdate:
+        if _date:
+            date = None
             try:
-                date = parse_date(_date)
-                histdate = parse_date(_histdate)
-                diff = date - histdate
-                #if diff.seconds > 0:
-                #    raise Exception(diff, date, histdate)
-                diffstr = str(diff)
-                result['elapsed'] = diffstr
+                result['date'] = date = try_parse_datestr(_date)
             except ValueError as e:
-                log.error("%r, %r, %r", e, _date, _histdate)
-                if halt_on_error:
-                    raise
-            except TypeError as e:
-                log.error("%r, %r, %r", e, _date, _histdate)
+                log.error("%r, %r", e, _date)
                 if halt_on_error:
                     raise
 
+        _histdate = result['histdate']
+        if _histdate:
+            result['histdate'] = _histdate = try_parse_datestr(_histdate)
+            try:
+                if date and _histdate:
+                    diff = date - _histdate
+                    # if diff.seconds > 0:
+                    #    raise Exception(diff, date, _histdate)
+                    diffstr = str(diff)
+                    result['elapsed'] = diffstr
+            except TypeError as e:
+                log.error("%r, %r", e, _date, _histdate)
+                if halt_on_error:
+                    raise
             finally:
                 result.setdefault('elapsed', None)
         else:
             result.setdefault('elapsed', None)
             # "%r %s" % (diff, diffstr)  # TODO XXX
 
+        _date = result['date']
+        if _date:
+            if hasattr(_date, 'isoformat'):
+                result['date'] = unicode(_date.isoformat())
+            else:
+                raise Exception(_date, try_parse_datestr(_date))
+
+        if _histdate and hasattr(_histdate, 'isoformat'):
+            result['histdate'] = unicode(_histdate.isoformat())
+
         return result
 
     def read_file_lines_as_dict(self, **kwargs):
         for l in self.read_file_lines_joined(**kwargs):
-            yield self.parse_line_to_dict(l)
+            yield self.parse_line_to_dict(
+                l,
+                halt_on_error=kwargs.get('halt_on_error'))
 
     cmdstr_rgx_ptrn = 'TODO|FIXME|XXX'
     cmdstr_rgx = re.compile(cmdstr_rgx_ptrn)
@@ -214,26 +264,26 @@ class Usrlog(object):
         return tag
 
 
-def usrlog(path):
+def usrlog(path, conf=None):
     """mainfunc
 
     Arguments:
-         (str): ...
+        path (str): path to usrlog
 
     Keyword Arguments:
-         (str): ...
-
-    Returns:
-        str: ...
+        conf (dict): configuration dict
 
     Yields:
-        str: ...
+        tuple: parsed usrlog entries
 
     Raises:
         Exception: ...
     """
+    if conf is None:
+        conf = {}
     _usrlog = Usrlog(path)
-    return _usrlog.read_file_lines_as_dict()
+    return _usrlog.read_file_lines_as_dict(
+        halt_on_error=conf.get('halt_on_error'))
 
 
 import os
@@ -276,7 +326,9 @@ class Test_usrlog(unittest.TestCase):
 
 
 class Conf(object):
-    pass
+    def get(self, key, default=None):
+        return getattr(self, key, default)
+
 
 
 def main(argv=None):
@@ -296,21 +348,28 @@ def main(argv=None):
     prs.add_option('-p', '--path',
                    dest='paths',
                    action='append',
-                   default=['~/-usrlog.log'],
+                   default=[],
                    help=(
                         """Path to a -usrlog.log file to read """
                         '''(e.g. "${VIRTUAL_ENV}/-usrlog.log" '''
                         """or '-' for stdin)"""))
 
-
     prs.add_option('--cmds',
                    dest='cmds',
                    action='store_true',
-                   help='show just commands')
+                   help='show <cmd>')
     prs.add_option('--sessions',
                    dest='sessions',
                    action='store_true',
-                   help='show session\tcommand')
+                   help='show [id, histcmd]')
+    prs.add_option('--dates',
+                   dest='dates',
+                   action='store_true',
+                   help='show [date, id, histcmd]')
+    prs.add_option('--elapsed',
+                   dest='elapsed',
+                   action='store_true',
+                   help='show [date, id, histcmd, elapsed]')
 
     prs.add_option('-c', '--column',
                    dest='columns',
@@ -352,53 +411,52 @@ def main(argv=None):
         return unittest.main()
 
     conf = Conf()
-    conf.paths = opts.paths
+    conf.paths = list(opts.paths)
+    conf.paths.extend(args)
+    conf.attrs = ['date', 'id', 'histcmd']
 
-    EX_OK = 0
+    if not opts.quiet:
+        conf.halt_on_error = True
+
+    if opts.columns:
+        conf.attrs = opts.columns
+    else:
+        if opts.cmds:
+            conf.attrs = ['histcmd']
+        if opts.sessions:
+            conf.attrs = ['id', 'histcmd']
+        if opts.dates or opts.elapsed:
+            if opts.elapsed:
+                conf.attrs = ['date', 'id', 'elapsed', 'histcmd']
+            else:
+                conf.attrs = ['date', 'id', 'histcmd']
 
     if opts.pyline:
-        args = args
-
         try:
             import pyline
         except ImportError:
             from pyline import pyline
 
-        def usrlogs_iterable():
-            for p in conf.paths:
-                _usrlog = usrlog(p)
-                for l in _usrlog:
-                    yield l
-
-        def do_pyline(obj):
+        def do_pyline(obj, expr="{histcmd}"):
             return expr.format(**obj)
 
-        import operator
-        attrs = opts.columns
-        if not attrs:
-            attrs = ('date', 'id', 'elapsed', 'histcmd')
-        select_items = operator.itemgetter(*attrs)
-        iterable = (select_items(obj) for obj in usrlogs_iterable())
+    def usrlogs_iterable():
+        for p in conf.paths:
+            _usrlog = usrlog(p, conf)
+            for l in _usrlog:
+                l['_usrlog'] = p
+                yield l
 
-        #output = pyline.pyline(iterable, codefunc=do_pyline)
-        for o in iterable:
-            print(o)
+    import operator
+    select_items = operator.itemgetter(*conf.attrs)
+    iterable = (select_items(obj) for obj in usrlogs_iterable())
 
-        return EX_OK
+    #output = pyline.pyline(iterable, codefunc=do_pyline)
+    for o in iterable:
+        print(o)
 
-    for p in conf.paths:
-        output = usrlog(p)
-        for l in output:
-            if opts.cmds:
-                cmd = l.get('histcmd')
-                if cmd:
-                    print(cmd)
-            elif opts.sessions:
-                cmd = l.get('histcmd')
-                id_ = l.get('id')
-                print("%s\t%s" % (id_, cmd))
-            else:
-                print(l)
+    EX_OK = 0
+
     return EX_OK
 
 
