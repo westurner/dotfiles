@@ -903,7 +903,7 @@ Markdown
 
 Markdown is a :ref:`Lightweight markup language`
 which can be parsed and transformed to
-valid :ref:`HTML`.
+valid `HTML`.
 
 
 .. index:: MediaWiki Markup
@@ -922,7 +922,7 @@ MediaWiki Markup is a
 :ref:`Lightweight markup language`
 "WikiText"
 which can be parsed and transformed to
-valid :ref:`HTML`
+valid `HTML`
 that is utilized by Wikipedia.
 
 
@@ -977,9 +977,9 @@ ReStructuredText
 
 ReStructuredText (RST, ReST) is a
 :ref:`Lightweight markup language` commonly used for
-narrative documentation and {Python, C, Java, ...} docstrings
-which can be parsed and transformed to
-valid :ref:`HTML`, ePub, LaTeX, PDF.
+narrative documentation and inline Python, C, Java, etc. docstrings
+which can be parsed, transformed, and published to
+valid `HTML`, ePub, LaTeX, PDF.
 
 :ref:`Sphinx` is built on :ref:`Docutils`,
 the primary implementation of ReStructuredText.
@@ -991,24 +991,56 @@ the primary implementation of ReStructuredText.
    ReStructuredText Directive
       Actionable blocks of ReStructuredText
 
+      | Docs: http://docutils.sourceforge.net/docs/ref/rst/directives.html
+
+      ``include``, ``contents``, and ``index`` are all
+      ReStructuredDirectives:
+
       .. code-block:: rest
 
-         .. include:: goals.rst
+          .. include:: goals.rst
 
-         .. contents:: Table of Contents
-            :depth: 3
+          .. contents:: Table of Contents
+           :depth: 3
 
-         .. include:: LICENSE
+           .. index:: Example 1
+           .. index:: Sphinx +
+           .. _example-1:
 
+           Sphinx +1
+           ==========
+           This refs :ref:`example 1 <example-1>`.
+
+           Similarly, a link to this section `<#example-1>`__
+
+           .. index:: Example 2
+           .. _example 2:
+
+           Example 2
+           ==========
+
+           This links to :ref:`example-1` and :ref:`example 2`.
+
+           (`<#example-1>`__, `<#example-2>`__)
+
+          .. include:: LICENSE
+
+       .. note:: ``index`` is a :ref:`Sphinx` Directive,
+           which will print an error to the console when building
+           but will otherwise silently dropped
+           by non-Sphinx ReStructuredText parsers
+           like :ref:`Docutils` (GitHub) and :ref:`Pandoc`.
 
    ReStructuredText Role
       RestructuredText role extensions
 
+      | Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
+
+      ``:ref:`` is a :ref:`Sphinx` RestructuredText Role:
+
       .. code-block:: rest
 
-            .. _anchor-name:
-
-            :ref:`Anchor <anchor-name>`
+          A link to :ref:`example 2`.
 
 
 
@@ -1026,9 +1058,13 @@ C
 C is a third-generation programming language which affords relatively
 low-level machine access while providing helpful abstractions.
 
+Every :ref:`Windows` kernel is written in C.
+
 The GNU/:ref:`Linux` kernel is written in C
 and often compiled by :ref:`GCC` or :ref:`Clang`
 for a particular architecture (see: ``man uname``)
+
+The :ref:`OSX` kernel is written in C.
 
 :ref:`Libc` libraries are written in C.
 
@@ -1048,9 +1084,9 @@ A libc is a standard library of :ref:`C` routines.
 Libc implementations:
 
 * :ref:`Glibc`
-* https://en.wikipedia.org/wiki/C_standard_library#BSD_libc
+* :ref:`BSD Libc <bsd-libc>`
 * https://en.wikipedia.org/wiki/UClibc
-* `<https://en.wikipedia.org/wiki/Bionic_(software)>`__
+* :ref:`Bionic`
 
 
 .. index:: GNU Libc
@@ -1071,6 +1107,38 @@ Glibc is the GNU :ref:`C` Library (:ref:`libc`).
 
 Many :ref:`Linux` packages
 and the :ref:`GNU/Linux <linux>` kernel build from Glibc.
+
+
+.. index:: BSD Libc
+.. _bsd-libc:
+
+---------
+BSD Libc
+---------
+| Wikipedia: https://en.wikipedia.org/wiki/C_standard_library#BSD_libc
+| Source: https://svnweb.freebsd.org/base/head/lib/libc/
+| Source: http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/lib/libc/
+| Source: http://www.opensource.apple.com/source/Libc/
+
+BSD libc are a superset of :ref:`POSIX`.
+
+:ref:`OSX` builds from BSD libc.
+
+:ref:`Android` :ref:`Bionic` is a BSD libc.
+
+
+.. index:: Bionic
+.. _bionic:
+
+-------
+Bionic
+-------
+| Wikipedia:  `<https://en.wikipedia.org/wiki/Bionic_(software)>`__
+| Source: git https://github.com/android/platform_bionic
+| Docs: https://developer.android.com/tools/sdk/ndk/index.html
+
+Bionic is the :ref:`Android` :ref:`libc`, which is a :ref:`BSD Libc
+<bsd-libc>`.
 
 
 .. index:: C++
@@ -1609,10 +1677,24 @@ with frontends for many languages.
 
 
 .. index:: Operating Systems
-.. _operating-systems:
+.. _operating systems:
 
 Operating Systems
 ===================
+| Wikipedia: https://en.wikipedia.org/wiki/Operating_system
+
+
+.. index:: POSIX
+.. _posix:
+
+POSIX
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/POSIX
+| Docs: https://en.wikipedia.org/wiki/POSIX#POSIX-oriented_operating_systems
+
+POSIX ("Portable Operating System Interface") is a set of standards
+for :ref:`Shells`, :ref:`Operating Systems`, and APIs.
+
 
 .. index:: GNU/Linux
 .. index:: Linux
@@ -1739,7 +1821,7 @@ CentOS
 
 CentOS is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 
 .. index:: Scientific Linux
@@ -1753,7 +1835,7 @@ Scientific Linux
 Scientific Linux is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
 which is derived from :ref:`CentOS`.
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 * ``rdfs:seeAlso`` :ref:`Anaconda` (:ref:`Conda`)
 * ``rdfs:seeAlso`` :ref:`Portage`
@@ -1772,7 +1854,7 @@ Oracle
 
 Oracle Linux is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 
 .. index:: Gentoo
@@ -2850,7 +2932,7 @@ VirtualBox:
 
 
 .. index:: Shells
-.. shells:
+.. _shells:
 
 Shells
 ========
@@ -4268,7 +4350,7 @@ so, for example,
 
             .. _anchor-name:
 
-            :ref:`Anchor <anchor-name>`
+            A link to :ref:`anchor <anchor-name>`.
 
 
 .. index:: Standards
