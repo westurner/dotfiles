@@ -1667,7 +1667,11 @@ ReStructuredDirectives:</p>
     ==========
     This refs <span class="na">:ref:</span><span class="nv">`example 1 &lt;example-1&gt;`</span>.
 
-    Similarly, a link to this section <span class="s">`&lt;#example-1&gt;`__</span>
+    Similarly, an explicit link to this anchor <span class="s">`&lt;#example-1&gt;`__</span>
+
+    And an explicit link to this section <span class="s">`&lt;#sphinx-1&gt;`__</span>
+    (which is otherwise not found in the source text).
+
 
 <span class="p">    ..</span> <span class="ow">index</span><span class="p">::</span> Example 2
 <span class="p">    ..</span> <span class="nt">_example 2:</span>
@@ -1678,6 +1682,8 @@ ReStructuredDirectives:</p>
     This links to <span class="na">:ref:</span><span class="nv">`example-1`</span> and <span class="na">:ref:</span><span class="nv">`example 2`</span>.
 
     (<span class="s">`&lt;#example-1&gt;`__, `</span><span class="si">&lt;#example-2&gt;</span><span class="s">`__</span>)
+
+    And this also links to <span class="s">`Example 2`_</span>.
 
 <span class="p">   ..</span> <span class="ow">include</span><span class="p">::</span> LICENSE
 

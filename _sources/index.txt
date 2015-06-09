@@ -1011,7 +1011,11 @@ the primary implementation of ReStructuredText.
            ==========
            This refs :ref:`example 1 <example-1>`.
 
-           Similarly, a link to this section `<#example-1>`__
+           Similarly, an explicit link to this anchor `<#example-1>`__
+
+           And an explicit link to this section `<#sphinx-1>`__
+           (which is otherwise not found in the source text).
+
 
            .. index:: Example 2
            .. _example 2:
@@ -1022,6 +1026,8 @@ the primary implementation of ReStructuredText.
            This links to :ref:`example-1` and :ref:`example 2`.
 
            (`<#example-1>`__, `<#example-2>`__)
+
+           And this also links to `Example 2`_.
 
           .. include:: LICENSE
 
