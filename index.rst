@@ -3600,6 +3600,13 @@ Chrome DevTools
 * Right-click > "Inspect Element"
 * OSX: ``<option>`` + ``<command>`` + ``i``
 
+DevTools Emulation
+
+* Resize Window to iPhone, iPad, Nexus, Galaxy (landscape / portrait)
+* Emulates touch events
+* https://developers.google.com/web/fundamentals/tools/devices/browseremulation?hl=en
+
+
 .. index:: Chrome Extensions
 
 Chrome Extensions
@@ -3635,13 +3642,17 @@ Chrome Extensions
 
 **Development**
 
+* `AngularJS Batarang`_
 * `FireBug`_ (see: `Chrome DevTools`_)
 * `FireLogger for Chrome`_
 * `JSONView`_
+* `ng-inspector for AngularJS`_
 * `Postman`_
 * `React Developer Tools`_
+* `Responsive Web Design Tester`_
 * `Requirify`_
 * `Web Developer`_
+* `Window Resizer`_
 
 **Vim**
 
@@ -3717,6 +3728,7 @@ Firefox Extensions
 
 * `FireBug`_
 * `FireLogger`_
+* `ng-inspector for AngularJS`_
 * `Web Developer`_
 
 **Vim**
@@ -3759,6 +3771,10 @@ Safari Extensions
 
 * `Zotero`_
 * `Pocket`_
+
+**Development**
+
+* `ng-inspector for AngularJS`_
 
 
 
@@ -4049,6 +4065,14 @@ Tree Style Tab
 Development Extensions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. index:: AngularJS Batarang
+.. _angularjs-batarang:
+
+AngularJS Batarang
++++++++++++++++++++
+| Source: https://github.com/spalger/angularjs-batarang
+| ChromeExt: https://chrome.google.com/webstore/detail/angularjs-batarang-stable/niopocochgahfkiccpjmmpchncjoapek
+
 .. index:: FireBug
 .. _firebug:
 
@@ -4100,6 +4124,19 @@ JSONView
 | ChromeExt: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
 
 
+.. index:: ng-inspector for AngularJS
+.. index:: AngularJS ng-inspector
+.. _ng-inspector-angularjs:
+
+ng-inspector for AngularJS
++++++++++++++++++++++++++++
+| Homepage: http://ng-inspector.org/
+| Source: https://github.com/rev087/ng-inspector
+| ChromeExt: https://chrome.google.com/webstore/detail/ng-inspector-for-angularj/aadgmnobpdmgmigaicncghmmoeflnamj
+| FirefoxXPI: http://ng-inspector.org/ng-inspector.xpi
+| SafariExt: http://ng-inspector.org/ng-inspector.safariextz
+
+
 .. index:: Postman
 .. _postman:
 
@@ -4116,6 +4153,17 @@ Postman
 React Developer Tools
 ++++++++++++++++++++++
 | ChromeExt: https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
+
+
+.. index:: Responsive Web Design Tester
+.. _responsive-web-design-tester:
+
+Responsive Web Design Tester
++++++++++++++++++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/responsive-web-design-tes/objclahbaimlfnbjdeobicmmlnbhamkg
+| Homepage: https://www.esolutions.se/
+
+See also: :ref:`Chrome DevTools <chrome-devtools>` Emulation
 
 
 .. index:: Requirify
@@ -4165,6 +4213,18 @@ Web Developer
 Web Developer Extension, originally just for Firefox, adds many
 useful developer tools and bookmarklets in a structured menu.
 
+
+.. index:: Window Resizer
+.. _window-resizer:
+
+Window Resizer
+++++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/window-resizer/kkelicaakdanhinjdeammmilcgefonfh
+
+See also: :ref:`Chrome DevTools <chrome-devtools>` Emulation
+
+
+
 .. index:: Vim Extensions
 .. _vim-extensions:
 
@@ -4179,7 +4239,7 @@ Vimium
 | Wikipedia: https://en.wikipedia.org/wiki/Vimium
 | Homepage: https://vimium.github.io/
 | Source: git https://github.com/philc/vimium
-| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb
 
 Vimium is a Chrome Extension which adds vim-like functionality.
 
@@ -4506,44 +4566,11 @@ Vim
 * https://github.com/scrooloose/nerdtree
 * https://github.com/westurner/dotvim
 
+Vim browser extensions:
 
-.. index:: Vimium
-.. _vimium:
-
-Vimium
-~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Vimium
-| Homepage: https://vimium.github.io/
-| Source: git https://github.com/philc/vimium
-| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
-
-
-.. index:: Vimperator
-.. _vimperator:
-
-Vimperator
-~~~~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Vimperator
-| Homepage: http://www.vimperator.org/
-| Source: https://github.com/vimperator/vimperator-labs
-| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/vimperator/
-
-
-.. index:: Wasavi
-.. _wasavi:
-
-Wasavi
-~~~~~~~
-| Homepage: http://appsweets.net/wasavi/
-| Docs: http://appsweets.net/wasavi/
-| Source: https://github.com/akahuku/wasavi
-
-
-* https://chrome.google.com/webstore/detail/wasavi/dgogifpkoilgiofhhhodbodcfgomelhe
-* https://addons.opera.com/en/extensions/details/wasavi/
-* https://addons.mozilla.org/en-US/firefox/addon/wasavi/
-
-
+* :ref:`Vimium` (Chrome)
+* :ref:`Vimperator` (Firefox)
+* :ref:`Wasavi` (Chrome, Opera, Firefox)
 
 *****
 
