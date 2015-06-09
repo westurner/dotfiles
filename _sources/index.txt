@@ -1246,11 +1246,14 @@ and object-oriented code,
 Python is often utilized for system administration
 and scientific software development.
 
-Many of the RedHat system management tools (such as :ref:`Yum`)
-are written in Python. Gentoo :ref:`Portage` is written in Python.
+Many of the :ref:`RedHat` system management tools (such as :ref:`Yum`)
+are written in Python.
+
+Gentoo :ref:`Portage` is written in Python.
 
 :ref:`IPython`, :ref:`Pip`, :ref:`Conda`,
-:ref:`Sphinx`, :ref:`Docutils`, :ref:`Mercurial`,
+:ref:`Sphinx`, :ref:`Docutils`,
+:ref:`Mercurial`, :ref:`OpenStack`,
 :ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
 and :ref:`Virtualenvwrapper` are all written in Python.
 
