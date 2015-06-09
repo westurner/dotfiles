@@ -1046,7 +1046,7 @@ the primary implementation of ReStructuredText.
 
       .. code-block:: rest
 
-          A link to :ref:`example 2`.
+          A (between files) link to :ref:`example 2`.
 
 
 
