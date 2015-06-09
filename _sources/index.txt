@@ -1018,6 +1018,9 @@ the primary implementation of ReStructuredText.
 C
 ~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/C_(programming_language)>`__
+| Docs: https://www.securecoding.cert.org/confluence/display/c/SEI+CERT+C+Coding+Standard
+| Docs: https://cwe.mitre.org/top25/#CWE-120
+| Docs: https://cwe.mitre.org/data/definitions/120.html#Demonstrative_Examples
 | Docs: http://learnxinyminutes.com/docs/c/
 
 C is a third-generation programming language which affords relatively
