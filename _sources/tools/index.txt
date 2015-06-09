@@ -903,7 +903,7 @@ Markdown
 
 Markdown is a :ref:`Lightweight markup language`
 which can be parsed and transformed to
-valid :ref:`HTML`.
+valid `HTML`.
 
 
 .. index:: MediaWiki Markup
@@ -922,7 +922,7 @@ MediaWiki Markup is a
 :ref:`Lightweight markup language`
 "WikiText"
 which can be parsed and transformed to
-valid :ref:`HTML`
+valid `HTML`
 that is utilized by Wikipedia.
 
 
@@ -977,9 +977,9 @@ ReStructuredText
 
 ReStructuredText (RST, ReST) is a
 :ref:`Lightweight markup language` commonly used for
-narrative documentation and {Python, C, Java, ...} docstrings
-which can be parsed and transformed to
-valid :ref:`HTML`, ePub, LaTeX, PDF.
+narrative documentation and inline Python, C, Java, etc. docstrings
+which can be parsed, transformed, and published to
+valid `HTML`, ePub, LaTeX, PDF.
 
 :ref:`Sphinx` is built on :ref:`Docutils`,
 the primary implementation of ReStructuredText.
@@ -991,24 +991,62 @@ the primary implementation of ReStructuredText.
    ReStructuredText Directive
       Actionable blocks of ReStructuredText
 
+      | Docs: http://docutils.sourceforge.net/docs/ref/rst/directives.html
+
+      ``include``, ``contents``, and ``index`` are all
+      ReStructuredDirectives:
+
       .. code-block:: rest
 
-         .. include:: goals.rst
+          .. include:: goals.rst
 
-         .. contents:: Table of Contents
-            :depth: 3
+          .. contents:: Table of Contents
+           :depth: 3
 
-         .. include:: LICENSE
+           .. index:: Example 1
+           .. index:: Sphinx +
+           .. _example-1:
 
+           Sphinx +1
+           ==========
+           This refs :ref:`example 1 <example-1>`.
+
+           Similarly, an explicit link to this anchor `<#example-1>`__
+
+           And an explicit link to this section `<#sphinx-1>`__
+           (which is otherwise not found in the source text).
+
+
+           .. index:: Example 2
+           .. _example 2:
+
+           Example 2
+           ==========
+
+           This links to :ref:`example-1` and :ref:`example 2`.
+
+           (`<#example-1>`__, `<#example-2>`__)
+
+           And this also links to `Example 2`_.
+
+          .. include:: LICENSE
+
+       .. note:: ``index`` is a :ref:`Sphinx` Directive,
+           which will print an error to the console when building
+           but will otherwise silently dropped
+           by non-Sphinx ReStructuredText parsers
+           like :ref:`Docutils` (GitHub) and :ref:`Pandoc`.
 
    ReStructuredText Role
       RestructuredText role extensions
 
+      | Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
+
+      ``:ref:`` is a :ref:`Sphinx` RestructuredText Role:
+
       .. code-block:: rest
 
-            .. _anchor-name:
-
-            :ref:`Anchor <anchor-name>`
+          A (between files) link to :ref:`example 2`.
 
 
 
@@ -1018,14 +1056,21 @@ the primary implementation of ReStructuredText.
 C
 ~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/C_(programming_language)>`__
+| Docs: https://www.securecoding.cert.org/confluence/display/c/SEI+CERT+C+Coding+Standard
+| Docs: https://cwe.mitre.org/top25/#CWE-120
+| Docs: https://cwe.mitre.org/data/definitions/120.html#Demonstrative_Examples
 | Docs: http://learnxinyminutes.com/docs/c/
 
 C is a third-generation programming language which affords relatively
 low-level machine access while providing helpful abstractions.
 
+Every :ref:`Windows` kernel is written in C.
+
 The GNU/:ref:`Linux` kernel is written in C
 and often compiled by :ref:`GCC` or :ref:`Clang`
 for a particular architecture (see: ``man uname``)
+
+The :ref:`OSX` kernel is written in C.
 
 :ref:`Libc` libraries are written in C.
 
@@ -1045,9 +1090,9 @@ A libc is a standard library of :ref:`C` routines.
 Libc implementations:
 
 * :ref:`Glibc`
-* https://en.wikipedia.org/wiki/C_standard_library#BSD_libc
+* :ref:`BSD Libc <bsd-libc>`
 * https://en.wikipedia.org/wiki/UClibc
-* `<https://en.wikipedia.org/wiki/Bionic_(software)>`__
+* :ref:`Bionic`
 
 
 .. index:: GNU Libc
@@ -1068,6 +1113,38 @@ Glibc is the GNU :ref:`C` Library (:ref:`libc`).
 
 Many :ref:`Linux` packages
 and the :ref:`GNU/Linux <linux>` kernel build from Glibc.
+
+
+.. index:: BSD Libc
+.. _bsd-libc:
+
+---------
+BSD Libc
+---------
+| Wikipedia: https://en.wikipedia.org/wiki/C_standard_library#BSD_libc
+| Source: https://svnweb.freebsd.org/base/head/lib/libc/
+| Source: http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/lib/libc/
+| Source: http://www.opensource.apple.com/source/Libc/
+
+BSD libc are a superset of :ref:`POSIX`.
+
+:ref:`OSX` builds from BSD libc.
+
+:ref:`Android` :ref:`Bionic` is a BSD libc.
+
+
+.. index:: Bionic
+.. _bionic:
+
+-------
+Bionic
+-------
+| Wikipedia:  `<https://en.wikipedia.org/wiki/Bionic_(software)>`__
+| Source: git https://github.com/android/platform_bionic
+| Docs: https://developer.android.com/tools/sdk/ndk/index.html
+
+Bionic is the :ref:`Android` :ref:`libc`, which is a :ref:`BSD Libc
+<bsd-libc>`.
 
 
 .. index:: C++
@@ -1116,7 +1193,9 @@ Haskell
 Haskell is a strongly staticly typed purely functional
 programming language.
 
-:ref:`Cabal` manages :ref:`Haskell` packages.
+:ref:`Cabal` is the Haskell package manager.
+
+:ref:`Pandoc` is written in Haskell.
 
 
 .. index:: Go
@@ -1163,7 +1242,7 @@ All major web browsers support Javascript.
 Client-side (web) applications can be written in Javascript.
 
 Server-side (web) applications can be written in Javascript,
-often with :ref:`Node.js` and :ref:`NPM` packages.
+often with :ref:`Node.js`, :ref:`NPM`, and :ref:`Bower` packages.
 
 .. note:: Java and JavaScript are two distinctly different languages
    and developer ecosystems.
@@ -1223,11 +1302,18 @@ Python
 ~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Python_(programming_language)>`_
 | Homepage: https://www.python.org/
+| Source: hg https://hg.python.org/cpython
 | Docs: https://docs.python.org/2/
 | Docs: https://docs.python.org/devguide/
 | Docs: https://docs.python.org/devguide/documenting.html
+| Docs: https://wiki.python.org/moin/PythonBooks
+| Docs: http://www.onlineprogrammingbooks.com/python/
+| Docs: https://www.reddit.com/r/learnpython/wiki/index
+| Docs: https://www.reddit.com/r/learnpython/wiki/books
+| Docs: https://www.quora.com/Python-programming-language-1/What-are-the-best-books-courses-for-learning-Python
+| Docs: https://en.wikiversity.org/wiki/Python
+| Docs: https://www.class-central.com/search?q=python
 | Docs: http://learnxinyminutes.com/docs/python/
-| Source: hg https://hg.python.org/cpython
 
 Python is a dynamically-typed, :ref:`C`-based third-generation
 programming language.
@@ -1237,14 +1323,20 @@ and object-oriented code,
 Python is often utilized for system administration
 and scientific software development.
 
-Many of the RedHat system management tools (such as :ref:`Yum`)
-are written in Python. Gentoo :ref:`Portage` is written in Python.
+Many of the :ref:`RedHat` system management tools (such as :ref:`Yum`)
+are written in Python.
+
+Gentoo :ref:`Portage` is written in Python.
 
 :ref:`IPython`, :ref:`Pip`, :ref:`Conda`,
-:ref:`Sphinx`, :ref:`Docutils`, :ref:`Mercurial`,
+:ref:`Sphinx`, :ref:`Docutils`,
+:ref:`Mercurial`, :ref:`OpenStack`,
 :ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
 and :ref:`Virtualenvwrapper` are all written in Python.
 
+:ref:`Anaconda` maintains a working set of :ref:`Conda` packages
+for Python 2.6, 2.7, 3.3, and 3.4:
+http://docs.continuum.io/anaconda/pkg-docs.html
 
 The Python community is generously supported by a number of sponsors
 and the Python Infrastructure Team:
@@ -1427,8 +1519,7 @@ the two language versions:
 * https://pypi.python.org/pypi/future
 * http://python-future.org/
 
-The Anaconda Python distribution (:ref:`Conda`)
-maintains a working set of packages
+:ref:`Anaconda` maintains a working set of :ref:`Conda` packages
 for Python 2.6, 2.7, 3.3, and 3.4:
 http://docs.continuum.io/anaconda/pkg-docs.html
 
@@ -1592,10 +1683,24 @@ with frontends for many languages.
 
 
 .. index:: Operating Systems
-.. _operating-systems:
+.. _operating systems:
 
 Operating Systems
 ===================
+| Wikipedia: https://en.wikipedia.org/wiki/Operating_system
+
+
+.. index:: POSIX
+.. _posix:
+
+POSIX
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/POSIX
+| Docs: https://en.wikipedia.org/wiki/POSIX#POSIX-oriented_operating_systems
+
+POSIX ("Portable Operating System Interface") is a set of standards
+for :ref:`Shells`, :ref:`Operating Systems`, and APIs.
+
 
 .. index:: GNU/Linux
 .. index:: Linux
@@ -1690,9 +1795,10 @@ Fedora
 is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages.
 
-.. index:: RHEL
+.. index:: RedHat
 .. index:: RedHat Enterprise Linux
-.. _rhel:
+.. index:: RHEL
+.. _redhat:
 
 RedHat
 ++++++++
@@ -1721,7 +1827,7 @@ CentOS
 
 CentOS is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 
 .. index:: Scientific Linux
@@ -1735,7 +1841,7 @@ Scientific Linux
 Scientific Linux is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
 which is derived from :ref:`CentOS`.
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 * ``rdfs:seeAlso`` :ref:`Anaconda` (:ref:`Conda`)
 * ``rdfs:seeAlso`` :ref:`Portage`
@@ -1754,7 +1860,7 @@ Oracle
 
 Oracle Linux is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
-which is derived from :ref:`RHEL`.
+which is derived from :ref:`RHEL <redhat>`.
 
 
 .. index:: Gentoo
@@ -2832,7 +2938,7 @@ VirtualBox:
 
 
 .. index:: Shells
-.. shells:
+.. _shells:
 
 Shells
 ========
@@ -3140,7 +3246,9 @@ Venv is a tool for making working with :ref:`Virtualenv`,
 :ref:`Virtualenvwrapper`, :ref:`Bash`, :ref:`ZSH`, :ref:`Vim`,
 and :ref:`IPython` within a project context very easy.
 
-Venv defines standard paths, environment variables, and aliases
+Venv defines standard :ref:`fhs` and :ref:`Python` paths,
+environment variables,
+and aliases
 for routinizing workflow.
 
 +---------------------+--------------------------------+--------------------------------------+----------------------------------------+
@@ -3494,6 +3602,13 @@ Chrome DevTools
 * Right-click > "Inspect Element"
 * OSX: ``<option>`` + ``<command>`` + ``i``
 
+DevTools Emulation
+
+* Resize Window to iPhone, iPad, Nexus, Galaxy (landscape / portrait)
+* Emulates touch events
+* https://developers.google.com/web/fundamentals/tools/devices/browseremulation?hl=en
+
+
 .. index:: Chrome Extensions
 
 Chrome Extensions
@@ -3529,13 +3644,17 @@ Chrome Extensions
 
 **Development**
 
+* `AngularJS Batarang`_
 * `FireBug`_ (see: `Chrome DevTools`_)
 * `FireLogger for Chrome`_
 * `JSONView`_
+* `ng-inspector for AngularJS`_
 * `Postman`_
 * `React Developer Tools`_
+* `Responsive Web Design Tester`_
 * `Requirify`_
 * `Web Developer`_
+* `Window Resizer`_
 
 **Vim**
 
@@ -3572,8 +3691,8 @@ Wandroid
 ++++++++++
 | Source: hg https://bitbucket.org/westurner/wandroid
 
- + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/config.py
- + https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/userdata.py
++ https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/config.py
++ https://bitbucket.org/westurner/wandroid/src/tip/wandroid/apps/chrome/userdata.py
 
 
 .. index:: Firefox
@@ -3611,6 +3730,7 @@ Firefox Extensions
 
 * `FireBug`_
 * `FireLogger`_
+* `ng-inspector for AngularJS`_
 * `Web Developer`_
 
 **Vim**
@@ -3653,6 +3773,10 @@ Safari Extensions
 
 * `Zotero`_
 * `Pocket`_
+
+**Development**
+
+* `ng-inspector for AngularJS`_
 
 
 
@@ -3943,6 +4067,14 @@ Tree Style Tab
 Development Extensions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. index:: AngularJS Batarang
+.. _angularjs-batarang:
+
+AngularJS Batarang
++++++++++++++++++++
+| Source: https://github.com/spalger/angularjs-batarang
+| ChromeExt: https://chrome.google.com/webstore/detail/angularjs-batarang-stable/niopocochgahfkiccpjmmpchncjoapek
+
 .. index:: FireBug
 .. _firebug:
 
@@ -3994,6 +4126,19 @@ JSONView
 | ChromeExt: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
 
 
+.. index:: ng-inspector for AngularJS
+.. index:: AngularJS ng-inspector
+.. _ng-inspector-angularjs:
+
+ng-inspector for AngularJS
++++++++++++++++++++++++++++
+| Homepage: http://ng-inspector.org/
+| Source: https://github.com/rev087/ng-inspector
+| ChromeExt: https://chrome.google.com/webstore/detail/ng-inspector-for-angularj/aadgmnobpdmgmigaicncghmmoeflnamj
+| FirefoxXPI: http://ng-inspector.org/ng-inspector.xpi
+| SafariExt: http://ng-inspector.org/ng-inspector.safariextz
+
+
 .. index:: Postman
 .. _postman:
 
@@ -4010,6 +4155,17 @@ Postman
 React Developer Tools
 ++++++++++++++++++++++
 | ChromeExt: https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
+
+
+.. index:: Responsive Web Design Tester
+.. _responsive-web-design-tester:
+
+Responsive Web Design Tester
++++++++++++++++++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/responsive-web-design-tes/objclahbaimlfnbjdeobicmmlnbhamkg
+| Homepage: https://www.esolutions.se/
+
+See also: :ref:`Chrome DevTools <chrome-devtools>` Emulation
 
 
 .. index:: Requirify
@@ -4059,6 +4215,18 @@ Web Developer
 Web Developer Extension, originally just for Firefox, adds many
 useful developer tools and bookmarklets in a structured menu.
 
+
+.. index:: Window Resizer
+.. _window-resizer:
+
+Window Resizer
+++++++++++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/window-resizer/kkelicaakdanhinjdeammmilcgefonfh
+
+See also: :ref:`Chrome DevTools <chrome-devtools>` Emulation
+
+
+
 .. index:: Vim Extensions
 .. _vim-extensions:
 
@@ -4073,7 +4241,7 @@ Vimium
 | Wikipedia: https://en.wikipedia.org/wiki/Vimium
 | Homepage: https://vimium.github.io/
 | Source: git https://github.com/philc/vimium
-| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
+| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb
 
 Vimium is a Chrome Extension which adds vim-like functionality.
 
@@ -4250,7 +4418,27 @@ so, for example,
 
             .. _anchor-name:
 
-            :ref:`Anchor <anchor-name>`
+            A link to :ref:`anchor <anchor-name>`.
+
+
+.. index:: Tinkerer
+.. _tinkerer:
+
+Tinkerer
+~~~~~~~~~
+| Homepage: http://tinkerer.me/
+| Source: https://github.com/vladris/tinkerer
+
+Tinkerer is a very simple static blogging website generation tool
+written in :ref:`Python` which extends :ref:`Sphinx`
+and generates `HTML` from :ref:`ReStructuredText`.
+
+Static HTML pages generated with Tinkerer do not require
+a serverside application, and can be easily hosted with GitHub Pages
+or any other web hosting service.
+
+* https://github.com/westurner/westurner.github.io/tree/source
+  (``Makefile``, ``conf.py``)
 
 
 .. index:: Standards
@@ -4278,6 +4466,7 @@ The Filesystem Hierarchy Standard is a well-worn industry-supported
 system file naming structure.
 
 :ref:`Ubuntu` and :ref:`Virtualenv` implement
+a Filesystem Hierarchy. Likewise, :ref:`Venv` implements
 a Filesystem Hierarchy.
 
 :ref:`Docker` layers filesystem hierarchies with aufs and now
@@ -4400,44 +4589,11 @@ Vim
 * https://github.com/scrooloose/nerdtree
 * https://github.com/westurner/dotvim
 
+Vim browser extensions:
 
-.. index:: Vimium
-.. _vimium:
-
-Vimium
-~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Vimium
-| Homepage: https://vimium.github.io/
-| Source: git https://github.com/philc/vimium
-| ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en
-
-
-.. index:: Vimperator
-.. _vimperator:
-
-Vimperator
-~~~~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Vimperator
-| Homepage: http://www.vimperator.org/
-| Source: https://github.com/vimperator/vimperator-labs
-| FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/vimperator/
-
-
-.. index:: Wasavi
-.. _wasavi:
-
-Wasavi
-~~~~~~~
-| Homepage: http://appsweets.net/wasavi/
-| Docs: http://appsweets.net/wasavi/
-| Source: https://github.com/akahuku/wasavi
-
-
-* https://chrome.google.com/webstore/detail/wasavi/dgogifpkoilgiofhhhodbodcfgomelhe
-* https://addons.opera.com/en/extensions/details/wasavi/
-* https://addons.mozilla.org/en-US/firefox/addon/wasavi/
-
-
+* :ref:`Vimium` (Chrome)
+* :ref:`Vimperator` (Firefox)
+* :ref:`Wasavi` (Chrome, Opera, Firefox)
 
 *****
 
