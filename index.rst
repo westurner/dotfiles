@@ -1254,6 +1254,9 @@ are written in Python. Gentoo :ref:`Portage` is written in Python.
 :ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
 and :ref:`Virtualenvwrapper` are all written in Python.
 
+:ref:`Anaconda` maintains a working set of :ref:`Conda` packages
+for Python 2.6, 2.7, 3.3, and 3.4:
+http://docs.continuum.io/anaconda/pkg-docs.html
 
 The Python community is generously supported by a number of sponsors
 and the Python Infrastructure Team:
@@ -1436,8 +1439,7 @@ the two language versions:
 * https://pypi.python.org/pypi/future
 * http://python-future.org/
 
-The Anaconda Python distribution (:ref:`Conda`)
-maintains a working set of packages
+:ref:`Anaconda` maintains a working set of :ref:`Conda` packages
 for Python 2.6, 2.7, 3.3, and 3.4:
 http://docs.continuum.io/anaconda/pkg-docs.html
 
