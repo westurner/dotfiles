@@ -1704,9 +1704,10 @@ Fedora
 is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages.
 
-.. index:: RHEL
+.. index:: RedHat
 .. index:: RedHat Enterprise Linux
-.. _rhel:
+.. index:: RHEL
+.. _redhat:
 
 RedHat
 ++++++++
