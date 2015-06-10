@@ -1,12 +1,12 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from __future__ import print_function
 """
-Print process information for all connections,
+netstatpsutil -- Print process information for all connections,
 or for connections on the specified ports.
 
 """
 import collections
-import subprocess
 try:
     import psutil
 except ImportError as e:
@@ -56,9 +56,9 @@ def net_connection_memory_info(ports=[80, 443],
                     port = cnx.laddr[-1]
                     if port in ports:
                         port_matches = True
-                if cnx.raddr:
-                    if port in ports:
-                        port_matches = True
+                # if cnx.raddr:
+                #    if port in ports:
+                #        port_matches = True
             if (not ports) or (port_matches):
                 yield cnx
 
@@ -107,31 +107,90 @@ def net_connection_memory_info(ports=[80, 443],
             yield p
 
 
-def main():
-    import sys
-    args = []
-    ports = []
-    just_the_pid = False
-    kill = False
-    if '--kill' in sys.argv:
-        _i = sys.argv.index('--kill')
-        sys.argv.remove('--kill')
-        kill = True
-        ksig = 15
-        try:
-            ksig = int(sys.argv[_i])
-        except IndexError:
-            pass
-    if '--pid' in sys.argv:
-        sys.argv.remove('--pid')
-        just_the_pid = True
-    if len(sys.argv) > 1:
-        args = sys.argv[1:]
-        ports = [int(x) for x in args]
+import unittest
+
+
+class Test_(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def test_(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+
+def main(argv=None):
+    """
+    Main function
+
+    Keyword Arguments:
+        argv (list): commandline arguments (e.g. sys.argv[1:])
+    Returns:
+        int:
+    """
+    import logging
+    import optparse
+
+    prs = optparse.OptionParser(
+        usage="%prog [-p|--pid] [-k|--kill <29>] <port_1> <port_n>")
+
+    prs.add_option('-p', '--pid',
+                   action='store_true',
+                   dest='just_the_pid',
+                   help='Print just the PIDs matching the given port(s)')
+
+    prs.add_option('--kill',
+                   action='store',
+                   help=('Run `kill -[kill] pid_1 pid_n` '
+                         '(int 1-31: see `man signal`)'))
+
+    prs.add_option('-l', '--list',
+                   action='store_true',
+                   default=True,
+                   help=('List programs running on the given ports'
+                         ' (Default: True)'))
+
+    prs.add_option('-v', '--verbose',
+                   dest='verbose',
+                   action='store_true',)
+    prs.add_option('-q', '--quiet',
+                   dest='quiet',
+                   action='store_true',)
+    prs.add_option('-t', '--test',
+                   dest='run_tests',
+                   action='store_true',)
+
+    loglevel = logging.INFO
+    argv = list(argv) if argv else []
+    (opts, args) = prs.parse_args(args=argv)
+    if opts.verbose:
+        loglevel = logging.DEBUG
+    elif opts.quiet:
+        loglevel = logging.ERROR
+    logging.basicConfig(level=loglevel)
+    log.debug('argv: %r', argv)
+    log.debug('opts: %r', opts)
+    log.debug('args: %r', args)
+
+    if opts.run_tests:
+        import sys
+        sys.argv = [sys.argv[0]] + args
+        import unittest
+        return unittest.main()
+
+    ports = [int(x) for x in args]
     kwargs = {
         'ports': ports,
     }
-    if kill:
+    ksig = opts.kill and int(opts.kill)
+    if (ksig and 0 > ksig > 31):
+        prs.error("Expected signum to be between 1-31")
+
+    just_the_pid = opts.just_the_pid
+    if ksig:
         retval = 0
 
         print("#Before")
@@ -140,8 +199,9 @@ def main():
         print("#...")
         for p in net_connection_memory_info(ports=ports, yield_process=True):
             try:
-                cmd = ('kill', '-%d' % ksig, '%r' % p.pid)
-                print(cmd)
+                cmd = ('kill', '-%s' % ksig, '%r' % p.pid)
+                print(cmd)  # print the comparable kill cmd
+                print(u' '.join(cmd))
                 p.send_signal(ksig)
             except Exception as e:
                 log.exception(e)
@@ -152,21 +212,22 @@ def main():
             print(p)
         return retval
     else:
-        if just_the_pid:
-            kwargs['yield_pid'] = True
-            kwargs['yield_str'] = False
-            kwargs['yield_dict'] = False
-            kwargs['yield_row'] = False
-        else:
-            kwargs['yield_str'] = True
+        if opts.list:
+            if kwargs.get('just_the_pid'):
+                kwargs['yield_pid'] = True
+                kwargs['yield_str'] = False
+                kwargs['yield_dict'] = False
+                kwargs['yield_row'] = False
+            else:
+                kwargs['yield_str'] = True
 
-        for str_ in net_connection_memory_info(**kwargs):
-            print(str_)
+            for str_ in net_connection_memory_info(**kwargs):
+                print(str_)
 
-
-    return 0
+    EX_OK = 0
+    return EX_OK
 
 
 if __name__ == "__main__":
     import sys
-    sys.exit(main())
+    sys.exit(main(argv=sys.argv[1:]))

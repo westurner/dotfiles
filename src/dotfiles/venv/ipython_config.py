@@ -1502,54 +1502,55 @@ def build_user_aliases_env(env=None,
     aliases['editw'] = env['_EDIT_']
     aliases['gvimw'] = env['_EDIT_']
 
-    # IPYTHON configuration
-    env['_NOTEBOOKS'] = joinpath(env.get('_SRC',
-                                         env.get('__WRK',
-                                                 env.get('HOME'))),
-                                 'notebooks')
-    env['_IPYSESKEY'] = joinpath(env.get('_SRC', env.get('HOME')),
-                                 '.ipyseskey')
-    if sys.version_info.major == 2:
-        _new_ipnbkey = "print os.urandom(128).encode(\\\"base64\\\")"
-    elif sys.version_info.major == 3:
-        _new_ipnbkey = "print(os.urandom(128).encode(\\\"base64\\\"))"
-    else:
-        raise KeyError(sys.version_info.major)
-    aliases['ipskey'] = ('(python -c \"'
-                         'import os;'
-                         ' {_new_ipnbkey}\"'
-                         ' > {_IPYSESKEY} )'
-                         ' && chmod 0600 {_IPYSESKEY};'
-                         ' # %l'
-                         ).format(
-        _new_ipnbkey=_new_ipnbkey,
-        _IPYSESKEY=shell_varquote('_IPYSESKEY'))
-    aliases['ipnb'] = ('ipython notebook'
-                       ' --secure'
-                       ' --Session.keyfile={_IPYSESKEY}'
-                       ' --notebook-dir={_NOTEBOOKS}'
-                       ' --deep-reload'
-                       ' %l').format(
-        _IPYSESKEY=shell_varquote('_IPYSESKEY'),
-        _NOTEBOOKS=shell_varquote('_NOTEBOOKS'))
+    def other():
+        # IPYTHON configuration
+        env['_NOTEBOOKS'] = joinpath(env.get('_SRC',
+                                            env.get('__WRK',
+                                                    env.get('HOME'))),
+                                    'notebooks')
+        env['_IPYSESKEY'] = joinpath(env.get('_SRC', env.get('HOME')),
+                                    '.ipyseskey')
+        if sys.version_info.major == 2:
+            _new_ipnbkey = "print os.urandom(128).encode(\\\"base64\\\")"
+        elif sys.version_info.major == 3:
+            _new_ipnbkey = "print(os.urandom(128).encode(\\\"base64\\\"))"
+        else:
+            raise KeyError(sys.version_info.major)
+        aliases['ipskey'] = ('(python -c \"'
+                            'import os;'
+                            ' {_new_ipnbkey}\"'
+                            ' > {_IPYSESKEY} )'
+                            ' && chmod 0600 {_IPYSESKEY};'
+                            ' # %l'
+                            ).format(
+            _new_ipnbkey=_new_ipnbkey,
+            _IPYSESKEY=shell_varquote('_IPYSESKEY'))
+        aliases['ipnb'] = ('ipython notebook'
+                        ' --secure'
+                        ' --Session.keyfile={_IPYSESKEY}'
+                        ' --notebook-dir={_NOTEBOOKS}'
+                        ' --deep-reload'
+                        ' %l').format(
+            _IPYSESKEY=shell_varquote('_IPYSESKEY'),
+            _NOTEBOOKS=shell_varquote('_NOTEBOOKS'))
 
-    env['_IPQTLOG'] = joinpath(env['VIRTUAL_ENV'], '.ipqt.log')
-    aliases['ipqt'] = ('ipython qtconsole'
-                       ' --secure'
-                       ' --Session.keyfile={_IPYSESKEY}'
-                       ' --logappend={_IPQTLOG}'
-                       ' --deep-reload'
-                       #' --gui-completion'
-                       #' --existing=${_APP}'
-                       ' --pprint'
-                       #' --pdb'
-                       ' --colors=linux'
-                       ' --ConsoleWidget.font_family="Monaco"'
-                       ' --ConsoleWidget.font_size=11'
-                       ' %l').format(
-        _IPYSESKEY=shell_varquote('_IPYSESKEY'),
-        _APP=shell_varquote('_APP'),
-        _IPQTLOG=shell_varquote('_IPQTLOG'))
+        env['_IPQTLOG'] = joinpath(env['VIRTUAL_ENV'], '.ipqt.log')
+        aliases['ipqt'] = ('ipython qtconsole'
+                        ' --secure'
+                        ' --Session.keyfile={_IPYSESKEY}'
+                        ' --logappend={_IPQTLOG}'
+                        ' --deep-reload'
+                        #' --gui-completion'
+                        #' --existing=${_APP}'
+                        ' --pprint'
+                        #' --pdb'
+                        ' --colors=linux'
+                        ' --ConsoleWidget.font_family="Monaco"'
+                        ' --ConsoleWidget.font_size=11'
+                        ' %l').format(
+            _IPYSESKEY=shell_varquote('_IPYSESKEY'),
+            _APP=shell_varquote('_APP'),
+            _IPQTLOG=shell_varquote('_IPQTLOG'))
 
     aliases['grinv'] = 'grin --follow %%l %s' % shell_varquote('VIRTUAL_ENV')
     aliases[
@@ -1597,42 +1598,42 @@ def build_user_aliases_env(env=None,
     else:
         log.error('app working directory %r not found' % _WRD)
 
-    _CFG = joinpath(env['_ETC'], 'development.ini')
-    if os.path.exists(_CFG) or dont_reflect:
-        env['_CFG'] = _CFG
-        env['_EDITCFG_'] = "{_EDIT_} {_CFG}".format(
-            _EDIT_=env['_EDIT_'],
-            _CFG=env['_CFG'])
-        aliases['editcfg'] = "{_EDITCFG} %l".format(
-            _EDITCFG=shell_varquote('_EDITCFG_'))
-        # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
-        env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
-            _BIN=shell_varquote('_BIN'),
-            _CFG=shell_varquote('_CFG'),
-            _WRD=shell_varquote('_WRD'))
-        env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
-                          " --app-name=main"
-                          " --reload"
-                          " --monitor-restart {_CFG})").format(
-            _BIN=shell_varquote('_BIN'),
-            _CFG=shell_varquote('_CFG'),
-            _WRD=shell_varquote('_WRD'))
-        aliases['servew'] = env['_SERVE_']
-        aliases['shellw'] = env['_SHELL_']
-    else:
-        logging.error('app configuration %r not found' % _CFG)
-        env['_CFG'] = ""
+    #_CFG = joinpath(env['_ETC'], 'development.ini')
+    #if os.path.exists(_CFG) or dont_reflect:
+    #    env['_CFG'] = _CFG
+    #    env['_EDITCFG_'] = "{_EDIT_} {_CFG}".format(
+    #        _EDIT_=env['_EDIT_'],
+    #        _CFG=env['_CFG'])
+    #    aliases['editcfg'] = "{_EDITCFG} %l".format(
+    #        _EDITCFG=shell_varquote('_EDITCFG_'))
+    #    # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
+    #    #env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
+    #    #    _BIN=shell_varquote('_BIN'),
+    #    #    _CFG=shell_varquote('_CFG'),
+    #    #    _WRD=shell_varquote('_WRD'))
+    #    #env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
+    #    #                  " --app-name=main"
+    #    #                  " --reload"
+    #    #                  " --monitor-restart {_CFG})").format(
+    #    #    _BIN=shell_varquote('_BIN'),
+    #    #    _CFG=shell_varquote('_CFG'),
+    #    #    _WRD=shell_varquote('_WRD'))
+    #    #aliases['servew'] = env['_SERVE_']
+    #    #aliases['shellw'] = env['_SHELL_']
+    #else:
+    #    logging.error('app configuration %r not found' % _CFG)
+    #    env['_CFG'] = ""
 
-    aliases['editw'] = IpyAlias(
-        # "(cd ${_WRD}; ${_EDIT_} %l)",
-        ("""(for arg in %l; do echo $arg; done) | """
-        '''el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"'''),
-        name='ew',
-        complfuncstr=(
-    """local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));"""
-    ))
+    #aliases['editw'] = IpyAlias(
+    #     "(cd ${_WRD}; ${_EDIT_} %l)",
+    #    # '''echo "%l" | pyline -m shlex 'l and "\n".join(shlex.split(l))' | """
+    #    #('''((for arg in %l; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} "${_WRD}/{0}")'''),
+    #    name='ew',
+    #    complfuncstr=(
+    #"""local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));"""
+    #))
 
-    aliases['e'] = aliases['editw']
+    #aliases['e'] = aliases['editw']
     env['PROJECT_FILES'] = " ".join(
         str(x) for x in PROJECT_FILES)
     aliases['editp'] = "${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} %l"
