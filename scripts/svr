@@ -1,18 +1,1 @@
-#!/bin/sh
-## 
-sv() {
-    #  sv()                     -- supervisorctl -c $_SVCFG
-    supervisorctl -c "${_SVCFG}" ${@}
-    return
-}
-
-svr() {
-    #  svr()                    -- supervisorctl -c $_SVCFG restart $@
-    sv restart $@
-    return
-}
-
-if [[ ${BASH_SOURCE} == "${0}" ]]; then
-    svr ${@}
-    exit
-fi
+/Users/W/-dotfiles/scripts/ssv

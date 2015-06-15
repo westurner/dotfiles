@@ -1,29 +1,138 @@
 #!/bin/sh
+
+##
+#  ssv -- a command wrapper for common supervisord commands
+#  
+#  Variables
+#    _SVCFG     -- absolute path to a supervisord.conf file
+#      _SVCFG="${VIRTUAL_ENV}/etc/supervisord.conf"  # (default)
+#      _SVCFG="${_WRD}/supervisord.conf"
+#
+#  .. note::  supervisord paths containing ``%(here)s`` evaluate
+#      to the (TODO verify) os.realpath of the file.
+#      if symlinked from _WRD/supervisord.conf to _ETC/supervisord.conf,
+#      paths require an additional upward traversal. 
+#      For example::
+#
+#         # Relative to VIRTUAL_ENV/etc
+#         program=%(here)s/../bin/theprogramtorun
+
+#         # Relative to VIRTUAL_ENV/src/<dotfiles>
+#         program=%(here)s/../../bin/theprogramtorun
+#
+#
+#  These functions can be utilized in a number of ways:
+#
+#  * As shell scripts (symlinked to ssv)
+#  * As shell functions (``source $__DOTFILES/scripts/ssv``)
+
+
+function supervisord_sv_create_symlinks() {
+    src="${BASH_SOURCE}"
+    test -e sv  || ln -s ${src} sv    # supervisorctl $@
+    test -e svs || ln -s ${src} svs   # supervisorctl status $@
+    test -e svr || ln -s ${src} svr   # supervisorctl restart $@
+    test -e svt || ln -s ${src} svt   # supervisorctl tail $@
+    test -e svd || ln -s ${src} svd   # sv restart $1:-"dev" && sv tail 'dev'
+    test -e sve || ln -s ${src} sve   # EDITOR[_] $_SVCFG
+}
+
+function _setup_supervisord() {
+    #  _setup_supervisord()      -- set _SVCFG to a supervisord.conf
+    local svcfg=${1:-${_SVCFG}}
+    if [ -z "${svcfg}" ]; then
+        if [ -n "${VIRTUAL_ENV}" ]; then
+            local _svcfg="${VIRTUAL_ENV}/etc/supervisord.conf"
+        else
+            local _svcfg="supervisord.conf"
+        fi
+        if [ -n "${_svcfg}" ]; then
+            svcfg="${_svcfg}"
+        fi
+    fi
+    export _SVCFG="${svcfg}"
+}
+
 ## 
-supervisord_start () {
+function supervisord_start() {
     #  supervisord_start()      -- start supervisord -c $_SVCFG
     supervisord -c "${_SVCFG}"
     return
 }
-ssv() {
+function ssv() {
     #  ssv()                    -- start supervisord -c $_SVCFG
     supervisord_start $@
     return
 }
-sv() {
+function sv() {
     #  sv()                     -- supervisorctl -c $_SVCFG
     supervisorctl -c "${_SVCFG}" ${@}
     return
 }
+function svs() {
+    #  svs()                    -- sv status $@
+    sv status ${@}
+    return
+}
+function svr() {
+    #  svr()                    -- sv restart $@
+    sv restart ${@}
+    return
+}
 
-supervisord_stop () {
+function svd() {
+    # svd()                     -- sv restart ${1:-"dev"} && sv tail -f ${1:-"dev"}
+    name=${1:-"dev"}
+    sv restart "${name}" && sv tail -f "${name}"
+}
+
+function svt() {
+    # svt()                     -- sv tail -f
+    name=${1}
+    sv tail -f ${name}
+}
+
+function sve() {
+    #  sve()                    -- $EDITOR[_] $_SVCFG
+    ${EDITOR_:-${EDITOR}} ${1:-${_SVCFG}}
+}
+
+
+
+function supervisord_stop() {
     #  supervisord_start()      -- start supervisord
     supervisorctl -c "${_SVCFG}" "shutdown"
     return
 }
 
+echo "${BASH_SOURCE}"
+echo "${0}"
 
-if [[ ${BASH_SOURCE} == "${0}" ]]; then
-    supervisord_start ${@}
+if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+    _setup_supervisord
+
+    cmd=$(basename "${0}")
+    echo "cmd: ${cmd}"
+
+    case "${cmd}" in
+        sve)
+            sve ${@}
+            ;;
+        ssv)
+            supervisord_start ${@}
+            ;;
+        sv)
+            sv ${@}
+            ;;
+        svd)
+            svd ${@}
+            ;;
+        svt)
+            svt ${@}
+            ;;
+        svs)
+            svs ${@}
+            ;;
+    esac
     exit
 fi
