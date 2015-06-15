@@ -149,7 +149,7 @@ _usrlog_set__TERM_ID () {
 
 
 _usrlog_echo_title () {
-    # _usrlog_echo_title   -- set window title
+    # _usrlog_echo_title   -- set window title (by echo'ing escape codes)
     local title="${WINDOW_TITLE:+"$WINDOW_TITLE "}"
     if [ -n "$_APP" ]; then
         title="($_APP) ${title}"
@@ -160,8 +160,8 @@ _usrlog_echo_title () {
     USRLOG_WINDOW_TITLE=${title:-"$@"}
     if [ -n $CLICOLOR ]; then
         echo -ne "\033]0;${USRLOG_WINDOW_TITLE}\007"
-    else
-        echo -ne "${USRLOG_WINDOW_TITLE}"
+    # else
+    #    echo -ne "${USRLOG_WINDOW_TITLE}"
     fi
 }
 
