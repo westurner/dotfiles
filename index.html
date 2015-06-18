@@ -87,7 +87,10 @@
 <li><a class="reference internal" href="#anaconda">Anaconda</a></li>
 <li><a class="reference internal" href="#apt">APT</a></li>
 <li><a class="reference internal" href="#bower">Bower</a></li>
-<li><a class="reference internal" href="#cabal">Cabal</a></li>
+<li><a class="reference internal" href="#cabal">Cabal</a><ul>
+<li><a class="reference internal" href="#conda">Conda</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#deb">DEB</a></li>
 <li><a class="reference internal" href="#dpkg">Dpkg</a></li>
 <li><a class="reference internal" href="#homebrew">Homebrew</a></li>
@@ -104,7 +107,6 @@
 <li><a class="reference internal" href="#pypi">PyPI</a></li>
 <li><a class="reference internal" href="#warehouse">Warehouse</a></li>
 <li><a class="reference internal" href="#wheel">Wheel</a></li>
-<li><a class="reference internal" href="#conda">Conda</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#rubygems">RubyGems</a></li>
@@ -436,7 +438,10 @@
 <li><a class="reference internal" href="#anaconda">Anaconda</a></li>
 <li><a class="reference internal" href="#apt">APT</a></li>
 <li><a class="reference internal" href="#bower">Bower</a></li>
-<li><a class="reference internal" href="#cabal">Cabal</a></li>
+<li><a class="reference internal" href="#cabal">Cabal</a><ul>
+<li><a class="reference internal" href="#conda">Conda</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#deb">DEB</a></li>
 <li><a class="reference internal" href="#dpkg">Dpkg</a></li>
 <li><a class="reference internal" href="#homebrew">Homebrew</a></li>
@@ -453,7 +458,6 @@
 <li><a class="reference internal" href="#pypi">PyPI</a></li>
 <li><a class="reference internal" href="#warehouse">Warehouse</a></li>
 <li><a class="reference internal" href="#wheel">Wheel</a></li>
-<li><a class="reference internal" href="#conda">Conda</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#rubygems">RubyGems</a></li>
@@ -912,9 +916,80 @@ built on <a class="reference internal" href="#npm"><em>NPM</em></a>.</p>
 </div>
 <p>Cabal is a package manager for <a class="reference internal" href="#haskell"><em>Haskell</em></a> packages.</p>
 <p>Hackage is the community Cabal package index: <a class="reference external" href="https://hackage.haskell.org/">https://hackage.haskell.org/</a></p>
+<span class="target" id="index-7"></span><div class="section" id="conda">
+<span id="index-8"></span><span id="id7"></span><h4>Conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">Docs: <a class="reference external" href="http://conda.pydata.org/docs/">http://conda.pydata.org/docs/</a></div>
+<div class="line">Source: git <a class="reference external" href="https://github.com/conda/conda">https://github.com/conda/conda</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/conda">https://pypi.python.org/pypi/conda</a></div>
+</div>
+<ul>
+<li><p class="first">Conda installs packages written in any language; especially Python</p>
+</li>
+<li><p class="first">Conda packages are basically tar archives with build, link (optional), and
+uninstall (optional) scripts.</p>
+</li>
+<li><p class="first">Conda packages are generated from a conda build recipe
+with a <code class="docutils literal"><span class="pre">meta.yaml</span></code>, a <code class="docutils literal"><span class="pre">build.sh</span></code>, and/or a <code class="docutils literal"><span class="pre">build.bat</span></code>
+by conda-build.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda packages
+from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python), <code class="docutils literal"><span class="pre">CRAN</span></code> (R), and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</p>
+</li>
+<li><p class="first">An <code class="docutils literal"><span class="pre">environment.yml</span></code> lists conda and <a class="reference internal" href="#pip"><em>Pip</em></a> packages
+to be installed with conda-env.</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># Export and environment.yml
+source deactivate; conda env export -n root | tee environment.yml
+
+# Create an environment from an environment.yml
+conda env create -n example -f ./environment.yml
+</pre></div>
+</div>
+</li>
+<li><p class="first">Conda was originally created for the Anaconda Python Distribution,
+which installs packages written in <a class="reference internal" href="#python"><em>Python</em></a>,
+R,
+<a class="reference internal" href="#javascript"><em>JavaScript</em></a>,
+<a class="reference internal" href="#ruby"><em>Ruby</em></a>,
+<a class="reference internal" href="#c"><em>C</em></a>,
+<a class="reference internal" href="#fortran"><em>Fortran</em></a></p>
+</li>
+<li><p class="first">Conda (and <a class="reference internal" href="#anaconda"><em>Anaconda</em></a>) packages are hosted by
+<a class="reference external" href="https://binstar.org">https://binstar.org</a>,
+which hosts free public and paid private Conda packages.</p>
+<ul class="simple">
+<li>Anaconda Server is an internal
+&#8220;Private, Secure Package Repository&#8221;
+that
+&#8220;supports over 100 different repositories,
+including PyPI, CRAN, conda, and the Anaconda repository.&#8221;</li>
+</ul>
+</li>
+</ul>
+<p>To create a fresh conda env:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># Python 2.7
+conda env create -n exmpl2 --yes python readline pip
+# conda install ipython-notebook
+
+# Python 3.X
+conda env create -n exmpl3 --yes python3 readline pip
+</pre></div>
+</div>
+<p>Work on a conda env:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>source activate exmpl2
+conda list
+source deactivate
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/conda/conda-env">https://github.com/conda/conda-env</a></li>
+<li><a class="reference external" href="https://github.com/conda/conda-build">https://github.com/conda/conda-build</a></li>
+<li><a class="reference external" href="https://github.com/conda/conda-recipes">https://github.com/conda/conda-recipes</a></li>
+</ul>
+</div>
 </div>
 <div class="section" id="deb">
-<span id="index-7"></span><span id="id7"></span><h3>DEB<a class="headerlink" href="#deb" title="Permalink to this headline">¶</a></h3>
+<span id="index-9"></span><span id="id8"></span><h3>DEB<a class="headerlink" href="#deb" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Deb_(file_format)">https://en.wikipedia.org/wiki/Deb_(file_format)</a></div>
 </div>
@@ -923,7 +998,7 @@ built on <a class="reference internal" href="#npm"><em>NPM</em></a>.</p>
 package repository.</p>
 </div>
 <div class="section" id="dpkg">
-<span id="index-8"></span><span id="id8"></span><h3>Dpkg<a class="headerlink" href="#dpkg" title="Permalink to this headline">¶</a></h3>
+<span id="index-10"></span><span id="id9"></span><h3>Dpkg<a class="headerlink" href="#dpkg" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Dpkg">https://en.wikipedia.org/wiki/Dpkg</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://wiki.debian.org/Teams/Dpkg">https://wiki.debian.org/Teams/Dpkg</a></div>
@@ -934,17 +1009,17 @@ package repository.</p>
 </div>
 <p>Dpkg is a collection of tools for creating and working with
 <a class="reference internal" href="#deb"><em>DEB</em></a> packages.</p>
-<span class="target" id="index-9"></span></div>
+<span class="target" id="index-11"></span></div>
 <div class="section" id="homebrew">
-<span id="index-10"></span><span id="id9"></span><h3>Homebrew<a class="headerlink" href="#homebrew" title="Permalink to this headline">¶</a></h3>
+<span id="index-12"></span><span id="id10"></span><h3>Homebrew<a class="headerlink" href="#homebrew" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Homebrew_(package_management_software)">https://en.wikipedia.org/wiki/Homebrew_(package_management_software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://brew.sh/">http://brew.sh/</a></div>
 </div>
 <p>Homebrew is a package manager (<code class="docutils literal"><span class="pre">brew</span></code>) for <a class="reference internal" href="#osx"><em>OS X</em></a>.</p>
-<span class="target" id="index-11"></span></div>
+<span class="target" id="index-13"></span></div>
 <div class="section" id="npm">
-<span id="index-12"></span><span id="id10"></span><h3>NPM<a class="headerlink" href="#npm" title="Permalink to this headline">¶</a></h3>
+<span id="index-14"></span><span id="id11"></span><h3>NPM<a class="headerlink" href="#npm" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Npm_(software)">https://en.wikipedia.org/wiki/Npm_(software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.npmjs.org/">https://www.npmjs.org/</a></div>
@@ -954,7 +1029,7 @@ package repository.</p>
 <p><a class="reference internal" href="#bower"><em>Bower</em></a> builds on NPM.</p>
 </div>
 <div class="section" id="nuget">
-<span id="index-13"></span><span id="id11"></span><h3>NuGet<a class="headerlink" href="#nuget" title="Permalink to this headline">¶</a></h3>
+<span id="index-15"></span><span id="id12"></span><h3>NuGet<a class="headerlink" href="#nuget" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/NuGet">https://en.wikipedia.org/wiki/NuGet</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.nuget.org/">https://www.nuget.org/</a></div>
@@ -968,7 +1043,7 @@ package repository.</p>
 </ul>
 </div>
 <div class="section" id="portage">
-<span id="index-14"></span><span id="id12"></span><h3>Portage<a class="headerlink" href="#portage" title="Permalink to this headline">¶</a></h3>
+<span id="index-16"></span><span id="id13"></span><h3>Portage<a class="headerlink" href="#portage" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Portage_(software)">https://en.wikipedia.org/wiki/Portage_(software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://wiki.gentoo.org/wiki/Project:Portage">http://wiki.gentoo.org/wiki/Project:Portage</a></div>
@@ -979,7 +1054,7 @@ package repository.</p>
 </ul>
 </div>
 <div class="section" id="ports">
-<span id="index-15"></span><span id="id13"></span><h3>Ports<a class="headerlink" href="#ports" title="Permalink to this headline">¶</a></h3>
+<span id="index-17"></span><span id="id14"></span><h3>Ports<a class="headerlink" href="#ports" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Ports_collection">https://en.wikipedia.org/wiki/Ports_collection</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.freebsd.org/ports/">https://www.freebsd.org/ports/</a></div>
@@ -989,7 +1064,7 @@ for particular distributions&#8217; kernel and standard libraries
 on a particular platform.</p>
 </div>
 <div class="section" id="rpm">
-<span id="index-16"></span><span id="id14"></span><h3>RPM<a class="headerlink" href="#rpm" title="Permalink to this headline">¶</a></h3>
+<span id="index-18"></span><span id="id15"></span><h3>RPM<a class="headerlink" href="#rpm" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/RPM_Package_Manager">https://en.wikipedia.org/wiki/RPM_Package_Manager</a></div>
 </div>
@@ -1012,9 +1087,9 @@ on a particular platform.</p>
 </ul>
 </li>
 </ul>
-<span class="target" id="index-17"></span><span class="target" id="index-18"></span></div>
+<span class="target" id="index-19"></span><span class="target" id="index-20"></span></div>
 <div class="section" id="python-packages">
-<span id="index-19"></span><span id="id15"></span><h3>Python Packages<a class="headerlink" href="#python-packages" title="Permalink to this headline">¶</a></h3>
+<span id="index-21"></span><span id="id16"></span><h3>Python Packages<a class="headerlink" href="#python-packages" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://pypi.python.org/pypi">https://pypi.python.org/pypi</a></div>
 <div class="line">Docs: <a class="reference external" href="https://packaging.python.org/en/latest/">https://packaging.python.org/en/latest/</a></div>
@@ -1058,7 +1133,7 @@ contained in packages in order to resolve a dependency graph
 (which can contain cycles) and install necessary packages.</li>
 </ul>
 <div class="section" id="distuils">
-<span id="distutils"></span><span id="index-20"></span><h4>Distuils<a class="headerlink" href="#distuils" title="Permalink to this headline">¶</a></h4>
+<span id="distutils"></span><span id="index-22"></span><h4>Distuils<a class="headerlink" href="#distuils" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="https://docs.python.org/2/distutils/">https://docs.python.org/2/distutils/</a></div>
 </div>
@@ -1066,7 +1141,7 @@ contained in packages in order to resolve a dependency graph
 <p>Distutils is included in the Python standard library.</p>
 </div>
 <div class="section" id="setuptools">
-<span id="index-21"></span><span id="id16"></span><h4>Setuptools<a class="headerlink" href="#setuptools" title="Permalink to this headline">¶</a></h4>
+<span id="index-23"></span><span id="id17"></span><h4>Setuptools<a class="headerlink" href="#setuptools" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Setuptools">https://en.wikipedia.org/wiki/Setuptools</a></div>
 <div class="line">Docs: <a class="reference external" href="https://pythonhosted.org/setuptools/">https://pythonhosted.org/setuptools/</a></div>
@@ -1105,7 +1180,7 @@ python setup.py --command-packages=stdeb.command bdist_deb --help
 </ul>
 </div>
 <div class="section" id="pip">
-<span id="index-22"></span><span id="id17"></span><h4>Pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h4>
+<span id="index-24"></span><span id="id18"></span><h4>Pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Pip_(package_manager)">https://en.wikipedia.org/wiki/Pip_(package_manager)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://pip.pypa.io/">https://pip.pypa.io/</a></div>
@@ -1209,16 +1284,16 @@ https://warehouse.python.org/packages/source/p/pip/pip-1.5.5.tar.gz
 </dl>
 </div>
 <div class="section" id="peep">
-<span id="index-23"></span><span id="id18"></span><h4>Peep<a class="headerlink" href="#peep" title="Permalink to this headline">¶</a></h4>
+<span id="index-25"></span><span id="id19"></span><h4>Peep<a class="headerlink" href="#peep" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/erikrose/peep">https://github.com/erikrose/peep</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/peep">https://pypi.python.org/pypi/peep</a></div>
 </div>
 <p>Peep works just like <a class="reference internal" href="#pip"><em>Pip</em></a>, but requires <code class="docutils literal"><span class="pre">SHA256</span></code> checksum hashes
 to be specified for each package in <code class="docutils literal"><span class="pre">requirements.txt</span></code> file.</p>
-<span class="target" id="index-24"></span></div>
+<span class="target" id="index-26"></span></div>
 <div class="section" id="pypi">
-<span id="index-25"></span><span id="id19"></span><h4>PyPI<a class="headerlink" href="#pypi" title="Permalink to this headline">¶</a></h4>
+<span id="index-27"></span><span id="id20"></span><h4>PyPI<a class="headerlink" href="#pypi" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Python_Package_Index">https://en.wikipedia.org/wiki/Python_Package_Index</a></div>
 <div class="line">Docs: <a class="reference external" href="https://wiki.python.org/moin/CheeseShop">https://wiki.python.org/moin/CheeseShop</a></div>
@@ -1229,7 +1304,7 @@ to be specified for each package in <code class="docutils literal"><span class="
 <p>PyPI is the Python Package Index.</p>
 </div>
 <div class="section" id="warehouse">
-<span id="index-26"></span><span id="id20"></span><h4>Warehouse<a class="headerlink" href="#warehouse" title="Permalink to this headline">¶</a></h4>
+<span id="index-28"></span><span id="id21"></span><h4>Warehouse<a class="headerlink" href="#warehouse" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://warehouse.python.org/">https://warehouse.python.org/</a></div>
 <div class="line">Docs: <a class="reference external" href="https://warehouse.readthedocs.org/en/latest/">https://warehouse.readthedocs.org/en/latest/</a></div>
@@ -1237,9 +1312,9 @@ to be specified for each package in <code class="docutils literal"><span class="
 </div>
 <p>Warehouse is the &#8220;Next Generation Python Package Repository&#8221;.</p>
 <p>All packages uploaded to <a class="reference internal" href="#pypi"><em>PyPI</em></a> are also available from Warehouse.</p>
-<span class="target" id="index-27"></span></div>
+<span class="target" id="index-29"></span></div>
 <div class="section" id="wheel">
-<span id="index-28"></span><span id="id21"></span><h4>Wheel<a class="headerlink" href="#wheel" title="Permalink to this headline">¶</a></h4>
+<span id="index-30"></span><span id="id22"></span><h4>Wheel<a class="headerlink" href="#wheel" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="http://legacy.python.org/dev/peps/pep-0427/">http://legacy.python.org/dev/peps/pep-0427/</a></div>
 <div class="line">Docs: <a class="reference external" href="http://wheel.readthedocs.org/en/latest/">http://wheel.readthedocs.org/en/latest/</a></div>
@@ -1255,77 +1330,6 @@ of additional speed and platform-consistency advantages.</li>
 <li>Wheels are generally faster than traditional Python packages.</li>
 </ul>
 <p>Packages available as wheels are listed at <a class="reference external" href="http://pythonwheels.com/">http://pythonwheels.com/</a>.</p>
-<span class="target" id="index-29"></span></div>
-<div class="section" id="conda">
-<span id="index-30"></span><span id="id22"></span><h4>Conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h4>
-<div class="line-block">
-<div class="line">Docs: <a class="reference external" href="http://conda.pydata.org/docs/">http://conda.pydata.org/docs/</a></div>
-<div class="line">Source: git <a class="reference external" href="https://github.com/conda/conda">https://github.com/conda/conda</a></div>
-<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/conda">https://pypi.python.org/pypi/conda</a></div>
-</div>
-<ul>
-<li><p class="first">Conda installs packages written in any language; especially Python</p>
-</li>
-<li><p class="first">Conda packages are basically tar archives with build, link (optional), and
-uninstall (optional) scripts.</p>
-</li>
-<li><p class="first">Conda packages are generated from a conda build recipe
-with a <code class="docutils literal"><span class="pre">meta.yaml</span></code>, a <code class="docutils literal"><span class="pre">build.sh</span></code>, and/or a <code class="docutils literal"><span class="pre">build.bat</span></code>
-by conda-build.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda packages
-from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python), <code class="docutils literal"><span class="pre">CRAN</span></code> (R), and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</p>
-</li>
-<li><p class="first">An <code class="docutils literal"><span class="pre">environment.yml</span></code> lists conda and <a class="reference internal" href="#pip"><em>Pip</em></a> packages
-to be installed with conda-env.</p>
-<div class="code bash highlight-python"><div class="highlight"><pre># Export and environment.yml
-source deactivate; conda env export -n root | tee environment.yml
-
-# Create an environment from an environment.yml
-conda env create -n example -f ./environment.yml
-</pre></div>
-</div>
-</li>
-<li><p class="first">Conda was originally created for the Anaconda Python Distribution,
-which installs packages written in <a class="reference internal" href="#python"><em>Python</em></a>,
-R,
-<a class="reference internal" href="#javascript"><em>JavaScript</em></a>,
-<a class="reference internal" href="#ruby"><em>Ruby</em></a>,
-<a class="reference internal" href="#c"><em>C</em></a>,
-<a class="reference internal" href="#fortran"><em>Fortran</em></a></p>
-</li>
-<li><p class="first">Conda (and <a class="reference internal" href="#anaconda"><em>Anaconda</em></a>) packages are hosted by
-<a class="reference external" href="https://binstar.org">https://binstar.org</a>,
-which hosts free public and paid private Conda packages.</p>
-<ul class="simple">
-<li>Anaconda Server is an internal
-&#8220;Private, Secure Package Repository&#8221;
-that
-&#8220;supports over 100 different repositories,
-including PyPI, CRAN, conda, and the Anaconda repository.&#8221;</li>
-</ul>
-</li>
-</ul>
-<p>To create a fresh conda env:</p>
-<div class="code bash highlight-python"><div class="highlight"><pre># Python 2.7
-conda env create -n exmpl2 --yes python readline pip
-# conda install ipython-notebook
-
-# Python 3.X
-conda env create -n exmpl3 --yes python3 readline pip
-</pre></div>
-</div>
-<p>Work on a conda env:</p>
-<div class="code bash highlight-python"><div class="highlight"><pre>source activate exmpl2
-conda list
-source deactivate
-</pre></div>
-</div>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/conda/conda-env">https://github.com/conda/conda-env</a></li>
-<li><a class="reference external" href="https://github.com/conda/conda-build">https://github.com/conda/conda-build</a></li>
-<li><a class="reference external" href="https://github.com/conda/conda-recipes">https://github.com/conda/conda-recipes</a></li>
-</ul>
 <span class="target" id="index-31"></span></div>
 </div>
 <div class="section" id="rubygems">

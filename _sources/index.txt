@@ -138,6 +138,79 @@ Cabal is a package manager for :ref:`Haskell` packages.
 Hackage is the community Cabal package index: https://hackage.haskell.org/
 
 
+.. index:: Conda Package
+.. index:: Conda
+.. _conda:
+
+Conda
++++++++
+| Docs: http://conda.pydata.org/docs/
+| Source: git https://github.com/conda/conda
+| PyPI: https://pypi.python.org/pypi/conda
+
+
+* Conda installs packages written in any language; especially Python
+* Conda packages are basically tar archives with build, link (optional), and
+  uninstall (optional) scripts.
+* Conda packages are generated from a conda build recipe
+  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``
+  by conda-build.
+* ``conda skeleton`` can automatically create conda packages
+  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
+* An ``environment.yml`` lists conda and :ref:`pip` packages
+  to be installed with conda-env.
+
+  .. code:: bash
+
+      # Export and environment.yml
+      source deactivate; conda env export -n root | tee environment.yml
+
+      # Create an environment from an environment.yml
+      conda env create -n example -f ./environment.yml
+
+* Conda was originally created for the Anaconda Python Distribution,
+  which installs packages written in :ref:`Python`,
+  R,
+  :ref:`Javascript`,
+  :ref:`Ruby`,
+  :ref:`C`,
+  :ref:`Fortran`
+* Conda (and :ref:`Anaconda`) packages are hosted by
+  `<https://binstar.org>`__,
+  which hosts free public and paid private Conda packages.
+
+  * Anaconda Server is an internal
+    "Private, Secure Package Repository"
+    that
+    "supports over 100 different repositories,
+    including PyPI, CRAN, conda, and the Anaconda repository."
+
+To create a fresh conda env:
+
+.. code:: bash
+
+   # Python 2.7
+   conda env create -n exmpl2 --yes python readline pip
+   # conda install ipython-notebook
+
+   # Python 3.X
+   conda env create -n exmpl3 --yes python3 readline pip
+
+Work on a conda env:
+
+.. code:: bash
+
+   source activate exmpl2
+   conda list
+   source deactivate
+
+
+* https://github.com/conda/conda-env
+* https://github.com/conda/conda-build
+* https://github.com/conda/conda-recipes
+
+
+
 .. index:: DEB
 .. _deb:
 
@@ -532,78 +605,6 @@ Wheel
 * Wheels are generally faster than traditional Python packages.
 
 Packages available as wheels are listed at `<http://pythonwheels.com/>`__.
-
-
-.. index:: Conda Package
-.. index:: Conda
-.. _conda:
-
-Conda
-+++++++
-| Docs: http://conda.pydata.org/docs/
-| Source: git https://github.com/conda/conda
-| PyPI: https://pypi.python.org/pypi/conda
-
-
-* Conda installs packages written in any language; especially Python
-* Conda packages are basically tar archives with build, link (optional), and
-  uninstall (optional) scripts.
-* Conda packages are generated from a conda build recipe
-  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``
-  by conda-build.
-* ``conda skeleton`` can automatically create conda packages
-  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
-* An ``environment.yml`` lists conda and :ref:`pip` packages
-  to be installed with conda-env.
-
-  .. code:: bash
-
-      # Export and environment.yml
-      source deactivate; conda env export -n root | tee environment.yml
-
-      # Create an environment from an environment.yml
-      conda env create -n example -f ./environment.yml
-
-* Conda was originally created for the Anaconda Python Distribution,
-  which installs packages written in :ref:`Python`,
-  R,
-  :ref:`Javascript`,
-  :ref:`Ruby`,
-  :ref:`C`,
-  :ref:`Fortran`
-* Conda (and :ref:`Anaconda`) packages are hosted by
-  `<https://binstar.org>`__,
-  which hosts free public and paid private Conda packages.
-
-  * Anaconda Server is an internal
-    "Private, Secure Package Repository"
-    that
-    "supports over 100 different repositories,
-    including PyPI, CRAN, conda, and the Anaconda repository."
-
-To create a fresh conda env:
-
-.. code:: bash
-
-   # Python 2.7
-   conda env create -n exmpl2 --yes python readline pip
-   # conda install ipython-notebook
-
-   # Python 3.X
-   conda env create -n exmpl3 --yes python3 readline pip
-
-Work on a conda env:
-
-.. code:: bash
-
-   source activate exmpl2
-   conda list
-   source deactivate
-
-
-* https://github.com/conda/conda-env
-* https://github.com/conda/conda-build
-* https://github.com/conda/conda-recipes
 
 
 .. index:: Ruby Gem
