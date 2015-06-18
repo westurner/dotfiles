@@ -95,6 +95,14 @@ footer {
     /* text-decoration: underline; */
 }
 
+#sidebar-wrapper a.youarehere:after {
+    content: " ⬅" !important;
+}
+
+#content-wrapper a.headerlink {
+    font-size: inherit !important;
+}
+
 #content-wrapper a.youarehere {
     visibility: visible !important;
 }

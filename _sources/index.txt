@@ -143,7 +143,7 @@ Hackage is the community Cabal package index: https://hackage.haskell.org/
 .. _conda:
 
 Conda
-+++++++
+~~~~~~~
 | Docs: http://conda.pydata.org/docs/
 | Source: git https://github.com/conda/conda
 | PyPI: https://pypi.python.org/pypi/conda
