@@ -2217,6 +2217,54 @@ one or more physical and virtual machines running various operating systems
 over SSH.
 
 
+.. index:: Gradle
+.. _gradle:
+
+Gradle
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Gradle
+| Homepage: http://www.gradle.org/
+| Source: git https://github.com/gradle/gradle
+| Download: http://gradle.org/downloads
+| Docs: https://docs.gradle.org/current/release-notes
+| Docs: https://docs.gradle.org/current/userguide/userguide.html
+| Twitter: https://twitter.com/gradle
+
+Gradle is a build tool for the :ref:`Java` :ref:`JVM`
+which builds a directed acyclic graph (DAG).
+
+
+.. index:: Grunt
+.. _grunt:
+
+Grunt
+~~~~~~
+| Homepage: http://gruntjs.com/
+| Source: git https://github.com/gruntjs/grunt
+| Docs: http://gruntjs.com/getting-started
+| Docs: http://gruntjs.com/plugins
+| Twitter: https://twitter.com/gruntjs
+
+Grunt is a build tool written in :ref:`Javascript`
+which builds a directed acyclic graph (DAG).
+
+
+.. index:: Gulp
+.. _gulp:
+
+Gulp
+~~~~~
+| Homepage: http://gulpjs.com/
+| Source: https://github.com/gulpjs/gulp
+| Docs: https://github.com/gulpjs/gulp/blob/master/docs/
+| Docs: https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md
+| Docs: http://gulpjs.com/plugins/
+| Twitter: https://twitter.com/gulpjs
+
+Gulp is a build tool written in :ref:`Javascript`
+which builds a directed acyclic graph (DAG).
+
+
 .. index:: JuJu
 .. _juju:
 
@@ -2253,7 +2301,8 @@ Make
 
 
 GNU Make is a classic, ubiquitous software build tool
-designed for file-based source code compilation.
+designed for file-based source code compilation
+which builds a directed acyclic graph (DAG).
 
 :ref:`Bash`, :ref:`Python`, and the GNU/:ref:`Linux` kernel
 are all built with Make.
