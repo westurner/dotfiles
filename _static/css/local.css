@@ -95,7 +95,8 @@ footer {
     /* text-decoration: underline; */
 }
 
-#sidebar-wrapper a.youarehere:after {
+#sidebar-wrapper a.youarehere:after,
+#navbar-top a.youarehere:after {
     content: " ⬅" !important;
 }
 
