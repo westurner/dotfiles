@@ -2,12 +2,6 @@
     margin-bottom: 0;
 }
 
-
-button.navbar-toggle {
-    z-index: 1000;
-    background-color: #f0f0f0;
-}
-
 #sidebar-wrapper {
     background: #f8f8f8;
     /* border-color: #e7e7e7;
@@ -17,9 +11,9 @@ button.navbar-toggle {
     padding-top: 4px;
 }
 
-div.sidebar ul ul {
-    padding-left: 12px;
-    list-style-type: none;
+div.document ul,
+div.sidebar ul ul{
+    padding-left: 17px;
 }
 
 div.sidebar {
@@ -63,10 +57,6 @@ div.body h1 {
 
 body {
     background: #f8f8f8;
-}
-
-div.document ul {
-    padding-left: 18px;
 }
 
 div.footer-relbar {

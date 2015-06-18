@@ -1,11 +1,6 @@
+
 .navbar {
     margin-bottom: 0;
-}
-
-
-button.navbar-toggle {
-    z-index: 1000;
-    background-color: #f0f0f0;
 }
 
 #sidebar-wrapper {
@@ -17,9 +12,9 @@ button.navbar-toggle {
     padding-top: 4px;
 }
 
-div.sidebar ul ul {
-    padding-left: 12px;
-    list-style-type: none;
+div.document ul,
+div.sidebar ul ul{
+    padding-left: 17px;
 }
 
 div.sidebar {
@@ -65,10 +60,6 @@ body {
     background: #f8f8f8;
 }
 
-div.document ul {
-    padding-left: 18px;
-}
-
 div.footer-relbar {
     margin-top: 0;
     margin-bottom: 10px;
@@ -86,3 +77,19 @@ footer {
     margin-top: -1px;
 }
 
+
+/* leftnavbar.css */
+@media (min-width: 767px) {
+    #content-wrapper, div.footer-relbar, footer {
+        position: relative;
+        left: 25%;
+        width: 75%;
+        float: none;
+    }
+}
+
+
+/* GitHub wiki CSS */
+div#contents {
+    display: none;
+}

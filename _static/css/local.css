@@ -3,6 +3,12 @@
     margin-bottom: 0;
 }
 
+
+button.navbar-toggle {
+    z-index: 1000;
+    background-color: #f0f0f0;
+}
+
 #sidebar-wrapper {
     background: #f8f8f8;
     /* border-color: #e7e7e7;
@@ -12,9 +18,9 @@
     padding-top: 4px;
 }
 
-div.document ul,
-div.sidebar ul ul{
-    padding-left: 17px;
+div.sidebar ul ul {
+    padding-left: 12px;
+    list-style-type: none;
 }
 
 div.sidebar {
@@ -60,6 +66,10 @@ body {
     background: #f8f8f8;
 }
 
+div.document ul {
+    padding-left: 18px;
+}
+
 div.footer-relbar {
     margin-top: 0;
     margin-bottom: 10px;
@@ -78,6 +88,34 @@ footer {
 }
 
 
+#sidebar-wrapper a.youarehere,
+#navbar-top a.youarehere {
+    font-size: 1.2em;
+    font-weight: bold;
+    /* text-decoration: underline; */
+}
+
+#content-wrapper a.youarehere {
+    visibility: visible !important;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav > li > a {
+        padding-top: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    button.toplink {
+        position: fixed;
+        right: 1px;
+        top: 0;
+        padding: 6px !important;
+        z-index: 900 !important;
+        opacity: 0.3;
+    }
+}
+
 /* leftnavbar.css */
 @media (min-width: 767px) {
     #content-wrapper, div.footer-relbar, footer {
@@ -86,8 +124,13 @@ footer {
         width: 75%;
         float: none;
     }
-}
 
+    ul.navbar-nav.navbar-right {
+        position: fixed;
+        right: 24px;
+        z-index: 1000;
+    }
+}
 
 /* GitHub wiki CSS */
 div#contents {
