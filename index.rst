@@ -3089,6 +3089,7 @@ IPython
 | Docs: http://ipython.org/ipython-doc/stable/notebook/
 | Docs: http://ipython.org/ipython-doc/stable/parallel/
 | Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
+| Docs: https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
 | Docs: https://github.com/ipython/ipython/wiki/Install:-Docker
 | Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 
@@ -3142,18 +3143,24 @@ which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
 and edited through the web with
 IPython Notebook.
 
+* IPython Notebook supports more than 40 different language kernels:
+
+  https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
+
+.. note:: IPython Notebook is now :ref:`Jupyter Notebook`
+   (with the :ref:`IPython` :ref:`CPython` kernel)
+
 .. warning:: IPython Notebook runs code and shell commands as
-  the user the process is running as, on a remote or local machine.
+    the user the process is running as, on a remote or local machine.
 
-.. note:: IPython Notebook supports more than 20 different languages.
-
-Reproducible :ref:`SciPy Stack <scipystack>`
-IPython / :ref:`Jupyter` Notebook servers
-implement best practices like process isolation and privilege separation
-with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
+    Reproducible :ref:`SciPy Stack <scipystack>`
+    IPython Notebook / :ref:`Jupyter Notebook` servers
+    implement best practices like process isolation and privilege separation
+    with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
 
 
 .. index:: Jupyter
+.. index:: Project Jupyter
 .. _jupyter:
 
 Jupyter
@@ -3167,6 +3174,7 @@ Jupyter
 | DockerHub: https://registry.hub.docker.com/repos/ipython/
 | DockerHub: https://registry.hub.docker.com/repos/jupyter/
 | Docs: https://github.com/ipython/ipython/wiki/Install:-Docker
+| Docs: https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
 | Docs: https://github.com/jupyter/jupyter/blob/master/docs/source/index.rst
 | Docs: https://github.com/jupyter/jupyterhub/wiki
 | Docs: https://github.com/jupyter/jupyterhub/wiki/Authenticators
@@ -3179,25 +3187,18 @@ for many languages (:ref:`Python`, :ref:`Ruby`, :ref:`Java`,
 :ref:`Haskell`, Julia, R).
 
 
-.. list-table:: IPython Jupyter comparison
-   :widths: 50 50
-   :header-rows: 1
+.. table:: IPython Jupyter comparison
+   :name: IPython Jupyter comparison
 
-   * - IPython
-     -
-
-       - Interactive Python shell
-       - Python kernel for Jupyter
-       - Interactive Parallel Python
-
-   * - Jupyter
-     -
-         
-       - Rich REPL Protocol
-       - Notebook (format, environment, conversion)
-       - JupyterHub (multi-user notebook server)
-       - JupyterHub authenticators (MediaWiki OAuth, GitHub OAuth)
-       - JupyterHub spawners (Docker, Sudo, Remote, Docker Swarm)
+   +-------------------------------+-------------------------------------------------------------+
+   | :ref:`IPython`                | :ref:`Jupyter`                                              |
+   +-------------------------------+-------------------------------------------------------------+
+   | - Interactive Python shell    | - Rich REPL Protocol                                        |
+   | - Python kernel for Jupyter   | - :ref:`Jupyter Notebook` (format, environment, conversion) |
+   | - Interactive Parallel Python | - JupyterHub (multi-user notebook server)                   |
+   |                               | - JupyterHub authenticators (MediaWiki OAuth, GitHub OAuth) |
+   |                               | - JupyterHub spawners (Docker, Sudo, Remote, Docker Swarm)  |
+   +-------------------------------+-------------------------------------------------------------+
 
 
 .. index:: Jupyter Notebook
@@ -3209,8 +3210,8 @@ Jupyter Notebook
 
 :ref:`Jupyter` Notebook is the latest :ref:`IPython Notebook`.
 
-> The Jupyter HTML Notebook is a web-based notebook environment
-> for interactive computing.
+   The Jupyter HTML Notebook is a web-based notebook environment
+   for interactive computing.
 
 * https://github.com/jupyter/jupyter-drive
   (Google Drive for Jupyter notebooks)
@@ -3225,9 +3226,9 @@ nbviewer
 | Source: git https://github.com/jupyter/nbviewer
 | Dockerfile: https://github.com/jupyter/nbviewer/blob/master/Dockerfile
 
-:ref:`IPython` / :ref:`Jupyter` Notebook Viewer (``nbviewer``)
+:ref:`Jupyter Notebook` Viewer (``nbviewer``)
 is an application for serving read-only
-versions of notebooks which have HTTP URLs.
+versions of ``.ipynb`` files which have HTTP URLs.
 
 GitHub now also renders static ``.ipynb`` files, CSV, SVG, and PDF.
 
