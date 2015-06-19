@@ -138,6 +138,79 @@ Cabal is a package manager for :ref:`Haskell` packages.
 Hackage is the community Cabal package index: https://hackage.haskell.org/
 
 
+.. index:: Conda Package
+.. index:: Conda
+.. _conda:
+
+Conda
+~~~~~~~
+| Docs: http://conda.pydata.org/docs/
+| Source: git https://github.com/conda/conda
+| PyPI: https://pypi.python.org/pypi/conda
+
+
+* Conda installs packages written in any language; especially Python
+* Conda packages are basically tar archives with build, link (optional), and
+  uninstall (optional) scripts.
+* Conda packages are generated from a conda build recipe
+  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``
+  by conda-build.
+* ``conda skeleton`` can automatically create conda packages
+  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
+* An ``environment.yml`` lists conda and :ref:`pip` packages
+  to be installed with conda-env.
+
+  .. code:: bash
+
+      # Export and environment.yml
+      source deactivate; conda env export -n root | tee environment.yml
+
+      # Create an environment from an environment.yml
+      conda env create -n example -f ./environment.yml
+
+* Conda was originally created for the Anaconda Python Distribution,
+  which installs packages written in :ref:`Python`,
+  R,
+  :ref:`Javascript`,
+  :ref:`Ruby`,
+  :ref:`C`,
+  :ref:`Fortran`
+* Conda (and :ref:`Anaconda`) packages are hosted by
+  `<https://binstar.org>`__,
+  which hosts free public and paid private Conda packages.
+
+  * Anaconda Server is an internal
+    "Private, Secure Package Repository"
+    that
+    "supports over 100 different repositories,
+    including PyPI, CRAN, conda, and the Anaconda repository."
+
+To create a fresh conda env:
+
+.. code:: bash
+
+   # Python 2.7
+   conda env create -n exmpl2 --yes python readline pip
+   # conda install ipython-notebook
+
+   # Python 3.X
+   conda env create -n exmpl3 --yes python3 readline pip
+
+Work on a conda env:
+
+.. code:: bash
+
+   source activate exmpl2
+   conda list
+   source deactivate
+
+
+* https://github.com/conda/conda-env
+* https://github.com/conda/conda-build
+* https://github.com/conda/conda-recipes
+
+
+
 .. index:: DEB
 .. _deb:
 
@@ -532,78 +605,6 @@ Wheel
 * Wheels are generally faster than traditional Python packages.
 
 Packages available as wheels are listed at `<http://pythonwheels.com/>`__.
-
-
-.. index:: Conda Package
-.. index:: Conda
-.. _conda:
-
-Conda
-+++++++
-| Docs: http://conda.pydata.org/docs/
-| Source: git https://github.com/conda/conda
-| PyPI: https://pypi.python.org/pypi/conda
-
-
-* Conda installs packages written in any language; especially Python
-* Conda packages are basically tar archives with build, link (optional), and
-  uninstall (optional) scripts.
-* Conda packages are generated from a conda build recipe
-  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``
-  by conda-build.
-* ``conda skeleton`` can automatically create conda packages
-  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
-* An ``environment.yml`` lists conda and :ref:`pip` packages
-  to be installed with conda-env.
-
-  .. code:: bash
-
-      # Export and environment.yml
-      source deactivate; conda env export -n root | tee environment.yml
-
-      # Create an environment from an environment.yml
-      conda env create -n example -f ./environment.yml
-
-* Conda was originally created for the Anaconda Python Distribution,
-  which installs packages written in :ref:`Python`,
-  R,
-  :ref:`Javascript`,
-  :ref:`Ruby`,
-  :ref:`C`,
-  :ref:`Fortran`
-* Conda (and :ref:`Anaconda`) packages are hosted by
-  `<https://binstar.org>`__,
-  which hosts free public and paid private Conda packages.
-
-  * Anaconda Server is an internal
-    "Private, Secure Package Repository"
-    that
-    "supports over 100 different repositories,
-    including PyPI, CRAN, conda, and the Anaconda repository."
-
-To create a fresh conda env:
-
-.. code:: bash
-
-   # Python 2.7
-   conda env create -n exmpl2 --yes python readline pip
-   # conda install ipython-notebook
-
-   # Python 3.X
-   conda env create -n exmpl3 --yes python3 readline pip
-
-Work on a conda env:
-
-.. code:: bash
-
-   source activate exmpl2
-   conda list
-   source deactivate
-
-
-* https://github.com/conda/conda-env
-* https://github.com/conda/conda-build
-* https://github.com/conda/conda-recipes
 
 
 .. index:: Ruby Gem
@@ -2216,6 +2217,54 @@ one or more physical and virtual machines running various operating systems
 over SSH.
 
 
+.. index:: Gradle
+.. _gradle:
+
+Gradle
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Gradle
+| Homepage: http://www.gradle.org/
+| Source: git https://github.com/gradle/gradle
+| Download: http://gradle.org/downloads
+| Docs: https://docs.gradle.org/current/release-notes
+| Docs: https://docs.gradle.org/current/userguide/userguide.html
+| Twitter: https://twitter.com/gradle
+
+Gradle is a build tool for the :ref:`Java` :ref:`JVM`
+which builds a directed acyclic graph (DAG).
+
+
+.. index:: Grunt
+.. _grunt:
+
+Grunt
+~~~~~~
+| Homepage: http://gruntjs.com/
+| Source: git https://github.com/gruntjs/grunt
+| Docs: http://gruntjs.com/getting-started
+| Docs: http://gruntjs.com/plugins
+| Twitter: https://twitter.com/gruntjs
+
+Grunt is a build tool written in :ref:`Javascript`
+which builds a directed acyclic graph (DAG).
+
+
+.. index:: Gulp
+.. _gulp:
+
+Gulp
+~~~~~
+| Homepage: http://gulpjs.com/
+| Source: https://github.com/gulpjs/gulp
+| Docs: https://github.com/gulpjs/gulp/blob/master/docs/
+| Docs: https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md
+| Docs: http://gulpjs.com/plugins/
+| Twitter: https://twitter.com/gulpjs
+
+Gulp is a build tool written in :ref:`Javascript`
+which builds a directed acyclic graph (DAG).
+
+
 .. index:: JuJu
 .. _juju:
 
@@ -2252,7 +2301,8 @@ Make
 
 
 GNU Make is a classic, ubiquitous software build tool
-designed for file-based source code compilation.
+designed for file-based source code compilation
+which builds a directed acyclic graph (DAG).
 
 :ref:`Bash`, :ref:`Python`, and the GNU/:ref:`Linux` kernel
 are all built with Make.
@@ -2333,14 +2383,15 @@ Salt
 ~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Salt_(software)>`_
 | Homepage: http://www.saltstack.com
+| Source: git https://github.com/saltstack/salt
 | Docs: https://docs.saltstack.com/en/latest/
 | Docs: https://docs.saltstack.com/en/latest/salt-modindex.html
 | Docs: https://docs.saltstack.com/en/latest/ref/states/all/index.html
 | Docs: https://docs.saltstack.com/en/latest/ref/clients/index.html#python-api
 | Docs: https://docs.saltstack.com/en/latest/topics/development/hacking.html
 | Docs: https://docs.saltstack.com/en/latest/glossary.html
-| Source: git https://github.com/saltstack/salt
 | Pypi: https://pypi.python.org/pypi/salt
+| Twitter: https://twitter.com/SaltStackInc
 | IRC: #salt
 | TcpPort: 4505
 | TcpPort: 4506
