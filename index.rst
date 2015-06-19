@@ -3082,20 +3082,18 @@ IPython
 ~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/IPython
 | Homepage: http://ipython.org/
-| Docs: http://ipython.org/ipython-doc/stable/
-| Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
-| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 | Source: git https://github.com/ipython/ipython
+| DockerHub: https://registry.hub.docker.com/repos/ipython/
+| Docs: http://ipython.org/ipython-doc/stable/
+| Docs: http://ipython.org/ipython-doc/stable/interactive/
+| Docs: http://ipython.org/ipython-doc/stable/notebook/
+| Docs: http://ipython.org/ipython-doc/stable/parallel/
+| Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
+| Docs: https://github.com/ipython/ipython/wiki/Install:-Docker
+| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 
 IPython is an interactive REPL and distributed computation framework
 written in :ref:`Python`.
-
-An IPython notebook file (``.ipynb``) is a
-JSON document containing input and output
-for a linear sequence of cells;
-which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
-and edited through the web with
-IPython Notebook.
 
 .. code:: python
 
@@ -3122,27 +3120,112 @@ IPython Notebook.
     %run -d example.py             # run a script with pdb
     %pdb on                        # automatically run pdb on Exception
 
-.. note:: IPython notebook runs code and shell commands as
+
+.. index:: IPython Notebook
+.. index:: IPython notebook
+.. _ipython notebook:
+
+IPython Notebook
+++++++++++++++++++
+| Source: https://github.com/ipython/ipython/tree/3.x/IPython/html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/
+| Docs: http://ipython.org/ipython-doc/stable/notebook/notebook.html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/nbformat.html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/nbconvert.html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/public_server.html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/security.html
+
+An IPython notebook file (``.ipynb``) is a
+JSON document containing input and output
+for a linear sequence of cells;
+which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
+and edited through the web with
+IPython Notebook.
+
+.. warning:: IPython Notebook runs code and shell commands as
   the user the process is running as, on a remote or local machine.
 
-  IPython notebook supports more than 20 different languages.
+.. note:: IPython Notebook supports more than 20 different languages.
 
 Reproducible :ref:`SciPy Stack <scipystack>`
-IPython / Jupyter Notebook servers
-implement best practices like process isolation and privilege separation:
-
-* https://github.com/ipython/ipython/wiki/Install:-Docker
-* https://registry.hub.docker.com/repos/ipython/
-* https://registry.hub.docker.com/repos/jupyter/
-* https://registry.hub.docker.com/u/jupyter/tmpnb/
+IPython / :ref:`Jupyter` Notebook servers
+implement best practices like process isolation and privilege separation
+with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
 
 
-IPython / Jupyter Notebook Viewer (``nbviewer``)
+.. index:: Jupyter
+.. _jupyter:
+
+Jupyter
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/IPython#Project_Jupyter
+| Homepage: http://jupyter.org/
+| Source: https://github.com/jupyter/
+| Source: git https://github.com/jupyter/notebook
+| Source: git https://github.com/jupyter/jupyterhub
+| Source: https://registry.hub.docker.com/u/jupyter/tmpnb/
+| DockerHub: https://registry.hub.docker.com/repos/ipython/
+| DockerHub: https://registry.hub.docker.com/repos/jupyter/
+| Docs: https://github.com/ipython/ipython/wiki/Install:-Docker
+| Docs: https://github.com/jupyter/jupyter/blob/master/docs/source/index.rst
+| Docs: https://github.com/jupyter/jupyterhub/wiki
+| Docs: https://github.com/jupyter/jupyterhub/wiki/Authenticators
+| Docs: https://github.com/jupyter/jupyterhub/wiki/Spawners
+
+Project Jupyter expands upon
+components like :ref:`IPython` and :ref:`IPython Notebook
+<ipython-notebook>` to provide a multi-user web-based shell
+for many languages (:ref:`Python`, :ref:`Ruby`, :ref:`Java`,
+:ref:`Haskell`, Julia, R).
+
+
+.. list-table:: IPython Jupyter comparison
+   :widths: 50 50
+   :header-rows: 1
+
+   * - IPython
+     - Interactive Python shell
+     - Python kernel for Jupyter
+     - Interactive Parallel Python
+   * - Jupyter
+     - Rich REPL Protocol
+     - Notebook (format, environment, conversion)
+     - JupyterHub (multi-user notebook server)
+     - JupyterHub authenticators (MediaWiki OAuth, GitHub OAuth)
+     - JupyterHub spawners (Docker, Sudo, Remote, Docker Swarm)
+
+
+.. index:: Jupyter Notebook
+.. _jupyter notebook:
+
+Jupyter Notebook
++++++++++++++++++++
+| Source: https://github.com/jupyter/notebook
+
+:ref:`Jupyter` Notebook is the latest :ref:`IPython Notebook`.
+
+> The Jupyter HTML Notebook is a web-based notebook environment
+> for interactive computing.
+
+* https://github.com/jupyter/jupyter-drive
+  (Google Drive for Jupyter notebooks)
+
+
+.. index:: nbviewer
+.. _nbviewer:
+
+nbviewer
++++++++++++
+| Homepage: http://nbviewer.ipython.org
+| Source: git https://github.com/jupyter/nbviewer
+| Dockerfile: https://github.com/jupyter/nbviewer/blob/master/Dockerfile
+
+:ref:`IPython` / :ref:`Jupyter` Notebook Viewer (``nbviewer``)
 is an application for serving read-only
 versions of notebooks which have HTTP URLs.
 
-* http://nbviewer.ipython.org
-* https://github.com/jupyter/nbviewer
+GitHub now also renders static ``.ipynb`` files, CSV, SVG, and PDF.
+
 
 
 .. index:: PowerShell
