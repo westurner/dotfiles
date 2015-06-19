@@ -2559,7 +2559,7 @@ to partition process workloads all running under one kernel.
 * Dockerfiles support a limited number of commands
 * Docker is not intended to be a
   complete :ref:`configuration management system
-  <configuration-management>`
+  <configuration management>`
 * Ideally, a Docker images requires minimal configuration once built
 * Docker images can be hosted by https://hub.docker.com/
 * ``docker run -it ubuntu/15.04`` downloads the image
@@ -3234,7 +3234,7 @@ Pyline is a UNIX command-line tool for line-based processing in Python
 with regex and output transform features similar to
 :ref:`grep`, :ref:`sed`, and :ref:`awk`.
 
-Pyline can generate quoted CSV, :ref:`JSON`, HTML, etc.
+Pyline can generate quoted CSV, :ref:`JSON <json->`, HTML, etc.
 
 
 .. index:: Pyrpo
@@ -4536,7 +4536,6 @@ Filesystem Hierarchy Standard
 | Wikipedia: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
 | Website: http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs
 
-
 The Filesystem Hierarchy Standard is a well-worn industry-supported
 system file naming structure.
 
@@ -4589,7 +4588,7 @@ JSON-LD
 | Homepage: http://json-ld.org
 | Docs: http://json-ld.org/playground/
 
-JSON-LD is a web standard for Linked Data in :ref:`JSON`.
+JSON-LD is a web standard for Linked Data in :ref:`JSON <json->`.
 
 An example from the JSON-LD Playground (`<http://goo.gl/xxZ410>`__):
 
