@@ -3173,8 +3173,8 @@ Jupyter
 | Docs: https://github.com/jupyter/jupyterhub/wiki/Spawners
 
 Project Jupyter expands upon
-components like :ref:`IPython` and :ref:`IPython Notebook
-<ipython-notebook>` to provide a multi-user web-based shell
+components like :ref:`IPython` and :ref:`IPython Notebook`
+to provide a multi-user web-based shell
 for many languages (:ref:`Python`, :ref:`Ruby`, :ref:`Java`,
 :ref:`Haskell`, Julia, R).
 
@@ -3184,15 +3184,20 @@ for many languages (:ref:`Python`, :ref:`Ruby`, :ref:`Java`,
    :header-rows: 1
 
    * - IPython
-     - Interactive Python shell
-     - Python kernel for Jupyter
-     - Interactive Parallel Python
+     -
+
+       - Interactive Python shell
+       - Python kernel for Jupyter
+       - Interactive Parallel Python
+
    * - Jupyter
-     - Rich REPL Protocol
-     - Notebook (format, environment, conversion)
-     - JupyterHub (multi-user notebook server)
-     - JupyterHub authenticators (MediaWiki OAuth, GitHub OAuth)
-     - JupyterHub spawners (Docker, Sudo, Remote, Docker Swarm)
+     -
+         
+       - Rich REPL Protocol
+       - Notebook (format, environment, conversion)
+       - JupyterHub (multi-user notebook server)
+       - JupyterHub authenticators (MediaWiki OAuth, GitHub OAuth)
+       - JupyterHub spawners (Docker, Sudo, Remote, Docker Swarm)
 
 
 .. index:: Jupyter Notebook
