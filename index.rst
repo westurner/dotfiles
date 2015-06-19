@@ -2549,14 +2549,27 @@ Docker
 | Docs: https://docs.docker.com/
 | Source: https://github.com/docker/docker
 
-Docker is an OS virtualization project which utilizes Linux LXC Containers
+Docker is an OS virtualization project written in :ref:`Go`
+which utilizes :ref:`Linux` :ref:`LXC` Containers
 to partition process workloads all running under one kernel.
 
-Limitations
+* Docker images build from a ``Dockerfile``
+* A Dockerfile can subclass another Dockerfile (to add, remove, or
+  change configuration)
+* Dockerfiles support a limited number of commands
+* Docker is not a :ref:`configuration management system`
+* Ideally, a Docker images requires minimal configuration once built
+* Docker images can be hosted by https://hub.docker.com/
 
-* Writing to `/etc/hosts`: https://github.com/docker/docker/issues/2267
-* Apt-get upgrade: https://github.com/docker/docker/issues/3934
+:ref:`Kubernetes` is one project which uses Docker to script :ref:`LXC`.
 
+:ref:`Salt` can install and manage docker images and containers:
+
+* https://github.com/saltstack-formulas/docker-formula
+* https://docs.saltstack.com/en/latest/ref/states/all/salt.states.dockerio.html
+* http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.dockerio.html
+
+https://github.com/veggiemonk/awesome-docker
 
 .. index:: Kubernetes
 .. _kubernetes:
