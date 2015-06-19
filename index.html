@@ -2964,13 +2964,26 @@ groups of processes and resources.</p>
 <div class="line">Docs: <a class="reference external" href="https://docs.docker.com/">https://docs.docker.com/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/docker/docker">https://github.com/docker/docker</a></div>
 </div>
-<p>Docker is an OS virtualization project which utilizes Linux LXC Containers
+<p>Docker is an OS virtualization project written in <a class="reference internal" href="#go"><em>Go</em></a>
+which utilizes <a class="reference internal" href="#linux"><em>Linux</em></a> <a class="reference internal" href="#lxc"><em>LXC</em></a> Containers
 to partition process workloads all running under one kernel.</p>
-<p>Limitations</p>
 <ul class="simple">
-<li>Writing to <cite>/etc/hosts</cite>: <a class="reference external" href="https://github.com/docker/docker/issues/2267">https://github.com/docker/docker/issues/2267</a></li>
-<li>Apt-get upgrade: <a class="reference external" href="https://github.com/docker/docker/issues/3934">https://github.com/docker/docker/issues/3934</a></li>
+<li>Docker images build from a <code class="docutils literal"><span class="pre">Dockerfile</span></code></li>
+<li>A Dockerfile can subclass another Dockerfile (to add, remove, or
+change configuration)</li>
+<li>Dockerfiles support a limited number of commands</li>
+<li>Docker is not a <em class="xref std std-ref">configuration management system</em></li>
+<li>Ideally, a Docker images requires minimal configuration once built</li>
+<li>Docker images can be hosted by <a class="reference external" href="https://hub.docker.com/">https://hub.docker.com/</a></li>
 </ul>
+<p><a class="reference internal" href="#kubernetes"><em>Kubernetes</em></a> is one project which uses Docker to script <a class="reference internal" href="#lxc"><em>LXC</em></a>.</p>
+<p><a class="reference internal" href="#salt"><em>Salt</em></a> can install and manage docker images and containers:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/saltstack-formulas/docker-formula">https://github.com/saltstack-formulas/docker-formula</a></li>
+<li><a class="reference external" href="https://docs.saltstack.com/en/latest/ref/states/all/salt.states.dockerio.html">https://docs.saltstack.com/en/latest/ref/states/all/salt.states.dockerio.html</a></li>
+<li><a class="reference external" href="http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.dockerio.html">http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.dockerio.html</a></li>
+</ul>
+<p><a class="reference external" href="https://github.com/veggiemonk/awesome-docker">https://github.com/veggiemonk/awesome-docker</a></p>
 </div>
 <div class="section" id="kubernetes">
 <span id="index-126"></span><span id="id103"></span><h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h3>
@@ -3530,7 +3543,7 @@ versions of notebooks which have HTTP URLs.</p>
 <p>Pyline is a UNIX command-line tool for line-based processing in Python
 with regex and output transform features similar to
 <a class="reference internal" href="#grep"><em>Grep</em></a>, <a class="reference internal" href="#sed"><em>Sed</em></a>, and <a class="reference internal" href="#awk"><em>Awk</em></a>.</p>
-<p>Pyline can generate quoted CSV, <a class="reference internal" href="#json"><em>JSON</em></a>, HTML, etc.</p>
+<p>Pyline can generate quoted CSV, <em class="xref std std-ref">JSON</em>, HTML, etc.</p>
 </div>
 <div class="section" id="pyrpo">
 <span id="index-153"></span><span id="id127"></span><h3>Pyrpo<a class="headerlink" href="#pyrpo" title="Permalink to this headline">¶</a></h3>
@@ -4694,7 +4707,7 @@ for parsing and indenting (&#8220;prettifying&#8221;) JSON from the commandline<
 <div class="line">Homepage: <a class="reference external" href="http://json-ld.org">http://json-ld.org</a></div>
 <div class="line">Docs: <a class="reference external" href="http://json-ld.org/playground/">http://json-ld.org/playground/</a></div>
 </div>
-<p>JSON-LD is a web standard for Linked Data in <a class="reference internal" href="#json"><em>JSON</em></a>.</p>
+<p>JSON-LD is a web standard for Linked Data in <em class="xref std std-ref">JSON</em>.</p>
 <p>An example from the JSON-LD Playground (<a class="reference external" href="http://goo.gl/xxZ410">http://goo.gl/xxZ410</a>):</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
    <span class="s2">&quot;@context&quot;</span><span class="o">:</span> <span class="p">{</span>
