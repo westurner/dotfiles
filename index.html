@@ -2972,12 +2972,21 @@ to partition process workloads all running under one kernel.</p>
 <li>A Dockerfile can subclass another Dockerfile (to add, remove, or
 change configuration)</li>
 <li>Dockerfiles support a limited number of commands</li>
-<li>Docker is not a <em class="xref std std-ref">configuration management system</em></li>
+<li>Docker is not intended to be a
+complete <a class="reference internal" href="#configuration-management"><em>configuration management system</em></a></li>
 <li>Ideally, a Docker images requires minimal configuration once built</li>
 <li>Docker images can be hosted by <a class="reference external" href="https://hub.docker.com/">https://hub.docker.com/</a></li>
+<li><code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-it</span> <span class="pre">ubuntu/15.04</span></code> downloads the image
+from <a class="reference external" href="https://registry.hub.docker.com/_/ubuntu/">https://registry.hub.docker.com/_/ubuntu/</a>,
+creates a new instance (<code class="docutils literal"><span class="pre">docker</span> <span class="pre">ps</span></code>),
+and spawns a root <a class="reference internal" href="#shells"><em>Shell</em></a> with
+a UUID name (by default).</li>
+<li>&#8220;Scheduling&#8221; [redundant] persistent containers that launch on boot
+is not in scope for <a class="reference internal" href="#docker"><em>Docker</em></a></li>
 </ul>
-<p><a class="reference internal" href="#kubernetes"><em>Kubernetes</em></a> is one project which uses Docker to script <a class="reference internal" href="#lxc"><em>LXC</em></a>.</p>
-<p><a class="reference internal" href="#salt"><em>Salt</em></a> can install and manage docker images and containers:</p>
+<p><a class="reference internal" href="#kubernetes"><em>Kubernetes</em></a> is one project which uses Docker to
+schedule redundant <a class="reference internal" href="#lxc"><em>LXC</em></a> containers (in &#8220;Pods&#8221;).</p>
+<p><a class="reference internal" href="#salt"><em>Salt</em></a> can install and manage docker, docker images and containers:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/saltstack-formulas/docker-formula">https://github.com/saltstack-formulas/docker-formula</a></li>
 <li><a class="reference external" href="https://docs.saltstack.com/en/latest/ref/states/all/salt.states.dockerio.html">https://docs.saltstack.com/en/latest/ref/states/all/salt.states.dockerio.html</a></li>
@@ -3543,7 +3552,7 @@ versions of notebooks which have HTTP URLs.</p>
 <p>Pyline is a UNIX command-line tool for line-based processing in Python
 with regex and output transform features similar to
 <a class="reference internal" href="#grep"><em>Grep</em></a>, <a class="reference internal" href="#sed"><em>Sed</em></a>, and <a class="reference internal" href="#awk"><em>Awk</em></a>.</p>
-<p>Pyline can generate quoted CSV, <em class="xref std std-ref">JSON</em>, HTML, etc.</p>
+<p>Pyline can generate quoted CSV, <a class="reference internal" href="#json"><em>JSON</em></a>, HTML, etc.</p>
 </div>
 <div class="section" id="pyrpo">
 <span id="index-153"></span><span id="id127"></span><h3>Pyrpo<a class="headerlink" href="#pyrpo" title="Permalink to this headline">¶</a></h3>
@@ -4707,7 +4716,7 @@ for parsing and indenting (&#8220;prettifying&#8221;) JSON from the commandline<
 <div class="line">Homepage: <a class="reference external" href="http://json-ld.org">http://json-ld.org</a></div>
 <div class="line">Docs: <a class="reference external" href="http://json-ld.org/playground/">http://json-ld.org/playground/</a></div>
 </div>
-<p>JSON-LD is a web standard for Linked Data in <em class="xref std std-ref">JSON</em>.</p>
+<p>JSON-LD is a web standard for Linked Data in <a class="reference internal" href="#json"><em>JSON</em></a>.</p>
 <p>An example from the JSON-LD Playground (<a class="reference external" href="http://goo.gl/xxZ410">http://goo.gl/xxZ410</a>):</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
    <span class="s2">&quot;@context&quot;</span><span class="o">:</span> <span class="p">{</span>
