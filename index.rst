@@ -4474,7 +4474,7 @@ also btrfs subvolumes.
 
 
 .. index:: JSON
-.. _json:
+.. _json-:
 
 JSON
 ~~~~~~~~~~~~~~~
@@ -4506,7 +4506,7 @@ for parsing and indenting ("prettifying") JSON from the commandline ::
 
 .. index:: JSONLD
 .. index:: JSON-LD
-.. _json-ld:
+.. _json-ld-:
 
 JSON-LD
 ~~~~~~~~~
