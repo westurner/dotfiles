@@ -3187,7 +3187,7 @@ for many languages (:ref:`Python`, :ref:`Ruby`, :ref:`Java`,
 :ref:`Haskell`, Julia, R).
 
 
-.. table:: IPython Jupyter comparison
+.. table:: IPython Jupyter comparison (adapted from http://jupyter.org)
    :name: IPython Jupyter comparison
 
    +-------------------------------+-------------------------------------------------------------+
@@ -3212,6 +3212,14 @@ Jupyter Notebook
 
    The Jupyter HTML Notebook is a web-based notebook environment
    for interactive computing.
+
+.. warning:: Jupyter Notebook runs code and shell commands as
+   the user the process is running as, on a remote or local machine.
+
+   Reproducible :ref:`SciPy Stack <scipystack>`
+   IPython Notebook / :ref:`Jupyter Notebook` servers
+   implement best practices like process isolation and privilege separation
+   with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
 
 * https://github.com/jupyter/jupyter-drive
   (Google Drive for Jupyter notebooks)
