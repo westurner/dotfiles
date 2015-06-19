@@ -2557,13 +2557,24 @@ to partition process workloads all running under one kernel.
 * A Dockerfile can subclass another Dockerfile (to add, remove, or
   change configuration)
 * Dockerfiles support a limited number of commands
-* Docker is not a :ref:`configuration management system`
+* Docker is not intended to be a
+  complete :ref:`configuration management system
+  <configuration-management>`
 * Ideally, a Docker images requires minimal configuration once built
 * Docker images can be hosted by https://hub.docker.com/
+* ``docker run -it ubuntu/15.04`` downloads the image
+  from https://registry.hub.docker.com/_/ubuntu/,
+  creates a new instance (``docker ps``),
+  and spawns a root :ref:`Shell <shells>` with
+  a UUID name (by default).
+* "Scheduling" [redundant] persistent containers that launch on boot
+  is not in scope for :ref:`Docker`
 
-:ref:`Kubernetes` is one project which uses Docker to script :ref:`LXC`.
 
-:ref:`Salt` can install and manage docker images and containers:
+:ref:`Kubernetes` is one project which uses Docker to
+schedule redundant :ref:`LXC` containers (in "Pods").
+
+:ref:`Salt` can install and manage docker, docker images and containers:
 
 * https://github.com/saltstack-formulas/docker-formula
 * https://docs.saltstack.com/en/latest/ref/states/all/salt.states.dockerio.html
