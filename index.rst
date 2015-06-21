@@ -3230,8 +3230,30 @@ IPython Notebook.
 
   https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
 
-.. note:: IPython Notebook is now :ref:`Jupyter Notebook`
-   (with the :ref:`IPython` :ref:`CPython` kernel)
+To start IPython Notebook (assuming the ``_SRC`` variable
+as defined in :ref:`Venv`):
+
+.. code:: bash
+
+   pip install ipython[notebook]
+   # pip install -e git+https://github.com/ipython/ipython@rel-3.1.0#egg=ipython
+
+   mkdir $_SRC/notebooks; cd $_SRC/notebooks
+   ipython notebook
+
+   ipython notebook --notebook-dir="${_SRC}/notebooks"
+
+   # With HTTPS (TLS/SSL)
+   ipython notebook \
+    --ip=127.0.0.1 \
+    --certfile=mycert.pem \
+    --keyfile=privkey.pem \
+    --port=8888 \
+    --browser=web  # (optional) westurner/dotfiles/scripts/web
+
+    # List supported options
+    ipython notebook --help
+
 
 .. warning:: IPython Notebook runs code and shell commands as
     the user the process is running as, on a remote or local machine.
@@ -3240,6 +3262,11 @@ IPython Notebook.
     IPython Notebook / :ref:`Jupyter Notebook` servers
     implement best practices like process isolation and privilege separation
     with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
+
+.. note:: IPython Notebook is now :ref:`Jupyter Notebook`.
+
+   Jupyter Notebook runs Python notebooks with the :ref:`IPython`
+   :ref:`CPython` kernel (from :ref:`IPython Notebook`).
 
 
 .. index:: Jupyter
@@ -3304,8 +3331,86 @@ Jupyter Notebook
    implement best practices like process isolation and privilege separation
    with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
 
-* https://github.com/jupyter/jupyter-drive
-  (Google Drive for Jupyter notebooks)
+.. index:: Jupyter Drive
+.. _jupyter drive:
+
+Jupyter Drive
+++++++++++++++++++++++++++
+| Source: git https://github.com/jupyter/jupyter-drive
+
+Jupyter Drive adds support to :ref:`Jupyter Notebook`
+for reading and writing :ref:`nbformat` notebook ``.ipynb``
+files to and from Google Drive.
+
+Realtime collaborative features (e.g. with :ref:`Operational Transformation`)
+are next.
+
+
+.. index:: nbconvert
+.. _nbconvert:
+
+nbconvert
++++++++++++
+| Docs: http://ipython.org/ipython-doc/stable/notebook/nbconvert.html
+|
+
+nbconvert is the code that converts (transforms) an ``.ipynb`` notebook
+(:ref:`nbformat` :ref:`JSON`) file
+( into an output representation (e.g. HTML,
+slides (reveal.js), LateX, PDF, ePub, Mobi).
+
+* nbconvert is included with :ref:`IPython`
+* nbconvert is part of :ref:`Project Jupyter<jupyter>`
+
+  .. code:: bash
+
+    pip install nbconvert
+    # pip install -e git+https://github.com/jupyter/nbconvert@master#egg=nbconvert
+
+    ipython nbconvert --to html mynotebook.ipynb
+    jupyter nbconvert --to html mynotebook.ipynb
+
+
+* reveal.js is an HTML presentation framework
+  for slides in a 1D or 2D arrangement.
+
+  Presentation content that doesn't fit on the slide is hidden
+  and unscrollable (*only put a slide worth of data in each cell
+  for a Jupyter reveal.js presentation*).
+
+  .. code:: bash
+
+    jupyter nbconvert --to slides mynotebook.ipynb
+
+  https://github.com/hakimel/reveal.js
+* RISE does live reveal.js notebook presentations
+
+  https://github.com/damianavila/RISE
+
+
+.. index:: nbformat
+.. _nbformat:
+
+nbformat
+++++++++++
+| Docs: http://ipython.org/ipython-doc/dev/notebook/nbformat.html
+| Docs: https://nbformat.readthedocs.org/en/latest/
+| Docs: https://nbformat.readthedocs.org/en/latest/format_description.html#backward-compatible-changes
+
+The :ref:`Jupyter notebook` (``.ipynb``) format is a versioned
+:ref:`JSON` format for storing metadata and input/output sequences.
+
+Usually, when the nbformat changes, notebooks are silently upgraded to the
+new version on the next save.
+
+.. note:: nbformat v3 and above add a **kernelspec** attribute to the
+   nbformat :ref:`JSON`, because ``.ipynb`` files can now contain
+   code for languages other than :ref:`Python`.
+
+nbformat does not specify any schema for the user-supplied
+metadata dict (TODO) that can be edited
+so, JSON that conforms to an externally managed :ref:`JSON-LD` ``@context``
+would work.
 
 
 .. index:: nbviewer
