@@ -1221,9 +1221,59 @@ Java
 | Docs: http://javadocs.org/
 | Docs: http://learnxinyminutes.com/docs/java/
 
+
 Java is a third-generation programming language which is
 compiled into code that runs in a virtual machine
 (``JVM``) written in :ref:`C` for many different operating systems.
+
+
+.. index:: JVM
+.. _jvm:
+
+JVM
++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Java_virtual_machine
+
+A JVM ("Java Virtual Machine") runs :ref:`Java` code (classes and JARs).
+
+* There are JVMs available for very many platforms
+* Both the JRE and the JDK include a compiled JVM:
+
+  + JRE -- Java Runtime Environment (End Users)
+  + JDK -- Java Developer Kit (Developers)
+* Java SE is an implementation specification
+  with things like ``java.lang`` and ``java.io`` and ``java.net``
+* There are now multiple Java SE Implementations:
+
+  | Wikipedia: https://en.wikipedia.org/wiki/Java_Platform,_Standard_Edition
+  | https://en.wikipedia.org/wiki/Java_(software_platform)#History
+
+  + Oracle Java (was **Sun Java**)
+
+    | Wikipedia: https://en.wikipedia.org/wiki/Java_Development_Kit
+    | Download: http://www.oracle.com/technetwork/java/javase/
+    | Download: http://www.oracle.com/technetwork/java/javase/downloads/
+    | Download: https://www.java.com/en/download/
+    | Docs: https://www.java.com/en/download/help/index_installing.xml?os=All+Platforms
+
+  + OpenJDK
+
+    | Wikipedia: https://en.wikipedia.org/wiki/OpenJDK
+    | Homepage: http://openjdk.java.net/
+    | Download: http://openjdk.java.net/install/
+    | Source: http://hg.openjdk.java.net/
+    | Docs: https://wiki.openjdk.java.net/
+    | Docs: http://openjdk.java.net/guide/
+
+    + IcedTea
+
+      | Wikipedia: https://en.wikipedia.org/wiki/IcedTea
+
+* Java EE ("Java Enterprise Edition") extends Java SE
+  with a number of APIs for web services (``javax.servlet``, 
+  ``javax.transaction``)
+
+  https://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition
 
 
 .. index:: Javascript
@@ -1966,7 +2016,21 @@ a key-value store with a D-Bus interface.
 * flannel -- Networking
 
 
+.. index:: SteamOS
+.. _steamos:
 
+SteamOS
+++++++++
+| Wikipedia: 
+
+SteamOS is a :ref:`Linux Distribution <linux-distributions>`
+for gaming
+based on :ref:`Debian`.
+
+* SteamOS uses :ref:`Apt` and :ref:`Dpkg` :ref:`Packages`
+* SteamOS runs Steam: https://en.wikipedia.org/wiki/Steam
+
+  * https://en.wikipedia.org/wiki/Kerbal_Space_Program
 
 
 .. index:: Linux Notes
@@ -2065,6 +2129,25 @@ OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
 .. code-block:: bash
 
    uname; echo "Darwin"
+
+
+.. index:: iOS
+.. _iOS:
+
+iOS
++++++
+| Wikipedia: https://en.wikipedia.org/wiki/IOS
+| Homepage: https://www.apple.com/ios/
+
+iOS is a closed source
+UNIX operating system based upon many components
+of :ref:`OSX`
+adapted for phones and then tablets.
+
+* iOS powers iPhones and iPads
+* You must have a Mac with :ref:`OSX` and XCode
+  to develop and compile for iOS.
+
 
 OSX Notes
 ++++++++++
@@ -3925,6 +4008,29 @@ Firefox Android Extensions
 * `HTTPS Everywhere`_
 
 
+.. index:: Internet Explorer
+.. _internet explorer:
+
+Internet Explorer
+~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/?title=Internet_Explorer
+| Homepage: http://microsoft.com/ie
+
+Internet Explorer is the web browser included with :ref:`Windows`.
+
+See also: :ref:`Microsoft Edge`
+
+
+.. index:: Microsoft Edge
+.. _microsoft edge:
+
+Microsoft Edge
+~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Microsoft_Edge
+
+Microsoft Edge will be replacing :ref:`Internet Explorer`.
+
+
 .. index:: Safari
 .. _safari:
 
@@ -4457,6 +4563,64 @@ Wasavi
 
 Wasavi converts the focused ``textarea`` to an in-page editor with
 vim-like functionality.
+
+
+.. index:: Web Servers
+.. _web-servers:
+
+Web Servers
+============
+| https://en.wikipedia.org/wiki/Web_server
+
+
+.. index:: Apache HTTPD
+.. _apache httpd:
+
+Apache HTTPD
+~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Apache_HTTP_Server
+| Homepage: https://httpd.apache.org/
+| Download: https://httpd.apache.org/download.cgi
+| Docs: https://httpd.apache.org/docs/2.4/
+
+Apache HTTPD is a scriptable, industry-standard :ref:`HTTP`
+server written in :ref:`C` and :ref:`C++`.
+
+
+.. index:: Nginx
+.. _nginx:
+
+Nginx
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Nginx
+| Homepage: http://nginx.org/
+| Download: http://nginx.org/en/download.html
+| Source: hg http://hg.nginx.org/nginx
+| Docs: http://nginx.org/en/docs/
+| Twitter: https://twitter.com/nginxorg
+
+Nginx is a scriptable, lightweight :ref:`HTTP`, FTP, SMTP server
+written in :ref:`C`.
+
+
+.. index:: Tengine
+.. _tengine:
+
+Tengine
+~~~~~~~~~
+| Wikipedia: https://zh.wikipedia.org/wiki/Tengine
+| Homepage: http://tengine.taobao.org/
+| Source: git https://github.com/alibaba/tengine
+| Download: http://tengine.taobao.org/download.html
+| Docs: http://tengine.taobao.org/documentation.html
+
+Tengine is a fork of :ref:`Nginx` with many useful
+modules and features bundled in.
+
+* http://tengine.taobao.org/document/http_ssl.html
+* http://tengine.taobao.org/document/http_upstream_check.html
+* http://tengine.taobao.org/document/http_reqstat.html
+
 
 .. index:: Documentation
 .. _documentation-tools:
