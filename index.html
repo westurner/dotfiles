@@ -143,7 +143,10 @@
 <li><a class="reference internal" href="#fortran">Fortran</a></li>
 <li><a class="reference internal" href="#haskell">Haskell</a></li>
 <li><a class="reference internal" href="#go">Go</a></li>
-<li><a class="reference internal" href="#java">Java</a></li>
+<li><a class="reference internal" href="#java">Java</a><ul>
+<li><a class="reference internal" href="#jvm">JVM</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#javascript">JavaScript</a><ul>
 <li><a class="reference internal" href="#node-js">Node.js</a></li>
 </ul>
@@ -196,6 +199,7 @@
 </li>
 <li><a class="reference internal" href="#chromeos">ChromeOS</a></li>
 <li><a class="reference internal" href="#coreos">CoreOS</a></li>
+<li><a class="reference internal" href="#steamos">SteamOS</a></li>
 <li><a class="reference internal" href="#linux-notes">Linux Notes</a><ul>
 <li><a class="reference internal" href="#linux-dual-boot">Linux Dual Boot</a></li>
 </ul>
@@ -208,6 +212,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#os-x">OS X</a><ul>
+<li><a class="reference internal" href="#ios">iOS</a></li>
 <li><a class="reference internal" href="#osx-notes">OSX Notes</a><ul>
 <li><a class="reference internal" href="#osx-reinstall">OSX Reinstall</a></li>
 <li><a class="reference internal" href="#osx-fresh-install">OSX Fresh Install</a></li>
@@ -318,6 +323,8 @@
 <li><a class="reference internal" href="#firefox-android-extensions">Firefox Android Extensions</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#internet-explorer">Internet Explorer</a></li>
+<li><a class="reference internal" href="#microsoft-edge">Microsoft Edge</a></li>
 <li><a class="reference internal" href="#safari">Safari</a><ul>
 <li><a class="reference internal" href="#safari-extensions">Safari Extensions</a></li>
 </ul>
@@ -381,6 +388,12 @@
 <li><a class="reference internal" href="#wasavi">Wasavi</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#web-servers">Web Servers</a><ul>
+<li><a class="reference internal" href="#apache-httpd">Apache HTTPD</a></li>
+<li><a class="reference internal" href="#nginx">Nginx</a></li>
+<li><a class="reference internal" href="#tengine">Tengine</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#documentation-tools">Documentation Tools</a><ul>
@@ -503,7 +516,10 @@
 <li><a class="reference internal" href="#fortran">Fortran</a></li>
 <li><a class="reference internal" href="#haskell">Haskell</a></li>
 <li><a class="reference internal" href="#go">Go</a></li>
-<li><a class="reference internal" href="#java">Java</a></li>
+<li><a class="reference internal" href="#java">Java</a><ul>
+<li><a class="reference internal" href="#jvm">JVM</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#javascript">JavaScript</a><ul>
 <li><a class="reference internal" href="#node-js">Node.js</a></li>
 </ul>
@@ -556,6 +572,7 @@
 </li>
 <li><a class="reference internal" href="#chromeos">ChromeOS</a></li>
 <li><a class="reference internal" href="#coreos">CoreOS</a></li>
+<li><a class="reference internal" href="#steamos">SteamOS</a></li>
 <li><a class="reference internal" href="#linux-notes">Linux Notes</a><ul>
 <li><a class="reference internal" href="#linux-dual-boot">Linux Dual Boot</a></li>
 </ul>
@@ -568,6 +585,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#os-x">OS X</a><ul>
+<li><a class="reference internal" href="#ios">iOS</a></li>
 <li><a class="reference internal" href="#osx-notes">OSX Notes</a><ul>
 <li><a class="reference internal" href="#osx-reinstall">OSX Reinstall</a></li>
 <li><a class="reference internal" href="#osx-fresh-install">OSX Fresh Install</a></li>
@@ -678,6 +696,8 @@
 <li><a class="reference internal" href="#firefox-android-extensions">Firefox Android Extensions</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#internet-explorer">Internet Explorer</a></li>
+<li><a class="reference internal" href="#microsoft-edge">Microsoft Edge</a></li>
 <li><a class="reference internal" href="#safari">Safari</a><ul>
 <li><a class="reference internal" href="#safari-extensions">Safari Extensions</a></li>
 </ul>
@@ -741,6 +761,12 @@
 <li><a class="reference internal" href="#wasavi">Wasavi</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#web-servers">Web Servers</a><ul>
+<li><a class="reference internal" href="#apache-httpd">Apache HTTPD</a></li>
+<li><a class="reference internal" href="#nginx">Nginx</a></li>
+<li><a class="reference internal" href="#tengine">Tengine</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#documentation-tools">Documentation Tools</a><ul>
@@ -1858,9 +1884,68 @@ programming language.</p>
 <p>Java is a third-generation programming language which is
 compiled into code that runs in a virtual machine
 (<code class="docutils literal"><span class="pre">JVM</span></code>) written in <a class="reference internal" href="#c"><em>C</em></a> for many different operating systems.</p>
+<div class="section" id="jvm">
+<span id="index-62"></span><span id="id49"></span><h4>JVM<a class="headerlink" href="#jvm" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Java_virtual_machine">https://en.wikipedia.org/wiki/Java_virtual_machine</a></div>
+</div>
+<p>A JVM (&#8220;Java Virtual Machine&#8221;) runs <a class="reference internal" href="#java"><em>Java</em></a> code (classes and JARs).</p>
+<ul>
+<li><p class="first">There are JVMs available for very many platforms</p>
+</li>
+<li><p class="first">Both the JRE and the JDK include a compiled JVM:</p>
+<ul class="simple">
+<li>JRE &#8211; Java Runtime Environment (End Users)</li>
+<li>JDK &#8211; Java Developer Kit (Developers)</li>
+</ul>
+</li>
+<li><p class="first">Java SE is an implementation specification
+with things like <code class="docutils literal"><span class="pre">java.lang</span></code> and <code class="docutils literal"><span class="pre">java.io</span></code> and <code class="docutils literal"><span class="pre">java.net</span></code></p>
+</li>
+<li><p class="first">There are now multiple Java SE Implementations:</p>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Java_Platform,_Standard_Edition">https://en.wikipedia.org/wiki/Java_Platform,_Standard_Edition</a></div>
+<div class="line"><a class="reference external" href="https://en.wikipedia.org/wiki/Java_(software_platform">https://en.wikipedia.org/wiki/Java_(software_platform</a>)#History</div>
+</div>
+<ul>
+<li><p class="first">Oracle Java (was <strong>Sun Java</strong>)</p>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Java_Development_Kit">https://en.wikipedia.org/wiki/Java_Development_Kit</a></div>
+<div class="line">Download: <a class="reference external" href="http://www.oracle.com/technetwork/java/javase/">http://www.oracle.com/technetwork/java/javase/</a></div>
+<div class="line">Download: <a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/">http://www.oracle.com/technetwork/java/javase/downloads/</a></div>
+<div class="line">Download: <a class="reference external" href="https://www.java.com/en/download/">https://www.java.com/en/download/</a></div>
+<div class="line">Docs: <a class="reference external" href="https://www.java.com/en/download/help/index_installing.xml?os=All+Platforms">https://www.java.com/en/download/help/index_installing.xml?os=All+Platforms</a></div>
+</div>
+</li>
+<li><p class="first">OpenJDK</p>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/OpenJDK">https://en.wikipedia.org/wiki/OpenJDK</a></div>
+<div class="line">Homepage: <a class="reference external" href="http://openjdk.java.net/">http://openjdk.java.net/</a></div>
+<div class="line">Download: <a class="reference external" href="http://openjdk.java.net/install/">http://openjdk.java.net/install/</a></div>
+<div class="line">Source: <a class="reference external" href="http://hg.openjdk.java.net/">http://hg.openjdk.java.net/</a></div>
+<div class="line">Docs: <a class="reference external" href="https://wiki.openjdk.java.net/">https://wiki.openjdk.java.net/</a></div>
+<div class="line">Docs: <a class="reference external" href="http://openjdk.java.net/guide/">http://openjdk.java.net/guide/</a></div>
+</div>
+<ul>
+<li><p class="first">IcedTea</p>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/IcedTea">https://en.wikipedia.org/wiki/IcedTea</a></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p class="first">Java EE (&#8220;Java Enterprise Edition&#8221;) extends Java SE
+with a number of APIs for web services (<code class="docutils literal"><span class="pre">javax.servlet</span></code>,
+<code class="docutils literal"><span class="pre">javax.transaction</span></code>)</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition">https://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition</a></p>
+</li>
+</ul>
+</div>
 </div>
 <div class="section" id="javascript">
-<span id="index-62"></span><span id="id49"></span><h3>JavaScript<a class="headerlink" href="#javascript" title="Permalink to this headline">¶</a></h3>
+<span id="index-63"></span><span id="id50"></span><h3>JavaScript<a class="headerlink" href="#javascript" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/JavaScript">https://en.wikipedia.org/wiki/JavaScript</a></div>
 <div class="line">Docs: <a class="reference external" href="https://en.wikipedia.org/wiki/ECMAScript">https://en.wikipedia.org/wiki/ECMAScript</a></div>
@@ -1878,7 +1963,7 @@ often with <a class="reference internal" href="#node-js"><em>Node.js</em></a>, <
 and developer ecosystems.</p>
 </div>
 <div class="section" id="node-js">
-<span id="index-63"></span><span id="id50"></span><h4>Node.js<a class="headerlink" href="#node-js" title="Permalink to this headline">¶</a></h4>
+<span id="index-64"></span><span id="id51"></span><h4>Node.js<a class="headerlink" href="#node-js" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Node.js">https://en.wikipedia.org/wiki/Node.js</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.nodejs.org">http://www.nodejs.org</a></div>
@@ -1889,7 +1974,7 @@ written in <a class="reference internal" href="#c"><em>C</em></a>, <a class="ref
 </div>
 </div>
 <div class="section" id="jinja2">
-<span id="index-64"></span><span id="id51"></span><h3>Jinja2<a class="headerlink" href="#jinja2" title="Permalink to this headline">¶</a></h3>
+<span id="index-65"></span><span id="id52"></span><h3>Jinja2<a class="headerlink" href="#jinja2" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Jinja_%28template_engine%29">https://en.wikipedia.org/wiki/Jinja_%28template_engine%29</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://jinja.pocoo.org/">http://jinja.pocoo.org/</a></div>
@@ -1901,7 +1986,7 @@ written in <a class="reference internal" href="#c"><em>C</em></a>, <a class="ref
 <p><a class="reference internal" href="#sphinx"><em>Sphinx</em></a> and <a class="reference internal" href="#salt"><em>Salt</em></a> are two projects that utilize Jinja2.</p>
 </div>
 <div class="section" id="perl">
-<span id="index-65"></span><span id="id52"></span><h3>Perl<a class="headerlink" href="#perl" title="Permalink to this headline">¶</a></h3>
+<span id="index-66"></span><span id="id53"></span><h3>Perl<a class="headerlink" href="#perl" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Perl">https://en.wikipedia.org/wiki/Perl</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.perl.org/">http://www.perl.org/</a></div>
@@ -1915,7 +2000,7 @@ programming language.</p>
 in Perl.</p>
 </div>
 <div class="section" id="python">
-<span id="index-66"></span><span id="id53"></span><h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
+<span id="index-67"></span><span id="id54"></span><h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Python_(programming_language)">https://en.wikipedia.org/wiki/Python_(programming_language)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></div>
@@ -1957,7 +2042,7 @@ and the Python Infrastructure Team:</p>
 <li><a class="reference external" href="http://psf-salt.readthedocs.org/en/latest/overview/">http://psf-salt.readthedocs.org/en/latest/overview/</a></li>
 </ul>
 <div class="section" id="cpython">
-<span id="index-67"></span><span id="id54"></span><h4>CPython<a class="headerlink" href="#cpython" title="Permalink to this headline">¶</a></h4>
+<span id="index-68"></span><span id="id55"></span><h4>CPython<a class="headerlink" href="#cpython" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Python_(programming_language)">https://en.wikipedia.org/wiki/Python_(programming_language)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></div>
@@ -1981,7 +2066,7 @@ through a number of interfaces:</p>
 </ul>
 </div>
 <div class="section" id="cython">
-<span id="index-68"></span><span id="id56"></span><h4>Cython<a class="headerlink" href="#cython" title="Permalink to this headline">¶</a></h4>
+<span id="index-69"></span><span id="id57"></span><h4>Cython<a class="headerlink" href="#cython" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Cython">https://en.wikipedia.org/wiki/Cython</a></div>
 <div class="line">Hompage: <a class="reference external" href="http://cython.org/">http://cython.org/</a></div>
@@ -1993,7 +2078,7 @@ through a number of interfaces:</p>
 making <a class="reference internal" href="#cpython"><em>CPython</em></a> code faster, in many cases.</p>
 </div>
 <div class="section" id="numpy">
-<span id="index-69"></span><span id="id57"></span><h4>NumPy<a class="headerlink" href="#numpy" title="Permalink to this headline">¶</a></h4>
+<span id="index-70"></span><span id="id58"></span><h4>NumPy<a class="headerlink" href="#numpy" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/NumPy">https://en.wikipedia.org/wiki/NumPy</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a></div>
@@ -2014,7 +2099,7 @@ implemented in <a class="reference internal" href="#c"><em>C</em></a> and <a cla
 </ul>
 </div>
 <div class="section" id="scipy">
-<span id="index-70"></span><span id="id58"></span><h4>SciPy<a class="headerlink" href="#scipy" title="Permalink to this headline">¶</a></h4>
+<span id="index-71"></span><span id="id59"></span><h4>SciPy<a class="headerlink" href="#scipy" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/SciPy">https://en.wikipedia.org/wiki/SciPy</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://scipy.org/">http://scipy.org/</a></div>
@@ -2033,7 +2118,7 @@ for <a class="reference internal" href="#python"><em>Python</em></a>, primarily 
 includes the SciPy package and its dependencies.</p>
 </div>
 <div class="section" id="scipy-stack">
-<span id="scipystack"></span><span id="index-71"></span><h4>SciPy Stack<a class="headerlink" href="#scipy-stack" title="Permalink to this headline">¶</a></h4>
+<span id="scipystack"></span><span id="index-72"></span><h4>SciPy Stack<a class="headerlink" href="#scipy-stack" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="http://www.scipy.org/stackspec.html">http://www.scipy.org/stackspec.html</a></div>
 <div class="line">Docs: <a class="reference external" href="http://www.scipy.org/install.html">http://www.scipy.org/install.html</a></div>
@@ -2056,7 +2141,7 @@ includes the SciPy package and its dependencies.</p>
 </ul>
 </div>
 <div class="section" id="pypy">
-<span id="index-72"></span><span id="id59"></span><h4>PyPy<a class="headerlink" href="#pypy" title="Permalink to this headline">¶</a></h4>
+<span id="index-73"></span><span id="id60"></span><h4>PyPy<a class="headerlink" href="#pypy" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/PyPy">https://en.wikipedia.org/wiki/PyPy</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://pypy.org/">http://pypy.org/</a></div>
@@ -2071,7 +2156,7 @@ which compiles to <a class="reference internal" href="#c"><em>C</em></a>, and is
 for many types of purposes.</p>
 </div>
 <div class="section" id="numpypy">
-<span id="index-73"></span><span id="id60"></span><h4>NumPyPy<a class="headerlink" href="#numpypy" title="Permalink to this headline">¶</a></h4>
+<span id="index-74"></span><span id="id61"></span><h4>NumPyPy<a class="headerlink" href="#numpypy" title="Permalink to this headline">¶</a></h4>
 <p>NumPyPy is a port of <a class="reference internal" href="#numpy"><em>NumPy</em></a> to <a class="reference internal" href="#pypy"><em>PyPy</em></a>:</p>
 <div class="line-block">
 <div class="line">Src: <a class="reference external" href="https://bitbucket.org/pypy/numpypy">https://bitbucket.org/pypy/numpypy</a></div>
@@ -2080,7 +2165,7 @@ for many types of purposes.</p>
 </div>
 </div>
 <div class="section" id="python-3">
-<span id="python3"></span><span id="index-74"></span><h4>Python 3<a class="headerlink" href="#python-3" title="Permalink to this headline">¶</a></h4>
+<span id="python3"></span><span id="index-75"></span><h4>Python 3<a class="headerlink" href="#python-3" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="https://docs.python.org/3/">https://docs.python.org/3/</a></div>
 <div class="line">Docs: <a class="reference external" href="https://docs.python.org/3/howto/pyporting.html">https://docs.python.org/3/howto/pyporting.html</a></div>
@@ -2109,14 +2194,14 @@ for Python 2.6, 2.7, 3.3, and 3.4:
 <a class="reference external" href="http://docs.continuum.io/anaconda/pkg-docs.html">http://docs.continuum.io/anaconda/pkg-docs.html</a></p>
 </div>
 <div class="section" id="awesome-python-testing">
-<span id="index-75"></span><span id="id61"></span><h4>awesome-python-testing<a class="headerlink" href="#awesome-python-testing" title="Permalink to this headline">¶</a></h4>
+<span id="index-76"></span><span id="id62"></span><h4>awesome-python-testing<a class="headerlink" href="#awesome-python-testing" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://westurner.org/wiki/awesome-python-testing.html">https://westurner.org/wiki/awesome-python-testing.html</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/westurner/wiki/blob/master/awesome-python-testing.rest">https://github.com/westurner/wiki/blob/master/awesome-python-testing.rest</a></div>
 </div>
 </div>
 <div class="section" id="tox">
-<span id="index-76"></span><span id="id62"></span><h4>Tox<a class="headerlink" href="#tox" title="Permalink to this headline">¶</a></h4>
+<span id="index-77"></span><span id="id63"></span><h4>Tox<a class="headerlink" href="#tox" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://testrun.org/tox/">https://testrun.org/tox/</a></div>
 <div class="line">Docs: <a class="reference external" href="https://tox.readthedocs.org/en/latest/">https://tox.readthedocs.org/en/latest/</a></div>
@@ -2134,7 +2219,7 @@ tox --help
 </div>
 </div>
 <div class="section" id="ruby">
-<span id="index-77"></span><span id="id63"></span><h3>Ruby<a class="headerlink" href="#ruby" title="Permalink to this headline">¶</a></h3>
+<span id="index-78"></span><span id="id64"></span><h3>Ruby<a class="headerlink" href="#ruby" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Ruby_(programming_language)">https://en.wikipedia.org/wiki/Ruby_(programming_language)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.ruby-lang.org/">https://www.ruby-lang.org/</a></div>
@@ -2146,7 +2231,7 @@ tox --help
 <p><a class="reference internal" href="#vagrant"><em>Vagrant</em></a> is written in Ruby.</p>
 </div>
 <div class="section" id="yaml">
-<span id="index-78"></span><span id="id64"></span><h3>YAML<a class="headerlink" href="#yaml" title="Permalink to this headline">¶</a></h3>
+<span id="index-79"></span><span id="id65"></span><h3>YAML<a class="headerlink" href="#yaml" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/YAML">https://en.wikipedia.org/wiki/YAML</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://yaml.org">http://yaml.org</a></div>
@@ -2168,9 +2253,9 @@ example <code class="docutils literal"><span class="pre">top.sls</span></code> f
 </div>
 </div>
 <div class="section" id="compilers">
-<span id="index-79"></span><span id="id65"></span><h2>Compilers<a class="headerlink" href="#compilers" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="index-80"></span><div class="section" id="binutils">
-<span id="index-81"></span><span id="id66"></span><h3>Binutils<a class="headerlink" href="#binutils" title="Permalink to this headline">¶</a></h3>
+<span id="index-80"></span><span id="id66"></span><h2>Compilers<a class="headerlink" href="#compilers" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="index-81"></span><div class="section" id="binutils">
+<span id="index-82"></span><span id="id67"></span><h3>Binutils<a class="headerlink" href="#binutils" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/GNU_Binutils">https://en.wikipedia.org/wiki/GNU_Binutils</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.gnu.org/software/binutils/">https://www.gnu.org/software/binutils/</a></div>
@@ -2188,7 +2273,7 @@ and userspace.</p>
 the GNU linker (<code class="docutils literal"><span class="pre">ld</span></code>).</p>
 </div>
 <div class="section" id="clang">
-<span id="index-82"></span><span id="id67"></span><h3>Clang<a class="headerlink" href="#clang" title="Permalink to this headline">¶</a></h3>
+<span id="index-83"></span><span id="id68"></span><h3>Clang<a class="headerlink" href="#clang" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Clang">https://en.wikipedia.org/wiki/Clang</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://clang.llvm.org/">http://clang.llvm.org/</a></div>
@@ -2196,9 +2281,9 @@ the GNU linker (<code class="docutils literal"><span class="pre">ld</span></code
 <div class="line">Docs: <a class="reference external" href="http://clang.llvm.org/docs/UsersManual.html">http://clang.llvm.org/docs/UsersManual.html</a></div>
 </div>
 <p>Clang is a compiler front end for <a class="reference internal" href="#c"><em>C</em></a>, <a class="reference internal" href="#id43"><em>C++</em></a>, and Objective C/++.</p>
-<span class="target" id="index-83"></span></div>
+<span class="target" id="index-84"></span></div>
 <div class="section" id="gcc">
-<span id="index-84"></span><span id="id68"></span><h3>GCC<a class="headerlink" href="#gcc" title="Permalink to this headline">¶</a></h3>
+<span id="index-85"></span><span id="id69"></span><h3>GCC<a class="headerlink" href="#gcc" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/GNU_Compiler_Collection">https://en.wikipedia.org/wiki/GNU_Compiler_Collection</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://gcc.gnu.org/">https://gcc.gnu.org/</a></div>
@@ -2211,7 +2296,7 @@ compiler for <a class="reference internal" href="#c"><em>C</em></a>.</p>
 <a class="reference internal" href="#id43"><em>C++</em></a>, <a class="reference internal" href="#fortran"><em>Fortran</em></a>, <a class="reference internal" href="#java"><em>Java</em></a>, and <a class="reference internal" href="#go"><em>Go</em></a>.</p>
 </div>
 <div class="section" id="llvm">
-<span id="index-85"></span><span id="id69"></span><h3>LLVM<a class="headerlink" href="#llvm" title="Permalink to this headline">¶</a></h3>
+<span id="index-86"></span><span id="id70"></span><h3>LLVM<a class="headerlink" href="#llvm" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/LLVM">https://en.wikipedia.org/wiki/LLVM</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://llvm.org/">http://llvm.org/</a></div>
@@ -2230,21 +2315,21 @@ with frontends for many languages.</p>
 </div>
 </div>
 <div class="section" id="operating-systems">
-<span id="index-86"></span><span id="id70"></span><h2>Operating Systems<a class="headerlink" href="#operating-systems" title="Permalink to this headline">¶</a></h2>
+<span id="index-87"></span><span id="id71"></span><h2>Operating Systems<a class="headerlink" href="#operating-systems" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Operating_system">https://en.wikipedia.org/wiki/Operating_system</a></div>
 </div>
 <div class="section" id="posix">
-<span id="index-87"></span><span id="id71"></span><h3>POSIX<a class="headerlink" href="#posix" title="Permalink to this headline">¶</a></h3>
+<span id="index-88"></span><span id="id72"></span><h3>POSIX<a class="headerlink" href="#posix" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/POSIX">https://en.wikipedia.org/wiki/POSIX</a></div>
 <div class="line">Docs: <a class="reference external" href="https://en.wikipedia.org/wiki/POSIX#POSIX-oriented_operating_systems">https://en.wikipedia.org/wiki/POSIX#POSIX-oriented_operating_systems</a></div>
 </div>
 <p>POSIX (&#8220;Portable Operating System Interface&#8221;) is a set of standards
 for <a class="reference internal" href="#shells"><em>Shells</em></a>, <a class="reference internal" href="#operating-systems"><em>Operating Systems</em></a>, and APIs.</p>
-<span class="target" id="index-88"></span></div>
+<span class="target" id="index-89"></span></div>
 <div class="section" id="linux">
-<span id="index-89"></span><span id="id72"></span><h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<span id="index-90"></span><span id="id73"></span><h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Linux">https://en.wikipedia.org/wiki/Linux</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.kernel.org/">https://www.kernel.org/</a></div>
@@ -2259,7 +2344,7 @@ uname -o<span class="p">;</span> <span class="nb">echo</span> <span class="s2">&
 </div>
 </div>
 <div class="section" id="linux-distributions">
-<span id="index-90"></span><span id="id73"></span><h3>Linux Distributions<a class="headerlink" href="#linux-distributions" title="Permalink to this headline">¶</a></h3>
+<span id="index-91"></span><span id="id74"></span><h3>Linux Distributions<a class="headerlink" href="#linux-distributions" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Linux_distribution">https://en.wikipedia.org/wiki/Linux_distribution</a></div>
 </div>
@@ -2269,7 +2354,7 @@ compiled to work with a <a class="reference internal" href="#linux"><em>GNU/Linu
 <li><a class="reference external" href="https://commons.wikimedia.org/wiki/File:Linux_Distribution_Timeline_with_Android.svg">https://commons.wikimedia.org/wiki/File:Linux_Distribution_Timeline_with_Android.svg</a></li>
 </ul>
 <div class="section" id="debian">
-<span id="index-91"></span><span id="id74"></span><h4>Debian<a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h4>
+<span id="index-92"></span><span id="id75"></span><h4>Debian<a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Debian">https://en.wikipedia.org/wiki/Debian</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.debian.org/">https://www.debian.org/</a></div>
@@ -2288,7 +2373,7 @@ is a <a class="reference internal" href="#linux-distributions"><em>Linux Distrib
 that is built from <a class="reference internal" href="#deb"><em>DEB</em></a> packages.</p>
 </div>
 <div class="section" id="ubuntu">
-<span id="index-92"></span><span id="id75"></span><h4>Ubuntu<a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h4>
+<span id="index-93"></span><span id="id76"></span><h4>Ubuntu<a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Ubuntu_(operating_system)">https://en.wikipedia.org/wiki/Ubuntu_(operating_system)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.ubuntu.com/">http://www.ubuntu.com/</a></div>
@@ -2306,7 +2391,7 @@ that is built from <a class="reference internal" href="#deb"><em>DEB</em></a> pa
 which are often derived from <a class="reference internal" href="#debian"><em>Debian</em></a> packages.</p>
 </div>
 <div class="section" id="fedora">
-<span id="index-93"></span><span id="id76"></span><h4>Fedora<a class="headerlink" href="#fedora" title="Permalink to this headline">¶</a></h4>
+<span id="index-94"></span><span id="id77"></span><h4>Fedora<a class="headerlink" href="#fedora" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Fedora_(operating_system)">https://en.wikipedia.org/wiki/Fedora_(operating_system)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://getfedora.org/">https://getfedora.org/</a></div>
@@ -2320,9 +2405,9 @@ which are often derived from <a class="reference internal" href="#debian"><em>De
 <p>Fedora
 is a <a class="reference internal" href="#linux-distributions"><em>Linux Distribution</em></a>
 that is built from <a class="reference internal" href="#rpm"><em>RPM</em></a> packages.</p>
-<span class="target" id="index-94"></span><span class="target" id="index-95"></span></div>
+<span class="target" id="index-95"></span><span class="target" id="index-96"></span></div>
 <div class="section" id="redhat">
-<span id="index-96"></span><span id="id77"></span><h4>RedHat<a class="headerlink" href="#redhat" title="Permalink to this headline">¶</a></h4>
+<span id="index-97"></span><span id="id78"></span><h4>RedHat<a class="headerlink" href="#redhat" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux">https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux">https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux</a></div>
@@ -2333,7 +2418,7 @@ that is built from <a class="reference internal" href="#rpm"><em>RPM</em></a> pa
 is a <a class="reference internal" href="#linux-distributions"><em>Linux Distribution</em></a>
 that is built from <a class="reference internal" href="#rpm"><em>RPM</em></a> packages.</p>
 <div class="section" id="centos">
-<span id="index-97"></span><span id="id78"></span><h5>CentOS<a class="headerlink" href="#centos" title="Permalink to this headline">¶</a></h5>
+<span id="index-98"></span><span id="id79"></span><h5>CentOS<a class="headerlink" href="#centos" title="Permalink to this headline">¶</a></h5>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/CentOS">https://en.wikipedia.org/wiki/CentOS</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.centos.org/">https://www.centos.org/</a></div>
@@ -2346,7 +2431,7 @@ that is built from <a class="reference internal" href="#rpm"><em>RPM</em></a> pa
 that is built from <a class="reference internal" href="#rpm"><em>RPM</em></a> packages
 which is derived from <a class="reference internal" href="#redhat"><em>RHEL</em></a>.</p>
 <div class="section" id="scientific-linux">
-<span id="index-98"></span><span id="id79"></span><h6>Scientific Linux<a class="headerlink" href="#scientific-linux" title="Permalink to this headline">¶</a></h6>
+<span id="index-99"></span><span id="id80"></span><h6>Scientific Linux<a class="headerlink" href="#scientific-linux" title="Permalink to this headline">¶</a></h6>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Scientific_Linux">https://en.wikipedia.org/wiki/Scientific_Linux</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://en.wikipedia.org/wiki/Scientific_Linux">https://en.wikipedia.org/wiki/Scientific_Linux</a></div>
@@ -2362,7 +2447,7 @@ which is derived from <a class="reference internal" href="#redhat"><em>RHEL</em>
 </div>
 </div>
 <div class="section" id="oracle">
-<span id="oracle-linux"></span><span id="index-99"></span><h5>Oracle<a class="headerlink" href="#oracle" title="Permalink to this headline">¶</a></h5>
+<span id="oracle-linux"></span><span id="index-100"></span><h5>Oracle<a class="headerlink" href="#oracle" title="Permalink to this headline">¶</a></h5>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Oracle_Linux">https://en.wikipedia.org/wiki/Oracle_Linux</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.oracle.com/linux">http://www.oracle.com/linux</a></div>
@@ -2375,7 +2460,7 @@ which is derived from <a class="reference internal" href="#redhat"><em>RHEL</em>
 </div>
 </div>
 <div class="section" id="gentoo">
-<span id="index-100"></span><span id="id80"></span><h4>Gentoo<a class="headerlink" href="#gentoo" title="Permalink to this headline">¶</a></h4>
+<span id="index-101"></span><span id="id81"></span><h4>Gentoo<a class="headerlink" href="#gentoo" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Gentoo">https://en.wikipedia.org/wiki/Gentoo</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://gentoo.org/">https://gentoo.org/</a></div>
@@ -2395,7 +2480,7 @@ built on <a class="reference internal" href="#portage"><em>Portage</em></a>.</p>
 </ul>
 </div>
 <div class="section" id="chromiumos">
-<span id="index-101"></span><span id="id81"></span><h4>ChromiumOS<a class="headerlink" href="#chromiumos" title="Permalink to this headline">¶</a></h4>
+<span id="index-102"></span><span id="id82"></span><h4>ChromiumOS<a class="headerlink" href="#chromiumos" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Chromium_OS">https://en.wikipedia.org/wiki/Chromium_OS</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.chromium.org/chromium-os">https://www.chromium.org/chromium-os</a></div>
@@ -2406,7 +2491,7 @@ built on <a class="reference internal" href="#portage"><em>Portage</em></a>.</p>
 <p>ChromiumOS is a <a class="reference internal" href="#linux-distributions"><em>Linux Distribution</em></a>
 built on <a class="reference internal" href="#portage"><em>Portage</em></a>.</p>
 <div class="section" id="crouton">
-<span id="index-102"></span><span id="id82"></span><h5>Crouton<a class="headerlink" href="#crouton" title="Permalink to this headline">¶</a></h5>
+<span id="index-103"></span><span id="id83"></span><h5>Crouton<a class="headerlink" href="#crouton" title="Permalink to this headline">¶</a></h5>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/dnschneid/crouton">https://github.com/dnschneid/crouton</a></div>
 </div>
@@ -2417,7 +2502,7 @@ within a <a class="reference internal" href="#chromiumos"><em>ChromiumOS</em></a
 </div>
 </div>
 <div class="section" id="chromeos">
-<span id="index-103"></span><span id="id83"></span><h4>ChromeOS<a class="headerlink" href="#chromeos" title="Permalink to this headline">¶</a></h4>
+<span id="index-104"></span><span id="id84"></span><h4>ChromeOS<a class="headerlink" href="#chromeos" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Chrome_OS">https://en.wikipedia.org/wiki/Chrome_OS</a></div>
 </div>
@@ -2436,7 +2521,7 @@ and <a class="reference internal" href="#portage"><em>Portage</em></a>.</p>
 </ul>
 </div>
 <div class="section" id="coreos">
-<span id="index-104"></span><span id="id84"></span><h4>CoreOS<a class="headerlink" href="#coreos" title="Permalink to this headline">¶</a></h4>
+<span id="index-105"></span><span id="id85"></span><h4>CoreOS<a class="headerlink" href="#coreos" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/CoreOS">https://en.wikipedia.org/wiki/CoreOS</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://coreos.com/">https://coreos.com/</a></div>
@@ -2462,8 +2547,24 @@ a key-value store with a D-Bus interface.</p>
 <li>flannel &#8211; Networking</li>
 </ul>
 </div>
+<div class="section" id="steamos">
+<span id="index-106"></span><span id="id86"></span><h4>SteamOS<a class="headerlink" href="#steamos" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">Wikipedia:</div>
+</div>
+<p>SteamOS is a <a class="reference internal" href="#linux-distributions"><em>Linux Distribution</em></a>
+for gaming
+based on <a class="reference internal" href="#debian"><em>Debian</em></a>.</p>
+<ul class="simple">
+<li>SteamOS uses <a class="reference internal" href="#apt"><em>APT</em></a> and <a class="reference internal" href="#dpkg"><em>Dpkg</em></a> <a class="reference internal" href="#packages"><em>Packages</em></a></li>
+<li>SteamOS runs Steam: <a class="reference external" href="https://en.wikipedia.org/wiki/Steam">https://en.wikipedia.org/wiki/Steam</a><ul>
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/Kerbal_Space_Program">https://en.wikipedia.org/wiki/Kerbal_Space_Program</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="linux-notes">
-<span id="index-105"></span><span id="id85"></span><h4>Linux Notes<a class="headerlink" href="#linux-notes" title="Permalink to this headline">¶</a></h4>
+<span id="index-107"></span><span id="id87"></span><h4>Linux Notes<a class="headerlink" href="#linux-notes" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><a class="reference external" href="https://github.com/westurner/provis">https://github.com/westurner/provis</a></p>
 <ul>
@@ -2489,14 +2590,14 @@ a key-value store with a D-Bus interface.</p>
 </div>
 </div>
 <div class="section" id="android">
-<span id="index-106"></span><span id="id86"></span><h4>Android<a class="headerlink" href="#android" title="Permalink to this headline">¶</a></h4>
+<span id="index-108"></span><span id="id88"></span><h4>Android<a class="headerlink" href="#android" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Android_(operating_system)">https://en.wikipedia.org/wiki/Android_(operating_system)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.android.com/">https://www.android.com/</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://developer.android.com/">https://developer.android.com/</a></div>
 </div>
 <div class="section" id="android-sdk">
-<span id="index-107"></span><span id="id87"></span><h5>Android SDK<a class="headerlink" href="#android-sdk" title="Permalink to this headline">¶</a></h5>
+<span id="index-109"></span><span id="id89"></span><h5>Android SDK<a class="headerlink" href="#android-sdk" title="Permalink to this headline">¶</a></h5>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://developer.android.com/sdk/">https://developer.android.com/sdk/</a></div>
 <div class="line">Source: <a class="reference external" href="https://android.googlesource.com/">https://android.googlesource.com/</a></div>
@@ -2513,18 +2614,18 @@ a key-value store with a D-Bus interface.</p>
 </div>
 </div>
 <div class="section" id="android-studio">
-<span id="index-108"></span><span id="id88"></span><h5>Android Studio<a class="headerlink" href="#android-studio" title="Permalink to this headline">¶</a></h5>
+<span id="index-110"></span><span id="id90"></span><h5>Android Studio<a class="headerlink" href="#android-studio" title="Permalink to this headline">¶</a></h5>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line">Homepage: <a class="reference external" href="https://developer.android.com/tools/studio/index.html">https://developer.android.com/tools/studio/index.html</a></div>
 <div class="line">Docs: <a class="reference external" href="https://developer.android.com/tools/workflow/index.html">https://developer.android.com/tools/workflow/index.html</a></div>
 <div class="line">Docs: <a class="reference external" href="https://sites.google.com/a/android.com/tools/build/studio">https://sites.google.com/a/android.com/tools/build/studio</a></div>
 </div>
-<span class="target" id="index-109"></span><span class="target" id="index-110"></span></div>
+<span class="target" id="index-111"></span><span class="target" id="index-112"></span></div>
 </div>
 </div>
 <div class="section" id="os-x">
-<span id="osx"></span><span id="index-111"></span><h3>OS X<a class="headerlink" href="#os-x" title="Permalink to this headline">¶</a></h3>
+<span id="osx"></span><span id="index-113"></span><h3>OS X<a class="headerlink" href="#os-x" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/OS_X">https://en.wikipedia.org/wiki/OS_X</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.apple.com/osx">http://www.apple.com/osx</a></div>
@@ -2541,6 +2642,22 @@ which was partially derived from NetBSD and FreeBSD.</p>
 <p><a class="reference internal" href="#homebrew"><em>Homebrew</em></a> installs and maintains packages for OS X.</p>
 <div class="highlight-bash"><div class="highlight"><pre>uname<span class="p">;</span> <span class="nb">echo</span> <span class="s2">&quot;Darwin&quot;</span>
 </pre></div>
+</div>
+<div class="section" id="ios">
+<span id="index-114"></span><span id="id91"></span><h4>iOS<a class="headerlink" href="#ios" title="Permalink to this headline">¶</a></h4>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/IOS">https://en.wikipedia.org/wiki/IOS</a></div>
+<div class="line">Homepage: <a class="reference external" href="https://www.apple.com/ios/">https://www.apple.com/ios/</a></div>
+</div>
+<p>iOS is a closed source
+UNIX operating system based upon many components
+of <a class="reference internal" href="#osx"><em>OS X</em></a>
+adapted for phones and then tablets.</p>
+<ul class="simple">
+<li>iOS powers iPhones and iPads</li>
+<li>You must have a Mac with <a class="reference internal" href="#osx"><em>OS X</em></a> and XCode
+to develop and compile for iOS.</li>
+</ul>
 </div>
 <div class="section" id="osx-notes">
 <h4>OSX Notes<a class="headerlink" href="#osx-notes" title="Permalink to this headline">¶</a></h4>
@@ -2607,7 +2724,7 @@ which was partially derived from NetBSD and FreeBSD.</p>
 </div>
 </div>
 <div class="section" id="windows">
-<span id="index-112"></span><span id="id89"></span><h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<span id="index-115"></span><span id="id92"></span><h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Microsoft_Windows">https://en.wikipedia.org/wiki/Microsoft_Windows</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://windows.microsoft.com/">http://windows.microsoft.com/</a></div>
@@ -2666,13 +2783,13 @@ cinst curl
 </div>
 </div>
 <div class="section" id="configuration-management">
-<span id="index-113"></span><span id="id90"></span><h2>Configuration Management<a class="headerlink" href="#configuration-management" title="Permalink to this headline">¶</a></h2>
+<span id="index-116"></span><span id="id93"></span><h2>Configuration Management<a class="headerlink" href="#configuration-management" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Software_configuration_management">https://en.wikipedia.org/wiki/Software_configuration_management</a></div>
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Comparison_of_open-source_configuration_management_software">https://en.wikipedia.org/wiki/Comparison_of_open-source_configuration_management_software</a></div>
 </div>
 <div class="section" id="ansible">
-<span id="index-114"></span><span id="id91"></span><h3>Ansible<a class="headerlink" href="#ansible" title="Permalink to this headline">¶</a></h3>
+<span id="index-117"></span><span id="id94"></span><h3>Ansible<a class="headerlink" href="#ansible" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Ansible_(software)">https://en.wikipedia.org/wiki/Ansible_(software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://ansible.com/">http://ansible.com/</a></div>
@@ -2687,7 +2804,7 @@ one or more physical and virtual machines running various operating systems
 over SSH.</p>
 </div>
 <div class="section" id="gradle">
-<span id="index-115"></span><span id="id92"></span><h3>Gradle<a class="headerlink" href="#gradle" title="Permalink to this headline">¶</a></h3>
+<span id="index-118"></span><span id="id95"></span><h3>Gradle<a class="headerlink" href="#gradle" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Gradle">https://en.wikipedia.org/wiki/Gradle</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.gradle.org/">http://www.gradle.org/</a></div>
@@ -2697,11 +2814,11 @@ over SSH.</p>
 <div class="line">Docs: <a class="reference external" href="https://docs.gradle.org/current/userguide/userguide.html">https://docs.gradle.org/current/userguide/userguide.html</a></div>
 <div class="line">Twitter: <a class="reference external" href="https://twitter.com/gradle">https://twitter.com/gradle</a></div>
 </div>
-<p>Gradle is a build tool for the <a class="reference internal" href="#java"><em>Java</em></a> <em class="xref std std-ref">JVM</em>
+<p>Gradle is a build tool for the <a class="reference internal" href="#java"><em>Java</em></a> <a class="reference internal" href="#jvm"><em>JVM</em></a>
 which builds a directed acyclic graph (DAG).</p>
 </div>
 <div class="section" id="grunt">
-<span id="index-116"></span><span id="id93"></span><h3>Grunt<a class="headerlink" href="#grunt" title="Permalink to this headline">¶</a></h3>
+<span id="index-119"></span><span id="id96"></span><h3>Grunt<a class="headerlink" href="#grunt" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://gruntjs.com/">http://gruntjs.com/</a></div>
 <div class="line">Source: git <a class="reference external" href="https://github.com/gruntjs/grunt">https://github.com/gruntjs/grunt</a></div>
@@ -2713,7 +2830,7 @@ which builds a directed acyclic graph (DAG).</p>
 which builds a directed acyclic graph (DAG).</p>
 </div>
 <div class="section" id="gulp">
-<span id="index-117"></span><span id="id94"></span><h3>Gulp<a class="headerlink" href="#gulp" title="Permalink to this headline">¶</a></h3>
+<span id="index-120"></span><span id="id97"></span><h3>Gulp<a class="headerlink" href="#gulp" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://gulpjs.com/">http://gulpjs.com/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/gulpjs/gulp">https://github.com/gulpjs/gulp</a></div>
@@ -2726,7 +2843,7 @@ which builds a directed acyclic graph (DAG).</p>
 which builds a directed acyclic graph (DAG).</p>
 </div>
 <div class="section" id="juju">
-<span id="index-118"></span><span id="id95"></span><h3>Juju<a class="headerlink" href="#juju" title="Permalink to this headline">¶</a></h3>
+<span id="index-121"></span><span id="id98"></span><h3>Juju<a class="headerlink" href="#juju" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Juju_(software)">https://en.wikipedia.org/wiki/Juju_(software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://jujucharms.com/">https://jujucharms.com/</a></div>
@@ -2747,7 +2864,7 @@ one or more physical and virtual machines running <a class="reference internal" 
 </ul>
 </div>
 <div class="section" id="make">
-<span id="index-119"></span><span id="id96"></span><h3>Make<a class="headerlink" href="#make" title="Permalink to this headline">¶</a></h3>
+<span id="index-122"></span><span id="id99"></span><h3>Make<a class="headerlink" href="#make" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Make_(software)">https://en.wikipedia.org/wiki/Make_(software)</a></div>
 <div class="line">Homepage:  <a class="reference external" href="https://www.gnu.org/software/make/">https://www.gnu.org/software/make/</a></div>
@@ -2787,7 +2904,7 @@ make test
 </div>
 </div>
 <div class="section" id="osquery">
-<span id="index-120"></span><span id="id97"></span><h3>osquery<a class="headerlink" href="#osquery" title="Permalink to this headline">¶</a></h3>
+<span id="index-123"></span><span id="id100"></span><h3>osquery<a class="headerlink" href="#osquery" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://osquery.io/">https://osquery.io/</a></div>
 <div class="line">Src: <a class="reference external" href="https://github.com/facebook/osquery">https://github.com/facebook/osquery</a></div>
@@ -2804,7 +2921,7 @@ for <a class="reference internal" href="#osx"><em>OS X</em></a> and <a class="re
 </ul>
 </div>
 <div class="section" id="puppet">
-<span id="index-121"></span><span id="id98"></span><h3>Puppet<a class="headerlink" href="#puppet" title="Permalink to this headline">¶</a></h3>
+<span id="index-124"></span><span id="id101"></span><h3>Puppet<a class="headerlink" href="#puppet" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Puppet_(software)">https://en.wikipedia.org/wiki/Puppet_(software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://puppetlabs.com/">https://puppetlabs.com/</a></div>
@@ -2824,7 +2941,7 @@ one or more physical and virtual machines running various operating systems.</p>
 </ul>
 </div>
 <div class="section" id="salt">
-<span id="index-122"></span><span id="id99"></span><h3>Salt<a class="headerlink" href="#salt" title="Permalink to this headline">¶</a></h3>
+<span id="index-125"></span><span id="id102"></span><h3>Salt<a class="headerlink" href="#salt" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Salt_(software)">https://en.wikipedia.org/wiki/Salt_(software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.saltstack.com">http://www.saltstack.com</a></div>
@@ -2952,9 +3069,9 @@ with various cloud providers (<a class="reference internal" href="#libcloud"><em
 </div>
 </div>
 <div class="section" id="virtualization">
-<span id="index-123"></span><span id="id100"></span><h2>Virtualization<a class="headerlink" href="#virtualization" title="Permalink to this headline">¶</a></h2>
+<span id="index-126"></span><span id="id103"></span><h2>Virtualization<a class="headerlink" href="#virtualization" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="cgroups">
-<span id="index-124"></span><span id="id101"></span><h3>Cgroups<a class="headerlink" href="#cgroups" title="Permalink to this headline">¶</a></h3>
+<span id="index-127"></span><span id="id104"></span><h3>Cgroups<a class="headerlink" href="#cgroups" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Cgroups">https://en.wikipedia.org/wiki/Cgroups</a></div>
 <div class="line">Docs: <a class="reference external" href="https://www.kernel.org/doc/Documentation/cgroups/">https://www.kernel.org/doc/Documentation/cgroups/</a></div>
@@ -2973,7 +3090,7 @@ groups of processes and resources.</p>
 </ul>
 </div>
 <div class="section" id="docker">
-<span id="index-125"></span><span id="id102"></span><h3>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h3>
+<span id="index-128"></span><span id="id105"></span><h3>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Docker_(software)">https://en.wikipedia.org/wiki/Docker_(software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.docker.com/">https://www.docker.com/</a></div>
@@ -3011,7 +3128,7 @@ schedule redundant <a class="reference internal" href="#lxc"><em>LXC</em></a> co
 <p><a class="reference external" href="https://github.com/veggiemonk/awesome-docker">https://github.com/veggiemonk/awesome-docker</a></p>
 </div>
 <div class="section" id="kubernetes">
-<span id="index-126"></span><span id="id103"></span><h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h3>
+<span id="index-129"></span><span id="id106"></span><h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://kubernetes.io/">http://kubernetes.io/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/GoogleCloudPlatform/kubernetes">https://github.com/GoogleCloudPlatform/kubernetes</a></div>
@@ -3028,7 +3145,7 @@ which works with groups of <a class="reference internal" href="#docker"><em>Dock
 called Pods.</p>
 </div>
 <div class="section" id="kubernetes-mesos">
-<span id="index-127"></span><span id="id104"></span><h3>Kubernetes-Mesos<a class="headerlink" href="#kubernetes-mesos" title="Permalink to this headline">¶</a></h3>
+<span id="index-130"></span><span id="id107"></span><h3>Kubernetes-Mesos<a class="headerlink" href="#kubernetes-mesos" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/mesosphere/kubernetes-mesos">https://github.com/mesosphere/kubernetes-mesos</a></div>
 </div>
@@ -3046,7 +3163,7 @@ among Kubernetes and other frameworks running on the same cluster.</p>
 </div></blockquote>
 </div>
 <div class="section" id="kvm">
-<span id="index-128"></span><span id="id105"></span><h3>KVM<a class="headerlink" href="#kvm" title="Permalink to this headline">¶</a></h3>
+<span id="index-131"></span><span id="id108"></span><h3>KVM<a class="headerlink" href="#kvm" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine">https://en.wikipedia.org/wiki/Kernel-based_Virtual_Machine</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.linux-kvm.org/">http://www.linux-kvm.org/</a></div>
@@ -3059,7 +3176,7 @@ each with their own kernel,
 on a given host machine.</p>
 </div>
 <div class="section" id="libcloud">
-<span id="index-129"></span><span id="id106"></span><h3>Libcloud<a class="headerlink" href="#libcloud" title="Permalink to this headline">¶</a></h3>
+<span id="index-132"></span><span id="id109"></span><h3>Libcloud<a class="headerlink" href="#libcloud" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://libcloud.apache.org/">https://libcloud.apache.org/</a></div>
 <div class="line">Docs: <a class="reference external" href="https://libcloud.readthedocs.org/en/latest/">https://libcloud.readthedocs.org/en/latest/</a></div>
@@ -3073,7 +3190,7 @@ Compute Resources, Object Storage, Load Balancing, and DNS.</p>
 <p><a class="reference internal" href="#salt"><em>Salt</em></a> <a class="reference internal" href="#term-salt-cloud"><em class="xref std std-term">salt cloud</em></a> depends upon libcloud.</p>
 </div>
 <div class="section" id="libvirt">
-<span id="index-130"></span><span id="id107"></span><h3>Libvirt<a class="headerlink" href="#libvirt" title="Permalink to this headline">¶</a></h3>
+<span id="index-133"></span><span id="id110"></span><h3>Libvirt<a class="headerlink" href="#libvirt" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://libvirt.org/">https://libvirt.org/</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://libvirt.org/">https://libvirt.org/</a></div>
@@ -3092,7 +3209,7 @@ various <a class="reference internal" href="#linux"><em>Linux</em></a> hyperviso
 </ul>
 </div>
 <div class="section" id="lxc">
-<span id="index-131"></span><span id="id108"></span><h3>LXC<a class="headerlink" href="#lxc" title="Permalink to this headline">¶</a></h3>
+<span id="index-134"></span><span id="id111"></span><h3>LXC<a class="headerlink" href="#lxc" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/LXC">https://en.wikipedia.org/wiki/LXC</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://linuxcontainers.org/">https://linuxcontainers.org/</a></div>
@@ -3107,7 +3224,7 @@ to provide containerized OS chroots
 <p>LXC is included in recent <a class="reference internal" href="#linux"><em>Linux</em></a> kernels.</p>
 </div>
 <div class="section" id="lxd">
-<span id="index-132"></span><span id="id109"></span><h3>LXD<a class="headerlink" href="#lxd" title="Permalink to this headline">¶</a></h3>
+<span id="index-135"></span><span id="id112"></span><h3>LXD<a class="headerlink" href="#lxd" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://linuxcontainers.org/lxd/">https://linuxcontainers.org/lxd/</a></div>
 <div class="line">Docs: <a class="reference external" href="https://linuxcontainers.org/lxd/">https://linuxcontainers.org/lxd/</a></div>
@@ -3119,7 +3236,7 @@ builds upon <a class="reference internal" href="#lxc"><em>LXC</em></a> to provid
 and an <a class="reference internal" href="#openstack"><em>OpenStack</em></a> Nova hypervisor plugin.</p>
 </div>
 <div class="section" id="mesos">
-<span id="index-133"></span><span id="id110"></span><h3>Mesos<a class="headerlink" href="#mesos" title="Permalink to this headline">¶</a></h3>
+<span id="index-136"></span><span id="id113"></span><h3>Mesos<a class="headerlink" href="#mesos" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://mesos.apache.org/">https://mesos.apache.org/</a></div>
 <div class="line">Source: git <a class="reference external" href="https://github.com/apache/mesos">https://github.com/apache/mesos</a></div>
@@ -3135,7 +3252,7 @@ enabling fault-tolerant and elastic distributed systems
 to easily be built and run effectively.</div></blockquote>
 </div>
 <div class="section" id="mesosphere">
-<span id="index-134"></span><span id="id111"></span><h3>Mesosphere<a class="headerlink" href="#mesosphere" title="Permalink to this headline">¶</a></h3>
+<span id="index-137"></span><span id="id114"></span><h3>Mesosphere<a class="headerlink" href="#mesosphere" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://mesosphere.com/">https://mesosphere.com/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/mesosphere">https://github.com/mesosphere</a></div>
@@ -3147,7 +3264,7 @@ to easily be built and run effectively.</div></blockquote>
 </ul>
 </div>
 <div class="section" id="openstack">
-<span id="index-135"></span><span id="id112"></span><h3>OpenStack<a class="headerlink" href="#openstack" title="Permalink to this headline">¶</a></h3>
+<span id="index-138"></span><span id="id115"></span><h3>OpenStack<a class="headerlink" href="#openstack" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/OpenStack">https://en.wikipedia.org/wiki/OpenStack</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.openstack.org/">https://www.openstack.org/</a></div>
@@ -3184,7 +3301,7 @@ machine from the available pool of resources.</p>
 <p><code class="docutils literal"><span class="pre">rdfs:seeAlso</span></code> <a class="reference internal" href="#libcloud"><em>Libcloud</em></a>.</p>
 </div>
 <div class="section" id="openstack-devstack">
-<span id="index-136"></span><span id="id113"></span><h3>OpenStack DevStack<a class="headerlink" href="#openstack-devstack" title="Permalink to this headline">¶</a></h3>
+<span id="index-139"></span><span id="id116"></span><h3>OpenStack DevStack<a class="headerlink" href="#openstack-devstack" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="http://docs.openstack.org/developer/devstack/">http://docs.openstack.org/developer/devstack/</a></div>
 <div class="line">Docs: <a class="reference external" href="http://docs.openstack.org/developer/devstack/overview.html">http://docs.openstack.org/developer/devstack/overview.html</a></div>
@@ -3207,7 +3324,7 @@ for <a class="reference internal" href="#openstack"><em>OpenStack</em></a>.</p>
 </ul>
 </div>
 <div class="section" id="packer">
-<span id="index-137"></span><span id="id114"></span><h3>Packer<a class="headerlink" href="#packer" title="Permalink to this headline">¶</a></h3>
+<span id="index-140"></span><span id="id117"></span><h3>Packer<a class="headerlink" href="#packer" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://www.packer.io/">https://www.packer.io/</a></div>
 <div class="line">Docs: <a class="reference external" href="http://www.packer.io/docs">http://www.packer.io/docs</a></div>
@@ -3255,7 +3372,7 @@ for one of many platforms:</p>
 </dl>
 </div>
 <div class="section" id="vagrant">
-<span id="index-138"></span><span id="id115"></span><h3>Vagrant<a class="headerlink" href="#vagrant" title="Permalink to this headline">¶</a></h3>
+<span id="index-141"></span><span id="id118"></span><h3>Vagrant<a class="headerlink" href="#vagrant" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Vagrant_(software)">https://en.wikipedia.org/wiki/Vagrant_(software)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.vagrantup.com/">https://www.vagrantup.com/</a></div>
@@ -3359,7 +3476,7 @@ DNS, the default route, and to ensure <code class="docutils literal"><span class
 </div>
 </div>
 <div class="section" id="virtualbox">
-<span id="index-139"></span><span id="id116"></span><h3>VirtualBox<a class="headerlink" href="#virtualbox" title="Permalink to this headline">¶</a></h3>
+<span id="index-142"></span><span id="id119"></span><h3>VirtualBox<a class="headerlink" href="#virtualbox" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/VirtualBox">https://en.wikipedia.org/wiki/VirtualBox</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.virtualbox.org/">https://www.virtualbox.org/</a></div>
@@ -3378,9 +3495,9 @@ for running one or more guest VMs (virtual machines) within a host system.</p>
 </div>
 </div>
 <div class="section" id="shells">
-<span id="index-140"></span><span id="id117"></span><h2>Shells<a class="headerlink" href="#shells" title="Permalink to this headline">¶</a></h2>
+<span id="index-143"></span><span id="id120"></span><h2>Shells<a class="headerlink" href="#shells" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="bash">
-<span id="index-141"></span><span id="id118"></span><h3>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h3>
+<span id="index-144"></span><span id="id121"></span><h3>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">https://en.wikipedia.org/wiki/Bash_(Unix_shell)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.gnu.org/software/bash/">http://www.gnu.org/software/bash/</a></div>
@@ -3423,7 +3540,7 @@ ${HOME}/.bash_profile   # empty. preempts .profile
 <p>Linux/Mac/Windows: Almost Always / Bash 3.2 / Cygwin/Mingwin</p>
 </div>
 <div class="section" id="readline">
-<span id="index-142"></span><span id="id119"></span><h3>Readline<a class="headerlink" href="#readline" title="Permalink to this headline">¶</a></h3>
+<span id="index-145"></span><span id="id122"></span><h3>Readline<a class="headerlink" href="#readline" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/GNU_Readline">https://en.wikipedia.org/wiki/GNU_Readline</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://tiswww.case.edu/php/chet/readline/rltop.html">http://tiswww.case.edu/php/chet/readline/rltop.html</a></div>
@@ -3433,9 +3550,9 @@ ${HOME}/.bash_profile   # empty. preempts .profile
 <div class="line">Source: ftp <a class="reference external" href="ftp://ftp.gnu.org/gnu/readline/readline-6.3.tar.gz">ftp://ftp.gnu.org/gnu/readline/readline-6.3.tar.gz</a></div>
 <div class="line">Pypi: <a class="reference external" href="https://pypi.python.org/pypi/gnureadline">https://pypi.python.org/pypi/gnureadline</a></div>
 </div>
-<span class="target" id="index-143"></span></div>
+<span class="target" id="index-146"></span></div>
 <div class="section" id="ipython">
-<span id="index-144"></span><span id="id120"></span><h3>IPython<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h3>
+<span id="index-147"></span><span id="id123"></span><h3>IPython<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/IPython">https://en.wikipedia.org/wiki/IPython</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://ipython.org/">http://ipython.org/</a></div>
@@ -3476,8 +3593,8 @@ print(lines[0:])
 %pdb on                        # automatically run pdb on Exception
 </pre></div>
 </div>
-<span class="target" id="index-145"></span><div class="section" id="ipython-notebook">
-<span id="index-146"></span><span id="id121"></span><h4>IPython Notebook<a class="headerlink" href="#ipython-notebook" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="index-148"></span><div class="section" id="ipython-notebook">
+<span id="index-149"></span><span id="id124"></span><h4>IPython Notebook<a class="headerlink" href="#ipython-notebook" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/ipython/ipython/tree/3.x/IPython/html">https://github.com/ipython/ipython/tree/3.x/IPython/html</a></div>
 <div class="line">Docs: <a class="reference external" href="http://ipython.org/ipython-doc/stable/notebook/">http://ipython.org/ipython-doc/stable/notebook/</a></div>
@@ -3512,10 +3629,10 @@ IPython Notebook / <a class="reference internal" href="#jupyter-notebook"><em>Ju
 implement best practices like process isolation and privilege separation
 with e.g. <a class="reference internal" href="#docker"><em>Docker</em></a> and/or <a class="reference internal" href="#jupyter"><em>Jupyter</em></a> Hub.</p>
 </div>
-<span class="target" id="index-147"></span></div>
+<span class="target" id="index-150"></span></div>
 </div>
 <div class="section" id="jupyter">
-<span id="index-148"></span><span id="id122"></span><h3>Jupyter<a class="headerlink" href="#jupyter" title="Permalink to this headline">¶</a></h3>
+<span id="index-151"></span><span id="id125"></span><h3>Jupyter<a class="headerlink" href="#jupyter" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/IPython#Project_Jupyter">https://en.wikipedia.org/wiki/IPython#Project_Jupyter</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://jupyter.org/">http://jupyter.org/</a></div>
@@ -3565,7 +3682,7 @@ for many languages (<a class="reference internal" href="#python"><em>Python</em>
 </tbody>
 </table>
 <div class="section" id="jupyter-notebook">
-<span id="index-149"></span><span id="id123"></span><h4>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline">¶</a></h4>
+<span id="index-152"></span><span id="id126"></span><h4>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/jupyter/notebook">https://github.com/jupyter/notebook</a></div>
 </div>
@@ -3588,7 +3705,7 @@ with e.g. <a class="reference internal" href="#docker"><em>Docker</em></a> and/o
 </ul>
 </div>
 <div class="section" id="nbviewer">
-<span id="index-150"></span><span id="id124"></span><h4>nbviewer<a class="headerlink" href="#nbviewer" title="Permalink to this headline">¶</a></h4>
+<span id="index-153"></span><span id="id127"></span><h4>nbviewer<a class="headerlink" href="#nbviewer" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://nbviewer.ipython.org">http://nbviewer.ipython.org</a></div>
 <div class="line">Source: git <a class="reference external" href="https://github.com/jupyter/nbviewer">https://github.com/jupyter/nbviewer</a></div>
@@ -3598,10 +3715,10 @@ with e.g. <a class="reference internal" href="#docker"><em>Docker</em></a> and/o
 is an application for serving read-only
 versions of <code class="docutils literal"><span class="pre">.ipynb</span></code> files which have HTTP URLs.</p>
 <p>GitHub now also renders static <code class="docutils literal"><span class="pre">.ipynb</span></code> files, CSV, SVG, and PDF.</p>
-<span class="target" id="index-151"></span></div>
+<span class="target" id="index-154"></span></div>
 </div>
 <div class="section" id="powershell">
-<span id="index-152"></span><span id="id125"></span><h3>PowerShell<a class="headerlink" href="#powershell" title="Permalink to this headline">¶</a></h3>
+<span id="index-155"></span><span id="id128"></span><h3>PowerShell<a class="headerlink" href="#powershell" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Windows_PowerShell">https://en.wikipedia.org/wiki/Windows_PowerShell</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://microsoft.com/powershell">https://microsoft.com/powershell</a></div>
@@ -3609,7 +3726,7 @@ versions of <code class="docutils literal"><span class="pre">.ipynb</span></code
 <p>Windows PowerShell is a shell for <a class="reference internal" href="#windows"><em>Windows</em></a>.</p>
 </div>
 <div class="section" id="zsh">
-<span id="index-153"></span><span id="id126"></span><h3>ZSH<a class="headerlink" href="#zsh" title="Permalink to this headline">¶</a></h3>
+<span id="index-156"></span><span id="id129"></span><h3>ZSH<a class="headerlink" href="#zsh" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Z_shell">https://en.wikipedia.org/wiki/Z_shell</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.zsh.org/">http://www.zsh.org/</a></div>
@@ -3620,12 +3737,12 @@ versions of <code class="docutils literal"><span class="pre">.ipynb</span></code
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/robbyrussell/oh-my-zsh">https://github.com/robbyrussell/oh-my-zsh</a></li>
 </ul>
-<span class="target" id="index-154"></span></div>
+<span class="target" id="index-157"></span></div>
 </div>
 <div class="section" id="shell-utilities">
 <h2>Shell Utilities<a class="headerlink" href="#shell-utilities" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="awk">
-<span id="index-155"></span><span id="id127"></span><h3>Awk<a class="headerlink" href="#awk" title="Permalink to this headline">¶</a></h3>
+<span id="index-158"></span><span id="id130"></span><h3>Awk<a class="headerlink" href="#awk" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/AWK">https://en.wikipedia.org/wiki/AWK</a></div>
 <div class="line">Docs: <a class="reference external" href="https://en.wikipedia.org/wiki/AWK#Versions_and_implementations">https://en.wikipedia.org/wiki/AWK#Versions_and_implementations</a></div>
@@ -3639,7 +3756,7 @@ versions of <code class="docutils literal"><span class="pre">.ipynb</span></code
 <p>AWK is a pattern programming language for matching and transforming text.</p>
 </div>
 <div class="section" id="grep">
-<span id="index-156"></span><span id="id128"></span><h3>Grep<a class="headerlink" href="#grep" title="Permalink to this headline">¶</a></h3>
+<span id="index-159"></span><span id="id131"></span><h3>Grep<a class="headerlink" href="#grep" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Grep">https://en.wikipedia.org/wiki/Grep</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.gnu.org/software/grep/">https://www.gnu.org/software/grep/</a></div>
@@ -3651,7 +3768,7 @@ versions of <code class="docutils literal"><span class="pre">.ipynb</span></code
 <p>Grep is a UXIX CLI utility for pattern-based text matching.</p>
 </div>
 <div class="section" id="htop">
-<span id="index-157"></span><span id="id129"></span><h3>Htop<a class="headerlink" href="#htop" title="Permalink to this headline">¶</a></h3>
+<span id="index-160"></span><span id="id132"></span><h3>Htop<a class="headerlink" href="#htop" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Htop">https://en.wikipedia.org/wiki/Htop</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://hisham.hm/htop/">http://hisham.hm/htop/</a></div>
@@ -3659,7 +3776,7 @@ versions of <code class="docutils literal"><span class="pre">.ipynb</span></code
 </div>
 </div>
 <div class="section" id="pyline">
-<span id="index-158"></span><span id="id130"></span><h3>Pyline<a class="headerlink" href="#pyline" title="Permalink to this headline">¶</a></h3>
+<span id="index-161"></span><span id="id133"></span><h3>Pyline<a class="headerlink" href="#pyline" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://github.com/westurner/pyline">https://github.com/westurner/pyline</a></div>
 <div class="line">Docs: <a class="reference external" href="https://pyline.readthedocs.org/en/latest/">https://pyline.readthedocs.org/en/latest/</a></div>
@@ -3672,7 +3789,7 @@ with regex and output transform features similar to
 <p>Pyline can generate quoted CSV, <a class="reference internal" href="#json"><em>JSON</em></a>, HTML, etc.</p>
 </div>
 <div class="section" id="pyrpo">
-<span id="index-159"></span><span id="id131"></span><h3>Pyrpo<a class="headerlink" href="#pyrpo" title="Permalink to this headline">¶</a></h3>
+<span id="index-162"></span><span id="id134"></span><h3>Pyrpo<a class="headerlink" href="#pyrpo" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://github.com/westurner/pyrpo">https://github.com/westurner/pyrpo</a></div>
 <div class="line">Source: git <a class="reference external" href="https://github.com/westurner/pyrpo">https://github.com/westurner/pyrpo</a></div>
@@ -3683,7 +3800,7 @@ from <a class="reference internal" href="#git"><em>Git</em></a>, <a class="refer
 and <a class="reference internal" href="#subversion"><em>Subversion</em></a> repositories.</p>
 </div>
 <div class="section" id="sed">
-<span id="index-160"></span><span id="id132"></span><h3>Sed<a class="headerlink" href="#sed" title="Permalink to this headline">¶</a></h3>
+<span id="index-163"></span><span id="id135"></span><h3>Sed<a class="headerlink" href="#sed" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Sed">https://en.wikipedia.org/wiki/Sed</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.gnu.org/software/sed/">https://www.gnu.org/software/sed/</a></div>
@@ -3708,7 +3825,7 @@ between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).</p>
 </div>
 </div>
 <div class="section" id="dotfiles">
-<span id="index-161"></span><span id="id133"></span><h2>Dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h2>
+<span id="index-164"></span><span id="id136"></span><h2>Dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h2>
 <p>Userspace configuration in files that are often prefixed with &#8220;dot&#8221;
 (e.g. <code class="docutils literal"><span class="pre">~/.bashrc</span></code> for <a class="reference internal" href="#bash"><em>Bash</em></a>)</p>
 <div class="line-block">
@@ -3716,14 +3833,14 @@ between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).</p>
 <div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a></div>
 </div>
 <div class="section" id="dotvim">
-<span id="index-162"></span><span id="id134"></span><h3>Dotvim<a class="headerlink" href="#dotvim" title="Permalink to this headline">¶</a></h3>
+<span id="index-165"></span><span id="id137"></span><h3>Dotvim<a class="headerlink" href="#dotvim" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotvim">https://github.com/westurner/dotvim</a></div>
 <div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/usage#vim">https://westurner.org/dotfiles/usage#vim</a></div>
 </div>
 </div>
 <div class="section" id="venv">
-<span id="index-163"></span><span id="id135"></span><h3>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h3>
+<span id="index-166"></span><span id="id138"></span><h3>Venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/venv">https://westurner.org/dotfiles/venv</a></div>
 <div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/dotfiles.venv">https://westurner.org/dotfiles/dotfiles.venv</a></div>
@@ -3839,7 +3956,7 @@ now included in <a class="reference internal" href="#python3"><em>Python &gt;= 3
 </div>
 </div>
 <div class="section" id="virtualenv">
-<span id="index-164"></span><span id="id136"></span><h3>Virtualenv<a class="headerlink" href="#virtualenv" title="Permalink to this headline">¶</a></h3>
+<span id="index-167"></span><span id="id139"></span><h3>Virtualenv<a class="headerlink" href="#virtualenv" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://www.virtualenv.org">http://www.virtualenv.org</a></div>
 <div class="line">Docs: <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">https://virtualenv.pypa.io/en/latest/</a></div>
@@ -3899,7 +4016,7 @@ performs the same functions and works similarly to virtualenv:
 </div>
 </div>
 <div class="section" id="virtualenvwrapper">
-<span id="index-165"></span><span id="id137"></span><h3>Virtualenvwrapper<a class="headerlink" href="#virtualenvwrapper" title="Permalink to this headline">¶</a></h3>
+<span id="index-168"></span><span id="id140"></span><h3>Virtualenvwrapper<a class="headerlink" href="#virtualenvwrapper" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Docs: <a class="reference external" href="http://virtualenvwrapper.readthedocs.org/en/latest/">http://virtualenvwrapper.readthedocs.org/en/latest/</a></div>
 <div class="line">Source: hg <a class="reference external" href="https://bitbucket.org/dhellmann/virtualenvwrapper">https://bitbucket.org/dhellmann/virtualenvwrapper</a></div>
@@ -3954,12 +4071,12 @@ rmvirtualenv example
 lsvirtualenvs<span class="p">;</span> ls -d <span class="nv">$WORKON_HOME</span>                <span class="c"># venv: lsve; lsve &#39;ls -d&#39;</span>
 </pre></div>
 </div>
-<span class="target" id="index-166"></span></div>
+<span class="target" id="index-169"></span></div>
 </div>
 <div class="section" id="window-managers">
 <h2>Window Managers<a class="headerlink" href="#window-managers" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="compiz">
-<span id="index-167"></span><span id="id138"></span><h3>Compiz<a class="headerlink" href="#compiz" title="Permalink to this headline">¶</a></h3>
+<span id="index-170"></span><span id="id141"></span><h3>Compiz<a class="headerlink" href="#compiz" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Compiz">https://en.wikipedia.org/wiki/Compiz</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://launchpad.net/compiz">https://launchpad.net/compiz</a></div>
@@ -3971,7 +4088,7 @@ lots of cool and productivity-enhancing visual capabilities.</p>
 <p>Compiz works with <a class="reference internal" href="#gnome"><em>Gnome</em></a>, <a class="reference internal" href="#kde"><em>KDE</em></a>, and <a class="reference internal" href="#qt"><em>Qt</em></a> applications.</p>
 </div>
 <div class="section" id="gnome">
-<span id="index-168"></span><span id="id139"></span><h3>Gnome<a class="headerlink" href="#gnome" title="Permalink to this headline">¶</a></h3>
+<span id="index-171"></span><span id="id142"></span><h3>Gnome<a class="headerlink" href="#gnome" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/GNOME">https://en.wikipedia.org/wiki/GNOME</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.gnome.org/">http://www.gnome.org/</a></div>
@@ -3983,7 +4100,7 @@ lots of cool and productivity-enhancing visual capabilities.</p>
 </ul>
 </div>
 <div class="section" id="i3wm">
-<span id="index-169"></span><span id="id140"></span><h3>i3wm<a class="headerlink" href="#i3wm" title="Permalink to this headline">¶</a></h3>
+<span id="index-172"></span><span id="id143"></span><h3>i3wm<a class="headerlink" href="#i3wm" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/I3_(window_manager)">https://en.wikipedia.org/wiki/I3_(window_manager)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://i3wm.org/">http://i3wm.org/</a></div>
@@ -3998,7 +4115,7 @@ with extremely-configurable <a class="reference internal" href="#vim"><em>Vim</e
 </ul>
 </div>
 <div class="section" id="kde">
-<span id="index-170"></span><span id="id141"></span><h3>KDE<a class="headerlink" href="#kde" title="Permalink to this headline">¶</a></h3>
+<span id="index-173"></span><span id="id144"></span><h3>KDE<a class="headerlink" href="#kde" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/KDE">https://en.wikipedia.org/wiki/KDE</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.kde.org/">https://www.kde.org/</a></div>
@@ -4013,7 +4130,7 @@ with extremely-configurable <a class="reference internal" href="#vim"><em>Vim</e
 <p>KWin is the main KDE window manager for <a class="reference internal" href="#x11"><em>X11</em></a>.</p>
 </div>
 <div class="section" id="qt">
-<span id="index-171"></span><span id="id142"></span><h3>Qt<a class="headerlink" href="#qt" title="Permalink to this headline">¶</a></h3>
+<span id="index-174"></span><span id="id145"></span><h3>Qt<a class="headerlink" href="#qt" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Qt_Project">https://en.wikipedia.org/wiki/Qt_Project</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://qt-project.org/">https://qt-project.org/</a></div>
@@ -4030,7 +4147,7 @@ developing applications with
 Android, iOS, <a class="reference internal" href="#osx"><em>OS X</em></a>, Windows, Embedded <a class="reference internal" href="#linux"><em>Linux</em></a>, and <a class="reference internal" href="#x11"><em>X11</em></a>.</p>
 </div>
 <div class="section" id="wayland">
-<span id="index-172"></span><span id="id143"></span><h3>Wayland<a class="headerlink" href="#wayland" title="Permalink to this headline">¶</a></h3>
+<span id="index-175"></span><span id="id146"></span><h3>Wayland<a class="headerlink" href="#wayland" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Wayland_(display_server_protocol)">https://en.wikipedia.org/wiki/Wayland_(display_server_protocol)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://wayland.freedesktop.org/">http://wayland.freedesktop.org/</a></div>
@@ -4039,9 +4156,9 @@ Android, iOS, <a class="reference internal" href="#osx"><em>OS X</em></a>, Windo
 <p>Wayland is a display server protocol for GUI window management.</p>
 <p>Wayland is an alternative to <a class="reference internal" href="#x11"><em>X11</em></a> servers like XFree86 and X.org.</p>
 <p>The reference Wayland implementation, Weston, is written in <a class="reference internal" href="#c"><em>C</em></a>.</p>
-<span class="target" id="index-173"></span></div>
+<span class="target" id="index-176"></span></div>
 <div class="section" id="x11">
-<span id="index-174"></span><span id="id144"></span><h3>X11<a class="headerlink" href="#x11" title="Permalink to this headline">¶</a></h3>
+<span id="index-177"></span><span id="id147"></span><h3>X11<a class="headerlink" href="#x11" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/X_Window_System">https://en.wikipedia.org/wiki/X_Window_System</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.x.org/">http://www.x.org/</a></div>
@@ -4057,11 +4174,11 @@ build upon X11.</p>
 </div>
 </div>
 <div class="section" id="browsers">
-<span id="index-175"></span><span id="id145"></span><h2>Browsers<a class="headerlink" href="#browsers" title="Permalink to this headline">¶</a></h2>
+<span id="index-178"></span><span id="id148"></span><h2>Browsers<a class="headerlink" href="#browsers" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="chrome">
-<span id="index-176"></span><span id="id146"></span><h3>Chrome<a class="headerlink" href="#chrome" title="Permalink to this headline">¶</a></h3>
+<span id="index-179"></span><span id="id149"></span><h3>Chrome<a class="headerlink" href="#chrome" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="chrome-devtools">
-<span id="index-177"></span><span id="id147"></span><h4>Chrome DevTools<a class="headerlink" href="#chrome-devtools" title="Permalink to this headline">¶</a></h4>
+<span id="index-180"></span><span id="id150"></span><h4>Chrome DevTools<a class="headerlink" href="#chrome-devtools" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://developer.chrome.com/devtools">https://developer.chrome.com/devtools</a></div>
 <div class="line">Docs: <a class="reference external" href="https://developer.chrome.com/devtools">https://developer.chrome.com/devtools</a></div>
@@ -4078,7 +4195,7 @@ build upon X11.</p>
 </ul>
 </div>
 <div class="section" id="chrome-extensions">
-<span id="index-178"></span><h4>Chrome Extensions<a class="headerlink" href="#chrome-extensions" title="Permalink to this headline">¶</a></h4>
+<span id="index-181"></span><h4>Chrome Extensions<a class="headerlink" href="#chrome-extensions" title="Permalink to this headline">¶</a></h4>
 <p><strong>Accessibility</strong></p>
 <ul class="simple">
 <li><a class="reference internal" href="#accessibility-developer-tools">Accessibility Developer Tools</a></li>
@@ -4108,17 +4225,17 @@ build upon X11.</p>
 </ul>
 <p><strong>Development</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#id179">AngularJS Batarang</a></li>
-<li><a class="reference internal" href="#firebug">FireBug</a> (see: <a class="reference internal" href="#id147">Chrome DevTools</a>)</li>
+<li><a class="reference internal" href="#id184">AngularJS Batarang</a></li>
+<li><a class="reference internal" href="#firebug">FireBug</a> (see: <a class="reference internal" href="#id150">Chrome DevTools</a>)</li>
 <li><a class="reference internal" href="#firelogger-for-chrome">FireLogger for Chrome</a></li>
 <li><a class="reference internal" href="#jsonview">JSONView</a></li>
 <li><a class="reference internal" href="#ng-inspector-for-angularjs">ng-inspector for AngularJS</a></li>
 <li><a class="reference internal" href="#postman">Postman</a></li>
 <li><a class="reference internal" href="#react-developer-tools">React Developer Tools</a></li>
-<li><a class="reference internal" href="#id186">Responsive Web Design Tester</a></li>
+<li><a class="reference internal" href="#id191">Responsive Web Design Tester</a></li>
 <li><a class="reference internal" href="#requirify">Requirify</a></li>
 <li><a class="reference internal" href="#web-developer">Web Developer</a></li>
-<li><a class="reference internal" href="#id189">Window Resizer</a></li>
+<li><a class="reference internal" href="#id194">Window Resizer</a></li>
 </ul>
 <p><strong>Vim</strong></p>
 <ul class="simple">
@@ -4127,7 +4244,7 @@ build upon X11.</p>
 </ul>
 </div>
 <div class="section" id="pbm">
-<span id="index-179"></span><span id="id148"></span><h4>pbm<a class="headerlink" href="#pbm" title="Permalink to this headline">¶</a></h4>
+<span id="index-182"></span><span id="id151"></span><h4>pbm<a class="headerlink" href="#pbm" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: git <a class="reference external" href="https://github.com/westurner/pbm">https://github.com/westurner/pbm</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/pbm">https://pypi.python.org/pypi/pbm</a></div>
@@ -4142,11 +4259,11 @@ build upon X11.</p>
 </div>
 </div>
 <div class="section" id="chrome-android">
-<span id="index-180"></span><span id="id149"></span><h3>Chrome Android<a class="headerlink" href="#chrome-android" title="Permalink to this headline">¶</a></h3>
+<span id="index-183"></span><span id="id152"></span><h3>Chrome Android<a class="headerlink" href="#chrome-android" title="Permalink to this headline">¶</a></h3>
 <p><strong>Extensions</strong></p>
 <p>Chrome Android does not support extensions.</p>
 <div class="section" id="wandroid">
-<span id="index-181"></span><span id="id150"></span><h4>Wandroid<a class="headerlink" href="#wandroid" title="Permalink to this headline">¶</a></h4>
+<span id="index-184"></span><span id="id153"></span><h4>Wandroid<a class="headerlink" href="#wandroid" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: hg <a class="reference external" href="https://bitbucket.org/westurner/wandroid">https://bitbucket.org/westurner/wandroid</a></div>
 </div>
@@ -4157,9 +4274,9 @@ build upon X11.</p>
 </div>
 </div>
 <div class="section" id="firefox">
-<span id="index-182"></span><span id="id151"></span><h3>Firefox<a class="headerlink" href="#firefox" title="Permalink to this headline">¶</a></h3>
+<span id="index-185"></span><span id="id154"></span><h3>Firefox<a class="headerlink" href="#firefox" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="firefox-extensions">
-<span id="index-183"></span><span id="id152"></span><h4>Firefox Extensions<a class="headerlink" href="#firefox-extensions" title="Permalink to this headline">¶</a></h4>
+<span id="index-186"></span><span id="id155"></span><h4>Firefox Extensions<a class="headerlink" href="#firefox-extensions" title="Permalink to this headline">¶</a></h4>
 <p><strong>Accessibility</strong></p>
 <ul class="simple">
 <li><a class="reference internal" href="#stylish">Stylish</a></li>
@@ -4195,19 +4312,35 @@ build upon X11.</p>
 </div>
 </div>
 <div class="section" id="firefox-android">
-<span id="index-184"></span><span id="id153"></span><h3>Firefox Android<a class="headerlink" href="#firefox-android" title="Permalink to this headline">¶</a></h3>
+<span id="index-187"></span><span id="id156"></span><h3>Firefox Android<a class="headerlink" href="#firefox-android" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="firefox-android-extensions">
-<span id="index-185"></span><span id="id154"></span><h4>Firefox Android Extensions<a class="headerlink" href="#firefox-android-extensions" title="Permalink to this headline">¶</a></h4>
+<span id="index-188"></span><span id="id157"></span><h4>Firefox Android Extensions<a class="headerlink" href="#firefox-android-extensions" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><a class="reference internal" href="#ghostery">Ghostery</a></li>
 <li><a class="reference internal" href="#https-everywhere">HTTPS Everywhere</a></li>
 </ul>
 </div>
 </div>
+<div class="section" id="internet-explorer">
+<span id="index-189"></span><span id="id158"></span><h3>Internet Explorer<a class="headerlink" href="#internet-explorer" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/?title=Internet_Explorer">https://en.wikipedia.org/?title=Internet_Explorer</a></div>
+<div class="line">Homepage: <a class="reference external" href="http://microsoft.com/ie">http://microsoft.com/ie</a></div>
+</div>
+<p>Internet Explorer is the web browser included with <a class="reference internal" href="#windows"><em>Windows</em></a>.</p>
+<p>See also: <a class="reference internal" href="#microsoft-edge"><em>Microsoft Edge</em></a></p>
+</div>
+<div class="section" id="microsoft-edge">
+<span id="index-190"></span><span id="id159"></span><h3>Microsoft Edge<a class="headerlink" href="#microsoft-edge" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Microsoft_Edge">https://en.wikipedia.org/wiki/Microsoft_Edge</a></div>
+</div>
+<p>Microsoft Edge will be replacing <a class="reference internal" href="#internet-explorer"><em>Internet Explorer</em></a>.</p>
+</div>
 <div class="section" id="safari">
-<span id="index-186"></span><span id="id155"></span><h3>Safari<a class="headerlink" href="#safari" title="Permalink to this headline">¶</a></h3>
+<span id="index-191"></span><span id="id160"></span><h3>Safari<a class="headerlink" href="#safari" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="safari-extensions">
-<span id="safari-extension"></span><span id="index-187"></span><h4>Safari Extensions<a class="headerlink" href="#safari-extensions" title="Permalink to this headline">¶</a></h4>
+<span id="safari-extension"></span><span id="index-192"></span><h4>Safari Extensions<a class="headerlink" href="#safari-extensions" title="Permalink to this headline">¶</a></h4>
 <p><strong>Safety</strong></p>
 <ul class="simple">
 <li><a class="reference internal" href="#ghostery">Ghostery</a></li>
@@ -4225,16 +4358,16 @@ build upon X11.</p>
 </div>
 </div>
 <div class="section" id="safari-ios">
-<span id="index-188"></span><span id="id156"></span><h3>Safari iOS<a class="headerlink" href="#safari-ios" title="Permalink to this headline">¶</a></h3>
+<span id="index-193"></span><span id="id161"></span><h3>Safari iOS<a class="headerlink" href="#safari-ios" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="#pocket">Pocket</a></li>
 </ul>
 </div>
 </div>
 <div class="section" id="browser-extensions">
-<span id="index-189"></span><span id="id157"></span><h2>Browser Extensions<a class="headerlink" href="#browser-extensions" title="Permalink to this headline">¶</a></h2>
+<span id="index-194"></span><span id="id162"></span><h2>Browser Extensions<a class="headerlink" href="#browser-extensions" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="accessibility-extensions">
-<span id="index-190"></span><span id="id158"></span><h3>Accessibility Extensions<a class="headerlink" href="#accessibility-extensions" title="Permalink to this headline">¶</a></h3>
+<span id="index-195"></span><span id="id163"></span><h3>Accessibility Extensions<a class="headerlink" href="#accessibility-extensions" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Google Chrome Accesibility Extensions:
 <a class="reference external" href="https://chrome.google.com/webstore/category/ext/22-accessibility?hl=en">https://chrome.google.com/webstore/category/ext/22-accessibility?hl=en</a></li>
@@ -4242,20 +4375,20 @@ build upon X11.</p>
 <a class="reference external" href="https://addons.mozilla.org/en-US/firefox/search/?q=accessibility">https://addons.mozilla.org/en-US/firefox/search/?q=accessibility</a></li>
 </ul>
 <div class="section" id="accessibility-developer-tools">
-<span id="index-191"></span><span id="id159"></span><h4>Accessibility Developer Tools<a class="headerlink" href="#accessibility-developer-tools" title="Permalink to this headline">¶</a></h4>
+<span id="index-196"></span><span id="id164"></span><h4>Accessibility Developer Tools<a class="headerlink" href="#accessibility-developer-tools" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/accessibility-developer-t/fpkknkljclfencbdbgkenhalefipecmb">https://chrome.google.com/webstore/detail/accessibility-developer-t/fpkknkljclfencbdbgkenhalefipecmb</a></div>
 </div>
 </div>
 <div class="section" id="chromevox">
-<span id="index-192"></span><span id="id160"></span><h4>ChromeVox<a class="headerlink" href="#chromevox" title="Permalink to this headline">¶</a></h4>
+<span id="index-197"></span><span id="id165"></span><h4>ChromeVox<a class="headerlink" href="#chromevox" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://www.chromevox.com/">http://www.chromevox.com/</a></div>
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/chromevox/kgejglhpjiefppelpmljglcjbhoiplfn">https://chrome.google.com/webstore/detail/chromevox/kgejglhpjiefppelpmljglcjbhoiplfn</a></div>
 </div>
 </div>
 <div class="section" id="deluminate">
-<span id="index-193"></span><span id="id161"></span><h4>Deluminate<a class="headerlink" href="#deluminate" title="Permalink to this headline">¶</a></h4>
+<span id="index-198"></span><span id="id166"></span><h4>Deluminate<a class="headerlink" href="#deluminate" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://deluminate.github.io/">https://deluminate.github.io/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/abstiles/deluminate">https://github.com/abstiles/deluminate</a></div>
@@ -4263,20 +4396,20 @@ build upon X11.</p>
 </div>
 </div>
 <div class="section" id="high-contrast">
-<span id="index-194"></span><span id="id162"></span><h4>High Contrast<a class="headerlink" href="#high-contrast" title="Permalink to this headline">¶</a></h4>
+<span id="index-199"></span><span id="id167"></span><h4>High Contrast<a class="headerlink" href="#high-contrast" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/high-contrast/djcfdncoelnlbldjfhinnjlhdjlikmph">https://chrome.google.com/webstore/detail/high-contrast/djcfdncoelnlbldjfhinnjlhdjlikmph</a></div>
 </div>
 </div>
 <div class="section" id="spectrum">
-<span id="index-195"></span><span id="id163"></span><h4>Spectrum<a class="headerlink" href="#spectrum" title="Permalink to this headline">¶</a></h4>
+<span id="index-200"></span><span id="id168"></span><h4>Spectrum<a class="headerlink" href="#spectrum" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/lvivski/spectrum">https://github.com/lvivski/spectrum</a></div>
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/spectrum/ofclemegkcmilinpcimpjkfhjfgmhieb">https://chrome.google.com/webstore/detail/spectrum/ofclemegkcmilinpcimpjkfhjfgmhieb</a></div>
 </div>
 </div>
 <div class="section" id="stylish">
-<span id="index-196"></span><span id="id164"></span><h4>Stylish<a class="headerlink" href="#stylish" title="Permalink to this headline">¶</a></h4>
+<span id="index-201"></span><span id="id169"></span><h4>Stylish<a class="headerlink" href="#stylish" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe">https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe</a></div>
 <div class="line">FirefoxExt: <a class="reference external" href="https://addons.mozilla.org/en-us/firefox/addon/stylish/">https://addons.mozilla.org/en-us/firefox/addon/stylish/</a></div>
@@ -4288,12 +4421,12 @@ build upon X11.</p>
 <ul class="simple">
 <li><a class="reference external" href="https://userstyles.org/">https://userstyles.org/</a></li>
 </ul>
-<span class="target" id="index-197"></span></div>
+<span class="target" id="index-202"></span></div>
 </div>
 <div class="section" id="safety-extensions">
-<span id="index-198"></span><span id="id165"></span><h3>Safety Extensions<a class="headerlink" href="#safety-extensions" title="Permalink to this headline">¶</a></h3>
+<span id="index-203"></span><span id="id170"></span><h3>Safety Extensions<a class="headerlink" href="#safety-extensions" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="ghostery">
-<span id="index-199"></span><span id="id166"></span><h4>Ghostery<a class="headerlink" href="#ghostery" title="Permalink to this headline">¶</a></h4>
+<span id="index-204"></span><span id="id171"></span><h4>Ghostery<a class="headerlink" href="#ghostery" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://www.ghostery.com/en/home">https://www.ghostery.com/en/home</a></div>
 <div class="line">Source: <a class="reference external" href="https://www.ghostery.com/en/download">https://www.ghostery.com/en/download</a></div>
@@ -4310,7 +4443,7 @@ build upon X11.</p>
 </div>
 </div>
 <div class="section" id="https-everywhere">
-<span id="index-200"></span><span id="id167"></span><h4>HTTPS Everywhere<a class="headerlink" href="#https-everywhere" title="Permalink to this headline">¶</a></h4>
+<span id="index-205"></span><span id="id172"></span><h4>HTTPS Everywhere<a class="headerlink" href="#https-everywhere" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://www.eff.org/https-everywhere">https://www.eff.org/https-everywhere</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/EFForg/https-everywhere">https://github.com/EFForg/https-everywhere</a></div>
@@ -4321,7 +4454,7 @@ build upon X11.</p>
 </div>
 </div>
 <div class="section" id="ublock">
-<span id="index-201"></span><span id="id168"></span><h4>uBlock<a class="headerlink" href="#ublock" title="Permalink to this headline">¶</a></h4>
+<span id="index-206"></span><span id="id173"></span><h4>uBlock<a class="headerlink" href="#ublock" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://www.ublock.org/">https://www.ublock.org/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/chrisaljoudi/ublock">https://github.com/chrisaljoudi/ublock</a></div>
@@ -4341,12 +4474,12 @@ cat releases.json \
         &#39;rgx and rgx.group(1,2)&#39;
 </pre></div>
 </div>
-<span class="target" id="index-202"></span></div>
+<span class="target" id="index-207"></span></div>
 </div>
 <div class="section" id="content-extensions">
-<span id="index-203"></span><span id="id169"></span><h3>Content Extensions<a class="headerlink" href="#content-extensions" title="Permalink to this headline">¶</a></h3>
+<span id="index-208"></span><span id="id174"></span><h3>Content Extensions<a class="headerlink" href="#content-extensions" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="hypothesis">
-<span id="index-204"></span><span id="id170"></span><h4>Hypothesis<a class="headerlink" href="#hypothesis" title="Permalink to this headline">¶</a></h4>
+<span id="index-209"></span><span id="id175"></span><h4>Hypothesis<a class="headerlink" href="#hypothesis" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://hypothes.is/">https://hypothes.is/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/hypothesis/h">https://github.com/hypothesis/h</a></div>
@@ -4359,7 +4492,7 @@ cat releases.json \
 </div>
 </div>
 <div class="section" id="pocket">
-<span id="index-205"></span><span id="id171"></span><h4>Pocket<a class="headerlink" href="#pocket" title="Permalink to this headline">¶</a></h4>
+<span id="index-210"></span><span id="id176"></span><h4>Pocket<a class="headerlink" href="#pocket" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://getpocket.com/">https://getpocket.com/</a></div>
 <div class="line">ChromeApp: <a class="reference external" href="https://chrome.google.com/webstore/detail/pocket/mjcnijlhddpbdemagnpefmlkjdagkogk">https://chrome.google.com/webstore/detail/pocket/mjcnijlhddpbdemagnpefmlkjdagkogk</a></div>
@@ -4371,7 +4504,7 @@ cat releases.json \
 </div>
 </div>
 <div class="section" id="zotero">
-<span id="index-206"></span><span id="id172"></span><h4>Zotero<a class="headerlink" href="#zotero" title="Permalink to this headline">¶</a></h4>
+<span id="index-211"></span><span id="id177"></span><h4>Zotero<a class="headerlink" href="#zotero" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://www.zotero.org/">https://www.zotero.org/</a></div>
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/zotero-connector/ekhagklcjbdpajgpjgmbionohlpdbjgc">https://chrome.google.com/webstore/detail/zotero-connector/ekhagklcjbdpajgpjgmbionohlpdbjgc</a></div>
@@ -4400,7 +4533,7 @@ in one of many citation styles (&#8220;CSL&#8221;) (e.g. MLA, APA, [Journal XYZ]
 as RDF</li>
 </ul>
 <div class="section" id="zotero-and-schema-org-rdfa">
-<span id="index-207"></span><h5>[ ] Zotero and Schema.org RDFa<a class="headerlink" href="#zotero-and-schema-org-rdfa" title="Permalink to this headline">¶</a></h5>
+<span id="index-212"></span><h5>[ ] Zotero and Schema.org RDFa<a class="headerlink" href="#zotero-and-schema-org-rdfa" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
 <li><a class="reference external" href="https://forums.zotero.org/discussion/35992/export-to-schemaorg-rdfa-andor-microdata/">https://forums.zotero.org/discussion/35992/export-to-schemaorg-rdfa-andor-microdata/</a></li>
 </ul>
@@ -4410,13 +4543,13 @@ as RDF</li>
 <li><a class="reference external" href="https://lists.w3.org/Archives/Public/public-vocabs/2014Apr/0202.html">https://lists.w3.org/Archives/Public/public-vocabs/2014Apr/0202.html</a>
 (COinS, Citeproc-js, OpenAnnotation (+1))</li>
 </ul>
-<span class="target" id="index-208"></span></div>
+<span class="target" id="index-213"></span></div>
 </div>
 </div>
 <div class="section" id="tab-extensions">
-<span id="index-209"></span><span id="id173"></span><h3>Tab Extensions<a class="headerlink" href="#tab-extensions" title="Permalink to this headline">¶</a></h3>
+<span id="index-214"></span><span id="id178"></span><h3>Tab Extensions<a class="headerlink" href="#tab-extensions" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="onetab">
-<span id="index-210"></span><span id="id174"></span><h4>OneTab<a class="headerlink" href="#onetab" title="Permalink to this headline">¶</a></h4>
+<span id="index-215"></span><span id="id179"></span><h4>OneTab<a class="headerlink" href="#onetab" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://www.one-tab.com/">https://www.one-tab.com/</a></div>
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall">https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall</a></div>
@@ -4428,7 +4561,7 @@ as RDF</li>
 </ul>
 </div>
 <div class="section" id="snipe">
-<span id="index-211"></span><span id="id175"></span><h4>Snipe<a class="headerlink" href="#snipe" title="Permalink to this headline">¶</a></h4>
+<span id="index-216"></span><span id="id180"></span><h4>Snipe<a class="headerlink" href="#snipe" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://joe.sh/snipe">http://joe.sh/snipe</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/josephschmitt/Snipe">https://github.com/josephschmitt/Snipe</a></div>
@@ -4436,30 +4569,30 @@ as RDF</li>
 </div>
 </div>
 <div class="section" id="tabs-outliner">
-<span id="index-212"></span><span id="id176"></span><h4>Tabs Outliner<a class="headerlink" href="#tabs-outliner" title="Permalink to this headline">¶</a></h4>
+<span id="index-217"></span><span id="id181"></span><h4>Tabs Outliner<a class="headerlink" href="#tabs-outliner" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/tabs-outliner/eggkanocgddhmamlbiijnphhppkpkmkl">https://chrome.google.com/webstore/detail/tabs-outliner/eggkanocgddhmamlbiijnphhppkpkmkl</a></div>
 </div>
 </div>
 <div class="section" id="tree-style-tab">
-<span id="index-213"></span><span id="id177"></span><h4>Tree Style Tab<a class="headerlink" href="#tree-style-tab" title="Permalink to this headline">¶</a></h4>
+<span id="index-218"></span><span id="id182"></span><h4>Tree Style Tab<a class="headerlink" href="#tree-style-tab" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://piro.sakura.ne.jp/xul/_treestyletab.html.en">http://piro.sakura.ne.jp/xul/_treestyletab.html.en</a></div>
 <div class="line">FirefoxExt: <a class="reference external" href="https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/">https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/</a></div>
 </div>
-<span class="target" id="index-214"></span></div>
+<span class="target" id="index-219"></span></div>
 </div>
 <div class="section" id="development-extensions">
-<span id="index-215"></span><span id="id178"></span><h3>Development Extensions<a class="headerlink" href="#development-extensions" title="Permalink to this headline">¶</a></h3>
+<span id="index-220"></span><span id="id183"></span><h3>Development Extensions<a class="headerlink" href="#development-extensions" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="angularjs-batarang">
-<span id="index-216"></span><span id="id179"></span><h4>AngularJS Batarang<a class="headerlink" href="#angularjs-batarang" title="Permalink to this headline">¶</a></h4>
+<span id="index-221"></span><span id="id184"></span><h4>AngularJS Batarang<a class="headerlink" href="#angularjs-batarang" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/spalger/angularjs-batarang">https://github.com/spalger/angularjs-batarang</a></div>
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/angularjs-batarang-stable/niopocochgahfkiccpjmmpchncjoapek">https://chrome.google.com/webstore/detail/angularjs-batarang-stable/niopocochgahfkiccpjmmpchncjoapek</a></div>
 </div>
 </div>
 <div class="section" id="firebug">
-<span id="index-217"></span><span id="id180"></span><h4>FireBug<a class="headerlink" href="#firebug" title="Permalink to this headline">¶</a></h4>
+<span id="index-222"></span><span id="id185"></span><h4>FireBug<a class="headerlink" href="#firebug" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://getfirebug.com/">http://getfirebug.com/</a></div>
 <div class="line">FirefoxExt: <a class="reference external" href="https://addons.mozilla.org/en-us/firefox/addon/firebug/">https://addons.mozilla.org/en-us/firefox/addon/firebug/</a></div>
@@ -4472,7 +4605,7 @@ as RDF</li>
 </ul>
 </div>
 <div class="section" id="firelogger">
-<span id="index-218"></span><span id="id181"></span><h4>FireLogger<a class="headerlink" href="#firelogger" title="Permalink to this headline">¶</a></h4>
+<span id="index-223"></span><span id="id186"></span><h4>FireLogger<a class="headerlink" href="#firelogger" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://firelogger.binaryage.com/">http://firelogger.binaryage.com/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/binaryage/firelogger">https://github.com/binaryage/firelogger</a></div>
@@ -4488,7 +4621,7 @@ as RDF</li>
 </ul>
 </div>
 <div class="section" id="firelogger-for-chrome">
-<span id="index-219"></span><span id="id182"></span><h4>FireLogger for Chrome<a class="headerlink" href="#firelogger-for-chrome" title="Permalink to this headline">¶</a></h4>
+<span id="index-224"></span><span id="id187"></span><h4>FireLogger for Chrome<a class="headerlink" href="#firelogger-for-chrome" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/MattSkala/chrome-firelogger">https://github.com/MattSkala/chrome-firelogger</a></div>
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/firelogger-for-chrome/hmagilfopmdjkeomnjpchokglfdfjfeh">https://chrome.google.com/webstore/detail/firelogger-for-chrome/hmagilfopmdjkeomnjpchokglfdfjfeh</a></div>
@@ -4496,14 +4629,14 @@ as RDF</li>
 <p>See: <a class="reference internal" href="#firelogger">FireLogger</a></p>
 </div>
 <div class="section" id="jsonview">
-<span id="index-220"></span><span id="id183"></span><h4>JSONView<a class="headerlink" href="#jsonview" title="Permalink to this headline">¶</a></h4>
+<span id="index-225"></span><span id="id188"></span><h4>JSONView<a class="headerlink" href="#jsonview" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/gildas-lormeau/JSONView-for-Chrome">https://github.com/gildas-lormeau/JSONView-for-Chrome</a></div>
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc">https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc</a></div>
 </div>
-<span class="target" id="index-221"></span></div>
+<span class="target" id="index-226"></span></div>
 <div class="section" id="ng-inspector-for-angularjs">
-<span id="ng-inspector-angularjs"></span><span id="index-222"></span><h4>ng-inspector for AngularJS<a class="headerlink" href="#ng-inspector-for-angularjs" title="Permalink to this headline">¶</a></h4>
+<span id="ng-inspector-angularjs"></span><span id="index-227"></span><h4>ng-inspector for AngularJS<a class="headerlink" href="#ng-inspector-for-angularjs" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://ng-inspector.org/">http://ng-inspector.org/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/rev087/ng-inspector">https://github.com/rev087/ng-inspector</a></div>
@@ -4513,7 +4646,7 @@ as RDF</li>
 </div>
 </div>
 <div class="section" id="postman">
-<span id="index-223"></span><span id="id184"></span><h4>Postman<a class="headerlink" href="#postman" title="Permalink to this headline">¶</a></h4>
+<span id="index-228"></span><span id="id189"></span><h4>Postman<a class="headerlink" href="#postman" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Source: <a class="reference external" href="https://github.com/a85/POSTMan-Chrome-Extension">https://github.com/a85/POSTMan-Chrome-Extension</a></div>
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm">https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm</a></div>
@@ -4521,13 +4654,13 @@ as RDF</li>
 </div>
 </div>
 <div class="section" id="react-developer-tools">
-<span id="index-224"></span><span id="id185"></span><h4>React Developer Tools<a class="headerlink" href="#react-developer-tools" title="Permalink to this headline">¶</a></h4>
+<span id="index-229"></span><span id="id190"></span><h4>React Developer Tools<a class="headerlink" href="#react-developer-tools" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi">https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi</a></div>
 </div>
 </div>
 <div class="section" id="responsive-web-design-tester">
-<span id="index-225"></span><span id="id186"></span><h4>Responsive Web Design Tester<a class="headerlink" href="#responsive-web-design-tester" title="Permalink to this headline">¶</a></h4>
+<span id="index-230"></span><span id="id191"></span><h4>Responsive Web Design Tester<a class="headerlink" href="#responsive-web-design-tester" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/responsive-web-design-tes/objclahbaimlfnbjdeobicmmlnbhamkg">https://chrome.google.com/webstore/detail/responsive-web-design-tes/objclahbaimlfnbjdeobicmmlnbhamkg</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.esolutions.se/">https://www.esolutions.se/</a></div>
@@ -4535,7 +4668,7 @@ as RDF</li>
 <p>See also: <a class="reference internal" href="#chrome-devtools"><em>Chrome DevTools</em></a> Emulation</p>
 </div>
 <div class="section" id="requirify">
-<span id="index-226"></span><span id="id187"></span><h4>Requirify<a class="headerlink" href="#requirify" title="Permalink to this headline">¶</a></h4>
+<span id="index-231"></span><span id="id192"></span><h4>Requirify<a class="headerlink" href="#requirify" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="https://wzrd.in/">https://wzrd.in/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/mathisonian/requirify">https://github.com/mathisonian/requirify</a></div>
@@ -4543,11 +4676,11 @@ as RDF</li>
 <div class="line">NPM: <a class="reference external" href="https://www.npmjs.com/package/requirify">https://www.npmjs.com/package/requirify</a></div>
 <div class="line">Docs: <a class="reference external" href="https://github.com/jfhbrook/browserify-cdn">https://github.com/jfhbrook/browserify-cdn</a></div>
 </div>
-<p>Requirify adds <a class="reference internal" href="#npm">NPM</a> modules to the local namespace (e.g. from <a class="reference internal" href="#id147">Chrome DevTools</a>
+<p>Requirify adds <a class="reference internal" href="#npm">NPM</a> modules to the local namespace (e.g. from <a class="reference internal" href="#id150">Chrome DevTools</a>
 JS console).</p>
 <p>&gt; require() npm modules in the browser console</p>
 <div class="section" id="local-requirify">
-<span id="index-227"></span><span id="id188"></span><h5>Local-requirify<a class="headerlink" href="#local-requirify" title="Permalink to this headline">¶</a></h5>
+<span id="index-232"></span><span id="id193"></span><h5>Local-requirify<a class="headerlink" href="#local-requirify" title="Permalink to this headline">¶</a></h5>
 <div class="line-block">
 <div class="line">NPM: <a class="reference external" href="https://www.npmjs.com/package/local-requirify">https://www.npmjs.com/package/local-requirify</a></div>
 </div>
@@ -4555,7 +4688,7 @@ JS console).</p>
 </div>
 </div>
 <div class="section" id="web-developer">
-<span id="web-developer-extension"></span><span id="index-228"></span><h4>Web Developer<a class="headerlink" href="#web-developer" title="Permalink to this headline">¶</a></h4>
+<span id="web-developer-extension"></span><span id="index-233"></span><h4>Web Developer<a class="headerlink" href="#web-developer" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm">https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://chrispederick.com/work/web-developer/">http://chrispederick.com/work/web-developer/</a></div>
@@ -4567,7 +4700,7 @@ JS console).</p>
 useful developer tools and bookmarklets in a structured menu.</p>
 </div>
 <div class="section" id="window-resizer">
-<span id="index-229"></span><span id="id189"></span><h4>Window Resizer<a class="headerlink" href="#window-resizer" title="Permalink to this headline">¶</a></h4>
+<span id="index-234"></span><span id="id194"></span><h4>Window Resizer<a class="headerlink" href="#window-resizer" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">ChromeExt: <a class="reference external" href="https://chrome.google.com/webstore/detail/window-resizer/kkelicaakdanhinjdeammmilcgefonfh">https://chrome.google.com/webstore/detail/window-resizer/kkelicaakdanhinjdeammmilcgefonfh</a></div>
 </div>
@@ -4575,9 +4708,9 @@ useful developer tools and bookmarklets in a structured menu.</p>
 </div>
 </div>
 <div class="section" id="vim-extensions">
-<span id="index-230"></span><span id="id190"></span><h3>Vim Extensions<a class="headerlink" href="#vim-extensions" title="Permalink to this headline">¶</a></h3>
+<span id="index-235"></span><span id="id195"></span><h3>Vim Extensions<a class="headerlink" href="#vim-extensions" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="vimium">
-<span id="index-231"></span><span id="id191"></span><h4>Vimium<a class="headerlink" href="#vimium" title="Permalink to this headline">¶</a></h4>
+<span id="index-236"></span><span id="id196"></span><h4>Vimium<a class="headerlink" href="#vimium" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Vimium">https://en.wikipedia.org/wiki/Vimium</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://vimium.github.io/">https://vimium.github.io/</a></div>
@@ -4617,7 +4750,7 @@ useful developer tools and bookmarklets in a structured menu.</p>
 </table>
 </div>
 <div class="section" id="vimperator">
-<span id="index-232"></span><span id="id192"></span><h4>Vimperator<a class="headerlink" href="#vimperator" title="Permalink to this headline">¶</a></h4>
+<span id="index-237"></span><span id="id197"></span><h4>Vimperator<a class="headerlink" href="#vimperator" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Vimperator">https://en.wikipedia.org/wiki/Vimperator</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.vimperator.org/">http://www.vimperator.org/</a></div>
@@ -4631,7 +4764,7 @@ to the Firefox API, with vim-like functionality.</p>
 </ul>
 </div>
 <div class="section" id="wasavi">
-<span id="index-233"></span><span id="id193"></span><h4>Wasavi<a class="headerlink" href="#wasavi" title="Permalink to this headline">¶</a></h4>
+<span id="index-238"></span><span id="id198"></span><h4>Wasavi<a class="headerlink" href="#wasavi" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://appsweets.net/wasavi/">http://appsweets.net/wasavi/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/akahuku/wasavi">https://github.com/akahuku/wasavi</a></div>
@@ -4645,10 +4778,57 @@ vim-like functionality.</p>
 </div>
 </div>
 </div>
+<div class="section" id="web-servers">
+<span id="index-239"></span><span id="id199"></span><h2>Web Servers<a class="headerlink" href="#web-servers" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://en.wikipedia.org/wiki/Web_server">https://en.wikipedia.org/wiki/Web_server</a></div>
+</div>
+<div class="section" id="apache-httpd">
+<span id="index-240"></span><span id="id200"></span><h3>Apache HTTPD<a class="headerlink" href="#apache-httpd" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Apache_HTTP_Server">https://en.wikipedia.org/wiki/Apache_HTTP_Server</a></div>
+<div class="line">Homepage: <a class="reference external" href="https://httpd.apache.org/">https://httpd.apache.org/</a></div>
+<div class="line">Download: <a class="reference external" href="https://httpd.apache.org/download.cgi">https://httpd.apache.org/download.cgi</a></div>
+<div class="line">Docs: <a class="reference external" href="https://httpd.apache.org/docs/2.4/">https://httpd.apache.org/docs/2.4/</a></div>
+</div>
+<p>Apache HTTPD is a scriptable, industry-standard <em class="xref std std-ref">HTTP</em>
+server written in <a class="reference internal" href="#c"><em>C</em></a> and <a class="reference internal" href="#id43"><em>C++</em></a>.</p>
+</div>
+<div class="section" id="nginx">
+<span id="index-241"></span><span id="id201"></span><h3>Nginx<a class="headerlink" href="#nginx" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Nginx">https://en.wikipedia.org/wiki/Nginx</a></div>
+<div class="line">Homepage: <a class="reference external" href="http://nginx.org/">http://nginx.org/</a></div>
+<div class="line">Download: <a class="reference external" href="http://nginx.org/en/download.html">http://nginx.org/en/download.html</a></div>
+<div class="line">Source: hg <a class="reference external" href="http://hg.nginx.org/nginx">http://hg.nginx.org/nginx</a></div>
+<div class="line">Docs: <a class="reference external" href="http://nginx.org/en/docs/">http://nginx.org/en/docs/</a></div>
+<div class="line">Twitter: <a class="reference external" href="https://twitter.com/nginxorg">https://twitter.com/nginxorg</a></div>
+</div>
+<p>Nginx is a scriptable, lightweight <em class="xref std std-ref">HTTP</em>, FTP, SMTP server
+written in <a class="reference internal" href="#c"><em>C</em></a>.</p>
+</div>
+<div class="section" id="tengine">
+<span id="index-242"></span><span id="id202"></span><h3>Tengine<a class="headerlink" href="#tengine" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Wikipedia: <a class="reference external" href="https://zh.wikipedia.org/wiki/Tengine">https://zh.wikipedia.org/wiki/Tengine</a></div>
+<div class="line">Homepage: <a class="reference external" href="http://tengine.taobao.org/">http://tengine.taobao.org/</a></div>
+<div class="line">Source: git <a class="reference external" href="https://github.com/alibaba/tengine">https://github.com/alibaba/tengine</a></div>
+<div class="line">Download: <a class="reference external" href="http://tengine.taobao.org/download.html">http://tengine.taobao.org/download.html</a></div>
+<div class="line">Docs: <a class="reference external" href="http://tengine.taobao.org/documentation.html">http://tengine.taobao.org/documentation.html</a></div>
+</div>
+<p>Tengine is a fork of <a class="reference internal" href="#nginx"><em>Nginx</em></a> with many useful
+modules and features bundled in.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://tengine.taobao.org/document/http_ssl.html">http://tengine.taobao.org/document/http_ssl.html</a></li>
+<li><a class="reference external" href="http://tengine.taobao.org/document/http_upstream_check.html">http://tengine.taobao.org/document/http_upstream_check.html</a></li>
+<li><a class="reference external" href="http://tengine.taobao.org/document/http_reqstat.html">http://tengine.taobao.org/document/http_reqstat.html</a></li>
+</ul>
+</div>
+</div>
 <div class="section" id="documentation-tools">
-<span id="index-234"></span><span id="id194"></span><h2>Documentation Tools<a class="headerlink" href="#documentation-tools" title="Permalink to this headline">¶</a></h2>
+<span id="index-243"></span><span id="id203"></span><h2>Documentation Tools<a class="headerlink" href="#documentation-tools" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="docutils">
-<span id="index-235"></span><span id="id195"></span><h3>Docutils<a class="headerlink" href="#docutils" title="Permalink to this headline">¶</a></h3>
+<span id="index-244"></span><span id="id204"></span><h3>Docutils<a class="headerlink" href="#docutils" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://docutils.sourceforge.net">http://docutils.sourceforge.net</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/docutils">https://pypi.python.org/pypi/docutils</a></div>
@@ -4665,7 +4845,7 @@ Open Document files,
 XML, JSON, and a number of other formats.</p>
 </div>
 <div class="section" id="pandoc">
-<span id="index-236"></span><span id="id196"></span><h3>Pandoc<a class="headerlink" href="#pandoc" title="Permalink to this headline">¶</a></h3>
+<span id="index-245"></span><span id="id205"></span><h3>Pandoc<a class="headerlink" href="#pandoc" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Pandoc">https://en.wikipedia.org/wiki/Pandoc</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://pandoc.org/">http://pandoc.org/</a></div>
@@ -4685,7 +4865,7 @@ which can convert between HTML,
 HTML, and a number of other formats.</p>
 </div>
 <div class="section" id="sphinx">
-<span id="index-237"></span><span id="id197"></span><h3>Sphinx<a class="headerlink" href="#sphinx" title="Permalink to this headline">¶</a></h3>
+<span id="index-246"></span><span id="id206"></span><h3>Sphinx<a class="headerlink" href="#sphinx" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)">https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://pypi.python.org/pypi/Sphinx">https://pypi.python.org/pypi/Sphinx</a></div>
@@ -4763,7 +4943,7 @@ A link to <span class="na">:ref:</span><span class="nv">`anchor &lt;anchor-name&
 </dl>
 </div>
 <div class="section" id="tinkerer">
-<span id="index-238"></span><span id="id198"></span><h3>Tinkerer<a class="headerlink" href="#tinkerer" title="Permalink to this headline">¶</a></h3>
+<span id="index-247"></span><span id="id207"></span><h3>Tinkerer<a class="headerlink" href="#tinkerer" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://tinkerer.me/">http://tinkerer.me/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/vladris/tinkerer">https://github.com/vladris/tinkerer</a></div>
@@ -4781,14 +4961,14 @@ or any other web hosting service.</p>
 </div>
 </div>
 <div class="section" id="standards">
-<span id="index-239"></span><span id="id199"></span><h2>Standards<a class="headerlink" href="#standards" title="Permalink to this headline">¶</a></h2>
+<span id="index-248"></span><span id="id208"></span><h2>Standards<a class="headerlink" href="#standards" title="Permalink to this headline">¶</a></h2>
 <p>References:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards">https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards</a></li>
 <li><a class="reference external" href="https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards">https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards</a></li>
 </ul>
 <div class="section" id="filesystem-hierarchy-standard">
-<span id="fhs"></span><span id="index-240"></span><h3>Filesystem Hierarchy Standard<a class="headerlink" href="#filesystem-hierarchy-standard" title="Permalink to this headline">¶</a></h3>
+<span id="fhs"></span><span id="index-249"></span><h3>Filesystem Hierarchy Standard<a class="headerlink" href="#filesystem-hierarchy-standard" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard</a></div>
 <div class="line">Website: <a class="reference external" href="http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs">http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs</a></div>
@@ -4802,7 +4982,7 @@ a Filesystem Hierarchy.</p>
 also btrfs subvolumes.</p>
 </div>
 <div class="section" id="json">
-<span id="index-241"></span><span id="id200"></span><h3>JSON<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h3>
+<span id="index-250"></span><span id="id209"></span><h3>JSON<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/JSON">https://en.wikipedia.org/wiki/JSON</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://json.org/">http://json.org/</a></div>
@@ -4825,9 +5005,9 @@ for parsing and indenting (&#8220;prettifying&#8221;) JSON from the commandline<
 <div class="highlight-python"><div class="highlight"><pre>cat example.json | python -m json.tool
 </pre></div>
 </div>
-<span class="target" id="index-242"></span></div>
+<span class="target" id="index-251"></span></div>
 <div class="section" id="json-ld">
-<span id="index-243"></span><span id="id201"></span><h3>JSON-LD<a class="headerlink" href="#json-ld" title="Permalink to this headline">¶</a></h3>
+<span id="index-252"></span><span id="id210"></span><h3>JSON-LD<a class="headerlink" href="#json-ld" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/JSON-LD">https://en.wikipedia.org/wiki/JSON-LD</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://json-ld.org">http://json-ld.org</a></div>
@@ -4877,7 +5057,7 @@ for parsing and indenting (&#8220;prettifying&#8221;) JSON from the commandline<
 </div>
 </div>
 <div class="section" id="messagepack">
-<span id="msgpack"></span><span id="index-244"></span><h3>MessagePack<a class="headerlink" href="#messagepack" title="Permalink to this headline">¶</a></h3>
+<span id="msgpack"></span><span id="index-253"></span><h3>MessagePack<a class="headerlink" href="#messagepack" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/MessagePack">https://en.wikipedia.org/wiki/MessagePack</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://msgpack.org/">http://msgpack.org/</a></div>
@@ -4888,7 +5068,7 @@ with implementations in many languages.</p>
 </div>
 </div>
 <div class="section" id="vim">
-<span id="index-245"></span><span id="id202"></span><h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<span id="index-254"></span><span id="id211"></span><h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Vim_(text_editor)">https://en.wikipedia.org/wiki/Vim_(text_editor)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.vim.org/">http://www.vim.org/</a></div>
