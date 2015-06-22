@@ -2441,6 +2441,7 @@ many sources of system data
 with SQL
 for :ref:`OSX` and :ref:`Linux`.
 
+* https://docs.saltstack.com/en/develop/ref/modules/all/salt.modules.osquery.html
 * https://github.com/westurner/dotfiles/blob/develop/scripts/osquery-all.sh
 
 
