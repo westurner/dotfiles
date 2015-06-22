@@ -467,6 +467,16 @@ echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sb
 #  softwareupdate -i --all  # --install --all
 #  softwareupdate -i -r     # --install --recommended
 
+# Mac Boot-time modifiers: (right after the chime)
+#
+#  Option    -- boot to boot disk selector menu
+#  C         -- boot from CD/DVD
+#  Shift     -- boot into Safe mode
+#  Command-V -- boot into verbose mode
+#   sudo nvram boot-args="-v"  # always boot verbosely
+#   sudo nvram boot-args=""    # boot normally
+#   sudo nvram -p              # print current nvram settings
+
 if [ -z "${__IS_MAC}" ]; then
     return
 fi
@@ -507,6 +517,7 @@ finder-show-hidden () {
     defaults write com.apple.finder AppleShowAllFiles YES
     finder-killall
 }
+
 
 
 ### bashrc.TERM.sh
@@ -2227,8 +2238,45 @@ if [[ ${BASH_SOURCE} == "${0}" ]]; then
 fi
 #!/bin/sh
 
+##
+#  ssv -- a command wrapper for common supervisord commands
+#  
+#  Variables
+#    _SVCFG     -- absolute path to a supervisord.conf file
+#      _SVCFG="${VIRTUAL_ENV}/etc/supervisord.conf"  # (default)
+#      _SVCFG="${_WRD}/supervisord.conf"
+#
+#  .. note::  supervisord paths containing ``%(here)s`` evaluate
+#      to the (TODO verify) os.realpath of the file.
+#      if symlinked from _WRD/supervisord.conf to _ETC/supervisord.conf,
+#      paths require an additional upward traversal. 
+#      For example::
+#
+#         # Relative to VIRTUAL_ENV/etc
+#         program=%(here)s/../bin/theprogramtorun
+
+#         # Relative to VIRTUAL_ENV/src/<dotfiles>
+#         program=%(here)s/../../bin/theprogramtorun
+#
+#
+#  These functions can be utilized in a number of ways:
+#
+#  * As shell scripts (symlinked to ssv)
+#  * As shell functions (``source $__DOTFILES/scripts/ssv``)
+
+
+function supervisord_sv_create_symlinks() {
+    src="${BASH_SOURCE}"
+    test -e sv  || ln -s ${src} sv    # supervisorctl $@
+    test -e svs || ln -s ${src} svs   # supervisorctl status $@
+    test -e svr || ln -s ${src} svr   # supervisorctl restart $@
+    test -e svt || ln -s ${src} svt   # supervisorctl tail $@
+    test -e svd || ln -s ${src} svd   # sv restart $1:-"dev" && sv tail 'dev'
+    test -e sve || ln -s ${src} sve   # EDITOR[_] $_SVCFG
+}
+
 function _setup_supervisord() {
-    #  _setup_supervisord()      -- 
+    #  _setup_supervisord()      -- set _SVCFG to a supervisord.conf
     local svcfg=${1:-${_SVCFG}}
     if [ -z "${svcfg}" ]; then
         if [ -n "${VIRTUAL_ENV}" ]; then
@@ -2259,18 +2307,34 @@ function sv() {
     supervisorctl -c "${_SVCFG}" ${@}
     return
 }
+function svs() {
+    #  svs()                    -- sv status $@
+    sv status ${@}
+    return
+}
+function svr() {
+    #  svr()                    -- sv restart $@
+    sv restart ${@}
+    return
+}
 
 function svd() {
-    # svd()     -- supervisorctl -c ${_SVCFG} restart && sv tail -f dev
+    # svd()                     -- sv restart ${1:-"dev"} && sv tail -f ${1:-"dev"}
     name=${1:-"dev"}
-    sv restart ${name} && sv tail -f ${name}
+    sv restart "${name}" && sv tail -f "${name}"
 }
 
 function svt() {
-    # svt()     -- supervisorctl -c ${_SVCFG} tail -f
+    # svt()                     -- sv tail -f
     name=${1}
     sv tail -f ${name}
 }
+
+function sve() {
+    #  sve()                    -- $EDITOR[_] $_SVCFG
+    ${EDITOR_:-${EDITOR}} ${1:-${_SVCFG}}
+}
+
 
 
 function supervisord_stop() {
@@ -2279,10 +2343,37 @@ function supervisord_stop() {
     return
 }
 
+echo "${BASH_SOURCE}"
+/Users/W/-dotfiles/scripts/ssv
+echo "${0}"
+bash
 
-if [[ ${BASH_SOURCE} == "${0}" ]]; then
+if [[ "${BASH_SOURCE}" == "${0}" ]]; then
     _setup_supervisord
-    supervisord_start ${@}
+
+    cmd=$(basename "${0}")
+    echo "cmd: ${cmd}"
+
+    case "${cmd}" in
+        sve)
+            sve ${@}
+            ;;
+        ssv)
+            supervisord_start ${@}
+            ;;
+        sv)
+            sv ${@}
+            ;;
+        svd)
+            svd ${@}
+            ;;
+        svt)
+            svt ${@}
+            ;;
+        svs)
+            svs ${@}
+            ;;
+    esac
     exit
 fi
 #!/bin/sh
@@ -2798,7 +2889,7 @@ _usrlog_set__TERM_ID () {
 
 
 _usrlog_echo_title () {
-    # _usrlog_echo_title   -- set window title
+    # _usrlog_echo_title   -- set window title (by echo'ing escape codes)
     local title="${WINDOW_TITLE:+"$WINDOW_TITLE "}"
     if [ -n "$_APP" ]; then
         title="($_APP) ${title}"
@@ -2809,8 +2900,8 @@ _usrlog_echo_title () {
     USRLOG_WINDOW_TITLE=${title:-"$@"}
     if [ -n $CLICOLOR ]; then
         echo -ne "\033]0;${USRLOG_WINDOW_TITLE}\007"
-    else
-        echo -ne "${USRLOG_WINDOW_TITLE}"
+    # else
+    #    echo -ne "${USRLOG_WINDOW_TITLE}"
     fi
 }
 
@@ -3186,7 +3277,7 @@ usrlog_grep_all() {
     (set -x;
     args=${@}
     usrlogs=$(lsusrlogs)
-    egrep "${args}" ${usrlogs} )
+    egrep ${args} ${usrlogs} )
 }
 ugall() {
     # ugall()              -- grep usrlogs (drop filenames with -h)
@@ -3717,7 +3808,7 @@ lsbashmarks () {
 
 
 function git-commit() {
-    #  gitc()   -- git commit ${2:} -m ${1}; git log -n1 
+    #  git-commit()   -- git commit ${2:} -m ${1}; git log -n1 
     (set -x;
     msg="${1}";
     shift;
@@ -3725,11 +3816,15 @@ function git-commit() {
     git commit ${files} -m "${msg}" && \
     git log -n1 --stat --decorate=full --color=always;
     )
-    return
+}
+
+function gc() {
+    #  gc()             -- git-commit() <files> -m <log> ; log log -n1
+    git-commit "${@}"
 }
 
 function git-add-commit() {
-    #  gitc()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
+    #  git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
     (set -x;
     msg="${1}";
     shift;
@@ -3738,7 +3833,11 @@ function git-add-commit() {
     git commit ${files} -m "${msg}" && \
     git log -n1 --stat --decorate=full --color=always;
     )
-    return
+}
+
+function gac() {
+    #  gac()            -- git-add-commit $@
+    git-add-commit "${@}"
 }
 
 function msg() {
@@ -3758,13 +3857,11 @@ function msg() {
 function git-commit-msg() {
     #  gitcmsg()    -- gitc "${_MSG}" ${@}
     git-commit "${_MSG}" ${@} && msg clear
-    return
 }
 
 function git-add-commit-msg() {
     #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
     git-add-commit "${_MSG}" ${@} && msg clear
-    return
 }
 
 
