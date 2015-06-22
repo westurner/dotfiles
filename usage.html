@@ -503,6 +503,15 @@ pull      -- git pull
 <span class="c">#  softwareupdate -l        # --list</span>
 <span class="c">#  softwareupdate -i --all  # --install --all</span>
 <span class="c">#  softwareupdate -i -r     # --install --recommended</span>
+<span class="c"># Mac Boot-time modifiers: (right after the chime)</span>
+<span class="c">#</span>
+<span class="c">#  Option    -- boot to boot disk selector menu</span>
+<span class="c">#  C         -- boot from CD/DVD</span>
+<span class="c">#  Shift     -- boot into Safe mode</span>
+<span class="c">#  Command-V -- boot into verbose mode</span>
+<span class="c">#   sudo nvram boot-args=&quot;-v&quot;  # always boot verbosely</span>
+<span class="c">#   sudo nvram boot-args=&quot;&quot;    # boot normally</span>
+<span class="c">#   sudo nvram -p              # print current nvram settings</span>
 <span class="c"># if __IS_MAC:</span>
     <span class="c"># finder()    -- open Finder.app</span>
     <span class="c"># finder-killall()  -- close all Finder.app instances</span>
@@ -887,8 +896,10 @@ pull      -- git pull
    
 <span class="c">#### etc/bash/70-bashrc.repos.sh</span>
 <span class="c">### 70-bashrc.repos.sh</span>
-    <span class="c">#  gitc()   -- git commit ${2:} -m ${1}; git log -n1 </span>
-    <span class="c">#  gitc()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 </span>
+    <span class="c">#  git-commit()   -- git commit ${2:} -m ${1}; git log -n1 </span>
+    <span class="c">#  gc()             -- git-commit() &lt;files&gt; -m &lt;log&gt; ; log log -n1</span>
+    <span class="c">#  git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 </span>
+    <span class="c">#  gac()            -- git-add-commit $@</span>
     <span class="c">#  msg()        -- set a commit message for the current context</span>
     <span class="c">#  gitcmsg()    -- gitc &quot;${_MSG}&quot; ${@}</span>
     <span class="c">#  gitcaddmsg()    -- gitc &quot;${_MSG}&quot; ${@}</span>
@@ -1019,7 +1030,9 @@ pull      -- git pull
     <span class="c"># _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG</span>
     <span class="c"># _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key</span>
     <span class="c">#   $1: terminal name</span>
-    <span class="c"># _usrlog_echo_title   -- set window title</span>
+    <span class="c"># _usrlog_echo_title   -- set window title (by echo&#39;ing escape codes)</span>
+    <span class="c"># else</span>
+    <span class="c">#    echo -ne &quot;${USRLOG_WINDOW_TITLE}&quot;</span>
     <span class="c"># _usrlog_set_title()  --  set xterm title</span>
     <span class="c"># _usrlog_setup()      -- configure usrlog for the current shell</span>
     <span class="c"># setup bash</span>

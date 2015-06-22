@@ -138,6 +138,79 @@ Cabal is a package manager for :ref:`Haskell` packages.
 Hackage is the community Cabal package index: https://hackage.haskell.org/
 
 
+.. index:: Conda Package
+.. index:: Conda
+.. _conda:
+
+Conda
+~~~~~~~
+| Docs: http://conda.pydata.org/docs/
+| Source: git https://github.com/conda/conda
+| PyPI: https://pypi.python.org/pypi/conda
+
+
+* Conda installs packages written in any language; especially Python
+* Conda packages are basically tar archives with build, link (optional), and
+  uninstall (optional) scripts.
+* Conda packages are generated from a conda build recipe
+  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``
+  by conda-build.
+* ``conda skeleton`` can automatically create conda packages
+  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
+* An ``environment.yml`` lists conda and :ref:`pip` packages
+  to be installed with conda-env.
+
+  .. code:: bash
+
+      # Export and environment.yml
+      source deactivate; conda env export -n root | tee environment.yml
+
+      # Create an environment from an environment.yml
+      conda env create -n example -f ./environment.yml
+
+* Conda was originally created for the Anaconda Python Distribution,
+  which installs packages written in :ref:`Python`,
+  R,
+  :ref:`Javascript`,
+  :ref:`Ruby`,
+  :ref:`C`,
+  :ref:`Fortran`
+* Conda (and :ref:`Anaconda`) packages are hosted by
+  `<https://binstar.org>`__,
+  which hosts free public and paid private Conda packages.
+
+  * Anaconda Server is an internal
+    "Private, Secure Package Repository"
+    that
+    "supports over 100 different repositories,
+    including PyPI, CRAN, conda, and the Anaconda repository."
+
+To create a fresh conda env:
+
+.. code:: bash
+
+   # Python 2.7
+   conda env create -n exmpl2 --yes python readline pip
+   # conda install ipython-notebook
+
+   # Python 3.X
+   conda env create -n exmpl3 --yes python3 readline pip
+
+Work on a conda env:
+
+.. code:: bash
+
+   source activate exmpl2
+   conda list
+   source deactivate
+
+
+* https://github.com/conda/conda-env
+* https://github.com/conda/conda-build
+* https://github.com/conda/conda-recipes
+
+
+
 .. index:: DEB
 .. _deb:
 
@@ -532,78 +605,6 @@ Wheel
 * Wheels are generally faster than traditional Python packages.
 
 Packages available as wheels are listed at `<http://pythonwheels.com/>`__.
-
-
-.. index:: Conda Package
-.. index:: Conda
-.. _conda:
-
-Conda
-+++++++
-| Docs: http://conda.pydata.org/docs/
-| Source: git https://github.com/conda/conda
-| PyPI: https://pypi.python.org/pypi/conda
-
-
-* Conda installs packages written in any language; especially Python
-* Conda packages are basically tar archives with build, link (optional), and
-  uninstall (optional) scripts.
-* Conda packages are generated from a conda build recipe
-  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``
-  by conda-build.
-* ``conda skeleton`` can automatically create conda packages
-  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
-* An ``environment.yml`` lists conda and :ref:`pip` packages
-  to be installed with conda-env.
-
-  .. code:: bash
-
-      # Export and environment.yml
-      source deactivate; conda env export -n root | tee environment.yml
-
-      # Create an environment from an environment.yml
-      conda env create -n example -f ./environment.yml
-
-* Conda was originally created for the Anaconda Python Distribution,
-  which installs packages written in :ref:`Python`,
-  R,
-  :ref:`Javascript`,
-  :ref:`Ruby`,
-  :ref:`C`,
-  :ref:`Fortran`
-* Conda (and :ref:`Anaconda`) packages are hosted by
-  `<https://binstar.org>`__,
-  which hosts free public and paid private Conda packages.
-
-  * Anaconda Server is an internal
-    "Private, Secure Package Repository"
-    that
-    "supports over 100 different repositories,
-    including PyPI, CRAN, conda, and the Anaconda repository."
-
-To create a fresh conda env:
-
-.. code:: bash
-
-   # Python 2.7
-   conda env create -n exmpl2 --yes python readline pip
-   # conda install ipython-notebook
-
-   # Python 3.X
-   conda env create -n exmpl3 --yes python3 readline pip
-
-Work on a conda env:
-
-.. code:: bash
-
-   source activate exmpl2
-   conda list
-   source deactivate
-
-
-* https://github.com/conda/conda-env
-* https://github.com/conda/conda-build
-* https://github.com/conda/conda-recipes
 
 
 .. index:: Ruby Gem
@@ -1220,9 +1221,59 @@ Java
 | Docs: http://javadocs.org/
 | Docs: http://learnxinyminutes.com/docs/java/
 
+
 Java is a third-generation programming language which is
 compiled into code that runs in a virtual machine
 (``JVM``) written in :ref:`C` for many different operating systems.
+
+
+.. index:: JVM
+.. _jvm:
+
+JVM
++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Java_virtual_machine
+
+A JVM ("Java Virtual Machine") runs :ref:`Java` code (classes and JARs).
+
+* There are JVMs available for very many platforms
+* Both the JRE and the JDK include a compiled JVM:
+
+  + JRE -- Java Runtime Environment (End Users)
+  + JDK -- Java Developer Kit (Developers)
+* Java SE is an implementation specification
+  with things like ``java.lang`` and ``java.io`` and ``java.net``
+* There are now multiple Java SE Implementations:
+
+  | Wikipedia: https://en.wikipedia.org/wiki/Java_Platform,_Standard_Edition
+  | https://en.wikipedia.org/wiki/Java_(software_platform)#History
+
+  + Oracle Java (was **Sun Java**)
+
+    | Wikipedia: https://en.wikipedia.org/wiki/Java_Development_Kit
+    | Download: http://www.oracle.com/technetwork/java/javase/
+    | Download: http://www.oracle.com/technetwork/java/javase/downloads/
+    | Download: https://www.java.com/en/download/
+    | Docs: https://www.java.com/en/download/help/index_installing.xml?os=All+Platforms
+
+  + OpenJDK
+
+    | Wikipedia: https://en.wikipedia.org/wiki/OpenJDK
+    | Homepage: http://openjdk.java.net/
+    | Download: http://openjdk.java.net/install/
+    | Source: http://hg.openjdk.java.net/
+    | Docs: https://wiki.openjdk.java.net/
+    | Docs: http://openjdk.java.net/guide/
+
+    + IcedTea
+
+      | Wikipedia: https://en.wikipedia.org/wiki/IcedTea
+
+* Java EE ("Java Enterprise Edition") extends Java SE
+  with a number of APIs for web services (``javax.servlet``,
+  ``javax.transaction``)
+
+  https://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition
 
 
 .. index:: Javascript
@@ -1965,7 +2016,28 @@ a key-value store with a D-Bus interface.
 * flannel -- Networking
 
 
+.. index:: SteamOS
+.. _steamos:
 
+SteamOS
+++++++++
+| Wikipedia:
+| Homepage: http://store.steampowered.com/steamos
+| Download: http://store.steampowered.com/steamos/download
+| Docs: http://store.steampowered.com/steamos/oem
+| Docs: http://store.steampowered.com/steamos/buildyourown
+| DistroWatch: http://distrowatch.com/table.php?distribution=steamos
+
+
+SteamOS is a :ref:`Linux Distribution <linux-distributions>`
+for gaming
+based on :ref:`Debian`.
+
+* SteamOS uses :ref:`Apt`, :ref:`Dpkg` and :ref:`DEB` :ref:`Packages`
+* Steam Machines run SteamOS
+* SteamOS runs Steam: https://en.wikipedia.org/wiki/Steam
+
+  * https://en.wikipedia.org/wiki/Kerbal_Space_Program
 
 
 .. index:: Linux Notes
@@ -2064,6 +2136,25 @@ OS X maintains forks of many POSIX BSD and GNU tools like ``bash``,
 .. code-block:: bash
 
    uname; echo "Darwin"
+
+
+.. index:: iOS
+.. _iOS:
+
+iOS
++++++
+| Wikipedia: https://en.wikipedia.org/wiki/IOS
+| Homepage: https://www.apple.com/ios/
+
+iOS is a closed source
+UNIX operating system based upon many components
+of :ref:`OSX`
+adapted for phones and then tablets.
+
+* iOS powers iPhones and iPads
+* You must have a Mac with :ref:`OSX` and XCode
+  to develop and compile for iOS.
+
 
 OSX Notes
 ++++++++++
@@ -2216,6 +2307,54 @@ one or more physical and virtual machines running various operating systems
 over SSH.
 
 
+.. index:: Gradle
+.. _gradle:
+
+Gradle
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Gradle
+| Homepage: http://www.gradle.org/
+| Source: git https://github.com/gradle/gradle
+| Download: http://gradle.org/downloads
+| Docs: https://docs.gradle.org/current/release-notes
+| Docs: https://docs.gradle.org/current/userguide/userguide.html
+| Twitter: https://twitter.com/gradle
+
+Gradle is a build tool for the :ref:`Java` :ref:`JVM`
+which builds a directed acyclic graph (DAG).
+
+
+.. index:: Grunt
+.. _grunt:
+
+Grunt
+~~~~~~
+| Homepage: http://gruntjs.com/
+| Source: git https://github.com/gruntjs/grunt
+| Docs: http://gruntjs.com/getting-started
+| Docs: http://gruntjs.com/plugins
+| Twitter: https://twitter.com/gruntjs
+
+Grunt is a build tool written in :ref:`Javascript`
+which builds a directed acyclic graph (DAG).
+
+
+.. index:: Gulp
+.. _gulp:
+
+Gulp
+~~~~~
+| Homepage: http://gulpjs.com/
+| Source: https://github.com/gulpjs/gulp
+| Docs: https://github.com/gulpjs/gulp/blob/master/docs/
+| Docs: https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md
+| Docs: http://gulpjs.com/plugins/
+| Twitter: https://twitter.com/gulpjs
+
+Gulp is a build tool written in :ref:`Javascript`
+which builds a directed acyclic graph (DAG).
+
+
 .. index:: JuJu
 .. _juju:
 
@@ -2252,7 +2391,8 @@ Make
 
 
 GNU Make is a classic, ubiquitous software build tool
-designed for file-based source code compilation.
+designed for file-based source code compilation
+which builds a directed acyclic graph (DAG).
 
 :ref:`Bash`, :ref:`Python`, and the GNU/:ref:`Linux` kernel
 are all built with Make.
@@ -2301,6 +2441,7 @@ many sources of system data
 with SQL
 for :ref:`OSX` and :ref:`Linux`.
 
+* https://docs.saltstack.com/en/develop/ref/modules/all/salt.modules.osquery.html
 * https://github.com/westurner/dotfiles/blob/develop/scripts/osquery-all.sh
 
 
@@ -2333,14 +2474,15 @@ Salt
 ~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Salt_(software)>`_
 | Homepage: http://www.saltstack.com
+| Source: git https://github.com/saltstack/salt
 | Docs: https://docs.saltstack.com/en/latest/
 | Docs: https://docs.saltstack.com/en/latest/salt-modindex.html
 | Docs: https://docs.saltstack.com/en/latest/ref/states/all/index.html
 | Docs: https://docs.saltstack.com/en/latest/ref/clients/index.html#python-api
 | Docs: https://docs.saltstack.com/en/latest/topics/development/hacking.html
 | Docs: https://docs.saltstack.com/en/latest/glossary.html
-| Source: git https://github.com/saltstack/salt
 | Pypi: https://pypi.python.org/pypi/salt
+| Twitter: https://twitter.com/SaltStackInc
 | IRC: #salt
 | TcpPort: 4505
 | TcpPort: 4506
@@ -2498,13 +2640,43 @@ Docker
 | Docs: https://docs.docker.com/
 | Source: https://github.com/docker/docker
 
-Docker is an OS virtualization project which utilizes Linux LXC Containers
+Docker is an OS virtualization project written in :ref:`Go`
+which utilizes :ref:`Linux` :ref:`LXC` Containers
 to partition process workloads all running under one kernel.
 
-Limitations
+.. glossary::
 
-* Writing to `/etc/hosts`: https://github.com/docker/docker/issues/2267
-* Apt-get upgrade: https://github.com/docker/docker/issues/3934
+    Dockerfile
+        A ``Dockerfile`` contains the instructions needed to 
+        create a docker image.
+
+* Docker images build from a ``Dockerfile``
+* A Dockerfile can subclass another Dockerfile (to add, remove, or
+  change configuration)
+* Dockerfiles support a limited number of commands
+* Docker is not intended to be a
+  complete :ref:`configuration management system
+  <configuration management>`
+* Ideally, a Docker images requires minimal configuration once built
+* Docker images can be hosted by https://hub.docker.com/
+* ``docker run -it ubuntu/15.04`` downloads the image
+  from https://registry.hub.docker.com/_/ubuntu/,
+  creates a new instance (``docker ps``),
+  and spawns a root :ref:`Shell <shells>` with
+  a UUID name (by default).
+* "Scheduling" [redundant] persistent containers that launch on boot
+  is not in scope for :ref:`Docker`
+
+:ref:`Kubernetes` is one project which uses Docker to
+schedule redundant :ref:`LXC` containers (in "Pods").
+
+:ref:`Salt` can install and manage docker, docker images and containers:
+
+* https://github.com/saltstack-formulas/docker-formula
+* https://docs.saltstack.com/en/latest/ref/states/all/salt.states.dockerio.html
+* http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.dockerio.html
+
+https://github.com/veggiemonk/awesome-docker
 
 
 .. index:: Kubernetes
@@ -2842,16 +3014,16 @@ with CPU, RAM, Storage, and Networking.
 
 .. glossary::
 
-   Vagrantfile
-      Vagrant script defining a team of one or more
+   vagrantfile
+      vagrant script defining a team of one or more
       virtual machines and networks.
 
-      Create a Vagrantfile::
+      create a vagrantfile::
 
          vagrant init [basebox]
-         cat Vagrantfile
+         cat vagrantfile
 
-      Start virtual machines and networks defined in the Vagrantfile::
+      start virtual machines and networks defined in the vagrantfile::
 
          vagrant status
          vagrant up
@@ -3007,20 +3179,19 @@ IPython
 ~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/IPython
 | Homepage: http://ipython.org/
-| Docs: http://ipython.org/ipython-doc/stable/
-| Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
-| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 | Source: git https://github.com/ipython/ipython
+| DockerHub: https://registry.hub.docker.com/repos/ipython/
+| Docs: http://ipython.org/ipython-doc/stable/
+| Docs: http://ipython.org/ipython-doc/stable/interactive/
+| Docs: http://ipython.org/ipython-doc/stable/notebook/
+| Docs: http://ipython.org/ipython-doc/stable/parallel/
+| Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
+| Docs: https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
+| Docs: https://github.com/ipython/ipython/wiki/Install:-Docker
+| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 
 IPython is an interactive REPL and distributed computation framework
 written in :ref:`Python`.
-
-An IPython notebook file (``.ipynb``) is a
-JSON document containing input and output
-for a linear sequence of cells;
-which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
-and edited through the web with
-IPython Notebook.
 
 .. code:: python
 
@@ -3047,27 +3218,317 @@ IPython Notebook.
     %run -d example.py             # run a script with pdb
     %pdb on                        # automatically run pdb on Exception
 
-.. note:: IPython notebook runs code and shell commands as
-  the user the process is running as, on a remote or local machine.
 
-  IPython notebook supports more than 20 different languages.
+.. index:: IPython Notebook
+.. index:: IPython notebook
+.. _ipython notebook:
 
-Reproducible :ref:`SciPy Stack <scipystack>`
-IPython / Jupyter Notebook servers
-implement best practices like process isolation and privilege separation:
+IPython Notebook
+++++++++++++++++++
+| Source: https://github.com/ipython/ipython/tree/3.x/IPython/html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/
+| Docs: http://ipython.org/ipython-doc/stable/notebook/notebook.html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/nbformat.html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/nbconvert.html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/public_server.html
+| Docs: http://ipython.org/ipython-doc/stable/notebook/security.html
 
-* https://github.com/ipython/ipython/wiki/Install:-Docker
-* https://registry.hub.docker.com/repos/ipython/
-* https://registry.hub.docker.com/repos/jupyter/
-* https://registry.hub.docker.com/u/jupyter/tmpnb/
+An IPython notebook file (``.ipynb``) is a
+JSON document containing input and output
+for a linear sequence of cells;
+which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
+and edited through the web with
+IPython Notebook.
+
+* IPython Notebook supports more than 40 different language kernels:
+
+  https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
+
+To start IPython Notebook (assuming the ``_SRC`` variable
+as defined in :ref:`Venv`):
+
+.. code:: bash
+
+   pip install ipython[notebook]
+   # pip install -e git+https://github.com/ipython/ipython@rel-3.1.0#egg=ipython
+
+   mkdir $_SRC/notebooks; cd $_SRC/notebooks
+   ipython notebook
+
+   ipython notebook --notebook-dir="${_SRC}/notebooks"
+
+   # With HTTPS (TLS/SSL)
+   ipython notebook \
+    --ip=127.0.0.1 \
+    --certfile=mycert.pem \
+    --keyfile=privkey.pem \
+    --port=8888 \
+    --browser=web  # (optional) westurner/dotfiles/scripts/web
+
+    # List supported options
+    ipython notebook --help
 
 
-IPython / Jupyter Notebook Viewer (``nbviewer``)
+.. warning:: IPython Notebook runs code and shell commands as
+    the user the process is running as, on a remote or local machine.
+
+    Reproducible :ref:`SciPy Stack <scipystack>`
+    IPython Notebook / :ref:`Jupyter Notebook` servers
+    implement best practices like process isolation and privilege separation
+    with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
+
+.. note:: IPython Notebook is now :ref:`Jupyter Notebook`.
+
+   Jupyter Notebook runs Python notebooks with the :ref:`IPython`
+   :ref:`CPython` kernel (from :ref:`IPython Notebook`).
+
+
+.. index:: ipython_nose
+.. _ipython_nose:
+
+--------------
+ipython_nose
+--------------
+| Source: git https://github.com/taavi/ipython_nose
+
+
+ipython_nose is an extension for :ref:`IPython Notebook`
+(and likely :ref:`Jupyter Notebook`)
+for discovering and running test functions
+starting with ``test_``
+(and unittest.TestCase test classes with names containing ``Test``)
+with `Nose <https://westurner.org/wiki/awesome-python-testing#nose>`__.
+
+* ipython_nose is not (yet?) uploaded to PyPI
+* to install ipython_nose from GitHub (with :ref:`Pip` and :ref:`Git`):
+
+.. code:: bash
+
+   pip install -e git+https://github.com/taavi/ipython_nose#egg=ipython_nose
+
+
+.. index:: Jupyter
+.. index:: Project Jupyter
+.. _jupyter:
+
+Jupyter
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/IPython#Project_Jupyter
+| Homepage: http://jupyter.org/
+| Source: https://github.com/jupyter/
+| Source: git https://github.com/jupyter/notebook
+| Source: git https://github.com/jupyter/jupyterhub
+| Source: https://registry.hub.docker.com/u/jupyter/tmpnb/
+| DockerHub: https://registry.hub.docker.com/repos/ipython/
+| DockerHub: https://registry.hub.docker.com/repos/jupyter/
+| Docs: https://github.com/ipython/ipython/wiki/Install:-Docker
+| Docs: https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
+| Docs: https://github.com/jupyter/jupyter/blob/master/docs/source/index.rst
+| Docs: https://github.com/jupyter/jupyterhub/wiki
+| Docs: https://github.com/jupyter/jupyterhub/wiki/Authenticators
+| Docs: https://github.com/jupyter/jupyterhub/wiki/Spawners
+
+Project Jupyter expands upon
+components like :ref:`IPython` and :ref:`IPython Notebook`
+to provide a multi-user web-based shell
+for many languages (:ref:`Python`, :ref:`Ruby`, :ref:`Java`,
+:ref:`Haskell`, Julia, R).
+
+
+.. table:: IPython Jupyter comparison (adapted from http://jupyter.org)
+   :name: IPython Jupyter comparison
+
+   +-------------------------------+-------------------------------------------------------------+
+   | :ref:`IPython`                | :ref:`Jupyter`                                              |
+   +-------------------------------+-------------------------------------------------------------+
+   | - Interactive Python shell    | - Rich REPL Protocol                                        |
+   | - Python kernel for Jupyter   | - :ref:`Jupyter Notebook` (format, environment, conversion) |
+   | - Interactive Parallel Python | - JupyterHub (multi-user notebook server)                   |
+   |                               | - JupyterHub authenticators (MediaWiki OAuth, GitHub OAuth) |
+   |                               | - JupyterHub spawners (Docker, Sudo, Remote, Docker Swarm)  |
+   +-------------------------------+-------------------------------------------------------------+
+
+
+.. index:: Jupyter Notebook
+.. _jupyter notebook:
+
+Jupyter Notebook
++++++++++++++++++++
+| Source: https://github.com/jupyter/notebook
+
+:ref:`Jupyter` Notebook is the latest :ref:`IPython Notebook`.
+
+   The Jupyter HTML Notebook is a web-based notebook environment
+   for interactive computing.
+
+.. warning:: Jupyter Notebook runs code and shell commands as
+   the user the process is running as, on a remote or local machine.
+
+   Reproducible :ref:`SciPy Stack <scipystack>`
+   IPython Notebook / :ref:`Jupyter Notebook` servers
+   implement best practices like process isolation and privilege separation
+   with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
+
+
+.. index:: Jupyter Drive
+.. _jupyter drive:
+
+Jupyter Drive
+++++++++++++++++++++++++++
+| Source: git https://github.com/jupyter/jupyter-drive
+
+Jupyter Drive adds support to :ref:`Jupyter Notebook`
+for reading and writing :ref:`nbformat` notebook ``.ipynb``
+files to and from Google Drive.
+
+Realtime collaborative features (e.g. with `Operational Transformation`)
+are next.
+
+
+.. index:: nbconvert
+.. _nbconvert:
+
+nbconvert
++++++++++++
+| Docs: http://ipython.org/ipython-doc/stable/notebook/nbconvert.html
+|
+
+nbconvert is the code that converts (transforms) an ``.ipynb`` notebook
+(:ref:`nbformat` :ref:`JSON <json->`) file
+( into an output representation (e.g. HTML,
+slides (reveal.js), LateX, PDF, ePub, Mobi).
+
+* nbconvert is included with :ref:`IPython`
+* nbconvert is part of :ref:`Project Jupyter<jupyter>`
+
+  .. code:: bash
+
+    pip install nbconvert
+    # pip install -e git+https://github.com/jupyter/nbconvert@master#egg=nbconvert
+
+    ipython nbconvert --to html mynotebook.ipynb
+    jupyter nbconvert --to html mynotebook.ipynb
+
+
+* reveal.js is an HTML presentation framework
+  for slides in a 1D or 2D arrangement.
+
+  Presentation content that doesn't fit on the slide is hidden
+  and unscrollable (*only put a slide worth of data in each cell
+  for a Jupyter reveal.js presentation*).
+
+  .. code:: bash
+
+    jupyter nbconvert --to slides mynotebook.ipynb
+
+  https://github.com/hakimel/reveal.js
+* RISE does live reveal.js notebook presentations
+
+  https://github.com/damianavila/RISE
+
+
+.. index:: nbformat
+.. _nbformat:
+
+nbformat
+++++++++++
+| Docs: http://ipython.org/ipython-doc/dev/notebook/nbformat.html
+| Docs: https://nbformat.readthedocs.org/en/latest/
+| Docs: https://nbformat.readthedocs.org/en/latest/format_description.html#backward-compatible-changes
+
+The :ref:`Jupyter notebook` (``.ipynb``) format is a versioned
+:ref:`JSON <json->` format for storing metadata and input/output sequences.
+
+Usually, when the nbformat changes, notebooks are silently upgraded to the
+new version on the next save.
+
+.. note:: nbformat v3 and above add a **kernelspec** attribute to the
+   nbformat :ref:`JSON <json->`, because ``.ipynb`` files can now contain
+   code for languages other than :ref:`Python`.
+
+nbformat does not specify any schema for the user-supplied
+metadata dict (TODO) that can be edited
+so, JSON that conforms to an externally
+managed :ref:`JSON-LD <json-ld->` ``@context``
+would work.
+
+
+.. index:: nbviewer
+.. _nbviewer:
+
+nbviewer
++++++++++++
+| Homepage: http://nbviewer.ipython.org
+| Source: git https://github.com/jupyter/nbviewer
+| Dockerfile: https://github.com/jupyter/nbviewer/blob/master/Dockerfile
+
+:ref:`Jupyter Notebook` Viewer (``nbviewer``)
 is an application for serving read-only
-versions of notebooks which have HTTP URLs.
+versions of ``.ipynb`` files which have HTTP URLs.
 
-* http://nbviewer.ipython.org
-* https://github.com/jupyter/nbviewer
+GitHub now also renders static ``.ipynb`` files, CSV, SVG, and PDF.
+
+
+.. index:: runipy
+.. _runipy:
+
+runipy
++++++++
+| Source: git https://github.com/paulgb/runipy
+| PyPI: https://pypi.python.org/pypi/runipy
+
+runipy runs :ref:`Jupyter notebooks <jupyter notebook>`
+from a :ref:`Shell <shells>` commandline, generates
+:ref:`HTML` reports,
+and can write errors to stderr.
+
+:ref:`Jupyter notebook <Jupyter Notebook>` *manual* test review process:
+
+.. code:: python
+
+    # - run Jupyter Notebook server
+    !jupyter notebook
+    # - Browser
+    #     - navigate to / upload / drag and drop the notebook
+            !web http://localhost:8888   # or https://
+    #     - (optional) click 'Cell' > 'All Output' > 'Clear'
+    #     - click 'Cell' > 'Run All'
+    #     - [wait] <Jupyter Kernel runs noteook>
+    #     - visually seek for the first erroring cell (scroll)
+    #     - review the notebook
+            for (i, o) in notebook_cells:
+                human.manually_review((i, o))
+    # - Compare the files on disk with the most recent commit (HEAD)
+    !git status && git diff
+    !git diff mynotebook.ipynb
+    # - Commit the changes
+    !git-add-commit "TST: mynotebook: tests for #123" ./mynotebook.ipynb
+
+
+:ref:`Jupyter notebook <Jupyter Notebook>` runipy review process:
+
+.. code:: python
+
+    # - runipy the Jupyter notebook
+    !runipy mynotebook.ipynb
+    # - review stdout and stderr from runipy
+    # - review in browser (optional; recommended)
+    #     - navigate to the converted HTML
+            !web ./mynotebook.ipynb.html
+    #     - visually seek for the first erroring cell (scroll)
+    #     - review the notebook
+            for (i, o) in notebook_cells:
+                human.manually_review((i, o))
+    # - Compare the files on disk with the most recent commit (HEAD)
+    !git status && git diff
+    !git diff mynotebook.ipynb*
+    # - Commit the changes
+    !git-add-commit "TST: mynotebook: tests for #123" ./mynotebook.ipynb*
+
+* An example of runipy usage in a :ref:`Makefile <Make>`:
+  https://github.com/westurner/notebooks/blob/gh-pages/Makefile
+
+
 
 
 .. index:: PowerShell
@@ -3159,7 +3620,7 @@ Pyline is a UNIX command-line tool for line-based processing in Python
 with regex and output transform features similar to
 :ref:`grep`, :ref:`sed`, and :ref:`awk`.
 
-Pyline can generate quoted CSV, :ref:`JSON`, HTML, etc.
+Pyline can generate quoted CSV, :ref:`JSON <json->`, HTML, etc.
 
 
 .. index:: Pyrpo
@@ -3753,6 +4214,29 @@ Firefox Android Extensions
 * `HTTPS Everywhere`_
 
 
+.. index:: Internet Explorer
+.. _internet explorer:
+
+Internet Explorer
+~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/?title=Internet_Explorer
+| Homepage: http://microsoft.com/ie
+
+Internet Explorer is the web browser included with :ref:`Windows`.
+
+See also: :ref:`Microsoft Edge`
+
+
+.. index:: Microsoft Edge
+.. _microsoft edge:
+
+Microsoft Edge
+~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Microsoft_Edge
+
+Microsoft Edge will be replacing :ref:`Internet Explorer`.
+
+
 .. index:: Safari
 .. _safari:
 
@@ -4286,6 +4770,64 @@ Wasavi
 Wasavi converts the focused ``textarea`` to an in-page editor with
 vim-like functionality.
 
+
+.. index:: Web Servers
+.. _web-servers:
+
+Web Servers
+============
+| https://en.wikipedia.org/wiki/Web_server
+
+
+.. index:: Apache HTTPD
+.. _apache httpd:
+
+Apache HTTPD
+~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Apache_HTTP_Server
+| Homepage: https://httpd.apache.org/
+| Download: https://httpd.apache.org/download.cgi
+| Docs: https://httpd.apache.org/docs/2.4/
+
+Apache HTTPD is a scriptable, industry-mainstay `HTTP`
+server written in :ref:`C` and :ref:`C++`.
+
+
+.. index:: Nginx
+.. _nginx:
+
+Nginx
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Nginx
+| Homepage: http://nginx.org/
+| Download: http://nginx.org/en/download.html
+| Source: hg http://hg.nginx.org/nginx
+| Docs: http://nginx.org/en/docs/
+| Twitter: https://twitter.com/nginxorg
+
+Nginx is a scriptable, lightweight `HTTP` server
+written in :ref:`C`.
+
+
+.. index:: Tengine
+.. _tengine:
+
+Tengine
+~~~~~~~~~
+| Wikipedia: https://zh.wikipedia.org/wiki/Tengine
+| Homepage: http://tengine.taobao.org/
+| Source: git https://github.com/alibaba/tengine
+| Download: http://tengine.taobao.org/download.html
+| Docs: http://tengine.taobao.org/documentation.html
+
+Tengine is a fork of :ref:`Nginx` with many useful
+modules and features bundled in.
+
+* http://tengine.taobao.org/document/http_ssl.html
+* http://tengine.taobao.org/document/http_upstream_check.html
+* http://tengine.taobao.org/document/http_reqstat.html
+
+
 .. index:: Documentation
 .. _documentation-tools:
 
@@ -4461,7 +5003,6 @@ Filesystem Hierarchy Standard
 | Wikipedia: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
 | Website: http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs
 
-
 The Filesystem Hierarchy Standard is a well-worn industry-supported
 system file naming structure.
 
@@ -4474,7 +5015,7 @@ also btrfs subvolumes.
 
 
 .. index:: JSON
-.. _json:
+.. _json-:
 
 JSON
 ~~~~~~~~~~~~~~~
@@ -4506,7 +5047,7 @@ for parsing and indenting ("prettifying") JSON from the commandline ::
 
 .. index:: JSONLD
 .. index:: JSON-LD
-.. _json-ld:
+.. _json-ld-:
 
 JSON-LD
 ~~~~~~~~~
@@ -4514,7 +5055,7 @@ JSON-LD
 | Homepage: http://json-ld.org
 | Docs: http://json-ld.org/playground/
 
-JSON-LD is a web standard for Linked Data in :ref:`JSON`.
+JSON-LD is a web standard for Linked Data in :ref:`JSON <json->`.
 
 An example from the JSON-LD Playground (`<http://goo.gl/xxZ410>`__):
 

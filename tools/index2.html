@@ -198,6 +198,7 @@
 <li class="toctree-l3"><a class="reference internal" href="index#apt">APT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#bower">Bower</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#cabal">Cabal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#conda">Conda</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#deb">DEB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#dpkg">Dpkg</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#homebrew">Homebrew</a></li>
@@ -214,7 +215,6 @@
 <li class="toctree-l4"><a class="reference internal" href="index#pypi">PyPI</a></li>
 <li class="toctree-l4"><a class="reference internal" href="index#warehouse">Warehouse</a></li>
 <li class="toctree-l4"><a class="reference internal" href="index#wheel">Wheel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="index#conda">Conda</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="index#rubygems">RubyGems</a></li>
@@ -253,7 +253,10 @@
 <li class="toctree-l3"><a class="reference internal" href="index#fortran">Fortran</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#haskell">Haskell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#go">Go</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index#java">Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#java">Java</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="index#jvm">JVM</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="index#javascript">JavaScript</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="index#node-js">Node.js</a></li>
 </ul>
@@ -306,6 +309,7 @@
 </li>
 <li class="toctree-l4"><a class="reference internal" href="index#chromeos">ChromeOS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="index#coreos">CoreOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index#steamos">SteamOS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="index#linux-notes">Linux Notes</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="index#linux-dual-boot">Linux Dual Boot</a></li>
 </ul>
@@ -318,6 +322,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="index#os-x">OS X</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="index#ios">iOS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="index#osx-notes">OSX Notes</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="index#osx-reinstall">OSX Reinstall</a></li>
 <li class="toctree-l5"><a class="reference internal" href="index#osx-fresh-install">OSX Fresh Install</a></li>
@@ -338,6 +343,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="index#configuration-management">Configuration Management</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="index#ansible">Ansible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#gradle">Gradle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#grunt">Grunt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#gulp">Gulp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#juju">Juju</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#make">Make</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#osquery">osquery</a></li>
@@ -367,7 +375,22 @@
 <li class="toctree-l2"><a class="reference internal" href="index#shells">Shells</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="index#bash">Bash</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#readline">Readline</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index#ipython">IPython</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#ipython">IPython</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="index#ipython-notebook">IPython Notebook</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="index#ipython-nose">ipython_nose</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index#jupyter">Jupyter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="index#jupyter-notebook">Jupyter Notebook</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index#jupyter-drive">Jupyter Drive</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index#nbconvert">nbconvert</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index#nbformat">nbformat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index#nbviewer">nbviewer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index#runipy">runipy</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="index#powershell">PowerShell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#zsh">ZSH</a></li>
 </ul>
@@ -417,6 +440,8 @@
 <li class="toctree-l4"><a class="reference internal" href="index#firefox-android-extensions">Firefox Android Extensions</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="index#internet-explorer">Internet Explorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#microsoft-edge">Microsoft Edge</a></li>
 <li class="toctree-l3"><a class="reference internal" href="index#safari">Safari</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="index#safari-extensions">Safari Extensions</a></li>
 </ul>
@@ -480,6 +505,12 @@
 <li class="toctree-l4"><a class="reference internal" href="index#wasavi">Wasavi</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index#web-servers">Web Servers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index#apache-httpd">Apache HTTPD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#nginx">Nginx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index#tengine">Tengine</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="index#documentation-tools">Documentation Tools</a><ul>
