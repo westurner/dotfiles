@@ -2644,6 +2644,12 @@ Docker is an OS virtualization project written in :ref:`Go`
 which utilizes :ref:`Linux` :ref:`LXC` Containers
 to partition process workloads all running under one kernel.
 
+.. glossary::
+
+    Dockerfile
+        A ``Dockerfile`` contains the instructions needed to 
+        create a docker image.
+
 * Docker images build from a ``Dockerfile``
 * A Dockerfile can subclass another Dockerfile (to add, remove, or
   change configuration)
@@ -2661,7 +2667,6 @@ to partition process workloads all running under one kernel.
 * "Scheduling" [redundant] persistent containers that launch on boot
   is not in scope for :ref:`Docker`
 
-
 :ref:`Kubernetes` is one project which uses Docker to
 schedule redundant :ref:`LXC` containers (in "Pods").
 
@@ -2672,6 +2677,7 @@ schedule redundant :ref:`LXC` containers (in "Pods").
 * http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.dockerio.html
 
 https://github.com/veggiemonk/awesome-docker
+
 
 .. index:: Kubernetes
 .. _kubernetes:
@@ -3008,16 +3014,16 @@ with CPU, RAM, Storage, and Networking.
 
 .. glossary::
 
-   Vagrantfile
-      Vagrant script defining a team of one or more
+   vagrantfile
+      vagrant script defining a team of one or more
       virtual machines and networks.
 
-      Create a Vagrantfile::
+      create a vagrantfile::
 
          vagrant init [basebox]
-         cat Vagrantfile
+         cat vagrantfile
 
-      Start virtual machines and networks defined in the Vagrantfile::
+      start virtual machines and networks defined in the vagrantfile::
 
          vagrant status
          vagrant up
@@ -3277,6 +3283,30 @@ as defined in :ref:`Venv`):
    :ref:`CPython` kernel (from :ref:`IPython Notebook`).
 
 
+.. index:: ipython_nose
+.. _ipython_nose:
+
+--------------
+ipython_nose
+--------------
+| Source: git https://github.com/taavi/ipython_nose
+
+
+ipython_nose is an extension for :ref:`IPython Notebook`
+(and likely :ref:`Jupyter Notebook`)
+for discovering and running test functions
+starting with ``test_``
+(and unittest.TestCase test classes with names containing ``Test``)
+with `Nose <https://westurner.org/wiki/awesome-python-testing#nose>`__.
+
+* ipython_nose is not (yet?) uploaded to PyPI
+* to install ipython_nose from GitHub (with :ref:`Pip` and :ref:`Git`):
+
+.. code:: bash
+
+   pip install -e git+https://github.com/taavi/ipython_nose#egg=ipython_nose
+
+
 .. index:: Jupyter
 .. index:: Project Jupyter
 .. _jupyter:
@@ -3338,6 +3368,7 @@ Jupyter Notebook
    IPython Notebook / :ref:`Jupyter Notebook` servers
    implement best practices like process isolation and privilege separation
    with e.g. :ref:`Docker` and/or :ref:`Jupyter` Hub.
+
 
 .. index:: Jupyter Drive
 .. _jupyter drive:
@@ -3436,6 +3467,67 @@ is an application for serving read-only
 versions of ``.ipynb`` files which have HTTP URLs.
 
 GitHub now also renders static ``.ipynb`` files, CSV, SVG, and PDF.
+
+
+.. index:: runipy
+.. _runipy:
+
+runipy
++++++++
+| Source: git https://github.com/paulgb/runipy
+| PyPI: https://pypi.python.org/pypi/runipy
+
+runipy runs :ref:`Jupyter notebooks <jupyter notebook>`
+from a :ref:`Shell <shells>` commandline, generates
+:ref:`HTML` reports,
+and can write errors to stderr.
+
+:ref:`Jupyter notebook <Jupyter Notebook>` *manual* test review process:
+
+.. code:: python
+
+    # - run Jupyter Notebook server
+    !jupyter notebook
+    # - Browser
+    #     - navigate to / upload / drag and drop the notebook
+            !web http://localhost:8888   # or https://
+    #     - (optional) click 'Cell' > 'All Output' > 'Clear'
+    #     - click 'Cell' > 'Run All'
+    #     - [wait] <Jupyter Kernel runs noteook>
+    #     - visually seek for the first erroring cell (scroll)
+    #     - review the notebook
+            for (i, o) in notebook_cells:
+                human.manually_review((i, o))
+    # - Compare the files on disk with the most recent commit (HEAD)
+    !git status && git diff
+    !git diff mynotebook.ipynb
+    # - Commit the changes
+    !git-add-commit "TST: mynotebook: tests for #123" ./mynotebook.ipynb
+
+
+:ref:`Jupyter notebook <Jupyter Notebook>` runipy review process:
+
+.. code:: python
+
+    # - runipy the Jupyter notebook
+    !runipy mynotebook.ipynb
+    # - review stdout and stderr from runipy
+    # - review in browser (optional; recommended)
+    #     - navigate to the converted HTML
+            !web ./mynotebook.ipynb.html
+    #     - visually seek for the first erroring cell (scroll)
+    #     - review the notebook
+            for (i, o) in notebook_cells:
+                human.manually_review((i, o))
+    # - Compare the files on disk with the most recent commit (HEAD)
+    !git status && git diff
+    !git diff mynotebook.ipynb*
+    # - Commit the changes
+    !git-add-commit "TST: mynotebook: tests for #123" ./mynotebook.ipynb*
+
+* An example of runipy usage in a :ref:`Makefile <Make>`:
+  https://github.com/westurner/notebooks/blob/gh-pages/Makefile
+
 
 
 
