@@ -1270,7 +1270,7 @@ A JVM ("Java Virtual Machine") runs :ref:`Java` code (classes and JARs).
       | Wikipedia: https://en.wikipedia.org/wiki/IcedTea
 
 * Java EE ("Java Enterprise Edition") extends Java SE
-  with a number of APIs for web services (``javax.servlet``, 
+  with a number of APIs for web services (``javax.servlet``,
   ``javax.transaction``)
 
   https://en.wikipedia.org/wiki/Java_Platform,_Enterprise_Edition
@@ -2021,13 +2021,20 @@ a key-value store with a D-Bus interface.
 
 SteamOS
 ++++++++
-| Wikipedia: 
+| Wikipedia:
+| Homepage: http://store.steampowered.com/steamos
+| Download: http://store.steampowered.com/steamos/download
+| Docs: http://store.steampowered.com/steamos/oem
+| Docs: http://store.steampowered.com/steamos/buildyourown
+| DistroWatch: http://distrowatch.com/table.php?distribution=steamos
+
 
 SteamOS is a :ref:`Linux Distribution <linux-distributions>`
 for gaming
 based on :ref:`Debian`.
 
-* SteamOS uses :ref:`Apt` and :ref:`Dpkg` :ref:`Packages`
+* SteamOS uses :ref:`Apt`, :ref:`Dpkg` and :ref:`DEB` :ref:`Packages`
+* Steam Machines run SteamOS
 * SteamOS runs Steam: https://en.wikipedia.org/wiki/Steam
 
   * https://en.wikipedia.org/wiki/Kerbal_Space_Program
