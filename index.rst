@@ -3394,7 +3394,7 @@ nbconvert
 |
 
 nbconvert is the code that converts (transforms) an ``.ipynb`` notebook
-(:ref:`nbformat` :ref:`JSON`) file
+(:ref:`nbformat` :ref:`JSON <json->`) file
 ( into an output representation (e.g. HTML,
 slides (reveal.js), LateX, PDF, ePub, Mobi).
 
@@ -3437,18 +3437,19 @@ nbformat
 | Docs: https://nbformat.readthedocs.org/en/latest/format_description.html#backward-compatible-changes
 
 The :ref:`Jupyter notebook` (``.ipynb``) format is a versioned
-:ref:`JSON` format for storing metadata and input/output sequences.
+:ref:`JSON <json->` format for storing metadata and input/output sequences.
 
 Usually, when the nbformat changes, notebooks are silently upgraded to the
 new version on the next save.
 
 .. note:: nbformat v3 and above add a **kernelspec** attribute to the
-   nbformat :ref:`JSON`, because ``.ipynb`` files can now contain
+   nbformat :ref:`JSON <json->`, because ``.ipynb`` files can now contain
    code for languages other than :ref:`Python`.
 
 nbformat does not specify any schema for the user-supplied
 metadata dict (TODO) that can be edited
-so, JSON that conforms to an externally managed :ref:`JSON-LD` ``@context``
+so, JSON that conforms to an externally
+managed :ref:`JSON-LD <json-ld->` ``@context``
 would work.
 
 
@@ -4788,7 +4789,7 @@ Apache HTTPD
 | Download: https://httpd.apache.org/download.cgi
 | Docs: https://httpd.apache.org/docs/2.4/
 
-Apache HTTPD is a scriptable, industry-standard :ref:`HTTP`
+Apache HTTPD is a scriptable, industry-mainstay `HTTP`
 server written in :ref:`C` and :ref:`C++`.
 
 
@@ -4804,7 +4805,7 @@ Nginx
 | Docs: http://nginx.org/en/docs/
 | Twitter: https://twitter.com/nginxorg
 
-Nginx is a scriptable, lightweight :ref:`HTTP`, FTP, SMTP server
+Nginx is a scriptable, lightweight `HTTP` server
 written in :ref:`C`.
 
 
