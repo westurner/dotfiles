@@ -12,7 +12,7 @@ export __SRC="${__SRCVENV}/src"
 
 if [ ! -e "${__SRCVENV}" ]; then
     if [ ! -d "${WORKON_HOME}/src" ]; then
-        mkvirtualenv -i pyrpo -i pyline -i pygitpages src
+        mkvirtualenv -i pyrpo -i pyline -i pgs src
     fi
     ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
 fi
@@ -40,8 +40,8 @@ venv() {
     # venv --print-json   -- print IPython configuration as JSON
     (set -x; $__VENV $@)
 }
-venv-() {
-    # _venv <args> -- call $_VENV -E $@ (for the current environment)
+venvw() {
+    # venvw $@ -- venv -E $@ (for the current environment)
     (set -x; $__VENV -e $@)
 }
 
@@ -162,17 +162,15 @@ _setup_venv_aliases() {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
-    # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
-    source ${__DOTFILES}/scripts/makew
+    source "${__DOTFILES}/scripts/e"
+    source "${__DOTFILES}/scripts/ew"
 
-    # ssv()     -- supervisord   -c ${_SVCFG}
-    alias ssv='supervisord -c "${_SVCFG}"'
-    # sv()      -- supervisorctl -c ${_SVCFG}
-    alias sv='supervisorctl -c "${_SVCFG}"'
-    # svd()     -- supervisorctl -c ${_SVCFG} restart && sv tail -f dev
-    alias svd='supervisorctl -c "${_SVCFG}" restart dev && supervisorctl -c "${_SVCFG}" tail -f dev'
-    # svt()     -- supervisorctl -c "${_SVCFG}" tail -f
-    alias svt='sv tail -f'
+    # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
+    source "${__DOTFILES}/scripts/makew"
+
+    
+    source "${__DOTFILES}/scripts/ssv"
+    _setup_supervisord
 
     # hgw       -- hg -R  ${_WRD}   [scripts/hgw <TAB>]
     source "${__DOTFILES}/scripts/hgw"
@@ -181,13 +179,13 @@ _setup_venv_aliases() {
     source "${__DOTFILES}/scripts/gitw"
 
     # serve-()  -- ${_SERVE_}
-    alias serve-='${_SERVE_}'
+    # alias serve-='${_SERVE_}'
     # shell-()  -- ${_SHELL_}
-    alias shell-='${_SHELL_}'
+    # alias shell-='${_SHELL_}'
     # test-()   -- cd ${_WRD} && python setup.py test
-    alias test-='(cd ${_WRD} && python "${_WRD_SETUPY}" test)'
+    alias testpyw='(cd ${_WRD} && python "${_WRD_SETUPY}" test)'
     # testr-()  -- reset; cd ${_WRD} && python setup.py test
-    alias testr-='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
+    alias testpywr='(reset; cd ${_WRD} && python "${_WRD_SETUPY}" test)'
 
 }
 _setup_venv_aliases

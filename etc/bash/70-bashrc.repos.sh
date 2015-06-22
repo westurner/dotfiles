@@ -3,7 +3,7 @@
 
 
 function git-commit() {
-    #  gitc()   -- git commit ${2:} -m ${1}; git log -n1 
+    #  git-commit()   -- git commit ${2:} -m ${1}; git log -n1 
     (set -x;
     msg="${1}";
     shift;
@@ -11,11 +11,15 @@ function git-commit() {
     git commit ${files} -m "${msg}" && \
     git log -n1 --stat --decorate=full --color=always;
     )
-    return
+}
+
+function gc() {
+    #  gc()             -- git-commit() <files> -m <log> ; log log -n1
+    git-commit "${@}"
 }
 
 function git-add-commit() {
-    #  gitc()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
+    #  git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
     (set -x;
     msg="${1}";
     shift;
@@ -24,7 +28,11 @@ function git-add-commit() {
     git commit ${files} -m "${msg}" && \
     git log -n1 --stat --decorate=full --color=always;
     )
-    return
+}
+
+function gac() {
+    #  gac()            -- git-add-commit $@
+    git-add-commit "${@}"
 }
 
 function msg() {
@@ -44,13 +52,11 @@ function msg() {
 function git-commit-msg() {
     #  gitcmsg()    -- gitc "${_MSG}" ${@}
     git-commit "${_MSG}" ${@} && msg clear
-    return
 }
 
 function git-add-commit-msg() {
     #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
     git-add-commit "${_MSG}" ${@} && msg clear
-    return
 }
 
 

@@ -8,9 +8,9 @@ _setup_conda_defaults() {
     #    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
     #                 (default: ${__WRK})
     local __wrk=${1:-${__WRK}}
-    export CONDA_ENVS_PATH__py27="${__wrk}/-ce27"
-    export CONDA_ENVS_PATH__py34="${__wrk}/-ce34"
-    export CONDA_ENVS_PATH_DEFAULT="CONDA_ENVS_PATH__py27"
+    export CONDA_ENVS__py27="${__wrk}/-ce27"
+    export CONDA_ENVS__py34="${__wrk}/-ce34"
+    export CONDA_ENVS_DEFAULT="CONDA_ENVS__py27"
     export CONDA_ENVS_PATH="${__wrk}/-ce27"
 
     export CONDA_ROOT__py27="${__wrk}/-conda27"
@@ -22,7 +22,7 @@ _setup_conda_defaults() {
 _setup_conda() {
     # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
     #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
-    #                                                   CONDA_ENVS_PATH__py27)
+    #                                                   CONDA_ENVS__py27)
     #   $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
     #                                                   CONDA_ROOT__py27)
     #
@@ -37,14 +37,14 @@ _setup_conda() {
     local _conda_root_path=${2}
     _setup_conda_defaults "${__WRK}"
     if [ -z "${_conda_envs_path}" ]; then
-        export CONDA_ENVS_PATH=${CONDA_ENVS_PATH:-${CONDA_ENVS_PATH__py27}}
+        export CONDA_ENVS_PATH=${CONDA_ENVS_PATH:-${CONDA_ENVS__py27}}
         export CONDA_ROOT=${CONDA_ROOT:-${CONDA_ROOT__py27}}
     else
         if [ "$_conda_envs_path" == "27" ]; then
-            export CONDA_ENVS_PATH=$CONDA_ENVS_PATH__py27
+            export CONDA_ENVS_PATH=$CONDA_ENVS__py27
             export CONDA_ROOT=$CONDA_ROOT__py27
         elif [ "$_conda_envs_path" == "34" ]; then
-            export CONDA_ENVS_PATH=$CONDA_ENVS_PATH__py34
+            export CONDA_ENVS_PATH=$CONDA_ENVS__py34
             export CONDA_ROOT=$CONDA_ROOT__py34
         else
             export CONDA_ENVS_PATH=${_conda_envs_path}
@@ -70,8 +70,8 @@ _unsetup_conda_path_all() {
 lscondaenvs() {
     paths=$(  \
     ( echo "${CONDA_ENVS_PATH}"; \
-    echo "${CONDA_ENVS_PATH__py27}";  \
-    echo "${CONDA_ENVS_PATH__py34}";) | uniq)
+    echo "${CONDA_ENVS__py27}";  \
+    echo "${CONDA_ENVS__py34}";) | uniq)
     (set -x; find ${paths} -maxdepth 1 -type d)
 }
 

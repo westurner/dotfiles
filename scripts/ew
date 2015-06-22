@@ -5,7 +5,7 @@ editwrd ()
     #
     (cd $_WRD;
     (for arg in ${@}; do echo "${arg}"; done) \
-        | el --each -x "${EDITOR_:-${EDITOR}} ${_WRD}/{0}"
+        | el --each -x 'e {0}'
     )
     return
 }

@@ -6,7 +6,7 @@ function ssp() {
     return
 }
 
-function __set_facls () {
+function ssp_set_facls () {
 	(umask 0026; mkdir -p ${_VARLOG} || true)
 	chmod go-rw ${_VARLOG}
 	(umask 0026; mkdir -p ${_VARCACHE} || true)
@@ -31,7 +31,7 @@ function _setup_ssp () {
 
     _VARRUN="${_VARRUN:-'.'}" # XXX
 
-    SSP_PID_FILE=${_VARCACHE_SSP}/.pid
+    SSP_PID_FILE=${SSP_PID_FILE:-"${_VARCACHE_SSP}/ssp.pid"}
 }
 ## SSH 
 
@@ -91,7 +91,7 @@ function ssp_start () {
     SSP_LOCHOSTPORT="${SSP_LOCADDR:+"${SSP_LOCADDR}:"}${SSP_LOCPORT}"
     _setup_ssp
 	test -n "${SSP_USERHOST}" || (echo "SSP_USERHOST=${SSP_USERHOST}" && exit 1)
-	__set_facls
+	ssp_set_facls
 	date +'%F %T%z'
     SSP_SSH_OPTS="${SSP_SSH_OPTS:-""}"  # SSP_SSH_OPTS="-v"
     if [ -n "${_VARLOG}" ]; then
@@ -115,19 +115,21 @@ function ssp_start () {
             cat ${SSP_PID_FILE} ;
         }
     fi
+    ssp_status
+    if [ -n "${_ssp_opts_foreground}" ]; then
+        fg
+    fi
 }
 
 # $(SSP_PID_FILE): open-ssh
 
 function ssp_stop () {
     _setup_ssp
-	test -f ${SSP_PID_FILE}
-	(umask 0026; mkdir -p ${_VARCACHE_SSP})
     if [ -f "${SSP_PID_FILE}" ]; then
         kill -9 $(cat "${SSP_PID_FILE}") || true
         rm ${SSP_PID_FILE}
     fi
-	__set_facls
+	ssp_set_facls
     ssp_status
 }
 
@@ -188,6 +190,10 @@ function ssp_parse_opts () {
     case "${1}" in
         s|S|start|open)
             _ssp_opts_start=true
+            ;;
+        f|F|foreground)
+            _ssp_opts_start=true
+            _ssp_opts_foreground=true
             ;;
         p|P|stop|close)
             _ssp_opts_stop=true

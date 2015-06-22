@@ -1,12 +1,14 @@
-#!/bin/sh
+#!/usr/bin/env bash
 ## 
-edit () {
+function edit {
     #  edit()   -- EDITOR_ or EDITOR $@
-    ${EDITOR_:-${EDITOR}} $@
+    ${GUIVIMBIN} --servername ${VIRTUAL_ENV_NAME:-"/"} \
+        --remote-tab-silent \
+        ${@}
     return
 }
 
-e () {
+function e {
     # e()       -- EDTIOR or EDITOR $@
     edit ${@}
     return

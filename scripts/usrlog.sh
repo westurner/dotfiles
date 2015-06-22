@@ -537,7 +537,7 @@ usrlog_grep_all() {
     (set -x;
     args=${@}
     usrlogs=$(lsusrlogs)
-    egrep "${args}" ${usrlogs} )
+    egrep ${args} ${usrlogs} )
 }
 ugall() {
     # ugall()              -- grep usrlogs (drop filenames with -h)

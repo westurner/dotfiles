@@ -30,9 +30,11 @@ Venv Implementation
 - define ``WORKON_HOME``
 
 - create and add :py:mod:`Steps` (``builder.add_step(step_func)``)
+
   - define variables like ``env['__WRK']`` (``Venv.env.environ['PATH']``)
   - define IPython shell command aliases (``Env.aliases``,
     ``e``, ``ps``, ``git``, ``gitw``)
+
 - create a :py:mod:`StepBuilder` (``builder = StepBuilder()``)
 - build a new env from steps: ``new_env = builder.build(env)``
 
@@ -48,6 +50,7 @@ Venv Implementation
 
 - generate and source CdAliases that expand and complete where possible
   (``cdwrk``, ``cdwrd``, ``cdw``)
+
   - define CdAliases in ipython_config.py (this file)
   - generate venv.sh (``cdwrk``)
   - generate venv.vim (``:Cdwrk``)
@@ -1174,9 +1177,9 @@ def build_conda_env(env=None, **kwargs):
     Other Parameters:
         __WRK (str): workspace root (``$__WRK``, ``~/-wrk``)
         CONDA_ROOT__py27 (str): path to conda27 root environment
-        CONDA_ENVS_PATH__py27 (str): path to conda27 envs (e.g. WORKON_HOME)
+        CONDA_ENVS__py27 (str): path to conda27 envs (e.g. WORKON_HOME)
         CONDA_ROOT__py34 (str): path to conda34 root environment
-        CONDA_ENVS_PATH__py34 (str): path to conda34 envs (e.g. WORKON_HOME)
+        CONDA_ENVS__py34 (str): path to conda34 envs (e.g. WORKON_HOME)
 
     Keyword Arguments:
         env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
@@ -1214,7 +1217,7 @@ def build_conda_env(env=None, **kwargs):
         env_home = "{env_home_prefix}{env_suffix}".format(**conf)
 
         root_key = "CONDA_ROOT{env_name}".format(env_name=env_name)
-        home_key = "CONDA_ENVS_PATH{env_name}".format(env_name=env_name)
+        home_key = "CONDA_ENVS{env_name}".format(env_name=env_name)
         env[root_key] = (kwargs.get(root_key, env.get(root_key)) or
                          joinpath(env['__WRK'], env_root))
         env[home_key] = (kwargs.get(home_key, env.get(home_key)) or
@@ -1224,7 +1227,7 @@ def build_conda_env(env=None, **kwargs):
 
 
 DEFAULT_CONDA_ROOT_DEFAULT = 'CONDA_ROOT__py27'
-DEFAULT_CONDA_ENVS_PATH_DEFAULT = 'CONDA_ENVS_PATH__py27'
+DEFAULT_CONDA_ENVS_DEFAULT = 'CONDA_ENVS__py27'
 
 
 def build_conda_cfg_env(env=None, **kwargs):
@@ -1247,23 +1250,23 @@ def build_conda_cfg_env(env=None, **kwargs):
 
     env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
                                      default=joinpath(env['__WRK'], '-conda27'))
-    env['CONDA_ENVS_PATH__py27'] = lookup('CONDA_ENVS_PATH__py27',
+    env['CONDA_ENVS__py27'] = lookup('CONDA_ENVS__py27',
                                      default=joinpath(env['__WRK'], '-ce27'))
 
     env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
                                      default=joinpath(env['__WRK'], '-conda34'))
-    env['CONDA_ENVS_PATH__py34'] = lookup('CONDA_ENVS_PATH__py34',
+    env['CONDA_ENVS__py34'] = lookup('CONDA_ENVS__py34',
                                      default=joinpath(env['__WRK'], '-ce34'))
 
-    env['CONDA_ROOT_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
-                                       default=DEFAULT_CONDA_ROOT_DEFAULT)
-    env['CONDA_ENVS_PATH_DEFAULT'] = lookup('DEFAULT_CONDA_ROOT',
-                                       default=DEFAULT_CONDA_ENVS_PATH_DEFAULT)
+    #env['CONDA_ROOT_DEFAULT'] = lookup('CONDA_ROOT_DEFAULT',
+    #                                   default=DEFAULT_CONDA_ROOT_DEFAULT)
+    #env['CONDA_ENVS_DEFAULT'] = lookup('CONDA_ENVS_DEFAULT',
+    #                                   default=DEFAULT_CONDA_ENVS_DEFAULT)
 
     env['CONDA_ROOT'] = lookup('CONDA_ROOT',
-                               default=env[env['CONDA_ROOT_DEFAULT']])
+                               default=env[DEFAULT_CONDA_ROOT_DEFAULT])
     env['CONDA_ENVS_PATH'] = lookup('CONDA_ENVS_PATH',
-                               default=env[env['CONDA_ENVS_PATH_DEFAULT']])
+                               default=env[DEFAULT_CONDA_ENVS_DEFAULT])
     return env
 
 
@@ -1479,30 +1482,31 @@ def build_user_aliases_env(env=None,
             _WRD = ""
         env['_WRD'] = _WRD
 
-    # EDITOR configuration
-    env['VIMBIN']       = distutils.spawn.find_executable('vim')
-    env['GVIMBIN']      = distutils.spawn.find_executable('gvim')
-    env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
-    env['GUIVIMBIN']    = env.get('GVIMBIN', env.get('MVIMBIN'))
-    # set the current vim servername to _APP
+    def build_editor_env(env):
+        # EDITOR configuration
+        env['VIMBIN']       = distutils.spawn.find_executable('vim')
+        env['GVIMBIN']      = distutils.spawn.find_executable('gvim')
+        env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
+        env['GUIVIMBIN']    = env.get('GVIMBIN', env.get('MVIMBIN'))
+        # set the current vim servername to _APP
+        VIMSERVER = '/'
+        if _APP:
+            VIMSERVER = _APP
+        env['VIMCONF'] = "--servername %s" % (
+            shell_quote(VIMSERVER).strip('"'))
+        if not env.get('GUIVIMBIN'):
+            env['_EDIT_'] = "%s -f" % env.get('VIMBIN')
+        else:
+            env['_EDIT_'] = '%s %s --remote-tab-silent' % (
+                env.get('GUIVIMBIN'),
+                env.get('VIMCONF'))
+        env['EDITOR_'] = env['_EDIT_']
+        aliases = env.aliases
+        aliases['editw'] = env['_EDIT_']
+        aliases['gvimw'] = env['_EDIT_']
+        return env
 
-    VIMSERVER = '/'
-    if _APP:
-        VIMSERVER = _APP
-    env['VIMCONF'] = "--servername %s" % (
-        shell_quote(VIMSERVER).strip('"'))
-    if not env.get('GUIVIMBIN'):
-        env['_EDIT_'] = "%s -f" % env.get('VIMBIN')
-    else:
-        env['_EDIT_'] = '%s %s --remote-tab-silent' % (
-            env.get('GUIVIMBIN'),
-            env.get('VIMCONF'))
-    env['EDITOR_'] = env['_EDIT_']
-
-    aliases['editw'] = env['_EDIT_']
-    aliases['gvimw'] = env['_EDIT_']
-
-    def other():
+    def build_ipython_env(env):
         # IPYTHON configuration
         env['_NOTEBOOKS'] = joinpath(env.get('_SRC',
                                             env.get('__WRK',
@@ -1516,6 +1520,7 @@ def build_user_aliases_env(env=None,
             _new_ipnbkey = "print(os.urandom(128).encode(\\\"base64\\\"))"
         else:
             raise KeyError(sys.version_info.major)
+        aliases = env.aliases
         aliases['ipskey'] = ('(python -c \"'
                             'import os;'
                             ' {_new_ipnbkey}\"'
@@ -1551,114 +1556,124 @@ def build_user_aliases_env(env=None,
             _IPYSESKEY=shell_varquote('_IPYSESKEY'),
             _APP=shell_varquote('_APP'),
             _IPQTLOG=shell_varquote('_IPQTLOG'))
+        return env
 
-    aliases['grinv'] = 'grin --follow %%l %s' % shell_varquote('VIRTUAL_ENV')
-    aliases[
-        'grindv'] = 'grind --follow %%l --dirs %s' % shell_varquote('VIRTUAL_ENV')
+    def build_grin_env(env):
+        aliases = env.aliases
+        aliases['grinv'] = 'grin --follow %%l %s' % shell_varquote('VIRTUAL_ENV')
+        aliases[
+            'grindv'] = 'grind --follow %%l --dirs %s' % shell_varquote('VIRTUAL_ENV')
 
-    aliases['grins'] = 'grin --follow %%l %s' % shell_varquote('_SRC')
-    aliases['grinds'] = 'grind --follow %%l --dirs %s' % shell_varquote('_SRC')
+        aliases['grins'] = 'grin --follow %%l %s' % shell_varquote('_SRC')
+        aliases['grinds'] = 'grind --follow %%l --dirs %s' % shell_varquote('_SRC')
+        return env
 
-    _WRD = env['_WRD']
-    if os.path.exists(_WRD) or dont_reflect:
-        env['_WRD'] = _WRD
-        env['_WRD_SETUPY'] = joinpath(_WRD, 'setup.py')
-        env['_TEST_'] = "(cd {_WRD} && python {_WRD_SETUPY} test)".format(
-            _WRD=shell_varquote('_WRD'),
-            _WRD_SETUPY=shell_varquote('_WRD_SETUPY')
+    def build_wrd_aliases_env(env):
+        _WRD = env['_WRD']
+        aliases = env.aliases
+        if os.path.exists(_WRD) or dont_reflect:
+
+            aliases['lsw'] = IpyAlias(
+                '(cd {_WRD}; ls $(test -n "{__IS_MAC}" && echo "-G" || echo "--color=auto") %l)'.format(
+                    _WRD=shell_varquote('_WRD'),
+                    __IS_MAC=shell_varquote('__IS_MAC')),
+                name='lsw',
+                complfuncstr="""local cur=${2};
+                COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));"""
             )
-        aliases['testw'] = env['_TEST_']
-        aliases['testwr'] = 'reset && %s' % env['_TEST_']
+
+            aliases['findw'] = 'find {_WRD}'.format(
+                _WRD=shell_varquote('_WRD'))
+            aliases['grepw'] = 'grep %l {_WRD}'.format(
+                _WRD=shell_varquote('_WRD'))
+
+            aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
+                _WRD=shell_varquote('_WRD'))
+            aliases['grindw'] = 'grind --follow %l --dirs {_WRD}'.format(
+                _WRD=shell_varquote('_WRD'))
+
+            env['PROJECT_FILES'] = " ".join(
+                str(x) for x in PROJECT_FILES)
+            aliases['editp'] = "ew ${PROJECT_FILES} %l"
+
+            aliases['makewrd'] = "(cd {_WRD} && make %l)".format(
+                    _WRD=shell_varquote('_WRD'))
+
+            aliases['makew']   = aliases['makewrd']
+            aliases['makewlog'] = (
+                "_logfile=\"${_VARLOG}/make.log\"; "
+                "(makew %l 2>&1 | tee $_logfile) && e $_logfile")
+        else:
+            log.error('app working directory %r not found' % _WRD)
+        return env
+
+    def build_python_testing_env(env):
+        aliases = env.aliases
+        env['_TESTPY_'] = "(cd {_WRD} && python setup.py test)".format(
+            _WRD=shell_varquote('_WRD'),
+            )
+        aliases['testpyw'] = env['_TESTPY_']
+        aliases['testpywr'] = 'reset && %s' % env['_TESTPY_']
         aliases['nosew'] = '(cd {_WRD} && nosetests %l)'.format(
             _WRD=shell_varquote('_WRD'))
+        return env
 
-        aliases['lsw'] = IpyAlias(
-            '(cd {_WRD}; ls $(test -n "{__IS_MAC}" && echo "-G" || echo "--color=auto") %l)'.format(
-                _WRD=shell_varquote('_WRD'),
-                __IS_MAC=shell_varquote('__IS_MAC')),
-            name='lsw',
-            complfuncstr="""local cur=${2};
-            COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));"""
-        )
+    def build_pyramid_env(env, dont_reflect=True):
+        _CFG = joinpath(env['_ETC'], 'development.ini')
+        if dont_reflect or os.path.exists(_CFG):
+            env['_CFG'] = _CFG
+            env['_EDITCFG_'] = "{_EDIT_} {_CFG}".format(
+                _EDIT_=env['_EDIT_'],
+                _CFG=env['_CFG'])
+            aliases['editcfg'] = "{_EDITCFG} %l".format(
+                _EDITCFG=shell_varquote('_EDITCFG_'))
+            # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
+            env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
+                _BIN=shell_varquote('_BIN'),
+                _CFG=shell_varquote('_CFG'),
+                _WRD=shell_varquote('_WRD'))
+            env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
+                              " --app-name=main"
+                              " --reload"
+                              " --monitor-restart {_CFG})").format(
+                _BIN=shell_varquote('_BIN'),
+                _CFG=shell_varquote('_CFG'),
+                _WRD=shell_varquote('_WRD'))
+            aliases['servew'] = env['_SERVE_']
+            aliases['shellw'] = env['_SHELL_']
+        else:
+            logging.error('app configuration %r not found' % _CFG)
+            env['_CFG'] = ""
+        return env
 
-        aliases['findw'] = 'find {_WRD}'.format(
-            _WRD=shell_varquote('_WRD'))
-        aliases['grepw'] = 'grep %l {_WRD}'.format(
-            _WRD=shell_varquote('_WRD'))
+    def build_supervisord_env(env):
+        _SVCFG = env.get('_SVCFG', joinpath(env['_ETC'], 'supervisord.conf'))
+        if os.path.exists(_SVCFG) or dont_reflect:
+            env['_SVCFG'] = _SVCFG
+            env['_SVCFG_'] = ' -c %s' % shell_quote(env['_SVCFG'])
+        else:
+            logging.error('supervisord configuration %r not found' % _SVCFG)
+            env['_SVCFG_'] = ''
+        aliases = env.aliases
+        aliases['ssv'] = 'supervisord -c "${_SVCFG}"'
+        aliases['sv'] = 'supervisorctl -c "${_SVCFG}"'
+        aliases['svt'] = 'sv tail -f'
+        aliases['svd'] = ('supervisorctl -c "${_SVCFG}" restart dev'
+                        ' && supervisorctl -c "${_SVCFG}" tail -f dev')
+        return env
 
-        aliases['grinw'] = 'grin --follow %l {_WRD}'.format(
-            _WRD=shell_varquote('_WRD'))
-        aliases['grindw'] = 'grind --follow %l --dirs {_WRD}'.format(
-            _WRD=shell_varquote('_WRD'))
-
-        aliases['hgwv'] = "hg view -R {_WRD}".format(
-            _WRD=shell_varquote('_WRD'))
-        aliases['hgwl'] = "hg -R {_WRD} log".format(
-            _WRD=shell_varquote('_WRD'))
-    else:
-        log.error('app working directory %r not found' % _WRD)
-
-    #_CFG = joinpath(env['_ETC'], 'development.ini')
-    #if os.path.exists(_CFG) or dont_reflect:
-    #    env['_CFG'] = _CFG
-    #    env['_EDITCFG_'] = "{_EDIT_} {_CFG}".format(
-    #        _EDIT_=env['_EDIT_'],
-    #        _CFG=env['_CFG'])
-    #    aliases['editcfg'] = "{_EDITCFG} %l".format(
-    #        _EDITCFG=shell_varquote('_EDITCFG_'))
-    #    # Pyramid pshell & pserve (#TODO: test -f manage.py (django))
-    #    #env['_SHELL_'] = "(cd {_WRD} && {_BIN}/pshell {_CFG})".format(
-    #    #    _BIN=shell_varquote('_BIN'),
-    #    #    _CFG=shell_varquote('_CFG'),
-    #    #    _WRD=shell_varquote('_WRD'))
-    #    #env['_SERVE_'] = ("(cd {_WRD} && {_BIN}/pserve"
-    #    #                  " --app-name=main"
-    #    #                  " --reload"
-    #    #                  " --monitor-restart {_CFG})").format(
-    #    #    _BIN=shell_varquote('_BIN'),
-    #    #    _CFG=shell_varquote('_CFG'),
-    #    #    _WRD=shell_varquote('_WRD'))
-    #    #aliases['servew'] = env['_SERVE_']
-    #    #aliases['shellw'] = env['_SHELL_']
-    #else:
-    #    logging.error('app configuration %r not found' % _CFG)
-    #    env['_CFG'] = ""
-
-    #aliases['editw'] = IpyAlias(
-    #     "(cd ${_WRD}; ${_EDIT_} %l)",
-    #    # '''echo "%l" | pyline -m shlex 'l and "\n".join(shlex.split(l))' | """
-    #    #('''((for arg in %l; do echo $arg; done) | el --each -x "${EDITOR_:-${EDITOR}} "${_WRD}/{0}")'''),
-    #    name='ew',
-    #    complfuncstr=(
-    #"""local cur=${2}; COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));"""
-    #))
-
-    #aliases['e'] = aliases['editw']
-    env['PROJECT_FILES'] = " ".join(
-        str(x) for x in PROJECT_FILES)
-    aliases['editp'] = "${GUIVIMBIN} ${VIMCONF} ${PROJECT_FILES} %l"
-
-    aliases['makewrd'] = "(cd {_WRD} && make %l)".format(
-            _WRD=shell_varquote('_WRD'))
-
-    aliases['makew']   = aliases['makewrd']
-    aliases['mw']      = aliases['makewrd']
-
-    aliases['makewepy'] = "_logfile=\"${_LOG}/make.log.py\"; (makew %l 2>&1 | tee $_logfile) && e $_logfile"
-
-    _SVCFG = env.get('_SVCFG', joinpath(env['_ETC'], 'supervisord.conf'))
-    if os.path.exists(_SVCFG) or dont_reflect:
-        env['_SVCFG'] = _SVCFG
-        env['_SVCFG_'] = ' -c %s' % shell_quote(env['_SVCFG'])
-    else:
-        logging.error('supervisord configuration %r not found' % _SVCFG)
-        env['_SVCFG_'] = ''
-    aliases['ssv'] = 'supervisord -c "${_SVCFG}"'
-    aliases['sv'] = 'supervisorctl -c "${_SVCFG}"'
-    aliases['svt'] = 'sv tail -f'
-    aliases['svd'] = ('supervisorctl -c "${_SVCFG}" restart dev'
-                      ' && supervisorctl -c "${_SVCFG}" tail -f dev')
-    return env
+    funcs = [
+        build_editor_env,
+        build_ipython_env,
+        build_grin_env,
+        build_wrd_aliases_env,
+        build_python_testing_env,
+        build_pyramid_env,
+        build_supervisord_env]
+    builder = StepBuilder(env)
+    for func in funcs:
+        builder.add_step(func)
+    return builder.build()
 
 
 def build_usrlog_env(env=None,
@@ -1896,15 +1911,16 @@ class Env(object):
         ("__DOTFILES", "${HOME}/-dotfiles"),
         ("__WRK", "${HOME}/-wrk"),
         #("PROJECT_HOME", "${HOME}/-wrk"),
+        ("PROJECT_HOME", "${__WRK}"),
         ("WORKON_HOME__py27", "${__WRK}/-ve27"),
         ("WORKON_HOME__py34", "${__WRK}/-ve34"),
         ("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
         ("CONDA_ROOT__py27", "${__WRK}/-conda27"),
-        ("CONDA_ENVS_PATH__py27", "${__WRK}/-ce27"),
+        ("CONDA_ENVS__py27", "${__WRK}/-ce27"),
         ("CONDA_ROOT__py34", "${__WRK}/-conda34"),
-        ("CONDA_ENVS_PATH__py34", "${__WRK}/-ce34"),
-        ("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
-        ("CONDA_ENVS_PATH_DEFAULT", "CONDA_ENVS_PATH__py27"),
+        ("CONDA_ENVS__py34", "${__WRK}/-ce34"),
+        #("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
+        #("CONDA_ENVS_DEFAULT", "CONDA_ENVS__py27"),
         ("CONDA_ROOT", "${__WRK}/-conda27"),
         ("CONDA_ENVS_PATH", "${__WRK}/-ce27"),
         ("WORKON_HOME", "${__WRK}/-ve27"),
@@ -1950,27 +1966,27 @@ class Env(object):
         ("_VARSPOOL", "${_VAR}/spool"),
         ("_VARTMP", "${_VAR}/tmp"),
         ("_WWW", "${_VAR}/www"),
-        ("PROJECT_FILES", ""),
-        ("VIMBIN", "/usr/bin/vim"),
-        ("GVIMBIN", "/usr/local/bin/gvim"),
-        ("MVIMBIN", "/usr/local/bin/mvim"),
-        ("GUIVIMBIN", "/usr/local/bin/gvim"),
-        ("VIMCONF", "--servername dotfiles"),
-        ("_EDIT_", "/usr/local/bin/gvim --servername dotfiles --remote-tab-silent"),
-        ("EDITOR_", "/usr/local/bin/gvim --servername dotfiles --remote-tab-silent"),
-        ("_NOTEBOOKS", "${_SRC}/notebooks"),
-        ("_IPYSESKEY", "${_SRC}/.ipyseskey"),
-        ("_IPQTLOG", "${VIRTUAL_ENV}/.ipqt.log"),
-        ("_WRD_SETUPY", "${_WRD}/setup.py"),
-        ("_TEST_", "(cd {_WRD} && python \"${_WRD_SETUPY}\" test)"),
-        ("_CFG", "${_ETC}/development.ini"),
-        ("_EDITCFG_", "/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini"),
-        ("_SHELL_", "(cd {_WRD} && \"${_BIN}\"/pshell \"${_CFG}\")"),
-        ("_SERVE_", "(cd {_WRD} && \"${_BIN}\"/pserve --app-name=main --reload --monitor-restart \"${_CFG}\")"),
-        ("_SVCFG", "${_ETC}/supervisord.conf"),
-        ("_SVCFG_", " -c \"${_ETC}/supervisord.conf\""),
-        ("__USRLOG", "${HOME}/-usrlog.log"),
-        ("_USRLOG", "${VIRTUAL_ENV}/-usrlog.log"),
+        #("PROJECT_FILES", ""),
+        #("VIMBIN", "/usr/bin/vim"),
+        #("GVIMBIN", "/usr/local/bin/gvim"),
+        #("MVIMBIN", "/usr/local/bin/mvim"),
+        #("GUIVIMBIN", "/usr/local/bin/gvim"),
+        #("VIMCONF", "--servername dotfiles"),
+        #("_EDIT_", "/usr/local/bin/gvim --servername dotfiles --remote-tab-silent"),
+        #("EDITOR_", "/usr/local/bin/gvim --servername dotfiles --remote-tab-silent"),
+        #("_NOTEBOOKS", "${_SRC}/notebooks"),
+        #("_IPYSESKEY", "${_SRC}/.ipyseskey"),
+        #("_IPQTLOG", "${VIRTUAL_ENV}/.ipqt.log"),
+        #("_WRD_SETUPY", "${_WRD}/setup.py"),
+        #("_TEST_", "(cd {_WRD} && python \"${_WRD_SETUPY}\" test)"),
+        #("_CFG", "${_ETC}/development.ini"),
+        #("_EDITCFG_", "/usr/local/bin/gvim --servername dotfiles --remote-tab-silent ${_ETC}/development.ini"),
+        #("_SHELL_", "(cd {_WRD} && \"${_BIN}\"/pshell \"${_CFG}\")"),
+        #("_SERVE_", "(cd {_WRD} && \"${_BIN}\"/pserve --app-name=main --reload --monitor-restart \"${_CFG}\")"),
+        #("_SVCFG", "${_ETC}/supervisord.conf"),
+        #("_SVCFG_", " -c \"${_ETC}/supervisord.conf\""),
+        #("__USRLOG", "${HOME}/-usrlog.log"),
+        #("_USRLOG", "${VIRTUAL_ENV}/-usrlog.log"),
     ))
 
 
@@ -2414,6 +2430,8 @@ class Venv(object):
               dont_reflect=True,
               debug=False,
               show_diffs=False,
+              build_user_aliases=False,
+              build_userlog_env=False,
               ):
         """
         Build :py:class:`Venv` :py:class:`Steps` with :py:class:`StepBuilder`
@@ -2447,8 +2465,15 @@ class Venv(object):
         builder.add_step(build_venv_activate_env)
         builder.add_step(build_venv_paths_full_env)
         builder.add_step(build_venv_paths_cdalias_env)
-        builder.add_step(build_user_aliases_env)
-        builder.add_step(build_usrlog_env)
+
+        # if you would like to fork, fork.
+        # if you would like to submit a patch or a pull request, please do.
+
+        if build_user_aliases:
+            builder.add_step(build_user_aliases_env)
+        if build_usrlog_env:
+            builder.add_step(build_usrlog_env)
+
         logevent('Venv.build',
                  dict(env=env, conf=conf),
                  wrap=True,

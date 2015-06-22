@@ -5,6 +5,7 @@
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html#Readline-vi-Mode
+#   * https://github.com/whiteinge/dotfiles/blob/master/.inputrc
 #
     #  help bind
     #  # list bindings
@@ -18,8 +19,26 @@ set bell-style none
 # - show visible bell (flash the screen)
 set bell-style visible
 
-set show-all-if-ambiguous on
+# Adds punctuation as word delimiters
+# set bind-tty-special-chars off
+
+# Adds punctuation as word delimiters
+ set bind-tty-special-chars on
+
+# Completion Options
+set page-completions on
 set completion-ignore-case on
+set completion-query-items 200
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set visible-stats on
+
+# Useful stuff for UTF-8
+set meta-flag on
+set input-meta on
+set output-meta on
+set convert-meta off
+
 # menu-complete-display-prefix on
     # <OSX_opt>-k   -- reset screen
 
@@ -51,11 +70,24 @@ $if mode=vi
     #  <ctrl> ]  -- move to end of line ($)
     "\C-]": vi-append-eol
 
+    #  <up>      -- history search backward (match current input)
+    "\e[A": history-search-backward
+    #  <down>    -- history search forward (match current input)
+    "\e[B": history-search-forward
+
+    #<ctrl> <left>  -- move to prev word
+    #"\C-\e[D": vi-prev-word
+    #<ctrl> <right>  -- move to next word
+    #"\C-\e[C": vi-next-word
+
     #  <ctrl> w  -- delete last word
     "\C-w": backward-kill-word
 
     #  <ctrl> gx -- expand without executing
     "\C-gx": glob-expand-word
+
+    #  <ctrl> 3  -- prefix with '# '
+    "\C-3": "\C-a# "
 
   ## vi-insert keymap
   set keymap vi-insert
@@ -77,11 +109,24 @@ $if mode=vi
     #  <ctrl> ]  -- move to end of line ($)
     "\C-]": vi-append-eol
 
+    #  <up>      -- history search backward (match current input)
+    "\e[A": history-search-backward
+    #  <down>    -- history search forward (match current input)
+    "\e[B": history-search-forward
+
+    # <ctrl> <left>  -- move to prev word
+    # "\C-\e[D": vi-prev-word
+    # <ctrl> <right>  -- move to next word
+    # "\C-\e[C": vi-next-word
+
     #  <ctrl> w  -- delete last word
     "\C-w": backward-kill-word
 
     #  <ctrl> gx -- glob expand without executing
     "\C-gx": glob-expand-word
+
+    #  <ctrl> 3  -- prefix with '# '
+    "\C-3": "\C-a# "
 $endif
 
 $if mode=emacs

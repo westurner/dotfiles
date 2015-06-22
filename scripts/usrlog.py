@@ -31,19 +31,23 @@ except ImportError:
         import datetime
         pass
 
-if dateutil:
+if arrow:
     def parse_date(datestr):
-        try:
-            return dateutil.parser.parse(datestr)
-        except ValueError as e:
-            log.error(datestr)
-            log.exception(e)
-            raise
+        return arrow.get(datestr)
 else:
-    if arrow:
+    if dateutil:
         def parse_date(datestr):
-            return arrow.get(datestr)
+            try:
+                return dateutil.parser.parse(datestr)
+            except ValueError as e:
+                log.error(datestr)
+                log.exception(e)
+                raise
     else:
+        import warnings
+        warnings.warn("Neither 'dateutil' nor 'arrow' found, "
+                      "defaulting to timezone-naieve datetime.strptime "
+                      "(pip install arrow dateutil)")
         def parse_date(datestr):
             if not datestr:
                 return datestr

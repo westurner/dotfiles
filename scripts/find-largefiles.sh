@@ -9,7 +9,7 @@ function find_largefiles () {
 function _find_largefiles () {
     # find-largefiles() -- find files larger than size (default: +10M)
     SIZE=${1:-"+10M"}
-    find . -xdev -type f -size "${SIZE}" -exec ls -alh {} \;
+    find . -xdev -type f -size "${SIZE}" -exec ls -al {} \;
     return
 }
 

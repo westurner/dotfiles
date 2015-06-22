@@ -4,8 +4,9 @@ Changelog
 
 .. code:: bash
 
-    git log --graph v0.1.1..HEAD
-    git log --format='* %s [%h]' v0.8.2..HEAD
+    git log --format='* %s [%h]' master..develop
+    git changelog master..develop   # etc/.gitconfig
+
 
 0.8.3
 ------
@@ -13,6 +14,7 @@ Changelog
 * BUG,ENH: editw completion, lsw(), findw(), grepw() [9f95863]
 * REf: .gitignore: etc/vim -> etc/.vim [c1edfea]
 * BLD,REF: scripts/bootstrap_dotfiles.sh: etc/vim -> etc/.vim (for grinw and grindw) [bc2b0ac]
+* TODO
 
 
 0.8.2

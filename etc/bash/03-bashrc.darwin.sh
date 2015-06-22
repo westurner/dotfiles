@@ -7,6 +7,16 @@
 #  softwareupdate -i --all  # --install --all
 #  softwareupdate -i -r     # --install --recommended
 
+# Mac Boot-time modifiers: (right after the chime)
+#
+#  Option    -- boot to boot disk selector menu
+#  C         -- boot from CD/DVD
+#  Shift     -- boot into Safe mode
+#  Command-V -- boot into verbose mode
+#   sudo nvram boot-args="-v"  # always boot verbosely
+#   sudo nvram boot-args=""    # boot normally
+#   sudo nvram -p              # print current nvram settings
+
 if [ -z "${__IS_MAC}" ]; then
     return
 fi
@@ -47,4 +57,5 @@ finder-show-hidden () {
     defaults write com.apple.finder AppleShowAllFiles YES
     finder-killall
 }
+
 

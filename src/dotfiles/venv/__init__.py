@@ -88,4 +88,7 @@ must be symlinked into ``~/.ipython/profile_default``
 """
 
 from dotfiles.venv import ipython_config, ipython_magics
-__ALL__ = ['ipython_config', 'ipython_magics']
+__all__ = ['ipython_config', 'ipython_magics']
+
+if __name__ == "__main__":
+    ipython_config.main()

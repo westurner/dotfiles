@@ -538,7 +538,7 @@ class ResultWriter_csv(ResultWriter):
 class ResultWriter_json(ResultWriter):
     filetype = 'json'
 
-    def write(self, obj):
+    def write_numbered(self, obj):
         print(
             json.dumps(
                 obj._asdict(),
@@ -546,7 +546,13 @@ class ResultWriter_json(ResultWriter):
             end=',\n',
             file=self._output)
 
-    write_numbered = write
+    def write(self, obj):
+        print(
+            json.dumps(
+                obj.result,
+                indent=2),
+            end=',\n',
+            file=self._output)
 
 
 class ResultWriter_html(ResultWriter):
