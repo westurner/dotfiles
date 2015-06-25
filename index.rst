@@ -1156,7 +1156,7 @@ C++
 | Wikipedia: `<https://en.wikipedia.org/wiki/C++>`__
 | Docs: http://learnxinyminutes.com/docs/c++/
 
-C++ is an :ref:`Open Source <open-source>`
+C++ is a free and open source
 third-generation programming language
 which adds object orientation and a standard library to :ref:`C`.
 
@@ -1192,7 +1192,7 @@ Haskell
 | Docs: http://learnyouahaskell.com/chapters
 | Docs: https://en.wikipedia.org/wiki/Haskell_features
 
-Haskell is an :ref:`Open Source <open-source>`
+Haskell is a free and open source
 strongly staticly typed purely functional
 programming language.
 
@@ -1211,7 +1211,7 @@ Go
 | Docs: http://golang.org/doc/
 | Source: hg https://code.google.com/p/go/
 
-Go is an :ref:`Open Source <open-source>`
+Go is a free and open source
 statically-typed :reF:`C`-based third generation language.
 
 
@@ -1288,7 +1288,7 @@ JavaScript
 | Docs: https://en.wikipedia.org/wiki/ECMAScript
 | Docs: http://learnxinyminutes.com/docs/javascript/
 
-JavaScript is an :ref:`Open Source <open-source>`
+JavaScript is a free and open source
 third-generation programming language
 designed to run in an interpreter; now specified as *ECMAScript*.
 
@@ -1312,7 +1312,7 @@ Node.js
 | Homepage: http://www.nodejs.org
 | Source: https://github.com/joyent/node
 
-Node.js is an :ref:`Open Source <open-source>`
+Node.js is a free and open source
 framework for :ref:`Javascript` applications
 written in :ref:`C`, :ref:`C++`, and :ref:`Javascript`.
 
@@ -1329,7 +1329,7 @@ Jinja2
 | Docs: https://jinja2.readthedocs.org/en/latest/
 | Docs: http://jinja.pocoo.org/docs/dev/
 
-Jinja (jinja2) is an :ref:`Open Source <open-source>`
+Jinja (jinja2) is a free and open source
 templating engine written in :ref:`Python`.
 
 :ref:`Sphinx` and :ref:`Salt` are two projects that utilize Jinja2.
@@ -1345,7 +1345,7 @@ Perl
 | Docs: http://www.perl.org/docs.html
 | Source: git git://perl5.git.perl.org/perl.git
 
-Perl is an :ref:`Open Source <open-source>`,
+Perl is a free and open source,
 dynamically typed, :ref:`C`-based third-generation
 programming language.
 
@@ -1373,7 +1373,7 @@ Python
 | Docs: https://www.class-central.com/search?q=python
 | Docs: http://learnxinyminutes.com/docs/python/
 
-Python is an :ref:`Open Source <open-source>`
+Python is a free and open source
 dynamically-typed, :ref:`C`-based third-generation
 programming language.
 
@@ -1628,7 +1628,7 @@ Ruby
 | Docs: https://www.ruby-lang.org/en/documentation/
 | Docs: http://learnxinyminutes.com/docs/ruby/
 
-Ruby is an :ref:`Open Source <open-source>`
+Ruby is a free and open source
 dynamically-typed programming language.
 
 :ref:`Vagrant` is written in Ruby.
@@ -1646,7 +1646,7 @@ Rust
 | Docs: http://learnxinyminutes.com/docs/rust/
 | Docs: https://doc.rust-lang.org/book/
 
-Rust is an :ref:`Open Source <open-source>`
+Rust is a free and open source
 strongly typed
 multi-paradigm programming language.
 
@@ -1683,7 +1683,7 @@ Scala
 | Docs: http://scala-lang.org/api/current/
 | Docs: http://learnxinyminutes.com/docs/scala/
 
-Scala is an :ref:`Open Source <open-source>`
+Scala is a free and open source
 object-oriented and functional
 language which compiles to
 :ref:`JVM` (and :ref:`LLVM`) bytecode.
@@ -2312,14 +2312,17 @@ WSUS Offline Update
 | Source: svn https://svn.wsusoffline.net/svn/wsusoffline/trunk/
 | Docs: http://www.wsusoffline.net/docs/
 
-WSUS Offline Update is an :ref:`Open Source <open-source>`
-software tool for generating :ref:`Windows`
-offline Windows upgrade CDs / DVDs
+WSUS Offline Update is a free and open source
+software tool for generating
+offline :ref:`Windows` upgrade CDs / DVDs
 containing the latest upgrades for Windows, Office, and .Net.
 
-* "Slipstreaming" an installation ISO is one way to avoid
+
+* Bandwidth costs: Windows Updates (WSUS) in GB * n_machines
+  (see also: :ref:`Debtorrent`, :ref:`Packages`)
+* "Slipstreaming" an installation ISO is one alternative way to avoid
   having to spend hours
-  ugprading a factory reinstalled ("reformatted")
+  upgrading a factory reinstalled ("reformatted")
   :ref:`Windows` installation
 
 
