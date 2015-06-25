@@ -1259,7 +1259,7 @@ A JVM ("Java Virtual Machine") runs :ref:`Java` code (classes and JARs).
     | Download: https://www.java.com/en/download/
     | Docs: https://www.java.com/en/download/help/index_installing.xml?os=All+Platforms
 
-  + OpenJDK (:ref:`Open Source <open-source>`)
+  + OpenJDK (open source)
 
     | Wikipedia: https://en.wikipedia.org/wiki/OpenJDK
     | Homepage: http://openjdk.java.net/
@@ -1268,7 +1268,7 @@ A JVM ("Java Virtual Machine") runs :ref:`Java` code (classes and JARs).
     | Docs: https://wiki.openjdk.java.net/
     | Docs: http://openjdk.java.net/guide/
 
-    + IcedTea (:ref:`Open Source <open-source>`)
+    + IcedTea (open source)
 
       | Wikipedia: https://en.wikipedia.org/wiki/IcedTea
 
@@ -1383,22 +1383,24 @@ Python is often utilized for system administration
 and scientific software development.
 
 * Many of the :ref:`RedHat` system management tools (such as :ref:`Yum`)
-are written in Python.
+  are written in Python.
 
 * Gentoo :ref:`Portage` is written in Python.
 
 * :ref:`IPython`, :ref:`Pip`, :ref:`Conda`,
-:ref:`Sphinx`, :ref:`Docutils`,
-:ref:`Mercurial`, :ref:`OpenStack`,
-:ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
-and :ref:`Virtualenvwrapper` are all written in Python.
+  :ref:`Sphinx`, :ref:`Docutils`,
+  :ref:`Mercurial`, :ref:`OpenStack`,
+  :ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
+  and :ref:`Virtualenvwrapper` are all written in Python.
 
-:ref:`PyPI` is the Python community :ref:`Python Package` index
+* :ref:`PyPI` is the Python community
+:ref:`Python Package <python packages>` index
 for sharing open source code.
 
-:ref:`Anaconda` maintains a working set of :ref:`Conda` packages
-for Python 2.6, 2.7, 3.3, and 3.4:
-http://docs.continuum.io/anaconda/pkg-docs.html
+* :ref:`Anaconda` maintains a working set of :ref:`Conda` packages
+  for Python 2.6, 2.7, 3.3, and 3.4:
+
+  http://docs.continuum.io/anaconda/pkg-docs.html
 
 The Python community is generously supported by a number of sponsors
 and the Python Infrastructure Team:
@@ -2319,7 +2321,7 @@ containing the latest upgrades for Windows, Office, and .Net.
 
 
 * Bandwidth costs: Windows Updates (WSUS) in GB * n_machines
-  (see also: :ref:`Debtorrent`, :ref:`Packages`)
+  (see also: *Debtorrent*, :ref:`Packages`)
 * "Slipstreaming" an installation ISO is one alternative way to avoid
   having to spend hours
   upgrading a factory reinstalled ("reformatted")
@@ -3574,7 +3576,7 @@ runipy
 
 runipy runs :ref:`Jupyter notebooks <jupyter notebook>`
 from a :ref:`Shell <shells>` commandline, generates
-:ref:`HTML` reports,
+`HTML` reports,
 and can write errors to stderr.
 
 :ref:`Jupyter notebook <Jupyter Notebook>` *manual* test review process:
