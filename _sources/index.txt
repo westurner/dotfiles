@@ -346,7 +346,7 @@ Python Packages
 | Docs: https://packaging.python.org/en/latest/peps.html
 | Docs: https://packaging.python.org/en/latest/projects.html
 
-A Python Package is a collection of source code and package data files.
+A :ref:`Python` Package is a collection of source code and package data files.
 
 * Python packages have dependencies: they depend on other packages
 * Python packages can be served from a package index
@@ -1156,7 +1156,8 @@ C++
 | Wikipedia: `<https://en.wikipedia.org/wiki/C++>`__
 | Docs: http://learnxinyminutes.com/docs/c++/
 
-C++ is a third-generation programming language
+C++ is a free and open source
+third-generation programming language
 which adds object orientation and a standard library to :ref:`C`.
 
 * C++ is an ISO specification: C++98, C++03, C++11 (C++0x), C++14, [ C++17 ]
@@ -1191,7 +1192,8 @@ Haskell
 | Docs: http://learnyouahaskell.com/chapters
 | Docs: https://en.wikipedia.org/wiki/Haskell_features
 
-Haskell is a strongly staticly typed purely functional
+Haskell is a free and open source
+strongly staticly typed purely functional
 programming language.
 
 :ref:`Cabal` is the Haskell package manager.
@@ -1209,7 +1211,8 @@ Go
 | Docs: http://golang.org/doc/
 | Source: hg https://code.google.com/p/go/
 
-Go is a statically-typed :reF:`C`-based third generation language.
+Go is a free and open source
+statically-typed :reF:`C`-based third generation language.
 
 
 .. index:: Java
@@ -1256,7 +1259,7 @@ A JVM ("Java Virtual Machine") runs :ref:`Java` code (classes and JARs).
     | Download: https://www.java.com/en/download/
     | Docs: https://www.java.com/en/download/help/index_installing.xml?os=All+Platforms
 
-  + OpenJDK
+  + OpenJDK (open source)
 
     | Wikipedia: https://en.wikipedia.org/wiki/OpenJDK
     | Homepage: http://openjdk.java.net/
@@ -1265,7 +1268,7 @@ A JVM ("Java Virtual Machine") runs :ref:`Java` code (classes and JARs).
     | Docs: https://wiki.openjdk.java.net/
     | Docs: http://openjdk.java.net/guide/
 
-    + IcedTea
+    + IcedTea (open source)
 
       | Wikipedia: https://en.wikipedia.org/wiki/IcedTea
 
@@ -1285,7 +1288,8 @@ JavaScript
 | Docs: https://en.wikipedia.org/wiki/ECMAScript
 | Docs: http://learnxinyminutes.com/docs/javascript/
 
-JavaScript is a third-generation programming language
+JavaScript is a free and open source
+third-generation programming language
 designed to run in an interpreter; now specified as *ECMAScript*.
 
 All major web browsers support Javascript.
@@ -1298,6 +1302,7 @@ often with :ref:`Node.js`, :ref:`NPM`, and :ref:`Bower` packages.
 .. note:: Java and JavaScript are two distinctly different languages
    and developer ecosystems.
 
+
 .. index:: Node.js
 .. _node.js:
 
@@ -1307,8 +1312,8 @@ Node.js
 | Homepage: http://www.nodejs.org
 | Source: https://github.com/joyent/node
 
-
-Node.js is a framework for :ref:`Javascript` applications
+Node.js is a free and open source
+framework for :ref:`Javascript` applications
 written in :ref:`C`, :ref:`C++`, and :ref:`Javascript`.
 
 
@@ -1324,7 +1329,8 @@ Jinja2
 | Docs: https://jinja2.readthedocs.org/en/latest/
 | Docs: http://jinja.pocoo.org/docs/dev/
 
-Jinja (jinja2) is a templating engine written in :ref:`Python`.
+Jinja (jinja2) is a free and open source
+templating engine written in :ref:`Python`.
 
 :ref:`Sphinx` and :ref:`Salt` are two projects that utilize Jinja2.
 
@@ -1339,7 +1345,8 @@ Perl
 | Docs: http://www.perl.org/docs.html
 | Source: git git://perl5.git.perl.org/perl.git
 
-Perl is a dynamically typed, :ref:`C`-based third-generation
+Perl is a free and open source,
+dynamically typed, :ref:`C`-based third-generation
 programming language.
 
 Many of the Debian system management tools are or were originally written
@@ -1366,7 +1373,8 @@ Python
 | Docs: https://www.class-central.com/search?q=python
 | Docs: http://learnxinyminutes.com/docs/python/
 
-Python is a dynamically-typed, :ref:`C`-based third-generation
+Python is a free and open source
+dynamically-typed, :ref:`C`-based third-generation
 programming language.
 
 As a multi-paradigm language with support for functional
@@ -1374,20 +1382,25 @@ and object-oriented code,
 Python is often utilized for system administration
 and scientific software development.
 
-Many of the :ref:`RedHat` system management tools (such as :ref:`Yum`)
-are written in Python.
+* Many of the :ref:`RedHat` system management tools (such as :ref:`Yum`)
+  are written in Python.
 
-Gentoo :ref:`Portage` is written in Python.
+* Gentoo :ref:`Portage` is written in Python.
 
-:ref:`IPython`, :ref:`Pip`, :ref:`Conda`,
-:ref:`Sphinx`, :ref:`Docutils`,
-:ref:`Mercurial`, :ref:`OpenStack`,
-:ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
-and :ref:`Virtualenvwrapper` are all written in Python.
+* :ref:`IPython`, :ref:`Pip`, :ref:`Conda`,
+  :ref:`Sphinx`, :ref:`Docutils`,
+  :ref:`Mercurial`, :ref:`OpenStack`,
+  :ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
+  and :ref:`Virtualenvwrapper` are all written in Python.
 
-:ref:`Anaconda` maintains a working set of :ref:`Conda` packages
-for Python 2.6, 2.7, 3.3, and 3.4:
-http://docs.continuum.io/anaconda/pkg-docs.html
+* :ref:`PyPI` is the Python community
+:ref:`Python Package <python packages>` index
+for sharing open source code.
+
+* :ref:`Anaconda` maintains a working set of :ref:`Conda` packages
+  for Python 2.6, 2.7, 3.3, and 3.4:
+
+  http://docs.continuum.io/anaconda/pkg-docs.html
 
 The Python community is generously supported by a number of sponsors
 and the Python Infrastructure Team:
@@ -1613,13 +1626,71 @@ Ruby
 ~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Ruby_(programming_language)>`_
 | Homepage: https://www.ruby-lang.org/
+| Source: svn http://svn.ruby-lang.org/repos/ruby/trunk
 | Docs: https://www.ruby-lang.org/en/documentation/
 | Docs: http://learnxinyminutes.com/docs/ruby/
-| Source: svn http://svn.ruby-lang.org/repos/ruby/trunk
 
-Ruby is a dynamically-typed programming language.
+Ruby is a free and open source
+dynamically-typed programming language.
 
 :ref:`Vagrant` is written in Ruby.
+
+
+.. index:: Rust
+.. _rust:
+
+Rust
+~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Rust_(programming_language)>`__
+| Homepage: http://www.rust-lang.org/
+| Docs: https://doc.rust-lang.org/stable/
+| Docs: https://doc.rust-lang.org/nightly/
+| Docs: http://learnxinyminutes.com/docs/rust/
+| Docs: https://doc.rust-lang.org/book/
+
+Rust is a free and open source
+strongly typed
+multi-paradigm programming language.
+
+* It's possible to "drop-in replace" :ref:`C` and :ref:`C++` modules
+  with rust code
+* Rust can call into :ref:`C` code
+* Rust is similar to but much safer than :ref:`C` and :ref:`C++`
+  ("memory safety")
+* In terms of :ref:`C` compatibility and smart pointers/references
+  ("memory safety"); :ref:`Go` and :ref:`Rust` have similar objectives.
+
+  https://doc.rust-lang.org/book/ownership.html
+
+  * https://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization
+  * https://en.wikipedia.org/wiki/Smart_pointer
+  * https://doc.rust-lang.org/book/the-stack-and-the-heap.html
+
+  * https://rust-lang.github.io/rlibc/rlibc/fn.memcpy.html
+
+    .. code::
+
+        pub unsafe extern fn memcpy(dest: *mut u8, src: *const u8, n: usize) -> *mut u8
+
+
+.. index:: Scala
+.. _scala:
+
+Scala
+~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Scala_(programming_language)>`__
+| Homepage: http://scala-lang.org/
+| Source: git https://github.com/scala/scala
+| Twitter: https://twitter.com/scala_lang
+| Docs: http://scala-lang.org/api/current/
+| Docs: http://learnxinyminutes.com/docs/scala/
+
+Scala is a free and open source
+object-oriented and functional
+language which compiles to
+:ref:`JVM` (and :ref:`LLVM`) bytecode.
+
+
 
 
 .. index:: YAML
@@ -2232,6 +2303,32 @@ There used to be a POSIX compatibility mode.
 
 Chocolatey maintains a set of :ref:`NuGet` packages for Windows.
 
+
+.. index:: WSUS Offline Update
+.. _wsus offline update:
+
+WSUS Offline Update
+++++++++++++++++++++++
+| Homepage: http://www.wsusoffline.net/
+| Download: http://download.wsusoffline.net/
+| Source: svn https://svn.wsusoffline.net/svn/wsusoffline/trunk/
+| Docs: http://www.wsusoffline.net/docs/
+
+WSUS Offline Update is a free and open source
+software tool for generating
+offline :ref:`Windows` upgrade CDs / DVDs
+containing the latest upgrades for Windows, Office, and .Net.
+
+
+* Bandwidth costs: Windows Updates (WSUS) in GB * n_machines
+  (see also: *Debtorrent*, :ref:`Packages`)
+* "Slipstreaming" an installation ISO is one alternative way to avoid
+  having to spend hours
+  upgrading a factory reinstalled ("reformatted")
+  :ref:`Windows` installation
+
+
+
 Windows Notes
 +++++++++++++++
 
@@ -2647,7 +2744,7 @@ to partition process workloads all running under one kernel.
 .. glossary::
 
     Dockerfile
-        A ``Dockerfile`` contains the instructions needed to 
+        A ``Dockerfile`` contains the instructions needed to
         create a docker image.
 
 * Docker images build from a ``Dockerfile``
@@ -3479,7 +3576,7 @@ runipy
 
 runipy runs :ref:`Jupyter notebooks <jupyter notebook>`
 from a :ref:`Shell <shells>` commandline, generates
-:ref:`HTML` reports,
+`HTML` reports,
 and can write errors to stderr.
 
 :ref:`Jupyter notebook <Jupyter Notebook>` *manual* test review process:
