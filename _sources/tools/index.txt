@@ -4974,6 +4974,47 @@ which can convert between HTML,
 :ref:`ReStructuredText`,
 HTML, and a number of other formats.
 
+
+.. index:: pgs
+.. _pgs:
+
+Pgs
+~~~~
+| Source: https://github.com/westurner/pgs
+| PyPI: https://pypi.python.org/pypi/pgs
+
+pgs is an open source web application
+written in :ref:`Python`
+for serving static files from a :ref:`git` branch,
+or from the local filesystem.
+
+.. code:: bash
+
+   pgs -p "${_WRD}/_build/html" -b "gh-pages" -H localhost -P 8082
+
+* pgs is written with the one-file Bottle web framework
+* compared to ``python -m SimpleHTTPServer localhost:8000``,
+  (``python3 -m http.server localhost:8000``)
+  pgs has WSGI,
+  the ability to read from a git branch
+  without real :ref:`git` bindings,
+  and caching HTTP headers based on
+  Git or filesystem mtimes.
+* pgs does something like :ref:`Nginx` ``try_files $.html``
+
+  * https://westurner.org/tools/index
+
+    https://westurner.org/tools/index.html
+
+    * :ref:`Sphinx` can also generate links without ``.html`` extensions:
+
+      .. code:: python
+        # Suffix for generated links to HTML files.
+        # The default is whatever html_file_suffix is set to;
+        # it can be set differently (e.g. to support different web server setups).
+        html_link_suffix = ''
+
+
 .. index:: Sphinx
 .. _sphinx:
 
@@ -5008,9 +5049,54 @@ so, for example,
   a file named ``index.rst`` that referenced by ``docs/conf.py``,
   which is utilized by ``sphinx-build`` in the ``Makefile``.
 
-  * Input: https://raw.githubusercontent.com/westurner/tools/master/index.rst
-  * Output: https://github.com/westurner/tools/blob/master/index.rst
-  * Output: *ReadTheDocs*: https://westurner.org/tools/
+  * Input:
+
+    .. code:: bash
+
+      _indexrst="$WORKON_HOME/src/westurner/tools/index.rst"
+      e $_indexrst
+
+      # with westurner/dotfiles.venv
+      mkvirtualenv westurner
+      we westurner tools; mkdir -p $_SRC
+      git clone ssh://git@github.com/westurner/tools
+      cdw; e index.rst    # ew index.rst
+
+    https://github.com/westurner/tools/blob/master/index.rst
+
+    https://raw.githubusercontent.com/westurner/tools/master/index.rst
+
+
+
+  * Output:
+
+    .. code:: bash
+
+      cd $_WRD                        # cdwrd; cdw
+      git status; make <tab>          # gitw status; makew <tab>
+      make html singlehtml            # make docs
+      web ./_build/html/index.html    # make open
+
+      make gh-pages       # ghp-import -n -p ./_build/html/ -b gh-pages
+      make push           # gitw push <origin> <destbranch>
+
+    https://github.com/westurner/tools/blob/gh-pages/index.html
+
+    https://westurner.org/tools/
+
+
+    * RawGit:
+
+      dev/test: https://rawgit.com/westurner/tools/gh-pages/index.html
+
+      CDN: https://cdn.rawgit.com/westurner/tools/gh-pages/index.html
+
+  * Output: *ReadTheDocs*:
+
+    https://<projectname>.readthedocs.org/en/<version>/
+
+    https://read-the-docs.readthedocs.org/en/latest/
+
 
 .. glossary::
 
