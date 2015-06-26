@@ -735,8 +735,8 @@
     #               unsorted
     #
     # ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
-    # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
-    #                                  in column position
+    # usrlog_grin_session_id_all_cmds()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+    #                                       in column position
     # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     #                            (oldest first)
     # lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
