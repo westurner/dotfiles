@@ -2914,6 +2914,7 @@ and an :ref:`OpenStack` Nova hypervisor plugin.
 
 Mesos
 ~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Apache_Mesos
 | Homepage: https://mesos.apache.org/
 | Source: git https://github.com/apache/mesos
 | Q&A: https://stackoverflow.com/tags/mesos
