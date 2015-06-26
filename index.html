@@ -5164,14 +5164,19 @@ HTML, and a number of other formats.</p>
 written in <a class="reference internal" href="#python"><em>Python</em></a>
 for serving static files from a <a class="reference internal" href="#git"><em>Git</em></a> branch,
 or from the local filesystem.</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>pgs -p &quot;${_WRD}/_build/html&quot; -b &quot;gh-pages&quot; -H localhost -P 8082
+</pre></div>
+</div>
 <ul>
 <li><p class="first">pgs is written with the one-file Bottle web framework</p>
 </li>
-<li><p class="first">compared to <code class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">SimpleHTTPServer</span> <span class="pre">localhost:8088</span></code>,
-(<code class="docutils literal"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">http.server</span> <span class="pre">localhost:8088</span></code>)
-pgs has WSGI, caching HTTP headers, and
+<li><p class="first">compared to <code class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">SimpleHTTPServer</span> <span class="pre">localhost:8000</span></code>,
+(<code class="docutils literal"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">http.server</span> <span class="pre">localhost:8000</span></code>)
+pgs has WSGI,
 the ability to read from a git branch
-without real <a class="reference internal" href="#git"><em>Git</em></a> bindings</p>
+without real <a class="reference internal" href="#git"><em>Git</em></a> bindings,
+and caching HTTP headers based on
+Git or filesystem mtimes.</p>
 </li>
 <li><p class="first">pgs does something like <a class="reference internal" href="#nginx"><em>Nginx</em></a> <code class="docutils literal"><span class="pre">try_files</span> <span class="pre">$.html</span></code></p>
 <ul>

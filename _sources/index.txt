@@ -4988,12 +4988,18 @@ written in :ref:`Python`
 for serving static files from a :ref:`git` branch,
 or from the local filesystem.
 
+.. code:: bash
+
+   pgs -p "${_WRD}/_build/html" -b "gh-pages" -H localhost -P 8082
+
 * pgs is written with the one-file Bottle web framework
-* compared to ``python -m SimpleHTTPServer localhost:8088``,
-  (``python3 -m http.server localhost:8088``)
-  pgs has WSGI, caching HTTP headers, and
+* compared to ``python -m SimpleHTTPServer localhost:8000``,
+  (``python3 -m http.server localhost:8000``)
+  pgs has WSGI,
   the ability to read from a git branch
-  without real :ref:`git` bindings
+  without real :ref:`git` bindings,
+  and caching HTTP headers based on
+  Git or filesystem mtimes.
 * pgs does something like :ref:`Nginx` ``try_files $.html``
 
   * https://westurner.org/tools/index
