@@ -505,6 +505,7 @@ LOCALCSS=$(STATIC)/css/local.css
 localcss:
 	echo '' > $(LOCALCSS)
 	cat $(STATIC)/css/custom.css >> $(LOCALCSS)
+	cat $(STATIC)/css/sidenav-scrollto.css >> $(LOCALCSS)
 	cat $(STATIC)/css/leftnavbar.css >> $(LOCALCSS)
 
 LOCALJS=$(STATIC)/js/local.js
