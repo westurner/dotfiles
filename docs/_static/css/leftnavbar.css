@@ -9,8 +9,9 @@
         float: none;
     }
 
-    #sidebar-wrapper {
-        max-width: 25%
+    ul.navbar-nav.navbar-right {
+        position: fixed;
+        right: 24px;
+        z-index: 1000;
     }
 }
-
