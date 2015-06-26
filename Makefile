@@ -497,6 +497,9 @@ docs_rebuild:
 	$(MAKE) docs_rsync_to_local
 
 
+BUILDDIR:=./docs/_build
+BUILDDIRHTML:=./docs/_build/html
+BUILDDIRSINGLEHTML:=./docs/_build/singlehtml
 STATIC:=./docs/_static
 LOCALCSS=$(STATIC)/css/local.css
 localcss:
@@ -509,7 +512,24 @@ localjs:
 	echo '' > $(LOCALJS)
 	cat $(STATIC)/js/ga.js >> $(LOCALJS)
 	cat $(STATIC)/js/newtab.js >> $(LOCALJS)
-	cat $(STATIC)/js/affix-sidenav.js >> $(LOCALJS)
+	cat $(STATIC)/js/sidenav-affix.js >> $(LOCALJS)
+	cat $(STATIC)/js/jquery.scrollTo.js >> $(LOCALJS)
+	cat $(STATIC)/js/jquery.isonscreen.js >> $(LOCALJS)
+	cat $(STATIC)/js/sidenav-scrollto.js >> $(LOCALJS)
+
+localjs-live:
+	$(MAKE) localjs
+	cp -v ${LOCALJS} ${BUILDDIRHTML}/_static/js/local.js  || true;
+	cp -v ${LOCALJS} ${BUILDDIRSINGLEHTML}/_static/js/local.js  || true;
+
+localcss-live:
+	$(MAKE) localcss
+	cp -v ${LOCALCSS} ${BUILDDIRHTML}/_static/css/local.css || true;
+	cp -v ${LOCALCSS} ${BUILDDIRSINGLEHTML}/_static/css/local.css || true;
+
+local-live:
+	$(MAKE) localjs-live
+	$(MAKE) localcss-live
 
 
 docs-open: docs open
