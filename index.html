@@ -409,6 +409,7 @@
 <li><a class="reference internal" href="#documentation-tools">Documentation Tools</a><ul>
 <li><a class="reference internal" href="#docutils">Docutils</a></li>
 <li><a class="reference internal" href="#pandoc">Pandoc</a></li>
+<li><a class="reference internal" href="#pgs">Pgs</a></li>
 <li><a class="reference internal" href="#sphinx">Sphinx</a></li>
 <li><a class="reference internal" href="#tinkerer">Tinkerer</a></li>
 </ul>
@@ -792,6 +793,7 @@
 <li><a class="reference internal" href="#documentation-tools">Documentation Tools</a><ul>
 <li><a class="reference internal" href="#docutils">Docutils</a></li>
 <li><a class="reference internal" href="#pandoc">Pandoc</a></li>
+<li><a class="reference internal" href="#pgs">Pgs</a></li>
 <li><a class="reference internal" href="#sphinx">Sphinx</a></li>
 <li><a class="reference internal" href="#tinkerer">Tinkerer</a></li>
 </ul>
@@ -5152,8 +5154,39 @@ which can convert between HTML,
 <a class="reference internal" href="#restructuredtext"><em>ReStructuredText</em></a>,
 HTML, and a number of other formats.</p>
 </div>
+<div class="section" id="pgs">
+<span id="index-254"></span><span id="id214"></span><h3>Pgs<a class="headerlink" href="#pgs" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Source: <a class="reference external" href="https://github.com/westurner/pgs">https://github.com/westurner/pgs</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/pgs">https://pypi.python.org/pypi/pgs</a></div>
+</div>
+<p>pgs is an open source web application
+written in <a class="reference internal" href="#python"><em>Python</em></a>
+for serving static files from a <a class="reference internal" href="#git"><em>Git</em></a> branch,
+or from the local filesystem.</p>
+<ul>
+<li><p class="first">pgs is written with the one-file Bottle web framework</p>
+</li>
+<li><p class="first">compared to <code class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">SimpleHTTPServer</span> <span class="pre">localhost:8088</span></code>,
+(<code class="docutils literal"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">http.server</span> <span class="pre">localhost:8088</span></code>)
+pgs has WSGI, caching HTTP headers, and
+the ability to read from a git branch
+without real <a class="reference internal" href="#git"><em>Git</em></a> bindings</p>
+</li>
+<li><p class="first">pgs does something like <a class="reference internal" href="#nginx"><em>Nginx</em></a> <code class="docutils literal"><span class="pre">try_files</span> <span class="pre">$.html</span></code></p>
+<ul>
+<li><p class="first"><a class="reference external" href="https://westurner.org/tools/index">https://westurner.org/tools/index</a></p>
+<p><a class="reference external" href="https://westurner.org/tools/index.html">https://westurner.org/tools/index.html</a></p>
+<ul class="simple">
+<li><a class="reference internal" href="#sphinx"><em>Sphinx</em></a> can also generate links without <code class="docutils literal"><span class="pre">.html</span></code> extensions:</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="sphinx">
-<span id="index-254"></span><span id="id214"></span><h3>Sphinx<a class="headerlink" href="#sphinx" title="Permalink to this headline">¶</a></h3>
+<span id="index-255"></span><span id="id215"></span><h3>Sphinx<a class="headerlink" href="#sphinx" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)">https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://pypi.python.org/pypi/Sphinx">https://pypi.python.org/pypi/Sphinx</a></div>
@@ -5179,10 +5212,44 @@ so <code class="docutils literal"><span class="pre">README.rst</span></code> con
 <a class="reference internal" href="#sphinx"><em>Sphinx</em></a> documentation set is generated from
 a file named <code class="docutils literal"><span class="pre">index.rst</span></code> that referenced by <code class="docutils literal"><span class="pre">docs/conf.py</span></code>,
 which is utilized by <code class="docutils literal"><span class="pre">sphinx-build</span></code> in the <code class="docutils literal"><span class="pre">Makefile</span></code>.</p>
-<ul class="simple">
-<li>Input: <a class="reference external" href="https://raw.githubusercontent.com/westurner/tools/master/index.rst">https://raw.githubusercontent.com/westurner/tools/master/index.rst</a></li>
-<li>Output: <a class="reference external" href="https://github.com/westurner/tools/blob/master/index.rst">https://github.com/westurner/tools/blob/master/index.rst</a></li>
-<li>Output: <em>ReadTheDocs</em>: <a class="reference external" href="https://westurner.org/tools/">https://westurner.org/tools/</a></li>
+<ul>
+<li><p class="first">Input:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>_indexrst=&quot;$WORKON_HOME/src/westurner/tools/index.rst&quot;
+e $_indexrst
+
+# with westurner/dotfiles.venv
+mkvirtualenv westurner
+we westurner tools; mkdir -p $_SRC
+git clone ssh://git@github.com/westurner/tools
+cdw; e index.rst    # ew index.rst
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/westurner/tools/blob/master/index.rst">https://github.com/westurner/tools/blob/master/index.rst</a></p>
+<p><a class="reference external" href="https://raw.githubusercontent.com/westurner/tools/master/index.rst">https://raw.githubusercontent.com/westurner/tools/master/index.rst</a></p>
+</li>
+<li><p class="first">Output:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>cd $_WRD                        # cdwrd; cdw
+git status; make &lt;tab&gt;          # gitw status; makew &lt;tab&gt;
+make html singlehtml            # make docs
+web ./_build/html/index.html    # make open
+
+make gh-pages       # ghp-import -n -p ./_build/html/ -b gh-pages
+make push           # gitw push &lt;origin&gt; &lt;destbranch&gt;
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/westurner/tools/blob/gh-pages/index.html">https://github.com/westurner/tools/blob/gh-pages/index.html</a></p>
+<p><a class="reference external" href="https://westurner.org/tools/">https://westurner.org/tools/</a></p>
+<ul>
+<li><p class="first">RawGit:</p>
+<p>dev/test: <a class="reference external" href="https://rawgit.com/westurner/tools/gh-pages/index.html">https://rawgit.com/westurner/tools/gh-pages/index.html</a></p>
+<p>CDN: <a class="reference external" href="https://cdn.rawgit.com/westurner/tools/gh-pages/index.html">https://cdn.rawgit.com/westurner/tools/gh-pages/index.html</a></p>
+</li>
+</ul>
+</li>
+<li><p class="first">Output: <em>ReadTheDocs</em>:</p>
+<p><a class="reference external" href="https:/">https:/</a>/&lt;projectname&gt;.readthedocs.org/en/&lt;version&gt;/</p>
+<p><a class="reference external" href="https://read-the-docs.readthedocs.org/en/latest/">https://read-the-docs.readthedocs.org/en/latest/</a></p>
+</li>
 </ul>
 </li>
 </ul>
@@ -5231,7 +5298,7 @@ A link to <span class="na">:ref:</span><span class="nv">`anchor &lt;anchor-name&
 </dl>
 </div>
 <div class="section" id="tinkerer">
-<span id="index-255"></span><span id="id215"></span><h3>Tinkerer<a class="headerlink" href="#tinkerer" title="Permalink to this headline">¶</a></h3>
+<span id="index-256"></span><span id="id216"></span><h3>Tinkerer<a class="headerlink" href="#tinkerer" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Homepage: <a class="reference external" href="http://tinkerer.me/">http://tinkerer.me/</a></div>
 <div class="line">Source: <a class="reference external" href="https://github.com/vladris/tinkerer">https://github.com/vladris/tinkerer</a></div>
@@ -5249,14 +5316,14 @@ or any other web hosting service.</p>
 </div>
 </div>
 <div class="section" id="standards">
-<span id="index-256"></span><span id="id216"></span><h2>Standards<a class="headerlink" href="#standards" title="Permalink to this headline">¶</a></h2>
+<span id="index-257"></span><span id="id217"></span><h2>Standards<a class="headerlink" href="#standards" title="Permalink to this headline">¶</a></h2>
 <p>References:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards">https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards</a></li>
 <li><a class="reference external" href="https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards">https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards</a></li>
 </ul>
 <div class="section" id="filesystem-hierarchy-standard">
-<span id="fhs"></span><span id="index-257"></span><h3>Filesystem Hierarchy Standard<a class="headerlink" href="#filesystem-hierarchy-standard" title="Permalink to this headline">¶</a></h3>
+<span id="fhs"></span><span id="index-258"></span><h3>Filesystem Hierarchy Standard<a class="headerlink" href="#filesystem-hierarchy-standard" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard</a></div>
 <div class="line">Website: <a class="reference external" href="http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs">http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs</a></div>
@@ -5270,7 +5337,7 @@ a Filesystem Hierarchy.</p>
 also btrfs subvolumes.</p>
 </div>
 <div class="section" id="json">
-<span id="index-258"></span><span id="id217"></span><h3>JSON<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h3>
+<span id="index-259"></span><span id="id218"></span><h3>JSON<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/JSON">https://en.wikipedia.org/wiki/JSON</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://json.org/">http://json.org/</a></div>
@@ -5293,9 +5360,9 @@ for parsing and indenting (&#8220;prettifying&#8221;) JSON from the commandline<
 <div class="highlight-python"><div class="highlight"><pre>cat example.json | python -m json.tool
 </pre></div>
 </div>
-<span class="target" id="index-259"></span></div>
+<span class="target" id="index-260"></span></div>
 <div class="section" id="json-ld">
-<span id="index-260"></span><span id="id218"></span><h3>JSON-LD<a class="headerlink" href="#json-ld" title="Permalink to this headline">¶</a></h3>
+<span id="index-261"></span><span id="id219"></span><h3>JSON-LD<a class="headerlink" href="#json-ld" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/JSON-LD">https://en.wikipedia.org/wiki/JSON-LD</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://json-ld.org">http://json-ld.org</a></div>
@@ -5345,7 +5412,7 @@ for parsing and indenting (&#8220;prettifying&#8221;) JSON from the commandline<
 </div>
 </div>
 <div class="section" id="messagepack">
-<span id="msgpack"></span><span id="index-261"></span><h3>MessagePack<a class="headerlink" href="#messagepack" title="Permalink to this headline">¶</a></h3>
+<span id="msgpack"></span><span id="index-262"></span><h3>MessagePack<a class="headerlink" href="#messagepack" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/MessagePack">https://en.wikipedia.org/wiki/MessagePack</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://msgpack.org/">http://msgpack.org/</a></div>
@@ -5356,7 +5423,7 @@ with implementations in many languages.</p>
 </div>
 </div>
 <div class="section" id="vim">
-<span id="index-262"></span><span id="id219"></span><h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<span id="index-263"></span><span id="id220"></span><h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Vim_(text_editor)">https://en.wikipedia.org/wiki/Vim_(text_editor)</a></div>
 <div class="line">Homepage: <a class="reference external" href="http://www.vim.org/">http://www.vim.org/</a></div>
