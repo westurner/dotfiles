@@ -491,6 +491,10 @@ docs_tools_subtree_merge: docs_tools_subtree_diff
 	git diff --cached
 	git diff
 
+docs_tools_submodule:
+	git -C docs/tools pull origin master
+
+docs-tools: docs_tools_submodule docs
 
 docs_rebuild:
 	$(MAKE) docs
