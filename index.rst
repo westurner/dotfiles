@@ -4993,10 +4993,10 @@ or from the local filesystem.
    pgs -p "${_WRD}/_build/html" -b "gh-pages" -H localhost -P 8082
 
 * pgs is written with the one-file Bottle web framework
-* compared to ``python -m SimpleHTTPServer localhost:8000``,
-  (``python3 -m http.server localhost:8000``)
+* compared to ``python -m SimpleHTTPServer localhost:8000`` /
+  ``python3 -m http.server localhost:8000``
   pgs has WSGI,
-  the ability to read from a git branch
+  the ability to read from a Git branch
   without real :ref:`git` bindings,
   and caching HTTP headers based on
   Git or filesystem mtimes.
@@ -5006,13 +5006,22 @@ or from the local filesystem.
 
     https://westurner.org/tools/index.html
 
-    * :ref:`Sphinx` can also generate links without ``.html`` extensions:
+    * :ref:`Sphinx` can also generate links without ``.html`` extensions
+      with the ``html_link_suffix`` ``conf.py`` configuration setting.
+
+      https://github.com/westurner/tools/blob/master/conf.py :
 
       .. code:: python
+
         # Suffix for generated links to HTML files.
         # The default is whatever html_file_suffix is set to;
         # it can be set differently (e.g. to support different web server setups).
         html_link_suffix = ''
+
+
+    * Many web analytics tools support rules for deduplicating
+      ``<name>.html`` and ``<name>`` (which GitHub Pages always
+      supports).
 
 
 .. index:: Sphinx
