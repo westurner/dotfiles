@@ -103,7 +103,7 @@ Features
 
 usrlog venv integration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-* :ref:`venvs <venv>` (:ref:`virtualenvwrapper` :ref:`virtualenvs`)::
+* :ref:`venv` (:ref:`virtualenvwrapper` :ref:`virtualenvs`)::
 
     echo "${_USRLOG}"        # _USRLOG=$HOME/-usrlog.log
     echo "${HISTFILE}"       # HISTFILE=$HOME/.bash_history
@@ -140,7 +140,7 @@ usrlog venv integration
       function _setup_venv_prompt { ... }
       _setup_venv_prompt
 
-* ``_usrlog_grep_venv`` -- find commands pertaining to :ref:`venvs`
+* ``_usrlog_grep_venv`` -- find commands pertaining to :ref:`venv`
 
 
 .. index:: usrlog.log format
@@ -152,7 +152,7 @@ usrlog venv integration
 * Almost but not quite TSV (tab-separated values)
 
   * Maximum split (commands may contain additional unescaped tabs)
-  * Initial ``# `` in the date column
+  * Initial "# " in the date column
 
     * Because newlines
 
@@ -176,9 +176,8 @@ Syntax ::
     <cmd>                           # (history 1 || fc -l -1) | sedescape
 
 
-========================
 -usrlog.log natural key
-========================
+~~~~~~~~~~~~~~~~~~~~~~~~
     
 ::
 
