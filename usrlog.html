@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="usrlog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
+    <!--
+    <meta property="og:description" content="Documentation for the dotfiles project" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="usrlog" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
+    
+    <title>usrlog &mdash; westurner/dotfiles 0.8.3 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="_static/css/local.css" type="text/css" />
+<link rel="stylesheet" href="_static/issuetracker.css" type="text/css" />
+<link rel="stylesheet" href="_static/changelog.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.8.3',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/local.js"></script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="top" title="westurner/dotfiles 0.8.3 documentation" href="index" />
+    <link rel="next" title="Dotfiles API" href="api" />
+    <link rel="prev" title="venv" href="venv" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index">westurner/dotfiles 0.8.3 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">usrlog</a><ul>
+<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#features">Features</a><ul>
+<li><a class="reference internal" href="#usrlog-venv-integration">usrlog venv integration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usrlog-log-format">-usrlog.log format</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usrlog-py">usrlog.py</a></li>
+<li><a class="reference internal" href="#caveats">Caveats</a></li>
+<li><a class="reference internal" href="#ideas">Ideas</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="venv" title="venv" accesskey="P">previous </a></li>
+              <li><a href="api" title="Dotfiles API" accesskey="N">next </a></li>
+              <li><a href="py-modindex" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/usrlog.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="index">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">usrlog</a><ul>
+<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#features">Features</a><ul>
+<li><a class="reference internal" href="#usrlog-venv-integration">usrlog venv integration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usrlog-log-format">-usrlog.log format</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usrlog-py">usrlog.py</a></li>
+<li><a class="reference internal" href="#caveats">Caveats</a></li>
+<li><a class="reference internal" href="#ideas">Ideas</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="venv"
+                        title="previous chapter">venv</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api"
+                        title="next chapter">Dotfiles API</a></p>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usrlog.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/usrlog.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/usrlog.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/usrlog.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/usrlog.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="usrlog">
+<span id="index-0"></span><span id="id1"></span><h1>usrlog<a class="headerlink" href="#usrlog" title="Permalink to this headline">¶</a></h1>
+<p>usrlog: Shell CLI REPL command logs in userspace (per <a class="reference internal" href="tools/index#virtualenv"><em>Virtualenv</em></a>)</p>
+<ul class="simple">
+<li><a class="reference internal" href="#id4">-usrlog.log format</a> &#8211; <code class="docutils literal"><span class="pre">-usrlog.log</span></code> log files</li>
+<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a> &#8211; <a class="reference internal" href="tools/index#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a> shell script (append, grep)</li>
+<li><a class="reference internal" href="#usrlog-py">usrlog.py</a> &#8211; <a class="reference internal" href="tools/index#python"><em>Python</em></a> commandline parsing script (parse, ~grep)</li>
+</ul>
+<div class="section" id="usrlog-sh">
+<span id="index-1"></span><span id="id2"></span><h2>usrlog.sh<a class="headerlink" href="#usrlog-sh" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Source: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/usrlog.sh">https://github.com/westurner/dotfiles/blob/master/scripts/usrlog.sh</a></div>
+</div>
+<p>usrlog logs the most recent userspace
+interactive shell commandline CLI command to <code class="docutils literal"><span class="pre">$_USRLOG</span></code>
+<strong>after</strong> the shell command completes,
+with <a class="reference internal" href="tools/index#bash"><em>Bash</em></a> <code class="docutils literal"><span class="pre">PROMPT_COMMAND</span></code>
+and <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a> <code class="docutils literal"><span class="pre">precmd_functions</span></code> (see: <a class="reference internal" href="#caveats">Caveats</a>).</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># setup bash
+if [ -n &quot;$BASH&quot; ]; then
+    PROMPT_COMMAND=&quot;_usrlog_writecmd; _usrlog_echo_title;&quot;
+fi
+
+# setup zsh
+if [ -n &quot;$ZSH_VERSION&quot; ]; then
+    precmd_functions=(_usrlog_writecmd _usrlog_echo_title)
+fi
+</pre></div>
+</div>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="#usrlog-sh">usrlog.sh</a>:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># source &quot;${__DOTFILES}/etc/bash/30-bashrc.usrlog.sh  # {
+source &quot;${__DOTFILES}/scripts/usrlog.sh&quot;              # }
+echo &quot;${_USRLOG}&quot;$&#39;\t&#39;&quot;${_TERM_ID}&quot;         # dotfiles_status, ds, cls
+</pre></div>
+</div>
+</div>
+<div class="section" id="features">
+<h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Initial Use Case: merge <code class="docutils literal"><span class="pre">.bash_history</span></code> and <code class="docutils literal"><span class="pre">.zsh_history</span></code> files</p>
+</li>
+<li><p class="first">append each <a class="reference internal" href="tools/index#bash"><em>Bash</em></a> or <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a> userspace commandstr to one file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">_USRLOG</span><span class="o">=</span><span class="s">&quot;${HOME}/-usrlog.log&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">append each <a class="reference internal" href="tools/index#bash"><em>Bash</em></a> or <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a> userspace commandstr to one file
+per <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">_USRLOG</span><span class="o">=</span><span class="s">&quot;${VIRTUAL_ENV}/-usrlog.log&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">add a session id to differentiate between multiple term instances:</p>
+<div class="highlight-python"><div class="highlight"><pre>echo &quot;${_TERM_ID}&quot;
+termid
+</pre></div>
+</div>
+</li>
+<li><p class="first">generate relatively unique session ids by default
+when <code class="docutils literal"><span class="pre">$_TERM_ID</span></code> is unset:</p>
+<div class="highlight-python"><div class="highlight"><pre>set_term_id [&lt;name&gt;]        # stid &quot;#project/uri-fragment&quot;
+stid
+st
+</pre></div>
+</div>
+</li>
+<li><p class="first">include the <code class="docutils literal"><span class="pre">$_TERM_ID</span></code> in the shell prompt.</p>
+</li>
+<li><p class="first">include <code class="docutils literal"><span class="pre">VIRTUAL_ENV_NAME</span></code>, <code class="docutils literal"><span class="pre">TERM_ID</span></code>, <code class="docutils literal"><span class="pre">USER</span></code>, <code class="docutils literal"><span class="pre">HOSTNAME</span></code>,
+and <code class="docutils literal"><span class="pre">CWD</span></code> in the window title (and <code class="docutils literal"><span class="pre">PS1</span></code>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">### usrlog window title</span>
+<span class="c"># (VIRTUAL_ENV_NAME) $_TERM_ID $USER@$HOSTNAME:/$CWD</span>
+<span class="p">(</span><span class="n">dotfiles</span><span class="p">)</span> <span class="c">#2T515Vf25Ko user@host:~/-wrk/-ve27/dotfiles/src/dotfiles</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">include the previous command in the shell prompt <code class="docutils literal"><span class="pre">PS1</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>### PS1 shell prompt
+# echo &#39;previous command&#39;$&#39;\t&#39;&quot;${PS1}&quot;
+(dotfiles) #2T515Vf25Ko user@host:~/-wrk/-ve27/dotfiles/src/dotfiles
+$
+</pre></div>
+</div>
+</li>
+<li><p class="first">[ ] BUG: escape tabs <code class="docutils literal"><span class="pre">\t</span></code> and newlines <code class="docutils literal"><span class="pre">\r\n</span></code> when setting <code class="docutils literal"><span class="pre">_TERM_ID</span></code>
+in order to support really any string (such as URI fragments):</p>
+<div class="highlight-python"><div class="highlight"><pre>stid &#39;#westurner/dotfiles/\tinstall-screencast&#39;
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="section" id="usrlog-venv-integration">
+<span id="index-2"></span><span id="id3"></span><h4>usrlog venv integration<a class="headerlink" href="#usrlog-venv-integration" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><a class="reference internal" href="venv#venv"><em>venvs</em></a> (<a class="reference internal" href="tools/index#virtualenvwrapper"><em>Virtualenvwrapper</em></a> <em class="xref std std-ref">virtualenvs</em>):</p>
+<div class="highlight-python"><div class="highlight"><pre>echo &quot;${_USRLOG}&quot;        # _USRLOG=$HOME/-usrlog.log
+echo &quot;${HISTFILE}&quot;       # HISTFILE=$HOME/.bash_history
+
+workon_venv dotfiles     # _USRLOG=$VIRTUAL_ENV/-usrlog.log
+                         # HISTFILE=$VIRTUAL_ENV/.bash_history
+we dotfiles              # &quot;
+workon_conda dotfiles    # &quot;
+wec                      # &quot;
+
+# deactivating resets to __USRLOG
+echo &quot;${__USRLOG}  *&quot;         # $HOME/-usrlog.log *
+echo $_USRLOG                 # $VIRTUAL_ENV/-usrlog.log
+deactivate; echo $_USRLOG     # $HOME/-usrlog.log
+</pre></div>
+</div>
+</li>
+<li><p class="first">If defined, <code class="docutils literal"><span class="pre">_usrlog_set_title</span></code> calls <code class="docutils literal"><span class="pre">_setup_venv_prompt</span></code>
+(on every <code class="docutils literal"><span class="pre">PROMPT_COMMAND</span></code> invocation)</p>
+<div class="highlight-python"><div class="highlight"><pre>### scripts/usrlog.sh
+function _usrlog_set_title {
+    # _usrlog_set_title()  --  set xterm title
+    export WINDOW_TITLE=${1:-&quot;$_TERM_ID&quot;}
+    _usrlog_echo_title
+    declare -f &#39;_setup_venv_prompt&#39; 2&gt;&amp;1 &gt; /dev/null \
+        &amp;&amp; _setup_venv_prompt
+}
+</pre></div>
+</div>
+<p>A <code class="docutils literal"><span class="pre">_setup_venv_prompt</span></code> is defined in
+<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre>### etc/bash/10-bashrc.venv.sh
+function _setup_venv_prompt { ... }
+_setup_venv_prompt
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">_usrlog_grep_venv</span></code> &#8211; find commands pertaining to <em class="xref std std-ref">venvs</em></p>
+</li>
+</ul>
+<span class="target" id="index-3"></span></div>
+</div>
+<div class="section" id="usrlog-log-format">
+<span id="index-4"></span><span id="id4"></span><h3>-usrlog.log format<a class="headerlink" href="#usrlog-log-format" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Almost but not quite TSV (tab-separated values)<ul>
+<li>Maximum split (commands may contain additional unescaped tabs)</li>
+<li>Initial <a href="#id5"><span class="problematic" id="id6">``</span></a># `` in the date column<ul>
+<li>Because newlines</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>-usrlog.log format parsers:<ul>
+<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a>: <code class="docutils literal"><span class="pre">ugp</span> <span class="pre">(_usrlog_parse_cmds)</span></code> (<a class="reference internal" href="tools/index#pyline"><em>Pyline</em></a>)</li>
+<li><a class="reference internal" href="#usrlog-py">usrlog.py</a></li>
+</ul>
+</li>
+</ul>
+<p>Syntax</p>
+<div class="highlight-python"><div class="highlight"><pre>#\s\t                           # assert col[0] == &#39;# &#39;
+&lt;iso8601datewithtz_finish&gt;\t
+&lt;_TERM_ID&gt;\t                    # usrlog_set_id (stid)
+&lt;path&gt;\t                        # path *after* command has run (see: prev)
+&lt;hist_n&gt;\t                      # sometimes null (\s\s)
+&lt;iso8601datewithtz_start&gt;\t
+&lt;HOSTNAME&gt;\t                    # $HOSTNAME when _usrlog_set_HIST runs
+&lt;USER&gt;\t                        # $USER when _usrlog_set_HIST runs
+$$\t                            # cmd = split(&#39;\t$$\t&#39;, 1)[1]  # pyline
+&lt;cmd&gt;                           # (history 1 || fc -l -1) | sedescape
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>natural_key = (iso8601datewithtz_finish, $_TERM_ID, $HOSTNAME, $USER)
+</pre></div>
+</div>
+<p>See: <a class="reference internal" href="#caveats">Caveats</a></p>
+</div>
+</div>
+<div class="section" id="usrlog-py">
+<span id="index-5"></span><span id="id7"></span><h2>usrlog.py<a class="headerlink" href="#usrlog-py" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Source: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/usrlog.py">https://github.com/westurner/dotfiles/blob/master/scripts/usrlog.py</a></div>
+</div>
+<p>usrlog.py is a commandline script for parsing <code class="docutils literal"><span class="pre">-usrlog.log</span></code> files.</p>
+<p>Installation:</p>
+<div class="highlight-python"><div class="highlight"><pre>python &quot;${__DOTFILES}/scripts/usrlog.py&quot;
+# echo &quot;$PATH&quot;              # dotfiles_status, ds, cls
+cat $_USRLOG | usrlog.py --cmds -
+</pre></div>
+</div>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre>python usrlog.py --help
+
+python usrlog.py --cmds $_USRLOG
+cat $_USRLOG | tail -n 20 | usrlog.py --cmds -
+</pre></div>
+</div>
+<p>Todo:</p>
+<ul class="simple">
+<li>[ ] ENH: <code class="docutils literal"><span class="pre">pandas.DataFrame.from_records</span></code> (<code class="docutils literal"><span class="pre">index=cols[1]</span></code>)</li>
+<li>[ ] REF: update westurner/workhours integration</li>
+</ul>
+</div>
+<div class="section" id="caveats">
+<h2>Caveats<a class="headerlink" href="#caveats" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>A <code class="docutils literal"><span class="pre">-usrlog.log</span></code> is a text file log which commands are appended to,
+in userspace, with user permissions<ul>
+<li>Linux: see also: <code class="docutils literal"><span class="pre">avc.log</span></code>, <code class="docutils literal"><span class="pre">audit.log</span></code></li>
+</ul>
+</li>
+<li>[ ] BUG: <code class="docutils literal"><span class="pre">path</span></code> is recorded after the command evaluates
+(see the previous command)<ul>
+<li>pass forward the ending path from the previous command (<code class="docutils literal"><span class="pre">PATH_PREV</span></code>)
+in <code class="docutils literal"><span class="pre">PROMPT_COMMAND</span></code></li>
+<li>initial <code class="docutils literal"><span class="pre">PATH_PREV</span></code> (at shell startup):<ul>
+<li>see the previous command (in the <code class="docutils literal"><span class="pre">-usrlog.log</span></code> file)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>[ ] <strong>BUG: usrlog.sh only records the last line of commands containing newlines</strong><ul>
+<li><code class="docutils literal"><span class="pre">history</span> <span class="pre">1</span></code> | parse | template | tee <code class="docutils literal"><span class="pre">$_USRLOG</span></code></li>
+</ul>
+</li>
+<li>Sometimes, <code class="docutils literal"><span class="pre">hist_n</span></code> is not set (e.g. when n &gt; <code class="docutils literal"><span class="pre">HISTSIZE</span></code>),
+but the tabs should still be there.</li>
+<li>Sometimes, <code class="docutils literal"><span class="pre">iso8601datewithtz_start</span></code> is not set (e.g. when
+<code class="docutils literal"><span class="pre">HISTTIMEFORMAT</span></code> is not set),
+but the tabs should still be there.</li>
+<li>I still have logs with the old <code class="docutils literal"><span class="pre">.usrlog</span></code> formats to parse (~^2015),
+which is why <a class="reference internal" href="#usrlog-py">usrlog.py</a> is far more complex than
+<a class="reference internal" href="#usrlog-sh">usrlog.sh</a> <code class="docutils literal"><span class="pre">_usrlog_parse_cmds</span></code> (<code class="docutils literal"><span class="pre">cat</span> <span class="pre">$_USRLOG</span> <span class="pre">|</span> <span class="pre">ugp</span></code>):<ul>
+<li>[ ] REF: write migration scripts for oldstyle logs<ul>
+<li>workaround: <code class="docutils literal"><span class="pre">grep</span> <span class="pre">-C</span> <span class="pre">$_USRLOG</span></code></li>
+<li>workaround: <code class="docutils literal"><span class="pre">grep</span> <span class="pre">-C</span> <span class="pre">$(lsusrlogs)</span> <span class="pre">|</span> <span class="pre">ugp</span></code></li>
+<li>workaround: <code class="docutils literal"><span class="pre">grep</span> <span class="pre">-C</span> <span class="pre">$(lsusrlogs)</span> <span class="pre">|</span> <span class="pre">usrlog.py</span> <span class="pre">--cmds</span></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="ideas">
+<h2>Ideas<a class="headerlink" href="#ideas" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">ENH: prompt square:</p>
+<div class="highlight-python"><div class="highlight"><pre># prev_cmd
+# date_start
+# date_finish [timedelta]
+# (VIRTUAL_ENV_NAME) $_TERM_ID $USER@$HOSTNAME:/$CWD
+$
+</pre></div>
+</div>
+<ul class="simple">
+<li>PERF: time delta overhead</li>
+<li>UBY: minimize n rows</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index">westurner/dotfiles 0.8.3 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="venv" title="venv" >previous</a></li>
+        <li><a href="api" title="Dotfiles API" >next</a></li>
+        <li><a href="py-modindex" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2014, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>
