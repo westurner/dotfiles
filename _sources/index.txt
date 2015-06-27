@@ -2404,6 +2404,39 @@ one or more physical and virtual machines running various operating systems
 over SSH.
 
 
+.. index:: Cobbler
+.. _cobbler:
+
+Cobbler
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Cobbler_(software)>`__
+| Homepage: https://cobbler.github.io/
+| Download: https://cobbler.github.io/downloads/2.6.x.html
+| Source: git https://github.com/cobbler/cobbler
+| Docs: https://cobbler.github.io/manuals/quickstart/
+| Docs: https://cobbler.github.io/manuals/2.6.0/
+
+Cobbler is a machine image configuration, repository mirroring,
+and networked booting server with support for DNS, DHCP, TFTP, and PXE.
+
+* Cobbler can template kickstart files for the :ref:`RedHat`
+  Anaconda installer
+* Cobbler can template :ref:`Debian` preseed files
+* Cobbler can PXE boot an ISO over TFTP (and unattended install)
+
+  * BusyBox, SystemRescueCD, Clonezilla
+
+* Cobbler can manage a set of DNS and DHCP entries for physical systems
+* Cobbler can batch mirror :ref:`RPM` and :ref:`DEB` repositories
+  (see also: :ref:`apt-cacher-ng`)
+* Cobbler-web is a Django WSGI application; usually configured with
+  :ref:`Apache HTTPD` and mod_wsgi.
+
+  * Cobbler-web delegates very many infrastructure privileges
+
+See also: `crowbar`, :ref:`OpenStack` Ironic bare-metal deployment
+
+
 .. index:: Gradle
 .. _gradle:
 
