@@ -5024,7 +5024,7 @@ or from the local filesystem.
 
 .. code:: bash
 
-   pgs -p "${_WRD}/_build/html" -b "gh-pages" -H localhost -P 8082
+   pgs -p "${_WRD}/_build/html" -r gh-pages -H localhost -P 8082
 
 * pgs is written with the one-file Bottle web framework
 * compared to ``python -m SimpleHTTPServer localhost:8000`` /
