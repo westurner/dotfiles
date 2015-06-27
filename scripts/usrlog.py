@@ -2,16 +2,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 """
-usrlog
+usrlog.py
+===========
+usrlog.py is a parser for -usrlog.log files (as written by usrlog.sh)
 """
 
 import codecs
 import collections
 import logging
-import pprint
 import re
+import sys
 
-log = logging
+log = logging.getLogger('usrlog')
 
 ISODATETIME_RGX = re.compile(
     '\d\d\d\d\-\d\d\-\d\dT?\d\d:\d\d')
@@ -48,13 +50,15 @@ else:
         warnings.warn("Neither 'dateutil' nor 'arrow' found, "
                       "defaulting to timezone-naieve datetime.strptime "
                       "(pip install arrow dateutil)")
+
         def parse_date(datestr):
             if not datestr:
                 return datestr
             _datestr = datestr[:19]
-            tzstr = datestr[19:]
+            #  tzstr = datestr[19:]
             iso8601_strptime = '%Y-%m-%dT%H:%M:%S'
             return datetime.datetime.strptime(iso8601_strptime, _datestr)
+
 
 def try_parse_datestr(datestr):
     _output = None
@@ -330,9 +334,9 @@ class Test_usrlog(unittest.TestCase):
 
 
 class Conf(object):
+
     def get(self, key, default=None):
         return getattr(self, key, default)
-
 
 
 def main(argv=None):
@@ -396,7 +400,7 @@ def main(argv=None):
                    dest='run_tests',
                    action='store_true',)
 
-    argv = list(argv) if argv else []
+    argv = list(argv) if argv else sys.argv[1:]
     (opts, args) = prs.parse_args(args=argv)
     loglevel = logging.INFO
     if opts.verbose:
@@ -409,7 +413,6 @@ def main(argv=None):
     log.debug('args: %r', args)
 
     if opts.run_tests:
-        import sys
         sys.argv = [sys.argv[0]] + args
         import unittest
         return unittest.main()
@@ -421,6 +424,12 @@ def main(argv=None):
 
     if not opts.quiet:
         conf.halt_on_error = True
+
+    if not any((opts.columns,
+                opts.cmds, opts.sessions, opts.dates, opts.elapsed)):
+        log.info("no columns specified. defaulting to: %r" % conf.attrs)
+        prs.print_help()
+        # return 2
 
     if opts.columns:
         conf.attrs = opts.columns
@@ -440,6 +449,7 @@ def main(argv=None):
             import pyline
         except ImportError:
             from pyline import pyline
+            pyline
 
         def do_pyline(obj, expr="{histcmd}"):
             return expr.format(**obj)
@@ -455,7 +465,7 @@ def main(argv=None):
     select_items = operator.itemgetter(*conf.attrs)
     iterable = (select_items(obj) for obj in usrlogs_iterable())
 
-    #output = pyline.pyline(iterable, codefunc=do_pyline)
+    # output = pyline.pyline(iterable, codefunc=do_pyline)
     for o in iterable:
         print(o)
 
@@ -465,5 +475,4 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    import sys
     sys.exit(main(argv=sys.argv[1:]))

@@ -9,6 +9,7 @@ westurner/dotfiles
    readme
    usage
    venv
+   usrlog
    tools/tools
    api
    developing

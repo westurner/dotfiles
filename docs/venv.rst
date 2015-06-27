@@ -1,13 +1,13 @@
 
 .. index:: dotfiles.venv
-.. index:: Venv
+.. index:: venv
 .. _venv:   
 
 ======
-Venv
+venv
 ======
 
-Venv makes working with :ref:`virtualenv`, 
+venv makes working with :ref:`virtualenv`, 
 :ref:`virtualenvwrapper`, :ref:`Bash`, :ref:`ZSH`,
 :ref:`Vim`, and :ref:`IPython` within a project context very easy.
 

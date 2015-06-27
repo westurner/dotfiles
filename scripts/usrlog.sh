@@ -488,8 +488,8 @@ function ugrins  {
 }
 
 function usrlog_grin_session_id_all_cmds {
-    # usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
-    #                                  in column position
+    # usrlog_grin_session_id_all_cmds()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+    #                                       in column position
     (set -x;
     local _term_id=${1:-"${_TERM_ID}"}; \
     local _usrlog=${2:-"${_USRLOG}"}; \
