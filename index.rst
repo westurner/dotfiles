@@ -2428,7 +2428,7 @@ and networked booting server with support for DNS, DHCP, TFTP, and PXE.
 
 * Cobbler can manage a set of DNS and DHCP entries for physical systems
 * Cobbler can batch mirror :ref:`RPM` and :ref:`DEB` repositories
-  (see also: :ref:`apt-cacher-ng`)
+  (see also: `apt-cacher-ng`, :ref:`nginx`)
 * Cobbler-web is a Django WSGI application; usually configured with
   :ref:`Apache HTTPD` and mod_wsgi.
 
