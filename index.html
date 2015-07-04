@@ -3489,7 +3489,15 @@ for running a cloud datacenter (a <em>private</em> or a <em>public</em> cloud).<
 <ul class="simple">
 <li>OpenStack can be installed on one machine with enough RAM,
 or many thousands of machines.</li>
-<li>OpenStack Nova implements a Hypervisor API
+<li>OpenStack <strong>Keystone</strong> &#8211; cluster/grid/cloud-level
+token and user-service based
+authentication (authN) and authorization (authZ)
+as a service.<ul>
+<li>Src: git <a class="reference external" href="https://github.com/openstack/keystone">https://github.com/openstack/keystone</a></li>
+<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Keystone">https://wiki.openstack.org/wiki/Keystone</a></li>
+</ul>
+</li>
+<li>OpenStack <strong>Nova</strong> implements a Hypervisor API
 which abstracts various <a class="reference internal" href="#virtualization"><em>Virtualization</em></a> providers
 (e.g. <a class="reference internal" href="#kvm"><em>KVM</em></a>, <a class="reference internal" href="#docker"><em>Docker</em></a>, <a class="reference internal" href="#lxc"><em>LXC</em></a>, <a class="reference internal" href="#lxd"><em>LXD</em></a>).<ul>
 <li>Src: git <a class="reference external" href="https://github.com/openstack/nova">https://github.com/openstack/nova</a></li>
@@ -3507,14 +3515,6 @@ as a service.<ul>
 <li>Docs: <a class="reference external" href="http://docs.openstack.org/developer/swift/overview_object_versioning.html">http://docs.openstack.org/developer/swift/overview_object_versioning.html</a></li>
 </ul>
 </li>
-<li>OpenStack <strong>Keystone</strong> &#8211; cluster/grid/cloud-level
-token and user-service based
-authentication (authN) and authorization (authZ)
-as a service.<ul>
-<li>Src: git <a class="reference external" href="https://github.com/openstack/keystone">https://github.com/openstack/keystone</a></li>
-<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Keystone">https://wiki.openstack.org/wiki/Keystone</a></li>
-</ul>
-</li>
 <li>OpenStack <strong>Neutron</strong> (<em>Quantum</em>)&#8211; software defined networking (SDN), VLAN,
 switch configuration, virtual and physical
 enterprise networking as a service.<ul>
@@ -3526,6 +3526,11 @@ enterprise networking as a service.<ul>
 integrated with OpenStack Keystone, Neutron, and Nova.<ul>
 <li>Src: git <a class="reference external" href="https://github.com/openstack/designate">https://github.com/openstack/designate</a></li>
 <li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Designate">https://wiki.openstack.org/wiki/Designate</a></li>
+</ul>
+</li>
+<li>OpenStack <strong>Poppy</strong> &#8211; CDN as a service CDN vendor API<ul>
+<li>Src: git <a class="reference external" href="https://github.com/stackforge/poppy">https://github.com/stackforge/poppy</a></li>
+<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Poppy">https://wiki.openstack.org/wiki/Poppy</a></li>
 </ul>
 </li>
 <li>OpenStack <strong>Horizon</strong> &#8211; web-based OpenStack Dashboard
