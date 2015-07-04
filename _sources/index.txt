@@ -165,8 +165,8 @@ to install packages written in any language.
   with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``.
 * Conda recipes reference and build from
   a source package URI
-  *OR* a :ref:`vcs` URI and revision; or custom ``build.sh`` or
-  ``build.bat``.
+  *OR* a :ref:`vcs` URI and revision; and/or custom ``build.sh`` or
+  ``build.bat`` scripts.
 * ``conda skeleton`` can automatically create conda recipes
   from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
 * ``conda skeleton``-generated recipes can be updated
@@ -189,11 +189,10 @@ To create a fresh conda env:
 .. code:: bash
 
    # Python 2.7
-   conda env create -n exmpl2 --yes python readline pip
-   # conda install ipython-notebook
+   conda create -n science --yes python readline conda-env
 
    # Python 3.X
-   conda env create -n exmpl3 --yes python3 readline pip
+   conda create -n science3 --yes python=3 readline conda-env
 
 Work on a conda env:
 

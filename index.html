@@ -1013,8 +1013,8 @@ link/install and uninstall scripts.</li>
 with a <code class="docutils literal"><span class="pre">meta.yaml</span></code>, a <code class="docutils literal"><span class="pre">build.sh</span></code>, and/or a <code class="docutils literal"><span class="pre">build.bat</span></code>.</li>
 <li>Conda recipes reference and build from
 a source package URI
-<em>OR</em> a <a class="reference internal" href="#vcs"><em>Version Control Systems</em></a> URI and revision; or custom <code class="docutils literal"><span class="pre">build.sh</span></code> or
-<code class="docutils literal"><span class="pre">build.bat</span></code>.</li>
+<em>OR</em> a <a class="reference internal" href="#vcs"><em>Version Control Systems</em></a> URI and revision; and/or custom <code class="docutils literal"><span class="pre">build.sh</span></code> or
+<code class="docutils literal"><span class="pre">build.bat</span></code> scripts.</li>
 <li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda recipes
 from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python), <code class="docutils literal"><span class="pre">CRAN</span></code> (R), and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</li>
 <li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code>-generated recipes can be updated
@@ -1035,11 +1035,10 @@ including PyPI, CRAN, conda, and the Anaconda repository.&#8221;</li>
 </ul>
 <p>To create a fresh conda env:</p>
 <div class="code bash highlight-python"><div class="highlight"><pre># Python 2.7
-conda env create -n exmpl2 --yes python readline pip
-# conda install ipython-notebook
+conda create -n science --yes python readline conda-env
 
 # Python 3.X
-conda env create -n exmpl3 --yes python3 readline pip
+conda create -n science3 --yes python=3 readline conda-env
 </pre></div>
 </div>
 <p>Work on a conda env:</p>
