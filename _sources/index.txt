@@ -785,7 +785,7 @@ GNU Bazaar (``bzr``) is a distributed revision control system (DVCS, RCS, VCS)
 written in :ref:`Python` and :ref:`C`.
 
 http://launchpad.net hosts Bazaar repositories;
-with special support from the ``bzr`` tool in the form of ``lp:`` urls
+with special support from the ``bzr`` tool in the form of ``lp:`` URIs
 like ``lp:bzr``.
 
 To clone a repository with ``bzr``:
@@ -1026,7 +1026,7 @@ ReStructuredText
 | Docs: http://docutils.sourceforge.net/docs/ref/rst/roles.html
 | Docs: http://sphinx-doc.org/rest.html
 
-ReStructuredText (RST, ReST) is a
+ReStructuredText (*ReST*, *RST*) is a
 :ref:`Lightweight markup language` commonly used for
 narrative documentation and inline Python, C, Java, etc. docstrings
 which can be parsed, transformed, and published to
@@ -1243,7 +1243,7 @@ Haskell
 | Docs: https://en.wikipedia.org/wiki/Haskell_features
 
 Haskell is a free and open source
-strongly staticly typed purely functional
+strongly statically typed purely functional
 programming language.
 
 :ref:`Cabal` is the Haskell package manager.
@@ -1379,7 +1379,7 @@ Jinja2
 | Docs: https://jinja2.readthedocs.org/en/latest/
 | Docs: http://jinja.pocoo.org/docs/dev/
 
-Jinja (jinja2) is a free and open source
+Jinja2 is a free and open source
 templating engine written in :ref:`Python`.
 
 :ref:`Sphinx` and :ref:`Salt` are two projects that utilize Jinja2.
@@ -1492,7 +1492,7 @@ through a number of interfaces:
 Cython
 ++++++++
 | Wikipedia: https://en.wikipedia.org/wiki/Cython
-| Hompage: http://cython.org/
+| Homepage: http://cython.org/
 | PyPI: https://pypi.python.org/pypi/Cython
 | Docs: http://docs.cython.org/
 | Docs: http://docs.cython.org/src/userguide/language_basics.html
@@ -1564,12 +1564,11 @@ Python Distributions
 * Pyzo
 * Algorete Loopy (:ref:`Conda`)
 
-Scipy Stack Docker Containers
+SciPy Stack Docker Containers
 
-* https://registry.hub.docker.com/u/ipython/ipython/
-* https://registry.hub.docker.com/u/ipython/scipystack/
-* https://registry.hub.docker.com/u/ipython/scipyserver/
-
+| DockerHub: https://registry.hub.docker.com/u/ipython/ipython/
+| DockerHub: https://registry.hub.docker.com/u/ipython/scipystack/
+| DockerHub: https://registry.hub.docker.com/u/ipython/scipyserver/
 
 
 .. index:: PyPy
@@ -2281,7 +2280,7 @@ OSX Notes
 ++++++++++
 * https://github.com/westurner/dotfiles/blob/master/scripts/ ``setup_*.sh``
 
-  * [ ] Manually updae to latest versions (of zip, tar.gz, .dmg)
+  * [ ] Manually update to latest versions (of zip, tar.gz, .dmg)
   * [ ] Port to salt formulas
   * https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh
   * https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh
@@ -2399,14 +2398,17 @@ https://gist.github.com/westurner/10950476#file-cinst_workstation_minimal-ps1
 * [ ] Install salt: http://docs.saltstack.com/en/latest/topics/installation/windows.html
 
 * ``<Win>+R`` (Start > Run)
-* [ ] Run ``services.msc`` and log/prune unutilized services (e.g. workstation, server)
+* [ ] Run ``services.msc`` and log/prune unutilized services
+  (e.g. workstation, server) and record changes made
 
   * https://en.wikipedia.org/wiki/Windows_service
+  * http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.win_service.html
+  * http://docs.saltstack.com/en/latest/ref/states/providers.html#provider-service
 
 ------------------
 Windows Dual Boot
 ------------------
-* [ ] Windows MBR chainloads to parition GRUB (`Linux`_)
+* [ ] Windows MBR chain loads to partition GRUB (`Linux`_)
 * [ ] Ubuntu WUBI .exe Linux Installer (XP, 7, 8*)
 
   * It's now better to install to a separate partition from a bootable ISO
@@ -2614,9 +2616,8 @@ osquery
 | Src: https://github.com/facebook/osquery
 | Docs: https://osquery.io/docs/tables/
 | Docs: https://osquery.readthedocs.org/en/stable/
-| Tools: https://westurner.org/tools/#osquery
 
-OSQuery is a tool for reading and querying
+osquery is a tool for reading and querying
 many sources of system data
 with SQL
 for :ref:`OSX` and :ref:`Linux`.
@@ -2831,9 +2832,9 @@ to partition process workloads all running under one kernel.
         create a docker image.
 
 * Docker images build from a ``Dockerfile``
-* A Dockerfile can subclass another Dockerfile (to add, remove, or
+* A ``Dockerfile`` can subclass another Dockerfile (to add, remove, or
   change configuration)
-* Dockerfiles support a limited number of commands
+* ``Dockerfile`` support a limited number of commands
 * Docker is not intended to be a
   complete :ref:`configuration management system
   <configuration management>`
@@ -3043,35 +3044,61 @@ OpenStack
 | Twitter: https://twitter.com/openstack
 
 OpenStack is a platform of infrastructure services
-for running a cloud datacenter.
+for running a cloud datacenter (a *private* or a *public* cloud).
 
-OpenStack can be installed on one machine with enough RAM,
-or many thousands of machines.
+* OpenStack can be installed on one machine with enough RAM,
+  or many thousands of machines.
 
-OpenStack Nova implements a Hypervisor API
-which abstracts various :ref:`Virtualization` providers
-(e.g. :ref:`KVM`, :ref:`Docker`, :ref:`LXC`, :ref:`LXD`).
+* OpenStack Nova implements a Hypervisor API
+  which abstracts various :ref:`Virtualization` providers
+  (e.g. :ref:`KVM`, :ref:`Docker`, :ref:`LXC`, :ref:`LXD`).
 
-* https://wiki.openstack.org/wiki/HypervisorSupportMatrix
-* http://docs.openstack.org/developer/nova/support-matrix.html
+  * Src: git https://github.com/openstack/nova
+  * Wiki: https://wiki.openstack.org/wiki/Nova
+  * Docs: https://wiki.openstack.org/wiki/HypervisorSupportMatrix
+  * Docs: http://docs.openstack.org/developer/nova/support-matrix.html
 
-OpenStack Swift implements redundant HTTP-based Object Storage
-as a service.
+* OpenStack **Swift** -- redundant HTTP-based Object Storage
+  as a service.
 
-OpenStack Keystone implements cluster/grid/cloud-level
-authentication and authorization
-as a service.
+  * Src: git https://github.com/openstack/swift
+  * Wiki: https://wiki.openstack.org/wiki/Swift
+  * Docs: http://docs.openstack.org/developer/swift/
+  * Docs: http://docs.openstack.org/developer/swift/overview_auth.html
+  * Docs: http://docs.openstack.org/developer/swift/overview_object_versioning.html
 
-OpenStack Horizon is the web-based OpenStack Dashboard,
-which is written in Django.
+* OpenStack **Keystone** -- cluster/grid/cloud-level
+  token and user-service based
+  authentication (authN) and authorization (authZ)
+  as a service.
 
-OpenStack can configure enterprise networking services
-and DNS, DHCP, VLANs, SDN.
+  * Src: git https://github.com/openstack/keystone
+  * Wiki: https://wiki.openstack.org/wiki/Keystone
+
+* OpenStack **Neutron** (*Quantum*)-- software defined networking (SDN), VLAN,
+  switch configuration, virtual and physical
+  enterprise networking as a service.
+
+  * Src: git https://github.com/openstack/neutron
+  * Wiki: https://wiki.openstack.org/wiki/Neutron
+
+* OpenStack **Designate** -- DNS as a service (Bind9, PowerDNS)
+  integrated with OpenStack Keystone, Neutron, and Nova.
+
+  * Src: git https://github.com/openstack/designate
+  * Wiki: https://wiki.openstack.org/wiki/Designate
+
+* OpenStack **Horizon** -- web-based OpenStack Dashboard
+  which is written in Django.
+
+  * Src: git https://github.com/openstack/horizon
+  * https://wiki.openstack.org/wiki/Horizon
 
 OpenStack makes it possible for end-users to create a new virtual
 machine from the available pool of resources.
 
-``rdfs:seeAlso`` :ref:`Libcloud`.
+
+``rdfs:seeAlso``: :ref:`openstack-devstack`, :ref:`Libcloud`
 
 
 .. index:: OpenStack DevStack
@@ -3128,13 +3155,13 @@ and hypervisors from a parameterizable template.
       Packer components which produce machine images
       for one of many platforms:
 
-      - VirtualBox
-      - Docker
-      - OpenStack
+      - :ref:`VirtualBox`
+      - :ref:`Docker`
+      - :ref:`OpenStack`
       - GCE
       - EC2
       - VMware
-      - QEMU (KVM, Xen)
+      - QEMU (:ref:`KVM`, Xen)
       - http://www.packer.io/docs/templates/builders.html
 
    Packer Provisioner
@@ -3170,12 +3197,13 @@ with CPU, RAM, Storage, and Networking.
 
 * Vagrant:
 
-  * Works with a number of Cloud :ref:`Virtualization` providers:
+  * Works with a number of `Cloud` and
+    :ref:`Virtualization` providers:
 
-    * VirtualBox
-    * AWS
+    * :ref:`VirtualBox`
+    * AWS EC2
     * GCE
-    * OpenStack
+    * :ref:`OpenStack`
 
   * provides helpful commandline porcelain on top of
     :ref:`VirtualBox` ``VboxManage``
@@ -3577,7 +3605,7 @@ nbconvert
 nbconvert is the code that converts (transforms) an ``.ipynb`` notebook
 (:ref:`nbformat` :ref:`JSON <json->`) file
 ( into an output representation (e.g. HTML,
-slides (reveal.js), LateX, PDF, ePub, Mobi).
+slides (reveal.js), LaTeX, PDF, ePub, Mobi).
 
 * nbconvert is included with :ref:`IPython`
 * nbconvert is part of :ref:`Project Jupyter<jupyter>`
@@ -3674,8 +3702,8 @@ and can write errors to stderr.
             !web http://localhost:8888   # or https://
     #     - (optional) click 'Cell' > 'All Output' > 'Clear'
     #     - click 'Cell' > 'Run All'
-    #     - [wait] <Jupyter Kernel runs noteook>
-    #     - visually seek for the first erroring cell (scroll)
+    #     - [wait] <Jupyter Kernel runs notebook>
+    #     - visually seek for the first ERRoring cell (scroll)
     #     - review the notebook
             for (i, o) in notebook_cells:
                 human.manually_review((i, o))
@@ -3696,7 +3724,7 @@ and can write errors to stderr.
     # - review in browser (optional; recommended)
     #     - navigate to the converted HTML
             !web ./mynotebook.ipynb.html
-    #     - visually seek for the first erroring cell (scroll)
+    #     - visually seek for the first WEEoring cell (scroll)
     #     - review the notebook
             for (i, o) in notebook_cells:
                 human.manually_review((i, o))
@@ -3774,7 +3802,7 @@ Grep
 | Docs: https://www.gnu.org/software/grep/manual/grep.html
 | Source: git git://git.savannah.gnu.org/grep.git
 
-Grep is a UXIX CLI utility for pattern-based text matching.
+Grep is a commandline utility for pattern-based text matching.
 
 
 .. index:: Htop
@@ -3785,6 +3813,8 @@ Htop
 | Wikipedia: https://en.wikipedia.org/wiki/Htop
 | Homepage: http://hisham.hm/htop/
 | Source: git http://hisham.hm/htop/
+
+Htop is a commandline task manager; like ``top`` extended.
 
 
 .. index:: Pyline
@@ -3797,11 +3827,13 @@ Pyline
 | Source: git https://github.com/westurner/pyline
 | Pypi: https://pypi.python.org/pypi/pyline
 
-Pyline is a UNIX command-line tool for line-based processing in Python
+Pyline is an :ref:`Open Source <open-source>`
+:ref:`POSIX` command-line utility
+for streaming line-based processing in :ref:`Python`
 with regex and output transform features similar to
 :ref:`grep`, :ref:`sed`, and :ref:`awk`.
 
-Pyline can generate quoted CSV, :ref:`JSON <json->`, HTML, etc.
+* Pyline can generate quoted CSV, :ref:`JSON <json->`, HTML, etc.
 
 
 .. index:: Pyrpo
@@ -3813,7 +3845,9 @@ Pyrpo
 | Source: git https://github.com/westurner/pyrpo
 | Pypi: https://pypi.python.org/pypi/pyrpo
 
-Pyrpo is a tool for locating and generating reports
+Pyrpo is an :ref:`Open Source <open-source>`
+:ref:`POSIX` command-line utility
+for locating and generating reports
 from :ref:`Git`, :ref:`Mercurial`, :ref:`Bazaar`,
 and :ref:`Subversion` repositories.
 
@@ -3831,7 +3865,8 @@ Sed
 | Docs: http://sed.sourceforge.net/
 | Source: git git.savannah.gnu.org/sed.git
 
-GNU Sed is a UNIX CLI utility for transforming text.
+GNU Sed is an :ref:`Open Source <open-source>`
+:ref:`POSIX` command-line utility for transforming text.
 
 .. note:: BSD Sed
 
@@ -3855,11 +3890,27 @@ GNU Sed is a UNIX CLI utility for transforming text.
 Dotfiles
 ==========
 
-Userspace configuration in files that are often prefixed with "dot"
+Dotfiles are userspace :ref:`shell <shells>`
+configuration in files that are often prefixed with "dot"
 (e.g. ``~/.bashrc`` for :ref:`Bash`)
 
-| Src: https://github.com/westurner/dotfiles
-| Docs: https://westurner.org/dotfiles/
+* https://dotfiles.github.io/
+* westurner/dotfiles
+
+  | Src: git https://github.com/westurner/dotfiles
+  | Src: https://github.com/westurner/dotfiles/blob/master/etc/.bashrc
+  | Docs: https://westurner.org/dotfiles/
+  | Docs: https://westurner.org/dotfiles/usage#bash
+
+  Features
+
+  + [x] Linear ``etc/bash`` and ``etc/zsh`` (``/etc/bash``) load sequence
+  + [x] :ref:`make` ``Makefile`` to log
+    the whole load sequence and grep out docs
+  + [x] :ref:`HubFlow` :ref:`git` branches
+  + [x] :ref:`venv`, :ref:`virtualenv`, :ref:`virtualenvwrapper`
+  + [x] oh-my-zsh
+  + [-] bash-it
 
 
 .. index:: Dotvim
@@ -3867,8 +3918,13 @@ Userspace configuration in files that are often prefixed with "dot"
 
 Dotvim
 ~~~~~~~~
+Dotvim is a conjunction / contraction of :ref:`Dotfiles` and :ref:`Vim`
+(in reference to a ``~/.vim/`` directory and/or a ``~/.vimrc``).
 
-| Src: https://github.com/westurner/dotvim
+| Src: git https://github.com/westurner/dotvim
+| Src: https://github.com/westurner/dotvim/blob/master/vimrc
+| Src: https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc
+| Src: https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc
 | Docs: https://westurner.org/dotfiles/usage#vim
 
 
