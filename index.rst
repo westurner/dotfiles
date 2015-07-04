@@ -86,14 +86,14 @@ APT
 
 APT ("Advanced Packaging Tool") is the core of Debian package management.
 
-An APT package repository serves :ref:`DEB` packages created with :ref:`Dpkg`.
+* An APT package repository serves :ref:`DEB` packages created with :ref:`Dpkg`.
 
-An APT package repository can be accessed from a local filesystem
-or over a network protocol ("apt transports") like HTTP, HTTPS, RSYNC, FTP,
-and BitTorrent.
+* An APT package repository can be accessed from a local filesystem
+  or over a network protocol ("apt transports") like HTTP, HTTPS, RSYNC, FTP,
+  and BitTorrent (`debtorrent`).
 
-An example of APT usage
-(e.g. to maintain an updated :ref:`Ubuntu` :ref:`Linux` system):
+  An example of APT usage
+  (e.g. to maintain an updated :ref:`Ubuntu` :ref:`Linux` system):
 
 .. code-block:: bash
 
@@ -148,25 +148,9 @@ Conda
 | Source: git https://github.com/conda/conda
 | PyPI: https://pypi.python.org/pypi/conda
 
-
-* Conda installs packages written in any language; especially Python
-* Conda packages are basically tar archives with build, link (optional), and
-  uninstall (optional) scripts.
-* Conda packages are generated from a conda build recipe
-  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``
-  by conda-build.
-* ``conda skeleton`` can automatically create conda packages
-  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
-* An ``environment.yml`` lists conda and :ref:`pip` packages
-  to be installed with conda-env.
-
-  .. code:: bash
-
-      # Export and environment.yml
-      source deactivate; conda env export -n root | tee environment.yml
-
-      # Create an environment from an environment.yml
-      conda env create -n example -f ./environment.yml
+Conda is a package build, environment, and distribution system
+written in :ref:`Python`
+to install packages written in any language.
 
 * Conda was originally created for the Anaconda Python Distribution,
   which installs packages written in :ref:`Python`,
@@ -175,6 +159,21 @@ Conda
   :ref:`Ruby`,
   :ref:`C`,
   :ref:`Fortran`
+* Conda packages are basically tar archives with build, and optional
+  link/install and uninstall scripts.
+* ``conda-build`` generates conda packages from conda recipes
+  with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``.
+* Conda recipes reference and build from
+  a source package URI
+  *OR* a :ref:`vcs` URI and revision; or custom ``build.sh`` or
+  ``build.bat``.
+* ``conda skeleton`` can automatically create conda recipes
+  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
+* ``conda skeleton``-generated recipes can be updated
+  with additional metadata, scripts, and source URIs
+  (as separate patches or consecutive branch commits
+  of e.g. a conda-recipes repository
+  in order to get a diff of the skeleton recipe and the current recipe).
 * Conda (and :ref:`Anaconda`) packages are hosted by
   `<https://binstar.org>`__,
   which hosts free public and paid private Conda packages.
@@ -205,10 +204,62 @@ Work on a conda env:
    source deactivate
 
 
-* https://github.com/conda/conda-env
-* https://github.com/conda/conda-build
-* https://github.com/conda/conda-recipes
+``conda env`` writes to and creates environments from ``environment.yml``
+files which list conda and :ref:`pip` packages.
 
+Work with conda envs and ``environment.yml`` files:
+
+.. code:: bash
+
+    # Install conda-env globally (in the "root" conda environment)
+    conda install -n root conda-env
+
+    # Create a conda environment with ``conda-create`` and install conda-env
+    conda create -n science python=3 readline conda-env
+
+    # Install some things with conda (and envs/science/bin/pip)
+    # https://github.com/westurner/notebooks/blob/gh-pages/install.sh
+    conda search pandas; conda info pandas
+    conda install blaze dask bokeh odo \
+                  sqlalchemy hdf5 h5py \
+                  scikit-learn statsmodels \
+                  beautiful-soup lxml html5lib pandas qgrid \
+                  ipython-notebook
+    pip install -e git+https://github.com/rdflib/rdflib@master#egg=rdflib
+    pip install arrow sarge structlog
+
+    # Export an environment.yml
+    #source deactivate
+    conda env export -n science | tee environment.yml
+
+    # Create an environment from an environment.yml
+    conda env create -n projectname -f ./environment.yml
+
+To install a conda package from a custom channel:
+
+- http://www.pydanny.com/building-conda-packages-for-multiple-operating-systems.html
+- https://github.com/conda/conda-recipes/tree/master/cookiecutter
+- https://binstar.org/pydanny/cookiecutter
+
+.. code:: bash
+
+    conda install -c pydanny cookiecutter   # OR pip install cookiecutter
+
+Sources:
+
+* https://github.com/conda
+* https://github.com/conda/conda -- conda
+* https://github.com/ContinuumIO/pycosat -- pycosat SAT solver
+* https://github.com/conda/conda-env -- conda-env
+  (the ``conda env`` command)
+* https://github.com/conda/conda-build -- conda-build
+  (the ``conda build`` command)
+* https://github.com/conda/conda-recipes -- Community-maintained
+  conda recipes (which users may build and
+  :ref:`maintain <packages>` in https://binstar.org
+  package repositories)
+
+See also: :ref:`Anaconda`
 
 
 .. index:: DEB
