@@ -945,12 +945,16 @@ also written in <a class="reference internal" href="#python"><em>Python</em></a>
 <div class="line">IRC: <a class="reference external" href="irc://irc.debian.org/debian-apt">irc://irc.debian.org/debian-apt</a></div>
 </div>
 <p>APT (&#8220;Advanced Packaging Tool&#8221;) is the core of Debian package management.</p>
-<p>An APT package repository serves <a class="reference internal" href="#deb"><em>DEB</em></a> packages created with <a class="reference internal" href="#dpkg"><em>Dpkg</em></a>.</p>
-<p>An APT package repository can be accessed from a local filesystem
+<ul>
+<li><p class="first">An APT package repository serves <a class="reference internal" href="#deb"><em>DEB</em></a> packages created with <a class="reference internal" href="#dpkg"><em>Dpkg</em></a>.</p>
+</li>
+<li><p class="first">An APT package repository can be accessed from a local filesystem
 or over a network protocol (&#8220;apt transports&#8221;) like HTTP, HTTPS, RSYNC, FTP,
-and BitTorrent.</p>
+and BitTorrent (<cite>debtorrent</cite>).</p>
 <p>An example of APT usage
 (e.g. to maintain an updated <a class="reference internal" href="#ubuntu"><em>Ubuntu</em></a> <a class="reference internal" href="#linux"><em>Linux</em></a> system):</p>
+</li>
+</ul>
 <div class="highlight-bash"><div class="highlight"><pre>apt-get update
 apt-get upgrade
 apt-get dist-upgrade
@@ -992,41 +996,35 @@ built on <a class="reference internal" href="#npm"><em>NPM</em></a>.</p>
 <div class="line">Source: git <a class="reference external" href="https://github.com/conda/conda">https://github.com/conda/conda</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/conda">https://pypi.python.org/pypi/conda</a></div>
 </div>
-<ul>
-<li><p class="first">Conda installs packages written in any language; especially Python</p>
-</li>
-<li><p class="first">Conda packages are basically tar archives with build, link (optional), and
-uninstall (optional) scripts.</p>
-</li>
-<li><p class="first">Conda packages are generated from a conda build recipe
-with a <code class="docutils literal"><span class="pre">meta.yaml</span></code>, a <code class="docutils literal"><span class="pre">build.sh</span></code>, and/or a <code class="docutils literal"><span class="pre">build.bat</span></code>
-by conda-build.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda packages
-from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python), <code class="docutils literal"><span class="pre">CRAN</span></code> (R), and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</p>
-</li>
-<li><p class="first">An <code class="docutils literal"><span class="pre">environment.yml</span></code> lists conda and <a class="reference internal" href="#pip"><em>Pip</em></a> packages
-to be installed with conda-env.</p>
-<div class="code bash highlight-python"><div class="highlight"><pre># Export and environment.yml
-source deactivate; conda env export -n root | tee environment.yml
-
-# Create an environment from an environment.yml
-conda env create -n example -f ./environment.yml
-</pre></div>
-</div>
-</li>
-<li><p class="first">Conda was originally created for the Anaconda Python Distribution,
+<p>Conda is a package build, environment, and distribution system
+written in <a class="reference internal" href="#python"><em>Python</em></a>
+to install packages written in any language.</p>
+<ul class="simple">
+<li>Conda was originally created for the Anaconda Python Distribution,
 which installs packages written in <a class="reference internal" href="#python"><em>Python</em></a>,
 R,
 <a class="reference internal" href="#javascript"><em>JavaScript</em></a>,
 <a class="reference internal" href="#ruby"><em>Ruby</em></a>,
 <a class="reference internal" href="#c"><em>C</em></a>,
-<a class="reference internal" href="#fortran"><em>Fortran</em></a></p>
-</li>
-<li><p class="first">Conda (and <a class="reference internal" href="#anaconda"><em>Anaconda</em></a>) packages are hosted by
+<a class="reference internal" href="#fortran"><em>Fortran</em></a></li>
+<li>Conda packages are basically tar archives with build, and optional
+link/install and uninstall scripts.</li>
+<li><code class="docutils literal"><span class="pre">conda-build</span></code> generates conda packages from conda recipes
+with a <code class="docutils literal"><span class="pre">meta.yaml</span></code>, a <code class="docutils literal"><span class="pre">build.sh</span></code>, and/or a <code class="docutils literal"><span class="pre">build.bat</span></code>.</li>
+<li>Conda recipes reference and build from
+a source package URI
+<em>OR</em> a <a class="reference internal" href="#vcs"><em>Version Control Systems</em></a> URI and revision; or custom <code class="docutils literal"><span class="pre">build.sh</span></code> or
+<code class="docutils literal"><span class="pre">build.bat</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda recipes
+from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python), <code class="docutils literal"><span class="pre">CRAN</span></code> (R), and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</li>
+<li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code>-generated recipes can be updated
+with additional metadata, scripts, and source URIs
+(as separate patches or consecutive branch commits
+of e.g. a conda-recipes repository
+in order to get a diff of the skeleton recipe and the current recipe).</li>
+<li>Conda (and <a class="reference internal" href="#anaconda"><em>Anaconda</em></a>) packages are hosted by
 <a class="reference external" href="https://binstar.org">https://binstar.org</a>,
-which hosts free public and paid private Conda packages.</p>
-<ul class="simple">
+which hosts free public and paid private Conda packages.<ul>
 <li>Anaconda Server is an internal
 &#8220;Private, Secure Package Repository&#8221;
 that
@@ -1050,11 +1048,58 @@ conda list
 source deactivate
 </pre></div>
 </div>
+<p><code class="docutils literal"><span class="pre">conda</span> <span class="pre">env</span></code> writes to and creates environments from <code class="docutils literal"><span class="pre">environment.yml</span></code>
+files which list conda and <a class="reference internal" href="#pip"><em>Pip</em></a> packages.</p>
+<p>Work with conda envs and <code class="docutils literal"><span class="pre">environment.yml</span></code> files:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># Install conda-env globally (in the &quot;root&quot; conda environment)
+conda install -n root conda-env
+
+# Create a conda environment with ``conda-create`` and install conda-env
+conda create -n science python=3 readline conda-env
+
+# Install some things with conda (and envs/science/bin/pip)
+# https://github.com/westurner/notebooks/blob/gh-pages/install.sh
+conda search pandas; conda info pandas
+conda install blaze dask bokeh odo \
+              sqlalchemy hdf5 h5py \
+              scikit-learn statsmodels \
+              beautiful-soup lxml html5lib pandas qgrid \
+              ipython-notebook
+pip install -e git+https://github.com/rdflib/rdflib@master#egg=rdflib
+pip install arrow sarge structlog
+
+# Export an environment.yml
+#source deactivate
+conda env export -n science | tee environment.yml
+
+# Create an environment from an environment.yml
+conda env create -n projectname -f ./environment.yml
+</pre></div>
+</div>
+<p>To install a conda package from a custom channel:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/conda/conda-env">https://github.com/conda/conda-env</a></li>
-<li><a class="reference external" href="https://github.com/conda/conda-build">https://github.com/conda/conda-build</a></li>
-<li><a class="reference external" href="https://github.com/conda/conda-recipes">https://github.com/conda/conda-recipes</a></li>
+<li><a class="reference external" href="http://www.pydanny.com/building-conda-packages-for-multiple-operating-systems.html">http://www.pydanny.com/building-conda-packages-for-multiple-operating-systems.html</a></li>
+<li><a class="reference external" href="https://github.com/conda/conda-recipes/tree/master/cookiecutter">https://github.com/conda/conda-recipes/tree/master/cookiecutter</a></li>
+<li><a class="reference external" href="https://binstar.org/pydanny/cookiecutter">https://binstar.org/pydanny/cookiecutter</a></li>
 </ul>
+<div class="code bash highlight-python"><div class="highlight"><pre>conda install -c pydanny cookiecutter   # OR pip install cookiecutter
+</pre></div>
+</div>
+<p>Sources:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/conda">https://github.com/conda</a></li>
+<li><a class="reference external" href="https://github.com/conda/conda">https://github.com/conda/conda</a> &#8211; conda</li>
+<li><a class="reference external" href="https://github.com/ContinuumIO/pycosat">https://github.com/ContinuumIO/pycosat</a> &#8211; pycosat SAT solver</li>
+<li><a class="reference external" href="https://github.com/conda/conda-env">https://github.com/conda/conda-env</a> &#8211; conda-env
+(the <code class="docutils literal"><span class="pre">conda</span> <span class="pre">env</span></code> command)</li>
+<li><a class="reference external" href="https://github.com/conda/conda-build">https://github.com/conda/conda-build</a> &#8211; conda-build
+(the <code class="docutils literal"><span class="pre">conda</span> <span class="pre">build</span></code> command)</li>
+<li><a class="reference external" href="https://github.com/conda/conda-recipes">https://github.com/conda/conda-recipes</a> &#8211; Community-maintained
+conda recipes (which users may build and
+<a class="reference internal" href="#packages"><em>maintain</em></a> in <a class="reference external" href="https://binstar.org">https://binstar.org</a>
+package repositories)</li>
+</ul>
+<p>See also: <a class="reference internal" href="#anaconda"><em>Anaconda</em></a></p>
 </div>
 <div class="section" id="deb">
 <span id="index-9"></span><span id="id8"></span><h3>DEB<a class="headerlink" href="#deb" title="Permalink to this headline">¶</a></h3>
