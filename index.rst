@@ -3049,7 +3049,15 @@ for running a cloud datacenter (a *private* or a *public* cloud).
 * OpenStack can be installed on one machine with enough RAM,
   or many thousands of machines.
 
-* OpenStack Nova implements a Hypervisor API
+* OpenStack **Keystone** -- cluster/grid/cloud-level
+  token and user-service based
+  authentication (authN) and authorization (authZ)
+  as a service.
+
+  * Src: git https://github.com/openstack/keystone
+  * Wiki: https://wiki.openstack.org/wiki/Keystone
+
+* OpenStack **Nova** implements a Hypervisor API
   which abstracts various :ref:`Virtualization` providers
   (e.g. :ref:`KVM`, :ref:`Docker`, :ref:`LXC`, :ref:`LXD`).
 
@@ -3067,14 +3075,6 @@ for running a cloud datacenter (a *private* or a *public* cloud).
   * Docs: http://docs.openstack.org/developer/swift/overview_auth.html
   * Docs: http://docs.openstack.org/developer/swift/overview_object_versioning.html
 
-* OpenStack **Keystone** -- cluster/grid/cloud-level
-  token and user-service based
-  authentication (authN) and authorization (authZ)
-  as a service.
-
-  * Src: git https://github.com/openstack/keystone
-  * Wiki: https://wiki.openstack.org/wiki/Keystone
-
 * OpenStack **Neutron** (*Quantum*)-- software defined networking (SDN), VLAN,
   switch configuration, virtual and physical
   enterprise networking as a service.
@@ -3087,6 +3087,11 @@ for running a cloud datacenter (a *private* or a *public* cloud).
 
   * Src: git https://github.com/openstack/designate
   * Wiki: https://wiki.openstack.org/wiki/Designate
+
+* OpenStack **Poppy** -- CDN as a service CDN vendor API
+
+  * Src: git https://github.com/stackforge/poppy
+  * Wiki: https://wiki.openstack.org/wiki/Poppy
 
 * OpenStack **Horizon** -- web-based OpenStack Dashboard
   which is written in Django.
