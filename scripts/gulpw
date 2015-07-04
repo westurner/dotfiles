@@ -1,0 +1,20 @@
+#!/bin/sh
+## 
+
+_gulpw() {
+    # gulpw()   -- cd $_WRD && gulp $@
+    (cd "${_WRD}" && gulp ${@})
+}
+_gulpw_complete() {
+    local cur=${2}
+    # see: /usr/local/etc/bash_completion.d/gulp (brew)
+    COMPREPLY=( $( compgen -W "$( gulp -C ${_WRD} -qp 2>/dev/null | \
+    awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ \
+    {split($1,A,/ /);for(i in A)print A[i]}' )" \
+    -- "$cur" ) )
+}
+complete -F _gulpw_complete gulpw
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    _gulpw ${@}
+fi
