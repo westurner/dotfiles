@@ -944,12 +944,16 @@ also written in <a class="reference internal" href="#python"><em>Python</em></a>
 <div class="line">IRC: <a class="reference external" href="irc://irc.debian.org/debian-apt">irc://irc.debian.org/debian-apt</a></div>
 </div>
 <p>APT (&#8220;Advanced Packaging Tool&#8221;) is the core of Debian package management.</p>
-<p>An APT package repository serves <a class="reference internal" href="#deb"><em>DEB</em></a> packages created with <a class="reference internal" href="#dpkg"><em>Dpkg</em></a>.</p>
-<p>An APT package repository can be accessed from a local filesystem
+<ul>
+<li><p class="first">An APT package repository serves <a class="reference internal" href="#deb"><em>DEB</em></a> packages created with <a class="reference internal" href="#dpkg"><em>Dpkg</em></a>.</p>
+</li>
+<li><p class="first">An APT package repository can be accessed from a local filesystem
 or over a network protocol (&#8220;apt transports&#8221;) like HTTP, HTTPS, RSYNC, FTP,
-and BitTorrent.</p>
+and BitTorrent (<cite>debtorrent</cite>).</p>
 <p>An example of APT usage
 (e.g. to maintain an updated <a class="reference internal" href="#ubuntu"><em>Ubuntu</em></a> <a class="reference internal" href="#linux"><em>Linux</em></a> system):</p>
+</li>
+</ul>
 <div class="highlight-bash"><div class="highlight"><pre>apt-get update
 apt-get upgrade
 apt-get dist-upgrade
@@ -991,41 +995,35 @@ built on <a class="reference internal" href="#npm"><em>NPM</em></a>.</p>
 <div class="line">Source: git <a class="reference external" href="https://github.com/conda/conda">https://github.com/conda/conda</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/conda">https://pypi.python.org/pypi/conda</a></div>
 </div>
-<ul>
-<li><p class="first">Conda installs packages written in any language; especially Python</p>
-</li>
-<li><p class="first">Conda packages are basically tar archives with build, link (optional), and
-uninstall (optional) scripts.</p>
-</li>
-<li><p class="first">Conda packages are generated from a conda build recipe
-with a <code class="docutils literal"><span class="pre">meta.yaml</span></code>, a <code class="docutils literal"><span class="pre">build.sh</span></code>, and/or a <code class="docutils literal"><span class="pre">build.bat</span></code>
-by conda-build.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda packages
-from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python), <code class="docutils literal"><span class="pre">CRAN</span></code> (R), and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</p>
-</li>
-<li><p class="first">An <code class="docutils literal"><span class="pre">environment.yml</span></code> lists conda and <a class="reference internal" href="#pip"><em>Pip</em></a> packages
-to be installed with conda-env.</p>
-<div class="code bash highlight-python"><div class="highlight"><pre># Export and environment.yml
-source deactivate; conda env export -n root | tee environment.yml
-
-# Create an environment from an environment.yml
-conda env create -n example -f ./environment.yml
-</pre></div>
-</div>
-</li>
-<li><p class="first">Conda was originally created for the Anaconda Python Distribution,
+<p>Conda is a package build, environment, and distribution system
+written in <a class="reference internal" href="#python"><em>Python</em></a>
+to install packages written in any language.</p>
+<ul class="simple">
+<li>Conda was originally created for the Anaconda Python Distribution,
 which installs packages written in <a class="reference internal" href="#python"><em>Python</em></a>,
 R,
 <a class="reference internal" href="#javascript"><em>JavaScript</em></a>,
 <a class="reference internal" href="#ruby"><em>Ruby</em></a>,
 <a class="reference internal" href="#c"><em>C</em></a>,
-<a class="reference internal" href="#fortran"><em>Fortran</em></a></p>
-</li>
-<li><p class="first">Conda (and <a class="reference internal" href="#anaconda"><em>Anaconda</em></a>) packages are hosted by
+<a class="reference internal" href="#fortran"><em>Fortran</em></a></li>
+<li>Conda packages are basically tar archives with build, and optional
+link/install and uninstall scripts.</li>
+<li><code class="docutils literal"><span class="pre">conda-build</span></code> generates conda packages from conda recipes
+with a <code class="docutils literal"><span class="pre">meta.yaml</span></code>, a <code class="docutils literal"><span class="pre">build.sh</span></code>, and/or a <code class="docutils literal"><span class="pre">build.bat</span></code>.</li>
+<li>Conda recipes reference and build from
+a source package URI
+<em>OR</em> a <a class="reference internal" href="#vcs"><em>Version Control Systems</em></a> URI and revision; and/or custom <code class="docutils literal"><span class="pre">build.sh</span></code> or
+<code class="docutils literal"><span class="pre">build.bat</span></code> scripts.</li>
+<li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code> can automatically create conda recipes
+from <code class="docutils literal"><span class="pre">PyPI</span></code> (Python), <code class="docutils literal"><span class="pre">CRAN</span></code> (R), and from <code class="docutils literal"><span class="pre">CPAN</span></code> (Perl)</li>
+<li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">skeleton</span></code>-generated recipes can be updated
+with additional metadata, scripts, and source URIs
+(as separate patches or consecutive branch commits
+of e.g. a conda-recipes repository
+in order to get a diff of the skeleton recipe and the current recipe).</li>
+<li>Conda (and <a class="reference internal" href="#anaconda"><em>Anaconda</em></a>) packages are hosted by
 <a class="reference external" href="https://binstar.org">https://binstar.org</a>,
-which hosts free public and paid private Conda packages.</p>
-<ul class="simple">
+which hosts free public and paid private Conda packages.<ul>
 <li>Anaconda Server is an internal
 &#8220;Private, Secure Package Repository&#8221;
 that
@@ -1036,11 +1034,10 @@ including PyPI, CRAN, conda, and the Anaconda repository.&#8221;</li>
 </ul>
 <p>To create a fresh conda env:</p>
 <div class="code bash highlight-python"><div class="highlight"><pre># Python 2.7
-conda env create -n exmpl2 --yes python readline pip
-# conda install ipython-notebook
+conda create -n science --yes python readline conda-env
 
 # Python 3.X
-conda env create -n exmpl3 --yes python3 readline pip
+conda create -n science3 --yes python=3 readline conda-env
 </pre></div>
 </div>
 <p>Work on a conda env:</p>
@@ -1049,11 +1046,58 @@ conda list
 source deactivate
 </pre></div>
 </div>
+<p><code class="docutils literal"><span class="pre">conda</span> <span class="pre">env</span></code> writes to and creates environments from <code class="docutils literal"><span class="pre">environment.yml</span></code>
+files which list conda and <a class="reference internal" href="#pip"><em>Pip</em></a> packages.</p>
+<p>Work with conda envs and <code class="docutils literal"><span class="pre">environment.yml</span></code> files:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># Install conda-env globally (in the &quot;root&quot; conda environment)
+conda install -n root conda-env
+
+# Create a conda environment with ``conda-create`` and install conda-env
+conda create -n science python=3 readline conda-env
+
+# Install some things with conda (and envs/science/bin/pip)
+# https://github.com/westurner/notebooks/blob/gh-pages/install.sh
+conda search pandas; conda info pandas
+conda install blaze dask bokeh odo \
+              sqlalchemy hdf5 h5py \
+              scikit-learn statsmodels \
+              beautiful-soup lxml html5lib pandas qgrid \
+              ipython-notebook
+pip install -e git+https://github.com/rdflib/rdflib@master#egg=rdflib
+pip install arrow sarge structlog
+
+# Export an environment.yml
+#source deactivate
+conda env export -n science | tee environment.yml
+
+# Create an environment from an environment.yml
+conda env create -n projectname -f ./environment.yml
+</pre></div>
+</div>
+<p>To install a conda package from a custom channel:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/conda/conda-env">https://github.com/conda/conda-env</a></li>
-<li><a class="reference external" href="https://github.com/conda/conda-build">https://github.com/conda/conda-build</a></li>
-<li><a class="reference external" href="https://github.com/conda/conda-recipes">https://github.com/conda/conda-recipes</a></li>
+<li><a class="reference external" href="http://www.pydanny.com/building-conda-packages-for-multiple-operating-systems.html">http://www.pydanny.com/building-conda-packages-for-multiple-operating-systems.html</a></li>
+<li><a class="reference external" href="https://github.com/conda/conda-recipes/tree/master/cookiecutter">https://github.com/conda/conda-recipes/tree/master/cookiecutter</a></li>
+<li><a class="reference external" href="https://binstar.org/pydanny/cookiecutter">https://binstar.org/pydanny/cookiecutter</a></li>
 </ul>
+<div class="code bash highlight-python"><div class="highlight"><pre>conda install -c pydanny cookiecutter   # OR pip install cookiecutter
+</pre></div>
+</div>
+<p>Sources:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/conda">https://github.com/conda</a></li>
+<li><a class="reference external" href="https://github.com/conda/conda">https://github.com/conda/conda</a> &#8211; conda</li>
+<li><a class="reference external" href="https://github.com/ContinuumIO/pycosat">https://github.com/ContinuumIO/pycosat</a> &#8211; pycosat SAT solver</li>
+<li><a class="reference external" href="https://github.com/conda/conda-env">https://github.com/conda/conda-env</a> &#8211; conda-env
+(the <code class="docutils literal"><span class="pre">conda</span> <span class="pre">env</span></code> command)</li>
+<li><a class="reference external" href="https://github.com/conda/conda-build">https://github.com/conda/conda-build</a> &#8211; conda-build
+(the <code class="docutils literal"><span class="pre">conda</span> <span class="pre">build</span></code> command)</li>
+<li><a class="reference external" href="https://github.com/conda/conda-recipes">https://github.com/conda/conda-recipes</a> &#8211; Community-maintained
+conda recipes (which users may build and
+<a class="reference internal" href="#packages"><em>maintain</em></a> in <a class="reference external" href="https://binstar.org">https://binstar.org</a>
+package repositories)</li>
+</ul>
+<p>See also: <a class="reference internal" href="#anaconda"><em>Anaconda</em></a></p>
 </div>
 <div class="section" id="deb">
 <span id="index-9"></span><span id="id8"></span><h3>DEB<a class="headerlink" href="#deb" title="Permalink to this headline">¶</a></h3>
@@ -1504,7 +1548,7 @@ written in <a class="reference internal" href="#c"><em>C</em></a>.</p>
 <p>GNU Bazaar (<code class="docutils literal"><span class="pre">bzr</span></code>) is a distributed revision control system (DVCS, RCS, VCS)
 written in <a class="reference internal" href="#python"><em>Python</em></a> and <a class="reference internal" href="#c"><em>C</em></a>.</p>
 <p><a class="reference external" href="http://launchpad.net">http://launchpad.net</a> hosts Bazaar repositories;
-with special support from the <code class="docutils literal"><span class="pre">bzr</span></code> tool in the form of <code class="docutils literal"><span class="pre">lp:</span></code> urls
+with special support from the <code class="docutils literal"><span class="pre">bzr</span></code> tool in the form of <code class="docutils literal"><span class="pre">lp:</span></code> URIs
 like <code class="docutils literal"><span class="pre">lp:bzr</span></code>.</p>
 <p>To clone a repository with <code class="docutils literal"><span class="pre">bzr</span></code>:</p>
 <div class="code bash highlight-python"><div class="highlight"><pre>bzr branch lp:bzr
@@ -1709,7 +1753,7 @@ gem install -N
 <div class="line">Docs: <a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/roles.html">http://docutils.sourceforge.net/docs/ref/rst/roles.html</a></div>
 <div class="line">Docs: <a class="reference external" href="http://sphinx-doc.org/rest.html">http://sphinx-doc.org/rest.html</a></div>
 </div>
-<p>ReStructuredText (RST, ReST) is a
+<p>ReStructuredText (<em>ReST</em>, <em>RST</em>) is a
 <a class="reference internal" href="#lightweight-markup-language"><em>Lightweight Markup Language</em></a> commonly used for
 narrative documentation and inline Python, C, Java, etc. docstrings
 which can be parsed, transformed, and published to
@@ -1884,7 +1928,7 @@ optimized mathematical Fortran routines.</p>
 <div class="line">Docs: <a class="reference external" href="https://en.wikipedia.org/wiki/Haskell_features">https://en.wikipedia.org/wiki/Haskell_features</a></div>
 </div>
 <p>Haskell is a free and open source
-strongly staticly typed purely functional
+strongly statically typed purely functional
 programming language.</p>
 <p><a class="reference internal" href="#cabal"><em>Cabal</em></a> is the Haskell package manager.</p>
 <p><a class="reference internal" href="#pandoc"><em>Pandoc</em></a> is written in Haskell.</p>
@@ -2010,7 +2054,7 @@ written in <a class="reference internal" href="#c"><em>C</em></a>, <a class="ref
 <div class="line">Docs: <a class="reference external" href="https://jinja2.readthedocs.org/en/latest/">https://jinja2.readthedocs.org/en/latest/</a></div>
 <div class="line">Docs: <a class="reference external" href="http://jinja.pocoo.org/docs/dev/">http://jinja.pocoo.org/docs/dev/</a></div>
 </div>
-<p>Jinja (jinja2) is a free and open source
+<p>Jinja2 is a free and open source
 templating engine written in <a class="reference internal" href="#python"><em>Python</em></a>.</p>
 <p><a class="reference internal" href="#sphinx"><em>Sphinx</em></a> and <a class="reference internal" href="#salt"><em>Salt</em></a> are two projects that utilize Jinja2.</p>
 </div>
@@ -2108,7 +2152,7 @@ through a number of interfaces:</p>
 <span id="index-69"></span><span id="id57"></span><h4>Cython<a class="headerlink" href="#cython" title="Permalink to this headline">¶</a></h4>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Cython">https://en.wikipedia.org/wiki/Cython</a></div>
-<div class="line">Hompage: <a class="reference external" href="http://cython.org/">http://cython.org/</a></div>
+<div class="line">Homepage: <a class="reference external" href="http://cython.org/">http://cython.org/</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/Cython">https://pypi.python.org/pypi/Cython</a></div>
 <div class="line">Docs: <a class="reference external" href="http://docs.cython.org/">http://docs.cython.org/</a></div>
 <div class="line">Docs: <a class="reference external" href="http://docs.cython.org/src/userguide/language_basics.html">http://docs.cython.org/src/userguide/language_basics.html</a></div>
@@ -2172,12 +2216,12 @@ includes the SciPy package and its dependencies.</p>
 <li>Pyzo</li>
 <li>Algorete Loopy (<a class="reference internal" href="#conda"><em>Conda</em></a>)</li>
 </ul>
-<p>Scipy Stack Docker Containers</p>
-<ul class="simple">
-<li><a class="reference external" href="https://registry.hub.docker.com/u/ipython/ipython/">https://registry.hub.docker.com/u/ipython/ipython/</a></li>
-<li><a class="reference external" href="https://registry.hub.docker.com/u/ipython/scipystack/">https://registry.hub.docker.com/u/ipython/scipystack/</a></li>
-<li><a class="reference external" href="https://registry.hub.docker.com/u/ipython/scipyserver/">https://registry.hub.docker.com/u/ipython/scipyserver/</a></li>
-</ul>
+<p>SciPy Stack Docker Containers</p>
+<div class="line-block">
+<div class="line">DockerHub: <a class="reference external" href="https://registry.hub.docker.com/u/ipython/ipython/">https://registry.hub.docker.com/u/ipython/ipython/</a></div>
+<div class="line">DockerHub: <a class="reference external" href="https://registry.hub.docker.com/u/ipython/scipystack/">https://registry.hub.docker.com/u/ipython/scipystack/</a></div>
+<div class="line">DockerHub: <a class="reference external" href="https://registry.hub.docker.com/u/ipython/scipyserver/">https://registry.hub.docker.com/u/ipython/scipyserver/</a></div>
+</div>
 </div>
 <div class="section" id="pypy">
 <span id="index-73"></span><span id="id60"></span><h4>PyPy<a class="headerlink" href="#pypy" title="Permalink to this headline">¶</a></h4>
@@ -2766,7 +2810,7 @@ to develop and compile for iOS.</li>
 <ul>
 <li><p class="first"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/">https://github.com/westurner/dotfiles/blob/master/scripts/</a> <code class="docutils literal"><span class="pre">setup_*.sh</span></code></p>
 <ul class="simple">
-<li>[ ] Manually updae to latest versions (of zip, tar.gz, .dmg)</li>
+<li>[ ] Manually update to latest versions (of zip, tar.gz, .dmg)</li>
 <li>[ ] Port to salt formulas</li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh</a></li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh</a></li>
@@ -2875,15 +2919,18 @@ cinst curl
 </li>
 <li>[ ] Install salt: <a class="reference external" href="http://docs.saltstack.com/en/latest/topics/installation/windows.html">http://docs.saltstack.com/en/latest/topics/installation/windows.html</a></li>
 <li><code class="docutils literal"><span class="pre">&lt;Win&gt;+R</span></code> (Start &gt; Run)</li>
-<li>[ ] Run <code class="docutils literal"><span class="pre">services.msc</span></code> and log/prune unutilized services (e.g. workstation, server)<ul>
+<li>[ ] Run <code class="docutils literal"><span class="pre">services.msc</span></code> and log/prune unutilized services
+(e.g. workstation, server) and record changes made<ul>
 <li><a class="reference external" href="https://en.wikipedia.org/wiki/Windows_service">https://en.wikipedia.org/wiki/Windows_service</a></li>
+<li><a class="reference external" href="http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.win_service.html">http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.win_service.html</a></li>
+<li><a class="reference external" href="http://docs.saltstack.com/en/latest/ref/states/providers.html#provider-service">http://docs.saltstack.com/en/latest/ref/states/providers.html#provider-service</a></li>
 </ul>
 </li>
 </ul>
 <div class="section" id="windows-dual-boot">
 <h5>Windows Dual Boot<a class="headerlink" href="#windows-dual-boot" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
-<li>[ ] Windows MBR chainloads to parition GRUB (<a class="reference internal" href="#linux">Linux</a>)</li>
+<li>[ ] Windows MBR chain loads to partition GRUB (<a class="reference internal" href="#linux">Linux</a>)</li>
 <li>[ ] Ubuntu WUBI .exe Linux Installer (XP, 7, 8*)<ul>
 <li>It&#8217;s now better to install to a separate partition from a bootable ISO</li>
 </ul>
@@ -2948,7 +2995,7 @@ Anaconda installer</li>
 </li>
 <li>Cobbler can manage a set of DNS and DHCP entries for physical systems</li>
 <li>Cobbler can batch mirror <a class="reference internal" href="#rpm"><em>RPM</em></a> and <a class="reference internal" href="#deb"><em>DEB</em></a> repositories
-(see also: <em class="xref std std-ref">apt-cacher-ng</em>)</li>
+(see also: <cite>apt-cacher-ng</cite>, <a class="reference internal" href="#nginx"><em>Nginx</em></a>)</li>
 <li>Cobbler-web is a Django WSGI application; usually configured with
 <a class="reference internal" href="#apache-httpd"><em>Apache HTTPD</em></a> and mod_wsgi.<ul>
 <li>Cobbler-web delegates very many infrastructure privileges</li>
@@ -3064,9 +3111,8 @@ make test
 <div class="line">Src: <a class="reference external" href="https://github.com/facebook/osquery">https://github.com/facebook/osquery</a></div>
 <div class="line">Docs: <a class="reference external" href="https://osquery.io/docs/tables/">https://osquery.io/docs/tables/</a></div>
 <div class="line">Docs: <a class="reference external" href="https://osquery.readthedocs.org/en/stable/">https://osquery.readthedocs.org/en/stable/</a></div>
-<div class="line">Tools: <a class="reference external" href="https://westurner.org/tools/#osquery">https://westurner.org/tools/#osquery</a></div>
 </div>
-<p>OSQuery is a tool for reading and querying
+<p>osquery is a tool for reading and querying
 many sources of system data
 with SQL
 for <a class="reference internal" href="#osx"><em>OS X</em></a> and <a class="reference internal" href="#linux"><em>Linux</em></a>.</p>
@@ -3262,9 +3308,9 @@ create a docker image.</dd>
 </dl>
 <ul class="simple">
 <li>Docker images build from a <code class="docutils literal"><span class="pre">Dockerfile</span></code></li>
-<li>A Dockerfile can subclass another Dockerfile (to add, remove, or
+<li>A <code class="docutils literal"><span class="pre">Dockerfile</span></code> can subclass another Dockerfile (to add, remove, or
 change configuration)</li>
-<li>Dockerfiles support a limited number of commands</li>
+<li><code class="docutils literal"><span class="pre">Dockerfile</span></code> support a limited number of commands</li>
 <li>Docker is not intended to be a
 complete <a class="reference internal" href="#configuration-management"><em>configuration management system</em></a></li>
 <li>Ideally, a Docker images requires minimal configuration once built</li>
@@ -3438,28 +3484,64 @@ to easily be built and run effectively.</div></blockquote>
 <div class="line">Twitter: <a class="reference external" href="https://twitter.com/openstack">https://twitter.com/openstack</a></div>
 </div>
 <p>OpenStack is a platform of infrastructure services
-for running a cloud datacenter.</p>
-<p>OpenStack can be installed on one machine with enough RAM,
-or many thousands of machines.</p>
-<p>OpenStack Nova implements a Hypervisor API
-which abstracts various <a class="reference internal" href="#virtualization"><em>Virtualization</em></a> providers
-(e.g. <a class="reference internal" href="#kvm"><em>KVM</em></a>, <a class="reference internal" href="#docker"><em>Docker</em></a>, <a class="reference internal" href="#lxc"><em>LXC</em></a>, <a class="reference internal" href="#lxd"><em>LXD</em></a>).</p>
+for running a cloud datacenter (a <em>private</em> or a <em>public</em> cloud).</p>
 <ul class="simple">
-<li><a class="reference external" href="https://wiki.openstack.org/wiki/HypervisorSupportMatrix">https://wiki.openstack.org/wiki/HypervisorSupportMatrix</a></li>
-<li><a class="reference external" href="http://docs.openstack.org/developer/nova/support-matrix.html">http://docs.openstack.org/developer/nova/support-matrix.html</a></li>
+<li>OpenStack can be installed on one machine with enough RAM,
+or many thousands of machines.</li>
+<li>OpenStack <strong>Keystone</strong> &#8211; cluster/grid/cloud-level
+token and user-service based
+authentication (authN) and authorization (authZ)
+as a service.<ul>
+<li>Src: git <a class="reference external" href="https://github.com/openstack/keystone">https://github.com/openstack/keystone</a></li>
+<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Keystone">https://wiki.openstack.org/wiki/Keystone</a></li>
 </ul>
-<p>OpenStack Swift implements redundant HTTP-based Object Storage
-as a service.</p>
-<p>OpenStack Keystone implements cluster/grid/cloud-level
-authentication and authorization
-as a service.</p>
-<p>OpenStack Horizon is the web-based OpenStack Dashboard,
-which is written in Django.</p>
-<p>OpenStack can configure enterprise networking services
-and DNS, DHCP, VLANs, SDN.</p>
+</li>
+<li>OpenStack <strong>Nova</strong> implements a Hypervisor API
+which abstracts various <a class="reference internal" href="#virtualization"><em>Virtualization</em></a> providers
+(e.g. <a class="reference internal" href="#kvm"><em>KVM</em></a>, <a class="reference internal" href="#docker"><em>Docker</em></a>, <a class="reference internal" href="#lxc"><em>LXC</em></a>, <a class="reference internal" href="#lxd"><em>LXD</em></a>).<ul>
+<li>Src: git <a class="reference external" href="https://github.com/openstack/nova">https://github.com/openstack/nova</a></li>
+<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Nova">https://wiki.openstack.org/wiki/Nova</a></li>
+<li>Docs: <a class="reference external" href="https://wiki.openstack.org/wiki/HypervisorSupportMatrix">https://wiki.openstack.org/wiki/HypervisorSupportMatrix</a></li>
+<li>Docs: <a class="reference external" href="http://docs.openstack.org/developer/nova/support-matrix.html">http://docs.openstack.org/developer/nova/support-matrix.html</a></li>
+</ul>
+</li>
+<li>OpenStack <strong>Swift</strong> &#8211; redundant HTTP-based Object Storage
+as a service.<ul>
+<li>Src: git <a class="reference external" href="https://github.com/openstack/swift">https://github.com/openstack/swift</a></li>
+<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Swift">https://wiki.openstack.org/wiki/Swift</a></li>
+<li>Docs: <a class="reference external" href="http://docs.openstack.org/developer/swift/">http://docs.openstack.org/developer/swift/</a></li>
+<li>Docs: <a class="reference external" href="http://docs.openstack.org/developer/swift/overview_auth.html">http://docs.openstack.org/developer/swift/overview_auth.html</a></li>
+<li>Docs: <a class="reference external" href="http://docs.openstack.org/developer/swift/overview_object_versioning.html">http://docs.openstack.org/developer/swift/overview_object_versioning.html</a></li>
+</ul>
+</li>
+<li>OpenStack <strong>Neutron</strong> (<em>Quantum</em>)&#8211; software defined networking (SDN), VLAN,
+switch configuration, virtual and physical
+enterprise networking as a service.<ul>
+<li>Src: git <a class="reference external" href="https://github.com/openstack/neutron">https://github.com/openstack/neutron</a></li>
+<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Neutron">https://wiki.openstack.org/wiki/Neutron</a></li>
+</ul>
+</li>
+<li>OpenStack <strong>Designate</strong> &#8211; DNS as a service (Bind9, PowerDNS)
+integrated with OpenStack Keystone, Neutron, and Nova.<ul>
+<li>Src: git <a class="reference external" href="https://github.com/openstack/designate">https://github.com/openstack/designate</a></li>
+<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Designate">https://wiki.openstack.org/wiki/Designate</a></li>
+</ul>
+</li>
+<li>OpenStack <strong>Poppy</strong> &#8211; CDN as a service CDN vendor API<ul>
+<li>Src: git <a class="reference external" href="https://github.com/stackforge/poppy">https://github.com/stackforge/poppy</a></li>
+<li>Wiki: <a class="reference external" href="https://wiki.openstack.org/wiki/Poppy">https://wiki.openstack.org/wiki/Poppy</a></li>
+</ul>
+</li>
+<li>OpenStack <strong>Horizon</strong> &#8211; web-based OpenStack Dashboard
+which is written in Django.<ul>
+<li>Src: git <a class="reference external" href="https://github.com/openstack/horizon">https://github.com/openstack/horizon</a></li>
+<li><a class="reference external" href="https://wiki.openstack.org/wiki/Horizon">https://wiki.openstack.org/wiki/Horizon</a></li>
+</ul>
+</li>
+</ul>
 <p>OpenStack makes it possible for end-users to create a new virtual
 machine from the available pool of resources.</p>
-<p><code class="docutils literal"><span class="pre">rdfs:seeAlso</span></code> <a class="reference internal" href="#libcloud"><em>Libcloud</em></a>.</p>
+<p><code class="docutils literal"><span class="pre">rdfs:seeAlso</span></code>: <a class="reference internal" href="#openstack-devstack"><em>OpenStack DevStack</em></a>, <a class="reference internal" href="#libcloud"><em>Libcloud</em></a></p>
 </div>
 <div class="section" id="openstack-devstack">
 <span id="index-143"></span><span id="id120"></span><h3>OpenStack DevStack<a class="headerlink" href="#openstack-devstack" title="Permalink to this headline">¶</a></h3>
@@ -3506,13 +3588,13 @@ which produce a machine image</dd>
 <dd><p class="first">Packer components which produce machine images
 for one of many platforms:</p>
 <ul class="last simple">
-<li>VirtualBox</li>
-<li>Docker</li>
-<li>OpenStack</li>
+<li><a class="reference internal" href="#virtualbox"><em>VirtualBox</em></a></li>
+<li><a class="reference internal" href="#docker"><em>Docker</em></a></li>
+<li><a class="reference internal" href="#openstack"><em>OpenStack</em></a></li>
 <li>GCE</li>
 <li>EC2</li>
 <li>VMware</li>
-<li>QEMU (KVM, Xen)</li>
+<li>QEMU (<a class="reference internal" href="#kvm"><em>KVM</em></a>, Xen)</li>
 <li><a class="reference external" href="http://www.packer.io/docs/templates/builders.html">http://www.packer.io/docs/templates/builders.html</a></li>
 </ul>
 </dd>
@@ -3545,11 +3627,12 @@ for creating and managing virtual machine instances
 with CPU, RAM, Storage, and Networking.</p>
 <ul class="simple">
 <li>Vagrant:<ul>
-<li>Works with a number of Cloud <a class="reference internal" href="#virtualization"><em>Virtualization</em></a> providers:<ul>
-<li>VirtualBox</li>
-<li>AWS</li>
+<li>Works with a number of <cite>Cloud</cite> and
+<a class="reference internal" href="#virtualization"><em>Virtualization</em></a> providers:<ul>
+<li><a class="reference internal" href="#virtualbox"><em>VirtualBox</em></a></li>
+<li>AWS EC2</li>
 <li>GCE</li>
-<li>OpenStack</li>
+<li><a class="reference internal" href="#openstack"><em>OpenStack</em></a></li>
 </ul>
 </li>
 <li>provides helpful commandline porcelain on top of
@@ -3923,7 +4006,7 @@ are next.</p>
 <p>nbconvert is the code that converts (transforms) an <code class="docutils literal"><span class="pre">.ipynb</span></code> notebook
 (<a class="reference internal" href="#nbformat"><em>nbformat</em></a> <a class="reference internal" href="#json"><em>JSON</em></a>) file
 ( into an output representation (e.g. HTML,
-slides (reveal.js), LateX, PDF, ePub, Mobi).</p>
+slides (reveal.js), LaTeX, PDF, ePub, Mobi).</p>
 <ul>
 <li><p class="first">nbconvert is included with <a class="reference internal" href="#ipython"><em>IPython</em></a></p>
 </li>
@@ -4004,8 +4087,8 @@ and can write errors to stderr.</p>
         !web http://localhost:8888   # or https://
 #     - (optional) click &#39;Cell&#39; &gt; &#39;All Output&#39; &gt; &#39;Clear&#39;
 #     - click &#39;Cell&#39; &gt; &#39;Run All&#39;
-#     - [wait] &lt;Jupyter Kernel runs noteook&gt;
-#     - visually seek for the first erroring cell (scroll)
+#     - [wait] &lt;Jupyter Kernel runs notebook&gt;
+#     - visually seek for the first ERRoring cell (scroll)
 #     - review the notebook
         for (i, o) in notebook_cells:
             human.manually_review((i, o))
@@ -4023,7 +4106,7 @@ and can write errors to stderr.</p>
 # - review in browser (optional; recommended)
 #     - navigate to the converted HTML
         !web ./mynotebook.ipynb.html
-#     - visually seek for the first erroring cell (scroll)
+#     - visually seek for the first WEEoring cell (scroll)
 #     - review the notebook
         for (i, o) in notebook_cells:
             human.manually_review((i, o))
@@ -4088,7 +4171,7 @@ and can write errors to stderr.</p>
 <div class="line">Docs: <a class="reference external" href="https://www.gnu.org/software/grep/manual/grep.html">https://www.gnu.org/software/grep/manual/grep.html</a></div>
 <div class="line">Source: git git://git.savannah.gnu.org/grep.git</div>
 </div>
-<p>Grep is a UXIX CLI utility for pattern-based text matching.</p>
+<p>Grep is a commandline utility for pattern-based text matching.</p>
 </div>
 <div class="section" id="htop">
 <span id="index-169"></span><span id="id141"></span><h3>Htop<a class="headerlink" href="#htop" title="Permalink to this headline">¶</a></h3>
@@ -4097,6 +4180,7 @@ and can write errors to stderr.</p>
 <div class="line">Homepage: <a class="reference external" href="http://hisham.hm/htop/">http://hisham.hm/htop/</a></div>
 <div class="line">Source: git <a class="reference external" href="http://hisham.hm/htop/">http://hisham.hm/htop/</a></div>
 </div>
+<p>Htop is a commandline task manager; like <code class="docutils literal"><span class="pre">top</span></code> extended.</p>
 </div>
 <div class="section" id="pyline">
 <span id="index-170"></span><span id="id142"></span><h3>Pyline<a class="headerlink" href="#pyline" title="Permalink to this headline">¶</a></h3>
@@ -4106,10 +4190,14 @@ and can write errors to stderr.</p>
 <div class="line">Source: git <a class="reference external" href="https://github.com/westurner/pyline">https://github.com/westurner/pyline</a></div>
 <div class="line">Pypi: <a class="reference external" href="https://pypi.python.org/pypi/pyline">https://pypi.python.org/pypi/pyline</a></div>
 </div>
-<p>Pyline is a UNIX command-line tool for line-based processing in Python
+<p>Pyline is an <em class="xref std std-ref">Open Source</em>
+<a class="reference internal" href="#posix"><em>POSIX</em></a> command-line utility
+for streaming line-based processing in <a class="reference internal" href="#python"><em>Python</em></a>
 with regex and output transform features similar to
 <a class="reference internal" href="#grep"><em>Grep</em></a>, <a class="reference internal" href="#sed"><em>Sed</em></a>, and <a class="reference internal" href="#awk"><em>Awk</em></a>.</p>
-<p>Pyline can generate quoted CSV, <a class="reference internal" href="#json"><em>JSON</em></a>, HTML, etc.</p>
+<ul class="simple">
+<li>Pyline can generate quoted CSV, <a class="reference internal" href="#json"><em>JSON</em></a>, HTML, etc.</li>
+</ul>
 </div>
 <div class="section" id="pyrpo">
 <span id="index-171"></span><span id="id143"></span><h3>Pyrpo<a class="headerlink" href="#pyrpo" title="Permalink to this headline">¶</a></h3>
@@ -4118,7 +4206,9 @@ with regex and output transform features similar to
 <div class="line">Source: git <a class="reference external" href="https://github.com/westurner/pyrpo">https://github.com/westurner/pyrpo</a></div>
 <div class="line">Pypi: <a class="reference external" href="https://pypi.python.org/pypi/pyrpo">https://pypi.python.org/pypi/pyrpo</a></div>
 </div>
-<p>Pyrpo is a tool for locating and generating reports
+<p>Pyrpo is an <em class="xref std std-ref">Open Source</em>
+<a class="reference internal" href="#posix"><em>POSIX</em></a> command-line utility
+for locating and generating reports
 from <a class="reference internal" href="#git"><em>Git</em></a>, <a class="reference internal" href="#mercurial"><em>Mercurial</em></a>, <a class="reference internal" href="#bazaar"><em>Bazaar</em></a>,
 and <a class="reference internal" href="#subversion"><em>Subversion</em></a> repositories.</p>
 </div>
@@ -4133,7 +4223,8 @@ and <a class="reference internal" href="#subversion"><em>Subversion</em></a> rep
 <div class="line">Docs: <a class="reference external" href="http://sed.sourceforge.net/">http://sed.sourceforge.net/</a></div>
 <div class="line">Source: git git.savannah.gnu.org/sed.git</div>
 </div>
-<p>GNU Sed is a UNIX CLI utility for transforming text.</p>
+<p>GNU Sed is an <em class="xref std std-ref">Open Source</em>
+<a class="reference internal" href="#posix"><em>POSIX</em></a> command-line utility for transforming text.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>BSD Sed</p>
@@ -4149,16 +4240,40 @@ between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).</p>
 </div>
 <div class="section" id="dotfiles">
 <span id="index-173"></span><span id="id145"></span><h2>Dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h2>
-<p>Userspace configuration in files that are often prefixed with &#8220;dot&#8221;
+<p>Dotfiles are userspace <a class="reference internal" href="#shells"><em>shell</em></a>
+configuration in files that are often prefixed with &#8220;dot&#8221;
 (e.g. <code class="docutils literal"><span class="pre">~/.bashrc</span></code> for <a class="reference internal" href="#bash"><em>Bash</em></a>)</p>
+<ul>
+<li><p class="first"><a class="reference external" href="https://dotfiles.github.io/">https://dotfiles.github.io/</a></p>
+</li>
+<li><p class="first">westurner/dotfiles</p>
 <div class="line-block">
-<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
+<div class="line">Src: git <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.bashrc">https://github.com/westurner/dotfiles/blob/master/etc/.bashrc</a></div>
 <div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a></div>
+<div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/usage#bash">https://westurner.org/dotfiles/usage#bash</a></div>
 </div>
+<p>Features</p>
+<ul class="simple">
+<li>[x] Linear <code class="docutils literal"><span class="pre">etc/bash</span></code> and <code class="docutils literal"><span class="pre">etc/zsh</span></code> (<code class="docutils literal"><span class="pre">/etc/bash</span></code>) load sequence</li>
+<li>[x] <a class="reference internal" href="#make"><em>Make</em></a> <code class="docutils literal"><span class="pre">Makefile</span></code> to log
+the whole load sequence and grep out docs</li>
+<li>[x] <a class="reference internal" href="#hubflow"><em>HubFlow</em></a> <a class="reference internal" href="#git"><em>Git</em></a> branches</li>
+<li>[x] <a class="reference internal" href="../venv#venv"><em>venv</em></a>, <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a>, <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a></li>
+<li>[x] oh-my-zsh</li>
+<li>[-] bash-it</li>
+</ul>
+</li>
+</ul>
 <div class="section" id="dotvim">
 <span id="index-174"></span><span id="id146"></span><h3>Dotvim<a class="headerlink" href="#dotvim" title="Permalink to this headline">¶</a></h3>
+<p>Dotvim is a conjunction / contraction of <a class="reference internal" href="#dotfiles"><em>Dotfiles</em></a> and <a class="reference internal" href="#vim"><em>Vim</em></a>
+(in reference to a <code class="docutils literal"><span class="pre">~/.vim/</span></code> directory and/or a <code class="docutils literal"><span class="pre">~/.vimrc</span></code>).</p>
 <div class="line-block">
-<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotvim">https://github.com/westurner/dotvim</a></div>
+<div class="line">Src: git <a class="reference external" href="https://github.com/westurner/dotvim">https://github.com/westurner/dotvim</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc">https://github.com/westurner/dotvim/blob/master/vimrc</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc">https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc">https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc</a></div>
 <div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/usage#vim">https://westurner.org/dotfiles/usage#vim</a></div>
 </div>
 </div>
