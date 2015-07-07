@@ -1,20 +1,16 @@
 #!/bin/sh
-## 
+### gruntw -- cd $_WRD && grunt $@ 
 
 _gruntw() {
     # gruntw()   -- cd $_WRD && grunt $@
     (cd "${_WRD}" && grunt ${@})
 }
-_gruntw_complete() {
-    local cur=${2}
-    # see: /usr/local/etc/bash_completion.d/grunt (brew)
-    COMPREPLY=( $( compgen -W "$( grunt -C ${_WRD} -qp 2>/dev/null | \
-    awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ \
-    {split($1,A,/ /);for(i in A)print A[i]}' )" \
-    -- "$cur" ) )
-}
-complete -F _gruntw_complete gruntw
+#_gruntw_complete() {
+#    local cur=${2}
+#}
+#complete -F _gruntw_complete gruntw
 
 if [[ ${BASH_SOURCE} == "${0}" ]]; then
     _gruntw ${@}
+    exit
 fi
