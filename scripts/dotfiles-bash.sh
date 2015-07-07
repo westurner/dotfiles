@@ -1,7 +1,8 @@
 #!/bin/bash
+### dotfiles-bash.sh -- dotfiles_grep_shell_comments $@
 
-print_bash_comments() {
-    ## print_bash_comments()    -- print indented block (w/ an rst header)
+dotfiles_grep_shell_comments() {
+    ## dotfiles_grep_shell_comments()    -- print indented block (w/ an rst header)
     # examples:
     # ## comment    -- description
     # # cmd     -- description
@@ -21,13 +22,20 @@ print_bash_comments() {
     # 
     # "   ## %s".format(filename)
     # "    %s".format(line)
-    (cd $__DOTFILES;
-    for f in $(ls etc/bash/*.sh); do
-        echo "#### $f";
-        cat $f | scripts/pyline.py -r '^\s*#+\s+.*' 'rgx and l';
-        echo "   ";
-        echo "   ";
-    done)
+    local paths=${@:-"etc/bash/*.sh"}
+    local prefix=${__DOTFILES}
+    (cd $prefix;
+        for f in $(ls $paths); do
+            echo "#### $f";
+            cat $f | scripts/pyline.py -r '^\s*#+\s+.*' 'rgx and l';
+            echo "   ";
+            echo "   ";
+        done
+    )
 }
 
-print_bash_comments
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    dotfiles_grep_shell_comments ${@}
+    exit
+fi
