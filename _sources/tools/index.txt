@@ -59,10 +59,13 @@ Anaconda
 | Docs: http://docs.continuum.io/anaconda/
 | Docs: http://docs.continuum.io/anaconda/pkg-docs.html
 
+Anaconda is a maintained distribution of :ref:`Conda`
+packages for many languages; especially :ref:`Python`.
 
-Anaconda is a maintained distribution of many popular :ref:`Python Packages`.
+* :ref:`Anaconda` maintains a working set of :ref:`Conda` packages
+  for Python 2.6, 2.7, 3.3, and 3.4:
+  http://docs.continuum.io/anaconda/pkg-docs.html
 
-Anaconda works with :ref:`Conda` packages.
 
 .. note:: `<https://en.wikipedia.org/wiki/Anaconda_(installer)>`__ (1999)
    is the installer for :ref:`RPM`-based :ref:`Linux` distributions; which is
@@ -1444,13 +1447,8 @@ and scientific software development.
   and :ref:`Virtualenvwrapper` are all written in Python.
 
 * :ref:`PyPI` is the Python community
-:ref:`Python Package <python packages>` index
-for sharing open source code.
-
-* :ref:`Anaconda` maintains a working set of :ref:`Conda` packages
-  for Python 2.6, 2.7, 3.3, and 3.4:
-
-  http://docs.continuum.io/anaconda/pkg-docs.html
+  :ref:`Python Package <python packages>` index
+  for sharing open source code.
 
 The Python community is generously supported by a number of sponsors
 and the Python Infrastructure Team:
@@ -1632,9 +1630,8 @@ the two language versions:
 * https://pypi.python.org/pypi/future
 * http://python-future.org/
 
-:ref:`Anaconda` maintains a working set of :ref:`Conda` packages
-for Python 2.6, 2.7, 3.3, and 3.4:
-http://docs.continuum.io/anaconda/pkg-docs.html
+
+See also: :ref:`Anaconda`
 
 
 .. index:: awesome-python-testing
@@ -3841,7 +3838,7 @@ Pyline
 | Source: git https://github.com/westurner/pyline
 | Pypi: https://pypi.python.org/pypi/pyline
 
-Pyline is an :ref:`Open Source <open-source>`
+Pyline is an `open source`
 :ref:`POSIX` command-line utility
 for streaming line-based processing in :ref:`Python`
 with regex and output transform features similar to
@@ -3859,7 +3856,7 @@ Pyrpo
 | Source: git https://github.com/westurner/pyrpo
 | Pypi: https://pypi.python.org/pypi/pyrpo
 
-Pyrpo is an :ref:`Open Source <open-source>`
+Pyrpo is an `open source`
 :ref:`POSIX` command-line utility
 for locating and generating reports
 from :ref:`Git`, :ref:`Mercurial`, :ref:`Bazaar`,
@@ -3879,7 +3876,7 @@ Sed
 | Docs: http://sed.sourceforge.net/
 | Source: git git.savannah.gnu.org/sed.git
 
-GNU Sed is an :ref:`Open Source <open-source>`
+GNU Sed is an `open source`
 :ref:`POSIX` command-line utility for transforming text.
 
 .. note:: BSD Sed

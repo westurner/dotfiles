@@ -64,7 +64,9 @@
 <script type="text/javascript" src="../_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="../index" /> 
+    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="../index" />
+    <link rel="next" title="Dotfiles API" href="../api" />
+    <link rel="prev" title="usrlog" href="../usrlog" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
@@ -433,6 +435,8 @@
               </li>
 
             
+              <li><a href="../usrlog" title="usrlog" accesskey="P">previous </a></li>
+              <li><a href="../api" title="Dotfiles API" accesskey="N">next </a></li>
               <li><a href="../py-modindex" title="Python Module Index" >modules </a></li>
               <li><a href="../genindex" title="General Index" accesskey="I">index </a></li>
             
@@ -815,6 +819,12 @@
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../usrlog"
+                        title="previous chapter">usrlog</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../api"
+                        title="next chapter">Dotfiles API</a></p>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
   <form class="search form-inline" action="../search" method="get">
@@ -922,8 +932,13 @@ to repackage upstream releases for the target platform(s).</p>
 <div class="line">Docs: <a class="reference external" href="http://docs.continuum.io/anaconda/">http://docs.continuum.io/anaconda/</a></div>
 <div class="line">Docs: <a class="reference external" href="http://docs.continuum.io/anaconda/pkg-docs.html">http://docs.continuum.io/anaconda/pkg-docs.html</a></div>
 </div>
-<p>Anaconda is a maintained distribution of many popular <a class="reference internal" href="#python-packages"><em>Python Packages</em></a>.</p>
-<p>Anaconda works with <a class="reference internal" href="#conda"><em>Conda</em></a> packages.</p>
+<p>Anaconda is a maintained distribution of <a class="reference internal" href="#conda"><em>Conda</em></a>
+packages for many languages; especially <a class="reference internal" href="#python"><em>Python</em></a>.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#anaconda"><em>Anaconda</em></a> maintains a working set of <a class="reference internal" href="#conda"><em>Conda</em></a> packages
+for Python 2.6, 2.7, 3.3, and 3.4:
+<a class="reference external" href="http://docs.continuum.io/anaconda/pkg-docs.html">http://docs.continuum.io/anaconda/pkg-docs.html</a></li>
+</ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last"><a class="reference external" href="https://en.wikipedia.org/wiki/Anaconda_(installer)">https://en.wikipedia.org/wiki/Anaconda_(installer)</a> (1999)
@@ -2107,15 +2122,9 @@ are written in Python.</li>
 <a class="reference internal" href="#mercurial"><em>Mercurial</em></a>, <a class="reference internal" href="#openstack"><em>OpenStack</em></a>,
 <a class="reference internal" href="#libcloud"><em>Libcloud</em></a>, <a class="reference internal" href="#salt"><em>Salt</em></a>, <a class="reference internal" href="#tox"><em>Tox</em></a>, <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a>,
 and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a> are all written in Python.</li>
-<li><a class="reference internal" href="#pypi"><em>PyPI</em></a> is the Python community</li>
-</ul>
-<p><a class="reference internal" href="#python-packages"><em>Python Package</em></a> index
-for sharing open source code.</p>
-<ul>
-<li><p class="first"><a class="reference internal" href="#anaconda"><em>Anaconda</em></a> maintains a working set of <a class="reference internal" href="#conda"><em>Conda</em></a> packages
-for Python 2.6, 2.7, 3.3, and 3.4:</p>
-<p><a class="reference external" href="http://docs.continuum.io/anaconda/pkg-docs.html">http://docs.continuum.io/anaconda/pkg-docs.html</a></p>
-</li>
+<li><a class="reference internal" href="#pypi"><em>PyPI</em></a> is the Python community
+<a class="reference internal" href="#python-packages"><em>Python Package</em></a> index
+for sharing open source code.</li>
 </ul>
 <p>The Python community is generously supported by a number of sponsors
 and the Python Infrastructure Team:</p>
@@ -2272,9 +2281,7 @@ the two language versions:</p>
 <li><a class="reference external" href="https://pypi.python.org/pypi/future">https://pypi.python.org/pypi/future</a></li>
 <li><a class="reference external" href="http://python-future.org/">http://python-future.org/</a></li>
 </ul>
-<p><a class="reference internal" href="#anaconda"><em>Anaconda</em></a> maintains a working set of <a class="reference internal" href="#conda"><em>Conda</em></a> packages
-for Python 2.6, 2.7, 3.3, and 3.4:
-<a class="reference external" href="http://docs.continuum.io/anaconda/pkg-docs.html">http://docs.continuum.io/anaconda/pkg-docs.html</a></p>
+<p>See also: <a class="reference internal" href="#anaconda"><em>Anaconda</em></a></p>
 </div>
 <div class="section" id="awesome-python-testing">
 <span id="index-76"></span><span id="id62"></span><h4>awesome-python-testing<a class="headerlink" href="#awesome-python-testing" title="Permalink to this headline">¶</a></h4>
@@ -3870,7 +3877,7 @@ IPython Notebook.</p>
 </li>
 </ul>
 <p>To start IPython Notebook (assuming the <code class="docutils literal"><span class="pre">_SRC</span></code> variable
-as defined in <a class="reference internal" href="../venv#venv"><em>venv</em></a>):</p>
+as defined in <a class="reference internal" href="#venv"><em>Venv</em></a>):</p>
 <div class="code bash highlight-python"><div class="highlight"><pre>pip install ipython[notebook]
 # pip install -e git+https://github.com/ipython/ipython@rel-3.1.0#egg=ipython
 
@@ -4200,7 +4207,7 @@ and can write errors to stderr.</p>
 <div class="line">Source: git <a class="reference external" href="https://github.com/westurner/pyline">https://github.com/westurner/pyline</a></div>
 <div class="line">Pypi: <a class="reference external" href="https://pypi.python.org/pypi/pyline">https://pypi.python.org/pypi/pyline</a></div>
 </div>
-<p>Pyline is an <em class="xref std std-ref">Open Source</em>
+<p>Pyline is an <cite>open source</cite>
 <a class="reference internal" href="#posix"><em>POSIX</em></a> command-line utility
 for streaming line-based processing in <a class="reference internal" href="#python"><em>Python</em></a>
 with regex and output transform features similar to
@@ -4216,7 +4223,7 @@ with regex and output transform features similar to
 <div class="line">Source: git <a class="reference external" href="https://github.com/westurner/pyrpo">https://github.com/westurner/pyrpo</a></div>
 <div class="line">Pypi: <a class="reference external" href="https://pypi.python.org/pypi/pyrpo">https://pypi.python.org/pypi/pyrpo</a></div>
 </div>
-<p>Pyrpo is an <em class="xref std std-ref">Open Source</em>
+<p>Pyrpo is an <cite>open source</cite>
 <a class="reference internal" href="#posix"><em>POSIX</em></a> command-line utility
 for locating and generating reports
 from <a class="reference internal" href="#git"><em>Git</em></a>, <a class="reference internal" href="#mercurial"><em>Mercurial</em></a>, <a class="reference internal" href="#bazaar"><em>Bazaar</em></a>,
@@ -4233,7 +4240,7 @@ and <a class="reference internal" href="#subversion"><em>Subversion</em></a> rep
 <div class="line">Docs: <a class="reference external" href="http://sed.sourceforge.net/">http://sed.sourceforge.net/</a></div>
 <div class="line">Source: git git.savannah.gnu.org/sed.git</div>
 </div>
-<p>GNU Sed is an <em class="xref std std-ref">Open Source</em>
+<p>GNU Sed is an <cite>open source</cite>
 <a class="reference internal" href="#posix"><em>POSIX</em></a> command-line utility for transforming text.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -4269,7 +4276,7 @@ configuration in files that are often prefixed with &#8220;dot&#8221;
 <li>[x] <a class="reference internal" href="#make"><em>Make</em></a> <code class="docutils literal"><span class="pre">Makefile</span></code> to log
 the whole load sequence and grep out docs</li>
 <li>[x] <a class="reference internal" href="#hubflow"><em>HubFlow</em></a> <a class="reference internal" href="#git"><em>Git</em></a> branches</li>
-<li>[x] <a class="reference internal" href="../venv#venv"><em>venv</em></a>, <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a>, <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a></li>
+<li>[x] <a class="reference internal" href="#venv"><em>Venv</em></a>, <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a>, <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a></li>
 <li>[x] oh-my-zsh</li>
 <li>[-] bash-it</li>
 </ul>
@@ -4454,7 +4461,7 @@ ls -altr <span class="nv">$VIRTUAL_ENV</span>/lib/python*/site-packages/**  <spa
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a class="reference internal" href="../venv#venv"><em>venv</em></a> extends <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
+<p class="last"><a class="reference internal" href="#venv"><em>Venv</em></a> extends <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -4489,7 +4496,7 @@ source /etc/bash_completion.d/virtualenvwrapper
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a class="reference internal" href="../venv#venv"><em>venv</em></a> extends <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
+<p class="last"><a class="reference internal" href="#venv"><em>Venv</em></a> extends <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> and <a class="reference internal" href="#virtualenvwrapper"><em>Virtualenvwrapper</em></a>.</p>
 </div>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">echo</span> <span class="nv">$PROJECT_HOME</span><span class="p">;</span> <span class="nb">echo</span> ~/workspace             <span class="c"># venv: ~/-wrk</span>
 <span class="nb">cd</span> <span class="nv">$PROJECT_HOME</span>                                 <span class="c"># venv: cdp; cdph</span>
@@ -5507,7 +5514,7 @@ or any other web hosting service.</p>
 <p>The Filesystem Hierarchy Standard is a well-worn industry-supported
 system file naming structure.</p>
 <p><a class="reference internal" href="#ubuntu"><em>Ubuntu</em></a> and <a class="reference internal" href="#virtualenv"><em>Virtualenv</em></a> implement
-a Filesystem Hierarchy. Likewise, <a class="reference internal" href="../venv#venv"><em>venv</em></a> implements
+a Filesystem Hierarchy. Likewise, <a class="reference internal" href="#venv"><em>Venv</em></a> implements
 a Filesystem Hierarchy.</p>
 <p><a class="reference internal" href="#docker"><em>Docker</em></a> layers filesystem hierarchies with aufs and now
 also btrfs subvolumes.</p>
@@ -5640,6 +5647,8 @@ with implementations in many languages.</p>
     </ul>
 <ul class="nav navbar-nav text-center">
       
+        <li><a href="../usrlog" title="usrlog" >previous</a></li>
+        <li><a href="../api" title="Dotfiles API" >next</a></li>
         <li><a href="../py-modindex" title="Python Module Index" >modules</a></li>
         <li><a href="../genindex" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 

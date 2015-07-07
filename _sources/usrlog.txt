@@ -103,7 +103,7 @@ Features
 
 usrlog venv integration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-* :ref:`venv` (:ref:`virtualenvwrapper` :ref:`virtualenvs`)::
+* :ref:`venv` (:ref:`virtualenvwrapper` :ref:`virtualenvs <virtualenv>`)::
 
     echo "${_USRLOG}"        # _USRLOG=$HOME/-usrlog.log
     echo "${HISTFILE}"       # HISTFILE=$HOME/.bash_history

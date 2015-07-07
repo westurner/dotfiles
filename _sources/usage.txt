@@ -63,9 +63,8 @@ Bash
 .. literalinclude:: usage/bash_conf.txt
 
 
-.. index:: Dotfiles Vim Configuration
-.. index:: Dotvim
-.. _dotvim:
+.. index:: Dotvim Usage
+.. _dotvim usage:
 
 Vim
 -----
