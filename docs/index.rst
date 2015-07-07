@@ -10,7 +10,7 @@ westurner/dotfiles
    usage
    venv
    usrlog
-   tools/tools
+   tools/index
    api
    developing
    changelog

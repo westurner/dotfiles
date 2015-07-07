@@ -16,7 +16,7 @@ Objectives
     * ``venv -E --bash``
     * ``venv dotfiles --bash``
 
-  - :ref:`JSON` (variables, aliases) [``--print``]
+  - :ref:`JSON-` (variables, aliases) [``--print``]
 
     * ``venv -E --json``
     * ``venv dotfiles json``
