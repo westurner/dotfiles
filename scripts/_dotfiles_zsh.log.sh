@@ -4872,9 +4872,9 @@ if ! gpg-connect-agent --quiet /bye > /dev/null 2> /dev/null; then
         fi
     fi
 fi
-GPG_AGENT_INFO=/tmp/gpg-upNOmp/S.gpg-agent:24757:1
-SSH_AUTH_SOCK=/tmp/gpg-9nuzf6/S.gpg-agent.ssh
-SSH_AGENT_PID=24757
+GPG_AGENT_INFO=/tmp/gpg-mYaSjP/S.gpg-agent:13802:1
+SSH_AUTH_SOCK=/tmp/gpg-AMFuEi/S.gpg-agent.ssh
+SSH_AGENT_PID=13802
 
 GPG_TTY=$(tty)
 export GPG_TTY
@@ -4951,14 +4951,9 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-Ppj4UN3h4qEK/agent.24764; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=24766; export SSH_AGENT_PID;
-#echo Agent pid 24766;
 SSH_AUTH_SOCK=/var/folders/sh/m3c88fyn4x319133n00kjhg00000gn/T//ssh-MFJ9EBZwixP1/agent.13809; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=13811; export SSH_AGENT_PID;
 #echo Agent pid 13811;
-starting ssh-agent...
-Identity added: /Users/W/.ssh/id_rsa (/Users/W/.ssh/id_rsa)
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
