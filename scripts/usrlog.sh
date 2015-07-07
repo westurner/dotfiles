@@ -1,5 +1,5 @@
 #!/bin/sh
-##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
+### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
 #  Log shell commands with metadata as tab-separated lines to ${_USRLOG}
 #  with a shell identifier to differentiate between open windows,
