@@ -2,34 +2,48 @@
 #   note: most of these aliases and functions are overwritten by `we` 
 ## Variables
 
-    # __PROJECTSRC -- path to local project settings script
-export __PROJECTSRC="${__WRK}/.projectsrc.sh"
-[ -f $__PROJECTSRC ] && source $__PROJECTSRC
 
-    # __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)
-export __SRCVENV="${__WRK}/src"
-export __SRC="${__SRCVENV}/src"
-
-if [ ! -e "${__SRCVENV}" ]; then
-    if [ ! -d "${WORKON_HOME}/src" ]; then
-        mkvirtualenv -i pyrpo -i pyline -i pgs src
-    fi
-    ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
-fi
-
-if [ ! -d $__SRC ]; then
-    mkdir -p \
-        ${__SRC}/git/github.com \
-        ${__SRC}/git/bitbucket.org \
-        ${__SRC}/hg/bitbucket.org
-fi
+function _setup_venv {
+    # _setup_venv()    -- configure __PROJECTSRC, PATH, __VENV, _setup_venv_SRC()
+    #  __PROJECTSRC (str): path to local project settings script to source
+    export __PROJECTSRC="${__WRK}/.projectsrc.sh"
+    [ -f $__PROJECTSRC ] && source $__PROJECTSRC
 
     # PATH="~/.local/bin:$PATH" (if not already there)
-PATH_prepend "${HOME}/.local/bin"
+    PATH_prepend "${HOME}/.local/bin"
 
     # __VENV      -- path to local venv config script (executable)
-export __VENV="${__DOTFILES}/scripts/venv.py"
+    export __VENV="${__DOTFILES}/scripts/venv.py"
 
+    _setup_venv_SRC
+}
+
+
+function _setup_venv_SRC {
+    # _setup_venv_SRC() -- configure __SRCVENV and __SRC global virtualenv
+    # __SRCVENV (str): global 'src' venv symlink (~/-wrk/src)
+    #                  (e.g. ln -s ~/-wrk/-ve27/src ~/-wrk/src)
+    export __SRCVENV="${__WRK}/src"
+    # __SRC     (str): global 'src' venv ./src directory path (~/-wrk/src/src)
+    export __SRC="${__SRCVENV}/src"
+
+    if [ ! -e "${__SRCVENV}" ]; then
+        if [ ! -d "${WORKON_HOME}/src" ]; then
+            mkvirtualenv -p $(which python) -i pyrpo -i pyline -i pgs src
+        fi
+        ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
+    fi
+
+    #               ($__SRC/git $__SRC/git)
+    if [ ! -d $__SRC ]; then
+        mkdir -p \
+            ${__SRC}/git/github.com \
+            ${__SRC}/git/bitbucket.org \
+            ${__SRC}/hg/bitbucket.org
+    fi
+}
+
+_setup_venv
 
 ## Functions
 

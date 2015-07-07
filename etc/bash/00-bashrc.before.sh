@@ -4,7 +4,7 @@
 #
 dotfiles_reload() {
   #  dotfiles_reload()  -- (re)load the bash configuration
-  #  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
+  #  $__DOTFILES (str): -- path to the dotfiles symlink (~/-dotfiles)
 
   echo "#"
   echo "# dotfiles_reload()"
@@ -38,7 +38,7 @@ dotfiles_reload() {
   ## 02-bashrc.platform.sh      -- platform things
   source ${conf}/02-bashrc.platform.sh
   detect_platform
-  #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX 
+  #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX
   if [ -n "${__IS_MAC}" ]; then
       export PATH=$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')
 
@@ -63,28 +63,40 @@ dotfiles_reload() {
   source ${conf}/06-bashrc.completion.sh
 
   #
-  #  python: pip, virtualenv, virtualenvwrapper
-  #  $PROJECT_HOME (str): path to project directory (~/wrk)
-  #  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)
-  #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV
+  ##
+  #  virtualenvwrapper / virtualenv / venv constants
+  #
+  #  $PROJECT_HOME (str): path to project directory (~/-wrk)
+  #  $WORKON_HOME  (str): path to virtualenvs directory (~/-wrk/-ve27)
+  #  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV ($WORKON_HOME/$VENVSTR)
 
   #
-  ## 07-bashrc.python.sh        -- python
-  #  _setup_pyenv()     -- setup pyenv paths (manual)
+  ## 07-bashrc.python.sh            -- python
+  #  _setup_python()              -- configure PYTHONSTARTUP
+  #  _setup_pip()                 -- configure PIP_REQUIRE_VIRTUALENV
+  #  _setup_pyenv()               -- setup pyenv PYENV_ROOT and eval (manual)
   source ${conf}/07-bashrc.python.sh
 
   #
-  ## 08-bashrc.conda.sh         -- conda
-  #  _setup_conda()     -- setup conda paths (manual)
+  ## 08-bashrc.conda.sh             -- conda
+  #  _setup_conda()               -- setup conda paths (manual)
+  #                                  WORKON_HOME=CONDA_ENVS_PATH
+  #    $1 (str): (optional) CONDA_ENVS_PATH (WORKON_HOME)
+  #    $2 (str): (optional) CONDA_ROOT_PATH (or '27' or '34')
+  #  $CONDA_ROOT      (str): path to conda install (~/-wrk/-conda34)
+  #  $CONDA_ENVS_PATH (str): path to condaenvs directory (~/-wrk/-ce34) [conda]
   source ${conf}/08-bashrc.conda.sh
 
   #
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
-  # backup_virtualenv($VENVSTR)  -- backup $WORKON_HOME/$VENVSTR -> ./-bkp/$VENVSTR
-  # backup_virtualenvs()         -- backup $WORKON_HOME/* -> ./-bkp/*
-  # rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
-  # rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
-  # TODO: restore
+  #  _setup_virtualenvwrapper     -- configure virtualenvwrapper
+  #  backup_virtualenv($VENVSTR)  -- backup a venv in WORKON_HOME
+  #                                  $WORKON_HOME/$VENVSTR -> ./-bkp/$VENVSTR
+  #  backup_virtualenvs()         -- backup all venvs in WORKON_HOME
+  #                                  $WORKON_HOME/*        -> ./-bkp/*
+  #  rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
+  #  rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
+  #  TODO: restore_virtualenv($BACKUPVENVSTR, [$NEWVENVSTR])
   source ${conf}/07-bashrc.virtualenvwrapper.sh
 
   #
@@ -94,14 +106,17 @@ dotfiles_reload() {
 
   #
   ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
+  #  _setup_venv()
   #  $__PROJECTSRC     (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
-  #  $VIRTUAL_ENV_NAME (str): basename of current $VIRTUAL_ENV
+  #  $VIRTUAL_ENV_NAME (str): basename of $VIRTUAL_ENV [usrlog: prompt, title]
   #  $_APP             (str): $VIRTUAL_ENV/src/${_APP}
   #  we() -- workon a new venv
-  #     $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=$VIRTUAL_ENV]
+  #     $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=>$VIRTUAL_ENV]
   #     $2: _APP (optional; defaults to $VIRTUAL_ENV_NAME)
+  #
   #     we dotfiles
-  #     we dotfiles etc/bash; cdw; ds; ls
+  #     we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh
+  #     type workon_venv; which venv.py; venv.py --help
   source ${conf}/10-bashrc.venv.sh
   #
 
@@ -111,8 +126,11 @@ dotfiles_reload() {
 
   #
   ## 20-bashrc.editor.sh        -- $EDITOR configuration
-  #  $_EDIT_  (str): cmdstring to open $@ (file list) in current editor
+  #  $EDITOR  (str): cmdstring to open $@ (file list) in editor
   #  $EDITOR_ (str): cmdstring to open $@ (file list) in current editor
+  #  e()        -- open paths in current EDITOR_                   [scripts/e]
+  #  ew()       -- open paths relative to $_WRD in current EDITOR_ [scripts/ew]
+  #                (~ cd $_WRD; $EDITOR_ ${@}) + tab completion
   source ${conf}/20-bashrc.editor.sh
   #
   ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
@@ -126,27 +144,36 @@ dotfiles_reload() {
 
   #
   ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
-  #  $_USRLOG (str): path to .usrlog command log
-  #  stid       -- set $TERM_ID to a random string
-  #  stid $name -- set $TERM_ID to string
-  #  note       -- add a dated note to $_USRLOG [_usrlog_append]
-  #  usrlogv    -- open usrlog with vim:   $VIMBIN + $_USRLOG
-  #  usrlogg    -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
-  #  usrloge    -- open usrlog with editor:$EDITOR + $_USRLOG
-  #  ut         -- tail $_USRLOG
+  #  _setup_usrlog()    -- configure usrlog
+  #  $_USRLOG (str): path to a -usrlog.log command log
+  #                __USRLOG=~/-usrlog.log
+  #                 _USRLOG=${VIRTUAL_ENV}/-usrlog.log
+  #  lsusrlogs  -- ls -tr   "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
+  #  stid       -- set $TERM_ID to a random string (e.g. "#Yt0PyyKWPro")
+  #  stid $name -- set $TERM_ID to string (e.g. \#20150704, "#20150704")
+  #  note       -- log a #note to $_USRLOG (histn==#note)
+  #  todo       -- log a #todo to $_USRLOG (histn==#todo)
+  #  usrlogv    -- open usrlog with vim:    $VIMBIN    $_USRLOG
+  #  usrlogg    -- open usrlog with gmvim:  $GUIVIMBIN $_USRLOG
+  #  usrloge    -- open usrlog with editor: $EDITOR    $_USRLOG
+  #  ut         -- tail -n__ $_USRLOG [ #BUG workaround: see venv.py]
   #  ug         -- egrep current usrlog: egrep $@ $_USRLOG
-  #  ugall      -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
-  #  ugrin      -- grin current usrlog: grin $@ $_USRLOG
-  #  ugrinall   -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
-  #  lsusrlogs  -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+  #  ugall      -- egrep all usrlogs [ #BUG workaround: see venv.py ]
+  #                     egrep $@ "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
+  #  ugrin      -- grin current usrlog: grin $@ ${_USRLOG}
+  #  ugrinall   -- grin $@  "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
   source ${conf}/30-bashrc.usrlog.sh
 
   #
   ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
+  #  _setup_xlck()      -- configure xlck
   source ${conf}/30-bashrc.xlck.sh
 
   #
   ## 40-bashrc.aliases.sh       -- aliases
+  #  _setup_venv_aliases()  -- source in e, ew, makew, ssv, hgw, gitw
+  #    _setup_supervisord() -- configure _SVCFG
+  #       $1 (str): path to a supervisord.conf file "${1:-${_SVCFG}"
   source ${conf}/40-bashrc.aliases.sh
   ## 42-bashrc.commands.sh      -- example commands
   source ${conf}/42-bashrc.commands.sh
