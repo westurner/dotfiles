@@ -2278,21 +2278,30 @@ adapted for phones and then tablets.
 
 OSX Notes
 ++++++++++
+
+* [ ] Create a fresh install :ref:`OSX` USB drive (16GB+)
+
+  * http://osxdaily.com/2014/10/16/make-os-x-yosemite-boot-install-drive/
+  * Docs: https://support.apple.com/en-us/HT201372
+
 * https://github.com/westurner/dotfiles/blob/master/scripts/ ``setup_*.sh``
 
   * [ ] Manually update to latest versions (of zip, tar.gz, .dmg)
-  * [ ] Port to salt formulas
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_chrome.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_chromium.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_firefox.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_adobereader.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_vlc.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_f.lux.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_powerline_fonts.sh
-  * https://github.com/westurner/dotfiles/blob/master/scripts/setup_macvim.sh
-  * [ ] Miniconda #dotfiles (setup_miniconda.sh?)
+  * [ ] Port / wrap :ref:`shell <shells>` scripts
+    to / with :term:`salt formulas <salt formula>`
+    and parameters (per-subnet, group, machine, os; :term:`salt pillar`):
+
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh  # :ref:`homebrew`
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh  # :ref:`python`
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_chrome.sh  # :ref:`chrome`
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_chromium.sh # :ref:`chrome`
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_firefox.sh  # :ref:`firefox`
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_adobereader.sh  #  PDF forms, signatures, annotations
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_vlc.sh (`vlc`)
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_f.lux.sh (`f.lux`, `UBY`)
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_powerline_fonts.sh (`UBY`)
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_macvim.sh (:ref:`vim`)
+    + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_miniconda.sh (:ref:`conda`)
 
 * https://github.com/westurner/provis
 

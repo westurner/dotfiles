@@ -365,7 +365,7 @@ pull      -- git pull
 <span class="c">#  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()</span>
 <span class="c">#</span>
   <span class="c">#  dotfiles_reload()  -- (re)load the bash configuration</span>
-  <span class="c">#  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)</span>
+  <span class="c">#  $__DOTFILES (str): -- path to the dotfiles symlink (~/-dotfiles)</span>
   <span class="c">#</span>
   <span class="c">## 01-bashrc.lib.sh           -- useful bash functions (paths)</span>
   <span class="c">#  lspath()           -- list every file along $PATH</span>
@@ -373,7 +373,7 @@ pull      -- git pull
   <span class="c">#  walkpath()         -- list every directory along ${1:-&quot;.&quot;}</span>
   <span class="c">#</span>
   <span class="c">## 02-bashrc.platform.sh      -- platform things</span>
-  <span class="c">#  detect_platform()  -- set $__IS_MAC or $__IS_LINUX </span>
+  <span class="c">#  detect_platform()  -- set $__IS_MAC or $__IS_LINUX</span>
   <span class="c">## 03-bashrc.darwin.sh</span>
   <span class="c">#</span>
   <span class="c">## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR</span>
@@ -385,43 +385,61 @@ pull      -- git pull
   <span class="c">#</span>
   <span class="c">## 06-bashrc.completion.sh    -- configure bash completion</span>
   <span class="c">#</span>
-  <span class="c">#  python: pip, virtualenv, virtualenvwrapper</span>
-  <span class="c">#  $PROJECT_HOME (str): path to project directory (~/wrk)</span>
-  <span class="c">#  $WORKON_HOME  (str): path to virtualenvs directory (~/wrk/.ve)</span>
-  <span class="c">#  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV</span>
+  <span class="c">##</span>
+  <span class="c">#  virtualenvwrapper / virtualenv / venv constants</span>
   <span class="c">#</span>
-  <span class="c">## 07-bashrc.python.sh        -- python</span>
-  <span class="c">#  _setup_pyenv()     -- setup pyenv paths (manual)</span>
+  <span class="c">#  $PROJECT_HOME (str): path to project directory (~/-wrk)</span>
+  <span class="c">#  $WORKON_HOME  (str): path to virtualenvs directory (~/-wrk/-ve27)</span>
+  <span class="c">#  $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV ($WORKON_HOME/$VENVSTR)</span>
   <span class="c">#</span>
-  <span class="c">## 08-bashrc.conda.sh         -- conda</span>
-  <span class="c">#  _setup_conda()     -- setup conda paths (manual)</span>
+  <span class="c">## 07-bashrc.python.sh            -- python</span>
+  <span class="c">#  _setup_python()              -- configure PYTHONSTARTUP</span>
+  <span class="c">#  _setup_pip()                 -- configure PIP_REQUIRE_VIRTUALENV</span>
+  <span class="c">#  _setup_pyenv()               -- setup pyenv PYENV_ROOT and eval (manual)</span>
+  <span class="c">#</span>
+  <span class="c">## 08-bashrc.conda.sh             -- conda</span>
+  <span class="c">#  _setup_conda()               -- setup conda paths (manual)</span>
+  <span class="c">#                                  WORKON_HOME=CONDA_ENVS_PATH</span>
+  <span class="c">#    $1 (str): (optional) CONDA_ENVS_PATH (WORKON_HOME)</span>
+  <span class="c">#    $2 (str): (optional) CONDA_ROOT_PATH (or &#39;27&#39; or &#39;34&#39;)</span>
+  <span class="c">#  $CONDA_ROOT      (str): path to conda install (~/-wrk/-conda34)</span>
+  <span class="c">#  $CONDA_ENVS_PATH (str): path to condaenvs directory (~/-wrk/-ce34) [conda]</span>
   <span class="c">#</span>
   <span class="c">## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper</span>
-  <span class="c"># backup_virtualenv($VENVSTR)  -- backup $WORKON_HOME/$VENVSTR -&gt; ./-bkp/$VENVSTR</span>
-  <span class="c"># backup_virtualenvs()         -- backup $WORKON_HOME/* -&gt; ./-bkp/*</span>
-  <span class="c"># rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR</span>
-  <span class="c"># rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*</span>
-  <span class="c"># TODO: restore</span>
+  <span class="c">#  _setup_virtualenvwrapper     -- configure virtualenvwrapper</span>
+  <span class="c">#  backup_virtualenv($VENVSTR)  -- backup a venv in WORKON_HOME</span>
+  <span class="c">#                                  $WORKON_HOME/$VENVSTR -&gt; ./-bkp/$VENVSTR</span>
+  <span class="c">#  backup_virtualenvs()         -- backup all venvs in WORKON_HOME</span>
+  <span class="c">#                                  $WORKON_HOME/*        -&gt; ./-bkp/*</span>
+  <span class="c">#  rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR</span>
+  <span class="c">#  rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*</span>
+  <span class="c">#  TODO: restore_virtualenv($BACKUPVENVSTR, [$NEWVENVSTR])</span>
   <span class="c">#</span>
   <span class="c">## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK</span>
   <span class="c">#  _setup_google_cloud()  -- setup google cloud paths</span>
   <span class="c">#</span>
   <span class="c">## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions</span>
+  <span class="c">#  _setup_venv()</span>
   <span class="c">#  $__PROJECTSRC     (str): script to source (${PROJECT_HOME}/.projectsrc.sh)</span>
-  <span class="c">#  $VIRTUAL_ENV_NAME (str): basename of current $VIRTUAL_ENV</span>
+  <span class="c">#  $VIRTUAL_ENV_NAME (str): basename of $VIRTUAL_ENV [usrlog: prompt, title]</span>
   <span class="c">#  $_APP             (str): $VIRTUAL_ENV/src/${_APP}</span>
   <span class="c">#  we() -- workon a new venv</span>
-  <span class="c">#     $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=$VIRTUAL_ENV]</span>
+  <span class="c">#     $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=&gt;$VIRTUAL_ENV]</span>
   <span class="c">#     $2: _APP (optional; defaults to $VIRTUAL_ENV_NAME)</span>
+  <span class="c">#</span>
   <span class="c">#     we dotfiles</span>
-  <span class="c">#     we dotfiles etc/bash; cdw; ds; ls</span>
+  <span class="c">#     we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh</span>
+  <span class="c">#     type workon_venv; which venv.py; venv.py --help</span>
   <span class="c">#</span>
   <span class="c">#</span>
   <span class="c">## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config</span>
   <span class="c">#</span>
   <span class="c">## 20-bashrc.editor.sh        -- $EDITOR configuration</span>
-  <span class="c">#  $_EDIT_  (str): cmdstring to open $@ (file list) in current editor</span>
+  <span class="c">#  $EDITOR  (str): cmdstring to open $@ (file list) in editor</span>
   <span class="c">#  $EDITOR_ (str): cmdstring to open $@ (file list) in current editor</span>
+  <span class="c">#  e()        -- open paths in current EDITOR_                   [scripts/e]</span>
+  <span class="c">#  ew()       -- open paths relative to $_WRD in current EDITOR_ [scripts/ew]</span>
+  <span class="c">#                (~ cd $_WRD; $EDITOR_ ${@}) + tab completion</span>
   <span class="c">#</span>
   <span class="c">## 20-bashrc.vimpagers.sh     -- $PAGER configuration</span>
   <span class="c">#  $PAGER   (str): cmdstring to run pager (less/vim)</span>
@@ -432,23 +450,32 @@ pull      -- git pull
   <span class="c">#  lesse()    -- open with $EDITOR_</span>
   <span class="c">#</span>
   <span class="c">## 30-bashrc.usrlog.sh        -- $_USRLOG configuration</span>
-  <span class="c">#  $_USRLOG (str): path to .usrlog command log</span>
-  <span class="c">#  stid       -- set $TERM_ID to a random string</span>
-  <span class="c">#  stid $name -- set $TERM_ID to string</span>
-  <span class="c">#  note       -- add a dated note to $_USRLOG [_usrlog_append]</span>
-  <span class="c">#  usrlogv    -- open usrlog with vim:   $VIMBIN + $_USRLOG</span>
-  <span class="c">#  usrlogg    -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG</span>
-  <span class="c">#  usrloge    -- open usrlog with editor:$EDITOR + $_USRLOG</span>
-  <span class="c">#  ut         -- tail $_USRLOG</span>
+  <span class="c">#  _setup_usrlog()    -- configure usrlog</span>
+  <span class="c">#  $_USRLOG (str): path to a -usrlog.log command log</span>
+  <span class="c">#                __USRLOG=~/-usrlog.log</span>
+  <span class="c">#                 _USRLOG=${VIRTUAL_ENV}/-usrlog.log</span>
+  <span class="c">#  lsusrlogs  -- ls -tr   &quot;${__USRLOG}&quot; &quot;${WORKON_HOME}/*/-usrlog.log&quot;</span>
+  <span class="c">#  stid       -- set $TERM_ID to a random string (e.g. &quot;#Yt0PyyKWPro&quot;)</span>
+  <span class="c">#  stid $name -- set $TERM_ID to string (e.g. \#20150704, &quot;#20150704&quot;)</span>
+  <span class="c">#  note       -- log a #note to $_USRLOG (histn==#note)</span>
+  <span class="c">#  todo       -- log a #todo to $_USRLOG (histn==#todo)</span>
+  <span class="c">#  usrlogv    -- open usrlog with vim:    $VIMBIN    $_USRLOG</span>
+  <span class="c">#  usrlogg    -- open usrlog with gmvim:  $GUIVIMBIN $_USRLOG</span>
+  <span class="c">#  usrloge    -- open usrlog with editor: $EDITOR    $_USRLOG</span>
+  <span class="c">#  ut         -- tail -n__ $_USRLOG [ #BUG workaround: see venv.py]</span>
   <span class="c">#  ug         -- egrep current usrlog: egrep $@ $_USRLOG</span>
-  <span class="c">#  ugall      -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
-  <span class="c">#  ugrin      -- grin current usrlog: grin $@ $_USRLOG</span>
-  <span class="c">#  ugrinall   -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
-  <span class="c">#  lsusrlogs  -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog</span>
+  <span class="c">#  ugall      -- egrep all usrlogs [ #BUG workaround: see venv.py ]</span>
+  <span class="c">#                     egrep $@ &quot;${__USRLOG}&quot; &quot;${WORKON_HOME}/*/-usrlog.log&quot;</span>
+  <span class="c">#  ugrin      -- grin current usrlog: grin $@ ${_USRLOG}</span>
+  <span class="c">#  ugrinall   -- grin $@  &quot;${__USRLOG}&quot; &quot;${WORKON_HOME}/*/-usrlog.log&quot;</span>
   <span class="c">#</span>
   <span class="c">## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend</span>
+  <span class="c">#  _setup_xlck()      -- configure xlck</span>
   <span class="c">#</span>
   <span class="c">## 40-bashrc.aliases.sh       -- aliases</span>
+  <span class="c">#  _setup_venv_aliases()  -- source in e, ew, makew, ssv, hgw, gitw</span>
+  <span class="c">#    _setup_supervisord() -- configure _SVCFG</span>
+  <span class="c">#       $1 (str): path to a supervisord.conf file &quot;${1:-${_SVCFG}&quot;</span>
   <span class="c">## 42-bashrc.commands.sh      -- example commands</span>
   <span class="c">#</span>
   <span class="c">## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks</span>
@@ -654,10 +681,15 @@ pull      -- git pull
 <span class="c">### bashrc.venv.sh</span>
 <span class="c">#   note: most of these aliases and functions are overwritten by `we` </span>
 <span class="c">## Variables</span>
-    <span class="c"># __PROJECTSRC -- path to local project settings script</span>
-    <span class="c"># __SRC        -- path/symlink to local repository ($__SRC/hg $__SRC/git)</span>
+    <span class="c"># _setup_venv()    -- configure __PROJECTSRC, PATH, __VENV, _setup_venv_SRC()</span>
+    <span class="c">#  __PROJECTSRC (str): path to local project settings script to source</span>
     <span class="c"># PATH=&quot;~/.local/bin:$PATH&quot; (if not already there)</span>
     <span class="c"># __VENV      -- path to local venv config script (executable)</span>
+    <span class="c"># _setup_venv_SRC() -- configure __SRCVENV and __SRC global virtualenv</span>
+    <span class="c"># __SRCVENV (str): global &#39;src&#39; venv symlink (~/-wrk/src)</span>
+    <span class="c">#                  (e.g. ln -s ~/-wrk/-ve27/src ~/-wrk/src)</span>
+    <span class="c"># __SRC     (str): global &#39;src&#39; venv ./src directory path (~/-wrk/src/src)</span>
+    <span class="c">#               ($__SRC/git $__SRC/git)</span>
 <span class="c">## Functions</span>
     <span class="c"># venv $@   -- call $_VENV $@</span>
     <span class="c"># venv -h   -- print venv --help</span>
@@ -985,7 +1017,7 @@ pull      -- git pull
    
    
 <span class="c">#### etc/bash/usrlog.sh</span>
-<span class="c">##  usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)</span>
+<span class="c">### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)</span>
 <span class="c">#</span>
 <span class="c">#  Log shell commands with metadata as tab-separated lines to ${_USRLOG}</span>
 <span class="c">#  with a shell identifier to differentiate between open windows,</span>
@@ -1121,15 +1153,14 @@ pull      -- git pull
    
    
 <span class="c">#### etc/bash/xlck.sh</span>
-<span class="c">## xlck.sh</span>
-<span class="c">## bash script for working with xautolock, xlock, and/or i3lock</span>
-<span class="c">## as well as issuing suspend, shutdown, and restart commands</span>
+<span class="c">### xlck.sh -- script wrapper for xautolock, xlock, and/or i3lock</span>
+<span class="c">##             as well as issuing suspend, shutdown, and restart commands</span>
 <span class="c">## Requirements:</span>
 <span class="c">#</span>
 <span class="c">#  sudo apt-get install xautolock xlockmore i3lock</span>
     <span class="c"># xlck()            -- xlck $@</span>
     <span class="c"># _xlck_install()   -- install xlck dependencies</span>
-    <span class="c">#   bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset</span>
+    <span class="c"># xlck requires: bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset</span>
     <span class="c"># _xlck_setup_dpms() -- configure display with xset and dpms</span>
     <span class="c"># _xlck_setup()     -- setup xlck (export _XLCK=(this) &amp;&amp; _xlck_setup_dpms)</span>
     <span class="c"># _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)</span>
