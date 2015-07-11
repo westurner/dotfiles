@@ -1,1 +1,1 @@
-/Users/W/-dotfiles/scripts/el
+./el
