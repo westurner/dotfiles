@@ -57,6 +57,11 @@ function _xlck_i3lock  {
 function xlck_lock  {
     # xlock_lock()      -- lock the current display
     #   note: this will be run before suspend to RAM and Disk.
+    #if [[ -x /usr/bin/gnome-screensaver-command ]]; then
+    #    # TODO XXX:
+    #    #  if gnome-screensaver not running **in this display**,
+    #    #  gnome-screensaver &; disown
+    #    gnome-screensaver-command -l
     if [[ -x /usr/bin/i3lock ]]; then
         _xlck_i3lock
     elif [[ -x /usr/bin/xlock ]]; then
@@ -268,10 +273,10 @@ function xlck_main {
                 xlck_restart;
                 ;;
             M)
-                _lock_suspend_ram;
+                xlck_lock_suspend_ram;
                 ;;
             D)
-                _lock_suspend_disk;
+                xlck_lock_suspend_disk;
                 ;;
             L)
                 xlck_lock;
