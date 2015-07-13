@@ -131,7 +131,7 @@ help_vim_txt:
 
 
 help_i3:
-	$(MAKE) -C etc/.i3 help_i3
+	$(MAKE) -C etc/i3 help_i3
 
 help_i3_txt:
 	bash ./scripts/dotfiles-i3.sh \
