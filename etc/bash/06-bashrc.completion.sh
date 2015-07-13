@@ -17,6 +17,8 @@ _configure_bash_completion() {
     else
         if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
             source /etc/bash_completion
+        elif [ -f /etc/profile.d/bash_completion.sh ] && ! shopt -oq posix; then
+            source /etc/profile.d/bash_completion.sh
         fi
     fi
 }
