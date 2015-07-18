@@ -2375,7 +2375,7 @@ OSX Notes
 
   * [ ] Manually update to latest versions (of zip, tar.gz, .dmg)
   * [ ] Port / wrap :ref:`shell <shells>` scripts
-    to / with :term:`salt formulas <salt formula>`
+    to / with :term:`salt formulas`
     and parameters (per-subnet, group, machine, os; :term:`salt pillar`):
 
     + [ ] https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh  # :ref:`homebrew`
