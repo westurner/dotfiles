@@ -5418,12 +5418,13 @@ Sphinx
 ~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)>`_
 | Homepage: https://pypi.python.org/pypi/Sphinx
+| Source: hg https://bitbucket.org/birkenfeld/sphinx/
+| Pypi: https://pypi.python.org/pypi/Sphinx
 | Docs: http://sphinx-doc.org/contents.html
 | Docs: http://sphinx-doc.org/markup/code.html
 | Docs: http://pygments.org/docs/lexers/
 | Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
-| Source: hg https://bitbucket.org/birkenfeld/sphinx/
-| Pypi: https://pypi.python.org/pypi/Sphinx
+| Docs: https://github.com/yoloseem/awesome-sphinxdoc
 
 
 Sphinx is a tool for working with
