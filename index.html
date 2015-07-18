@@ -238,20 +238,31 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="venv">venv</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="venv#things-named-venv">Things named &#8220;venv&#8221;</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="venv#pyvenv">pyvenv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="venv#dotfiles-venv">dotfiles.venv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="venv#parts-of-a-venv">Parts of a venv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="venv#installing-venv">Installing Venv</a></li>
 <li class="toctree-l2"><a class="reference internal" href="venv#working-with-venv">Working With Venv</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="venv#cdalias">CdAlias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="venv#venv-paths">Venv paths</a></li>
 <li class="toctree-l3"><a class="reference internal" href="venv#venv-py">venv.py</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="venv#python-api">Python API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="venv#venv-python-api">Venv Python API</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="venv#example-venv-configuration">Example Venv Configuration</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="venv#shell-configuration">Shell Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="venv#json-configuration">JSON Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="venv#venv-sh">venv.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="venv#venv-root-prefix-sh">venv_root_prefix.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="venv#id15">venv_ipymagics.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="venv#venv-vim">venv.vim</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="venv#venv-shell-configuration">Venv Shell Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="venv#venv-json">Venv JSON</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="venv#other-scripts-with-venv-style-paths">Other scripts with venv-style paths</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="venv#other-scripts-with-venv-style-paths">Other scripts with venv-style paths</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usrlog">usrlog</a><ul>
@@ -276,14 +287,18 @@
 <li class="toctree-l2"><a class="reference internal" href="tools/index#packages">Packages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#anaconda">Anaconda</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#apt">APT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#aur">AUR</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#bower">Bower</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#cabal">Cabal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#conda">Conda</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#deb">DEB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#dpkg">Dpkg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#dnf">dnf</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#homebrew">Homebrew</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#npm">NPM</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#nuget">NuGet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#pacman">pacman</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#pkgbuild">PKGBUILD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#portage">Portage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#ports">Ports</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#rpm">RPM</a></li>
@@ -324,7 +339,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tools/index#libc">Libc</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="tools/index#id43">C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#id47">C++</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#fortran">Fortran</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#haskell">Haskell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#go">Go</a></li>
@@ -367,7 +382,8 @@
 <li class="toctree-l2"><a class="reference internal" href="tools/index#operating-systems">Operating Systems</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#posix">POSIX</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#linux">Linux</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tools/index#linux-distributions">Linux Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#linux-distributions">Linux Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#arch">Arch</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tools/index#debian">Debian</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tools/index#ubuntu">Ubuntu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tools/index#fedora">Fedora</a></li>
@@ -463,6 +479,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tools/index#window-managers">Window Managers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#compiz">Compiz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#f-lux">f.lux</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#gnome">Gnome</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#i3wm">i3wm</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#kde">KDE</a></li>
@@ -472,7 +489,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tools/index#browsers">Browsers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tools/index#chrome">Chrome</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#chrome">Chrome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#chromium">Chromium</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="tools/index#chrome-devtools">Chrome DevTools</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tools/index#chrome-extensions">Chrome Extensions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tools/index#pbm">pbm</a></li>
@@ -507,6 +525,7 @@
 <li class="toctree-l4"><a class="reference internal" href="tools/index#high-contrast">High Contrast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tools/index#spectrum">Spectrum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tools/index#stylish">Stylish</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index#tiesto">Tiësto</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#safety-extensions">Safety Extensions</a><ul>
@@ -566,7 +585,13 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tools/index#standards">Standards</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#css">CSS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#filesystem-hierarchy-standard">Filesystem Hierarchy Standard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#http">HTTP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index#https">HTTPS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index#html">HTML</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#json">JSON</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#json-ld">JSON-LD</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tools/index#messagepack">MessagePack</a></li>

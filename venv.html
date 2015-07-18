@@ -87,20 +87,31 @@
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
 <li><a class="reference internal" href="#">venv</a><ul>
+<li><a class="reference internal" href="#things-named-venv">Things named &#8220;venv&#8221;</a><ul>
+<li><a class="reference internal" href="#pyvenv">pyvenv</a></li>
+<li><a class="reference internal" href="#dotfiles-venv">dotfiles.venv</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#parts-of-a-venv">Parts of a venv</a></li>
+<li><a class="reference internal" href="#installing-venv">Installing Venv</a></li>
 <li><a class="reference internal" href="#working-with-venv">Working With Venv</a><ul>
 <li><a class="reference internal" href="#cdalias">CdAlias</a></li>
+<li><a class="reference internal" href="#venv-paths">Venv paths</a></li>
 <li><a class="reference internal" href="#venv-py">venv.py</a><ul>
-<li><a class="reference internal" href="#python-api">Python API</a></li>
+<li><a class="reference internal" href="#venv-python-api">Venv Python API</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#example-venv-configuration">Example Venv Configuration</a><ul>
-<li><a class="reference internal" href="#shell-configuration">Shell Configuration</a></li>
-<li><a class="reference internal" href="#json-configuration">JSON Configuration</a></li>
+<li><a class="reference internal" href="#venv-sh">venv.sh</a></li>
+<li><a class="reference internal" href="#venv-root-prefix-sh">venv_root_prefix.sh</a></li>
+<li><a class="reference internal" href="#id15">venv_ipymagics.py</a></li>
+<li><a class="reference internal" href="#venv-vim">venv.vim</a></li>
 </ul>
 </li>
-</ul>
-</li>
+<li><a class="reference internal" href="#venv-shell-configuration">Venv Shell Configuration</a></li>
+<li><a class="reference internal" href="#venv-json">Venv JSON</a><ul>
 <li><a class="reference internal" href="#other-scripts-with-venv-style-paths">Other scripts with venv-style paths</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -149,20 +160,31 @@
   <h3><a href="index">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">venv</a><ul>
+<li><a class="reference internal" href="#things-named-venv">Things named &#8220;venv&#8221;</a><ul>
+<li><a class="reference internal" href="#pyvenv">pyvenv</a></li>
+<li><a class="reference internal" href="#dotfiles-venv">dotfiles.venv</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#parts-of-a-venv">Parts of a venv</a></li>
+<li><a class="reference internal" href="#installing-venv">Installing Venv</a></li>
 <li><a class="reference internal" href="#working-with-venv">Working With Venv</a><ul>
 <li><a class="reference internal" href="#cdalias">CdAlias</a></li>
+<li><a class="reference internal" href="#venv-paths">Venv paths</a></li>
 <li><a class="reference internal" href="#venv-py">venv.py</a><ul>
-<li><a class="reference internal" href="#python-api">Python API</a></li>
+<li><a class="reference internal" href="#venv-python-api">Venv Python API</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#example-venv-configuration">Example Venv Configuration</a><ul>
-<li><a class="reference internal" href="#shell-configuration">Shell Configuration</a></li>
-<li><a class="reference internal" href="#json-configuration">JSON Configuration</a></li>
+<li><a class="reference internal" href="#venv-sh">venv.sh</a></li>
+<li><a class="reference internal" href="#venv-root-prefix-sh">venv_root_prefix.sh</a></li>
+<li><a class="reference internal" href="#id15">venv_ipymagics.py</a></li>
+<li><a class="reference internal" href="#venv-vim">venv.vim</a></li>
 </ul>
 </li>
-</ul>
-</li>
+<li><a class="reference internal" href="#venv-shell-configuration">Venv Shell Configuration</a></li>
+<li><a class="reference internal" href="#venv-json">Venv JSON</a><ul>
 <li><a class="reference internal" href="#other-scripts-with-venv-style-paths">Other scripts with venv-style paths</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -239,57 +261,230 @@
                   
   <span class="target" id="index-0"></span><div class="section" id="venv">
 <span id="index-1"></span><span id="id1"></span><h1>venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
-<p>venv makes working with <a class="reference internal" href="tools/index#virtualenv"><em>Virtualenv</em></a>,
-<a class="reference internal" href="tools/index#virtualenvwrapper"><em>Virtualenvwrapper</em></a>, <a class="reference internal" href="tools/index#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a>,
-<a class="reference internal" href="tools/index#vim"><em>Vim</em></a>, and <a class="reference internal" href="tools/index#ipython"><em>IPython</em></a> within a project context very easy.</p>
-<p>There are a few parts to <code class="docutils literal"><span class="pre">venv</span></code>:</p>
+<div class="section" id="things-named-venv">
+<h2>Things named &#8220;venv&#8221;<a class="headerlink" href="#things-named-venv" title="Permalink to this headline">¶</a></h2>
+<p>&#8220;venv&#8221; is a common shortname for &#8220;virtualenv&#8221; (<em>virtual environment</em>).</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#pyvenv"><em>pyvenv</em></a> (<code class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">venv</span></code>)
+is now in the <a class="reference internal" href="tools/index#python3"><em>Python &gt;= 3.3</em></a>
+standard library.</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">ipython_config.py</a>
-(<a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a>) configures IPython at
-startup.</li>
-<li><a class="reference internal" href="#venv-py">venv.py</a> is a symlink to <code class="docutils literal"><span class="pre">ipython_config.py</span></code>.</li>
-<li><a class="reference internal" href="#venv-py">venv.py</a> is a CLI script for generating <a class="reference internal" href="#shell-configuration">shell configuration</a>
-and <a class="reference internal" href="#cdalias">CdAlias</a>
-scripts for <a class="reference internal" href="tools/index#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a>, <a class="reference internal" href="tools/index#ipython"><em>IPython</em></a>, and <a class="reference internal" href="tools/index#vim"><em>Vim</em></a>.</li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py">ipython_magics.py</a>
-(<a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_magics" title="dotfiles.venv.ipython_magics"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_magics</span></code></a>)
-configures
-<a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAliases</span></code></a>
-and the <code class="docutils literal"><span class="pre">dotfiles_status</span></code> (<code class="docutils literal"><span class="pre">ds</span></code>) command
-for <a class="reference internal" href="tools/index#ipython"><em>IPython</em></a>.</li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <a class="reference internal" href="tools/index#bash"><em>Bash</em></a> at startup
-(see: <a class="reference internal" href="usage#dotfiles-bash-config"><em>Usage &gt; Bash</em></a>)</li>
+<li>pyvenv is very similar to <a class="reference internal" href="tools/index#virtualenv"><em>Virtualenv</em></a>
+in terms of standard <a class="reference internal" href="#venv-paths"><em>Venv paths</em></a>.</li>
 </ul>
-<p>To configure a shell, print relevant env variables (twice),
+</li>
+<li><p class="first"><a class="reference internal" href="#dotfiles-venv"><em>dotfiles.venv</em></a> (<code class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">dotfiles.venv.ipython_config</span></code>)</p>
+<div class="line-block">
+<div class="line">Src: (<a class="reference internal" href="#venv-py"><em>./scripts/venv.py</em></a>,</div>
+<div class="line">Docs:</div>
+</div>
+<ul class="simple">
+<li>In this context, when we say &#8220;<em>venv</em>&#8221;, we mean <a class="reference internal" href="#dotfiles-venv"><em>dotfiles.venv</em></a>.</li>
+<li><a class="reference internal" href="#dotfiles-venv"><em>dotfiles.venv</em></a> generates configuration sets of
+<a class="reference internal" href="#venv-paths"><em>Venv paths</em></a> and/or <a class="reference internal" href="#venv-shell-configuration"><em>Venv Shell Configuration</em></a>.</li>
+</ul>
+</li>
+<li><p class="first">The <a class="reference internal" href="#venv-vim"><em>venv.vim</em></a> <a class="reference internal" href="tools/index#vim"><em>Vim</em></a> plugin bundle includes
+<a class="reference internal" href="#cdalias"><em>CdAlias</em></a> functions which reference
+reference <a class="reference internal" href="#venv-paths"><em>Venv paths</em></a> (<code class="docutils literal"><span class="pre">:Cdhelp</span></code>).</p>
+</li>
+</ul>
+<div class="section" id="pyvenv">
+<span id="index-2"></span><span id="id2"></span><h3>pyvenv<a class="headerlink" href="#pyvenv" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://hg.python.org/cpython/file/tip/Lib/venv">https://hg.python.org/cpython/file/tip/Lib/venv</a></div>
+<div class="line">Docs: <a class="reference external" href="https://docs.python.org/3/library/venv.html">https://docs.python.org/3/library/venv.html</a></div>
+</div>
+<p><code class="docutils literal"><span class="pre">pyvenv</span></code> is the <a class="reference internal" href="tools/index#virtualenv"><em>Virtualenv</em></a> -like functionality
+now included in <a class="reference internal" href="tools/index#python3"><em>Python &gt;= 3.3</em></a> (<code class="docutils literal"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">venv</span></code>)</p>
+<ul class="simple">
+<li><a class="reference internal" href="#dotfiles-venv"><em>dotfiles.venv</em></a> is compatible with pyvenv paths.</li>
+</ul>
+<span class="target" id="index-3"></span></div>
+<div class="section" id="dotfiles-venv">
+<span id="index-4"></span><span id="id3"></span><h3>dotfiles.venv<a class="headerlink" href="#dotfiles-venv" title="Permalink to this headline">¶</a></h3>
+<p>venv (<em>dotfiles.venv</em>) makes working with <a class="reference internal" href="tools/index#virtualenv"><em>Virtualenv</em></a>,
+<a class="reference internal" href="tools/index#virtualenvwrapper"><em>Virtualenvwrapper</em></a>, <a class="reference internal" href="tools/index#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a>,
+<a class="reference internal" href="tools/index#vim"><em>Vim</em></a>, and <a class="reference internal" href="tools/index#ipython"><em>IPython</em></a> within a project context very easy:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>we dotfiles;
+test &quot;$_WRD&quot; == &quot;$WORKON_HOME/dotfiles/src/dotfiles&quot;
+</pre></div>
+</div>
+<span class="target" id="index-5"></span></div>
+</div>
+<div class="section" id="parts-of-a-venv">
+<span id="id4"></span><h2>Parts of a venv<a class="headerlink" href="#parts-of-a-venv" title="Permalink to this headline">¶</a></h2>
+<p>There are a few parts to <code class="docutils literal"><span class="pre">venv</span></code>:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#venv-py"><em>venv.py</em></a></dt>
+<dd><p class="first">venv.py serves a number of DRY (<em>don&#8217;t repeat yourself</em>) purposes:</p>
+<ul class="last simple">
+<li>Configure IPython / Jupyter at startup</li>
+<li>Generate per-venv <a class="reference internal" href="#venv-shell-configuration"><em>Venv Shell Configuration</em></a> for Bash, ZSH</li>
+<li>Generate <a class="reference internal" href="#venv-sh"><em>venv.sh</em></a>, <a class="reference internal" href="#venv-vim"><em>venv.vim</em></a>, and <em class="xref std std-ref">venv_ipymagics.py</em>.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#venv-sh"><em>venv.sh</em></a></dt>
+<dd><p class="first">venv.sh configures Bash/ZSH <a class="reference internal" href="#cdalias"><em>CdAlias</em></a> functions
+(e.g. for initial terminal configuration).</p>
+<ul class="last simple">
+<li>venv.sh is generated by venv.py (<code class="docutils literal"><span class="pre">make</span> <span class="pre">generate_venv</span></code>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#venv-vim"><em>venv.vim</em></a></dt>
+<dd><p class="first">venv.vim configures <a class="reference internal" href="tools/index#vim"><em>Vim</em></a> <a class="reference internal" href="#cdalias"><em>CdAlias</em></a> functions.</p>
+<ul class="last simple">
+<li>venv.vim is required and installed with Vundle in my <a class="reference internal" href="tools/index#dotvim"><em>Dotvim</em></a>.</li>
+<li>venv.vim is generated by venv.py (<code class="docutils literal"><span class="pre">make</span> <span class="pre">generate_venv</span></code>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em class="xref std std-ref">ipython magics.py</em></dt>
+<dd><p class="first"><cite>ipython magics.py</cite> includes <a class="reference internal" href="tools/index#ipython"><em>IPython</em></a> <a class="reference internal" href="#cdalias"><em>CdAlias</em></a> functions
+like <code class="docutils literal"><span class="pre">%cdhelp</span></code> and <code class="docutils literal"><span class="pre">%dotfiles_status</span></code> (<code class="docutils literal"><span class="pre">ds</span></code>).</p>
+<ul class="simple">
+<li>venv_ipymagics.py is generated by venv.py (<code class="docutils literal"><span class="pre">make</span> <span class="pre">generate_venv</span></code>)</li>
+</ul>
+<div class="last line-block">
+<div class="line">Src: <a href="#id20"><span class="problematic" id="id21">`venv_ipymagics.py`_</span></a></div>
+<div class="line">Doc: <code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.venv_ipymagics</span></code></div>
+<div class="line">Doc: <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAliases</span></code></a></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">etc/bash/</span></code> <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <a class="reference internal" href="tools/index#bash"><em>Bash</em></a> at startup
+(see: <a class="reference internal" href="usage#dotfiles-bash-config"><em>Usage &gt; Bash</em></a>)</p>
+</li>
+</ul>
+</div>
+<div class="section" id="installing-venv">
+<span id="index-7"></span><span id="id5"></span><h2>Installing Venv<a class="headerlink" href="#installing-venv" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">[ ] Install <a class="reference internal" href="tools/index#virtualenv"><em>Virtualenv</em></a>, <a class="reference internal" href="tools/index#virtualenvwrapper"><em>Virtualenvwrapper</em></a>,
+and <a class="reference internal" href="tools/index#dotfiles"><em>Dotfiles</em></a></p>
+<div class="code bash highlight-python"><div class="highlight"><pre>## scripts/bootstrap_dotfiles.sh -I
+pip install virtualenvwrapper  # -&gt; virtualenv
+
+##
+virtual_env=&quot;$HOME/-wrk/-ve27/dotfiles&quot;; cd $virtual_env;
+pip install -e &#39;git+https://github.com/westurner/dotfiles@master#egg=dotfiles&#39;
+# git clone https://github.com/westurner/dotfiles &quot;${virtual_env}/src/dotfiles&quot;
+
+# symlink ~/.bashrc so that $PATH contains &quot;${__DOTFILES}/scripts&quot;
+_WRD=&quot;${virtual_env}/src/dotfiles&quot;
+bash $_WRD/scripts/bootstrap_dotfiles.sh -h
+bash $_WRD/scripts/bootstrap_dotfiles.sh -S
+
+# Load the shell configuration
+source ~/.bashrc
+bootstrap_dotfiles.sh -h  # help
+bootstrap_dotfiles.sh -C  # check for dotfiles/venv components
+venv.py -h                # echo $PATH; ls $__DOTFILES/scripts/venv.py
+</pre></div>
+</div>
+</li>
+<li><p class="first">[ ] Create a new venv named <code class="docutils literal"><span class="pre">dotfiles</span></code>:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># Create a venv named &quot;dotfiles&quot;, workon it, and make FHS `venv paths`
+mkvirtualenv dotfiles; we dotfiles; venv_mkdirs;
+
+# Git clone into $_WRD:
+git clone https://github.com/westurner/dotfiles $_WRD;
+
+# Edit $_WRD/README.rst and $_WRD/Makefile
+(cdw; e README.rst Makefile)
+ew README.rst Makefile
+</pre></div>
+</div>
+</li>
+<li><p class="first">[ ] Configure a shell, print relevant env variables (twice),
 <code class="docutils literal"><span class="pre">cd</span></code> to the working directory (<code class="docutils literal"><span class="pre">$_WRD</span></code>),
 and open <code class="docutils literal"><span class="pre">README.rst</span></code> in a named <a class="reference internal" href="tools/index#vim"><em>Vim</em></a> server for an existing
 venv named <code class="docutils literal"><span class="pre">dotfiles</span></code>:</p>
-<div class="highlight-bash"><div class="highlight"><pre>we dotfiles<span class="p">;</span> ds<span class="p">;</span> cdwrd<span class="p">;</span> e README.rst
+<div class="code bash highlight-python"><div class="highlight"><pre>we dotfiles; ds; cdwrd; e README.rst
+we dotfiles; ew README.rst
 </pre></div>
 </div>
+</li>
+<li><p class="first">[ ] Configure the shell with <a class="reference internal" href="tools/index#virtualenvwrapper"><em>Virtualenvwrapper</em></a>
+(and, optionally, an initial venv root <code class="docutils literal"><span class="pre">/</span></code> prefix):</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>### etc/bash/07-bashrc.virtualenvwrapper.sh
+## _setup_virtualenvwrapper
+source $(which virtualenvwrapper.sh)  # source virtualenvwrapper_lazy.sh
+### etc/bash/08-bashrc.conda.sh
+## _setup_conda [CONDA_ENVS_PATH [CONDA_ROOT]]
+### etc/bash/10-bashrc.venv.sh
+source &lt;(venv.py --prefix=/ --print-bash)
+</pre></div>
+</div>
+</li>
+</ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>For a new venv (as might be created with <code class="docutils literal"><span class="pre">mkvirtualenv</span> <span class="pre">dotfiles</span></code>),
 the <code class="docutils literal"><span class="pre">$_SRC</span></code> and <code class="docutils literal"><span class="pre">$_WRD</span></code> directories do not yet exist. You can
 create these like so:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c">## _APP=dotfiles _WRD=$VIRTUAL_ENV/src/$_APP</span>
-mkdir -p <span class="nv">$_WRD</span>
+<div class="code bash highlight-python"><div class="highlight"><pre>## _APP=dotfiles _WRD=$VIRTUAL_ENV/src/$_APP
+mkdir -p $_WRD
 </pre></div>
 </div>
-<p>Or, to create a more complete <a class="reference internal" href="tools/index#fhs"><em>Filesystem Hierarchy Standard</em></a> tree of directories under
+<p>Or, use the <code class="docutils literal"><span class="pre">venv_mkdirs</span></code> shell function
+to create a more complete <a class="reference internal" href="tools/index#fhs"><em>Filesystem Hierarchy Standard</em></a> tree of directories under
 <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>:</p>
-<div class="last highlight-bash"><div class="highlight"><pre>venv_mkdirs<span class="p">;</span> mkdir -p <span class="nv">$_WRD</span>
+<div class="code bash last highlight-python"><div class="highlight"><pre>venv_mkdirs; mkdir -p $_WRD
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="working-with-venv">
 <h2>Working With Venv<a class="headerlink" href="#working-with-venv" title="Permalink to this headline">¶</a></h2>
-<p>To work on a venv:</p>
-<div class="highlight-bash"><div class="highlight"><pre>we dotfiles
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">workon</span></code></dt>
+<dd><p class="first"><a href="#id6"><span class="problematic" id="id7">``</span></a>workon` is a shell function defined by <a class="reference internal" href="tools/index#virtualenvwrapper"><em>Virtualenvwrapper</em></a></p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">workon</span></code> runs global and local virtualenvwrapper event scripts,</li>
+<li>loads a virtualenv shell configuration
+(<code class="docutils literal"><span class="pre">source</span> <span class="pre">$WORKON_HOME/virtual_env/bin/activate</span></code>)</li>
+<li>sets the <a class="reference internal" href="tools/index#shells"><em>shell</em></a> <code class="docutils literal"><span class="pre">$PATH</span></code>,</li>
+<li>and then runs global and local virtualenvwrapper event scripts.</li>
+<li>(see: <code class="docutils literal"><span class="pre">virtualenvwrapper()</span></code> for a list of virtualenvwrapper
+commands)</li>
+</ul>
+</dd>
+</dl>
+<ul class="simple">
+<li>[ ] Create and workon a venv
+(a prefixed and namespaced virtualenvwrapper virtualenv):</li>
+</ul>
+<div class="code bash highlight-python"><div class="highlight"><pre># Workon a virtualenv with virtualenvwrapper and dotfiles.venv
+mkvirtualenv dotfiles;  # workon $WORKON_HOME/dotfiles
+workon_venv dotfiles;   # Create a virtualenv with virtualenvwrapper
+we dotfiles;            # we()  -&gt; workon_venv()
+venv.py -xb dotfiles    # run a bash shell* within a virtualenv
+
+function we == workon_venv {
+    # [...]
+    source &lt;(venv.py -q --print-bash --ve=dotfiles)
+}
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">we</span></code> is an alias for <code class="docutils literal"><span class="pre">workon_venv</span></code>, which does
-<code class="docutils literal"><span class="pre">source</span> <span class="pre">&lt;(venv.py</span> <span class="pre">-q</span> <span class="pre">--print-bash</span> <span class="pre">--ve=dotfiles)</span></code>.</p>
+<ul class="simple">
+<li>[ ] Create and workon a <a class="reference internal" href="tools/index#conda"><em>Conda</em></a> env:</li>
+</ul>
+<div class="code bash highlight-python"><div class="highlight"><pre>mkvirtualenv_conda      # Create a conda env with conda create
+workon_conda dotfiles;
+wec dotfiles;           # wec() -&gt; workon_conda()
+</pre></div>
+</div>
 <p>Verbosely:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">__WRK</span><span class="o">=</span><span class="s2">&quot;~/-wrk&quot;</span>                    <span class="c"># cdwrk</span>
 <span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__WRK</span><span class="si">}</span><span class="s2">&quot;</span>           <span class="c"># cdph cdprojecthome</span>
@@ -330,56 +525,223 @@ venv.py -xb dotfiles
 <p class="first admonition-title">Note</p>
 <p>The following commands are different to argparse
 (argument order matter with positional arguments)</p>
-<div class="last highlight-bash"><div class="highlight"><pre>venv dotfiles --print-bash        <span class="c"># does not work</span>
-venv --print-bash dotfiles        <span class="c"># does work</span>
+<div class="code bash last highlight-python"><div class="highlight"><pre># does not work:
+#! venv dotfiles --print-bash        # does not work
 
-<span class="c"># As a workaround, be explicit</span>
-venv --ve<span class="o">=</span>dotfiles --print-bash   <span class="c"># does work</span>
+# does work
+venv --print-bash dotfiles        # does work
+venv --ve=dotfiles --print-bash   # does work
 </pre></div>
 </div>
 </div>
 <div class="section" id="cdalias">
-<h3>CdAlias<a class="headerlink" href="#cdalias" title="Permalink to this headline">¶</a></h3>
-<p>Virtualenv paths can be really long.</p>
-<p>CdAliases make it easy to jump around to <code class="docutils literal"><span class="pre">venv</span></code> defined variables
-(like <code class="docutils literal"><span class="pre">$_WRK</span></code> (cdwrk), <code class="docutils literal"><span class="pre">$WORKON_HOME</span></code> (cdwh), <code class="docutils literal"><span class="pre">VIRTUAL_ENV</span></code> (cdv),
-<code class="docutils literal"><span class="pre">$_SRC</span></code> (cds), and <code class="docutils literal"><span class="pre">$_WRD</span></code> (cdw)).</p>
-<p>Each <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAlias</span></code></a>
-defined in <code class="docutils literal"><span class="pre">env.aliases</span></code> is expanded for Bash, IPython, and Vim.
-For example, <code class="docutils literal"><span class="pre">CdAlias('__WRD')</span></code> is expanded to
-<code class="docutils literal"><span class="pre">cdwrd</span></code>, <code class="docutils literal"><span class="pre">cdw</span></code>; <code class="docutils literal"><span class="pre">%cdwrd</span></code>, <code class="docutils literal"><span class="pre">cdw</span></code>, and <code class="docutils literal"><span class="pre">:Cdwrk</span></code>,
-<code class="docutils literal"><span class="pre">:Cdw</span></code>:</p>
-<div class="code bash highlight-python"><div class="highlight"><pre># Bash
-cdwrd
-cdwrd&lt;tab&gt;
-cdwrd docs/
-cdw docs/
+<span id="index-8"></span><span id="id8"></span><h3>CdAlias<a class="headerlink" href="#cdalias" title="Permalink to this headline">¶</a></h3>
+<p>CdAliases make it easy to change directory (<code class="docutils literal"><span class="pre">cd</span></code>) to
+<a class="reference internal" href="#venv-paths"><em>Venv paths</em></a>.</p>
+<p>Problem:</p>
+<ul class="simple">
+<li>Fully-expanded absolute virtualenv paths can be really long
+to type and remember.</li>
+</ul>
+<p>Solutions:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">pushd</span></code> and <code class="docutils literal"><span class="pre">popd</span></code> &#8212; included with <a class="reference internal" href="tools/index#bash"><em>Bash</em></a>/<a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a> &#8212;
+maintain a stack of directories.</li>
+<li><code class="docutils literal"><span class="pre">bashmarks</span></code> maintains a set of <code class="docutils literal"><span class="pre">DIR_</span></code> environment variables
+and <code class="docutils literal"><span class="pre">l</span></code>, <code class="docutils literal"><span class="pre">s</span></code>, and <code class="docutils literal"><span class="pre">g</span></code> shell functions for listing,
+saving to, and going to a saved set of directories.</li>
+<li><a class="reference internal" href="#cdalias"><em>CdAliases</em></a> are functions for changing
+to a given directory path prefix
+as determined by shell variables like <code class="docutils literal"><span class="pre">HOME</span></code> (cdh),
+<code class="docutils literal"><span class="pre">__WRK</span></code> (cdwrk), <code class="docutils literal"><span class="pre">WORKON_HOME</span></code> (cdwh), <code class="docutils literal"><span class="pre">VIRTUAL_ENV</span></code> (cdv),
+<code class="docutils literal"><span class="pre">_SRC</span></code> (cds), and <code class="docutils literal"><span class="pre">_WRD</span></code> (cdw).<ul>
+<li>See: <a class="reference internal" href="#venv-paths"><em>Venv paths</em></a> for a more complete table of CdAliases.</li>
+</ul>
+</li>
+<li>The venv <em class="xref std std-ref">CdAlias</em> scripts are generated
+from
+the <code class="docutils literal"><span class="pre">generate_venv</span></code> <code class="docutils literal"><span class="pre">Makefile</span></code> build step
+at build time:</li>
+</ul>
+<div class="code bash highlight-python"><div class="highlight"><pre>## ./Makefile
+generate_venv:
+    # generate ipython_magics.py, venv.sh, and venv.vim
+    $(_VENV) --print-ipython-magics . &gt; ./src/dotfiles/venv/venv_ipymagics.py
+    $(_VENV) --print-bash-aliases --compress --prefix=/ &gt; ./etc/venv/venv.sh
+    $(_VENV) --print-bash --compress --prefix=/ | grep -v &#39;^export HOME=&#39; &gt; ./etc/venv/venv_root_prefix.sh
+    $(_VENV) --print-vim-cdalias . &gt; ./etc/venv/venv.vim
 
-# IPython
-%cdwrd
-cdwrd
-cdwrd docs/
-cdw docs/
-
-# Vim
-:Cdwrk
-:Cdwrk docs/
-:Cdw docs/
+## Bash
+$ make generate_venv
 </pre></div>
 </div>
-<p>At build time, the dotfiles Makefile generates the venv CdAlias scripts
-like so:</p>
-<div class="code bash highlight-python"><div class="highlight"><pre># Generate venv CdAlias scripts
-venv.py --print-bash-cdalias . | tee venv_cdalias.sh
-venv.py --print-ipython-cdalias . | tee venv_cdmagic.py
-venv.py --print-vim . | tee venv.vim
+<ul>
+<li><p class="first">You can list all defined venv <a class="reference internal" href="#cdalias"><em>CdAlias</em></a> functions
+in Bash, ZSH, IPython, and Vim:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>cdhelp   # Bash/ZSH
+%cdhelp  # IPython
+cdhelp   # IPython
+:Cdhelp  # Vim
+</pre></div>
+</div>
+</li>
+<li><p class="first">Each <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.CdAlias" title="dotfiles.venv.ipython_config.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAlias</span></code></a>
+defined in <code class="docutils literal"><span class="pre">env.aliases</span></code> is expanded for Bash, IPython, and Vim.
+For example, <code class="docutils literal"><span class="pre">CdAlias('__WRD',</span> <span class="pre">aliases='w')</span></code> is expanded to   # TODO FIXME</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>cdwrd  [&lt;TAB&gt;][path]  # Bash/ZSH
+cdw    [path][&lt;TAB&gt;]  # Bash/ZSH
+%cdwrd [path] # IPython
+cdwrd  [path] # IPython
+%cdw   [path] # IPython
+cdw    [path] # IPython
+:Cdwrd [path] # Vim
+:Cdw   [path] # Vim
+</pre></div>
+</div>
+<ul class="simple">
+<li>See: <a class="reference internal" href="#venv-paths"><em>Venv paths</em></a> for a more complete table of CdAliases.</li>
+</ul>
+</li>
+<li><p class="first">Bash/ZSH cdaliases support tab-completion,
+and SHOULD error (return nonzero) if the given variable is undefined.</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>$ cdw || echo &#39;false&#39;
+_WRD is not set
+false
+</pre></div>
+</div>
+</li>
+<li><p class="first">Bash/ZSH cdalias functions
+SHOULD error (return nonzero) if the given variable is undefined.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="venv-paths">
+<span id="index-9"></span><span id="id9"></span><h3>Venv paths<a class="headerlink" href="#venv-paths" title="Permalink to this headline">¶</a></h3>
+<p>Venv defines standard <a class="reference internal" href="tools/index#fhs"><em>Filesystem Hierarchy Standard</em></a> and <a class="reference internal" href="tools/index#python"><em>Python</em></a> paths,
+environment variables,
+and <a class="reference external" href="cdalias">CdAliases</a>
+for routinizing workflow.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="24%" />
+<col width="29%" />
+<col width="31%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>var name</strong></td>
+<td><strong>description</strong></td>
+<td><p class="first"><strong>cdaliases</strong></p>
+<p>Bash: <code class="docutils literal"><span class="pre">cdhelp</span></code></p>
+<p>IPython: <code class="docutils literal"><span class="pre">%cdhelp</span></code></p>
+<p class="last">Vim: <code class="docutils literal"><span class="pre">:Cdhelp</span></code></p>
+</td>
+<td><strong>example path</strong></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">HOME</span></code></td>
+<td>user home directory</td>
+<td><p class="first">Bash/ZSH: <code class="docutils literal"><span class="pre">cdh</span></code>, <code class="docutils literal"><span class="pre">cdhome</span></code></p>
+<p>IPython: <code class="docutils literal"><span class="pre">%cdh</span></code>, <code class="docutils literal"><span class="pre">%cdhome</span></code></p>
+<p class="last">Vim: <code class="docutils literal"><span class="pre">:Cdh</span></code>, <code class="docutils literal"><span class="pre">:Cdhome</span></code></p>
+</td>
+<td><code class="docutils literal"><span class="pre">~/</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">__WRK</span></code></td>
+<td>workspace root</td>
+<td><code class="docutils literal"><span class="pre">cdwrk</span></code> (ibid.)</td>
+<td>~/<code class="docutils literal"><span class="pre">-wrk</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">WORKON_HOME</span></code></td>
+<td>virtualenvs root</td>
+<td><code class="docutils literal"><span class="pre">cdwh</span></code>, <code class="docutils literal"><span class="pre">cdworkonhome</span></code>, <code class="docutils literal"><span class="pre">cdve</span></code></td>
+<td>~/-wrk/<code class="docutils literal"><span class="pre">-ve27</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">CONDA_ENVS_PATH</span></code></td>
+<td>condaenvs root</td>
+<td><code class="docutils literal"><span class="pre">cdch</span></code>, <code class="docutils literal"><span class="pre">cdcondahome</span></code></td>
+<td>~/-wrk/<code class="docutils literal"><span class="pre">-ce27</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">VIRTUAL_ENV</span></code></td>
+<td>virtualenv root</td>
+<td><code class="docutils literal"><span class="pre">cdv</span></code>, <code class="docutils literal"><span class="pre">cdvirtualenv</span></code></td>
+<td>~/-wrk/-ve27/<code class="docutils literal"><span class="pre">dotfiles</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">_BIN</span></code></td>
+<td>virtualenv executables</td>
+<td><code class="docutils literal"><span class="pre">cdb</span></code>, <code class="docutils literal"><span class="pre">cdbin</span></code></td>
+<td>~/-wrk/-ve27/dotfiles/<code class="docutils literal"><span class="pre">bin</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">_ETC</span></code></td>
+<td>virtualenv configuration</td>
+<td><code class="docutils literal"><span class="pre">cd</span></code>, <code class="docutils literal"><span class="pre">cdetc</span></code></td>
+<td>~/-wrk/-ve27/dotfiles/<code class="docutils literal"><span class="pre">etc</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">_LIB</span></code></td>
+<td>virtualenv lib directory</td>
+<td><code class="docutils literal"><span class="pre">cdl</span></code>, <code class="docutils literal"><span class="pre">cdlib</span></code></td>
+<td>~/-wrk/-ve27/dotfiles/<code class="docutils literal"><span class="pre">lib</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">_LOG</span></code></td>
+<td>virtualenv log directory</td>
+<td><code class="docutils literal"><span class="pre">cdlog</span></code></td>
+<td>~/-wrk/-ve27/dotfiles/<code class="docutils literal"><span class="pre">var/log</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">_SRC</span></code></td>
+<td>virtualenv source repositories</td>
+<td><code class="docutils literal"><span class="pre">cds</span></code>, <code class="docutils literal"><span class="pre">cdsrc</span></code></td>
+<td>~/-wrk/-ve27/dotfiles/<code class="docutils literal"><span class="pre">src</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">_WRD</span></code></td>
+<td>virtualenv working directory</td>
+<td><code class="docutils literal"><span class="pre">cdw</span></code>, <code class="docutils literal"><span class="pre">cdwrd</span></code></td>
+<td>~/-wrk/-ve27/dotfiles/<code class="docutils literal"><span class="pre">src/dotfiles</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>To generate this venv config:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>python -m dotfiles.venv.ipython_config --print-bash dotfiles
+venv.py --print-bash dotfiles
+venv --print-bash dotfiles docs
+venv --print-bash dotfiles ~/path
+venv --print-bash ~/-wrk/-ve27/dotfiles ~/path
+</pre></div>
+</div>
+<p>To generate a default venv config with a prefix of <code class="docutils literal"><span class="pre">/</span></code>:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>venv --print-bash --prefix=/
+</pre></div>
+</div>
+<p>To launch an interactive shell within a venv:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>venv --run-bash dotfiles
+venv -xb dotfiles
 </pre></div>
 </div>
 </div>
 <div class="section" id="venv-py">
-<h3>venv.py<a class="headerlink" href="#venv-py" title="Permalink to this headline">¶</a></h3>
+<span id="index-10"></span><span id="id10"></span><h3>venv.py<a class="headerlink" href="#venv-py" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/scripts/venv.py">https://github.com/westurner/dotfiles/blob/master/etc/scripts/venv.py</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/venv/venv.py">https://github.com/westurner/dotfiles/blob/master/etc/venv/venv.py</a></div>
+<div class="line">Docs <a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a></div>
+</div>
+<ul>
+<li><p class="first">Venv.py (<a class="reference internal" href="#dotfiles-venv"><em>dotfiles.venv</em></a>)
+is a symlink to <code class="docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></p>
+<ul class="simple">
+<li>If the <cite>dotfiles</cite> package is on <code class="docutils literal"><span class="pre">sys.path</span></code>,
+venv.py can also be run as <code class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">dotfiles.venv.ipython_config</span></code></li>
+</ul>
+</li>
+<li><p class="first">Venv.py is a single file with only standard library imports,
+so that it works from <code class="docutils literal"><span class="pre">$PATH</span></code> and at IPython startup time:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre># PATH_prepend &quot;${__DOTFILES}/scripts&quot;
+export PATH=&quot;~/-dotfiles/scripts:${PATH}&quot;
+venv.py
+</pre></div>
+</div>
+</li>
+</ul>
 <pre class="ansi-block literal-block">
-$ python ../src/dotfiles/venv/ipython_config.py --help
+$ python ../scripts/venv.py --help
 usage: venv [-h] [-V] [-v] [-D] [-T] [-q] [-t] [--platform PLATFORM] [-e]
             [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
             [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]]
@@ -486,34 +848,117 @@ optional arguments:
 argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP)
 or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
 </pre>
-<div class="section" id="python-api">
-<h4>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h4>
-<p>A <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object
-builds:</p>
+<div class="section" id="venv-python-api">
+<span id="index-11"></span><span id="id11"></span><h4>Venv Python API<a class="headerlink" href="#venv-python-api" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li>a <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Env</span></code></a> <code class="docutils literal"><span class="pre">OrderedDict</span></code>
-with <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths and environment variables
-in a standard filesystem hierarchy</li>
-<li>an <code class="docutils literal"><span class="pre">OrderedDict</span></code> of command and <a class="reference internal" href="#cdalias">CdAlias</a> aliases</li>
+<li>A <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object
+has:<ul>
+<li>An <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">Env</span></code></a>
+with fully-expanded <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths
+in a prefixed standard filesystem hierarchy,
+environment variables for <a class="reference external" href="CdAlias">CdAliases</a>
+and build scripts.</li>
+<li>An <code class="docutils literal"><span class="pre">OrderedDict</span></code> of command and <a class="reference internal" href="#cdalias">CdAlias</a> aliases</li>
+<li>Class methods for writing to JSON,
+Bash shell scripts with tab completion, strings</li>
 </ul>
-<p>A <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.Venv</span></code></a> object can then be
-serialized:</p>
-<ul class="simple">
+</li>
+<li>A <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">Venv</span></code></a> object
+is built from a composition of
+<a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Step" title="dotfiles.venv.ipython_config.Step"><code class="xref py py-mod docutils literal"><span class="pre">Step</span></code></a>
+callables which transform
+an <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Env" title="dotfiles.venv.ipython_config.Env"><code class="xref py py-mod docutils literal"><span class="pre">Env</span></code></a>
+(e.g. as &#8220;compiled&#8221; by a
+<a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder" title="dotfiles.venv.ipython_config.StepBuilder"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config.StepBuilder</span></code></a>).<ul>
+<li>A <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.StepBuilder" title="dotfiles.venv.ipython_config.StepBuilder"><code class="xref py py-mod docutils literal"><span class="pre">StepBuilder</span></code></a>
+builds a functional composition with diff-able snapshots/immutability and
+configurable <em>logging</em> (<code class="docutils literal"><span class="pre">venv.py</span> <span class="pre">--verbose</span> <span class="pre">--show-diffs</span></code>).<ul>
+<li>StepBuilder is inspired by <a class="reference internal" href="tools/index#make"><em>Makefiles</em></a>
+but must work with escaped unicode strings (and e.g. <a class="reference internal" href="tools/index#json"><em>JSON</em></a>)
+at IPython initiailization time,
+using only the CPython 2.6/7+ standard library,
+in a single file.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>A <a class="reference internal" href="dotfiles.venv#dotfiles.venv.ipython_config.Venv" title="dotfiles.venv.ipython_config.Venv"><code class="xref py py-mod docutils literal"><span class="pre">Venv</span></code></a> object can be
+serialized to a number of formats:<ul>
 <li><code class="docutils literal"><span class="pre">--print-vars</span></code> &#8211; easy to read variables</li>
 <li><code class="docutils literal"><span class="pre">--print-json</span></code> &#8211; quoted and escaped JSON</li>
 <li><code class="docutils literal"><span class="pre">--print-bash</span></code> &#8211; quoted and escaped shell script</li>
-<li>IPython <code class="docutils literal"><span class="pre">%alias</span></code> configuration dict (see <code class="docutils literal"><span class="pre">%alias?</span></code>)</li>
+<li>IPython configuration (DRY <code class="docutils literal"><span class="pre">%alias</span></code> and <a class="reference internal" href="#cdalias">CdAlias</a> definitions)</li>
 </ul>
-<p>There are a number of <code class="docutils literal"><span class="pre">unittest.TestCase</span></code> tests in
+</li>
+<li>There are <code class="docutils literal"><span class="pre">unittest.TestCase</span></code> tests in
 <a class="reference internal" href="dotfiles.venv#module-dotfiles.venv.ipython_config" title="dotfiles.venv.ipython_config"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.ipython_config</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py">ipython_config.py</a>)
-for each of the build steps.</p>
-<p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">--verbose</span> <span class="pre">--show-diffs</span></code> shows what is going on.</p>
+for Env, Venv, StepBuilder, and each of the included Step callables.<ul>
+<li><code class="docutils literal"><span class="pre">python</span> <span class="pre">venv.py</span> <span class="pre">-t</span></code> to test.</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
-<div class="section" id="example-venv-configuration">
-<h3>Example Venv Configuration<a class="headerlink" href="#example-venv-configuration" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="shell-configuration">
-<h4>Shell Configuration<a class="headerlink" href="#shell-configuration" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="venv-sh">
+<span id="index-12"></span><span id="id13"></span><h3>venv.sh<a class="headerlink" href="#venv-sh" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/venv/venv.sh">https://github.com/westurner/dotfiles/blob/master/etc/venv/venv.sh</a></div>
+</div>
+<ul class="simple">
+<li>venv.sh contains
+<a class="reference internal" href="#cdalias"><em>CdAlias</em></a> functions to be <code class="docutils literal"><span class="pre">source</span></code>-ed in at shell configuration time
+(e.g. <code class="docutils literal"><span class="pre">./etc/bash/10-bashrc.venv.sh</span></code> (<code class="docutils literal"><span class="pre">dotfiles_reload()</span></code> (<code class="docutils literal"><span class="pre">dr()</span></code>))).</li>
+</ul>
+</div>
+<div class="section" id="venv-root-prefix-sh">
+<span id="index-13"></span><span id="id14"></span><h3>venv_root_prefix.sh<a class="headerlink" href="#venv-root-prefix-sh" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/venv/venv_root_prefix.sh">https://github.com/westurner/dotfiles/blob/master/etc/venv/venv_root_prefix.sh</a></div>
+</div>
+<ul class="simple">
+<li>venv_root_prefix.sh contains a default root prefix environment
+to be <code class="docutils literal"><span class="pre">source</span></code>-ed in at shell configuration time
+(e.g. <code class="docutils literal"><span class="pre">./etc/bash/10-bashrc.venv.sh</span></code> (<code class="docutils literal"><span class="pre">dotfiles_reload()</span></code> (<code class="docutils literal"><span class="pre">dr()</span></code>))).</li>
+</ul>
+<div class="code bash highlight-python"><div class="highlight"><pre>venv.py --print-bash --compress --prefix=/ \
+    | grep -v &#39;^export HOME=&#39; \
+    &gt; ./etc/venv/venv_root_prefix.sh
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">cdetc</span></code> -&gt; <code class="docutils literal"><span class="pre">cd</span> <span class="pre">/etc</span></code></li>
+<li><code class="docutils literal"><span class="pre">cdlog</span></code> -&gt; <code class="docutils literal"><span class="pre">cd</span> <span class="pre">/var/log</span></code></li>
+<li><code class="docutils literal"><span class="pre">cds</span></code>   -&gt; <code class="docutils literal"><span class="pre">cd</span> <span class="pre">/src</span></code> (* <code class="docutils literal"><span class="pre">__SRC</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">cdwrk</span></code> -&gt; <code class="docutils literal"><span class="pre">cd</span> <span class="pre">~/-wrk</span></code></li>
+<li><code class="docutils literal"><span class="pre">cdwh</span></code>  -&gt; <code class="docutils literal"><span class="pre">cd</span> <span class="pre">$WORKON_HOME</span></code></li>
+<li><code class="docutils literal"><span class="pre">cdve</span></code>  -&gt; <code class="docutils literal"><span class="pre">cd</span> <span class="pre">$WORKON_HOME</span></code> (<code class="docutils literal"><span class="pre">cdve</span> <span class="pre">dotfiles/etc/bash</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">cdd</span></code>   -&gt; <code class="docutils literal"><span class="pre">cd</span> <span class="pre">$__DOTFILES</span></code>  (<code class="docutils literal"><span class="pre">cd</span> <span class="pre">~/-dotfiles</span></code>)</li>
+</ul>
+</div>
+<div class="section" id="id15">
+<span id="id16"></span><h3>venv_ipymagics.py<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipymagics.py">https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipymagics.py</a></div>
+</div>
+<ul class="simple">
+<li><a class="reference internal" href="#cdalias"><em>CdAliases</em></a></li>
+<li><code class="docutils literal"><span class="pre">dotfiles_status()</span></code> (<code class="docutils literal"><span class="pre">ds()</span></code>)</li>
+</ul>
+</div>
+<div class="section" id="venv-vim">
+<span id="index-15"></span><span id="id17"></span><h3>venv.vim<a class="headerlink" href="#venv-vim" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: git <a class="reference external" href="https://github.com/westurner/venv.vim">https://github.com/westurner/venv.vim</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/venv.vim/blob/master/plugin/venv.vim">https://github.com/westurner/venv.vim/blob/master/plugin/venv.vim</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/venv/venv.vim">https://github.com/westurner/dotfiles/blob/master/etc/venv/venv.vim</a></div>
+</div>
+<p>Venv.vim is a <a class="reference internal" href="tools/index#vim"><em>Vim</em></a> plugin for defining
+<a class="reference internal" href="#cdalias"><em>CdAliases</em></a> like <code class="docutils literal"><span class="pre">:Cdhelp</span></code>, <code class="docutils literal"><span class="pre">:Cdwrk</span></code>, <code class="docutils literal"><span class="pre">:Cdwrd</span></code>,
+<code class="docutils literal"><span class="pre">:Cddotfiles</span></code> (<cite>:Cdd`</cite>).</p>
+</div>
+</div>
+<div class="section" id="venv-shell-configuration">
+<span id="index-16"></span><span id="id18"></span><h2>Venv Shell Configuration<a class="headerlink" href="#venv-shell-configuration" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">venv.py</span> <span class="pre">--print-bash</span> <span class="pre">--compress</span> <span class="pre">dotfilesx</span> <span class="pre">dotfilesx/docs</span></code>:</p>
 <pre class="ansi-block literal-block">
 $ python ../scripts/venv.py --print-bash --compress dotfilesx dotfilesx/docs \
@@ -579,12 +1024,15 @@ export _USRLOG=&quot;${VIRTUAL_ENV}/-usrlog.log&quot;
 </pre>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <code class="docutils literal"><span class="pre">--compress</span></code> option is for documentation purposes only;
+<p class="last">The <code class="docutils literal"><span class="pre">--compress</span></code> option was initially written
+for documentation purposes;
 without this option, paths are expanded in full.</p>
 </div>
 </div>
-<div class="section" id="json-configuration">
-<h4>JSON Configuration<a class="headerlink" href="#json-configuration" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="venv-json">
+<span id="index-17"></span><span id="id19"></span><h2>Venv JSON<a class="headerlink" href="#venv-json" title="Permalink to this headline">¶</a></h2>
+<p>Venv <a class="reference internal" href="tools/index#json"><em>JSON</em></a> is useful for double-checking shell-escaping
+and unicode.</p>
 <p><code class="docutils literal"><span class="pre">venv.py</span> <span class="pre">--print-json</span> <span class="pre">dotfiles</span></code>:</p>
 <pre class="ansi-block literal-block">
 $ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
@@ -674,12 +1122,14 @@ $ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
     }
 }
 </pre>
-</div>
-</div>
-</div>
 <div class="section" id="other-scripts-with-venv-style-paths">
-<h2>Other scripts with venv-style paths<a class="headerlink" href="#other-scripts-with-venv-style-paths" title="Permalink to this headline">¶</a></h2>
-<p>To define a script environment just like venv:</p>
+<h3>Other scripts with venv-style paths<a class="headerlink" href="#other-scripts-with-venv-style-paths" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="#venv-paths"><em>Venv paths</em></a> recur in most build scripts (often with different
+names)</li>
+<li>Venv paths are configurable at the commandline with <a class="reference internal" href="#venv-py"><em>venv.py</em></a>,
+but any script can define a script environment just like venv:</li>
+</ul>
 <div class="code bash highlight-python"><div class="highlight"><pre>#!/bin/sh
 
 __WRK=&quot;${HOME}/-wrk&quot;                          # cdwrk
@@ -703,6 +1153,15 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
 (set -x; test &quot;$_WRD&quot; == &quot;${HOME}/-wrk/-ve27/dotfiles/src/dotfiles&quot;; \
     || echo &quot;Exception: _WRD = &#39;${_WRD}&#39;;&quot; )
 </pre></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre><span class="c">### dotfiles.venv env variable naming style:</span>
+<span class="c"># GLOBAL (ALL CAPS)</span>
+<span class="c"># _VENVLOCAL    # VIRTUAL_ENV, _SRC, _WRD, _ETC, _LOG</span>
+<span class="c"># __VENVGLOBAL  # __DOTFILES, __WRK, WORKON_HOME, CONDA_ENVS_PATH</span>
+</pre></div>
+</div>
+<p>See: <a class="reference internal" href="#venv-paths"><em>Venv paths</em></a> for a more complete table of <a class="reference internal" href="#cdalias"><em>CdAliases</em></a> and
+<a class="reference internal" href="#venv-shell-configuration"><em>Venv Shell Configuration</em></a> standard variable names.</p>
 </div>
 </div>
 </div>

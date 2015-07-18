@@ -84,7 +84,7 @@ APT
 | Docs: https://www.debian.org/doc/manuals/apt-howto/
 | Docs: https://wiki.debian.org/SecureApt
 | Source: git git://anonscm.debian.org/git/apt/apt.git
-| IRC: irc://irc.debian.org/debian-apt
+| IRC: `<irc://irc.debian.org/debian-apt>`__
 
 
 APT ("Advanced Packaging Tool") is the core of Debian package management.
@@ -110,6 +110,17 @@ APT ("Advanced Packaging Tool") is the core of Debian package management.
    apt-get --help
    man apt-get
    man sources.list
+
+
+.. index:: AUR
+.. _aur:
+
+AUR
+~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Arch_Linux#Arch_User_Repository_.28AUR.29
+
+AUR (:ref:`Arch` *User Repository*) contains :ref:`PKGBUILD`
+packages which can be installed by :ref:`pacman`.
 
 
 .. index:: Bower
@@ -294,6 +305,33 @@ Dpkg is a collection of tools for creating and working with
 :ref:`DEB` packages.
 
 
+.. index:: dnf
+.. _dnf:
+
+dnf
+~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/DNF_(software)>`__
+| Homepage: http://dnf.baseurl.org/
+| Homepage: https://fedoraproject.org/wiki/Features/DNF
+| Source: git https://github.com/rpm-software-management/dnf
+| Docs: https://dnf.readthedocs.org/en/latest/
+| Docs: https://github.com/rpm-software-management/dnf/wiki
+| Docs: https://rpm-software-management.github.io/dnf-plugins-core/
+
+dnf is a an open source package manager written in :ref:`Python`.
+
+* dnf was introduced in :ref:`Fedora` 18.
+* dnf is the default package manager in :ref:`Fedora` 22;
+  replacing :ref:`yum`.
+
+  * [ ] ``yum`` errors if TODO package is installed (* :ref:`salt`
+    provider)
+  * [ ] ``repoquery`` redirects with an error to ``dnf repoquery``
+  * See ``dnf help`` (and ``man dnf``)
+
+* dnf integrates with the Anaconda system installer.
+
+
 .. index:: Brew
 .. index:: Homebrew
 .. _homebrew:
@@ -331,12 +369,42 @@ NuGet
 | Wikipedia: https://en.wikipedia.org/wiki/NuGet
 | Homepage: https://www.nuget.org/
 
+NuGet is an open source package manager for :ref:`Windows`.
 
-* Package Repositories (chocolatey):
+* Chocolatey maintains variously updated packages
+  for various windows programs:
+  https://chocolatey.org/
 
-  * https://chocolatey.org/
+  + An example list of Chocolatey NuGet packages as a :ref:`PowerShell` script:
+    https://gist.github.com/westurner/10950476
 
-* Linux/Mac/Windows: No / No / Yes
+
+
+.. index:: pacman
+.. _pacman:
+
+pacman
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Arch_Linux#Pacman
+| Homepage: https://www.archlinux.org/pacman/
+| Docs: https://wiki.archlinux.org/index.php/Pacman
+
+Pacman is an open source package manager which installs
+``.pkg.tar.xz`` files for :ref:`Arch` Linux.
+
+
+.. index:: PKGBUILD
+.. _pkgbuild:
+
+PKGBUILD
+~~~~~~~~~~
+| Homepage: https://wiki.archlinux.org/index.php/PKGBUILD
+| Docs: https://www.archlinux.org/pacman/PKGBUILD.5.html
+| Docs: https://wiki.archlinux.org/index.php/Makepkg
+| Docs: https://wiki.archlinux.org/index.php/Creating_packages
+
+PKGBUILD is a shell script containing the build information
+for an :ref:`AUR` :ref:`Arch` linux software package.
 
 
 .. index:: Portage
@@ -1435,10 +1503,13 @@ and object-oriented code,
 Python is often utilized for system administration
 and scientific software development.
 
-* Many of the :ref:`RedHat` system management tools (such as :ref:`Yum`)
+* Many of the :ref:`RedHat` system management tools
+  (e.g. the :ref:`Yum` and :ref:`dnf` package managers)
   are written in Python.
 
-* Gentoo :ref:`Portage` is written in Python.
+* Gentoo :ref:`Portage` package manager is written in Python.
+
+* :ref:`Conda` package manager is written in Python.
 
 * :ref:`IPython`, :ref:`Pip`, :ref:`Conda`,
   :ref:`Sphinx`, :ref:`Docutils`,
@@ -1446,9 +1517,9 @@ and scientific software development.
   :ref:`Libcloud`, :ref:`Salt`, :ref:`Tox`, :ref:`Virtualenv`,
   and :ref:`Virtualenvwrapper` are all written in Python.
 
-* :ref:`PyPI` is the Python community
-  :ref:`Python Package <python packages>` index
-  for sharing open source code.
+* :ref:`PyPI` is the Python community index
+  for sharing open source
+  :ref:`python packages`. :ref:`Pip` installs from PyPI.
 
 The Python community is generously supported by a number of sponsors
 and the Python Infrastructure Team:
@@ -1819,7 +1890,7 @@ GCC
 | Wikipedia: https://en.wikipedia.org/wiki/GNU_Compiler_Collection
 | Homepage: https://gcc.gnu.org/
 | Docs: https://gcc.gnu.org/onlinedocs/
-| Source: git ssh://gcc.gnu.org/git/gcc.git
+| Source: git `<ssh://gcc.gnu.org/git/gcc.git>`__
 
 
 The GNU Compiler Collection started as a Free and Open Source
@@ -1901,6 +1972,25 @@ A *Linux Distribution* is a collection of :ref:`Packages`
 compiled to work with a :ref:`GNU/Linux <linux>` kernel and a :ref:`libc`.
 
 * https://commons.wikimedia.org/wiki/File:Linux_Distribution_Timeline_with_Android.svg
+
+
+.. index:: Arch
+.. _arch:
+
+Arch
+~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Arch_Linux>`__
+| Homepage: https://www.archlinux.org/
+| Download: https://www.archlinux.org/download/
+| Docs: https://wiki.archlinux.org/
+| Docs: https://aur.archlinux.org/
+| Docs: https://aur4.archlinux.org/
+| Docs: https://wiki.archlinux.org/index.php/Arch_packaging_standards
+| Docs: https://wiki.archlinux.org/index.php/Arch_User_Repository#AUR_4
+
+Arch Linux
+is a :ref:`Linux Distribution <linux-distributions>`
+that is built from :ref:`AUR` packages.
 
 
 .. index:: Debian
@@ -2754,29 +2844,56 @@ one or more physical and virtual machines running various operating systems.
       Can be called with salt-call
 
    Salt States
-      Graphs of nodes and attributes which are templated and compiled into
+      Salt states are
+      graphs of nodes, edges, and attributes
+      which are templated and compiled into
       ordered sequences of system configuration steps.
 
-      Naturally stored in ``.sls`` :ref:`YAML` files
-      parsed by ``salt.states.<state>.py``.
+      * Salt states can be expressed as ``.sls`` :ref:`YAML` files
+        (transformed by the ``sls`` :term:`Salt Renderer <salt renderers>`)
+        parsed by ``salt.states.<state>.py``.
 
-      Salt States files are processed as Jinja templates (by default)
+      Salt States files are processed as :ref:`Jinja2` templates (by default);
       they can access system-specific grains and pillar data at compile time.
 
+   Salt Formulas
+      Salt Formulas are reusable packages of salt states
+      and example pillar configuration data.
+
+      | Docs: http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html
+
+      * https://github.com/saltstack-formulas
+      * https://github.com/saltstack-formulas/salt-formula/blob/master/pillar.example#L136 #"salt_formulas"
+      * https://github.com/westurner/cookiecutter-saltformula
+
    Salt Renderers
-      Templating engines (by default: Jinja) for processing templated
-      states and configuration files.
+      A Salt Renderer is a transformation function
+      (e.g. a templating engine (default: :ref:`Jinja2`))
+      for transforming / preprocessing :term:`Salt States`,
+      :term:`Salt Pillar` files, and really any text document.
+
+      | Docs: http://docs.saltstack.com/en/develop/ref/renderers/
+
+      * http://docs.saltstack.com/en/latest/ref/renderers/all/salt.renderers.jinja.html
+      * Jinja + YAML, Mako + YAML, Wempy + YAML, Jinja + json, Mako + json, Wempy + json.
 
    Salt Pillar
-      Key Value data interface for storing and making available
+      A Salt Pillar is composed of
+      nested key value pillar
+      over interface for storing and making available
       global and host-specific values for minions:
       values like hostnames, usernames, and keys.
 
-      Pillar configuration must be kept separate from states
-      (e.g. users, keys) but works the same way.
+      * Pillar configuration must be kept separate from states
+        (e.g. users, keys) but works the same way.
 
-      In a master/minion configuration, minions do not have access to
-      the whole pillar.
+      * In a master/minion configuration, minions do not have access to
+        the whole pillar.
+
+      | Docs: http://docs.saltstack.com/en/develop/ref/pillar/
+      | Docs: http://docs.saltstack.com/en/develop/ref/pillar/all/#all-salt-pillars
+
+      * https://github.com/saltstack-formulas/salt-formula/blob/master/pillar.example
 
    Salt Cloud
       Salt Cloud can provision cloud image, instance, and networking services
@@ -2789,6 +2906,28 @@ one or more physical and virtual machines running various operating systems.
       + Linux LXC (Cgroups)
       + KVM
 
+
+* Salt output formats (``salt --out=pprint``, ``salt-call
+  --out=pprint``, ``salt-call --help``)::
+
+      grains
+      highstate
+      json
+      key
+      nested
+      newline_values_only
+      no_return
+      overstatestage
+      pprint
+      quiet
+      raw
+      txt
+      virt_query
+      yaml
+
+* A few examples of :ref:`salt` commandline usage in a :ref:`Makefile <make>`:
+  https://github.com/westurner/provis/blob/master/Makefile
+  (``make salt_<TAB>``)
 
 
 .. index:: Virtualization
@@ -4155,10 +4294,13 @@ Virtualenvwrapper is sourced into the shell::
 
 
 .. index:: Window Managers
-.. window-managers:
+.. _window managers:
 
 Window Managers
 ================
+| Wikipedia: https://en.wikipedia.org/wiki/Window_manager
+| Docs: https://wiki.archlinux.org/index.php/Window_manager
+
 
 .. index:: Compiz
 .. _compiz:
@@ -4175,6 +4317,48 @@ Compiz is a window compositing layer for :ref:`X11` which adds
 lots of cool and productivity-enhancing visual capabilities.
 
 Compiz works with :ref:`Gnome`, :ref:`KDE`, and :ref:`Qt` applications.
+
+
+.. index:: f.lux
+.. _f.lux:
+
+f.lux
+~~~~~~
+| Homepage: https://justgetflux.com/
+| Download: https://justgetflux.com/dlmac.html
+| Download: https://justgetflux.com/dlwin.html
+| Source: git https://github.com/Kilian/f.lux-indicator-applet
+| Docs: https://justgetflux.com/linux.html
+| Docs: https://justgetflux.com/ios.html
+| Docs: https://justgetflux.com/research.html
+
+f.lux is a userspace utility for gradually adjusting
+the blue color channel throughout the day;
+or as needed.
+
+* A similar effect can be accomplished with the :ref:`X11` ``xgamma``
+  command (e.g. for :ref:`Linux` platforms where the latest f.lux
+  is not yet available). A few keybindings from an :ref:`i3wm` configuration
+  `here <https://github.com/westurner/dotfiles/blob/0514992283af/etc/i3/config#L105>`_:
+
+  .. code::
+
+      # [...] #L105
+      set $xgamma_reset    xgamma -gamma 1.0
+      set $xgamma_soft     xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
+      set $xgamma_soft_red xgamma -bgamma 0.4 -ggamma 0.6 -rgamma 0.9
+      # [...] #L200
+      ## Start, stop, and reset xflux
+      #  <alt> [         -- start xflux
+      bindsym $mod+bracketleft    exec --no-startup-id $xflux_start
+      #  <alt> ]         -- stop xflux
+      bindsym $mod+bracketright   exec --no-startup-id $xflux_stop
+      #  <alt><shift> ]  -- reset gamma to 1.0
+      bindsym $mod+Shift+bracketright  exec --no-startup-id $xgamma_reset
+      #  <alt><shift> [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
+      bindsym $mod+Shift+bracketleft exec --no-startup-id $xgamma_soft
+      #  <alt><shift> \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9
+      bindsym $mod+Shift+p exec --no-startup-id $xgamma_soft_red
 
 
 .. index:: Gnome
@@ -4198,6 +4382,7 @@ i3wm
 ~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/I3_(window_manager)>`__
 | Homepage: http://i3wm.org/
+| Download: http://i3wm.org/downloads/
 | Docs: http://i3wm.org/docs/
 | Source: git git://code.i3wm.org/i3
 
@@ -4206,7 +4391,8 @@ with extremely-configurable :ref:`Vim`-like keyboard shortcuts.
 
 i3wm works with :ref:`Gnome`, :ref:`KDE`, and :ref:`Qt` applications.
 
-* http://i3wm.org/downloads/
+* An example open source i3wm ``i3/config`` :ref:`dotfile <dotfiles>`:
+  https://github.com/westurner/dotfiles/blob/master/etc/i3/config
 
 
 .. index:: KDE
@@ -4299,6 +4485,43 @@ Browsers
 
 Chrome
 ~~~~~~~
+| Homepage: https://www.google.com/chrome/
+| Download: https://www.google.com/chrome/browser/desktop/
+| Download: https://www.google.com/chrome/browser/mobile/
+| AndroidApp: https://play.google.com/store/apps/details?id=com.android.chrome
+| AndroidAppBeta: https://play.google.com/store/apps/details?id=com.chrome.beta
+| iOSApp: https://itunes.apple.com/us/app/chrome-web-browser-by-google/id535886823
+| Docs: https://developer.chrome.com
+| Docs: https://developer.chrome.com/extensions/devguide
+
+Google Chrome is a Web Browser built from
+the open source :ref:`Chromium` browser.
+
+* Google Chrome includes and updates Adobe Flash, pdf.js
+
+See also: :ref:`ChromeOS`.
+
+
+.. index:: Chromium
+.. _chromium:
+
+Chromium
+~~~~~~~~~~
+| Homepage: https://www.chromium.org/Home
+| Source: git https://chromium.googlesource.com/chromium/src
+| Source: https://chromium.googlesource.com/chromium/src.git
+| Docs: https://www.chromium.org/developers
+| Docs: https://www.chromium.org/developers/coding-style
+
+The Chromium Projects include the :ref:`Chromium` Browser
+and :ref:`chromiumos`.
+
+* Chromium Projects are written in :ref:`C++11 <c++>`, :ref:`C`,
+  IDL, :ref:`Jinja2`, :ref:`Python`, :ref:`Javascript`, :ref:`HTML-`,
+  and :ref:`CSS-`.
+* :ref:`Chrome` and :ref:`ChromeOS` build from :ref:`Chromium`
+  project sources.
+
 
 .. index:: Chrome DevTools
 .. _chrome-devtools:
@@ -4331,6 +4554,8 @@ Chrome Extensions
 * `High Contrast`_
 * `Spectrum`_
 * `Stylish`_
+* `Tiësto`_ (Dark Chrome Theme)
+* See also: :ref:`f.lux`
 
 
 **Safety**
@@ -4596,6 +4821,16 @@ Stylish
 | Docs: https://userstyles.org/help/stylish_firefox
 
 * https://userstyles.org/
+
+
+.. index:: Tiësto
+.. _tiesto:
+
+Tiësto
+++++++++
+| ChromeExt: https://chrome.google.com/webstore/detail/ti%C3%ABsto/mnmeobddjkkgkglnogihcaejaleikhdh
+
+The Tiësto Chrome Theme is a Dark Theme for Chrome.
 
 
 .. index:: Browser Extensions > Safety
@@ -5081,6 +5316,7 @@ modules and features bundled in.
 
 Documentation Tools
 =====================
+| Docs: https://wrdrd.com/docs/consulting/education-technology#publishing
 
 
 .. index:: Docutils
@@ -5313,10 +5549,11 @@ Tinkerer
 ~~~~~~~~~
 | Homepage: http://tinkerer.me/
 | Source: https://github.com/vladris/tinkerer
+| Docs: http://tinkerer.me/pages/documentation.html
 
 Tinkerer is a very simple static blogging website generation tool
 written in :ref:`Python` which extends :ref:`Sphinx`
-and generates `HTML` from :ref:`ReStructuredText`.
+and generates :ref:`HTML-` from :ref:`ReStructuredText`.
 
 Static HTML pages generated with Tinkerer do not require
 a serverside application, and can be easily hosted with GitHub Pages
@@ -5331,11 +5568,18 @@ or any other web hosting service.
 
 Standards
 ============
+| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards
+| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards
 
-References:
 
-* https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards
-* https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards
+.. index:: Cascading Style Sheets
+.. index:: CSS
+.. _css-:
+
+CSS
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Cascading_Style_Sheets
+| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#css
 
 
 .. index:: Filesystem Hierarchy Standard
@@ -5346,15 +5590,48 @@ Filesystem Hierarchy Standard
 | Wikipedia: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
 | Website: http://www.linuxfoundation.org/collaborate/workgroups/lsb/fhs
 
-The Filesystem Hierarchy Standard is a well-worn industry-supported
+The Filesystem Hierarchy Standard (*FHS*) is a well-worn industry-supported
 system file naming structure.
 
-:ref:`Ubuntu` and :ref:`Virtualenv` implement
-a Filesystem Hierarchy. Likewise, :ref:`Venv` implements
-a Filesystem Hierarchy.
+* :ref:`Linux` distributions like
+  :ref:`Ubuntu` and :ref:`Fedora` implement
+  a Filesystem Hierarchy.
 
-:ref:`Docker` layers filesystem hierarchies with aufs and now
-also btrfs subvolumes.
+* Likewise, :ref:`virtualenv` and :ref:`Venv` implement
+  a filesystem hierarchy:
+
+  | Docs: https://westurner.org/dotfiles/venv#venv-paths
+
+* :ref:`Docker` (and many LiveCDs) layer filesystem hierarchies
+  with e.g. UnionFS, AUFS, and BTRFS filesystems.
+
+
+.. index:: HTTP
+.. _http-:
+
+HTTP
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/HTTP
+| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#http
+| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#http2
+
+
+.. index:: HTTPS
+.. _https-:
+
+HTTPS
+++++++
+| Wikipedia: https://en.wikipedia.org/wiki/HTTPS
+| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#https
+
+
+.. index:: HTML
+.. _html-:
+
+HTML
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/HTML
+| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#html5
 
 
 .. index:: JSON
@@ -5387,6 +5664,9 @@ for parsing and indenting ("prettifying") JSON from the commandline ::
 
     cat example.json | python -m json.tool
 
+* See also:
+  https://wrdrd.com/docs/consulting/knowledge-engineering#json
+
 
 .. index:: JSONLD
 .. index:: JSON-LD
@@ -5397,10 +5677,11 @@ JSON-LD
 | Wikipedia: https://en.wikipedia.org/wiki/JSON-LD
 | Homepage: http://json-ld.org
 | Docs: http://json-ld.org/playground/
+| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#json-ld
 
-JSON-LD is a web standard for Linked Data in :ref:`JSON <json->`.
+JSON-LD is a web standard for **Linked Data** in :ref:`JSON <json->`.
 
-An example from the JSON-LD Playground (`<http://goo.gl/xxZ410>`__):
+An example from the *JSON-LD Playground* (`<http://goo.gl/xxZ410>`__):
 
 .. code-block:: javascript
 
@@ -5453,10 +5734,12 @@ MessagePack
 | Homepage: http://msgpack.org/
 
 
-MessagePack is a data interchange format
+MessagePack (*msgpack*) is a data interchange format
 with implementations in many languages.
 
-:ref:`Salt`
+* :ref:`MsgPack` is a `Distributed Computing Protocol`
+  https://wrdrd.com/docs/consulting/knowledge-engineering#distributed-computing-protocols
+* :ref:`Salt` serializes messages with :ref:`MsgPack` by default.
 
 
 .. index:: Vim
