@@ -951,8 +951,13 @@ to repackage upstream releases for the target platform(s).</p>
 <div class="line">Docs: <a class="reference external" href="http://docs.continuum.io/anaconda/">http://docs.continuum.io/anaconda/</a></div>
 <div class="line">Docs: <a class="reference external" href="http://docs.continuum.io/anaconda/pkg-docs.html">http://docs.continuum.io/anaconda/pkg-docs.html</a></div>
 </div>
-<p>Anaconda is a maintained distribution of many popular <a class="reference internal" href="#python-packages"><em>Python Packages</em></a>.</p>
-<p>Anaconda works with <a class="reference internal" href="#conda"><em>Conda</em></a> packages.</p>
+<p>Anaconda is a maintained distribution of <a class="reference internal" href="#conda"><em>Conda</em></a>
+packages for many languages; especially <a class="reference internal" href="#python"><em>Python</em></a>.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#anaconda"><em>Anaconda</em></a> maintains a working set of <a class="reference internal" href="#conda"><em>Conda</em></a> packages
+for Python 2.6, 2.7, 3.3, and 3.4:
+<a class="reference external" href="http://docs.continuum.io/anaconda/pkg-docs.html">http://docs.continuum.io/anaconda/pkg-docs.html</a></li>
+</ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last"><a class="reference external" href="https://en.wikipedia.org/wiki/Anaconda_(installer)">https://en.wikipedia.org/wiki/Anaconda_(installer)</a> (1999)
@@ -2354,9 +2359,7 @@ the two language versions:</p>
 <li><a class="reference external" href="https://pypi.python.org/pypi/future">https://pypi.python.org/pypi/future</a></li>
 <li><a class="reference external" href="http://python-future.org/">http://python-future.org/</a></li>
 </ul>
-<p><a class="reference internal" href="#anaconda"><em>Anaconda</em></a> maintains a working set of <a class="reference internal" href="#conda"><em>Conda</em></a> packages
-for Python 2.6, 2.7, 3.3, and 3.4:
-<a class="reference external" href="http://docs.continuum.io/anaconda/pkg-docs.html">http://docs.continuum.io/anaconda/pkg-docs.html</a></p>
+<p>See also: <a class="reference internal" href="#anaconda"><em>Anaconda</em></a></p>
 </div>
 <div class="section" id="awesome-python-testing">
 <span id="index-80"></span><span id="id66"></span><h4>awesome-python-testing<a class="headerlink" href="#awesome-python-testing" title="Permalink to this headline">¶</a></h4>
@@ -2906,21 +2909,31 @@ to develop and compile for iOS.</li>
 <div class="section" id="osx-notes">
 <h4>OSX Notes<a class="headerlink" href="#osx-notes" title="Permalink to this headline">¶</a></h4>
 <ul>
+<li><p class="first">[ ] Create a fresh install <a class="reference internal" href="#osx"><em>OS X</em></a> USB drive (16GB+)</p>
+<ul class="simple">
+<li><a class="reference external" href="http://osxdaily.com/2014/10/16/make-os-x-yosemite-boot-install-drive/">http://osxdaily.com/2014/10/16/make-os-x-yosemite-boot-install-drive/</a></li>
+<li>Docs: <a class="reference external" href="https://support.apple.com/en-us/HT201372">https://support.apple.com/en-us/HT201372</a></li>
+</ul>
+</li>
 <li><p class="first"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/">https://github.com/westurner/dotfiles/blob/master/scripts/</a> <code class="docutils literal"><span class="pre">setup_*.sh</span></code></p>
 <ul class="simple">
 <li>[ ] Manually update to latest versions (of zip, tar.gz, .dmg)</li>
-<li>[ ] Port to salt formulas</li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_chrome.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_chrome.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_chromium.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_chromium.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_firefox.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_firefox.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_adobereader.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_adobereader.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_vlc.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_vlc.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_f.lux.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_f.lux.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_powerline_fonts.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_powerline_fonts.sh</a></li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_macvim.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_macvim.sh</a></li>
-<li>[ ] Miniconda #dotfiles (setup_miniconda.sh?)</li>
+<li>[ ] Port / wrap <a class="reference internal" href="#shells"><em>shell</em></a> scripts
+to / with <em class="xref std std-term">salt formulas</em>
+and parameters (per-subnet, group, machine, os; <a class="reference internal" href="#term-salt-pillar"><em class="xref std std-term">salt pillar</em></a>):<ul>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_brew.sh</a>  # <a class="reference internal" href="#homebrew"><em>Homebrew</em></a></li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_mavericks_python.sh</a>  # <a class="reference internal" href="#python"><em>Python</em></a></li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_chrome.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_chrome.sh</a>  # <a class="reference internal" href="#chrome"><em>Chrome</em></a></li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_chromium.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_chromium.sh</a> # <a class="reference internal" href="#chrome"><em>Chrome</em></a></li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_firefox.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_firefox.sh</a>  # <a class="reference internal" href="#firefox"><em>Firefox</em></a></li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_adobereader.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_adobereader.sh</a>  #  PDF forms, signatures, annotations</li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_vlc.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_vlc.sh</a> (<cite>vlc</cite>)</li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_f.lux.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_f.lux.sh</a> (<cite>f.lux</cite>, <cite>UBY</cite>)</li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_powerline_fonts.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_powerline_fonts.sh</a> (<cite>UBY</cite>)</li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_macvim.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_macvim.sh</a> (<a class="reference internal" href="#vim"><em>Vim</em></a>)</li>
+<li>[ ] <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/setup_miniconda.sh">https://github.com/westurner/dotfiles/blob/master/scripts/setup_miniconda.sh</a> (<a class="reference internal" href="#conda"><em>Conda</em></a>)</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p class="first"><a class="reference external" href="https://github.com/westurner/provis">https://github.com/westurner/provis</a></p>
