@@ -184,7 +184,7 @@ install_gitflow() {
     clone_or_update "${url}" "${rev}" "${dest}"
     (cd "${dest}"; git submodule init && git submodule update)
 
-    INSTALL_PREFIX="${HOME}/.local/bin" bash ${dest}/contrib/gitflow-installer.sh
+    INSTALL_PREFIX="${HOME}/.local/bin" bash "${dest}/contrib/gitflow-installer.sh"
 }
 
 install_hubflow() {
@@ -197,7 +197,7 @@ install_hubflow() {
     clone_or_update "${url}" "${rev}" "${dest}"
     (cd "${dest}"; git submodule init && git submodule update)
 
-    INSTALL_PREFIX="${HOME}/.local/bin" bash ${dest}/install.sh
+    INSTALL_INTO="${HOME}/.local/bin" bash "${dest}/install.sh"
 }
 
 get_md5sums() {
