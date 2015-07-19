@@ -422,15 +422,25 @@ function ugv {
     usrlog_grep_venvs ${@}
 }
 
-function _usrlog_grep_todos {
+function _usrlog_grep_todo_fixme_xxx {
     egrep -i '(todo|fixme|xxx)'
-
+}
+function _usrlog_grep_todos {
+    grep '$$'$'\t''#TODO'
 }
 function usrlog_grep_todos {
-    cat "${1:-${_USRLOG}}" | _usrlog_grep_todos
+    cat ${@:-${_USRLOG}} | _usrlog_grep_todos
 }
 function ugt {
     usrlog_grep_todos ${@}
+}
+
+function usrlog_grep_todos_parse {
+    usrlog_grep_todos ${@} | _usrlog_parse_cmds
+}
+
+function ugtp {
+    ugt $@ | ugp
 }
 
 function usrlog_grin {
