@@ -28,14 +28,17 @@ set -e
 ## date (file suffix for backup_and_symlink)
 BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
 
+PYVER="${PYVER:-"$(
+    python -c 'import sys; "".join(map(str, sys.version_info[:2]))')"}"
+
 ## Virtualenvwrapper
-WORKON_HOME=${WORKON_HOME:-"${HOME}/-wrk/-ve"}
+WORKON_HOME="${WORKON_HOME:-"${HOME}/-wrk/-ve${PYVER}"}"
 
 ## Virtualenv + Venv
 VIRTUAL_ENV_NAME="dotfiles"
 VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
-_WRD=${VIRTUAL_ENV}/src/dotfiles
-__DOTFILES=${_WRD}
+_WRD="${VIRTUAL_ENV}/src/dotfiles"
+__DOTFILES="${_WRD}"
 
 __DOTFILES_SYMLINK="${HOME}/-dotfiles"  # ~/-dotfiles
 
@@ -44,10 +47,7 @@ DOTFILES_REPO_DEST_PATH="${_WRD}"
 DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/.vim"
 
 DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
-#DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
-
 DOTVIM_GIT_REPO_URL="https://github.com/westurner/dotvim"
-# DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
 
 #PIP="${HOME}/.local/bin/pip"
 PIP="pip"
@@ -56,8 +56,8 @@ PIP_INSTALL_USER="${PIP} install --user"
 SETUP_PY_OPTS=""
 SETUP_PY_OPTS_USER="--user"
 
-if [ -n "$WORKON_HOME" ] && [[ ! -d "$WORKON_HOME" ]]; then
-    mkdir -p $WORKON_HOME
+if [ -n "${WORKON_HOME}" ] && [[ ! -d "${WORKON_HOME}" ]]; then
+    mkdir -p "${WORKON_HOME}"
 fi
 
 _dotfiles_check_deps() {
