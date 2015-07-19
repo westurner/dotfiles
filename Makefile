@@ -546,6 +546,17 @@ open:
 	open docs/_build/html/index.html
 	#open docs/_build/singlehtml/index.html
 
+update_get-pip.py:
+	cd ./scripts && wget 'https://bootstrap.pypa.io/get-pip.py'
+	git add ./scripts/get-pip.py
+	git diff --cached ./scripts/get-pip.py
+
+update_bootstrap-salt.sh:
+	@#cd ./scripts && wget 'https://raw.githubusercontent.com/saltstack/salt-bootstrap/develop/bootstrap-salt.sh'
+	cd ./scripts && wget 'https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh'
+	git add ./scripts/bootstrap-salt.sh
+	git diff --cached ./scripts/bootstrap-salt.sh
+
 update_manifest:
 	python setup.py git_manifest
 	git add ./MANIFEST.in
