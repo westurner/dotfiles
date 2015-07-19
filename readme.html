@@ -44,7 +44,6 @@
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/css/local.css" type="text/css" />
 <link rel="stylesheet" href="_static/issuetracker.css" type="text/css" />
-<link rel="stylesheet" href="_static/changelog.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -223,7 +222,7 @@
 </div> 
         
 
-        <div class="col-md-9" id="content-wrapper">
+        <div class="col-md-9">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -231,30 +230,22 @@
                   
   <div class="section" id="dotfiles">
 <h1>Dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles">GitHub</a> | <a class="reference external" href="https://westurner.org/dotfiles/">Documentation</a> | <a class="reference external" href="https://wrdfiles.readthedocs.org/en/latest/">ReadTheDocs</a></p>
 <a class="reference external image-reference" href="https://github.com/westurner/dotfiles/releases"><img src="https://img.shields.io/github/release/westurner/dotfiles.svg" /></a>
 <a class="reference external image-reference" href="https://github.com/westurner/dotfiles/tags"><img src="https://img.shields.io/github/tag/westurner/dotfiles.svg" /></a>
 <a class="reference external image-reference" href="https://travis-ci.org/westurner/dotfiles"><img alt="https://travis-ci.org/westurner/dotfiles.svg?branch=master" src="https://travis-ci.org/westurner/dotfiles.svg?branch=master" /></a>
-<div class="line-block">
-<div class="line">Homepage: <a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a></div>
-<div class="line">Src: git <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
-<div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a></div>
-<div class="line">Docs: <a class="reference external" href="https://wrdfiles.readthedocs.org/en/latest/">https://wrdfiles.readthedocs.org/en/latest/</a></div>
-<div class="line">Build:  <a class="reference external" href="https://travis-ci.org/westurner/dotfiles">https://travis-ci.org/westurner/dotfiles</a></div>
-</div>
 <div class="section" id="goals">
 <h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Streamline frequent userspace workflows</li>
+<li>Streamline frequent workflows</li>
 <li>Configure Bash, ZSH, and Vim</li>
 <li>Configure Python, pip, virtualenv, virtualenvwrapper</li>
 <li>Configure IPython</li>
-<li>Configure Gitflow and Hubflow</li>
 <li>Configure Gnome</li>
 <li>Configure i3wm</li>
 <li>Support Debian Linux, Ubuntu Linux, OSX</li>
 <li>Document commands and keyboard shortcuts</li>
 <li>Create a productive working environment</li>
-<li>Document tools: <a class="reference external" href="https://westurner.org/tools/#dotfiles">https://westurner.org/tools/#dotfiles</a></li>
 </ul>
 </div>
 <div class="section" id="installation">
@@ -290,7 +281,7 @@ named &#8220;<code class="docutils literal"><span class="pre">dotfiles</span></c
 pip install virtualenvwrapper   # apt-get install python-virtualenvwrapper
 source $(which &#39;virtualenvwrapper.sh&#39;)    # 07-bashrc.virtualenvwrapper.sh
 
-export WORKON_HOME=&quot;~/-wrk/-ve27&quot;                    # __WRK/-[ve|ce][27|34]
+export WORKON_HOME=&quot;~/-wrk/-ve27&quot;                    # __WRK/-ve python2.7
 mkdir -p $WORKON_HOME
 
 # Create a virtualenvwrapper virtualenv
@@ -299,8 +290,8 @@ mkdir $VIRTUAL_ENV/src
 cd $VIRTUAL_ENV/src
 
 # Clone the dotfiles git repository
-branch=&quot;master&quot;     # stable       # see: tools#hubflow
-# branch=&quot;develop&quot;  # development  # see: tools#hubflow
+branch=&quot;master&quot;     # stable
+# branch=&quot;develop&quot;  # development
 git clone ssh://git@github.com/westurner/dotfiles -b ${branch}
 cd dotfiles
 
@@ -352,52 +343,33 @@ dotfiles_status
 ds
 </pre></div>
 </div>
-<div class="code bash highlight-python"><div class="highlight"><pre>Last login: Sat Jul 18 03:56:01 on ttys001
+<div class="code bash highlight-python"><div class="highlight"><pre>Last login: Tue Dec  2 15:01:56 on ttys000
 #
 # dotfiles_reload()
-#ntid  _TERM_ID=&quot;#9AiD6EMj000&quot;  #_USRLOG=&quot;/Users/W/-usrlog.log&quot;
+#ntid  _TERM_ID=&quot;#SElGeTf5VcA&quot;  #_USRLOG=&quot;/Users/W/-usrlog.log&quot;
 # dotfiles_status()
 HOSTNAME=&#39;nb-mb1&#39;
 USER=&#39;W&#39;
 __WRK=&#39;/Users/W/-wrk&#39;
 PROJECT_HOME=&#39;/Users/W/-wrk&#39;
-WORKON_HOME=&#39;/Users/W/-wrk/-ve27&#39;
+WORKON_HOME=&#39;/Users/W/-wrk/-ve&#39;
 VIRTUAL_ENV_NAME=&#39;&#39;
 VIRTUAL_ENV=&#39;&#39;
 _SRC=&#39;&#39;
 _APP=&#39;&#39;
 _WRD=&#39;&#39;
 _USRLOG=&#39;/Users/W/-usrlog.log&#39;
-_TERM_ID=&#39;#9AiD6EMj000&#39;
+_TERM_ID=&#39;#SElGeTf5VcA&#39;
 PATH=&#39;/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin&#39;
 __DOTFILES=&#39;/Users/W/-dotfiles&#39;
 #
-#  cdw || echo &#39;false&#39;
-#9AiD6EMj000 W@nb-mb1:~/-wrk/-ve27/dotfiles/src/dotfiles
-$ we dotfiles; stid \#dotfiles-2015-07-18; stid \#dotfiles-demo; cdw; pwd
-# dotfiles_status()
-HOSTNAME=&#39;nb-mb1&#39;
-USER=&#39;W&#39;
-__WRK=&#39;/Users/W/-wrk&#39;
-PROJECT_HOME=&#39;/Users/W/-wrk&#39;
-CONDA_ROOT=&#39;/Users/W/-wrk/-conda27&#39;
-CONDA_ENVS_PATH=&#39;/Users/W/-wrk/-ce27&#39;
-WORKON_HOME=&#39;/Users/W/-wrk/-ve27&#39;
-VIRTUAL_ENV_NAME=&#39;dotfiles&#39;
-VIRTUAL_ENV=&#39;/Users/W/-wrk/-ve27/dotfiles&#39;
-_SRC=&#39;/Users/W/-wrk/-ve27/dotfiles/src&#39;
-_APP=&#39;dotfiles&#39;
-_WRD=&#39;/Users/W/-wrk/-ve27/dotfiles/src/dotfiles&#39;
-_USRLOG=&#39;/Users/W/-wrk/-ve27/dotfiles/-usrlog.log&#39;
-_TERM_ID=&#39;#9AiD6EMj000&#39;
-PATH=&#39;/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin&#39;
-__DOTFILES=&#39;/Users/W/-dotfiles&#39;
-#
-#stid  _TERM_ID=&quot;#dotfiles-2015-07-18&quot;  #_TERM_ID__=&quot;#9AiD6EMj000&quot;  #_USRLOG=&quot;/Users/W/-wrk/-ve27/dotfiles/-usrlog.log&quot;
-#stid  _TERM_ID=&quot;#dotfiles-demo&quot;  #_TERM_ID__=&quot;#dotfiles-2015-07-18&quot;  #_USRLOG=&quot;/Users/W/-wrk/-ve27/dotfiles/-usrlog.log&quot;
-/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
-#  gdc
-(dotfiles) #dotfiles-demo W@nb-mb1:~/-wrk/-ve27/dotfiles/src/dotfiles
+# cd /
+#SElGeTf5VcA W@nb-mb1:/
+$
+$ stid &#39;dotfiles&#39;
+#stid  _TERM_ID=&quot;dotfiles&quot;  #_TERM_ID__=&quot;dotfiles install&quot;  #_USRLOG=&quot;/Users/W/-usrlog.log&quot;
+# stid &#39;dotfiles&#39;
+dotfiles W@nb-mb1:/
 $
 </pre></div>
 </div>
@@ -518,7 +490,7 @@ $_WRD/scripts/bootstrap_dotfiles.sh -S      # or: make install_symlinks
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
       </footer>
       <!-- /footer -->
 

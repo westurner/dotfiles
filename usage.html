@@ -44,7 +44,6 @@
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/css/local.css" type="text/css" />
 <link rel="stylesheet" href="_static/issuetracker.css" type="text/css" />
-<link rel="stylesheet" href="_static/changelog.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -217,7 +216,7 @@
 </div> 
         
 
-        <div class="col-md-9" id="content-wrapper">
+        <div class="col-md-9">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -226,11 +225,11 @@
   <div class="section" id="usage">
 <span id="index-0"></span><span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="readme#install-the-dotfiles"><em>Install the dotfiles</em></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
-<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools/index#make"><em>Make</em></a>)</li>
-<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools/index#bash"><em>Bash</em></a>, <a class="reference internal" href="tools/index#zsh"><em>ZSH</em></a>)</li>
-<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools/index#vim"><em>Vim</em></a>)</li>
-<li>Manage windows on <a class="reference internal" href="tools/index#linux"><em>Linux</em></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools/index#i3wm"><em>i3wm</em></a>)</li>
+<li><a class="reference internal" href="readme#install-the-dotfiles"><span>Install the dotfiles</span></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="tools/index#make"><span>Make</span></a>)</li>
+<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="tools/index#bash"><span>Bash</span></a>, <a class="reference internal" href="tools/index#zsh"><span>ZSH</span></a>)</li>
+<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="tools/index#vim"><span>Vim</span></a>)</li>
+<li>Manage windows on <a class="reference internal" href="tools/index#linux"><span>Linux</span></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="tools/index#i3wm"><span>i3wm</span></a>)</li>
 <li><a class="reference external" href="scripts">Script</a> all the <a class="reference external" href="http://schema.org/Thing">things</a></li>
 </ul>
 <div class="section" id="bootstrap-dotfiles-sh">
@@ -245,9 +244,9 @@ $ bash $_WRD/scripts/bootstrap_dotfiles.sh -h
 ## Usage: bootstrap_dotfiles.sh &lt;actions&gt; &lt;options&gt;
 #
 ## Actions
-#  -I   --  Install the dotfiles (implies -S)
+#  -I   --  Install the dotfiles
 #  -S   --  Install dotfiles symlinks
-#  -U   --  Update and Upgrade the dotfiles (implies -S)
+#  -U   --  Update and Upgrade the dotfiles
 #  -R   --  pip install -r requirements-all.txt
 #  -G   --  install Gitflow and hubflow
 #  -C   --  check for installed components
@@ -266,6 +265,7 @@ $ bash $_WRD/scripts/bootstrap_dotfiles.sh -h
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code>:</p>
 <pre class="ansi-block literal-block">
 $ cd $_WRD &amp;&amp; make help
+make[2]: Entering directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 dotfiles Makefile
 #################
 help         -- print dotfiles help
@@ -304,6 +304,8 @@ gh-pages  -- overwrite the gh-pages branch with docs/_build/html
 
 push      -- git push
 pull      -- git pull
+
+make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 </pre>
 </div>
 <div class="section" id="readline">
@@ -1167,6 +1169,10 @@ pull      -- git pull
     <span class="c"># _xlck_i3lock()    -- start i3lock with a dark gray background</span>
     <span class="c"># xlock_lock()      -- lock the current display</span>
     <span class="c">#   note: this will be run before suspend to RAM and Disk.</span>
+    <span class="c">#    # TODO XXX:</span>
+    <span class="c">#    #  if gnome-screensaver not running **in this display**,</span>
+    <span class="c">#    #  gnome-screensaver &amp;; disown</span>
+    <span class="c">#    gnome-screensaver-command -l</span>
     <span class="c"># _suspend_to_ram()     -- echo mem &gt; /sys/power/state</span>
     <span class="c"># _suspend_to_disk()    -- echo disk &gt; /sys/power/state</span>
     <span class="c">#  note: this does not work on many machines</span>
@@ -1201,7 +1207,7 @@ pull      -- git pull
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc">https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc</a></div>
 </div>
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_vim_rst</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>   # etc/.vim/vimrc
+<div class="highlight-python"><div class="highlight"><pre>   # etc/vim/vimrc
 &quot; .vimrc
 &quot; ==========
 &quot; ::
@@ -1306,7 +1312,7 @@ pull      -- git pull
 &quot; set window title to vim title (display full path)
 &quot; print the document path
 &quot;
-&quot;  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
+    &quot;  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
 &quot;  &lt;space&gt; -- &lt;leader&gt;
 &quot;  ,    --  &lt;leader&gt; == &lt;comma&gt;
 &quot;  ;;   --  &lt;esc&gt; == double semicolon
@@ -1348,7 +1354,8 @@ pull      -- git pull
 &quot;   ctrl-&lt;drop&gt;     --  split new window for file
 &quot;   &lt;drop&gt;          --  open file or paste path at cursor
 &quot; Fonts
-&quot;  :PatchFont      -- set the font
+&quot;  :PatchFont      -- set the font (s:fontsize, s:fonts, guifont (set gfn=))
+&quot;                     tries each font in s:fonts until one is found
 &quot; GUI Menubar
 &quot;  :HideMenubar    -- hide GUI menubar
 &quot;  :ShowMenubar    -- show GUI menubar
@@ -1502,7 +1509,7 @@ pull      -- git pull
 &quot;   - http://vim.wikia.com/wiki/VimTip320
    
    
-   # etc/.vim/vimrc.full.bundles.vimrc
+   # etc/vim/vimrc.full.bundles.vimrc
 &quot; Bundle            -- Vim bundle manager [help bundle]
 &quot; :BundleList          - list configured plugins
 &quot; :BundleInstall(!)    - install (update) plugins
@@ -1814,7 +1821,7 @@ pull      -- git pull
 &quot;
    
    
-   # etc/.vim/vimrc.tinyvim.bundles.vimrc
+   # etc/vim/vimrc.tinyvim.bundles.vimrc
 &quot; Bundle            -- Vim bundle manager [help bundle]
 &quot; :BundleList          - list configured plugins
 &quot; :BundleInstall(!)    - install (update) plugins
@@ -1933,111 +1940,112 @@ pull      -- git pull
 <span class="c"># ## Notes</span>
 <span class="c"># * grab keyboard mappings: xev | grep keycode</span>
 <span class="c"># Set i3 modifier keys to variables</span>
-<span class="c">#  # set $mod to &lt;alt&gt;    (&lt;Alt_L&gt; and &lt;Alt_R&gt;)</span>
-<span class="c">#  # set $mod2 to &lt;Super&gt; (&lt;Super_L&gt; and &lt;Super_R&gt;)</span>
+<span class="c">#  # set $mod2 to &lt;super&gt;    (&lt;Alt_L&gt; and &lt;Alt_R&gt;)</span>
+<span class="c">#  # set $mod to &lt;Super&gt; (&lt;Super_L&gt; and &lt;Super_R&gt;)</span>
 <span class="c"># font for window titles. ISO 10646 = Unicode</span>
 <span class="c"># Pango requires i3 version &gt;= TODO</span>
 <span class="c"># reload the configuration file</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; c   -- reload i3 configuration</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; c   -- reload i3 configuration</span>
 <span class="c"># restart i3 inplace (preserves your layout/session, can be used to upgrade i3)</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; r   -- restart i3 (session preserving)</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; r   -- restart i3 (session preserving)</span>
 <span class="c"># exit i3 (logs you out of your X session)</span>
-<span class="c">#  &lt;super&gt;&lt;shift&gt; l  -- exit i3 (close all and logout of X session)</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; q   -- close focused window</span>
+<span class="c">#  &lt;alt&gt;&lt;shift&gt; l  -- exit i3 (close all and logout of X session)</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; q   -- close focused window</span>
 <span class="c">#  # Hide edge borders</span>
 <span class="c">#  # Get WM_CLASS with $(xprop WM_CLASS)</span>
-<span class="c"># set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png</span>
 <span class="c">#</span>
 <span class="c">#  - Start gnome-settings-daemon (e.g. for anti-aliasing)</span>
+<span class="c">#  $PATH/gnome-settings-daemon        -- Ubuntu, Debian</span>
+<span class="c">#  /usr/libexec/gnome-settings-daemon -- Fedora</span>
 <span class="c">#  - Set X background</span>
 <span class="c">#  - Set X wallaper to (~/wallpaper.png)</span>
 <span class="c">#  - Start screensaver</span>
 <span class="c"># - Launch network applet (optional)</span>
 <span class="c"># exec_always --no-startup-id $network_applet  # (optional)</span>
 <span class="c"># see also: nmcli</span>
-<span class="c">#  &lt;super&gt; l        -- lock screen</span>
+<span class="c">#  &lt;alt&gt; l        -- lock screen</span>
 <span class="c">#  &lt;XF86PowerOff&gt;   -- exit</span>
 <span class="c">#  &lt;XF86Sleep&gt;      -- suspend</span>
 <span class="c">#  &lt;XF86MonBrightnessUp&gt;      -- brightness up</span>
 <span class="c">#  &lt;XF86MonBrightnessDown&gt;    -- brightness down</span>
 <span class="c">#  &lt;XF86AudioRaiseVolume&gt;   -- volume up</span>
 <span class="c">#  &lt;XF86AudioLowerVolume&gt;   -- volume down</span>
-<span class="c">#  &lt;alt&gt; x      -- run command</span>
-<span class="c">#  &lt;super&gt; r    -- run command</span>
-<span class="c">#  &lt;super&gt; e    -- launch browser</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; g   -- launch editor</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; b   -- launch browser</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; t   -- launch terminal</span>
-<span class="c">#  &lt;super&gt; t        -- launch terminal</span>
-<span class="c">#  &lt;alt&gt; &lt;enter&gt;    -- launch terminal</span>
+<span class="c">#  &lt;super&gt; x      -- run command</span>
+<span class="c">#  &lt;alt&gt; r    -- run command</span>
+<span class="c">#  &lt;alt&gt; e    -- launch browser</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; g   -- launch editor</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; b   -- launch browser</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; t   -- launch terminal</span>
+<span class="c">#  &lt;alt&gt; t        -- launch terminal</span>
+<span class="c">#  &lt;super&gt; &lt;enter&gt;    -- launch terminal</span>
 <span class="c">#  XF86Calculator   -- launch calculator</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; w          -- launch network manager applet (see also: $(nmcli))</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; w          -- launch network manager applet (see also: $(nmcli))</span>
 <span class="c">#  &lt;PrintScr&gt;       -- screenshot (full screen)</span>
-<span class="c">#  &lt;alt&gt; &lt;PrintScr&gt; -- screenshot (current window)</span>
-<span class="c">#  &lt;alt&gt; v      -- focus nearest: editor</span>
-<span class="c">#  &lt;alt&gt; t      -- focus nearest: terminal</span>
-<span class="c">#  &lt;alt&gt; b      -- focus nearest: browser</span>
-<span class="c">#  &lt;alt&gt; [         -- start xflux</span>
-<span class="c">#  &lt;alt&gt; ]         -- stop xflux</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; ]  -- reset gamma to 1.0</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9</span>
-<span class="c">#  &lt;alt&gt; &lt;space&gt;            -- toggle focus mode: tiling / floating</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; &lt;space&gt;     -- toggle tiling/floating mode for focused window</span>
-<span class="c">#  &lt;alt&gt; &lt;backspace&gt;        -- toggle tiling/floating mode for focused window</span>
-<span class="c">#  &lt;alt&gt; &lt;mouse&gt;            -- drag floating window to position</span>
+<span class="c">#  &lt;super&gt; &lt;PrintScr&gt; -- screenshot (current window)</span>
+<span class="c">#  &lt;super&gt; v      -- focus nearest: editor</span>
+<span class="c">#  &lt;super&gt; t      -- focus nearest: terminal</span>
+<span class="c">#  &lt;super&gt; b      -- focus nearest: browser</span>
+<span class="c">#  &lt;super&gt; [         -- start xflux</span>
+<span class="c">#  &lt;super&gt; ]         -- stop xflux</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; ]  -- reset gamma to 1.0</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9</span>
+<span class="c">#  &lt;super&gt; &lt;space&gt;            -- toggle focus mode: tiling / floating</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; &lt;space&gt;     -- toggle tiling/floating mode for focused window</span>
+<span class="c">#  &lt;super&gt; &lt;backspace&gt;        -- toggle tiling/floating mode for focused window</span>
+<span class="c">#  &lt;super&gt; &lt;mouse&gt;            -- drag floating window to position</span>
 <span class="c">#  # Note: popups will be hidden below fullscreened windows</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; f   -- fullscreen</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; f   -- fullscreen</span>
 <span class="c">#  # popup during fullscreen exits fullscreen</span>
 <span class="c"># Split next window</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; h   -- split [next] window horizontally</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; v   -- split [next] window vertically</span>
-<span class="c">#  &lt;alt&gt; w          -- tabbed window layout</span>
-<span class="c">#  &lt;alt&gt; e          -- Default window layout</span>
-<span class="c">#  &lt;alt&gt; s          -- stacked window layout</span>
-<span class="c">#  &lt;alt&gt; a          -- focus parent container</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; a   -- focus child container</span>
-<span class="c">#  &lt;alt&gt; Up     -- focus up</span>
-<span class="c">#  &lt;alt&gt; Down   -- focus down</span>
-<span class="c">#  &lt;alt&gt; Left   -- focus left</span>
-<span class="c">#  &lt;alt&gt; Right  -- focus right</span>
-<span class="c">#  &lt;alt&gt; h      -- focus left</span>
-<span class="c">#  &lt;alt&gt; j      -- focus down</span>
-<span class="c">#  &lt;alt&gt; k      -- focus up</span>
-<span class="c">#  &lt;alt&gt; l      -- focus right</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; h   -- split [next] window horizontally</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; v   -- split [next] window vertically</span>
+<span class="c">#  &lt;super&gt; w          -- tabbed window layout</span>
+<span class="c">#  &lt;super&gt; e          -- Default window layout</span>
+<span class="c">#  &lt;super&gt; s          -- stacked window layout</span>
+<span class="c">#  &lt;super&gt; a          -- focus parent container</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; a   -- focus child container</span>
+<span class="c">#  &lt;super&gt; Up     -- focus up</span>
+<span class="c">#  &lt;super&gt; Down   -- focus down</span>
+<span class="c">#  &lt;super&gt; Left   -- focus left</span>
+<span class="c">#  &lt;super&gt; Right  -- focus right</span>
+<span class="c">#  &lt;super&gt; h      -- focus left</span>
+<span class="c">#  &lt;super&gt; j      -- focus down</span>
+<span class="c">#  &lt;super&gt; k      -- focus up</span>
+<span class="c">#  &lt;super&gt; l      -- focus right</span>
 <span class="c"># Toggle between previous and current workspace</span>
-<span class="c">#  &lt;alt&gt; 0-9        -- switch to workspace N  (repeat to return)</span>
-<span class="c">#  &lt;super&gt; 0-9      -- switch to workspace N  (repeat to return)</span>
-<span class="c">#  &lt;alt&gt; &lt;F_n&gt;      -- switch to workspace N (repeat to return)</span>
-<span class="c">#  &lt;alt&gt; &lt;Keypad_n&gt; -- switch to workspace N (repeat to return)</span>
-<span class="c">#  &lt;super&gt; Left     -- move to previous workspace</span>
-<span class="c">#  &lt;super&gt; Right    -- move to next workspace</span>
-<span class="c">#  &lt;super&gt; Up       -- move to second most recently focused workspace</span>
-<span class="c">#  &lt;super&gt; Left     -- move container to previous workspace</span>
-<span class="c">#  &lt;super&gt; Right    -- move container to next workspace</span>
-<span class="c">#  &lt;super&gt; Up       -- move container to second most recently focused workspace</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; Up      -- move window up</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; Down    -- move window down</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; Left    -- move window left</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; Right   -- move window right</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; h       -- move window left</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; j       -- move window down</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; k       -- move window up</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; l       -- move window right</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt;  [N: 0-9]   -- move to workspace N</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; [KP_N: 0-9] -- move to workspace N</span>
-<span class="c">#  &lt;super&gt; [KP_N: 0-9] -- move to workspace N</span>
-<span class="c">#  &lt;super&gt;&lt;shift&gt; Left  -- move workspace to left</span>
-<span class="c">#  &lt;super&gt;&lt;shift&gt; Right -- move workspace to right</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; &lt;minus&gt;     -- make the currently focused window a scratchpad</span>
-<span class="c">#  &lt;alt&gt; &lt;minus&gt;            -- show/hide and cycle through scratchpad windows</span>
-<span class="c">#  &lt;alt&gt;&lt;shift&gt; s           -- start scratchpad editor</span>
-<span class="c">#  &lt;alt&gt; &lt;XF86Favorites&gt;    -- start scratchpad editor</span>
+<span class="c">#  &lt;super&gt; 0-9        -- switch to workspace N  (repeat to return)</span>
+<span class="c">#  &lt;alt&gt; 0-9      -- switch to workspace N  (repeat to return)</span>
+<span class="c">#  &lt;super&gt; &lt;F_n&gt;      -- switch to workspace N (repeat to return)</span>
+<span class="c">#  &lt;super&gt; &lt;Keypad_n&gt; -- switch to workspace N (repeat to return)</span>
+<span class="c">#  &lt;alt&gt; Left     -- move to previous workspace</span>
+<span class="c">#  &lt;alt&gt; Right    -- move to next workspace</span>
+<span class="c">#  &lt;alt&gt; Up       -- move to second most recently focused workspace</span>
+<span class="c">#  &lt;alt&gt; Left     -- move container to previous workspace</span>
+<span class="c">#  &lt;alt&gt; Right    -- move container to next workspace</span>
+<span class="c">#  &lt;alt&gt; Up       -- move container to second most recently focused workspace</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; Up      -- move window up</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; Down    -- move window down</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; Left    -- move window left</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; Right   -- move window right</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; h       -- move window left</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; j       -- move window down</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; k       -- move window up</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; l       -- move window right</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt;  [N: 0-9]   -- move to workspace N</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; [KP_N: 0-9] -- move to workspace N</span>
+<span class="c">#  &lt;alt&gt; [KP_N: 0-9] -- move to workspace N</span>
+<span class="c">#  &lt;alt&gt;&lt;shift&gt; Left  -- move workspace to left</span>
+<span class="c">#  &lt;alt&gt;&lt;shift&gt; Right -- move workspace to right</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; &lt;minus&gt;     -- make the currently focused window a scratchpad</span>
+<span class="c">#  &lt;super&gt; &lt;minus&gt;            -- show/hide and cycle through scratchpad windows</span>
+<span class="c">#  &lt;super&gt;&lt;shift&gt; s           -- start scratchpad editor</span>
+<span class="c">#  &lt;super&gt; &lt;XF86Favorites&gt;    -- start scratchpad editor</span>
 <span class="c">#  &lt;XF86Favorites&gt;          -- show the $scratchpad_editor_selector</span>
-<span class="c">#  &lt;alt&gt; &lt;backspace&gt;        -- toggle tiling/floating mode for focused window</span>
+<span class="c">#  &lt;super&gt; &lt;backspace&gt;        -- toggle tiling/floating mode for focused window</span>
 <span class="c"># see above.</span>
 <span class="c">#  # on (re)load, move $scratchpad_editor_selector windows to scratchpad</span>
-<span class="c">#  &lt;alt&gt; r      -- enter resize mode</span>
+<span class="c">#  &lt;super&gt; r      -- enter resize mode</span>
     <span class="c"># These bindings trigger as soon as you enter the resize mode</span>
     <span class="c">#</span>
     <span class="c"># They resize the border in the direction you pressed, e.g.</span>
@@ -2206,7 +2214,7 @@ or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</sp
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3b3.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
       </footer>
       <!-- /footer -->
 
