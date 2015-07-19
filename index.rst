@@ -9,7 +9,7 @@ Tools
 ================
 
 | Docs: https://westurner.org/tools/
-| Src: https://github.com/westurner/tools
+| Source: https://github.com/westurner/tools
 
 See Also: https://westurner.org/wiki/projects#tools
 
@@ -20,7 +20,6 @@ See Also: https://westurner.org/wiki/projects#tools
 Packages
 ==========
 | Wikipedia: `<https://en.wikipedia.org/wiki/Package_(package_management_system)>`__
-
 
 A software package is an archive of files
 with a manifest that lists the files included.
@@ -1025,7 +1024,7 @@ Markdown
 
 Markdown is a :ref:`Lightweight markup language`
 which can be parsed and transformed to
-valid `HTML`.
+valid :ref:`HTML-`.
 
 
 .. index:: MediaWiki Markup
@@ -1044,8 +1043,10 @@ MediaWiki Markup is a
 :ref:`Lightweight markup language`
 "WikiText"
 which can be parsed and transformed to
-valid `HTML`
-that is utilized by Wikipedia.
+valid :ref:`HTML-`.
+
+* Wikipedia is built on MediaWiki,
+  which supports MediaWiki Markup.
 
 
 .. index:: RD
@@ -1073,7 +1074,7 @@ RDoc
 
 RDoc is a tool and a
 :ref:`Lightweight markup language`
-for generating HTML and command-line documentation
+for generating :ref:`HTML-` and command-line documentation
 for :ref:`Ruby` projects.
 
 To not build RDoc docs when installing a :ref:`Gem <RubyGems>`:
@@ -1101,7 +1102,7 @@ ReStructuredText (*ReST*, *RST*) is a
 :ref:`Lightweight markup language` commonly used for
 narrative documentation and inline Python, C, Java, etc. docstrings
 which can be parsed, transformed, and published to
-valid `HTML`, ePub, LaTeX, PDF.
+valid :ref:`HTML-`, ePub, LaTeX, PDF.
 
 :ref:`Sphinx` is built on :ref:`Docutils`,
 the primary implementation of ReStructuredText.
@@ -2572,7 +2573,7 @@ and networked booting server with support for DNS, DHCP, TFTP, and PXE.
 * Cobbler can template :ref:`Debian` preseed files
 * Cobbler can PXE boot an ISO over TFTP (and unattended install)
 
-  * BusyBox, SystemRescueCD, Clonezilla
+  * BusyBox, :ref:`SystemRescueCD`, :ref:`Clonezilla`
 
 * Cobbler can manage a set of DNS and DHCP entries for physical systems
 * Cobbler can batch mirror :ref:`RPM` and :ref:`DEB` repositories
@@ -3584,6 +3585,7 @@ written in :ref:`Python`.
 
 IPython Notebook
 ++++++++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/IPython#Notebook
 | Source: https://github.com/ipython/ipython/tree/3.x/IPython/html
 | Docs: http://ipython.org/ipython-doc/stable/notebook/
 | Docs: http://ipython.org/ipython-doc/stable/notebook/notebook.html
@@ -3592,16 +3594,26 @@ IPython Notebook
 | Docs: http://ipython.org/ipython-doc/stable/notebook/public_server.html
 | Docs: http://ipython.org/ipython-doc/stable/notebook/security.html
 
-An IPython notebook file (``.ipynb``) is a
-JSON document containing input and output
-for a linear sequence of cells;
-which can be exported to many output formats (e.g. HTML, RST, LaTeX, PDF);
-and edited through the web with
-IPython Notebook.
+:ref:`IPython` Notebook is a web-based shell for interactive
+and literate computing with IPython notebooks.
 
-* IPython Notebook supports more than 40 different language kernels:
+* An IPython notebook (``.ipynb``) is a
+  :ref:`JSON-` document containing input and output
+  for a linear sequence of cells;
+  which can be exported to many output formats
+  (e.g. :ref:`HTML-`, RST, LaTeX, PDF);
+  and edited through the web with
+  IPython Notebook.
+* IPython Notebook supports :ref:`Markdown` syntax for comment cells.
+* IPython Notebook supports more than 40 different IPython kernels for
+  other languages:
 
   https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
+
+* IPython Notebook development has now moved to :ref:`Jupyter` Notebook;
+  which supports IPython kernels (and defaults to the :ref:`IPython`
+  :ref:`CPython` :ref:`2 <python>`
+  or :ref:`3 <python3>` kernel).
 
 To start IPython Notebook (assuming the ``_SRC`` variable
 as defined in :ref:`Venv`):
@@ -3609,7 +3621,8 @@ as defined in :ref:`Venv`):
 .. code:: bash
 
    pip install ipython[notebook]
-   # pip install -e git+https://github.com/ipython/ipython@rel-3.1.0#egg=ipython
+   # pip install -e git+https://github.com/ipython/ipython@rel-3.2.1#egg=ipython
+   # https://github.com/ipython/ipython/releases
 
    mkdir $_SRC/notebooks; cd $_SRC/notebooks
    ipython notebook
@@ -5564,6 +5577,314 @@ or any other web hosting service.
   (``Makefile``, ``conf.py``)
 
 
+.. index:: Backup Tools
+.. _backup tools:
+
+Backup Tools
+==============
+
+* https://en.wikipedia.org/wiki/Disk_cloning
+* https://en.wikipedia.org/wiki/Disk_image#Virtualization
+* https://en.wikipedia.org/wiki/List_of_archive_formats
+* https://en.wikipedia.org/wiki/List_of_backup_software
+* https://en.wikipedia.org/wiki/List_of_disk_cloning_software
+* https://en.wikipedia.org/wiki/List_of_data_recovery_software
+* https://en.wikipedia.org/wiki/Comparison_of_file_archivers
+* https://en.wikipedia.org/wiki/Comparison_of_online_backup_services
+* https://en.wikipedia.org/wiki/Comparison_of_file_synchronization_software
+
+
+.. index:: Backup Ninja
+.. _backup ninja:
+
+Backup Ninja
+~~~~~~~~~~~~~~
+| Homepage: https://labs.riseup.net/code/projects/backupninja
+| Source: git git://labs.riseup.net/backupninja.git
+| Docs: https://labs.riseup.net/code/projects/backupninja/wiki
+| Docs: https://labs.riseup.net/code/projects/backupninja/wiki/Usage
+
+Backup Ninja is an open source backup utility
+written in
+``/etc/backup.d``
+
+* BackupNinja supports :ref:`rdiff-backup`, :ref:`Duplicity`,
+  and :ref:`rsync`.
+* BackupNinja can create and burn CD/DVD images.
+* BackupNinja can backup a number of relational databases
+  (MySQL, PostgreSQL), maildirs, SVN repositories, Trac instances,
+  and LDAP.
+
+.. index:: Bup
+.. _bup-:
+
+bup
+~~~~~~~~~~
+| Homepage: https://bup.github.io/
+| Source: git https://github.com/bup/bup
+| Docs: https://github.com/bup/bup/blob/master/README.md
+| Docs: https://bup.github.io/man.html
+| Docs: https://github.com/bup/bup/blob/master/DESIGN
+
+Bup (*backup*) is a backup system based on :ref:`git` packfiles
+and rolling checksums.
+
+    [Bup is a very] efficient backup system
+    based on the `git packfile` format,
+    providing fast incremental saves
+    and global deduplication
+    (among and within files, including virtual machine images).
+
+* AFAIU, like :ref:`git`, Bup does not preserve file permissions,
+  Access Control Lists, or extended attributes
+  (though some archive formats and snapshot images do).
+
+
+.. index:: Clonezilla
+.. _clonezilla:
+
+Clonezilla
+~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Clonezilla
+| DistroWatch: http://distrowatch.com/table.php?distribution=clonezilla
+
+Clonezilla is an open source :ref:`Linux` distribution
+which is bootable from a CD/DVD/USB (a LiveCD, LiveDVD, LiveUSB)
+or PXE
+which contains a number of tools
+for disk imaging, disk cloning, filesystem backup and recovery;
+and a server :ref:`Linux` distribution for serving disk images
+to one or more computers over a LAN.
+
+* Clonezilla contains :ref:`FSArchiver`, :ref:`partclone`,
+  :ref:`partimage`, and :ref:`rsync`.
+* :ref:`SystemRescueCD` also contains :ref:`partimage`.
+
+
+.. index:: Duplicity
+.. _duplicity:
+
+Duplicity
+~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Duplicity_(software)>`__
+| Homepage: http://duplicity.nongnu.org/
+| Docs: http://duplicity.nongnu.org/docs.html
+| Docs: http://duplicity.nongnu.org/duplicity.1.html
+| Docs: https://help.ubuntu.com/community/DuplicityBackupHowto
+| Docs: https://wiki.archlinux.org/index.php/Duplicity
+
+Duplicity is an open source incremental file directory backup utility
+with GnuPG encryption, signatures, versions, and
+a number of actions for redundantly storing backups.
+
+* Duplicity can push offsite backups to/over a number of
+  protocols and services (e.g. SSH/SCP/SFTP,
+  S3, Google Cloud Storage, Rackspace Cloudfiles (OpenStack Swift)).
+* Duplicity stores data with tar archives and :ref:`rdiff`
+* :ref:`rdiff-backup` is similar to :ref:`duplicity`.
+
+
+.. index:: FSArchiver
+.. _fsarchiver:
+
+FSArchiver
+~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/FSArchiver
+| Homepage: http://www.fsarchiver.org/
+| Source:  http://sourceforge.net/projects/fsarchiver/files/fsarchiver-src/
+| Download: http://sourceforge.net/projects/fsarchiver/files/fsarchiver-bin/
+| Docs: http://www.fsarchiver.org/QuickStart
+| Docs: http://www.fsarchiver.org/Live-backup
+| Docs: http://www.fsarchiver.org/Attributes#SELinux_.28Security_Enhanced_Linux.29
+| Docs: http://www.fsarchiver.org/Fsarchiver_vs_partimage
+| Docs: http://www.sysresccd.org/Sysresccd-manual-en_LVM_Making-consistent-backups-with-LVM
+
+FSAchiver is an open source filesystem backup (*disk cloning*) utility
+which can preserve file permissions, labels, and extended attributes.
+
+* FSArchiver can backup a filesysmet to a new or within an existing
+  filesystem.
+* FSArchiver has special support for LVM.
+* FSArchiver supports password-based encryption.
+
+
+.. index:: partclone
+.. _partclone:
+
+partclone
+~~~~~~~~~~~~
+| Homepage: http://partclone.org/
+| Project: http://sourceforge.net/projects/partclone/
+| Download: http://partclone.org/download/
+| Source: git https://github.com/Thomas-Tsai/partclone
+| Docs: http://partclone.org/help/
+| Docs: http://partclone.org/usage/
+| Docs: https://github.com/Thomas-Tsai/partclone/wiki
+
+partclone is an open source utility for making
+compressed backups of the used blocks of partitions
+with each specific filesystem driver.
+
+* :ref:`partclone` is similar to :ref:`partimage`.
+* :ref:`Clonezilla` includes :ref:`partclone`.
+
+
+.. index:: partimage
+.. _partimage:
+
+partimage
+~~~~~~~~~~~
+| Homepage: http://www.partimage.org/Main_Page
+| Download: http://www.partimage.org/Download
+| Source: http://sourceforge.net/projects/partimage/files/stable/
+| Docs: http://www.partimage.org/Partimage-manual
+| Docs: http://www.partimage.org/Supported-Filesystems
+
+Partimage is an open source utility for making complete
+sector-for-sector compressed backups of partitions
+over the network or to a local device.
+
+* :ref:`Clonezilla` includes :ref:`partimage`.
+* SystemRescueCD includes :ref:`partimage` and :ref:`rsync`.
+* partimage does not support EXT4 or BTRFS;
+  for EXT4 and BTRFS support, see :ref:`fsarchiver`.
+
+
+.. index:: rsync
+.. _rsync:
+
+rsync
+~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Rsync
+| Homepage: https://rsync.samba.org/
+| Source: git git://git.samba.org/rsync.git
+| Download: https://rsync.samba.org/download.html
+| Docs: https://rsync.samba.org/examples.html
+
+rsync is an open-source file backup utility
+which can be used to make incremental backups
+using file deltas over the network or the local system.
+
+* rsync may appear to be stalled when it is actually
+  calculating the full set of initial
+  relative differences in order to minimize
+  the amount of data transfer.
+
+.. note:: rsync does not preserve file permissions by default.
+
+   To preserve file permissions with rsync:
+
+   .. code:: bash
+
+        man rsync
+
+        rsync -a    # rsync -rlptgoD
+          rsync -r  # recursive (traverse into directories)
+          rsync -l  # copy symlinks as links
+          rsync -p  # preserve file permissions
+          rsync -t  # preserve modification times
+          rsync -g  # preserve group
+          rsync -o  # preserve owner (requires superuser)
+          rsync -D  # rsync --devices --specials
+            rsync --devices   # preserve device files (requires superuser)
+            rsync --specials  # preserve special files
+        rsync -A  # preserve file ACLs
+        rsync -X  # preserve file extended attributes
+
+        rsync -aAX  # rsync -a -A -X
+
+        rsync -v  # verbose
+        rsync -P  # rsync --partial --progress
+          rsync --partial     # keep partially downloaded files
+          rsync --progress    # show *per-file* progress and xfer speed
+
+
+.. note:: rsync is picky about paths and trailing slashes.
+
+    .. code:: bash
+
+        # setUp
+        mkdir -p A/one B/one  # TODO
+        echo 'A' > A/one; echo 'B' > B/one
+        # tests
+        rsync A B
+        rsync A B/  --> B/A
+        rsync A/ B
+        rsync A/ B/
+
+
+.. index:: rdiff
+.. _rdiff:
+
+rdiff
++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Rsync#rdiff
+
+rdiff is the open source relative delta algorithm of :ref:`rsync`.
+
+* :ref:`rdiff-backup` is built on :ref:`rdiff`.
+* :ref:`duplicity` is built on :ref:`rdiff`
+
+
+.. index:: rsnapshot
+.. _rsnapshot:
+
+rsnapshot
++++++++++++
+| Homepage: http://rsnapshot.org/
+| Download: http://rsnapshot.org/download.html
+| Download: http://rsnapshot.org/downloads/
+| Source: git https://github.com/rsnapshot/rsnapshot
+| Docs: http://rsnapshot.org/faq.html
+| Docs: https://wiki.archlinux.org/index.php/Rsnapshot
+| Docs: http://linux.die.net/man/1/rsnapshot
+
+rsnapshot is an open source incremental file directory backup utility
+built with :ref:`rsync`.
+
+
+
+.. index:: rdiff-backup
+.. _rdiff-backup:
+
+rdiff-backup
+~~~~~~~~~~~~~
+| Homepage: http://www.nongnu.org/rdiff-backup/
+| Download: http://download.savannah.gnu.org/releases/rdiff-backup/
+| Project: https://savannah.nongnu.org/projects/rdiff-backup
+| Source: svn svn://svn.savannah.nongnu.org/rdiff-backup/
+| Docs: http://www.nongnu.org/rdiff-backup/rdiff-backup.1.html
+| Docs: http://www.nongnu.org/rdiff-backup/docs.html
+| Docs: http://www.nongnu.org/rdiff-backup/examples.html
+
+rdiff-backup is an open source incremental file directory backup utility.
+
+* Like :ref:`rsync`, rdiff-backup transmits file deltas
+  instead of entire files.
+* Unlike :ref:`rsync`, rdiff-backup manages reverting
+  to previous revisions.
+
+
+.. index:: SystemRescueCD
+.. _systemrescuecd:
+
+SystemRescueCD
+~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/SystemRescueCD
+| Homepage: http://www.sysresccd.org/SystemRescueCd_Homepage
+| Download: http://www.sysresccd.org/Download
+| Project: http://sourceforge.net/projects/systemrescuecd/
+| DistroWatch: http://distrowatch.com/table.php?distribution=systemrescue
+| Docs: http://www.sysresccd.org/Online-Manual-EN
+
+SystemRescueCD is a :ref:`Linux` distribution which is
+bootable from a CD/DVD/USB (a LiveCD)
+which contains a number of helpful utilities
+for system maintenance.
+
+* SystemRescueCD includes :ref:`partimage` and :ref:`rsync`.
+
+
 .. index:: Standards
 .. _standards:
 
@@ -5583,7 +5904,7 @@ CSS
 | Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#css
 
 CSS (*Cascading Style Sheets*) define the presentational
-aspects of :ref:`HTML` and a number of mobile and desktop
+aspects of :ref:`HTML-` and a number of mobile and desktop
 web framworks.
 
 * CSS is designed to ensure separation of data and presentation.
@@ -5627,7 +5948,7 @@ HTTP
 
 
 .. index:: HTTPS
-.. _https-:
+.. _https--:
 
 HTTPS
 ++++++
