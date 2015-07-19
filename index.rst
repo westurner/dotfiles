@@ -5582,6 +5582,15 @@ CSS
 | Wikipedia: https://en.wikipedia.org/wiki/Cascading_Style_Sheets
 | Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#css
 
+CSS (*Cascading Style Sheets*) define the presentational
+aspects of :ref:`HTML` and a number of mobile and desktop
+web framworks.
+
+* CSS is designed to ensure separation of data and presentation.
+  With javascript, the separation is then data, code, and presentation.
+
+
+
 
 .. index:: Filesystem Hierarchy Standard
 .. _fhs:
