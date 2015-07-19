@@ -22,7 +22,8 @@ sphinxcontrib-programoutput
 
 sphinxcontrib-issuetracker
 
--e git+https://github.com/westurner/sphinxjp.themes.basicstrap#egg=sphinxjp.themes.basicstrap
+#sphinxjp.themes.basicstrap
+-e git+https://github.com/tell-k/sphinxjp.themes.basicstrap@7a5b36d1deeb#egg=sphinxjp.themes.basicstrap
 
-# ghp-import
--e git+https://github.com/davisp/ghp-import#egg=ghp-import
+ghp-import
+#-e git+https://github.com/davisp/ghp-import#egg=ghp-import
