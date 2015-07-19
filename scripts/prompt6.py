@@ -29,7 +29,11 @@ import subprocess
 
 LOG_TRACE = 6
 logging.addLevelName('TRACE', LOG_TRACE)
-log = logging.getLogger(__name__)
+log = logging.getLogger('prompt6')
+handler = logging.StreamHandler(sys.stderr)
+handler.setFormatter(
+    logging.Formatter('%(asctime)s\t%(levelname)-6s\t%(message)s'))
+log.addHandler(handler)
 
 try:
     # import keyring (if it is available)
@@ -38,6 +42,7 @@ try:
     from keyring.backend import KeyringBackend
 except Exception as e:
     log.exception(e)
+    keyring = None
 
     class KeyringBackend(object):
         pass
@@ -300,8 +305,12 @@ class KeyringValueStore(KeyValueStore):
         self.set_prefix(prefix)
         if data:
             self.update(data)
-        import keyring
+        #import keyring
         # [... ]
+
+        if keyring is None:
+            #import keyring
+            raise ImportError(__import__('keyring'))
         self.keyring = keyring
 
     def get(self, key, default=DEFAULT):
@@ -341,8 +350,13 @@ class Prompt6(KeyValueStore):
             stores = collections.OrderedDict()
             stores['mem'] = KeyValueStore(prefix, data=data)
             # stores['disk'] = OnDiskKeyValueStore(prefix)
-            stores['diskg'] = OnDiskGPGKeyValueStore(prefix, conf=dict(key_name='p6'))
-            stores['ring'] = KeyringValueStore(prefix)
+            stores['diskg'] = OnDiskGPGKeyValueStore(prefix,
+                                                     conf=dict(key_name='p6'))
+            if not keyring:
+                log.debug(
+                    'keyring not found (import keyring; pip install keyring)')
+            else:
+                stores['ring'] = KeyringValueStore(prefix)
         return stores
 
     def get(self, key, default=DEFAULT, get_iter=False):
