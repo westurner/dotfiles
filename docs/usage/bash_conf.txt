@@ -805,6 +805,10 @@
     # _xlck_i3lock()    -- start i3lock with a dark gray background
     # xlock_lock()      -- lock the current display
     #   note: this will be run before suspend to RAM and Disk.
+    #    # TODO XXX:
+    #    #  if gnome-screensaver not running **in this display**,
+    #    #  gnome-screensaver &; disown
+    #    gnome-screensaver-command -l
     # _suspend_to_ram()     -- echo mem > /sys/power/state
     # _suspend_to_disk()    -- echo disk > /sys/power/state
     #  note: this does not work on many machines

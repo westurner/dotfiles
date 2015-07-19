@@ -1,4 +1,12 @@
-bash: no job control in this shell
+module () {  eval `/usr/bin/modulecmd bash $*`
+}
+scl () {  local CMD=$1;
+ if [ "$CMD" = "load" -o "$CMD" = "unload" ]; then
+ eval "module $@";
+ else
+ /usr/bin/scl "$@";
+ fi
+}
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -72,6 +80,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:';
+export LS_COLORS
 
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
@@ -483,69 +493,6 @@ killjob() {
     # killjob()         -- kill %$1
     kill %${1}
 }
-uname
-echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,'
-
-### bashrc.darwin.sh
-
-# softwareupdate                -- install OSX updates
-#  | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
-#  softwareupdate -l        # --list
-#  softwareupdate -i --all  # --install --all
-#  softwareupdate -i -r     # --install --recommended
-
-# Mac Boot-time modifiers: (right after the chime)
-#
-#  Option    -- boot to boot disk selector menu
-#  C         -- boot from CD/DVD
-#  Shift     -- boot into Safe mode
-#  Command-V -- boot into verbose mode
-#   sudo nvram boot-args="-v"  # always boot verbosely
-#   sudo nvram boot-args=""    # boot normally
-#   sudo nvram -p              # print current nvram settings
-
-if [ -z "${__IS_MAC}" ]; then
-    return
-fi
-# if __IS_MAC:
-
-export _FINDERBIN="/System/Library/CoreServices/Finder.app"
-
-finder () {
-    # finder()    -- open Finder.app
-    if [ -z "$@" ]; then
-        open "${_FINDERBIN}"
-    else
-        open -R $@
-    fi
-}
-
-finder-killall() {
-    # finder-killall()  -- close all Finder.app instances
-    killall Finder $_FINDERBIN;
-}
-
-finder-restart() {
-    # finder-restart()  -- close all and start Finder.app
-    finder-killall
-    finder
-}
-
-finder-hide-hidden () {
-    # finder-hide-hidden()    -- hide .hidden files in Finder.app
-    #                            (and close all Finder windows)
-    defaults write com.apple.finder AppleShowAllFiles NO
-    finder-killall
-}
-
-finder-show-hidden () {
-    # finder-show-hidden()    -- show .hidden files in Finder.app
-    #                            (and close all Finder windows)
-    defaults write com.apple.finder AppleShowAllFiles YES
-    finder-killall
-}
-
-
 
 ### bashrc.TERM.sh
 
@@ -596,7 +543,6 @@ configure_TERM_CLICOLOR() {
 
     # configure_TERM when sourced
 configure_TERM
-echo $TERMCAP | grep -q screen
 
 ### bashrc.dotfiles.sh
 
@@ -925,17 +871,33 @@ _configure_bash_completion() {
     else
         if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
             source /etc/bash_completion
+        elif [ -f /etc/profile.d/bash_completion.sh ] && ! shopt -oq posix; then
+            source /etc/profile.d/bash_completion.sh
         fi
     fi
 }
 _configure_bash_completion
-which brew 2>/dev/null || false
-brew --prefix
+# Check for interactive bash and that we haven't already been sourced.
+if [ -n "${BASH_VERSION-}" -a -n "${PS1-}" -a -z "${BASH_COMPLETION_COMPAT_DIR-}" ]; then
+
+    # Check for recent enough version of bash.
+    if [ ${BASH_VERSINFO[0]} -gt 4 ] || \
+       [ ${BASH_VERSINFO[0]} -eq 4 -a ${BASH_VERSINFO[1]} -ge 1 ]; then
+        [ -r "${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion" ] && \
+            . "${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion"
+        if shopt -q progcomp && [ -r /usr/share/bash-completion/bash_completion ]; then
+            # Source completion code.
+            . /usr/share/bash-completion/bash_completion
+        fi
+    fi
+
+fi
+#                                                          -*- shell-script -*-
 #
-#   bash_completion - programmable completion functions for bash 3.2+
+#   bash_completion - programmable completion functions for bash 4.1+
 #
 #   Copyright © 2006-2008, Ian Macdonald <ian@caliban.org>
-#             © 2009-2011, Bash Completion Maintainers
+#             © 2009-2015, Bash Completion Maintainers
 #                     <bash-completion-devel@lists.alioth.debian.org>
 #
 #   This program is free software; you can redistribute it and/or modify
@@ -950,13 +912,13 @@ brew --prefix
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program; if not, write to the Free Software Foundation,
-#   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 #   The latest version of this software can be obtained here:
 #
 #   http://bash-completion.alioth.debian.org/
 #
-#   RELEASE: 1.3
+#   RELEASE: 2.1
 
 if [[ $- == *v* ]]; then
     BASH_COMPLETION_ORIGINAL_V_VALUE="-v"
@@ -964,19 +926,13 @@ else
     BASH_COMPLETION_ORIGINAL_V_VALUE="+v"
 fi
 
-if [[ -n $BASH_COMPLETION_DEBUG ]]; then
+if [[ ${BASH_COMPLETION_DEBUG-} ]]; then
     set -v
 else
     set +v
 fi
 unset BASH_COMPLETION_ORIGINAL_V_VALUE
 
-# Local variables:
-# mode: shell-script
-# sh-basic-offset: 4
-# sh-indent-comment: t
-# indent-tabs-mode: nil
-# End:
 # ex: ts=4 sw=4 et filetype=sh
 
 ### bashrc.python.sh
@@ -1428,32 +1384,6 @@ function _setup_venv_SRC {
 }
 
 _setup_venv
-
-__setup_dotfiles() {
-    # __DOTFILES="${WORKON_HOME}/dotfiles/src/dotfiles"
-    we dotfiles
-    cdw
-    e $_USRLOG && editp
-}
-
-ideally() {
-    terminal we westurner # {wiki,westurner.github.io}
-    terminal we dotfiles
-    terminal we wrd docs
-
-    terminal we provis
-
-    # cat ~/-usrlog.log | _usrlog_parse_cmds - | egrep '(mkvirtualenv|mkvirtualenv_conda)'
-    _usrlog_parse_cmds - \
-        | egrep '((we[c]?)|workon|workon_conda|mkvirtualenv|mkvirtualenv_conda)(.*)'
-    ls -ltr $(lsusrlogs)
-}
-
-usrlog_grep_venvs() {
-    _usrlog_parse_cmds - \
-        | egrep '((we[c]?)|workon|workon_conda|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)'
-
-}
 
 ## Functions
 
@@ -2257,7 +2187,7 @@ if [ ${BASH_SOURCE} == "${0}" ]; then
     editwrd ${@}
     exit
 fi
-#!/bin/sh
+#!/bin/bash
 ## 
 
 _makew() {
@@ -2385,7 +2315,7 @@ function supervisord_stop() {
 }
 
 echo "${BASH_SOURCE}"
-/Users/W/-dotfiles/scripts/ssv
+/home/wturner/-dotfiles/scripts/ssv
 echo "${0}"
 bash
 
@@ -2438,9 +2368,7 @@ function gitw () {
     git -C "${_WRD}" $@
 }
 declare -f '__git_complete' 2>&1 >/dev/null && __git_complete gitw __git_main
-__git_wrap__git_main () { __git_func_wrap __git_main ; }
 declare -f '__git_complete' 2>&1 >/dev/null && __git_complete gitkw __gitk_main
-__git_wrap__gitk_main () { __git_func_wrap __gitk_main ; }
 
 if [[ ${BASH_SOURCE} == "${0}" ]]; then
     gitw ${@}
@@ -2638,10 +2566,6 @@ _configure_lesspipe() {
     fi
 }
 _configure_lesspipe
-which lesspipe.sh 2>/dev/null || false
-${lesspipe}
-LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
-export LESSOPEN
 
 
 vimpager() {
@@ -3203,15 +3127,25 @@ function ugv {
     usrlog_grep_venvs ${@}
 }
 
-function _usrlog_grep_todos {
+function _usrlog_grep_todo_fixme_xxx {
     egrep -i '(todo|fixme|xxx)'
-
+}
+function _usrlog_grep_todos {
+    grep '$$'$'\t''#TODO'
 }
 function usrlog_grep_todos {
-    cat "${1:-${_USRLOG}}" | _usrlog_grep_todos
+    cat ${@:-${_USRLOG}} | _usrlog_grep_todos
 }
 function ugt {
     usrlog_grep_todos ${@}
+}
+
+function usrlog_grep_todos_parse {
+    usrlog_grep_todos ${@} | _usrlog_parse_cmds
+}
+
+function ugtp {
+    ugt $@ | ugp
 }
 
 function usrlog_grin {
@@ -3379,9 +3313,7 @@ function _setup_usrlog {
 
 ## calls _usrlog_setup when sourced
 _usrlog_setup
-_usrlog_get_prefix
-_usrlog_get_prefix
-]0;(dotfiles) #testing  W@nb-mb1:/Users/W/-wrk/-ve27/dotfiles/src/dotfiles
+]0;(dotfiles) #testing  wturner@mb1:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -4270,54 +4202,22 @@ host_docs () {
 
 dotfiles_status
 # dotfiles_status()
-shell_escape_single "${HOSTNAME}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-HOSTNAME='nb-mb1'
-shell_escape_single "${USER}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-USER='W'
-shell_escape_single "${__WRK}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-__WRK='/Users/W/-wrk'
-shell_escape_single "${PROJECT_HOME}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-PROJECT_HOME='/Users/W/-wrk'
-shell_escape_single "${CONDA_ROOT}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-CONDA_ROOT='/Users/W/-wrk/-conda27'
-shell_escape_single "${CONDA_ENVS_PATH}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-CONDA_ENVS_PATH='/Users/W/-wrk/-ce27'
-shell_escape_single "${WORKON_HOME}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-WORKON_HOME='/Users/W/-wrk/-ve27'
-shell_escape_single "${VIRTUAL_ENV_NAME}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
+HOSTNAME='mb1'
+USER='wturner'
+__WRK='/home/wturner/-wrk'
+PROJECT_HOME='/home/wturner/-wrk'
+CONDA_ROOT='/home/wturner/-wrk/-conda27'
+CONDA_ENVS_PATH='/home/wturner/-wrk/-ce27'
+WORKON_HOME='/home/wturner/-wrk/-ve27'
 VIRTUAL_ENV_NAME='dotfiles'
-shell_escape_single "${VIRTUAL_ENV}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-VIRTUAL_ENV='/Users/W/-wrk/-ve27/dotfiles'
-shell_escape_single "${_SRC}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-_SRC='/Users/W/-wrk/-ve27/dotfiles/src'
-shell_escape_single "${_APP}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
+VIRTUAL_ENV='/home/wturner/-wrk/-ve27/dotfiles'
+_SRC='/home/wturner/-wrk/-ve27/dotfiles/src'
 _APP='dotfiles'
-shell_escape_single "${_WRD}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-_WRD='/Users/W/-wrk/-ve27/dotfiles/src/dotfiles'
-shell_escape_single "${_USRLOG}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-_USRLOG='/Users/W/-wrk/-ve27/dotfiles/-usrlog.log'
-shell_escape_single "${_TERM_ID}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
+_WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
+_USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-shell_escape_single "${PATH}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-PATH='/Users/W/-wrk/-ve27/dotfiles/bin:/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin'
-shell_escape_single "${__DOTFILES}"
-echo "${strtoescape}" | sed "s,','\"'\"',g"
-__DOTFILES='/Users/W/-dotfiles'
+PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+__DOTFILES='/home/wturner/-dotfiles'
 #
 ### </end dotfiles .bashrc>
 

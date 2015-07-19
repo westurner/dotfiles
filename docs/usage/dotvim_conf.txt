@@ -1,4 +1,4 @@
-   # etc/.vim/vimrc
+   # etc/vim/vimrc
 " .vimrc
 " ==========
 " ::
@@ -103,7 +103,7 @@
 " set window title to vim title (display full path)
 " print the document path
 "
-"  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
+    "  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
 "  <space> -- <leader>
 "  ,    --  <leader> == <comma>
 "  ;;   --  <esc> == double semicolon
@@ -145,7 +145,8 @@
 "   ctrl-<drop>     --  split new window for file
 "   <drop>          --  open file or paste path at cursor
 " Fonts
-"  :PatchFont      -- set the font
+"  :PatchFont      -- set the font (s:fontsize, s:fonts, guifont (set gfn=))
+"                     tries each font in s:fonts until one is found
 " GUI Menubar
 "  :HideMenubar    -- hide GUI menubar
 "  :ShowMenubar    -- show GUI menubar
@@ -299,7 +300,7 @@
 "   - http://vim.wikia.com/wiki/VimTip320
    
    
-   # etc/.vim/vimrc.full.bundles.vimrc
+   # etc/vim/vimrc.full.bundles.vimrc
 " Bundle            -- Vim bundle manager [help bundle]
 " :BundleList          - list configured plugins
 " :BundleInstall(!)    - install (update) plugins
@@ -611,7 +612,7 @@
 "
    
    
-   # etc/.vim/vimrc.tinyvim.bundles.vimrc
+   # etc/vim/vimrc.tinyvim.bundles.vimrc
 " Bundle            -- Vim bundle manager [help bundle]
 " :BundleList          - list configured plugins
 " :BundleInstall(!)    - install (update) plugins
