@@ -6,6 +6,7 @@ pygments
 changelog
 
 sphinxcontrib-srclinks
+ghp-import
 
 #sphinxcontrib-mercurial
 #sphinx-git
