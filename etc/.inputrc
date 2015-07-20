@@ -1,4 +1,6 @@
 
+
+
 ### .inputrc -- readline configuration
 ## Bash readline quickstart
 #  https://www.gnu.org/software/bash/manual/html_node/Command-Line-Editing.html#Command-Line-Editing
@@ -51,6 +53,27 @@ set convert-meta off
     #
 set editing-mode vi
 $if mode=vi
+
+    ## <ctrl> left/right -- backward/forward one word
+    #  <ctrl> left  -- move backward one word
+    "\e[5D":   backward-word
+    #  <ctrl> left  -- move backward one word
+    "\e[1;5D": backward-word
+    #  <ctrl> right -- move forward one word
+    "\e[5C":   forward-word
+    #  <ctrl> right -- move forward one word
+    "\e[1;5C": forward-word
+
+    ## <ctrl> up/down -- beginning/end of line
+    #  <ctrl> up    -- move to beginning of line
+    "\e[5A":   beginning-of-line
+    #  <ctrl> up    -- move to beginning of line
+    "\e[1;5A": beginning-of-line
+    #  <ctrl> down  -- move to end of line
+    "\e[5B":   end-of-line
+    #  <ctrl> down  -- move to end of line
+    "\e[1;5B": end-of-line
+
   ## vi-command keymap
   set keymap vi-command
 
@@ -75,10 +98,6 @@ $if mode=vi
     #  <down>    -- history search forward (match current input)
     "\e[B": history-search-forward
 
-    #<ctrl> <left>  -- move to prev word
-    #"\C-\e[D": vi-prev-word
-    #<ctrl> <right>  -- move to next word
-    #"\C-\e[C": vi-next-word
 
     #  <ctrl> w  -- delete last word
     "\C-w": backward-kill-word
