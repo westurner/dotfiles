@@ -280,6 +280,29 @@ build_tags:
 	build_tags --ctags-vi --languages=python
 	ls -al tags
 
+build-docker:
+	$(MAKE) build-docker-fedora-22
+	$(MAKE) build-docker-debian-8
+	$(MAKE) build-docker-ubuntu-12.04
+	$(MAKE) build-docker-ubuntu-14.04
+	$(MAKE) build-docker-ubuntu-15.04
+
+
+build-docker-fedora-22:
+	sudo docker build -t dotfiles:fedora22 docker/fedora/22
+
+build-docker-debian-8:
+	sudo docker build -t dotfiles:debian-8 docker/debian/8
+
+build-docker-ubuntu-12.04:
+	sudo docker build -t dotfiles:ubuntu-12.04 docker/ubuntu/12.04
+
+build-docker-ubuntu-14.04:
+	sudo docker build -t dotfiles:ubuntu-14.04 docker/ubuntu/14.04
+
+build-docker-ubuntu-15.04:
+	sudo docker build -t dotfiles:ubuntu-15.04 docker/ubuntu/15.04
+
 
 pip_upgrade_pip:
 	# Upgrade pip
