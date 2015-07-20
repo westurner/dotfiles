@@ -54,24 +54,34 @@ set convert-meta off
 set editing-mode vi
 $if mode=vi
 
-    ## <ctrl> left/right -- backward/forward one word
+    ## <ctrl/alt> left/right -- backward/forward one word
+    #  <alt> left   -- move backward one word
+    "\e[3D":   backward-word
+    "\e[1;3D": backward-word
     #  <ctrl> left  -- move backward one word
     "\e[5D":   backward-word
-    #  <ctrl> left  -- move backward one word
     "\e[1;5D": backward-word
+
+    #  <alt> right  -- move forward one word
+    "\e[3C":   forward-word
+    "\e[1;3C": forward-word
     #  <ctrl> right -- move forward one word
     "\e[5C":   forward-word
-    #  <ctrl> right -- move forward one word
     "\e[1;5C": forward-word
 
-    ## <ctrl> up/down -- beginning/end of line
+    ## <ctrl/alt> up/down -- beginning/end of line
+    #  <alt> up     -- move to beginning of line
+    "\e[3A":   beginning-of-line
+    "\e[1;3A": beginning-of-line
     #  <ctrl> up    -- move to beginning of line
     "\e[5A":   beginning-of-line
-    #  <ctrl> up    -- move to beginning of line
     "\e[1;5A": beginning-of-line
+
+    #  <ctrl> down  -- move to end of line
+    "\e[3B":   end-of-line
+    "\e[1;3B": end-of-line
     #  <ctrl> down  -- move to end of line
     "\e[5B":   end-of-line
-    #  <ctrl> down  -- move to end of line
     "\e[1;5B": end-of-line
 
   ## vi-command keymap
