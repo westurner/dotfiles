@@ -478,7 +478,7 @@ deactivate_virtualenv() {
 dotfiles_install_bootstrap() {
     ## pip install --upgrade --editable and create symlinks
 
-    if [ -z "$SETUP_PY_OPTS" ]; then
+    if [ -z "$SETUP_PY_OPTS" ] && [ -n "${_VIRTUAL_ENV}" ]; then
         source "${_VIRTUAL_ENV}/bin/activate"
     else
         deactivate_virtualenv
