@@ -28,8 +28,9 @@ set -e
 ## date (file suffix for backup_and_symlink)
 BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
 
+PYTHON="${PYTHON:-"$(which python)"}"
 PYVER="${PYVER:-"$(
-    python -c 'import sys; "".join(map(str, sys.version_info[:2]))')"}"
+    ${PYTHON} -c 'import sys; "".join(map(str, sys.version_info[:2]))')"}"
 
 ## Virtualenvwrapper
 WORKON_HOME="${WORKON_HOME:-"${HOME}/-wrk/-ve${PYVER}"}"
@@ -47,7 +48,10 @@ DOTFILES_REPO_DEST_PATH="${_WRD}"
 DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/.vim"
 
 DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
+#DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
+
 DOTVIM_GIT_REPO_URL="https://github.com/westurner/dotvim"
+# DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
 
 #PIP="${HOME}/.local/bin/pip"
 PIP="pip"
@@ -61,24 +65,50 @@ if [ -n "${WORKON_HOME}" ] && [[ ! -d "${WORKON_HOME}" ]]; then
 fi
 
 _dotfiles_check_deps() {
-    # dotfiles_check_deps   -- check for installed packages
-    type bash
-    type python
-    type pip
-    type virtualenv
-    type virtualenvwrapper.sh
-    python -c "import setuptools, pkg_resources; print(pkg_resources.resource_filename('setuptools', ''))"
-    type git
-    type git-flow
-    type git-hf
-    type hg
-    type venv.py
-    type venv
-    type dotfiles
-    # && dotfiles --help
-    echo "__DOTFILES='${__DOTFILES}'"
-    echo "__WRK='${__WRK}'"
-    echo "WORKON_HOME='${WORKON_HOME}'"
+    # dotfiles_check_deps   -- check for installed commands and functions
+    local errors=""
+    function err {
+        errors="$errors\n- [ ] ${@}"
+    }
+
+    function is_declared {
+        declare -f "${1}" 2>&1 >/dev/null
+        return
+    }
+
+    (type bash && bash --version) || err "bash";
+    (type $PYTHON && $PYTHON --version) || err "cpython[$PYTHON]";
+    (type $PYTHON && $PYTHON -m pip --version) || err "cpython[$PYTHON]: -m pip"
+    (type pip && pip --version) || err "pip";
+    (type virtualenv && virtualenv -p "${PYTHON}" --version) || err "virtualenv";
+    #type virtualenvwrapper_initialize
+    (type virtualenvwrapper.sh) || err "virtualenvwrapper.sh";
+    set +x; source virtualenvwrapper.sh; set -x;
+    (is_declared virtualenvwrapper && virtualenvwrapper | grep -v '^$') || err "virtualenvwrapper"
+    (is_declared virtualenvwrapper_verify_project_home &&
+        virtualenvwrapper_verify_project_home &&
+            virtualenvwrapper_verify_workon_home) || err "virtualenvwrapper verify"
+    ($PYTHON -c "import setuptools, pkg_resources; print(pkg_resources.resource_filename('setuptools', ''))") || err "setuptools"
+    (type git && git --version) || err "git"
+    (type git-flow && (git-flow help || true)) || err "git-flow"
+    (type git-hf && (git-hf help || true)) || err "git-hf"
+    (type hg && hg --version) || err "hg"
+    (type dotfiles && $PYTHON $(which dotfiles) --version) || err "dotfiles"
+    (type venv.py && $PYTHON $(which venv.py) --version) || err "venv.py"
+    #(is_declared venv)
+    (type websh.py && $PYTHON $(which websh.py) --version) || err "websh.py"
+    (type pyline.py && $PYTHON $(which pyline.py) --version) || err "pyline.py"
+    # declare -f 'dotfiles_status' 2>&1>/dev/null && dotfiles_status
+    (set +x;
+    echo "PYTHON=${PYTHON}"
+    echo "__VENV=${__VENV}";
+    echo "__DOTFILES=${__DOTFILES}";
+    echo "__WRK=${__WRK}";
+    echo "WORKON_HOME=${WORKON_HOME}";
+    echo "CONDA_ENVS_PATH=${CONDA_ENVS_PATH}";
+    test -n "${errors}" && echo -e "## ERRORS ##\n${errors}";
+    )
+
 }
 
 dotfiles_check_deps() {
@@ -131,7 +161,7 @@ clone_or_update() {
             git pull && \
             git_status);
     elif [ -e "${dest}/.hg" ]; then
-        default_path=$(cd $dest && hg paths | grep default) 
+        default_path=$(cd $dest && hg paths | grep default)
         echo "## pulling from ${default_path} ---> ${dest}"
         (set -x; cd $dest && echo "cd $(pwd)" && \
             hg_status && \
@@ -170,7 +200,7 @@ clone_dotvim_repo(){
 
 install_virtualenvwrapper() {
     # install_virtualenvwrapper()   -- pip install virtualenvwrapper
-    pip install virtualenvwrapper
+    $PYTHON -m pip install virtualenvwrapper
     #   OR: (manually) apt-get install python-virtualenvwrapper
 }
 
@@ -209,7 +239,6 @@ get_md5sums() {
     else
         MD5FUNC="md5sum"
     fi
-    # TODO XXX FIXME: find symlinks
 
     if [[ -d  "$path" ]]; then
         ${MD5FUNC} $(
@@ -423,7 +452,7 @@ dotfiles_symlink_all() {
 }
 
 create_virtualenv() {
-    ## create a new virtualenv 
+    ## create a new virtualenv
     _virtual_env=$_VIRTUAL_ENV
     VENVWRAPPER=$(which virtualenvwrapper.sh)
 
@@ -582,7 +611,6 @@ dotfiles_setup_virtualenvwrapper() {
     else
         echo "404: VIRTUALENVWRAPPER_SH=${VIRTUALENVWRAPPER_SH}"
     fi
-    # TODO: check .bashrc.venv.sh for .local/bin path lookup
 }
 
 
@@ -593,9 +621,9 @@ dotfiles_bootstrap_usage() {
     echo "## Usage: $(basename ${0}) <actions> <options>";
     echo "#"
     echo "## Actions"
-    echo "#  -I   --  Install the dotfiles";
+    echo "#  -I   --  Install the dotfiles (implies -S)";
     echo "#  -S   --  Install dotfiles symlinks";
-    echo "#  -U   --  Update and Upgrade the dotfiles";
+    echo "#  -U   --  Update and Upgrade the dotfiles (implies -S)";
     echo "#  -R   --  pip install -r requirements-all.txt"
     echo "#  -G   --  install Gitflow and hubflow"
     echo "#  -C   --  check for installed components"
@@ -677,7 +705,8 @@ dotfiles_bootstrap_main () {
         install_gitflow;
         install_hubflow;
     fi
-    if [ -n "$DO_CHECK" ]; then
+    if [ -n "$DO_CHECK" ] &&
+        [ -n "${DO_INSTALL}${DO_UPGRADE}${DO_SYMLINK}${DO_PIP_REQUIREMENTS}${DO_GIT_REQUIREMENTS}" ]; then
         dotfiles_check_deps
     fi
 }
