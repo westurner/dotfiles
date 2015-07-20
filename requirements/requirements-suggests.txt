@@ -97,6 +97,4 @@ hg-git
 #   - http://tmuxp.readthedocs.org/en/latest/
 
 pgs
-brw
-pyline
-pyrpo
+# pbr
