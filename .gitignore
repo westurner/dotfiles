@@ -88,5 +88,6 @@ etc/.vim
 tmp
 
 -p6/
+etc/vim
 src/hubflow
 src/gitflow
