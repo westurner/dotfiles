@@ -53,10 +53,10 @@ keyring
 # src:
 #   -e git+https://github.com/stefanholek/gpgkeys#egg=gpgkeys
 
-# gdata
--e hg+https://code.google.com/p/gdata-python-client/#egg=gdata
+gdata
+#-e hg+https://code.google.com/p/gdata-python-client/#egg=gdata
 
-# goobook
+goobook
 # src:
 -e git+https://git.gitorious.org/goobook/mainline.git#egg=goobook
 #   -e git+ssh://git@gitorious.org:goobook/mainline.git#egg=goobook
@@ -95,3 +95,8 @@ hg-git
 #   -e git+https://github.com/tony/tmuxp#egg=tmuxp
 # docs:
 #   - http://tmuxp.readthedocs.org/en/latest/
+
+pgs
+brw
+pyline
+pyrpo
