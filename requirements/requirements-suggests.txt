@@ -58,7 +58,7 @@ gdata
 
 goobook
 # src:
--e git+https://git.gitorious.org/goobook/mainline.git#egg=goobook
+#   -e git+https://git.gitorious.org/goobook/mainline.git#egg=goobook
 #   -e git+ssh://git@gitorious.org:goobook/mainline.git#egg=goobook
 
 cookiecutter
