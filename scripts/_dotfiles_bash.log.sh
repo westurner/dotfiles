@@ -1434,7 +1434,7 @@ complete -o default -o nospace -F _virtualenvs we
 
 # CdAlias functions and completions
 source ${__DOTFILES}/etc/venv/scripts/venv.sh
-#!/bin/sh
+#!/bin/bash
 ## venv.sh
 # generated from $(venv --print-bash --prefix=/)
 
