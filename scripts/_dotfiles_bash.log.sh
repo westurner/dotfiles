@@ -1433,7 +1433,7 @@ complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
 
 # CdAlias functions and completions
-source ${__DOTFILES}/etc/venv/venv.sh
+source ${__DOTFILES}/etc/venv/scripts/venv.sh
 #!/bin/sh
 ## venv.sh
 # generated from $(venv --print-bash --prefix=/)
@@ -2032,7 +2032,7 @@ cdls () {
 }
 alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'" ;
 if [ "$VENVPREFIX" == "/" ]; then
-    source ${__DOTFILES}/etc/venv/venv_root_prefix.sh
+    source ${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh
 fi
 
 ## Grin search
@@ -2314,10 +2314,8 @@ function supervisord_stop() {
     return
 }
 
-echo "${BASH_SOURCE}"
-/home/wturner/-dotfiles/scripts/ssv
-echo "${0}"
-bash
+# echo "${BASH_SOURCE}"
+# echo "${0}"
 
 if [[ "${BASH_SOURCE}" == "${0}" ]]; then
     _setup_supervisord
@@ -3128,15 +3126,15 @@ function ugv {
 }
 
 function _usrlog_grep_todo_fixme_xxx {
-    egrep -i '(todo|fixme|xxx)'
+    grep -E -i '(todo|fixme|xxx)'
 }
 function _usrlog_grep_todos {
-    grep '$$'$'\t''#TODO'
+    grep '$$'$'\t''#\(TODO\|NOTE\)'
 }
 function usrlog_grep_todos {
     cat ${@:-${_USRLOG}} | _usrlog_grep_todos
 }
-function ugt {
+function uggt {
     usrlog_grep_todos ${@}
 }
 
@@ -3145,7 +3143,23 @@ function usrlog_grep_todos_parse {
 }
 
 function ugtp {
-    ugt $@ | ugp
+    # usrlog_grep_todos | _usrlog_parse_cmds
+    uggt $@ | ugp
+}
+
+function usrlog_format_as_txt {
+    sed 's/^#TODO: /- [ ] /' \
+        | sed 's/^#NOTE: /- /'
+    # pyline '(l.replace("#TODO: ", "- [ ] ", 1).replace("#NOTE:", "- ", 1) if l.startswith("#TODO: ", "#NOTE: ") else l)'
+}
+
+function ugft {
+    usrlog_format_as_txt "${@}"
+}
+
+function ugt {
+    #usrlog_grep_todos_parse | usrlog_format_as_txt
+    ugtp | ugft
 }
 
 function usrlog_grin {
@@ -3250,25 +3264,29 @@ function ull {
 function usrlog_grep_all {
     #  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
     (set -x;
-    args=${@}
+    args="${@}"
     usrlogs=$(lsusrlogs)
-    egrep ${args} ${usrlogs} )
+    egrep ${args} ${usrlogs} \
+        | sed 's/:/'$'\t''/')
+       #| pyline.py 'l.replace(":","\t",1)'  # grep filename output
 }
 function ugall {
     #  ugall()              -- grep usrlogs (drop filenames with -h)
-    usrlog_grep_all ${@}
+    usrlog_grep_all "${@}"
 }
 
 function usrlog_grin_all {
     #  usrlog_grin_all()    -- grin usrlogs
     (set -x;
-    args=${@}
+    args="${@}"
     usrlogs=$(lsusrlogs)
-    grin -s ${args} ${usrlogs} )
+    grin --no-skip-hidden-files ${args} ${usrlogs} \
+        | sed 's/:/'$'\t''/' \
+        | grin ${args})
 }
 function ugrinall {
     #  usrlog_grin_all()    -- grin usrlogs
-    usrlog_grin_all ${@}
+    usrlog_grin_all "${@}"
 }
 
 function note {

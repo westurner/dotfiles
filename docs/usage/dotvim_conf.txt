@@ -367,7 +367,7 @@
 "  <leader>gr       -- SignifyRefresh
 "  <leader>gd       -- SignifyDebug
 " hunk jumping
-"  <leader>gh       -- signify-next-hunk
+"  <leader>gj       -- signify-next-hunk
 "  <leader>gk       -- signify-prev-hunk
 " hunk text object
 "  ic               -- signify inner textobj

@@ -754,6 +754,8 @@
 #     local _term_id=${1:-"${_TERM_ID}"};
 #     local _usrlog=${2:-"${_USRLOG}"};
 #     egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
+    # usrlog_grep_todos | _usrlog_parse_cmds
+    # pyline '(l.replace("#TODO: ", "- [ ] ", 1).replace("#NOTE:", "- ", 1) if l.startswith("#TODO: ", "#NOTE: ") else l)'
     #  usrlog_grin() -- grin -s $@ $_USRLOG
     #  ugrin()       -- grin -s $@ $_USRLOG
     #  usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"

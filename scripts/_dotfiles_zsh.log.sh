@@ -5567,6 +5567,10 @@ SSH_AGENT_PID=10031; export SSH_AGENT_PID;
 #echo Agent pid 10031;
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+SSH_AUTH_SOCK=/tmp/ssh-ZGJJlmeJMDJF/agent.22502; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=22504; export SSH_AGENT_PID;
+#echo Agent pid 22504;
+starting ssh-agent...
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
@@ -8475,45 +8479,43 @@ _configure_bash_completion:16: command not found: shopt
 /home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:60: parse error near `>'
 /home/wturner/-dotfiles/etc/bash/10-bashrc.venv.sh:92: command not found: complete
 /home/wturner/-dotfiles/etc/bash/10-bashrc.venv.sh:93: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:6: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:6: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:24: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:37: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:37: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:55: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:55: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:55: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:78: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:78: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:78: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:101: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:101: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:101: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:124: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:124: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:142: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:142: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:160: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:160: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:178: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:178: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:196: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:196: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:214: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:214: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:232: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:245: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:258: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:258: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:276: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:289: command not found: complete
-/home/wturner/-dotfiles/etc/venv/venv.sh:289: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:6: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:6: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:24: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:37: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:37: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:55: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:55: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:55: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:78: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:78: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:78: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:101: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:101: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:101: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:124: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:124: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:142: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:142: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:160: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:160: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:178: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:178: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:196: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:196: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:214: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:214: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:232: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:245: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:258: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:258: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:276: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:289: command not found: complete
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:289: command not found: complete
 /home/wturner/-dotfiles/scripts/ew:21: command not found: complete
 /home/wturner/-dotfiles/scripts/ew:22: command not found: complete
 /home/wturner/-dotfiles/scripts/ew:24: parse error: condition expected: ==
 /home/wturner/-dotfiles/scripts/makew:16: command not found: complete
-
-/home/wturner/-dotfiles/etc/zsh/05-zshrc.bashrc.sh
 /home/wturner/-dotfiles/scripts/hgw:9: command not found: complete
 /home/wturner/-dotfiles/scripts/hgw:10: command not found: complete
 _usrlog_set_HIST:fc:20: event not found: -a
