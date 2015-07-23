@@ -570,7 +570,10 @@
     #  gc()             -- git-commit() <files> -m <log> ; log log -n1
     #  git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
     #  gac()            -- git-add-commit $@
-    #  msg()        -- set a commit message for the current context
+# function msg {
+#   export _MSG="${@}"
+#   see: usrlog.sh
+# }
     #  gitcmsg()    -- gitc "${_MSG}" ${@}
     #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
 #
@@ -715,45 +718,61 @@
     #    2014-11-15T06:42:00-0600	dotfiles	 8311  ls
       #  (pwd -p)?
        #  this from HISTORY
-    #  _usrlog_append_oldstype -- Write a line to $_USRLOG
-    #    $1: text (command) to log
-    #  examples:
-    #    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
-    #    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+#    #  _usrlog_append_oldstype -- Write a line to $_USRLOG
+#    #    $1: text (command) to log
+#    #  examples:
+#    #    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+#    #    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+#    printf "#  %-11s: %s : %s" \
+#        "$_TERM_ID" \
+#        "$(date +'%D %R.%S')" \
+#        "${1:-'\n'}" \
+#            | tee -a $_USRLOG >&2
     #  _usrlog_writecmd()    -- write the most recent command to $_USRLOG
-    #  _usrlog_parse_newstyle -- Parse a newstyle HISTTIMEFORMAT usrlog
-    #  with pyline
-    #  TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
-    #  TODO: handle newlines
+## usrlog parsing
+    #  _usrlog_parse_newstyle -- Parse a -usrlog.log with pyline
+    #    NOTE: handle when HISTTIMEFORMAT=""
+    #    NOTE: this is approxmte (see: venv.py)
     #  _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog
     #  with pyline
     #  TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
-    #  TODO: handle newlines (commands that start on the next line)
-    #  TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
-    #  TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]
+    #  TODO: handle newlines (commands that start on the next line)  (venv.py)
+    #  NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
+    #  NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
+    #    'list((
+    #        (" ".join(w[10:]).rstrip() if len(w) > 10 else None)
+    #        or (" ".join(w[9:]).rstrip() if len(w) > 9 else None)
+    #        or (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+    #        or (" ".join(w[7:]).rstrip() if len(w) > 7 else None)
+    #        or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
+    #        or " ".join(w).rstrip())
+    #        for w in [ line and line.startswith("#") and line.split("\t",9) or [line] ]
+    #        )'
 ## usrlog.sh API
-    #  ut()  -- show recent commands
+### usrlog _TERM_ID commands
     #  termid()      -- echo $_TERM_ID
     #  set_term_id() -- set $_TERM_ID to a randomstr or $1
     #  stid()        -- set $_TERM_ID to a randomstr or $1
     #  st()          -- set $_TERM_ID to a randomstr or $1
-## Old (hist, histgrep, histgrep_session)
-    #  less()       --  less the current session log
-    #  histgrep()   -- egrep $@ $_USRLOG
-    #  histgrep_session()    -- grep for specific sessions
-    #    $1: session name
-    #    $2: don't strip the line prefix
-## New (u*, usrlog*)
+### usrlog tail commands
+    #  ut()  -- show recent commands
+    #  uta()  -- tail all usrlogs from lsusrlogs
+    #  utap()  -- tail all userlogs from lsusrlogs and parse
+    #  ut()  -- show recent commands
     #  usrlog_tail()     -- tail -n20 $_USRLOG
     #  usrlogtf()    -- tail -f -n20 $_USRLOG
     #  utf()         -- tail -f -n20 $_USRLOG
+### usrlog grep commands
     #  usrlog_grep() -- egrep -n $_USRLOG
     #  ug()          -- egrep -n $_USRLOG
+    #  uga2()
 #     # usrlog_grep_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
 #     (set -x;
 #     local _term_id=${1:-"${_TERM_ID}"};
 #     local _usrlog=${2:-"${_USRLOG}"};
 #     egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
+    # usrlog_grep_todos | _usrlog_parse_cmds
+    # usrlog_grep_todos | _usrlog_parse_cmds
     # usrlog_grep_todos | _usrlog_parse_cmds
     # pyline '(l.replace("#TODO: ", "- [ ] ", 1).replace("#NOTE:", "- ", 1) if l.startswith("#TODO: ", "#NOTE: ") else l)'
     #  usrlog_grin() -- grin -s $@ $_USRLOG
@@ -778,12 +797,15 @@
     #  lsusrlogs()             -- list usrlogs (oldest first)
     #  usrlog_lately()      -- lsusrlogs by mtime
     #  ull()                -- usrlog_lately() (lsusrlogs by mtime)
-    #  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
-    #  ugall()              -- grep usrlogs (drop filenames with -h)
+    #  usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
+    #  ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
+    #  uga()                -- grep $(lsusrlogs) (drop filenames with -h)
     #  usrlog_grin_all()    -- grin usrlogs
     #  usrlog_grin_all()    -- grin usrlogs
-    #  note()   -- _usrlog_append "#note  #note: $@"
-    #  todo()   -- _usrlog_append "#note  #TODO: $@"
+    #  todo()   -- _usrlog_append a #TODO and set _TODO ('-' unsets, '' prints)
+    #      see: usrlog_grep_todos_parse (ugt, ugtp) 
+    #  note()   -- _usrlog_append a #NOTE and set _NOTE ('-' unsets, '' prints)
+    #  msg()   -- _usrlog_append a #_MSG and set __MSG ('-' unsets, '' prints)
     #  usrlog_screenrec_ffmpeg() -- record a screencast
     #    $1: destination directory (use /tmp if possible)
     #    $2: video name to append to datestamp

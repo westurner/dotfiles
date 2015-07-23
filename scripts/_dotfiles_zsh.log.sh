@@ -5567,6 +5567,10 @@ SSH_AGENT_PID=22504; export SSH_AGENT_PID;
 #echo Agent pid 22504;
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+SSH_AUTH_SOCK=/tmp/ssh-fjNpEG9cWJsY/agent.11951; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=11953; export SSH_AGENT_PID;
+#echo Agent pid 11953;
+starting ssh-agent...
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
@@ -8535,6 +8539,7 @@ _TERM_ID='#testing'
 PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
+##
 # 99-zsh.after.sh
 
 # <Home> / <End>
