@@ -212,10 +212,11 @@ function _usrlog_append {
       #  (pwd -p)?
        #  this from HISTORY
     local cmd="${*}";
+    local prefix="${VENVPREFIX:-${VIRTUAL_ENV}}"
     (printf "#  %s\t%s\t%s\t%s\t%s\n" \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
         "$(echo "${_TERM_ID}" | tr $'\t' ' ')" \
-        "$(echo "${VIRTUAL_ENV}" | tr $'\t' ' ')" \
+        "$(echo "${prefix}" | tr $'\t' ' ')" \
         "$(echo "${PWD}" | tr $'\t' ' ')" \
         "$(echo "${cmd}" | tr $'\n' ' ')" \
         ) >> "${_USRLOG:-${__USRLOG}}" 2>/dev/null
@@ -344,6 +345,20 @@ function st {
 ### usrlog tail commands
 function ut {
     #  ut()  -- show recent commands
+    usrlog_tail "${@}"
+}
+
+function uta {
+    #  uta()  -- tail all usrlogs from lsusrlogs
+    usrlog_tail "$(lsusrlogs)"
+}
+function utap {
+    #  utap()  -- tail all userlogs from lsusrlogs and parse
+    usrlog_tail "${@} $(lsusrlogs)" | ugp   # TODO: headers
+}
+
+function utp {
+    #  ut()  -- show recent commands
     usrlog_tail "${@}" | _usrlog_parse_cmds
 }
 
@@ -383,11 +398,17 @@ function utf {
 function usrlog_grep {
     #  usrlog_grep() -- egrep -n $_USRLOG
     local _args="${@}"
-    (set -x; egrep -n ${_args:+"${_args}"} "${_USRLOG}")
+    local _paths="${_USRLOG_GREP_PATHS:-"${_USRLOG}"}"
+    (set -x; egrep -n ${_args:+"${_args}"} ${_paths})
 }
 function ug {
     #  ug()          -- egrep -n $_USRLOG
     usrlog_grep "${@}"
+}
+
+function uga2 {
+    #  uga2()
+    _USRLOG_GREP_PATHS="$(lsusrlogs)" usrlog_grep "${@}"
 }
 
 #function usrlog_grep_session_id {
@@ -444,8 +465,9 @@ function ugtptodonote {
 }
 
 function usrlog_format_as_txt {
-    sed 's/^#TODO: /- [ ] /#TODO: /' \
-        | sed 's/^#NOTE: /- /'
+    sed 's/^#TODO: /- /' \
+        | sed 's/^#NOTE: /- NOTE: /' \
+        | sed 's/^#_MSG: /- _MSG: /'
     # pyline '(l.replace("#TODO: ", "- [ ] ", 1).replace("#NOTE:", "- ", 1) if l.startswith("#TODO: ", "#NOTE: ") else l)'
 }
 
@@ -453,9 +475,22 @@ function ugft {
     usrlog_format_as_txt "${@}"
 }
 
+function ugtodo {
+    usrlog_grep_todos_parse "${@}" | usrlog_format_as_txt
+    #ugtp "${@}" | ugft
+}
+
 function ugt {
     #usrlog_grep_todos_parse | usrlog_format_as_txt
-    ugtp | ugft
+    ugtodo "${@}"
+}
+
+function ugtodoall {
+    ugtp "${@} $(lsusrlogs)"
+}
+
+function ugta {
+    ugtodoall "${@}"
 }
 
 function usrlog_grin {
@@ -466,7 +501,7 @@ function usrlog_grin {
 }
 function ugrin  {
     #  ugrin()       -- grin -s $@ $_USRLOG
-    usrlog_grin ${@}
+    usrlog_grin "${@}"
 }
 
 

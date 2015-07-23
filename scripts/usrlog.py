@@ -155,10 +155,10 @@ class Usrlog(object):
                         ("path", w[2]),
                         ("histstr", w[3:]),
                         ("histdate", w[3]),
-                        ("histhostname", w[4]),
-                        ("histuser", w[5]),
+                        ("hostname", w[4]),
+                        ("user", w[5]),
                         ("histn", None),  # w[6].lstrip().split(None, 1)[0],    # {int, #NOTE, #TODO, #_MSG}
-                        ("histcmd", w[6].rstrip()),
+                        ("cmd", w[6].rstrip()),
                         ))
                 elif recordsep_pos == 7:   ## <- latest format (8 fields)
                     if w[3].startswith(TODO_PREFIXES):
@@ -171,10 +171,10 @@ class Usrlog(object):
                             ("path", w[2]),
                             ("histstr", w[4:]),  # TODO XXX
                             ("histdate", w[4]),
-                            ("histhostname", w[5]),
-                            ("histuser", w[6]),
+                            ("hostname", w[5]),
+                            ("user", w[6]),
                             ("histn", None), # TODO   # int or "#note"
-                            ("histcmd", w[7].rstrip()),
+                            ("cmd", w[7].rstrip()),
                             #  u"".join(w[7]).rstrip())), # TODO XXX ^
                             ))
                     else:
@@ -187,10 +187,10 @@ class Usrlog(object):
                             ("path", w[3]),
                             ("histstr", w[4:]),
                             ("histdate", w[4]),
-                            ("histhostname", w[5]),
-                            ("histuser", w[6]),
+                            ("hostname", w[5]),
+                            ("user", w[6]),
                             ("histn", None), # TODO   # int or "#note"
-                            ("histcmd", w[7].rstrip()),
+                            ("cmd", w[7].rstrip()),
                             ))
 
                 elif recordsep_pos == 8:   ## <- latest format (8 fields)
@@ -205,9 +205,9 @@ class Usrlog(object):
                             ("histn", w[4]), # TODO   # int or "#note"
                             ("histstr", w[5:]),  # TODO XXX
                             ("histdate", w[5]),
-                            ("histhostname", w[6]),
-                            ("histuser", w[7]),
-                            ("histcmd", w[8].rstrip()),
+                            ("hostname", w[6]),
+                            ("user", w[7]),
+                            ("cmd", w[8].rstrip()),
                             ))
                     else:
                         result = collections.OrderedDict((
@@ -219,10 +219,10 @@ class Usrlog(object):
                             ("path", w[3]),
                             ("histstr", w[4:]),
                             ("histdate", w[4]),
-                            ("histhostname", w[5]),
-                            ("histuser", w[6]),
+                            ("hostname", w[5]),
+                            ("user", w[6]),
                             ("histn", w[7]), # TODO   # int or "#note"
-                            ("histcmd", w[8].rstrip()),
+                            ("cmd", w[8].rstrip()),
                             ))
                         raise Exception(result)
                 else:
@@ -237,9 +237,9 @@ class Usrlog(object):
                         ("histstr", None),
                         ("histn", None),    # int or "#note"
                         ("histdate", None),
-                        ("histhostname", None),
-                        ("histuser", None),
-                        ("histcmd", line),
+                        ("hostname", None),
+                        ("user", None),
+                        ("cmd", line),
                         ))
                     #raise Exception(line, w)
             else:
@@ -254,9 +254,9 @@ class Usrlog(object):
                         ("histstr", None),
                         ("histn", None),    # int or "#note"
                         ("histdate", None),
-                        ("histhostname", None),
-                        ("histuser", None),
-                        ("histcmd", line),
+                        ("hostname", None),
+                        ("user", None),
+                        ("cmd", line),
                         ))
                 elif len_w == 2:
                     if w[1].startswith('#ntid'):
@@ -271,9 +271,9 @@ class Usrlog(object):
                             ("histstr", None),
                             ("histn", None),    # int or "#note"
                             ("histdate", None),
-                            ("histhostname", None),
-                            ("histuser", None),
-                            ("histcmd", w[1]),
+                            ("hostname", None),
+                            ("user", None),
+                            ("cmd", w[1]),
                             )))
                     else:
                         result = collections.OrderedDict((
@@ -285,9 +285,9 @@ class Usrlog(object):
                             ("histstr", w[1]),
                             ("histn", None),    # int or "#note"
                             ("histdate", None),
-                            ("histhostname", None),
-                            ("histuser", None),
-                            ("histcmd", w[1]),
+                            ("hostname", None),
+                            ("user", None),
+                            ("cmd", w[1]),
                             ))
                 elif len_w == 3:  # legacy usrlog support
                     result = collections.OrderedDict((
@@ -300,9 +300,9 @@ class Usrlog(object):
                         ("histstr", None),
                         ("histn", None),    # int or "#note"
                         ("histdate", None),
-                        ("histhostname", None),
-                        ("histuser", None),
-                        ("histcmd", w[2]),
+                        ("hostname", None),
+                        ("user", None),
+                        ("cmd", w[2]),
                         ))
                 elif len_w == 4:
                     #if w[3].startswith(('#ntid', '#stid')):
@@ -316,9 +316,9 @@ class Usrlog(object):
                         ("histstr", w[3]),
                         ("histn", None),    # int or "#note"
                         ("histdate", None),
-                        ("histhostname", None),
-                        ("histuser", None),
-                        ("histcmd", w[3]),
+                        ("hostname", None),
+                        ("user", None),
+                        ("cmd", w[3]),
                         ))
                 elif len_w == 5:
                     #if w[4].startswith(('#ntid', '#stid')):
@@ -332,9 +332,9 @@ class Usrlog(object):
                         ("histstr", w[4]),
                         ("histn", None),    # int or "#note"
                         ("histdate", None),
-                        ("histhostname", None),
-                        ("histuser", None),
-                        ("histcmd", w[4]),
+                        ("hostname", None),
+                        ("user", None),
+                        ("cmd", w[4]),
                         ))
                 else:
                     log.error(('unable to parse (no recordsep, len=%s)' % len_w, (line, w, recordsep_pos)))
@@ -348,9 +348,9 @@ class Usrlog(object):
                         ("histstr", None),
                         ("histn", None),    # int or "#note"
                         ("histdate", None),
-                        ("histhostname", None),
-                        ("histuser", None),
-                        ("histcmd", line),
+                        ("hostname", None),
+                        ("user", None),
+                        ("cmd", line),
                         ))
         except IndexError as e:
             log.error(line)
@@ -363,12 +363,12 @@ class Usrlog(object):
             if _date.startswith('# '):
                 result['date'] = _date = _date[2:]
 
-        _histcmd = result['histcmd']
+        _cmd = result['cmd']
         _histn = result.get('histn')
-        if not _histcmd:
+        if not _cmd:
             if _histn:
                 if _histn[:5] in ('#ntid', '#TODO'):
-                    result['histcmd'] = result['histn'].rstrip()
+                    result['cmd'] = result['histn'].rstrip()
                     result['histn'] = None
 
         _date = result['date']
@@ -423,11 +423,11 @@ class Usrlog(object):
     cmdstr_rgx = re.compile(cmdstr_rgx_ptrn)
 
     def match_dict__todo(self, obj):
-        histcmd = obj.get('histcmd')
-        if histcmd in (None, False):
+        cmd = obj.get('cmd')
+        if cmd in (None, False):
             return False
-        assert isinstance(histcmd, basestring)
-        mobj = self.cmdstr_rgx.match(histcmd)
+        assert isinstance(cmd, basestring)
+        mobj = self.cmdstr_rgx.match(cmd)
         if not mobj:
             return False
         tag = mobj.groups()[1]
@@ -489,7 +489,7 @@ class Test_usrlog(unittest.TestCase):
     def test_usrlog_read_file_lines_as_dict(self):
         u = Usrlog(self.conf['usrlogpath'])
         for obj in u.read_file_lines_as_dict():
-            log.debug(obj['histcmd'])
+            log.debug(obj['cmd'])
             self.assertIsInstance(obj, collections.OrderedDict)
             self.assertTrue(len(obj.keys()))
 
@@ -533,30 +533,30 @@ def main(argv=None):
     prs.add_option('--sessions', '--id',
                    dest='sessions',
                    action='store_true',
-                   help='show [id, histcmd]')
+                   help='show [id, cmd]')
     prs.add_option('--dates',
                    dest='dates',
                    action='store_true',
-                   help='show [date, id, histcmd]')
+                   help='show [date, id, cmd]')
     prs.add_option('--elapsed',
                    dest='elapsed',
                    action='store_true',
-                   help='show [date, id, histcmd, elapsed]')
+                   help='show [date, id, cmd, elapsed]')
     prs.add_option('--ve', '--venv', '--venvs', '--virtualenv',
                    dest='venvs',
                    action='store_true',
-                   help='include [date,id,virtualenv,histcmd]')
+                   help='include [date,id,virtualenv,cmd]')
     prs.add_option('--cwd', '--pwd', '--cwd-after-cmd',
                    dest='cwdpaths',
                    action='store_true',
-                   help='include [date,id,virtualenv,path,histcmd]')
+                   help='include [date,id,virtualenv,path,cmd]')
 
 
     prs.add_option('-c', '--column',
                    dest='columns',
                    action='append',
                    default=[],
-                   help='id, date, histcmd, TODO')
+                   help='id, date, cmd, TODO')
 
     prs.add_option('--pyline',
                    dest='pyline',
@@ -598,7 +598,7 @@ def main(argv=None):
     conf = Conf()
     conf.paths = list(opts.paths)
     conf.paths.extend(args)
-    conf.attrs = ['date', 'id', 'histcmd']
+    conf.attrs = ['date', 'id', 'cmd']
 
     if not opts.quiet:
         conf.halt_on_error = True
@@ -610,18 +610,21 @@ def main(argv=None):
         prs.print_help()
         # return 2
 
+    ALL_COLUMNS = ['line', 'words', 'date', 'id', 'virtualenv',
+                   'path', 'histstr', 'histdate', 'hostname',
+                   'user', 'histn', 'cmd']
     if opts.columns:
         conf.attrs = opts.columns
     else:
         if opts.cmds:
-            conf.attrs = ['histcmd']
+            conf.attrs = ['cmd']
         if opts.sessions:
-            conf.attrs = ['id', 'histcmd']
+            conf.attrs = ['id', 'cmd']
         if opts.dates or opts.elapsed:
             if opts.elapsed:
-                conf.attrs = ['date', 'id', 'elapsed', 'histcmd']
+                conf.attrs = ['date', 'id', 'elapsed', 'cmd']
             else:
-                conf.attrs = ['date', 'id', 'histcmd']
+                conf.attrs = ['date', 'id', 'cmd']
         if opts.venvs:
             # before 'id', 'date', or first
             attrs_i = 'id' in conf.attrs and conf.attrs.index('id') + 1
@@ -649,17 +652,17 @@ def main(argv=None):
             from pyline import pyline
             pyline
 
-        def do_pyline(obj, expr="{histcmd}"):
+        def do_pyline(obj, expr="{cmd}"):
             return expr.format(**obj)
 
     def select_all(obj):
         return True
 
-    #conf.attrs = ['date', 'id', 'histcmd']
+    #conf.attrs = ['date', 'id', 'cmd']
 
     def select_usrlogtodos(obj, todo_prefixes=TODO_PREFIXES):
-        histcmd = obj.get('histcmd')
-        return histcmd.startswith(todo_prefixes) if histcmd else False
+        cmd = obj.get('cmd')
+        return cmd.startswith(todo_prefixes) if cmd else False
 
     import itertools
     import functools
