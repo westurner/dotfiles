@@ -718,9 +718,9 @@ log_dotfiles_state() {
     exportslogfile=${logdir}/exports.log
     envlogfile=${logdir}/exports_env.log
     test -n ${logdir} && test -d ${logdir} || mkdir -p ${logdir}
-    # XXX:
-    export > ${exportslogfile}
-    set > ${envlogfile}
+    # XXX: PRF
+    export > "${exportslogfile}"
+    set > "${envlogfile}"
 }
 
 
@@ -732,9 +732,7 @@ dotfiles_initialize() {
 
 dotfiles_premkvirtualenv() {
     # dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
-    if [ -n "${1}" ]; then
-        export VIRTUAL_ENV="${WORKON_HOME}/${1}"
-    fi
+    echo "premkvirtualenv: ${@}"
 }
 
 dotfiles_postmkvirtualenv() {
@@ -742,22 +740,39 @@ dotfiles_postmkvirtualenv() {
 
     log_dotfiles_state 'postmkvirtualenv'
 
-    if [ -n "${VIRTUAL_ENV}" ]; then
-        echo "VIRTUAL_ENV is not set? (err: -1)"
+    if [ -z "${VIRTUAL_ENV}" ]; then
+        echo 'VIRTUAL_ENV is not set? (err: -1) [dotfiles_postmkvirtualenv]'
+        echo 'we <name>; venv_mkdirs; mkdir -p "${_WRD}"'
         return -1
     fi
 
-    declare -f 'venv_mkdirs' 2>&1 >/dev/null && venv_mkdirs
-    test -d ${VIRTUAL_ENV}/var/log || mkdir -p ${VIRTUAL_ENV}/var/log
+    # NOTE: infer VIRTUAL_ENV_NAME from VIRTUAL_ENV
+    VIRTUAL_ENV_NAME="${VIRTUAL_ENV_NAME:-"$(basename "${VIRTUAL_ENV}")"}"
+
+    #declare -f 'venv_mkdirs' 2>&1 >/dev/null &&
+    (set -x; venv_mkdirs)
+    test -d "${VIRTUAL_ENV}/var/log" || mkdir -p "${VIRTUAL_ENV}/var/log"
     echo ""
-    echo $(which pip)
+    local PIP="$(which pip)"
+    echo "PIP=$(shell_escape_single "${PIP}")"
     pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
-    echo "pip_freeze='${pip_freeze}'"
-    pip freeze | tee ${pip_freeze}
+    echo "#pip_freeze=$(shell_escape_single ${pip_freeze})"
+    (set -x; ${PIP} freeze | tee "${pip_freeze}")
     echo ""
     pip_list="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
-    echo "pip_list='${pip_list}'"
-    pip list | tee ${pip_list}
+    echo "#pip_list=$(shell_escape_single ${pip_list})"
+    (set -x; ${PIP} list | tee "${pip_list}")
+    echo '## to work on this virtualenv:'
+    echo 'workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
+
+    echo '+workon_venv '"${VIRTUAL_ENV_NAME}"
+    workon_venv "${VIRTUAL_ENV_NAME}"
+    echo "PWD=$(path)"
+    echo "#"
+    echo '## to work on this virtualenv:'
+    echo '# workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs [done]'
+    echo 'cdhelp;; cdvirtualenv; cdv; cdbin; cdb;; cdetc; cde;; cdsrc; cds'
+    echo 'mkdir -p "${_WRD}";; cdwrd; cdw'
 }
 
 dotfiles_preactivate() {
@@ -805,7 +820,7 @@ dotfiles_postdeactivate() {
     unset _BIN
     unset _CFG
     unset _EDITCFG_
-    export EDITOR_=${EDITOR}
+    export EDITOR_="${EDITOR}"
     unset _EDIT_
     unset _ETC
     unset _ETCOPT
@@ -852,6 +867,11 @@ dotfiles_postdeactivate() {
     unset _WRD
     unset _WRD_SETUPY
     unset _WWW
+
+    ### usrlog.sh
+    ## unset _MSG
+    ## unset NOTE
+    ## unset TODO
 
     declare -f '_usrlog_set__USRLOG' 2>&1 > /dev/null \
         && _usrlog_set__USRLOG "${__USRLOG}"
@@ -2408,7 +2428,7 @@ venv_ls() {
         return
     fi
     #ls -ld ${prefix}/**
-    ls -ld $(find ${prefix} ${prefix}/lib -type d -maxdepth 2)
+    ls -ld $(find ${prefix} ${prefix}/lib -maxdepth 2 -type d)
 }
 lsvenv() {
     # lsvenv()      -- venv_ls()
