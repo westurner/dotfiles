@@ -31,7 +31,8 @@ function _setup_bootstrap-dotfiles {
 
     PYTHON="${PYTHON:-"$(which python)"}"
     PYVER="${PYVER:-"$(
-        ${PYTHON} -c 'import sys; "".join(map(str, sys.version_info[:2]))')"}"
+        ${PYTHON} -c \
+            'import sys; print("".join(map(str, sys.version_info[:2])))')"}"
 
     ## Virtualenvwrapper
     WORKON_HOME="${WORKON_HOME:-"${HOME}/-wrk/-ve${PYVER}"}"
@@ -415,10 +416,14 @@ function symlink_virtualenvwrapper {
 function symlink_venv {
     destdir="${1:-"${HOME}/.ipython/profile_default"}"
     mkdir -p "${destdir}"
-    backup_and_symlink venv/venv_ipymagics.py \
+    backup_and_symlink "${__DOTFILES}/scripts/venv_ipymagics.py" \
         "${destdir}/startup/20-venv_ipymagics.py"
-    backup_and_symlink ipython/ipython_config.py \
+    backup_and_symlink "${__DOTFILES}/scripts/venv_ipyconfig.py" \
         "${destdir}/ipython_config.py"
+    #backup_and_symlink "${__DOTFILES}/scripts/venv_ipymagics.py" \
+    #    "${destdir}/startup/20-venv_ipymagics.py"
+    #backup_and_symlink ipython/ipython_config.py \
+    #    "${destdir}/ipython_config.py"
 }
 
 
@@ -619,7 +624,7 @@ function dotfiles_setup_virtualenvwrapper {
 }
 
 
-function dotfiles_bootstrap_usage {
+function _dotfiles_bootstrap_usage {
     ## print usage information
     echo "## dotfiles_bootstrap -- a shell wrapper for cloning and installing"
 
@@ -640,6 +645,9 @@ function dotfiles_bootstrap_usage {
     exit;
 }
 
+function dotfiles_bootstrap_usage {
+    (set +x +v; _dotfiles_bootstrap_usage)
+}
 
 function dotfiles_bootstrap_main {
     ## parse opts, set flags, and run commands
