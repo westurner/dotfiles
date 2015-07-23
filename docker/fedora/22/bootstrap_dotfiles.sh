@@ -46,7 +46,7 @@ function _setup_bootstrap-dotfiles {
 
     ## dotfiles repository
     DOTFILES_REPO_DEST_PATH="${_WRD}"
-    DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/.vim"
+    DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/vim"
 
     DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
     #DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
@@ -157,7 +157,7 @@ function clone_or_update {
     echo ""
     if [ -e "${dest}/.git" ]; then
         echo "## pulling from ${url} ---> ${dest}"
-        (set -x; cd $dest && \
+        (set -x; cd "$dest}" && \
             git_status && \
             git checkout "$rev" && \
             git pull && \
@@ -172,8 +172,8 @@ function clone_or_update {
             hg_status);
     else
         echo "## cloning from ${url} ---> ${dest}"
-        (set -x; git clone --recursive ${url} ${dest} && \
-            cd $dest && \
+        (set -x; git clone --recursive "${url}" "${dest}" && \
+            cd "${dest}" && \
             git checkout "$rev" && \
             git_status)
     fi
@@ -335,8 +335,8 @@ function symlink_home_dotfiles {
 }
 
 function symlink_etc_vim {
-    backup_and_symlink .vim/vimrc ${HOME}/.vimrc
-    backup_and_symlink .vim/ ${HOME}/.vim
+    backup_and_symlink vim/vimrc ${HOME}/.vimrc
+    backup_and_symlink vim ${HOME}/.vim
 }
 
 function symlink_bashrc {
@@ -398,11 +398,13 @@ function symlink_xmodmap {
 
 function symlink_python {
     backup_and_symlink .pythonrc
-    backup_and_symlink .pydistutils.cfg
-    mkdir -p "${HOME}/.pip"
-    backup_and_symlink .pip/pip.conf
-    # TODO: .config/pip/.conf
     backup_and_symlink .pdbrc
+    backup_and_symlink .pydistutils.cfg
+
+    #test -d "${HOME}/.pip" || mkdir -p "${HOME}/.pip"
+    #backup_and_symlink .pip/pip.conf
+    backup_and_symlink pip  "${HOME}/.pip"
+
     backup_and_symlink .noserc
 }
 
@@ -414,6 +416,8 @@ function symlink_venv {
     #backup_and_symlink .ipython/profile_default
     #backup_and_symlink .ipython/profile_default/ipython_config.py
     mkdir -p "${HOME}/.ipython/profile_default/"
+    backup_and_symlink ipython/ipython_config.py \
+        "${HOME}/.ipython/profile_default/ipython_config.py"
     backup_and_symlink ipython/ipython_config.py \
         "${HOME}/.ipython/profile_default/ipython_config.py"
 }
