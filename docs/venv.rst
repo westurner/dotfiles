@@ -7,24 +7,26 @@
 venv
 ======
 
-venv makes working with :ref:`virtualenv`, 
+venv makes working with :ref:`virtualenv`,
 :ref:`virtualenvwrapper`, :ref:`Bash`, :ref:`ZSH`,
 :ref:`Vim`, and :ref:`IPython` within a project context very easy.
 
 There are a few parts to ``venv``:
 
-* `ipython_config.py`_
-  (:py:mod:`dotfiles.venv.ipython_config`) configures IPython at
-  startup.
-* `venv.py`_ is a symlink to ``ipython_config.py``.
 * `venv.py`_ is a CLI script for generating `shell configuration`_
   and `CdAlias`_
   scripts for :ref:`Bash`, :ref:`ZSH`, :ref:`IPython`, and :ref:`Vim`.
+* `venv.py`_ is a symlink to ``venv_ipyconfig.py``.
+* `venv_ipyconfig.py`_
+  (:py:mod:`dotfiles.venv.venv_ipyconfig`) generates shell
+  environment configuration configures IPython at
+  startup (e.g. symlinked as
+  ``~/.ipython/profile_default/ipython_config.py``)
 
-* `ipython_magics.py`_
-  (:py:mod:`dotfiles.venv.ipython_magics`) 
+* `venv_ipymagics.py`_
+  (:py:mod:`dotfiles.venv.venv_ipymagics`)
   configures
-  :py:class:`CdAliases <dotfiles.venv.ipython_config.CdAlias>`
+  :py:class:`CdAliases <dotfiles.venv.venv_ipyconfig.CdAlias>`
   and the ``dotfiles_status`` (``ds``) command
   for :ref:`IPython`.
 
@@ -39,7 +41,7 @@ venv named ``dotfiles``:
 .. code-block:: bash
 
    we dotfiles; ds; cdwrd; e README.rst
- 
+
 .. note::
     For a new venv (as might be created with ``mkvirtualenv dotfiles``),
     the ``$_SRC`` and ``$_WRD`` directories do not yet exist. You can
@@ -57,14 +59,14 @@ venv named ``dotfiles``:
 
         venv_mkdirs; mkdir -p $_WRD
 
-        
+
 
 .. _10-bashrc.venv.sh:
     https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh
-.. _ipython_config.py:
-    https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
-.. _ipython_magics.py:
-    https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py
+.. _venv_ipyconfig.py:
+    https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py
+.. _venv_ipymagics.py:
+    https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipymagics.py
 
 
 
@@ -142,7 +144,7 @@ CdAliases make it easy to jump around to ``venv`` defined variables
 (like ``$_WRK`` (cdwrk), ``$WORKON_HOME`` (cdwh), ``VIRTUAL_ENV`` (cdv),
 ``$_SRC`` (cds), and ``$_WRD`` (cdw)).
 
-Each :py:class:`CdAlias <dotfiles.venv.ipython_config.CdAlias>`
+Each :py:class:`CdAlias <dotfiles.venv.venv_ipyconfig.CdAlias>`
 defined in ``env.aliases`` is expanded for Bash, IPython, and Vim.
 For example, ``CdAlias('__WRD')`` is expanded to
 ``cdwrd``, ``cdw``; ``%cdwrd``, ``cdw``, and ``:Cdwrk``,
@@ -180,21 +182,21 @@ like so:
 
 venv.py
 --------------
-.. command-output:: python ../src/dotfiles/venv/ipython_config.py --help
+.. command-output:: python ../src/dotfiles/venv/venv_ipyconfig.py --help
    :shell:
 
 
 Python API
 ~~~~~~~~~~~~
-A :py:mod:`dotfiles.venv.ipython_config.Venv` object
+A :py:mod:`dotfiles.venv.venv_ipyconfig.Venv` object
 builds:
 
-* a :py:mod:`dotfiles.venv.ipython_config.Env` ``OrderedDict``
+* a :py:mod:`dotfiles.venv.venv_ipyconfig.Env` ``OrderedDict``
   with ``$VIRTUAL_ENV``-relative paths and environment variables
   in a standard filesystem hierarchy
 * an ``OrderedDict`` of command and `CdAlias`_ aliases
-  
-A :py:mod:`dotfiles.venv.ipython_config.Venv` object can then be
+
+A :py:mod:`dotfiles.venv.venv_ipyconfig.Venv` object can then be
 serialized:
 
 * ``--print-vars`` -- easy to read variables
@@ -203,7 +205,7 @@ serialized:
 * IPython ``%alias`` configuration dict (see ``%alias?``)
 
 There are a number of ``unittest.TestCase`` tests in
-:py:mod:`dotfiles.venv.ipython_config` (`ipython_config.py`_)
+:py:mod:`dotfiles.venv.venv_ipyconfig` (`venv_ipyconfig.py`_)
 for each of the build steps.
 
 ``venv --verbose --show-diffs`` shows what is going on.

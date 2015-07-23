@@ -6,7 +6,7 @@
 DOTFILES_SRC_GIT_REPO=ssh://git@github.com/westurner/dotfiles
 DOTFILES_SRC_GIT_BRANCH=master
 DOTFILES_DOCS_SRC_REPO=ssh://git@github.com/westurner/tools
-DOTFILES_DOCS_SRC_BRANCH=master 
+DOTFILES_DOCS_SRC_BRANCH=master
 DOTVIM_SRC_REPO:=https://github.com/westurner/dotvim
 
 #  Usage::
@@ -279,6 +279,22 @@ build_tags:
 	ls -al tags
 	build_tags --ctags-vi --languages=python
 	ls -al tags
+
+build-docker-bootstrap_dotfiles.sh:
+	# Copy bootstrap_dotfiles.sh into the Dockerfile
+	@#   because:
+	@#   - Docker ADD does not support symlinks
+	@#   - Git breaks hard links
+	@#   - mount -o bind requires caps
+	rm -f docker/*/*/bootstrap_dotfiles.sh
+	cp scripts/bootstrap_dotfiles.sh docker/fedora/22/
+	cp scripts/bootstrap_dotfiles.sh docker/debian/8/
+	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/12.04/
+	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/14.04/
+	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/15.04/
+	git add docker/*/*/bootstrap_dotfiles.sh && \
+	 git commit docker/*/*/bootstrap_dotfiles.sh \
+	 	-m "BLD: */bootstrap_dotfiles: build-docker-bootstrap_dotfiles.sh"
 
 build-docker:
 	$(MAKE) build-docker-fedora-22
@@ -671,11 +687,34 @@ update_brew_list:
 install_brew_formulas:
 	cat ./etc/brew/brew.list | xargs brew install
 
-_VENV:=./src/dotfiles/venv/ipython_config.py
+_VENV:=./src/dotfiles/venv/venv_ipymagics.py
 
-generate_venv:
+generate_venv: build-venv
+
+build-venv:
 	# generate ipython_magics.py, venv.sh, and venv.vim
-	$(_VENV) --print-ipython-magics . > ./src/dotfiles/venv/ipython_magics.py
-	$(_VENV) --print-bash-aliases --compress --prefix=/ > ./etc/venv/venv.sh 
-	$(_VENV) --print-bash --compress --prefix=/ | grep -v '^export HOME=' > ./etc/venv/venv_root_prefix.sh 
-	$(_VENV) --print-vim-cdalias . > ./etc/venv/venv.vim
+	test -d etc/venv && rm -rfv etc/venv || rm etc/venv || true
+	ln -s ../src/dotfiles/venv ./etc/venv
+	$(_VENV) --print-ipython-magics . \
+		> ./src/dotfiles/venv/venv_ipymagics.py
+	$(_VENV) --print-bash-aliases --compress --prefix=/ \
+		> ./src/dotfiles/venv/scripts/venv.sh
+	$(_VENV) --print-bash --compress --prefix=/ \
+		| grep -v '^export HOME=' > ./src/dotfiles/venv/scripts/venv_root_prefix.sh
+	chmod +x ./src/dotfiles/venv/scripts/venv_root_prefix.sh
+	$(_VENV) --print-vim-cdalias . > ./src/dotfiles/venv/venv.vim
+
+
+build-venv-scripts/:
+	# for development/testing:
+	# PATH_prepend "${__DOTFILES}/etc/venv"
+	cp ./src/dotfiles/venv/venv_ipyconfig.py ./scripts/venv_ipyconfig.py \
+		&& chmod +x ./scripts/venv_ipyconfig.py
+	cd ./scripts && rm venv.py && ln -s venv_ipyconfig.py venv.py
+	cp ./src/dotfiles/venv/venv_ipymagics.py ./scripts/venv_ipymagics.py
+	rm ./scripts/venv.sh || true
+	cp ./src/dotfiles/venv/scripts/venv.sh ./scripts/venv.sh
+	rm ./scripts/venv_root_prefix.sh || true
+	cp ./src/dotfiles/venv/scripts/venv_root_prefix.sh \
+		./scripts/venv_root_prefix.sh
+

@@ -1,1 +1,1 @@
-../src/dotfiles/venv/ipython_config.py
+venv_ipyconfig.py

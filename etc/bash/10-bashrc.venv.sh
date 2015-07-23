@@ -93,9 +93,9 @@ complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
 
 # CdAlias functions and completions
-source ${__DOTFILES}/etc/venv/venv.sh
+source ${__DOTFILES}/etc/venv/scripts/venv.sh
 if [ "$VENVPREFIX" == "/" ]; then
-    source ${__DOTFILES}/etc/venv/venv_root_prefix.sh
+    source ${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh
 fi
 
 ## Grin search

@@ -25,46 +25,48 @@ set -e
 #set -x
 
 
-## date (file suffix for backup_and_symlink)
-BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
+function _setup_bootstrap-dotfiles {
+    ## date (file suffix for backup_and_symlink)
+    BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
 
-PYTHON="${PYTHON:-"$(which python)"}"
-PYVER="${PYVER:-"$(
-    ${PYTHON} -c 'import sys; "".join(map(str, sys.version_info[:2]))')"}"
+    PYTHON="${PYTHON:-"$(which python)"}"
+    PYVER="${PYVER:-"$(
+        ${PYTHON} -c 'import sys; "".join(map(str, sys.version_info[:2]))')"}"
 
-## Virtualenvwrapper
-WORKON_HOME="${WORKON_HOME:-"${HOME}/-wrk/-ve${PYVER}"}"
+    ## Virtualenvwrapper
+    WORKON_HOME="${WORKON_HOME:-"${HOME}/-wrk/-ve${PYVER}"}"
 
-## Virtualenv + Venv
-VIRTUAL_ENV_NAME="dotfiles"
-VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
-_WRD="${VIRTUAL_ENV}/src/dotfiles"
-__DOTFILES="${_WRD}"
+    ## Virtualenv + Venv
+    VIRTUAL_ENV_NAME="dotfiles"
+    VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
+    _WRD="${VIRTUAL_ENV}/src/dotfiles"
+    __DOTFILES="${_WRD}"
 
-__DOTFILES_SYMLINK="${HOME}/-dotfiles"  # ~/-dotfiles
+    __DOTFILES_SYMLINK="${HOME}/-dotfiles"  # ~/-dotfiles
 
-## dotfiles repository
-DOTFILES_REPO_DEST_PATH="${_WRD}"
-DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/.vim"
+    ## dotfiles repository
+    DOTFILES_REPO_DEST_PATH="${_WRD}"
+    DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/vim"
 
-DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
-#DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
+    DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
+    #DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
 
-DOTVIM_GIT_REPO_URL="https://github.com/westurner/dotvim"
-# DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
+    DOTVIM_GIT_REPO_URL="https://github.com/westurner/dotvim"
+    # DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
 
-#PIP="${HOME}/.local/bin/pip"
-PIP="pip"
-PIP_INSTALL="${PIP} install"
-PIP_INSTALL_USER="${PIP} install --user"
-SETUP_PY_OPTS=""
-SETUP_PY_OPTS_USER="--user"
+    #PIP="${HOME}/.local/bin/pip"
+    PIP="pip"
+    PIP_INSTALL="${PIP} install"
+    PIP_INSTALL_USER="${PIP} install --user"
+    SETUP_PY_OPTS=""
+    SETUP_PY_OPTS_USER="--user"
 
-if [ -n "${WORKON_HOME}" ] && [[ ! -d "${WORKON_HOME}" ]]; then
-    mkdir -p "${WORKON_HOME}"
-fi
+    if [ -n "${WORKON_HOME}" ] && [[ ! -d "${WORKON_HOME}" ]]; then
+        mkdir -p "${WORKON_HOME}"
+    fi
+}
 
-_dotfiles_check_deps() {
+function _dotfiles_check_deps {
     # dotfiles_check_deps   -- check for installed commands and functions
     local errors=""
     function err {
@@ -111,19 +113,19 @@ _dotfiles_check_deps() {
 
 }
 
-dotfiles_check_deps() {
+function dotfiles_check_deps {
     #see: _dotfiles_check_deps
     (set -x +e; _dotfiles_check_deps)
 }
 
-git_status() {
+function git_status {
     # git_status()      -- show git rev, branches, remotes
     (git branch -v && \
     git remote -v &&
     git status)
 }
 
-hg_status() {
+function hg_status {
     # hg_status()       -- show hg id, branches, paths
     pwd && \
     hg log \
@@ -135,7 +137,7 @@ hg_status() {
     hg paths
 }
 
-show_status() {
+function show_status {
     # show_status()     -- show status for a (.hg or .git) repository
     dir=${1:-$(pwd)}
     if [[ -d "${dir}/.hg" ]]; then
@@ -147,7 +149,7 @@ show_status() {
     fi
 }
 
-clone_or_update() {
+function clone_or_update {
     # clone_or_update() -- clone OR pull and update (git [or hg])
     url=$1
     rev=${2:-"master"}  # tip, master
@@ -155,7 +157,7 @@ clone_or_update() {
     echo ""
     if [ -e "${dest}/.git" ]; then
         echo "## pulling from ${url} ---> ${dest}"
-        (set -x; cd $dest && \
+        (set -x; cd "$dest}" && \
             git_status && \
             git checkout "$rev" && \
             git pull && \
@@ -170,15 +172,15 @@ clone_or_update() {
             hg_status);
     else
         echo "## cloning from ${url} ---> ${dest}"
-        (set -x; git clone --recursive ${url} ${dest} && \
-            cd $dest && \
+        (set -x; git clone --recursive "${url}" "${dest}" && \
+            cd "${dest}" && \
             git checkout "$rev" && \
             git_status)
     fi
 }
 
 
-clone_dotfiles_repo() {
+function clone_dotfiles_repo {
     # clone_dotfiles_repo()         -- clone/up dotfiles_repo; create symlinks
     url=${DOTFILES_GIT_REPO_URL}
     rev=${DOTFILES_REPO_REV:-"master"}  # tip, master
@@ -190,7 +192,7 @@ clone_dotfiles_repo() {
 }
 
 
-clone_dotvim_repo(){
+function clone_dotvim_repo {
     # clone_dotvim_repo()           -- clone dotvim to etc/vim
     local url=${DOTVIM_GIT_REPO_URL}
     local rev=${DOTVIM_REPO_REV:-"master"}  # tip, master
@@ -198,13 +200,13 @@ clone_dotvim_repo(){
     clone_or_update "${url}" "${rev}" "${dest}"
 }
 
-install_virtualenvwrapper() {
+function install_virtualenvwrapper {
     # install_virtualenvwrapper()   -- pip install virtualenvwrapper
     $PYTHON -m pip install virtualenvwrapper
     #   OR: (manually) apt-get install python-virtualenvwrapper
 }
 
-install_gitflow() {
+function install_gitflow {
     # install_gitflow()     -- install gitflow git workflow [git flow help]
     #local url="https://github.com/nvie/gitflow"
     local url="https://github.com/westurner/gitflow"
@@ -217,7 +219,7 @@ install_gitflow() {
     INSTALL_PREFIX="${HOME}/.local/bin" bash "${dest}/contrib/gitflow-installer.sh"
 }
 
-install_hubflow() {
+function install_hubflow {
     # install_hubflow()     --  Install hubflow git workflow [git hf help]
     #local url="https://github.com/datasift/gitflow"
     local url="https://github.com/westurner/hubflow"
@@ -230,7 +232,7 @@ install_hubflow() {
     INSTALL_INTO="${HOME}/.local/bin" bash "${dest}/install.sh"
 }
 
-get_md5sums() {
+function get_md5sums {
     # get_md5sums()     -- get md5sums for a path or directory
     local path=${1}
 
@@ -254,13 +256,13 @@ get_md5sums() {
     fi
 }
 
-__realpath() {
+function __realpath {
     # __realpath()  -- os.path.realpath (~ readlink -f --canonicalize)
     local _path=$1
     python -c "import os,sys;print(os.path.realpath(sys.argv[1]))" "${_path}";
 }
 
-backup_and_symlink() {
+function backup_and_symlink {
     # backup_and_symlink()  -- Create symlink at $dest, pointing to $src
     # Args:
     #  filename: basename of file
@@ -328,102 +330,105 @@ backup_and_symlink() {
 
 ## /begin symlinks
 
-symlink_home_dotfiles() {
+function symlink_home_dotfiles {
     backup_and_symlink "" ${__DOTFILES_SYMLINK} ${_WRD}
 }
 
-symlink_etc_vim() {
-    backup_and_symlink .vim/vimrc ${HOME}/.vimrc
-    backup_and_symlink .vim/ ${HOME}/.vim
+function symlink_etc_vim {
+    backup_and_symlink vim/vimrc ${HOME}/.vimrc
+    backup_and_symlink vim ${HOME}/.vim
 }
 
-symlink_bashrc() {
+function symlink_bashrc {
     backup_and_symlink .bashrc
 }
 
-symlink_zshrc() {
+function symlink_zshrc {
     backup_and_symlink .zshrc
 }
 
-symlink_hgrc() {
+function symlink_hgrc {
     backup_and_symlink .hgrc
     backup_and_symlink .hgrc
     #TODO: set name in ~/.hgrc
 }
 
-symlink_gitconfig() {
+function symlink_gitconfig {
     backup_and_symlink .gitconfig
     backup_and_symlink .gitignore_global
     #TODO: set name in ~/.gitconfig
 }
 
-symlink_inputrc() {
+function symlink_inputrc {
     backup_and_symlink .inputrc
 }
 
-symlink_htoprc() {
+function symlink_htoprc {
     backup_and_symlink .htoprc
 }
 
-symlink_mutt() {
+function symlink_mutt {
     backup_and_symlink mutt "${HOME}/.mutt"
 }
 
-symlink_gtk() {
+function symlink_gtk {
     backup_and_symlink .gtkrc
     backup_and_symlink .gtkrc-2.0
     mkdir -p "${HOME}/.config/"
     backup_and_symlink .config/gtk-3.0
 }
 
-symlink_mimeapps() {
+function symlink_mimeapps {
     mkdir -p ${HOME}/.local/share/applications
     backup_and_symlink mimeapps.list \
         "${HOME}/.local/share/applications/mimeapps.list"
 }
 
-symlink_i3() {
+function symlink_i3 {
     backup_and_symlink i3 "${HOME}/.i3"
 }
 
-symlink_xinitrc_screensaver() {
+function symlink_xinitrc_screensaver {
     backup_and_symlink .xinitrc
 }
 
-symlink_xmodmap() {
+function symlink_xmodmap {
     backup_and_symlink .Xmodmap
 }
 
-symlink_python() {
+function symlink_python {
     backup_and_symlink .pythonrc
-    backup_and_symlink .pydistutils.cfg
-    mkdir -p "${HOME}/.pip"
-    backup_and_symlink .pip/pip.conf
-    # TODO: .config/pip/.conf
     backup_and_symlink .pdbrc
+    backup_and_symlink .pydistutils.cfg
+
+    #test -d "${HOME}/.pip" || mkdir -p "${HOME}/.pip"
+    #backup_and_symlink .pip/pip.conf
+    backup_and_symlink pip  "${HOME}/.pip"
+
     backup_and_symlink .noserc
 }
 
-symlink_virtualenvwrapper() {
+function symlink_virtualenvwrapper {
     backup_and_symlink virtualenvwrapper
 }
 
-symlink_venv() {
-    #backup_and_symlink .ipython/profile_default
-    #backup_and_symlink .ipython/profile_default/ipython_config.py
-    mkdir -p "${HOME}/.ipython/profile_default/"
+function symlink_venv {
+    destdir="${1:-"${HOME}/.ipython/profile_default"}"
+    mkdir -p "${destdir}"
+    backup_and_symlink venv/venv_ipymagics.py \
+        "${destdir}/startup/20-venv_ipymagics.py"
     backup_and_symlink ipython/ipython_config.py \
-        "${HOME}/.ipython/profile_default/ipython_config.py"
+        "${destdir}/ipython_config.py"
 }
 
 
-symlink_ruby() {
+function symlink_ruby {
     backup_and_symlink .gemrc
 }
 
 ## end /symlinks
 
-dotfiles_symlink_all() {
+function dotfiles_symlink_all {
     ## Create symlinks
     symlink_home_dotfiles
 
@@ -451,7 +456,7 @@ dotfiles_symlink_all() {
 
 }
 
-create_virtualenv() {
+function create_virtualenv {
     ## create a new virtualenv
     _virtual_env=$_VIRTUAL_ENV
     VENVWRAPPER=$(which virtualenvwrapper.sh)
@@ -468,14 +473,14 @@ create_virtualenv() {
     fi
 }
 
-deactivate_virtualenv() {
+function deactivate_virtualenv {
     ## deactivate any current VIRTUAL_ENV in this $SHELL
     type 'virtualenv_deactivate' 2>/dev/null && virtualenv_deactivate || true
     type 'virtualenv_deactivate' 2>/dev/null && virtualenv_deactivate || true
     unset VIRTUAL_ENV
 }
 
-dotfiles_install_bootstrap() {
+function dotfiles_install_bootstrap {
     ## pip install --upgrade --editable and create symlinks
 
     if [ -z "$SETUP_PY_OPTS" ] && [ -n "${_VIRTUAL_ENV}" ]; then
@@ -488,7 +493,7 @@ dotfiles_install_bootstrap() {
         dotfiles_symlink_all
 }
 
-dotfiles_install_bootstrap_user() {
+function dotfiles_install_bootstrap_user {
     ## pip install --user --editable and create symlinks
 
     #TODO: subshell
@@ -498,7 +503,7 @@ dotfiles_install_bootstrap_user() {
         dotfiles_symlink_all
 }
 
-dotfiles_install_boostrap_env() {
+function dotfiles_install_boostrap_env {
     ## Setup system dependencies
 
     # Upgrade system pip
@@ -517,7 +522,7 @@ dotfiles_install_boostrap_env() {
 
 }
 
-dotfiles_upgrade() {
+function dotfiles_upgrade {
     ## clone and/or pull and update dotfiles and dotvim; then install dotfiles
 
     # Clone the dotfiles repository
@@ -534,7 +539,7 @@ dotfiles_upgrade() {
 
 }
 
-dotfiles_install() {
+function dotfiles_install {
     ## Install the dotfiles
 
     # install and configure virtualenv and virtualenvwrapper
@@ -552,52 +557,52 @@ dotfiles_install() {
     dotfiles_symlink_all
 }
 
-dotfiles_install_requirements() {
+function dotfiles_install_requirements {
     ## Install all pip requirements
     ${PIP_INSTALL} -r "${DOTFILES_REPO_DEST_PATH}/requirements-all.txt"
 }
 
 
-pip_upgrade_system_setuptools() {
+function pip_upgrade_system_setuptools {
     ## Upgrade setuptools with pip
     sudo pip install --upgrade setuptools
 }
 
-pip_upgrade_system_pip() {
+function pip_upgrade_system_pip {
     ## Upgrade system pip with pip (careful)
     sudo pip install --upgrade pip
 }
 
-pip_upgrade_local_pip() {
+function pip_upgrade_local_pip {
     ## Upgrade pip with pip (does not work)
     ${PIP_INSTALL_USER} --force-reinstall --upgrade pip  # seems to error out
 }
 
-pip_bootstrap_pip() {
+function pip_bootstrap_pip {
     ## Install pip (and setuptools)
     wget --continue "https://bootstrap.pypa.io/get-pip.py"
     python get-pip.py $SETUP_PY_OPTS
 }
 
-bootstrap_setuptools() {
+function bootstrap_setuptools {
     ## Install setuptools
     wget --continue "https://bootstrap.pypa.io/ez_setup.py"
     python ez_setup.py $SETUP_PY_OPTS
 }
 
 
-pip_install_virtualenv() {
+function pip_install_virtualenv {
     ## Install virtualenv
     ${PIP_INSTALL} --upgrade --no-use-wheel virtualenv
 }
 
-pip_install_virtualenvwrapper() {
+function pip_install_virtualenvwrapper {
     ## Install virtualenvwrapper
     ${PIP_INSTALL} --upgrade --no-use-wheel virtualenvwrapper
 }
 
 
-dotfiles_setup_virtualenvwrapper() {
+function dotfiles_setup_virtualenvwrapper {
     ## source virtualenvwrapper[_lazy].sh from $PATH
 
     VIRTUALENVWRAPPER_SH_NAME="virtualenvwrapper.sh"
@@ -614,7 +619,7 @@ dotfiles_setup_virtualenvwrapper() {
 }
 
 
-dotfiles_bootstrap_usage() {
+function dotfiles_bootstrap_usage {
     ## print usage information
     echo "## dotfiles_bootstrap -- a shell wrapper for cloning and installing"
 
@@ -636,7 +641,7 @@ dotfiles_bootstrap_usage() {
 }
 
 
-dotfiles_bootstrap_main () {
+function dotfiles_bootstrap_main {
     ## parse opts, set flags, and run commands
     while getopts "uISURGCdh" o; do
         case "${o}" in
@@ -714,6 +719,7 @@ dotfiles_bootstrap_main () {
 ## execute main if called as a script
 ## (e.g. not with `source`)
 if [ "${BASH_SOURCE}" == "${0}" ]; then
+    _setup_bootstrap-dotfiles
     dotfiles_bootstrap_main ${@}
     exit
 fi

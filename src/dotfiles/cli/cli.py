@@ -88,6 +88,13 @@ def main(*args):
         if opts.verbose:
             logging.getLogger().setLevel(logging.DEBUG)
 
+    if not any((
+        opts.version,
+        opts.run_tests,
+        opts.resource_path)):
+        prs.print_help()
+        return -1
+
     if opts.version:
         import dotfiles
         print(dotfiles.version)

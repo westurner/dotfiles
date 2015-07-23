@@ -1,1 +1,0 @@
-../../src/dotfiles/venv/ipython_config.py
