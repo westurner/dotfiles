@@ -9,6 +9,7 @@ usrlog.py is a parser for -usrlog.log files (as written by usrlog.sh)
 
 import codecs
 import collections
+import functools
 import logging
 import re
 import sys
@@ -20,6 +21,8 @@ ISODATETIME_RGX = re.compile(
 
 ISODATETIME_LOOSE_RGX = re.compile(
     '[\d\-T: \+Z]+')
+
+TODO_PREFIXES = ('#TODO','#NOTE','#note','#_MSG')
 
 dateutil = None
 arrow = None
@@ -75,7 +78,7 @@ def try_parse_datestr(datestr):
 
 
 class Usrlog(object):
-    date_rgxstr = '^#? ?(\d\d\d\d-\d\d-\d\dT?\d\d:\d\d:\d\d[-\+\d]+)\t(.*)'
+    date_rgxstr = '^#? +(\d\d\d\d-\d\d-\d\dT?\d\d:\d\d:\d\d[-\+\d]+)\t(.*)'
     date_rgx = re.compile(date_rgxstr)
 
     def __init__(self, path):
@@ -111,84 +114,244 @@ class Usrlog(object):
     def tabescape(self, value):
         return value.replace('\t', '\\t')
 
-    def parse_line_cmds(self, line):
-        if not line:
-            return line
-        mobj = self.date_rgx.match(line)
-        if not mobj:
-            return self.tabescape(line)
-        w = line.split("\t", 8)
-        # legacy usrlog support
-        if len(w) > 8:
-            cmd = u" ".join(w[8:]).rstrip()
-        elif len(w) > 7:
-            cmd = u" ".join(w[7:]).rstrip()
-        elif len(w) > 3:
-            cmd = u" ".join(w[3:]).rstrip()
-        else:
-            cmd = u" ".join(w).rstrip()
-        return cmd
+    #def parse_line_cmds(self, line):
+    #    if not line:
+    #        return line
+    #    mobj = self.date_rgx.match(line)
+    #    if not mobj:
+    #        return self.tabescape(line)
+
+    #    w = line.split("\t", 8)
+    #    # legacy usrlog support
+    #    if len(w) > 8:
+    #        cmd = u" ".join(w[8:]).rstrip()
+    #    elif len(w) > 7:
+    #        cmd = u" ".join(w[7:]).rstrip()
+    #    elif len(w) > 3:
+    #        cmd = u" ".join(w[3:]).rstrip()
+    #    else:
+    #        cmd = u" ".join(w).rstrip()
+    #    return cmd
 
     def parse_line_to_dict(self, line, halt_on_error=False):  # TODO: lbt
-        w = line.split('\t', 8)
+        startswith_comment = line.startswith("# ")
+        w = line.split('\t', 9)
+        len_w = len(w)
+        recordsep_pos = "$$" in w and w.index("$$")
+        #print((recordsep_pos, line))
         try:
-            if len(w) >= 2 and w[1].startswith('#ntid'):
-                result = collections.OrderedDict((
-                    ("line", line),
-                    ("words", w),
-                    ("date", w[0]),
-                    ("id", w[1]),
-                    ("path", None),
-                    ("histstr", None),
-                    ("histn", None),    # int or "#note"
-                    ("histdate", None),
-                    ("histhostname", None),
-                    ("histuser", None),
-                    ("histcmd", None),
-                    ))
-            elif len(w) == 3:  # legacy usrlog support
-                result = collections.OrderedDict((
-                    ("line", line),
-                    ("words", w),
-                    ("date", w[0]),
-                    ("id", w[1]),
-                    ("path", None),
-                    ("histstr", None),
-                    ("histn", None),    # int or "#note"
-                    ("histdate", None),
-                    ("histhostname", None),
-                    ("histuser", None),
-                    ("histcmd", w[2]),
-                    ))
-            elif len(w) == 1:
-                result = collections.OrderedDict((
-                    ("line", line),
-                    ("words", w),
-                    ("date", None),
-                    ("id", None),
-                    ("path", None),
-                    ("histstr", None),
-                    ("histn", None),    # int or "#note"
-                    ("histdate", None),
-                    ("histhostname", None),
-                    ("histuser", None),
-                    ("histcmd", line),
-                    ))
+            if startswith_comment and recordsep_pos:
+                _w = w[0:recordsep_pos] + [u"".join(w[recordsep_pos+1:])]
+                #log.debug(('w', w))
+                #log.debug(('_w', _w))
+                w = _w
+                if recordsep_pos == 6:
+                    result = collections.OrderedDict((
+                        ("line", line),
+                        ("words", w),
+                        ("date", w[0]),
+                        ("id", w[1]),
+                        ("virtualenv", None),
+                        ("path", w[2]),
+                        ("histstr", w[3:]),
+                        ("histdate", w[3]),
+                        ("histhostname", w[4]),
+                        ("histuser", w[5]),
+                        ("histn", None),  # w[6].lstrip().split(None, 1)[0],    # {int, #NOTE, #TODO, #_MSG}
+                        ("histcmd", w[6].rstrip()),
+                        ))
+                elif recordsep_pos == 7:   ## <- latest format (8 fields)
+                    if w[3].startswith(TODO_PREFIXES):
+                        result = collections.OrderedDict((
+                            ("line", line),
+                            ("words", w),
+                            ("date", w[0]),
+                            ("id", w[1]),
+                            ("virtualenv", None),
+                            ("path", w[2]),
+                            ("histstr", w[4:]),  # TODO XXX
+                            ("histdate", w[4]),
+                            ("histhostname", w[5]),
+                            ("histuser", w[6]),
+                            ("histn", None), # TODO   # int or "#note"
+                            ("histcmd", w[7].rstrip()),
+                            #  u"".join(w[7]).rstrip())), # TODO XXX ^
+                            ))
+                    else:
+                        result = collections.OrderedDict((
+                            ("line", line),
+                            ("words", w),
+                            ("date", w[0]),
+                            ("id", w[1]),
+                            ("virtualenv", w[2]),
+                            ("path", w[3]),
+                            ("histstr", w[4:]),
+                            ("histdate", w[4]),
+                            ("histhostname", w[5]),
+                            ("histuser", w[6]),
+                            ("histn", None), # TODO   # int or "#note"
+                            ("histcmd", w[7].rstrip()),
+                            ))
+
+                elif recordsep_pos == 8:   ## <- latest format (8 fields)
+                    if w[4].startswith(TODO_PREFIXES):
+                        result = collections.OrderedDict((
+                            ("line", line),
+                            ("words", w),
+                            ("date", w[0]),
+                            ("id", w[1]),
+                            ("virtualenv", w[2]),
+                            ("path", w[3]),
+                            ("histn", w[4]), # TODO   # int or "#note"
+                            ("histstr", w[5:]),  # TODO XXX
+                            ("histdate", w[5]),
+                            ("histhostname", w[6]),
+                            ("histuser", w[7]),
+                            ("histcmd", w[8].rstrip()),
+                            ))
+                    else:
+                        result = collections.OrderedDict((
+                            ("line", line),
+                            ("words", w),
+                            ("date", w[0]),
+                            ("id", w[1]),
+                            ("virtualenv", w[2]),
+                            ("path", w[3]),
+                            ("histstr", w[4:]),
+                            ("histdate", w[4]),
+                            ("histhostname", w[5]),
+                            ("histuser", w[6]),
+                            ("histn", w[7]), # TODO   # int or "#note"
+                            ("histcmd", w[8].rstrip()),
+                            ))
+                        raise Exception(result)
+                else:
+                    log.error(('unable to parse (recordsep)', (line, w, recordsep_pos)))
+                    result = collections.OrderedDict((
+                        ("line", line),
+                        ("words", w),
+                        ("date", None),
+                        ("id", None),
+                        ("virtualenv", None),
+                        ("path", None),
+                        ("histstr", None),
+                        ("histn", None),    # int or "#note"
+                        ("histdate", None),
+                        ("histhostname", None),
+                        ("histuser", None),
+                        ("histcmd", line),
+                        ))
+                    #raise Exception(line, w)
             else:
-                result = collections.OrderedDict((
-                    ("line", line),
-                    ("words", w),
-                    ("date", w[0]),
-                    ("id", w[1]),
-                    ("path", w[2]),
-                    ("histstr", w[3:]),
-                    ("histn", w[3]),    # int or "#note"
-                    ("histdate", (w[4] if len(w) > 4 else None)),
-                    ("histhostname", (w[5] if len(w) > 5 else None)),
-                    ("histuser", (w[6] if len(w) > 6 else None)),
-                    ("histcmd", (
-                        u"".join(w[8:]).rstrip() if len(w) > 8 else None)),
-                    ))
+                if len_w == 1:
+                    result = collections.OrderedDict((
+                        ("line", line),
+                        ("words", w),
+                        ("date", None),
+                        ("id", None),
+                        ("virtualenv", None),
+                        ("path", None),
+                        ("histstr", None),
+                        ("histn", None),    # int or "#note"
+                        ("histdate", None),
+                        ("histhostname", None),
+                        ("histuser", None),
+                        ("histcmd", line),
+                        ))
+                elif len_w == 2:
+                    if w[1].startswith('#ntid'):
+                        result = collections.OrderedDict((
+                            ("line", line),
+                            ("words", w),
+                            ("date", w[0]),
+                            ("id", (
+                                w[1].lstrip('#ntid')
+                                    .lstrip(':').lstrip()),
+                            ("path", None),
+                            ("histstr", None),
+                            ("histn", None),    # int or "#note"
+                            ("histdate", None),
+                            ("histhostname", None),
+                            ("histuser", None),
+                            ("histcmd", w[1]),
+                            )))
+                    else:
+                        result = collections.OrderedDict((
+                            ("line", line),
+                            ("words", w),
+                            ("date", w[0]),
+                            ("id", None),
+                            ("path", None),
+                            ("histstr", w[1]),
+                            ("histn", None),    # int or "#note"
+                            ("histdate", None),
+                            ("histhostname", None),
+                            ("histuser", None),
+                            ("histcmd", w[1]),
+                            ))
+                elif len_w == 3:  # legacy usrlog support
+                    result = collections.OrderedDict((
+                        ("line", line),
+                        ("words", w),
+                        ("date", w[0]),
+                        ("id", w[1]),
+                        ("virtualenv", None),
+                        ("path", None),
+                        ("histstr", None),
+                        ("histn", None),    # int or "#note"
+                        ("histdate", None),
+                        ("histhostname", None),
+                        ("histuser", None),
+                        ("histcmd", w[2]),
+                        ))
+                elif len_w == 4:
+                    #if w[3].startswith(('#ntid', '#stid')):
+                    result = collections.OrderedDict((
+                        ("line", line),
+                        ("words", w),
+                        ("date", w[0]),
+                        ("id", w[1]),
+                        ("virtualenv", None),
+                        ("path", w[2]),
+                        ("histstr", w[3]),
+                        ("histn", None),    # int or "#note"
+                        ("histdate", None),
+                        ("histhostname", None),
+                        ("histuser", None),
+                        ("histcmd", w[3]),
+                        ))
+                elif len_w == 5:
+                    #if w[4].startswith(('#ntid', '#stid')):
+                    result = collections.OrderedDict((
+                        ("line", line),
+                        ("words", w),
+                        ("date", w[0]),
+                        ("id", w[1]),
+                        ("virtualenv", w[2]),
+                        ("path", w[3]),
+                        ("histstr", w[4]),
+                        ("histn", None),    # int or "#note"
+                        ("histdate", None),
+                        ("histhostname", None),
+                        ("histuser", None),
+                        ("histcmd", w[4]),
+                        ))
+                else:
+                    log.error(('unable to parse (no recordsep, len=%s)' % len_w, (line, w, recordsep_pos)))
+                    result = collections.OrderedDict((
+                        ("line", line),
+                        ("words", w),
+                        ("date", None),
+                        ("id", None),
+                        ("virtualenv", None),
+                        ("path", None),
+                        ("histstr", None),
+                        ("histn", None),    # int or "#note"
+                        ("histdate", None),
+                        ("histhostname", None),
+                        ("histuser", None),
+                        ("histcmd", line),
+                        ))
         except IndexError as e:
             log.error(line)
             log.error(w)
@@ -273,7 +436,7 @@ class Usrlog(object):
 
 
 def usrlog(path, conf=None):
-    """mainfunc
+    """read a -usrlog.log file
 
     Arguments:
         path (str): path to usrlog
@@ -281,11 +444,12 @@ def usrlog(path, conf=None):
     Keyword Arguments:
         conf (dict): configuration dict
 
-    Yields:
-        tuple: parsed usrlog entries
+    Returns:
+        OrderedDicts of usrlog attributes
 
     Raises:
-        Exception: ...
+        ValueError -- parsing exceptions bubble up if halt_on_error=True
+        TypeError  -- parsing exceptions bubble up if halt_on_error=True
     """
     if conf is None:
         conf = {}
@@ -366,7 +530,7 @@ def main(argv=None):
                    dest='cmds',
                    action='store_true',
                    help='show <cmd>')
-    prs.add_option('--sessions',
+    prs.add_option('--sessions', '--id',
                    dest='sessions',
                    action='store_true',
                    help='show [id, histcmd]')
@@ -378,6 +542,15 @@ def main(argv=None):
                    dest='elapsed',
                    action='store_true',
                    help='show [date, id, histcmd, elapsed]')
+    prs.add_option('--ve', '--venv', '--venvs', '--virtualenv',
+                   dest='venvs',
+                   action='store_true',
+                   help='include [date,id,virtualenv,histcmd]')
+    prs.add_option('--cwd', '--pwd', '--cwd-after-cmd',
+                   dest='cwdpaths',
+                   action='store_true',
+                   help='include [date,id,virtualenv,path,histcmd]')
+
 
     prs.add_option('-c', '--column',
                    dest='columns',
@@ -389,6 +562,11 @@ def main(argv=None):
                    dest='pyline',
                    action='store',
                    help='run pyline command')
+
+    prs.add_option('--todo', '--todos',
+                   dest='todo',
+                   action='store_true',
+                   help='grep for #TODO entries and parse out the #TODO prefix')
 
     prs.add_option('-v', '--verbose',
                    dest='verbose',
@@ -426,7 +604,8 @@ def main(argv=None):
         conf.halt_on_error = True
 
     if not any((opts.columns,
-                opts.cmds, opts.sessions, opts.dates, opts.elapsed)):
+                opts.cmds, opts.sessions, opts.dates, opts.elapsed,
+                opts.todo)):
         log.info("no columns specified. defaulting to: %r" % conf.attrs)
         prs.print_help()
         # return 2
@@ -443,6 +622,25 @@ def main(argv=None):
                 conf.attrs = ['date', 'id', 'elapsed', 'histcmd']
             else:
                 conf.attrs = ['date', 'id', 'histcmd']
+        if opts.venvs:
+            # before 'id', 'date', or first
+            attrs_i = 'id' in conf.attrs and conf.attrs.index('id') + 1
+            if not attrs_i:
+                attrs_i = 'date' in conf.attrs and conf.attrs.index('date') + 1
+            if not attrs_i:
+                attrs_i = 0
+            conf.attrs.insert(attrs_i, 'virtualenv')
+
+        if opts.cwdpaths:
+            # before 'id', 'date', or first
+            attrs_i = 'virtualenv' in conf.attrs and conf.attrs.index('virtualenv') + 1
+            if not attrs_i:
+                attrs_i = 'id' in conf.attrs and conf.attrs.index('id') + 1
+            if not attrs_i:
+                attrs_i = 'date' in conf.attrs and conf.attrs.index('date') + 1
+            if not attrs_i:
+                attrs_i = 0
+            conf.attrs.insert(attrs_i, 'path')
 
     if opts.pyline:
         try:
@@ -454,6 +652,26 @@ def main(argv=None):
         def do_pyline(obj, expr="{histcmd}"):
             return expr.format(**obj)
 
+    def select_all(obj):
+        return True
+
+    #conf.attrs = ['date', 'id', 'histcmd']
+
+    def select_usrlogtodos(obj, todo_prefixes=TODO_PREFIXES):
+        histcmd = obj.get('histcmd')
+        return histcmd.startswith(todo_prefixes) if histcmd else False
+
+    import itertools
+    import functools
+    import operator
+
+    if opts.todo:
+        filterfunc = functools.partial(select_usrlogtodos,
+                                        todo_prefixes=TODO_PREFIXES)
+    else:
+        filterfunc = functools.partial(select_all)
+    select_items = operator.itemgetter(*conf.attrs)
+
     def usrlogs_iterable():
         for p in conf.paths:
             _usrlog = usrlog(p, conf)
@@ -461,13 +679,12 @@ def main(argv=None):
                 l['_usrlog'] = p
                 yield l
 
-    import operator
-    select_items = operator.itemgetter(*conf.attrs)
-    iterable = (select_items(obj) for obj in usrlogs_iterable())
+    iterable = ((obj, select_items(obj)) for obj in
+                itertools.ifilter(filterfunc, usrlogs_iterable()))
 
     # output = pyline.pyline(iterable, codefunc=do_pyline)
-    for o in iterable:
-        print(o)
+    for obj, attrs in iterable:
+        print(attrs)
 
     EX_OK = 0
 

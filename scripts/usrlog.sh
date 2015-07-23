@@ -212,28 +212,29 @@ function _usrlog_append {
       #  (pwd -p)?
        #  this from HISTORY
     local cmd="${*}";
-    (printf "#  %s\t%s\t%s\t%s\n" \
+    (printf "#  %s\t%s\t%s\t%s\t%s\n" \
         "$(date +%Y-%m-%dT%H:%M:%S%z)" \
-        "$(echo "${_TERM_ID}" | tr '\t' ' ')" \
-        "$(echo "${PWD}" | tr '\t' ' ')" \
-        "$(echo "${cmd}" | tr '\n' ' ')" \
+        "$(echo "${_TERM_ID}" | tr $'\t' ' ')" \
+        "$(echo "${VIRTUAL_ENV}" | tr $'\t' ' ')" \
+        "$(echo "${PWD}" | tr $'\t' ' ')" \
+        "$(echo "${cmd}" | tr $'\n' ' ')" \
         ) >> "${_USRLOG:-${__USRLOG}}" 2>/dev/null
     printf "%s\n" \
         "$(echo "${cmd}" | sed 's|.*	$$	\(.*\)|#  \1|g')"
 }
 
-function _usrlog_append_oldstyle {
-    #  _usrlog_append_oldstype -- Write a line to $_USRLOG
-    #    $1: text (command) to log
-    #  examples:
-    #    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
-    #    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
-    printf "#  %-11s: %s : %s" \
-        "$_TERM_ID" \
-        "$(date +'%D %R.%S')" \
-        "${1:-'\n'}" \
-            | tee -a $_USRLOG >&2
-}
+#function _usrlog_append_oldstyle {
+#    #  _usrlog_append_oldstype -- Write a line to $_USRLOG
+#    #    $1: text (command) to log
+#    #  examples:
+#    #    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+#    #    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+#    printf "#  %-11s: %s : %s" \
+#        "$_TERM_ID" \
+#        "$(date +'%D %R.%S')" \
+#        "${1:-'\n'}" \
+#            | tee -a $_USRLOG >&2
+#}
 
 
 function _usrlog_writecmd {
@@ -252,13 +253,12 @@ function _usrlog_writecmd {
 }
 
 
-
+## usrlog parsing
 
 function _usrlog_parse_newstyle {
-    #  _usrlog_parse_newstyle -- Parse a newstyle HISTTIMEFORMAT usrlog
-    #  with pyline
-    #  TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
-    #  TODO: handle newlines
+    #  _usrlog_parse_newstyle -- Parse a -usrlog.log with pyline
+    #    NOTE: handle when HISTTIMEFORMAT=""
+    #    NOTE: this is approxmte (see: venv.py)
     local usrlog="${1}"
     if [ -n "${usrlog}" ]; then
         if [ "${usrlog}" != "-" ]; then
@@ -272,14 +272,15 @@ function _usrlog_parse_newstyle {
             ("date", w[0].lstrip("#  ")),
             ("id", w[1]),
             ("path", w[2]),
-            ("histstr", w[3:]),
-            ("histn", w[3].strip()),    #  int or "#note"
-            ("histdate", (w[4] if len(w) > 4 else None)),
-            ("histhostname", (w[5] if len(w) > 5 else None)),
-            ("histuser", (w[6] if len(w) > 6 else None)),
-            ("histcmd", (w[8:] if len(w) > 8 else None)),
+            ("virtualenv", w[3]),
+            ("histstr", w[4:]),
+            ("histn", w[4].strip()),    #  int or {#NOTE, #TODO, #_MSG}
+            ("histdate", (w[5] if len(w) > 5 else None)),
+            ("histhostname", (w[6] if len(w) > 6 else None)),
+            ("histuser", (w[7] if len(w) > 7 else None)),
+            ("histcmd", (w[9:] if len(w) > 9 else None)),
             ))
-            for w in [ line.split("\t",8) ]
+            for w in [ line.split("\t", 9) ]
                 if len(w) >= 4]' \
                     -O json
 }
@@ -289,23 +290,26 @@ function _usrlog_parse_cmds {
     #  _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog
     #  with pyline
     #  TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
-    #  TODO: handle newlines (commands that start on the next line)
-    #  TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
-    #  TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]
+    #  TODO: handle newlines (commands that start on the next line)  (venv.py)
+    #  NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
+    #  NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
     local usrlog="${1}"
     if [ -n "${usrlog}" ]; then
         if [ "${usrlog}" != "-" ]; then
             usrlog="-f ${usrlog}"
         fi
     fi
-    pyline.py ${usrlog} \
-        'list((
-            (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
-            or (" ".join(w[7:]).rstrip() if len(w) > 7 else None)
-            or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
-            or " ".join(w).rstrip())
-            for w in [ line and line.startswith("#") and line.split("\t",8) or [line] ]
-            )'
+    #pyline.py ${usrlog} \
+    #    'list((
+    #        (" ".join(w[10:]).rstrip() if len(w) > 10 else None)
+    #        or (" ".join(w[9:]).rstrip() if len(w) > 9 else None)
+    #        or (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+    #        or (" ".join(w[7:]).rstrip() if len(w) > 7 else None)
+    #        or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
+    #        or " ".join(w).rstrip())
+    #        for w in [ line and line.startswith("#") and line.split("\t",9) or [line] ]
+    #        )'
+    pyline.py ${usrlog} 'l and l.startswith("#") and l.split("\t$$\t", 1)[-1]'
 }
 function ugp {
     _usrlog_parse_cmds ${@}
@@ -314,12 +318,8 @@ function ugp {
 
 
 ## usrlog.sh API
-function ut {
-    #  ut()  -- show recent commands
-    usrlog_tail $@ | _usrlog_parse_cmds
-}
 
-
+### usrlog _TERM_ID commands
 
 function termid {
     #  termid()      -- echo $_TERM_ID
@@ -341,66 +341,53 @@ function st {
     _usrlog_set__TERM_ID $@
 }
 
-
-## Old (hist, histgrep, histgrep_session)
-
-function hist {
-    #  less()       --  less the current session log
-    less $_USRLOG
+### usrlog tail commands
+function ut {
+    #  ut()  -- show recent commands
+    usrlog_tail "${@}" | _usrlog_parse_cmds
 }
-
-
-function histgrep  {
-    #  histgrep()   -- egrep $@ $_USRLOG
-    egrep $@ $_USRLOG
-}
-
-function histgrep_session  {
-    #  histgrep_session()    -- grep for specific sessions
-    #    $1: session name
-    #    $2: don't strip the line prefix
-    NO_STRIP_LINE_PREFIX=$2
-    #echo $_USRLOG >&2
-    cat $_USRLOG | egrep "$1 .* \:\:\:|Renaming .* to $1" | \
-        if [ -n $NO_STRIP_LINE_PREFIX ]; then
-            sed -e 's/^\s*.*\:\:\:\s\(.*\)/\1/'
-        else
-            cat
-        fi
-}
-
-## New (u*, usrlog*)
 
 function usrlog_tail {
     #  usrlog_tail()     -- tail -n20 $_USRLOG
-    if [ -n "$@" ]; then
-        _usrlog=${@:-${_USRLOG}}
-        tail ${_usrlog}
+    local _args="${@}"
+    local follow="${_USRLOG_TAIL_FOLLOW}"
+    if [ -n "${_args}" ]; then
+        if [[ "${1}" = "-n" ]]; then
+            shift;
+            local count=${1}
+            shift
+            local __args="${@}"
+            if [ -z "${__args}" ]; then
+                _args="${_USRLOG}"
+            fi
+        fi
+        (set -x; tail ${follow:+"-f"} \
+            ${count:+"-n"} ${count:-"${count}"} \
+            ${_args})
     else
-        tail $_USRLOG
+        (set -x; tail ${follow:+"-f"} $_USRLOG)
     fi
 }
-
 function usrlog_tail_follow {
     #  usrlogtf()    -- tail -f -n20 $_USRLOG
-    tail -f -n20 ${@:-"${_USRLOG}"}
+    _USRLOG_TAIL_FOLLOW=true usrlog_tail "${@}"
 }
 function utf {
     #  utf()         -- tail -f -n20 $_USRLOG
-    usrlog_tail_follow $@
+    usrlog_tail_follow "${@}"
 }
 
+
+### usrlog grep commands
 
 function usrlog_grep {
     #  usrlog_grep() -- egrep -n $_USRLOG
-    set -x
-    args=${@}
-    egrep -n "${args}" "${_USRLOG}"
-    set +x
+    local _args="${@}"
+    (set -x; egrep -n ${_args:+"${_args}"} "${_USRLOG}")
 }
 function ug {
     #  ug()          -- egrep -n $_USRLOG
-    usrlog_grep ${@}
+    usrlog_grep "${@}"
 }
 
 #function usrlog_grep_session_id {
@@ -412,26 +399,29 @@ function ug {
 #}
 
 function _usrlog_grep_venvs {
-    egrep ${@} '((we[c]?)|workon|workon_conda|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
+    egrep ${@} '((we[c]?)|workon_venv|workon_conda|workon|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
 
 }
 function usrlog_grep_venvs {
     cat ${@:-${_USRLOG}} | _usrlog_grep_venvs
 }
 function ugv {
-    usrlog_grep_venvs ${@}
+    usrlog_grep_venvs "${@}"
+}
+function ugva {
+    usrlog_grep_venvs $(lsusrlogs) | sort -n
 }
 
 function _usrlog_grep_todo_fixme_xxx {
-    egrep -i '(todo|fixme|xxx)'
+    grep -E -i '(todo|fixme|xxx)'
 }
 function _usrlog_grep_todos {
-    grep '$$'$'\t''#TODO'
+    grep '$$'$'\t''#\(TODO\|NOTE\|_MSG\)'
 }
 function usrlog_grep_todos {
     cat ${@:-${_USRLOG}} | _usrlog_grep_todos
 }
-function ugt {
+function uggt {
     usrlog_grep_todos ${@}
 }
 
@@ -440,12 +430,37 @@ function usrlog_grep_todos_parse {
 }
 
 function ugtp {
-    ugt $@ | ugp
+    # usrlog_grep_todos | _usrlog_parse_cmds
+    uggt $@ | ugp
+}
+
+function ugtptodo {
+    # usrlog_grep_todos | _usrlog_parse_cmds
+    ugtp ${@} | grep --color=never '^#TODO'
+}
+function ugtptodonote {
+    # usrlog_grep_todos | _usrlog_parse_cmds
+    ugtp ${@} | grep --color=never '^#\(TODO\|NOTE\)'
+}
+
+function usrlog_format_as_txt {
+    sed 's/^#TODO: /- [ ] /#TODO: /' \
+        | sed 's/^#NOTE: /- /'
+    # pyline '(l.replace("#TODO: ", "- [ ] ", 1).replace("#NOTE:", "- ", 1) if l.startswith("#TODO: ", "#NOTE: ") else l)'
+}
+
+function ugft {
+    usrlog_format_as_txt "${@}"
+}
+
+function ugt {
+    #usrlog_grep_todos_parse | usrlog_format_as_txt
+    ugtp | ugft
 }
 
 function usrlog_grin {
     #  usrlog_grin() -- grin -s $@ $_USRLOG
-    local args=${@}
+    local args="${@}"
     (set -x;
     grin -s "${args}" "${_USRLOG}")
 }
@@ -518,7 +533,7 @@ function lsusrlogs_date_desc {
     ls -tr \
         "${__USRLOG}" \
         ${WORKON_HOME}/*/.usrlog \
-        ${WORKON_HOME}/*/-usrlog.log $@
+        ${WORKON_HOME}/*/-usrlog.log $@ 2>/dev/null
 }
 function lsusrlogs_date_asc {
     #  lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
@@ -526,57 +541,109 @@ function lsusrlogs_date_asc {
     ls -t \
         "${__USRLOG}" \
         ${WORKON_HOME}/*/.usrlog \
-        ${WORKON_HOME}/*/-usrlog.log $@
+        ${WORKON_HOME}/*/-usrlog.log $@ 2>/dev/null
 }
-function lsusrlogs  {
+function lsusrlogs {
     #  lsusrlogs()             -- list usrlogs (oldest first)
-    lsusrlogs_date_desc $@
+    lsusrlogs_date_desc "${@}"
 }
 
 function usrlog_lately {
     #  usrlog_lately()      -- lsusrlogs by mtime
-    lsusrlogs_date_desc $@ | xargs ls -ltr
+    lsusrlogs_date_desc "${@}" | xargs ls -ltr
 }
 function ull {
     #  ull()                -- usrlog_lately() (lsusrlogs by mtime)
-    usrlog_lately $@
+    usrlog_lately "${@}"
 }
 
 function usrlog_grep_all {
-    #  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)
+    #  usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
     (set -x;
-    args=${@}
+    args="${@}"
     usrlogs=$(lsusrlogs)
-    egrep ${args} ${usrlogs} )
+    egrep ${args} ${usrlogs} \
+        | sed 's/:/'$'\t''/')
+       #| pyline.py 'l.replace(":","\t",1)'  # grep filename output
 }
 function ugall {
-    #  ugall()              -- grep usrlogs (drop filenames with -h)
-    usrlog_grep_all ${@}
+    #  ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
+    usrlog_grep_all "${@}"
+}
+function uga {
+    #  uga()                -- grep $(lsusrlogs) (drop filenames with -h)
+    usrlog_grep_all "${@}"
 }
 
 function usrlog_grin_all {
     #  usrlog_grin_all()    -- grin usrlogs
     (set -x;
-    args=${@}
+    args="${@}"
     usrlogs=$(lsusrlogs)
-    grin -s ${args} ${usrlogs} )
+    grin --no-skip-hidden-files ${args} ${usrlogs} \
+        | sed 's/:/'$'\t''/' \
+        | grin ${args})
 }
 function ugrinall {
     #  usrlog_grin_all()    -- grin usrlogs
-    usrlog_grin_all ${@}
+    usrlog_grin_all "${@}"
 }
 
-function note {
-    #  note()   -- _usrlog_append "#note  #note: $@"
-    startstr="#NOTE	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
-    #_usrlog_append "#note  #note: $@"  # old style
-    _usrlog_append "${startstr}#NOTE: ${@}"
-}
 function todo {
-    #  todo()   -- _usrlog_append "#note  #TODO: $@"
-    startstr="#TODO	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
-    #_usrlog_append "#note  #note: $@"
-    _usrlog_append "${startstr}#TODO: ${@}"
+    #  todo()   -- _usrlog_append a #TODO and set _TODO ('-' unsets, '' prints)
+    #      see: usrlog_grep_todos_parse (ugt, ugtp) 
+    local _todo="${@}"
+    if [ -z "${_todo}" ]; then
+        echo "_TODO=${_TODO}"
+        return
+    elif [[ "${_todo}" = "-" ]]; then
+        unset _TODO
+        echo "_TODO=${_TODO}"
+        return
+    else
+        export _TODO="${_todo}"
+        echo "_TODO=${_TODO}"
+        startstr="#TODO	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
+        #_usrlog_append "#note  #note: $@"
+        _usrlog_append "${startstr}#TODO: [ ] ${_todo}"
+        return
+    fi
+}
+function note {
+    #  note()   -- _usrlog_append a #NOTE and set _NOTE ('-' unsets, '' prints)
+    local _note="${@}"
+    if [ -z "${_note}" ]; then
+        echo "_NOTE=${_NOTE}"
+        return
+    elif [[ "${_note}" = "-" ]]; then
+        unset _NOTE
+        echo "_NOTE=${_NOTE}"
+        return
+    else
+        export _NOTE="${_note}"
+        echo "_NOTE=${_NOTE}"
+        startstr="#NOTE	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
+        _usrlog_append "${startstr}#NOTE: ${_note}"
+        return
+    fi
+}
+function msg {
+    #  msg()   -- _usrlog_append a #_MSG and set __MSG ('-' unsets, '' prints)
+    local _msg="${@}"
+    if [ -z "${_msg}" ]; then
+        echo "_MSG=${_MSG}"
+        return
+    elif [[ "${_msg}" == "-" ]]; then
+        unset _MSG
+        echo "_MSG=${_MSG}"
+        return
+    else
+        export _MSG="${_msg}"
+        echo "_MSG=${_MSG}"
+        startstr="#_MSG	$(date +'%FT%T%z')	${HOSTNAME}	${USER}	\$$	"
+        _usrlog_append "${startstr}#_MSG: ${_msg}"
+        return
+    fi
 }
 
 function usrlog_screenrec_ffmpeg {

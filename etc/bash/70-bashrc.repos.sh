@@ -35,19 +35,10 @@ function gac() {
     git-add-commit "${@}"
 }
 
-function msg() {
-    #  msg()        -- set a commit message for the current context
-    if [ -z "${@}" ]; then
-        echo _MSG="${_MSG}"
-    elif [ -n "${@}" ]; then
-        if [ "${1}" == "clear" ]; then
-            unset _MSG
-        else
-            export _MSG="${@}"
-        fi
-        echo _MSG="${_MSG}"
-    fi
-}
+# function msg {
+#   export _MSG="${@}"
+#   see: usrlog.sh
+# }
 
 function git-commit-msg() {
     #  gitcmsg()    -- gitc "${_MSG}" ${@}
