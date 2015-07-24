@@ -5,12 +5,14 @@ from __future__ import print_function
 
 import datetime
 import errno
+import json
 import logging
 import os
 import pprint
 import re
 import subprocess
 import sys
+
 from collections import deque, namedtuple
 from distutils.util import convert_path
 from itertools import chain, imap, izip_longest
@@ -28,8 +30,11 @@ except ImportError as e:
 #     print(kwargs)
 
 # logging.basicConfig()
-log = logging.getLogger('repos')
-dtformat = lambda x: x.strftime('%Y-%m-%d %H:%M:%S %z')
+log = logging.getLogger('pyrpo')
+
+
+def dtformat(time):
+    return time.strftime('%F %T%z')
 
 
 def itersplit(s, sep=None):
@@ -177,6 +182,7 @@ def sh(cmd, ignore_error=False, cwd=None, *args, **kwargs):
 
 
 class Repository(object):
+
     """
     Abstract Repository class from which VCS-specific implementations derive
 
@@ -189,6 +195,7 @@ class Repository(object):
         fields (list of tuples): (colname, vcs formatter, postprocess_callable)
         clone_cmd (str): name of commandline clone command (e.g. "clone")
     """
+    # These are defaults which can/should be redefined by subclasses
     label = None
     prefix = None
     preparse = None
@@ -196,6 +203,14 @@ class Repository(object):
     lsep = DEFAULT_LSEP
     fields = []
     clone_cmd = 'clone'
+    repo_abspath_cmd = '--repo-path'
+    checkout_rev_cmd = 'checkout -r'
+    checkout_branch_cmd = 'checkout'
+    new_branch_cmd = 'branch'  # hg, bzr, svn: branch // git: checkout -b
+    pull_cmd = 'pull'
+    push_cmd = 'push'
+    incoming_cmd = 'incoming'
+    outgoing_cmd = 'outgoing'
 
     def __init__(self, fpath):
         """
@@ -399,6 +414,17 @@ class Repository(object):
         """
         return url
 
+    def recreate_remotes_shellcmd(self):
+        """
+        Yields:
+            str: shell command blocks to recreate repo config
+        """
+        # self.overwrite_hg_paths(output)
+        if self.cfg_file:
+            yield "cat > %r << _EOF_" % self.cfg_file
+            yield self.read_cfg_file()
+            yield "_EOF_"
+
     def str_report(self):
         """
         Yields:
@@ -406,26 +432,65 @@ class Repository(object):
         """
         yield pprint.pformat(self.to_dict())
 
-    def sh_report(self):
+    def json_report(self):
+        for l in self.to_json().splitlines():
+            yield l
+
+    def sh_report(self, full=True, latest=False):
         """
         Show shell command necessary to clone this repository
 
         If there is no primary remote url, prefix-comment the command
 
+        Keyword Arguments:
+            full (bool): also include commands to recreate branches and remotes
+            latest (bool): checkout repo.branch instead of repo.current_id
+
         Yields:
             str: shell command necessary to clone this repository
         """
+
+        def pathvar_repr(var):
+            _var = var.replace('"', '\"')
+            return '"%s"' % _var
+
         output = []
         if not self.remote_url:
             output.append('#')
         output.extend([
             self.label,
             self.clone_cmd,
-            repr(self.remote_url),  # TODO: shell quote?
-            repr(self.relpath)
+            pathvar_repr(self.remote_url),  # TODO: shell quote?
+            pathvar_repr(self.relpath),
+            ';'
         ])
-
+        yield ''
         yield ' '.join(output)
+
+        if full:
+            checkout_rev = self.current_id
+            # if latest: checkout_rev = self.branch
+            checkout_branch_cmd = ' '.join((
+                self.label, self.checkout_branch_cmd, self.branch,
+                self.repo_abspath_cmd, pathvar_repr(self.relpath))) + ' ;'
+            checkout_rev_cmd = ' '.join((
+                self.label, self.checkout_rev_cmd, repr(checkout_rev),
+                self.repo_abspath_cmd, pathvar_repr(self.relpath))) + ' ;'
+
+            if latest:
+                checkout_cmd = checkout_branch_cmd
+                comment = checkout_rev_cmd
+            else:
+                checkout_cmd = checkout_rev_cmd
+                comment = checkout_branch_cmd
+
+            yield checkout_cmd
+            yield '### ' + comment
+            # output.extend([checkout_cmd, ';', ' ###', comment])
+
+            for x in self.recreate_remotes_shellcmd():
+                yield x
+            # TODO: recreate remotes
 
     def pip_report(self):
         """
@@ -591,8 +656,33 @@ class Repository(object):
         """
         return self.__dict__
 
+    def to_json_dict(self):
+        values = [
+            ('type', self.label),
+            ('relpath', self.relpath),
+            ('remote_url', self.remote_url),
+            ('branch', self.branch),
+            ('rev', self.current_id),
+            ('cfg', self.read_cfg_file()),
+            ('status', self.status),
+            ('fpath', self.fpath),
+        ]
+        return Dict(values)
+
+    def to_json(self):
+        return json.dumps(self.to_json_dict(), indent=2)
+
+    @property
+    def cfg_file(self):
+        return None
+
+    def read_cfg_file(self):
+        with open(self.cfg_file, 'r') as f:
+            return f.read()
+
 
 class MercurialRepository(Repository):
+
     """
     Mercurial Repository subclass
 
@@ -608,6 +698,16 @@ class MercurialRepository(Repository):
     """
     label = 'hg'
     prefix = '.hg'
+    clone_cmd = 'clone'
+    repo_abspath_cmd = '-R'  # hg
+    checkout_rev_cmd = 'checkout -r'
+    checkout_branch_cmd = 'checkout'
+    checkout_branch_hard_cmd = 'checkout -C'
+    new_branch_cmd = 'branch'  # hg, bzr, svn?
+    pull_cmd = 'pull'
+    push_cmd = 'push'
+    incoming_cmd = 'incoming'
+    outgoing_cmd = 'outgoing'
 
     fields = (
         ('datestr', '{date|isodatesec}', parse_date),
@@ -620,6 +720,15 @@ class MercurialRepository(Repository):
         DEFAULT_FSEP.join(f[1] for f in fields),
         DEFAULT_LSEP)
     )
+
+    def sh(self, *args, **kwargs):
+        _output = super(MercurialRepository, self).sh(*args, **kwargs)
+        output = []
+        for line in _output.splitlines():
+            if line.startswith('*** failed to import extension'):
+                log.debug(line)
+            output.append(line)
+        return '\n'.join(output)
 
     @property
     def unique_id(self):
@@ -664,6 +773,41 @@ class MercurialRepository(Repository):
         """
         return self.sh('hg showconfig paths')
 
+    @property
+    def cfg_file(self):
+        return os.path.join(self.relpath, '.hg', 'hgrc')
+
+    def overwrite_hg_paths(self, text):
+
+        section_header = '[paths]\n'
+        hgrc_path = self.cfg_file
+        hgrc_text = self.read_cfg_file()
+        paths_start = hgrc_text.find(section_header)
+        if paths_start:
+            paths_end = hgrc_text.find('\n[', paths_start + 1)
+            if paths_end == -1:
+                paths_end = len(hgrc_text) - 1
+
+            startchar = paths_start + len(section_header)
+            endchar = paths_end
+            existing = hgrc_text[startchar:endchar]
+            print("EXISTING")
+            print(existing)
+
+            if existing == text:
+                print("SAME ... skipping")
+            else:
+                import shutil
+                shutil.copy2(hgrc_path, hgrc_path + ".bkp")
+
+                new_text = hgrc_text[:startchar] + text + hgrc_text[:endchar]
+                print("NEW TEXT")
+                print(new_text)
+                with open(hgrc_path, 'w') as f:
+                    f.write(new_text)
+
+        return hgrc_text, new_text
+
     @cached_property
     def diff(self):
         """
@@ -683,7 +827,7 @@ class MercurialRepository(Repository):
         Returns:
             str: revision identifier (``hg id -i``)
         """
-        return self.sh('hg id -i').rstrip().rstrip('+')  # TODO
+        return self.sh('hg -q id -i').rstrip().rstrip('+')  # TODO
 
     @cached_property
     def branch(self):
@@ -693,7 +837,7 @@ class MercurialRepository(Repository):
         Returns:
             str: branch name (``hg branch``)
         """
-        return self.sh('hg branch')
+        return self.sh('hg -q branch')
 
     def log(self, n=None, **kwargs):
         """
@@ -825,6 +969,7 @@ class MercurialRepository(Repository):
 
 
 class GitRepository(Repository):
+
     """
     Git Repository subclass
 
@@ -840,6 +985,17 @@ class GitRepository(Repository):
     """
     label = 'git'
     prefix = '.git'
+    clone_cmd = 'clone'
+    repo_abspath_cmd = '-C'  # git
+    checkout_rev_cmd = 'checkout -r'
+    checkout_branch_cmd = 'checkout'
+    checkout_branch_hard_cmd = 'checkout -C'
+    new_branch_cmd = 'checkout -b'  # git
+    pull_cmd = 'pull'
+    push_cmd = 'push'
+    incoming_cmd = 'incoming'
+    outgoing_cmd = 'outgoing'
+
     fields = (
         ('datestr', '%ai', None, parse_date),
         ('noderev', '%h', None),
@@ -917,7 +1073,8 @@ class GitRepository(Repository):
         Returns:
             str: branch name (``git branch``)
         """
-        return self.sh('git branch')
+        # return self.sh('git branch')  # parse for '*'
+        return self.sh('git symbolic-ref --short HEAD').rstrip()
 
     def log(self, n=None, **kwargs):
         """
@@ -996,8 +1153,13 @@ class GitRepository(Repository):
         """
         return self.sh("git serve")
 
+    @property
+    def cfg_file(self):
+        return os.path.join(self.relpath, '.git', 'config')
+
 
 class BzrRepository(Repository):
+
     """
     Bzr Repository subclass
 
@@ -1216,6 +1378,7 @@ class BzrRepository(Repository):
 
 
 class SvnRepository(Repository):
+
     """
     SVN Repository subclass
 
@@ -1506,12 +1669,14 @@ def find_find_repos(where, ignore_error=True):
     if os.uname()[0] == 'Darwin':
         cmd = ("find",
                " -E",
+               '-L',  # dereference symlinks
                repr(where),
                ' -type d',
                " -regex '.*(%s)$'" % REPO_REGEX)
     else:
         cmd = ("find",
                " -O3 ",
+               '-L',  # dereference symlinks
                repr(where),  # " .",
                " -type d",
                " -regextype posix-egrep",
@@ -1575,7 +1740,9 @@ def find_unique_repos(where):
 REPORT_TYPES = dict(
     (attr, getattr(Repository, "%s_report" % attr)) for attr in (
         "str",
-        "sh",
+        "json",
+        "sh",  # default
+        # "sh_full", # TODO
         "origin",
         "full",
         "pip",
@@ -1676,7 +1843,7 @@ def get_option_parser():
     prs = optparse.OptionParser(
         usage=(
             "$0 pyrpo [-h] [-v] [-q] [-s .] "
-            "[-r <pip||full|status|hgsub|thg>] [--thg]"))
+            "[-r <report>] [--thg]"))
 
     prs.add_option('-s', '--scan',
                    dest='scan',
@@ -1688,7 +1855,7 @@ def get_option_parser():
                    dest='reports',
                    action='append',
                    default=[],
-                   help='pip || full || status || hgsub || thg')
+                   help='origin, status, full, gitmodule, json, sh, str, pip, hgsub')
     prs.add_option('--thg',
                    dest='thg_report',
                    action='store_true',
