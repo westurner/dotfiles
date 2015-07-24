@@ -202,11 +202,11 @@ class Usrlog(object):
                             ("id", w[1]),
                             ("virtualenv", w[2]),
                             ("path", w[3]),
-                            ("histn", w[4]), # TODO   # int or "#note"
                             ("histstr", w[5:]),  # TODO XXX
                             ("histdate", w[5]),
                             ("hostname", w[6]),
                             ("user", w[7]),
+                            ("histn", w[4]), # TODO   # int or "#note"
                             ("cmd", w[8].rstrip()),
                             ))
                     else:
