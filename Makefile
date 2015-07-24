@@ -11,12 +11,10 @@ DOTVIM_SRC_REPO:=https://github.com/westurner/dotvim
 
 #  Usage::
 #
-#	 # Run make tests		# workon dotfiles; source <(venv --bash dotfiles)
-#	 						# we dotfiles
-#	 make test ; make 		# makew test ; makew
-#	 make dotvim_clone		# makew dotvim_clone
-#	 make dotvim_install
-
+#     # Run make tests     # source <(venv --bash dotfiles) # we dotfiles
+#     make test ; make     # makew test ; makew
+#     make dotvim_clone    # makew dotvim_clone
+#     make dotvim_install  # make -C etc/vim install
 
 # PYRPO:=pyrpo
 PYRPO:=python scripts/pyrpo.py
