@@ -280,7 +280,10 @@ def pyline(iterable,
             return _shlex.split(line, posix=True)
     else:
         def splitfunc(line):
-            return line.strip().split(idelim, idelim_split_max)
+            if hasattr(line, 'strip'):
+                return line.strip().split(idelim, idelim_split_max)
+            else:
+                return line
 
     global_ctxt = globals()
     for i, line in enumerate(iterable):
@@ -750,13 +753,21 @@ def get_sort_function(opts, col_map=None):  # (sort_asc, sort_desc)
     return sortfunc
 
 
-def main(*args):
+def main(args=None, iterable=None, output=None):
+    """
+    pyline.main function
+
+    Args:
+        *args (str[]): list of commandline arguments
+    Returns:
+        int: nonzero on error
+    """
     import logging
     import sys
 
     prs = get_option_parser()
 
-    args = args and list(args) or sys.argv[1:]
+    args = list(args) if args is not None else sys.argv[1:]
     (opts, args) = prs.parse_args(args)
 
     if not opts.quiet:
@@ -791,17 +802,23 @@ def main(*args):
     opts.attrs = PylineResult._fields
 
     try:
-        if opts.file is '-':
-            # opts._file = sys.stdin
-            opts._file = codecs.getreader('utf8')(sys.stdin)
+        if iterable is not None:
+            opts._file = iterable
         else:
-            opts._file = codecs.open(opts.file, 'r', encoding='utf8')
+            if opts.file is '-':
+                # opts._file = sys.stdin
+                opts._file = codecs.getreader('utf8')(sys.stdin)
+            else:
+                opts._file = codecs.open(opts.file, 'r', encoding='utf8')
 
-        if opts.output is '-':
-            # opts._output = sys.stdout
-            opts._output = codecs.getwriter('utf8')(sys.stdout)
+        if output is not None:
+            opts._output = output
         else:
-            opts._output = codecs.open(opts.output, 'w', encoding='utf8')
+            if opts.output is '-':
+                # opts._output = sys.stdout
+                opts._output = codecs.getwriter('utf8')(sys.stdout)
+            else:
+                opts._output = codecs.open(opts.output, 'w', encoding='utf8')
 
         writer, output_func = ResultWriter.get_writer(
             opts._output,
@@ -836,9 +853,10 @@ def main(*args):
                 'fileno', int)() not in (0, 1, 2)):
             opts._file.close()
 
-        if opts.output != '-':
+        if opts._output != '-' and hasattr(opts._output, 'close'):
             opts._output.close()
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    sys.exit(main())

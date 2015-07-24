@@ -560,8 +560,9 @@ def main(argv=None):
 
     prs.add_option('--pyline',
                    dest='pyline',
-                   action='store',
-                   help='run pyline command')
+                   action='store_true',
+                   help=(
+                       """run --pyline '" commands" + (l[:9] if l else ".")'"""))
 
     prs.add_option('--todo', '--todos',
                    dest='todo',
@@ -579,6 +580,13 @@ def main(argv=None):
                    action='store_true',)
 
     argv = list(argv) if argv else sys.argv[1:]
+
+    if '--pyline' in argv:
+        argpos = argv.index('--pyline')
+        argv, pyline_args = argv[:argpos+1], argv[argpos+1:]
+    else:
+        pyline_args = None
+
     (opts, args) = prs.parse_args(args=argv)
     loglevel = logging.INFO
     if opts.verbose:
@@ -589,6 +597,7 @@ def main(argv=None):
     log.debug('argv: %r', argv)
     log.debug('opts: %r', opts)
     log.debug('args: %r', args)
+    log.debug('pyline_args: %r', pyline_args)
 
     if opts.run_tests:
         sys.argv = [sys.argv[0]] + args
@@ -645,16 +654,6 @@ def main(argv=None):
                 attrs_i = 0
             conf.attrs.insert(attrs_i, 'path')
 
-    if opts.pyline:
-        try:
-            import pyline
-        except ImportError:
-            from pyline import pyline
-            pyline
-
-        def do_pyline(obj, expr="{cmd}"):
-            return expr.format(**obj)
-
     def select_all(obj):
         return True
 
@@ -685,9 +684,22 @@ def main(argv=None):
     iterable = ((obj, select_items(obj)) for obj in
                 itertools.ifilter(filterfunc, usrlogs_iterable()))
 
-    # output = pyline.pyline(iterable, codefunc=do_pyline)
-    for obj, attrs in iterable:
-        print(attrs)
+    if opts.pyline:
+        try:
+            import pyline
+        except ImportError:
+            from pyline import pyline
+            pyline
+        # args = args after pyline (e.g. --pyline --help)
+        retcode = pyline.main(pyline_args,
+                              iterable=iterable,
+                              output=sys.stdout)
+        return retcode
+        # codefunc = lambda x: x
+        # output = pyline.pyline(iterable, codefunc=do_pyline)
+    else:
+        for obj, attrs in iterable:
+            print(attrs)
 
     EX_OK = 0
 
