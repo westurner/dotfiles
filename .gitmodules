@@ -7,3 +7,6 @@
 [submodule "src/hubflow"]
 	path = src/hubflow
 	url = https://github.com/westurner/hubflow
+[submodule "pwd"]
+	path = src/pwd
+	url = https://github.com/westurner/pwd

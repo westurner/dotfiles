@@ -721,3 +721,8 @@ build-venv-scripts/:
 	cp ./src/dotfiles/venv/scripts/venv_root_prefix.sh \
 		./scripts/venv_root_prefix.sh
 
+pwd:
+	make -C src/pwd open || websh.py ./scripts/pwd.html
+
+pwd-copy:
+	cp src/pwd/pwd/html/index.html ./scripts/pwd.html
