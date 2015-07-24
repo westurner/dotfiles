@@ -4,7 +4,9 @@
 ## echo "dotfiles/premkvirtualenv: ${@}"
 ## export _VENVSTR="${1}"  # does not pass through to postmkvirtualenv
 
-(declare -f 'dotfiles_premkvirtualenv' \ # 2>&1 > /dev/null \
-    && dotfiles_premkvirtualenv "${@}") \
-    || echo "dotfiles_premkvirtualenv not found" >&2
+## For example:
+#    source "${__DOTFILES}/etc/bash/05-bashrc.dotfiles.sh"
+#    (declare -f 'dotfiles_premkvirtualenv' \ # 2>&1 > /dev/null \
+#        && dotfiles_premkvirtualenv "${@}") \
+#        || echo "# dotfiles_premkvirtualenv not found" >&2
 
