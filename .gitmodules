@@ -10,3 +10,18 @@
 [submodule "pwd"]
 	path = src/pwd
 	url = https://github.com/westurner/pwd
+[submodule "pyline"]
+	path = src/pyline
+	url = https://github.com/westurner/pyline
+[submodule "pgs"]
+	path = src/pgs
+	url = https://github.com/westurner/pgs
+[submodule "browenv"]
+	path = src/browenv
+	url = https://github.com/westurner/browenv
+[submodule "brw"]
+	path = src/brw
+	url = https://github.com/westurner/brw
+[submodule "pyrpo"]
+	path = src/pyrpo
+	url = https://github.com/westurner/pyrpo
