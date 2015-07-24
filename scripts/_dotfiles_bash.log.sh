@@ -732,12 +732,12 @@ dotfiles_initialize() {
 
 dotfiles_premkvirtualenv() {
     # dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
-    echo "premkvirtualenv: ${@}"
+    #log_dotfiles_state 'premkvirtualenv'  # PERF
+    true
 }
 
 dotfiles_postmkvirtualenv() {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
-
     log_dotfiles_state 'postmkvirtualenv'
 
     if [ -z "${VIRTUAL_ENV}" ]; then
