@@ -91,3 +91,6 @@ tmp
 etc/vim
 src/hubflow
 src/gitflow
+
+#workaround gitflow installer
+gitflow/
