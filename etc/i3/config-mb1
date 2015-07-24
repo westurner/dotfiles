@@ -1,0 +1,564 @@
+#### i3 config file (v4)
+#
+#  #  Default location: ~/.i3/config
+#  #  List commented command shortcuts with::
+#
+#  #     cat ~/.i3/config | egrep '(^(\s+)?##+ |^(\s+)?#  )'
+#
+# #!/bin/sh
+# ### .i3/config requirements
+#
+# ## Ubuntu (12.04)
+# # MUST
+# apt-get install i3 i3status xautolock xlockmore i3lock
+# hg clone https://github.com/westurner/dotfiles ~/.dotfiles  # etc/xlck.sh
+#
+# # SHOULD
+# apt-get install gnome-terminal network-manager-gnome thunar pulseaudio-utils
+# apt-get install feh                  # wallpaper
+# apt-get install xfce4-screenshooter  # screenshots
+# mkdir -p ~/pictures/screens          # screenshots
+# apt-get install xbacklight           # brightness
+#
+# # COULD
+# apt-get install vim-gnome            # scratchpad
+# add-apt-repository ppa:kilian/f.lux  # f.lux
+# apt-get update                       # f.lux
+# apt-get install fluxgui              # http://justgetflux.com
+#
+# ## References
+# * http://i3wm.org/docs/userguide.html
+# * https://faq.i3wm.org/question/1425/variable-substitution/
+# * i3-config-wizard
+#
+# ## Notes
+# * grab keyboard mappings: xev | grep keycode
+
+### Configure I3
+
+# Set i3 modifier keys to variables
+#  # set $mod2 to <super>    (<Alt_L> and <Alt_R>)
+set $mod2 Mod1
+#  # set $mod to <Super> (<Super_L> and <Super_R>)
+set $mod Mod4
+
+# font for window titles. ISO 10646 = Unicode
+ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# Pango requires i3 version >= TODO
+font pango:DejaVu Sans Mono 12
+
+# reload the configuration file
+#  <super><shift> c   -- reload i3 configuration
+bindsym $mod+Shift+C reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+#  <super><shift> r   -- restart i3 (session preserving)
+bindsym $mod+Shift+R restart
+
+# exit i3 (logs you out of your X session)
+#  <alt><shift> l  -- exit i3 (close all and logout of X session)
+bindsym $mod2+Shift+l exit
+
+#  <super><shift> q   -- close focused window
+bindsym $mod+Shift+Q kill
+
+#  # Hide edge borders
+#hide_edge_borders both
+hide_edge_borders horizontal
+#hide_edge_borders vertical
+
+
+### Launch programs
+## Set Variables
+set $run_command dmenu_run
+set $screensaver_start ~/-dotfiles/scripts/xlck.sh -S
+set $screensaver_stop ~/-dotfiles/scripts/xlck.sh -P
+
+set $lock_screen ~/-dotfiles/scripts/xlck.sh -L
+
+set $editor i3-sensible-editor
+set $browser websh.py 'about:blank'
+set $browser_email websh.py "https://mail.google.com/"
+set $terminal "/usr/bin/gnome-terminal"
+#set $terminal i3-sensible-terminal
+set $network_applet nm-applet
+set $filebrowser thunar
+#set $filebrowser nautilus
+set $calculator gnome-terminal -x /bin/bash -ic "~/-wrk/-ve27/math/bin/ipython notebook"
+#set $filebrowser nautilus
+
+#  # Get WM_CLASS with $(xprop WM_CLASS)
+set $terminal_selector [class="Gnome-terminal"]
+set $editor_selector [class="Gvim"]
+set $browser_selector [class="Chrome"]
+#set $browser_selector [class="Chromium"]
+#set $browser_selector [class="Google-chrome"]
+#set $browser_selector [class="Firefox"]
+
+set $screenshot_full xfce4-screenshooter -s ~/pictures/screens --fullscreen
+set $screenshot_window xfce4-screenshooter -s ~/pictures/screens --window
+#set $volume_up pactl set-sink-volume 0 -- +10%
+#set $volume_down pactl set-sink-volume 0 -- -10%
+set $volume_up pactl set-sink-volume 0 +10%
+set $volume_down pactl set-sink-volume 0 -10%
+
+set $set_xbackground xsetroot -solid "#000000"
+set $set_xwallpaper feh --bg-center --no-xinerama ~/wallpaper.png
+#set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png
+
+set $brightness_up   xbacklight -inc 20 -time 1 -steps 1
+set $brightness_down xbacklight -dec 20 -time 1 -steps 1
+
+set $xgamma_reset xgamma -gamma 1.0
+set $xgamma_soft xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
+set $xgamma_soft_red xgamma -bgamma 0.4 -ggamma 0.6 -rgamma 0.9
+
+set $xflux_start xflux -l 41.3 -g -95.9 -k 3401
+set $xflux_stop pkill -9 -f xflux
+
+set $scratchpad_editor_selector [title="SCRATCHPAD"]
+set $scratchpad_start_editor gvim --servername SCRATCHPAD --remote ~/TODO
+
+
+
+## Autoruns
+#
+#  - Start gnome-settings-daemon (e.g. for anti-aliasing)
+#  $PATH/gnome-settings-daemon        -- Ubuntu, Debian
+#  /usr/libexec/gnome-settings-daemon -- Fedora
+exec --no-startup-id gnome-settings-daemon
+exec --no-startup-id /usr/libexec/gnome-settings-daemon-localexec
+#- Start gnome-session (initial programs + gnome-settings-daemon)
+#exec --no-startup-id gnome-session
+
+exec --no-startup-id /usr/bin/seapplet
+
+exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id xdg-user-dirs-gtk-update
+exec --no-startup-id /usr/bin/nvidia-settings -l
+
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=gpg
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=ssh
+
+
+#  - Set X background
+exec --no-startup-id $set_xbackground
+
+#  - Set X wallaper to (~/wallpaper.png)
+exec --no-startup-id $set_xwallpaper
+
+#  - Start screensaver
+exec --no-startup-id $screensaver_start
+
+
+# - Launch network applet (optional)
+# exec_always --no-startup-id $network_applet  # (optional)
+# see also: nmcli
+
+
+## Lock, shutdown and suspend
+#  <alt> l        -- lock screen
+bindsym $mod2+l     exec $lock_screen
+#  <XF86PowerOff>   -- exit
+bindsym XF86PowerOff    exit
+#  <XF86Sleep>      -- suspend
+bindsym XF86Sleep exec suspend
+
+## Change backlight brightness
+#  <XF86MonBrightnessUp>      -- brightness up
+bindsym XF86MonBrightnessUp   exec --no-startup-id $brightness_up
+#  <XF86MonBrightnessDown>    -- brightness down
+bindsym XF86MonBrightnessDown exec --no-startup-id $brightness_down
+
+
+## Change volume
+#  <XF86AudioRaiseVolume>   -- volume up
+bindsym XF86AudioRaiseVolume exec --no-startup-id $volume_up
+#  <XF86AudioLowerVolume>   -- volume down
+bindsym XF86AudioLowerVolume exec --no-startup-id $volume_down
+bindsym XF86AudioMute exec --no-startup-id $volume_mute
+
+## Launch Applications
+#  <super> x      -- run command
+bindsym $mod+x  exec $run_command
+#  <alt> r    -- run command
+bindsym $mod2+r exec $run_command
+#  <alt> e    -- launch browser
+bindsym $mod2+e exec $filebrowser
+#  <super><shift> g   -- launch editor
+bindsym $mod+Shift+g    exec $editor
+#  <super><shift> b   -- launch browser
+bindsym $mod+Shift+b    exec $browser
+bindsym XF86HomePage exec $browser
+bindsym XF86Mail     exec $browser_email
+#  <super><shift> t   -- launch terminal
+bindsym $mod+Shift+t    exec $terminal
+#  <alt> t        -- launch terminal
+bindsym $mod2+t         exec $terminal
+#  <super> <enter>    -- launch terminal
+bindsym $mod+Return     exec $terminal
+
+#  XF86Calculator   -- launch calculator
+bindsym XF86Calculator  exec $calculator
+
+#  <super><shift> w          -- launch network manager applet (see also: $(nmcli))
+bindsym $mod+Shift+w    exec --no-startup-id $network_applet
+
+#  <PrintScr>       -- screenshot (full screen)
+bindsym Print exec $screenshot_full
+#  <super> <PrintScr> -- screenshot (current window)
+bindsym $mod+Print exec $screenshot_window
+
+
+## Focus to nearest instance
+#  <super> v      -- focus nearest: editor
+bindsym $mod+v $editor_selector focus
+#  <super> t      -- focus nearest: terminal
+bindsym $mod+t $terminal_selector focus
+#  <super> b      -- focus nearest: browser
+bindsym $mod+b $browser_selector focus
+
+
+## Start, stop, and reset xflux
+#  <super> [         -- start xflux
+bindsym $mod+bracketleft    exec --no-startup-id $xflux_start
+#  <super> ]         -- stop xflux
+bindsym $mod+bracketright   exec --no-startup-id $xflux_stop
+#  <super><shift> ]  -- reset gamma to 1.0
+bindsym $mod+Shift+bracketright  exec --no-startup-id $xgamma_reset
+#  <super><shift> [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
+bindsym $mod+Shift+bracketleft exec --no-startup-id $xgamma_soft
+#  <super><shift> \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9
+bindsym $mod+Shift+p exec --no-startup-id $xgamma_soft_red
+
+## Change focus between tiling / floating windows
+#  <super> <space>            -- toggle focus mode: tiling / floating
+bindsym $mod+space      focus mode_toggle
+
+
+## Floating windows
+#  <super><shift> <space>     -- toggle tiling/floating mode for focused window
+bindsym $mod+Shift+space floating toggle
+
+#  <super> <backspace>        -- toggle tiling/floating mode for focused window
+bindsym $mod+BackSpace   floating toggle
+
+#  <super> <mouse>            -- drag floating window to position
+floating_modifier $mod
+
+
+## Fullscreen mode
+#  # Note: popups will be hidden below fullscreened windows
+#  <super><shift> f   -- fullscreen
+bindsym $mod+Shift+f fullscreen
+
+#  # popup during fullscreen exits fullscreen
+#popup_during_fullscreen <smart|ignore|leave_fullscreen>
+popup_during_fullscreen leave_fullscreen
+
+## Split windows
+# Split next window
+#  <super><shift> h   -- split [next] window horizontally
+bindsym $mod+Shift+y split h
+#  <super><shift> v   -- split [next] window vertically
+bindsym $mod+Shift+u split v
+
+
+## Toggle window layouts
+#  <super> w          -- tabbed window layout
+bindsym $mod+w layout tabbed
+#  <super> e          -- Default window layout
+bindsym $mod+e layout default
+#  <super> s          -- stacked window layout
+bindsym $mod+s layout stacked
+
+
+## Focus parent/child windows
+#  <super> a          -- focus parent container
+bindsym $mod+a          focus parent
+#  <super><shift> a   -- focus child container
+bindsym $mod+Shift+a    focus child
+
+
+## Switch to window / container
+#  <super> Up     -- focus up
+bindsym $mod+Up focus up
+#  <super> Down   -- focus down
+bindsym $mod+Down focus down
+#  <super> Left   -- focus left
+bindsym $mod+Left focus left
+#  <super> Right  -- focus right
+bindsym $mod+Right focus right
+
+## Switch to window / container (Vi)
+#  <super> h      -- focus left
+bindsym $mod+H focus left
+#  <super> j      -- focus down
+bindsym $mod+J focus down
+#  <super> k      -- focus up
+bindsym $mod+K focus up
+#  <super> l      -- focus right
+bindsym $mod+L focus right
+
+
+# Toggle between previous and current workspace
+workspace_auto_back_and_forth yes
+
+
+## Switch to workspace
+#  <super> 0-9        -- switch to workspace N  (repeat to return)
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+#  <alt> 0-9      -- switch to workspace N  (repeat to return)
+bindsym $mod2+1 workspace number 1
+bindsym $mod2+2 workspace number 2
+bindsym $mod2+3 workspace number 3
+bindsym $mod2+4 workspace number 4
+bindsym $mod2+5 workspace number 5
+bindsym $mod2+6 workspace number 6
+bindsym $mod2+7 workspace number 7
+bindsym $mod2+8 workspace number 8
+bindsym $mod2+9 workspace number 9
+bindsym $mod2+0 workspace number 10
+
+#  <super> <F_n>      -- switch to workspace N (repeat to return)
+bindsym $mod+F1 workspace number 1
+bindsym $mod+F2 workspace number 2
+bindsym $mod+F3 workspace number 3
+bindsym $mod+F4 workspace number 4
+bindsym $mod+F5 workspace number 5
+bindsym $mod+F6 workspace number 6
+bindsym $mod+F7 workspace number 7
+bindsym $mod+F8 workspace number 8
+bindsym $mod+F9 workspace number 9
+bindsym $mod+F10 workspace number 10
+
+#  <super> <Keypad_n> -- switch to workspace N (repeat to return)
+bindsym $mod+KP_1 workspace number 1
+bindsym $mod+KP_2 workspace number 2
+bindsym $mod+KP_3 workspace number 3
+bindsym $mod+KP_4 workspace number 4
+bindsym $mod+KP_5 workspace number 5
+bindsym $mod+KP_6 workspace number 6
+bindsym $mod+KP_7 workspace number 7
+bindsym $mod+KP_8 workspace number 8
+bindsym $mod+KP_9 workspace number 9
+bindsym $mod+KP_0 workspace number 10
+
+
+## Move to next/previous workspace
+#  <alt> Left     -- move to previous workspace
+bindsym $mod2+Left  workspace prev
+#  <alt> Right    -- move to next workspace
+bindsym $mod2+Right workspace next
+#  <alt> Up       -- move to second most recently focused workspace
+bindsym $mod2+Up    move container to workspace back_and_forth
+
+
+## Move focused container to next/previous workspace
+#  <alt> Left     -- move container to previous workspace
+bindsym $mod2+Shift+Left  move to workspace prev
+#  <alt> Right    -- move container to next workspace
+bindsym $mod2+Shift+Right move to workspace next
+#  <alt> Up       -- move container to second most recently focused workspace
+bindsym $mod2+Shift+Up    move to workspace back_and_forth
+
+
+## Move focused container within workspace
+#  <super><shift> Up      -- move window up
+bindsym $mod+Shift+Up move up
+#  <super><shift> Down    -- move window down
+bindsym $mod+Shift+Down move down
+#  <super><shift> Left    -- move window left
+bindsym $mod+Shift+Left move left
+#  <super><shift> Right   -- move window right
+bindsym $mod+Shift+Right move right
+
+## Move focused container within workspace (Vi)
+#  <super><shift> h       -- move window left
+bindsym $mod+Shift+H move left
+#  <super><shift> j       -- move window down
+bindsym $mod+Shift+J move down
+#  <super><shift> k       -- move window up
+bindsym $mod+Shift+K move up
+#  <super><shift> l       -- move window right
+bindsym $mod+Shift+L move right
+
+
+## Move focused container to workspace
+#  <super><shift>  [N: 0-9]   -- move to workspace N
+bindsym $mod+Shift+exclam       move workspace number 1
+bindsym $mod+Shift+at           move workspace number 2
+bindsym $mod+Shift+numbersign   move workspace number 3
+bindsym $mod+Shift+dollar       move workspace number 4
+bindsym $mod+Shift+percent      move workspace number 5
+bindsym $mod+Shift+asciicircum  move workspace number 6
+bindsym $mod+Shift+ampersand    move workspace number 7
+bindsym $mod+Shift+asterisk     move workspace number 8
+bindsym $mod+Shift+parenleft    move workspace number 9
+bindsym $mod+Shift+parenright   move workspace number 10
+
+## Move focused container to workspaces (with number pad)
+#  <super><shift> [KP_N: 0-9] -- move to workspace N
+bindsym $mod+Shift+KP_1 move workspace number 1
+bindsym $mod+Shift+KP_2 move workspace number 2
+bindsym $mod+Shift+KP_3 move workspace number 3
+bindsym $mod+Shift+KP_4 move workspace number 4
+bindsym $mod+Shift+KP_5 move workspace number 5
+bindsym $mod+Shift+KP_6 move workspace number 6
+bindsym $mod+Shift+KP_7 move workspace number 7
+bindsym $mod+Shift+KP_8 move workspace number 8
+bindsym $mod+Shift+KP_9 move workspace number 9
+bindsym $mod+Shift+KP_0 move workspace number 10
+
+## Move focused container to workspaces (with number pad)
+#  <alt> [KP_N: 0-9] -- move to workspace N
+bindsym $mod2+KP_1 move workspace number 1
+bindsym $mod2+KP_2 move workspace number 2
+bindsym $mod2+KP_3 move workspace number 3
+bindsym $mod2+KP_4 move workspace number 4
+bindsym $mod2+KP_5 move workspace number 5
+bindsym $mod2+KP_6 move workspace number 6
+bindsym $mod2+KP_7 move workspace number 7
+bindsym $mod2+KP_8 move workspace number 8
+bindsym $mod2+KP_9 move workspace number 9
+bindsym $mod2+KP_0 move workspace number 10
+
+
+## Move workspace to output
+#  <alt><shift> Left  -- move workspace to left
+bindsym $mod2+$mod+Left move workspace to output left
+#  <alt><shift> Right -- move workspace to right
+bindsym $mod2+$mod+Right move workspace to output right
+
+
+## Scratchpad workspace
+#  <super><shift> <minus>     -- make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+#  <super> <minus>            -- show/hide and cycle through scratchpad windows
+bindsym $mod+minus scratchpad show
+
+#  <super><shift> s           -- start scratchpad editor
+bindsym $mod+Shift+s        exec $scratchpad_start_editor
+
+#  <super> <XF86Favorites>    -- start scratchpad editor
+bindsym $mod+XF86Favorites exec $scratchpad_start_editor
+
+#  <XF86Favorites>          -- show the $scratchpad_editor_selector
+bindsym XF86Favorites $scratchpad_editor_selector scratchpad show
+
+#  <super> <backspace>        -- toggle tiling/floating mode for focused window
+# see above.
+
+#  # on (re)load, move $scratchpad_editor_selector windows to scratchpad
+for_window $scratchpad_editor_selector move to scratchpad
+
+
+## Resize Mode
+#  <super> r      -- enter resize mode
+bindsym $mod+r  mode "resize"
+
+mode "resize" {
+    ## Grow and shrink windows
+    # These bindings trigger as soon as you enter the resize mode
+    #
+    # They resize the border in the direction you pressed, e.g.
+    # when pressing left, the window is resized so that it has
+    # more space on its left
+    # same bindings, but for the arrow keys
+    #  Left         -- grow left
+    bindsym Left        resize grow     left 10 px or 10 ppt
+    #  <shift> Left     -- shrink left
+    bindsym Shift+Left  resize shrink   left 10 px or 10 ppt
+    #  Down             -- grow down
+    bindsym Down        resize grow     down 10 px or 10 ppt
+    #  <shift> Down     -- shrink down
+    bindsym Shift+Down  resize shrink   down 10 px or 10 ppt
+    #  Up               -- grow up
+    bindsym Up          resize grow     up 10 px or 10 ppt
+    #  <shift> Up       -- shrink up
+    bindsym Shift+Up    resize shrink   up 10 px or 10 ppt
+    #  Right            -- grow right
+    bindsym Right       resize grow     right 10 px or 10 ppt
+    #  <shift> Right    -- shrink right
+    bindsym Shift+Right resize shrink   right 10 px or 10 ppt
+
+    ## Grow and shrink windows (Vi)
+    #  h            -- grow left
+    bindsym H       resize grow   left 10 px or 10 ppt
+    #  <shift> h    -- shrink left
+    bindsym Shift+H resize shrink left 10 px or 10 ppt
+    #  j            -- grow down
+    bindsym J       resize grow   down 10 px or 10 ppt
+    #  <shift> j    -- shrink down
+    bindsym Shift+J resize shrink down 10 px or 10 ppt
+    #  k            -- grow up
+    bindsym K       resize grow   up 10 px or 10 ppt
+    #  <shift> k    -- shrink up
+    bindsym Shift+K resize shrink up 10 px or 10 ppt
+    #  l            -- grow right
+    bindsym L       resize grow   right 10 px or 10 ppt
+    #  <shift> l    -- shrink right
+    bindsym Shift+L resize shrink right 10 px or 10 ppt
+
+    # back to normal: Enter or Escape
+    #  <enter>  -- exit resize mode
+    bindsym Return      mode "default"
+    #  <esc>    -- exit resize mode
+    bindsym Escape      mode "default"
+}
+
+
+## Set colors
+# color defines for zenburn styled i3 derived from:
+# https://faq.i3wm.org/question/2071/how-can-i-change-look-of-windows/?answer=2075
+set $bg     #2c2c2e
+set $fg     #9f9f9f
+set $hi     #efef8f
+set $ac     #a0afa0
+set $tx     #040404
+set $ia     #8f8f8f
+set $be     #8faf9f
+set $yw     #ccdc90
+set $gn     #88b090
+set $rd     #e89393
+
+# set some nice colors      border     background  text
+client.focused              $tx        $tx         $yw
+client.unfocused            $bg        $bg         $ia
+client.focused_inactive     $bg        $bg         $ac
+client.urgent               $rd        $rd         $tx
+
+
+## i3bar
+#  # display i3bar with i3status
+bar {
+    # $ xrandr-tool outputs
+    #output LVDS1   # Panel
+    #output VGA1    # VGA (Blue)
+    #output TV1     # S-Video
+    #output HDMI1   # HDMI
+    status_command i3status -c ~/.i3/i3status.cfg
+    position top
+    #tray_output none
+    colors {
+        background          $bg
+        statusline          $fg
+        separator           $hi
+        focused_workspace   $gn        $bg        $ac
+        active_workspace    $gn        $ac        $tx
+        inactive_workspace  $bg        $bg        $ia
+        urgent_workspace    $rd        $bg        $ac
+    }
+}

@@ -3,6 +3,9 @@
 
 ## A makefile for working with i3wm
 
+I3CONFIG="config"
+#I3CONFIG="config-mb1"
+
 default: test
 
 help:
@@ -14,7 +17,7 @@ help:
 
 
 help_i3:
-	cat config | egrep '(^(\s+)?##+ |^(\s+)?#  )'
+	cat ${I3CONFIG} | egrep '(^(\s+)?##+ |^(\s+)?#  )'
 
 test:
 	i3-msg 'reload'

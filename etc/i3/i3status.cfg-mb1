@@ -1,0 +1,115 @@
+## i3status configuration
+
+general {
+    #output_format = "dzen2"
+    colors = true
+    interval = 3
+}
+
+#order += "ipv6"
+#order += "disk /"
+#order += "run_watch DHCP"
+#order += "run_watch VPN"
+
+order += "volume master"
+#order += "wireless wlan0"
+#order += "ethernet eth0"
+order += "wireless wls3"
+order += "ethernet enp0s10"
+order += "load"
+order += "cpu_usage"
+order += "cpu_temperature 0"
+order += "battery 1"
+order += "tztime utc"
+order += "tztime local"
+
+tztime local {
+    format = "%Y-%m-%dT%H:%M:%S%z"
+}
+
+tztime utc {
+    format = "%Y-%m-%dT%H:%M:%S%z"
+    timezone = "UTC"
+}
+
+wireless wlan0 {
+    format_up = "%ip %essid %quality %bitrate"
+    format_down = "-"
+}
+
+ethernet eth0 {
+    # if you use %speed, i3status requires the cap_net_admin capability
+    #format_up = "%ip (%speed)"
+    format_up = "%ip"
+    format_down = "-"
+}
+
+
+## MacBook 
+ethernet enp0s10 {
+    # enp0s10
+    # if you use %speed, i3status requires the cap_net_admin capability
+    #format_up = "%ip (%speed)"
+    format_up = "%ip"
+    format_down = "-"
+}
+wireless wls3 {
+    # wls3
+    format_up = "w: %ip %essid %quality %bitrate"
+    format_down = "-"
+}
+
+battery 1 {
+    format = "%status %percentage"
+    # %remaining"
+    #path = "/sys/class/power_supply/BAT%d/uevent"
+    path = "/sys/class/power_supply/BAT0/uevent"
+}
+
+run_watch DHCP {
+    pidfile = "/var/run/dhclient*.pid"
+}
+
+run_watch VPN {
+    pidfile = "/var/run/vpnc/pid"
+}
+
+time {
+    format = "%Y-%m-%d %H:%M:%S"
+}
+
+load {
+    format = "%5min"
+}
+
+cpu_usage {
+    format = "%usage"
+}
+
+cpu_temperature 0 {
+    format = "%degrees°C"
+
+    # MacBook
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
+    #path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp3_input"
+
+    # 
+    #path = "/sys/devices/platform/coretemp.0/temp1_input"
+
+}
+
+disk "/" {
+    format = "%free"
+}
+
+disk "/home" {
+    format = "%free"
+}
+
+
+volume master {
+    format = "♪ %volume"
+    device = "default"
+    mixer = "Master"
+    mixer_idx = 0
+}
