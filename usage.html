@@ -216,7 +216,7 @@
 </div> 
         
 
-        <div class="col-md-9">
+        <div class="col-md-9" id="content-wrapper">
           <div class="document" role="main">
             <div class="documentwrapper">
               <div class="bodywrapper">
@@ -244,9 +244,9 @@ $ bash $_WRD/scripts/bootstrap_dotfiles.sh -h
 ## Usage: bootstrap_dotfiles.sh &lt;actions&gt; &lt;options&gt;
 #
 ## Actions
-#  -I   --  Install the dotfiles
+#  -I   --  Install the dotfiles (implies -S)
 #  -S   --  Install dotfiles symlinks
-#  -U   --  Update and Upgrade the dotfiles
+#  -U   --  Update and Upgrade the dotfiles (implies -S)
 #  -R   --  pip install -r requirements-all.txt
 #  -G   --  install Gitflow and hubflow
 #  -C   --  check for installed components
@@ -588,14 +588,19 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c"># * https://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts</span>
     <span class="c"># log_dotfiles_state()      -- save current environment to logfiles</span>
     <span class="c">#   $1 -- logkey (virtualenvwrapper step name)</span>
-    <span class="c"># XXX:</span>
+    <span class="c"># XXX: PRF</span>
     <span class="c"># dotfiles_initialize()     -- virtualenvwrapper initialize</span>
     <span class="c"># dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv</span>
     <span class="c"># dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv</span>
+    <span class="c"># NOTE: infer VIRTUAL_ENV_NAME from VIRTUAL_ENV</span>
     <span class="c"># dotfiles_preactivate()    -- virtualenvwrapper preactivate</span>
     <span class="c"># dotfiles_postactivate()   -- virtualenvwrapper postactivate</span>
     <span class="c"># dotfiles_predeactivate()  -- virtualenvwrapper predeactivate</span>
     <span class="c"># dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate</span>
+    <span class="c">### usrlog.sh</span>
+    <span class="c">## unset _MSG</span>
+    <span class="c">## unset NOTE</span>
+    <span class="c">## unset TODO</span>
    
    
 <span class="c">#### etc/bash/06-bashrc.completion.sh</span>
@@ -934,7 +939,10 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#  gc()             -- git-commit() &lt;files&gt; -m &lt;log&gt; ; log log -n1</span>
     <span class="c">#  git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 </span>
     <span class="c">#  gac()            -- git-add-commit $@</span>
-    <span class="c">#  msg()        -- set a commit message for the current context</span>
+<span class="c"># function msg {</span>
+<span class="c">#   export _MSG=&quot;${@}&quot;</span>
+<span class="c">#   see: usrlog.sh</span>
+<span class="c"># }</span>
     <span class="c">#  gitcmsg()    -- gitc &quot;${_MSG}&quot; ${@}</span>
     <span class="c">#  gitcaddmsg()    -- gitc &quot;${_MSG}&quot; ${@}</span>
 <span class="c">#</span>
@@ -1079,45 +1087,63 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#    2014-11-15T06:42:00-0600	dotfiles	 8311  ls</span>
       <span class="c">#  (pwd -p)?</span>
        <span class="c">#  this from HISTORY</span>
-    <span class="c">#  _usrlog_append_oldstype -- Write a line to $_USRLOG</span>
-    <span class="c">#    $1: text (command) to log</span>
-    <span class="c">#  examples:</span>
-    <span class="c">#    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG</span>
-    <span class="c">#    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls</span>
+<span class="c">#    #  _usrlog_append_oldstype -- Write a line to $_USRLOG</span>
+<span class="c">#    #    $1: text (command) to log</span>
+<span class="c">#    #  examples:</span>
+<span class="c">#    #    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG</span>
+<span class="c">#    #    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls</span>
+<span class="c">#    printf &quot;#  %-11s: %s : %s&quot; \</span>
+<span class="c">#        &quot;$_TERM_ID&quot; \</span>
+<span class="c">#        &quot;$(date +&#39;%D %R.%S&#39;)&quot; \</span>
+<span class="c">#        &quot;${1:-&#39;\n&#39;}&quot; \</span>
+<span class="c">#            | tee -a $_USRLOG &gt;&amp;2</span>
     <span class="c">#  _usrlog_writecmd()    -- write the most recent command to $_USRLOG</span>
-    <span class="c">#  _usrlog_parse_newstyle -- Parse a newstyle HISTTIMEFORMAT usrlog</span>
-    <span class="c">#  with pyline</span>
-    <span class="c">#  TODO: handle HISTTIMEFORMAT=&quot;&quot; (&quot; histn  &lt;cmd&gt;&quot;)</span>
-    <span class="c">#  TODO: handle newlines</span>
+<span class="c">## usrlog parsing</span>
+    <span class="c">#  _usrlog_parse_newstyle -- Parse a -usrlog.log with pyline</span>
+    <span class="c">#    NOTE: handle when HISTTIMEFORMAT=&quot;&quot;</span>
+    <span class="c">#    NOTE: this is approxmte (see: venv.py)</span>
     <span class="c">#  _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog</span>
     <span class="c">#  with pyline</span>
     <span class="c">#  TODO: handle HISTTIMEFORMAT=&quot;&quot; (&quot; histn  &lt;cmd&gt;&quot;)</span>
-    <span class="c">#  TODO: handle newlines (commands that start on the next line)</span>
-    <span class="c">#  TODO: HISTTIMEFORMAT histn (OSX  ) [ 8 ]</span>
-    <span class="c">#  TODO: HISTTIMEFORMAT histn (Linux) [ 7 ]</span>
+    <span class="c">#  TODO: handle newlines (commands that start on the next line)  (venv.py)</span>
+    <span class="c">#  NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]</span>
+    <span class="c">#  NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]</span>
+    <span class="c">#    &#39;list((</span>
+    <span class="c">#        (&quot; &quot;.join(w[10:]).rstrip() if len(w) &gt; 10 else None)</span>
+    <span class="c">#        or (&quot; &quot;.join(w[9:]).rstrip() if len(w) &gt; 9 else None)</span>
+    <span class="c">#        or (&quot; &quot;.join(w[8:]).rstrip() if len(w) &gt; 8 else None)</span>
+    <span class="c">#        or (&quot; &quot;.join(w[7:]).rstrip() if len(w) &gt; 7 else None)</span>
+    <span class="c">#        or (&quot; &quot;.join(w[3:]).rstrip() if len(w) &gt; 3 else None)</span>
+    <span class="c">#        or &quot; &quot;.join(w).rstrip())</span>
+    <span class="c">#        for w in [ line and line.startswith(&quot;#&quot;) and line.split(&quot;\t&quot;,9) or [line] ]</span>
+    <span class="c">#        )&#39;</span>
 <span class="c">## usrlog.sh API</span>
-    <span class="c">#  ut()  -- show recent commands</span>
+<span class="c">### usrlog _TERM_ID commands</span>
     <span class="c">#  termid()      -- echo $_TERM_ID</span>
     <span class="c">#  set_term_id() -- set $_TERM_ID to a randomstr or $1</span>
     <span class="c">#  stid()        -- set $_TERM_ID to a randomstr or $1</span>
     <span class="c">#  st()          -- set $_TERM_ID to a randomstr or $1</span>
-<span class="c">## Old (hist, histgrep, histgrep_session)</span>
-    <span class="c">#  less()       --  less the current session log</span>
-    <span class="c">#  histgrep()   -- egrep $@ $_USRLOG</span>
-    <span class="c">#  histgrep_session()    -- grep for specific sessions</span>
-    <span class="c">#    $1: session name</span>
-    <span class="c">#    $2: don&#39;t strip the line prefix</span>
-<span class="c">## New (u*, usrlog*)</span>
+<span class="c">### usrlog tail commands</span>
+    <span class="c">#  ut()  -- show recent commands</span>
+    <span class="c">#  uta()  -- tail all usrlogs from lsusrlogs</span>
+    <span class="c">#  utap()  -- tail all userlogs from lsusrlogs and parse</span>
+    <span class="c">#  ut()  -- show recent commands</span>
     <span class="c">#  usrlog_tail()     -- tail -n20 $_USRLOG</span>
     <span class="c">#  usrlogtf()    -- tail -f -n20 $_USRLOG</span>
     <span class="c">#  utf()         -- tail -f -n20 $_USRLOG</span>
+<span class="c">### usrlog grep commands</span>
     <span class="c">#  usrlog_grep() -- egrep -n $_USRLOG</span>
     <span class="c">#  ug()          -- egrep -n $_USRLOG</span>
+    <span class="c">#  uga2()</span>
 <span class="c">#     # usrlog_grep_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;</span>
 <span class="c">#     (set -x;</span>
 <span class="c">#     local _term_id=${1:-&quot;${_TERM_ID}&quot;};</span>
 <span class="c">#     local _usrlog=${2:-&quot;${_USRLOG}&quot;};</span>
 <span class="c">#     egrep &quot;# [\d-T:Z ]+\t${_term_id}\t&quot; ${_USRLOG} )</span>
+    <span class="c"># usrlog_grep_todos | _usrlog_parse_cmds</span>
+    <span class="c"># usrlog_grep_todos | _usrlog_parse_cmds</span>
+    <span class="c"># usrlog_grep_todos | _usrlog_parse_cmds</span>
+    <span class="c"># pyline &#39;(l.replace(&quot;#TODO: &quot;, &quot;- [ ] &quot;, 1).replace(&quot;#NOTE:&quot;, &quot;- &quot;, 1) if l.startswith(&quot;#TODO: &quot;, &quot;#NOTE: &quot;) else l)&#39;</span>
     <span class="c">#  usrlog_grin() -- grin -s $@ $_USRLOG</span>
     <span class="c">#  ugrin()       -- grin -s $@ $_USRLOG</span>
     <span class="c">#  usrlog_grin_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;</span>
@@ -1140,12 +1166,15 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#  lsusrlogs()             -- list usrlogs (oldest first)</span>
     <span class="c">#  usrlog_lately()      -- lsusrlogs by mtime</span>
     <span class="c">#  ull()                -- usrlog_lately() (lsusrlogs by mtime)</span>
-    <span class="c">#  usrlog_grep_all()    -- grep usrlogs (drop filenames with -h)</span>
-    <span class="c">#  ugall()              -- grep usrlogs (drop filenames with -h)</span>
+    <span class="c">#  usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)</span>
+    <span class="c">#  ugall()              -- grep $(lsusrlogs) (drop filenames with -h)</span>
+    <span class="c">#  uga()                -- grep $(lsusrlogs) (drop filenames with -h)</span>
     <span class="c">#  usrlog_grin_all()    -- grin usrlogs</span>
     <span class="c">#  usrlog_grin_all()    -- grin usrlogs</span>
-    <span class="c">#  note()   -- _usrlog_append &quot;#note  #note: $@&quot;</span>
-    <span class="c">#  todo()   -- _usrlog_append &quot;#note  #TODO: $@&quot;</span>
+    <span class="c">#  todo()   -- _usrlog_append a #TODO and set _TODO (&#39;-&#39; unsets, &#39;&#39; prints)</span>
+    <span class="c">#      see: usrlog_grep_todos_parse (ugt, ugtp) </span>
+    <span class="c">#  note()   -- _usrlog_append a #NOTE and set _NOTE (&#39;-&#39; unsets, &#39;&#39; prints)</span>
+    <span class="c">#  msg()   -- _usrlog_append a #_MSG and set __MSG (&#39;-&#39; unsets, &#39;&#39; prints)</span>
     <span class="c">#  usrlog_screenrec_ffmpeg() -- record a screencast</span>
     <span class="c">#    $1: destination directory (use /tmp if possible)</span>
     <span class="c">#    $2: video name to append to datestamp</span>
@@ -1576,7 +1605,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;  &lt;leader&gt;gr       -- SignifyRefresh
 &quot;  &lt;leader&gt;gd       -- SignifyDebug
 &quot; hunk jumping
-&quot;  &lt;leader&gt;gh       -- signify-next-hunk
+&quot;  &lt;leader&gt;gj       -- signify-next-hunk
 &quot;  &lt;leader&gt;gk       -- signify-prev-hunk
 &quot; hunk text object
 &quot;  ic               -- signify inner textobj
