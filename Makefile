@@ -582,8 +582,8 @@ local-live:
 docs-open: docs open
 
 open:
-	open docs/_build/html/index.html
-	#open docs/_build/singlehtml/index.html
+	scripts/websh.py ./docs/_build/html/index.html
+	#scripts/websh.py ./docs/_build/singlehtml/index.html
 
 update_get-pip.py:
 	cd ./scripts && wget 'https://bootstrap.pypa.io/get-pip.py'
