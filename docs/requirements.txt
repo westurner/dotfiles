@@ -1,4 +1,23 @@
 
+sphinx
+# src:
+#   -e hg+https://bitbucket.org/birkenfeld/sphinx#egg=sphinx
+
+sphinxcontrib-srclinks
+
+#sphinxcontrib-napoleon
+sphinx_rtd_theme
+sphinxcontrib-ansi
+sphinxcontrib-programoutput
+# src:
+#   -e hg+https://bitbucket.org/birkenfeld/sphinx-contrib
+
+#sphinxcontrib-issuetracker
+
+#sphinxjp.themes.basicstrap
+-e git+https://github.com/tell-k/sphinxjp.themes.basicstrap@7a5b36d1deeb#egg=sphinxjp.themes.basicstrap
+
+
 pyline
 # src:
 #   -e hg+https://github.com/westurner/pyline#egg=pyline
@@ -6,24 +25,6 @@ pyline
 pyrpo
 # src:
 #   -e hg+https://github.com/westurner/pyrpo#egg=pyrpo
-
-sphinx
-# src:
-#   -e hg+https://bitbucket.org/birkenfeld/sphinx#egg=sphinx
-
-sphinxcontrib-srclinks
-
-sphinxcontrib-napoleon
-sphinx_rtd_theme
-sphinxcontrib-ansi
-sphinxcontrib-programoutput
-# src:
-#   -e hg+https://bitbucket.org/birkenfeld/sphinx-contrib
-
-sphinxcontrib-issuetracker
-
-#sphinxjp.themes.basicstrap
--e git+https://github.com/tell-k/sphinxjp.themes.basicstrap@7a5b36d1deeb#egg=sphinxjp.themes.basicstrap
 
 ghp-import
 #-e git+https://github.com/davisp/ghp-import#egg=ghp-import
