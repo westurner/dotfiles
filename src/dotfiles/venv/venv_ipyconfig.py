@@ -3,9 +3,9 @@
 from __future__ import print_function
 """
 
-dotfiles.venv.ipython_config
+dotfiles.venv.venv_ipyconfig
 ==============================
-ipython_config.py (venv)
+venv_ipyconfig.py (venv)
 
 Create virtual environment configurations
 with a standard filesystem hierarchy overlay
@@ -51,7 +51,7 @@ Venv Implementation
 - generate and source CdAliases that expand and complete where possible
   (``cdwrk``, ``cdwrd``, ``cdw``)
 
-  - define CdAliases in ipython_config.py (this file)
+  - define CdAliases in venv_ipyconfig.py (this file)
   - generate venv.sh (``cdwrk``)
   - generate venv.vim (``:Cdwrk``)
   - generate venv_cdmagic.py (``%cdwrk``, ``cdwrk``)
@@ -60,7 +60,7 @@ Venv Implementation
 .. note::
 
    This module may only import from the Python standard library,
-   so that it always works as ``~/.ipython/profile_default/ipython_config.py``
+   so that it always works as ``~/.ipython/profile_default/venv_ipyconfig.py``
 
 """
 import collections
@@ -106,7 +106,7 @@ LOGNAME = 'venv'
 log = logging.getLogger(LOGNAME)
 
 __THISFILE = os.path.abspath(__file__)
-#  __VENV_CMD = "python {~ipython_config.py}"
+#  __VENV_CMD = "python {~venv_ipyconfig.py}"
 #  __VENV_CMD = "python %s" % __THISFILE
 
 IN_IPYTHON = 'get_ipython' in locals()
@@ -119,7 +119,7 @@ if IN_IPYTHON_CONFIG:
 else:
     IPYTHON_CONFIG = None
 
-def in_ipython_config():
+def in_venv_ipyconfig():
     """
     Returns:
         bool: True if ``get_ipython`` is in ``globals()``
@@ -1104,14 +1104,14 @@ def build_dotfiles_env(env=None,
     Configure dotfiles base environment (HOME, __WRK, __SRC, __DOTFILES)
 
     Keyword Arguments:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
         HOME (str): home path (``$HOME``, ``~``)
         __WRK (str): workspace path (``$__WRK``, ``~/-wrk``)
         __SRC (str): path to source repos (``$__WRK/-src``)
         __DOTFILES (str): current dotfiles path (``~/-dotfiles``)
 
     Returns:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
 
         Sets:
 
@@ -1143,12 +1143,12 @@ def build_virtualenvwrapper_env(env=None, **kwargs):
     Set WORKON_HOME to WORKON_HOME or WORKON_HOME_DEFAULT
 
     Keyword Arguments:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
         __WRK (str): workspace path (``$__WRK``, ``~/-wrk``)
         WORKON_HOME_DEFAULT (str): variable name (default: ``WORKON_HOME__py27``)
         WORKON_HOME__* (str): path to a WORKON_HOME set
     Returns:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
 
         Sets:
 
@@ -1199,9 +1199,9 @@ def build_conda_env(env=None, **kwargs):
         CONDA_ENVS__py34 (str): path to conda34 envs (e.g. WORKON_HOME)
 
     Keyword Arguments:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
     Returns:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
     """
     if env is None:
         env = Env()
@@ -1253,9 +1253,9 @@ def build_conda_cfg_env(env=None, **kwargs):
     TODO build_venv_config
 
     Args:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
     Returns:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
     """
     if env is None:
         env = Env()
@@ -1294,12 +1294,12 @@ def build_venv_paths_full_env(env=None,
     Set variables for standard paths in the environment
 
     Keyword Args:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env` (default: None (Env()))
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env` (default: None (Env()))
         VENVPREFIX (str): venv prefix path (default: None (VIRTUAL_ENV))
         VENVSTR (str): name of a VIRTUAL_ENV in WORKON_HOME or path to a VIRTUAL_ENV (default: None)
         VIRTUAL_ENV (str): path to a VIRTUAL_ENV (default: None)
     Returns:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
     Raises:
         StepConfigException: When not any((
             VIRTUAL_ENV, VENVPREFIX, VENVSTR, VENVSTRAPP))
@@ -1419,7 +1419,7 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
     aliases['cdwww']         = CdAlias('_WWW',         aliases=['cdww'])
 
     aliases['cdls']   = """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
-    aliases['cdhelp'] = """cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\s*#+\s+.*' 'rgx and l'"""
+    aliases['cdhelp'] = """cat ${__DOTFILES}/''scripts/venv_cdaliases.sh | pyline.py -r '^\s*#+\s+.*' 'rgx and l'"""
     return env
 
 
@@ -1705,7 +1705,7 @@ def build_usrlog_env(env=None,
     Build environment variables and configuration like usrlog.sh
 
     Keyword Args:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
         _TERM_ID (str): terminal identifier string
         shell (str): shell name ("bash", "zsh")
         prefix (str): a path prefix (e.g. ``$VIRTUAL_ENV`` or ``$PREFIX``)
@@ -1715,7 +1715,7 @@ def build_usrlog_env(env=None,
             and not env.get('HOSTNAME'), try to read ``HOSTNAME``
             from ``os.environ`` and then ``socket.gethostname()``.
     Returns:
-        env (Env dict): :py:class:`dotfiles.venv.ipython_config.Env`
+        env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
 
     .. note:: Like ``usrlog.sh``, when ``HISTTIMEFORMAT`` is set,
         ``USER`` and ``HOSTNAME`` must be evaluated.
@@ -2748,7 +2748,7 @@ class Venv(object):
         if c is None:
             if not IN_IPYTHON_CONFIG:
                 # skip IPython configuration
-                log.error("not in_ipython_config")
+                log.error("not in_venv_ipyconfig")
                 return
             else:
                 c = IPYTHON_CONFIG # get_config()
@@ -3211,8 +3211,9 @@ def get_USRLOG_ALIAS_OVERLAY():
 
 def ipython_main():
     """
-    Function to call if running within IPython,
-    as determined by ``in_ipython_config`` .
+    Configure IPython with :py:class:`Venv`
+    :py:method:`configure_ipython`
+    (:py:method:`_configure_ipython`).
     """
     venv = None
     if 'VIRTUAL_ENV' in os.environ:

@@ -4,33 +4,38 @@
 
 Objectives
 ------------
-:py:mod:`dotfiles.venv.ipython_config` (`ipython_config.py`_):
+:py:mod:`dotfiles.venv.venv_ipyconfig` (`venv_ipyconfig.py`_):
 
 - Set variables for standard :ref:`Virtualenv` paths in the environment dict
-- Define :ref:`IPython` aliases
+  (":ref:`Venv Paths`")
+- Define :ref:`IPython` aliases (``%aliases``)
 - Serialize variables and aliases to:
 
   - :ref:`IPython` configuration (variables, aliases)
   - :ref:`Bash`/:ref:`ZSH` configuration (variables, aliases, functions):
 
-    * ``venv -E --bash``
-    * ``venv dotfiles --bash``
+    .. code:: bash
 
-  - :ref:`JSON-` (variables, aliases) [``--print``]
+        venv.py -e --bash        # venv --print-bash --from-environ
+        venv.py dotfiles --bash  # venv --print-bash --wh=~/-wrk/-ve27 --ve=dotfiles
 
-    * ``venv -E --json``
-    * ``venv dotfiles json``
+  - :ref:`JSON-` (variables, aliases) [``--print``]:
 
-:py:mod:`dotfiles.venv.ipython_magics` (`ipython_magics.py`_):
+    .. code:: bash
+
+        venv.py -e --json
+        venv.py dotfiles --json
+
+:py:mod:`dotfiles.venv.venv_ipymagics` (`venv_ipymagics.py`_):
 
 - Configure :ref:`IPython` ``%magic`` commands
 
-  - ``cd*`` -- change directories (``%cdhelp``, ``%cdp``, ``%cdwh``, ``%cdv``,
-    ``%cds``, ``%cdw``)
   - ``ds``  -- print dotfiles_status
+  - ``cd*`` -- :ref:`CdAliases` for :ref:`Venv Paths`
+    (e.g. ``%cdhelp``, ``%cdp``, ``%cdwh``, ``%cdv``, ``%cds``, ``%cdw``)
 
-.. _ipython_config.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_config.py
-.. _ipython_magics.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/ipython_magics.py
+.. _venv_ipyconfig.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py
+.. _venv_ipymagics.py: https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipymagics.py
 
 
 Configuration
@@ -38,16 +43,23 @@ Configuration
 
 Shell
 ~~~~~~~
-For Bash/ZSH, ``etc/bash/10-bashrc.venv.sh`` sets:
+
+
+**:ref:`dotfiles` configuration`**
 
 .. code-block:: bash
 
-    # ...
-    _VENV="${__DOTFILES}/etc/ipython/ipython_config.py"
-    venv() {
-        $_VENV $@
-    }
-    # ...
+    # TODO:
+
+    source ${__DOTFILES}/scripts/venv.sh
+    source ${__VENV}/scripts/venv.sh
+
+    build-venv.sh:
+        cat venv_core.sh > venv.sh
+        cat venv_cdaliases >> venv.sh
+
+    source ${__DOTFILES}/etc/bash/10-bashrc.venv.sh   # venv(), workon_venv
+        source ${__DOTFILES}/scripts/venv.sh          # cdaliases, work
 
 ``etc/bash/10-bashrc.venv.sh`` is sourced by
 ``etc/bash/00-bashrc.before.sh``, which is sourced by ``~/.bashrc``
@@ -58,31 +70,25 @@ For Bash/ZSH, ``etc/bash/10-bashrc.venv.sh`` sets:
 IPython
 ~~~~~~~~
 
-To configure IPython with venv, `ipython_config.py`_
-must be symlinked into ``~/.ipython/profile_default``
-(and, optionally,
-`ipython_magics.py`_ into ``~/.ipython/profile_default/startup/``):
+To configure :ref:`IPython` with venv, `venv_ipyconfig.py`_
+must be symlinked into ``~/.ipython/profile_default/ipython_config.py``
+and, optionally, for :ref:`CdAliases`,
+`venv_ipymagics.py`_ must be symlinked
+into e.g. ``~/.ipython/profile_default/startup/20-venv_ipymagics.py``):
 
 .. code-block:: bash
 
     # symlink paths relative to ${__DOTFILES}
     __DOTFILES="~/-dotfiles"
-
     # working directory (path to the dotfiles repository)
     _WRD=${WORKON_HOME}/dotfiles/src/dotfiles
 
-    # created by ``bootstrap_dotfiles.sh -S``
-    # ln -s ${_WRD} ${__DOTFILES}
-    # ln -s ${__DOTFILES}/etc/bashrc ~/.bashrc
-    # ln -s ${_WRD}/etc/ipython/ipython_config.py \\
-    #       ${__DOTFILES}/etc/ipython/ipython_config.py
-
     # MANUALLY INSTALL for each IPython profile
     IPY_PROFILE="profile_default"
-    ln -s ${__DOTFILES}/etc/ipython/ipython_config.py \\
+    ln -s ${__DOTFILES}/scripts/venv_ipyconfig.py \\
           ~/.ipython/${IPY_PROFILE}/ipython_config.py
 
-    ln -s ${__DOTFILES}/etc/ipython/ipython_magics.py \\
-          ~/.ipython/${IPY_PROFILE}/ipython_magics.py
+    ln -s ${__DOTFILES}/scripts/venv_ipymagics.py \\
+          ~/.ipython/${IPY_PROFILE}/startup/20-venv_ipymagics.py
 
 """

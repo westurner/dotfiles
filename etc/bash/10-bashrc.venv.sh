@@ -234,7 +234,7 @@ venv_ls() {
         return
     fi
     #ls -ld ${prefix}/**
-    ls -ld $(find ${prefix} ${prefix}/lib -type d -maxdepth 2)
+    ls -ld $(find ${prefix} ${prefix}/lib -maxdepth 2 -type d)
 }
 lsvenv() {
     # lsvenv()      -- venv_ls()

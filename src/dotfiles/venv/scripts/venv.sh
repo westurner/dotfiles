@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ## venv.sh
 # generated from $(venv --print-bash --prefix=/)
 
