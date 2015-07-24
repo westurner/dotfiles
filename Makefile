@@ -476,6 +476,11 @@ docs: localcss localjs pip_install_requirements_docs.log
 	$(MAKE) help_i3_txt
 	$(MAKE) docs_commit_autogen
 	$(MAKE) -C docs clean html   # singlehtml
+	$(MAKE) docs-notify
+
+docs-notify:
+	$(shell (hash notify-send -t 3000 \
+		&& notify-send "docs build complete.") || true)
 
 DOCS_AUTOGEN_FILES:=\
 	docs/usage/bash_conf.txt \
