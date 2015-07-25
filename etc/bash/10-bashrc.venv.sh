@@ -47,19 +47,19 @@ _setup_venv
 
 ## Functions
 
-venv() {
+function venv {
     # venv $@   -- call $_VENV $@
     # venv -h   -- print venv --help
     # venv --print-bash   -- print bash configuration
     # venv --print-json   -- print IPython configuration as JSON
     (set -x; $__VENV $@)
 }
-venvw() {
+function venvw {
     # venvw $@ -- venv -E $@ (for the current environment)
     (set -x; $__VENV -e $@)
 }
 
-workon_venv() {
+function workon_venv {
     # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
     #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
     #  param $2: $_APP ("dotfiles") [default: $1)
@@ -85,7 +85,7 @@ workon_venv() {
         return 1
     fi
 }
-we () {
+function we  {
     # we()          -- workon_venv
     workon_venv $@
 }
@@ -100,45 +100,45 @@ fi
 
 ## Grin search
 # virtualenv / virtualenvwrapper
-grinv() {
+function grinv {
     # grinv()   -- grin $VIRTUAL_ENV
     grin --follow $@ "${VIRTUAL_ENV}"
 }
-grindv() {
+function grindv {
     # grindv()  -- grind $VIRTUAL_ENV
     grind --follow $@ --dirs "${VIRTUAL_ENV}"
 }
 
 # venv
-grins() {
+function grins {
     # grins()   -- grin $_SRC
     grin --follow $@ "${_SRC}"
 }
-grinds() {
+function grinds {
     # grinds()  -- grind $_SRC
     grind --follow $@ --dirs "${_SRC}"
 }
-grinw() {
+function grinw {
     # grinw()   -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
-grindw() {
+function grindw {
     # grindw()  -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
 }
 
-edit_grin_w() {
+function edit_grin_w {
     # edit_grin_w() -- edit $(grinw -l $@)
     edit $(grinw -l $@)
 }
 
-egw() {
+function egw {
     # egw           -- edit $(grinw -l $@)
     edit_grin_w $@
 }
 
 # ctags
-grindctags() {
+function grindctags {
     # grindctags()      -- generate ctags from grind (in ./tags)
     if [ -n "${__IS_MAC}" ]; then
         # brew install ctags
@@ -159,20 +159,20 @@ grindctags() {
     wc -l ${path}/tags.err;
     ls -alhtr ${path}/tags*;)
 }
-grindctagssys() {
+function grindctagssys {
     # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
     grindctags "${_WRD}" "--sys-path"
 }
-grindctagsw() {
+function grindctagsw {
     # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
     grindctags "${_WRD}"
 }
-grindctagss() {
+function grindctagss {
     # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
     grindctags "${_SRC}"
 }
 
-_setup_venv_aliases() {
+function _setup_venv_aliases {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
@@ -205,7 +205,7 @@ _setup_venv_aliases() {
 _setup_venv_aliases
 
 
-_setup_venv_prompt() {
+function _setup_venv_prompt {
     # _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
     #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
@@ -227,7 +227,7 @@ _setup_venv_prompt
 
 
 
-venv_ls() {
+function venv_ls {
     # venv_ls()     -- list virtualenv directories
     prefix=${1:-${VIRTUAL_ENV}}
     if [ -z "${prefix}" ]; then
@@ -236,12 +236,12 @@ venv_ls() {
     #ls -ld ${prefix}/**
     ls -ld $(find ${prefix} ${prefix}/lib -maxdepth 2 -type d)
 }
-lsvenv() {
+function lsvenv {
     # lsvenv()      -- venv_ls()
     venv_ls $@
 }
 
-venv_mkdirs() {
+function venv_mkdirs {
     # venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
     prefix=${1:-${VIRTUAL_ENV}}
     if [ -z "${prefix}" ]; then
