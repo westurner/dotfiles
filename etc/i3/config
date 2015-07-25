@@ -36,16 +36,30 @@
 
 ### Configure I3
 
-# Set i3 modifier keys to variables
-#  # set $mod to <alt>    (<Alt_L> and <Alt_R>)
-set $mod Mod1
-#  # set $mod2 to <Super> (<Super_L> and <Super_R>)
-set $mod2 Mod4
+## To swap layouts: (make swap-layout)
+#   sed 's/<alt>/<ALT>/g' && sed 's/<super>/<alt>/g' && sed 's/<ALT>/<super>/g'
+
+## Set i3 keyboard modifier keys to variables $mod and $mod2  (for keyboard layout flexibility)
+## PC Keyboard (default) ##
+#    PC: $mod  == <Alt>
+set      $mod      Mod1
+#    PC: $mod2 == <Super>
+set      $mod2     Mod4
+
+## Alternate (e.g. Mac Keyboard ) ##
+#    Mac: $mod  == <Super>
+#set      $mod     Mod4
+#    Mac: $mod2 == <Alt>
+#set      $mod2    Mod1
+
 
 # font for window titles. ISO 10646 = Unicode
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# Pango requires i3 version >= TODO
-font pango:DejaVu Sans Mono 12
+font -*-misc-fixed-medium-r-normal-*-*-140-*-*-*-*-iso10646-*
+# Pango requires i3 version >= ____
+#font pango:DejaVu Sans Mono 9
+#font pango:Source Code Pro for Powerline Medium 9
+#font pango:Fira Mono Medium for Powerline Medium 9
+font pango:Roboto 9
 
 # reload the configuration file
 #  <alt><shift> c   -- reload i3 configuration
@@ -76,28 +90,34 @@ set $screensaver_stop ~/-dotfiles/scripts/xlck.sh -P
 set $lock_screen ~/-dotfiles/scripts/xlck.sh -L
 
 set $editor i3-sensible-editor
-set $browser x-www-browser
-set $browser_email x-www-browser "https://mail.google.com/"
-set $terminal i3-sensible-terminal
+set $browser websh.py 'about:blank'
+set $browser_email websh.py "https://mail.google.com/"
+set $terminal "/usr/bin/gnome-terminal"
+#set $terminal i3-sensible-terminal
 set $network_applet nm-applet
 set $filebrowser thunar
 #set $filebrowser nautilus
-set $calculator gnome-terminal -x /bin/bash -ic "/srv/workspace/.virtualenvs/math/bin/ipython notebook"
+set $calculator gnome-terminal -x /bin/bash -ic "${WORKON_HOME}/math/bin/ipython notebook"
 #set $filebrowser nautilus
 
 #  # Get WM_CLASS with $(xprop WM_CLASS)
 set $terminal_selector [class="Gnome-terminal"]
 set $editor_selector [class="Gvim"]
-set $browser_selector [class="X-www-browser"]
+set $browser_selector [class="Chrome"]
+#set $browser_selector [class="Chromium"]
+#set $browser_selector [class="Google-chrome"]
+#set $browser_selector [class="Firefox"]
 
 set $screenshot_full xfce4-screenshooter -s ~/pictures/screens --fullscreen
 set $screenshot_window xfce4-screenshooter -s ~/pictures/screens --window
-set $volume_up pactl set-sink-volume 0 -- +10%
-set $volume_down pactl set-sink-volume 0 -- -10%
+#set $volume_up pactl set-sink-volume 0 -- +10%
+#set $volume_down pactl set-sink-volume 0 -- -10%
+set $volume_up pactl set-sink-volume 0 +10%
+set $volume_down pactl set-sink-volume 0 -10%
 
 set $set_xbackground xsetroot -solid "#000000"
 set $set_xwallpaper feh --bg-center --no-xinerama ~/wallpaper.png
-# set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png
+#set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png
 
 set $brightness_up   xbacklight -inc 20 -time 1 -steps 1
 set $brightness_down xbacklight -dec 20 -time 1 -steps 1
@@ -117,16 +137,22 @@ set $scratchpad_start_editor gvim --servername SCRATCHPAD --remote ~/TODO
 ## Autoruns
 #
 #  - Start gnome-settings-daemon (e.g. for anti-aliasing)
+#  $PATH/gnome-settings-daemon        -- Ubuntu, Debian
+#  /usr/libexec/gnome-settings-daemon -- Fedora
 exec --no-startup-id gnome-settings-daemon
+exec --no-startup-id /usr/libexec/gnome-settings-daemon-localexec
+#- Start gnome-session (initial programs + gnome-settings-daemon)
+exec gnome-session
+
+
+#  - Start screensaver
+exec --no-startup-id $screensaver_start
 
 #  - Set X background
 exec --no-startup-id $set_xbackground
 
 #  - Set X wallaper to (~/wallpaper.png)
 exec --no-startup-id $set_xwallpaper
-
-#  - Start screensaver
-exec --no-startup-id $screensaver_start
 
 
 # - Launch network applet (optional)
@@ -508,12 +534,14 @@ set $tx     #040404
 set $ia     #8f8f8f
 set $be     #8faf9f
 set $yw     #ccdc90
+set $lr     #dc9090
 set $gn     #88b090
 set $rd     #e89393
 
 # set some nice colors      border     background  text
-client.focused              $tx        $tx         $yw
-client.unfocused            $bg        $bg         $ia
+#client.focused              $tx        $tx         $yw
+client.focused              $tx        $tx         $lr
+client.unfocused            $tx        $bg         $ia
 client.focused_inactive     $bg        $bg         $ac
 client.urgent               $rd        $rd         $tx
 
@@ -530,10 +558,10 @@ bar {
     position top
     #tray_output none
     colors {
-        background          $bg
+        background          $tx
         statusline          $fg
-        separator           $hi
-        focused_workspace   $gn        $bg        $ac
+        separator           $bg
+        focused_workspace   $tx        $tx        $ac
         active_workspace    $gn        $ac        $tx
         inactive_workspace  $bg        $bg        $ia
         urgent_workspace    $rd        $bg        $ac
