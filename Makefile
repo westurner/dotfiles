@@ -479,8 +479,8 @@ docs: localcss localjs pip_install_requirements_docs.log
 	$(MAKE) docs-notify
 
 docs-notify:
-	$(shell (hash notify-send -t 3000 \
-		&& notify-send "docs build complete.") || true)
+	$(shell (hash notify-send \
+		&& notify-send -t 30000 "docs build complete.") || true)
 
 DOCS_AUTOGEN_FILES:=\
 	docs/usage/bash_conf.txt \
