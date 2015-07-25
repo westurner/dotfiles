@@ -15,6 +15,12 @@ function _setup_venv {
     # __VENV      -- path to local venv config script (executable)
     export __VENV="${__DOTFILES}/scripts/venv.py"
 
+    # CdAlias functions and completions
+    source "${__DOTFILES}/etc/venv/scripts/venv.sh"
+    if [ "${VENVPREFIX}" == "/" ]; then
+        source "${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh"
+    fi
+
     _setup_venv_SRC
 }
 
@@ -92,11 +98,6 @@ function we  {
 complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
 
-# CdAlias functions and completions
-source ${__DOTFILES}/etc/venv/scripts/venv.sh
-if [ "$VENVPREFIX" == "/" ]; then
-    source ${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh
-fi
 
 ## Grin search
 # virtualenv / virtualenvwrapper
