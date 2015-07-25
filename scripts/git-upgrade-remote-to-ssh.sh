@@ -212,6 +212,7 @@ function test_git_upgrade_remote_to_ssh_main {
 }
 
 function git_upgrade_remote_to_ssh_main {
+    ## git_upgrade_remote_to_ssh_main -- main argument handling
     for arg in ${@}; do
         case $arg in
             -t|--test)
