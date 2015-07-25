@@ -64,8 +64,11 @@ def net_connection_memory_info(ports=[80, 443],
 
     connections = filter_cnxs(connections, ports=ports)
 
-    pids_dict = collections.OrderedDict(
-        ((cnx.pid, cnx) for cnx in connections))
+    pids_dict = collections.OrderedDict()
+    for cnx in connections:
+        l = pids_dict.setdefault(cnx.pid, [])
+        l.append(cnx)
+
     processes = [x for x in psutil.process_iter() if x.pid in pids_dict]
     cols = [
         'lport', 'lhost', 'rport', 'rhost', 'username', 'pid', 'cmdline'
@@ -78,33 +81,34 @@ def net_connection_memory_info(ports=[80, 443],
     if yield_str:
         yield joinrow(cols)
     for p in processes:
-        cnx = pids_dict[p.pid]
-        if yield_pid:
-            yield p.pid
-        lhost, lport, rhost, rport = None, None, None, None
-        if cnx.laddr:
-            lhost, lport = cnx.laddr
-        if cnx.raddr:
-            rhost, rport = cnx.raddr
-        row = [lport,
-               lhost,
-               rport,
-               rhost,
-               p.username(),
-               p.pid,
-               ' '.join(p.cmdline())]
-        if yield_row:
-            yield row
-        if yield_dict or yield_str:
-            attrs = collections.OrderedDict()
-            for attrkey, attrvalue in zip(cols, row):
-                attrs[attrkey] = attrvalue
-            if yield_dict:
-                yield attrs
-        if yield_str:
-            yield joinrow(row, nonestr='-')
-        if yield_process:
-            yield p
+        cnxs = pids_dict[p.pid]
+        for cnx in cnxs:
+            if yield_pid:
+                yield p.pid
+            lhost, lport, rhost, rport = None, None, None, None
+            if cnx.laddr:
+                lhost, lport = cnx.laddr
+            if cnx.raddr:
+                rhost, rport = cnx.raddr
+            row = [lport,
+                lhost,
+                rport,
+                rhost,
+                p.username(),
+                p.pid,
+                ' '.join(p.cmdline())]
+            if yield_row:
+                yield row
+            if yield_dict or yield_str:
+                attrs = collections.OrderedDict()
+                for attrkey, attrvalue in zip(cols, row):
+                    attrs[attrkey] = attrvalue
+                if yield_dict:
+                    yield attrs
+            if yield_str:
+                yield joinrow(row, nonestr='-')
+            if yield_process:
+                yield p
 
 
 import unittest
