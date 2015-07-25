@@ -190,6 +190,8 @@ function test_git_upgrade_remote_to_ssh_main {
         assert_remote_url "${_repodir}" "${_origin2url_up}" origin2
     }
     _test_git_upgrade_remote_to_ssh_3 || return
+
+    _tearDown_testrepo
     return
 }
 
