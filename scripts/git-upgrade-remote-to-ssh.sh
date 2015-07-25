@@ -1,9 +1,28 @@
 #!/bin/bash
 ### git-upgrade-remote-to-ssh.sh 
 
-## Adapted from
+function git_upgrade_remote_to_ssh_help {
+## git_upgrade_remote_to_ssh_help() -- print help
+    local __file__=$(basename "${0}")
+    echo "${__file__}: <path> <remote>"
+    echo "  Upgrade Git remote URLs to SSH URLs"
+    echo ""
+    echo "  -t / --test    -- run tests and echo PASS/FAIL"
+    echo "  -h / --help    -- print (this) help"
+    echo ""
+    echo "  # git -C ./ --config --get remote.origin.url    # print 'origin' URL in ./"
+    echo "  $ ${__file__} -h       # print (this) help"
+    echo "  $ ${__file__}          # upgrade 'origin' URLs in ./"
+    echo "  $ ${__file__} .        # upgrade 'origin' URLs in ./"
+    echo "  $ ${__file__} . upstream       # upgrade 'upstream' URLs in ./"
+    echo "  $ ${__file__} ./path           # upgrade 'origin' URLs in ./path"
+    echo "  $ ${__file__} ./path upstream  # upgrade 'upstream' URLs in ./path"
+    echo ""
+}
+
 
 function git_upgrade_url_to_ssh {
+## git_upgrade_url_to_ssh() -- transform git/http/https URLs to SSH URLs
     local _currenturl="${1}"
     local _hostpath="$(echo "${_currenturl}" \
         | sed 's,^\(git\|http\|https\)://\(.*\)$,ssh://git@\2,' - \
@@ -11,32 +30,27 @@ function git_upgrade_url_to_ssh {
     echo "${_hostpath}"
 }
 
-function git_upgrade_url_to_ssh_pyline {
-    echo "${@}" | pyline -m urlobject 'l and ((u.with_scheme("ssh").with_username(u.username or "git")) for u in [urlobject.URLObject(l)])'
-}
-
 function test_git_upgrade_url_to_ssh {
-
-
+## test_git_upgrade_url_to_ssh() -- test URL to SSH (or identity) transforms
     test \
-        "$(git_upgrade_url_to_ssh "ssh://git@bitbucket.org/westurner/dotfiles#abc")" \
-        = "ssh://git@bitbucket.org/westurner/dotfiles#abc"
+        "$(git_upgrade_url_to_ssh "ssh://git@bitbucket.org/vinay.sajip/sarge#abc")" \
+        = "ssh://git@bitbucket.org/vinay.sajip/sarge#abc"
     test \
         "$(git_upgrade_url_to_ssh "ssh://git@github.org/westurner/dotfiles#abc")" \
         = "ssh://git@github.org/westurner/dotfiles#abc"
 
     test \
-        "$(git_upgrade_url_to_ssh "https://github.com/westurner/dotfiles#abc")" \
-        = "ssh://git@github.com/westurner/dotfiles#abc"
+        "$(git_upgrade_url_to_ssh "https://github.com/github/gitignore#abc")" \
+        = "ssh://git@github.com/github/gitignore#abc"
     test \
-        "$(git_upgrade_url_to_ssh "http://github.com/westurner/dotfiles#abc")" \
-        = "ssh://git@github.com/westurner/dotfiles#abc"
+        "$(git_upgrade_url_to_ssh "http://github.com/github/gitignore#abc")" \
+        = "ssh://git@github.com/github/gitignore#abc"
     test \
-        "$(git_upgrade_url_to_ssh "https://bitbucket.org/westurner/dotfiles#abc")" \
-        = "ssh://git@bitbucket.org/westurner/dotfiles#abc"
+        "$(git_upgrade_url_to_ssh "https://bitbucket.org/vinay.sajip/sarge#abc")" \
+        = "ssh://git@bitbucket.org/vinay.sajip/sarge#abc"
     test \
-        "$(git_upgrade_url_to_ssh "http://bitbucket.org/westurner/dotfiles#abc")" \
-        = "ssh://git@bitbucket.org/westurner/dotfiles#abc"
+        "$(git_upgrade_url_to_ssh "http://bitbucket.org/vinay.sajip/sarge#abc")" \
+        = "ssh://git@bitbucket.org/vinay.sajip/sarge#abc"
     test \
         "$(git_upgrade_url_to_ssh "http://abc")" \
         = "ssh://git@abc"
@@ -53,15 +67,17 @@ function test_git_upgrade_url_to_ssh {
         "$(git_upgrade_url_to_ssh "git://localhost:442/origin/#efg")" \
         = "ssh://git@localhost:442/origin/#efg" || return
 
-
     test \
         "$(git_upgrade_url_to_ssh "/path/to/#123")" \
         = "/path/to/#123" || return
 
+    test \
+        "$(git_upgrade_url_to_ssh ".")" \
+        = "." || return
 }
 
 function git_upgrade_remote_to_ssh {
-    ## git_track_all_remotes -- add local tracking branches for all remote
+## git_track_all_remotes() -- add local tracking branches for all remote
     local _path="${1:-"."}"
     local _name="${2:-"origin"}"
 
@@ -74,7 +90,7 @@ function git_upgrade_remote_to_ssh {
 }
 
 function test_git_upgrade_remote_to_ssh_main {
-    ## test_git_upgrade_remote_to_ssh_main -- tests git_upgrade_remote_to_ssh
+## test_git_upgrade_remote_to_ssh_main() -- tests git_upgrade_remote_to_ssh
     set -x
 
     ## print git_upgrade_remote_to_ssh_help
@@ -214,24 +230,6 @@ function git_upgrade_remote_to_ssh_main {
     
     git_upgrade_remote_to_ssh "${@}"
     return
-}
-
-function git_upgrade_remote_to_ssh_help {
-    local __file__=$(basename "${0}")
-    echo "${__file__}: <path> <remote>"
-    echo "  Upgrade Git remote URLs to SSH URLs"
-    echo ""
-    echo "  -t / --test    -- run tests and echo PASS/FAIL"
-    echo "  -h / --help    -- print (this) help"
-    echo ""
-    echo "  # git -C ./ --config --get remote.origin.url    # print 'origin' URL in ./"
-    echo "  $ ${__file__} -h       # print (this) help"
-    echo "  $ ${__file__}          # upgrade 'origin' URLs in ./"
-    echo "  $ ${__file__} .        # upgrade 'origin' URLs in ./"
-    echo "  $ ${__file__} . upstream       # upgrade 'upstream' URLs in ./"
-    echo "  $ ${__file__} ./path           # upgrade 'origin' URLs in ./path"
-    echo "  $ ${__file__} ./path upstream  # upgrade 'upstream' URLs in ./path"
-    echo ""
 }
 
 if [ "${BASH_SOURCE}" == "${0}" ]; then
