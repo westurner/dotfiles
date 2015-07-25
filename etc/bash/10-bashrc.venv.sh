@@ -91,7 +91,7 @@ function workon_venv {
         return 1
     fi
 }
-function we  {
+function we {
     # we()          -- workon_venv
     workon_venv $@
 }
