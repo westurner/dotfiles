@@ -57,7 +57,11 @@ function _usrlog_set_HISTFILE  {
     fi
 
     #   history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
-    history -c && history -r $HISTFILE
+    if [ "${__IS_ZSH}" ]; then
+        history -r $HISTFILE
+    else
+        history -c && history -r $HISTFILE
+    fi
 }
 
 function _usrlog_set_HIST {
