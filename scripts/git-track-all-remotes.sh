@@ -10,8 +10,9 @@ function git_track_all_remotes_help {
     echo ""
     echo "Create Git local tracking branches for **ALL** of a remote's branches."
     echo ""
-    echo "  -t/--test  run tests"
-    echo "  -h/--help  print (this) help"
+    echo "  -t/--test             run all tests"
+    echo "  -T/--test-fail-early  run tests (and fail early)"
+    echo "  -h/--help             print (this) help"
     echo ""
     return 0
 }
@@ -43,27 +44,30 @@ __TEST_NAME="_unset_"  # GLOBAL
 __TESTS_STARTED_ARRAY=( )
 __TEST_RESULTS_ARRAY=( )
 __TESTS_FAILED_ARRAY=( )
+__TESTS_PASSED_ARRAY=( )
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
+LIGHT_PURPLE='\033[1;35m'
 LIGHT_BLUE='\033[1;34m'
 NC='\033[0m' # No Color
 
 function test_start {
     __TEST_NAME="${1:-"${@}"}" 
-    __TESTS_STARTED_ARRAY+="${__TEST_NAME}"
+    __TESTS_STARTED_ARRAY+="${__TEST_NAME}"$'\n'
     printf "${LIGHT_BLUE}###### ${__TEST_NAME} ######${NC}\n"
 }
 function test_pass {
     local __TEST_NAME="${1:-"${__TEST_NAME}"}"
-    local _str="## ${__TEST_NAME} ... PASS"
+    local _str="## ${__TEST_NAME} ... ${GREEN}PASS${NC}"
     __TEST_RESULTS_ARRAY+="${_str}"$'\n'
+    __TESTS_PASSED_ARRAY+="${_str}"$'\n'
     printf "${GREEN}${_str}${NC}\n"
     return 0
 }
 function test_fail {
     local __TEST_NAME="${1:-"${__TEST_NAME}"}"
-    local _str="#! ${__TEST_NAME} ... FAIL"
+    local _str="#! ${__TEST_NAME} ... ${RED}FAIL${NC}"
     __TEST_RESULTS_ARRAY+="${_str}"$'\n'
     __TESTS_FAILED_ARRAY+="${_str}"$'\n'
     printf "${RED}${_str}${NC}\n"
@@ -72,7 +76,7 @@ function test_fail {
 ###
 
 function test_git_track_all_remotes {
-    test_start "test_git_track_all_remotes[]"
+    test_start "${LIGHT_PURPLE}test_git_track_all_remotes[]"
 
     function test_git_track_all_remotes_help {
         test_start "test_git_track_all_remotes_help"
@@ -188,8 +192,10 @@ function test_git_track_all_remotes {
         test_start "test_git_track_all_remotes_setUp_testrepo "
         local _path="${1:-"./tst"}"
         _tearDown_testrepo "${_path}" || true
+        # TODO: assert not present
         _setUp_testrepo "${_path}"
-        _tearDown_testrepo "${_path}"
+        _assert_git_branches "${_path}"
+
     }
     test_git_track_all_remotes_setUp_testrepo && test_pass || test_fail
 
@@ -296,7 +302,8 @@ function test_git_track_all_remotes {
     _tearDown_testrepo "${_path}"
 
     #echo "${__TESTS_STARTED_ARRAY}"
-    function test_print_results {
+    function print_test_results {
+        # print test results
         IFS=$'\n'
         local _color"";
         local _pass="";
@@ -307,9 +314,9 @@ function test_git_track_all_remotes {
             _color="${GREEN}"
             _pass=true
         fi
-        printf "${_color}###### test results ######${NC}\n"
+        printf "${_color}###### print_test_results ######${NC}\n"
         for tst in ${__TEST_RESULTS_ARRAY[*]}; do
-            echo "${tst}"
+            printf "${tst}\n"
         done
         if [ -n "${_pass}" ]; then
             printf "${GREEN}PASS${NC}"
@@ -319,7 +326,7 @@ function test_git_track_all_remotes {
             return 1
         fi
     }
-    (set +x; test_print_results)
+    (set +x; print_test_results)
     #test -n "${__TEST_FAILED_ARRAY}"
     return
 }
