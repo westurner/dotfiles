@@ -216,7 +216,7 @@ Work on a conda env:
    source deactivate
 
 
-``conda env`` writes to and creates environments from ``environment.yml``
+``conda-env`` writes to and creates environments from ``environment.yml``
 files which list conda and :ref:`pip` packages.
 
 Work with conda envs and ``environment.yml`` files:
@@ -227,7 +227,7 @@ Work with conda envs and ``environment.yml`` files:
     conda install -n root conda-env
 
     # Create a conda environment with ``conda-create`` and install conda-env
-    conda create -n science python=3 readline conda-env
+    conda create -n science python=3 readline conda-env pip
 
     # Install some things with conda (and envs/science/bin/pip)
     # https://github.com/westurner/notebooks/blob/gh-pages/install.sh
