@@ -1979,7 +1979,7 @@ compiled to work with a :ref:`GNU/Linux <linux>` kernel and a :ref:`libc`.
 .. _arch:
 
 Arch
-~~~~~~
+++++++
 | Wikipedia: `<https://en.wikipedia.org/wiki/Arch_Linux>`__
 | Homepage: https://www.archlinux.org/
 | Download: https://www.archlinux.org/download/
