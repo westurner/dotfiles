@@ -5223,18 +5223,23 @@ Vimium
 | Src: git https://github.com/philc/vimium
 | ChromeExt: https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb
 
-Vimium is a Chrome Extension which adds vim-like functionality.
+Vimium is a Chrome Extension which adds :ref:`vim`-like functionality.
 
 
-+---------------+---------------------+--+--+
-| **function**  | **vimium shortcut** |  |  |
-+---------------+---------------------+--+--+
-|  help         | ``?``               |  |  |
-+---------------+---------------------+--+--+
-|  jump to link | ``f``               |  |  |
-+---------------+---------------------+--+--+
-|  ...          |                     |  |  |
-+---------------+---------------------+--+--+
++-----------------------------------------+---------------------+
+| **function**                            | **vimium shortcut** |
++-----------------------------------------+---------------------+
+|  help                                   | ``?``               |
++-----------------------------------------+---------------------+
+|  jump to link in current/New tab        | ``f`` / ``F``       |
++-----------------------------------------+---------------------+
+|  copy link to clipboard                 | ``yf``              |
++-----------------------------------------+---------------------+
+|  open clipboard link in current/New tab | ``p`` / ``P``       |
++-----------------------------------------+---------------------+
+|  ...                                    |                     |
++-----------------------------------------+---------------------+
+
 
 .. index:: Vimperator
 .. _vimperator:
@@ -5247,9 +5252,10 @@ Vimperator
 | FirefoxExt: https://addons.mozilla.org/en-US/firefox/addon/vimperator/
 
 Vimperator connects a JS shell with VIM command interpretation
-to the Firefox API, with vim-like functionality.
+to the Firefox API, with :ref:`vim`-like functionality.
 
 * ``vimperatorrc`` can configure settings in ``about:config``
+
 
 .. index:: Wasavi
 .. _wasavi:
@@ -5264,7 +5270,7 @@ Wasavi
 | Docs: http://appsweets.net/wasavi/
 
 Wasavi converts the focused ``textarea`` to an in-page editor with
-vim-like functionality.
+:ref:`vim`-like functionality.
 
 
 .. index:: Web Servers
