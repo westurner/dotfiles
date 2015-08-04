@@ -3,7 +3,11 @@
 Dotfiles
 ===========
 
-`GitHub`_ | `Documentation`_ | `ReadTheDocs`_
+| Source: https://github.com/westurner/dotfiles
+| Download: https://github.com/westurner/dotfiles/releases
+| Build: https://travis-ci.org/westurner/dotfiles
+| Docs: https://westurner.org/dotfiles/
+| Docs: https://wrdfiles.readthedocs.org/en/latest/
 
 .. image:: https://img.shields.io/github/release/westurner/dotfiles.svg
    :target: https://github.com/westurner/dotfiles/releases
