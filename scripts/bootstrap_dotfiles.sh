@@ -415,7 +415,7 @@ function symlink_virtualenvwrapper {
 
 function symlink_venv {
     destdir="${1:-"${HOME}/.ipython/profile_default"}"
-    mkdir -p "${destdir}"
+    mkdir -p "${destdir}/startup"
     backup_and_symlink "${__DOTFILES}/scripts/venv_ipymagics.py" \
         "${destdir}/startup/20-venv_ipymagics.py"
     backup_and_symlink "${__DOTFILES}/scripts/venv_ipyconfig.py" \
