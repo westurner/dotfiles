@@ -185,9 +185,9 @@ pygments_style = 'sphinx'
 # -- Options for HTML output ---------------------------------------------
 
 # see: http://git.io/Pk7SGA
-# on_rtd is whether we are on readthedocs.org, this line of code grabbed
+# ON_RTD is whether we are on readthedocs.org, this line of code grabbed
 # from docs.readthedocs.org
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+ON_RTD = os.environ.get('READTHEDOCS', None) == 'True'
 
 if False:  # only import and set the theme if we're building docs locally
     import sphinx_rtd_theme
@@ -310,8 +310,13 @@ html_sidebars = {
 # This is the file name suffix for HTML files (e.g. ".xhtml").
 #html_file_suffix = None
 
+# Suffix for generated links to HTML files.
+# The default is whatever html_file_suffix is set to;
+# it can be set differently (e.g. to support different web server setups).
+SPHINX_HTML_LINK_SUFFIX = os.environ.get('SPHINX_HTML_LINK_SUFFIX')
+if SPHINX_HTML_LINK_SUFFIX is not None and not ON_RTD:
+    html_link_suffix = SPHINX_HTML_LINK_SUFFIX
 # see: https://pypi.python.org/pypi/pgs (to auto-append .html to paths)
-html_link_suffix = ''
 
 # Filename affix
 filename_affix = "{}".format(project_name_slug)
