@@ -43,5 +43,8 @@ stdeb
 # docs:
 #  - https://pypi.python.org/pypi/stdeb
 
+ghp-import
+
 -r requirements-testing.txt
 -r requirements-docs.txt
+
