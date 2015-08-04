@@ -4,6 +4,8 @@ Dotfiles
 ===========
 
 | Source: https://github.com/westurner/dotfiles
+| Download: https://github.com/westurner/dotfiles/releases
+| Build: https://travis-ci.org/westurner/dotfiles
 | Docs: https://westurner.org/dotfiles/
 | Docs: https://wrdfiles.readthedocs.org/en/latest/
 
