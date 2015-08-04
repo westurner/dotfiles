@@ -39,16 +39,16 @@
 ## To swap layouts: (make swap-layout)
 #   sed 's/<alt>/<ALT>/g' && sed 's/<super>/<alt>/g' && sed 's/<ALT>/<super>/g'
 
-## Set i3 keyboard modifier keys to variables $mod and $mod2  (for keyboard layout flexibility)
+## Set i3 keyboard modifier keys to variables $mod1 and $mod2  (for keyboard layout flexibility)
 ## PC Keyboard (default) ##
-#    PC: $mod  == <Alt>
-set      $mod      Mod1
+#    PC: $mod1  == <Alt>
+set      $mod1      Mod1
 #    PC: $mod2 == <Super>
 set      $mod2     Mod4
 
 ## Alternate (e.g. Mac Keyboard ) ##
-#    Mac: $mod  == <Super>
-#set      $mod     Mod4
+#    Mac: $mod1  == <Super>
+#set      $mod1     Mod4
 #    Mac: $mod2 == <Alt>
 #set      $mod2    Mod1
 
@@ -63,17 +63,17 @@ font pango:Roboto 9
 
 # reload the configuration file
 #  <alt><shift> c   -- reload i3 configuration
-bindsym $mod+Shift+C reload
+bindsym $mod1+Shift+C reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 #  <alt><shift> r   -- restart i3 (session preserving)
-bindsym $mod+Shift+R restart
+bindsym $mod1+Shift+R restart
 
 # exit i3 (logs you out of your X session)
 #  <super><shift> l  -- exit i3 (close all and logout of X session)
 bindsym $mod2+Shift+l exit
 
 #  <alt><shift> q   -- close focused window
-bindsym $mod+Shift+Q kill
+bindsym $mod1+Shift+Q kill
 
 #  # Hide edge borders
 #hide_edge_borders both
@@ -90,13 +90,20 @@ set $screensaver_stop ~/-dotfiles/scripts/xlck.sh -P
 set $lock_screen ~/-dotfiles/scripts/xlck.sh -L
 
 set $editor i3-sensible-editor
-set $browser websh.py 'about:blank'
-set $browser_email websh.py "https://mail.google.com/"
+
+# Open default tabs
+set $browser ~/-dotfiles/scripts/websh.py "https://westurner.org/" "https://wrdrd.com/docs/"
+
+# Open a blank tab ([x] chromium, [TODO] firefox, [...])
+set $browser ~/-dotfiles/scripts/websh.py "http:"
+
+set $browser_email ~/-dotfiles/scripts/websh.py 'https://mail.google.com/mail/u/0/#all'
+
 set $terminal "/usr/bin/gnome-terminal"
 #set $terminal i3-sensible-terminal
 set $network_applet nm-applet
-set $filebrowser thunar
-#set $filebrowser nautilus
+#set $filebrowser thunar
+set $filebrowser nautilus --no-desktop
 set $calculator gnome-terminal -x /bin/bash -ic "${WORKON_HOME}/math/bin/ipython notebook"
 #set $filebrowser nautilus
 
@@ -184,77 +191,79 @@ bindsym XF86AudioMute exec --no-startup-id $volume_mute
 
 ## Launch Applications
 #  <alt> x      -- run command
-bindsym $mod+x  exec $run_command
+bindsym $mod1+x  exec $run_command
 #  <super> r    -- run command
 bindsym $mod2+r exec $run_command
 #  <super> e    -- launch browser
 bindsym $mod2+e exec $filebrowser
 #  <alt><shift> g   -- launch editor
-bindsym $mod+Shift+g    exec $editor
+bindsym $mod1+Shift+g    exec $editor
 #  <alt><shift> b   -- launch browser
-bindsym $mod+Shift+b    exec $browser
+bindsym $mod1+Shift+b    exec $browser
 bindsym XF86HomePage exec $browser
 bindsym XF86Mail     exec $browser_email
 #  <alt><shift> t   -- launch terminal
-bindsym $mod+Shift+t    exec $terminal
+bindsym $mod1+Shift+t    exec $terminal
 #  <super> t        -- launch terminal
 bindsym $mod2+t         exec $terminal
 #  <alt> <enter>    -- launch terminal
-bindsym $mod+Return     exec $terminal
+bindsym $mod1+Return     exec $terminal
+#  <super> <enter>    -- launch terminal
+bindsym $mod2+Return     exec $terminal
 
 #  XF86Calculator   -- launch calculator
 bindsym XF86Calculator  exec $calculator
 
 #  <alt><shift> w          -- launch network manager applet (see also: $(nmcli))
-bindsym $mod+Shift+w    exec --no-startup-id $network_applet
+bindsym $mod1+Shift+w    exec --no-startup-id $network_applet
 
 #  <PrintScr>       -- screenshot (full screen)
 bindsym Print exec $screenshot_full
 #  <alt> <PrintScr> -- screenshot (current window)
-bindsym $mod+Print exec $screenshot_window
+bindsym $mod1+Print exec $screenshot_window
 
 
 ## Focus to nearest instance
 #  <alt> v      -- focus nearest: editor
-bindsym $mod+v $editor_selector focus
+bindsym $mod1+v $editor_selector focus
 #  <alt> t      -- focus nearest: terminal
-bindsym $mod+t $terminal_selector focus
+bindsym $mod1+t $terminal_selector focus
 #  <alt> b      -- focus nearest: browser
-bindsym $mod+b $browser_selector focus
+bindsym $mod1+b $browser_selector focus
 
 
 ## Start, stop, and reset xflux
 #  <alt> [         -- start xflux
-bindsym $mod+bracketleft    exec --no-startup-id $xflux_start
+bindsym $mod1+bracketleft    exec --no-startup-id $xflux_start
 #  <alt> ]         -- stop xflux
-bindsym $mod+bracketright   exec --no-startup-id $xflux_stop
+bindsym $mod1+bracketright   exec --no-startup-id $xflux_stop
 #  <alt><shift> ]  -- reset gamma to 1.0
-bindsym $mod+Shift+bracketright  exec --no-startup-id $xgamma_reset
+bindsym $mod1+Shift+bracketright  exec --no-startup-id $xgamma_reset
 #  <alt><shift> [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
-bindsym $mod+Shift+bracketleft exec --no-startup-id $xgamma_soft
+bindsym $mod1+Shift+bracketleft exec --no-startup-id $xgamma_soft
 #  <alt><shift> \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9
-bindsym $mod+Shift+p exec --no-startup-id $xgamma_soft_red
+bindsym $mod1+Shift+p exec --no-startup-id $xgamma_soft_red
 
 ## Change focus between tiling / floating windows
 #  <alt> <space>            -- toggle focus mode: tiling / floating
-bindsym $mod+space      focus mode_toggle
+bindsym $mod1+space      focus mode_toggle
 
 
 ## Floating windows
 #  <alt><shift> <space>     -- toggle tiling/floating mode for focused window
-bindsym $mod+Shift+space floating toggle
+bindsym $mod1+Shift+space floating toggle
 
 #  <alt> <backspace>        -- toggle tiling/floating mode for focused window
-bindsym $mod+BackSpace   floating toggle
+bindsym $mod1+BackSpace   floating toggle
 
 #  <alt> <mouse>            -- drag floating window to position
-floating_modifier $mod
+floating_modifier $mod1
 
 
 ## Fullscreen mode
 #  # Note: popups will be hidden below fullscreened windows
 #  <alt><shift> f   -- fullscreen
-bindsym $mod+Shift+f fullscreen
+bindsym $mod1+Shift+f fullscreen
 
 #  # popup during fullscreen exits fullscreen
 #popup_during_fullscreen <smart|ignore|leave_fullscreen>
@@ -263,46 +272,46 @@ popup_during_fullscreen leave_fullscreen
 ## Split windows
 # Split next window
 #  <alt><shift> h   -- split [next] window horizontally
-bindsym $mod+Shift+y split h
+bindsym $mod1+Shift+y split h
 #  <alt><shift> v   -- split [next] window vertically
-bindsym $mod+Shift+u split v
+bindsym $mod1+Shift+u split v
 
 
 ## Toggle window layouts
 #  <alt> w          -- tabbed window layout
-bindsym $mod+w layout tabbed
+bindsym $mod1+w layout tabbed
 #  <alt> e          -- Default window layout
-bindsym $mod+e layout default
+bindsym $mod1+e layout default
 #  <alt> s          -- stacked window layout
-bindsym $mod+s layout stacked
+bindsym $mod1+s layout stacked
 
 
 ## Focus parent/child windows
 #  <alt> a          -- focus parent container
-bindsym $mod+a          focus parent
+bindsym $mod1+a          focus parent
 #  <alt><shift> a   -- focus child container
-bindsym $mod+Shift+a    focus child
+bindsym $mod1+Shift+a    focus child
 
 
 ## Switch to window / container
 #  <alt> Up     -- focus up
-bindsym $mod+Up focus up
+bindsym $mod1+Up focus up
 #  <alt> Down   -- focus down
-bindsym $mod+Down focus down
+bindsym $mod1+Down focus down
 #  <alt> Left   -- focus left
-bindsym $mod+Left focus left
+bindsym $mod1+Left focus left
 #  <alt> Right  -- focus right
-bindsym $mod+Right focus right
+bindsym $mod1+Right focus right
 
 ## Switch to window / container (Vi)
 #  <alt> h      -- focus left
-bindsym $mod+H focus left
+bindsym $mod1+H focus left
 #  <alt> j      -- focus down
-bindsym $mod+J focus down
+bindsym $mod1+J focus down
 #  <alt> k      -- focus up
-bindsym $mod+K focus up
+bindsym $mod1+K focus up
 #  <alt> l      -- focus right
-bindsym $mod+L focus right
+bindsym $mod1+L focus right
 
 
 # Toggle between previous and current workspace
@@ -311,16 +320,16 @@ workspace_auto_back_and_forth yes
 
 ## Switch to workspace
 #  <alt> 0-9        -- switch to workspace N  (repeat to return)
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
+bindsym $mod1+1 workspace number 1
+bindsym $mod1+2 workspace number 2
+bindsym $mod1+3 workspace number 3
+bindsym $mod1+4 workspace number 4
+bindsym $mod1+5 workspace number 5
+bindsym $mod1+6 workspace number 6
+bindsym $mod1+7 workspace number 7
+bindsym $mod1+8 workspace number 8
+bindsym $mod1+9 workspace number 9
+bindsym $mod1+0 workspace number 10
 
 #  <super> 0-9      -- switch to workspace N  (repeat to return)
 bindsym $mod2+1 workspace number 1
@@ -335,28 +344,28 @@ bindsym $mod2+9 workspace number 9
 bindsym $mod2+0 workspace number 10
 
 #  <alt> <F_n>      -- switch to workspace N (repeat to return)
-bindsym $mod+F1 workspace number 1
-bindsym $mod+F2 workspace number 2
-bindsym $mod+F3 workspace number 3
-bindsym $mod+F4 workspace number 4
-bindsym $mod+F5 workspace number 5
-bindsym $mod+F6 workspace number 6
-bindsym $mod+F7 workspace number 7
-bindsym $mod+F8 workspace number 8
-bindsym $mod+F9 workspace number 9
-bindsym $mod+F10 workspace number 10
+bindsym $mod1+F1 workspace number 1
+bindsym $mod1+F2 workspace number 2
+bindsym $mod1+F3 workspace number 3
+bindsym $mod1+F4 workspace number 4
+bindsym $mod1+F5 workspace number 5
+bindsym $mod1+F6 workspace number 6
+bindsym $mod1+F7 workspace number 7
+bindsym $mod1+F8 workspace number 8
+bindsym $mod1+F9 workspace number 9
+bindsym $mod1+F10 workspace number 10
 
 #  <alt> <Keypad_n> -- switch to workspace N (repeat to return)
-bindsym $mod+KP_1 workspace number 1
-bindsym $mod+KP_2 workspace number 2
-bindsym $mod+KP_3 workspace number 3
-bindsym $mod+KP_4 workspace number 4
-bindsym $mod+KP_5 workspace number 5
-bindsym $mod+KP_6 workspace number 6
-bindsym $mod+KP_7 workspace number 7
-bindsym $mod+KP_8 workspace number 8
-bindsym $mod+KP_9 workspace number 9
-bindsym $mod+KP_0 workspace number 10
+bindsym $mod1+KP_1 workspace number 1
+bindsym $mod1+KP_2 workspace number 2
+bindsym $mod1+KP_3 workspace number 3
+bindsym $mod1+KP_4 workspace number 4
+bindsym $mod1+KP_5 workspace number 5
+bindsym $mod1+KP_6 workspace number 6
+bindsym $mod1+KP_7 workspace number 7
+bindsym $mod1+KP_8 workspace number 8
+bindsym $mod1+KP_9 workspace number 9
+bindsym $mod1+KP_0 workspace number 10
 
 
 ## Move to next/previous workspace
@@ -379,50 +388,50 @@ bindsym $mod2+Shift+Up    move to workspace back_and_forth
 
 ## Move focused container within workspace
 #  <alt><shift> Up      -- move window up
-bindsym $mod+Shift+Up move up
+bindsym $mod1+Shift+Up move up
 #  <alt><shift> Down    -- move window down
-bindsym $mod+Shift+Down move down
+bindsym $mod1+Shift+Down move down
 #  <alt><shift> Left    -- move window left
-bindsym $mod+Shift+Left move left
+bindsym $mod1+Shift+Left move left
 #  <alt><shift> Right   -- move window right
-bindsym $mod+Shift+Right move right
+bindsym $mod1+Shift+Right move right
 
 ## Move focused container within workspace (Vi)
 #  <alt><shift> h       -- move window left
-bindsym $mod+Shift+H move left
+bindsym $mod1+Shift+H move left
 #  <alt><shift> j       -- move window down
-bindsym $mod+Shift+J move down
+bindsym $mod1+Shift+J move down
 #  <alt><shift> k       -- move window up
-bindsym $mod+Shift+K move up
+bindsym $mod1+Shift+K move up
 #  <alt><shift> l       -- move window right
-bindsym $mod+Shift+L move right
+bindsym $mod1+Shift+L move right
 
 
 ## Move focused container to workspace
 #  <alt><shift>  [N: 0-9]   -- move to workspace N
-bindsym $mod+Shift+exclam       move workspace number 1
-bindsym $mod+Shift+at           move workspace number 2
-bindsym $mod+Shift+numbersign   move workspace number 3
-bindsym $mod+Shift+dollar       move workspace number 4
-bindsym $mod+Shift+percent      move workspace number 5
-bindsym $mod+Shift+asciicircum  move workspace number 6
-bindsym $mod+Shift+ampersand    move workspace number 7
-bindsym $mod+Shift+asterisk     move workspace number 8
-bindsym $mod+Shift+parenleft    move workspace number 9
-bindsym $mod+Shift+parenright   move workspace number 10
+bindsym $mod1+Shift+exclam       move workspace number 1
+bindsym $mod1+Shift+at           move workspace number 2
+bindsym $mod1+Shift+numbersign   move workspace number 3
+bindsym $mod1+Shift+dollar       move workspace number 4
+bindsym $mod1+Shift+percent      move workspace number 5
+bindsym $mod1+Shift+asciicircum  move workspace number 6
+bindsym $mod1+Shift+ampersand    move workspace number 7
+bindsym $mod1+Shift+asterisk     move workspace number 8
+bindsym $mod1+Shift+parenleft    move workspace number 9
+bindsym $mod1+Shift+parenright   move workspace number 10
 
 ## Move focused container to workspaces (with number pad)
 #  <alt><shift> [KP_N: 0-9] -- move to workspace N
-bindsym $mod+Shift+KP_1 move workspace number 1
-bindsym $mod+Shift+KP_2 move workspace number 2
-bindsym $mod+Shift+KP_3 move workspace number 3
-bindsym $mod+Shift+KP_4 move workspace number 4
-bindsym $mod+Shift+KP_5 move workspace number 5
-bindsym $mod+Shift+KP_6 move workspace number 6
-bindsym $mod+Shift+KP_7 move workspace number 7
-bindsym $mod+Shift+KP_8 move workspace number 8
-bindsym $mod+Shift+KP_9 move workspace number 9
-bindsym $mod+Shift+KP_0 move workspace number 10
+bindsym $mod1+Shift+KP_1 move workspace number 1
+bindsym $mod1+Shift+KP_2 move workspace number 2
+bindsym $mod1+Shift+KP_3 move workspace number 3
+bindsym $mod1+Shift+KP_4 move workspace number 4
+bindsym $mod1+Shift+KP_5 move workspace number 5
+bindsym $mod1+Shift+KP_6 move workspace number 6
+bindsym $mod1+Shift+KP_7 move workspace number 7
+bindsym $mod1+Shift+KP_8 move workspace number 8
+bindsym $mod1+Shift+KP_9 move workspace number 9
+bindsym $mod1+Shift+KP_0 move workspace number 10
 
 ## Move focused container to workspaces (with number pad)
 #  <super> [KP_N: 0-9] -- move to workspace N
@@ -440,23 +449,23 @@ bindsym $mod2+KP_0 move workspace number 10
 
 ## Move workspace to output
 #  <super><shift> Left  -- move workspace to left
-bindsym $mod2+$mod+Left move workspace to output left
+bindsym $mod2+$mod1+Left move workspace to output left
 #  <super><shift> Right -- move workspace to right
-bindsym $mod2+$mod+Right move workspace to output right
+bindsym $mod2+$mod1+Right move workspace to output right
 
 
 ## Scratchpad workspace
 #  <alt><shift> <minus>     -- make the currently focused window a scratchpad
-bindsym $mod+Shift+minus move scratchpad
+bindsym $mod1+Shift+minus move scratchpad
 
 #  <alt> <minus>            -- show/hide and cycle through scratchpad windows
-bindsym $mod+minus scratchpad show
+bindsym $mod1+minus scratchpad show
 
 #  <alt><shift> s           -- start scratchpad editor
-bindsym $mod+Shift+s        exec $scratchpad_start_editor
+bindsym $mod1+Shift+s        exec $scratchpad_start_editor
 
 #  <alt> <XF86Favorites>    -- start scratchpad editor
-bindsym $mod+XF86Favorites exec $scratchpad_start_editor
+bindsym $mod1+XF86Favorites exec $scratchpad_start_editor
 
 #  <XF86Favorites>          -- show the $scratchpad_editor_selector
 bindsym XF86Favorites $scratchpad_editor_selector scratchpad show
@@ -470,7 +479,7 @@ for_window $scratchpad_editor_selector move to scratchpad
 
 ## Resize Mode
 #  <alt> r      -- enter resize mode
-bindsym $mod+r  mode "resize"
+bindsym $mod1+r  mode "resize"
 
 mode "resize" {
     ## Grow and shrink windows
