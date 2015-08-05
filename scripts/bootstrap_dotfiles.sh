@@ -158,15 +158,15 @@ function clone_or_update {
     echo ""
     if [ -e "${dest}/.git" ]; then
         echo "## pulling from ${url} ---> ${dest}"
-        (set -x; cd "$dest}" && \
+        (set -x; cd "${dest}" && \
             git_status && \
             git checkout "$rev" && \
             git pull && \
             git_status);
     elif [ -e "${dest}/.hg" ]; then
-        default_path=$(cd $dest && hg paths | grep default)
+        default_path=$(cd "${dest}" && hg paths | grep default)
         echo "## pulling from ${default_path} ---> ${dest}"
-        (set -x; cd $dest && echo "cd $(pwd)" && \
+        (set -x; cd "${dest}" && echo "cd $(pwd)" && \
             hg_status && \
             hg pull && \
             hg update -r "$rev" && \
