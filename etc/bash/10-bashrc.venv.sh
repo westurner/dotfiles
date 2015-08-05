@@ -76,15 +76,32 @@ function workon_venv {
     #   we dotfiles
     #   we dotfiles dotfiles
 
-    #append to shell history
-    history -a
+    if [ -n "${1}" ]; then
+        if [ -d "${WORKON_HOME}/${1}" ]; then
+           local _venvstr="${1}"
+           local _workon_home="${WORKON_HOME}"
+           shift
+        elif [ -d "${1}" ]; then
+           local _venvstr="$(basename "${1}")"
+           local _workon_home="$(dirname "${1}")"
+           shift
+        else
+           printf "err: venv not found: ${1}"
+           return 1
+        fi
 
-    if [ -n "$1" ] && ( test -d "$WORKON_HOME/$1" || test -d "${1}" ); then
-        workon $1 && \
-        source <($__VENV --print-bash $@) && \
-        dotfiles_status && \
-        declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
-            && _setup_venv_prompt ${_TERM_ID:-$1}
+        #append to shell history
+        history -a
+
+        workon "${_venvstr}" && \
+            source <($__VENV \
+                --wrk="$__WRK" \
+                --wh="${_workon_home}" \
+                --print-bash \
+                ${_venvstr} $@ ) && \
+            dotfiles_status && \
+            declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+            && _setup_venv_prompt "${_TERM_ID:-${_venvstr}}"
     else
         #if no arguments are specified, list virtual environments
         lsvirtualenvs
