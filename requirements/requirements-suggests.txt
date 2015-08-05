@@ -75,21 +75,6 @@ cookiecutter
 # src:
 #   -e git+https://github.com/ipython/ipython#egg=ipython
 
-#mercurial
-# src:
-#   -e hg+http://selenic.com/hg/#egg=mercurial
-
-dulwich
-# src:
-#   -e git+https://github.com/jelmer/dulwich#egg=dulwich
-
-hg-git
-# src:
-#   -e https://bitbucket.org/durin42/hg-git#egg=hg-git
-#  #-e git+https://github.com/schacon/hg-git#egg=hg-git
-# docs:
-#   - http://hg-git.github.com/
-
 # tmuxp
 # src:
 #   -e git+https://github.com/tony/tmuxp#egg=tmuxp

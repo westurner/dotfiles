@@ -30,7 +30,7 @@ pathlib
 #  - https://docs.python.org/3.4/library/pathlib.html
 
 
-z3c.recipe.tag>=0.4.0
+# z3c.recipe.tag>=0.4.0
 # src:
 #  -e git+https://github.com/zopefoundation/z3c.recipe.tag#egg=z3c.recipe.tag
 # docs:
@@ -43,7 +43,7 @@ stdeb
 # docs:
 #  - https://pypi.python.org/pypi/stdeb
 
-ghp-import
+# ghp-import
 
 -r requirements-testing.txt
 -r requirements-docs.txt

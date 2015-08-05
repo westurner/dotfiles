@@ -23,6 +23,6 @@ pyrpo
 #    - https://github.com/seb-m/pyinotify/wiki 
 #    - https://seb-m.github.io/pyinotify/
 
-# -r requirements-all-gcc.txt
-#   -r requirements/requirements-psutil.txt
-#   -r requirements/requirements-hg.txt
+# dnf install gcc
+-r requirements/requirements-psutil.txt
+-r requirements/requirements-hg.txt

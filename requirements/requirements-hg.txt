@@ -1,0 +1,19 @@
+
+#mercurial
+# src:
+#   -e hg+http://selenic.com/hg/#egg=mercurial
+
+
+# dnf install gcc
+
+dulwich
+# src:
+#   -e git+https://github.com/jelmer/dulwich#egg=dulwich
+
+hg-git
+# src:
+#   -e https://bitbucket.org/durin42/hg-git#egg=hg-git
+#  #-e git+https://github.com/schacon/hg-git#egg=hg-git
+# docs:
+#   - http://hg-git.github.com/
+
