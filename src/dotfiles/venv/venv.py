@@ -1,1 +1,1 @@
-./venv_ipyconfig.py
+venv_ipyconfig.py

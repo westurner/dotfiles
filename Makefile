@@ -690,7 +690,8 @@ update_brew_list:
 install_brew_formulas:
 	cat ./etc/brew/brew.list | xargs brew install
 
-_VENV:=./src/dotfiles/venv/venv_ipymagics.py
+_VENV:=./src/dotfiles/venv/venv.py
+_VENV:=./scripts/venv.py
 
 generate_venv: build-venv
 
@@ -701,7 +702,9 @@ build-venv:
 	$(_VENV) --print-ipython-magics . \
 		> ./src/dotfiles/venv/venv_ipymagics.py
 	$(_VENV) --print-bash-aliases --compress --prefix=/ \
-		> ./src/dotfiles/venv/scripts/venv.sh
+		> ./src/dotfiles/venv/scripts/venv_cdaliases.sh
+	cd ./src/dotfiles/venv/scripts && rm venv.sh && ln -s venv_cdaliases.sh venv.sh
+	cd ./src/dotfiles/venv/ && rm venv.py && ln -s venv_ipyconfig.py venv.py
 	$(_VENV) --print-bash --compress --prefix=/ \
 		| grep -v '^export HOME=' > ./src/dotfiles/venv/scripts/venv_root_prefix.sh
 	chmod +x ./src/dotfiles/venv/scripts/venv_root_prefix.sh
@@ -716,7 +719,9 @@ build-venv-scripts/:
 	cd ./scripts && rm venv.py && ln -s venv_ipyconfig.py venv.py
 	cp ./src/dotfiles/venv/venv_ipymagics.py ./scripts/venv_ipymagics.py
 	rm ./scripts/venv.sh || true
-	cp ./src/dotfiles/venv/scripts/venv.sh ./scripts/venv.sh
+	cp ./src/dotfiles/venv/scripts/venv_cdaliases.sh ./scripts/venv_cdaliases.sh
+	rm ./scripts/venv.sh || true
+	cd ./scripts; ln -s venv_cdaliases.sh venv.sh
 	rm ./scripts/venv_root_prefix.sh || true
 	cp ./src/dotfiles/venv/scripts/venv_root_prefix.sh \
 		./scripts/venv_root_prefix.sh
