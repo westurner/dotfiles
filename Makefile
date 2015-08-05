@@ -711,7 +711,7 @@ build-venv:
 	$(_VENV) --print-vim-cdalias . > ./src/dotfiles/venv/venv.vim
 
 
-build-venv-scripts/:
+vendor-venv:
 	# for development/testing:
 	# PATH_prepend "${__DOTFILES}/etc/venv"
 	cp ./src/dotfiles/venv/venv_ipyconfig.py ./scripts/venv_ipyconfig.py \
