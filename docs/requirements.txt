@@ -17,14 +17,15 @@ sphinxcontrib-programoutput
 #sphinxjp.themes.basicstrap
 -e git+https://github.com/tell-k/sphinxjp.themes.basicstrap@7a5b36d1deeb#egg=sphinxjp.themes.basicstrap
 
+-r ../requirements.txt
+    #pyline
+    # src:
+    #   -e hg+https://github.com/westurner/pyline#egg=pyline
 
-pyline
-# src:
-#   -e hg+https://github.com/westurner/pyline#egg=pyline
+    #pyrpo
+    # src:
+    #   -e hg+https://github.com/westurner/pyrpo#egg=pyrpo
 
-pyrpo
-# src:
-#   -e hg+https://github.com/westurner/pyrpo#egg=pyrpo
-
-#ghp-import
-#-e git+https://github.com/davisp/ghp-import#egg=ghp-import
+# -r ../requirements/requirements-dev.txt
+    #ghp-import
+    #-e git+https://github.com/davisp/ghp-import#egg=ghp-import
