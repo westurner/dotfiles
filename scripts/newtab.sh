@@ -3,9 +3,9 @@
 ## src: https://stackoverflow.com/questions/7171725/open-new-terminal-tab-from-command-line-mac-os-x/12147804#12147804
 ## license: Creative Commons cc by-sa 3.0 
 
-function newtab {
-    #  newtab() -- Open a new tab in the current Terminal window and
-    #              optionally run a command.
+function newtab_osx {
+    #  newtab_osx() -- Open a new tab in the current Terminal window and
+    #                  optionally run a command.
     #  When invoked via a function named 'newwin', opens a new Terminal *window* instead.
 
     # If this function was invoked directly by a function named 'newwin', we open a new *window* instead
@@ -183,9 +183,67 @@ EOF
 
 }
 
+## gnome
+
+function newtab_gnome {
+    #  newtab_gnome()  -- open a new term TAB with [gnome-terminal]
+    gnome-terminal --tab ${@}
+}
+
+function newwin_gnome {
+    #  newwin_gnome()  -- open a new term WINDOW with [gnome-terminal]
+    gnome-terminal --window ${@}
+}
+
+
+## linux
+
+function newtab_linux {
+    #  newtab_linux()  -- open a new term TAB with [gnome-terminal]
+    newtab_gnome "${@}"
+}
+
+function newwin_linux {
+    #  newwin_linux()  -- open a new term WINDOW with [gnome-terminal]
+    newwin_gnome "${@}"
+}
+
+function detect_platform {
+    local platstr="$(uname -s)"
+    case "${platstr}" in
+        Linux)
+            export __IS_LINUX=true
+            ;;
+        Darwin)
+            export __IS_MAC=true
+            ;;
+    esac
+}
+
+## autodetect
+function newtab {
+    #  newtab() -- Open a new Terminal window and optionally run a command.
+    detect_platform
+    if [ -n "${__IS_MAC}" ]; then
+        newtab_osx "$@" # Simply pass through to 'newtab', which will examine the call stack to see how it was invoked.
+    elif [ -n "${__IS_LINUX}" ]; then
+        newtab_linux "${@}"
+    else
+        newtab_gnome "${@}"
+    fi
+}
+
+
 function newwin {
     #  newwin() -- Open a new Terminal window and optionally run a command.
-    newtab "$@" # Simply pass through to 'newtab', which will examine the call stack to see how it was invoked.
+    detect_platform
+    if [ -n "${__IS_MAC}" ]; then
+        newwin_osx "$@" # Simply pass through to 'newwin', which will examine the call stack to see how it was invoked.
+    elif [ -n "${__IS_LINUX}" ]; then
+        newwin_linux "${@}"
+    else
+        newwin_gnome "${@}"
+    fi
 }
 
 if [ "${BASH_SOURCE}" == "${0}" ]; then
@@ -193,11 +251,11 @@ if [ "${BASH_SOURCE}" == "${0}" ]; then
     case "${BASH_SOURCE}" in
         */newtab|*/newtab.sh)
             newtab "${@}"
-            return
+            exit
             ;;
         */newwin|*/newwin.sh)
             newwin "${@}"
-            return
+            exit
             ;;
         *)
             (set -x;
@@ -205,7 +263,7 @@ if [ "${BASH_SOURCE}" == "${0}" ]; then
                 echo '$0: '"${0}";
                 newtab "${@}";
             )
-            return
+            exit
             ;;
     esac
 fi
