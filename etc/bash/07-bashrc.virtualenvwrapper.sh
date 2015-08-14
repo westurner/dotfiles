@@ -38,16 +38,35 @@ _setup_virtualenvwrapper_config () {
     # _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
     #export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
-    export VIRTUALENVWRAPPER_SCRIPT=$(which virtualenvwrapper.sh)
     export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper"
     export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
-    if [ -n "${__IS_MAC}" ]; then
-        export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python"
-    else
-        export VIRTUALENVWRAPPER_PYTHON=$(which python)
+    if [ -n "${VIRTUALENVWRAPPER_PYTHON}" ]; then
+        if [ -x "/usr/local/bin/python" ]; then
+            export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python"
+        elif [ -x "${HOME}/.local/bin/python" ]; then
+            export VIRTUALENVWRAPPER_PYTHON="${HOME}/.local/bin/python"
+        # elif "${VIRTUAL_ENV}/bin/python"  ## use extra-venv python
+        fi
+    fi
+    if [ -x "/usr/local/bin/virtualenvwrapper.sh" ]; then
+        export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
+    fi
+
+    #  if [ -n "${__IS_MAC}" ]; then  # for brew python
+    local _PATH="${HOME}/.local/bin:/usr/local/bin:${PATH}"
+    if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
+        export VIRTUALENVWRAPPER_SCRIPT=$(PATH="${_PATH}" which virtualenvwrapper.sh)
+    fi
+    if [ -z "${VIRTUALENVWRAPPER_PYTHON}" ]; then
+        export VIRTUALENVWRAPPER_PYTHON=$(PATH="${_PATH}" which python)
     fi
     unset VIRTUALENV_DISTRIBUTE
-    source "${VIRTUALENVWRAPPER_SCRIPT}"
+    if [ -n "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
+        source "${VIRTUALENVWRAPPER_SCRIPT}"
+    else
+        echo "Err: VIRTUALENVWRAPPER_SCRIPT:=${VIRTUALENVWRAPPER_SCRIPT} # 404"
+    fi
+
 }
 
 lsvirtualenvs() {
@@ -121,7 +140,7 @@ _rebuild_virtualenv() {
     find -E "${_PYSITE}" -iname 'easy_install*' -delete
     find -E "${_PYSITE}" -iname 'python*' -delete
     declare -f 'deactivate' 2>&1 /dev/null && deactivate
-    mkvirtualenv -i setuptools -i wheel -i pip ${VENVSTR} 
+    mkvirtualenv -i setuptools -i wheel -i pip ${VENVSTR}
     #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
     workon ${VENVSTR} && \
     we ${VENVSTR}
@@ -173,7 +192,7 @@ _setup_virtualenvwrapper() {
 if [[ "$BASH_SOURCE" == "$0" ]]; then
   _setup_virtualenvwrapper
 else
-  if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
-    _setup_virtualenvwrapper
-  fi
+  #if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
+  _setup_virtualenvwrapper
+  #fi
 fi
