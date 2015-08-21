@@ -1052,7 +1052,7 @@ _setup_conda() {
 
 _setup_conda_path() {
     _unsetup_conda_path_all
-    PATH_prepend "${CONDA_ROOT}/bin" 2>&1> /dev/null
+    PATH_prepend "${CONDA_ROOT}/bin" 2>&1 > /dev/null
 }
 
 _unsetup_conda_path_all() {
