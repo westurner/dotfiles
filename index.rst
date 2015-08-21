@@ -4930,6 +4930,16 @@ High Contrast
 | ChromeExt: https://chrome.google.com/webstore/detail/high-contrast/djcfdncoelnlbldjfhinnjlhdjlikmph
 
 
+.. index:: NASA Night Launch
+.. _nasa night launch:
+
+NASA Night Launch
+++++++++++++++++++
+| FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/nasa-night-launch/
+| FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/4908/addon-4908-latest.xpi
+
+
+
 .. index:: Spectrum
 .. _spectrum:
 

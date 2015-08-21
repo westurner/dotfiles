@@ -306,7 +306,7 @@ build: copy_sidebars rst2html_all localjs localcss html
 docs: build
 
 open:
-	open _build/html/index.html
+	websh.py ./_build/html/index.html || open ./_build/html/index.html
 
 #clean:
 #	rm -rf ./_build
