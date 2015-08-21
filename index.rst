@@ -86,7 +86,8 @@ APT
 | IRC: `<irc://irc.debian.org/debian-apt>`__
 
 
-APT ("Advanced Packaging Tool") is the core of Debian package management.
+APT ("Advanced Packaging Tool") is the core of :ref:`Debian`
+package management.
 
 * An APT package repository serves :ref:`DEB` packages created with :ref:`Dpkg`.
 
@@ -282,7 +283,7 @@ DEB
 | Wikipedia: `<https://en.wikipedia.org/wiki/Deb_(file_format)>`__
 
 
-DEB is the Debian software package format.
+DEB is the :ref:`Debian` software package format.
 
 DEB packages are built with :ref:`dpkg` and often hosted in an :ref:`APT`
 package repository.
@@ -1471,8 +1472,8 @@ Perl is a free and open source,
 dynamically typed, :ref:`C`-based third-generation
 programming language.
 
-Many of the Debian system management tools are or were originally written
-in Perl.
+Many of the :ref:`Debian` system management tools are or were originally
+written in Perl.
 
 
 .. index:: Python
@@ -3863,6 +3864,7 @@ and can write errors to stderr.
     # - Browser
     #     - navigate to / upload / drag and drop the notebook
             !web http://localhost:8888   # or https://
+    #     - (optional) click 'TODO Restart Kernel'
     #     - (optional) click 'Cell' > 'All Output' > 'Clear'
     #     - click 'Cell' > 'Run All'
     #     - [wait] <Jupyter Kernel runs notebook>
@@ -3875,6 +3877,30 @@ and can write errors to stderr.
     !git diff mynotebook.ipynb
     # - Commit the changes
     !git-add-commit "TST: mynotebook: tests for #123" ./mynotebook.ipynb
+
+
+:ref:`Jupyter notebook <Jupyter Notebook>` TODO review process:
+
+.. code:: python
+
+   # - run Jupyter Notebook server
+   !jupyter notebook
+   # - Browser
+   #     - navigate to / upload / drag and drop the notebook
+           !web http://localhost:8888   # or https://
+   #     - (optional) click 'TODO Restart Kernel'
+   #     - (optional) click 'Cell' > 'All Output' > 'Clear'
+   #     - click 'Cell' > 'Run All'
+   #     - [wait] <Jupyter Kernel runs notebook>
+   #     - visually seek for the first ERRoring cell (scroll)
+   #     - review the notebook
+           for (i, o) in notebook_cells:
+               human.manually_review((i, o))
+   # - Compare the files on disk with the most recent commit (HEAD)
+   !git status && git diff
+   !git diff mynotebook.ipynb
+   # - Commit the changes
+   !git-add-commit "TST: mynotebook: tests for #123" ./mynotebook.ipynb
 
 
 :ref:`Jupyter notebook <Jupyter Notebook>` runipy review process:
@@ -4493,11 +4519,34 @@ build upon X11.
 Browsers
 ==========
 
+.. index:: Blink
+.. _blink:
+
+Blink
+~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Blink_(layout_engine)>`__
+| Homepage: https://www.chromium.org/blink
+| Src: https://src.chromium.org/viewvc/blink/trunk/
+| Src: git https://chromium.googlesource.com/chromium/blink/
+| Docs: https://www.chromium.org/blink#TOC-Subpage-Listing
+| Docs: https://www.chromium.org/blink/developer-faq
+
+Blink is a :ref:`web browser <browsers>` layout engine
+written in :ref:`C++` which was forked from :ref:`WebKit`.
+
+* Blink now powers :ref:`Chrome` and :ref:`Chromium` (Desktop, Mobile),
+  :ref:`Opera`,
+  Amazon Silk,
+  :ref:`Android` WebView 4.4+,
+  and :ref:`Qt` WebEngine
+
+
 .. index:: Chrome
 .. _chrome:
 
 Chrome
 ~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Google_Chrome 
 | Homepage: https://www.google.com/chrome/
 | Download: https://www.google.com/chrome/browser/desktop/
 | Download: https://www.google.com/chrome/browser/mobile/
@@ -4510,6 +4559,8 @@ Chrome
 Google Chrome is a Web Browser built from
 the open source :ref:`Chromium` browser.
 
+* Google Chrome is now based on :ref:`Blink`.
+* Google Chrome was based on :ref:`WebKit`.
 * Google Chrome includes and updates Adobe Flash, pdf.js
 
 See also: :ref:`ChromeOS`.
@@ -4520,6 +4571,7 @@ See also: :ref:`ChromeOS`.
 
 Chromium
 ~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Chromium_(web_browser)>`__
 | Homepage: https://www.chromium.org/Home
 | Src: git https://chromium.googlesource.com/chromium/src
 | Src: https://chromium.googlesource.com/chromium/src.git
@@ -4608,6 +4660,7 @@ Chrome Extensions
 * `Vimium`_
 * `Wasavi`_
 
+
 .. index:: pbm
 .. _pbm:
 
@@ -4617,10 +4670,14 @@ pbm
 | PyPI: https://pypi.python.org/pypi/pbm
 | Warehouse: https://warehouse.python.org/project/pbm
 
-* backup and organize :ref:`Chrome` ``Bookmarks`` JSON in an offline batch
+* backup and organize
+  { :ref:`Chrome` , :ref:`Chromium` }
+  ``Bookmarks`` :ref:`JSON <JSON->`
+  in an offline batch
 * date-based transforms
 * quicklinks
 * starred bookmarks (with trailing ``##``)
+
 
 .. index:: Chrome Android
 .. _chrome android:
@@ -4723,11 +4780,72 @@ Microsoft Edge
 Microsoft Edge will be replacing :ref:`Internet Explorer`.
 
 
+.. index:: Opera
+.. _opera:
+
+Opera
+~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Opera_(web_browser)>`__
+| Homepage: http://www.opera.com/
+| Download: http://www.opera.com/computer/windows
+| Download: http://www.opera.com/computer/mac
+| Download: http://www.opera.com/computer/linux
+| Download: http://www.opera.com/computer/beta
+| Download: http://www.opera.com/mobile
+| AndroidApp: https://play.google.com/store/apps/details?id=com.opera.browser
+| AndroidApp: https://play.google.com/store/apps/details?id=com.opera.mini.native
+| AndroidApp: https://play.google.com/store/apps/details?id=com.opera.max.global #Proxy Compression
+| iOSApp: https://itunes.apple.com/app/id363729560 #Opera Mini
+| iOSApp: https://itunes.apple.com/app/id674024845 #Opera Coast
+| WinMoApp: http://www.windowsphone.com/en-us/store/app/opera-mini-beta/b3bf000a-e004-4ecb-a8fb-9fc817cdab90
+| Src: https://github.com/operasoftware
+
+Opera is a multi-platform :ref:`web browser <browsers>` written in :ref:`C++`.
+
+* Opera is now based on :ref:`Blink`.
+* Opera was based on :ref:`WebKit`.
+* Opera developed and open sourced celery:
+  a distributed task worker composed workflow process API
+  written in :ref:`Python`; with support for many
+  message browsers:
+  https://github.com/celery
+
+
 .. index:: Safari
 .. _safari:
 
 Safari
 ~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Safari_(web_browser)>`__
+| Homepage: https://developer.apple.com/safari/
+| Src:
+| Docs: https://developer.apple.com/safari/resources/
+| Docs: https://developer.apple.com/library/safari/navigation/
+| Docs: https://developer.apple.com/library/safari/documentation/Tools/Conceptual/SafariExtensionGuide/Introduction/Introduction.html
+| Docs: https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007874
+
+Safari is the web browser included with :ref:`OSX`.
+
+* Safari is derived from and supports :ref:`WebKit`
+
+
+.. index:: WebKit
+.. _webkit:
+
+WebKit
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/WebKit
+| Homepage: https://www.webkit.org/
+| Download: http://nightly.webkit.org/
+| Src: https://github.com/WebKit/webkit
+| Docs: https://www.webkit.org/coding/coding-style.html
+| Docs: https://trac.webkit.org/wiki
+
+WebKit is an open source :ref:`web browser <browsers>`
+written in :ref:`C++`.
+
+* WebKit powers :ref:`Safari`
+
 
 .. index:: Safari Extensions
 .. _safari extension:
