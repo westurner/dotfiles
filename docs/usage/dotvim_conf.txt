@@ -104,17 +104,18 @@
 " print the document path
 "
     "  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
+    "  Path() -- %s %:h %:p:h                       [help expand]
+"  \       -- <leader>
 "  <space> -- <leader>
 "  ,    --  <leader> == <comma>
-"  ;;   --  <esc> == double semicolon
-"  jk   --  <esc>
-"  98   --  <esc> == 98
-"  :;   --  <esc> == colon semicolon
-"  :;   --  <esc> == colon semicolon
-" Quickfix
-"  <leader> q               --  toggle quicklist
-"  <leader> n               --  next quicklist item
-"  <leader> l               --  toggle location list
+"  :;   --  colon semicolon -> <esc>:
+"  :;   --  colon semicolon -> <esc>:
+"  Quicklist
+"  <leader> q               --  toggle quicklist [:cw/:cwindow]
+"  <leader> n               --  next quicklist item [:cn/:cnext]
+"  Location List
+"  <leader> l               --  toggle location list [:lw/:lwindow]
+"  <leader> <shift> N       --  next location list item [:ln/:lnext]
 " Workaround vim lp:#572863
 " Code Folding
 " UTF-8
@@ -190,16 +191,23 @@
 " vnoremap <Tab>    >gv
 "  ctrl-f       --  find
 "  ctrl-alt-A   --  copy all
+"  ctrl-v       -- paste (*)
+"  alt-v        -- paste (*)
 " Paste
 "  shift-insert --  paste
+" Save / Close
 "  ctrl-S       --  Save
 "  ctrl-Alt-W   --  Close
 "  ctrl-Home    --  Goto line one
 "  ctrl-End     --  Goto line :-1
-" PgUp/PgDn
-"  K    --  PageUp
-"  J    --  PageDown
-" Pgup/Down are actually 2*<c-U>
+" Page Up / Page Down
+"  shift-Down    --  PageDown (<C-d>)
+"  shift-Up      --  PageUp (<C-u>)
+" K    --  PageUp
+" nnoremap K  <PageUp>
+" J    --  PageDown
+" nnoremap J  <PageDown>
+" Keyboard PageUp/PageDown are actually 2*<c-U>
 " Buffer Nav
 "  ctrl-a       --  move to beginning of line (^)
 "  ctrl-e       --  move to end of line ($)
@@ -257,6 +265,8 @@
 " Colors
 "  :PatchColors     --  load local colorizing postsets
 " call PatchColors()    -- call PatchColors when sourced
+    "  Vim2VimWrite()   -- write highlight codes to ./vim_highlight_output.txt
+    "    pip install vim2vim   -- https://pypi.python.org/pypi/vim2vim
 " List highlight colors
 " Python
 "  Wrap at 72 chars for comments.
@@ -344,6 +354,7 @@
 "  :Cdvar           -- Cd__VAR()
 "  :Cdwww           -- Cd__WWW()
 "  :Cdww            -- Cd__WWW()
+" file_line.vim     -- open files named 'file(line[:col])', 'file:line[:col]'
 " Info.vim          -- vim infopages in vim [help info]
 "  :Info sed        --  view infopage for 'sed'
 "  <Space>          --  Scroll forward (page down).

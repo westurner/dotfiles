@@ -32,113 +32,118 @@
 #
 # ## Notes
 # * grab keyboard mappings: xev | grep keycode
-# Set i3 modifier keys to variables
-#  # set $mod2 to <super>    (<Alt_L> and <Alt_R>)
-#  # set $mod to <Super> (<Super_L> and <Super_R>)
+#   sed 's/<alt>/<ALT>/g' && sed 's/<super>/<alt>/g' && sed 's/<ALT>/<super>/g'
+#    PC: $mod1  == <Alt>
+#    PC: $mod2 == <Super>
+#    Mac: $mod1  == <Super>
+#    Mac: $mod2 == <Alt>
 # font for window titles. ISO 10646 = Unicode
-# Pango requires i3 version >= TODO
+# Pango requires i3 version >= ____
 # reload the configuration file
-#  <super><shift> c   -- reload i3 configuration
+#  <alt><shift> c   -- reload i3 configuration
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-#  <super><shift> r   -- restart i3 (session preserving)
+#  <alt><shift> r   -- restart i3 (session preserving)
 # exit i3 (logs you out of your X session)
-#  <alt><shift> l  -- exit i3 (close all and logout of X session)
-#  <super><shift> q   -- close focused window
+#  <super><shift> l  -- exit i3 (close all and logout of X session)
+#  <alt><shift> q   -- close focused window
 #  # Hide edge borders
+# Open default tabs
+# Open a blank tab ([x] chromium, [TODO] firefox, [...])
 #  # Get WM_CLASS with $(xprop WM_CLASS)
 #
 #  - Start gnome-settings-daemon (e.g. for anti-aliasing)
 #  $PATH/gnome-settings-daemon        -- Ubuntu, Debian
 #  /usr/libexec/gnome-settings-daemon -- Fedora
+#  - Start screensaver
 #  - Set X background
 #  - Set X wallaper to (~/wallpaper.png)
-#  - Start screensaver
 # - Launch network applet (optional)
 # exec_always --no-startup-id $network_applet  # (optional)
 # see also: nmcli
-#  <alt> l        -- lock screen
+#  <super> l        -- lock screen
 #  <XF86PowerOff>   -- exit
 #  <XF86Sleep>      -- suspend
 #  <XF86MonBrightnessUp>      -- brightness up
 #  <XF86MonBrightnessDown>    -- brightness down
 #  <XF86AudioRaiseVolume>   -- volume up
 #  <XF86AudioLowerVolume>   -- volume down
-#  <super> x      -- run command
-#  <alt> r    -- run command
-#  <alt> e    -- launch browser
-#  <super><shift> g   -- launch editor
-#  <super><shift> b   -- launch browser
-#  <super><shift> t   -- launch terminal
-#  <alt> t        -- launch terminal
+#  <alt> x      -- run command
+#  <super> r    -- run command
+#  <super> e    -- launch browser
+#  <alt><shift> g   -- launch editor
+#  <alt><shift> b   -- launch browser
+#  <alt><shift> t   -- launch terminal
+#  <super> t        -- launch terminal
+#  <alt> <enter>    -- launch terminal
 #  <super> <enter>    -- launch terminal
 #  XF86Calculator   -- launch calculator
-#  <super><shift> w          -- launch network manager applet (see also: $(nmcli))
+#  <alt><shift> w          -- launch network manager applet (see also: $(nmcli))
 #  <PrintScr>       -- screenshot (full screen)
-#  <super> <PrintScr> -- screenshot (current window)
-#  <super> v      -- focus nearest: editor
-#  <super> t      -- focus nearest: terminal
-#  <super> b      -- focus nearest: browser
-#  <super> [         -- start xflux
-#  <super> ]         -- stop xflux
-#  <super><shift> ]  -- reset gamma to 1.0
-#  <super><shift> [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
-#  <super><shift> \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9
-#  <super> <space>            -- toggle focus mode: tiling / floating
-#  <super><shift> <space>     -- toggle tiling/floating mode for focused window
-#  <super> <backspace>        -- toggle tiling/floating mode for focused window
-#  <super> <mouse>            -- drag floating window to position
+#  <alt> <PrintScr> -- screenshot (current window)
+#  <alt> v      -- focus nearest: editor
+#  <alt> t      -- focus nearest: terminal
+#  <alt> b      -- focus nearest: browser
+#  <alt> [         -- start xflux
+#  <alt> ]         -- stop xflux
+#  <alt><shift> ]  -- reset gamma to 1.0
+#  <alt><shift> [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
+#  <alt><shift> \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9
+#  <alt> <space>            -- toggle focus mode: tiling / floating
+#  <alt><shift> <space>     -- toggle tiling/floating mode for focused window
+#  <alt> <backspace>        -- toggle tiling/floating mode for focused window
+#  <alt> <mouse>            -- drag floating window to position
 #  # Note: popups will be hidden below fullscreened windows
-#  <super><shift> f   -- fullscreen
+#  <alt><shift> f   -- fullscreen
 #  # popup during fullscreen exits fullscreen
 # Split next window
-#  <super><shift> h   -- split [next] window horizontally
-#  <super><shift> v   -- split [next] window vertically
-#  <super> w          -- tabbed window layout
-#  <super> e          -- Default window layout
-#  <super> s          -- stacked window layout
-#  <super> a          -- focus parent container
-#  <super><shift> a   -- focus child container
-#  <super> Up     -- focus up
-#  <super> Down   -- focus down
-#  <super> Left   -- focus left
-#  <super> Right  -- focus right
-#  <super> h      -- focus left
-#  <super> j      -- focus down
-#  <super> k      -- focus up
-#  <super> l      -- focus right
+#  <alt><shift> h   -- split [next] window horizontally
+#  <alt><shift> v   -- split [next] window vertically
+#  <alt> w          -- tabbed window layout
+#  <alt> e          -- Default window layout
+#  <alt> s          -- stacked window layout
+#  <alt> a          -- focus parent container
+#  <alt><shift> a   -- focus child container
+#  <alt> Up     -- focus up
+#  <alt> Down   -- focus down
+#  <alt> Left   -- focus left
+#  <alt> Right  -- focus right
+#  <alt> h      -- focus left
+#  <alt> j      -- focus down
+#  <alt> k      -- focus up
+#  <alt> l      -- focus right
 # Toggle between previous and current workspace
-#  <super> 0-9        -- switch to workspace N  (repeat to return)
-#  <alt> 0-9      -- switch to workspace N  (repeat to return)
-#  <super> <F_n>      -- switch to workspace N (repeat to return)
-#  <super> <Keypad_n> -- switch to workspace N (repeat to return)
-#  <alt> Left     -- move to previous workspace
-#  <alt> Right    -- move to next workspace
-#  <alt> Up       -- move to second most recently focused workspace
-#  <alt> Left     -- move container to previous workspace
-#  <alt> Right    -- move container to next workspace
-#  <alt> Up       -- move container to second most recently focused workspace
-#  <super><shift> Up      -- move window up
-#  <super><shift> Down    -- move window down
-#  <super><shift> Left    -- move window left
-#  <super><shift> Right   -- move window right
-#  <super><shift> h       -- move window left
-#  <super><shift> j       -- move window down
-#  <super><shift> k       -- move window up
-#  <super><shift> l       -- move window right
-#  <super><shift>  [N: 0-9]   -- move to workspace N
-#  <super><shift> [KP_N: 0-9] -- move to workspace N
-#  <alt> [KP_N: 0-9] -- move to workspace N
-#  <alt><shift> Left  -- move workspace to left
-#  <alt><shift> Right -- move workspace to right
-#  <super><shift> <minus>     -- make the currently focused window a scratchpad
-#  <super> <minus>            -- show/hide and cycle through scratchpad windows
-#  <super><shift> s           -- start scratchpad editor
-#  <super> <XF86Favorites>    -- start scratchpad editor
+#  <alt> 0-9        -- switch to workspace N  (repeat to return)
+#  <super> 0-9      -- switch to workspace N  (repeat to return)
+#  <alt> <F_n>      -- switch to workspace N (repeat to return)
+#  <alt> <Keypad_n> -- switch to workspace N (repeat to return)
+#  <super> Left     -- move to previous workspace
+#  <super> Right    -- move to next workspace
+#  <super> Up       -- move to second most recently focused workspace
+#  <super> Left     -- move container to previous workspace
+#  <super> Right    -- move container to next workspace
+#  <super> Up       -- move container to second most recently focused workspace
+#  <alt><shift> Up      -- move window up
+#  <alt><shift> Down    -- move window down
+#  <alt><shift> Left    -- move window left
+#  <alt><shift> Right   -- move window right
+#  <alt><shift> h       -- move window left
+#  <alt><shift> j       -- move window down
+#  <alt><shift> k       -- move window up
+#  <alt><shift> l       -- move window right
+#  <alt><shift>  [N: 0-9]   -- move to workspace N
+#  <alt><shift> [KP_N: 0-9] -- move to workspace N
+#  <super> [KP_N: 0-9] -- move to workspace N
+#  <super><shift> Left  -- move workspace to left
+#  <super><shift> Right -- move workspace to right
+#  <alt><shift> <minus>     -- make the currently focused window a scratchpad
+#  <alt> <minus>            -- show/hide and cycle through scratchpad windows
+#  <alt><shift> s           -- start scratchpad editor
+#  <alt> <XF86Favorites>    -- start scratchpad editor
 #  <XF86Favorites>          -- show the $scratchpad_editor_selector
-#  <super> <backspace>        -- toggle tiling/floating mode for focused window
+#  <alt> <backspace>        -- toggle tiling/floating mode for focused window
 # see above.
 #  # on (re)load, move $scratchpad_editor_selector windows to scratchpad
-#  <super> r      -- enter resize mode
+#  <alt> r      -- enter resize mode
     # These bindings trigger as soon as you enter the resize mode
     #
     # They resize the border in the direction you pressed, e.g.

@@ -328,6 +328,7 @@
     #  __PROJECTSRC (str): path to local project settings script to source
     # PATH="~/.local/bin:$PATH" (if not already there)
     # __VENV      -- path to local venv config script (executable)
+    # CdAlias functions and completions
     # _setup_venv_SRC() -- configure __SRCVENV and __SRC global virtualenv
     # __SRCVENV (str): global 'src' venv symlink (~/-wrk/src)
     #                  (e.g. ln -s ~/-wrk/-ve27/src ~/-wrk/src)
@@ -349,7 +350,6 @@
     #   we dotfiles
     #   we dotfiles dotfiles
     # we()          -- workon_venv
-# CdAlias functions and completions
 ## Grin search
 # virtualenv / virtualenvwrapper
     # grinv()   -- grin $VIRTUAL_ENV
@@ -541,6 +541,7 @@
         # psch     -- 'ps uxaw -c | head'
         # psm      -- 'ps uxaw -m'
         # psmh     -- 'ps uxaw -m | head'
+    # pyg      -- pygmentize
     # shtop    -- 'sudo htop'
     # t        -- 'tail'
     # tf       -- 'tail -f'
@@ -822,9 +823,6 @@
 #### etc/bash/xlck.sh
 ### xlck.sh -- script wrapper for xautolock, xlock, and/or i3lock
 ##             as well as issuing suspend, shutdown, and restart commands
-## Requirements:
-#
-#  sudo apt-get install xautolock xlockmore i3lock
     # xlck()            -- xlck $@
     # _xlck_install()   -- install xlck dependencies
     # xlck requires: bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
@@ -832,12 +830,12 @@
     # _xlck_setup()     -- setup xlck (export _XLCK=(this) && _xlck_setup_dpms)
     # _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
     # _xlck_i3lock()    -- start i3lock with a dark gray background
+    # xlck_gnome_screensaver_status()  -- gnome-screensaver PIDs on $DISPLAY
+    # xlck_gnome_screensaver_start() -- start gnome-screensaver
+    # xlck_gnome_screensaver_lock() -- lock gnome-screensaver
     # xlock_lock()      -- lock the current display
+    #   $1 {i3lock|i3, xlock|x, gnome-screensaver|gnome|g}
     #   note: this will be run before suspend to RAM and Disk.
-    #    # TODO XXX:
-    #    #  if gnome-screensaver not running **in this display**,
-    #    #  gnome-screensaver &; disown
-    #    gnome-screensaver-command -l
     # _suspend_to_ram()     -- echo mem > /sys/power/state
     # _suspend_to_disk()    -- echo disk > /sys/power/state
     #  note: this does not work on many machines
@@ -852,6 +850,7 @@
     # xlck_start()              -- start xlck
     # xlck_stop()               -- stop xlck
     # xlck_restart()            -- stop and start xlck
+    # xlck_pgrep_display()-- find xautolock on this display
     # xlck_xautolock_pgrep_display()-- find xautolock on this display
     # xlck_xautolock_status()       -- show xlck status 
     # xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
@@ -859,5 +858,6 @@
     # xlck_status_all() -- pgrep 'xautolock|xlock|i3lock', ps ufw
     # xlck_status_this_display()  -- show status for this $DISPLAY
     # _xlck_xautolock()           -- start xautolock (see: xlck_start)
+        # return nonzero if no args
    
    

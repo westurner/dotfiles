@@ -1381,6 +1381,12 @@ function _setup_venv {
     # __VENV      -- path to local venv config script (executable)
     export __VENV="${__DOTFILES}/scripts/venv.py"
 
+    # CdAlias functions and completions
+    source "${__DOTFILES}/etc/venv/scripts/venv.sh"
+    if [ "${VENVPREFIX}" == "/" ]; then
+        source "${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh"
+    fi
+
     _setup_venv_SRC
 }
 
@@ -1410,57 +1416,7 @@ function _setup_venv_SRC {
 }
 
 _setup_venv
-
-## Functions
-
-venv() {
-    # venv $@   -- call $_VENV $@
-    # venv -h   -- print venv --help
-    # venv --print-bash   -- print bash configuration
-    # venv --print-json   -- print IPython configuration as JSON
-    (set -x; $__VENV $@)
-}
-venvw() {
-    # venvw $@ -- venv -E $@ (for the current environment)
-    (set -x; $__VENV -e $@)
-}
-
-workon_venv() {
-    # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
-    #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
-    #  param $2: $_APP ("dotfiles") [default: $1)
-    #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
-    #   ${VIRTUAL_ENV}/src                  # == $_SRC
-    #   ${_SRC}/${VIRTUAL_ENV_NAME}         # == $_WRD
-    #  examples:
-    #   we dotfiles
-    #   we dotfiles dotfiles
-
-    #append to shell history
-    history -a
-
-    if [ -n "$1" ] && ( test -d "$WORKON_HOME/$1" || test -d "${1}" ); then
-        workon $1 && \
-        source <($__VENV --print-bash $@) && \
-        dotfiles_status && \
-        declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
-            && _setup_venv_prompt ${_TERM_ID:-$1}
-    else
-        #if no arguments are specified, list virtual environments
-        lsvirtualenvs
-        return 1
-    fi
-}
-we () {
-    # we()          -- workon_venv
-    workon_venv $@
-}
-complete -o default -o nospace -F _virtualenvs workon_venv
-complete -o default -o nospace -F _virtualenvs we
-
-# CdAlias functions and completions
-source ${__DOTFILES}/etc/venv/scripts/venv.sh
-#!/bin/bash
+#!/bin/sh
 ## venv.sh
 # generated from $(venv --print-bash --prefix=/)
 
@@ -2056,52 +2012,114 @@ eval 'cdls () {
 cdls () {
     set | grep "^cd.*()" | cut -f1 -d" " #${@}
 }
-alias cdhelp="cat ${__DOTFILES}/''etc/venv/venv.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'" ;
-if [ "$VENVPREFIX" == "/" ]; then
-    source ${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh
-fi
+alias cdhelp="cat ${__DOTFILES}/''scripts/venv_cdaliases.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'" ;
+
+## Functions
+
+function venv {
+    # venv $@   -- call $_VENV $@
+    # venv -h   -- print venv --help
+    # venv --print-bash   -- print bash configuration
+    # venv --print-json   -- print IPython configuration as JSON
+    (set -x; $__VENV $@)
+}
+function venvw {
+    # venvw $@ -- venv -E $@ (for the current environment)
+    (set -x; $__VENV -e $@)
+}
+
+function workon_venv {
+    # workon_venv() -- workon a virtualenv and load venv (TAB-completion)
+    #  param $1: $VIRTUAL_ENV_NAME ("dotfiles")
+    #  param $2: $_APP ("dotfiles") [default: $1)
+    #   ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
+    #   ${VIRTUAL_ENV}/src                  # == $_SRC
+    #   ${_SRC}/${VIRTUAL_ENV_NAME}         # == $_WRD
+    #  examples:
+    #   we dotfiles
+    #   we dotfiles dotfiles
+
+    if [ -n "${1}" ]; then
+        if [ -d "${WORKON_HOME}/${1}" ]; then
+           local _venvstr="${1}"
+           local _workon_home="${WORKON_HOME}"
+           shift
+        elif [ -d "${1}" ]; then
+           local _venvstr="$(basename "${1}")"
+           local _workon_home="$(dirname "${1}")"
+           shift
+        else
+           printf "err: venv not found: ${1}"
+           return 1
+        fi
+
+        #append to shell history
+        history -a
+
+        workon "${_venvstr}" && \
+            source <($__VENV \
+                --wrk="$__WRK" \
+                --wh="${_workon_home}" \
+                --print-bash \
+                ${_venvstr} $@ ) && \
+            dotfiles_status && \
+            declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+            && _setup_venv_prompt "${_TERM_ID:-${_venvstr}}"
+    else
+        #if no arguments are specified, list virtual environments
+        lsvirtualenvs
+        return 1
+    fi
+}
+function we {
+    # we()          -- workon_venv
+    workon_venv $@
+}
+complete -o default -o nospace -F _virtualenvs workon_venv
+complete -o default -o nospace -F _virtualenvs we
+
 
 ## Grin search
 # virtualenv / virtualenvwrapper
-grinv() {
+function grinv {
     # grinv()   -- grin $VIRTUAL_ENV
     grin --follow $@ "${VIRTUAL_ENV}"
 }
-grindv() {
+function grindv {
     # grindv()  -- grind $VIRTUAL_ENV
     grind --follow $@ --dirs "${VIRTUAL_ENV}"
 }
 
 # venv
-grins() {
+function grins {
     # grins()   -- grin $_SRC
     grin --follow $@ "${_SRC}"
 }
-grinds() {
+function grinds {
     # grinds()  -- grind $_SRC
     grind --follow $@ --dirs "${_SRC}"
 }
-grinw() {
+function grinw {
     # grinw()   -- grin $_WRD
     grin --follow $@ "${_WRD}"
 }
-grindw() {
+function grindw {
     # grindw()  -- grind $_WRD
     grind --follow $@ --dirs "${_WRD}"
 }
 
-edit_grin_w() {
+function edit_grin_w {
     # edit_grin_w() -- edit $(grinw -l $@)
     edit $(grinw -l $@)
 }
 
-egw() {
+function egw {
     # egw           -- edit $(grinw -l $@)
     edit_grin_w $@
 }
 
 # ctags
-grindctags() {
+function grindctags {
     # grindctags()      -- generate ctags from grind (in ./tags)
     if [ -n "${__IS_MAC}" ]; then
         # brew install ctags
@@ -2122,20 +2140,20 @@ grindctags() {
     wc -l ${path}/tags.err;
     ls -alhtr ${path}/tags*;)
 }
-grindctagssys() {
+function grindctagssys {
     # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
     grindctags "${_WRD}" "--sys-path"
 }
-grindctagsw() {
+function grindctagsw {
     # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
     grindctags "${_WRD}"
 }
-grindctagss() {
+function grindctagss {
     # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
     grindctags "${_SRC}"
 }
 
-_setup_venv_aliases() {
+function _setup_venv_aliases {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
@@ -2171,7 +2189,7 @@ _setup_venv_aliases
 function edit {
     #  edit()   -- EDITOR_ or EDITOR $@
     ${GUIVIMBIN} --servername ${VIRTUAL_ENV_NAME:-"/"} \
-        --remote-tab-silent \
+        --remote-tab \
         ${@}
     return
 }
@@ -2399,7 +2417,7 @@ if [[ ${BASH_SOURCE} == "${0}" ]]; then
 fi
 
 
-_setup_venv_prompt() {
+function _setup_venv_prompt {
     # _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
     #                          and ${debian_chroot}
     #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
@@ -2421,7 +2439,7 @@ _setup_venv_prompt
 
 
 
-venv_ls() {
+function venv_ls {
     # venv_ls()     -- list virtualenv directories
     prefix=${1:-${VIRTUAL_ENV}}
     if [ -z "${prefix}" ]; then
@@ -2430,12 +2448,12 @@ venv_ls() {
     #ls -ld ${prefix}/**
     ls -ld $(find ${prefix} ${prefix}/lib -maxdepth 2 -type d)
 }
-lsvenv() {
+function lsvenv {
     # lsvenv()      -- venv_ls()
     venv_ls $@
 }
 
-venv_mkdirs() {
+function venv_mkdirs {
     # venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
     prefix=${1:-${VIRTUAL_ENV}}
     if [ -z "${prefix}" ]; then
@@ -2531,7 +2549,7 @@ _setup_editor() {
     if [ -n "${GUIVIMBIN}" ]; then
         export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-"/"}"
         export EDITOR="${GUIVIMBIN} -f"
-        export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
+        export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab"  # "-silent"
         export SUDO_EDITOR="${GUIVIMBIN} -f"
         alias gvim="${GUIVIMBIN}"
     else
@@ -2786,7 +2804,11 @@ function _usrlog_set_HISTFILE  {
     fi
 
     #   history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
-    history -c && history -r $HISTFILE
+    if [ "${__IS_ZSH}" ]; then
+        history -r $HISTFILE
+    else
+        history -c && history -r $HISTFILE
+    fi
 }
 
 function _usrlog_set_HIST {
@@ -3665,7 +3687,12 @@ _loadaliases () {
         # psmh     -- 'ps uxaw -m | head'
         alias psmh='ps uxaw -m | head'
     fi
-    
+   
+
+    # pyg      -- pygmentize
+    alias pyg='pygmentize'
+    alias pygp'pygmentize -l python'
+
     # shtop    -- 'sudo htop'
     alias shtop='sudo htop'
     # t        -- 'tail'
@@ -3676,6 +3703,7 @@ _loadaliases () {
     alias xclipc='xclip -selection c'
 }
 _loadaliases
+bash: alias: pygppygmentize -l python: not found
 
 
 
@@ -4333,7 +4361,7 @@ _APP='dotfiles'
 _WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/-wrk/-ve27/wrdrd/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
 ##
