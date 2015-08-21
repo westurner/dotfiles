@@ -353,11 +353,10 @@ pip_install_requirements_testing:
 	# Install package test tools
 	$(PIP_INSTALL) -r ./requirements/requirements-testing.txt
 
-pip_install_requirements_docs.log:
+pip_install_requirements_docs:
 	# Install package documentation tools
-	#$(PIP_INSTALL) -r ./requirements/requirements-docs.txt
+	$(PIP_INSTALL) -r ./requirements/requirements-docs.txt
 	$(PIP_INSTALL) -r ./docs/requirements.txt
-	touch pip_install_requirements_docs.log
 
 pip_install_requirements_suggests:
 	# Install suggested package requirements
