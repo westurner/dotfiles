@@ -272,6 +272,8 @@
 #               _SRC=${VIRTUAL_ENV}/${_APP}
 #               _WRD=${VIRTUAL_ENV}/${_APP}
     # _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
+        # elif "${VIRTUAL_ENV}/bin/python"  ## use extra-venv python
+    #  if [ -n "${__IS_MAC}" ]; then  # for brew python
     # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
     # lsve()                -- list virtualenvs in $WORKON_HOME
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
