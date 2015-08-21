@@ -1057,8 +1057,8 @@ _setup_conda_path() {
 
 _unsetup_conda_path_all() {
     PATH_remove "${CONDA_ROOT}/bin" 2>&1 > /dev/null
-    PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1> /dev/null
-    PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1> /dev/null
+    PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1 > /dev/null
+    PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1 > /dev/null
     declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
 }
 
@@ -1191,12 +1191,12 @@ workon_conda_if_available() {
 #               _WRD=${VIRTUAL_ENV}/${_APP}
 
 _setup_virtualenvwrapper_default_config() {
-    export __WRK=${__WRK:-"${HOME}/workspace"}
+    export __WRK="${__WRK:-"${HOME}/workspace"}"
     export PROJECT_HOME="${__WRK}"
     export WORKON_HOME="${HOME}/.virtualenvs"
 }
 _setup_virtualenvwrapper_dotfiles_config() {
-    export __WRK=${__WRK:-"${HOME}/-wrk"}
+    export __WRK="${__WRK:-"${HOME}/-wrk"}"
     export PROJECT_HOME="${__WRK}"
     export WORKON_HOME="${__WRK}/-ve27"
 }

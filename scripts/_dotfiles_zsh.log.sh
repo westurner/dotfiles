@@ -8475,7 +8475,8 @@ bash_source "${__DOTFILES}/etc/bash/00-bashrc.before.sh"
 # dotfiles_reload()
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 _configure_bash_completion:16: command not found: shopt
-/home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:65: parse error near `>'
+/home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:102: command not found: complete
+/home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:109: command not found: complete
 /home/wturner/-dotfiles/etc/bash/07-bashrc.virtualenvwrapper.sh:21: parse error near `('
 /home/wturner/-dotfiles/etc/bash/07-bashrc.virtualenvwrapper.sh:59: parse error near `VIRTUALENVWRAPPER_SC...'
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:6: command not found: complete
