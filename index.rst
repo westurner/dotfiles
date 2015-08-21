@@ -4829,24 +4829,6 @@ Safari is the web browser included with :ref:`OSX`.
 * Safari is derived from and supports :ref:`WebKit`
 
 
-.. index:: WebKit
-.. _webkit:
-
-WebKit
-~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/WebKit
-| Homepage: https://www.webkit.org/
-| Download: http://nightly.webkit.org/
-| Src: https://github.com/WebKit/webkit
-| Docs: https://www.webkit.org/coding/coding-style.html
-| Docs: https://trac.webkit.org/wiki
-
-WebKit is an open source :ref:`web browser <browsers>`
-written in :ref:`C++`.
-
-* WebKit powers :ref:`Safari`
-
-
 .. index:: Safari Extensions
 .. _safari extension:
 
@@ -4875,6 +4857,24 @@ Safari iOS
 ~~~~~~~~~~~~~~~
 
 * `Pocket`_
+
+
+.. index:: WebKit
+.. _webkit:
+
+WebKit
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/WebKit
+| Homepage: https://www.webkit.org/
+| Download: http://nightly.webkit.org/
+| Src: https://github.com/WebKit/webkit
+| Docs: https://www.webkit.org/coding/coding-style.html
+| Docs: https://trac.webkit.org/wiki
+
+WebKit is an open source :ref:`web browser <browsers>`
+written in :ref:`C++`.
+
+* WebKit powers :ref:`Safari`
 
 
 .. index:: Browser Extensions
@@ -4937,7 +4937,6 @@ NASA Night Launch
 ++++++++++++++++++
 | FirefoxExt: https://addons.mozilla.org/en-us/firefox/addon/nasa-night-launch/
 | FirefoxXPI: https://addons.mozilla.org/firefox/downloads/latest/4908/addon-4908-latest.xpi
-
 
 
 .. index:: Spectrum
