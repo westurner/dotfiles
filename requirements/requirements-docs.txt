@@ -16,7 +16,7 @@ ghp-import
 #sphinxcontrib-bibtex
 #sphinxcontrib-paverutils
 
-#sphinxcontrib-napoleon
+sphinxcontrib-napoleon
 
 # Requires PasteDeploy?
 # github-tools[template]
