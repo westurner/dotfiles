@@ -86,7 +86,7 @@ function workon_venv {
            local _workon_home="$(dirname "${1}")"
            shift
         else
-           printf "err: venv not found: ${1}"
+           echo "err: venv not found: ${1}"
            return 1
         fi
 
