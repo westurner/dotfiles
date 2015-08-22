@@ -2,7 +2,7 @@
 ## 00-bashrc.before.sh     -- bash dotfiles configuration root
 #  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
 #
-dotfiles_reload() {
+function dotfiles_reload {
   #  dotfiles_reload()  -- (re)load the bash configuration
   #  $__DOTFILES (str): -- path to the dotfiles symlink (~/-dotfiles)
 
@@ -191,13 +191,13 @@ dotfiles_reload() {
   source ${conf}/99-bashrc.after.sh
 }
 
-dr() {
+function dr {
     # dr()  -- dotfiles_reload
     dotfiles_reload $@
 }
     # ds()  -- print dotfiles_status()
 
-dotfiles_main() {
+function dotfiles_main {
     dotfiles_reload
 }
 
