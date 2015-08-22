@@ -16,25 +16,25 @@
 #               _SRC=${VIRTUAL_ENV}/${_APP}
 #               _WRD=${VIRTUAL_ENV}/${_APP}
 
-_setup_virtualenvwrapper_default_config() {
-    export __WRK=${__WRK:-"${HOME}/workspace"}
+function _setup_virtualenvwrapper_default_config {
+    export __WRK="${__WRK:-"${HOME}/workspace"}"
     export PROJECT_HOME="${__WRK}"
     export WORKON_HOME="${HOME}/.virtualenvs"
 }
-_setup_virtualenvwrapper_dotfiles_config() {
-    export __WRK=${__WRK:-"${HOME}/-wrk"}
+function _setup_virtualenvwrapper_dotfiles_config {
+    export __WRK="${__WRK:-"${HOME}/-wrk"}"
     export PROJECT_HOME="${__WRK}"
     export WORKON_HOME="${__WRK}/-ve27"
 }
 
-_setup_virtualenvwrapper_dirs() {
+function _setup_virtualenvwrapper_dirs {
     umask 027
     mkdir -p "${__WRK}" || chmod o-rwx "${__WRK}"
     mkdir -p "${PROJECT_HOME}" || chmod o-rwx "${PROJECT_HOME}"
     mkdir -p "${WORKON_HOME}" || chmod o-rwx "${WORKON_HOME}"
 }
 
-_setup_virtualenvwrapper_config () {
+function _setup_virtualenvwrapper_config  {
     # _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
     #export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh"
     #export VIRTUALENVWRAPPER_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
@@ -69,7 +69,7 @@ _setup_virtualenvwrapper_config () {
 
 }
 
-lsvirtualenvs() {
+function lsvirtualenvs {
     # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
     cmd=${@:-""}
     (cd ${WORKON_HOME} &&
@@ -82,44 +82,44 @@ lsvirtualenvs() {
         fi
     done)
 }
-lsve() {
+function lsve {
     # lsve()                -- list virtualenvs in $WORKON_HOME
     lsvirtualenvs $@
 }
 
-backup_virtualenv() {
+function backup_virtualenv {
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
-    venv=${1}
-    _date=$(date +'%FT%T%z')
-    bkpdir=${2:-"${WORKON_HOME}/_venvbkps/${_date}"}
-    test -d ${bkpdir} || mkdir -p ${bkpdir}
-    archivename="venvbkp.${venv}.${_date}.tar.gz"
+    local venvstr="${1}"
+    local _date="$(date +'%FT%T%z')"
+    bkpdir="${2:-"${WORKON_HOME}/_venvbkps/${_date}"}"
+    test -d "${bkpdir}" || mkdir -p "${bkpdir}"
+    archivename="venvstrbkp.${venvstr}.${_date}.tar.gz"
     archivepath="${bkpdir}/${archivename}"
-    (cd ${WORKON_HOME}; \
-    tar czf ${archivepath} ${venv} \
-        && echo "${archivename}" \
-        || (echo "err: ${venv} (${archivename})" 1>&2))
+    (cd "${WORKON_HOME}" \
+        tar czf "${archivepath}" "${venvstr}" \
+            && echo "${archivename}" \
+            || (echo "err: ${venvstr} (${archivename})" >&2))
 }
 
-backup_virtualenvs() {
+function backup_virtualenvs {
     # backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
     date=$(date +'%FT%T%z')
     bkpdir=${1:-"${WORKON_HOME}/_venvbkps/${date}"}
     echo BKPDIR="${bkpdir}"
-    test -d ${bkpdir} || mkdir -p ${bkpdir}
+    test -d "${bkpdir}" || mkdir -p "${bkpdir}"
     lsvirtualenvs
     venvs=$(lsvirtualenvs)
-    (cd ${WORKON_HOME}; \
+    (cd "${WORKON_HOME}"; \
     for venv in ${venvs}; do
-        backup_virtualenv ${venv} ${bkpdir} \
-        2>> ${bkpdir}/venvbkps.err \
-        | tee -a ${bkpdir}/venvbkps.list
+        backup_virtualenv "${venv}" "${bkpdir}" \
+        2>> "${bkpdir}/venvbkps.err" \
+        | tee -a "${bkpdir}/venvbkps.list"
     done)
-    cat ${bkpdir}/venvbkps.err
+    cat "${bkpdir}/venvbkps.err"
     echo BKPDIR="${bkpdir}"
 }
 
-_rebuild_virtualenv() {
+function _rebuild_virtualenv {
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
     #    $1="$VENVSTR"
     #    $2="$VIRTUAL_ENV"
@@ -140,24 +140,24 @@ _rebuild_virtualenv() {
     find -E "${_PYSITE}" -iname 'easy_install*' -delete
     find -E "${_PYSITE}" -iname 'python*' -delete
     declare -f 'deactivate' 2>&1 /dev/null && deactivate
-    mkvirtualenv -i setuptools -i wheel -i pip ${VENVSTR}
+    mkvirtualenv -i setuptools -i wheel -i pip "${VENVSTR}"
     #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
-    workon ${VENVSTR} && \
-    we ${VENVSTR}
+    workon "${VENVSTR}" && \
+    we "${VENVSTR}"
     _BIN="${VIRTUAL_ENV}/bin"
 
     if [ "${_BIN}" == "/bin" ]; then
-        echo "err: _BIN='${_BIN}'"
+        echo "err: _BIN=${_BIN}"
         return 1
     fi
 
-    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+    find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
         | xargs head -n1
-    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+    find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
         | LC_ALL=C xargs  sed -i.bak -E 's,^#!.*python.*,#!'${_BIN}'/python,'
-    find $_BIN -name '*.bak' -delete
+    find "${_BIN}" -name '*.bak' -delete
 
-    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+    find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
         | xargs head -n1
     echo "
     # TODO: adjust paths beyond the shebang
@@ -166,14 +166,14 @@ _rebuild_virtualenv() {
     "
 }
 
-rebuild_virtualenv() {
+function rebuild_virtualenv {
     #  rebuild_virtualenv()     -- rebuild a virtualenv
     #    $1="$VENVSTR"
     #    $2="$VIRTUAL_ENV"
     (set -x; _rebuild_virtualenv $@)
 }
 
-rebuild_virtualenvs() {
+function rebuild_virtualenvs {
     # rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
     lsve rebuild_virtualenv
 }
@@ -181,7 +181,7 @@ rebuild_virtualenvs() {
 
 _setup_virtualenvwrapper_dotfiles_config  # ~/-wrk/-ve27 {-ve34,-ce27,-ce34}
 
-_setup_virtualenvwrapper() {
+function _setup_virtualenvwrapper {
   # _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
   _setup_virtualenvwrapper_config
   _setup_virtualenvwrapper_dirs
@@ -189,7 +189,7 @@ _setup_virtualenvwrapper() {
 
 
 
-if [[ "$BASH_SOURCE" == "$0" ]]; then
+if [[ "${BASH_SOURCE}" == "$0" ]]; then
   _setup_virtualenvwrapper
 else
   #if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
