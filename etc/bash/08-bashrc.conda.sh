@@ -57,13 +57,13 @@ _setup_conda() {
 
 _setup_conda_path() {
     _unsetup_conda_path_all
-    PATH_prepend "${CONDA_ROOT}/bin" 2>&1> /dev/null
+    PATH_prepend "${CONDA_ROOT}/bin" 2>&1 > /dev/null
 }
 
 _unsetup_conda_path_all() {
     PATH_remove "${CONDA_ROOT}/bin" 2>&1 > /dev/null
-    PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1> /dev/null
-    PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1> /dev/null
+    PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1 > /dev/null
+    PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1 > /dev/null
     declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
 }
 
