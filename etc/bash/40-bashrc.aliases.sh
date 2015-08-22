@@ -188,6 +188,12 @@ _loadaliases () {
     alias pygj='pygmentize -l javascript'
     alias pygh='pygmentize -l html'
 
+    # catp     -- pygmentize [pip install --user pygments]
+    alias catp='pygmentize'
+    alias catpp='pygmentize -l python'
+    alias catpj='pygmentize -l javascript'
+    alias catph='pygmentize -l html'
+
     # shtop    -- 'sudo htop' [apt-get/yum install -y htop]
     alias shtop='sudo htop'
     # t        -- 'tail'
