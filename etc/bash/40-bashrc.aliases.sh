@@ -181,8 +181,14 @@ _loadaliases () {
         # psmh     -- 'ps uxaw -m | head'
         alias psmh='ps uxaw -m | head'
     fi
-    
-    # shtop    -- 'sudo htop'
+
+    # pyg      -- pygmentize [pip install --user pygments]
+    alias pyg='pygmentize'
+    alias pygp='pygmentize -l python'
+    alias pygj='pygmentize -l javascript'
+    alias pygh='pygmentize -l html'
+
+    # shtop    -- 'sudo htop' [apt-get/yum install -y htop]
     alias shtop='sudo htop'
     # t        -- 'tail'
     alias t='tail'
