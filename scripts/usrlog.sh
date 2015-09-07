@@ -707,7 +707,8 @@ function usrlog_screenrec_ffmpeg {
             2>&1 | tee "$FILENAME.log"
 }
 
-function usrlog {
+function usrlogw {
+    #  usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}
     (set -x; usrlog.py -p "${_USRLOG}" ${@})
 }
 
