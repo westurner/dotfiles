@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
 #  Log shell commands with metadata as tab-separated lines to ${_USRLOG}
@@ -707,10 +707,19 @@ function usrlog_screenrec_ffmpeg {
             2>&1 | tee "$FILENAME.log"
 }
 
+function usrlog {
+    (set -x; usrlog.py -p "${_USRLOG}" ${@})
+}
+
 function _setup_usrlog {
     #  _setup_usrlog() -- call _usrlog_setup $@
     _usrlog_setup $@
 }
 
+
+if [ "${BASH_SOURCE}" == "${0}" ]; then
 ## calls _usrlog_setup when sourced
-_usrlog_setup
+    _usrlog_setup
+else
+    _usrlog_setup
+fi
