@@ -147,7 +147,7 @@ function _rebuild_virtualenv {
     find -E "${_PYSITE}" -iname 'distribute*' -delete
     find -E "${_PYSITE}" -iname 'easy_install*' -delete
     find -E "${_PYSITE}" -iname 'python*' -delete
-    declare -f 'deactivate' 2>&1 /dev/null && deactivate
+    declare -f 'deactivate' 2>&1 > /dev/null && deactivate
     mkvirtualenv -i setuptools -i wheel -i pip "${VENVSTR}"
     #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
     workon "${VENVSTR}" && \
