@@ -119,6 +119,14 @@ function backup_virtualenvs {
     echo BKPDIR="${bkpdir}"
 }
 
+function dx {
+    # dx()                      -- 'deactivate'
+    (declare -f 'deactivate' 2>&1 > /dev/null \
+        && deactivate) || \
+    (declare -f 'dotfiles_postdeactivate' 2>&1 > /dev/null \
+        && dotfiles_postdeactivate)
+}
+
 function _rebuild_virtualenv {
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
     #    $1="$VENVSTR"
