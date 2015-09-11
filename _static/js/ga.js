@@ -4,7 +4,8 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 var keymap = {
-    "westurner.org": 'UA-46001060-1',
+    "www.wrdrd.com": 'UA-55346955-1',
+    "wrdrd.com": 'UA-55346955-2'
 };
 
 if (document.location.hostname in keymap) {
