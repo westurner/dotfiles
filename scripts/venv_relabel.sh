@@ -12,15 +12,22 @@ function _setlabels {
     fi
     sudo semanage fcontext --modify -e "${_equalpth}" "${_path}";
     sudo restorecon -Rv "${_path}";
-    ls -alZd "${_path}") 
+    ls -alZd "${_path}")
+    return
 }
 
 function venv_relabel {
 
-    prefix="${1}"
+    local prefix="${1}"
     if [ "${prefix}" == "" ]; then
-        echo "err"
+        echo "err: prefix must be specified"
+        return -1
     fi
+    # .. note: this is destructive of any existing labels
+    #    if _VENV_RELABEL_DELETE_EXISTING != "" (default: "true") 
+    # if [ "${prefix}" == "/" ]; then
+    #     prefix=""
+    # fi
     export _VENV_RELABEL_DELETE_EXISTING="${2:-"${_VENV_RELABEL_DELETE_EXISTING:-"true"}"}"
     _setlabels "${prefix}/bin"     "/usr/bin"
     _setlabels "${prefix}/etc"     "/usr/etc"
@@ -36,10 +43,13 @@ function venv_relabel {
     _setlabels "${prefix}/var/www" "/var/www"
 
     ls -alZ "${prefix}"
+    return
 }
 
 function venv_relabel_main {
     venv_relabel "${1}" "${2:-"true"}"
+    return
 }
 
 venv_relabel_main "${1}" "${2}"
+exit
