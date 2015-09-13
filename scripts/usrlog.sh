@@ -248,11 +248,11 @@ function _usrlog_writecmd {
 
     if [ -n "$ZSH_VERSION" ]; then
         id 2>&1 > /dev/null
-        _cmd=$(fc -l -1 | sed -e $TERM_SED_STR)
+        _cmd=$(fc -l -1 | sed -e "${TERM_SED_STR}")
     elif [ -n "$BASH" ]; then
-        _cmd=$(history 1 | sed -e $TERM_SED_STR)
+        _cmd=$(history 1 | sed -e "${TERM_SED_STR}")
     else
-        _cmd=$(history 1 | sed -e $TERM_SED_STR)
+        _cmd=$(history 1 | sed -e "${TERM_SED_STR}")
     fi
     _usrlog_append "${_cmd}"
 }

@@ -3,9 +3,6 @@
 ### xlck.sh -- script wrapper for xautolock, xlock, and/or i3lock
 ##             as well as issuing suspend, shutdown, and restart commands
 
-## Requirements:
-#
-#  sudo apt-get install xautolock xlockmore i3lock
 
 function xlck {
     # xlck()            -- xlck $@
@@ -18,8 +15,20 @@ function _xlck_install  {
     # _xlck_install()   -- install xlck dependencies
     # xlck requires: bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
 
-    sudo apt-get install bash procps x11-server-utils \
-        xautolock xlockmore i3lock
+    function _xlck_install_apt {
+        sudo apt-get install -y bash procps x11-server-utils \
+            xautolock xlockmore i3lock
+    }
+    function _xlck_install_yum {
+        local YUM="${1:-"yum"}"  # yum, dnf
+        sudo $YUM install -y bash procps-ng xorg-x11-server-utils \
+            xautolock xlockmore i3lock
+    }
+
+    _xlck_install_apt
+    _xlck_install_yum
+    _xlck_install_yum "dnf"
+
     ln -s ~/.dotfiles/etc/.xinitrc ~/.xinitrc
 }
 
@@ -53,23 +62,62 @@ function _xlck_i3lock  {
     # _xlck_i3lock()    -- start i3lock with a dark gray background
     /usr/bin/i3lock -d -c 202020
 }
+function xlck_gnome_screensaver_status {
+    # xlck_gnome_screensaver_status()  -- gnome-screensaver PIDs on $DISPLAY
+    xlck_pgrep_display "gnome-screensaver" "$DISPLAY"
+    return
+}
+
+function xlck_gnome_screensaver_start {
+    # xlck_gnome_screensaver_start() -- start gnome-screensaver
+    xlck_gnome_screensaver_status
+    gnome-screensaver --display="$DISPLAY"
+    xlck_gnome_screensaver_status
+}
+
+function xlck_gnome_screensaver_lock {
+    # xlck_gnome_screensaver_lock() -- lock gnome-screensaver
+    xlck_gnome_screensaver_status
+    gnome-screensaver-command --lock
+}
+
+
+function _xlck_which_lock {
+    if [[ -x /usr/bin/i3lock ]]; then
+        echo "i3lock"
+        _xlck_i3lock
+    elif [[ -x /usr/bin/xlock ]]; then
+        echo "xlock"
+        _xlck_xlock
+    elif [[ -x /usr/bin/gnome-screensaver ]]; then
+        echo "gnome-screensaver"
+        xlck_gnome_screensaver_lock
+    fi
+}
 
 function xlck_lock  {
     # xlock_lock()      -- lock the current display
+    #   $1 {i3lock|i3, xlock|x, gnome-screensaver|gnome|g}
     #   note: this will be run before suspend to RAM and Disk.
-    #if [[ -x /usr/bin/gnome-screensaver-command ]]; then
-    #    # TODO XXX:
-    #    #  if gnome-screensaver not running **in this display**,
-    #    #  gnome-screensaver &; disown
-    #    gnome-screensaver-command -l
-    if [[ -x /usr/bin/i3lock ]]; then
-        _xlck_i3lock
-    elif [[ -x /usr/bin/xlock ]]; then
-        _xlck_xlock
-    else
-        echo "Found neither i3lock nor xlock"
-        return -1
-    fi
+    local lockfn="${1:-"$(_xlck_which_lock)"}"
+    case $lockfn in
+        i3lock|i3)
+            _xlck_i3lock
+            return
+            ;;
+        xlock|x)
+            _xlck_xlock
+            return
+            ;;
+        gnome-screensaver|gnome|g)
+            xlck_gnome_screensaver_start
+            xlck_gnome_screensaver_lock
+            return
+            ;;
+        *)
+            echo "Found neither i3lock nor xlock"
+            return -1
+    esac
 }
 
 function _suspend_to_ram  {
@@ -149,6 +197,23 @@ function xlck_restart {
     #xautolock -restart  # does not work with xautolock -secure
     xlck_stop
     xlck_start
+}
+
+
+function xlck_pgrep_display {
+    # xlck_pgrep_display()-- find xautolock on this display
+    procname="${1}"
+    display="${2:-$DISPLAY}"
+    if [ -z "${@}" ]; then
+        echo "usage: <procname> [<display>]"
+        return 2
+    fi
+    pids=$(pgrep "$procname")
+    if [ -n "$pids" ]; then
+        ps eww -p ${pids} \
+        | grep " DISPLAY=$display" \
+        | awk '{ print $1 }'
+    fi
 }
 
 function xlck_xautolock_pgrep_display {
@@ -234,9 +299,9 @@ function _xlck_xautolock {
 
 function xlck_usage {
     echo "# $0"
-    echo "Usage: $(basename $0) < -I | -U | -S | -P | -R | -M | -N | -D | -L |-X >";
+    echo "$(basename $0) [-h] [-I|-U|-S|-P|-R|-M|-N|-D|-L|-X]";
     echo ""
-    echo "  a script for working with xautolock, xlock, and/or i3lock;"
+    echo "  a script for working with xautolock and xlock, i3lock;"
     echo "  as well as issuing suspend, shutdown, and restart commands."
     echo ""
     echo "  -I  --  (I)nstall xlck (apt-get)"
@@ -255,6 +320,11 @@ function xlck_usage {
 }
 
 function xlck_main {
+    if [ -z "${@}" ]; then
+        xlck_usage
+        # return nonzero if no args
+        return 86
+    fi
     while getopts "USPRMDLXh" opt; do
         case "${opt}" in
             I)
@@ -293,6 +363,6 @@ function xlck_main {
 
 if [[ "$BASH_SOURCE" == "$0" ]]; then
   _xlck_setup
-  xlck_main $@
+  xlck_main "$@"
   exit
 fi

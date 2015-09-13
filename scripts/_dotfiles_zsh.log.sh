@@ -5569,6 +5569,10 @@ SSH_AGENT_PID=30357; export SSH_AGENT_PID;
 #echo Agent pid 30357;
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+SSH_AUTH_SOCK=/tmp/ssh-yNoaOfzVdDpf/agent.11645; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=11647; export SSH_AGENT_PID;
+#echo Agent pid 11647;
+starting ssh-agent...
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
@@ -8538,9 +8542,10 @@ _APP='dotfiles'
 _WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/wrdrd/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
+_NOTE='TODO: just the pip deps for netstat'
 ##
 # 99-zsh.after.sh
 

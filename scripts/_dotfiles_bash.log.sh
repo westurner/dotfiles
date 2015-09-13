@@ -103,7 +103,7 @@ fi
 ## 00-bashrc.before.sh     -- bash dotfiles configuration root
 #  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
 #
-dotfiles_reload() {
+function dotfiles_reload {
   #  dotfiles_reload()  -- (re)load the bash configuration
   #  $__DOTFILES (str): -- path to the dotfiles symlink (~/-dotfiles)
 
@@ -292,13 +292,13 @@ dotfiles_reload() {
   source ${conf}/99-bashrc.after.sh
 }
 
-dr() {
+function dr {
     # dr()  -- dotfiles_reload
     dotfiles_reload $@
 }
     # ds()  -- print dotfiles_status()
 
-dotfiles_main() {
+function dotfiles_main {
     dotfiles_reload
 }
 
@@ -1263,16 +1263,16 @@ function lsve {
 
 function backup_virtualenv {
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
-    venv=${1}
-    _date=$(date +'%FT%T%z')
-    bkpdir=${2:-"${WORKON_HOME}/_venvbkps/${_date}"}
-    test -d ${bkpdir} || mkdir -p ${bkpdir}
-    archivename="venvbkp.${venv}.${_date}.tar.gz"
+    local venvstr="${1}"
+    local _date="$(date +'%FT%T%z')"
+    bkpdir="${2:-"${WORKON_HOME}/_venvbkps/${_date}"}"
+    test -d "${bkpdir}" || mkdir -p "${bkpdir}"
+    archivename="venvstrbkp.${venvstr}.${_date}.tar.gz"
     archivepath="${bkpdir}/${archivename}"
-    (cd ${WORKON_HOME}; \
-    tar czf ${archivepath} ${venv} \
-        && echo "${archivename}" \
-        || (echo "err: ${venv} (${archivename})" 1>&2))
+    (cd "${WORKON_HOME}" \
+        tar czf "${archivepath}" "${venvstr}" \
+            && echo "${archivename}" \
+            || (echo "err: ${venvstr} (${archivename})" >&2))
 }
 
 function backup_virtualenvs {
@@ -1280,16 +1280,16 @@ function backup_virtualenvs {
     date=$(date +'%FT%T%z')
     bkpdir=${1:-"${WORKON_HOME}/_venvbkps/${date}"}
     echo BKPDIR="${bkpdir}"
-    test -d ${bkpdir} || mkdir -p ${bkpdir}
+    test -d "${bkpdir}" || mkdir -p "${bkpdir}"
     lsvirtualenvs
     venvs=$(lsvirtualenvs)
-    (cd ${WORKON_HOME}; \
+    (cd "${WORKON_HOME}"; \
     for venv in ${venvs}; do
-        backup_virtualenv ${venv} ${bkpdir} \
-        2>> ${bkpdir}/venvbkps.err \
-        | tee -a ${bkpdir}/venvbkps.list
+        backup_virtualenv "${venv}" "${bkpdir}" \
+        2>> "${bkpdir}/venvbkps.err" \
+        | tee -a "${bkpdir}/venvbkps.list"
     done)
-    cat ${bkpdir}/venvbkps.err
+    cat "${bkpdir}/venvbkps.err"
     echo BKPDIR="${bkpdir}"
 }
 
@@ -1314,24 +1314,24 @@ function _rebuild_virtualenv {
     find -E "${_PYSITE}" -iname 'easy_install*' -delete
     find -E "${_PYSITE}" -iname 'python*' -delete
     declare -f 'deactivate' 2>&1 /dev/null && deactivate
-    mkvirtualenv -i setuptools -i wheel -i pip ${VENVSTR}
+    mkvirtualenv -i setuptools -i wheel -i pip "${VENVSTR}"
     #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
-    workon ${VENVSTR} && \
-    we ${VENVSTR}
+    workon "${VENVSTR}" && \
+    we "${VENVSTR}"
     _BIN="${VIRTUAL_ENV}/bin"
 
     if [ "${_BIN}" == "/bin" ]; then
-        echo "err: _BIN='${_BIN}'"
+        echo "err: _BIN=${_BIN}"
         return 1
     fi
 
-    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+    find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
         | xargs head -n1
-    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+    find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
         | LC_ALL=C xargs  sed -i.bak -E 's,^#!.*python.*,#!'${_BIN}'/python,'
-    find $_BIN -name '*.bak' -delete
+    find "${_BIN}" -name '*.bak' -delete
 
-    find ${_BIN} -type f | grep -v '.bak$' | grep -v 'python*$' \
+    find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
         | xargs head -n1
     echo "
     # TODO: adjust paths beyond the shebang
@@ -1363,7 +1363,7 @@ function _setup_virtualenvwrapper {
 
 
 
-if [[ "$BASH_SOURCE" == "$0" ]]; then
+if [[ "${BASH_SOURCE}" == "$0" ]]; then
   _setup_virtualenvwrapper
 else
   #if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
@@ -5077,13 +5077,20 @@ _loadaliases () {
         # psmh     -- 'ps uxaw -m | head'
         alias psmh='ps uxaw -m | head'
     fi
-   
 
-    # pyg      -- pygmentize
+    # pyg      -- pygmentize [pip install --user pygments]
     alias pyg='pygmentize'
-    alias pygp'pygmentize -l python'
+    alias pygp='pygmentize -l python'
+    alias pygj='pygmentize -l javascript'
+    alias pygh='pygmentize -l html'
 
-    # shtop    -- 'sudo htop'
+    # catp     -- pygmentize [pip install --user pygments]
+    alias catp='pygmentize'
+    alias catpp='pygmentize -l python'
+    alias catpj='pygmentize -l javascript'
+    alias catph='pygmentize -l html'
+
+    # shtop    -- 'sudo htop' [apt-get/yum install -y htop]
     alias shtop='sudo htop'
     # t        -- 'tail'
     alias t='tail'
@@ -5093,7 +5100,6 @@ _loadaliases () {
     alias xclipc='xclip -selection c'
 }
 _loadaliases
-bash: alias: pygppygmentize -l python: not found
 
 
 
@@ -5751,9 +5757,10 @@ _APP='dotfiles'
 _WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/-wrk/-ve27/wrdrd/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
+_NOTE='TODO: just the pip deps for netstat'
 ##
 ### </end dotfiles .bashrc>
 

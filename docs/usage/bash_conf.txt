@@ -543,8 +543,9 @@
         # psch     -- 'ps uxaw -c | head'
         # psm      -- 'ps uxaw -m'
         # psmh     -- 'ps uxaw -m | head'
-    # pyg      -- pygmentize
-    # shtop    -- 'sudo htop'
+    # pyg      -- pygmentize [pip install --user pygments]
+    # catp     -- pygmentize [pip install --user pygments]
+    # shtop    -- 'sudo htop' [apt-get/yum install -y htop]
     # t        -- 'tail'
     # tf       -- 'tail -f'
     # xclipc   -- 'xclip -selection c'

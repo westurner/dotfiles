@@ -3,7 +3,7 @@
 
 _configure_lesspipe() {
     # _configure_lesspipe() -- (less <file.zip> | lessv)
-    lesspipe=$(which lesspipe.sh 2>/dev/null || false)
+    lesspipe="$(which lesspipe.sh 2>/dev/null)"
     if [ -n "${lesspipe}" ]; then
         eval "$(${lesspipe})"
     fi
@@ -15,7 +15,7 @@ vimpager() {
     # vimpager() -- call vimpager
     _PAGER=$(which vimpager)
     if [ -x "${_PAGER}" ]; then
-        ${_PAGER} $@
+        "${_PAGER}" $@
     else
         echo "error: vimpager not found. (see lessv: 'lessv $@')"
     fi
@@ -28,7 +28,7 @@ lessv () {
         if [ $# -eq 0 ]; then
             if [ -n "$VIMPAGER_SYNTAX" ]; then
                 #read stdin
-                ${VIMBIN} --cmd "let g:tinyvim=1" \
+                "${VIMBIN}" --cmd "let g:tinyvim=1" \
                     --cmd "runtime! macros/less.vim" \
                     --cmd "set nomod" \
                     --cmd "set noswf" \
@@ -37,7 +37,7 @@ lessv () {
                     -c "set syntax=${VIMPAGER_SYNTAX}" \
                     -
             else
-                ${VIMBIN} --cmd "let g:tinyvim=1" \
+                "${VIMBIN}" --cmd "let g:tinyvim=1" \
                     --cmd "runtime! macros/less.vim" \
                     --cmd "set nomod" \
                     --cmd "set noswf" \
@@ -46,7 +46,7 @@ lessv () {
                     -
             fi
         elif [ -n "$VIMPAGER_SYNTAX" ]; then
-            ${VIMBIN} \
+            "${VIMBIN}" \
                 --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
@@ -57,7 +57,7 @@ lessv () {
                 ${@}
 
         else
-            ${VIMBIN} \
+            "${VIMBIN}" \
                 --cmd "let g:tinyvim=1" \
                 --cmd "runtime! macros/less.vim" \
                 --cmd "set nomod" \
@@ -78,12 +78,12 @@ lessv () {
 
 lessg() {
     # lessg()   -- less with less.vim and gvim / mvim
-    VIMBIN=${GUIVIMBIN} lessv $@
+    VIMBIN="${GUIVIMBIN}" lessv $@
 }
 
 lesse() {
     # lesse()   -- less with current venv's vim server
-    ${EDITOR_} $@
+    "${GUIVIMBIN}" --servername ${VIRTUAL_ENV_NAME:-"/"} --remote-tab ${@};
 }
 
 manv() {
@@ -93,7 +93,7 @@ manv() {
         /usr/bin/man
     else
         #/usr/bin/whatis "$@" >/dev/null
-        $(which vim) \
+        "$(which vim)" \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -109,7 +109,7 @@ mang() {
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
-        ${GUIVIMBIN} \
+        "${GUIVIMBIN}" \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
