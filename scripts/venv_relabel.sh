@@ -25,8 +25,8 @@ function venv_relabel {
     _setlabels "${prefix}/bin"     "/usr/bin"
     _setlabels "${prefix}/etc"     "/usr/etc"
     _setlabels "${prefix}/include" "/usr/include"
-    _setlabels "${prefix}/lib"     "/usr/lib"
     _setlabels "${prefix}/lib64"   "/usr/lib"
+    _setlabels "${prefix}/lib"     "/usr/lib"
     _setlabels "${prefix}/man"     "/usr/man"
     _setlabels "${prefix}/share"   "/usr/share"
     _setlabels "${prefix}/tmp"     "/usr/tmp"
@@ -39,7 +39,7 @@ function venv_relabel {
 }
 
 function venv_relabel_main {
-    venv_relabel "${1}"
+    venv_relabel "${1}" "${2:-"true"}"
 }
 
-venv_relabel_main "${1}"
+venv_relabel_main "${1}" "${2}"
