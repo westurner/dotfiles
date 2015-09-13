@@ -635,7 +635,9 @@ sdist: clean
 
 gh-pages:
 	# Push docs to gh-pages branch with a .nojekyll file
-	ghp-import -n -p ./docs/_build/html/
+	ghp-import -n -p ./docs/_build/html/ \
+		-m "DOC,RLS: gh-pages from: $(shell git -C $(shell pwd) rev-parse --short HEAD)"
+
 
 pull:
 	git pull
