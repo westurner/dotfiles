@@ -42,7 +42,7 @@ function venv_relabel {
     _setlabels "${prefix}/var/run" "/var/run"
     _setlabels "${prefix}/var/www" "/var/www"
 
-    ls -alZ "${prefix}"
+    (set -x; ls -aldZ "${prefix}"/*)
     return
 }
 
