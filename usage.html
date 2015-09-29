@@ -449,7 +449,12 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
   <span class="c">#                VIMPAGER_SYNTAX=&quot;python&quot; lessv</span>
   <span class="c">#  lessg()    -- open in a gvim with less.vim</span>
   <span class="c">#                VIMPAGER_SYNTAX=&quot;python&quot; lessv</span>
-  <span class="c">#  lesse()    -- open with $EDITOR_</span>
+  <span class="c">#  lesse()    -- open with $EDITOR_ (~e)</span>
+  <span class="c">#  manv()     -- open manpage with vim</span>
+  <span class="c">#  mang()     -- open manpage with gvim</span>
+  <span class="c">#  mane()     -- open manpage with $EDITOR_ (~e)</span>
+  <span class="c">#</span>
+  <span class="c">#  TODO: GIT_PAGER=&quot;/usr/bin/less -R | /usr/bin/cat&quot;</span>
   <span class="c">#</span>
   <span class="c">## 30-bashrc.usrlog.sh        -- $_USRLOG configuration</span>
   <span class="c">#  _setup_usrlog()    -- configure usrlog</span>
@@ -642,6 +647,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c"># lsve()                -- list virtualenvs in $WORKON_HOME</span>
     <span class="c"># backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]</span>
     <span class="c"># backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]</span>
+    <span class="c"># dx()                      -- &#39;deactivate&#39;</span>
     <span class="c"># rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place</span>
     <span class="c">#    $1=&quot;$VENVSTR&quot;</span>
     <span class="c">#    $2=&quot;$VIRTUAL_ENV&quot;</span>
@@ -907,8 +913,9 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
         <span class="c"># psch     -- &#39;ps uxaw -c | head&#39;</span>
         <span class="c"># psm      -- &#39;ps uxaw -m&#39;</span>
         <span class="c"># psmh     -- &#39;ps uxaw -m | head&#39;</span>
-    <span class="c"># pyg      -- pygmentize</span>
-    <span class="c"># shtop    -- &#39;sudo htop&#39;</span>
+    <span class="c"># pyg      -- pygmentize [pip install --user pygments]</span>
+    <span class="c"># catp     -- pygmentize [pip install --user pygments]</span>
+    <span class="c"># shtop    -- &#39;sudo htop&#39; [apt-get/yum install -y htop]</span>
     <span class="c"># t        -- &#39;tail&#39;</span>
     <span class="c"># tf       -- &#39;tail -f&#39;</span>
     <span class="c"># xclipc   -- &#39;xclip -selection c&#39;</span>
@@ -1182,6 +1189,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#    $1: destination directory (use /tmp if possible)</span>
     <span class="c">#    $2: video name to append to datestamp</span>
     <span class="c">#    - Press &quot;q&quot; to stop recording</span>
+    <span class="c">#  usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}</span>
     <span class="c">#  _setup_usrlog() -- call _usrlog_setup $@</span>
 <span class="c">## calls _usrlog_setup when sourced</span>
    
@@ -1345,17 +1353,17 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;
     &quot;  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
     &quot;  Path() -- %s %:h %:p:h                       [help expand]
-&quot;  \       -- &lt;leader&gt;
 &quot;  &lt;space&gt; -- &lt;leader&gt;
 &quot;  ,    --  &lt;leader&gt; == &lt;comma&gt;
-&quot;  :;   --  colon semicolon -&gt; &lt;esc&gt;:
-&quot;  :;   --  colon semicolon -&gt; &lt;esc&gt;:
-&quot;  Quicklist
-&quot;  &lt;leader&gt; q               --  toggle quicklist [:cw/:cwindow]
-&quot;  &lt;leader&gt; n               --  next quicklist item [:cn/:cnext]
-&quot;  Location List
-&quot;  &lt;leader&gt; l               --  toggle location list [:lw/:lwindow]
-&quot;  &lt;leader&gt; &lt;shift&gt; N       --  next location list item [:ln/:lnext]
+&quot;  ;;   --  &lt;esc&gt; == double semicolon
+&quot;  jk   --  &lt;esc&gt;
+&quot;  98   --  &lt;esc&gt; == 98
+&quot;  :;   --  &lt;esc&gt; == colon semicolon
+&quot;  :;   --  &lt;esc&gt; == colon semicolon
+&quot; Quickfix
+&quot;  &lt;leader&gt; q               --  toggle quicklist
+&quot;  &lt;leader&gt; n               --  next quicklist item
+&quot;  &lt;leader&gt; l               --  toggle location list
 &quot; Workaround vim lp:#572863
 &quot; Code Folding
 &quot; UTF-8
@@ -1435,19 +1443,14 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;  alt-v        -- paste (*)
 &quot; Paste
 &quot;  shift-insert --  paste
-&quot; Save / Close
 &quot;  ctrl-S       --  Save
 &quot;  ctrl-Alt-W   --  Close
 &quot;  ctrl-Home    --  Goto line one
 &quot;  ctrl-End     --  Goto line :-1
-&quot; Page Up / Page Down
-&quot;  shift-Down    --  PageDown (&lt;C-d&gt;)
-&quot;  shift-Up      --  PageUp (&lt;C-u&gt;)
-&quot; K    --  PageUp
-&quot; nnoremap K  &lt;PageUp&gt;
-&quot; J    --  PageDown
-&quot; nnoremap J  &lt;PageDown&gt;
-&quot; Keyboard PageUp/PageDown are actually 2*&lt;c-U&gt;
+&quot; PgUp/PgDn
+&quot;  K    --  PageUp
+&quot;  J    --  PageDown
+&quot; Pgup/Down are actually 2*&lt;c-U&gt;
 &quot; Buffer Nav
 &quot;  ctrl-a       --  move to beginning of line (^)
 &quot;  ctrl-e       --  move to end of line ($)
@@ -1505,8 +1508,6 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot; Colors
 &quot;  :PatchColors     --  load local colorizing postsets
 &quot; call PatchColors()    -- call PatchColors when sourced
-    &quot;  Vim2VimWrite()   -- write highlight codes to ./vim_highlight_output.txt
-    &quot;    pip install vim2vim   -- https://pypi.python.org/pypi/vim2vim
 &quot; List highlight colors
 &quot; Python
 &quot;  Wrap at 72 chars for comments.
