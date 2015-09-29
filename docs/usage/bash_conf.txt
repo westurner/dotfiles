@@ -85,7 +85,12 @@
   #                VIMPAGER_SYNTAX="python" lessv
   #  lessg()    -- open in a gvim with less.vim
   #                VIMPAGER_SYNTAX="python" lessv
-  #  lesse()    -- open with $EDITOR_
+  #  lesse()    -- open with $EDITOR_ (~e)
+  #  manv()     -- open manpage with vim
+  #  mang()     -- open manpage with gvim
+  #  mane()     -- open manpage with $EDITOR_ (~e)
+  #
+  #  TODO: GIT_PAGER="/usr/bin/less -R | /usr/bin/cat"
   #
   ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
   #  _setup_usrlog()    -- configure usrlog
@@ -278,6 +283,7 @@
     # lsve()                -- list virtualenvs in $WORKON_HOME
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
     # backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
+    # dx()                      -- 'deactivate'
     # rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
     #    $1="$VENVSTR"
     #    $2="$VIRTUAL_ENV"
@@ -819,6 +825,7 @@
     #    $1: destination directory (use /tmp if possible)
     #    $2: video name to append to datestamp
     #    - Press "q" to stop recording
+    #  usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}
     #  _setup_usrlog() -- call _usrlog_setup $@
 ## calls _usrlog_setup when sourced
    
