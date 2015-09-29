@@ -353,10 +353,13 @@ pip_install_requirements_testing:
 	# Install package test tools
 	$(PIP_INSTALL) -r ./requirements/requirements-testing.txt
 
-pip_install_requirements_docs:
+pip_install_requirements_docs.log:
 	# Install package documentation tools
 	$(PIP_INSTALL) -r ./requirements/requirements-docs.txt
 	$(PIP_INSTALL) -r ./docs/requirements.txt
+	touch pip_install_requirements_docs.log
+
+pip_install_requirements_docs: pip_install_requirements_docs.log
 
 pip_install_requirements_suggests:
 	# Install suggested package requirements
@@ -479,7 +482,8 @@ docs: localcss localjs pip_install_requirements_docs.log
 
 docs-notify:
 	$(shell (hash notify-send \
-		&& notify-send -t 30000 "docs build complete.") || true)
+		&& notify-send -t 30000 "docs build complete." \
+		'$(shell pwd)') || true)
 
 DOCS_AUTOGEN_FILES:=\
 	docs/usage/bash_conf.txt \
