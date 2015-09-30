@@ -273,12 +273,13 @@ function backup_and_symlink {
     local filename=${1}
     local dest=${2:-"${HOME}/${filename}"}
     local src=${3:-"${__DOTFILES}/etc/${filename}"}
-    local bkp=${dest}.bkp.${BKUPID}
+
+    local bkp="${dest}.bkp.${BKUPID}"
     local dest_md5=''
     local src_md5=''
     #echo "# $filename $dest $src"
-    if (test -a ${dest} || test -h ${dest}); then
-        if [[ -s ${dest} ]]; then
+    if (test -a "${dest}" || test -h "${dest}"); then
+        if [[ -s "${dest}" ]]; then
             dest_md5=$(__realpath $dest)
             src_md5=$(__realpath $src)
         else
@@ -290,27 +291,27 @@ function backup_and_symlink {
             echo "#! empy md5s"
         fi
         if [ "$src_md5" != "$dest_md5" ]; then
-            echo $dest
-            echo $dest_md5
-            echo $src
-            echo $src_md5
+            echo "$dest"
+            echo "$dest_md5"
+            echo "$src"
+            echo "$src_md5"
 
             #diff -Naur $src $dest | tee dotfiles.backup.${BKUPID}.diff
 
-            mv ${dest} ${bkp}
+            mv "${dest}" "${bkp}"
             echo "mv ${dest} ${bkp}"
-            ln -s ${src} ${dest}
+            ln -s "${src}" "${dest}"
             echo "ln -s ${src} ${dest}"
         else
             # if either src_md5 or dest_md5 are null
             if [ -z "$src_md5" ] || [ -z "$dest_md5" ]; then
                 echo "# $src $dest"
-                if [ -h ${dest} ]; then
+                if [ -h "${dest}" ]; then
                     local actual=$(__realpath ${dest})
                     if [ "$actual" != "$src" ]; then
                         mv ${dest} ${bkp}
                         echo "mv ${dest} ${bkp}"
-                        ln -s ${src} ${dest}
+                        ln -s "${src}" "${dest}"
                         echo "ln -s ${src} ${dest}"
                     fi
                 else
@@ -323,7 +324,7 @@ function backup_and_symlink {
             fi
         fi
     else
-        ln -s ${src} ${dest}
+        ln -s "${src}" "${dest}"
         echo "ln -s ${src} ${dest}"
     fi
 
