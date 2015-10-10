@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 ##  setup_miniconda.sh
 
 # http://conda.pydata.org/miniconda.html
