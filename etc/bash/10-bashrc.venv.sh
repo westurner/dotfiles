@@ -265,23 +265,23 @@ function venv_mkdirs {
     if [ -z "${prefix}" ]; then
         return
     fi
-    ensure_mkdir ${prefix}
-    ensure_mkdir ${prefix}/bin
-    ensure_mkdir ${prefix}/etc
-    #ensure_mkdir ${prefix}/home
-    ensure_mkdir ${prefix}/lib
-    #ensure_mkdir ${prefix}/opt
-    #ensure_mkdir ${prefix}/sbin
-    #ensure_mkdir ${prefix}/share/doc
-    ensure_mkdir ${prefix}/src
-    #ensure_mkdir ${prefix}/srv
-    ensure_mkdir ${prefix}/tmp
-    ensure_mkdir ${prefix}/usr/share/doc
-    ensure_mkdir ${prefix}/var/cache
-    ensure_mkdir ${prefix}/var/log
-    ensure_mkdir ${prefix}/var/run
-    ensure_mkdir ${prefix}/var/www
+    ensure_mkdir "${prefix}"
+    ensure_mkdir "${prefix}/bin"
+    ensure_mkdir "${prefix}/etc"
+    #ensure_mkdir  "${prefix}/home"
+    ensure_mkdir "${prefix}/lib"
+    #ensure_mkdir  "${prefix}/opt"
+    #ensure_mkdir  "${prefix}/sbin"
+    #ensure_mkdir  "${prefix}/share/doc"
+    ensure_mkdir "${prefix}/src"
+    #ensure_mkdir  "${prefix}/srv"
+    ensure_mkdir "${prefix}/tmp"
+    ensure_mkdir "${prefix}/usr/share/doc"
+    ensure_mkdir "${prefix}/var/cache"
+    ensure_mkdir "${prefix}/var/log"
+    ensure_mkdir "${prefix}/var/run"
+    ensure_mkdir "${prefix}/var/www"
 
-    venv_ls
+    venv_ls "${prefix}"
 }
 
