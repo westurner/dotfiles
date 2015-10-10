@@ -3862,24 +3862,24 @@ function venv_mkdirs {
     if [ -z "${prefix}" ]; then
         return
     fi
-    ensure_mkdir ${prefix}
-    ensure_mkdir ${prefix}/bin
-    ensure_mkdir ${prefix}/etc
-    #ensure_mkdir ${prefix}/home
-    ensure_mkdir ${prefix}/lib
-    #ensure_mkdir ${prefix}/opt
-    #ensure_mkdir ${prefix}/sbin
-    #ensure_mkdir ${prefix}/share/doc
-    ensure_mkdir ${prefix}/src
-    #ensure_mkdir ${prefix}/srv
-    ensure_mkdir ${prefix}/tmp
-    ensure_mkdir ${prefix}/usr/share/doc
-    ensure_mkdir ${prefix}/var/cache
-    ensure_mkdir ${prefix}/var/log
-    ensure_mkdir ${prefix}/var/run
-    ensure_mkdir ${prefix}/var/www
+    ensure_mkdir "${prefix}"
+    ensure_mkdir "${prefix}/bin"
+    ensure_mkdir "${prefix}/etc"
+    #ensure_mkdir  "${prefix}/home"
+    ensure_mkdir "${prefix}/lib"
+    #ensure_mkdir  "${prefix}/opt"
+    #ensure_mkdir  "${prefix}/sbin"
+    #ensure_mkdir  "${prefix}/share/doc"
+    ensure_mkdir "${prefix}/src"
+    #ensure_mkdir  "${prefix}/srv"
+    ensure_mkdir "${prefix}/tmp"
+    ensure_mkdir "${prefix}/usr/share/doc"
+    ensure_mkdir "${prefix}/var/cache"
+    ensure_mkdir "${prefix}/var/log"
+    ensure_mkdir "${prefix}/var/run"
+    ensure_mkdir "${prefix}/var/www"
 
-    venv_ls
+    venv_ls "${prefix}"
 }
 
 
@@ -4874,7 +4874,7 @@ if [ "${BASH_SOURCE}" == "${0}" ]; then
 else
     _usrlog_setup
 fi
-]0;(dotfiles) #testing  wturner@create.lab.av.us.wrd.nu:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles
+]0;(dotfiles) #testing  wturner@mb1:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -5766,7 +5766,7 @@ host_docs () {
 
 dotfiles_status
 # dotfiles_status()
-HOSTNAME='create.lab.av.us.wrd.nu'
+HOSTNAME='mb1'
 USER='wturner'
 __WRK='/home/wturner/-wrk'
 PROJECT_HOME='/home/wturner/-wrk'
@@ -5780,7 +5780,7 @@ _APP='dotfiles'
 _WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
 ##

@@ -124,7 +124,7 @@ if [ -z "$USER_LS_COLORS" ]; then
   for colors in "$HOME/.dir_colors.$TERM" "$HOME/.dircolors.$TERM" \
       "$HOME/.dir_colors" "$HOME/.dircolors"; do
     [ -e "$colors" ] && COLORS="$colors" && \
-    INCLUDE="`cat "$COLORS" | grep '^INCLUDE' | cut -d ' ' -f2-`" && \
+    INCLUDE="`/usr/bin/cat "$COLORS" | /usr/bin/grep '^INCLUDE' | /usr/bin/cut -d ' ' -f2-`" && \
     break
   done
 
@@ -132,7 +132,7 @@ if [ -z "$USER_LS_COLORS" ]; then
   COLORS="/etc/DIR_COLORS.$TERM"
 
   [ -z "$COLORS" ] && [ -e "/etc/DIR_COLORS.256color" ] && \
-  [ "x`tty -s && tput colors 2>/dev/null`" = "x256" ] && \
+  [ "x`/usr/bin/tty -s && /usr/bin/tput colors 2>/dev/null`" = "x256" ] && \
   COLORS="/etc/DIR_COLORS.256color"
 
   [ -z "$COLORS" ] && [ -e "/etc/DIR_COLORS" ] && \
@@ -143,20 +143,20 @@ if [ -z "$USER_LS_COLORS" ]; then
 
   if [ -e "$INCLUDE" ];
   then
-    TMP="`mktemp .colorlsXXX -q --tmpdir=/tmp`"
+    TMP="`/usr/bin/mktemp .colorlsXXX -q --tmpdir=/tmp`"
     [ -z "$TMP" ] && return
 
-    cat "$INCLUDE" >> $TMP
-    grep -v '^INCLUDE' "$COLORS" >> $TMP
+    /usr/bin/cat "$INCLUDE" >> $TMP
+    /usr/bin/grep -v '^INCLUDE' "$COLORS" >> $TMP
 
-    eval "`dircolors --sh $TMP 2>/dev/null`"
-    rm -f $TMP
+    eval "`/usr/bin/dircolors --sh $TMP 2>/dev/null`"
+    /usr/bin/rm -f $TMP
   else
-    eval "`dircolors --sh $COLORS 2>/dev/null`"
+    eval "`/usr/bin/dircolors --sh $COLORS 2>/dev/null`"
   fi
 
   [ -z "$LS_COLORS" ] && return
-  grep -qi "^COLOR.*none" $COLORS >/dev/null 2>/dev/null && return
+  /usr/bin/grep -qi "^COLOR.*none" $COLORS >/dev/null 2>/dev/null && return
 fi
 
 unset TMP COLORS INCLUDE
@@ -267,7 +267,9 @@ fi
 unset sourced
 unset langfile
 # less initialization script (sh)
-[ -x /usr/bin/lesspipe.sh ] && export LESSOPEN="${LESSOPEN-||/usr/bin/lesspipe.sh %s}"
+if [ -x /usr/bin/lesspipe.sh ] && [ -z "$LESSOPEN" ]; then
+    export LESSOPEN="|/usr/bin/lesspipe.sh %s"
+fi
 shell=`/bin/basename \`/bin/ps -p $$ -ocomm=\``
 if [ -f /usr/share/Modules/init/$shell ]
 then
@@ -311,18 +313,27 @@ command_not_found_handle () {
 	# don't run if packagekitd doesn't exist in the _system_ root
 	[ ! -x /usr/libexec/packagekitd ] && runcnf=0
 
+	# don't run if bash command completion is being run
+	[ ${COMP_CWORD-} ] && runcnf=0
+
 	# run the command, or just print a warning
 	if [ $runcnf -eq 1 ]; then
 		/usr/libexec/pk-command-not-found "$@"
 		retval=$?
 	else
-		echo "bash: $1: command not found"
+		local shell=`basename "$SHELL"`
+		echo "$shell: $1: command not found"
 	fi
 
 	# return success or failure
 	return $retval
 }
 
+if [ -n "$ZSH_VERSION" ]; then
+	command_not_found_handler () {
+		command_not_found_handle "$@"
+	}
+fi
 
 if [ -z "${QT_GRAPHICSSYSTEM_CHECKED}" -a -z "${QT_GRAPHICSSYSTEM}" ] ; then
   QT_GRAPHICSSYSTEM_CHECKED=1
@@ -335,6 +346,38 @@ if [ -z "${QT_GRAPHICSSYSTEM_CHECKED}" -a -z "${QT_GRAPHICSSYSTEM}" ] ; then
   fi
 fi
 
+# Qt initialization script (sh)
+
+# In multilib environments there is a preferred architecture, 64 bit over 32 bit in x86_64,
+# ppc64. When a conflict is found between two packages corresponding with different arches,
+# the installed file is the one from the preferred arch. This is very common for executables
+# in /usr/bin, for example. If the file /usr/bin/foo is found  in an x86_64 package and in
+# an i386 package, the executable from x86_64 will be installe
+
+if [ -z "${QTDIR}" ]; then
+
+case `uname -m` in
+   x86_64 | ia64 | s390x | ppc64 | ppc64le)
+      QT_PREFIXES="/usr/lib64/qt-3.3 /usr/lib/qt-3.3" ;;
+   * )
+      QT_PREFIXES="/usr/lib/qt-3.3 /usr/lib64/qt-3.3" ;;
+esac
+
+for QTDIR in ${QT_PREFIXES} ; do
+  test -d "${QTDIR}" && break
+done
+unset QT_PREFIXES
+
+if ! echo ${PATH} | /bin/grep -q $QTDIR/bin ; then
+   PATH=$QTDIR/bin:${PATH}
+fi
+
+QTINC="$QTDIR/include"
+QTLIB="$QTDIR/lib"
+
+export QTDIR QTINC QTLIB PATH
+
+fi
 function scl()
 {
 local CMD=$1
@@ -1266,7 +1309,7 @@ ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 # Load and run compinit
 autoload -U compinit
 compinit -i -d "${ZSH_COMPDUMP}"
-#files: 773	version: 5.0.8
+#files: 774	version: 5.0.8
 
 _comps=(
 '-' '_precommand'
@@ -1381,6 +1424,11 @@ _comps=(
 'cabal' '_cabal'
 'cal' '_cal'
 'calendar' '_calendar'
+'calibre' '_calibre'
+'calibredb' '_calibre'
+'calibre-debug' '_calibre'
+'calibre-server' '_calibre'
+'calibre-smtp' '_calibre'
 'cat' '_cat'
 'catchsegv' '_precommand'
 'cc' '_gcc'
@@ -1531,6 +1579,11 @@ _comps=(
 'dvitodvi' '_dvi'
 'dvitype' '_dvi'
 'dwb' '_webbrowser'
+'ebook-convert' '_calibre'
+'ebook-edit' '_calibre'
+'ebook-meta' '_calibre'
+'ebook-polish' '_calibre'
+'ebook-viewer' '_calibre'
 'ecasound' '_ecasound'
 'echotc' '_echotc'
 'echoti' '_echoti'
@@ -1570,6 +1623,7 @@ _comps=(
 'fc-match' '_xft_fonts'
 'feh' '_feh'
 'fetch' '_fetch'
+'fetch-ebook-metadata' '_calibre'
 'fetchmail' '_fetchmail'
 'ffmpeg' '_ffmpeg'
 'fg' '_jobs_fg'
@@ -1854,6 +1908,8 @@ _comps=(
 'lpr' '_lp'
 'lprm' '_lp'
 'lpstat' '_lp'
+'lrf2lrs' '_calibre'
+'lrfviewer' '_calibre'
 'ls' '_ls'
 'lscfg' '_lscfg'
 'lsdev' '_lsdev'
@@ -2727,148 +2783,148 @@ autoload -Uz _a2ps _a2utils _aap _acpi _acpitool \
             _brace_parameter _brctl _bsdconfig _bsdinstall _bsd_pkg \
             _btrfs _bts _bug _builtin _bundler \
             _bzip2 _bzr _cabal _cache_invalid _cal \
-            _calendar _call_function _canonical_paths _cat _ccal \
-            _cd _cdbs-edit-patch _cdcd _cdr _cdrdao \
-            _cdrecord _chflags _chkconfig _chmod _chown \
-            _chrt _chsh _clay _cmdstring _cmp \
-            _combination _comm _command _command_names _compdef \
-            _complete _complete_debug _complete_help _complete_help_generic _complete_tag \
-            _comp_locale _compress _condition _configure _coreadm \
-            _coredumpctl _correct _correct_filename _correct_word _cowsay \
-            _cp _cpio _cplay _cryptsetup _cssh \
-            _csup _ctags_tags _cut _cvs _cvsup \
-            _cygcheck _cygpath _cygrunsrv _cygserver _cygstart \
-            _dak _darcs _date _dbus _dchroot \
-            _dchroot-dsa _dcop _dcut _dd _deb_architectures \
-            _debchange _debdiff _debfoster _deb_packages _debsign \
-            _default _defaults _delimiters _describe _description \
-            _devtodo _df _dhclient _dhcpinfo _dict \
-            _dict_words _diff _diff_options _diffstat _directories \
-            _directory_stack _dir_list _dirs _disable _dispatch \
-            _django _dladm _dlocate _dmidecode _dnf \
-            _domains _dpatch-edit-patch _dpkg _dpkg-buildpackage _dpkg-cross \
-            _dpkg-repack _dpkg_source _dput _dsh _dtrace \
-            _du _dumpadm _dumper _dupload _dvi \
-            _dynamic_directory_name _ecasound _echotc _echoti _elfdump \
-            _elinks _elm _email_addresses _emulate _enable \
-            _enscript _env _equal _espeak _etags \
-            _ethtool _expand _expand_alias _expand_word _extensions \
-            _external_pwds _extract _fakeroot _fc _feh \
-            _fetch _fetchmail _ffmpeg _figlet _file_descriptors \
-            _files _file_systems _find _find_net_interfaces _finger \
-            _fink _first _flasher _flex _floppy \
-            _flowadm _fmadm _fortune _freebsd-update _fsh \
-            _fstat _functions _fuse_arguments _fuser _fusermount \
-            _fuse_values _gcc _gcore _gdb _gem \
-            _generic _genisoimage _getclip _getconf _getent \
-            _getfacl _getmail _git _git-branch _git-buildpackage \
-            _github _git-remote _global _global_tags _globflags \
-            _globqual_delims _globquals _gnome-gv _gnu_generic _gnupod \
-            _gnutls _go _gpg _gphoto2 _gprof \
-            _gqview _gradle _graphicsmagick _grep _grep-excuses \
-            _groff _groups _growisofs _gs _guard \
-            _guilt _gv _gzip _hash _have_glob_qual \
-            _hdiutil _hg _history _history_complete_word _history_modifiers \
-            _hostnamectl _hosts _hwinfo _iconv _id \
-            _ifconfig _iftop _ignored _imagemagick _inetadm \
-            _initctl _init_d _in_vared _invoke-rc.d _ionice \
-            _ip _ipadm _ipset _iptables _irssi \
-            _ispell _iwconfig _jails _java _java_class \
-            _jexec _jls _jobs _jobs_bg _jobs_builtin \
-            _jobs_fg _joe _join _journalctl _kernel-install \
-            _kfmclient _kill _killall _kld _knock \
-            _kvno _last _ldd _ld_debug _less \
-            _lha _lighttpd _limit _limits _links \
-            _lintian _list _list_files _ln _loadkeys \
-            _localectl _locales _locate _logical_volumes _loginctl \
-            _look _losetup _lp _ls _lscfg \
-            _lsdev _lslv _lsof _lspv _lsusb \
-            _lsvg _lynx _lzop _mac_applications _mac_files_for_application \
-            _machinectl _madison _mail _mailboxes _main_complete \
-            _make _make-kpkg _man _man-preview _match \
-            _math _math_params _matlab _md5sum _mdadm \
-            _members _mencal _menu _mercurial _mere \
-            _mergechanges _message _metaflac _mh _mii-tool \
-            _mime_types _mixerctl _mkdir _mkshortcut _mkzsh \
-            _module _module-assistant _module_math_func _modutils _mondo \
-            _monotone _moosic _mosh _most_recent_file _mount \
-            _mozilla _mpc _mplayer _mt _mtools \
-            _mtr _multi_parts _mutt _my_accounts _mysqldiff \
-            _mysql_utils _nautilus _ncftp _nedit _netcat \
-            _net_interfaces _netscape _netstat _newsgroups _next_label \
-            _next_tags _nice _nkf _nl _nm \
-            _nmap _nmcli _normal _nothing _notmuch \
-            _npm _nslookup _object_classes _od _okular \
-            _oldlist _open _options _options_set _options_unset \
-            _osc _other_accounts _pack _parameter _parameters \
-            _patch _path_commands _path_files _pax _pbm \
-            _pbuilder _pdf _pdftk _pep8 _perforce \
-            _perl _perl_basepods _perldoc _perl_modules _pfctl \
-            _pfexec _pgrep _php _physical_volumes _pick_variant \
-            _pids _pine _ping _pip _piuparts \
-            _pkg5 _pkgadd _pkg-config _pkginfo _pkg_instance \
-            _pkgrm _pkgtool _pon _portaudit _portlint \
-            _portmaster _ports _portsnap _postfix _postscript \
-            _powerd _prcs _precommand _prefix _print \
-            _printenv _printers _procstat _prompt _prove \
-            _prstat _ps _ps1234 _pscp _pspdf \
-            _psutils _ptree _pulseaudio _pump _putclip \
-            _pydoc _pylint _python _python_modules _qdbus \
-            _qemu _qiv _qtplay _quilt _raggle \
-            _rake _ranlib _rar _rcs _rdesktop \
-            _read _read_comp _readelf _readshortcut _rebootin \
-            _redirect _regex_arguments _regex_words _remote_files _renice \
-            _reprepro _requested _retrieve_cache _retrieve_mac_apps _ri \
-            _rlogin _rm _rpm _rpmbuild _rrdtool \
-            _rsync _rubber _ruby _run-help _runit \
-            _sablotron _samba _savecore _sccs _sched \
-            _schedtool _schroot _screen _sd_hosts_or_user_at_host _sd_machines \
-            _sd_outputmodes _sd_unit_files _sed _sep_parts _sequence \
-            _service _services _set _set_command _setfacl \
-            _setopt _setup _sh _showmount _signals \
-            _sisu _slrn _smit _snoop _socket \
-            _sockstat _softwareupdate _sort _source _spamassassin \
-            _sqlite _sqsh _ss _ssh _sshfs \
-            _stat _stgit _store_cache _strace _strip \
-            _stty _su _sub_commands _subscript _subversion \
-            _sudo _suffix_alias_files _surfraw _SUSEconfig _svcadm \
-            _svccfg _svcprop _svcs _svcs_fmri _svn-buildpackage \
-            _sysctl _sysstat _systemctl _systemd _systemd-analyze \
-            _systemd-delta _systemd-inhibit _systemd-nspawn _systemd-run _systemd-tmpfiles \
-            _system_profiler _tags _tar _tar_archive _tardy \
-            _task _tcpdump _tcpsys _tcptraceroute _telnet \
-            _terminals _tex _texi _texinfo _tidy \
-            _tiff _tilde _tilde_files _timedatectl _time_zone \
-            _tin _tla _tmux _todo.sh _toilet \
-            _toolchain-source _topgit _totd _tpb _tpconfig \
-            _tracepath _trap _tree _ttyctl _tune2fs \
-            _twidge _twisted _typeset _udevadm _ulimit \
-            _uml _unace _uname _unexpand _unhash \
-            _uniq _unison _units _update-alternatives _update-rc.d \
-            _urls _urpmi _urxvt _uscan _user_admin \
-            _user_at_host _user_expand _user_math_func _users _users_on \
-            _uzbl _valgrind _value _values _vared \
-            _vars _vcsh _vim _vim-addons _vnc \
-            _volume_groups _vorbis _vorbiscomment _vserver __vte_osc7 \
-            __vte_prompt_command __vte_ps1 __vte_urlencode _vux _w3m \
-            _wait _wajig _wakeup_capable_devices _wanna-build _wanted \
-            _wc _wd.sh _webbrowser _wget _whereis \
-            _which _whois _wiggle _wpa_cli _xargs \
-            _x_arguments _xauth _xautolock _x_borderwidth _xclip \
-            _x_color _x_colormapid _x_cursor _x_display _xdvi \
-            _x_extension _xfig _x_font _xft_fonts _x_geometry \
-            _x_keysym _xloadimage _x_locale _xmlsoft _xmms2 \
-            _x_modifier _xmodmap _x_name _xournal _xpdf \
-            _xrandr _x_resource _xscreensaver _x_selection_timeout _xset \
-            _xt_arguments _xterm _x_title _xt_session_id _x_utils \
-            _xv _x_visual _x_window _xwit _xxd \
-            _xz _yast _yodl _yp _yum \
-            _zargs _zattr _zcalc _zcalc_line _zcat \
-            _zcompile _zdump _zed _zfs _zfs_dataset \
-            _zfs_keysource_props _zfs_pool _zftp _zip _zle \
-            _zlogin _zmodload _zmv _zoneadm _zones \
-            _zpool _zpty _zsh-mime-handler _zstyle _ztodo \
-            _zypper
+            _calendar _calibre _call_function _canonical_paths _cat \
+            _ccal _cd _cdbs-edit-patch _cdcd _cdr \
+            _cdrdao _cdrecord _chflags _chkconfig _chmod \
+            _chown _chrt _chsh _clay _cmdstring \
+            _cmp _combination _comm _command _command_names \
+            _compdef _complete _complete_debug _complete_help _complete_help_generic \
+            _complete_tag _comp_locale _compress _condition _configure \
+            _coreadm _coredumpctl _correct _correct_filename _correct_word \
+            _cowsay _cp _cpio _cplay _cryptsetup \
+            _cssh _csup _ctags_tags _cut _cvs \
+            _cvsup _cygcheck _cygpath _cygrunsrv _cygserver \
+            _cygstart _dak _darcs _date _dbus \
+            _dchroot _dchroot-dsa _dcop _dcut _dd \
+            _deb_architectures _debchange _debdiff _debfoster _deb_packages \
+            _debsign _default _defaults _delimiters _describe \
+            _description _devtodo _df _dhclient _dhcpinfo \
+            _dict _dict_words _diff _diff_options _diffstat \
+            _directories _directory_stack _dir_list _dirs _disable \
+            _dispatch _django _dladm _dlocate _dmidecode \
+            _dnf _domains _dpatch-edit-patch _dpkg _dpkg-buildpackage \
+            _dpkg-cross _dpkg-repack _dpkg_source _dput _dsh \
+            _dtrace _du _dumpadm _dumper _dupload \
+            _dvi _dynamic_directory_name _ecasound _echotc _echoti \
+            _elfdump _elinks _elm _email_addresses _emulate \
+            _enable _enscript _env _equal _espeak \
+            _etags _ethtool _expand _expand_alias _expand_word \
+            _extensions _external_pwds _extract _fakeroot _fc \
+            _feh _fetch _fetchmail _ffmpeg _figlet \
+            _file_descriptors _files _file_systems _find _find_net_interfaces \
+            _finger _fink _first _flasher _flex \
+            _floppy _flowadm _fmadm _fortune _freebsd-update \
+            _fsh _fstat _functions _fuse_arguments _fuser \
+            _fusermount _fuse_values _gcc _gcore _gdb \
+            _gem _generic _genisoimage _getclip _getconf \
+            _getent _getfacl _getmail _git _git-branch \
+            _git-buildpackage _github _git-remote _global _global_tags \
+            _globflags _globqual_delims _globquals _gnome-gv _gnu_generic \
+            _gnupod _gnutls _go _gpg _gphoto2 \
+            _gprof _gqview _gradle _graphicsmagick _grep \
+            _grep-excuses _groff _groups _growisofs _gs \
+            _guard _guilt _gv _gzip _hash \
+            _have_glob_qual _hdiutil _hg _history _history_complete_word \
+            _history_modifiers _hostnamectl _hosts _hwinfo _iconv \
+            _id _ifconfig _iftop _ignored _imagemagick \
+            _inetadm _initctl _init_d _in_vared _invoke-rc.d \
+            _ionice _ip _ipadm _ipset _iptables \
+            _irssi _ispell _iwconfig _jails _java \
+            _java_class _jexec _jls _jobs _jobs_bg \
+            _jobs_builtin _jobs_fg _joe _join _journalctl \
+            _kernel-install _kfmclient _kill _killall _kld \
+            _knock _kvno _last _ldd _ld_debug \
+            _less _lha _lighttpd _limit _limits \
+            _links _lintian _list _list_files _ln \
+            _loadkeys _localectl _locales _locate _logical_volumes \
+            _loginctl _look _losetup _lp _ls \
+            _lscfg _lsdev _lslv _lsof _lspv \
+            _lsusb _lsvg _lynx _lzop _mac_applications \
+            _mac_files_for_application _machinectl _madison _mail _mailboxes \
+            _main_complete _make _make-kpkg _man _man-preview \
+            _match _math _math_params _matlab _md5sum \
+            _mdadm _members _mencal _menu _mercurial \
+            _mere _mergechanges _message _metaflac _mh \
+            _mii-tool _mime_types _mixerctl _mkdir _mkshortcut \
+            _mkzsh _module _module-assistant _module_math_func _modutils \
+            _mondo _monotone _moosic _mosh _most_recent_file \
+            _mount _mozilla _mpc _mplayer _mt \
+            _mtools _mtr _multi_parts _mutt _my_accounts \
+            _mysqldiff _mysql_utils _nautilus _ncftp _nedit \
+            _netcat _net_interfaces _netscape _netstat _newsgroups \
+            _next_label _next_tags _nice _nkf _nl \
+            _nm _nmap _nmcli _normal _nothing \
+            _notmuch _npm _nslookup _object_classes _od \
+            _okular _oldlist _open _options _options_set \
+            _options_unset _osc _other_accounts _pack _parameter \
+            _parameters _patch _path_commands _path_files _pax \
+            _pbm _pbuilder _pdf _pdftk _pep8 \
+            _perforce _perl _perl_basepods _perldoc _perl_modules \
+            _pfctl _pfexec _pgrep _php _physical_volumes \
+            _pick_variant _pids _pine _ping _pip \
+            _piuparts _pkg5 _pkgadd _pkg-config _pkginfo \
+            _pkg_instance _pkgrm _pkgtool _pon _portaudit \
+            _portlint _portmaster _ports _portsnap _postfix \
+            _postscript _powerd _prcs _precommand _prefix \
+            _print _printenv _printers _procstat _prompt \
+            _prove _prstat _ps _ps1234 _pscp \
+            _pspdf _psutils _ptree _pulseaudio _pump \
+            _putclip _pydoc _pylint _python _python_modules \
+            _qdbus _qemu _qiv _qtplay _quilt \
+            _raggle _rake _ranlib _rar _rcs \
+            _rdesktop _read _read_comp _readelf _readshortcut \
+            _rebootin _redirect _regex_arguments _regex_words _remote_files \
+            _renice _reprepro _requested _retrieve_cache _retrieve_mac_apps \
+            _ri _rlogin _rm _rpm _rpmbuild \
+            _rrdtool _rsync _rubber _ruby _run-help \
+            _runit _sablotron _samba _savecore _sccs \
+            _sched _schedtool _schroot _screen _sd_hosts_or_user_at_host \
+            _sd_machines _sd_outputmodes _sd_unit_files _sed _sep_parts \
+            _sequence _service _services _set _set_command \
+            _setfacl _setopt _setup _sh _showmount \
+            _signals _sisu _slrn _smit _snoop \
+            _socket _sockstat _softwareupdate _sort _source \
+            _spamassassin _sqlite _sqsh _ss _ssh \
+            _sshfs _stat _stgit _store_cache _strace \
+            _strip _stty _su _sub_commands _subscript \
+            _subversion _sudo _suffix_alias_files _surfraw _SUSEconfig \
+            _svcadm _svccfg _svcprop _svcs _svcs_fmri \
+            _svn-buildpackage _sysctl _sysstat _systemctl _systemd \
+            _systemd-analyze _systemd-delta _systemd-inhibit _systemd-nspawn _systemd-run \
+            _systemd-tmpfiles _system_profiler _tags _tar _tar_archive \
+            _tardy _task _tcpdump _tcpsys _tcptraceroute \
+            _telnet _terminals _tex _texi _texinfo \
+            _tidy _tiff _tilde _tilde_files _timedatectl \
+            _time_zone _tin _tla _tmux _todo.sh \
+            _toilet _toolchain-source _topgit _totd _tpb \
+            _tpconfig _tracepath _trap _tree _ttyctl \
+            _tune2fs _twidge _twisted _typeset _udevadm \
+            _ulimit _uml _unace _uname _unexpand \
+            _unhash _uniq _unison _units _update-alternatives \
+            _update-rc.d _urls _urpmi _urxvt _uscan \
+            _user_admin _user_at_host _user_expand _user_math_func _users \
+            _users_on _uzbl _valgrind _value _values \
+            _vared _vars _vcsh _vim _vim-addons \
+            _vnc _volume_groups _vorbis _vorbiscomment _vserver \
+            __vte_osc7 __vte_prompt_command __vte_ps1 __vte_urlencode _vux \
+            _w3m _wait _wajig _wakeup_capable_devices _wanna-build \
+            _wanted _wc _wd.sh _webbrowser _wget \
+            _whereis _which _whois _wiggle _wpa_cli \
+            _xargs _x_arguments _xauth _xautolock _x_borderwidth \
+            _xclip _x_color _x_colormapid _x_cursor _x_display \
+            _xdvi _x_extension _xfig _x_font _xft_fonts \
+            _x_geometry _x_keysym _xloadimage _x_locale _xmlsoft \
+            _xmms2 _x_modifier _xmodmap _x_name _xournal \
+            _xpdf _xrandr _x_resource _xscreensaver _x_selection_timeout \
+            _xset _xt_arguments _xterm _x_title _xt_session_id \
+            _x_utils _xv _x_visual _x_window _xwit \
+            _xxd _xz _yast _yodl _yp \
+            _yum _zargs _zattr _zcalc _zcalc_line \
+            _zcat _zcompile _zdump _zed _zfs \
+            _zfs_dataset _zfs_keysource_props _zfs_pool _zftp _zip \
+            _zle _zlogin _zmodload _zmv _zoneadm \
+            _zones _zpool _zpty _zsh-mime-handler _zstyle \
+            _ztodo _zypper
 autoload -Uz +X _call_program
 
 typeset -gUa _comp_assocs
@@ -5532,11 +5588,15 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/tmp/ssh-kfbrYrKNllRB/agent.27670; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=27672; export SSH_AGENT_PID;
-#echo Agent pid 27672;
+SSH_AUTH_SOCK=/tmp/ssh-Ihi9s4V6OjHS/agent.24720; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=24722; export SSH_AGENT_PID;
+#echo Agent pid 24722;
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+SSH_AUTH_SOCK=/tmp/ssh-AEyjGxB9TyVA/agent.10336; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=10338; export SSH_AGENT_PID;
+#echo Agent pid 10338;
+starting ssh-agent...
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
@@ -6017,7 +6077,7 @@ fi
 
 # Define script folder depending on the platorm (Win32/Unix)
 VIRTUALENVWRAPPER_ENV_BIN_DIR="bin"
-if [ "$OS" = "Windows_NT" ] && ([ "$MSYSTEM" = "MINGW32" ] || [ "$MSYSTEM" = "MINGW64" ])
+if [ "$OS" = "Windows_NT" ] && [ "$MSYSTEM" = "MINGW32" ]
 then
     # Only assign this for msys, cygwin use standard Unix paths
     # and its own python installation
@@ -8442,57 +8502,100 @@ bash_source "${__DOTFILES}/etc/bash/00-bashrc.before.sh"
 #
 # dotfiles_reload()
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+bash: shopt: command not found...
 _configure_bash_completion:16: command not found: shopt
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:102: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:109: command not found: complete
 /home/wturner/-dotfiles/etc/bash/07-bashrc.virtualenvwrapper.sh:21: parse error near `('
 /home/wturner/-dotfiles/etc/bash/07-bashrc.virtualenvwrapper.sh:59: parse error near `VIRTUALENVWRAPPER_SC...'
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:6: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:6: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:24: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:37: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:37: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:55: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:55: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:55: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:78: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:78: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:78: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:101: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:101: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:101: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:124: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:124: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:142: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:142: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:160: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:160: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:178: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:178: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:196: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:196: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:214: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:214: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:232: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:245: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:258: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:258: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:276: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:289: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:289: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/bash/10-bashrc.venv.sh:115: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/etc/bash/10-bashrc.venv.sh:116: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/scripts/ew:21: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/scripts/ew:22: command not found: complete
 /home/wturner/-dotfiles/scripts/ew:24: parse error: condition expected: ==
+bash: complete: command not found...
 /home/wturner/-dotfiles/scripts/makew:16: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/scripts/hgw:9: command not found: complete
+bash: complete: command not found...
 /home/wturner/-dotfiles/scripts/hgw:10: command not found: complete
 _usrlog_set_HIST:fc:20: event not found: -a
 _usrlog_set_HISTFILE:fc:5: event not found: -a
 _usrlog_set_HISTFILE:fc:17: event not found: -r
-]0;(dotfiles) #testing  wturner@create.lab.av.us.wrd.nu:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles# dotfiles_status()
-HOSTNAME='create.lab.av.us.wrd.nu'
+]0;(dotfiles) #testing  wturner@mb1:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles# dotfiles_status()
+HOSTNAME='mb1'
 USER='wturner'
 __WRK='/home/wturner/-wrk'
 PROJECT_HOME='/home/wturner/-wrk'
@@ -8506,7 +8609,7 @@ _APP='dotfiles'
 _WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
 ##

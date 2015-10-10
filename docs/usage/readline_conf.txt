@@ -4,6 +4,7 @@
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html#Readline-vi-Mode
+#   * https://github.com/whiteinge/dotfiles/blob/master/.inputrc
     #  help bind
     #  # list bindings
     #  bind -p
@@ -16,6 +17,16 @@
     #  - ksh:  set -o vi
     #  - zsh:  bindkey -v
     #  - tcsh: bindkey -v
+    ## <ctrl/alt> left/right -- backward/forward one word
+    #  <alt> left   -- move backward one word
+    #  <ctrl> left  -- move backward one word
+    #  <alt> right  -- move forward one word
+    #  <ctrl> right -- move forward one word
+    ## <ctrl/alt> up/down -- beginning/end of line
+    #  <alt> up     -- move to beginning of line
+    #  <ctrl> up    -- move to beginning of line
+    #  <ctrl> down  -- move to end of line
+    #  <ctrl> down  -- move to end of line
   ## vi-command keymap
     #  <ctrl> l  -- clear screen
     #  <ctrl> k  -- clear whole line
@@ -23,8 +34,11 @@
     #  <ctrl> [  -- move to beginning of line (^)
     #  <ctrl> e  -- move to end of line ($)
     #  <ctrl> ]  -- move to end of line ($)
+    #  <up>      -- history search backward (match current input)
+    #  <down>    -- history search forward (match current input)
     #  <ctrl> w  -- delete last word
     #  <ctrl> gx -- expand without executing
+    #  <ctrl> 3  -- prefix with '# '
   ## vi-insert keymap
     #  emulate a few options from "set -o emacs":
     #  <ctrl> l  -- clear screen
@@ -33,6 +47,9 @@
     #  <ctrl> [  -- move to beginning of line (^)
     #  <ctrl> e  -- move to end of line ($)
     #  <ctrl> ]  -- move to end of line ($)
+    #  <up>      -- history search backward (match current input)
+    #  <down>    -- history search forward (match current input)
     #  <ctrl> w  -- delete last word
     #  <ctrl> gx -- glob expand without executing
+    #  <ctrl> 3  -- prefix with '# '
     #  see: bindkey -p
