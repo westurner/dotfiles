@@ -227,9 +227,9 @@ function newtab {
     if [ -n "${__IS_MAC}" ]; then
         newtab_osx "$@" # Simply pass through to 'newtab', which will examine the call stack to see how it was invoked.
     elif [ -n "${__IS_LINUX}" ]; then
-        newtab_linux "${@}"
+        newtab_linux ${@}
     else
-        newtab_gnome "${@}"
+        newtab_gnome ${@}
     fi
 }
 
