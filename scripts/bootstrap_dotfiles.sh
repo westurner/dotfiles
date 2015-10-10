@@ -272,7 +272,7 @@ function backup_and_symlink {
     #  BKUPID: file suffix ( *.bkp.* ) (date)
     local filename=${1}
     local dest=${2:-"${HOME}/${filename}"}
-    local src=${3:-"${__DOTFILES}/etc/${filename}"}
+    local src=${3:-"${__DOTFILES_SYMLINK}/etc/${filename}"}
 
     local bkp="${dest}.bkp.${BKUPID}"
     local dest_md5=''
@@ -418,10 +418,10 @@ function symlink_venv {
     ipyprofile="${1:-"${HOME}/.ipython/profile_default"}"
     mkdir -p "${ipyprofile}/startup"
     backup_and_symlink "" "${ipyprofile}/startup/20-venv_ipymagics.py" \
-        "${__DOTFILES}/scripts/venv_ipymagics.py"
+        "${__DOTFILES_SYMLINK}/scripts/venv_ipymagics.py"
     backup_and_symlink "" "${ipyprofile}/ipython_config.py" \
-        "${__DOTFILES}/scripts/venv_ipyconfig.py"
-    #backup_and_symlink "${__DOTFILES}/scripts/venv_ipymagics.py" \
+        "${__DOTFILES_SYMLINK}/scripts/venv_ipyconfig.py"
+    #backup_and_symlink "${__DOTFILES_SYMLINK}/scripts/venv_ipymagics.py" \
     #    "${ipyprofile}/startup/20-venv_ipymagics.py"
     #backup_and_symlink ipython/ipython_config.py \
     #    "${ipyprofile}/ipython_config.py"
