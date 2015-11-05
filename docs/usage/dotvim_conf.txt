@@ -8,42 +8,21 @@
 "
 " Vim Reference
 " ---------------
-"  :help            --  open vim help               [help]
-"  :help <tag>      --  open vim help for           [<tag>]
-"                       tag: (<cmd>, plugin/doc/<tag>.txt)
-"  :help vimtutor   --  open vim help for vimtutor tutorial
-"  :help quickref   --  open vim quick reference    [quickref, Q_bu]
-"  :<up arrow>      --  search backward through vim history
-"  [[               --  up a section                [ [[ ]
-"  C-o              --  goto previous position      [CTRL-O, jumplist]
-"  C-]              --  follow a tag (help quickref, select Q_bu, C-])
-"  %          --  variable: current filename
-"  %:p        --  variable: current filepath
-"  %          --  motion: find the next instance of selected word [%]
-"  :buffers         --  list vim buffers            [Q_bu]
-"  $VIMRUNTIME      --  /{colors,syntax,macros}     [$VIMRUNTIME]
-"  :set [all]       --  list all nondefault options [set, redir, SaveSession]
-"  :map             --  list actual mappings        [Q_km]
+"  %          --  current filename
+"  %:p        --  current filepath
+"  $VIMRUNTIME      --  /{colors,syntax,macros}
 "  ListMappings     --  list commented mappings
-"  Dotvimhelp       --  list commented mappings
-"  DotvimReload     --  reload vim configuration (on top of existing config)
+"  :map             --  list actual mappings
 "  :scriptnames     --  list scripts and plugins
-"  e[dit]           --  reload the current file
-"  e <path>         --  open file                   [edit, Q_ed]
-"  e <pa...><tab>   --  open file with tab-completion [wildmenu, wildmode]
-"  :tabnew <path>   --  open file in a new tab
-"  :read filename|  --  insert filename after cursor
-"  :read !cmd       --  insert 'cmd' output after cursor
+"  :set             --  list all nondefault options
+"  e <path>         --  open file
+"  e <pa...><tab>   --  open file with wildmenu completion
+"  \e [...] <enter> --  open file
+"  :tabnew <path>   --  open file
+"  :read filename|  --  insert filename at cursor
+"  :read !cmd       --  insert cmd output at cursor
 "  :%! [cmd]        --  buffer > stdin > [cmd] > stdout => buffer.replace
-"  :put %           --  put % (current filename) after the cursor [help put]
 "
-"  h, j, k, l       --  left, down, up, right       [Q_lr, Q_ud] 
-"  C-E              --  move N lines downwards (1)
-"  C-D              --  move N lines Downwards (1/2 move)
-"  C-F              --  move N pages Forwards (downwards)
-"  C-Y              --  move N lines upwards (default: 1)
-"  C-U              --  move N lines Upwards (default: 1/2 move)
-"  C-B              --  move N pages Backwards (upwards)
 "  [n]G             --  goto line #
 "  g <C-g>          --  whereami
 "  u                --  undo
@@ -126,17 +105,17 @@
 "
     "  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
     "  Path() -- %s %:h %:p:h                       [help expand]
-"  \       -- <leader>
 "  <space> -- <leader>
 "  ,    --  <leader> == <comma>
-"  :;   --  colon semicolon -> <esc>:
-"  :;   --  colon semicolon -> <esc>:
-"  Quicklist
-"  <leader> q               --  toggle quicklist [:cw/:cwindow]
-"  <leader> n               --  next quicklist item [:cn/:cnext]
-"  Location List
-"  <leader> l               --  toggle location list [:lw/:lwindow]
-"  <leader> <shift> N       --  next location list item [:ln/:lnext]
+"  ;;   --  <esc> == double semicolon
+"  jk   --  <esc>
+"  98   --  <esc> == 98
+"  :;   --  <esc> == colon semicolon
+"  :;   --  <esc> == colon semicolon
+" Quickfix
+"  <leader> q               --  toggle quicklist
+"  <leader> n               --  next quicklist item
+"  <leader> l               --  toggle location list
 " Workaround vim lp:#572863
 " Code Folding
 " UTF-8
@@ -213,33 +192,17 @@
 "  ctrl-f       --  find
 "  ctrl-alt-A   --  copy all
 "  ctrl-v       -- paste (*)
-"                  conflict: vim blockwise visual selection [CTRL-v]
-" map <C-v> <space>"+gP
-" imap <C-v> <space><Esc>"+gP
-" vmap <C-v> <Esc>"+gP
 "  alt-v        -- paste (*)
-" nm \\paste\\        "=@*.'xy'<CR>gPFx"_2x:echo<CR>
-" imap <a-v>          x<Esc>\\paste\\"_s
-" vmap <a-v>          "-cx<Esc>\\paste\\"_x
 " Paste
-"  shift-insert --  paste (*)
-"                   conflict: mac keyboards do not have <Insert>
-" Save / Close
+"  shift-insert --  paste
 "  ctrl-S       --  Save
 "  ctrl-Alt-W   --  Close
 "  ctrl-Home    --  Goto line one
-"                   conflict: mac keyboards do not have <Home>
-"  ctrl-End     --  Goto last line (lines[:-1])
-"                   conflict: mac keyboards do not have <Home>
-" Page Up / Page Down
-"  shift-Down    --  PageDown (<C-d>)
-"  shift-Up      --  PageUp (<C-u>)
-" K    --  PageUp
-" nnoremap K  <PageUp>
-" J    --  PageDown
-" nnoremap J  <PageDown>
-" Keyboard PageUp/PageDown are actually 2*<c-U>
-"                   conflict: mac keyboards do not have <PageUp, PageDown>
+"  ctrl-End     --  Goto line :-1
+" PgUp/PgDn
+"  K    --  PageUp
+"  J    --  PageDown
+" Pgup/Down are actually 2*<c-U>
 " Buffer Nav
 "  ctrl-a       --  move to beginning of line (^)
 "  ctrl-e       --  move to end of line ($)
@@ -247,6 +210,7 @@
 "  ctrl-j       --  cursor window down
 "  ctrl-u       --  cursor window down
 "  ctrl-k       --  cursor window up
+"  ctrl-i       --  cursor window up
 "  ctrl-l       --  cursor window right
 "  ctrl-h       --  cursor window left
 " Window Resize     (window-resize)
@@ -296,8 +260,6 @@
 " Colors
 "  :PatchColors     --  load local colorizing postsets
 " call PatchColors()    -- call PatchColors when sourced
-    "  Vim2VimWrite()   -- write highlight codes to ./vim_highlight_output.txt
-    "    pip install vim2vim   -- https://pypi.python.org/pypi/vim2vim
 " List highlight colors
 " Python
 "  Wrap at 72 chars for comments.

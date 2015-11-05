@@ -776,7 +776,7 @@ dotfiles_postmkvirtualenv() {
     echo "#"
     echo '## to work on this virtualenv:'
     echo '# workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs [done]'
-    echo 'cdhelp;; cdvirtualenv; cdv; cdbin; cdb;; cdetc; cde;; cdsrc; cds'
+    echo 'cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;;'
     echo 'mkdir -p "${_WRD}";; cdwrd; cdw'
 }
 
@@ -4874,7 +4874,7 @@ if [ "${BASH_SOURCE}" == "${0}" ]; then
 else
     _usrlog_setup
 fi
-]0;(dotfiles) #testing  wturner@mb1:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles
+]0;(dotfiles) #testing  wturner@create.lab.av.us.wrd.nu:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -5766,7 +5766,7 @@ host_docs () {
 
 dotfiles_status
 # dotfiles_status()
-HOSTNAME='mb1'
+HOSTNAME='create.lab.av.us.wrd.nu'
 USER='wturner'
 __WRK='/home/wturner/-wrk'
 PROJECT_HOME='/home/wturner/-wrk'
@@ -5783,6 +5783,7 @@ _TERM_ID='#testing'
 PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
+_TODO='dotfiles: deps: dnf|apt-get install xclip'
 ##
 ### </end dotfiles .bashrc>
 
