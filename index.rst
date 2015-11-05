@@ -903,11 +903,12 @@ GitFlow
 | Docs: https://github.com/nvie/gitflow/wiki/Command-Line-Arguments
 | Docs: https://github.com/nvie/gitflow/wiki/Config-values
 
-GitFlow is a named branch workflow for git
+GitFlow is a named branch workflow for :ref:`git`
 with ``master``, ``develop``, ``feature``, ``release``, ``hotfix``,
 and ``support`` branches (``git flow``).
 
-Branch names are configurable; the defaults are as follows:
+Gitflow branch names and prefixes are configured in ``.git/config``;
+the defaults are:
 
 
 +--------------------+-------------------------------------------------------------------------+
@@ -979,13 +980,12 @@ HubFlow
 | Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
 | Docs: https://datasift.github.io/gitflow/GitFlowForGitHub.html
 
-HubFlow is a fork of GitFlow
-that adds extremely useful commands for working with Git and GitHub.
+HubFlow is a fork of :ref:`GitFlow`
+that adds extremely useful commands for working with :ref:`Git` and
+GitHub **pull requests**.
 
-HubFlow is a named branch workflow with mostly-automated merges
-between branches.
-
-Branch names are configurable; the defaults are as follows:
+HubFlow branch names and prefixes are configured in ``.git/config``;
+the defaults are as follows:
 
 
 +--------------------+-------------------------------------------------------------------------+
@@ -1004,7 +1004,7 @@ Branch names are configurable; the defaults are as follows:
 |                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                        |
 +--------------------+-------------------------------------------------------------------------+
 
-Creating a new release with :ref:`Git` and HubFlow:
+Creating a new release with :ref:`Git` and :ref:`HubFlow`:
 
 .. code:: bash
 
