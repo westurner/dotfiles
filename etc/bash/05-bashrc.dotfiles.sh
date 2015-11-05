@@ -226,7 +226,7 @@ dotfiles_postmkvirtualenv() {
     echo "#"
     echo '## to work on this virtualenv:'
     echo '# workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs [done]'
-    echo 'cdhelp;; cdvirtualenv; cdv; cdbin; cdb;; cdetc; cde;; cdsrc; cds'
+    echo 'cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;;'
     echo 'mkdir -p "${_WRD}";; cdwrd; cdw'
 }
 
