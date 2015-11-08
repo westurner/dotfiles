@@ -892,23 +892,23 @@ To clone a repository with ``git``:
   git clone https://github.com/git/git
 
 
-.. index:: HubFlow
-.. _hubflow:
+.. index:: GitFlow
+.. _gitflow:
 
-HubFlow
+GitFlow
 ~~~~~~~~~
-| Src: https://github.com/datasift/gitflow
-| Docs: https://datasift.github.io/gitflow/
-| Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
-| Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
+| Src: https://github.com/nvie/gitflow
+| Docs: http://nvie.com/posts/a-successful-git-branching-model/
+| Docs: https://github.com/nvie/gitflow/wiki
+| Docs: https://github.com/nvie/gitflow/wiki/Command-Line-Arguments
+| Docs: https://github.com/nvie/gitflow/wiki/Config-values
 
-HubFlow is a fork of GitFlow
-that adds extremely useful commands for working with Git and GitHub.
+GitFlow is a named branch workflow for :ref:`git`
+with ``master``, ``develop``, ``feature``, ``release``, ``hotfix``,
+and ``support`` branches (``git flow``).
 
-HubFlow is a named branch workflow with mostly-automated merges
-between branches.
-
-Branch names are configurable; the defaults are as follows:
+Gitflow branch names and prefixes are configured in ``.git/config``;
+the defaults are:
 
 
 +--------------------+-------------------------------------------------------------------------+
@@ -921,21 +921,103 @@ Branch names are configurable; the defaults are as follows:
 +--------------------+-------------------------------------------------------------------------+
 | ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)               |
 +--------------------+-------------------------------------------------------------------------+
+| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                             |
++--------------------+-------------------------------------------------------------------------+
 | ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                       |
 |                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                        |
 +--------------------+-------------------------------------------------------------------------+
-| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                             |
+| ``support/<name>`` | "What is the 'support' branch?"                                         |
+|                    |                                                                         |
+|                    | https://github.com/nvie/gitflow/wiki/FAQ                                |
 +--------------------+-------------------------------------------------------------------------+
 
-Creating a new release with :ref:`Git` and HubFlow:
+Creating a new release with :ref:`Git` and :ref:`GitFlow`:
 
 .. code:: bash
 
   git clone ssh://git@github.com/westurner/dotfiles
   # git checkout master
+  # git checkout -h
+  # git help checkout (man git-checkout)
+  # git flow [<cmd> -h]
+  # git-flow [<cmd> -h]
+
+  git flow init
+  ## Update versiontag in .git/config to prefix release tags with 'v'
+  git config --replace-all gitflow.prefix.versiontag v
+  cat ./.git/config
+  # [gitflow "prefix"]
+  # feature = feature/
+  # release = release/
+  # hotfix = hotfix/
+  # support = support/
+  # versiontag = v
+  #
+
+  ## feature/ENH_print_hello_world
+  git flow feature start ENH_print_hello_world
+  #git commit, commit, commit
+  git flow feature
+  git flow feature finish ENH_print_hello_world   # ENH<TAB>
+
+  ## release/v0.1.0
+  git flow release start 0.1.0
+  #git commit (e.g. update __version__, setup.py, release notes)
+  git flow release finish 0.1.0
+  git flow release finish 0.1.0
+  git tag | grep 'v0.1.0'
+
+
+
+.. index:: HubFlow
+.. _hubflow:
+
+HubFlow
+~~~~~~~~~
+| Src: https://github.com/datasift/gitflow
+| Docs: https://datasift.github.io/gitflow/
+| Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
+| Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
+| Docs: https://datasift.github.io/gitflow/GitFlowForGitHub.html
+
+HubFlow is a fork of :ref:`GitFlow`
+that adds extremely useful commands for working with :ref:`Git` and
+GitHub **pull requests**.
+
+HubFlow branch names and prefixes are configured in ``.git/config``;
+the defaults are as follows:
+
+
++--------------------+-------------------------------------------------------------------------+
+| **Branch Name**    | **Description**                                                         |
+|                    | (and `Code Labels <https://westurner.org/wiki/workflow#code-labels>`__) |
++--------------------+-------------------------------------------------------------------------+
+| ``master``         | Stable trunk (latest release)                                           |
++--------------------+-------------------------------------------------------------------------+
+| ``develop``        | Development main line                                                   |
++--------------------+-------------------------------------------------------------------------+
+| ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)               |
++--------------------+-------------------------------------------------------------------------+
+| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                             |
++--------------------+-------------------------------------------------------------------------+
+| ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                       |
+|                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                        |
++--------------------+-------------------------------------------------------------------------+
+
+Creating a new release with :ref:`Git` and :ref:`HubFlow`:
+
+.. code:: bash
+
+  git clone ssh://git@github.com/westurner/dotfiles
+  # git checkout master
+  # git checkout -h
+  # git help checkout (man git-checkout)
+  # git hf [<cmd> -h]
+  # git-hf [<cmd> -h]
+
   git hf init
   ## Update versiontag in .git/config to prefix release tags with 'v'
-  git config hubflow.prefix.versiontag=v
+  git config --replace-all hubflow.prefix.versiontag v
   #cat .git/config # ...
   # [hubflow "prefix"]
   # feature = feature/
@@ -944,9 +1026,19 @@ Creating a new release with :ref:`Git` and HubFlow:
   # support = support/
   # versiontag = v
   #
+  git hf update
+  git hf pull
+  git hf pull -h
+
+  ## feature/ENH_print_hello_world
   git hf feature start ENH_print_hello_world
-  ## commit, commit, commit
+  #git commit, commit
+  git hf pull
+  git hf push
+  #git commit, commit
   git hf feature finish ENH_print_hello_world   # ENH<TAB>
+
+  ## release/v0.1.0
   git hf release start 0.1.0
   ## commit (e.g. update __version__, setup.py, release notes)
   git hf release finish 0.1.0
@@ -957,6 +1049,18 @@ The GitFlow HubFlow illustrations are very helpful for visualizing
 and understanding any DVCS workflow:
 `<https://datasift.github.io/gitflow/IntroducingGitFlow.html>`__.
 
+
+.. figure:: https://datasift.github.io/gitflow/GitFlowMasterBranch.png
+   :alt: GitFlow Release / Master Branch Merge Diagram
+   :target:  https://datasift.github.io/gitflow/IntroducingGitFlow.html
+
+.. figure:: https://datasift.github.io/gitflow/GitFlowHotfixBranch.png
+   :alt: GitFlow Hotfix to Master and Develop Branches Merge Diagram
+   :target:  https://datasift.github.io/gitflow/IntroducingGitFlow.html
+
+.. figure::  https://datasift.github.io/gitflow/GitFlowWorkflowNoFork.png
+   :alt: Numbered GitFlow Workflow Diagram
+   :target:  https://datasift.github.io/gitflow/GitFlowForGitHub.html
 
 .. index:: Hg
 .. index:: Mercurial
@@ -1016,6 +1120,7 @@ Markdown
 | Homepage: https://daringfireball.net/projects/markdown/
 | Standard: https://daringfireball.net/projects/markdown/syntax
 | Docs: http://www.w3.org/community/markdown/wiki/MarkdownImplementations
+| Docs: https://en.wikipedia.org/wiki/Markdown#Implementations
 | Docs: http://learnxinyminutes.com/docs/markdown/
 | Docs: https://guides.github.com/features/mastering-markdown/
 | Docs: https://help.github.com/articles/github-flavored-markdown/
@@ -1026,6 +1131,23 @@ Markdown
 Markdown is a :ref:`Lightweight markup language`
 which can be parsed and transformed to
 valid :ref:`HTML-`.
+
+* GitHub and BitBucket support Markdown
+  in Issue Descriptions, Wiki Pages, and Comments
+* :ref:`Jupyter Notebook` supports Markdown
+  in Markdown cells
+
+
+.. index:: CommonMark
+.. _commonmark:
+
+CommonMark
++++++++++++++
+| Homepage: http://commonmark.org
+| Standard: http://spec.commonmark.org/0.22/
+| Source:  https://github.com/jgm/CommonMark
+
+:ref:`CommonMark` is one effort to standardize :ref:`Markdown`.
 
 
 .. index:: MediaWiki Markup
