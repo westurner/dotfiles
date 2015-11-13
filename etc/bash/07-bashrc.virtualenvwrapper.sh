@@ -55,10 +55,10 @@ function _setup_virtualenvwrapper_config  {
     #  if [ -n "${__IS_MAC}" ]; then  # for brew python
     local _PATH="${HOME}/.local/bin:/usr/local/bin:${PATH}"
     if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
-        export VIRTUALENVWRAPPER_SCRIPT=$(PATH="${_PATH}" which virtualenvwrapper.sh)
+        export VIRTUALENVWRAPPER_SCRIPT=$((PATH="${_PATH}" which virtualenvwrapper.sh))
     fi
     if [ -z "${VIRTUALENVWRAPPER_PYTHON}" ]; then
-        export VIRTUALENVWRAPPER_PYTHON=$(PATH="${_PATH}" which python)
+        export VIRTUALENVWRAPPER_PYTHON=$((PATH="${_PATH}" which python))
     fi
     unset VIRTUALENV_DISTRIBUTE
     if [ -n "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
