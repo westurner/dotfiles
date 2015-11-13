@@ -5580,6 +5580,10 @@ SSH_AGENT_PID=19818; export SSH_AGENT_PID;
 #echo Agent pid 19818;
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+SSH_AUTH_SOCK=/tmp/ssh-BUOzKKEiL5xE/agent.18602; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=18604; export SSH_AGENT_PID;
+#echo Agent pid 18604;
+starting ssh-agent...
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
@@ -8488,9 +8492,9 @@ grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 bash: shopt: command not found...
 _configure_bash_completion:16: command not found: shopt
 bash: complete: command not found...
-/home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:102: command not found: complete
+/home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:123: command not found: complete
 bash: complete: command not found...
-/home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:109: command not found: complete
+/home/wturner/-dotfiles/etc/bash/08-bashrc.conda.sh:134: command not found: complete
 /home/wturner/-dotfiles/etc/bash/07-bashrc.virtualenvwrapper.sh:21: parse error near `('
 /home/wturner/-dotfiles/etc/bash/07-bashrc.virtualenvwrapper.sh:59: parse error near `VIRTUALENVWRAPPER_SC...'
 bash: complete: command not found...
@@ -8595,7 +8599,6 @@ _TERM_ID='#testing'
 PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
-_TODO='dotfiles: deps: dnf|apt-get install xclip'
 ##
 # 99-zsh.after.sh
 

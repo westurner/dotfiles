@@ -314,9 +314,20 @@
     #   _setup_conda ~/envs             # __py27
     #   _setup_conda ~/envs/ /opt/conda # /opt/conda
     #
+    # _condaenvs() -- list directories within CONDA_ENVS_PATH
+    # (for COMPREPLY bash completion)
     # workon_conda()        -- workon a conda + venv project
+    #  $1 _conda_envname (pathstr) -- e.g. "dotfiles"
+    #  $2 _venvstrapp (pathstr) -- e.g. "dotfiles" or "dotfiles/src/dotfiles"
+    #  $3 _conda_envs_path (pathstr) -- e.g. "~/-wrk/-ce27"  (${__WRK}/-ce27)
+    # if declared, run _setup_venv_prompt
+    # print dotfiles_status
     # wec()                 -- workon a conda + venv project
-    #                       note: tab-completion only shows regular virtualenvs
+    #                           note: tab-completion depends on
+    #                           CONDA_ENVS_PATH
+    #  $1 _conda_envname (pathstr) -- e.g. "dotfiles"
+    #  $2 _venvstrapp (pathstr) -- e.g. "dotfiles" or "dotfiles/src/dotfiles"
+    #  $3 _conda_envs_path (pathstr) -- e.g. "~/-wrk/-ce27"  (${__WRK}/-ce27)
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv

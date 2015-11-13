@@ -1003,7 +1003,7 @@ _setup_pyenv() {
 
 ## Conda / Anaconda
 
-_setup_conda_defaults() {
+function _setup_conda_defaults {
     # _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
     #    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
     #                 (default: ${__WRK})
@@ -1019,7 +1019,7 @@ _setup_conda_defaults() {
     export CONDA_ROOT="${__wrk}/-conda27"
 }
 
-_setup_conda() {
+function _setup_conda {
     # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
     #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
     #                                                   CONDA_ENVS__py27)
@@ -1055,19 +1055,19 @@ _setup_conda() {
     _setup_conda_path
 }
 
-_setup_conda_path() {
+function _setup_conda_path {
     _unsetup_conda_path_all
     PATH_prepend "${CONDA_ROOT}/bin" 2>&1 > /dev/null
 }
 
-_unsetup_conda_path_all() {
+function _unsetup_conda_path_all {
     PATH_remove "${CONDA_ROOT}/bin" 2>&1 > /dev/null
     PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1 > /dev/null
     PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1 > /dev/null
     declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
 }
 
-lscondaenvs() {
+function lscondaenvs {
     paths=$(  \
     ( echo "${CONDA_ENVS_PATH}"; \
     echo "${CONDA_ENVS__py27}";  \
@@ -1075,40 +1075,65 @@ lscondaenvs() {
     (set -x; find ${paths} -maxdepth 1 -type d)
 }
 
-_condaenvs() {
+function _condaenvs {
+    # _condaenvs() -- list directories within CONDA_ENVS_PATH
+    # (for COMPREPLY bash completion)
+    if [ -n "${CONDA_ENVS_PATH}" ]; then
+        echo "#CONDA_ENVS_PATH="
+        echo "see: _setup_conda [ ] [ ]"
+        COMPREPLY=""
+        return 2
+    fi
     local files=("${CONDA_ENVS_PATH}/$2"*)
     [[ -e ${files[0]} ]] && COMPREPLY=( "${files[@]##*/}" )
 }
 
-workon_conda() {
+function workon_conda {
     # workon_conda()        -- workon a conda + venv project
+    #  $1 _conda_envname (pathstr) -- e.g. "dotfiles"
+    #  $2 _venvstrapp (pathstr) -- e.g. "dotfiles" or "dotfiles/src/dotfiles"
+    #  $3 _conda_envs_path (pathstr) -- e.g. "~/-wrk/-ce27"  (${__WRK}/-ce27)
     local _conda_envname=${1}
     local _venvstrapp=${2}
     local _conda_envs_path=${3}
+
     _setup_conda ${_conda_envs_path}
+
     local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
+
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
+
     source <(set -x;
-      $__VENV --wh="${CONDA_ENVS_PATH}" \
-        --ve="${CONDA_ENV}" --venvstrapp="${_venvstrapp}" \
+      $__VENV \
+        --WORKON_HOME="${CONDA_ENVS_PATH}" \
+        --VIRTUAL_ENV="${CONDA_ENV}" --venvstrapp="${_venvstrapp}" \
         --print-bash)
+
+    # if declared, run _setup_venv_prompt
     declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
-    dotfiles_status
-    deactivate() {
+
+    # print dotfiles_status
+    declare -f "dotfiles_status" 2>&1 > /dev/null && dotfiles_status
+    function deactivate {
         source deactivate
-        dotfiles_postdeactivate
+        declare -f "dotfiles_postdeactivate" 2>&1 > /dev/null && \
+            dotfiles_postdeactivate
     }
 }
 complete -o default -o nospace -F _condaenvs workon_conda
 
-wec() {
+function wec {
     # wec()                 -- workon a conda + venv project
-    #                       note: tab-completion only shows regular virtualenvs
+    #                           note: tab-completion depends on
+    #                           CONDA_ENVS_PATH
+    #  $1 _conda_envname (pathstr) -- e.g. "dotfiles"
+    #  $2 _venvstrapp (pathstr) -- e.g. "dotfiles" or "dotfiles/src/dotfiles"
+    #  $3 _conda_envs_path (pathstr) -- e.g. "~/-wrk/-ce27"  (${__WRK}/-ce27)
     workon_conda $@
 }
 complete -o default -o nospace -F _condaenvs wec
 
-mkvirtualenv_conda() {
+function mkvirtualenv_conda {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     local _conda_envname=${1}
     local _conda_envs_path=${2}
@@ -1142,7 +1167,7 @@ mkvirtualenv_conda() {
     conda list -e --no-pip | tee "${conda_list}"
 }
 
-rmvirtualenv_conda() {
+function rmvirtualenv_conda {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     local _conda_envname=${1}
     local _conda_envs_path=${2}
@@ -1157,7 +1182,7 @@ rmvirtualenv_conda() {
 }
 
 
-mkvirtualenv_conda_if_available() {
+function mkvirtualenv_conda_if_available {
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
         && mkvirtualenv_conda $@) \
@@ -1166,7 +1191,7 @@ mkvirtualenv_conda_if_available() {
         && mkvirtualenv $@)
 }
 
-workon_conda_if_available() {
+function workon_conda_if_available {
     # workon_conda_if_available()       -- workon_conda OR we OR workon
     (declare -f 'workon_conda' 2>&1 > /dev/null \
         && workon_conda $@) \
@@ -5783,7 +5808,6 @@ _TERM_ID='#testing'
 PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
-_TODO='dotfiles: deps: dnf|apt-get install xclip'
 ##
 ### </end dotfiles .bashrc>
 
