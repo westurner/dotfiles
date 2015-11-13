@@ -5,6 +5,10 @@ _configure_bash_completion() {
     # _configure_bash_completion()  -- configure bash completion
     #                               note: `complete -p` lists completions
 
+    if [ -z "${BASH}" ]; then
+        return 1
+    fi
+
     if [ -n "$__IS_MAC" ]; then
         #configure brew (brew install bash-completion)
         BREW=$(which brew 2>/dev/null || false)
