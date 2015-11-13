@@ -43,24 +43,28 @@ function _usrlog_set__USRLOG  {
 
 function _usrlog_set_HISTFILE  {
     #  _usrlog_set_HISTFILE()   -- configure shell history
-    prefix="$(_usrlog_get_prefix)"
+    local prefix="$(_usrlog_get_prefix)"
 
-    #   history -a   -- append any un-flushed lines to $HISTFILE
-    history -a
+    if [ -n "${BASH}" ]; then
+        #   history -a   -- append any un-flushed lines to $HISTFILE
+        history -a
+    fi
 
-    if [ -n "$ZSH_VERSION" ]; then
+    # set/touch HISTFILE
+    set HISTFILE
+    #   history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
+
+    if [ -n "${ZSH_VERSION}" ]; then
+        # ZSH_VERSION
         export HISTFILE="${prefix}/.zsh_history"
-    elif [ -n "$BASH" ]; then
+    elif [ -n "${BASH}" ]; then
         export HISTFILE="${prefix}/.bash_history"
     else
         export HISTFILE="${prefix}/.history"
     fi
 
-    #   history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
-    if [ "${__IS_ZSH}" ]; then
-        history -r $HISTFILE
-    else
-        history -c && history -r $HISTFILE
+    if [ -n "${BASH}" ]; then
+        history -c && history -r "${HISTFILE}"
     fi
 }
 
@@ -83,12 +87,15 @@ function _usrlog_set_HIST {
     #  HISTCONTROL=ignoredups:ignorespace
     HISTCONTROL=ignoredups:ignorespace
 
-    #  append current lines to history
-    history -a
-
     _usrlog_set_HISTFILE
 
-    if [ -n "$BASH" ] ; then
+    if [ -n "$ZSH_VERSION" ]; then
+        setopt APPEND_HISTORY
+        setopt EXTENDED_HISTORY
+    elif [ -n "$BASH" ] ; then
+        #  append current lines to history
+        history -a
+
         #  append to the history file, don't overwrite it
         #  https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
         shopt -s histappend > /dev/null 2>&1
@@ -98,9 +105,6 @@ function _usrlog_set_HIST {
 
         #  enable autocd (if available)
         shopt -s autocd > /dev/null 2>&1
-    elif [ -n "$ZSH_VERSION" ]; then
-        setopt APPEND_HISTORY
-        setopt EXTENDED_HISTORY
     fi
 }
 

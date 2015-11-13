@@ -21,7 +21,7 @@ _ew__complete () {
 complete -o default -o nospace -F _ew__complete editwrd
 complete -o default -o nospace -F _ew__complete ew
 
-if [ ${BASH_SOURCE} == "${0}" ]; then
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
     editwrd ${@}
     exit
 fi
