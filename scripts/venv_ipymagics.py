@@ -19,6 +19,7 @@ Installation
         ~/.ipython/${ipython_profile}/startup/venv_ipymagics.py
 """
 import os
+import sys
 try:
     from IPython.core.magic import (Magics, magics_class, line_magic)
 except ImportError:
@@ -27,6 +28,12 @@ except ImportError:
     Magics = object
     magics_class = lambda cls, *args, **kwargs: cls
     line_magic = lambda func, *args, **kwargs: func
+
+if sys.version_info.major == 2:
+    str = unicode
+
+def ipymagic_quote(_str):
+    return str(_str)
 
 @magics_class
 class VenvMagics(Magics):
@@ -39,8 +46,11 @@ class VenvMagics(Magics):
             line (str): path to append to envvar
         """
         prefix = os.environ.get(envvar, "")
-        path = os.path.join(prefix, line.lstrip('/\\'))
-        return self.shell.magic('cd %s' % repr(unicode(path))[1:])
+        _dstpath = line.lstrip(os.path.sep)
+        path = os.path.join(prefix, _dstpath)
+        cmd = ("cd %s" % ipymagic_quote(path))
+        print("%" + cmd, file=sys.stderr)
+        return self.shell.magic(cmd)
 
     @line_magic
     def cdhome(self, line):
