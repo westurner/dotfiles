@@ -700,15 +700,17 @@
     #                             (VIRTUAL_ENV or HOME)
     #  _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
     #  _usrlog_set_HISTFILE()   -- configure shell history
-    #   history -a   -- append any un-flushed lines to $HISTFILE
+        #   history -a   -- append any un-flushed lines to $HISTFILE
+    # set/touch HISTFILE
     #   history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
+        # ZSH_VERSION
     #  _usrlog_set_HIST()    -- set shell $HIST<...> variables
     #  see HISTSIZE and HISTFILESIZE in bash(1)
     #  note that HOSTNAME and USER come from the environ
     #  and MUST be evaluated at the time HISTTIMEFORMAT is set.
     #  ... or force ignoredups and ignorespace
     #  HISTCONTROL=ignoredups:ignorespace
-    #  append current lines to history
+        #  append current lines to history
         #  append to the history file, don't overwrite it
         #  https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
         #  replace newlines with semicolons

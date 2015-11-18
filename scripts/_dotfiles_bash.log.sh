@@ -890,6 +890,10 @@ _configure_bash_completion() {
     # _configure_bash_completion()  -- configure bash completion
     #                               note: `complete -p` lists completions
 
+    if [ -z "${BASH}" ]; then
+        return 1
+    fi
+
     if [ -n "$__IS_MAC" ]; then
         #configure brew (brew install bash-completion)
         BREW=$(which brew 2>/dev/null || false)
@@ -1003,7 +1007,7 @@ _setup_pyenv() {
 
 ## Conda / Anaconda
 
-_setup_conda_defaults() {
+function _setup_conda_defaults {
     # _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
     #    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
     #                 (default: ${__WRK})
@@ -1019,7 +1023,7 @@ _setup_conda_defaults() {
     export CONDA_ROOT="${__wrk}/-conda27"
 }
 
-_setup_conda() {
+function _setup_conda {
     # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
     #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
     #                                                   CONDA_ENVS__py27)
@@ -1055,19 +1059,19 @@ _setup_conda() {
     _setup_conda_path
 }
 
-_setup_conda_path() {
+function _setup_conda_path {
     _unsetup_conda_path_all
     PATH_prepend "${CONDA_ROOT}/bin" 2>&1 > /dev/null
 }
 
-_unsetup_conda_path_all() {
+function _unsetup_conda_path_all {
     PATH_remove "${CONDA_ROOT}/bin" 2>&1 > /dev/null
     PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1 > /dev/null
     PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1 > /dev/null
     declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
 }
 
-lscondaenvs() {
+function lscondaenvs {
     paths=$(  \
     ( echo "${CONDA_ENVS_PATH}"; \
     echo "${CONDA_ENVS__py27}";  \
@@ -1075,12 +1079,12 @@ lscondaenvs() {
     (set -x; find ${paths} -maxdepth 1 -type d)
 }
 
-_condaenvs() {
+function _condaenvs {
     local files=("${CONDA_ENVS_PATH}/$2"*)
     [[ -e ${files[0]} ]] && COMPREPLY=( "${files[@]##*/}" )
 }
 
-workon_conda() {
+function workon_conda {
     # workon_conda()        -- workon a conda + venv project
     local _conda_envname=${1}
     local _venvstrapp=${2}
@@ -1094,21 +1098,21 @@ workon_conda() {
         --print-bash)
     declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
     dotfiles_status
-    deactivate() {
+    function deactivate {
         source deactivate
         dotfiles_postdeactivate
     }
 }
 complete -o default -o nospace -F _condaenvs workon_conda
 
-wec() {
+function wec {
     # wec()                 -- workon a conda + venv project
     #                       note: tab-completion only shows regular virtualenvs
     workon_conda $@
 }
 complete -o default -o nospace -F _condaenvs wec
 
-mkvirtualenv_conda() {
+function mkvirtualenv_conda {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     local _conda_envname=${1}
     local _conda_envs_path=${2}
@@ -1142,7 +1146,7 @@ mkvirtualenv_conda() {
     conda list -e --no-pip | tee "${conda_list}"
 }
 
-rmvirtualenv_conda() {
+function rmvirtualenv_conda {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     local _conda_envname=${1}
     local _conda_envs_path=${2}
@@ -1157,7 +1161,7 @@ rmvirtualenv_conda() {
 }
 
 
-mkvirtualenv_conda_if_available() {
+function mkvirtualenv_conda_if_available {
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
         && mkvirtualenv_conda $@) \
@@ -1166,7 +1170,7 @@ mkvirtualenv_conda_if_available() {
         && mkvirtualenv $@)
 }
 
-workon_conda_if_available() {
+function workon_conda_if_available {
     # workon_conda_if_available()       -- workon_conda OR we OR workon
     (declare -f 'workon_conda' 2>&1 > /dev/null \
         && workon_conda $@) \
@@ -1234,10 +1238,10 @@ function _setup_virtualenvwrapper_config  {
     #  if [ -n "${__IS_MAC}" ]; then  # for brew python
     local _PATH="${HOME}/.local/bin:/usr/local/bin:${PATH}"
     if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
-        export VIRTUALENVWRAPPER_SCRIPT=$(PATH="${_PATH}" which virtualenvwrapper.sh)
+        export VIRTUALENVWRAPPER_SCRIPT=$( (PATH="${_PATH}"; which virtualenvwrapper.sh))
     fi
     if [ -z "${VIRTUALENVWRAPPER_PYTHON}" ]; then
-        export VIRTUALENVWRAPPER_PYTHON=$(PATH="${_PATH}" which python)
+        export VIRTUALENVWRAPPER_PYTHON=$( (PATH="${_PATH}"; which python))
     fi
     unset VIRTUALENV_DISTRIBUTE
     if [ -n "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
@@ -3630,7 +3634,7 @@ _ew__complete () {
 complete -o default -o nospace -F _ew__complete editwrd
 complete -o default -o nospace -F _ew__complete ew
 
-if [ ${BASH_SOURCE} == "${0}" ]; then
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
     editwrd ${@}
     exit
 fi
@@ -4193,24 +4197,28 @@ function _usrlog_set__USRLOG  {
 
 function _usrlog_set_HISTFILE  {
     #  _usrlog_set_HISTFILE()   -- configure shell history
-    prefix="$(_usrlog_get_prefix)"
+    local prefix="$(_usrlog_get_prefix)"
 
-    #   history -a   -- append any un-flushed lines to $HISTFILE
-    history -a
+    if [ -n "${BASH}" ]; then
+        #   history -a   -- append any un-flushed lines to $HISTFILE
+        history -a
+    fi
 
-    if [ -n "$ZSH_VERSION" ]; then
+    # set/touch HISTFILE
+    set HISTFILE
+    #   history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
+
+    if [ -n "${ZSH_VERSION}" ]; then
+        # ZSH_VERSION
         export HISTFILE="${prefix}/.zsh_history"
-    elif [ -n "$BASH" ]; then
+    elif [ -n "${BASH}" ]; then
         export HISTFILE="${prefix}/.bash_history"
     else
         export HISTFILE="${prefix}/.history"
     fi
 
-    #   history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
-    if [ "${__IS_ZSH}" ]; then
-        history -r $HISTFILE
-    else
-        history -c && history -r $HISTFILE
+    if [ -n "${BASH}" ]; then
+        history -c && history -r "${HISTFILE}"
     fi
 }
 
@@ -4233,12 +4241,15 @@ function _usrlog_set_HIST {
     #  HISTCONTROL=ignoredups:ignorespace
     HISTCONTROL=ignoredups:ignorespace
 
-    #  append current lines to history
-    history -a
-
     _usrlog_set_HISTFILE
 
-    if [ -n "$BASH" ] ; then
+    if [ -n "$ZSH_VERSION" ]; then
+        setopt APPEND_HISTORY
+        setopt EXTENDED_HISTORY
+    elif [ -n "$BASH" ] ; then
+        #  append current lines to history
+        history -a
+
         #  append to the history file, don't overwrite it
         #  https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
         shopt -s histappend > /dev/null 2>&1
@@ -4248,9 +4259,6 @@ function _usrlog_set_HIST {
 
         #  enable autocd (if available)
         shopt -s autocd > /dev/null 2>&1
-    elif [ -n "$ZSH_VERSION" ]; then
-        setopt APPEND_HISTORY
-        setopt EXTENDED_HISTORY
     fi
 }
 

@@ -30,4 +30,8 @@ function dr () {
     dotfiles_zsh_reload $@
 }
 
+function complete {
+    test -z 0
+}
+
 dotfiles_zsh_reload

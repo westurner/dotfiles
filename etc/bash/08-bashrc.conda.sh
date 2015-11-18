@@ -3,7 +3,7 @@
 
 ## Conda / Anaconda
 
-_setup_conda_defaults() {
+function _setup_conda_defaults {
     # _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
     #    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
     #                 (default: ${__WRK})
@@ -19,7 +19,7 @@ _setup_conda_defaults() {
     export CONDA_ROOT="${__wrk}/-conda27"
 }
 
-_setup_conda() {
+function _setup_conda {
     # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
     #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
     #                                                   CONDA_ENVS__py27)
@@ -55,19 +55,19 @@ _setup_conda() {
     _setup_conda_path
 }
 
-_setup_conda_path() {
+function _setup_conda_path {
     _unsetup_conda_path_all
     PATH_prepend "${CONDA_ROOT}/bin" 2>&1 > /dev/null
 }
 
-_unsetup_conda_path_all() {
+function _unsetup_conda_path_all {
     PATH_remove "${CONDA_ROOT}/bin" 2>&1 > /dev/null
     PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1 > /dev/null
     PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1 > /dev/null
     declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
 }
 
-lscondaenvs() {
+function lscondaenvs {
     paths=$(  \
     ( echo "${CONDA_ENVS_PATH}"; \
     echo "${CONDA_ENVS__py27}";  \
@@ -75,12 +75,12 @@ lscondaenvs() {
     (set -x; find ${paths} -maxdepth 1 -type d)
 }
 
-_condaenvs() {
+function _condaenvs {
     local files=("${CONDA_ENVS_PATH}/$2"*)
     [[ -e ${files[0]} ]] && COMPREPLY=( "${files[@]##*/}" )
 }
 
-workon_conda() {
+function workon_conda {
     # workon_conda()        -- workon a conda + venv project
     local _conda_envname=${1}
     local _venvstrapp=${2}
@@ -94,21 +94,21 @@ workon_conda() {
         --print-bash)
     declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
     dotfiles_status
-    deactivate() {
+    function deactivate {
         source deactivate
         dotfiles_postdeactivate
     }
 }
 complete -o default -o nospace -F _condaenvs workon_conda
 
-wec() {
+function wec {
     # wec()                 -- workon a conda + venv project
     #                       note: tab-completion only shows regular virtualenvs
     workon_conda $@
 }
 complete -o default -o nospace -F _condaenvs wec
 
-mkvirtualenv_conda() {
+function mkvirtualenv_conda {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     local _conda_envname=${1}
     local _conda_envs_path=${2}
@@ -142,7 +142,7 @@ mkvirtualenv_conda() {
     conda list -e --no-pip | tee "${conda_list}"
 }
 
-rmvirtualenv_conda() {
+function rmvirtualenv_conda {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     local _conda_envname=${1}
     local _conda_envs_path=${2}
@@ -157,7 +157,7 @@ rmvirtualenv_conda() {
 }
 
 
-mkvirtualenv_conda_if_available() {
+function mkvirtualenv_conda_if_available {
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
         && mkvirtualenv_conda $@) \
@@ -166,7 +166,7 @@ mkvirtualenv_conda_if_available() {
         && mkvirtualenv $@)
 }
 
-workon_conda_if_available() {
+function workon_conda_if_available {
     # workon_conda_if_available()       -- workon_conda OR we OR workon
     (declare -f 'workon_conda' 2>&1 > /dev/null \
         && workon_conda $@) \
