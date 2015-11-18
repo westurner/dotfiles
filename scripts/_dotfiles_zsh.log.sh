@@ -5588,15 +5588,11 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/tmp/ssh-AEyjGxB9TyVA/agent.10336; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=10338; export SSH_AGENT_PID;
-#echo Agent pid 10338;
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 SSH_AUTH_SOCK=/tmp/ssh-mGuaQ1gImZzx/agent.12830; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=12832; export SSH_AGENT_PID;
 #echo Agent pid 12832;
-starting ssh-agent...
+grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
@@ -8561,5 +8557,61 @@ bash: complete: command not found...
 bash: complete: command not found...
 /home/wturner/-dotfiles/etc/venv/scripts/venv.sh:214: command not found: complete
 bash: complete: command not found...
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:214: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:232: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:245: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:258: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:258: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:276: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:289: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/venv/scripts/venv.sh:289: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/bash/10-bashrc.venv.sh:115: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/etc/bash/10-bashrc.venv.sh:116: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/scripts/ew:21: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/scripts/ew:22: command not found: complete
+/home/wturner/-dotfiles/scripts/ew:24: parse error: condition expected: ==
+bash: complete: command not found...
+/home/wturner/-dotfiles/scripts/makew:16: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/scripts/hgw:9: command not found: complete
+bash: complete: command not found...
+/home/wturner/-dotfiles/scripts/hgw:10: command not found: complete
+_usrlog_set_HIST:fc:20: event not found: -a
+_usrlog_set_HISTFILE:fc:5: event not found: -a
+_usrlog_set_HISTFILE:fc:17: event not found: -r
+]0;(dotfiles) #testing  wturner@mb1:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles# dotfiles_status()
+HOSTNAME='mb1'
+USER='wturner'
+__WRK='/home/wturner/-wrk'
+PROJECT_HOME='/home/wturner/-wrk'
+CONDA_ROOT='/home/wturner/-wrk/-conda27'
+CONDA_ENVS_PATH='/home/wturner/-wrk/-ce27'
+WORKON_HOME='/home/wturner/-wrk/-ve27'
+VIRTUAL_ENV_NAME='dotfiles'
+VIRTUAL_ENV='/home/wturner/-wrk/-ve27/dotfiles'
+_SRC='/home/wturner/-wrk/-ve27/dotfiles/src'
+_APP='dotfiles'
+_WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
+_USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
+_TERM_ID='#testing'
+PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+__DOTFILES='/home/wturner/-dotfiles'
+#
+##
+# 99-zsh.after.sh
 
+# <Home> / <End>
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
 exit
