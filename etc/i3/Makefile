@@ -17,7 +17,8 @@ help:
 
 
 help_i3:
-	cat ${I3CONFIG} | egrep '(^(\s+)?##+ |^(\s+)?#  )'
+	@#cat "${I3CONFIG}" | egrep '(^(\s*)?##+ |^(\s*)?#  )'
+	"$${__DOTFILES}/scripts/dotfiles-i3.sh"
 
 test:
 	i3-msg 'reload'
