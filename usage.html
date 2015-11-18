@@ -43,7 +43,7 @@
 <link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/css/local.css" type="text/css" />
-<link rel="stylesheet" href="_static/changelog.css" type="text/css" />
+<link rel="stylesheet" href="_static/issuetracker.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -265,7 +265,7 @@ $ bash $_WRD/scripts/bootstrap_dotfiles.sh -h
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code>:</p>
 <pre class="ansi-block literal-block">
 $ cd $_WRD &amp;&amp; make help
-make[2]: Entering directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
+make[3]: Entering directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 dotfiles Makefile
 #################
 help         -- print dotfiles help
@@ -305,7 +305,7 @@ gh-pages  -- overwrite the gh-pages branch with docs/_build/html
 push      -- git push
 pull      -- git pull
 
-make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
+make[3]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 </pre>
 </div>
 <div class="section" id="readline">
@@ -320,6 +320,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 <span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html</span>
 <span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html</span>
 <span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html#Readline-vi-Mode</span>
+<span class="c">#   * https://github.com/whiteinge/dotfiles/blob/master/.inputrc</span>
     <span class="c">#  help bind</span>
     <span class="c">#  # list bindings</span>
     <span class="c">#  bind -p</span>
@@ -332,6 +333,16 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#  - ksh:  set -o vi</span>
     <span class="c">#  - zsh:  bindkey -v</span>
     <span class="c">#  - tcsh: bindkey -v</span>
+    <span class="c">## &lt;ctrl/alt&gt; left/right -- backward/forward one word</span>
+    <span class="c">#  &lt;alt&gt; left   -- move backward one word</span>
+    <span class="c">#  &lt;ctrl&gt; left  -- move backward one word</span>
+    <span class="c">#  &lt;alt&gt; right  -- move forward one word</span>
+    <span class="c">#  &lt;ctrl&gt; right -- move forward one word</span>
+    <span class="c">## &lt;ctrl/alt&gt; up/down -- beginning/end of line</span>
+    <span class="c">#  &lt;alt&gt; up     -- move to beginning of line</span>
+    <span class="c">#  &lt;ctrl&gt; up    -- move to beginning of line</span>
+    <span class="c">#  &lt;ctrl&gt; down  -- move to end of line</span>
+    <span class="c">#  &lt;ctrl&gt; down  -- move to end of line</span>
   <span class="c">## vi-command keymap</span>
     <span class="c">#  &lt;ctrl&gt; l  -- clear screen</span>
     <span class="c">#  &lt;ctrl&gt; k  -- clear whole line</span>
@@ -339,8 +350,11 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#  &lt;ctrl&gt; [  -- move to beginning of line (^)</span>
     <span class="c">#  &lt;ctrl&gt; e  -- move to end of line ($)</span>
     <span class="c">#  &lt;ctrl&gt; ]  -- move to end of line ($)</span>
+    <span class="c">#  &lt;up&gt;      -- history search backward (match current input)</span>
+    <span class="c">#  &lt;down&gt;    -- history search forward (match current input)</span>
     <span class="c">#  &lt;ctrl&gt; w  -- delete last word</span>
     <span class="c">#  &lt;ctrl&gt; gx -- expand without executing</span>
+    <span class="c">#  &lt;ctrl&gt; 3  -- prefix with &#39;# &#39;</span>
   <span class="c">## vi-insert keymap</span>
     <span class="c">#  emulate a few options from &quot;set -o emacs&quot;:</span>
     <span class="c">#  &lt;ctrl&gt; l  -- clear screen</span>
@@ -349,8 +363,11 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#  &lt;ctrl&gt; [  -- move to beginning of line (^)</span>
     <span class="c">#  &lt;ctrl&gt; e  -- move to end of line ($)</span>
     <span class="c">#  &lt;ctrl&gt; ]  -- move to end of line ($)</span>
+    <span class="c">#  &lt;up&gt;      -- history search backward (match current input)</span>
+    <span class="c">#  &lt;down&gt;    -- history search forward (match current input)</span>
     <span class="c">#  &lt;ctrl&gt; w  -- delete last word</span>
     <span class="c">#  &lt;ctrl&gt; gx -- glob expand without executing</span>
+    <span class="c">#  &lt;ctrl&gt; 3  -- prefix with &#39;# &#39;</span>
     <span class="c">#  see: bindkey -p</span>
 </pre></div>
 </div>
@@ -1256,21 +1273,42 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;
 &quot; Vim Reference
 &quot; ---------------
-&quot;  %          --  current filename
-&quot;  %:p        --  current filepath
-&quot;  $VIMRUNTIME      --  /{colors,syntax,macros}
+&quot;  :help            --  open vim help               [help]
+&quot;  :help &lt;tag&gt;      --  open vim help for           [&lt;tag&gt;]
+&quot;                       tag: (&lt;cmd&gt;, plugin/doc/&lt;tag&gt;.txt)
+&quot;  :help vimtutor   --  open vim help for vimtutor tutorial
+&quot;  :help quickref   --  open vim quick reference    [quickref, Q_bu]
+&quot;  :&lt;up arrow&gt;      --  search backward through vim history
+&quot;  [[               --  up a section                [ [[ ]
+&quot;  C-o              --  goto previous position      [CTRL-O, jumplist]
+&quot;  C-]              --  follow a tag (help quickref, select Q_bu, C-])
+&quot;  %          --  variable: current filename
+&quot;  %:p        --  variable: current filepath
+&quot;  %          --  motion: find the next instance of selected word [%]
+&quot;  :buffers         --  list vim buffers            [Q_bu]
+&quot;  $VIMRUNTIME      --  /{colors,syntax,macros}     [$VIMRUNTIME]
+&quot;  :set [all]       --  list all nondefault options [set, redir, SaveSession]
+&quot;  :map             --  list actual mappings        [Q_km]
 &quot;  ListMappings     --  list commented mappings
-&quot;  :map             --  list actual mappings
+&quot;  Dotvimhelp       --  list commented mappings
+&quot;  DotvimReload     --  reload vim configuration (on top of existing config)
 &quot;  :scriptnames     --  list scripts and plugins
-&quot;  :set             --  list all nondefault options
-&quot;  e &lt;path&gt;         --  open file
-&quot;  e &lt;pa...&gt;&lt;tab&gt;   --  open file with wildmenu completion
-&quot;  \e [...] &lt;enter&gt; --  open file
-&quot;  :tabnew &lt;path&gt;   --  open file
-&quot;  :read filename|  --  insert filename at cursor
-&quot;  :read !cmd       --  insert cmd output at cursor
+&quot;  e[dit]           --  reload the current file
+&quot;  e &lt;path&gt;         --  open file                   [edit, Q_ed]
+&quot;  e &lt;pa...&gt;&lt;tab&gt;   --  open file with tab-completion [wildmenu, wildmode]
+&quot;  :tabnew &lt;path&gt;   --  open file in a new tab
+&quot;  :read filename|  --  insert filename after cursor
+&quot;  :read !cmd       --  insert &#39;cmd&#39; output after cursor
 &quot;  :%! [cmd]        --  buffer &gt; stdin &gt; [cmd] &gt; stdout =&gt; buffer.replace
+&quot;  :put %           --  put % (current filename) after the cursor [help put]
 &quot;
+&quot;  h, j, k, l       --  left, down, up, right       [Q_lr, Q_ud] 
+&quot;  C-E              --  move N lines downwards (1)
+&quot;  C-D              --  move N lines Downwards (1/2 move)
+&quot;  C-F              --  move N pages Forwards (downwards)
+&quot;  C-Y              --  move N lines upwards (default: 1)
+&quot;  C-U              --  move N lines Upwards (default: 1/2 move)
+&quot;  C-B              --  move N pages Backwards (upwards)
 &quot;  [n]G             --  goto line #
 &quot;  g &lt;C-g&gt;          --  whereami
 &quot;  u                --  undo
@@ -1353,17 +1391,17 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;
     &quot;  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
     &quot;  Path() -- %s %:h %:p:h                       [help expand]
+&quot;  \       -- &lt;leader&gt;
 &quot;  &lt;space&gt; -- &lt;leader&gt;
 &quot;  ,    --  &lt;leader&gt; == &lt;comma&gt;
-&quot;  ;;   --  &lt;esc&gt; == double semicolon
-&quot;  jk   --  &lt;esc&gt;
-&quot;  98   --  &lt;esc&gt; == 98
-&quot;  :;   --  &lt;esc&gt; == colon semicolon
-&quot;  :;   --  &lt;esc&gt; == colon semicolon
-&quot; Quickfix
-&quot;  &lt;leader&gt; q               --  toggle quicklist
-&quot;  &lt;leader&gt; n               --  next quicklist item
-&quot;  &lt;leader&gt; l               --  toggle location list
+&quot;  :;   --  colon semicolon -&gt; &lt;esc&gt;:
+&quot;  :;   --  colon semicolon -&gt; &lt;esc&gt;:
+&quot;  Quicklist
+&quot;  &lt;leader&gt; q               --  toggle quicklist [:cw/:cwindow]
+&quot;  &lt;leader&gt; n               --  next quicklist item [:cn/:cnext]
+&quot;  Location List
+&quot;  &lt;leader&gt; l               --  toggle location list [:lw/:lwindow]
+&quot;  &lt;leader&gt; &lt;shift&gt; N       --  next location list item [:ln/:lnext]
 &quot; Workaround vim lp:#572863
 &quot; Code Folding
 &quot; UTF-8
@@ -1440,17 +1478,33 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;  ctrl-f       --  find
 &quot;  ctrl-alt-A   --  copy all
 &quot;  ctrl-v       -- paste (*)
+&quot;                  conflict: vim blockwise visual selection [CTRL-v]
+&quot; map &lt;C-v&gt; &lt;space&gt;&quot;+gP
+&quot; imap &lt;C-v&gt; &lt;space&gt;&lt;Esc&gt;&quot;+gP
+&quot; vmap &lt;C-v&gt; &lt;Esc&gt;&quot;+gP
 &quot;  alt-v        -- paste (*)
+&quot; nm \\paste\\        &quot;=@*.&#39;xy&#39;&lt;CR&gt;gPFx&quot;_2x:echo&lt;CR&gt;
+&quot; imap &lt;a-v&gt;          x&lt;Esc&gt;\\paste\\&quot;_s
+&quot; vmap &lt;a-v&gt;          &quot;-cx&lt;Esc&gt;\\paste\\&quot;_x
 &quot; Paste
-&quot;  shift-insert --  paste
+&quot;  shift-insert --  paste (*)
+&quot;                   conflict: mac keyboards do not have &lt;Insert&gt;
+&quot; Save / Close
 &quot;  ctrl-S       --  Save
 &quot;  ctrl-Alt-W   --  Close
 &quot;  ctrl-Home    --  Goto line one
-&quot;  ctrl-End     --  Goto line :-1
-&quot; PgUp/PgDn
-&quot;  K    --  PageUp
-&quot;  J    --  PageDown
-&quot; Pgup/Down are actually 2*&lt;c-U&gt;
+&quot;                   conflict: mac keyboards do not have &lt;Home&gt;
+&quot;  ctrl-End     --  Goto last line (lines[:-1])
+&quot;                   conflict: mac keyboards do not have &lt;Home&gt;
+&quot; Page Up / Page Down
+&quot;  shift-Down    --  PageDown (&lt;C-d&gt;)
+&quot;  shift-Up      --  PageUp (&lt;C-u&gt;)
+&quot; K    --  PageUp
+&quot; nnoremap K  &lt;PageUp&gt;
+&quot; J    --  PageDown
+&quot; nnoremap J  &lt;PageDown&gt;
+&quot; Keyboard PageUp/PageDown are actually 2*&lt;c-U&gt;
+&quot;                   conflict: mac keyboards do not have &lt;PageUp, PageDown&gt;
 &quot; Buffer Nav
 &quot;  ctrl-a       --  move to beginning of line (^)
 &quot;  ctrl-e       --  move to end of line ($)
@@ -1458,7 +1512,6 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;  ctrl-j       --  cursor window down
 &quot;  ctrl-u       --  cursor window down
 &quot;  ctrl-k       --  cursor window up
-&quot;  ctrl-i       --  cursor window up
 &quot;  ctrl-l       --  cursor window right
 &quot;  ctrl-h       --  cursor window left
 &quot; Window Resize     (window-resize)
@@ -1508,6 +1561,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot; Colors
 &quot;  :PatchColors     --  load local colorizing postsets
 &quot; call PatchColors()    -- call PatchColors when sourced
+    &quot;  Vim2VimWrite()   -- write highlight codes to ./vim_highlight_output.txt
+    &quot;    pip install vim2vim   -- https://pypi.python.org/pypi/vim2vim
 &quot; List highlight colors
 &quot; Python
 &quot;  Wrap at 72 chars for comments.

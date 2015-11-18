@@ -43,7 +43,7 @@
 <link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/css/local.css" type="text/css" />
-<link rel="stylesheet" href="_static/changelog.css" type="text/css" />
+<link rel="stylesheet" href="_static/issuetracker.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -2160,20 +2160,10 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </div>
 <div class="section" id="module-dotfiles.venv.ipython_magics">
 <span id="dotfiles-venv-ipython-magics-module"></span><h2>dotfiles.venv.ipython_magics module<a class="headerlink" href="#module-dotfiles.venv.ipython_magics" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="dotfiles.venv.ipython_magics.magics_class">
-<code class="descclassname">dotfiles.venv.ipython_magics.</code><code class="descname">magics_class</code><span class="sig-paren">(</span><em>cls</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.ipython_magics.magics_class" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="dotfiles.venv.ipython_magics.line_magic">
-<code class="descclassname">dotfiles.venv.ipython_magics.</code><code class="descname">line_magic</code><span class="sig-paren">(</span><em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.ipython_magics.line_magic" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="class">
 <dt id="dotfiles.venv.ipython_magics.VenvMagics">
-<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_magics.</code><code class="descname">VenvMagics</code><a class="reference internal" href="_modules/dotfiles/venv/ipython_magics.html#VenvMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">dotfiles.venv.ipython_magics.</code><code class="descname">VenvMagics</code><span class="sig-paren">(</span><em>shell=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_magics.html#VenvMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">IPython.core.magic.Magics</span></code></p>
 <dl class="method">
 <dt id="dotfiles.venv.ipython_magics.VenvMagics.cd">
 <code class="descname">cd</code><span class="sig-paren">(</span><em>envvar</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_magics.html#VenvMagics.cd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics.cd" title="Permalink to this definition">¶</a></dt>
@@ -2419,6 +2409,16 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 <code class="descname">dr</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/ipython_magics.html#VenvMagics.dr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics.dr" title="Permalink to this definition">¶</a></dt>
 <dd><p>dr()                 &#8211; print NotImplemented [dotfiles_reload()]</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="dotfiles.venv.ipython_magics.VenvMagics.magics">
+<code class="descname">magics</code><em class="property"> = {'cell': {}, 'line': {'cdd': 'cdd', 'cde': 'cde', 'cda': 'cda', 'cdb': 'cdb', 'cdl': 'cdl', 'cdsitepackages': 'cdsitepackages', 'cdsrc': 'cdsrc', 'cdv': 'cdv', 'cdw': 'cdw', 'cdp': 'cdp', 'cds': 'cds', 'cdbin': 'cdbin', 'cdwrd': 'cdwrd', 'cdwrk': 'cdwrk', 'dr': 'dr', 'cdhelp': 'cdhelp', 'cdpysite': 'cdpysite', 'cdetc': 'cdetc', 'cdve': 'cdve', 'cdworkonhome': 'cdworkonhome', 'cdvar': 'cdvar', 'cdww': 'cdww', 'cdpylib': 'cdpylib', 'cdlog': 'cdlog', 'cdh': 'cdh', 'cddotfiles': 'cddotfiles', 'cdwh': 'cdwh', 'ds': 'ds', 'cdhome': 'cdhome', 'cdwww': 'cdwww', 'dotfiles_status': 'dotfiles_status', 'cdph': 'cdph', 'cdvirtualenv': 'cdvirtualenv', 'cdprojecthome': 'cdprojecthome', 'cdce': 'cdce', 'dotfiles_reload': 'dotfiles_reload', 'cdcondaenvspath': 'cdcondaenvspath', 'cdlib': 'cdlib'}}</em><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics.magics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dotfiles.venv.ipython_magics.VenvMagics.registered">
+<code class="descname">registered</code><em class="property"> = True</em><a class="headerlink" href="#dotfiles.venv.ipython_magics.VenvMagics.registered" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -6101,20 +6101,10 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </div>
 <div class="section" id="module-dotfiles.venv.venv_ipymagics">
 <span id="dotfiles-venv-venv-ipymagics-module"></span><h2>dotfiles.venv.venv_ipymagics module<a class="headerlink" href="#module-dotfiles.venv.venv_ipymagics" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="dotfiles.venv.venv_ipymagics.magics_class">
-<code class="descclassname">dotfiles.venv.venv_ipymagics.</code><code class="descname">magics_class</code><span class="sig-paren">(</span><em>cls</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.magics_class" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="dotfiles.venv.venv_ipymagics.line_magic">
-<code class="descclassname">dotfiles.venv.venv_ipymagics.</code><code class="descname">line_magic</code><span class="sig-paren">(</span><em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.line_magic" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="class">
 <dt id="dotfiles.venv.venv_ipymagics.VenvMagics">
-<em class="property">class </em><code class="descclassname">dotfiles.venv.venv_ipymagics.</code><code class="descname">VenvMagics</code><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">dotfiles.venv.venv_ipymagics.</code><code class="descname">VenvMagics</code><span class="sig-paren">(</span><em>shell=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">IPython.core.magic.Magics</span></code></p>
 <dl class="method">
 <dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cd">
 <code class="descname">cd</code><span class="sig-paren">(</span><em>envvar</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cd" title="Permalink to this definition">¶</a></dt>
@@ -6360,6 +6350,16 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 <code class="descname">dr</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.dr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.dr" title="Permalink to this definition">¶</a></dt>
 <dd><p>dr()                 &#8211; print NotImplemented [dotfiles_reload()]</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.magics">
+<code class="descname">magics</code><em class="property"> = {'cell': {}, 'line': {'cdd': 'cdd', 'cde': 'cde', 'cda': 'cda', 'cdb': 'cdb', 'cdl': 'cdl', 'cdsitepackages': 'cdsitepackages', 'cdsrc': 'cdsrc', 'cdv': 'cdv', 'cdw': 'cdw', 'cdp': 'cdp', 'cds': 'cds', 'cdbin': 'cdbin', 'cdwrd': 'cdwrd', 'cdwrk': 'cdwrk', 'dr': 'dr', 'cdhelp': 'cdhelp', 'cdpysite': 'cdpysite', 'cdetc': 'cdetc', 'cdve': 'cdve', 'cdworkonhome': 'cdworkonhome', 'cdvar': 'cdvar', 'cdww': 'cdww', 'cdpylib': 'cdpylib', 'cdlog': 'cdlog', 'cdh': 'cdh', 'cddotfiles': 'cddotfiles', 'cdwh': 'cdwh', 'ds': 'ds', 'cdhome': 'cdhome', 'cdwww': 'cdwww', 'dotfiles_status': 'dotfiles_status', 'cdph': 'cdph', 'cdvirtualenv': 'cdvirtualenv', 'cdprojecthome': 'cdprojecthome', 'cdce': 'cdce', 'dotfiles_reload': 'dotfiles_reload', 'cdcondaenvspath': 'cdcondaenvspath', 'cdlib': 'cdlib'}}</em><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.magics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.registered">
+<code class="descname">registered</code><em class="property"> = True</em><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.registered" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
