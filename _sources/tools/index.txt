@@ -1120,6 +1120,7 @@ Markdown
 | Homepage: https://daringfireball.net/projects/markdown/
 | Standard: https://daringfireball.net/projects/markdown/syntax
 | Docs: http://www.w3.org/community/markdown/wiki/MarkdownImplementations
+| Docs: https://en.wikipedia.org/wiki/Markdown#Implementations
 | Docs: http://learnxinyminutes.com/docs/markdown/
 | Docs: https://guides.github.com/features/mastering-markdown/
 | Docs: https://help.github.com/articles/github-flavored-markdown/
@@ -1130,6 +1131,23 @@ Markdown
 Markdown is a :ref:`Lightweight markup language`
 which can be parsed and transformed to
 valid :ref:`HTML-`.
+
+* GitHub and BitBucket support Markdown
+  in Issue Descriptions, Wiki Pages, and Comments
+* :ref:`Jupyter Notebook` supports Markdown
+  in Markdown cells
+
+
+.. index:: CommonMark
+.. _commonmark:
+
+CommonMark
++++++++++++++
+| Homepage: http://commonmark.org
+| Standard: http://spec.commonmark.org/0.22/
+| Source:  https://github.com/jgm/CommonMark
+
+:ref:`CommonMark` is one effort to standardize :ref:`Markdown`.
 
 
 .. index:: MediaWiki Markup
@@ -2151,6 +2169,7 @@ Fedora
 | Download: https://getfedora.org/en/workstation/download/
 | Download: https://getfedora.org/en/server/download/
 | Download: https://getfedora.org/en/cloud/download/
+| DockerHub: https://hub.docker.com/_/fedora/
 | Docs: https://docs.fedoraproject.org/en-US/index.html
 | Docs: https://fedoraproject.org/wiki/Fedora_Project_Wiki
 | Docs: https://fedoraproject.org/wiki/EPEL
