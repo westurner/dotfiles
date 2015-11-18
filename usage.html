@@ -1081,15 +1081,17 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#                             (VIRTUAL_ENV or HOME)</span>
     <span class="c">#  _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)</span>
     <span class="c">#  _usrlog_set_HISTFILE()   -- configure shell history</span>
-    <span class="c">#   history -a   -- append any un-flushed lines to $HISTFILE</span>
+        <span class="c">#   history -a   -- append any un-flushed lines to $HISTFILE</span>
+    <span class="c"># set/touch HISTFILE</span>
     <span class="c">#   history -c &amp;&amp; history -r $HISTFILE   -- clear; reload $HISTFILE</span>
+        <span class="c"># ZSH_VERSION</span>
     <span class="c">#  _usrlog_set_HIST()    -- set shell $HIST&lt;...&gt; variables</span>
     <span class="c">#  see HISTSIZE and HISTFILESIZE in bash(1)</span>
     <span class="c">#  note that HOSTNAME and USER come from the environ</span>
     <span class="c">#  and MUST be evaluated at the time HISTTIMEFORMAT is set.</span>
     <span class="c">#  ... or force ignoredups and ignorespace</span>
     <span class="c">#  HISTCONTROL=ignoredups:ignorespace</span>
-    <span class="c">#  append current lines to history</span>
+        <span class="c">#  append current lines to history</span>
         <span class="c">#  append to the history file, don&#39;t overwrite it</span>
         <span class="c">#  https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin</span>
         <span class="c">#  replace newlines with semicolons</span>

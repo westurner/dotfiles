@@ -359,7 +359,7 @@ for Bash, ZSH, IPython, Vim.</p>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.ipython_config.CdAlias.VENV_IPYMAGICS_FILE_HEADER">
-<code class="descname">VENV_IPYMAGICS_FILE_HEADER</code><em class="property"> = '\n#!/usr/bin/env ipython\n# dotfiles.venv.venv_ipymagics\nfrom __future__ import print_function\n&quot;&quot;&quot;\nIPython ``%magic`` commands\n\n* ``cd`` aliases\n* ``ds`` (``dotfiles_status``)\n* ``dr`` (``dotfiles_reload``)\n\nInstallation\n--------------\n.. code-block:: bash\n\n    __DOTFILES=&quot;${HOME}/-dotfiles&quot;\n    ipython_profile=&quot;profile_default&quot;\n    ln -s ${__DOTFILES}/etc/ipython/venv_ipymagics.py \\\n        ~/.ipython/${ipython_profile}/startup/venv_ipymagics.py\n&quot;&quot;&quot;\nimport os\ntry:\n    from IPython.core.magic import (Magics, magics_class, line_magic)\nexcept ImportError:\n    print(&quot;ImportError: IPython&quot;)\n    # Mock IPython for building docs\n    Magics = object\n    magics_class = lambda cls, *args, **kwargs: cls\n    line_magic = lambda func, *args, **kwargs: func\n\n&#64;magics_class\nclass VenvMagics(Magics):\n    def cd(self, envvar, line):\n        &quot;&quot;&quot;\n        Change directory\n\n        Args:\n            envvar (str): os.environ variable name\n            line (str): path to append to envvar\n        &quot;&quot;&quot;\n        prefix = os.environ.get(envvar, &quot;&quot;)\n        path = os.path.join(prefix, line.lstrip(\'/\\\\\'))\n        return self.shell.magic(\'cd %s\' % repr(unicode(path))[1:])'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.CdAlias.VENV_IPYMAGICS_FILE_HEADER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VENV_IPYMAGICS_FILE_HEADER</code><em class="property"> = '\n#!/usr/bin/env ipython\n# dotfiles.venv.venv_ipymagics\nfrom __future__ import print_function\n&quot;&quot;&quot;\nIPython ``%magic`` commands\n\n* ``cd`` aliases\n* ``ds`` (``dotfiles_status``)\n* ``dr`` (``dotfiles_reload``)\n\nInstallation\n--------------\n.. code-block:: bash\n\n    __DOTFILES=&quot;${HOME}/-dotfiles&quot;\n    ipython_profile=&quot;profile_default&quot;\n    ln -s ${__DOTFILES}/etc/ipython/venv_ipymagics.py \\\n        ~/.ipython/${ipython_profile}/startup/venv_ipymagics.py\n&quot;&quot;&quot;\nimport os\nimport sys\ntry:\n    from IPython.core.magic import (Magics, magics_class, line_magic)\nexcept ImportError:\n    print(&quot;ImportError: IPython&quot;)\n    # Mock IPython for building docs\n    Magics = object\n    magics_class = lambda cls, *args, **kwargs: cls\n    line_magic = lambda func, *args, **kwargs: func\n\nif sys.version_info.major == 2:\n    str = unicode\n\ndef ipymagic_quote(_str):\n    return str(_str)\n\n&#64;magics_class\nclass VenvMagics(Magics):\n    def cd(self, envvar, line):\n        &quot;&quot;&quot;\n        Change directory\n\n        Args:\n            envvar (str): os.environ variable name\n            line (str): path to append to envvar\n        &quot;&quot;&quot;\n        prefix = os.environ.get(envvar, &quot;&quot;)\n        _dstpath = line.lstrip(os.path.sep)\n        path = os.path.join(prefix, _dstpath)\n        cmd = (&quot;cd %s&quot; % ipymagic_quote(path))\n        print(&quot;%&quot; + cmd, file=sys.stderr)\n        return self.shell.magic(cmd)'</em><a class="headerlink" href="#dotfiles.venv.ipython_config.CdAlias.VENV_IPYMAGICS_FILE_HEADER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -2465,7 +2465,7 @@ for Bash, ZSH, IPython, Vim.</p>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.venv.CdAlias.VENV_IPYMAGICS_FILE_HEADER">
-<code class="descname">VENV_IPYMAGICS_FILE_HEADER</code><em class="property"> = '\n#!/usr/bin/env ipython\n# dotfiles.venv.venv_ipymagics\nfrom __future__ import print_function\n&quot;&quot;&quot;\nIPython ``%magic`` commands\n\n* ``cd`` aliases\n* ``ds`` (``dotfiles_status``)\n* ``dr`` (``dotfiles_reload``)\n\nInstallation\n--------------\n.. code-block:: bash\n\n    __DOTFILES=&quot;${HOME}/-dotfiles&quot;\n    ipython_profile=&quot;profile_default&quot;\n    ln -s ${__DOTFILES}/etc/ipython/venv_ipymagics.py \\\n        ~/.ipython/${ipython_profile}/startup/venv_ipymagics.py\n&quot;&quot;&quot;\nimport os\ntry:\n    from IPython.core.magic import (Magics, magics_class, line_magic)\nexcept ImportError:\n    print(&quot;ImportError: IPython&quot;)\n    # Mock IPython for building docs\n    Magics = object\n    magics_class = lambda cls, *args, **kwargs: cls\n    line_magic = lambda func, *args, **kwargs: func\n\n&#64;magics_class\nclass VenvMagics(Magics):\n    def cd(self, envvar, line):\n        &quot;&quot;&quot;\n        Change directory\n\n        Args:\n            envvar (str): os.environ variable name\n            line (str): path to append to envvar\n        &quot;&quot;&quot;\n        prefix = os.environ.get(envvar, &quot;&quot;)\n        path = os.path.join(prefix, line.lstrip(\'/\\\\\'))\n        return self.shell.magic(\'cd %s\' % repr(unicode(path))[1:])'</em><a class="headerlink" href="#dotfiles.venv.venv.CdAlias.VENV_IPYMAGICS_FILE_HEADER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VENV_IPYMAGICS_FILE_HEADER</code><em class="property"> = '\n#!/usr/bin/env ipython\n# dotfiles.venv.venv_ipymagics\nfrom __future__ import print_function\n&quot;&quot;&quot;\nIPython ``%magic`` commands\n\n* ``cd`` aliases\n* ``ds`` (``dotfiles_status``)\n* ``dr`` (``dotfiles_reload``)\n\nInstallation\n--------------\n.. code-block:: bash\n\n    __DOTFILES=&quot;${HOME}/-dotfiles&quot;\n    ipython_profile=&quot;profile_default&quot;\n    ln -s ${__DOTFILES}/etc/ipython/venv_ipymagics.py \\\n        ~/.ipython/${ipython_profile}/startup/venv_ipymagics.py\n&quot;&quot;&quot;\nimport os\nimport sys\ntry:\n    from IPython.core.magic import (Magics, magics_class, line_magic)\nexcept ImportError:\n    print(&quot;ImportError: IPython&quot;)\n    # Mock IPython for building docs\n    Magics = object\n    magics_class = lambda cls, *args, **kwargs: cls\n    line_magic = lambda func, *args, **kwargs: func\n\nif sys.version_info.major == 2:\n    str = unicode\n\ndef ipymagic_quote(_str):\n    return str(_str)\n\n&#64;magics_class\nclass VenvMagics(Magics):\n    def cd(self, envvar, line):\n        &quot;&quot;&quot;\n        Change directory\n\n        Args:\n            envvar (str): os.environ variable name\n            line (str): path to append to envvar\n        &quot;&quot;&quot;\n        prefix = os.environ.get(envvar, &quot;&quot;)\n        _dstpath = line.lstrip(os.path.sep)\n        path = os.path.join(prefix, _dstpath)\n        cmd = (&quot;cd %s&quot; % ipymagic_quote(path))\n        print(&quot;%&quot; + cmd, file=sys.stderr)\n        return self.shell.magic(cmd)'</em><a class="headerlink" href="#dotfiles.venv.venv.CdAlias.VENV_IPYMAGICS_FILE_HEADER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -4300,7 +4300,7 @@ for Bash, ZSH, IPython, Vim.</p>
 
 <dl class="attribute">
 <dt id="dotfiles.venv.venv_ipyconfig.CdAlias.VENV_IPYMAGICS_FILE_HEADER">
-<code class="descname">VENV_IPYMAGICS_FILE_HEADER</code><em class="property"> = '\n#!/usr/bin/env ipython\n# dotfiles.venv.venv_ipymagics\nfrom __future__ import print_function\n&quot;&quot;&quot;\nIPython ``%magic`` commands\n\n* ``cd`` aliases\n* ``ds`` (``dotfiles_status``)\n* ``dr`` (``dotfiles_reload``)\n\nInstallation\n--------------\n.. code-block:: bash\n\n    __DOTFILES=&quot;${HOME}/-dotfiles&quot;\n    ipython_profile=&quot;profile_default&quot;\n    ln -s ${__DOTFILES}/etc/ipython/venv_ipymagics.py \\\n        ~/.ipython/${ipython_profile}/startup/venv_ipymagics.py\n&quot;&quot;&quot;\nimport os\ntry:\n    from IPython.core.magic import (Magics, magics_class, line_magic)\nexcept ImportError:\n    print(&quot;ImportError: IPython&quot;)\n    # Mock IPython for building docs\n    Magics = object\n    magics_class = lambda cls, *args, **kwargs: cls\n    line_magic = lambda func, *args, **kwargs: func\n\n&#64;magics_class\nclass VenvMagics(Magics):\n    def cd(self, envvar, line):\n        &quot;&quot;&quot;\n        Change directory\n\n        Args:\n            envvar (str): os.environ variable name\n            line (str): path to append to envvar\n        &quot;&quot;&quot;\n        prefix = os.environ.get(envvar, &quot;&quot;)\n        path = os.path.join(prefix, line.lstrip(\'/\\\\\'))\n        return self.shell.magic(\'cd %s\' % repr(unicode(path))[1:])'</em><a class="headerlink" href="#dotfiles.venv.venv_ipyconfig.CdAlias.VENV_IPYMAGICS_FILE_HEADER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VENV_IPYMAGICS_FILE_HEADER</code><em class="property"> = '\n#!/usr/bin/env ipython\n# dotfiles.venv.venv_ipymagics\nfrom __future__ import print_function\n&quot;&quot;&quot;\nIPython ``%magic`` commands\n\n* ``cd`` aliases\n* ``ds`` (``dotfiles_status``)\n* ``dr`` (``dotfiles_reload``)\n\nInstallation\n--------------\n.. code-block:: bash\n\n    __DOTFILES=&quot;${HOME}/-dotfiles&quot;\n    ipython_profile=&quot;profile_default&quot;\n    ln -s ${__DOTFILES}/etc/ipython/venv_ipymagics.py \\\n        ~/.ipython/${ipython_profile}/startup/venv_ipymagics.py\n&quot;&quot;&quot;\nimport os\nimport sys\ntry:\n    from IPython.core.magic import (Magics, magics_class, line_magic)\nexcept ImportError:\n    print(&quot;ImportError: IPython&quot;)\n    # Mock IPython for building docs\n    Magics = object\n    magics_class = lambda cls, *args, **kwargs: cls\n    line_magic = lambda func, *args, **kwargs: func\n\nif sys.version_info.major == 2:\n    str = unicode\n\ndef ipymagic_quote(_str):\n    return str(_str)\n\n&#64;magics_class\nclass VenvMagics(Magics):\n    def cd(self, envvar, line):\n        &quot;&quot;&quot;\n        Change directory\n\n        Args:\n            envvar (str): os.environ variable name\n            line (str): path to append to envvar\n        &quot;&quot;&quot;\n        prefix = os.environ.get(envvar, &quot;&quot;)\n        _dstpath = line.lstrip(os.path.sep)\n        path = os.path.join(prefix, _dstpath)\n        cmd = (&quot;cd %s&quot; % ipymagic_quote(path))\n        print(&quot;%&quot; + cmd, file=sys.stderr)\n        return self.shell.magic(cmd)'</em><a class="headerlink" href="#dotfiles.venv.venv_ipyconfig.CdAlias.VENV_IPYMAGICS_FILE_HEADER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -6124,27 +6124,33 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdhome">
-<code class="descname">cdhome</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdhome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdhome" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdhome    &#8211; cd $HOME/${&#64;}</p>
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cda">
+<code class="descname">cda</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cda" title="Permalink to this definition">¶</a></dt>
+<dd><p>cda    &#8211; cd $CONDA_ENVS_PATH/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdh">
-<code class="descname">cdh</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdh" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdh    &#8211; cd $HOME/${&#64;}</p>
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdb">
+<code class="descname">cdb</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdb" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdb    &#8211; cd $_BIN/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdwrk">
-<code class="descname">cdwrk</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdwrk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdwrk" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdwrk    &#8211; cd $__WRK/${&#64;}</p>
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdbin">
+<code class="descname">cdbin</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdbin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdbin" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdbin    &#8211; cd $_BIN/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cddotfiles">
-<code class="descname">cddotfiles</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cddotfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cddotfiles" title="Permalink to this definition">¶</a></dt>
-<dd><p>cddotfiles    &#8211; cd $__DOTFILES/${&#64;}</p>
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdce">
+<code class="descname">cdce</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdce" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdce    &#8211; cd $CONDA_ENVS_PATH/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdcondaenvspath">
+<code class="descname">cdcondaenvspath</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdcondaenvspath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdcondaenvspath" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdcondaenvspath    &#8211; cd $CONDA_ENVS_PATH/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
@@ -6154,9 +6160,57 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdprojecthome">
-<code class="descname">cdprojecthome</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdprojecthome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdprojecthome" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdprojecthome    &#8211; cd $PROJECT_HOME/${&#64;}</p>
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cddotfiles">
+<code class="descname">cddotfiles</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cddotfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cddotfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>cddotfiles    &#8211; cd $__DOTFILES/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cde">
+<code class="descname">cde</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cde"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cde" title="Permalink to this definition">¶</a></dt>
+<dd><p>cde    &#8211; cd $_ETC/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdetc">
+<code class="descname">cdetc</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdetc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdetc" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdetc    &#8211; cd $_ETC/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdh">
+<code class="descname">cdh</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdh" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdh    &#8211; cd $HOME/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdhelp">
+<code class="descname">cdhelp</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdhelp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdhelp" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdhelp()         &#8211; list cd commands</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdhome">
+<code class="descname">cdhome</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdhome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdhome" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdhome    &#8211; cd $HOME/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdl">
+<code class="descname">cdl</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdl" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdl    &#8211; cd $_LIB/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdlib">
+<code class="descname">cdlib</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdlib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdlib" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdlib    &#8211; cd $_LIB/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdlog">
+<code class="descname">cdlog</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdlog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdlog" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdlog    &#8211; cd $_LOG/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
@@ -6172,117 +6226,9 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdworkonhome">
-<code class="descname">cdworkonhome</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdworkonhome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdworkonhome" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdworkonhome    &#8211; cd $WORKON_HOME/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdwh">
-<code class="descname">cdwh</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdwh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdwh" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdwh    &#8211; cd $WORKON_HOME/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdve">
-<code class="descname">cdve</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdve" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdve    &#8211; cd $WORKON_HOME/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdcondaenvspath">
-<code class="descname">cdcondaenvspath</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdcondaenvspath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdcondaenvspath" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdcondaenvspath    &#8211; cd $CONDA_ENVS_PATH/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cda">
-<code class="descname">cda</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cda" title="Permalink to this definition">¶</a></dt>
-<dd><p>cda    &#8211; cd $CONDA_ENVS_PATH/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdce">
-<code class="descname">cdce</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdce" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdce    &#8211; cd $CONDA_ENVS_PATH/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdvirtualenv">
-<code class="descname">cdvirtualenv</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdvirtualenv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdvirtualenv" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdvirtualenv    &#8211; cd $VIRTUAL_ENV/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdv">
-<code class="descname">cdv</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdv" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdv    &#8211; cd $VIRTUAL_ENV/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdsrc">
-<code class="descname">cdsrc</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdsrc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdsrc" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdsrc    &#8211; cd $_SRC/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cds">
-<code class="descname">cds</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cds" title="Permalink to this definition">¶</a></dt>
-<dd><p>cds    &#8211; cd $_SRC/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdwrd">
-<code class="descname">cdwrd</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdwrd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdwrd" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdwrd    &#8211; cd $_WRD/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdw">
-<code class="descname">cdw</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdw" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdw    &#8211; cd $_WRD/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdbin">
-<code class="descname">cdbin</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdbin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdbin" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdbin    &#8211; cd $_BIN/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdb">
-<code class="descname">cdb</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdb" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdb    &#8211; cd $_BIN/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdetc">
-<code class="descname">cdetc</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdetc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdetc" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdetc    &#8211; cd $_ETC/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cde">
-<code class="descname">cde</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cde"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cde" title="Permalink to this definition">¶</a></dt>
-<dd><p>cde    &#8211; cd $_ETC/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdlib">
-<code class="descname">cdlib</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdlib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdlib" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdlib    &#8211; cd $_LIB/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdl">
-<code class="descname">cdl</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdl" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdl    &#8211; cd $_LIB/${&#64;}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdlog">
-<code class="descname">cdlog</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdlog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdlog" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdlog    &#8211; cd $_LOG/${&#64;}</p>
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdprojecthome">
+<code class="descname">cdprojecthome</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdprojecthome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdprojecthome" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdprojecthome    &#8211; cd $PROJECT_HOME/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
@@ -6298,9 +6244,27 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </dd></dl>
 
 <dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cds">
+<code class="descname">cds</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cds" title="Permalink to this definition">¶</a></dt>
+<dd><p>cds    &#8211; cd $_SRC/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdsitepackages">
 <code class="descname">cdsitepackages</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdsitepackages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdsitepackages" title="Permalink to this definition">¶</a></dt>
 <dd><p>cdsitepackages    &#8211; cd $_PYSITE/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdsrc">
+<code class="descname">cdsrc</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdsrc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdsrc" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdsrc    &#8211; cd $_SRC/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdv">
+<code class="descname">cdv</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdv" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdv    &#8211; cd $VIRTUAL_ENV/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
@@ -6310,9 +6274,45 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdwww">
-<code class="descname">cdwww</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdwww"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdwww" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdwww    &#8211; cd $_WWW/${&#64;}</p>
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdve">
+<code class="descname">cdve</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdve" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdve    &#8211; cd $WORKON_HOME/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdvirtualenv">
+<code class="descname">cdvirtualenv</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdvirtualenv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdvirtualenv" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdvirtualenv    &#8211; cd $VIRTUAL_ENV/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdw">
+<code class="descname">cdw</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdw" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdw    &#8211; cd $_WRD/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdwh">
+<code class="descname">cdwh</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdwh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdwh" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdwh    &#8211; cd $WORKON_HOME/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdworkonhome">
+<code class="descname">cdworkonhome</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdworkonhome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdworkonhome" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdworkonhome    &#8211; cd $WORKON_HOME/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdwrd">
+<code class="descname">cdwrd</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdwrd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdwrd" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdwrd    &#8211; cd $_WRD/${&#64;}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdwrk">
+<code class="descname">cdwrk</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdwrk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdwrk" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdwrk    &#8211; cd $__WRK/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
@@ -6322,21 +6322,9 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </dd></dl>
 
 <dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdhelp">
-<code class="descname">cdhelp</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdhelp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdhelp" title="Permalink to this definition">¶</a></dt>
-<dd><p>cdhelp()         &#8211; list cd commands</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.dotfiles_status">
-<code class="descname">dotfiles_status</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.dotfiles_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.dotfiles_status" title="Permalink to this definition">¶</a></dt>
-<dd><p>dotfiles_status()    &#8211; print dotfiles_status() .</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.ds">
-<code class="descname">ds</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.ds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.ds" title="Permalink to this definition">¶</a></dt>
-<dd><p>ds()                 &#8211; print dotfiles_status() .</p>
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.cdwww">
+<code class="descname">cdwww</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.cdwww"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.cdwww" title="Permalink to this definition">¶</a></dt>
+<dd><p>cdwww    &#8211; cd $_WWW/${&#64;}</p>
 </dd></dl>
 
 <dl class="method">
@@ -6346,9 +6334,21 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 </dd></dl>
 
 <dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.dotfiles_status">
+<code class="descname">dotfiles_status</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.dotfiles_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.dotfiles_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>dotfiles_status()    &#8211; print dotfiles_status() .</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="dotfiles.venv.venv_ipymagics.VenvMagics.dr">
 <code class="descname">dr</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.dr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.dr" title="Permalink to this definition">¶</a></dt>
 <dd><p>dr()                 &#8211; print NotImplemented [dotfiles_reload()]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dotfiles.venv.venv_ipymagics.VenvMagics.ds">
+<code class="descname">ds</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#VenvMagics.ds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.VenvMagics.ds" title="Permalink to this definition">¶</a></dt>
+<dd><p>ds()                 &#8211; print dotfiles_status() .</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -6362,6 +6362,11 @@ in this context (<code class="docutils literal"><span class="pre">os.environ</sp
 <dd></dd></dl>
 
 </dd></dl>
+
+<dl class="function">
+<dt id="dotfiles.venv.venv_ipymagics.ipymagic_quote">
+<code class="descclassname">dotfiles.venv.venv_ipymagics.</code><code class="descname">ipymagic_quote</code><span class="sig-paren">(</span><em>_str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/venv/venv_ipymagics.html#ipymagic_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dotfiles.venv.venv_ipymagics.ipymagic_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="dotfiles.venv.venv_ipymagics.main">

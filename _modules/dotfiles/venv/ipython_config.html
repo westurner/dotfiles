@@ -681,6 +681,7 @@
 <span class="sd">        ~/.ipython/${ipython_profile}/startup/venv_ipymagics.py</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">import os</span>
+<span class="sd">import sys</span>
 <span class="sd">try:</span>
 <span class="sd">    from IPython.core.magic import (Magics, magics_class, line_magic)</span>
 <span class="sd">except ImportError:</span>
@@ -689,6 +690,12 @@
 <span class="sd">    Magics = object</span>
 <span class="sd">    magics_class = lambda cls, *args, **kwargs: cls</span>
 <span class="sd">    line_magic = lambda func, *args, **kwargs: func</span>
+
+<span class="sd">if sys.version_info.major == 2:</span>
+<span class="sd">    str = unicode</span>
+
+<span class="sd">def ipymagic_quote(_str):</span>
+<span class="sd">    return str(_str)</span>
 
 <span class="sd">@magics_class</span>
 <span class="sd">class VenvMagics(Magics):</span>
@@ -701,8 +708,11 @@
 <span class="sd">            line (str): path to append to envvar</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 <span class="sd">        prefix = os.environ.get(envvar, &quot;&quot;)</span>
-<span class="sd">        path = os.path.join(prefix, line.lstrip(&#39;/\\\\&#39;))</span>
-<span class="sd">        return self.shell.magic(&#39;cd %s&#39; % repr(unicode(path))[1:])&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="sd">        _dstpath = line.lstrip(os.path.sep)</span>
+<span class="sd">        path = os.path.join(prefix, _dstpath)</span>
+<span class="sd">        cmd = (&quot;cd %s&quot; % ipymagic_quote(path))</span>
+<span class="sd">        print(&quot;%&quot; + cmd, file=sys.stderr)</span>
+<span class="sd">        return self.shell.magic(cmd)&#39;&#39;&#39;</span><span class="p">)</span>
 
     <span class="n">VENV_IPYMAGIC_METHOD_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
         <span class="sd">&#39;&#39;&#39;</span>
