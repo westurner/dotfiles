@@ -2762,9 +2762,10 @@ Salt
 | Docs: https://docs.saltstack.com/en/latest/glossary.html
 | Pypi: https://pypi.python.org/pypi/salt
 | Twitter: https://twitter.com/SaltStackInc
-| IRC: #salt
-| TcpPort: 4505
-| TcpPort: 4506
+| IRC: ``#salt``
+| TcpPort: 4505 (salt zmq)
+| TcpPort: 4506 (salt zmq)
+| TcpPort: 22 (salt-ssh)
 
 
 Salt is a :ref:`Configuration Management` system
@@ -2774,19 +2775,58 @@ written in :ref:`YAML`, :ref:`Jinja2`, :ref:`Python`
 for managing
 one or more physical and virtual machines running various operating systems.
 
+Salt runs modules defined by states over a transport.
+Salt transports include:
+
+* :ref:`ZeroMQ` Transport (TCP, msgpack) (libzmq, (default)
+* TCP Transport
+* RAET: Reliable Asynchronous Event Transport (UDP, msgpack) (libsodium, libnacl)
+* :term:`salt-ssh <salt ssh>` runs salt states over SSH
+
 .. glossary::
 
    Salt Top File
-      Root of a Salt Environment (``top.sls``)
+      A Salt *Top File* (``top.sls``) defines the
+      Root of a Salt Environment.
+
+      The Top File contains:
+
+      * YAML + Jinja2 (SLS)
+      * References to :term:`Salt States` defined in :term:`Salt
+        Formulas` (e.g. ``- docker``)
+      * Jinja2 logic
+
+        * ``{% if %}``
+        * ``{% for x in iterable %}``
+        * Conditional on :term:`Salt Grains`
 
    Salt Environment
-      Folder of Salt States with a top.sls top file.
+      A Salt Environment is a
+      folder of :term:`Salt States` with a ``top.sls`` :ref:`Salt Top File`.
+
+      A :term:`Salt Master` and/or a (standalone) :term:`Salt Minion`
+      maintain a Salt Environment.
 
    Salt Bootstrap
-      Installer for salt master and/or salt minion
+      The Salt Bootstrap script (``bootstrap-salt.sh``) is a shell script
+      installer for a
+      :term:`salt master` and/or :term:`salt minion`.
+
+      Salt Bootstrap can install from source (``git``),
+      from (mostly) Python packages served from e.g. :ref:`PyPI`, with
+      :ref:`pip`, OS Packages (e.g. :ref:`deb`, :ref:`rpm`).
+
+      * ``bootstrap-salt.sh -h``:
+        https://github.com/saltstack/salt-bootstrap/blob/stable/bootstrap-salt.sh
 
    Salt Minion
-      Daemon process which executes Salt States on the local machine.
+      A Salt Minion is a
+      daemon process which executes
+      the :ref:`Salt Modules <salt module>` defined by
+      :ref:`Salt States <salt state>` on the local machine.
+
+
+
 
       Can run as a background daemon.
       Can retrieve and execute states from a salt master
