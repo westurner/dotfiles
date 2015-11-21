@@ -892,23 +892,23 @@ To clone a repository with ``git``:
   git clone https://github.com/git/git
 
 
-.. index:: HubFlow
-.. _hubflow:
+.. index:: GitFlow
+.. _gitflow:
 
-HubFlow
+GitFlow
 ~~~~~~~~~
-| Src: https://github.com/datasift/gitflow
-| Docs: https://datasift.github.io/gitflow/
-| Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
-| Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
+| Src: https://github.com/nvie/gitflow
+| Docs: http://nvie.com/posts/a-successful-git-branching-model/
+| Docs: https://github.com/nvie/gitflow/wiki
+| Docs: https://github.com/nvie/gitflow/wiki/Command-Line-Arguments
+| Docs: https://github.com/nvie/gitflow/wiki/Config-values
 
-HubFlow is a fork of GitFlow
-that adds extremely useful commands for working with Git and GitHub.
+GitFlow is a named branch workflow for :ref:`git`
+with ``master``, ``develop``, ``feature``, ``release``, ``hotfix``,
+and ``support`` branches (``git flow``).
 
-HubFlow is a named branch workflow with mostly-automated merges
-between branches.
-
-Branch names are configurable; the defaults are as follows:
+Gitflow branch names and prefixes are configured in ``.git/config``;
+the defaults are:
 
 
 +--------------------+-------------------------------------------------------------------------+
@@ -921,21 +921,103 @@ Branch names are configurable; the defaults are as follows:
 +--------------------+-------------------------------------------------------------------------+
 | ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)               |
 +--------------------+-------------------------------------------------------------------------+
+| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                             |
++--------------------+-------------------------------------------------------------------------+
 | ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                       |
 |                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                        |
 +--------------------+-------------------------------------------------------------------------+
-| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                             |
+| ``support/<name>`` | "What is the 'support' branch?"                                         |
+|                    |                                                                         |
+|                    | https://github.com/nvie/gitflow/wiki/FAQ                                |
 +--------------------+-------------------------------------------------------------------------+
 
-Creating a new release with :ref:`Git` and HubFlow:
+Creating a new release with :ref:`Git` and :ref:`GitFlow`:
 
 .. code:: bash
 
   git clone ssh://git@github.com/westurner/dotfiles
   # git checkout master
+  # git checkout -h
+  # git help checkout (man git-checkout)
+  # git flow [<cmd> -h]
+  # git-flow [<cmd> -h]
+
+  git flow init
+  ## Update versiontag in .git/config to prefix release tags with 'v'
+  git config --replace-all gitflow.prefix.versiontag v
+  cat ./.git/config
+  # [gitflow "prefix"]
+  # feature = feature/
+  # release = release/
+  # hotfix = hotfix/
+  # support = support/
+  # versiontag = v
+  #
+
+  ## feature/ENH_print_hello_world
+  git flow feature start ENH_print_hello_world
+  #git commit, commit, commit
+  git flow feature
+  git flow feature finish ENH_print_hello_world   # ENH<TAB>
+
+  ## release/v0.1.0
+  git flow release start 0.1.0
+  #git commit (e.g. update __version__, setup.py, release notes)
+  git flow release finish 0.1.0
+  git flow release finish 0.1.0
+  git tag | grep 'v0.1.0'
+
+
+
+.. index:: HubFlow
+.. _hubflow:
+
+HubFlow
+~~~~~~~~~
+| Src: https://github.com/datasift/gitflow
+| Docs: https://datasift.github.io/gitflow/
+| Docs: https://datasift.github.io/gitflow/IntroducingGitFlow.html
+| Docs: https://datasift.github.io/gitflow/TheHubFlowTools.html
+| Docs: https://datasift.github.io/gitflow/GitFlowForGitHub.html
+
+HubFlow is a fork of :ref:`GitFlow`
+that adds extremely useful commands for working with :ref:`Git` and
+GitHub **pull requests**.
+
+HubFlow branch names and prefixes are configured in ``.git/config``;
+the defaults are as follows:
+
+
++--------------------+-------------------------------------------------------------------------+
+| **Branch Name**    | **Description**                                                         |
+|                    | (and `Code Labels <https://westurner.org/wiki/workflow#code-labels>`__) |
++--------------------+-------------------------------------------------------------------------+
+| ``master``         | Stable trunk (latest release)                                           |
++--------------------+-------------------------------------------------------------------------+
+| ``develop``        | Development main line                                                   |
++--------------------+-------------------------------------------------------------------------+
+| ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)               |
++--------------------+-------------------------------------------------------------------------+
+| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                             |
++--------------------+-------------------------------------------------------------------------+
+| ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                       |
+|                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                        |
++--------------------+-------------------------------------------------------------------------+
+
+Creating a new release with :ref:`Git` and :ref:`HubFlow`:
+
+.. code:: bash
+
+  git clone ssh://git@github.com/westurner/dotfiles
+  # git checkout master
+  # git checkout -h
+  # git help checkout (man git-checkout)
+  # git hf [<cmd> -h]
+  # git-hf [<cmd> -h]
+
   git hf init
   ## Update versiontag in .git/config to prefix release tags with 'v'
-  git config hubflow.prefix.versiontag=v
+  git config --replace-all hubflow.prefix.versiontag v
   #cat .git/config # ...
   # [hubflow "prefix"]
   # feature = feature/
@@ -944,9 +1026,19 @@ Creating a new release with :ref:`Git` and HubFlow:
   # support = support/
   # versiontag = v
   #
+  git hf update
+  git hf pull
+  git hf pull -h
+
+  ## feature/ENH_print_hello_world
   git hf feature start ENH_print_hello_world
-  ## commit, commit, commit
+  #git commit, commit
+  git hf pull
+  git hf push
+  #git commit, commit
   git hf feature finish ENH_print_hello_world   # ENH<TAB>
+
+  ## release/v0.1.0
   git hf release start 0.1.0
   ## commit (e.g. update __version__, setup.py, release notes)
   git hf release finish 0.1.0
@@ -957,6 +1049,18 @@ The GitFlow HubFlow illustrations are very helpful for visualizing
 and understanding any DVCS workflow:
 `<https://datasift.github.io/gitflow/IntroducingGitFlow.html>`__.
 
+
+.. figure:: https://datasift.github.io/gitflow/GitFlowMasterBranch.png
+   :alt: GitFlow Release / Master Branch Merge Diagram
+   :target:  https://datasift.github.io/gitflow/IntroducingGitFlow.html
+
+.. figure:: https://datasift.github.io/gitflow/GitFlowHotfixBranch.png
+   :alt: GitFlow Hotfix to Master and Develop Branches Merge Diagram
+   :target:  https://datasift.github.io/gitflow/IntroducingGitFlow.html
+
+.. figure::  https://datasift.github.io/gitflow/GitFlowWorkflowNoFork.png
+   :alt: Numbered GitFlow Workflow Diagram
+   :target:  https://datasift.github.io/gitflow/GitFlowForGitHub.html
 
 .. index:: Hg
 .. index:: Mercurial
@@ -1016,6 +1120,7 @@ Markdown
 | Homepage: https://daringfireball.net/projects/markdown/
 | Standard: https://daringfireball.net/projects/markdown/syntax
 | Docs: http://www.w3.org/community/markdown/wiki/MarkdownImplementations
+| Docs: https://en.wikipedia.org/wiki/Markdown#Implementations
 | Docs: http://learnxinyminutes.com/docs/markdown/
 | Docs: https://guides.github.com/features/mastering-markdown/
 | Docs: https://help.github.com/articles/github-flavored-markdown/
@@ -1026,6 +1131,23 @@ Markdown
 Markdown is a :ref:`Lightweight markup language`
 which can be parsed and transformed to
 valid :ref:`HTML-`.
+
+* GitHub and BitBucket support Markdown
+  in Issue Descriptions, Wiki Pages, and Comments
+* :ref:`Jupyter Notebook` supports Markdown
+  in Markdown cells
+
+
+.. index:: CommonMark
+.. _commonmark:
+
+CommonMark
++++++++++++++
+| Homepage: http://commonmark.org
+| Standard: http://spec.commonmark.org/0.22/
+| Source:  https://github.com/jgm/CommonMark
+
+:ref:`CommonMark` is one effort to standardize :ref:`Markdown`.
 
 
 .. index:: MediaWiki Markup
@@ -2047,6 +2169,7 @@ Fedora
 | Download: https://getfedora.org/en/workstation/download/
 | Download: https://getfedora.org/en/server/download/
 | Download: https://getfedora.org/en/cloud/download/
+| DockerHub: https://hub.docker.com/_/fedora/
 | Docs: https://docs.fedoraproject.org/en-US/index.html
 | Docs: https://fedoraproject.org/wiki/Fedora_Project_Wiki
 | Docs: https://fedoraproject.org/wiki/EPEL
@@ -2762,9 +2885,10 @@ Salt
 | Docs: https://docs.saltstack.com/en/latest/glossary.html
 | Pypi: https://pypi.python.org/pypi/salt
 | Twitter: https://twitter.com/SaltStackInc
-| IRC: #salt
-| TcpPort: 4505
-| TcpPort: 4506
+| IRC: ``#salt``
+| TcpPort: 4505 (salt zmq)
+| TcpPort: 4506 (salt zmq)
+| TcpPort: 22 (salt-ssh)
 
 
 Salt is a :ref:`Configuration Management` system
@@ -2774,19 +2898,58 @@ written in :ref:`YAML`, :ref:`Jinja2`, :ref:`Python`
 for managing
 one or more physical and virtual machines running various operating systems.
 
+Salt runs modules defined by states over a transport.
+Salt transports include:
+
+* :ref:`ZeroMQ` Transport (TCP, msgpack) (libzmq, (default)
+* TCP Transport
+* RAET: Reliable Asynchronous Event Transport (UDP, msgpack) (libsodium, libnacl)
+* :term:`salt-ssh <salt ssh>` runs salt states over SSH
+
 .. glossary::
 
    Salt Top File
-      Root of a Salt Environment (``top.sls``)
+      A Salt *Top File* (``top.sls``) defines the
+      Root of a Salt Environment.
+
+      The Top File contains:
+
+      * YAML + Jinja2 (SLS)
+      * References to :term:`Salt States` defined in :term:`Salt
+        Formulas` (e.g. ``- docker``)
+      * Jinja2 logic
+
+        * ``{% if %}``
+        * ``{% for x in iterable %}``
+        * Conditional on :term:`Salt Grains`
 
    Salt Environment
-      Folder of Salt States with a top.sls top file.
+      A Salt Environment is a
+      folder of :term:`Salt States` with a ``top.sls`` :ref:`Salt Top File`.
+
+      A :term:`Salt Master` and/or a (standalone) :term:`Salt Minion`
+      maintain a Salt Environment.
 
    Salt Bootstrap
-      Installer for salt master and/or salt minion
+      The Salt Bootstrap script (``bootstrap-salt.sh``) is a shell script
+      installer for a
+      :term:`salt master` and/or :term:`salt minion`.
+
+      Salt Bootstrap can install from source (``git``),
+      from (mostly) Python packages served from e.g. :ref:`PyPI`, with
+      :ref:`pip`, OS Packages (e.g. :ref:`deb`, :ref:`rpm`).
+
+      * ``bootstrap-salt.sh -h``:
+        https://github.com/saltstack/salt-bootstrap/blob/stable/bootstrap-salt.sh
 
    Salt Minion
-      Daemon process which executes Salt States on the local machine.
+      A Salt Minion is a
+      daemon process which executes
+      the :ref:`Salt Modules <salt module>` defined by
+      :ref:`Salt States <salt state>` on the local machine.
+
+
+
 
       Can run as a background daemon.
       Can retrieve and execute states from a salt master
