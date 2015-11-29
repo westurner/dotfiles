@@ -402,6 +402,10 @@ def sort_by(sortstr, iterable,
 
     Keyword Arguments:
         reverse (bool): True to sort in reverse
+        col_map (dict): dict mapping column n to a typefunc (default: None)
+        default_type (callable): type callable (default: None)
+        default_value (\*): default N/A value for columns not specified
+                            in col_map (default: None)
 
     Returns:
         list: sorted list of lines/rows
@@ -440,7 +444,8 @@ class ResultWriter(object):
         'tsv': "\t",
         'html': True,
         "txt": True,
-        "checkbox": True
+        "checkbox": True,
+        "chk": True
     }
     filetype = None
 
@@ -853,8 +858,11 @@ def main(args=None, iterable=None, output=None):
                 'fileno', int)() not in (0, 1, 2)):
             opts._file.close()
 
-        if opts._output != '-' and hasattr(opts._output, 'close'):
-            opts._output.close()
+        # This causes multiple tests of main() to fail:
+        # if opts._output != '-' and hasattr(opts._output, 'close'):
+        #     opts._output.close()
+        # When opts goes out of scope, and gc occurs,
+        # the opts._file and opts._output file handles are [...]
 
     return 0
 
