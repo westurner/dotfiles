@@ -140,7 +140,7 @@ Virtualenv paths can be really long.
 
 CdAliases make it easy to jump around to ``venv`` defined variables
 (like ``$_WRK`` (cdwrk), ``$WORKON_HOME`` (cdwh), ``VIRTUAL_ENV`` (cdv),
-``$_SRC`` (cds), and ``$_WRD`` (cdw)).
+``$_SRC`` (cds), and ``$_WRD`` (cdw)). 
 
 Each :py:class:`CdAlias <dotfiles.venv.ipython_config.CdAlias>`
 defined in ``env.aliases`` is expanded for Bash, IPython, and Vim.
@@ -176,6 +176,46 @@ like so:
     venv.py --print-bash-cdalias . | tee venv_cdalias.sh
     venv.py --print-ipython-cdalias . | tee venv_cdmagic.py
     venv.py --print-vim . | tee venv.vim
+
+Subsequently, ``cdhelp`` displays:
+
+.. code:: bash
+
+  ## venv.sh
+  # generated from $(venv --print-bash --prefix=/)
+      # cdhome            -- cd $HOME /$@
+      # cdh               -- cd $HOME
+      # cdwrk             -- cd $__WRK /$@
+      # cddotfiles        -- cd $__DOTFILES /$@
+      # cdd               -- cd $__DOTFILES
+      # cdprojecthome     -- cd $PROJECT_HOME /$@
+      # cdp               -- cd $PROJECT_HOME
+      # cdph              -- cd $PROJECT_HOME
+      # cdworkonhome      -- cd $WORKON_HOME /$@
+      # cdwh              -- cd $WORKON_HOME
+      # cdve              -- cd $WORKON_HOME
+      # cdcondaenvspath   -- cd $CONDA_ENVS_PATH /$@
+      # cda               -- cd $CONDA_ENVS_PATH
+      # cdce              -- cd $CONDA_ENVS_PATH
+      # cdvirtualenv      -- cd $VIRTUAL_ENV /$@
+      # cdv               -- cd $VIRTUAL_ENV
+      # cdsrc             -- cd $_SRC /$@
+      # cds               -- cd $_SRC
+      # cdwrd             -- cd $_WRD /$@
+      # cdw               -- cd $_WRD
+      # cdbin             -- cd $_BIN /$@
+      # cdb               -- cd $_BIN
+      # cdetc             -- cd $_ETC /$@
+      # cde               -- cd $_ETC
+      # cdlib             -- cd $_LIB /$@
+      # cdl               -- cd $_LIB
+      # cdlog             -- cd $_LOG /$@
+      # cdpylib           -- cd $_PYLIB /$@
+      # cdpysite          -- cd $_PYSITE /$@
+      # cdsitepackages    -- cd $_PYSITE
+      # cdvar             -- cd $_VAR /$@
+      # cdwww             -- cd $_WWW /$@
+      # cdww              -- cd $_WWW
 
 
 venv.py
