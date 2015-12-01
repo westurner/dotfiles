@@ -1992,14 +1992,37 @@ Scala
 | Src: git https://github.com/scala/scala
 | Twitter: https://twitter.com/scala_lang
 | Docs: http://scala-lang.org/api/current/
+| Docs: http://www.scala-lang.org/api/current/#scala.collection.mutable.LinkedHashMap
 | Docs: http://learnxinyminutes.com/docs/scala/
 
 Scala is a free and open source
 object-oriented and functional
-language which compiles to
+:ref:`programming language` which compiles to
 :ref:`JVM` (and :ref:`LLVM`) bytecode.
 
 
+.. index:: TypeScript
+.. _typescript:
+
+TypeScript
+~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/TypeScript
+| Homepage: http://www.typescriptlang.org/
+| Source: git https://github.com/Microsoft/TypeScript
+| NPM: https://www.npmjs.com/package/typescript
+| NPMPkg: typescript
+| Standard: https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md
+| FileExt: ``.ts``
+| Docs: http://www.typescriptlang.org/Tutorial
+| Docs: http://www.typescriptlang.org/Handbook
+| Docs: http://learnxinyminutes.com/docs/typescript/
+
+TypeScript is a free and open source :ref:`Programming Language`
+developed as a superset of :ref:`Javascript` with optional
+additional features like static typing and native object-oriented code.
+
+* Angular 2 is written in :ref:`TypeScript`:
+  https://github.com/angular/angular/blob/master/modules/angular2/angular2.ts
 
 
 .. index:: YAML
@@ -2826,6 +2849,21 @@ Gulp is a build tool written in :ref:`Javascript`
 which builds a directed acyclic graph (DAG).
 
 
+.. index:: Jake
+.. _jake:
+
+Jake
+~~~~~
+| Homepage: http://jakejs.com/
+| Source: git https://github.com/jakejs/jake
+| NPMPkg: jake
+| NPM: https://www.npmjs.com/package/jake
+| Docs: http://jakejs.com/docs
+
+Jake is a :ref:`Javascript` build tool written in :ref:`Javascript`
+(for :ref:`Node.js`) similar to :ref:`Make` or :ref:`Rake`.
+
+
 .. index:: JuJu
 .. _juju:
 
@@ -2913,6 +2951,11 @@ for :ref:`OSX` and :ref:`Linux`.
 
 * https://docs.saltstack.com/en/develop/ref/modules/all/salt.modules.osquery.html
 * https://github.com/westurner/dotfiles/blob/develop/scripts/osquery-all.sh
+
+
+Pants
+~~~~~~
+See: :ref:`Pants Build`
 
 
 .. index:: Puppet
