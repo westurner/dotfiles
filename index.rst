@@ -393,6 +393,74 @@ Pacman is an open source package manager which installs
 ``.pkg.tar.xz`` files for :ref:`Arch` Linux.
 
 
+.. index:: Pants
+.. index:: Pants Build
+.. _pants build:
+.. _pants:
+
+Pants Build
+~~~~~~~~~~~
+| Homepage: https://pantsbuild.github.io/
+| Source: git https://github.com/pantsbuild/pants 
+| Docs: https://pantsbuild.github.io/first_concepts.html
+| Docs: https://pantsbuild.github.io/install.html
+| Docs: https://pantsbuild.github.io/first_tutorial.html
+| Docs: https://pantsbuild.github.io/JVMProjects.html
+| Docs: https://pantsbuild.github.io/scala.html
+| Docs: https://pantsbuild.github.io/python-readme.html
+| Docs: https://pantsbuild.github.io/pex_design.html
+| Docs: https://pantsbuild.github.io/build_files.html
+| Docs: https://pantsbuild.github.io/build_dictionary.html
+| Docs: https://pantsbuild.github.io/options_reference.html
+| Docs: https://pantsbuild.github.io/export.html
+| Docs: https://pantsbuild.github.io/internals.html
+| Docs: https://pantsbuild.github.io/howto_contribute.html
+
+Pants Build is a build tool for :ref:`JVM` [:ref:`Java`, :ref:`Scala`,
+:ref:`Android`], :ref:`C++`, :ref:`Go`, :ref:`Haskell`, and :ref:`Python`
+[:ref:`CPython`] software projects.
+
+* A Pants ``BUILD`` file defines one or more build targets:
+
+  + Pants can build *Deployable Bundles*, *Runnable Binaries*,
+    *Importable Code*, *Tests*, and *Generated Code* (e.g.
+    Java from :ref:`Thrift` ``.thrift`` definitions).
+  + Pants can build :ref:`PEX` files (*Python EXecutables*);
+    which are essentially executable ZIP files
+    with inlined dependency sets.
+  + Pants can build :ref:`DEX` files (:ref:`Android` *Dalvik Executables*)
+  + https://pantsbuild.github.io/build_files.html
+  + https://pantsbuild.github.io/build_dictionary.html
+  + https://pantsbuild.github.io/options_reference.html
+
+* A Pants ``pants.ini`` file in a top-level source directory
+  defines options for binaries, tools, goals, tasks (sub-goals)
+
+  + https://pantsbuild.github.io/setup_repo.html#configuring-with-pantsini
+  + https://pantsbuild.github.io/options_reference.html
+
+* :ref:`Vim` plugin for Pants Build ``BUILD`` syntax:
+  https://github.com/pantsbuild/vim-pants
+* :ref:`IntelliJ` plugin for Pants Build:
+  https://github.com/pantsbuild/intellij-pants-plugin
+
+
+.. index:: PEX
+.. _pex:
+
+PEX
+~~~~~
+| Homepage: https://pex.readthedocs.org/
+| Source: https://github.com/pantsbuild/pex
+| PyPI: https://pypi.python.org/pypi/pex
+| Docs: https://pex.readthedocs.org/en/stable/
+
+PEX (*Python Executable*) is a :ref:`ZIP`-based software package archive
+format with an executable header.
+
+* :ref:`Pants` creates PEX packages.
+
+
 .. index:: PKGBUILD
 .. _pkgbuild:
 
