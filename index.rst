@@ -2025,6 +2025,27 @@ additional features like static typing and native object-oriented code.
   https://github.com/angular/angular/blob/master/modules/angular2/angular2.ts
 
 
+.. index:: WebAssembly
+.. _webassembly:
+
+WebAssembly
+~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/WebAssembly
+| Project: https://www.w3.org/community/webassembly/
+| Source: https://github.com/WebAssembly
+| FileExt: ``.wast``
+| FileExt: ``.wasm``
+| Docs: https://github.com/WebAssembly/design
+| Docs: https://github.com/WebAssembly/design/blob/master/UseCases.md
+
+WebAssembly (*wasm*) is a safe (sandboxed), efficient low-level
+:ref:`programming language` (abstract syntax tree)
+and binary format for the web.
+
+* WebAssembly is initially derived from asm.js and PNaCL.
+* WebAssembly is an industry-wide effort.
+
+
 .. index:: YAML
 .. _yaml:
 
