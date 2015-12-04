@@ -517,10 +517,10 @@ RPM
 
    less ~/path/to/local.rpm   # requires lesspipe to be configured
 
-* Package Repositories (yum):
+* RPM Package Repositories (:ref:`yum`, :ref:`dnf`):
 
   * Local: directories of packages and metadata
-  * Network: HTTP, HTTPS, RSYNC, FTP
+  * Network: HTTP, HTTPS, :ref:`RSYNC`, FTP
 
 
 .. index:: Egg
@@ -577,13 +577,14 @@ A :ref:`Python` Package is a collection of source code and package data files.
 .. index:: distutils
 .. _distutils:
 
-Distuils
+Distutils
 +++++++++
 | Docs: https://docs.python.org/2/distutils/
+| Docs: https://docs.python.org/3/distutils/
 
 Distutils is a collection of tools for common packaging needs.
 
-Distutils is included in the Python standard library.
+* Distutils is included in the :ref:`Python` standard library.
 
 
 .. index:: setuptools
