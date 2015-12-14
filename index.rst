@@ -332,6 +332,45 @@ dnf is a an open source package manager written in :ref:`Python`.
 * dnf integrates with the Anaconda system installer.
 
 
+.. index:: ebuild
+.. _ebuild:
+
+ebuild
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Ebuild
+| Homepage: https://wiki.gentoo.org/wiki/Ebuild
+| Docs: https://devmanual.gentoo.org/quickstart/
+| Docs: https://devmanual.gentoo.org/ebuild-writing/
+| Docs: https://devmanual.gentoo.org/ebuild-writing/file-format/
+| Docs: https://devmanual.gentoo.org/ebuild-writing/variables/
+| Docs: https://devmanual.gentoo.org/ebuild-writing/use-conditional-code/
+| Docs: https://wiki.gentoo.org/wiki/Submitting_ebuilds
+
+ebuild is a software package definition format.
+
+* ebuilds are like special :ref:`bash` scripts.
+* ebuilds have ``USE`` flags for specifying build features.
+* :ref:`Gentoo` is built from ebuild package definitions
+  stored in the Gentoo Portage.
+* :ref:`Portage` packages are built from ebuilds.
+* The :ref:`emerge` :ref:`Portage` command installs ebuilds.
+
+
+.. index:: emerge
+.. _emerge:
+
+emerge
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Portage_(software)#Emerge>`__
+| Homepage: https://wiki.gentoo.org/wiki/Portage#emerge
+| Source: git https://github.com/gentoo/portage
+| Docs: https://wiki.gentoo.org/wiki/Project:Package_Manager_Specification
+| Docs: https://projects.gentoo.org/pms/6/pms.html
+
+``emerge`` is the primary CLI tool used for installing
+packages built from :ref:`ebuild <ebuilds>` [from :ref:`Portage`].
+
+
 .. index:: Brew
 .. index:: Homebrew
 .. _homebrew:
@@ -472,7 +511,7 @@ PKGBUILD
 | Docs: https://wiki.archlinux.org/index.php/Creating_packages
 
 PKGBUILD is a shell script containing the build information
-for an :ref:`AUR` :ref:`Arch` linux software package.
+for an :ref:`AUR` :ref:`Arch` :ref:`linux` software package.
 
 
 .. index:: Portage
@@ -482,10 +521,13 @@ Portage
 ~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Portage_(software)>`__
 | Homepage: http://wiki.gentoo.org/wiki/Project:Portage
+| Docs: https://wiki.gentoo.org/wiki/Project:Package_Manager_Specification
+| Docs: https://projects.gentoo.org/pms/6/pms.html
 
+Portage is a package management and repository system
+written in :ref:`Python` initially just for :ref:`Gentoo` :ref:`Linux`.
 
-* Build recipes with flag sets
-* Package Repositories (portage)
+* :ref:`Emerge` installs :ref:`ebuilds` from :ref:`portage`.
 
 
 .. index:: Ports
