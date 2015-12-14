@@ -1279,7 +1279,7 @@ provider)</li>
 <li>ebuilds are like special <a class="reference internal" href="#bash"><span>Bash</span></a> scripts.</li>
 <li>ebuilds have <code class="docutils literal"><span class="pre">USE</span></code> flags for specifying build features.</li>
 <li><a class="reference internal" href="#gentoo"><span>Gentoo</span></a> is built from ebuild package definitions
-stored in the Gentoo Portage.</li>
+stored in Gentoo <a class="reference internal" href="#portage"><span>Portage</span></a>.</li>
 <li><a class="reference internal" href="#portage"><span>Portage</span></a> packages are built from ebuilds.</li>
 <li>The <a class="reference internal" href="#emerge"><span>emerge</span></a> <a class="reference internal" href="#portage"><span>Portage</span></a> command installs ebuilds.</li>
 </ul>
@@ -1425,7 +1425,7 @@ for an <a class="reference internal" href="#aur"><span>AUR</span></a> <a class="
 <p>Portage is a package management and repository system
 written in <a class="reference internal" href="#python"><span>Python</span></a> initially just for <a class="reference internal" href="#gentoo"><span>Gentoo</span></a> <a class="reference internal" href="#linux"><span>Linux</span></a>.</p>
 <ul class="simple">
-<li><a class="reference internal" href="#emerge"><span>emerge</span></a> installs <span class="xref std std-ref">ebuilds</span> from <a class="reference internal" href="#portage"><span>Portage</span></a>.</li>
+<li><a class="reference internal" href="#emerge"><span>emerge</span></a> installs <a class="reference internal" href="#ebuild"><span>ebuilds</span></a> from <a class="reference internal" href="#portage"><span>Portage</span></a>.</li>
 </ul>
 </div>
 <div class="section" id="ports">
@@ -1434,31 +1434,46 @@ written in <a class="reference internal" href="#python"><span>Python</span></a> 
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Ports_collection">https://en.wikipedia.org/wiki/Ports_collection</a></div>
 <div class="line">Homepage: <a class="reference external" href="https://www.freebsd.org/ports/">https://www.freebsd.org/ports/</a></div>
 </div>
-<p>Sources and Makefiles designed to compile software packages
-for particular distributions&#8217; kernel and standard libraries
-on a particular platform.</p>
+<p>A Ports collection contains <em>Sources</em> (e.g. archived releases and patch
+sets)
+and <a class="reference internal" href="#make"><span>Makefiles</span></a>
+designed to compile software <a class="reference internal" href="#packages"><span>Packages</span></a>
+for particular <span class="xref std std-ref">operating systems</span>
+distributions&#8217; kernel and standard libraries
+usually for a particular platform.</p>
 </div>
 <div class="section" id="rpm">
 <span id="index-28"></span><span id="id24"></span><h3>RPM<a class="headerlink" href="#rpm" title="Permalink to this headline">¶</a></h3>
 <div class="line-block">
 <div class="line">Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/RPM_Package_Manager">https://en.wikipedia.org/wiki/RPM_Package_Manager</a></div>
 </div>
+<p>RPM (<em>RPM Package Manager</em>, <a class="reference internal" href="#redhat"><span>RedHat</span></a> <em>Package Manager</em>)
+is a <span class="xref std std-ref">package</span> format and a set of commandline utilities
+written in <a class="reference internal" href="#c"><span>C</span></a> and <a class="reference internal" href="#perl"><span>Perl</span></a>.</p>
 <ul>
-<li><p class="first">Install with <code class="docutils literal"><span class="pre">rpm</span></code>, <code class="docutils literal"><span class="pre">yum</span></code></p>
+<li><p class="first">RPM packages can be installed with <code class="docutils literal"><span class="pre">rpm</span></code>,
+<a class="reference internal" href="#yum"><span>Yum</span></a>, <a class="reference internal" href="#dnf"><span>dnf</span></a>.</p>
 </li>
-<li><p class="first">Build with tools like <code class="docutils literal"><span class="pre">rpmbuild</span></code> and <code class="docutils literal"><span class="pre">fpm</span></code></p>
+<li><p class="first">RPM pacage can be built with tools like <code class="docutils literal"><span class="pre">rpmbuild</span></code> and <code class="docutils literal"><span class="pre">fpm</span></code></p>
 </li>
-<li><p class="first">Python: build with <code class="docutils literal"><span class="pre">bdist_rpm</span></code>, <code class="docutils literal"><span class="pre">fpm</span></code></p>
+<li><p class="first">Python packages can be built into RPM packages with
+<a class="reference internal" href="#setuptools"><span>setuptools&#8217;</span></a> <code class="docutils literal"><span class="pre">bdist_rpm</span></code>, <code class="docutils literal"><span class="pre">fpm</span></code></p>
 </li>
-<li><p class="first">List contents:</p>
+<li><p class="first">List contents of RPM packages (archives) with e.g. <code class="docutils literal"><span class="pre">less</span></code> and
+<code class="docutils literal"><span class="pre">lesspipe</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre>less ~/path/to/local.rpm   # requires lesspipe to be configured
 </pre></div>
 </div>
 </li>
-<li><p class="first">RPM Package Repositories (<a class="reference internal" href="#yum"><span>Yum</span></a>, <a class="reference internal" href="#dnf"><span>dnf</span></a>):</p>
+<li><p class="first">RPM Packages are served by and retrieved from
+repositories by tools like <a class="reference internal" href="#yum"><span>Yum</span></a> and <a class="reference internal" href="#dnf"><span>dnf</span></a>:</p>
 <ul class="simple">
-<li>Local: directories of packages and metadata</li>
-<li>Network: HTTP, HTTPS, <a class="reference internal" href="#rsync"><span>rsync</span></a>, FTP</li>
+<li>Local: directories of <a class="reference internal" href="#rpm"><span>RPM</span></a> packages and metadata</li>
+<li>Network: <span class="xref std std-ref">HTTP</span>, <span class="xref std std-ref">HTTPS</span>, <a class="reference internal" href="#rsync"><span>rsync</span></a>, FTP</li>
+<li><a class="reference internal" href="#dnf"><span>dnf</span></a> supports <strong>Delta</strong> RPM packages (DRPM),
+which often significantly reduce the required amount of network
+transfer required to regularly retrieve and upgrade to
+the latest repository packages.</li>
 </ul>
 </li>
 </ul>

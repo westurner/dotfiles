@@ -363,7 +363,7 @@ ebuild is a software package definition format.
 * ebuilds are like special :ref:`bash` scripts.
 * ebuilds have ``USE`` flags for specifying build features.
 * :ref:`Gentoo` is built from ebuild package definitions
-  stored in the Gentoo Portage.
+  stored in Gentoo :ref:`Portage`.
 * :ref:`Portage` packages are built from ebuilds.
 * The :ref:`emerge` :ref:`Portage` command installs ebuilds.
 
@@ -539,7 +539,7 @@ Portage
 Portage is a package management and repository system
 written in :ref:`Python` initially just for :ref:`Gentoo` :ref:`Linux`.
 
-* :ref:`Emerge` installs :ref:`ebuilds` from :ref:`portage`.
+* :ref:`Emerge` installs :ref:`ebuilds <ebuild>` from :ref:`portage`.
 
 
 .. index:: Ports
@@ -551,9 +551,13 @@ Ports
 | Homepage: https://www.freebsd.org/ports/
 
 
-Sources and Makefiles designed to compile software packages
-for particular distributions' kernel and standard libraries
-on a particular platform.
+A Ports collection contains *Sources* (e.g. archived releases and patch
+sets)
+and :ref:`Makefiles <make>`
+designed to compile software :ref:`packages`
+for particular :ref:`operating systems <operating system>`
+distributions' kernel and standard libraries
+usually for a particular platform.
 
 
 .. index:: RPM
@@ -563,18 +567,29 @@ RPM
 ~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/RPM_Package_Manager
 
+RPM (*RPM Package Manager*, :ref:`RedHat` *Package Manager*)
+is a :ref:`package` format and a set of commandline utilities
+written in :ref:`C` and :ref:`Perl`.
 
-* Install with ``rpm``, ``yum``
-* Build with tools like ``rpmbuild`` and ``fpm``
-* Python: build with ``bdist_rpm``, ``fpm``
-* List contents::
+* RPM packages can be installed with ``rpm``,
+  :ref:`yum`, :ref:`dnf`.
+* RPM pacage can be built with tools like ``rpmbuild`` and ``fpm``
+* Python packages can be built into RPM packages with
+  :ref:`setuptools' <setuptools>` ``bdist_rpm``, ``fpm``
+* List contents of RPM packages (archives) with e.g. ``less`` and
+  ``lesspipe``::
 
    less ~/path/to/local.rpm   # requires lesspipe to be configured
 
-* RPM Package Repositories (:ref:`yum`, :ref:`dnf`):
+* RPM Packages are served by and retrieved from
+  repositories by tools like :ref:`yum` and :ref:`dnf`:
 
-  * Local: directories of packages and metadata
-  * Network: HTTP, HTTPS, :ref:`RSYNC`, FTP
+  * Local: directories of :ref:`RPM` packages and metadata
+  * Network: :ref:`HTTP`, :ref:`HTTPS`, :ref:`RSYNC`, FTP
+  * :ref:`dnf` supports **Delta** RPM packages (DRPM),
+    which often significantly reduce the required amount of network
+    transfer required to regularly retrieve and upgrade to
+    the latest repository packages.
 
 
 .. index:: Egg
