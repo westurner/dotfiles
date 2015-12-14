@@ -342,6 +342,10 @@ dnf is a an open source package manager written in :ref:`Python`.
   * See ``dnf help`` (and ``man dnf``)
 
 * dnf integrates with the Anaconda system installer.
+* :ref:`dnf` supports **Delta** RPM packages (DRPM),
+  which often significantly reduce the required amount of network
+  transfer required to regularly retrieve and upgrade to
+  the latest repository packages.
 
 
 .. index:: ebuild
@@ -585,7 +589,7 @@ written in :ref:`C` and :ref:`Perl`.
   repositories by tools like :ref:`yum` and :ref:`dnf`:
 
   * Local: directories of :ref:`RPM` packages and metadata
-  * Network: :ref:`HTTP`, :ref:`HTTPS`, :ref:`RSYNC`, FTP
+  * Network: :ref:`HTTP <http->`, :ref:`HTTPS <https-->`, :ref:`RSYNC`, FTP
   * :ref:`dnf` supports **Delta** RPM packages (DRPM),
     which often significantly reduce the required amount of network
     transfer required to regularly retrieve and upgrade to

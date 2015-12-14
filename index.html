@@ -1260,6 +1260,10 @@ provider)</li>
 </ul>
 </li>
 <li>dnf integrates with the Anaconda system installer.</li>
+<li><a class="reference internal" href="#dnf"><span>dnf</span></a> supports <strong>Delta</strong> RPM packages (DRPM),
+which often significantly reduce the required amount of network
+transfer required to regularly retrieve and upgrade to
+the latest repository packages.</li>
 </ul>
 </div>
 <div class="section" id="ebuild">
@@ -1469,7 +1473,7 @@ written in <a class="reference internal" href="#c"><span>C</span></a> and <a cla
 repositories by tools like <a class="reference internal" href="#yum"><span>Yum</span></a> and <a class="reference internal" href="#dnf"><span>dnf</span></a>:</p>
 <ul class="simple">
 <li>Local: directories of <a class="reference internal" href="#rpm"><span>RPM</span></a> packages and metadata</li>
-<li>Network: <span class="xref std std-ref">HTTP</span>, <span class="xref std std-ref">HTTPS</span>, <a class="reference internal" href="#rsync"><span>rsync</span></a>, FTP</li>
+<li>Network: <a class="reference internal" href="#http"><span>HTTP</span></a>, <a class="reference internal" href="#https"><span>HTTPS</span></a>, <a class="reference internal" href="#rsync"><span>rsync</span></a>, FTP</li>
 <li><a class="reference internal" href="#dnf"><span>dnf</span></a> supports <strong>Delta</strong> RPM packages (DRPM),
 which often significantly reduce the required amount of network
 transfer required to regularly retrieve and upgrade to
