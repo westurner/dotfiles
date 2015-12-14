@@ -137,6 +137,18 @@ Bower is "a package manager for the web" (:ref:`Javascript` packages)
 built on :ref:`NPM`.
 
 
+.. index:: BUILD
+.. _build:
+
+BUILD
+~~~~~~
+| Docs: https://pantsbuild.github.io/build_files.html
+| Docs: https://pantsbuild.github.io/build_dictionary.html
+| Docs: https://pantsbuild.github.io/options_reference.html
+
+A ``BUILD`` file describes a :ref:`Pants Build` build.
+
+
 .. index:: Cabal
 .. _cabal:
 
