@@ -1227,17 +1227,28 @@ To clone a repository with ``hg``:
    hg clone http://selenic.com/hg
 
 
-.. index: Languages (programming)
-.. index: Programming Languages
-.. _programming languages:
+.. index: Languages
 .. _languages:
 
 Languages
 =======================
 
+
+.. index: Programming Languages
+.. _programming languages:
+.. _programming language:
+
+Programming Languages
+~~~~~~~~~~~~~~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Programming_language
 | WikipediaCategory: https://en.wikipedia.org/wiki/Category:Programming_languages
-| Docs: https://en.wikipedia.org/wiki/Von_Neumann_programming_languages
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Programming_language_classification
+
+
+* https://en.wikipedia.org/wiki/Von_Neumann_programming_languages
+* https://en.wikipedia.org/wiki/Von_Neumann_architecture#Mitigations
+
+  * https://en.wikipedia.org/wiki/NX_bit
 
 
 .. contents:
