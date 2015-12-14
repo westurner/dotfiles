@@ -368,7 +368,7 @@ emerge
 | Docs: https://projects.gentoo.org/pms/6/pms.html
 
 ``emerge`` is the primary CLI tool used for installing
-packages built from :ref:`ebuild <ebuilds>` [from :ref:`Portage`].
+packages built from :ref:`ebuilds <ebuild>` [from :ref:`Portage`].
 
 
 .. index:: Brew
