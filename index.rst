@@ -2232,7 +2232,7 @@ Source-to-Source compiler
 ROSE
 ++++++
 | Wikipedia: `<https://en.wikipedia.org/wiki/ROSE_(compiler_framework)>`__
-| Homepage: http://rosecompiler.org/https://en.wikipedia.org/wiki/History_of_compiler_construction
+| Homepage: http://rosecompiler.org/
 | Source: git https://github.com/rose-compiler/rose
 | Docs: http://rosecompiler.org/?page_id=11
 | Docs: http://rosecompiler.org/ROSE_Tutorial/ROSE-Tutorial.pdf
