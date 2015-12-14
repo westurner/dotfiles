@@ -1227,8 +1227,34 @@ To clone a repository with ``hg``:
    hg clone http://selenic.com/hg
 
 
+.. index: Languages (programming)
+.. index: Programming Languages
+.. _programming languages:
+.. _languages:
+
 Languages
-===========
+=======================
+
+| Wikipedia: https://en.wikipedia.org/wiki/Programming_language
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Programming_languages
+| Docs: https://en.wikipedia.org/wiki/Von_Neumann_programming_languages
+
+
+.. contents:
+   :local:
+
+
+.. index:: Programming Paradigms
+.. _programming paradigms:
+
+Programming Paradigms
+~~~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Programming_paradigm
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Programming_paradigms
+
+* https://en.wikipedia.org/wiki/Comparison_of_programming_paradigms
+
+
 
 .. index:: Lightweight Markup Languages
 .. _lightweight markup language:
@@ -2168,6 +2194,12 @@ Compilers
 Interpreter
 ~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Interpreter_(computing)>`__
+| WikipediaCategory: `<https://en.wikipedia.org/wiki/Category:Interpreters_(computing)>`__
+
+* https://en.wikipedia.org/wiki/List_of_command-line_interpreters
+* https://en.wikipedia.org/wiki/List_of_command-line_interpreters#Operating_system_shells
+* https://en.wikipedia.org/wiki/List_of_command-line_interpreters#Programming
+* https://en.wikipedia.org/wiki/List_of_command-line_interpreters#Programming_languages
 
 * A programming :ref:`language` interpreter interprets
   instructions without an ahead-of-time compilation step.
@@ -2188,6 +2220,7 @@ Interpreter
 Source-to-Source compiler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Source-to-source_compiler
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Source-to-source_compilers
 
 .. contents:
    :local:
