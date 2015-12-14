@@ -2153,6 +2153,62 @@ example ``top.sls`` file:
 
 Compilers
 ==========
+| Wikipedia: https://en.wikipedia.org/wiki/Compiler
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Compilers
+
+* History of compiler construction
+
+  https://en.wikipedia.org/wiki/History_of_compiler_construction
+
+
+
+.. index:: Interpreters
+.. _interpreters:
+
+Interpreter
+~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Interpreter_(computing)>`__
+
+* A programming :ref:`language` interpreter interprets
+  instructions without an ahead-of-time compilation step.
+* A programming language interpreter is generally compiled ahead-of-time.
+* A programming language interpreter implements a version of
+  a programming language specification.
+* Command :ref:`Shells` (e.g. :ref:`Bash`, :ref:`ZSH`) are
+  programming language interpreters.
+* Scripting :ref:`Languages` (e.g. :ref:`PERL`, :ref:`Ruby`, :ref:`Python`)
+  are interpreted or interpret-able languages.
+* Interpreted languages can often also be compiled ahead-of-time
+  (e.g. with build optimizations).
+
+
+.. index:: Source-to-Source Compiler
+.. _source-to-source compiler:
+
+Source-to-Source compiler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Source-to-source_compiler
+
+.. contents:
+   :local:
+
+
+.. index:: ROSE
+.. _rose:
+
+ROSE
+++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/ROSE_(compiler_framework)>`__
+| Homepage: http://rosecompiler.org/https://en.wikipedia.org/wiki/History_of_compiler_construction
+| Source: git https://github.com/rose-compiler/rose
+| Docs: http://rosecompiler.org/?page_id=11
+| Docs: http://rosecompiler.org/ROSE_Tutorial/ROSE-Tutorial.pdf
+| Docs: http://www.rosecompiler.org/ROSE_HTML_Reference/
+| Docs: http://wiki.rosecompiler.org/
+
+
+* http://rosecompiler.org/ROSE_Tutorial/ROSE-Tutorial.pdf
+
 
 .. index:: Binutils
 .. index:: GNU Binutils
@@ -2237,6 +2293,28 @@ with frontends for many languages.
 Operating Systems
 ===================
 | Wikipedia: https://en.wikipedia.org/wiki/Operating_system
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Operating_systems
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Operating_system_technology
+
+* History of operating systems
+
+  https://en.wikipedia.org/wiki/History_of_operating_systems
+
+  * Timeline of operating systems
+
+    https://en.wikipedia.org/wiki/Timeline_of_operating_systems
+
+    * List of operating systems
+
+      https://en.wikipedia.org/wiki/List_of_operating_systems
+
+* Comparison of operating systems
+
+  https://en.wikipedia.org/wiki/Comparison_of_operating_systems
+
+  * http://distrowatch.com/
+
+* https://en.wikipedia.org/wiki/List_of_important_publications_in_computer_science#Operating_systems
 
 
 .. index:: POSIX
