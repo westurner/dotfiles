@@ -206,6 +206,10 @@ def main(argv=None):
                    dest='append_tag_develop',
                    action='store_true')
 
+    prs.add_option('-r', '--rev', '--revision',
+                   dest='append_revision',
+                   action='append')
+
     prs.add_option('-v', '--verbose',
                    dest='verbose',
                    action='store_true',)
@@ -240,6 +244,8 @@ def main(argv=None):
     append_tags = []
     if opts.append_tag_develop:
         append_tags.append('develop')
+    if opts.append_revision:
+        append_tags.extend(opts.append_revision)
     conf['append_tags'] = append_tags
     logging.debug(('conf', conf))
     output = git_changelog(**conf)
