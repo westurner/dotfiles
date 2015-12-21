@@ -159,13 +159,12 @@ function _usrlog_set__TERM_ID  {
 function _usrlog_echo_title  {
     #  _usrlog_echo_title   -- set window title (by echo'ing escape codes)
     local title="${WINDOW_TITLE:+"$WINDOW_TITLE "}"
-    if [ -n "$_APP" ]; then
-        title="($_APP) ${title}"
-    else
-        title="${VIRTUAL_ENV_NAME:+"($VIRTUAL_ENV_NAME) ${title}"}"
+    local venvtitle="${_APP:-${VIRTUAL_ENV_NAME}}"
+    if [ -n "${venvtitle}" ]; then
+        title="($venvtitle) ${title}"
     fi
-    title="${title} ${USER}@${HOSTNAME}:${PWD}"
-    USRLOG_WINDOW_TITLE=${title:-"$@"}
+    title="${title} ${USER}@${HOSTNAME}:${PWD}${venvtitle:+" - [${venvtitle^^}]"}"
+    local USRLOG_WINDOW_TITLE=${title:-"$@"}
     if [ -n $CLICOLOR ]; then
         echo -ne "\033]0;${USRLOG_WINDOW_TITLE}\007"
     #  else
