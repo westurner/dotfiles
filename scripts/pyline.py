@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 """
@@ -70,6 +70,8 @@ Shell::
         pyline.py   # -> ${__DOTFILES}/scripts/pyline.py
 
 """
+
+__version__ = version = "0.3.6"
 
 import cgi
 import csv
