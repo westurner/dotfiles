@@ -10,6 +10,7 @@ usrlog.py is a parser for -usrlog.log files (as written by usrlog.sh)
 import codecs
 import collections
 import functools
+import itertools
 import logging
 import re
 import sys
@@ -464,7 +465,10 @@ import unittest
 
 class Test_usrlog(unittest.TestCase):
     conf = collections.OrderedDict([
-        ('usrlogpath', os.path.expanduser('~/-usrlog.log'))])
+        ('usrlogpath',
+            os.path.join(
+                os.path.expanduser('~'),
+                '-usrlog.log'))])
 
     def setUp(self):
         pass
@@ -515,7 +519,9 @@ def main(argv=None):
     import logging
     import optparse
 
-    prs = optparse.OptionParser(usage="%prog : [-p <path>]")
+    prs = optparse.OptionParser(
+        usage=(
+            "%prog : [-u] [-p <path>|-P] [--cmds|--id|--dates|--elapsed|--ve]"))
 
     prs.add_option('-p', '--path',
                    dest='paths',
@@ -526,15 +532,27 @@ def main(argv=None):
                         '''(e.g. "${VIRTUAL_ENV}/-usrlog.log" '''
                         """or '-' for stdin)"""))
 
-    prs.add_option('--cmds',
+    prs.add_option('-P', '--paths-from-stdin',
+                   dest='paths__stdin',
+                   action='store_true',
+                   default=False,
+                   help=('Read -usrlog.log paths from stdin'))
+
+    prs.add_option('-u', '-U', '--_USRLOG', '--USRLOG',
+                   dest='paths__USRLOG',
+                   action='store_true',
+                   default=False,
+                   help='Read -usrlog.log path from ${_USRLOG}')
+
+    prs.add_option('--cmd', '--cmds',
                    dest='cmds',
                    action='store_true',
                    help='show <cmd>')
-    prs.add_option('--sessions', '--id',
+    prs.add_option('--id', '--ids', '--session', '--sessions',
                    dest='sessions',
                    action='store_true',
                    help='show [id, cmd]')
-    prs.add_option('--dates',
+    prs.add_option('--date', '--dates',
                    dest='dates',
                    action='store_true',
                    help='show [date, id, cmd]')
@@ -542,11 +560,11 @@ def main(argv=None):
                    dest='elapsed',
                    action='store_true',
                    help='show [date, id, cmd, elapsed]')
-    prs.add_option('--ve', '--venv', '--venvs', '--virtualenv',
+    prs.add_option('--ve', '--venv', '--venvs', '--virtualenv', '--virtualenvs',
                    dest='venvs',
                    action='store_true',
                    help='include [date,id,virtualenv,cmd]')
-    prs.add_option('--cwd', '--pwd', '--cwd-after-cmd',
+    prs.add_option('--cwd', '--pwd', '--cwd-after-cmd', '--pwd-after-cmd',
                    dest='cwdpaths',
                    action='store_true',
                    help='include [date,id,virtualenv,path,cmd]')
@@ -556,7 +574,7 @@ def main(argv=None):
                    dest='columns',
                    action='append',
                    default=[],
-                   help='id, date, cmd, TODO')
+                   help='{ date, elapsed, id, virtualenv, path, cmd }')
 
     prs.add_option('--pyline',
                    dest='pyline',
@@ -605,7 +623,30 @@ def main(argv=None):
         return unittest.main()
 
     conf = Conf()
-    conf.paths = list(opts.paths)
+    conf.paths = list()
+
+    if opts.paths__USRLOG:
+        _USRLOG = os.environ.get('_USRLOG')
+        if _USRLOG:
+            conf.paths.append(_USRLOG)
+        else:
+            prs.error('-P was specified but ${_USRLOG} is not set')
+
+    if opts.paths__stdin:
+        if '-' in opts.paths:
+            prs.error("-P/'--paths-from-stdin and -p='-' cannot both be specified")
+        else:
+            with codecs.getreader('utf8')(sys.stdin) as stdin:
+                for line in itertools.imap(str.rstrip, stdin):
+                    if line:
+                        log.debug(('path-from-stdin', line))
+                        opts.paths.append(line)
+
+    if opts.paths:
+        for p in opts.paths:
+            log.debug(('path-from-cmdline', p))
+        conf.paths.extend(opts.paths)
+
     conf.paths.extend(args)
     conf.attrs = ['date', 'id', 'cmd']
 
