@@ -637,10 +637,13 @@ sdist: clean
 	python setup.py sdist
 	ls -l dist
 
+BUILDDIRHTML=./docs/_build/html/
+DOCS_GIT_HTML_BRANCH=gh-pages
 gh-pages:
 	# Push docs to gh-pages branch with a .nojekyll file
-	ghp-import -n -p ./docs/_build/html/ \
-		-m "DOC,RLS: gh-pages from: $(shell git -C $(shell pwd) rev-parse --short HEAD)"
+	ghp-import -n -b '${DOCS_GIT_HTML_BRANCH}' -p '${BUILDDIRHTML}' \
+		-m 'DOC,RLS: :books: docs built from: $(shell git -C $(shell pwd) rev-parse --short HEAD)'
+	git log -n3 --stat '${DOCS_GIT_HTML_BRANCH}'
 
 
 pull:
