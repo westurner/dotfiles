@@ -125,7 +125,7 @@ def git_changelog(path=None, tags=None, append_tags=None, git_bin=None):
         cmd = git_cmd + git_get_rev_date_cmd
         return subprocess.check_output(cmd).strip()
 
-    def iter_tag_pairs(tags):
+    def iter_tag_pairs(tags, heading_char='^'):
         """Iterate over 2-tuple tag pairs e.g. ``[(tag1, tag2), ]``
 
         Args:
@@ -144,7 +144,7 @@ def git_changelog(path=None, tags=None, append_tags=None, git_bin=None):
             yield ''
             heading = rst_escape("%s (%s)" % (tag2, tag2date)) # TODO: date
             yield heading
-            yield '=' * len(heading)
+            yield heading_char * len(heading)
             logpath = "%s..%s" % (tag1, tag2)
             changelog_cmd = ['log', '--reverse', '--pretty=format:* %s [%h]', logpath]
             changelog_cmdstr = "log --reverse --pretty=format:'* %s [%h]' " + logpath
