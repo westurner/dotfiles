@@ -478,7 +478,14 @@ docs: localcss localjs pip_install_requirements_docs.log
 	$(MAKE) help_i3_txt
 	$(MAKE) docs_commit_autogen
 	$(MAKE) -C docs clean html   # singlehtml
+	$(MAKE) docs_write_rev_txt
 	$(MAKE) docs-notify
+
+DOCSREVDIR=${BUILDDIRHTML}
+DOCS_REV_TXT=${DOCSREVDIR}/_gitrev.txt
+docs_write_rev_txt:
+	git -C $$PWD rev-parse --short HEAD > '${DOCS_REV_TXT}'
+	cat '${DOCS_REV_TXT}'
 
 docs-notify:
 	$(shell (hash notify-send \
@@ -642,7 +649,7 @@ DOCS_GIT_HTML_BRANCH=gh-pages
 gh-pages:
 	# Push docs to gh-pages branch with a .nojekyll file
 	ghp-import -n -b '${DOCS_GIT_HTML_BRANCH}' -p '${BUILDDIRHTML}' \
-		-m 'DOC,RLS: :books: docs built from: $(shell git -C $(shell pwd) rev-parse --short HEAD)'
+		-m 'DOC,RLS: :books: docs built from: $(shell cat ${DOCS_REV_TXT})'
 	git log -n3 --stat '${DOCS_GIT_HTML_BRANCH}'
 
 
