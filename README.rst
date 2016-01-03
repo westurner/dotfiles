@@ -7,6 +7,7 @@ Dotfiles
 | Download: https://github.com/westurner/dotfiles/releases
 | Build: https://travis-ci.org/westurner/dotfiles
 | Docs: https://westurner.org/dotfiles/
+| Docs: https://westurner.github.io/dotfiles/
 | Docs: https://wrdfiles.readthedocs.org/en/latest/
 
 .. image:: https://img.shields.io/github/release/westurner/dotfiles.svg
