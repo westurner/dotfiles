@@ -5588,14 +5588,14 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/tmp/ssh-mGuaQ1gImZzx/agent.12830; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=12832; export SSH_AGENT_PID;
-#echo Agent pid 12832;
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 SSH_AUTH_SOCK=/tmp/ssh-275ARo0Abc4g/agent.29617; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=29619; export SSH_AGENT_PID;
 #echo Agent pid 29619;
+grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+SSH_AUTH_SOCK=/tmp/ssh-yetQbhyCVfly/agent.16319; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=16321; export SSH_AGENT_PID;
+#echo Agent pid 16321;
 starting ssh-agent...
 
 # tidy up after ourselves
@@ -8506,7 +8506,8 @@ bash_source "${__DOTFILES}/etc/bash/00-bashrc.before.sh"
 #
 # dotfiles_reload()
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-]0;(dotfiles) #testing  wturner@mb1:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles# dotfiles_status()
+_usrlog_echo_title:7: bad substitution
+# dotfiles_status()
 HOSTNAME='mb1'
 USER='wturner'
 __WRK='/home/wturner/-wrk'
@@ -8524,6 +8525,7 @@ _TERM_ID='#testing'
 PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
+_TODO='usrlog.py: unix time stamps [usrlog.sh: change fmt, usrlog.py: augment existing]'
 ##
 # 99-zsh.after.sh
 

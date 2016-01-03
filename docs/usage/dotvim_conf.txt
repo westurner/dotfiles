@@ -122,13 +122,19 @@
 "  <leader> sc      --  clear highlighting
 "
 " set window title to vim title (display full path)
-" print the document path
+"  :ListMappings     -- list .vimrc(.*) comments (n(next) and p(rev))
+"  :DotvimHelp       -- "
+"  :Help             -- "
+"  :DotvimReload   -- reload ~/.vimrc
+"  :Reload         -- reload ~/.vimrc
+"  :Dr             -- reload ~/.vimrc
 "
-    "  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
-    "  Path() -- %s %:h %:p:h                       [help expand]
+"    seeAlso: :SaveSession, :RestoreSession (*)     [help SaveSession]
+"  :Path()   -- echo path information %s %:h %:p:h       [help expand]
+"  :Cdhere() -- cd to here (this dir, dirname(__file__))    [cd %:p:h]
 "  \       -- <leader>
 "  <space> -- <leader>
-"  ,    --  <leader> == <comma>
+"  ,       --  <leader> == <comma>
 "  :;   --  colon semicolon -> <esc>:
 "  :;   --  colon semicolon -> <esc>:
 "  Quicklist
@@ -176,7 +182,7 @@
 "   :Set88          -- set 88 colors (for console vim)
 " GUI
     "  Remove gui scrollbars
-    "  ctrl-z   --  undo
+    "  ctrl-z   --  undo [u]
     "  alt-z    --  undo
     "  ctrl-r   --  redo
     "  alt-r    --  redo
@@ -351,6 +357,8 @@
 " The Bundle URLs are intentionally complete https URLs
 " * grep '^Bundle \'' vimrc.bundles
 " * sed -i 's\https://github.com/\ssh://git@github.com/\g'
+" mrswin.vim        -- normal Ctrl-C, Ctrl-A, Ctrl-X, Ctrl-V
+" Bundle 'https://github.com/vim-scripts/mrswin.vim'
 " venv.vim          -- venv CdAlias commands
 "  :Cdhome          -- Cd_HOME()
 "  :Cdh             -- Cd_HOME()

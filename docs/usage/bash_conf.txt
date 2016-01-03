@@ -298,6 +298,15 @@
 #### etc/bash/08-bashrc.conda.sh
 ### bashrc.conda.sh
 ## Conda / Anaconda
+# see: 05-bashrc.dotfiles.sh
+    #    # shell_escape_single()
+    #    strtoescape=${1}
+    #    output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
+    #    echo "'"${output}"'"
+    # _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
+    # _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
+    # _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
+    # csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
     # _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
     #    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
     #                 (default: ${__WRK})
@@ -308,16 +317,32 @@
     #                                                   CONDA_ROOT__py27)
     #
     #  Usage:
-    #   _setup_conda    # __py27
-    #   _setup_conda 27 # __py27
-    #   _setup_conda 34 # __py34
+    #   _setup_conda     # __py27
+    #   _setup_conda 27  # __py27
+    #   _setup_conda 34  # __py34
+    #   _setup_conda 35  # __py35
     #   _setup_conda ~/envs             # __py27
     #   _setup_conda ~/envs/ /opt/conda # /opt/conda
+    #   _setup_conda <conda_envs_path> <conda_root>  # conda_root
     #
+            # CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+    # _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
+    # _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
+    # deduplicate_lines()   -- deduplicate lines w/ an associative array
+    #                                                 (~OrderedMap)
+    # echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
+    # lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
+    #   _conda_status>2
+    #   find>1
+    # lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
+    # _condaenvs()              -- list conda envs for tab-completion
     # workon_conda()        -- workon a conda + venv project
     # wec()                 -- workon a conda + venv project
     #                       note: tab-completion only shows regular virtualenvs
+    # _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
+    # if there is a function named 'dotfiles_postmkvirtualenv',
+    # then run 'dotfiles_postmkvirtualenv'
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     # workon_conda_if_available()       -- workon_conda OR we OR workon
