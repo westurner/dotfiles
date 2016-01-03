@@ -193,12 +193,6 @@ function eetc {
     return
 }
 
-function es {
-    # es()      -- cd $_ETC and run edit w/ each arg
-    editetc $@
-    return
-}
-
 function _eetc__complete {
     local cur=${2};
     COMPREPLY=($(cd "${_ETC}"; compgen -f -- ${cur}));
@@ -232,7 +226,7 @@ complete -o default -o nospace -F _ewww__complete ewww
 
 
 
-function _create_edit_symlinks {
+function _create_ewrd_symlinks {
     local scriptname='_ewrd.sh'
     local scriptnames=(
         "editdotfiles"
@@ -317,7 +311,7 @@ if [[ "${BASH_SOURCE}" == "${0}" ]]; then
             ;;
 
         _ewrd-setup.sh)
-            _create_edit_symlinks
+            _create_ewrd_symlinks
             exit
             ;;
         *)
