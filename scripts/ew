@@ -3,7 +3,7 @@
 editwrd () 
 {
     #
-    (cd $_WRD;
+    (cd "${_WRD}";
     (for arg in ${@}; do echo "${arg}"; done) \
         | el --each -x 'e {0}'
     )
@@ -16,7 +16,7 @@ ew () {
 }
 _ew__complete () {
     local cur=${2};
-    COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));
+    COMPREPLY=($(cd "${_WRD}"; compgen -f -- ${cur}));
 }
 complete -o default -o nospace -F _ew__complete editwrd
 complete -o default -o nospace -F _ew__complete ew

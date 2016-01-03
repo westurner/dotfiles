@@ -196,6 +196,7 @@ function _setup_venv_aliases {
 
     source "${__DOTFILES}/scripts/e"
     source "${__DOTFILES}/scripts/ew"
+    source "${__DOTFILES}/scripts/es"
 
     # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
     source "${__DOTFILES}/scripts/makew"

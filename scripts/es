@@ -1,0 +1,27 @@
+#!/bin/sh
+##
+editsrc ()
+{
+    #
+    (cd "${_SRC}";
+    (for arg in ${@}; do echo "${arg}"; done) \
+        | el --each -x 'e {0}'
+    )
+    return
+}
+
+es () {
+    editsrc $@
+    return
+}
+_es__complete () {
+    local cur=${2};
+    COMPREPLY=($(cd "${_SRC}"; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _es__complete editsrc
+complete -o default -o nospace -F _es__complete es
+
+if [[ ${BASH_SOURCE} == "${0}" ]]; then
+    editsrc ${@}
+    exit
+fi
