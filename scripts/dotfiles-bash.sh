@@ -24,7 +24,7 @@ dotfiles_grep_shell_comments() {
     # "    %s".format(line)
     local paths=${@:-"etc/bash/*.sh"}
     local prefix=${__DOTFILES}
-    (cd $prefix;
+    (cd "${prefix}";
         for f in $(ls $paths); do
             echo "#### $f";
             cat $f | scripts/pyline.py -r '^\s*#+\s+.*' 'rgx and l';
