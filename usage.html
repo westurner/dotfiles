@@ -679,6 +679,15 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 <span class="c">#### etc/bash/08-bashrc.conda.sh</span>
 <span class="c">### bashrc.conda.sh</span>
 <span class="c">## Conda / Anaconda</span>
+<span class="c"># see: 05-bashrc.dotfiles.sh</span>
+    <span class="c">#    # shell_escape_single()</span>
+    <span class="c">#    strtoescape=${1}</span>
+    <span class="c">#    output=&quot;$(echo &quot;${strtoescape}&quot; | sed &quot;s,&#39;,&#39;\&quot;&#39;\&quot;&#39;,g&quot;)&quot;</span>
+    <span class="c">#    echo &quot;&#39;&quot;${output}&quot;&#39;&quot;</span>
+    <span class="c"># _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH</span>
+    <span class="c"># _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*</span>
+    <span class="c"># _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults</span>
+    <span class="c"># csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH</span>
     <span class="c"># _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*</span>
     <span class="c">#    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT</span>
     <span class="c">#                 (default: ${__WRK})</span>
@@ -689,16 +698,32 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     <span class="c">#                                                   CONDA_ROOT__py27)</span>
     <span class="c">#</span>
     <span class="c">#  Usage:</span>
-    <span class="c">#   _setup_conda    # __py27</span>
-    <span class="c">#   _setup_conda 27 # __py27</span>
-    <span class="c">#   _setup_conda 34 # __py34</span>
+    <span class="c">#   _setup_conda     # __py27</span>
+    <span class="c">#   _setup_conda 27  # __py27</span>
+    <span class="c">#   _setup_conda 34  # __py34</span>
+    <span class="c">#   _setup_conda 35  # __py35</span>
     <span class="c">#   _setup_conda ~/envs             # __py27</span>
     <span class="c">#   _setup_conda ~/envs/ /opt/conda # /opt/conda</span>
+    <span class="c">#   _setup_conda &lt;conda_envs_path&gt; &lt;conda_root&gt;  # conda_root</span>
     <span class="c">#</span>
+            <span class="c"># CONDA_ROOT_DEFAULT=CONDA_ROOT__py27</span>
+    <span class="c"># _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH</span>
+    <span class="c"># _unsetup_conda_path_all()  -- remove CONDA_ROOT &amp; defaults from $PATH</span>
+    <span class="c"># deduplicate_lines()   -- deduplicate lines w/ an associative array</span>
+    <span class="c">#                                                 (~OrderedMap)</span>
+    <span class="c"># echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH &amp; defaults)</span>
+    <span class="c"># lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)</span>
+    <span class="c">#   _conda_status&gt;2</span>
+    <span class="c">#   find&gt;1</span>
+    <span class="c"># lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)</span>
+    <span class="c"># _condaenvs()              -- list conda envs for tab-completion</span>
     <span class="c"># workon_conda()        -- workon a conda + venv project</span>
     <span class="c"># wec()                 -- workon a conda + venv project</span>
     <span class="c">#                       note: tab-completion only shows regular virtualenvs</span>
+    <span class="c"># _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information</span>
     <span class="c"># mkvirtualenv_conda()  -- mkvirtualenv and conda create</span>
+    <span class="c"># if there is a function named &#39;dotfiles_postmkvirtualenv&#39;,</span>
+    <span class="c"># then run &#39;dotfiles_postmkvirtualenv&#39;</span>
     <span class="c"># rmvirtualenv_conda()  -- rmvirtualenv conda</span>
     <span class="c"># mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv</span>
     <span class="c"># workon_conda_if_available()       -- workon_conda OR we OR workon</span>
@@ -1389,13 +1414,19 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;  &lt;leader&gt; sc      --  clear highlighting
 &quot;
 &quot; set window title to vim title (display full path)
-&quot; print the document path
+&quot;  :ListMappings     -- list .vimrc(.*) comments (n(next) and p(rev))
+&quot;  :DotvimHelp       -- &quot;
+&quot;  :Help             -- &quot;
+&quot;  :DotvimReload   -- reload ~/.vimrc
+&quot;  :Reload         -- reload ~/.vimrc
+&quot;  :Dr             -- reload ~/.vimrc
 &quot;
-    &quot;  :ListMappings    --  list .vimrc mapping comments (n(next) and p(rev))
-    &quot;  Path() -- %s %:h %:p:h                       [help expand]
+&quot;    seeAlso: :SaveSession, :RestoreSession (*)     [help SaveSession]
+&quot;  :Path()   -- echo path information %s %:h %:p:h       [help expand]
+&quot;  :Cdhere() -- cd to here (this dir, dirname(__file__))    [cd %:p:h]
 &quot;  \       -- &lt;leader&gt;
 &quot;  &lt;space&gt; -- &lt;leader&gt;
-&quot;  ,    --  &lt;leader&gt; == &lt;comma&gt;
+&quot;  ,       --  &lt;leader&gt; == &lt;comma&gt;
 &quot;  :;   --  colon semicolon -&gt; &lt;esc&gt;:
 &quot;  :;   --  colon semicolon -&gt; &lt;esc&gt;:
 &quot;  Quicklist
@@ -1443,7 +1474,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot;   :Set88          -- set 88 colors (for console vim)
 &quot; GUI
     &quot;  Remove gui scrollbars
-    &quot;  ctrl-z   --  undo
+    &quot;  ctrl-z   --  undo [u]
     &quot;  alt-z    --  undo
     &quot;  ctrl-r   --  redo
     &quot;  alt-r    --  redo
@@ -1618,6 +1649,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 &quot; The Bundle URLs are intentionally complete https URLs
 &quot; * grep &#39;^Bundle \&#39;&#39; vimrc.bundles
 &quot; * sed -i &#39;s\https://github.com/\ssh://git@github.com/\g&#39;
+&quot; mrswin.vim        -- normal Ctrl-C, Ctrl-A, Ctrl-X, Ctrl-V
+&quot; Bundle &#39;https://github.com/vim-scripts/mrswin.vim&#39;
 &quot; venv.vim          -- venv CdAlias commands
 &quot;  :Cdhome          -- Cd_HOME()
 &quot;  :Cdh             -- Cd_HOME()
