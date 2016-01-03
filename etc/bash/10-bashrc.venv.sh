@@ -195,8 +195,9 @@ function _setup_venv_aliases {
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
     source "${__DOTFILES}/scripts/e"
-    source "${__DOTFILES}/scripts/ew"
+    source "${__DOTFILES}/scripts/ev"
     source "${__DOTFILES}/scripts/es"
+    source "${__DOTFILES}/scripts/ew"
 
     # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
     source "${__DOTFILES}/scripts/makew"

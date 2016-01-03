@@ -1,8 +1,7 @@
-#!/bin/sh
-##
-editsrc ()
-{
-    #
+#!/bin/bash
+### editsrc, esrc, es   -- cd $_SRC and run edit w/ each arg
+function editsrc {
+    # editsrc() -- cd $_SRC and run edit w/ each arg
     (cd "${_SRC}";
     (for arg in ${@}; do echo "${arg}"; done) \
         | el --each -x 'e {0}'
@@ -10,18 +9,27 @@ editsrc ()
     return
 }
 
-es () {
+function esrc {
+    # esrc()    -- cd $_SRC and run edit w/ each arg
     editsrc $@
     return
 }
-_es__complete () {
+
+function es {
+    # es()      -- cd $_SRC and run edit w/ each arg
+    editsrc $@
+    return
+}
+
+function _esrc__complete {
     local cur=${2};
     COMPREPLY=($(cd "${_SRC}"; compgen -f -- ${cur}));
 }
-complete -o default -o nospace -F _es__complete editsrc
-complete -o default -o nospace -F _es__complete es
+complete -o default -o nospace -F _esrc__complete editsrc
+complete -o default -o nospace -F _esrc__complete esrc
+complete -o default -o nospace -F _esrc__complete es
 
-if [[ ${BASH_SOURCE} == "${0}" ]]; then
+if [[ "${BASH_SOURCE}" == "${0}" ]]; then
     editsrc ${@}
     exit
 fi
