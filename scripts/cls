@@ -1,0 +1,37 @@
+#!/bin/sh
+### cls -- clear the terminal scrollback and print dotfiles_status
+### clr -- clear the terminal scrollback
+
+    # clr() -- clear scrollback
+if [ -d '/Library' ]; then # see __IS_MAC
+    function clr {
+        # osascript -e 'if application "Terminal" is frontmost then tell application "System Events" to keystroke "k" using command down'
+        clear && printf '\e[3J'
+    }
+else
+    function clr {
+        reset
+    }
+fi
+
+#function dotfiles_status {
+#   # see: westurner/dotfiles etc/bash/05-bashrc.dotfiles.sh
+#}
+
+function cls {
+    # cls() -- clear scrollback and print dotfiles_status ($ clr; ds)
+    clr ;
+    dotfiles_status
+}
+
+if [ "${BASH_SOURCE}" == "${0}" ]; then
+    progname=$(basename "${0}")
+    case "${progname}" in
+        clr)
+            clr; exit
+            ;;
+        cls)
+            cls; exit
+            ;;
+    esac
+fi

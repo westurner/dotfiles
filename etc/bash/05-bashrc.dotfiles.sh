@@ -61,21 +61,10 @@ function ds {
     dotfiles_status $@
 }
 
-clr() {
+    # source "${__DOTFILES}/scripts/cls"
+source "${__DOTFILES}/scripts/cls"
     # clr()                     -- clear scrollback
-    if [ -d '/Library' ]; then # see __IS_MAC
-        # osascript -e 'if application "Terminal" is frontmost then tell application "System Events" to keystroke "k" using command down'
-        clear && printf '\e[3J'
-    else
-        reset
-    fi
-}
-
-
-cls() {
     # cls()                     -- clear scrollback and print dotfiles_status()
-    clr ; dotfiles_status
-}
 
 #function dotfiles_term_uri {
     ##dotfiles_term_uri()        -- print a URI for the current _TERM_ID
