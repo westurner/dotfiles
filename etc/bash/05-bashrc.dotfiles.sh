@@ -217,11 +217,11 @@ function dotfiles_postmkvirtualenv {
     local PIP="$(which pip)"
     echo "PIP=$(shell_escape_single "${PIP}")"
     pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
-    echo "#pip_freeze=$(shell_escape_single ${pip_freeze})"
+    echo "#pip_freeze=$(shell_escape_single "${pip_freeze}")"
     (set -x; ${PIP} freeze | tee "${pip_freeze}")
     echo ""
     pip_list="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
-    echo "#pip_list=$(shell_escape_single ${pip_list})"
+    echo "#pip_list=$(shell_escape_single "${pip_list}")"
     (set -x; ${PIP} list | tee "${pip_list}")
     echo '## to work on this virtualenv:'
     echo 'workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
