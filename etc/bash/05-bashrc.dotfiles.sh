@@ -180,6 +180,23 @@ function dotfiles_premkvirtualenv {
     true
 }
 
+function dotfiles_postmkvirtualenv_help {
+    echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh sources venv.sh'
+    echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh defines workon_venv'
+    echo '## to work on this virtualenv:'
+    echo '# workon_venv [<venvstr> [<venvappstr> [<pyver>]]]'
+    echo '# we          [<venvstr> [<venvappstr> [<pyver>]]]'
+    echo '$ we '"${VIRTUAL_ENV_NAME}"''
+    echo '#   dotfiles_status                    # ds'
+    echo '#   source <(venv.py -e --print-bash)  # venv.py -h'
+    echo '$ venv_mkdirs  # already done in dotfiles_postmkvirtualenv   '
+    echo '#   mkdir -p "${_WRD}"'
+    echo '$ cdwrd; cdw'
+    echo '# editwrd README; ewrd README; e README Makefile  # edit<tab>'
+    echo '# cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;;'
+}
+
+
 function dotfiles_postmkvirtualenv {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     log_dotfiles_state 'postmkvirtualenv'
@@ -213,10 +230,7 @@ function dotfiles_postmkvirtualenv {
     workon_venv "${VIRTUAL_ENV_NAME}"
     echo "PWD=$(path)"
     echo "#"
-    echo '## to work on this virtualenv:'
-    echo '# workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs [done]'
-    echo 'cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;;'
-    echo 'mkdir -p "${_WRD}";; cdwrd; cdw'
+    dotfiles_postmkvirtualenv_help
 }
 
 function dotfiles_preactivate {
