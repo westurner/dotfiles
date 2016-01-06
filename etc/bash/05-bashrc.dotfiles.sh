@@ -2,7 +2,7 @@
 ### bashrc.dotfiles.sh
 
 
-dotfiles_add_path() {
+function dotfiles_add_path {
     # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     if [ -d "${__DOTFILES}" ]; then
         #PATH_prepend "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
@@ -10,14 +10,14 @@ dotfiles_add_path() {
     fi
 }
 
-shell_escape_single() {
+function shell_escape_single {
     # shell_escape_single()
-    strtoescape=${1}
-    output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
+    local strtoescape=${1}
+    local output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
     echo "'"${output}"'"
 }
 
-dotfiles_status() {
+function dotfiles_status {
     # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
     echo HOSTNAME=$(shell_escape_single "${HOSTNAME}")
@@ -56,7 +56,7 @@ dotfiles_status() {
     fi
     echo '##'
 }
-ds() {
+function ds {
     # ds()                      -- print dotfiles_status
     dotfiles_status $@
 }
@@ -77,7 +77,7 @@ cls() {
     clr ; dotfiles_status
 }
 
-#dotfiles_term_uri() {
+#function dotfiles_term_uri {
     ##dotfiles_term_uri()        -- print a URI for the current _TERM_ID
     #term_path="${HOSTNAME}/usrlog/${USER}"
     #term_key=${_APP}/${_TERM_ID}
@@ -85,7 +85,7 @@ cls() {
     #echo "TERM_URI='${TERM_URL}'"
 #}
 
-debug-env() {
+function debug-env {
     _log=${_LOG:-"."}
     OUTPUT=${1:-"${_log}/$(date +"%FT%T%z").debug-env.env.log"}
     dotfiles_status
@@ -99,18 +99,18 @@ debug-env() {
 
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
-debug-on() {
+function debug-on {
     # debug-on()                 -- set -x -v
     set -x -v
     shopt -s extdebug
 }
-debug-off() {
+function debug-off {
     # debug-off()                -- set +x +v
     set +x +v
     shopt -s extdebug
 }
 
-_virtualenvwrapper_get_step_num() {
+function _virtualenvwrapper_get_step_num {
 
     # Virtualenvwrapper numeric sequence
     # * to make logs in /var/log/venv.nnn-stepname.log naturally ordered
@@ -159,7 +159,7 @@ _virtualenvwrapper_get_step_num() {
     echo "${n}"
 }
 
-log_dotfiles_state() {
+function log_dotfiles_state {
     # log_dotfiles_state()      -- save current environment to logfiles
     #   $1 -- logkey (virtualenvwrapper step name)
     test -n "${DOTFILES_SKIP_LOG}" && echo '#DOTFILES_SKIP_LOG' && return
@@ -179,19 +179,19 @@ log_dotfiles_state() {
 }
 
 
-dotfiles_initialize() {
+function dotfiles_initialize {
     # dotfiles_initialize()     -- virtualenvwrapper initialize
     log_dotfiles_state 'initialize'
 }
 
 
-dotfiles_premkvirtualenv() {
+function dotfiles_premkvirtualenv {
     # dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
     #log_dotfiles_state 'premkvirtualenv'  # PERF
     true
 }
 
-dotfiles_postmkvirtualenv() {
+function dotfiles_postmkvirtualenv {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     log_dotfiles_state 'postmkvirtualenv'
 
@@ -230,12 +230,12 @@ dotfiles_postmkvirtualenv() {
     echo 'mkdir -p "${_WRD}";; cdwrd; cdw'
 }
 
-dotfiles_preactivate() {
+function dotfiles_preactivate {
     # dotfiles_preactivate()    -- virtualenvwrapper preactivate
     log_dotfiles_state 'preactivate'
 }
 
-dotfiles_postactivate() {
+function dotfiles_postactivate {
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
@@ -258,12 +258,12 @@ dotfiles_postactivate() {
 
 }
 
-dotfiles_predeactivate() {
+function dotfiles_predeactivate {
     # dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
     log_dotfiles_state 'predeactivate'
 }
 
-dotfiles_postdeactivate() {
+function dotfiles_postdeactivate {
     # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
     unset VIRTUAL_ENV
