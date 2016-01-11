@@ -137,8 +137,8 @@ function _usrlog_get__TERM_ID {
 
 function _usrlog_set__TERM_ID  {
     #  _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
-    #    $1: terminal name
-    new_term_id="${@}"
+    #    $1: _term_id value for _TERM_ID
+    local new_term_id="${@}"
     if [ -z "${new_term_id}" ]; then
         new_term_id="#$(_usrlog_randstr 8)"
     fi
@@ -174,6 +174,7 @@ function _usrlog_echo_title  {
 
 function _usrlog_set_title {
     #  _usrlog_set_title()  --  set xterm title
+    #   $1: _window_title (defaults to ${_TERM_ID})
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
     declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
