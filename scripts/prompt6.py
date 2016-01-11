@@ -5,17 +5,31 @@ from __future__ import print_function
 prompt6
 """
 
+class conf:
+    # GPG='gpg' gpgv1
+    # GPG='gpg2' gpgv2
+    GPG='gpg2'
+    PUBRING='p6.pub'
+    SECRING='p6.sec'
+    USER='p6'
+    HOMEDIR='~/.gnupg'
+    TRUST_MODEL='always'
+
+
 import sys
 IS_PYTHON2 = (sys.version_info[0] == 2)
 IS_PYTHON3 = (sys.version_info[0] == 3)
 if IS_PYTHON2:
     import StringIO
+    STR_TYPES = basestring
 
     def iteritems2(obj):
         return obj.iteritems()
     iteritems = iteritems2
 elif IS_PYTHON3:
-    import stringio as StringIO
+    import io as StringIO
+    STR_TYPES = str
+    unicode = str
 
     def iteritems3(obj):
         return obj.items()
@@ -23,6 +37,7 @@ elif IS_PYTHON3:
 
 import codecs
 import collections
+import json
 import logging
 import os
 import subprocess
@@ -184,23 +199,136 @@ class OnDiskKeyValueStore(KeyValueStore):
         with codecs.open(path, 'w', encoding='utf-8') as f:
             f.write(value)
 
-def shell_escape(str_):
-    """shell escape a string
 
-    Args:
-        str_ (basestring): string to 'qu\'ote and "escape"'
-    Returns:
-        unicode: str
+## shellquotes == shellquotesingle
+#shellquotes = None
+## shellquoted == shellquotedouble
+##shellquoted = None
+
+#import pipes
+#import shlex
+#if IS_PYTHON2:
+#    if sys.version_info[:2] < (2, 6):
+#        # TODO fix
+#        def shellquotes(_str):
+#            if str_ == "":
+#                return "''"
+#            return pipes.quote(str_)
+#elif sys.version_info[:2] >= (3, 4):
+#    shellquotes = shlex.quote
+
+#if shellquotes is None:
+#    shellquotes = pipes.quote
+
+#try:
+#    import sarge
+#    shellquotes = sarge.shell_quote
+#except ImportError:
+#    pass
+
+def shellquote_single_always(str_):
+    return str_.__class__.join(
+        str_.__class__(),
+        ("'", str_.replace("'", "\'"), "'"))
+
+shellquotes = shellquote_single_always
+
+
+def gpg_list_keys(
+                gpg=conf.GPG,
+                homedir=conf.HOMEDIR,
+                user=conf.USER,
+                secring=conf.SECRING,
+                pubring=conf.PUBRING,
+                key_name=None):
     """
-    return repr(unicode(str_))[1:]
+    Keyword Arguments:
+        #TODO
+
+    Returns:
+        str: subprocess.check_output(cmd, shell=True, stdin=filelike)
+    """
+    cmd_tmpl = ("""{gpg} --homedir={homedir}"""
+                """ --no-default-keyring"""
+                """ --secret-keyring={secring} --keyring={pubring}"""
+                """ --list-keys""")
+    cmd = cmd_tmpl.format(
+        gpg=shellquotes(gpg),
+        homedir=shellquotes(os.path.expanduser(homedir)),
+        user=shellquotes(user),
+        secring=shellquotes(secring),
+        pubring=shellquotes(pubring),
+        key_name=shellquotes(key_name))
+    log.log(LOG_TRACE, 'subprocess.Popen(%r)', cmd)
+    process = subprocess.Popen(cmd, shell=True,
+                               stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    if (process.returncode != 0):
+        raise subprocess.CalledProcessError(
+            process.returncode, cmd, '%s\n\n## STDERR ##\n%s' % (stdout, stderr))
+    return stdout
+
+
+def gpg_quick_gen_key(
+                gpg=conf.GPG,
+                homedir=conf.HOMEDIR,
+                user=conf.USER,
+                secring=conf.SECRING,
+                pubring=conf.PUBRING,
+                key_name=None,
+                passphrasestr=None,
+                passphrasefileobj=None):
+    """
+    Keyword Arguments:
+        #TODO
+
+    Returns:
+        str: subprocess.check_output(cmd, shell=True, stdin=filelike)
+    """
+    cmd_tmpl = ("""{gpg} --homedir={homedir}"""
+                """ --no-default-keyring"""
+                """ --secret-keyring={secring} """
+                """ --keyring={pubring}"""
+                """ --quick-gen-key {key_name}""")
+    cmd = cmd_tmpl.format(
+        gpg=shellquotes(gpg),
+        homedir=shellquotes(os.path.expanduser(homedir)),
+        user=shellquotes(user),
+        secring=shellquotes(secring),
+        pubring=shellquotes(pubring),
+        key_name=shellquotes(key_name))
+
+    if passphrasefileobj is None:
+        if passphrasestr is not None:
+            passphrasefileobj = StringIO.StringIO(passphrasestr)
+        else:
+            raise Exception(('passphrasestr and passphrasefileobj are None'))
+    else:
+        if passphrasestr is not None:
+            raise Exception(('passphrasestr and passphrasefileobj '
+                             'are both specified'))
+    if passphrasefileobj:
+        cmd_tmpl = cmd_tmpl + """ --passphrase-fd=0"""
+
+    log.log(LOG_TRACE, 'subprocess.Popen(%r)', cmd)
+    process = subprocess.Popen(cmd, shell=True,
+                               stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE)
+    stdout, stderr = process.communicate(input=passphrasefileobj.read())
+    if (process.returncode != 0):
+        raise subprocess.CalledProcessError(
+            process.returncode, cmd, '%s\n\n## STDERR ##\n%s' % (stdout, stderr))
+    return stdout
 
 
 def gpg_encrypt(filelike,
-                homedir="~/.gnupg",
-                trust_model="always",
-                user='p6',
-                secring='p6.sec',
-                pubring='p6.pub',
+                gpg=conf.GPG,
+                homedir=conf.HOMEDIR,
+                trust_model=conf.TRUST_MODEL,
+                user=conf.USER,
+                secring=conf.SECRING,
+                pubring=conf.PUBRING,
                 key_name=None):
     """
     Arguments:
@@ -213,18 +341,26 @@ def gpg_encrypt(filelike,
     Returns:
         str: subprocess.check_output(cmd, shell=True, stdin=filelike)
     """
-    cmd_tmpl = ("""cat | gpg --homedir={homedir} --trust-model={trust_model}"""
-                """ --encrypt --armor"""
-                """ --secret-keyring={secring} --keyring={pubring}"""
-                """ -u {user} -r {key_name}""")
+    cmd_tmpl = ("""cat | {gpg} """
+                """ --homedir={homedir} """
+                """ --trust-model={trust_model}"""
+                """ --no-default-keyring"""
+                """ --secret-keyring={secring} """
+                """ --keyring={pubring}"""
+                """ --encrypt"""
+                """ --armor"""
+                """ --no-encrypt-to"""
+                """ --local-user={user} """
+                """ --recipient={key_name}""")
     cmd = cmd_tmpl.format(
-        homedir=shell_escape(os.path.expanduser(homedir)),
-        user=shell_escape(user),
-        secring=shell_escape(secring),
-        pubring=shell_escape(pubring),
-        key_name=shell_escape(key_name),
-        trust_model=shell_escape(trust_model))
-    if isinstance(filelike, basestring):
+        gpg=shellquotes(gpg),
+        homedir=shellquotes(os.path.expanduser(homedir)),
+        user=shellquotes(user),
+        secring=shellquotes(secring),
+        pubring=shellquotes(pubring),
+        key_name=shellquotes(key_name),
+        trust_model=shellquotes(trust_model))
+    if isinstance(filelike, STR_TYPES):
         filelike = StringIO.StringIO(filelike)
     log.log(LOG_TRACE, 'subprocess.Popen(%r)', cmd)
     process = subprocess.Popen(cmd, shell=True,
@@ -238,10 +374,11 @@ def gpg_encrypt(filelike,
 
 
 def gpg_decrypt(filelike,
-                homedir='~/.gnupg',
-                user='p6',
-                secring='p6.sec',
-                pubring='p6.pub',
+                gpg=conf.GPG,
+                homedir=conf.HOMEDIR,
+                user=conf.USER,
+                secring=conf.SECRING,
+                pubring=conf.PUBRING,
                 key_name=None):
     """
     Arguments:
@@ -255,17 +392,19 @@ def gpg_decrypt(filelike,
         str: subprocess.check_output(cmd, shell=True, stdin=filelike)
     """
     cmd_tmpl = (
-        """cat | gpg"""
-        """ --homedir {homedir}"""
-        """ --decrypt"""
+        """cat | {gpg}"""
+        """ --homedir={homedir}"""
+        """ --no-default-keyring"""
         """ --secret-keyring={secring}"""
         """ --keyring={pubring}"""
-        """ -u {user}""")
+        """ --decrypt"""
+        """ --local-user={user}""")
     cmd = cmd_tmpl.format(
-        homedir=shell_escape(os.path.expanduser(homedir)),
-        user=shell_escape(user),
-        secring=shell_escape(secring),
-        pubring=shell_escape(pubring))
+        gpg=shellquotes(gpg),
+        homedir=shellquotes(os.path.expanduser(homedir)),
+        user=shellquotes(user),
+        secring=shellquotes(secring),
+        pubring=shellquotes(pubring),)
     if isinstance(filelike, basestring):
         filelike = StringIO.StringIO(filelike)
     log.log(LOG_TRACE, 'subprocess.Popen(%r)', cmd)
@@ -373,7 +512,7 @@ class Prompt6(KeyValueStore):
 
     def _get(self, key, default=DEFAULT, get_iter=False):
         value = DEFAULT
-        key, store = self.get_store_for_key(key)
+        key, store = self.lookup_store(key)
         if store:
             yield store.get(key)
         else:
@@ -392,39 +531,59 @@ class Prompt6(KeyValueStore):
     def get_all(self, key, default=DEFAULT, get_iter=True):
         return list(self.get(key, default=default, get_iter=get_iter))
 
-    def get_store_for_key(self, key):
-        """
 
+    suffixmap = (
+        ('diskg', ('@@@', '@@diskg')),
+        ('ring',  ('@@',  '@@ring')),
+        ('mem',   ('@',   '@@mem')),
+    )
+    default_store = 'diskg'
+
+    def lookup_store(self, key, default=None, store=None):
+        """
+        Lookup the store for a given key and trim off an optional @+ suffix
+
+        Args:
+            key (str): path / uri / uri fragment [@+suffix]
+            store (str or Store instance): default store
+
+        Returns:
+            tuple: (key, store)
         ::
 
-            <key>@@@ | <key>@@diskg -> stores['diskg']
-            <key>@@  | <key>@@ring  -> stores['ring']
+            <key>@@@ | <key>@@diskg -> stores['diskg']  # ('<key>', _Store)
+            <key>@@  | <key>@@ring  -> stores['ring']   # ('<key>', _Store)
+            <key>@   | <key>@@mem   -> stores['mem']    # ('<key>', _Store)
+            <key>    |              -> store            # ('<key>', _Store)
+            <key>    |              -> stores[default]  # ('<key>', _Store)
         """
-        store = None
-        if key.endswith('@@@'):
-            key = key[:-3]
-            store = self.stores.get('diskg')
-            if store is None:
-                raise Exception('diskg not configured')
-        elif key.endswith('@@diskg'):
-            key = key[:-7]
-            store = self.stores.get('diskg')
-            if store is None:
-                raise Exception('diskg not configured')
-        elif key.endswith('@@'):
-            key = key[:-2]
-            store = self.stores.get('ring')
-            if store is None:
-                raise Exception('ring not configured')
-        elif key.endswith('@@ring'):
-            key = key[:-6]
-            store = self.store.get('ring')
-            if store is None:
-                raise Exception('ring not configured')
+        if store is None:
+            if default is None:
+                default = self.default_store
+        else:
+            if not isinstance(store, Store):
+                store = self.stores.get(store)
+                if store is None:
+                    raise KeyError(('lookup_store', (key, default, store)))
+        for store_key, suffixes in self.suffixmap:
+            for suffix in suffixes:
+                suffixlen = len(suffix)
+                if key.endswith(suffix):
+                    key = key[:-1*suffixlen or None]
+                    store = self.stores.get(store_key)
+                    if store is None:
+                        raise Exception(('storeconfig', (key, store_key)))
+        if store is None and default is not None:
+            if not isinstance(default, Store):
+                store = self.stores.get(default)
+                if default is None:
+                    raise KeyError(('lookup_default', (key, default, default)))
+            else:
+                store = default
         return (key, store)
 
-    def set(self, key, value):
-        key, store = self.get_store_for_key(key)
+    def set(self, key, value, store=None):
+        key, store = self.lookup_store(key)
         if store is None:
             store = self.stores.get('diskg')
         log.debug('store: %r', store)
@@ -459,6 +618,8 @@ class ConfigObj(object):
     def __str__(self):
         return pprint.pformat(self.__dict__)
 
+
+_HOME__GNUPG = os.path.join(os.path.expanduser('~'), '.gnupg')
 
 class Test_prompt6(unittest.TestCase):
 
@@ -535,7 +696,9 @@ def main(argv=None):
     import optparse
     import sys
 
-    prs = optparse.OptionParser(usage="%prog [-g|--get] [-s|--set]")
+    prs = optparse.OptionParser(
+        usage=(
+            "%prog [-g|--get <key>] [-s|--set <key> <value>]"),)
 
     prs.add_option('-S', '--store',
                    dest='store',
@@ -544,20 +707,23 @@ def main(argv=None):
     prs.add_option('-g', '--get',
                    dest='get',
                    nargs=1,
-                   action='append')
+                   action='append',
+                   help="<key>")
     prs.add_option('-s', '--set',
                    dest='set',
                    nargs=2,
-                   action='append')
+                   action='append',
+                   help="<key> <value>")
     prs.add_option('--pw', '--set-password',
                    dest='set_password',
                    nargs=1,
-                   action='append')
+                   action='append',
+                   help="<key> [prompts for value]")
 
     prs.add_option('-p', '--prefix',
                    dest='prefix',
                    action='store',
-                   default='${VIRTUAL_ENV}/etc/p6')
+                   default=os.path.join('.','p6'))
 
     prs.add_option('-d', '--data',
                    nargs=2,
@@ -566,6 +732,15 @@ def main(argv=None):
     prs.add_option('-a', '--all',
                    dest='all',
                    action='store_true')
+
+    prs.add_option('--jsonpath',
+                   dest='jsonpath',
+                   action='store',
+                   help='''Read data from a JSON file''')
+    prs.add_option('--jsonstr',
+                   dest='jsondatastr',
+                   action='store',
+                   help='''Read a {'JSON': 'string'}''')
 
     prs.add_option('-v', '--verbose',
                    dest='verbose',
@@ -609,9 +784,21 @@ def main(argv=None):
     def write(a):
         print(a, file=stdout)
 
-    data = None
+    data = collections.OrderedDict()
     if opts.data:
-        data = dict(opts.data)
+        data.update(opts.data)
+
+    if opts.jsondatastr:
+        jsonstrdata = json.loads(opts.jsondatastr,
+                            object_pairs_hook=collections.OrderedDict)
+        print(json.dumps(jsonstrdata, indent=2))
+        data.update(jsonstrdata)
+
+    if opts.jsonpath:
+        with codecs.open(opts.jsonpath, 'r', 'utf8') as f:
+            jsondata = json.load(f, object_pairs_hook=collections.OrderedDict)
+            data.update(jsondata)
+
     p6 = Prompt6(prefix=opts.prefix, data=data)
 
     if opts.get:
@@ -620,7 +807,12 @@ def main(argv=None):
                 if opts.all:
                     output = p6.get_all(key)
                 else:
-                    output = p6.get(key)
+                    try:
+                        output = p6.get(key)
+                    except KeyError as e:
+                        log.debug((e, key))
+                        print(('ERROR', e, key), file=sys.stderr)
+                        return 1
                 write(output)
             return 0
         except KeyError as e:
