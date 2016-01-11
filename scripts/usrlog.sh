@@ -80,7 +80,7 @@ function _usrlog_set_HIST {
     #HISTTIMEFORMAT="%t%Y-%m-%dT%H:%M:%S%z%t"
     #  note that HOSTNAME and USER come from the environ
     #  and MUST be evaluated at the time HISTTIMEFORMAT is set.
-    HISTTIMEFORMAT="%t%Y-%m-%dT%H:%M:%S%z%t${HOSTNAME}%t${USER}%t\$\$%t"  #  %n  "
+    HISTTIMEFORMAT="%t%s%t%Y-%m-%dT%H:%M:%S%z%t${HOSTNAME}%t${USER}%t\$\$%t"  #  %n  "
 
     #don't put duplicate lines in the history. See bash(1) for more options
     #  ... or force ignoredups and ignorespace
