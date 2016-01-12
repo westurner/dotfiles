@@ -19,7 +19,7 @@ _loadaliases () {
     alias fgrep='fgrep --color=auto'
 
     # grindp   -- 'grind --sys.path'
-    alias grindp='grind --sys.path'
+    alias grindp='grind --sys-path'
     # grinp    -- 'grin --sys-path'
     alias grinp='grin --sys-path'
 
