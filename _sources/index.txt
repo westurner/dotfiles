@@ -409,11 +409,13 @@ NPM
 | Wikipedia: `<https://en.wikipedia.org/wiki/Npm_(software)>`__
 | Homepage: https://www.npmjs.org/
 | Src: https://github.com/npm/npm
-
+| Docs: https://docs.npmjs.com/files/package.json#files
 
 NPM is a :ref:`Javascript` package manager created for :ref:`Node.js`.
 
-:ref:`Bower` builds on NPM.
+* an NPM package is defined by a ``package.json`` :ref:`JSON` file.
+* NPM packages are installed with the ``npm`` CLI utility.
+* :ref:`Bower` builds upon NPM.
 
 
 .. index:: NuGet
@@ -456,7 +458,7 @@ Pacman is an open source package manager which installs
 Pants Build
 ~~~~~~~~~~~
 | Homepage: https://pantsbuild.github.io/
-| Source: git https://github.com/pantsbuild/pants 
+| Source: git https://github.com/pantsbuild/pants
 | Docs: https://pantsbuild.github.io/first_concepts.html
 | Docs: https://pantsbuild.github.io/install.html
 | Docs: https://pantsbuild.github.io/first_tutorial.html
@@ -1225,6 +1227,140 @@ To clone a repository with ``hg``:
 .. code:: bash
 
    hg clone http://selenic.com/hg
+
+
+.. index:: Project Templates
+.. _project templates:
+
+Project Templates
+===================
+
+* :ref:`cookiecutter` (Python, [...])
+* :ref:`yeoman` (JS, [...])
+* :ref:`jinja2` (:ref:`salt`, :ref:`ansible`
+  :ref:`configuration management`
+
+
+.. index:: cookiecutter
+.. _cookiecutter:
+
+cookiecutter
+~~~~~~~~~~~~~
+| Homepage: https://github.com/audreyr/cookiecutter
+| Source: git https://github.com/audreyr/cookiecutter
+| PyPI: https://pypi.python.org/pypi/cookiecutter
+| Docs: https://cookiecutter.readthedocs.org/en/latest/
+| Docs: https://cookiecutter.readthedocs.org/en/latest/usage.html
+| Docs: https://cookiecutter.readthedocs.org/en/latest/tutorials.html#create-your-very-own-cookiecutter
+
+Cookiecutter creates projects (files and directories) from
+project templates written in :ref:`Jinja2`
+for projects written in :ref:`Python` and other languages.
+
+* https://cookiecutter.readthedocs.org/en/latest/readme.html#available-cookiecutters
+
+  List of Cookiecutter generators
+
+* https://github.com/audreyr/cookiecutter-pypackage
+
+  Cookiecutter template for a :ref:`Python Package <Python packages>`
+  (e.g. ``setup.py``, ``docs/``, ``README.rst``)
+
+* https://github.com/pydanny/cookiecutter-django
+
+  Cookiecutter template for a Django project
+  w/ Bootstrap, AngularJS, :ref:`Docker`,
+
+  * see also: https://github.com/xenith/django-base-template
+
+* https://github.com/pydanny/cookiecutter-djangopackage
+
+  Cookiecutter template for reusable Django packages (**installable
+  apps**).
+
+* https://github.com/openstack-dev/cookiecutter
+
+  Cookiecutter template for :ref:`OpenStack` specs projects
+  (pbr, tox, :ref:`sphinx`)
+
+* https://github.com/openstack-dev/specs-cookiecutter
+
+  Cookiecutter template for :ref:`OpenStack` specs projects
+  (pbr, tox, :ref:`sphinx`)
+
+* see also:
+
+  https://www.python.org/dev/peps/
+
+  "PEP 0 -- Index of Python Enhancement Proposals (PEPs)"
+
+  https://www.python.org/dev/peps/pep-0012/
+
+  "PEP 0012 -- Sample :ref:`reStructuredText` PEP Template" (:ref:`Python`)
+
+  * https://github.com/ipython/ipython/wiki/IPEPs:-IPython-Enhancement-Proposals
+
+    "IPEPs: IPython Enhancement Proposals"
+
+    https://github.com/ipython/ipython/wiki/IPEP-0%3A-IPEP-Template
+
+    "IPEP 0: IPEP Template" (:ref:`IPython`, :ref:`Jupyter`)
+
+    https://github.com/jupyter/roadmap
+
+    * https://github.com/wrdrd/wiki/wiki
+    * https://github.com/westurner/wiki/wiki
+
+      https://westurner.org/wiki/
+    * https://github.com/rdfjs/rdfjs.org/wiki/Meetings
+
+
+.. index:: yeoman
+.. _yeoman:
+
+yeoman
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Yeoman_(computing)>`__
+| Homepage: http://yeoman.io/
+| Source: git https://github.com/yeoman/yeoman
+| Source: https://github.com/yeoman
+| NPM: https://www.npmjs.com/package/yo
+| NPMPkg: ``yo``
+| Docs: http://yeoman.io/learning/
+| Docs: http://yeoman.io/codelab/
+| Docs: http://yeoman.io/authoring
+| Docs: http://yeoman.io/learning/resources.html
+
+* https://github.com/yeoman/generator-generator
+
+  Generate a Yeoman generator (``./authoring``).
+
+* http://yeoman.io/generators/
+
+  List of Yeoman generators
+
+  * https://github.com/yeoman/generator-angular
+
+    AngularJS 1 Yeoman generator (:ref:`bower`, karma tests,
+    :ref:`CoffeeScript`, :ref:`TypeScript` )
+
+  * https://github.com/diegonetto/generator-ionic
+
+    Apache Cordova mobile app w/ Ionic (AngularJS 1, :ref:`grunt`)
+
+  * https://stackoverflow.com/questions/29649578/available-yeoman-generator-for-angular-2
+
+    AngularJS 2 Yeoman generators (:ref:`TypeScript`)
+
+  * https://github.com/kriasoft/react-starter-kit
+
+    React.js, Express, Flux, ES6+, JSX, Babel, PostCSS, Webpack, BrowserSync
+    (:ref:`Node.js`)
+
+  * https://github.com/yeoman/generator-polymer
+
+    Polymer Web Components (:ref:`gulp`)
+
 
 
 .. index: Languages
@@ -5037,7 +5173,7 @@ written in :ref:`C++` which was forked from :ref:`WebKit`.
 
 Chrome
 ~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Google_Chrome 
+| Wikipedia: https://en.wikipedia.org/wiki/Google_Chrome
 | Homepage: https://www.google.com/chrome/
 | Download: https://www.google.com/chrome/browser/desktop/
 | Download: https://www.google.com/chrome/browser/mobile/
