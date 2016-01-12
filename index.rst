@@ -1263,7 +1263,7 @@ for projects written in :ref:`Python` and other languages.
 
 * https://github.com/audreyr/cookiecutter-pypackage
 
-  Cookiecutter template for a :ref:`Python Packages <Python> package`
+  Cookiecutter template for a :ref:`Python Package <Python packages>`
   (e.g. ``setup.py``, ``docs/``, ``README.rst``)
 
 * https://github.com/pydanny/cookiecutter-django
