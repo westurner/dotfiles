@@ -191,10 +191,10 @@ to install packages written in any language.
   with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``.
 * Conda recipes reference and build from
   a source package URI
-  *OR* a :ref:`vcs` URI and revision; and/or custom ``build.sh`` or
+  *OR* a :ref:`VCS <vcs>` URI and revision; and/or custom ``build.sh`` or
   ``build.bat`` scripts.
 * ``conda skeleton`` can automatically create conda recipes
-  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
+  from ``PyPI`` (Python), ``CRAN`` (R), and ``CPAN`` (Perl)
 * ``conda skeleton``-generated recipes can be updated
   with additional metadata, scripts, and source URIs
   (as separate patches or consecutive branch commits
