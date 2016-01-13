@@ -4453,6 +4453,25 @@ managed :ref:`JSON-LD <json-ld->` ``@context``
 would work.
 
 
+.. index:: nbgrader
+.. _nbgrader:
+
+nbgrader
+++++++++
+| Source: git https://github.com/jupyter/nbgrader
+| Docs: https://nbgrader.readthedocs.org/en/stable/
+| Docs: https://nbgrader.readthedocs.org/en/stable/user_guide/
+| Docs: https://nbgrader.readthedocs.org/en/latest/
+| Docs: https://nbgrader.readthedocs.org/en/latest/user_guide/
+| Docs: https://nbgrader.readthedocs.org/en/latest/command_line_tools/
+
+nbgrader is a solution for centrally receiving and grading :ref:`Jupyter notebooks <jupyter notebook>`.
+
+See also:
+
+* https://wrdrd.com/docs/consulting/education-technology#jupyter-and-tdd
+
+
 .. index:: nbviewer
 .. _nbviewer:
 
