@@ -116,90 +116,17 @@ complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
 
 
-## Grin search
-# virtualenv / virtualenvwrapper
-function grinv {
-    # grinv()   -- grin $VIRTUAL_ENV
-    grin --follow $@ "${VIRTUAL_ENV}"
-}
-function grindv {
-    # grindv()  -- grind $VIRTUAL_ENV
-    grind --follow $@ --dirs "${VIRTUAL_ENV}"
-}
-
-# venv
-function grins {
-    # grins()   -- grin $_SRC
-    grin --follow $@ "${_SRC}"
-}
-function grinds {
-    # grinds()  -- grind $_SRC
-    grind --follow $@ --dirs "${_SRC}"
-}
-function grinw {
-    # grinw()   -- grin $_WRD
-    grin --follow $@ "${_WRD}"
-}
-function grindw {
-    # grindw()  -- grind $_WRD
-    grind --follow $@ --dirs "${_WRD}"
-}
-
-function edit_grin_w {
-    # edit_grin_w() -- edit $(grinw -l $@)
-    edit $(grinw -l $@)
-}
-
-function egw {
-    # egw           -- edit $(grinw -l $@)
-    edit_grin_w $@
-}
-
-# ctags
-function grindctags {
-    # grindctags()      -- generate ctags from grind (in ./tags)
-    if [ -n "${__IS_MAC}" ]; then
-        # brew install ctags
-        if [ -x "/usr/local/bin/ctags" ]; then
-            ctagsbin="/usr/local/bin/ctags"
-        fi
-    else
-        # apt-get install exuberant-ctags
-        ctagsbin=$(which ctags)
-    fi
-    (set -x;
-    path=${1:-'.'}
-    grindargs=${2}
-    cd ${path};
-    grind --follow ${grindargs} \
-        | grep -v 'min.js$' \
-        | ${ctagsbin} -L - 2>tags.err && \
-    wc -l ${path}/tags.err;
-    ls -alhtr ${path}/tags*;)
-}
-function grindctagssys {
-    # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
-    grindctags "${_WRD}" "--sys-path"
-}
-function grindctagsw {
-    # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
-    grindctags "${_WRD}"
-}
-function grindctagss {
-    # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
-    grindctags "${_SRC}"
-}
-
 function _setup_venv_aliases {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
     source "${__DOTFILES}/scripts/_ewrd.sh"
 
+    source "${__DOTFILES}/scripts/_grinwrd.sh"
+
     # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
     source "${__DOTFILES}/scripts/makew"
 
-    
     source "${__DOTFILES}/scripts/ssv"
     _setup_supervisord
 
