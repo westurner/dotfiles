@@ -6214,6 +6214,7 @@ Sphinx
 | Pypi: https://pypi.python.org/pypi/Sphinx
 | Docs: http://sphinx-doc.org/contents.html
 | Docs: http://sphinx-doc.org/markup/code.html
+| Docs: http://www.sphinx-doc.org/en/stable/markup/inline.html#ref-role
 | Docs: http://pygments.org/docs/lexers/
 | Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
 | Docs: https://github.com/yoloseem/awesome-sphinxdoc
