@@ -4,7 +4,9 @@ _print_i3_comments() {
     _i3cfg="${__DOTFILES}/etc/i3/config"
     if [ -f "$_i3cfg" ]; then
         cat $_i3cfg | \
-            ${__DOTFILES}/scripts/pyline.py -r '^\s*#\s(\s*.*)' 'rgx and l'
+            ${__DOTFILES}/scripts/pyline.py \
+            -r '^(\s*)#(.*)' 'rgx and "{}{}".format(rgx.group(1), rgx.group(2))'
+        #   -r '^\s*#\s(\s*.*)' 'rgx and l'
     fi
 }
 
