@@ -552,7 +552,7 @@ configure_TERM
 ### bashrc.dotfiles.sh
 
 
-dotfiles_add_path() {
+function dotfiles_add_path {
     # dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
     if [ -d "${__DOTFILES}" ]; then
         #PATH_prepend "${__DOTFILES}/bin"  # [01-bashrc.lib.sh]
@@ -560,14 +560,14 @@ dotfiles_add_path() {
     fi
 }
 
-shell_escape_single() {
+function shell_escape_single {
     # shell_escape_single()
-    strtoescape=${1}
-    output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
+    local strtoescape=${1}
+    local output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
     echo "'"${output}"'"
 }
 
-dotfiles_status() {
+function dotfiles_status {
     # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
     echo HOSTNAME=$(shell_escape_single "${HOSTNAME}")
@@ -606,28 +606,54 @@ dotfiles_status() {
     fi
     echo '##'
 }
-ds() {
+function ds {
     # ds()                      -- print dotfiles_status
     dotfiles_status $@
 }
 
-clr() {
-    # clr()                     -- clear scrollback
-    if [ -d '/Library' ]; then # see __IS_MAC
+    # source "${__DOTFILES}/scripts/cls"
+source "${__DOTFILES}/scripts/cls"
+#!/bin/sh
+### cls -- clear the terminal scrollback and print dotfiles_status
+### clr -- clear the terminal scrollback
+
+    # clr() -- clear scrollback
+if [ -d '/Library' ]; then # see __IS_MAC
+    function clr {
         # osascript -e 'if application "Terminal" is frontmost then tell application "System Events" to keystroke "k" using command down'
         clear && printf '\e[3J'
-    else
+    }
+else
+    function clr {
         reset
-    fi
+    }
+fi
+
+#function dotfiles_status {
+#   # see: westurner/dotfiles etc/bash/05-bashrc.dotfiles.sh
+#}
+
+function cls {
+    # cls() -- clear scrollback and print dotfiles_status ($ clr; ds)
+    clr ;
+    dotfiles_status
 }
 
-
-cls() {
+if [ "${BASH_SOURCE}" == "${0}" ]; then
+    progname=$(basename "${0}")
+    case "${progname}" in
+        clr)
+            clr; exit
+            ;;
+        cls)
+            cls; exit
+            ;;
+    esac
+fi
+    # clr()                     -- clear scrollback
     # cls()                     -- clear scrollback and print dotfiles_status()
-    clr ; dotfiles_status
-}
 
-#dotfiles_term_uri() {
+#function dotfiles_term_uri {
     ##dotfiles_term_uri()        -- print a URI for the current _TERM_ID
     #term_path="${HOSTNAME}/usrlog/${USER}"
     #term_key=${_APP}/${_TERM_ID}
@@ -635,7 +661,7 @@ cls() {
     #echo "TERM_URI='${TERM_URL}'"
 #}
 
-debug-env() {
+function debug-env {
     _log=${_LOG:-"."}
     OUTPUT=${1:-"${_log}/$(date +"%FT%T%z").debug-env.env.log"}
     dotfiles_status
@@ -649,18 +675,18 @@ debug-env() {
 
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
-debug-on() {
+function debug-on {
     # debug-on()                 -- set -x -v
     set -x -v
     shopt -s extdebug
 }
-debug-off() {
+function debug-off {
     # debug-off()                -- set +x +v
     set +x +v
     shopt -s extdebug
 }
 
-_virtualenvwrapper_get_step_num() {
+function _virtualenvwrapper_get_step_num {
 
     # Virtualenvwrapper numeric sequence
     # * to make logs in /var/log/venv.nnn-stepname.log naturally ordered
@@ -709,7 +735,7 @@ _virtualenvwrapper_get_step_num() {
     echo "${n}"
 }
 
-log_dotfiles_state() {
+function log_dotfiles_state {
     # log_dotfiles_state()      -- save current environment to logfiles
     #   $1 -- logkey (virtualenvwrapper step name)
     test -n "${DOTFILES_SKIP_LOG}" && echo '#DOTFILES_SKIP_LOG' && return
@@ -729,19 +755,36 @@ log_dotfiles_state() {
 }
 
 
-dotfiles_initialize() {
+function dotfiles_initialize {
     # dotfiles_initialize()     -- virtualenvwrapper initialize
     log_dotfiles_state 'initialize'
 }
 
 
-dotfiles_premkvirtualenv() {
+function dotfiles_premkvirtualenv {
     # dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
     #log_dotfiles_state 'premkvirtualenv'  # PERF
     true
 }
 
-dotfiles_postmkvirtualenv() {
+function dotfiles_postmkvirtualenv_help {
+    echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh sources venv.sh'
+    echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh defines workon_venv'
+    echo '## to work on this virtualenv:'
+    echo '# workon_venv [<venvstr> [<venvappstr> [<pyver>]]]'
+    echo '# we          [<venvstr> [<venvappstr> [<pyver>]]]'
+    echo '$ we '"${VIRTUAL_ENV_NAME}"''
+    echo '#   dotfiles_status                    # ds'
+    echo '#   source <(venv.py -e --print-bash)  # venv.py -h'
+    echo '$ venv_mkdirs  # already done in dotfiles_postmkvirtualenv   '
+    echo '#   mkdir -p "${_WRD}"'
+    echo '$ cdwrd; cdw'
+    echo '# editwrd README; ewrd README; e README Makefile  # edit<tab>'
+    echo '# cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;;'
+}
+
+
+function dotfiles_postmkvirtualenv {
     # dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
     log_dotfiles_state 'postmkvirtualenv'
 
@@ -761,11 +804,11 @@ dotfiles_postmkvirtualenv() {
     local PIP="$(which pip)"
     echo "PIP=$(shell_escape_single "${PIP}")"
     pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
-    echo "#pip_freeze=$(shell_escape_single ${pip_freeze})"
+    echo "#pip_freeze=$(shell_escape_single "${pip_freeze}")"
     (set -x; ${PIP} freeze | tee "${pip_freeze}")
     echo ""
     pip_list="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
-    echo "#pip_list=$(shell_escape_single ${pip_list})"
+    echo "#pip_list=$(shell_escape_single "${pip_list}")"
     (set -x; ${PIP} list | tee "${pip_list}")
     echo '## to work on this virtualenv:'
     echo 'workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
@@ -774,18 +817,15 @@ dotfiles_postmkvirtualenv() {
     workon_venv "${VIRTUAL_ENV_NAME}"
     echo "PWD=$(path)"
     echo "#"
-    echo '## to work on this virtualenv:'
-    echo '# workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs [done]'
-    echo 'cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;;'
-    echo 'mkdir -p "${_WRD}";; cdwrd; cdw'
+    dotfiles_postmkvirtualenv_help
 }
 
-dotfiles_preactivate() {
+function dotfiles_preactivate {
     # dotfiles_preactivate()    -- virtualenvwrapper preactivate
     log_dotfiles_state 'preactivate'
 }
 
-dotfiles_postactivate() {
+function dotfiles_postactivate {
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
@@ -808,12 +848,12 @@ dotfiles_postactivate() {
 
 }
 
-dotfiles_predeactivate() {
+function dotfiles_predeactivate {
     # dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
     log_dotfiles_state 'predeactivate'
 }
 
-dotfiles_postdeactivate() {
+function dotfiles_postdeactivate {
     # dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     log_dotfiles_state 'postdeactivate'
     unset VIRTUAL_ENV
@@ -3610,92 +3650,17 @@ complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
 
 
-## Grin search
-# virtualenv / virtualenvwrapper
-function grinv {
-    # grinv()   -- grin $VIRTUAL_ENV
-    grin --follow $@ "${VIRTUAL_ENV}"
-}
-function grindv {
-    # grindv()  -- grind $VIRTUAL_ENV
-    grind --follow $@ --dirs "${VIRTUAL_ENV}"
-}
-
-# venv
-function grins {
-    # grins()   -- grin $_SRC
-    grin --follow $@ "${_SRC}"
-}
-function grinds {
-    # grinds()  -- grind $_SRC
-    grind --follow $@ --dirs "${_SRC}"
-}
-function grinw {
-    # grinw()   -- grin $_WRD
-    grin --follow $@ "${_WRD}"
-}
-function grindw {
-    # grindw()  -- grind $_WRD
-    grind --follow $@ --dirs "${_WRD}"
-}
-
-function edit_grin_w {
-    # edit_grin_w() -- edit $(grinw -l $@)
-    edit $(grinw -l $@)
-}
-
-function egw {
-    # egw           -- edit $(grinw -l $@)
-    edit_grin_w $@
-}
-
-# ctags
-function grindctags {
-    # grindctags()      -- generate ctags from grind (in ./tags)
-    if [ -n "${__IS_MAC}" ]; then
-        # brew install ctags
-        if [ -x "/usr/local/bin/ctags" ]; then
-            ctagsbin="/usr/local/bin/ctags"
-        fi
-    else
-        # apt-get install exuberant-ctags
-        ctagsbin=$(which ctags)
-    fi
-    (set -x;
-    path=${1:-'.'}
-    grindargs=${2}
-    cd ${path};
-    grind --follow ${grindargs} \
-        | grep -v 'min.js$' \
-        | ${ctagsbin} -L - 2>tags.err && \
-    wc -l ${path}/tags.err;
-    ls -alhtr ${path}/tags*;)
-}
-function grindctagssys {
-    # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
-    grindctags "${_WRD}" "--sys-path"
-}
-function grindctagsw {
-    # grindctagsw()     -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
-    grindctags "${_WRD}"
-}
-function grindctagss {
-    # grindctagss()     -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
-    grindctags "${_SRC}"
-}
-
 function _setup_venv_aliases {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
-    source "${__DOTFILES}/scripts/e"
-    source "${__DOTFILES}/scripts/ew"
-    source "${__DOTFILES}/scripts/es"
+    source "${__DOTFILES}/scripts/_ewrd.sh"
+
+    source "${__DOTFILES}/scripts/_grinwrd.sh"
 
     # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
     source "${__DOTFILES}/scripts/makew"
 
-    
     source "${__DOTFILES}/scripts/ssv"
     _setup_supervisord
 
@@ -3716,58 +3681,126 @@ function _setup_venv_aliases {
 
 }
 _setup_venv_aliases
-#!/usr/bin/env bash
-## 
-function edit {
-    #  edit()   -- EDITOR_ or EDITOR $@
-    ${GUIVIMBIN} --servername ${VIRTUAL_ENV_NAME:-"/"} \
-        --remote-tab-silent \
-        ${@}
-    return
-}
+#!/bin/bash
 
-function e {
-    # e()       -- EDTIOR or EDITOR $@
-    edit ${@}
-    return
-}
+###   _ewrd.sh  -- convenient editor shortcuts
+#     # setup edit[*] and e[*] symlinks:
+#     $ ln -s ./_ewrd.sh _ewrd-setup.sh && ./_ewrd-setup.sh
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
-    edit ${@}
-    exit
-fi
-#!/bin/sh
-## 
-editwrd () 
-{
-    #
-    (cd "${_WRD}";
+##    editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
+function editdotfiles {
+    # editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
+    (cd "${__DOTFILES}";
     (for arg in ${@}; do echo "${arg}"; done) \
         | el --each -x 'e {0}'
     )
     return
 }
 
-ew () {
-    editwrd $@
+function edotfiles {
+    # edotfiles()    -- cd $__DOTFILES and run edit w/ each arg
+    editdotfiles $@
     return
 }
-_ew__complete () {
-    local cur=${2};
-    COMPREPLY=($(cd "${_WRD}"; compgen -f -- ${cur}));
-}
-complete -o default -o nospace -F _ew__complete editwrd
-complete -o default -o nospace -F _ew__complete ew
 
-if [[ ${BASH_SOURCE} == "${0}" ]]; then
-    editwrd ${@}
-    exit
-fi
-#!/bin/sh
-##
-editsrc ()
-{
-    #
+function _edotfiles__complete {
+    local cur=${2};
+    COMPREPLY=($(cd "${__DOTFILES}"; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _edotfiles__complete editdotfiles
+complete -o default -o nospace -F _edotfiles__complete edotfiles
+
+
+##    editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
+function editwrk {
+    # editwrk()      -- cd $__WRK and run edit w/ each arg
+    (cd "${__WRK}";
+    (for arg in ${@}; do echo "${arg}"; done) \
+        | el --each -x 'e {0}'
+    )
+    return
+}
+
+function ewrk {
+    # ewrk()         -- cd $__WRK and run edit w/ each arg
+    editwrk $@
+    return
+}
+
+function _ewrk__complete {
+    local cur=${2};
+    COMPREPLY=($(cd "${__WRK}"; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _ewrk__complete editwrk
+complete -o default -o nospace -F _ewrk__complete ewrk
+
+
+##    editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
+function editworkonhome {
+    # editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
+    (cd "${WORKON_HOME}";
+    (for arg in ${@}; do echo "${arg}"; done) \
+        | el --each -x 'e {0}'
+    )
+    return
+}
+
+function eworkonhome {
+    # eworkonhome()    -- cd $WORKON_HOME and run edit w/ each arg
+    editworkonhome $@
+    return
+}
+
+function ewh {
+    # ewh()            -- cd $WORKON_HOME and run edit w/ each arg
+    editworkonhome $@
+    return
+}
+
+function _eworkonhome__complete {
+    local cur=${2};
+    COMPREPLY=($(cd "${WORKON_HOME}"; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _eworkonhome__complete editworkonhome
+complete -o default -o nospace -F _eworkonhome__complete eworkonhome
+complete -o default -o nospace -F _eworkonhome__complete ewh
+
+
+
+##    editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
+function editvirtualenv {
+    # editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
+    (cd "${VIRTUAL_ENV}";
+    (for arg in ${@}; do echo "${arg}"; done) \
+        | el --each -x 'e {0}'
+    )
+    return
+}
+
+function evirtualenv {
+    # evirtualenv()    -- cd $VIRTUAL_ENV and run edit w/ each arg
+    editvirtualenv $@
+    return
+}
+
+function ev {
+    # ev()             -- cd $VIRTUAL_ENV and run edit w/ each arg
+    editvirtualenv $@
+    return
+}
+
+function _evirtualenv__complete {
+    local cur=${2};
+    COMPREPLY=($(cd "${VIRTUAL_ENV}"; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _evirtualenv__complete editvirtualenv
+complete -o default -o nospace -F _evirtualenv__complete evirtualenv
+complete -o default -o nospace -F _evirtualenv__complete ev
+
+
+##    editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
+function editsrc {
+    # editsrc() -- cd $_SRC and run edit w/ each arg
     (cd "${_SRC}";
     (for arg in ${@}; do echo "${arg}"; done) \
         | el --each -x 'e {0}'
@@ -3775,21 +3808,447 @@ editsrc ()
     return
 }
 
-es () {
+function esrc {
+    # esrc()    -- cd $_SRC and run edit w/ each arg
     editsrc $@
     return
 }
-_es__complete () {
+
+function es {
+    # es()      -- cd $_SRC and run edit w/ each arg
+    editsrc $@
+    return
+}
+
+function _esrc__complete {
     local cur=${2};
     COMPREPLY=($(cd "${_SRC}"; compgen -f -- ${cur}));
 }
-complete -o default -o nospace -F _es__complete editsrc
-complete -o default -o nospace -F _es__complete es
+complete -o default -o nospace -F _esrc__complete editsrc
+complete -o default -o nospace -F _esrc__complete esrc
+complete -o default -o nospace -F _esrc__complete es
 
-if [[ ${BASH_SOURCE} == "${0}" ]]; then
-    editsrc ${@}
+
+##    editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
+function editwrd {
+    # editwrd() -- cd $_WRD and run edit w/ each arg
+    (cd "${_WRD}";
+    (for arg in ${@}; do echo "${arg}"; done) \
+        | el --each -x 'e {0}'
+    )
+    return
+}
+
+function ewrd {
+    # ewrd()    -- cd $_WRD and run edit w/ each arg
+    editwrd $@
+    return
+}
+
+function ew {
+    # ew()      -- cd $_WRD and run edit w/ each arg
+    editwrd $@
+    return
+}
+
+function _ewrd__complete {
+    local cur=${2};
+    COMPREPLY=($(cd "${_WRD}"; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _ewrd__complete editwrd
+complete -o default -o nospace -F _ewrd__complete ewrd
+complete -o default -o nospace -F _ewrd__complete ew
+
+
+##    editetc, eetc      --- cd $_ETC and run edit w/ each arg
+function editetc {
+    # editetc() -- cd $_ETC and run edit w/ each arg
+    (cd "${_ETC}";
+    (for arg in ${@}; do echo "${arg}"; done) \
+        | el --each -x 'e {0}'
+    )
+    return
+}
+
+function eetc {
+    # eetc()    -- cd $_ETC and run edit w/ each arg
+    editetc $@
+    return
+}
+
+function _eetc__complete {
+    local cur=${2};
+    COMPREPLY=($(cd "${_ETC}"; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _eetc__complete editetc
+complete -o default -o nospace -F _eetc__complete eetc
+
+
+##    editwww, ewww      --- cd $_WWW and run edit w/ each arg
+function editwww {
+    # editwww() -- cd $_WWW and run edit w/ each arg
+    (cd "${_WWW}";
+    (for arg in ${@}; do echo "${arg}"; done) \
+        | el --each -x 'e {0}'
+    )
+    return
+}
+
+function ewww {
+    # ewww()    -- cd $_WWW and run edit w/ each arg
+    editwww $@
+    return
+}
+
+function _ewww__complete {
+    local cur=${2};
+    COMPREPLY=($(cd "${_WWW}"; compgen -f -- ${cur}));
+}
+complete -o default -o nospace -F _ewww__complete editwww
+complete -o default -o nospace -F _ewww__complete ewww
+
+
+
+function _create_ewrd_symlinks {
+    local scriptname='_ewrd.sh'
+    local scriptnames=(
+        "editdotfiles"
+        "edotfiles"
+
+        "editwrk"
+        "ewrk"
+
+        "editworkonhome"
+        "eworkonhome"
+        "ewh"
+
+        "editvirtualenv"
+        "evirtualenv"
+        "ev"
+
+        "editsrc"
+        "esrc"
+        "es"
+
+        "editwrd"
+        "ewrd"
+        "ew"
+
+        "editetc"
+        "eetc"
+
+        "editwww"
+        "ewww"
+    )
+    for symlinkname in ${scriptnames[@]}; do
+        test -L "${symlinkname}" && rm "${symlinkname}"
+        ln -s "${scriptname}" "${symlinkname}"
+    done
+}
+
+#_ewrd.sh main()
+if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+    set -x
+    declare -r progname="$(basename ${BASH_SOURCE})"
+    case "${progname}" in
+        editdotfiles|edotfiles)
+            editdotfiles ${@}
+            exit
+            ;;
+
+        editwrk|ewrk)
+            editwrk ${@}
+            exit
+            ;;
+
+        editworkonhome|eworkonhome|ewh)
+            editworkonhome ${@}
+            exit
+            ;;
+
+        editvirtualenv|evirtualenv|ev)
+            editvirtualenv ${@}
+            exit
+            ;;
+        editsrc|esrc|es)
+            editsrc ${@}
+            exit
+            ;;
+        editwrd|ewrd|ew)
+            editwrd ${@}
+            exit
+            ;;
+        editetc|eetc)
+            editetc ${@}
+            exit
+            ;;
+        editwww|ewww)
+            editwww ${@}
+            exit
+            ;;
+
+        _ewrd.sh|edithelp|ehelp)
+            cat "${BASH_SOURCE}" | \
+                pyline.py -r '^\s*#+\s+.*' 'rgx and l';
+            exit
+            ;;
+
+        _ewrd-setup.sh)
+            _create_ewrd_symlinks
+            exit
+            ;;
+        *)
+            echo "Err"
+            echo '${BASH_SOURCE}: '"'${BASH_SOURCE}'"
+            echo '${progname}: '"'${BASH_SOURCE}'"
+            exit 2
+            ;;
+    esac
     exit
 fi
+#
+
+## seeAlso ##
+# * https://westurner.org/dotfiles/venv
+#
+# .. code:: bash
+#
+#    type cdhelp; cdhelp 
+#    less scripts/venv_cdaliases.sh
+#    venv.py --prefix=/ --print-bash-cdaliases
+
+#!/bin/bash
+
+### _grinwrd.sh --- Grin search functions
+
+# TODO:
+#  - [ ] TST: *
+#  - [ ] Normalize pass-through argument handling (e.g. ``grin -C 10``)
+
+## seeAlso ##
+#* https://westurner.org/dotfiles/venv
+
+# virtualenv & virtualenvwrapper
+function grinv {
+    # grinv()   -- grin $VIRTUAL_ENV
+    grin --follow $@ "${VIRTUAL_ENV}"
+}
+
+function grindv {
+    # grindv()  -- grind $VIRTUAL_ENV
+    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+}
+
+# venv
+function grins {
+    # grins()   -- grin $_SRC
+    grin --follow $@ "${_SRC}"
+}
+
+function grinds {
+    # grinds()  -- grind $_SRC
+    grind --follow $@ --dirs "${_SRC}"
+}
+
+function grinw {
+    # grinw()   -- grin $_WRD
+    grin --follow $@ "${_WRD}"
+}
+
+function grindw {
+    # grindw()  -- grind $_WRD
+    grind --follow $@ --dirs "${_WRD}"
+}
+
+function edit_grin_w {
+    # edit_grin_w() -- edit $(grinw -l $@)
+    edit $(grinw -l $@)
+}
+
+function egw {
+    # egw           -- edit $(grinw -l $@)
+    edit_grin_w $@
+}
+
+function edit_grind_wrd {
+    (IFS='\n' edit $(grind ${@} --follow --dirs "${_WRD}"))
+    grindw ${@} | el -v -e
+}
+
+## ctags (exuberant ctags)
+# brew install ctags
+# apt-get install exuberant-ctags
+# dnf install ctags ctags-etags
+function grindctags {
+    # grindctags()      -- generate ctags from grind (in ./tags)
+    local ctagsbin=
+    local path=${1:-'.'}
+    local grindargs=${2}
+    if [ -n "${__IS_MAC}" ]; then
+        if [ -x "/usr/local/bin/ctags" ]; then
+            # brew install ctags
+            ctagsbin="/usr/local/bin/ctags"
+        else
+            ctagsbin=$(which ctags)
+        fi
+    else
+        ctagsbin=$(which ctags)
+    fi
+    (set -x -v;
+    cd "${path}";
+    grind --follow ${grindargs} --dirs "${path}" \
+        | grep -v 'min.js$' \
+        | ${ctagsbin} -L - 2>"${path}/tags.err" \
+        && wc -l "${path}/tags.err";
+    ls -alhtr "${path}/tags"* ;)
+}
+
+function grindctagssys {
+    # grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
+    grindctags "${_WRD}" "--sys-path"
+}
+
+function grindctagswrd {
+    # grindctagswrd()   -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
+    grindctags "${_WRD}"
+}
+
+function grindctagsssrc {
+    # grindctagssrc()   -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
+    grindctags "${_SRC}"
+}
+
+
+function _create_grinwrd_symlinks {
+    local scriptname='_grinwrd.sh'
+    local scriptnames=(
+        "grinvirtualenv"
+        "grinv"
+        "grindvirtualenv"
+        "grindv"
+
+        "grinsrc"
+        "grins"
+        "grindsrc"
+        "grinds"
+
+        "grinwrd"
+        "grinw"
+        "grindwrd"
+        "grindw"
+
+        "editgrinw"
+        "egrinw"
+        "egw"
+
+        "editgrindw"
+        "egrindw"
+
+        "grindctags"
+
+        "grindctagssys"
+
+        "grindctagswrd"
+        "grindctagsw"
+
+        "grindctagssrc"
+        "grindctagss"
+
+        "grinwrdhelp"
+        "grindwrdhelp"
+    )
+    for symlinkname in ${scriptnames[@]}; do
+        test -L "${symlinkname}" && rm "${symlinkname}"
+        ln -s "${scriptname}" "${symlinkname}"
+    done
+}
+
+#_grinwrd.sh main()
+if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+    set -x
+    declare -r progname="$(basename ${BASH_SOURCE})"
+    case "${progname}" in
+        grinvirtualenv|grinv)
+            grinv ${@}
+            exit
+            ;;
+        grindvirtualenv|grindv)
+            grindv ${@}
+            exit
+            ;;
+
+        grinsrc|grins)
+            grinv ${@}
+            exit
+            ;;
+        grindsrc|grinds)
+            grinds ${@}
+            exit
+            ;;
+
+        grinwrd|grinw)
+            grinw ${@}
+            exit
+            ;;
+        grindwrd|grindw)
+            grindw ${@}
+            exit
+            ;;
+
+        editgrinw|egrinw|egw)
+            edit_grin_w ${@}
+            exit
+            ;;
+
+        editgrindw|egrindw)
+            edit_grind_w ${@}
+            exit
+            ;;
+
+        grindctags)
+            grindctags ${@}
+            exit
+            ;;
+
+        grindctagssys)
+            grindctagssys ${@}
+            exit
+            ;;
+
+        grindctagssrc|grindctagss)
+            grindctagssrc ${@}
+            exit
+            ;;
+
+        grindctagswrd|grindctagsw)
+            grindctagswrd ${@}
+            exit
+            ;;
+
+        _grinwrd.sh|grinwrdhelp|grindwrdhelp)
+            cat "${BASH_SOURCE}" | \
+                pyline.py -r '^\s*#+\s+.*' 'rgx and l';
+            exit
+            ;;
+
+        _grinwrd-setup.sh)
+            _create_grinwrd_symlinks
+            exit
+            ;;
+        *)
+            echo "Err"
+            echo '${BASH_SOURCE}: '"'${BASH_SOURCE}'"
+            echo '${progname}: '"'${BASH_SOURCE}'"
+            exit 2
+            ;;
+    esac
+    exit
+fi
+#
+
+## seeAlso ##
+# * https://westurner.org/dotfiles/venv
+# * _ewrd.sh
 #!/bin/bash
 ## 
 
@@ -4443,8 +4902,8 @@ function _usrlog_get__TERM_ID {
 
 function _usrlog_set__TERM_ID  {
     #  _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
-    #    $1: terminal name
-    new_term_id="${@}"
+    #    $1: _term_id value for _TERM_ID
+    local new_term_id="${@}"
     if [ -z "${new_term_id}" ]; then
         new_term_id="#$(_usrlog_randstr 8)"
     fi
@@ -4480,6 +4939,7 @@ function _usrlog_echo_title  {
 
 function _usrlog_set_title {
     #  _usrlog_set_title()  --  set xterm title
+    #   $1: _window_title (defaults to ${_TERM_ID})
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
     declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
@@ -5097,7 +5557,7 @@ _loadaliases () {
     alias fgrep='fgrep --color=auto'
 
     # grindp   -- 'grind --sys.path'
-    alias grindp='grind --sys.path'
+    alias grindp='grind --sys-path'
     # grinp    -- 'grin --sys-path'
     alias grinp='grin --sys-path'
 
@@ -5942,7 +6402,6 @@ _TERM_ID='#testing'
 PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
-_TODO='usrlog.py: unix time stamps [usrlog.sh: change fmt, usrlog.py: augment existing]'
 ##
 ### </end dotfiles .bashrc>
 

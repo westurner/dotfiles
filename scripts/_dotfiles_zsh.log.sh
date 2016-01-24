@@ -5588,14 +5588,14 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/tmp/ssh-275ARo0Abc4g/agent.29617; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=29619; export SSH_AGENT_PID;
-#echo Agent pid 29619;
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 SSH_AUTH_SOCK=/tmp/ssh-yetQbhyCVfly/agent.16319; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=16321; export SSH_AGENT_PID;
 #echo Agent pid 16321;
+grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+SSH_AUTH_SOCK=/tmp/ssh-BIzK7oG3AZrp/agent.853; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=855; export SSH_AGENT_PID;
+#echo Agent pid 855;
 starting ssh-agent...
 
 # tidy up after ourselves
@@ -8525,7 +8525,6 @@ _TERM_ID='#testing'
 PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
-_TODO='usrlog.py: unix time stamps [usrlog.sh: change fmt, usrlog.py: augment existing]'
 ##
 # 99-zsh.after.sh
 
