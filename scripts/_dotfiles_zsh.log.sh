@@ -5588,15 +5588,11 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/tmp/ssh-yetQbhyCVfly/agent.16319; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=16321; export SSH_AGENT_PID;
-#echo Agent pid 16321;
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 SSH_AUTH_SOCK=/tmp/ssh-BIzK7oG3AZrp/agent.853; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=855; export SSH_AGENT_PID;
 #echo Agent pid 855;
-starting ssh-agent...
+grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
