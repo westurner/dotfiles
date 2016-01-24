@@ -1280,8 +1280,10 @@ for projects written in :ref:`Python` and other languages.
 
 * https://github.com/openstack-dev/cookiecutter
 
-  Cookiecutter template for :ref:`OpenStack` specs projects
-  (pbr, tox, :ref:`sphinx`)
+  Cookiecutter template for :ref:`OpenStack`
+  :ref:`Python Package <Python packages>`
+  projects
+  (\* :ref:`pip` \*, pbr, tox, :ref:`sphinx`)
 
 * https://github.com/openstack-dev/specs-cookiecutter
 
