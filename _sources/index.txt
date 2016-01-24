@@ -191,10 +191,10 @@ to install packages written in any language.
   with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``.
 * Conda recipes reference and build from
   a source package URI
-  *OR* a :ref:`vcs` URI and revision; and/or custom ``build.sh`` or
+  *OR* a :ref:`VCS <vcs>` URI and revision; and/or custom ``build.sh`` or
   ``build.bat`` scripts.
 * ``conda skeleton`` can automatically create conda recipes
-  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
+  from ``PyPI`` (Python), ``CRAN`` (R), and ``CPAN`` (Perl)
 * ``conda skeleton``-generated recipes can be updated
   with additional metadata, scripts, and source URIs
   (as separate patches or consecutive branch commits
@@ -1280,8 +1280,10 @@ for projects written in :ref:`Python` and other languages.
 
 * https://github.com/openstack-dev/cookiecutter
 
-  Cookiecutter template for :ref:`OpenStack` specs projects
-  (pbr, tox, :ref:`sphinx`)
+  Cookiecutter template for :ref:`OpenStack`
+  :ref:`Python Package <Python packages>`
+  projects
+  (\* :ref:`pip` \*, pbr, tox, :ref:`sphinx`)
 
 * https://github.com/openstack-dev/specs-cookiecutter
 
@@ -6214,6 +6216,7 @@ Sphinx
 | Pypi: https://pypi.python.org/pypi/Sphinx
 | Docs: http://sphinx-doc.org/contents.html
 | Docs: http://sphinx-doc.org/markup/code.html
+| Docs: http://www.sphinx-doc.org/en/stable/markup/inline.html#ref-role
 | Docs: http://pygments.org/docs/lexers/
 | Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
 | Docs: https://github.com/yoloseem/awesome-sphinxdoc
