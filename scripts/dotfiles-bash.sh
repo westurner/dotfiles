@@ -27,7 +27,7 @@ dotfiles_grep_shell_comments() {
     (cd "${prefix}";
         for f in $(ls $paths); do
             echo "#### $f";
-            cat $f | scripts/pyline.py -r '^\s*#+\s+.*' 'rgx and l';
+            cat $f | scripts/pyline.py -r '^(\s*)#(.*)' 'rgx and " ".join((rgx.group(1), rgx.group(2)))';
             echo "   ";
             echo "   ";
         done
