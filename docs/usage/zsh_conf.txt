@@ -1,0 +1,22 @@
+#### << etc/zsh/00-zshrc.before.sh >>
+   __DOTFILES -- local dotfiles repository clone
+      ## lib: zsh functions
+      ## bash: read bash config with bash_source function
+    ## after:
+       dr()     -- dotfiles_zsh_reload $@
+   
+   
+#### << etc/zsh/01-zshrc.lib.sh >>
+  list all path key components leading to file
+   
+   
+#### << etc/zsh/05-zshrc.bashrc.sh >>
+  requires:
+   bash_source function
+   $__DOTFILES
+   
+   
+#### << etc/zsh/99-zshrc.after.sh >>
+  99-zsh.after.sh
+   
+   
