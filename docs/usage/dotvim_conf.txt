@@ -1,4 +1,4 @@
-   # etc/vim/vimrc
+#### << etc/vim/vimrc >>
 .vimrc
 ==========
 ::
@@ -328,7 +328,7 @@ References
   - http://vim.wikia.com/wiki/VimTip320
    
    
-   # etc/vim/vimrc.full.bundles.vimrc
+#### << etc/vim/vimrc.full.bundles.vimrc >>
 Bundle            -- Vim bundle manager [help bundle]
 :BundleList          - list configured plugins
 :BundleInstall(!)    - install (update) plugins
@@ -664,7 +664,7 @@ fountain.vim          -- fountain.io syntax
 All of your Bundles must be added before the following line
    
    
-   # etc/vim/vimrc.tinyvim.bundles.vimrc
+#### << etc/vim/vimrc.tinyvim.bundles.vimrc >>
 Bundle            -- Vim bundle manager [help bundle]
 :BundleList          - list configured plugins
 :BundleInstall(!)    - install (update) plugins

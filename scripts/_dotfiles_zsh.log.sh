@@ -8521,6 +8521,10 @@ _TERM_ID='#testing'
 PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
+shell_escape_single:local:2: not valid in this context: -l/--with-filename
+_TODO=
+shell_escape_single:local:2: not valid in this context: $-
+_NOTE=
 ##
 # 99-zsh.after.sh
 

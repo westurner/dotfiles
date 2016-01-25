@@ -6402,6 +6402,8 @@ _TERM_ID='#testing'
 PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
+_TODO='pyline.py -l/--with-filename && -n/--number-lines'
+_NOTE='echo $- # info bash : \$\?'
 ##
 ### </end dotfiles .bashrc>
 
