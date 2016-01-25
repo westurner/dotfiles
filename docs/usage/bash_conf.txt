@@ -1,243 +1,243 @@
 #### << etc/bash/00-bashrc.before.sh >>
 ## 00-bashrc.before.sh     -- bash dotfiles configuration root
-  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
-
-    dotfiles_reload()  -- (re)load the bash configuration
-    $__DOTFILES (str): -- path to the dotfiles symlink (~/-dotfiles)
-  
+   source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
+ 
+     dotfiles_reload()  -- (re)load the bash configuration
+     $__DOTFILES (str): -- path to the dotfiles symlink (~/-dotfiles)
+   
   ## 01-bashrc.lib.sh           -- useful bash functions (paths)
-    lspath()           -- list every file along $PATH
-    realpath()         -- readlink -f (python os.path.realpath)
-    walkpath()         -- list every directory along ${1:-"."}
-  
+     lspath()           -- list every file along $PATH
+     realpath()         -- readlink -f (python os.path.realpath)
+     walkpath()         -- list every directory along ${1:-"."}
+   
   ## 02-bashrc.platform.sh      -- platform things
-    detect_platform()  -- set $__IS_MAC or $__IS_LINUX
+     detect_platform()  -- set $__IS_MAC or $__IS_LINUX
   ## 03-bashrc.darwin.sh
-  
+   
   ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
-  
+   
   ## 05-bashrc.dotfiles.sh      -- dotfiles
-    $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
-    dotfiles_status()  -- print dotfiles variables
-    ds()               -- print dotfiles variables
-  
+     $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
+     dotfiles_status()  -- print dotfiles variables
+     ds()               -- print dotfiles variables
+   
   ## 06-bashrc.completion.sh    -- configure bash completion
-  
+   
   ##
-    virtualenvwrapper / virtualenv / venv constants
-  
-    $PROJECT_HOME (str): path to project directory (~/-wrk)
-    $WORKON_HOME  (str): path to virtualenvs directory (~/-wrk/-ve27)
-    $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV ($WORKON_HOME/$VENVSTR)
-  
+     virtualenvwrapper / virtualenv / venv constants
+   
+     $PROJECT_HOME (str): path to project directory (~/-wrk)
+     $WORKON_HOME  (str): path to virtualenvs directory (~/-wrk/-ve27)
+     $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV ($WORKON_HOME/$VENVSTR)
+   
   ## 07-bashrc.python.sh            -- python
-    _setup_python()              -- configure PYTHONSTARTUP
-    _setup_pip()                 -- configure PIP_REQUIRE_VIRTUALENV
-    _setup_pyenv()               -- setup pyenv PYENV_ROOT and eval (manual)
-  
+     _setup_python()              -- configure PYTHONSTARTUP
+     _setup_pip()                 -- configure PIP_REQUIRE_VIRTUALENV
+     _setup_pyenv()               -- setup pyenv PYENV_ROOT and eval (manual)
+   
   ## 08-bashrc.conda.sh             -- conda
-    _setup_conda()               -- setup conda paths (manual)
-                                    WORKON_HOME=CONDA_ENVS_PATH
-      $1 (str): (optional) CONDA_ENVS_PATH (WORKON_HOME)
-      $2 (str): (optional) CONDA_ROOT_PATH (or '27' or '34')
-    $CONDA_ROOT      (str): path to conda install (~/-wrk/-conda34)
-    $CONDA_ENVS_PATH (str): path to condaenvs directory (~/-wrk/-ce34) [conda]
-  
+     _setup_conda()               -- setup conda paths (manual)
+                                     WORKON_HOME=CONDA_ENVS_PATH
+       $1 (str): (optional) CONDA_ENVS_PATH (WORKON_HOME)
+       $2 (str): (optional) CONDA_ROOT_PATH (or '27' or '34')
+     $CONDA_ROOT      (str): path to conda install (~/-wrk/-conda34)
+     $CONDA_ENVS_PATH (str): path to condaenvs directory (~/-wrk/-ce34) [conda]
+   
   ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
-    _setup_virtualenvwrapper     -- configure virtualenvwrapper
-    backup_virtualenv($VENVSTR)  -- backup a venv in WORKON_HOME
-                                    $WORKON_HOME/$VENVSTR -> ./-bkp/$VENVSTR
-    backup_virtualenvs()         -- backup all venvs in WORKON_HOME
-                                    $WORKON_HOME/*        -> ./-bkp/*
-    rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
-    rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
-    TODO: restore_virtualenv($BACKUPVENVSTR, [$NEWVENVSTR])
-  
+     _setup_virtualenvwrapper     -- configure virtualenvwrapper
+     backup_virtualenv($VENVSTR)  -- backup a venv in WORKON_HOME
+                                     $WORKON_HOME/$VENVSTR -> ./-bkp/$VENVSTR
+     backup_virtualenvs()         -- backup all venvs in WORKON_HOME
+                                     $WORKON_HOME/*        -> ./-bkp/*
+     rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
+     rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
+     TODO: restore_virtualenv($BACKUPVENVSTR, [$NEWVENVSTR])
+   
   ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
-    _setup_google_cloud()  -- setup google cloud paths
-  
+     _setup_google_cloud()  -- setup google cloud paths
+   
   ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
-    _setup_venv()
-    $__PROJECTSRC     (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
-    $VIRTUAL_ENV_NAME (str): basename of $VIRTUAL_ENV [usrlog: prompt, title]
-    $_APP             (str): $VIRTUAL_ENV/src/${_APP}
-    we() -- workon a new venv
-       $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=>$VIRTUAL_ENV]
-       $2: _APP (optional; defaults to $VIRTUAL_ENV_NAME)
-  
-       we dotfiles
-       we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh
-       type workon_venv; which venv.py; venv.py --help
-  
-  
+     _setup_venv()
+     $__PROJECTSRC     (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
+     $VIRTUAL_ENV_NAME (str): basename of $VIRTUAL_ENV [usrlog: prompt, title]
+     $_APP             (str): $VIRTUAL_ENV/src/${_APP}
+     we() -- workon a new venv
+        $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=>$VIRTUAL_ENV]
+        $2: _APP (optional; defaults to $VIRTUAL_ENV_NAME)
+   
+        we dotfiles
+        we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh
+        type workon_venv; which venv.py; venv.py --help
+   
+   
   ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
-  
+   
   ## 20-bashrc.editor.sh        -- $EDITOR configuration
-    $EDITOR  (str): cmdstring to open $@ (file list) in editor
-    $EDITOR_ (str): cmdstring to open $@ (file list) in current editor
-    e()        -- open paths in current EDITOR_                   [scripts/e]
-    ew()       -- open paths relative to $_WRD in current EDITOR_ [scripts/ew]
-                  (~ cd $_WRD; $EDITOR_ ${@}) + tab completion
-  
+     $EDITOR  (str): cmdstring to open $@ (file list) in editor
+     $EDITOR_ (str): cmdstring to open $@ (file list) in current editor
+     e()        -- open paths in current EDITOR_                   [scripts/e]
+     ew()       -- open paths relative to $_WRD in current EDITOR_ [scripts/ew]
+                   (~ cd $_WRD; $EDITOR_ ${@}) + tab completion
+   
   ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
-    $PAGER   (str): cmdstring to run pager (less/vim)
-    lessv()    -- open in vim with less.vim
-                  VIMPAGER_SYNTAX="python" lessv
-    lessg()    -- open in a gvim with less.vim
-                  VIMPAGER_SYNTAX="python" lessv
-    lesse()    -- open with $EDITOR_ (~e)
-    manv()     -- open manpage with vim
-    mang()     -- open manpage with gvim
-    mane()     -- open manpage with $EDITOR_ (~e)
-  
-    TODO: GIT_PAGER="/usr/bin/less -R | /usr/bin/cat"
-  
+     $PAGER   (str): cmdstring to run pager (less/vim)
+     lessv()    -- open in vim with less.vim
+                   VIMPAGER_SYNTAX="python" lessv
+     lessg()    -- open in a gvim with less.vim
+                   VIMPAGER_SYNTAX="python" lessv
+     lesse()    -- open with $EDITOR_ (~e)
+     manv()     -- open manpage with vim
+     mang()     -- open manpage with gvim
+     mane()     -- open manpage with $EDITOR_ (~e)
+   
+     TODO: GIT_PAGER="/usr/bin/less -R | /usr/bin/cat"
+   
   ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
-    _setup_usrlog()    -- configure usrlog
-    $_USRLOG (str): path to a -usrlog.log command log
-                  __USRLOG=~/-usrlog.log
-                   _USRLOG=${VIRTUAL_ENV}/-usrlog.log
-    lsusrlogs  -- ls -tr   "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
-    stid       -- set $TERM_ID to a random string (e.g. "#Yt0PyyKWPro")
-    stid $name -- set $TERM_ID to string (e.g. \#20150704, "#20150704")
-    note       -- log a #note to $_USRLOG (histn==#note)
-    todo       -- log a #todo to $_USRLOG (histn==#todo)
-    usrlogv    -- open usrlog with vim:    $VIMBIN    $_USRLOG
-    usrlogg    -- open usrlog with gmvim:  $GUIVIMBIN $_USRLOG
-    usrloge    -- open usrlog with editor: $EDITOR    $_USRLOG
-    ut         -- tail -n__ $_USRLOG [ #BUG workaround: see venv.py]
-    ug         -- egrep current usrlog: egrep $@ $_USRLOG
-    ugall      -- egrep all usrlogs [ #BUG workaround: see venv.py ]
-                       egrep $@ "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
-    ugrin      -- grin current usrlog: grin $@ ${_USRLOG}
-    ugrinall   -- grin $@  "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
-  
+     _setup_usrlog()    -- configure usrlog
+     $_USRLOG (str): path to a -usrlog.log command log
+                   __USRLOG=~/-usrlog.log
+                    _USRLOG=${VIRTUAL_ENV}/-usrlog.log
+     lsusrlogs  -- ls -tr   "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
+     stid       -- set $TERM_ID to a random string (e.g. "#Yt0PyyKWPro")
+     stid $name -- set $TERM_ID to string (e.g. \#20150704, "#20150704")
+     note       -- log a #note to $_USRLOG (histn==#note)
+     todo       -- log a #todo to $_USRLOG (histn==#todo)
+     usrlogv    -- open usrlog with vim:    $VIMBIN    $_USRLOG
+     usrlogg    -- open usrlog with gmvim:  $GUIVIMBIN $_USRLOG
+     usrloge    -- open usrlog with editor: $EDITOR    $_USRLOG
+     ut         -- tail -n__ $_USRLOG [ #BUG workaround: see venv.py]
+     ug         -- egrep current usrlog: egrep $@ $_USRLOG
+     ugall      -- egrep all usrlogs [ #BUG workaround: see venv.py ]
+                        egrep $@ "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
+     ugrin      -- grin current usrlog: grin $@ ${_USRLOG}
+     ugrinall   -- grin $@  "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
+   
   ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
-    _setup_xlck()      -- configure xlck
-  
+     _setup_xlck()      -- configure xlck
+   
   ## 40-bashrc.aliases.sh       -- aliases
-    _setup_venv_aliases()  -- source in e, ew, makew, ssv, hgw, gitw
-      _setup_supervisord() -- configure _SVCFG
-         $1 (str): path to a supervisord.conf file "${1:-${_SVCFG}"
+     _setup_venv_aliases()  -- source in e, ew, makew, ssv, hgw, gitw
+       _setup_supervisord() -- configure _SVCFG
+          $1 (str): path to a supervisord.conf file "${1:-${_SVCFG}"
   ## 42-bashrc.commands.sh      -- example commands
-  
+   
   ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
-  
+   
   ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
-  
+   
   ## 99-bashrc.after.sh         -- after: cleanup
-     dr()  -- dotfiles_reload
-     ds()  -- print dotfiles_status()
+      dr()  -- dotfiles_reload
+      ds()  -- print dotfiles_status()
    
    
 #### << etc/bash/01-bashrc.lib.sh >>
 ### bashrc.lib.sh
 ## bash
-     echo_args         -- echo $@ (for checking quoting)
-     function_exists() -- check whether a bash function exists
-   PATH_prepend()     -- prepend a directory ($1) to $PATH
-       instead of:
-           export PATH=$dir:$PATH
-           PATH_prepend $dir 
-     PATH_remove()  -- remove a directory from $PATH
-     note: empty path components ("::") will be stripped
-     PATH_contains() -- test whether $PATH contains $1
-     lightpath()       -- display $PATH with newlines
-     lspath()          -- list files in each directory in $PATH
-     lspath_less()     -- lspath with less (color)
+      echo_args         -- echo $@ (for checking quoting)
+      function_exists() -- check whether a bash function exists
+    PATH_prepend()     -- prepend a directory ($1) to $PATH
+        instead of:
+            export PATH=$dir:$PATH
+            PATH_prepend $dir 
+      PATH_remove()  -- remove a directory from $PATH
+      note: empty path components ("::") will be stripped
+      PATH_contains() -- test whether $PATH contains $1
+      lightpath()       -- display $PATH with newlines
+      lspath()          -- list files in each directory in $PATH
+      lspath_less()     -- lspath with less (color)
 ## file paths
-     realpath()        -- print absolute path (os.path.realpath) to $1
-                          note: OSX does not have readlink -f
-     path()            -- realpath()
-     walkpath()        -- walk down path $1 and $cmd each component
-       $1: path (optional; default: pwd)
-       $2: cmd  (optional; default: 'ls -ald --color=auto')
-     ensure_symlink()  -- create or update a symlink to $2 from $1
-                          if $2 exists, backup with suffix $3
-     ensure_mkdir()    -- create directory $1 if it does not yet exist
+      realpath()        -- print absolute path (os.path.realpath) to $1
+                           note: OSX does not have readlink -f
+      path()            -- realpath()
+      walkpath()        -- walk down path $1 and $cmd each component
+        $1: path (optional; default: pwd)
+        $2: cmd  (optional; default: 'ls -ald --color=auto')
+      ensure_symlink()  -- create or update a symlink to $2 from $1
+                           if $2 exists, backup with suffix $3
+      ensure_mkdir()    -- create directory $1 if it does not yet exist
    
    
 #### << etc/bash/02-bashrc.platform.sh >>
 ### bashrc.platform.sh
-     detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
-     j()               -- jobs
-     f()               -- fg %$1
-     b()               -- bg %$1
-     killjob()         -- kill %$1
+      detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
+      j()               -- jobs
+      f()               -- fg %$1
+      b()               -- bg %$1
+      killjob()         -- kill %$1
    
    
 #### << etc/bash/03-bashrc.darwin.sh >>
 ### bashrc.darwin.sh
- softwareupdate                -- install OSX updates
-  | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
-  softwareupdate -l        # --list
-  softwareupdate -i --all  # --install --all
-  softwareupdate -i -r     # --install --recommended
- Mac Boot-time modifiers: (right after the chime)
-
-  Option    -- boot to boot disk selector menu
-  C         -- boot from CD/DVD
-  Shift     -- boot into Safe mode
-  Command-V -- boot into verbose mode
-   sudo nvram boot-args="-v"  # always boot verbosely
-   sudo nvram boot-args=""    # boot normally
-   sudo nvram -p              # print current nvram settings
- if __IS_MAC:
-     finder()    -- open Finder.app
-     finder-killall()  -- close all Finder.app instances
-     finder-restart()  -- close all and start Finder.app
-     finder-hide-hidden()    -- hide .hidden files in Finder.app
-                                (and close all Finder windows)
-     finder-show-hidden()    -- show .hidden files in Finder.app
-                                (and close all Finder windows)
+  softwareupdate                -- install OSX updates
+   | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+   softwareupdate -l        # --list
+   softwareupdate -i --all  # --install --all
+   softwareupdate -i -r     # --install --recommended
+  Mac Boot-time modifiers: (right after the chime)
+ 
+   Option    -- boot to boot disk selector menu
+   C         -- boot from CD/DVD
+   Shift     -- boot into Safe mode
+   Command-V -- boot into verbose mode
+    sudo nvram boot-args="-v"  # always boot verbosely
+    sudo nvram boot-args=""    # boot normally
+    sudo nvram -p              # print current nvram settings
+  if __IS_MAC:
+      finder()    -- open Finder.app
+      finder-killall()  -- close all Finder.app instances
+      finder-restart()  -- close all and start Finder.app
+      finder-hide-hidden()    -- hide .hidden files in Finder.app
+                                 (and close all Finder windows)
+      finder-show-hidden()    -- show .hidden files in Finder.app
+                                 (and close all Finder windows)
    
    
 #### << etc/bash/04-bashrc.TERM.sh >>
 ### bashrc.TERM.sh
-     configure_TERM            -- configure the $TERM variable (man terminfo)
-       $1: (optional; autodetects if -z)
-     configure_TERM_CLICOLOR   -- configure $CLICOLOR and $CLICOLOR_256
-       CLICOLOR=1
-     configure_TERM when sourced
+      configure_TERM            -- configure the $TERM variable (man terminfo)
+        $1: (optional; autodetects if -z)
+      configure_TERM_CLICOLOR   -- configure $CLICOLOR and $CLICOLOR_256
+        CLICOLOR=1
+      configure_TERM when sourced
    
    
 #### << etc/bash/05-bashrc.dotfiles.sh >>
 ### bashrc.dotfiles.sh
-     dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
-     shell_escape_single()
-     dotfiles_status()         -- print dotfiles_status
-     ds()                      -- print dotfiles_status
-     source "${__DOTFILES}/scripts/cls"
-     clr()                     -- clear scrollback
-     cls()                     -- clear scrollback and print dotfiles_status()
-     echo "## lspath"
-     lspath | tee $OUTPUT
- https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
-     debug-on()                 -- set -x -v
-     debug-off()                -- set +x +v
-     Virtualenvwrapper numeric sequence
-     * to make logs in /var/log/venv.nnn-stepname.log naturally ordered
-    
-     * 0xx : 'initialization' actions  : [initialize]
-     * 1xx : 'creation' actions        : [pre|post]mk[virtualenv|project]
-     * 2xx : 'vation' actions          : [pre|post][activate|deactivate]
-     * 8xx : 'managment' actions       : [pre|post][cpvirtualenv|rmvirtualenv]
-     * 868 : unknown
-     * xx0 : 'pre' actions
-     * xx9 : 'post' actions
-     Source-ordered according to the virtualenvwrapper docs
-     * https://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts
-     log_dotfiles_state()      -- save current environment to logfiles
-       $1 -- logkey (virtualenvwrapper step name)
-     XXX: PRF
-     dotfiles_initialize()     -- virtualenvwrapper initialize
-     dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
-     dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
-     NOTE: infer VIRTUAL_ENV_NAME from VIRTUAL_ENV
-     dotfiles_preactivate()    -- virtualenvwrapper preactivate
-     dotfiles_postactivate()   -- virtualenvwrapper postactivate
-     dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
-     dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
+      dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
+      shell_escape_single()
+      dotfiles_status()         -- print dotfiles_status
+      ds()                      -- print dotfiles_status
+      source "${__DOTFILES}/scripts/cls"
+      clr()                     -- clear scrollback
+      cls()                     -- clear scrollback and print dotfiles_status()
+      echo "## lspath"
+      lspath | tee $OUTPUT
+  https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+      debug-on()                 -- set -x -v
+      debug-off()                -- set +x +v
+      Virtualenvwrapper numeric sequence
+      * to make logs in /var/log/venv.nnn-stepname.log naturally ordered
+     
+      * 0xx : 'initialization' actions  : [initialize]
+      * 1xx : 'creation' actions        : [pre|post]mk[virtualenv|project]
+      * 2xx : 'vation' actions          : [pre|post][activate|deactivate]
+      * 8xx : 'managment' actions       : [pre|post][cpvirtualenv|rmvirtualenv]
+      * 868 : unknown
+      * xx0 : 'pre' actions
+      * xx9 : 'post' actions
+      Source-ordered according to the virtualenvwrapper docs
+      * https://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts
+      log_dotfiles_state()      -- save current environment to logfiles
+        $1 -- logkey (virtualenvwrapper step name)
+      XXX: PRF
+      dotfiles_initialize()     -- virtualenvwrapper initialize
+      dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
+      dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
+      NOTE: infer VIRTUAL_ENV_NAME from VIRTUAL_ENV
+      dotfiles_preactivate()    -- virtualenvwrapper preactivate
+      dotfiles_postactivate()   -- virtualenvwrapper postactivate
+      dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
+      dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
     ### usrlog.sh
     ## unset _MSG
     ## unset NOTE
@@ -246,487 +246,487 @@
    
 #### << etc/bash/06-bashrc.completion.sh >>
 ### bashrc.completion.sh
-     _configure_bash_completion()  -- configure bash completion
-                                   note: `complete -p` lists completions
+      _configure_bash_completion()  -- configure bash completion
+                                    note: `complete -p` lists completions
    
    
 #### << etc/bash/07-bashrc.python.sh >>
 ### bashrc.python.sh
-     pypath()              -- print python sys.path and site config
-     _setup_python()       -- configure $PYTHONSTARTUP
-     _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
+      pypath()              -- print python sys.path and site config
+      _setup_python()       -- configure $PYTHONSTARTUP
+      _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
 ## Pyenv
-     _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw
+      _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw
    
    
 #### << etc/bash/07-bashrc.virtualenvwrapper.sh >>
 ### bashrc.virtualenvwrapper.sh
-
- Installing Virtualenvwrapper:
-   apt:
-     sudo apt-get install virtualenvwrapper
-   pip:
-     [sudo] pip install -U pip virtualenvwrapper
-
+ 
+  Installing Virtualenvwrapper:
+    apt:
+      sudo apt-get install virtualenvwrapper
+    pip:
+      [sudo] pip install -U pip virtualenvwrapper
+ 
 ## Configure dotfiles/virtualenv root/prefix environment variables
- __WRK         workspace root
- PROJECT_HOME  virtualenvwrapper project directory (mkproject)
- WORKON_HOME   virtualenvwrapper virtualenv prefix
-               VIRTUAL_ENV=${WORKON_HOME}/${VIRTUAL_ENV_NAME}
-               _APP=${VIRTUAL_ENV_NAME}  #[/subpath]
-               _SRC=${VIRTUAL_ENV}/${_APP}
-               _WRD=${VIRTUAL_ENV}/${_APP}
-     _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
-         elif "${VIRTUAL_ENV}/bin/python"  ## use extra-venv python
-      if [ -n "${__IS_MAC}" ]; then  # for brew python
-     lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
-     lsve()                -- list virtualenvs in $WORKON_HOME
-     backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
-     backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
-     dx()                      -- 'deactivate'
-     rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
-        $1="$VENVSTR"
-        $2="$VIRTUAL_ENV"
-     TODO: adjust paths beyond the shebang
-      rebuild_virtualenv()     -- rebuild a virtualenv
-        $1="$VENVSTR"
-        $2="$VIRTUAL_ENV"
-     rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
-   _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
+  __WRK         workspace root
+  PROJECT_HOME  virtualenvwrapper project directory (mkproject)
+  WORKON_HOME   virtualenvwrapper virtualenv prefix
+                VIRTUAL_ENV=${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+                _APP=${VIRTUAL_ENV_NAME}  #[/subpath]
+                _SRC=${VIRTUAL_ENV}/${_APP}
+                _WRD=${VIRTUAL_ENV}/${_APP}
+      _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
+          elif "${VIRTUAL_ENV}/bin/python"  ## use extra-venv python
+       if [ -n "${__IS_MAC}" ]; then  # for brew python
+      lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
+      lsve()                -- list virtualenvs in $WORKON_HOME
+      backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
+      backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
+      dx()                      -- 'deactivate'
+      rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+         $1="$VENVSTR"
+         $2="$VIRTUAL_ENV"
+      TODO: adjust paths beyond the shebang
+       rebuild_virtualenv()     -- rebuild a virtualenv
+         $1="$VENVSTR"
+         $2="$VIRTUAL_ENV"
+      rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
+    _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
    
    
 #### << etc/bash/08-bashrc.conda.sh >>
 ### bashrc.conda.sh
 ## Conda / Anaconda
- see: 05-bashrc.dotfiles.sh
-        # shell_escape_single()
-        strtoescape=${1}
-        output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
-        echo "'"${output}"'"
-     _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
-     _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
-     _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
-     csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
-     _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
-        $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
-                     (default: ${__WRK})
-     _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
-       $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
-                                                       CONDA_ENVS__py27)
-       $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
-                                                       CONDA_ROOT__py27)
-    
-      Usage:
-       _setup_conda     # __py27
-       _setup_conda 27  # __py27
-       _setup_conda 34  # __py34
-       _setup_conda 35  # __py35
-       _setup_conda ~/envs             # __py27
-       _setup_conda ~/envs/ /opt/conda # /opt/conda
-       _setup_conda <conda_envs_path> <conda_root>  # conda_root
-    
-             CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
-     _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
-     _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
-     deduplicate_lines()   -- deduplicate lines w/ an associative array
-                                                     (~OrderedMap)
-     echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
-     lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
-       _conda_status>2
-       find>1
-     lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
-     _condaenvs()              -- list conda envs for tab-completion
-     workon_conda()        -- workon a conda + venv project
-     wec()                 -- workon a conda + venv project
-                           note: tab-completion only shows regular virtualenvs
-     _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-     mkvirtualenv_conda()  -- mkvirtualenv and conda create
-     if there is a function named 'dotfiles_postmkvirtualenv',
-     then run 'dotfiles_postmkvirtualenv'
-     rmvirtualenv_conda()  -- rmvirtualenv conda
-     mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
-     workon_conda_if_available()       -- workon_conda OR we OR workon
+  see: 05-bashrc.dotfiles.sh
+         # shell_escape_single()
+         strtoescape=${1}
+         output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
+         echo "'"${output}"'"
+      _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
+      _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
+      _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
+      csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
+      _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
+         $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
+                      (default: ${__WRK})
+      _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
+        $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
+                                                        CONDA_ENVS__py27)
+        $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
+                                                        CONDA_ROOT__py27)
+     
+       Usage:
+        _setup_conda     # __py27
+        _setup_conda 27  # __py27
+        _setup_conda 34  # __py34
+        _setup_conda 35  # __py35
+        _setup_conda ~/envs             # __py27
+        _setup_conda ~/envs/ /opt/conda # /opt/conda
+        _setup_conda <conda_envs_path> <conda_root>  # conda_root
+     
+              CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+      _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
+      _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
+      deduplicate_lines()   -- deduplicate lines w/ an associative array
+                                                      (~OrderedMap)
+      echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
+      lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
+        _conda_status>2
+        find>1
+      lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
+      _condaenvs()              -- list conda envs for tab-completion
+      workon_conda()        -- workon a conda + venv project
+      wec()                 -- workon a conda + venv project
+                            note: tab-completion only shows regular virtualenvs
+      _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
+      mkvirtualenv_conda()  -- mkvirtualenv and conda create
+      if there is a function named 'dotfiles_postmkvirtualenv',
+      then run 'dotfiles_postmkvirtualenv'
+      rmvirtualenv_conda()  -- rmvirtualenv conda
+      mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
+      workon_conda_if_available()       -- workon_conda OR we OR workon
    
    
 #### << etc/bash/08-bashrc.conda.sh.un~ >>
 ### bashrc.conda.sh
 ## Conda / Anaconda
- see: 05-bashrc.dotfiles.sh
-        # quote_shell_single_always()
-        strtoescape=${1}
-        output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
-        echo "'"${output}"'"
-     _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
-     _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
-     _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
-     csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
-     _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
-        $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
-                     (default: ${__WRK})
-     _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
-       $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
-                                                       CONDA_ENVS__py27)
-       $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
-                                                       CONDA_ROOT__py27)
-    
-      Usage:
-       _setup_conda     # __py27
-       _setup_conda 27  # __py27
-       _setup_conda 34  # __py34
-       _setup_conda 35  # __py35
-       _setup_conda ~/envs             # __py27
-       _setup_conda ~/envs/ /opt/conda # /opt/conda
-       _setup_conda <conda_envs_path> <conda_root>  # conda_root
-    
-             CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
-     _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
-     _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
-     deduplicate_lines()   -- deduplicate lines w/ an associative array
-                                                     (~OrderedMap)
-     echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
-     lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
-       _conda_status>2
-       find>1
-     lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
-     _condaenvs()              -- list conda envs for tab-completion
-     workon_conda()        -- workon a conda + venv project
-     wec()                 -- workon a conda + venv project
-                           note: tab-completion only shows regular virtualenvs
-     _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-     mkvirtualenv_conda()  -- mkvirtualenv and conda create
-     if there is a function named 'dotfiles_postmkvirtualenv',
-     then run 'dotfiles_postmkvirtualenv'
-     rmvirtualenv_conda()  -- rmvirtualenv conda
-     mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
-     workon_conda_if_available()       -- workon_conda OR we OR workon
+  see: 05-bashrc.dotfiles.sh
+         # quote_shell_single_always()
+         strtoescape=${1}
+         output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
+         echo "'"${output}"'"
+      _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
+      _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
+      _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
+      csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
+      _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
+         $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
+                      (default: ${__WRK})
+      _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
+        $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
+                                                        CONDA_ENVS__py27)
+        $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
+                                                        CONDA_ROOT__py27)
+     
+       Usage:
+        _setup_conda     # __py27
+        _setup_conda 27  # __py27
+        _setup_conda 34  # __py34
+        _setup_conda 35  # __py35
+        _setup_conda ~/envs             # __py27
+        _setup_conda ~/envs/ /opt/conda # /opt/conda
+        _setup_conda <conda_envs_path> <conda_root>  # conda_root
+     
+              CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+      _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
+      _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
+      deduplicate_lines()   -- deduplicate lines w/ an associative array
+                                                      (~OrderedMap)
+      echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
+      lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
+        _conda_status>2
+        find>1
+      lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
+      _condaenvs()              -- list conda envs for tab-completion
+      workon_conda()        -- workon a conda + venv project
+      wec()                 -- workon a conda + venv project
+                            note: tab-completion only shows regular virtualenvs
+      _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
+      mkvirtualenv_conda()  -- mkvirtualenv and conda create
+      if there is a function named 'dotfiles_postmkvirtualenv',
+      then run 'dotfiles_postmkvirtualenv'
+      rmvirtualenv_conda()  -- rmvirtualenv conda
+      mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
+      workon_conda_if_available()       -- workon_conda OR we OR workon
    
    
 #### << etc/bash/08-bashrc.gcloud.sh >>
 ### bashrc.gcloud.sh
-     _setup_google_cloud() -- configure gcloud $PATH and bash completions
+      _setup_google_cloud() -- configure gcloud $PATH and bash completions
    
    
 #### << etc/bash/10-bashrc.venv.sh >>
 ### bashrc.venv.sh
-   note: most of these aliases and functions are overwritten by `we` 
+    note: most of these aliases and functions are overwritten by `we` 
 ## Variables
-     _setup_venv()    -- configure __PROJECTSRC, PATH, __VENV, _setup_venv_SRC()
-      __PROJECTSRC (str): path to local project settings script to source
-     PATH="~/.local/bin:$PATH" (if not already there)
-     __VENV      -- path to local venv config script (executable)
-     CdAlias functions and completions
-     _setup_venv_SRC() -- configure __SRCVENV and __SRC global virtualenv
-     __SRCVENV (str): global 'src' venv symlink (~/-wrk/src)
-                      (e.g. ln -s ~/-wrk/-ve27/src ~/-wrk/src)
-     __SRC     (str): global 'src' venv ./src directory path (~/-wrk/src/src)
-                   ($__SRC/git $__SRC/git)
+      _setup_venv()    -- configure __PROJECTSRC, PATH, __VENV, _setup_venv_SRC()
+       __PROJECTSRC (str): path to local project settings script to source
+      PATH="~/.local/bin:$PATH" (if not already there)
+      __VENV      -- path to local venv config script (executable)
+      CdAlias functions and completions
+      _setup_venv_SRC() -- configure __SRCVENV and __SRC global virtualenv
+      __SRCVENV (str): global 'src' venv symlink (~/-wrk/src)
+                       (e.g. ln -s ~/-wrk/-ve27/src ~/-wrk/src)
+      __SRC     (str): global 'src' venv ./src directory path (~/-wrk/src/src)
+                    ($__SRC/git $__SRC/git)
 ## Functions
-     venv $@   -- call $_VENV $@
-     venv -h   -- print venv --help
-     venv --print-bash   -- print bash configuration
-     venv --print-json   -- print IPython configuration as JSON
-     venvw $@ -- venv -E $@ (for the current environment)
-     workon_venv() -- workon a virtualenv and load venv (TAB-completion)
-      param $1: $VIRTUAL_ENV_NAME ("dotfiles")
-      param $2: $_APP ("dotfiles") [default: $1)
-       ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
-       ${VIRTUAL_ENV}/src                  # == $_SRC
-       ${_SRC}/${VIRTUAL_ENV_NAME}         # == $_WRD
-      examples:
-       we dotfiles
-       we dotfiles dotfiles
-     we()          -- workon_venv
-     _setup_venv_aliases()  -- load venv aliases
-       note: these are overwritten by `we` [`source <(venv -b)`]
-     makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
-     hgw       -- hg -R  ${_WRD}   [scripts/hgw <TAB>]
-     gitw      -- git -C ${_WRD}   [scripts/gitw <TAB>]
-     serve-()  -- ${_SERVE_}
-     alias serve-='${_SERVE_}'
-     shell-()  -- ${_SHELL_}
-     alias shell-='${_SHELL_}'
-     test-()   -- cd ${_WRD} && python setup.py test
-     testr-()  -- reset; cd ${_WRD} && python setup.py test
-     _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
-                              and ${debian_chroot}
-               "WINDOW_TITLE (venvprompt) [debian_chroot]"
-     try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
-     TODO: CONDA
-     venv_ls()     -- list virtualenv directories
-     lsvenv()      -- venv_ls()
-     venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+      venv $@   -- call $_VENV $@
+      venv -h   -- print venv --help
+      venv --print-bash   -- print bash configuration
+      venv --print-json   -- print IPython configuration as JSON
+      venvw $@ -- venv -E $@ (for the current environment)
+      workon_venv() -- workon a virtualenv and load venv (TAB-completion)
+       param $1: $VIRTUAL_ENV_NAME ("dotfiles")
+       param $2: $_APP ("dotfiles") [default: $1)
+        ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
+        ${VIRTUAL_ENV}/src                  # == $_SRC
+        ${_SRC}/${VIRTUAL_ENV_NAME}         # == $_WRD
+       examples:
+        we dotfiles
+        we dotfiles dotfiles
+      we()          -- workon_venv
+      _setup_venv_aliases()  -- load venv aliases
+        note: these are overwritten by `we` [`source <(venv -b)`]
+      makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
+      hgw       -- hg -R  ${_WRD}   [scripts/hgw <TAB>]
+      gitw      -- git -C ${_WRD}   [scripts/gitw <TAB>]
+      serve-()  -- ${_SERVE_}
+      alias serve-='${_SERVE_}'
+      shell-()  -- ${_SHELL_}
+      alias shell-='${_SHELL_}'
+      test-()   -- cd ${_WRD} && python setup.py test
+      testr-()  -- reset; cd ${_WRD} && python setup.py test
+      _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+                               and ${debian_chroot}
+                "WINDOW_TITLE (venvprompt) [debian_chroot]"
+      try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
+      TODO: CONDA
+      venv_ls()     -- list virtualenv directories
+      lsvenv()      -- venv_ls()
+      venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
    
    
 #### << etc/bash/11-bashrc.venv.pyramid.sh >>
 ### bashrc.venv.pyramid.sh
-     workon_pyramid_app()  -- $VIRTUAL_ENV_NAME [$_APP] [open_terminals]
+      workon_pyramid_app()  -- $VIRTUAL_ENV_NAME [$_APP] [open_terminals]
    
    
 #### << etc/bash/20-bashrc.editor.sh >>
 ### bashrc.editor.sh
-     setup_editor()    -- configure ${EDITOR}
-       VIMBIN  (str):   /usr/bin/vim
-       GVIMBIN (str):   /usr/bin/gvim
-       MVIMBIN (str):   /usr/local/bin/mvim
-       GUIVIMBIN (str): $GVIMBIN || $MVIMBIN || ""
-       EDITOR  (str):   $VIMBIN -f || $GUIVIMBIN -f
-       EDITOR_ (str):   $EDITOR || $GUIVIMBIN $VIMCONF --remote-tab-silent
-       VIMCONF (str):   --servername ${VIRTUAL_ENV_NAME:-'EDITOR'}
-       SUDO_EDITOR (str): $EDITOR
-     _setup_pager()    -- set PAGER='less'
-     ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
-     edits()   -- open $@ in ${GUIVIMBIN} --servername $1
-     editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
-     sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
-     sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+      setup_editor()    -- configure ${EDITOR}
+        VIMBIN  (str):   /usr/bin/vim
+        GVIMBIN (str):   /usr/bin/gvim
+        MVIMBIN (str):   /usr/local/bin/mvim
+        GUIVIMBIN (str): $GVIMBIN || $MVIMBIN || ""
+        EDITOR  (str):   $VIMBIN -f || $GUIVIMBIN -f
+        EDITOR_ (str):   $EDITOR || $GUIVIMBIN $VIMCONF --remote-tab-silent
+        VIMCONF (str):   --servername ${VIRTUAL_ENV_NAME:-'EDITOR'}
+        SUDO_EDITOR (str): $EDITOR
+      _setup_pager()    -- set PAGER='less'
+      ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
+      edits()   -- open $@ in ${GUIVIMBIN} --servername $1
+      editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
+      sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+      sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
    
    
 #### << etc/bash/29-bashrc.vimpagers.sh >>
 ### bashrc.vimpagers.sh
-     _configure_lesspipe() -- (less <file.zip> | lessv)
-     vimpager() -- call vimpager
-     lessv()   -- less with less.vim and vim (g:tinyvim=1)
-     lessg()   -- less with less.vim and gvim / mvim
-     lesse()   -- less with current venv's vim server
-     manv()    -- view manpages in vim
-     mang()    -- view manpages in gvim / mvim
-     mane()    -- open manpage with venv's vim server
+      _configure_lesspipe() -- (less <file.zip> | lessv)
+      vimpager() -- call vimpager
+      lessv()   -- less with less.vim and vim (g:tinyvim=1)
+      lessg()   -- less with less.vim and gvim / mvim
+      lesse()   -- less with current venv's vim server
+      manv()    -- view manpages in vim
+      mang()    -- view manpages in gvim / mvim
+      mane()    -- open manpage with venv's vim server
    
    
 #### << etc/bash/30-bashrc.usrlog.sh >>
 ### bashrc.usrlog.sh
-     _USRLOG (str): path to .usrlog userspace shell command log
-     stid()      -- set $TERM_ID to a random string
-     stid $name  -- set $TERM_ID to string
-     note()      -- add a dated note to $_USRLOG [_usrlog_append]
-     usrlogv()   -- open usrlog with vim:   $VIMBIN + $_USRLOG
-     usrlogg()   -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
-     usrloge()   -- open usrlog with editor:$EDITOR + $_USRLOG
-     ut()        -- tail $_USRLOG
-     ug()        -- egrep current usrlog: egrep $@ $_USRLOG
-     ugall()     -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
-     ugrin()     -- grin current usrlog: grin $@ $_USRLOG
-     ugrinall()  -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
-     lsusrlogs() -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
-     _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
-     usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
-     usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
-     usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
+      _USRLOG (str): path to .usrlog userspace shell command log
+      stid()      -- set $TERM_ID to a random string
+      stid $name  -- set $TERM_ID to string
+      note()      -- add a dated note to $_USRLOG [_usrlog_append]
+      usrlogv()   -- open usrlog with vim:   $VIMBIN + $_USRLOG
+      usrlogg()   -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+      usrloge()   -- open usrlog with editor:$EDITOR + $_USRLOG
+      ut()        -- tail $_USRLOG
+      ug()        -- egrep current usrlog: egrep $@ $_USRLOG
+      ugall()     -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
+      ugrin()     -- grin current usrlog: grin $@ $_USRLOG
+      ugrinall()  -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
+      lsusrlogs() -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+      _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
+      usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
+      usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
+      usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
    
    
 #### << etc/bash/30-bashrc.xlck.sh >>
 ### 30-bashrc.xlck.sh
 ## xlck     -- minimal X screensaver
-     xlck 
-     xlck -I  --  (I)nstall xlck (apt-get)
-     xlck -U  --  check stat(U)s (show xautolock processes on this $DISPLAY)
-     xlck -S  --  (S)tart xlck (start xautolock on this $DISPLAY)
-     xlck -P  --  sto(P) xlck (stop xautolock on this $DISPLAY)
-     xlck -R  --  (R)estart xlck
-     xlck -M  --  suspend to ra(M) (and lock)
-     xlck -D  --  suspend to (D)isk (and lock)
-     xlck -L  --  (L)ock
-     xlck -X  --  shutdown -h now
-     xlck -h  --  help
-     xlck_status_all()             -- pgrep 'xautolock|xlock|i3lock', ps ufw
-     xlck_status_this_display()    -- show status for this $DISPLAY
-     _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
+      xlck 
+      xlck -I  --  (I)nstall xlck (apt-get)
+      xlck -U  --  check stat(U)s (show xautolock processes on this $DISPLAY)
+      xlck -S  --  (S)tart xlck (start xautolock on this $DISPLAY)
+      xlck -P  --  sto(P) xlck (stop xautolock on this $DISPLAY)
+      xlck -R  --  (R)estart xlck
+      xlck -M  --  suspend to ra(M) (and lock)
+      xlck -D  --  suspend to (D)isk (and lock)
+      xlck -L  --  (L)ock
+      xlck -X  --  shutdown -h now
+      xlck -h  --  help
+      xlck_status_all()             -- pgrep 'xautolock|xlock|i3lock', ps ufw
+      xlck_status_this_display()    -- show status for this $DISPLAY
+      _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
    
    
 #### << etc/bash/40-bashrc.aliases.sh >>
 ### bashrc.aliases.sh
-      _load_aliases()  -- load aliases
-     chmodr   -- 'chmod -R'
-     chownr   -- 'chown -R'
-     grep     -- 'grep --color=auto'
-     egrep    -- 'egrep --color=auto'
-     fgrep    -- 'fgrep --color=auto'
-     grindp   -- 'grind --sys.path'
-     grinp    -- 'grin --sys-path'
-     fumnt    -- 'fusermount -u'
-     ga       -- 'git add'
-     gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
-       $1 (str): quoted commit message
-       $2- (list): file paths
-     gb       -- 'git branch -v'
-     gd       -- 'git diff'
-     gds      -- 'git diff -p --stat'
-     gc       -- 'git commit'
-     gco      -- 'git checkout'
-     gdc      -- 'git diff --cached'
-     gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
-     gr       -- 'git remote -v'
-     gs       -- 'git status'
-     gsi      -- 'git is; git diff; git diff --cached'
-     gsiw      -- 'git -C $_WRD gsi'
-     gsl      -- 'git stash list'
-     gsn      -- 'git stash save'
-     gss      -- 'git stash save'
-     gitr     -- 'git remote -v'
-     hga      -- 'hg add'
-     hgac()   -- 'hg add $@[1:]; hg commit $1'
-       $1 (str): quoted commit message
-       $2- (list): file paths
-     hgl      -- 'hg glog --pager=yes'
-     hgs      -- 'hg status'
-     hgd      -- 'hg diff'
-     hgds     -- 'hg diff --stat'
-     hgdl     -- 'hg diff --color=always | less -R'
-     hgc      -- 'hg commit'
-     hgu      -- 'hg update'
-     hgq      -- 'hg qseries'
-     hgqd     -- 'hg qdiff'
-     hgqs     -- 'hg qseries'
-     hgqn     -- 'hg qnew'
-     hgr      -- 'hg paths'
-     __IS_MAC
-         la       -- 'ls -A -G'
-         ll       -- 'ls -alF -G'
-         ls       -- 'ls -G'
-         lt       -- 'ls -altr -G'
-         lll      -- 'ls -altr -G'
-     else
-         la       -- 'ls -A --color=auto'
-         ll       -- 'ls -alF --color=auto'
-         ls       -- 'ls --color=auto'
-         lt       -- 'ls -altr --color=auto'
-         lll      -- 'ls -altr --color=auto'
-     __IS_LINUX
-         psx      -- 'ps uxaw'
-         psf      -- 'ps uxawf'
-         psxs     -- 'ps uxawf --sort=tty,ppid,pid'
-         psxh     -- 'ps uxawf --sort=tty,ppid,pid | head'
-         psh      -- 'ps uxaw | head'
-         psc      -- 'ps uxaw --sort=-pcpu'
-         psch     -- 'ps uxaw --sort=-pcpu | head'
-         psm      -- 'ps uxaw --sort=-pmem'
-         psmh     -- 'ps uxaw --sort=-pmem | head'
-     __IS_MAC
-         psx      -- 'ps uxaw'
-         psf      -- 'ps uxaw' # no -f
-         psh      -- 'ps uxaw | head'
-         psc      -- 'ps uxaw -c'
-         psch     -- 'ps uxaw -c | head'
-         psm      -- 'ps uxaw -m'
-         psmh     -- 'ps uxaw -m | head'
-     pyg      -- pygmentize [pip install --user pygments]
-     catp     -- pygmentize [pip install --user pygments]
-     shtop    -- 'sudo htop' [apt-get/yum install -y htop]
-     t        -- 'tail'
-     tf       -- 'tail -f'
-     xclipc   -- 'xclip -selection c'
+       _load_aliases()  -- load aliases
+      chmodr   -- 'chmod -R'
+      chownr   -- 'chown -R'
+      grep     -- 'grep --color=auto'
+      egrep    -- 'egrep --color=auto'
+      fgrep    -- 'fgrep --color=auto'
+      grindp   -- 'grind --sys.path'
+      grinp    -- 'grin --sys-path'
+      fumnt    -- 'fusermount -u'
+      ga       -- 'git add'
+      gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
+        $1 (str): quoted commit message
+        $2- (list): file paths
+      gb       -- 'git branch -v'
+      gd       -- 'git diff'
+      gds      -- 'git diff -p --stat'
+      gc       -- 'git commit'
+      gco      -- 'git checkout'
+      gdc      -- 'git diff --cached'
+      gl       -- 'git log --pretty=format:"%h : %an : %s" --topo-order --graph'
+      gr       -- 'git remote -v'
+      gs       -- 'git status'
+      gsi      -- 'git is; git diff; git diff --cached'
+      gsiw      -- 'git -C $_WRD gsi'
+      gsl      -- 'git stash list'
+      gsn      -- 'git stash save'
+      gss      -- 'git stash save'
+      gitr     -- 'git remote -v'
+      hga      -- 'hg add'
+      hgac()   -- 'hg add $@[1:]; hg commit $1'
+        $1 (str): quoted commit message
+        $2- (list): file paths
+      hgl      -- 'hg glog --pager=yes'
+      hgs      -- 'hg status'
+      hgd      -- 'hg diff'
+      hgds     -- 'hg diff --stat'
+      hgdl     -- 'hg diff --color=always | less -R'
+      hgc      -- 'hg commit'
+      hgu      -- 'hg update'
+      hgq      -- 'hg qseries'
+      hgqd     -- 'hg qdiff'
+      hgqs     -- 'hg qseries'
+      hgqn     -- 'hg qnew'
+      hgr      -- 'hg paths'
+      __IS_MAC
+          la       -- 'ls -A -G'
+          ll       -- 'ls -alF -G'
+          ls       -- 'ls -G'
+          lt       -- 'ls -altr -G'
+          lll      -- 'ls -altr -G'
+      else
+          la       -- 'ls -A --color=auto'
+          ll       -- 'ls -alF --color=auto'
+          ls       -- 'ls --color=auto'
+          lt       -- 'ls -altr --color=auto'
+          lll      -- 'ls -altr --color=auto'
+      __IS_LINUX
+          psx      -- 'ps uxaw'
+          psf      -- 'ps uxawf'
+          psxs     -- 'ps uxawf --sort=tty,ppid,pid'
+          psxh     -- 'ps uxawf --sort=tty,ppid,pid | head'
+          psh      -- 'ps uxaw | head'
+          psc      -- 'ps uxaw --sort=-pcpu'
+          psch     -- 'ps uxaw --sort=-pcpu | head'
+          psm      -- 'ps uxaw --sort=-pmem'
+          psmh     -- 'ps uxaw --sort=-pmem | head'
+      __IS_MAC
+          psx      -- 'ps uxaw'
+          psf      -- 'ps uxaw' # no -f
+          psh      -- 'ps uxaw | head'
+          psc      -- 'ps uxaw -c'
+          psch     -- 'ps uxaw -c | head'
+          psm      -- 'ps uxaw -m'
+          psmh     -- 'ps uxaw -m | head'
+      pyg      -- pygmentize [pip install --user pygments]
+      catp     -- pygmentize [pip install --user pygments]
+      shtop    -- 'sudo htop' [apt-get/yum install -y htop]
+      t        -- 'tail'
+      tf       -- 'tail -f'
+      xclipc   -- 'xclip -selection c'
    
    
 #### << etc/bash/42-bashrc.commands.sh >>
 ### bashrc.commands.sh
- usage: bash -c 'source bashrc.commands.sh; funcname <args>'
-     chown-me()        -- chown -Rv user
-     chown-me-mine()   -- chown -Rv user:user && chmod -Rv go-rwx
-     chown-sme()       -- sudo chown -Rv user
-     chown-sme-mine()  -- sudo chown -Rv user:user && chmod -Rv go-rwx
-     chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
+  usage: bash -c 'source bashrc.commands.sh; funcname <args>'
+      chown-me()        -- chown -Rv user
+      chown-me-mine()   -- chown -Rv user:user && chmod -Rv go-rwx
+      chown-sme()       -- sudo chown -Rv user
+      chown-sme-mine()  -- sudo chown -Rv user:user && chmod -Rv go-rwx
+      chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
    
    
 #### << etc/bash/50-bashrc.bashmarks.sh >>
 ### bashrc.bashmarks.sh
 ## bashmarks
-     l()  -- list bashmarks
-     s()  -- save bashmarks as $1
-     g()  -- goto bashmark $1
-     p()  -- print bashmark $1
-     d()  -- delete bashmark $1
-     lsbashmarks() -- list Bashmarks (e.g. for NERDTree)
-     see also: ${__DOTFILES}/scripts/nerdtree_to_bashmarks.py
+      l()  -- list bashmarks
+      s()  -- save bashmarks as $1
+      g()  -- goto bashmark $1
+      p()  -- print bashmark $1
+      d()  -- delete bashmark $1
+      lsbashmarks() -- list Bashmarks (e.g. for NERDTree)
+      see also: ${__DOTFILES}/scripts/nerdtree_to_bashmarks.py
    
    
 #### << etc/bash/70-bashrc.repos.sh >>
 ### 70-bashrc.repos.sh
-      git-commit()   -- git commit ${2:} -m ${1}; git log -n1 
-      gc()             -- git-commit() <files> -m <log> ; log log -n1
-      git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
-      gac()            -- git-add-commit $@
- function msg {
-   export _MSG="${@}"
-   see: usrlog.sh
- }
-      gitcmsg()    -- gitc "${_MSG}" ${@}
-      gitcaddmsg()    -- gitc "${_MSG}" ${@}
-
-
-
- Use Cases
- * Original: a bunch of commands that i was running frequently
-   before readthedocs (and hostthedocs)
- * local mirrors (manual, daily?)
-   * no internet, outages
-   * push -f
-   * (~offline) Puppet/Salt source installs
-     * bandwidth: testing a recipe that pulls a whole repositor(ies)
- * what's changed in <project>'s source dependencies, since i looked last
-
- Justification
- * very real risks for all development projects
-   * we just assume that GitHub etc. are immutable and forever
-
- Features (TODO) [see: pyrpo]
- * Hg <subcommands>
- * Git <subcommands>
- * Bzr <subcommands>
- * periodic backups / mirroring
- * gitweb / hgweb
- * mirror_and_backup <URL>
- * all changes since <date> for <set_of_hg-git-bzr-svn_repositories>
- * ideally: transparent proxy
-   * +1: easiest
-   * -1: pushing upstream
-
- Caveats
- * pasting / referencing links which are local paths
- * synchronization lag
- * duplication: $__SRC/hg/<pkg> AND $VIRTUAL_ENV/src/<pkg>
-
-      setup_dotfiles_docs_venv -- create default 'docs' venv
-      setup_dotfiles_src_venv -- create default 'src' venv
-    
-       __SRC_HG=${WORKON_HOME}/src/src/hg
-       __SRC_GIT=${WORKON_HOME}/src/src/git
-    
-      Hg runs hg commands as user hg
-      Git runs git commands as user git
-    
-      Hgclone will mirror to $__SRC_HG
-      Gitclone will mirror to $__SRC_GIT
-    
-    
- __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
- __SRC_GIT_REMOTE_NAME         -- name for git remote v
- __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
- __SRC_HG_REMOTE_NAME          -- name for hg paths
+       git-commit()   -- git commit ${2:} -m ${1}; git log -n1 
+       gc()             -- git-commit() <files> -m <log> ; log log -n1
+       git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
+       gac()            -- git-add-commit $@
+  function msg {
+    export _MSG="${@}"
+    see: usrlog.sh
+  }
+       gitcmsg()    -- gitc "${_MSG}" ${@}
+       gitcaddmsg()    -- gitc "${_MSG}" ${@}
+ 
+ 
+ 
+  Use Cases
+  * Original: a bunch of commands that i was running frequently
+    before readthedocs (and hostthedocs)
+  * local mirrors (manual, daily?)
+    * no internet, outages
+    * push -f
+    * (~offline) Puppet/Salt source installs
+      * bandwidth: testing a recipe that pulls a whole repositor(ies)
+  * what's changed in <project>'s source dependencies, since i looked last
+ 
+  Justification
+  * very real risks for all development projects
+    * we just assume that GitHub etc. are immutable and forever
+ 
+  Features (TODO) [see: pyrpo]
+  * Hg <subcommands>
+  * Git <subcommands>
+  * Bzr <subcommands>
+  * periodic backups / mirroring
+  * gitweb / hgweb
+  * mirror_and_backup <URL>
+  * all changes since <date> for <set_of_hg-git-bzr-svn_repositories>
+  * ideally: transparent proxy
+    * +1: easiest
+    * -1: pushing upstream
+ 
+  Caveats
+  * pasting / referencing links which are local paths
+  * synchronization lag
+  * duplication: $__SRC/hg/<pkg> AND $VIRTUAL_ENV/src/<pkg>
+ 
+       setup_dotfiles_docs_venv -- create default 'docs' venv
+       setup_dotfiles_src_venv -- create default 'src' venv
+     
+        __SRC_HG=${WORKON_HOME}/src/src/hg
+        __SRC_GIT=${WORKON_HOME}/src/src/git
+     
+       Hg runs hg commands as user hg
+       Git runs git commands as user git
+     
+       Hgclone will mirror to $__SRC_HG
+       Gitclone will mirror to $__SRC_GIT
+     
+     
+  __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
+  __SRC_GIT_REMOTE_NAME         -- name for git remote v
+  __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
+  __SRC_HG_REMOTE_NAME          -- name for hg paths
     ## Create a new hosted repository with gitolite-admin
-      $1   -- repo [user/]name (e.g. westurner/dotfiles)
+       $1   -- repo [user/]name (e.g. westurner/dotfiles)
     ## push a git repository to local git storage
-      $1   -- repo [user/]name (e.g. westurner/dotfiles) 
-      $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
+       $1   -- repo [user/]name (e.g. westurner/dotfiles) 
+       $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
     ## Create a new hosted repository with mercurial-ssh
     ## push a hg repository to local git storage
-      $1   -- repo [user/]name (e.g. westurner/dotfiles)
-      $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
-        fixperms ${path}
-      host_docs    -- build and host documentation in a local directory
-       param $1: <project_name>
-       param $2: [<path>]
-       param $3: [<docs/Makefile>]
-       param $4: [<docs/conf.py>]
-     * log documentation builds
-     * build a sphinx documentation set with a Makefile and a conf.py
-     * rsync to docs webserver
-     * set permissions
-     this is not readthedocs.org
-     note: you must manually install packages into the
-     local 'docs' virtualenv'
-                         TODO: prompt?
-         >> 'html_theme = "_-_"
-         << 'html_theme = 'default'
+       $1   -- repo [user/]name (e.g. westurner/dotfiles)
+       $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
+         fixperms ${path}
+       host_docs    -- build and host documentation in a local directory
+        param $1: <project_name>
+        param $2: [<path>]
+        param $3: [<docs/Makefile>]
+        param $4: [<docs/conf.py>]
+      * log documentation builds
+      * build a sphinx documentation set with a Makefile and a conf.py
+      * rsync to docs webserver
+      * set permissions
+      this is not readthedocs.org
+      note: you must manually install packages into the
+      local 'docs' virtualenv'
+                          TODO: prompt?
+          >> 'html_theme = "_-_"
+          << 'html_theme = 'default'
    
    
 #### << etc/bash/99-bashrc.after.sh >>
@@ -734,246 +734,246 @@
    
 #### << etc/bash/_ewrd.sh >>
 ###   _ewrd.sh  -- convenient editor shortcuts
-     # setup edit[*] and e[*] symlinks:
-     $ ln -s ./_ewrd.sh _ewrd-setup.sh && ./_ewrd-setup.sh
+      # setup edit[*] and e[*] symlinks:
+      $ ln -s ./_ewrd.sh _ewrd-setup.sh && ./_ewrd-setup.sh
 ##    editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
-     editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
-     edotfiles()    -- cd $__DOTFILES and run edit w/ each arg
+      editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
+      edotfiles()    -- cd $__DOTFILES and run edit w/ each arg
 ##    editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
-     editwrk()      -- cd $__WRK and run edit w/ each arg
-     ewrk()         -- cd $__WRK and run edit w/ each arg
+      editwrk()      -- cd $__WRK and run edit w/ each arg
+      ewrk()         -- cd $__WRK and run edit w/ each arg
 ##    editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
-     editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
-     eworkonhome()    -- cd $WORKON_HOME and run edit w/ each arg
-     ewh()            -- cd $WORKON_HOME and run edit w/ each arg
+      editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
+      eworkonhome()    -- cd $WORKON_HOME and run edit w/ each arg
+      ewh()            -- cd $WORKON_HOME and run edit w/ each arg
 ##    editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
-     editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
-     evirtualenv()    -- cd $VIRTUAL_ENV and run edit w/ each arg
-     ev()             -- cd $VIRTUAL_ENV and run edit w/ each arg
+      editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
+      evirtualenv()    -- cd $VIRTUAL_ENV and run edit w/ each arg
+      ev()             -- cd $VIRTUAL_ENV and run edit w/ each arg
 ##    editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
-     editsrc() -- cd $_SRC and run edit w/ each arg
-     esrc()    -- cd $_SRC and run edit w/ each arg
-     es()      -- cd $_SRC and run edit w/ each arg
+      editsrc() -- cd $_SRC and run edit w/ each arg
+      esrc()    -- cd $_SRC and run edit w/ each arg
+      es()      -- cd $_SRC and run edit w/ each arg
 ##    editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
-     editwrd() -- cd $_WRD and run edit w/ each arg
-     ewrd()    -- cd $_WRD and run edit w/ each arg
-     ew()      -- cd $_WRD and run edit w/ each arg
+      editwrd() -- cd $_WRD and run edit w/ each arg
+      ewrd()    -- cd $_WRD and run edit w/ each arg
+      ew()      -- cd $_WRD and run edit w/ each arg
 ##    editetc, eetc      --- cd $_ETC and run edit w/ each arg
-     editetc() -- cd $_ETC and run edit w/ each arg
-     eetc()    -- cd $_ETC and run edit w/ each arg
+      editetc() -- cd $_ETC and run edit w/ each arg
+      eetc()    -- cd $_ETC and run edit w/ each arg
 ##    editwww, ewww      --- cd $_WWW and run edit w/ each arg
-     editwww() -- cd $_WWW and run edit w/ each arg
-     ewww()    -- cd $_WWW and run edit w/ each arg
-
+      editwww() -- cd $_WWW and run edit w/ each arg
+      ewww()    -- cd $_WWW and run edit w/ each arg
+ 
 ## seeAlso ##
- * https://westurner.org/dotfiles/venv
-
- .. code:: bash
-
-    type cdhelp; cdhelp 
-    less scripts/venv_cdaliases.sh
-    venv.py --prefix=/ --print-bash-cdaliases
+  * https://westurner.org/dotfiles/venv
+ 
+  .. code:: bash
+ 
+     type cdhelp; cdhelp 
+     less scripts/venv_cdaliases.sh
+     venv.py --prefix=/ --print-bash-cdaliases
    
    
 #### << etc/bash/usrlog.sh >>
 ### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
-
-  Log shell commands with metadata as tab-separated lines to ${_USRLOG}
-  with a shell identifier to differentiate between open windows,
-  testing/screencast flows, etc
-
-  By default, _USRLOG will be set to a random string prefixed with '#'
-  by the `stid()` bash function (`_usrlog_set__TERM_ID()`)
-
-  * _TERM_ID can be set to any string;
-  * _TERM_ID is displayed in the PS1 prompt
-  * _TERM_ID is displayed in the window title
-  * _TERM_ID is reset to __TERM_ID upon 'deactivate'
-    (westurner/dotfiles//etc/bash/07-bashrc.virtualenvwrapper.sh:
-     TODO: virtualenvwrapper, conda)
-
-  Environment Variables:
-
-   __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
-   _USRLOG  (str): current -usrlog.log file to append REPL command strings to
-   _TERM_ID (str): a terminal identifier with which command loglines will
-                   be appended (default: _usrlog_randstr)
-
-      _usrlog_get_prefix()    -- get a dirpath for the current usrlog
-                                 (VIRTUAL_ENV or HOME)
-      _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
-      _usrlog_set_HISTFILE()   -- configure shell history
-           history -a   -- append any un-flushed lines to $HISTFILE
-     set/touch HISTFILE
-       history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
-         ZSH_VERSION
-      _usrlog_set_HIST()    -- set shell $HIST<...> variables
-      see HISTSIZE and HISTFILESIZE in bash(1)
-      note that HOSTNAME and USER come from the environ
-      and MUST be evaluated at the time HISTTIMEFORMAT is set.
-      ... or force ignoredups and ignorespace
-      HISTCONTROL=ignoredups:ignorespace
-          append current lines to history
-          append to the history file, don't overwrite it
-          https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
-          replace newlines with semicolons
-          enable autocd (if available)
-      _usrlog_randstr      -- Generate a random string
-        $1: number of characters
-      _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
-      _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
-        $1: _term_id value for _TERM_ID
-      _usrlog_echo_title   -- set window title (by echo'ing escape codes)
-      else
-         echo -ne "${USRLOG_WINDOW_TITLE}"
-      _usrlog_set_title()  --  set xterm title
-       $1: _window_title (defaults to ${_TERM_ID})
-      _usrlog_setup()      -- configure usrlog for the current shell
-      setup bash
-      setup zsh
-      _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp
-        $1: text (command) to log
-        note: _TERM_ID must not contain a tab character (tr '\t' ' ')
-        note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
-      example:
-        2014-11-15T06:42:00-0600	dotfiles	 8311  ls
-        (pwd -p)?
-         this from HISTORY
-    #  _usrlog_append_oldstype -- Write a line to $_USRLOG
-    #    $1: text (command) to log
-    #  examples:
-    #    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
-    #    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
-    printf "#  %-11s: %s : %s" \
-        "$_TERM_ID" \
-        "$(date +'%D %R.%S')" \
-        "${1:-'\n'}" \
-            | tee -a $_USRLOG >&2
-      _usrlog_writecmd()    -- write the most recent command to $_USRLOG
+ 
+   Log shell commands with metadata as tab-separated lines to ${_USRLOG}
+   with a shell identifier to differentiate between open windows,
+   testing/screencast flows, etc
+ 
+   By default, _USRLOG will be set to a random string prefixed with '#'
+   by the `stid()` bash function (`_usrlog_set__TERM_ID()`)
+ 
+   * _TERM_ID can be set to any string;
+   * _TERM_ID is displayed in the PS1 prompt
+   * _TERM_ID is displayed in the window title
+   * _TERM_ID is reset to __TERM_ID upon 'deactivate'
+     (westurner/dotfiles//etc/bash/07-bashrc.virtualenvwrapper.sh:
+      TODO: virtualenvwrapper, conda)
+ 
+   Environment Variables:
+ 
+    __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
+    _USRLOG  (str): current -usrlog.log file to append REPL command strings to
+    _TERM_ID (str): a terminal identifier with which command loglines will
+                    be appended (default: _usrlog_randstr)
+ 
+       _usrlog_get_prefix()    -- get a dirpath for the current usrlog
+                                  (VIRTUAL_ENV or HOME)
+       _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
+       _usrlog_set_HISTFILE()   -- configure shell history
+            history -a   -- append any un-flushed lines to $HISTFILE
+      set/touch HISTFILE
+        history -c && history -r $HISTFILE   -- clear; reload $HISTFILE
+          ZSH_VERSION
+       _usrlog_set_HIST()    -- set shell $HIST<...> variables
+       see HISTSIZE and HISTFILESIZE in bash(1)
+       note that HOSTNAME and USER come from the environ
+       and MUST be evaluated at the time HISTTIMEFORMAT is set.
+       ... or force ignoredups and ignorespace
+       HISTCONTROL=ignoredups:ignorespace
+           append current lines to history
+           append to the history file, don't overwrite it
+           https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+           replace newlines with semicolons
+           enable autocd (if available)
+       _usrlog_randstr      -- Generate a random string
+         $1: number of characters
+       _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
+       _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
+         $1: _term_id value for _TERM_ID
+       _usrlog_echo_title   -- set window title (by echo'ing escape codes)
+       else
+          echo -ne "${USRLOG_WINDOW_TITLE}"
+       _usrlog_set_title()  --  set xterm title
+        $1: _window_title (defaults to ${_TERM_ID})
+       _usrlog_setup()      -- configure usrlog for the current shell
+       setup bash
+       setup zsh
+       _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp
+         $1: text (command) to log
+         note: _TERM_ID must not contain a tab character (tr '\t' ' ')
+         note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
+       example:
+         2014-11-15T06:42:00-0600	dotfiles	 8311  ls
+         (pwd -p)?
+          this from HISTORY
+     #  _usrlog_append_oldstype -- Write a line to $_USRLOG
+     #    $1: text (command) to log
+     #  examples:
+     #    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+     #    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+     printf "#  %-11s: %s : %s" \
+         "$_TERM_ID" \
+         "$(date +'%D %R.%S')" \
+         "${1:-'\n'}" \
+             | tee -a $_USRLOG >&2
+       _usrlog_writecmd()    -- write the most recent command to $_USRLOG
 ## usrlog parsing
-      _usrlog_parse_newstyle -- Parse a -usrlog.log with pyline
-        NOTE: handle when HISTTIMEFORMAT=""
-        NOTE: this is approxmte (see: venv.py)
-      _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog
-      with pyline
-      TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
-      TODO: handle newlines (commands that start on the next line)  (venv.py)
-      NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
-      NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
-        'list((
-            (" ".join(w[10:]).rstrip() if len(w) > 10 else None)
-            or (" ".join(w[9:]).rstrip() if len(w) > 9 else None)
-            or (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
-            or (" ".join(w[7:]).rstrip() if len(w) > 7 else None)
-            or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
-            or " ".join(w).rstrip())
-            for w in [ line and line.startswith("#") and line.split("\t",9) or [line] ]
-            )'
+       _usrlog_parse_newstyle -- Parse a -usrlog.log with pyline
+         NOTE: handle when HISTTIMEFORMAT=""
+         NOTE: this is approxmte (see: venv.py)
+       _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog
+       with pyline
+       TODO: handle HISTTIMEFORMAT="" (" histn  <cmd>")
+       TODO: handle newlines (commands that start on the next line)  (venv.py)
+       NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
+       NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
+         'list((
+             (" ".join(w[10:]).rstrip() if len(w) > 10 else None)
+             or (" ".join(w[9:]).rstrip() if len(w) > 9 else None)
+             or (" ".join(w[8:]).rstrip() if len(w) > 8 else None)
+             or (" ".join(w[7:]).rstrip() if len(w) > 7 else None)
+             or (" ".join(w[3:]).rstrip() if len(w) > 3 else None)
+             or " ".join(w).rstrip())
+             for w in [ line and line.startswith("#") and line.split("\t",9) or [line] ]
+             )'
 ## usrlog.sh API
 ### usrlog _TERM_ID commands
-      termid()      -- echo $_TERM_ID
-      set_term_id() -- set $_TERM_ID to a randomstr or $1
-      stid()        -- set $_TERM_ID to a randomstr or $1
-      st()          -- set $_TERM_ID to a randomstr or $1
+       termid()      -- echo $_TERM_ID
+       set_term_id() -- set $_TERM_ID to a randomstr or $1
+       stid()        -- set $_TERM_ID to a randomstr or $1
+       st()          -- set $_TERM_ID to a randomstr or $1
 ### usrlog tail commands
-      ut()  -- show recent commands
-      uta()  -- tail all usrlogs from lsusrlogs
-      utap()  -- tail all userlogs from lsusrlogs and parse
-      ut()  -- show recent commands
-      usrlog_tail()     -- tail -n20 $_USRLOG
-      usrlogtf()    -- tail -f -n20 $_USRLOG
-      utf()         -- tail -f -n20 $_USRLOG
+       ut()  -- show recent commands
+       uta()  -- tail all usrlogs from lsusrlogs
+       utap()  -- tail all userlogs from lsusrlogs and parse
+       ut()  -- show recent commands
+       usrlog_tail()     -- tail -n20 $_USRLOG
+       usrlogtf()    -- tail -f -n20 $_USRLOG
+       utf()         -- tail -f -n20 $_USRLOG
 ### usrlog grep commands
-      usrlog_grep() -- egrep -n $_USRLOG
-      ug()          -- egrep -n $_USRLOG
-      uga2()
-     # usrlog_grep_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
-     (set -x;
-     local _term_id=${1:-"${_TERM_ID}"};
-     local _usrlog=${2:-"${_USRLOG}"};
-     egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
-     usrlog_grep_todos | _usrlog_parse_cmds
-     usrlog_grep_todos | _usrlog_parse_cmds
-     usrlog_grep_todos | _usrlog_parse_cmds
-     pyline '(l.replace("#TODO: ", "- [ ] ", 1).replace("#NOTE:", "- ", 1) if l.startswith("#TODO: ", "#NOTE: ") else l)'
-      usrlog_grin() -- grin -s $@ $_USRLOG
-      ugrin()       -- grin -s $@ $_USRLOG
-      usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
-      usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
-      usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
-                                       in column position
-        :returns: unsorted list of log entries in files
-                  listed by mtime and then cat
-    
-      .. warning:: output lines are in file sequence but otherwise
-                    unsorted
-    
-      ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
-      usrlog_grin_session_id_all_cmds()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
-                                            in column position
-      lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
-                                 (oldest first)
-      lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
-                                 (newest first)
-      lsusrlogs()             -- list usrlogs (oldest first)
-      usrlog_lately()      -- lsusrlogs by mtime
-      ull()                -- usrlog_lately() (lsusrlogs by mtime)
-      usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
-      ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
-      uga()                -- grep $(lsusrlogs) (drop filenames with -h)
-      usrlog_grin_all()    -- grin usrlogs
-      usrlog_grin_all()    -- grin usrlogs
-      todo()   -- _usrlog_append a #TODO and set _TODO ('-' unsets, '' prints)
-          see: usrlog_grep_todos_parse (ugt, ugtp) 
-      note()   -- _usrlog_append a #NOTE and set _NOTE ('-' unsets, '' prints)
-      msg()   -- _usrlog_append a #_MSG and set __MSG ('-' unsets, '' prints)
-      usrlog_screenrec_ffmpeg() -- record a screencast
-        $1: destination directory (use /tmp if possible)
-        $2: video name to append to datestamp
-        - Press "q" to stop recording
-      usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}
-      _setup_usrlog() -- call _usrlog_setup $@
+       usrlog_grep() -- egrep -n $_USRLOG
+       ug()          -- egrep -n $_USRLOG
+       uga2()
+      # usrlog_grep_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+      (set -x;
+      local _term_id=${1:-"${_TERM_ID}"};
+      local _usrlog=${2:-"${_USRLOG}"};
+      egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
+      usrlog_grep_todos | _usrlog_parse_cmds
+      usrlog_grep_todos | _usrlog_parse_cmds
+      usrlog_grep_todos | _usrlog_parse_cmds
+      pyline '(l.replace("#TODO: ", "- [ ] ", 1).replace("#NOTE:", "- ", 1) if l.startswith("#TODO: ", "#NOTE: ") else l)'
+       usrlog_grin() -- grin -s $@ $_USRLOG
+       ugrin()       -- grin -s $@ $_USRLOG
+       usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+       usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+       usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+                                        in column position
+         :returns: unsorted list of log entries in files
+                   listed by mtime and then cat
+     
+       .. warning:: output lines are in file sequence but otherwise
+                     unsorted
+     
+       ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
+       usrlog_grin_session_id_all_cmds()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+                                             in column position
+       lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+                                  (oldest first)
+       lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+                                  (newest first)
+       lsusrlogs()             -- list usrlogs (oldest first)
+       usrlog_lately()      -- lsusrlogs by mtime
+       ull()                -- usrlog_lately() (lsusrlogs by mtime)
+       usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
+       ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
+       uga()                -- grep $(lsusrlogs) (drop filenames with -h)
+       usrlog_grin_all()    -- grin usrlogs
+       usrlog_grin_all()    -- grin usrlogs
+       todo()   -- _usrlog_append a #TODO and set _TODO ('-' unsets, '' prints)
+           see: usrlog_grep_todos_parse (ugt, ugtp) 
+       note()   -- _usrlog_append a #NOTE and set _NOTE ('-' unsets, '' prints)
+       msg()   -- _usrlog_append a #_MSG and set __MSG ('-' unsets, '' prints)
+       usrlog_screenrec_ffmpeg() -- record a screencast
+         $1: destination directory (use /tmp if possible)
+         $2: video name to append to datestamp
+         - Press "q" to stop recording
+       usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}
+       _setup_usrlog() -- call _usrlog_setup $@
 ## calls _usrlog_setup when sourced
    
    
 #### << etc/bash/xlck.sh >>
 ### xlck.sh -- script wrapper for xautolock, xlock, and/or i3lock
 ##             as well as issuing suspend, shutdown, and restart commands
-     xlck()            -- xlck $@
-     _xlck_install()   -- install xlck dependencies
-     xlck requires: bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
-     _xlck_setup_dpms() -- configure display with xset and dpms
-     _xlck_setup()     -- setup xlck (export _XLCK=(this) && _xlck_setup_dpms)
-     _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
-     _xlck_i3lock()    -- start i3lock with a dark gray background
-     xlck_gnome_screensaver_status()  -- gnome-screensaver PIDs on $DISPLAY
-     xlck_gnome_screensaver_start() -- start gnome-screensaver
-     xlck_gnome_screensaver_lock() -- lock gnome-screensaver
-     xlock_lock()      -- lock the current display
-       $1 {i3lock|i3, xlock|x, gnome-screensaver|gnome|g}
-       note: this will be run before suspend to RAM and Disk.
-     _suspend_to_ram()     -- echo mem > /sys/power/state
-     _suspend_to_disk()    -- echo disk > /sys/power/state
-      note: this does not work on many machines
-     _dbus_halt()      -- send a dbus stop msg to ConsoleKit
-     _dbus_reboot()    -- send a dbus reboot msg to ConsoleKit
-     _dbus_suspend()   -- send a dbus suspend msg to ConsoleKit
-     _dbus_hibernate() -- send a dbus hibernate msg to ConsoleKit
-     xlck_lock_suspend_ram()   -- lock and suspend to RAM
-     xlck_lock_suspend_disk()  -- lock and suspend to disk
-     xlck_suspend_ram()        -- lock and suspend to RAM
-     xlck_suspend_disk()       -- lock and suspend to disk
-     xlck_start()              -- start xlck
-     xlck_stop()               -- stop xlck
-     xlck_restart()            -- stop and start xlck
-     xlck_pgrep_display()-- find xautolock on this display
-     xlck_xautolock_pgrep_display()-- find xautolock on this display
-     xlck_xautolock_status()       -- show xlck status 
-     xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
-     xlck_status()     -- xlck_xautolock_status
-     xlck_status_all() -- pgrep 'xautolock|xlock|i3lock', ps ufw
-     xlck_status_this_display()  -- show status for this $DISPLAY
-     _xlck_xautolock()           -- start xautolock (see: xlck_start)
-         return nonzero if no args
+      xlck()            -- xlck $@
+      _xlck_install()   -- install xlck dependencies
+      xlck requires: bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
+      _xlck_setup_dpms() -- configure display with xset and dpms
+      _xlck_setup()     -- setup xlck (export _XLCK=(this) && _xlck_setup_dpms)
+      _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
+      _xlck_i3lock()    -- start i3lock with a dark gray background
+      xlck_gnome_screensaver_status()  -- gnome-screensaver PIDs on $DISPLAY
+      xlck_gnome_screensaver_start() -- start gnome-screensaver
+      xlck_gnome_screensaver_lock() -- lock gnome-screensaver
+      xlock_lock()      -- lock the current display
+        $1 {i3lock|i3, xlock|x, gnome-screensaver|gnome|g}
+        note: this will be run before suspend to RAM and Disk.
+      _suspend_to_ram()     -- echo mem > /sys/power/state
+      _suspend_to_disk()    -- echo disk > /sys/power/state
+       note: this does not work on many machines
+      _dbus_halt()      -- send a dbus stop msg to ConsoleKit
+      _dbus_reboot()    -- send a dbus reboot msg to ConsoleKit
+      _dbus_suspend()   -- send a dbus suspend msg to ConsoleKit
+      _dbus_hibernate() -- send a dbus hibernate msg to ConsoleKit
+      xlck_lock_suspend_ram()   -- lock and suspend to RAM
+      xlck_lock_suspend_disk()  -- lock and suspend to disk
+      xlck_suspend_ram()        -- lock and suspend to RAM
+      xlck_suspend_disk()       -- lock and suspend to disk
+      xlck_start()              -- start xlck
+      xlck_stop()               -- stop xlck
+      xlck_restart()            -- stop and start xlck
+      xlck_pgrep_display()-- find xautolock on this display
+      xlck_xautolock_pgrep_display()-- find xautolock on this display
+      xlck_xautolock_status()       -- show xlck status 
+      xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
+      xlck_status()     -- xlck_xautolock_status
+      xlck_status_all() -- pgrep 'xautolock|xlock|i3lock', ps ufw
+      xlck_status_this_display()  -- show status for this $DISPLAY
+      _xlck_xautolock()           -- start xautolock (see: xlck_start)
+          return nonzero if no args
    
    
