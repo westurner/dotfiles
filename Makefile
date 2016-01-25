@@ -105,26 +105,31 @@ help_bash:
 help_bash_txt: help_bash
 	## Write docs/usage/bash_conf.txt
 	_TERM_ID="#testing" \
-		bash scripts/dotfiles-bash.sh \
+		bash scripts/_dotfileshelp.sh bash \
 			> docs/usage/bash_conf.txt
 
 
 ZSH_LOAD_SCRIPT=scripts/_dotfiles_zsh.log.sh
-help_zsh_txt:
+help_zsh:
 	## Write zsh output to ZSH_LOAD_SCRIPT
 	_TERM_ID="#testing" \
 		DISABLE_AUTO_UPDATE=true \
 		zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1 || true
 
+help_zsh_txt: help_zsh
+	_TERM_ID="#testing" \
+		bash scripts/_dotfileshelp.sh zsh \
+			> docs/usage/zsh_conf.txt
 
 help_vim:
 	## Print vim output to terminal
-	test -d etc/vim && \
-		$(MAKE) -C etc/vim help
+	bash scripts/_dotfileshelp.sh vim
+	@#test -d etc/vim && \
+	 #	$(MAKE) -C etc/vim help | cat
 
 help_vim_txt:
 	## Write docs/usage/dotvim_conf.txt
-	bash scripts/dotfiles-vim.sh \
+	bash scripts/_dotfileshelp.sh vim \
 		> docs/usage/dotvim_conf.txt
 
 
@@ -132,14 +137,14 @@ help_i3:
 	$(MAKE) -C etc/i3 help_i3
 
 help_i3_txt:
-	bash ./scripts/dotfiles-i3.sh \
+	bash scripts/_dotfileshelp.sh i3 \
 		> docs/usage/i3_conf.txt
 
 help_readline:
-	cat ~/.inputrc | egrep '(^(\s+)?##+ |^(\s+)?#  )'
+	bash scripts/_dotfileshelp.sh readline
 
 help_readline_txt:
-	cat etc/.inputrc | egrep '(^(\s+)?##+ |^(\s+)?#  )' \
+	bash scripts/_dotfileshelp.sh readline \
 		> docs/usage/readline_conf.txt
 
 help_txt: \
