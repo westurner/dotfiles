@@ -379,45 +379,44 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh">https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh</a></div>
 </div>
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_bash_rst</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>#### etc/bash/00-bashrc.before.sh
- !/bin/bash
- # 00-bashrc.before.sh     -- bash dotfiles configuration root
+<div class="highlight-python"><div class="highlight"><pre>#### &lt;&lt; etc/bash/00-bashrc.before.sh &gt;&gt;
+## 00-bashrc.before.sh     -- bash dotfiles configuration root
    source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
  
      dotfiles_reload()  -- (re)load the bash configuration
      $__DOTFILES (str): -- path to the dotfiles symlink (~/-dotfiles)
    
-   # 01-bashrc.lib.sh           -- useful bash functions (paths)
+  ## 01-bashrc.lib.sh           -- useful bash functions (paths)
      lspath()           -- list every file along $PATH
      realpath()         -- readlink -f (python os.path.realpath)
      walkpath()         -- list every directory along ${1:-&quot;.&quot;}
    
-   # 02-bashrc.platform.sh      -- platform things
+  ## 02-bashrc.platform.sh      -- platform things
      detect_platform()  -- set $__IS_MAC or $__IS_LINUX
-   # 03-bashrc.darwin.sh
+  ## 03-bashrc.darwin.sh
    
-   # 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
+  ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
    
-   # 05-bashrc.dotfiles.sh      -- dotfiles
+  ## 05-bashrc.dotfiles.sh      -- dotfiles
      $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
      dotfiles_status()  -- print dotfiles variables
      ds()               -- print dotfiles variables
    
-   # 06-bashrc.completion.sh    -- configure bash completion
+  ## 06-bashrc.completion.sh    -- configure bash completion
    
-   #
+  ##
      virtualenvwrapper / virtualenv / venv constants
    
      $PROJECT_HOME (str): path to project directory (~/-wrk)
      $WORKON_HOME  (str): path to virtualenvs directory (~/-wrk/-ve27)
      $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV ($WORKON_HOME/$VENVSTR)
    
-   # 07-bashrc.python.sh            -- python
+  ## 07-bashrc.python.sh            -- python
      _setup_python()              -- configure PYTHONSTARTUP
      _setup_pip()                 -- configure PIP_REQUIRE_VIRTUALENV
      _setup_pyenv()               -- setup pyenv PYENV_ROOT and eval (manual)
    
-   # 08-bashrc.conda.sh             -- conda
+  ## 08-bashrc.conda.sh             -- conda
      _setup_conda()               -- setup conda paths (manual)
                                      WORKON_HOME=CONDA_ENVS_PATH
        $1 (str): (optional) CONDA_ENVS_PATH (WORKON_HOME)
@@ -425,7 +424,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
      $CONDA_ROOT      (str): path to conda install (~/-wrk/-conda34)
      $CONDA_ENVS_PATH (str): path to condaenvs directory (~/-wrk/-ce34) [conda]
    
-   # 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
+  ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
      _setup_virtualenvwrapper     -- configure virtualenvwrapper
      backup_virtualenv($VENVSTR)  -- backup a venv in WORKON_HOME
                                      $WORKON_HOME/$VENVSTR -&gt; ./-bkp/$VENVSTR
@@ -435,10 +434,10 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
      rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
      TODO: restore_virtualenv($BACKUPVENVSTR, [$NEWVENVSTR])
    
-   # 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
+  ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
      _setup_google_cloud()  -- setup google cloud paths
    
-   # 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
+  ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
      _setup_venv()
      $__PROJECTSRC     (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
      $VIRTUAL_ENV_NAME (str): basename of $VIRTUAL_ENV [usrlog: prompt, title]
@@ -452,16 +451,16 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
         type workon_venv; which venv.py; venv.py --help
    
    
-   # 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
+  ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
    
-   # 20-bashrc.editor.sh        -- $EDITOR configuration
+  ## 20-bashrc.editor.sh        -- $EDITOR configuration
      $EDITOR  (str): cmdstring to open $@ (file list) in editor
      $EDITOR_ (str): cmdstring to open $@ (file list) in current editor
      e()        -- open paths in current EDITOR_                   [scripts/e]
      ew()       -- open paths relative to $_WRD in current EDITOR_ [scripts/ew]
                    (~ cd $_WRD; $EDITOR_ ${@}) + tab completion
    
-   # 20-bashrc.vimpagers.sh     -- $PAGER configuration
+  ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
      $PAGER   (str): cmdstring to run pager (less/vim)
      lessv()    -- open in vim with less.vim
                    VIMPAGER_SYNTAX=&quot;python&quot; lessv
@@ -474,7 +473,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
    
      TODO: GIT_PAGER=&quot;/usr/bin/less -R | /usr/bin/cat&quot;
    
-   # 30-bashrc.usrlog.sh        -- $_USRLOG configuration
+  ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
      _setup_usrlog()    -- configure usrlog
      $_USRLOG (str): path to a -usrlog.log command log
                    __USRLOG=~/-usrlog.log
@@ -494,58 +493,53 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
      ugrin      -- grin current usrlog: grin $@ ${_USRLOG}
      ugrinall   -- grin $@  &quot;${__USRLOG}&quot; &quot;${WORKON_HOME}/*/-usrlog.log&quot;
    
-   # 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
+  ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
      _setup_xlck()      -- configure xlck
    
-   # 40-bashrc.aliases.sh       -- aliases
+  ## 40-bashrc.aliases.sh       -- aliases
      _setup_venv_aliases()  -- source in e, ew, makew, ssv, hgw, gitw
        _setup_supervisord() -- configure _SVCFG
           $1 (str): path to a supervisord.conf file &quot;${1:-${_SVCFG}&quot;
-   # 42-bashrc.commands.sh      -- example commands
+  ## 42-bashrc.commands.sh      -- example commands
    
-   # 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
+  ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
    
-   # 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
+  ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
    
-   # 99-bashrc.after.sh         -- after: cleanup
+  ## 99-bashrc.after.sh         -- after: cleanup
       dr()  -- dotfiles_reload
       ds()  -- print dotfiles_status()
    
    
-#### etc/bash/01-bashrc.lib.sh
- ## bashrc.lib.sh
- # bash
- __THIS=$(readlink -e &quot;$0&quot;)
- __THISDIR=$(dirname &quot;${__THIS}&quot;)
+#### &lt;&lt; etc/bash/01-bashrc.lib.sh &gt;&gt;
+### bashrc.lib.sh
+## bash
       echo_args         -- echo $@ (for checking quoting)
       function_exists() -- check whether a bash function exists
     PATH_prepend()     -- prepend a directory ($1) to $PATH
         instead of:
             export PATH=$dir:$PATH
             PATH_prepend $dir 
-     http://superuser.com/questions/ \
-     \ 39751/add-directory-to-path-if-its-not-already-there/39840#39840
       PATH_remove()  -- remove a directory from $PATH
       note: empty path components (&quot;::&quot;) will be stripped
       PATH_contains() -- test whether $PATH contains $1
       lightpath()       -- display $PATH with newlines
       lspath()          -- list files in each directory in $PATH
       lspath_less()     -- lspath with less (color)
- # file paths
+## file paths
       realpath()        -- print absolute path (os.path.realpath) to $1
                            note: OSX does not have readlink -f
       path()            -- realpath()
       walkpath()        -- walk down path $1 and $cmd each component
         $1: path (optional; default: pwd)
         $2: cmd  (optional; default: &#39;ls -ald --color=auto&#39;)
-     http://superuser.com/a/65076 
       ensure_symlink()  -- create or update a symlink to $2 from $1
                            if $2 exists, backup with suffix $3
       ensure_mkdir()    -- create directory $1 if it does not yet exist
    
    
-#### etc/bash/02-bashrc.platform.sh
- ## bashrc.platform.sh
+#### &lt;&lt; etc/bash/02-bashrc.platform.sh &gt;&gt;
+### bashrc.platform.sh
       detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
       j()               -- jobs
       f()               -- fg %$1
@@ -553,8 +547,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       killjob()         -- kill %$1
    
    
-#### etc/bash/03-bashrc.darwin.sh
- ## bashrc.darwin.sh
+#### &lt;&lt; etc/bash/03-bashrc.darwin.sh &gt;&gt;
+### bashrc.darwin.sh
   softwareupdate                -- install OSX updates
    | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
    softwareupdate -l        # --list
@@ -579,42 +573,24 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
                                  (and close all Finder windows)
    
    
-#### etc/bash/04-bashrc.TERM.sh
- ## bashrc.TERM.sh
+#### &lt;&lt; etc/bash/04-bashrc.TERM.sh &gt;&gt;
+### bashrc.TERM.sh
       configure_TERM            -- configure the $TERM variable (man terminfo)
         $1: (optional; autodetects if -z)
-             tmux
-             screen
-             zsh+tmux: oh-my-zsh/plugins/tmux/tmux.plugin.zsh
       configure_TERM_CLICOLOR   -- configure $CLICOLOR and $CLICOLOR_256
         CLICOLOR=1
-     todo
-     CLICOLOR_256=1
-     export CLICOLOR_256=$CLICOLOR
       configure_TERM when sourced
    
    
-#### etc/bash/05-bashrc.dotfiles.sh
- ## bashrc.dotfiles.sh
+#### &lt;&lt; etc/bash/05-bashrc.dotfiles.sh &gt;&gt;
+### bashrc.dotfiles.sh
       dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
-         PATH_prepend &quot;${__DOTFILES}/bin&quot;  # [01-bashrc.lib.sh]
       shell_escape_single()
       dotfiles_status()         -- print dotfiles_status
-     echo &quot;__DOCSWWW=$(shell_escape_single &quot;${_DOCS}&quot;)
-     echo &quot;__SRC=$(shell_escape_single &quot;${__SRC}&quot;)
-     echo &quot;__PROJECTSRC=$(shell_escape_single &quot;${__PROJECTSRC}&quot;)
-     echo $PATH | tr &#39;:&#39; &#39;\n&#39; | sed &#39;s/\(.*\)/#     \1/g&#39;
       ds()                      -- print dotfiles_status
       source &quot;${__DOTFILES}/scripts/cls&quot;
       clr()                     -- clear scrollback
       cls()                     -- clear scrollback and print dotfiles_status()
- function dotfiles_term_uri {
-     #dotfiles_term_uri()        -- print a URI for the current _TERM_ID
-     term_path=&quot;${HOSTNAME}/usrlog/${USER}&quot;
-     term_key=${_APP}/${_TERM_ID}
-     TERM_URI=&quot;${term_path}/${term_key}&quot;
-     echo &quot;TERM_URI=&#39;${TERM_URL}&#39;&quot;
- }
       echo &quot;## lspath&quot;
       lspath | tee $OUTPUT
   https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
@@ -637,39 +613,35 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       XXX: PRF
       dotfiles_initialize()     -- virtualenvwrapper initialize
       dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
-     log_dotfiles_state &#39;premkvirtualenv&#39;  # PERF
       dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
       NOTE: infer VIRTUAL_ENV_NAME from VIRTUAL_ENV
-     declare -f &#39;venv_mkdirs&#39; 2&gt;&amp;1 &gt;/dev/null &amp;&amp;
       dotfiles_preactivate()    -- virtualenvwrapper preactivate
       dotfiles_postactivate()   -- virtualenvwrapper postactivate
       dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
       dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
-     ## usrlog.sh
-     # unset _MSG
-     # unset NOTE
-     # unset TODO
+    ### usrlog.sh
+    ## unset _MSG
+    ## unset NOTE
+    ## unset TODO
    
    
-#### etc/bash/06-bashrc.completion.sh
- ## bashrc.completion.sh
+#### &lt;&lt; etc/bash/06-bashrc.completion.sh &gt;&gt;
+### bashrc.completion.sh
       _configure_bash_completion()  -- configure bash completion
                                     note: `complete -p` lists completions
-         configure brew (brew install bash-completion)
    
    
-#### etc/bash/07-bashrc.python.sh
- ## bashrc.python.sh
+#### &lt;&lt; etc/bash/07-bashrc.python.sh &gt;&gt;
+### bashrc.python.sh
       pypath()              -- print python sys.path and site config
       _setup_python()       -- configure $PYTHONSTARTUP
-     export
       _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
- # Pyenv
+## Pyenv
       _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw
    
    
-#### etc/bash/07-bashrc.virtualenvwrapper.sh
- ## bashrc.virtualenvwrapper.sh
+#### &lt;&lt; etc/bash/07-bashrc.virtualenvwrapper.sh &gt;&gt;
+### bashrc.virtualenvwrapper.sh
  
   Installing Virtualenvwrapper:
     apt:
@@ -677,7 +649,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
     pip:
       [sudo] pip install -U pip virtualenvwrapper
  
- # Configure dotfiles/virtualenv root/prefix environment variables
+## Configure dotfiles/virtualenv root/prefix environment variables
   __WRK         workspace root
   PROJECT_HOME  virtualenvwrapper project directory (mkproject)
   WORKON_HOME   virtualenvwrapper virtualenv prefix
@@ -686,8 +658,6 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
                 _SRC=${VIRTUAL_ENV}/${_APP}
                 _WRD=${VIRTUAL_ENV}/${_APP}
       _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
-     export VIRTUALENVWRAPPER_SCRIPT=&quot;/usr/local/bin/virtualenvwrapper.sh&quot;
-     export VIRTUALENVWRAPPER_SCRIPT=&quot;${HOME}/.local/bin/virtualenvwrapper.sh&quot;
           elif &quot;${VIRTUAL_ENV}/bin/python&quot;  ## use extra-venv python
        if [ -n &quot;${__IS_MAC}&quot; ]; then  # for brew python
       lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
@@ -698,33 +668,22 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
          $1=&quot;$VENVSTR&quot;
          $2=&quot;$VIRTUAL_ENV&quot;
-     rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
-         ${_BIN}/pip ${_BIN}/pip-2.7 \
-         ${_BIN}/easy_install ${_BIN}/easy_install-2.7 \
-         ${_BIN}/activate*
-     mkvirtualenv --clear would delete ./lib/python&lt;pyver&gt;/site-packages
       TODO: adjust paths beyond the shebang
-     ${_BIN}/pip install -v -v -r &lt;(${_BIN}/pip freeze)
-     ${_BIN}/pip install -r ${_WRD}/requirements.txt
        rebuild_virtualenv()     -- rebuild a virtualenv
          $1=&quot;$VENVSTR&quot;
          $2=&quot;$VIRTUAL_ENV&quot;
       rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
     _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
-   if [ -z &quot;${VIRTUALENVWRAPPER_SCRIPT}&quot; ]; then
-   fi
    
    
-#### etc/bash/08-bashrc.conda.sh
- ## bashrc.conda.sh
- # Conda / Anaconda
+#### &lt;&lt; etc/bash/08-bashrc.conda.sh &gt;&gt;
+### bashrc.conda.sh
+## Conda / Anaconda
   see: 05-bashrc.dotfiles.sh
-     shell_escape_single() {
          # shell_escape_single()
          strtoescape=${1}
          output=&quot;$(echo &quot;${strtoescape}&quot; | sed &quot;s,&#39;,&#39;\&quot;&#39;\&quot;&#39;,g&quot;)&quot;
          echo &quot;&#39;&quot;${output}&quot;&#39;&quot;
-     }
       _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
       _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
       _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
@@ -732,8 +691,6 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
          $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
                       (default: ${__WRK})
-     export CONDA_ROOT_DEFAULT=&quot;CONDA_ROOT__py27&quot;
-     export CONDA_ENVS_DEFAULT=&quot;CONDA_ENVS__py27&quot;
       _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
         $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
                                                         CONDA_ENVS__py27)
@@ -772,17 +729,68 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       workon_conda_if_available()       -- workon_conda OR we OR workon
    
    
-#### etc/bash/08-bashrc.gcloud.sh
- ## bashrc.gcloud.sh
+#### &lt;&lt; etc/bash/08-bashrc.conda.sh.un~ &gt;&gt;
+### bashrc.conda.sh
+## Conda / Anaconda
+  see: 05-bashrc.dotfiles.sh
+         # quote_shell_single_always()
+         strtoescape=${1}
+         output=&quot;$(echo &quot;${strtoescape}&quot; | sed &quot;s,&#39;,&#39;\&quot;&#39;\&quot;&#39;,g&quot;)&quot;
+         echo &quot;&#39;&quot;${output}&quot;&#39;&quot;
+      _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
+      _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
+      _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
+      csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
+      _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
+         $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
+                      (default: ${__WRK})
+      _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
+        $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
+                                                        CONDA_ENVS__py27)
+        $2 (pathstr or &quot;&quot;)       -- lookup($2, CONDA_ROOT,
+                                                        CONDA_ROOT__py27)
+     
+       Usage:
+        _setup_conda     # __py27
+        _setup_conda 27  # __py27
+        _setup_conda 34  # __py34
+        _setup_conda 35  # __py35
+        _setup_conda ~/envs             # __py27
+        _setup_conda ~/envs/ /opt/conda # /opt/conda
+        _setup_conda &lt;conda_envs_path&gt; &lt;conda_root&gt;  # conda_root
+     
+              CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+      _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
+      _unsetup_conda_path_all()  -- remove CONDA_ROOT &amp; defaults from $PATH
+      deduplicate_lines()   -- deduplicate lines w/ an associative array
+                                                      (~OrderedMap)
+      echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH &amp; defaults)
+      lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
+        _conda_status&gt;2
+        find&gt;1
+      lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
+      _condaenvs()              -- list conda envs for tab-completion
+      workon_conda()        -- workon a conda + venv project
+      wec()                 -- workon a conda + venv project
+                            note: tab-completion only shows regular virtualenvs
+      _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
+      mkvirtualenv_conda()  -- mkvirtualenv and conda create
+      if there is a function named &#39;dotfiles_postmkvirtualenv&#39;,
+      then run &#39;dotfiles_postmkvirtualenv&#39;
+      rmvirtualenv_conda()  -- rmvirtualenv conda
+      mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
+      workon_conda_if_available()       -- workon_conda OR we OR workon
+   
+   
+#### &lt;&lt; etc/bash/08-bashrc.gcloud.sh &gt;&gt;
+### bashrc.gcloud.sh
       _setup_google_cloud() -- configure gcloud $PATH and bash completions
-     The next line updates PATH for the Google Cloud SDK.
-     The next line enables bash completion for gcloud.
    
    
-#### etc/bash/10-bashrc.venv.sh
- ## bashrc.venv.sh
+#### &lt;&lt; etc/bash/10-bashrc.venv.sh &gt;&gt;
+### bashrc.venv.sh
     note: most of these aliases and functions are overwritten by `we` 
- # Variables
+## Variables
       _setup_venv()    -- configure __PROJECTSRC, PATH, __VENV, _setup_venv_SRC()
        __PROJECTSRC (str): path to local project settings script to source
       PATH=&quot;~/.local/bin:$PATH&quot; (if not already there)
@@ -793,7 +801,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
                        (e.g. ln -s ~/-wrk/-ve27/src ~/-wrk/src)
       __SRC     (str): global &#39;src&#39; venv ./src directory path (~/-wrk/src/src)
                     ($__SRC/git $__SRC/git)
- # Functions
+## Functions
       venv $@   -- call $_VENV $@
       venv -h   -- print venv --help
       venv --print-bash   -- print bash configuration
@@ -808,8 +816,6 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
        examples:
         we dotfiles
         we dotfiles dotfiles
-         append to shell history
-         if no arguments are specified, list virtual environments
       we()          -- workon_venv
       _setup_venv_aliases()  -- load venv aliases
         note: these are overwritten by `we` [`source &lt;(venv -b)`]
@@ -828,29 +834,17 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
       TODO: CONDA
       venv_ls()     -- list virtualenv directories
-     ls -ld ${prefix}/**
       lsvenv()      -- venv_ls()
       venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
-     ensure_mkdir  &quot;${prefix}/home&quot;
-     ensure_mkdir  &quot;${prefix}/opt&quot;
-     ensure_mkdir  &quot;${prefix}/sbin&quot;
-     ensure_mkdir  &quot;${prefix}/share/doc&quot;
-     ensure_mkdir  &quot;${prefix}/srv&quot;
    
    
-#### etc/bash/11-bashrc.venv.pyramid.sh
- ## bashrc.venv.pyramid.sh
+#### &lt;&lt; etc/bash/11-bashrc.venv.pyramid.sh &gt;&gt;
+### bashrc.venv.pyramid.sh
       workon_pyramid_app()  -- $VIRTUAL_ENV_NAME [$_APP] [open_terminals]
-         open tabs
-         gnome-terminal \
-         --working-directory=&quot;${_WRD}&quot; \
-         --tab -t &quot;${_APP} serve&quot; -e &quot;bash -c \&quot;${_SERVECMD}; bash -c \&quot;workon_pyramid_app $VIRTUAL_ENV_NAME $_APP 1\&quot;\&quot;&quot; \
-         --tab -t &quot;${_APP} shell&quot; -e &quot;bash -c \&quot;${_SHELLCMD}; bash\&quot;&quot; \
-         --tab -t &quot;${_APP} bash&quot; -e &quot;bash&quot;
    
    
-#### etc/bash/20-bashrc.editor.sh
- ## bashrc.editor.sh
+#### &lt;&lt; etc/bash/20-bashrc.editor.sh &gt;&gt;
+### bashrc.editor.sh
       setup_editor()    -- configure ${EDITOR}
         VIMBIN  (str):   /usr/bin/vim
         GVIMBIN (str):   /usr/bin/gvim
@@ -868,23 +862,20 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
    
    
-#### etc/bash/29-bashrc.vimpagers.sh
- ## bashrc.vimpagers.sh
+#### &lt;&lt; etc/bash/29-bashrc.vimpagers.sh &gt;&gt;
+### bashrc.vimpagers.sh
       _configure_lesspipe() -- (less &lt;file.zip&gt; | lessv)
       vimpager() -- call vimpager
       lessv()   -- less with less.vim and vim (g:tinyvim=1)
-                 read stdin
-         Output is not a terminal, cat arguments or stdin
       lessg()   -- less with less.vim and gvim / mvim
       lesse()   -- less with current venv&#39;s vim server
       manv()    -- view manpages in vim
-         /usr/bin/whatis &quot;$@&quot; &gt;/dev/null
       mang()    -- view manpages in gvim / mvim
       mane()    -- open manpage with venv&#39;s vim server
    
    
-#### etc/bash/30-bashrc.usrlog.sh
- ## bashrc.usrlog.sh
+#### &lt;&lt; etc/bash/30-bashrc.usrlog.sh &gt;&gt;
+### bashrc.usrlog.sh
       _USRLOG (str): path to .usrlog userspace shell command log
       stid()      -- set $TERM_ID to a random string
       stid $name  -- set $TERM_ID to string
@@ -899,15 +890,14 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       ugrinall()  -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
       lsusrlogs() -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
       _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
-     calls _usrlog_setup when sourced
       usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
       usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
       usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
    
    
-#### etc/bash/30-bashrc.xlck.sh
- ## 30-bashrc.xlck.sh
- # xlck     -- minimal X screensaver
+#### &lt;&lt; etc/bash/30-bashrc.xlck.sh &gt;&gt;
+### 30-bashrc.xlck.sh
+## xlck     -- minimal X screensaver
       xlck 
       xlck -I  --  (I)nstall xlck (apt-get)
       xlck -U  --  check stat(U)s (show xautolock processes on this $DISPLAY)
@@ -924,10 +914,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
    
    
-#### etc/bash/40-bashrc.aliases.sh
- ## bashrc.aliases.sh
- annotate this file with comments
- cat ./40-bashrc.aliases.sh | pyline -r &#39;(\s*?)alias\s(.*?)=(.*)&#39; &#39;(rgx and &quot;{}# {:&lt;8} -- {}\n{}&quot;.format(rgx.groups()[0], rgx.groups()[1], rgx.groups()[2], l)) or l&#39;
+#### &lt;&lt; etc/bash/40-bashrc.aliases.sh &gt;&gt;
+### bashrc.aliases.sh
        _load_aliases()  -- load aliases
       chmodr   -- &#39;chmod -R&#39;
       chownr   -- &#39;chown -R&#39;
@@ -1010,8 +998,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       xclipc   -- &#39;xclip -selection c&#39;
    
    
-#### etc/bash/42-bashrc.commands.sh
- ## bashrc.commands.sh
+#### &lt;&lt; etc/bash/42-bashrc.commands.sh &gt;&gt;
+### bashrc.commands.sh
   usage: bash -c &#39;source bashrc.commands.sh; funcname &lt;args&gt;&#39;
       chown-me()        -- chown -Rv user
       chown-me-mine()   -- chown -Rv user:user &amp;&amp; chmod -Rv go-rwx
@@ -1020,9 +1008,9 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
    
    
-#### etc/bash/50-bashrc.bashmarks.sh
- ## bashrc.bashmarks.sh
- # bashmarks
+#### &lt;&lt; etc/bash/50-bashrc.bashmarks.sh &gt;&gt;
+### bashrc.bashmarks.sh
+## bashmarks
       l()  -- list bashmarks
       s()  -- save bashmarks as $1
       g()  -- goto bashmark $1
@@ -1032,8 +1020,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       see also: ${__DOTFILES}/scripts/nerdtree_to_bashmarks.py
    
    
-#### etc/bash/70-bashrc.repos.sh
- ## 70-bashrc.repos.sh
+#### &lt;&lt; etc/bash/70-bashrc.repos.sh &gt;&gt;
+### 70-bashrc.repos.sh
        git-commit()   -- git commit ${2:} -m ${1}; git log -n1 
        gc()             -- git-commit() &lt;files&gt; -m &lt;log&gt; ; log log -n1
        git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
@@ -1044,14 +1032,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
   }
        gitcmsg()    -- gitc &quot;${_MSG}&quot; ${@}
        gitcaddmsg()    -- gitc &quot;${_MSG}&quot; ${@}
- objectives:
- * [ ] create a dotfiles venv (should already be created by dotfiles install)
- * [ ] create a src venv (for managing a local set of repositories)
  
- * [x] create Hg_ methods for working with a local repo set
- * [ ] create Git_ methods for working with a local repo set
  
- * [-] host docs locally with a one-shot command (host_docs)
  
   Use Cases
   * Original: a bunch of commands that i was running frequently
@@ -1097,24 +1079,20 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
        Gitclone will mirror to $__SRC_GIT
      
      
-     fix permissions for hgweb? TODO
   __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
   __SRC_GIT_REMOTE_NAME         -- name for git remote v
   __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
   __SRC_HG_REMOTE_NAME          -- name for hg paths
-     # Create a new hosted repository with gitolite-admin
+    ## Create a new hosted repository with gitolite-admin
        $1   -- repo [user/]name (e.g. westurner/dotfiles)
-     # push a git repository to local git storage
+    ## push a git repository to local git storage
        $1   -- repo [user/]name (e.g. westurner/dotfiles) 
        $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
-     # Create a new hosted repository with mercurial-ssh
-     # push a hg repository to local git storage
+    ## Create a new hosted repository with mercurial-ssh
+    ## push a hg repository to local git storage
        $1   -- repo [user/]name (e.g. westurner/dotfiles)
        $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
-     if [ $? -eq 0 ]; then
          fixperms ${path}
-     fi
-     TODO: last pulled time
        host_docs    -- build and host documentation in a local directory
         param $1: &lt;project_name&gt;
         param $2: [&lt;path&gt;]
@@ -1127,56 +1105,48 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       this is not readthedocs.org
       note: you must manually install packages into the
       local &#39;docs&#39; virtualenv&#39;
-     workon docs
                           TODO: prompt?
-                     TODO: prompt?
-         TODO
-         &gt;&gt; &#39;SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother &#39;
-         &lt;&lt; &#39;SPHINX_BUILD =    sphinx-build -Dhtml_theme=default&#39;
-         sed -i -r &#39;s/(^SPHINXBUILD)( *= *)(sphinx-build)(.*)/\1\2\3 -Dhtml_theme=&quot;default&quot;/g&#39; $_makefile
           &gt;&gt; &#39;html_theme = &quot;_-_&quot;
           &lt;&lt; &#39;html_theme = &#39;default&#39;
    
    
-#### etc/bash/99-bashrc.after.sh
+#### &lt;&lt; etc/bash/99-bashrc.after.sh &gt;&gt;
    
    
-#### etc/bash/_ewrd.sh
- !/bin/bash
- ##   _ewrd.sh  -- convenient editor shortcuts
+#### &lt;&lt; etc/bash/_ewrd.sh &gt;&gt;
+###   _ewrd.sh  -- convenient editor shortcuts
       # setup edit[*] and e[*] symlinks:
       $ ln -s ./_ewrd.sh _ewrd-setup.sh &amp;&amp; ./_ewrd-setup.sh
- #    editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
+##    editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
       editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
       edotfiles()    -- cd $__DOTFILES and run edit w/ each arg
- #    editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
+##    editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
       editwrk()      -- cd $__WRK and run edit w/ each arg
       ewrk()         -- cd $__WRK and run edit w/ each arg
- #    editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
+##    editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
       editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
       eworkonhome()    -- cd $WORKON_HOME and run edit w/ each arg
       ewh()            -- cd $WORKON_HOME and run edit w/ each arg
- #    editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
+##    editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
       editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
       evirtualenv()    -- cd $VIRTUAL_ENV and run edit w/ each arg
       ev()             -- cd $VIRTUAL_ENV and run edit w/ each arg
- #    editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
+##    editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
       editsrc() -- cd $_SRC and run edit w/ each arg
       esrc()    -- cd $_SRC and run edit w/ each arg
       es()      -- cd $_SRC and run edit w/ each arg
- #    editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
+##    editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
       editwrd() -- cd $_WRD and run edit w/ each arg
       ewrd()    -- cd $_WRD and run edit w/ each arg
       ew()      -- cd $_WRD and run edit w/ each arg
- #    editetc, eetc      --- cd $_ETC and run edit w/ each arg
+##    editetc, eetc      --- cd $_ETC and run edit w/ each arg
       editetc() -- cd $_ETC and run edit w/ each arg
       eetc()    -- cd $_ETC and run edit w/ each arg
- #    editwww, ewww      --- cd $_WWW and run edit w/ each arg
+##    editwww, ewww      --- cd $_WWW and run edit w/ each arg
       editwww() -- cd $_WWW and run edit w/ each arg
       ewww()    -- cd $_WWW and run edit w/ each arg
- _ewrd.sh main()
  
- # seeAlso ##
+## seeAlso ##
   * https://westurner.org/dotfiles/venv
  
   .. code:: bash
@@ -1186,9 +1156,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
      venv.py --prefix=/ --print-bash-cdaliases
    
    
-#### etc/bash/usrlog.sh
- !/bin/bash
- ## usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
+#### &lt;&lt; etc/bash/usrlog.sh &gt;&gt;
+### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
  
    Log shell commands with metadata as tab-separated lines to ${_USRLOG}
    with a shell identifier to differentiate between open windows,
@@ -1221,12 +1190,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
           ZSH_VERSION
        _usrlog_set_HIST()    -- set shell $HIST&lt;...&gt; variables
        see HISTSIZE and HISTFILESIZE in bash(1)
-     avoid duplicating datetimes in .usrlog
-     HISTTIMEFORMAT=&quot;%Y-%m-%dT%H:%M:%S%z&quot; (iso8601)
-     HISTTIMEFORMAT=&quot;%t%Y-%m-%dT%H:%M:%S%z%t&quot;
        note that HOSTNAME and USER come from the environ
        and MUST be evaluated at the time HISTTIMEFORMAT is set.
-     don&#39;t put duplicate lines in the history. See bash(1) for more options
        ... or force ignoredups and ignorespace
        HISTCONTROL=ignoredups:ignorespace
            append current lines to history
@@ -1239,14 +1204,12 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
        _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
        _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
          $1: _term_id value for _TERM_ID
-         TODO: _usrlog_append_echo
        _usrlog_echo_title   -- set window title (by echo&#39;ing escape codes)
        else
           echo -ne &quot;${USRLOG_WINDOW_TITLE}&quot;
        _usrlog_set_title()  --  set xterm title
         $1: _window_title (defaults to ${_TERM_ID})
        _usrlog_setup()      -- configure usrlog for the current shell
-     TERM_SED_STR=&#39;s/^\s*[0-9]*\s\(.*\)/$_TERM_ID: \1/&#39;
        setup bash
        setup zsh
        _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp
@@ -1257,7 +1220,6 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
          2014-11-15T06:42:00-0600	dotfiles	 8311  ls
          (pwd -p)?
           this from HISTORY
- function _usrlog_append_oldstyle {
      #  _usrlog_append_oldstype -- Write a line to $_USRLOG
      #    $1: text (command) to log
      #  examples:
@@ -1268,9 +1230,8 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
          &quot;$(date +&#39;%D %R.%S&#39;)&quot; \
          &quot;${1:-&#39;\n&#39;}&quot; \
              | tee -a $_USRLOG &gt;&amp;2
- }
        _usrlog_writecmd()    -- write the most recent command to $_USRLOG
- # usrlog parsing
+## usrlog parsing
        _usrlog_parse_newstyle -- Parse a -usrlog.log with pyline
          NOTE: handle when HISTTIMEFORMAT=&quot;&quot;
          NOTE: this is approxmte (see: venv.py)
@@ -1280,7 +1241,6 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
        TODO: handle newlines (commands that start on the next line)  (venv.py)
        NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
        NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
-     pyline.py ${usrlog} \
          &#39;list((
              (&quot; &quot;.join(w[10:]).rstrip() if len(w) &gt; 10 else None)
              or (&quot; &quot;.join(w[9:]).rstrip() if len(w) &gt; 9 else None)
@@ -1290,13 +1250,13 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
              or &quot; &quot;.join(w).rstrip())
              for w in [ line and line.startswith(&quot;#&quot;) and line.split(&quot;\t&quot;,9) or [line] ]
              )&#39;
- # usrlog.sh API
- ## usrlog _TERM_ID commands
+## usrlog.sh API
+### usrlog _TERM_ID commands
        termid()      -- echo $_TERM_ID
        set_term_id() -- set $_TERM_ID to a randomstr or $1
        stid()        -- set $_TERM_ID to a randomstr or $1
        st()          -- set $_TERM_ID to a randomstr or $1
- ## usrlog tail commands
+### usrlog tail commands
        ut()  -- show recent commands
        uta()  -- tail all usrlogs from lsusrlogs
        utap()  -- tail all userlogs from lsusrlogs and parse
@@ -1304,23 +1264,19 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
        usrlog_tail()     -- tail -n20 $_USRLOG
        usrlogtf()    -- tail -f -n20 $_USRLOG
        utf()         -- tail -f -n20 $_USRLOG
- ## usrlog grep commands
+### usrlog grep commands
        usrlog_grep() -- egrep -n $_USRLOG
        ug()          -- egrep -n $_USRLOG
        uga2()
- function usrlog_grep_session_id {
       # usrlog_grep_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;
       (set -x;
       local _term_id=${1:-&quot;${_TERM_ID}&quot;};
       local _usrlog=${2:-&quot;${_USRLOG}&quot;};
       egrep &quot;# [\d-T:Z ]+\t${_term_id}\t&quot; ${_USRLOG} )
- }
       usrlog_grep_todos | _usrlog_parse_cmds
       usrlog_grep_todos | _usrlog_parse_cmds
       usrlog_grep_todos | _usrlog_parse_cmds
       pyline &#39;(l.replace(&quot;#TODO: &quot;, &quot;- [ ] &quot;, 1).replace(&quot;#NOTE:&quot;, &quot;- &quot;, 1) if l.startswith(&quot;#TODO: &quot;, &quot;#NOTE: &quot;) else l)&#39;
-     ugtp &quot;${@}&quot; | ugft
-     usrlog_grep_todos_parse | usrlog_format_as_txt
        usrlog_grin() -- grin -s $@ $_USRLOG
        ugrin()       -- grin -s $@ $_USRLOG
        usrlog_grin_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;
@@ -1344,14 +1300,12 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
        usrlog_lately()      -- lsusrlogs by mtime
        ull()                -- usrlog_lately() (lsusrlogs by mtime)
        usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
-        | pyline.py &#39;l.replace(&quot;:&quot;,&quot;\t&quot;,1)&#39;  # grep filename output
        ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
        uga()                -- grep $(lsusrlogs) (drop filenames with -h)
        usrlog_grin_all()    -- grin usrlogs
        usrlog_grin_all()    -- grin usrlogs
        todo()   -- _usrlog_append a #TODO and set _TODO (&#39;-&#39; unsets, &#39;&#39; prints)
            see: usrlog_grep_todos_parse (ugt, ugtp) 
-         _usrlog_append &quot;#note  #note: $@&quot;
        note()   -- _usrlog_append a #NOTE and set _NOTE (&#39;-&#39; unsets, &#39;&#39; prints)
        msg()   -- _usrlog_append a #_MSG and set __MSG (&#39;-&#39; unsets, &#39;&#39; prints)
        usrlog_screenrec_ffmpeg() -- record a screencast
@@ -1360,21 +1314,17 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
          - Press &quot;q&quot; to stop recording
        usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}
        _setup_usrlog() -- call _usrlog_setup $@
- # calls _usrlog_setup when sourced
+## calls _usrlog_setup when sourced
    
    
-#### etc/bash/xlck.sh
- !/usr/bin/env bash
- ## xlck.sh -- script wrapper for xautolock, xlock, and/or i3lock
- #             as well as issuing suspend, shutdown, and restart commands
+#### &lt;&lt; etc/bash/xlck.sh &gt;&gt;
+### xlck.sh -- script wrapper for xautolock, xlock, and/or i3lock
+##             as well as issuing suspend, shutdown, and restart commands
       xlck()            -- xlck $@
       _xlck_install()   -- install xlck dependencies
       xlck requires: bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
       _xlck_setup_dpms() -- configure display with xset and dpms
-     xset s on
-     xset s activate
       _xlck_setup()     -- setup xlck (export _XLCK=(this) &amp;&amp; _xlck_setup_dpms)
-     XSET=$(type &#39;xset&#39; 2&gt;/dev/null)
       _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
       _xlck_i3lock()    -- start i3lock with a dark gray background
       xlck_gnome_screensaver_status()  -- gnome-screensaver PIDs on $DISPLAY
@@ -1397,7 +1347,6 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
       xlck_start()              -- start xlck
       xlck_stop()               -- stop xlck
       xlck_restart()            -- stop and start xlck
-     xautolock -restart  # does not work with xautolock -secure
       xlck_pgrep_display()-- find xautolock on this display
       xlck_xautolock_pgrep_display()-- find xautolock on this display
       xlck_xautolock_status()       -- show xlck status 
@@ -1420,7 +1369,7 @@ make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc">https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc</a></div>
 </div>
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_vim_rst</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>   # etc/vim/vimrc
+<div class="highlight-python"><div class="highlight"><pre>#### &lt;&lt; etc/vim/vimrc &gt;&gt;
 .vimrc
 ==========
 ::
@@ -1750,7 +1699,7 @@ References
   - http://vim.wikia.com/wiki/VimTip320
    
    
-   # etc/vim/vimrc.full.bundles.vimrc
+#### &lt;&lt; etc/vim/vimrc.full.bundles.vimrc &gt;&gt;
 Bundle            -- Vim bundle manager [help bundle]
 :BundleList          - list configured plugins
 :BundleInstall(!)    - install (update) plugins
@@ -2086,7 +2035,7 @@ fountain.vim          -- fountain.io syntax
 All of your Bundles must be added before the following line
    
    
-   # etc/vim/vimrc.tinyvim.bundles.vimrc
+#### &lt;&lt; etc/vim/vimrc.tinyvim.bundles.vimrc &gt;&gt;
 Bundle            -- Vim bundle manager [help bundle]
 :BundleList          - list configured plugins
 :BundleInstall(!)    - install (update) plugins
@@ -2167,50 +2116,54 @@ All of your Bundles must be added before the following line
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.i3/config">https://github.com/westurner/dotfiles/blob/master/etc/.i3/config</a></div>
 </div>
 <p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help_i3_rst</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>### i3 config file (v4)
+<div class="highlight-python"><div class="highlight"><pre>#### &lt;&lt; /home/wturner/-dotfiles/etc/i3/config &gt;&gt;
+#### i3 config file (v4)
+
   #  Default location: ~/.i3/config
   #  List commented command shortcuts with::
+
   #     cat ~/.i3/config | egrep &#39;(^(\s+)?##+ |^(\s+)?#  )&#39;
+
  #!/bin/sh
  ### .i3/config requirements
+
  ## Ubuntu (12.04)
  # MUST
  apt-get install i3 i3status xautolock xlockmore i3lock
  hg clone https://github.com/westurner/dotfiles ~/.dotfiles  # etc/xlck.sh
+
  # SHOULD
  apt-get install gnome-terminal network-manager-gnome thunar pulseaudio-utils
  apt-get install feh                  # wallpaper
  apt-get install xfce4-screenshooter  # screenshots
  mkdir -p ~/pictures/screens          # screenshots
  apt-get install xbacklight           # brightness
+
  # COULD
  apt-get install vim-gnome            # scratchpad
  add-apt-repository ppa:kilian/f.lux  # f.lux
  apt-get update                       # f.lux
  apt-get install fluxgui              # http://justgetflux.com
+
  ## References
  * http://i3wm.org/docs/userguide.html
  * https://faq.i3wm.org/question/1425/variable-substitution/
  * i3-config-wizard
+
  ## Notes
  * grab keyboard mappings: xev | grep keycode
-## Configure I3
-# To swap layouts: (make swap-layout)
+### Configure I3
+## To swap layouts: (make swap-layout)
    sed &#39;s/&lt;alt&gt;/&lt;ALT&gt;/g&#39; &amp;&amp; sed &#39;s/&lt;super&gt;/&lt;alt&gt;/g&#39; &amp;&amp; sed &#39;s/&lt;ALT&gt;/&lt;super&gt;/g&#39;
-# Set i3 keyboard modifier keys to variables $mod1 and $mod2  (for keyboard layout flexibility)
-# PC Keyboard (default) ##
+## Set i3 keyboard modifier keys to variables $mod1 and $mod2  (for keyboard layout flexibility)
+## PC Keyboard (default) ##
     PC: $mod1  == &lt;Alt&gt;
     PC: $mod2 == &lt;Super&gt;
-# Alternate (e.g. Mac Keyboard ) ##
+## Alternate (e.g. Mac Keyboard ) ##
     Mac: $mod1  == &lt;Super&gt;
-set      $mod1     Mod4
     Mac: $mod2 == &lt;Alt&gt;
-set      $mod2    Mod1
  font for window titles. ISO 10646 = Unicode
  Pango requires i3 version &gt;= ____
-font pango:DejaVu Sans Mono 9
-font pango:Source Code Pro for Powerline Medium 9
-font pango:Fira Mono Medium for Powerline Medium 9
  reload the configuration file
   &lt;alt&gt;&lt;shift&gt; c   -- reload i3 configuration
  restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -2219,44 +2172,33 @@ font pango:Fira Mono Medium for Powerline Medium 9
   &lt;super&gt;&lt;shift&gt; l  -- exit i3 (close all and logout of X session)
   &lt;alt&gt;&lt;shift&gt; q   -- close focused window
   # Hide edge borders
-hide_edge_borders both
-hide_edge_borders vertical
-## Launch programs
-# Set Variables
+### Launch programs
+## Set Variables
  Open default tabs
  Open a blank tab ([x] chromium, [TODO] firefox, [...])
-set $terminal i3-sensible-terminal
-set $filebrowser thunar
-set $filebrowser nautilus
   # Get WM_CLASS with $(xprop WM_CLASS)
-set $browser_selector [class=&quot;Chromium&quot;]
-set $browser_selector [class=&quot;Google-chrome&quot;]
-set $browser_selector [class=&quot;Firefox&quot;]
-set $volume_up pactl set-sink-volume 0 -- +10%
-set $volume_down pactl set-sink-volume 0 -- -10%
-set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png
-# Autoruns
+## Autoruns
+
   - Start gnome-settings-daemon (e.g. for anti-aliasing)
   $PATH/gnome-settings-daemon        -- Ubuntu, Debian
   /usr/libexec/gnome-settings-daemon -- Fedora
-- Start gnome-session (initial programs + gnome-settings-daemon)
   - Start screensaver
   - Set X background
   - Set X wallaper to (~/wallpaper.png)
  - Launch network applet (optional)
  exec_always --no-startup-id $network_applet  # (optional)
  see also: nmcli
-# Lock, shutdown and suspend
+## Lock, shutdown and suspend
   &lt;super&gt; l        -- lock screen
   &lt;XF86PowerOff&gt;   -- exit
   &lt;XF86Sleep&gt;      -- suspend
-# Change backlight brightness
+## Change backlight brightness
   &lt;XF86MonBrightnessUp&gt;      -- brightness up
   &lt;XF86MonBrightnessDown&gt;    -- brightness down
-# Change volume
+## Change volume
   &lt;XF86AudioRaiseVolume&gt;   -- volume up
   &lt;XF86AudioLowerVolume&gt;   -- volume down
-# Launch Applications
+## Launch Applications
   &lt;alt&gt; x      -- run command
   &lt;super&gt; r    -- run command
   &lt;super&gt; e    -- launch browser
@@ -2270,82 +2212,81 @@ set $set_xwallpaper feh --bg-fill --no-xinerama ~/wallpaper.png
   &lt;alt&gt;&lt;shift&gt; w          -- launch network manager applet (see also: $(nmcli))
   &lt;PrintScr&gt;       -- screenshot (full screen)
   &lt;alt&gt; &lt;PrintScr&gt; -- screenshot (current window)
-# Focus to nearest instance
+## Focus to nearest instance
   &lt;alt&gt; v      -- focus nearest: editor
   &lt;alt&gt; t      -- focus nearest: terminal
   &lt;alt&gt; b      -- focus nearest: browser
-# Start, stop, and reset xflux
+## Start, stop, and reset xflux
   &lt;alt&gt; [         -- start xflux
   &lt;alt&gt; ]         -- stop xflux
   &lt;alt&gt;&lt;shift&gt; ]  -- reset gamma to 1.0
   &lt;alt&gt;&lt;shift&gt; [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
   &lt;alt&gt;&lt;shift&gt; \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9
-# Change focus between tiling / floating windows
+## Change focus between tiling / floating windows
   &lt;alt&gt; &lt;space&gt;            -- toggle focus mode: tiling / floating
-# Floating windows
+## Floating windows
   &lt;alt&gt;&lt;shift&gt; &lt;space&gt;     -- toggle tiling/floating mode for focused window
   &lt;alt&gt; &lt;backspace&gt;        -- toggle tiling/floating mode for focused window
   &lt;alt&gt; &lt;mouse&gt;            -- drag floating window to position
-# Fullscreen mode
+## Fullscreen mode
   # Note: popups will be hidden below fullscreened windows
   &lt;alt&gt;&lt;shift&gt; f   -- fullscreen
   # popup during fullscreen exits fullscreen
-popup_during_fullscreen &lt;smart|ignore|leave_fullscreen&gt;
-# Split windows
+## Split windows
  Split next window
   &lt;alt&gt;&lt;shift&gt; h   -- split [next] window horizontally
   &lt;alt&gt;&lt;shift&gt; v   -- split [next] window vertically
-# Toggle window layouts
+## Toggle window layouts
   &lt;alt&gt; w          -- tabbed window layout
   &lt;alt&gt; e          -- Default window layout
   &lt;alt&gt; s          -- stacked window layout
-# Focus parent/child windows
+## Focus parent/child windows
   &lt;alt&gt; a          -- focus parent container
   &lt;alt&gt;&lt;shift&gt; a   -- focus child container
-# Switch to window / container
+## Switch to window / container
   &lt;alt&gt; Up     -- focus up
   &lt;alt&gt; Down   -- focus down
   &lt;alt&gt; Left   -- focus left
   &lt;alt&gt; Right  -- focus right
-# Switch to window / container (Vi)
+## Switch to window / container (Vi)
   &lt;alt&gt; h      -- focus left
   &lt;alt&gt; j      -- focus down
   &lt;alt&gt; k      -- focus up
   &lt;alt&gt; l      -- focus right
  Toggle between previous and current workspace
-# Switch to workspace
+## Switch to workspace
   &lt;alt&gt; 0-9        -- switch to workspace N  (repeat to return)
   &lt;super&gt; 0-9      -- switch to workspace N  (repeat to return)
   &lt;alt&gt; &lt;F_n&gt;      -- switch to workspace N (repeat to return)
   &lt;alt&gt; &lt;Keypad_n&gt; -- switch to workspace N (repeat to return)
-# Move to next/previous workspace
+## Move to next/previous workspace
   &lt;super&gt; Left     -- move to previous workspace
   &lt;super&gt; Right    -- move to next workspace
   &lt;super&gt; Up       -- move to second most recently focused workspace
-# Move focused container to next/previous workspace
+## Move focused container to next/previous workspace
   &lt;super&gt; Left     -- move container to previous workspace
   &lt;super&gt; Right    -- move container to next workspace
   &lt;super&gt; Up       -- move container to second most recently focused workspace
-# Move focused container within workspace
+## Move focused container within workspace
   &lt;alt&gt;&lt;shift&gt; Up      -- move window up
   &lt;alt&gt;&lt;shift&gt; Down    -- move window down
   &lt;alt&gt;&lt;shift&gt; Left    -- move window left
   &lt;alt&gt;&lt;shift&gt; Right   -- move window right
-# Move focused container within workspace (Vi)
+## Move focused container within workspace (Vi)
   &lt;alt&gt;&lt;shift&gt; h       -- move window left
   &lt;alt&gt;&lt;shift&gt; j       -- move window down
   &lt;alt&gt;&lt;shift&gt; k       -- move window up
   &lt;alt&gt;&lt;shift&gt; l       -- move window right
-# Move focused container to workspace
+## Move focused container to workspace
   &lt;alt&gt;&lt;shift&gt;  [N: 0-9]   -- move to workspace N
-# Move focused container to workspaces (with number pad)
+## Move focused container to workspaces (with number pad)
   &lt;alt&gt;&lt;shift&gt; [KP_N: 0-9] -- move to workspace N
-# Move focused container to workspaces (with number pad)
+## Move focused container to workspaces (with number pad)
   &lt;super&gt; [KP_N: 0-9] -- move to workspace N
-# Move workspace to output
+## Move workspace to output
   &lt;super&gt;&lt;shift&gt; Left  -- move workspace to left
   &lt;super&gt;&lt;shift&gt; Right -- move workspace to right
-# Scratchpad workspace
+## Scratchpad workspace
   &lt;alt&gt;&lt;shift&gt; &lt;minus&gt;     -- make the currently focused window a scratchpad
   &lt;alt&gt; &lt;minus&gt;            -- show/hide and cycle through scratchpad windows
   &lt;alt&gt;&lt;shift&gt; s           -- start scratchpad editor
@@ -2354,9 +2295,9 @@ popup_during_fullscreen &lt;smart|ignore|leave_fullscreen&gt;
   &lt;alt&gt; &lt;backspace&gt;        -- toggle tiling/floating mode for focused window
  see above.
   # on (re)load, move $scratchpad_editor_selector windows to scratchpad
-# Resize Mode
+## Resize Mode
   &lt;alt&gt; r      -- enter resize mode
-    # Grow and shrink windows
+    ## Grow and shrink windows
      These bindings trigger as soon as you enter the resize mode
     
      They resize the border in the direction you pressed, e.g.
@@ -2371,7 +2312,7 @@ popup_during_fullscreen &lt;smart|ignore|leave_fullscreen&gt;
       &lt;shift&gt; Up       -- shrink up
       Right            -- grow right
       &lt;shift&gt; Right    -- shrink right
-    # Grow and shrink windows (Vi)
+    ## Grow and shrink windows (Vi)
       h            -- grow left
       &lt;shift&gt; h    -- shrink left
       j            -- grow down
@@ -2383,19 +2324,13 @@ popup_during_fullscreen &lt;smart|ignore|leave_fullscreen&gt;
      back to normal: Enter or Escape
       &lt;enter&gt;  -- exit resize mode
       &lt;esc&gt;    -- exit resize mode
-# Set colors
+## Set colors
  color defines for zenburn styled i3 derived from:
  https://faq.i3wm.org/question/2071/how-can-i-change-look-of-windows/?answer=2075
  set some nice colors      border     background  text
-client.focused              $tx        $tx         $yw
-# i3bar
+## i3bar
   # display i3bar with i3status
      $ xrandr-tool outputs
-    output LVDS1   # Panel
-    output VGA1    # VGA (Blue)
-    output TV1     # S-Video
-    output HDMI1   # HDMI
-    tray_output none
 </pre></div>
 </div>
 </div>
