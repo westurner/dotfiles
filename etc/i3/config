@@ -313,10 +313,15 @@ bindsym $mod1+K focus up
 #  <alt> l      -- focus right
 bindsym $mod1+L focus right
 
+## Switch to previous / next workspace with <super> minus / equal
+#  <super> - (minus)  -- switch to previous workspace
+bindsym $mod2+minus workspace prev
 
-# Toggle between previous and current workspace
+#  <super> = (equal)  -- switch to next workspace
+bindsym $mod2+equal workspace next
+
+#  Toggle between previous and current workspace
 workspace_auto_back_and_forth yes
-
 
 ## Switch to workspace
 #  <alt> 0-9        -- switch to workspace N  (repeat to return)
