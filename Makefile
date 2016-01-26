@@ -498,10 +498,11 @@ docs-notify:
 		'$(shell pwd)') || true)
 
 DOCS_AUTOGEN_FILES:=\
+	docs/usage/readline_conf.txt \
 	docs/usage/bash_conf.txt \
+	docs/usage/zsh_conf.txt \
 	docs/usage/i3_conf.txt \
 	docs/usage/dotvim_conf.txt \
-	docs/usage/readline_conf.txt \
 	$(BASH_LOAD_SCRIPT) \
 	$(ZSH_LOAD_SCRIPT)
 
