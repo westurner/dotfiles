@@ -25,3 +25,6 @@
 [submodule "pyrpo"]
 	path = src/pyrpo
 	url = https://github.com/westurner/pyrpo
+[submodule "src/web.sh"]
+	path = src/web.sh
+	url = ssh://git@github.com/westurner/web.sh
