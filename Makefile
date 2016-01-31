@@ -127,7 +127,9 @@ help_setuppy_txt:
 BASH_LOAD_SCRIPT=scripts/_dotfiles_bash.log.sh
 help_bash:
 	## Write bash output to BASH_LOAD_SCRIPT
-	_TERM_ID="#testing" bash -i -v -c 'exit' > $(BASH_LOAD_SCRIPT) 2>&1
+	_TERM_ID="#testing" \
+		bash -i -v -c 'exit' \
+			> '$(BASH_LOAD_SCRIPT)' 2>&1
 
 help_bash_txt: help_bash
 	## Write docs/usage/bash_conf.txt
@@ -140,11 +142,12 @@ ZSH_LOAD_SCRIPT=scripts/_dotfiles_zsh.log.sh
 help_zsh:
 	## Write zsh output to ZSH_LOAD_SCRIPT
 	_TERM_ID="#testing" \
-		DISABLE_AUTO_UPDATE=true \
-		zsh -i -v -c 'exit' > $(ZSH_LOAD_SCRIPT) 2>&1 || true
+	DISABLE_AUTO_UPDATE=true \
+		zsh -i -v -c 'exit' > '$(ZSH_LOAD_SCRIPT)' 2>&1 || true
 
 help_zsh_txt: help_zsh
 	_TERM_ID="#testing" \
+	DISABLE_AUTO_UPDATE=true \
 		bash scripts/_dotfileshelp.sh zsh \
 			> docs/usage/zsh_conf.txt
 
