@@ -1,6 +1,27 @@
 
 ### ~/.dotfiles/Makefile
-## westurner/dotfiles/Makefile
+### westurner/dotfiles/Makefile
+#  git workflow:
+#
+#  - https://github.com/westurner/dotfiles
+#    - | Docs: https://westurner.org/dotfiles/
+#    - | Docs: https://westurner.org/dotfiles/usage
+#    - | Docs: https://westurner.org/dotfiles/venv
+#    - | Docs: https://westurner.org/dotfiles/tools/
+#      - https://github.com/westurner/tools
+#       - | Docs: https://westurner.org/tools/
+#       - | Docs: https://westurner.org/tools/#hubflow
+#         - Git HubFlow: develop -> {feature release hotfix} -> stable master
+#
+# Usage:
+#
+#    make help
+#
+#    # build the docs and open locally (with websh.py)
+#    make docs open
+
+#    # build the docs, git push, import docs/_build/html -> gh-pages and push
+#    make docs push gh-pages
 
 
 DOTFILES_SRC_GIT_REPO=ssh://git@github.com/westurner/dotfiles
