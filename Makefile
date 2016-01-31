@@ -1,7 +1,18 @@
 
 ### ~/.dotfiles/Makefile
 ### westurner/dotfiles/Makefile
-#  git workflow:
+## westurner/dotfiles Usage:
+#
+#  # print docs for the Makefile
+#  $ make help
+#
+#  # build the docs and open BUILDDIRHTML/index.html in a browser [websh.py]
+#  $ make docs open
+
+#  # build the docs, git push, ghp-import docs/_build/html -> gh-pages & push
+#  $ make docs push gh-pages
+#
+## westurner/dotfiles git workflow:
 #
 #  - https://github.com/westurner/dotfiles
 #    - | Docs: https://westurner.org/dotfiles/
@@ -13,22 +24,17 @@
 #       - | Docs: https://westurner.org/tools/#hubflow
 #         - Git HubFlow: develop -> {feature release hotfix} -> stable master
 #
-# Usage:
-#
-#    make help
-#
-#    # build the docs and open locally (with websh.py)
-#    make docs open
 
-#    # build the docs, git push, import docs/_build/html -> gh-pages and push
-#    make docs push gh-pages
+# GHPREFIX=  should match the set { 'ssh://git@', 'https://', 'git://' }
+GHPREFIX=ssh://git@
+#GHPREFIX:=https://
+#GHPREFIX:=git://
 
-
-DOTFILES_SRC_GIT_REPO=ssh://git@github.com/westurner/dotfiles
-DOTFILES_SRC_GIT_BRANCH=master
-DOTFILES_DOCS_SRC_REPO=ssh://git@github.com/westurner/tools
-DOTFILES_DOCS_SRC_BRANCH=master
-DOTVIM_SRC_REPO:=https://github.com/westurner/dotvim
+DOTFILES_SRC:=${GHPREFIX}github.com/westurner/dotfiles
+DOTFILES_SRC_BRANCH=master
+DOTFILES_TOOLS_SRC=${GHPREFIX}github.com/westurner/tools
+DOTFILES_TOOLS_SRC_BRANCH=master
+DOTVIM_SRC:=${GHPREFIX}github.com/westurner/dotvim
 
 #  Usage::
 #
@@ -404,7 +410,7 @@ dotvim_clone:
 	# Clone and/or install .dotvim/Makefile
 	mkdir -p ./etc
 	(test -d ./etc/vim/.git && cd etc/vim && git pull) \
-		|| git clone $(DOTVIM_SRC_REPO) ./etc/vim
+		|| git clone '$(DOTVIM_SRC)' ./etc/vim
 
 dotvim_install:
 	# Install vim with Makefile
@@ -529,30 +535,52 @@ DOCS_AUTOGEN_FILES:=\
 
 docs_commit_autogen:
 	git add -f $(DOCS_AUTOGEN_FILES)
-	git diff --cached --exit-code -- $(DOCS_AUTOGEN_FILES) || \
-		git commit $(DOCS_AUTOGEN_FILES) -m "DOC: :boat: dotfiles usage docs: $(shell git -C . rev-parse --short HEAD)"
+	git diff --cached --exit-code -- $(DOCS_AUTOGEN_FILES) \
+		|| git commit $(DOCS_AUTOGEN_FILES) -m \
+		'DOC: docs/usage/: dotfiles usage docs: $(shell \
+			git -C . rev-parse --short HEAD) :boat:'
 
-_WWW=/srv/repos/var/www
+_projectname_="dotfiles"
+
+_WWW:=${SRVROOT}/repos/var/www
+_WWW_PATH:=${_WWW}/docs/${_projectname_}
 
 docs_clean_rsync_local:
-	rm -rf $(_WWW)/docs/dotfiles/*
+	## docs_clean_rsync_local -- remove (rm!) all files in _WWW_PATH
+	rm -rf $(_WWW_PATH)/*
 
 docs_rsync_to_local: docs_clean_rsync_local
-	rsync -vr ./docs/_build/html/ /srv/repos/var/www/docs/dotfiles/
+	## docs_rsync_to_local    -- rsync ${BUILDDIRHTML} to ${_WWW_PATH}/
+	rsync -vr '$(BUILDDIRHTML)' '$(_WWW_PATH)/'
+
+DOTFILES_TOOLS_REMOTE:=tools_remote
+DOTFILES_TOOLS_BRANCH:=tools_branch
+
+SUBTREE_SRC:=${DOTFILES_TOOLS_SRC}
+SUBTREE_SRC_BRANCH:=${DOTFILES_TOOLS_SRC_BRANCH}
+SUBTREE_BRANCH:=${DOTFILES_TOOLS_BRANCH}
+SUBTREE_REMOTE:=${DOTFILES_TOOLS_REMOTE}
+SUBTREE_SRC_PATH:='docs/tools.git'
+SUBTREE_PATH:='docs/tools'
 
 docs_tools_subtree_setup:
-	# git read-tree --prefix=docs/tools/ tools_branch
+	## docs_tools_subtree_setup  --  add a remote, fetch, checkout, read-tree
+	# git read-tree --prefix=${SUBTREE_PATH} tools_branch
 	# NOTE: about git subtree branch tag merging:
 	#  - remote_tags that do not exist are created (* e.g. version sort collision)
 	#  - new tags that conflict with remote_tags must then be set with -f
 	#  - remote_tags that do exist are not overwritten
-	git remote add -f tools_remote $(DOTFILES_DOCS_SRC_REPO)
-	git fetch tools_remote
-	git checkout -b tools_branch tools_remote/$(DOTFILES_DOCS_SRC_BRANCH)
-	git checkout $(DOTFILES_SRC_GIT_BRANCH)
-	git read-tree --prefix=docs/tools.git/ tools_branch
-	git add docs/tools && \
-		git commit docs/tools -m "Merge in from $(DOTFILES_DOCS_SRC_REPO)"
+	git remote show '$(SUBTREE_REMOTE)' \
+		|| git remote add -f '$(SUBTREE_REMOTE)' '$(SUBTREE_SRC)'
+	git fetch '$(SUBTREE_REMOTE)'
+	git checkout --track -B '$(SUBTREE_BRANCH)' \
+		'$(SUBTREE_REMOTE)/$(SUBTREE_BRANCH)'
+	git checkout '$(SUBTREE_SRC_BRANCH)'
+	git read-tree --prefix='$(SUBTREE_SRC_PATH)/' '$(SUBTREE_BRANCH)'
+	git add '$(SUBTREE_PATH)' && \
+		git commit '$(SUBTREE_PATH)' -m \
+			'DOC: $(SUBTREE_PATH): :boat: Merge in from $(SUBTREE_SRC) $(shell \
+				git -C . rev-parse --short HEAD)'
 
 
 docs_tools_subtree_diff:
@@ -590,29 +618,29 @@ STATIC:=./docs/_static
 LOCALCSS=$(STATIC)/css/local.css
 localcss:
 	echo '' > $(LOCALCSS)
-	cat $(STATIC)/css/custom.css >> $(LOCALCSS)
-	cat $(STATIC)/css/sidenav-scrollto.css >> $(LOCALCSS)
-	cat $(STATIC)/css/leftnavbar.css >> $(LOCALCSS)
+	cat '$(STATIC)/css/custom.css' >> '$(LOCALCSS)'
+	cat '$(STATIC)/css/sidenav-scrollto.css' >> '$(LOCALCSS)'
+	cat '$(STATIC)/css/leftnavbar.css' >> '$(LOCALCSS)'
 
 LOCALJS=$(STATIC)/js/local.js
 localjs:
 	echo '' > $(LOCALJS)
-	cat $(STATIC)/js/ga.js >> $(LOCALJS)
-	cat $(STATIC)/js/newtab.js >> $(LOCALJS)
-	cat $(STATIC)/js/sidenav-affix.js >> $(LOCALJS)
-	cat $(STATIC)/js/jquery.scrollTo.js >> $(LOCALJS)
-	cat $(STATIC)/js/jquery.isonscreen.js >> $(LOCALJS)
-	cat $(STATIC)/js/sidenav-scrollto.js >> $(LOCALJS)
+	cat '$(STATIC)/js/ga.js' >> '$(LOCALJS)'
+	cat '$(STATIC)/js/newtab.js' >> '$(LOCALJS)'
+	cat '$(STATIC)/js/sidenav-affix.js' >> '$(LOCALJS)'
+	cat '$(STATIC)/js/jquery.scrollTo.js' >> '$(LOCALJS)'
+	cat '$(STATIC)/js/jquery.isonscreen.js' >> '$(LOCALJS)'
+	cat '$(STATIC)/js/sidenav-scrollto.js' >> '$(LOCALJS)'
 
 localjs-live:
 	$(MAKE) localjs
-	cp -v ${LOCALJS} ${BUILDDIRHTML}/_static/js/local.js  || true;
-	cp -v ${LOCALJS} ${BUILDDIRSINGLEHTML}/_static/js/local.js  || true;
+	cp -v '$(LOCALJS)' '$(BUILDDIRHTML)/_static/js/local.js'  || true;
+	cp -v '$(LOCALJS)' '$(BUILDDIRSINGLEHTML)/_static/js/local.js'  || true;
 
 localcss-live:
 	$(MAKE) localcss
-	cp -v ${LOCALCSS} ${BUILDDIRHTML}/_static/css/local.css || true;
-	cp -v ${LOCALCSS} ${BUILDDIRSINGLEHTML}/_static/css/local.css || true;
+	cp -v '$(LOCALCSS)' '$(BUILDDIRHTML)/_static/css/local.css || true;
+	cp -v '$(LOCALCSS)' '$(BUILDDIRSINGLEHTML)/_static/css/local.css || true;
 
 local-live:
 	$(MAKE) localjs-live
@@ -622,8 +650,12 @@ local-live:
 docs-open: docs open
 
 open:
-	scripts/websh.py ./docs/_build/html/index.html
-	#scripts/websh.py ./docs/_build/singlehtml/index.html
+	## open  -- open the docs in a browser (w/ websh.py)
+	@# python -m webbrowser 'file://'"${BUILDDIRHTML}/index.html"
+	@# -> websh.py
+	@#    web ./docs/_build/html/index.html
+	@#    web ./docs/_build/singlehtml/index.html
+	scripts/websh.py '$(BUILDDIRHTML)/index.html'
 
 update_get-pip.py:
 	cd ./scripts && wget 'https://bootstrap.pypa.io/get-pip.py'
@@ -641,30 +673,32 @@ update_manifest:
 	git add ./MANIFEST.in
 	git diff --cached --exit-code ./MANIFEST.in || \
 		git commit ./MANIFEST.in \
-		-m "RLS: MANIFEST.in: autogenerated git_manifest"
+		-m "RLS: MANIFEST.in: :boat: python setup.py git_manifest"
 
 start-release:
-	# start a release
-	#   VERSION (str): version string without prefix (e.g "0.8.3")
-	git hf release start $(VERSION)
+	# start-release   -- git hf release start ${VERSION} (VERSION="0.1.0")
+	#   VERSION (str): version string without a 'v' prefix (e.g "0.1.0")
+	git hf release start '$(VERSION)'
 
+VERSION_TXT:=VERSION.txt
 release: clean
-	# finish a release that is already started
-	#   VERSION (str): version string without prefix (e.g "0.8.3")
-	test -n $(VERSION)
+	# release         -- finish a release that is already started
+	#   VERSION (str): version string without prefix (e.g "0.1.0")
+	test -n '$(VERSION)'
 	#git hf release start $(VERSION)
-	echo $(VERSION) > ./VERSION.txt
-	git add ./VERSION.txt
+	echo '$(VERSION)' > '$(VERSION_TXT)'
+	git add '$(VERSION_TXT)'
 	git diff --cached --exit-code ./VERSION.txt || \
-		git commit VERSION.txt -m "RLS: VERSION.txt: $(VERSION)"
+		git commit '$(VERSION_TXT)' -m \
+			"RLS: VERSION.txt: $(VERSION) :boat:"
 	$(MAKE) docs
 	$(MAKE) update_manifest
-	git hf release finish $(VERSION) || \
-		git hf release finish $(VERSION)
+	git hf release finish '$(VERSION)' || \
+		git hf release finish '$(VERSION)'
 	#$(MAKE) upload
 
 upload:
-	## MANUAL: register: python setup.py register -r https://pypi.python.org/pypi
+	@#python setup.py register   -r https://pypi.python.org/pypi
 	python setup.py sdist upload -r https://pypi.python.org/pypi
 
 sdist: clean
