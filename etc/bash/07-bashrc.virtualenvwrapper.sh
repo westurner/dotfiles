@@ -122,9 +122,11 @@ function backup_virtualenvs {
 function dx {
     # dx()                      -- 'deactivate'
     (declare -f 'deactivate' 2>&1 > /dev/null \
-        && deactivate) || \
-    (declare -f 'dotfiles_postdeactivate' 2>&1 > /dev/null \
-        && dotfiles_postdeactivate)
+        && deactivate) || (source deactivate;
+    declare -f '_conda_postdeactivate' 2>&1 > /dev/null \
+        && _conda_postdeactivate)
+    declare -f 'dotfiles_postdeactivate' 2>&1 > /dev/null \
+        && dotfiles_postdeactivate
 }
 
 function _rebuild_virtualenv {
