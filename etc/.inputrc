@@ -112,6 +112,11 @@ $if mode=vi
     #  <ctrl> w  -- delete last word
     "\C-w": backward-kill-word
 
+    #  <ctrl> BS -- delete last word
+    #"\C-\b": backward-kill-word
+    #"\C-^?": backward-kill-word
+    #"\C-_": backward-kill-word
+
     #  <ctrl> gx -- expand without executing
     "\C-gx": glob-expand-word
 
@@ -150,6 +155,11 @@ $if mode=vi
 
     #  <ctrl> w  -- delete last word
     "\C-w": backward-kill-word
+
+    #  <ctrl> BS -- delete last word
+    #"\C-\b": backward-kill-word
+    #"\C-?": backward-kill-word
+    #"\C-_": backward-kill-word
 
     #  <ctrl> gx -- glob expand without executing
     "\C-gx": glob-expand-word
