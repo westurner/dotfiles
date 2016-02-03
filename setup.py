@@ -15,16 +15,16 @@ import os
 import subprocess
 import sys
 
-from collections import deque
+from collections import deque, OrderedDict
 from fnmatch import fnmatchcase
 
 import setuptools
+from setuptools import setup, find_packages
 
 from distutils.command.build import build as DistutilsBuildCommand
 from distutils.util import convert_path
 from distutils.text_file import TextFile
 
-from setuptools import setup, find_packages
 
 try:
     import z3c.recipe.tag
@@ -251,19 +251,26 @@ class PyTestCommand(RunCommand):
     def run(self):
         cmd = [sys.executable,
                os.path.join(SETUPPY_PATH, 'runtests.py')]
-
         pths = []
         fnglobs = (
             'src/dotfiles/venv/*.py',
             'src/dotfiles/*.py',
             'scripts/*.py',
-            'bin/*')
+            'bin/*',
+        )
+        exclude = [
+            '*/scripts/prompt6.py',
+        ]
         for fnglob in fnglobs:
-            pths.extend(sorted(glob.glob(
-                os.path.join(SETUPPY_PATH, fnglob))))
+            pths.extend(
+                sorted(
+                    pth for pth in glob.glob(
+                        os.path.join(SETUPPY_PATH, fnglob))
+                    if (not any(
+                        fnmatchcase(pth, ptrn) for ptrn in exclude))
+                ))
 
-        import collections
-        pthdict = collections.OrderedDict()
+        pthdict = OrderedDict()
         for pth in pths:
             realpath = os.path.realpath(pth)
             pthdict.setdefault(realpath, [])
