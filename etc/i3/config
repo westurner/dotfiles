@@ -454,7 +454,7 @@ bindsym $mod2+KP_9 move workspace number 9
 bindsym $mod2+KP_0 move workspace number 10
 
 
-## Move workspace to output
+## Move workspace to output (e.g. with multiple monitors)
 #  <super><shift> Left  -- move workspace to left
 bindsym $mod2+$mod1+Left move workspace to output left
 #  <super><shift> Right -- move workspace to right
