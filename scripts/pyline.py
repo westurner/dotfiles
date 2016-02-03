@@ -385,11 +385,18 @@ def build_column_map(col_map):
     )
 
 
-def get_list_from_str(str_, idelim=',', type_func=int):
+def get_list_from_str(str_, idelim=',', typefunc=int):
     """
-    Split a string of integers separated by commas
+    Split a string of things separated by commas & cast/wrap with typefunc
+
+    Args:
+        str_ (str (.strip, .split)): string to split
+        idelim (str): string to split by ("input delimiter")
+        typefunc (callable): wrap results with this callable
+    Returns:
+        list: list of Type_func(
     """
-    return [type_func(x.strip()) for x in str_.split(idelim)]
+    return [typefunc(x.strip()) for x in str_.split(idelim)]
 
 
 def sort_by(sortstr, iterable,
