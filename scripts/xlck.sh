@@ -83,15 +83,15 @@ function xlck_gnome_screensaver_lock {
 
 
 function _xlck_which_lock {
-    if [[ -x /usr/bin/i3lock ]]; then
+    if [[ -x /usr/bin/gnome-screensaver ]]; then
+        echo "gnome-screensaver"
+        xlck_gnome_screensaver_lock
+    elif [[ -x /usr/bin/i3lock ]]; then
         echo "i3lock"
         _xlck_i3lock
     elif [[ -x /usr/bin/xlock ]]; then
         echo "xlock"
         _xlck_xlock
-    elif [[ -x /usr/bin/gnome-screensaver ]]; then
-        echo "gnome-screensaver"
-        xlck_gnome_screensaver_lock
     fi
 }
 
@@ -175,21 +175,38 @@ function xlck_suspend_disk  {
 
 function xlck_start {
     # xlck_start()              -- start xlck
-    echo "Starting xlck ..."
+    echo "# xlck: Starting xlck DISPLAY=${DISPLAY} ..."
     if [ -n "$DISPLAY" ]; then
+        xlck_status; local retcode=$?
+        echo "### ${retcode}"
+        #local retcode=$?
+        if [[ "$retcode" == "0" ]]; then
+            echo "# xlck: Starting xlck DISPLAY=${DISPLAY} ... xlck is running [0] ."
+            return 0
+        fi
         _xlck_setup
-        _xlck_xautolock & disown
-        echo "Started xlck ..."
+        _xlck_xautolock &
+        local _xlck_xautolock_pid=$!
+        disown
+        echo "# xlck: Starting xlck DISPLAY=${DISPLAY} ... started [ pid=$_xlck_xautolock_pid ] ."
         sleep 1
         xlck_status
+        return
     fi
 }
 
 function xlck_stop {
     # xlck_stop()               -- stop xlck
-    echo "Stopping xlck ..."
+    echo "# xlck: Stopping xlck ..."
     xlck_xautolock_stop
-    echo "xlck stopped"
+    local retcode=$?
+    if [[ "$retcode" == "0" ]] ; then
+        echo "# xlck: Stopping xlck ... stopped [${retcode}] ."
+        return 0
+    else
+        echo "# xlck: Stopping xlck ... error [${retcode}] ."
+        return 1
+    fi
 }
 
 function xlck_restart {
@@ -204,7 +221,7 @@ function xlck_pgrep_display {
     # xlck_pgrep_display()-- find xautolock on this display
     procname="${1}"
     display="${2:-$DISPLAY}"
-    if [ -z "${@}" ]; then
+    if [[ "${@}" == "" ]]; then
         echo "usage: <procname> [<display>]"
         return 2
     fi
@@ -227,28 +244,39 @@ function xlck_xautolock_pgrep_display {
     fi
 }
 
+
 function xlck_xautolock_status {
     # xlck_xautolock_status()       -- show xlck status 
-    echo "# Checking autolock status where DISPLAY=$DISPLAY"
-    _xautolock_actual_pids=$(xlck_xautolock_pgrep_display)
+    echo -n "# xlck: Checking xautolock status where DISPLAY=$DISPLAY ... vvv"
+    local _xautolock_actual_pids=$(xlck_xautolock_pgrep_display)
+    echo " [ pids=( ${_xautolock_actual_pids} ) ]"
     if [ -n "$_xautolock_actual_pids" ]; then
         ps ufw -p $_xautolock_actual_pids
+        local retcode=$?
+        echo -n "# xlck: Checking xautolock status where DISPLAY=$DISPLAY ... "
+        echo "^^^ [ pids=( ${_xautolock_actual_pids} ) ] ."
+        return $retcode
     else
-        echo "no autolock processes found on this \$DISPLAY"
+        echo -n "# xlck: Checking xautolock status where DISPLAY=$DISPLAY ... "
+        echo "no autolock processes found [1] ."
+        return 1
     fi
 }
 
 function xlck_xautolock_stop {
     # xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
-    echo "# Stopping xautolock where DISPLAY=$DISPLAY ..."
+    echo "# xlck: Stopping xautolock where DISPLAY=$DISPLAY ..."
     _xautolock_actual_pids=$(xlck_xautolock_pgrep_display)
     if [ -n "$_xautolock_actual_pids" ]; then
         kill -9 $_xautolock_actual_pids
-        echo "# Stopped xautolock"
+        local retcode=$?
+        echo "# xlck: Stopping xautolock where DISPLAY=$DISPLAY ... Stopped ."
     else
-        echo "# xautolock not found"
+        echo -n "# xlck: Stopping xautolock where DISPLAY=$DISPLAY ... "
+        echo "xautolock process not found [0] ."
     fi
     xlck_xautolock_status
+    return $retcode
 }
 
 function xlck_status {
@@ -261,10 +289,10 @@ function xlck_status_all {
     _xlck_pgrep="pgrep 'xautolock|xlock|i3lock'"
     _xlck_pids=$(pgrep 'xautolock|xlock|i3lock')
     if [ -n "$_xlck_pids" ]; then
-        echo "_xlck_pids=${_xlck_pids}"
+        echo "# xlck: _xlck_pids=${_xlck_pids}"
         ps ufw -p $_xlck_pids
     else
-        echo "\"${_xlck_pgrep}\" did not find any process ids"
+        echo "# xlck: \"${_xlck_pgrep}\" did not find any process ids"
     fi
 }
 
@@ -277,10 +305,10 @@ function xlck_status_this_display {
 
 function _xlck_xautolock {
     # _xlck_xautolock()           -- start xautolock (see: xlck_start)
-    _LOCK_DELAY=${1:-"1"}  # mins
-    _NOTIFY_DELAY=${2:-"10"}  # seconds
-    _LOCK_CMD="/bin/bash $_XLCK -L"
-    NOTIFY_CMD="/usr/bin/zenity --warning \
+    local _LOCK_DELAY=${1:-"1"}  # mins
+    local _NOTIFY_DELAY=${2:-"10"}  # seconds
+    local _LOCK_CMD="/bin/bash $_XLCK -L"
+    local NOTIFY_CMD="/usr/bin/zenity --warning \
         --title '${_NOTIFY_DELAY}s to screensaver' \
         --text 'OK to cancel\n\nNOTE: Mouse Corners:\n⬉ to prevent\n⬋ to start'\
         --timeout=${_NOTIFY_DELAY}"
@@ -320,45 +348,78 @@ function xlck_usage {
 }
 
 function xlck_main {
-    if [ -z "${@}" ]; then
+    if [[ "${@}" == "" ]]; then
         xlck_usage
         # return nonzero if no args
         return 86
     fi
-    while getopts "USPRMDLXh" opt; do
+
+    function _xlck_main_actions {
+        local opt="${1}"
+        echo "${opt}"
         case "${opt}" in
-            I)
+            I|install)
                 _xlck_install;
                 ;;
-            U)
+            U|status|check)
                 xlck_status;
                 ;;
-            S)
+            S|start)
                 xlck_start;
                 ;;
-            P)
+            P|stop)
                 xlck_stop;
                 ;;
-            R)
+            R|restart)
                 xlck_restart;
                 ;;
-            M)
+            M|suspendram)
                 xlck_lock_suspend_ram;
                 ;;
-            D)
+            D|suspenddisk|suspendisk)
                 xlck_lock_suspend_disk;
                 ;;
-            L)
+            L|l|lock|lck|lk)
                 xlck_lock;
                 ;;
-            X)
+            #logout)
+            #    # TODO: i3-msg exit
+            #    ;;
+            X|x|shutdown)
                 sudo shutdown -h now;
                 ;;
-            *|h)
+            v|verbose)
+                set -x -v; true
+                ;;
+            h|help)
                 xlck_usage;
                 ;;
+            *)
+                return 1
+                ;;
         esac
+        return
+    }
+
+    getoptsrgx='\-?$'
+    local -a retcodes
+    for arg in ${@}; do
+        if [[ ${arg} =~ $getoptsrgx ]]; then
+            echo "${arg} -- getopts!"
+            while getopts "USPRMDLXvh" opt "${arg}"; do
+                _xlck_main_actions "${opt}"
+                local retcode=$?
+                retcodes=( ${retcodes[@]} $retcode )
+            done
+        else
+            echo "${arg} -- word!"
+            _xlck_main_actions "${arg}"
+            local retcode=$?
+            retcodes=( ${retcodes[@]} $retcode )
+        fi
     done
+    echo "# xlck: returncodes=( ${retcodes[*]} )"
+    return $retcode 
 }
 
 if [[ "$BASH_SOURCE" == "$0" ]]; then
