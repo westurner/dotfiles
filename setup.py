@@ -259,7 +259,10 @@ class PyTestCommand(RunCommand):
             'bin/*',
         )
         exclude = [
-            '*/scripts/prompt6.py',
+            '*/scripts/prompt6.py',# TODO: BLD,TST
+            '*/scripts/usrlog.py', # TODO: BUG: fix parser to handle '^#\s\s'
+                                   # TODO: add unix timestamp to the fromt
+                                   #   TODO,IDEA: `^##\t` usrlog.log prefix
         ]
         for fnglob in fnglobs:
             pths.extend(
