@@ -163,7 +163,7 @@ exec --no-startup-id $set_xwallpaper
 
 
 # - Launch network applet (optional)
-# exec_always --no-startup-id $network_applet  # (optional)
+exec --no-startup-id $network_applet
 # see also: nmcli
 
 
