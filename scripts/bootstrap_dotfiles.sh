@@ -16,44 +16,47 @@
 #
 #    bash scripts/bootstrap_dotfiles.sh -h
 
-
-# Stop (exit) on error
+# set -e   -- exit on error (any nonzero return) [ should be set -e ]
 set -e
-
-# Print commands as they run
+# set -v   -- print source as run   [dotfiles: debug-on(), debug-off()]
 #set -v
+# set -x   -- print commands        [dotfiles: debug-on(), debug-off()]
 #set -x
-
+# echo $-  -- echo current shell set options [e.g. -e -v -x]
 
 function _setup_bootstrap-dotfiles {
     ## date (file suffix for backup_and_symlink)
     BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
 
     PYTHON="${PYTHON:-"$(which python)"}"
-    PYVER="${PYVER:-"$(
-        ${PYTHON} -c \
+    PYVER="${PYVER:-"$( \
+        "${PYTHON}" -c \
             'import sys; print("".join(map(str, sys.version_info[:2])))')"}"
 
-    ## Virtualenvwrapper
-    WORKON_HOME="${WORKON_HOME:-"${HOME}/-wrk/-ve${PYVER}"}"
+    ## Virtualenvwrapper [virtualenvwrapper.sh]
+    __WRK="${__WRK:-"${HOME}/-wrk"}"    # ~/-wrk
+    WORKON_HOME="${WORKON_HOME:-"${__WRK}/-ve${PYVER}"}" # ~/-wrk/-ve27
 
-    ## Virtualenv + Venv
-    VIRTUAL_ENV_NAME="dotfiles"
-    VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"
-    _WRD="${VIRTUAL_ENV}/src/dotfiles"
-    __DOTFILES="${_WRD}"
+    ## Virtualenv + Venv [virtualenv, dotfiles.venv]
+    VIRTUAL_ENV_NAME="${VIRTUAL_ENV_NAME:-"dotfiles"}"            #  dotfiles
+    VIRTUAL_ENV="${WORKON_HOME}/${VIRTUAL_ENV_NAME}"  # ~/-wrk/-ve27/dotfiles
+    _SRC="${VIRTUAL_ENV}/src";          # ~/-wrk/-ve27/dotfiles/src
+    _WRD="${_SRC}/${VIRTUAL_ENV_NAME}"  # ~/-wrk/-ve27/dotfiles/src/dotfiles
+    __DOTFILES="${_WRD}"                # ~/-wrk/-ve27/dotfiles/src/dotfiles
+    # __DOTFILES="${__DOTFILES_SYMLINK}"# ~/-dotfiles
 
-    __DOTFILES_SYMLINK="${HOME}/-dotfiles"  # ~/-dotfiles
+    ## bootstrap_dotfiles.sh
+    __DOTFILES_SYMLINK="${HOME}/-dotfiles" # ~/-dotfiles
 
-    ## dotfiles repository
+    ## dotfiles repository  -- https://github.com/westurner/dotfiles
     DOTFILES_REPO_DEST_PATH="${_WRD}"
-    DOTVIM_REPO_DEST_PATH="${DOTFILES_REPO_DEST_PATH}/etc/vim"
-
-    DOTFILES_GIT_REPO_URL="https://github.com/westurner/${VIRTUAL_ENV_NAME}"
+    DOTFILES_GIT_REPO_URL="https://github.com/westurner/dotfiles"
     #DOTFILES_HG_REPO_URL="https://bitbucket.org/westurner/dotfiles"
 
+    ## dotvim repository    -- https://github.com/westurner/dotvim
+    DOTVIM_REPO_DEST_PATH="${_WRD}/etc/vim"
     DOTVIM_GIT_REPO_URL="https://github.com/westurner/dotvim"
-    # DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
+    #DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
 
     #PIP="${HOME}/.local/bin/pip"
     PIP="pip"
@@ -62,16 +65,21 @@ function _setup_bootstrap-dotfiles {
     SETUP_PY_OPTS=""
     SETUP_PY_OPTS_USER="--user"
 
-    if [ -n "${WORKON_HOME}" ] && [[ ! -d "${WORKON_HOME}" ]]; then
-        mkdir -p "${WORKON_HOME}"
-    fi
+    test -d "${WORKON_HOME}" || mkdir -p "${WORKON_HOME}"
+    test -d "${_SRC}" || mkdir -p "${_SRC}"
 }
 
 function _dotfiles_check_deps {
     # dotfiles_check_deps   -- check for installed commands and functions
-    local errors=""
+    local ERR=''
+
     function err {
-        errors="$errors\n- [ ] ${@}"
+        function _err {
+            local err="[ ] ERR: ${@}"$'\r\n'
+            echo " ${err}"
+            ERR="${ERR}"" ${err}"
+        }
+        (set +x; _err ${@})
     }
 
     function is_declared {
@@ -80,8 +88,8 @@ function _dotfiles_check_deps {
     }
 
     (type bash && bash --version) || err "bash";
-    (type $PYTHON && $PYTHON --version) || err "cpython[$PYTHON]";
-    (type $PYTHON && $PYTHON -m pip --version) || err "cpython[$PYTHON]: -m pip"
+    (type "${PYTHON}" && "${PYTHON}" --version) || err "cpython[$PYTHON]";
+    (type "${PYTHON}" && "${PYTHON}" -m pip --version) || err "cpython[$PYTHON]: -m pip"
     (type pip && pip --version) || err "pip";
     (type virtualenv && virtualenv -p "${PYTHON}" --version) || err "virtualenv";
     #type virtualenvwrapper_initialize
@@ -101,17 +109,21 @@ function _dotfiles_check_deps {
     #(is_declared venv)
     (type websh.py && $PYTHON $(which websh.py) --version) || err "websh.py"
     (type pyline.py && $PYTHON $(which pyline.py) --version) || err "pyline.py"
-    # declare -f 'dotfiles_status' 2>&1>/dev/null && dotfiles_status
-    (set +x;
-    echo "PYTHON=${PYTHON}"
-    echo "__VENV=${__VENV}";
-    echo "__DOTFILES=${__DOTFILES}";
-    echo "__WRK=${__WRK}";
-    echo "WORKON_HOME=${WORKON_HOME}";
-    echo "CONDA_ENVS_PATH=${CONDA_ENVS_PATH}";
-    test -n "${errors}" && echo -e "## ERRORS ##\n${errors}";
-    )
-
+    #(is_declared 'dotfiles_status' && dotfiles_status)
+    #(is_declared 'conda_status'    && conda_status)
+    function dotfiles_bootstrap_status {
+        echo "PYTHON=${PYTHON}"
+        echo "__VENV=${__VENV}";
+        echo "__DOTFILES=${__DOTFILES}";
+        echo "__WRK=${__WRK}";
+        echo "WORKON_HOME=${WORKON_HOME}";
+        echo "CONDA_ENVS_PATH=${CONDA_ENVS_PATH}";
+        echo ""
+        (test -n "${ERR}" \
+            && echo '## ERRORS ##'  \
+            && echo -e "${ERR}" )
+    }
+    (set +x +v; dotfiles_bootstrap_status)
 }
 
 function dotfiles_check_deps {
@@ -333,12 +345,12 @@ function backup_and_symlink {
 ## /begin symlinks
 
 function symlink_home_dotfiles {
-    backup_and_symlink "" ${__DOTFILES_SYMLINK} ${_WRD}
+    backup_and_symlink "" "${__DOTFILES_SYMLINK}" "${_WRD}"
 }
 
 function symlink_etc_vim {
-    backup_and_symlink vim/vimrc ${HOME}/.vimrc
-    backup_and_symlink vim ${HOME}/.vim
+    backup_and_symlink vim/vimrc "${HOME}/.vimrc"
+    backup_and_symlink vim "${HOME}/.vim"
 }
 
 function symlink_bashrc {
@@ -376,12 +388,12 @@ function symlink_mutt {
 function symlink_gtk {
     backup_and_symlink .gtkrc
     backup_and_symlink .gtkrc-2.0
-    mkdir -p "${HOME}/.config/"
+    mkdir -p "${HOME}/.config"
     backup_and_symlink .config/gtk-3.0
 }
 
 function symlink_mimeapps {
-    mkdir -p ${HOME}/.local/share/applications
+    mkdir -p "${HOME}/.local/share/applications"
     backup_and_symlink mimeapps.list \
         "${HOME}/.local/share/applications/mimeapps.list"
 }
@@ -415,7 +427,7 @@ function symlink_virtualenvwrapper {
 }
 
 function symlink_venv {
-    ipyprofile="${1:-"${HOME}/.ipython/profile_default"}"
+    local ipyprofile="${1:-"${HOME}/.ipython/profile_default"}"
     mkdir -p "${ipyprofile}/startup"
     backup_and_symlink "" "${ipyprofile}/startup/20-venv_ipymagics.py" \
         "${__DOTFILES_SYMLINK}/scripts/venv_ipymagics.py"
@@ -464,18 +476,17 @@ function dotfiles_symlink_all {
 
 function create_virtualenv {
     ## create a new virtualenv
-    _virtual_env=$_VIRTUAL_ENV
-    VENVWRAPPER=$(which virtualenvwrapper.sh)
-
+    local VENVWRAPPER="$(which virtualenvwrapper.sh)"
+    local VIRTUAL_ENV_NAME="${VIRTUAL_ENV_NAME}"
+    local VIRTUAL_ENV="$VIRTUAL_ENV"
     if [[ -x "${VENVWRAPPER}" ]]; then
         dotfiles_setup_virtualenvwrapper
-        source $VENVWRAPPER
-
-        mkvirtualenv ${VIRTUAL_ENV_NAME}
-        workon ${VIRTUAL_ENV_NAME}
-    elif [[ -f "${_virtual_env}/bin/activate" ]]; then
-        # Create a new virtualenv
-        source ${_virtual_env}/bin/activate
+        source "${VENVWRAPPER}"
+        mkvirtualenv "${VIRTUAL_ENV_NAME}"
+        workon "${VIRTUAL_ENV_NAME}"
+    else 
+        virtualenv -p "${PYTHON}" "${VIRTUAL_ENV}"
+        source "${VIRTUAL_ENV}/bin/activate"
     fi
 }
 
@@ -489,43 +500,48 @@ function deactivate_virtualenv {
 function dotfiles_install_bootstrap {
     ## pip install --upgrade --editable and create symlinks
 
-    if [ -z "$SETUP_PY_OPTS" ] && [ -n "${_VIRTUAL_ENV}" ]; then
+    #TODO
+    if [ -n "${_VIRTUAL_ENV}" ] && [ -z "$SETUP_PY_OPTS" ] ; then
         source "${_VIRTUAL_ENV}/bin/activate"
     else
         deactivate_virtualenv
     fi
-    ${PIP_INSTALL} --upgrade --editable ${DOTFILES_REPO_DEST_PATH}
-    cd ${DOTFILES_REPO_DEST_PATH} && \
+    ${PIP_INSTALL} --upgrade --editable "${_WRD}"
+    cd "${_WRD}" && \
         dotfiles_symlink_all
 }
 
 function dotfiles_install_bootstrap_user {
     ## pip install --user --editable and create symlinks
-
-    #TODO: subshell
-    deactivate_virtualenv
-    ${PIP_INSTALL_USER} --upgrade --editable ${DOTFILES_REPO_DEST_PATH}
-    cd ${DOTFILES_REPO_DEST_PATH} && \
-        dotfiles_symlink_all
+    function _dotfiles_install_bootstrap_user {
+        ${PIP_INSTALL_USER} --upgrade --editable "${_WRD}"
+        cd "${_WRD}" && \
+            dotfiles_symlink_all
+    }
+    (deactivate ; _dotfiles_install_bootstrap_user)
 }
+
+#function dotfiles_install_bootstrap_pip {
+     # Upgrade system pip
+     #pip_bootstrap_pip
+     ###pip_upgrade_local_pip
+     #pip_upgrade_system_pip
+     #pip_upgrade_system_setuptools
+#}
 
 function dotfiles_install_boostrap_env {
     ## Setup system dependencies
 
-    # Upgrade system pip
-    #pip_bootstrap_pip
-    ###pip_upgrade_local_pip
-    #pip_upgrade_system_pip
-    #pip_upgrade_system_setuptools
+    # dotfiles_install_bootstrap_pip
 
-    deactivate_virtualenv
+    function _dotfiles_install_bootstrap_env {
+        # Install virtualenv and virtualenvwrapper into ~/.local/bin/
+        pip_install_virtualenv
+        pip_install_virtualenvwrapper
 
-    # Install virtualenv and virtualenvwrapper into ~/.local/bin/
-    pip_install_virtualenv
-    pip_install_virtualenvwrapper
-
-    dotfiles_setup_virtualenvwrapper
-
+        dotfiles_setup_virtualenvwrapper
+    }
+    (deactivate_virtualenv; _dotfiles_install_bootstrap_env)
 }
 
 function dotfiles_upgrade {
@@ -586,13 +602,13 @@ function pip_upgrade_local_pip {
 
 function pip_bootstrap_pip {
     ## Install pip (and setuptools)
-    wget --continue "https://bootstrap.pypa.io/get-pip.py"
+    wget --continue 'https://bootstrap.pypa.io/get-pip.py'
     python get-pip.py $SETUP_PY_OPTS
 }
 
 function bootstrap_setuptools {
     ## Install setuptools
-    wget --continue "https://bootstrap.pypa.io/ez_setup.py"
+    wget --continue 'https://bootstrap.pypa.io/ez_setup.py'
     python ez_setup.py $SETUP_PY_OPTS
 }
 
@@ -617,8 +633,8 @@ function dotfiles_setup_virtualenvwrapper {
     VIRTUALENVWRAPPER_SH=$(which ${VIRTUALENVWRAPPER_SH_NAME})
     #VIRTUALENVWRAPPER_SH="${HOME}/.local/bin/${VIRTUALENVWRAPPER_SH_NAME}"
 
-    if [[ -f ${VIRTUALENVWRAPPER_SH} ]]; then
-        source ${VIRTUALENVWRAPPER_SH}
+    if [[ -f "${VIRTUALENVWRAPPER_SH}" ]]; then
+        source "${VIRTUALENVWRAPPER_SH}"
     else
         echo "404: VIRTUALENVWRAPPER_SH=${VIRTUALENVWRAPPER_SH}"
     fi
@@ -628,8 +644,8 @@ function dotfiles_setup_virtualenvwrapper {
 function _dotfiles_bootstrap_usage {
     ## print usage information
     echo "## dotfiles_bootstrap -- a shell wrapper for cloning and installing"
-
-    echo "## Usage: $(basename ${0}) <actions> <options>";
+    local progname="$(basename "${0}")"
+    echo "## Usage: ${progname}  <actions> <options>"
     echo "#"
     echo "## Actions"
     echo "#  -I   --  Install the dotfiles (implies -S)";
@@ -650,54 +666,73 @@ function dotfiles_bootstrap_usage {
     (set +x +v; _dotfiles_bootstrap_usage)
 }
 
+function dotfiles_bootstrap_parse_arg {
+    local arg="${1}"
+    if [ -z "${arg}" ]; then
+        return
+    fi
+    case "${arg}" in
+        u|-u|user|--user)
+            export u=${OPTARG};
+            export PIP_INSTALL="${PIP_INSTALL_USER}"
+            export SETUP_PY_OPTS="${SETUP_PY_OPTS_USER}"
+            ;;
+        I|-I|install|--install|installdotfiles)
+            export I=${OPTARG};
+            export DO_INSTALL="true"
+            export DO_SYMLINK="true"
+            ;;
+        S|-S|symlink|--symlink)
+            export S=${OPTARG};
+            export DO_SYMLINK="true"
+            ;;
+        U|-U|upgrade|--upgrade)
+            export U=${OPTARG};
+            export DO_UPGRADE="true"
+            export DO_SYMLINK="true"
+            ;;
+        R|-R|piprequirements|piprequires|pipreqs|pipreq)
+            export R=${OPTARG};
+            export DO_PIP_REQUIREMENTS="true"
+            ;;
+        G|-G|gitflow|--gitflow|hubflow|--hubflow)
+            export G=${OPTARG};
+            export DO_GIT_REQUIREMENTS="true"
+            ;;
+        C|-C|check|--check)
+            export C=${OPTARG};
+            export DO_CHECK="true"
+            ;;
+        d|-d|debug|--debug)
+            export d=${OPTARG};
+            DEBUG_BOOTSTRAP="true"
+            ;;
+        h|-h|help|--help)
+            export DO_HELP="true"
+            ;;
+    esac
+}
+
 function dotfiles_bootstrap_main {
     ## parse opts, set flags, and run commands
-    while getopts "uISURGCdh" o; do
-        case "${o}" in
-            u)
-                u=${OPTARG};
-                export PIP_INSTALL="${PIP_INSTALL_USER}"
-                export SETUP_PY_OPTS="${SETUP_PY_OPTS_USER}"
-                ;;
-            I)
-                I=${OPTARG};
-                DO_INSTALL="true"
-                DO_SYMLINK="true"
-                ;;
-            S)
-                S=${OPTARG};
-                DO_SYMLINK="true"
-                ;;
-            U)
-                U=${OPTARG};
-                DO_UPGRADE="true"
-                DO_SYMLINK="true"
-                ;;
-            R)
-                R=${OPTARG};
-                DO_PIP_REQUIREMENTS="true"
-                ;;
-            G)
-                G=${OPTARG};
-                DO_GIT_REQUIREMENTS="true"
-                ;;
-            C)
-                C=${OPTARG};
-                DO_CHECK="true"
-                ;;
-            d)
-                d=${OPTARG};
-                DEBUG_BOOTSTRAP="true"
-                ;;
-            h|*)
-                dotfiles_bootstrap_usage;
-                exit
-                ;;
-        esac
+    #function _dotfiles_bootstrap_parse_args_getopts {
+    #    while getopts "uISURGCdh" o; do
+    #        dotfiles_bootstrap_parse_arg "${o}"
+    #    done
+    #}
+    #_dotfiles_bootstrap_parse_args_getopts || true
+    for arg in ${@}; do
+        dotfiles_bootstrap_parse_arg "${arg}"
     done
 
     if [ -n "$DEBUG_BOOTSTRAP" ]; then
         set -x -v
+    fi
+
+    DO__ANY="${DO_INSTALL}${DO_UPGRADE}${DO_SYMLINK}${DO_PIP_REQUIREMENTS}${DO_GIT_REQUIREMENTS}"
+    if [ -n "${DO_HELP}" ] || [ -z "${DO__ANY}${DO_CHECK}" ]; then
+        dotfiles_bootstrap_usage
+        return 1
     fi
 
     if [ -n "$DO_CHECK" ]; then
@@ -719,8 +754,7 @@ function dotfiles_bootstrap_main {
         install_gitflow;
         install_hubflow;
     fi
-    if [ -n "$DO_CHECK" ] &&
-        [ -n "${DO_INSTALL}${DO_UPGRADE}${DO_SYMLINK}${DO_PIP_REQUIREMENTS}${DO_GIT_REQUIREMENTS}" ]; then
+    if [ -n "$DO_CHECK" ] && [ -n "$DO__ANY" ]; then
         dotfiles_check_deps
     fi
 }
