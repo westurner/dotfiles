@@ -94,9 +94,9 @@ set $editor i3-sensible-editor
 # Open default tabs
 set $browser ~/-dotfiles/scripts/websh.py "https://westurner.org/" "https://wrdrd.com/docs/"
 
-# Open a blank tab ([x] chromium, [TODO] firefox, [...])
+# Open a blank tab/window with the default browser
 set $browser ~/-dotfiles/scripts/websh.py "http:"
-
+# Open a browser tab/window to gmail#all with the default browser
 set $browser_email ~/-dotfiles/scripts/websh.py 'https://mail.google.com/mail/u/0/#all'
 
 set $terminal "/usr/bin/gnome-terminal"
