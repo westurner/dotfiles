@@ -222,6 +222,10 @@ bindsym Print exec $screenshot_full
 #  <alt> <PrintScr> -- screenshot (current window)
 bindsym $mod1+Print exec $screenshot_window
 
+#  <super><shift> 3       -- screenshot (full screen)
+bindsym $mod2+Shift+3 exec $screenshot_full
+#  <super><shift> 4       -- screenshot (current window)
+bindsym $mod2+Shift+4 exec $screenshot_window
 
 ## Focus to nearest instance
 #  <alt> v      -- focus nearest: editor
