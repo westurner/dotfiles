@@ -1,12 +1,112 @@
 #!/bin/sh
-## 
+### webw    ## open a browser with default settings (optionally in a VIRTUAL_ENV)
 
-function webw() {
+function webw_usage {
+    echo "# $0"
+    local cmdname="$(basename ${0})"
+    echo "Usage: ${cmdname} [start|stop|check|status] [-h]"
+    echo ''
+    echo "    ${cmdname} start"
+    echo "    ${cmdname} status"
+    #echo "    ${cmdname} stop-all"
+    echo "    ${cmdname} check"
+    echo ''
+    echo "  -s,start   --  start the ${cmdname} process"
+    #echo "  -p,stop    --  stop the ${cmdname} process"
+    echo "  -c,check   --  check the ${cmdname} process"
+    echo "  -u,status  --  check the ${cmdname} process"
+    echo ''
+    echo '  -h  --  help'
+    echo ''
+    echo ' # Open a browser'
+    echo ' $ PROXY_HOST="localhost" PROXY_PORT="28082" webw'
+    echo ''
+    echo ' # To not automatically prefix under VIRTUAL_ENV, unset it to "":'
+    echo ' $ VIRTUAL_ENV="" webw'
+}
+
+function webw_parse_opts {
+    case "${1}" in
+        s|S|start|open)
+            _webw_opts_start=true
+            ;;
+        p|P|stop|close)
+            _webw_opts_stop=true
+            ;;
+        c|C|check)
+            _webw_opts_check=true
+            ;;
+        u|U|status)
+            _webw_opts_status=true
+            ;;
+        h|H|help)
+            _webw_opts_help=true
+            ;;
+    esac
+}
+
+function webw_main {
+
+    while getopts "osScpPChH" opt; do
+        webw_parse_opts "${opt}"
+    done
+
+    for arg in "${@}"; do
+        webw_parse_opts "${arg}"
+    done
+
+    haverunacmd=
+    if [ -n "${_webw_opts_start}" ]; then
+        webw_start
+        haverunacmd=true
+    fi
+    if [ -n "${_webw_opts_stop}" ]; then
+        webw_stop
+        haverunacmd=true
+    fi
+    if [ -n "${_webw_opts_check}" ]; then
+        webw_check
+        haverunacmd=true
+    fi
+    if [ -n "${_webw_opts_status}" ]; then
+        webw_status
+        haverunacmd=true
+    fi
+    if [ -n "${_webw_opts_help}" ] || [ -z "${haverunacmd}" ]; then
+        webw_usage
+    fi
+}
+
+function _unsetup_webw {
+    unset PROXY_IP              # 127.0.0.1
+    unset PROXY_HOST            # localhost
+    unset PROXY_PORT            #
+    #unset PROXY_USER            #
+
+    unset HOMEPAGE
+    unset URI #TODO
+
+    unset CHROME_BIN
+    unset chrome_args           # -a array [info bash: "/Arrays" <enter>]
+    unset proxyserver           # "socks5://${PROXY_HOST}:${PROXY_PORT}"
+    unset userdatadir           #
+    unset profiledirectory      # "Default"  # TODO
+    unset hostresolverrules     #
+
+    unset SEDOPTS
+}
+
+function webw {
+    ## webw     -- start a browser with a profile
+    #  $ PROXY_HOST='localhost' \
+    #    PROXY_PORT='48080' \
+    #    profiledirectory="Default" \
+    #    webw
     (set -x; _webw_ ${@}; return)
     return
 }
 
-function webw_set_facls() {
+function webw_set_facls {
 
     (umask 0026; mkdir -p ${_VARLOG} || true)
     chmod go-rw ${_VARLOG}
@@ -18,36 +118,37 @@ function webw_set_facls() {
     chmod go-rw ${userdatadir}
 }
 
-function _setup_webw () {
+function _setup_webw  {
 
 
-    profiledirectory=${1:-${profiledirectory:-"Profile 1"}}
-    #profiledirectory=${1:-${profiledirectory:-"Default"}}
+    profiledirectory=${1:-${profiledirectory:-"Default"}}
+    #profiledirectory=${1:-${profiledirectory:-"Profile 1"}}
 
     # Set
     if [ -n "${__IS_MAC}" ]; then
-        CHROME_BIN=(/usr/bin/open --wait-apps --new -b com.google.Chrome --args)
+        CHROME_BIN=("${CHROME_BIN:-'/usr/bin/open --wait-apps --new -b com.google.Chrome --args'}")
         SEDOPTS="-i'' -e"
         userdatadir="${HOME}/Library/Application Support/Google/Chrome"
     else
         CHROME_BIN=("${CHROME_BIN:-"/usr/bin/google-chrome"}")
         SEDOPTS="-i"
-        userdatadir="${HOME}/.config/google/chrome"
+        userdatadir="${HOME}/.config/google-chrome"
     fi
 
     _HOME="${_HOME:-"${VIRTUAL_ENV:+"${VIRTUAL_ENV}/home"}"}"
-    if [ -n "${_HOME}" ]; then
-        userdatadir="${_HOME}/${_APP}/.config/google/chrome"
+    if [ -n "${_HOME}" ] && [ -n "${VIRTUAL_ENV}" ]; then
+        userdatadir="${_HOME}/.config/google-chrome"
     fi
 
-    CHROME_PROFILE_PATH=${userdatadir}/${profiledirectory}
+    CHROME_PROFILE_PATH="${userdatadir}/${profiledirectory}"
 
     ###
-    
+
     # Force Chrome to resolve DNS over SOCKS v5 (or NOT_FOUND)
     set -f
     hostresolverrules="${hostresolverrules:-'MAP * 0.0.0.0'}"
     if [ -z "${PROXY_IP}" ]; then
+        PROXY_HOST="${PROXY_HOST:-"localhost"}"
         PROXY_SOCKS_SERVER="${PROXY_HOST}:${PROXY_PORT}"
         proxyserver_="socks5://${PROXY_HOST}:${PROXY_PORT}"
         # If DNS is required to lookup the proxy server, EXCLUDE that fqdn
@@ -122,12 +223,12 @@ function _setup_webw () {
 }
 
 
-function _comment_prefix() {
+function _comment_prefix {
     (set +x; sed 's/^\(.*\)$/# \1/g')
     return
 }
 
-function webw_status () {
+function webw_status  {
     _setup_webw
     if [ -f "${WEBW_PID_FILE}" ]; then
         WEBW_PID=$(cat "${WEBW_PID_FILE}")
@@ -141,7 +242,7 @@ function webw_status () {
     fi
 }
 
-function webw_check() {
+function webw_check {
     _setup_webw
 
     local chrome_bin="${CHROME_BIN[@]}"
@@ -157,7 +258,7 @@ function webw_check() {
     webw_status
 }
 
-function webw_start () {
+function webw_start {
 
     # TODO: PROXY_HOST, PROXY_IP, PROXY_PORT
 
@@ -180,7 +281,7 @@ function webw_start () {
     webw_status
 }
 
-function webw_stop () {
+function webw_stop {
     _setup_webw
 	test -f ${WEBW_PID_FILE}
     if [ -f "${WEBW_PID_FILE}" ]; then
@@ -191,11 +292,11 @@ function webw_stop () {
     webw_status
 }
 
-function shell_escape_double() {
+function shell_escape_double {
     sed 's/"/\\"/g'
 }
 
-function _webw_ () {
+function _webw_ {
     #  webw()         -- Open a SOCKS SSH session
     #  $1 (str)     -- WEBW_USERHOST
     #  $2 (str)     -- WEBW_RPORT 
@@ -246,78 +347,7 @@ function _webw_ () {
     return $_WEBW_RETVAL
 }
 
-function webw_usage () {
-    echo "# $0"
-    local cmdname=$(basename ${0})
-    echo "Usage: ${cmdname} [start|stop|check|status] [-h]"
-    echo ""
-    echo "    ${cmdname} start"
-    echo "    ${cmdname} status"
-    #echo "    ${cmdname} stop-all"
-    echo "    ${cmdname} check"
-    echo ""
-    echo "  -s,start   --  start the ${cmdname} process"
-    #echo "  -p,stop    --  stop the ${cmdname} process"
-    echo "  -c,check   --  check the ${cmdname} process"
-    echo "  -u,status  --  check the ${cmdname} process"
-    echo ""
-    echo "  -h  --  help"
-    echo ""
-}
-
-function webw_parse_opts () {
-    case "${1}" in
-        s|S|start|open)
-            _webw_opts_start=true
-            ;;
-        p|P|stop|close)
-            _webw_opts_stop=true
-            ;;
-        c|C|check)
-            _webw_opts_check=true
-            ;;
-        u|U|status)
-            _webw_opts_status=true
-            ;;
-        h|H|help)
-            _webw_opts_help=true
-            ;;
-    esac
-}
-
-function webw_main () {
-
-    while getopts "osScpPChH" opt; do
-        webw_parse_opts "${opt}"
-    done
-
-    for arg in "${@}"; do
-        webw_parse_opts "${arg}"
-    done
-
-    haverunacmd=
-    if [ -n "${_webw_opts_start}" ]; then
-        webw_start
-        haverunacmd=true
-    fi
-    if [ -n "${_webw_opts_stop}" ]; then
-        webw_stop
-        haverunacmd=true
-    fi
-    if [ -n "${_webw_opts_check}" ]; then
-        webw_check
-        haverunacmd=true
-    fi
-    if [ -n "${_webw_opts_status}" ]; then
-        webw_status
-        haverunacmd=true
-    fi
-    if [ -n "${_webw_opts_help}" ] || [ -z "${haverunacmd}" ]; then
-        webw_usage
-    fi
-}
-
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     webw_main ${@}
     exit
 fi
