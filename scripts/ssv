@@ -108,7 +108,7 @@ function supervisord_stop() {
 # echo "${BASH_SOURCE}"
 # echo "${0}"
 
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     _setup_supervisord
 
     cmd=$(basename "${0}")

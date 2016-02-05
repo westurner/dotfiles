@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/usr/bin/env bash 
 
 # hg-git workaround
 # lookup corresponding .hg rev ids for hg-git mapped revs

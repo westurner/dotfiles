@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # print bashmarks in nerdtree format
 
 bashmarks_to_nerdtree() {

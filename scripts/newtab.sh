@@ -246,7 +246,7 @@ function newwin {
     fi
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     set -x
     case "${BASH_SOURCE}" in
         */newtab|*/newtab.sh)

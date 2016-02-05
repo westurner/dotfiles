@@ -13,7 +13,7 @@ function find_dpkgfile() {
 }
 
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     find_dpkgfile ${@}
     exit
 fi

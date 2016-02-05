@@ -14,7 +14,7 @@ function _mnt_davfs() {
     mount -t davfs $OPTIONS $URL $MNTPT
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     mnt_davfs ${@}
     exit
 fi

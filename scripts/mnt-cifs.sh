@@ -14,7 +14,7 @@ function _mnt_cifs() {
     mount -t cifs $OPTIONS $URI $MNTPT
     return
 }
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     mnt_cifs ${@}
     exit
 fi

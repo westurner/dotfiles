@@ -22,7 +22,7 @@ function _lsof_sh() {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     lsof_sh ${@}
     exit
 fi

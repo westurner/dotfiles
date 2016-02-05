@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/usr/bin/env bash -x
 
 ## pulse.sh -- PulseAudio RTP server/client setup / configuration
 
@@ -112,7 +112,7 @@ function pulse_main() {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     pulse_main ${@}
     exit
 fi

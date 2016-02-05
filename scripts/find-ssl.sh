@@ -31,7 +31,7 @@ function _find_ssl() {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     find_ssl ${@}
     exit
 fi

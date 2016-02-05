@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ### git-track-all-remotes.sh 
 
 ## Adapted from
@@ -353,6 +353,6 @@ function git_track_all_remotes_main {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     git_track_all_remotes_main "${@}"
 fi

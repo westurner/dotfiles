@@ -16,7 +16,7 @@ function _deb_mkrepo () {
 }
 
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     deb_mkrepo ${@}
     exit
 fi

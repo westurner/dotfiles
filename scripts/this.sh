@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function this_init() {
     set -x
@@ -167,7 +167,7 @@ function this_main () {
     fi
     return $?
 }
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     this_main ${@}
     exit
 fi

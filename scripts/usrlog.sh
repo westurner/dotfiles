@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
 #  Log shell commands with metadata as tab-separated lines to ${_USRLOG}
@@ -722,7 +722,7 @@ function _setup_usrlog {
 }
 
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
 ## calls _usrlog_setup when sourced
     _usrlog_setup
 else

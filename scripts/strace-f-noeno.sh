@@ -17,7 +17,7 @@ function _strace_f_noeno () {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     strace_f_noeno ${@}
     exit
 fi

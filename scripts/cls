@@ -24,7 +24,7 @@ function cls {
     dotfiles_status
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     progname=$(basename "${0}")
     case "${progname}" in
         clr)

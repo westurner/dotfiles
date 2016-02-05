@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## diff-dirs.sh
 
 function diff_dirs () {
@@ -28,7 +28,7 @@ function _diff_dirs () {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     diff_dirs ${@}
     exit
 fi

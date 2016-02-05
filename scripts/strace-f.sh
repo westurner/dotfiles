@@ -16,6 +16,6 @@ function _strace_f () {
     _strace_ -e trace=file $@
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     strace_f ${@}
 fi

@@ -31,7 +31,7 @@ function _netstatsh () {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     netstatsh ${@}
     exit
 fi

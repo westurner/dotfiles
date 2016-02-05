@@ -11,7 +11,7 @@ function strace_ () {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     strace_ ${@}
     exit
 fi

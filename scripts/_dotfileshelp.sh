@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ### dotfileshelp.sh -- grep for comments in readline, bash, zsh, i3, vim cfg
 
 _DOTFILES_GREP_NUMBER_LINES=""
@@ -218,7 +218,7 @@ function _setup_dotfileshelp {
 }
 
 #_dotfileshelp.sh main()
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     declare -r progname="$(basename ${BASH_SOURCE})"
     declare -a _cmdsrun
     function dhelp__command {

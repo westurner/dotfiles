@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Shim to support something like pbpaste on Linux
 __IS_MAC=${__IS_MAC:-$(test $(uname -s) == "Darwin" && echo 'true')}

@@ -639,7 +639,7 @@ function cls {
     dotfiles_status
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     progname=$(basename "${0}")
     case "${progname}" in
         clr)
@@ -3947,7 +3947,7 @@ function _create_ewrd_symlinks {
 }
 
 #_ewrd.sh main()
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     set -x
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in
@@ -4164,7 +4164,7 @@ function _create_grinwrd_symlinks {
 }
 
 #_grinwrd.sh main()
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     set -x
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in
@@ -4379,7 +4379,7 @@ function supervisord_stop() {
 # echo "${BASH_SOURCE}"
 # echo "${0}"
 
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     _setup_supervisord
 
     cmd=$(basename "${0}")
@@ -5487,7 +5487,7 @@ function _setup_usrlog {
 }
 
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
 ## calls _usrlog_setup when sourced
     _usrlog_setup
 else

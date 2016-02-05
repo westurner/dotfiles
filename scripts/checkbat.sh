@@ -48,6 +48,6 @@ function _checkbat {
 }
 
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     _checkbat ${@}
 fi

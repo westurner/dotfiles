@@ -242,7 +242,7 @@ function ssp_main () {
     fi
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     ssp_main ${@}
     exit
 fi

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ### pbcopy
 # Shim to support something like pbcopy on Linux

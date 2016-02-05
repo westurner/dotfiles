@@ -20,7 +20,7 @@ function _mnt_chroot_bind () {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     mnt_chroot_bind ${@}
     exit
 fi

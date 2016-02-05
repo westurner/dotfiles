@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ###   _ewrd.sh  -- convenient editor shortcuts
 #     # setup edit[*] and e[*] symlinks:
@@ -264,7 +264,7 @@ function _create_ewrd_symlinks {
 }
 
 #_ewrd.sh main()
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     set -x
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in

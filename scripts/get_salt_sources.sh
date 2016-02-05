@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #/srv/repos/etc/requirements-saltdev.ini
 set -x
 set -v

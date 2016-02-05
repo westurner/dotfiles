@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ### _grinwrd.sh --- Grin search functions
 
@@ -145,7 +145,7 @@ function _create_grinwrd_symlinks {
 }
 
 #_grinwrd.sh main()
-if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     set -x
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in

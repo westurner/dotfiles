@@ -201,7 +201,7 @@ function setup_node_main {
     fi
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     (setup_node_main "${@}")
     exit
 else

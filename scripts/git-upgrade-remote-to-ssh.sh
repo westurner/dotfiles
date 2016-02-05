@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ### git-upgrade-remote-to-ssh.sh 
 
 function git_upgrade_remote_to_ssh_help {
@@ -233,6 +233,6 @@ function git_upgrade_remote_to_ssh_main {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     git_upgrade_remote_to_ssh_main "${@}"
 fi

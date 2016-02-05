@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## diff-stdin.sh
 
 function diff_stdin () {
@@ -13,7 +13,7 @@ function _diff_stdin () {
     return
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     diff_stdin ${@}
     exit
 fi

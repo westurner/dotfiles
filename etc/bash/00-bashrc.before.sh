@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ## 00-bashrc.before.sh     -- bash dotfiles configuration root
 #  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
 #

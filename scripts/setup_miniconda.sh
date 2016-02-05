@@ -107,7 +107,7 @@ function miniconda_setup_main {
     miniconda_setup__dotfiles_condaenvs ${@};
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     miniconda_setup_main "${@}"
     exit
 fi

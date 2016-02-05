@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## westurner/dotfiles bootstrap_dotfiles.sh
 
@@ -761,7 +761,7 @@ function dotfiles_bootstrap_main {
 
 ## execute main if called as a script
 ## (e.g. not with `source`)
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     _setup_bootstrap-dotfiles
     dotfiles_bootstrap_main ${@}
     exit

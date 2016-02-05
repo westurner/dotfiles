@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #cd ~
 
 wget "http://gnome-look.org/CONTENT/content-files/146674-Ambiance&Radiance-XfceLXDE-11-10-2.tar.gz"
