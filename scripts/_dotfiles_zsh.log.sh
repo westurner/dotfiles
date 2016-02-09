@@ -5588,9 +5588,9 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/tmp/ssh-BIzK7oG3AZrp/agent.853; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=855; export SSH_AGENT_PID;
-#echo Agent pid 855;
+SSH_AUTH_SOCK=/tmp/ssh-QL3SnTuRgxm7/agent.31069; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=31071; export SSH_AGENT_PID;
+#echo Agent pid 31071;
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 
@@ -8521,10 +8521,6 @@ _TERM_ID='#testing'
 PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
-shell_escape_single:local:2: not valid in this context: -l/--with-filename
-_TODO=
-shell_escape_single:local:2: not valid in this context: $-
-_NOTE=
 ##
 # 99-zsh.after.sh
 

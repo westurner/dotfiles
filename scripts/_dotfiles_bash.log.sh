@@ -99,7 +99,7 @@ if [ -n $__DOTFILES ] && [ -d $__DOTFILES ]; then
         echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
     fi
 fi
-#!/bin/bash
+#!/usr/bin/env bash
 ## 00-bashrc.before.sh     -- bash dotfiles configuration root
 #  source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
 #
@@ -2927,13 +2927,14 @@ declare -f 'dotfiles_initialize' 2>&1 > /dev/null \
 
 _setup_google_cloud() {
     # _setup_google_cloud() -- configure gcloud $PATH and bash completions
-    export _GCLOUD_PREFIX="/srv/wrk/google-cloud-sdk"
+    export GCLOUD_BASEPATH="${HOME}/google-cloud-sdk"
+    #export GCLOUD_BASEPATH="/srv/wrk/google-cloud-sdk"
 
     #The next line updates PATH for the Google Cloud SDK.
-    source "${_GCLOUD_PREFIX}/path.bash.inc"
+    source "${GCLOUD_BASEPATH}/path.bash.inc"
 
     #The next line enables bash completion for gcloud.
-    source "${_GCLOUD_PREFIX}/completion.bash.inc"
+    source "${GCLOUD_BASEPATH}/completion.bash.inc"
 }
 ### bashrc.venv.sh
 #   note: most of these aliases and functions are overwritten by `we` 
@@ -3681,7 +3682,7 @@ function _setup_venv_aliases {
 
 }
 _setup_venv_aliases
-#!/bin/bash
+#!/usr/bin/env bash
 
 ###   _ewrd.sh  -- convenient editor shortcuts
 #     # setup edit[*] and e[*] symlinks:
@@ -4017,7 +4018,7 @@ fi
 #    less scripts/venv_cdaliases.sh
 #    venv.py --prefix=/ --print-bash-cdaliases
 
-#!/bin/bash
+#!/usr/bin/env bash
 
 ### _grinwrd.sh --- Grin search functions
 
@@ -4249,7 +4250,7 @@ fi
 ## seeAlso ##
 # * https://westurner.org/dotfiles/venv
 # * _ewrd.sh
-#!/bin/bash
+#!/usr/bin/env bash
 ## 
 
 _makew() {
@@ -4763,7 +4764,7 @@ _setup_usrlog() {
     #calls _usrlog_setup when sourced
 }
 _setup_usrlog
-#!/bin/bash
+#!/usr/bin/env bash
 ### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
 #
 #  Log shell commands with metadata as tab-separated lines to ${_USRLOG}
@@ -6402,8 +6403,6 @@ _TERM_ID='#testing'
 PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
-_TODO='pyline.py -l/--with-filename && -n/--number-lines'
-_NOTE='echo $- # info bash : \$\?'
 ##
 ### </end dotfiles .bashrc>
 

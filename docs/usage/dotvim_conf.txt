@@ -121,6 +121,7 @@ set window title to vim title (display full path)
  ,       --  <leader> == <comma>
  :;   --  colon semicolon -> <esc>:
  :;   --  colon semicolon -> <esc>:
+ ;;   --  <esc> == double semicolon
  Quicklist
  <leader> q               --  toggle quicklist [:cw/:cwindow]
  <leader> n               --  next quicklist item [:cn/:cnext]
@@ -293,7 +294,8 @@ Python
  Wrap at 72 chars for comments.
  read virtualenv's site-packages to vim path
     TODO: python regex current buffer
-Tabsetting functions
+     :Pyline -- python regex current buffer
+Tabsetting functineions
  :Fourtabs    -- set to four (4) soft tabs (Default)
 Default to fourtabs
  :Threetabs   -- set to three (3) soft tabs
@@ -337,8 +339,6 @@ Bundle            -- Vim bundle manager [help bundle]
 The Bundle URLs are intentionally complete https URLs
 * grep '^Bundle \'' vimrc.bundles
 * sed -i 's\https://github.com/\ssh://git@github.com/\g'
-mrswin.vim        -- normal Ctrl-C, Ctrl-A, Ctrl-X, Ctrl-V
-Bundle 'https://github.com/vim-scripts/mrswin.vim'
 venv.vim          -- venv CdAlias commands
  :Cdhome          -- Cd_HOME()
  :Cdh             -- Cd_HOME()
@@ -435,11 +435,14 @@ NERDCommenter     -- commenting [help NERDCommenter]
  ,c<space>        --  toggle comment
 UltiSnips         --  syntax-specific snippets [help ultisnips]
  snippetname<C-CR>    --  insert snippet
- <tab>            --  next placeholder
- <tab>            --  prev placeholder
- ~/.vim/snippets-ulti/python:
-  climain         --  new cli script
-  setuppy         --  new setup.py script
+ <c-j>            --  next placeholder
+ <c-k>            --  prev placeholder
+ ~/.vim/snippets-ulti/python.snippets:
+   climain         --  new cli script
+   setuppy         --  new setup.py script
+ ~/.vim/snippets-ulti/html.snippets:
+   schemaorgclass  --  new schema.org RDFa class
+   schemaorgprop   --  new schema.org RDFa property
 NeoComplCache -- code completion [help neocomplcache]
 unstack.vim   -- parse and open stacktrace paths [help unstack]
  <leader> s   -- parse part/all of a stacktrace

@@ -57,7 +57,8 @@
 ### Launch programs
 ## Set Variables
  Open default tabs
- Open a blank tab ([x] chromium, [TODO] firefox, [...])
+ Open a blank tab/window with the default browser
+ Open a browser tab/window to gmail#all with the default browser
   # Get WM_CLASS with $(xprop WM_CLASS)
 ## Autoruns
 
@@ -68,7 +69,6 @@
   - Set X background
   - Set X wallaper to (~/wallpaper.png)
  - Launch network applet (optional)
- exec_always --no-startup-id $network_applet  # (optional)
  see also: nmcli
 ## Lock, shutdown and suspend
   <super> l        -- lock screen
@@ -94,6 +94,8 @@
   <alt><shift> w          -- launch network manager applet (see also: $(nmcli))
   <PrintScr>       -- screenshot (full screen)
   <alt> <PrintScr> -- screenshot (current window)
+  <super><shift> 3       -- screenshot (full screen)
+  <super><shift> 4       -- screenshot (current window)
 ## Focus to nearest instance
   <alt> v      -- focus nearest: editor
   <alt> t      -- focus nearest: terminal
@@ -135,7 +137,10 @@
   <alt> j      -- focus down
   <alt> k      -- focus up
   <alt> l      -- focus right
- Toggle between previous and current workspace
+## Switch to previous / next workspace with <super> minus / equal
+  <super> - (minus)  -- switch to previous workspace
+  <super> = (equal)  -- switch to next workspace
+  Toggle between previous and current workspace
 ## Switch to workspace
   <alt> 0-9        -- switch to workspace N  (repeat to return)
   <super> 0-9      -- switch to workspace N  (repeat to return)
@@ -165,7 +170,7 @@
   <alt><shift> [KP_N: 0-9] -- move to workspace N
 ## Move focused container to workspaces (with number pad)
   <super> [KP_N: 0-9] -- move to workspace N
-## Move workspace to output
+## Move workspace to output (e.g. with multiple monitors)
   <super><shift> Left  -- move workspace to left
   <super><shift> Right -- move workspace to right
 ## Scratchpad workspace
