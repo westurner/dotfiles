@@ -49,7 +49,12 @@ def rst_escape(_str):
     """XXX TODO"""
     return _str
 
-def git_changelog(path=None, tags=None, append_tags=None, git_bin=None):
+def git_changelog(
+    path=None,
+    tags=None,
+    append_tags=None,
+    git_bin=None,
+    heading_char='^'):
     """generate a git changelog from git tags
 
     Arguments:
@@ -160,7 +165,7 @@ def git_changelog(path=None, tags=None, append_tags=None, git_bin=None):
             #
             tag1 = tag2
 
-    for rstline in iter_tag_pairs(tags):
+    for rstline in iter_tag_pairs(tags, heading_char=heading_char):
         yield rstline
 
 
@@ -210,6 +215,11 @@ def main(argv=None):
                    dest='append_revision',
                    action='append')
 
+    prs.add_option('--hdr', '--heading-character',
+                   dest='heading_char',
+                   action='store',
+                   default='^')
+
     prs.add_option('-v', '--verbose',
                    dest='verbose',
                    action='store_true',)
@@ -247,6 +257,7 @@ def main(argv=None):
     if opts.append_revision:
         append_tags.extend(opts.append_revision)
     conf['append_tags'] = append_tags
+    conf['heading_char'] = opts.heading_char
     logging.debug(('conf', conf))
     output = git_changelog(**conf)
     for x in output:
