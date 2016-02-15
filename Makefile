@@ -341,6 +341,9 @@ build-docker:
 build-docker-fedora-22:
 	sudo docker build -t dotfiles:fedora22 docker/fedora/22
 
+build-docker-fedora-23:
+	sudo docker build -t dotfiles:fedora23 docker/fedora/23
+
 build-docker-debian-8:
 	sudo docker build -t dotfiles:debian-8 docker/debian/8
 
