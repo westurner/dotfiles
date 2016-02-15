@@ -39,6 +39,10 @@ import logging
 import re
 import subprocess
 
+# !pip install semantic_version
+# | PyPI: https://pypi.python.org/pypi/semantic_version
+# | Src : https://github.com/rbarrois/python-semanticversion
+import semantic_version
 
 TAGRGX_VER_NUM =    r'v\d+.*'
 TAGRGX_VERSION_OPTION_NUM = r'v?\d+.*'
@@ -112,12 +116,24 @@ def git_changelog(
 
             tag_output = subprocess.check_output(git_list_tags_cmd).splitlines()
             logging.debug(('tag_output', tag_output))
+
+            # import semantic_version
+            versiontags = []
             for x in tag_output:
                 if re.match(tagrgx, x):
-                    yield x.rstrip()
+                    if x.startswith('v'):
+                        _x = x[1:]
+                    elif x.startswith('release/'):
+                        _x = x[7:]
+                    else:
+                        _x = x
+                    ver = semantic_version.Version(_x.rstrip())
+                    versiontags.append((ver, x))
+            for version, _tag in sorted(versiontags):
+                yield _tag
         if append_tags:
-            for _t in append_tags:
-                yield _t
+            for _tag in append_tags:
+                yield _tag
 
     tagsiter = git_list_tags(tags=tags,
                              append_tags=append_tags,
