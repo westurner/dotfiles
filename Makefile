@@ -841,7 +841,7 @@ vendor-pyrpo:
 
 vendor-i3t:
 	cd src/i3t && git branch -a && git log -1 && git status
-	cp src/i3t/i3t.py ./scripts/pyrpo.py
+	cp src/i3t/i3t.py ./scripts/i3t.py
 	git add ./scripts/i3t.py
 	git diff --cached ./scripts/i3t.py
 	git commit ./scripts/pyrpo.py -m \
