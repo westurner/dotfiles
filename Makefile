@@ -818,7 +818,7 @@ vendor-pwd:
 	git add ./scripts/pwd.html
 	git diff --cached ./scripts/pwd.html
 	git commit ./scripts/pwd.html -m \
-		"RLS: pwd.html: :fast_forward: https://github.com/westurner/pwd/commit/$(shell \
+		"RLS: scripts/pwd.html: :fast_forward: https://github.com/westurner/pwd/commit/$(shell \
 		git -C src/pwd rev-parse --short HEAD)" && git log -1
 
 vendor-pyline:
@@ -827,7 +827,7 @@ vendor-pyline:
 	git add ./scripts/pyline.py
 	git diff --cached ./scripts/pyline.py
 	git commit ./scripts/pyline.py -m \
-		"RLS: pyline.py: :fast_forward: https://github.com/westurner/pyline/commit/$(shell \
+		"RLS: scripts/pyline.py: :fast_forward: https://github.com/westurner/pyline/commit/$(shell \
 		git -C src/pyline rev-parse --short HEAD)" && git log -1
 
 vendor-pyrpo:
@@ -836,7 +836,7 @@ vendor-pyrpo:
 	git add ./scripts/pyrpo.py
 	git diff --cached ./scripts/pyrpo.py
 	git commit ./scripts/pyrpo.py -m \
-		"RLS: pyrpo.py: :fast_forward: https://westurner/pyrpo/commit/$(shell \
+		"RLS: scripts/pyrpo.py: :fast_forward: https://github.com/westurner/pyrpo/commit/$(shell \
 		git -C src/pyrpo rev-parse --short HEAD)" && git log -1
 
 vendor-i3t:
