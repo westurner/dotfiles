@@ -139,7 +139,10 @@ set $xflux_stop pkill -9 -f xflux
 set $scratchpad_editor_selector [title="SCRATCHPAD"]
 set $scratchpad_start_editor gvim --servername SCRATCHPAD --remote ~/TODO
 
-
+set $i3t_alt_tab        ~/-dotfiles/src/i3t/i3t.py n
+set $i3t_alt_shift_tab  ~/-dotfiles/src/i3t/i3t.py p
+bindsym Mod1+Tab exec   exec $i3t_alt_tab
+bindsym Mod1+Shift+Tab  exec $i3t_alt_shift_tab
 
 ## Autoruns
 #

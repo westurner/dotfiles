@@ -838,3 +838,12 @@ vendor-pyrpo:
 	git commit ./scripts/pyrpo.py -m \
 		"RLS: pyrpo.py: :fast_forward: https://westurner/pyrpo/commit/$(shell \
 		git -C src/pyrpo rev-parse --short HEAD)" && git log -1
+
+vendor-i3t:
+	cd src/i3t && git branch -a && git log -1 && git status
+	cp src/i3t/i3t.py ./scripts/pyrpo.py
+	git add ./scripts/i3t.py
+	git diff --cached ./scripts/i3t.py
+	git commit ./scripts/pyrpo.py -m \
+		"RLS: scripts/i3t.py: :fast_forward: https://github.com/westurner/i3t/commit/$(shell \
+		git -C src/i3t rev-parse --short HEAD)" && git log -1
