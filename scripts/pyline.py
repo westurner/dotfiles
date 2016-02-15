@@ -71,7 +71,7 @@ Shell::
 
 """
 
-__version__ = version = "0.3.9"
+__version__ = version = "0.3.11"
 
 import cgi
 import csv
@@ -108,19 +108,15 @@ REGEX_OPTIONS = dict(
 
 STANDARD_REGEXES = {}
 
-log = logging.getLogger()
-#log.setLevel(logging.INFO)
+DEFAULT_LOGGER='pyline'
+log = logging.getLogger(DEFAULT_LOGGER)
+hdlr = logging.StreamHandler(stream=sys.stderr)
+# fmt = logging.Formatter(logging.BASIC_FORMAT)
+fmt = logging.Formatter('%(levelname)-5s %(name)s:%(lineno)5s: %(message)s')
+hdlr.setFormatter(fmt)
+log.addHandler(hdlr)
+# log.setLevel(logging.INFO)
 log.setLevel(logging.DEBUG)
-
-
-class NullHandler(logging.Handler):
-    def emit(self, record):
-        pass
-
-log.debug("DEBUG!")
-
-#h = NullHandler()
-#log.addHandler(h)
 
 Result = namedtuple('Result', ('n', 'result')) # , 'uri', 'meta'))
 
@@ -253,7 +249,7 @@ def pyline(iterable,
         #            l.lower() for l in regex_options
         #                if l.lower() in REGEX_OPTIONS),
         #        _regexstr)
-        log.debug("_rgx = %r" % _regexstr)
+        log.info(('_rgx', _regexstr))
         _rgx = re.compile(_regexstr)
 
     Path = str
@@ -276,7 +272,7 @@ def pyline(iterable,
     codeobj = None
     if cmd:
         try:
-            log.info("_cmd: %r" % cmd)
+            log.info(("cmd", cmd))
             codeobj = compile(cmd, 'command', 'eval')
         except Exception as e:
             e.message = "%s\ncmd: %s" % (e.message, cmd)
@@ -578,7 +574,7 @@ def sort_by(iterable,
         errdata = [
             (('keyvalue', keyvalue),
               ('sortstr', sortstr))]
-        log_((errdata,))
+        log.debug((errdata,))
         return keyvalue
 
     sorted_values = sorted(iterable,
@@ -880,8 +876,8 @@ class ResultWriter_jinja(ResultWriter):
     escape_func = staticmethod(cgi.escape)
 
     def setup(self, *args, **kwargs):
-        log_(('args', args))
-        log_(('kwargs', kwargs))
+        log.debug(('args', args))
+        log.debug(('kwargs', kwargs))
         import jinja2, os
         self.escape_func = jinja2.escape
         templatepath = kwargs.get('template', kwargs.get('tmpl'))
@@ -1061,12 +1057,12 @@ def get_sort_function(**kwargs):  # (sort_asc, sort_desc)
         raise ValueError("sort_asc and sort_desc are both specified")
     if sort_asc:
         sortstr = sort_asc
-        log.info("sort_asc: %r" % sortstr)
         reverse = False
+        log.info((("sort_asc", sortstr), ('reverse', reverse)))
     if sort_desc:
         sortstr = sort_desc
-        log.info("sort_desc: %r" % sortstr)
         reverse = True
+        log.info((("sort_desc", sortstr), ('reverse', reverse)))
     if sortstr:
         def sortfunc(iterable,
                      sortstr=sortstr,
@@ -1114,10 +1110,9 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
 
     prs = get_option_parser()
 
-    args = list(args) if args is not None else [] # sys.argv[1:]
+    argv = args = list(args) if args is not None else [] # sys.argv[1:]
     if opts is None:
         (opts, args) = prs.parse_args(args)
-        log_(('args1', args))
     optsdict = None
     if hasattr(opts, '__dict__'):
         optsdict = opts.__dict__
@@ -1129,20 +1124,23 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
         optsdict = {}
     opts = optsdict
 
-    log = logging.getLogger()
+    log = logging.getLogger(DEFAULT_LOGGER)
     if not opts.get('quiet'):
-        logging.basicConfig()
-        log = logging.getLogger()
-        log.setLevel(logging.DEBUG)
+        #logging.basicConfig(
+        #)
+        log.setLevel(logging.INFO)
 
         if opts.get('verbose'):
-            log = logging.getLogger()
             log.setLevel(logging.DEBUG)
-            log.debug(('opts', opts))
+    else:
+        log.setLevel(logging.WARN)
+    log.info(('pyline.version', __version__))
+    log.info(('argv', argv))
+    log.info(('args', args))
 
     if opts.get('version'):
         print(__version__)
-        return 0
+        return 0, None
 
     opts['col_map'] = collections.OrderedDict()
     if opts.get('col_mapstr'):
@@ -1154,7 +1152,6 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
 
     if 'cmd' not in opts:
         cmd = ' '.join(args)
-        log_(('args', args))
         if not cmd.strip():
             if opts.get('regex'):
                 if (opts.get('_output_format') == 'json'
@@ -1165,11 +1162,8 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
             else:
                 cmd = 'obj'
         opts['cmd'] = cmd.strip()
-        log_(('cmd', cmd))
 
-    if opts.get('verbose'):
-        log_(('opts', opts))
-
+    log.info(('cmd', opts['cmd']))
     # opts['attrs'] = PylineResult._fields # XX
     opts['attrs'] = list(opts['col_map'].keys()) if 'col_map' in opts else None
 
@@ -1200,6 +1194,9 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
             #opts['_output_format'] = 'csv'
             opts['_output_format'] = 'json'
             #TODO
+        log.info(('_output_format', opts['_output_format']))
+
+        log.info(('opts', opts))
 
         writer = ResultWriter.get_writer(
             opts['_output'],
@@ -1243,9 +1240,10 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
     # results
     # sorted_results
     # if passed, results are .append-ed to results
-    return 0
+    return 0, results
 
 
 if __name__ == "__main__":
     import sys
-    sys.exit(main(args=sys.argv[1:]))
+    retval, _ = main(args=sys.argv[1:])
+    sys.exit(retval)
