@@ -321,6 +321,7 @@ build-docker-bootstrap_dotfiles.sh:
 	@#   - mount -o bind requires caps
 	rm -f docker/*/*/bootstrap_dotfiles.sh
 	cp scripts/bootstrap_dotfiles.sh docker/fedora/22/
+	cp scripts/bootstrap_dotfiles.sh docker/fedora/23/
 	cp scripts/bootstrap_dotfiles.sh docker/debian/8/
 	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/12.04/
 	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/14.04/
