@@ -844,6 +844,6 @@ vendor-i3t:
 	cp src/i3t/i3t.py ./scripts/i3t.py
 	git add ./scripts/i3t.py
 	git diff --cached ./scripts/i3t.py
-	git commit ./scripts/pyrpo.py -m \
+	git commit ./scripts/i3t.py -m \
 		"RLS: scripts/i3t.py: :fast_forward: https://github.com/westurner/i3t/commit/$(shell \
 		git -C src/i3t rev-parse --short HEAD)" && git log -1
