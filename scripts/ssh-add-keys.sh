@@ -7,15 +7,16 @@
 #  ln -s ~/.ssh/id_ecdsa ~/.ssh/github.com/id_ecdsa.key
 
 shell_escape_number() {
-    # shell_escape_number() -- escape potential single quotes in a number
+    ## shell_escape_number() -- escape potential single quotes in a number
     #   $1 (strtoescape) -- number/string to escape the single quotes of
     #   XXX TODO TEST
     numtoescape=${1}
     output="$(echo "${numtoescape}" | sed "s,','\"'\"',g")"
     echo ""${output}""
 }
+
 shell_escape_single() {
-    # shell_escape_single() -- escape single quotes and wrap in single quotes
+    ## shell_escape_single() -- escape single quotes and wrap in single quotes
     #   $1 (strtoescape) -- string to escape ' and wrap in single quotes
     #   XXX TODO TEST
     strtoescape=${1}
@@ -24,7 +25,7 @@ shell_escape_single() {
 }
 
 function ssh_agent {
-    # ssh_agent() -- start ssh-agent (restart if -n $1)
+    ## ssh_agent() -- start ssh-agent (restart if -n $1)
     #   $1 (restart) -- if true, restart w/ 'ssh-agent -k' before $(`eval`)
     restart="${1}"
     if [[ "${SSH_AGENT_PID}" == "" ]]; then
@@ -45,20 +46,20 @@ function ssh_agent {
 }
 
 function ssh_agent_env {
-    # ssh_agent_env() -- echo SSH_AUTH_SOCK and SSH_AGENT_PID
+    ## ssh_agent_env() -- echo SSH_AUTH_SOCK and SSH_AGENT_PID
     echo "SSH_AUTH_SOCK=$(shell_escape_single "${SSH_AUTH_SOCK}")"
     echo "SSH_AGENT_PID=$(shell_escape_number "${SSH_AGENT_PID}")"
 }
 
 function ssh_agent_status {
-    # ssh_agent_status() -- echo SSH_AUTH_SOCK and SSH_AGENT_PID
+    ## ssh_agent_status() -- echo SSH_AUTH_SOCK and SSH_AGENT_PID
     ssh_agent_env
     #ssh_agent_list_key_fingerprints
     #ssh_agent_list_key_params
 }
 
 function ssh_agent_status_all {
-    # ssh_agent_status_all() -- echo SSH_ vars, print key info
+    ## ssh_agent_status_all() -- echo SSH_ vars, print key info
     #                           (fingerprints, params)
     ssh_agent_env
     ssh_agent_list_key_fingerprints
@@ -66,23 +67,22 @@ function ssh_agent_status_all {
 }
 
 function ssh_agent_list_key_fingerprints {
-    # ssh_agent_list_key_fingerprints() -- `ssh-add -l`
+    ## ssh_agent_list_key_fingerprints() -- `ssh-add -l`
     (set -x; ssh-add -l)
 }
 
 function ssh_agent_list_key_params {
-    # ssh_agent_list_key_fingerprints() -- `ssh-add -L`
+    ## ssh_agent_list_key_fingerprints() -- `ssh-add -L`
     (set -x; ssh-add -L)
 }
 
 function ssh_add {
-    # ssh_add() -- ssh-add
-    # SSH_ADD_BIN=$(which ssh-add)
-    # ${SSH_ADD_BIN} "${@}"
+    ## ssh_add() -- `ssh-add ${@}`
     (set -x; ssh-add "${@}")
 }
 
 function ls_ssh_keys {
+    ## ls_ssh_keys()                -- list ssh keys in path $1
     function _ls_ssh_keys {
         local path="${1:-"."}"
         find "${path}" -maxdepth 1 -type f \
@@ -97,19 +97,22 @@ function ls_ssh_keys {
 ### ./constants
 
 function ssh_add_keys__local {
+    ## ssh_add_keys__bitbucket()    -- add keys for local
     ssh_add ~/.ssh/keys/local/*.key
 }
 
 function ssh_add_keys__github {
+    ## ssh_add_keys__bitbucket()    -- add keys for github.com
     ssh_add ~/.ssh/keys/github.com/*.key
 }
 
 function ssh_add_keys__bitbucket {
+    ## ssh_add_keys__bitbucket()    -- add keys for bitbucket.org
     ssh_add ~/.ssh/keys/bitbucket.org/*.key
 }
 
 function ssh_add_keys_all {
-    # ssh_add_keys_all() -- add each key [and prompt for passphrase]
+    ## ssh_add_keys_all() -- add each key [and prompt for passphrase]
     ssh_add_keys__github
     ssh_add_keys__bitbucket
     ssh_add_keys__local
@@ -118,7 +121,7 @@ function ssh_add_keys_all {
 ### ./constants
 
 function ssh_add_keys_help {
-    # ssh_add_keys_help() -- print help for the ssh-add-keys script
+    ## ssh_add_keys_help() -- print help for the ssh-add-keys script
     local scriptname="$(basename "${0}")"
     echo "${scriptname} [-h] [-a|--all] [-s|--status] [-e|--env] [-l] [-L]"
     echo ""
@@ -132,18 +135,25 @@ function ssh_add_keys_help {
     echo "    -l               -- list key fingerprints (ssh-add -l)"
     echo "    -L               -- list key params (ssh-add -L)"
     echo ""
+    echo "  ssh-keygen"
+    echo "    keygen:domain.tld/user+key    -- generate a key"
+    echo "    keygengh:user+key             -- generate a key for gh|github"
+    echo "    keygenbb:user+key             -- generate a key for bb|bitbucket"
+    echo ""
+
     echo "  -h|--help|help     -- print this help"
     echo ""
 }
 
 function _debug {
-    # _debug()  -- echo "## ${@}" >&2
+    ## _debug()  -- echo "## ${@}" >&2
     echo "## ${@}" >&2
 }
 
 function ssh_add_keys {
-    # ssh_add_keys()  -- ssh_add_keys main function (help, args, tasks)
-    if [[ "${@}" == "" ]]; then
+    ## ssh_add_keys()  -- ssh_add_keys main function (help, args, tasks)
+    local _args=${@}
+    if [ -z "${@}" ]; then
         ssh_add_keys_help
         exit
     fi
@@ -157,50 +167,117 @@ function ssh_add_keys {
     local _ssh_agent_status=
     local _ssh_agent_list_key_fingerprints=
     local _ssh_agent_list_key_params=
+    local _ssh_keygen__default=
+    local _ssh_keygen__github=
+    local _ssh_keygen__bitbucket=
+    local _ssh_keygen__local=
 
-    for arg in "${@}"; do
+    local i=-1;
+    for arg in ${@}; do
+        ((i+=1))
         case "${arg}" in
             -h|--help|help)
+                shift
                 ssh_add_keys_help
                 ;;
             -a|--all|all)
+                shift
                 _ssh_add_keys_all=1
                 ;;
 
             -e|--env|env)
+                shift
                 _ssh_agent_status=1
                 ;;
             -s|--status|status)
+                shift
                 _ssh_agent_status_all=1
                 ;;
             -l)
+                shift
                 _ssh_agent_list_key_fingerprints=1
                 ;;
             -L)
+                shift
                 _ssh_agent_list_key_params=1;
                 ;;
             -t)
+                shift
                 _ssh_add_keys_run_tests=1;
                 ;;
 
             gh|github)
+                shift
                 _ssh_add_keys__github=1
                 ;;
             bb|bitbucket)
+                shift
                 _ssh_add_keys__bitbucket=1
                 ;;
             local)
+                shift
                 _ssh_add_keys__local=1
                 ;;
 
             pwd)
+                shift
                 make -C "${__DOTFILES}" pwd 2>/dev/null &
+                ;;
+
+            keygen*)  # keygen123:domain.tld/user+keyname
+                shift
+                # _keygensuffix='123'
+                local _keygensuffix=$(echo "${arg}" \
+                    | sed 's/^keygen\(.*\)\:\(.*\)/\1/')
+                # _keygenargs='domain.tld/user+keyname'
+                local _keygenargs=$(echo "${arg}" \
+                    | sed 's/^keygen\(.*\)\:\(.*\)/\2/')
+
+                if [ -z "${_keygenargs}" ]; then
+                    echo "specify a _namekey like keygen:domain.tld/user+keyname"
+                    return 1
+                fi
+                if [ -z "${_keygensuffix}" ]; then
+                    _ssh_keygen__default=1
+                else
+                    case "${_keygensuffix}" in
+                        gh|github)
+                            _ssh_keygen__github=1
+                            ;;
+                        bb|bitbucket)
+                            _ssh_keygen__bitbucket=1
+                            ;;
+                        local)
+                            _ssh_keygen__local=1
+                            ;;
+                        *)
+                            echo "${_keygensuffix} unsupported"
+                            return 1
+                            ;;
+                    esac
+                fi
+                ;;
+            *)
+                otherargs=(${otherargs[@]} "${arg}")
                 ;;
         esac
     done
 
     if [ -n "${_ssh_add_keys_run_tests}" ]; then
         ssh_add_keys_run_tests
+    fi
+
+    if [ -n "${_ssh_keygen__default}" ]; then
+        _ssh_keygen__default ${_keygenargs[@]}
+    fi
+    if [ -n "${_ssh_keygen__github}" ]; then
+        _ssh_keygen__github ${_keygenargs[@]}
+    fi
+    if [ -n "${_ssh_keygen__bitbucket}" ]; then
+        _ssh_keygen__bitbucket ${_keygenargs[@]}
+    fi
+    if [ -n "${_ssh_keygen__local}" ]; then
+        _ssh_keygen__local ${_keygenargs[@]}
     fi
 
     local -a _opts_add_all=(
@@ -258,7 +335,76 @@ function ssh_add_keys {
     fi
 }
 
+function prefix__iso8601datetime {
+    ## prefix__iso8601datetime()    -- return {prefix}__{iso8601datetime}
+    local _prefix="${1}"
+    local _date=$(date +"%FT%T%z")
+    local _prefixdate="${_prefix}__${_date}"
+    echo "${_prefixdate}"
+}
+
+function _ssh_keygen__ {
+    ## _ssh_keygen__()  -- generate an ssh key with ssh-keygen
+    function _ssh_keygen___ {
+        local _sshkeypath="${SSHKEYPATH:-"${HOME}/.ssh/keys"}"
+        local _namekey="${1}"  # domain.tld/user+keyname
+        shift
+        local _keydir="$(dirname "${_namekey}")"
+        local _keyname="$(basename "${_namekey}")"
+        if [ -z "${_namekey}" ]; then
+            echo "ERROR: ValueError: \$1 should be a namekey"
+            echo ""
+            ssh_add_keys_help
+            return 2
+        fi
+        local _keytype="rsa"
+        local i=-1
+        local _args=( ${@} )
+        local nextarg_i=
+        for arg in ${@}; do
+            (( i+=1 ))
+            case "${arg}" in
+                -t)
+                    (( nextarg_i=i+1 ));
+                    _keytype="${_args[$nextarg_i]}"
+                    ;;
+            esac
+        done
+        _keyname="$(prefix__iso8601datetime "${_keyname}")"
+        _keyname__type="${_keyname}__id_${_keytype}"
+        local _keypath="${_sshkeypath}/${_keydir}/${_keyname__type}"
+        local _comment="${_keyname__type} (ssh-keygen ${@}) :key:"
+        ssh-keygen -f "${_keypath}" -C "${_comment}" ${@}
+    }
+    (set -x; _ssh_keygen___ "${@}")
+}
+
+function _ssh_keygen__default {
+    ## _ssh_keygen__default()  -- generate an ssh key (-t ecdsa)
+    local _namekey="${1}"
+    _ssh_keygen__ "${_namekey}" -t ecdsa
+}
+
+function _ssh_keygen__github {
+    ## _ssh_keygen__github()  -- generate an ssh key for github (-t rsa)
+    local _namekey="github.com/${1}__github.com"
+    _ssh_keygen__ "${_namekey}" -t rsa -b 4096
+}
+
+function _ssh_keygen__bitbucket {
+    ## _ssh_keygen__github()  -- generate an ssh key for bitbucket (-t rsa)
+    local _namekey="bitbucket.org/${1}__bitbucket.org"
+    _ssh_keygen__ "${_namekey}" -t rsa -b 4096
+}
+
+function _ssh_keygen__local {
+    ## _ssh_keygen__github()  -- generate an ssh key for local (-t rsa)
+    local _namekey="local/${1}__local"
+    _ssh_keygen__ "${_namekey}" -t ecdsa
+}
+
 function ssh_add_keys_run_tests {
+    ## ssh_add_keys_run_tests()     -- run tests
     #set -x
     _TEST__NAME=
     function test_start {
@@ -360,12 +506,17 @@ function ssh_add_keys_run_tests {
     #test_eval "ssh_add_keys_all_list_fingerprints_and_params"
 }
 
-if [ "${BASH_SOURCE}" == "${0}" ]; then
+function ssh_add_keys__main {
+    ## ssh_add_keys__main()     -- ssh-add_keys main function
     # echo '# ${@}='"$(shell_escape_single ${@})" >&2
     if [[ "${_logdest}" != "" ]]; then
         ssh_add_keys "${@}" | tee -a "${_logdest}"
     else
         ssh_add_keys "${@}"
     fi
+}
+
+if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
+    ssh_add_keys__main "${@}"
     exit
 fi
