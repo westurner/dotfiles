@@ -321,6 +321,7 @@ build-docker-bootstrap_dotfiles.sh:
 	@#   - mount -o bind requires caps
 	rm -f docker/*/*/bootstrap_dotfiles.sh
 	cp scripts/bootstrap_dotfiles.sh docker/fedora/22/
+	cp scripts/bootstrap_dotfiles.sh docker/fedora/23/
 	cp scripts/bootstrap_dotfiles.sh docker/debian/8/
 	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/12.04/
 	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/14.04/
@@ -339,6 +340,9 @@ build-docker:
 
 build-docker-fedora-22:
 	sudo docker build -t dotfiles:fedora22 docker/fedora/22
+
+build-docker-fedora-23:
+	sudo docker build -t dotfiles:fedora23 docker/fedora/23
 
 build-docker-debian-8:
 	sudo docker build -t dotfiles:debian-8 docker/debian/8
@@ -814,7 +818,7 @@ vendor-pwd:
 	git add ./scripts/pwd.html
 	git diff --cached ./scripts/pwd.html
 	git commit ./scripts/pwd.html -m \
-		"RLS: pwd.html: :fast_forward: https://github.com/westurner/pwd/commit/$(shell \
+		"RLS: scripts/pwd.html: :fast_forward: https://github.com/westurner/pwd/commit/$(shell \
 		git -C src/pwd rev-parse --short HEAD)" && git log -1
 
 vendor-pyline:
@@ -823,7 +827,7 @@ vendor-pyline:
 	git add ./scripts/pyline.py
 	git diff --cached ./scripts/pyline.py
 	git commit ./scripts/pyline.py -m \
-		"RLS: pyline.py: :fast_forward: https://github.com/westurner/pyline/commit/$(shell \
+		"RLS: scripts/pyline.py: :fast_forward: https://github.com/westurner/pyline/commit/$(shell \
 		git -C src/pyline rev-parse --short HEAD)" && git log -1
 
 vendor-pyrpo:
@@ -832,5 +836,14 @@ vendor-pyrpo:
 	git add ./scripts/pyrpo.py
 	git diff --cached ./scripts/pyrpo.py
 	git commit ./scripts/pyrpo.py -m \
-		"RLS: pyrpo.py: :fast_forward: https://westurner/pyrpo/commit/$(shell \
+		"RLS: scripts/pyrpo.py: :fast_forward: https://github.com/westurner/pyrpo/commit/$(shell \
 		git -C src/pyrpo rev-parse --short HEAD)" && git log -1
+
+vendor-i3t:
+	cd src/i3t && git branch -a && git log -1 && git status
+	cp src/i3t/i3t.py ./scripts/i3t.py
+	git add ./scripts/i3t.py
+	git diff --cached ./scripts/i3t.py
+	git commit ./scripts/pyrpo.py -m \
+		"RLS: scripts/i3t.py: :fast_forward: https://github.com/westurner/i3t/commit/$(shell \
+		git -C src/i3t rev-parse --short HEAD)" && git log -1

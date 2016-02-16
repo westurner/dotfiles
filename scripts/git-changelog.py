@@ -39,6 +39,10 @@ import logging
 import re
 import subprocess
 
+# !pip install semantic_version
+# | PyPI: https://pypi.python.org/pypi/semantic_version
+# | Src : https://github.com/rbarrois/python-semanticversion
+import semantic_version
 
 TAGRGX_VER_NUM =    r'v\d+.*'
 TAGRGX_VERSION_OPTION_NUM = r'v?\d+.*'
@@ -49,7 +53,12 @@ def rst_escape(_str):
     """XXX TODO"""
     return _str
 
-def git_changelog(path=None, tags=None, append_tags=None, git_bin=None):
+def git_changelog(
+    path=None,
+    tags=None,
+    append_tags=None,
+    git_bin=None,
+    heading_char='^'):
     """generate a git changelog from git tags
 
     Arguments:
@@ -107,12 +116,24 @@ def git_changelog(path=None, tags=None, append_tags=None, git_bin=None):
 
             tag_output = subprocess.check_output(git_list_tags_cmd).splitlines()
             logging.debug(('tag_output', tag_output))
+
+            # import semantic_version
+            versiontags = []
             for x in tag_output:
                 if re.match(tagrgx, x):
-                    yield x.rstrip()
+                    if x.startswith('v'):
+                        _x = x[1:]
+                    elif x.startswith('release/'):
+                        _x = x[7:]
+                    else:
+                        _x = x
+                    ver = semantic_version.Version(_x.rstrip())
+                    versiontags.append((ver, x))
+            for version, _tag in sorted(versiontags):
+                yield _tag
         if append_tags:
-            for _t in append_tags:
-                yield _t
+            for _tag in append_tags:
+                yield _tag
 
     tagsiter = git_list_tags(tags=tags,
                              append_tags=append_tags,
@@ -160,7 +181,7 @@ def git_changelog(path=None, tags=None, append_tags=None, git_bin=None):
             #
             tag1 = tag2
 
-    for rstline in iter_tag_pairs(tags):
+    for rstline in iter_tag_pairs(tags, heading_char=heading_char):
         yield rstline
 
 
@@ -210,6 +231,11 @@ def main(argv=None):
                    dest='append_revision',
                    action='append')
 
+    prs.add_option('--hdr', '--heading-character',
+                   dest='heading_char',
+                   action='store',
+                   default='^')
+
     prs.add_option('-v', '--verbose',
                    dest='verbose',
                    action='store_true',)
@@ -247,6 +273,7 @@ def main(argv=None):
     if opts.append_revision:
         append_tags.extend(opts.append_revision)
     conf['append_tags'] = append_tags
+    conf['heading_char'] = opts.heading_char
     logging.debug(('conf', conf))
     output = git_changelog(**conf)
     for x in output:

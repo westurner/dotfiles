@@ -27,4 +27,7 @@
 	url = https://github.com/westurner/pyrpo
 [submodule "src/web.sh"]
 	path = src/web.sh
-	url = ssh://git@github.com/westurner/web.sh
+	url = https://github.com/westurner/web.sh
+[submodule "src/i3t"]
+	path = src/i3t
+	url = https://github.com/westurner/i3t
