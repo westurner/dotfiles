@@ -71,7 +71,7 @@ Shell::
 
 """
 
-__version__ = version = "0.3.11"
+__version__ = version = "0.3.12"
 
 import cgi
 import csv
@@ -115,8 +115,10 @@ hdlr = logging.StreamHandler(stream=sys.stderr)
 fmt = logging.Formatter('%(levelname)-5s %(name)s:%(lineno)5s: %(message)s')
 hdlr.setFormatter(fmt)
 log.addHandler(hdlr)
+# log.setLevel(logging.DEBUG)
 # log.setLevel(logging.INFO)
-log.setLevel(logging.DEBUG)
+log.setLevel(logging.WARN)
+
 
 Result = namedtuple('Result', ('n', 'result')) # , 'uri', 'meta'))
 
@@ -1125,15 +1127,18 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
     opts = optsdict
 
     log = logging.getLogger(DEFAULT_LOGGER)
+    # if -q/--quiet is not specified
     if not opts.get('quiet'):
         #logging.basicConfig(
         #)
-        log.setLevel(logging.INFO)
+        log.setLevel(logging.WARN)
 
+        # if -v/--verbose is specified
         if opts.get('verbose'):
             log.setLevel(logging.DEBUG)
+    # if -q/--quiet is specified
     else:
-        log.setLevel(logging.WARN)
+        log.setLevel(logging.ERROR)
     log.info(('pyline.version', __version__))
     log.info(('argv', argv))
     log.info(('args', args))
