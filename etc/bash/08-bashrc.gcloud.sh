@@ -1,47 +1,68 @@
 
 ### bashrc.gcloud.sh
 
-function _setup_google_cloud {
-    # _setup_google_cloud() -- configure gcloud $PATH and bash completions
-    #   $1 (str): default:~/google-cloud-sdk (GCLOUD_BASEPATH)
-    export GCLOUD_BASEPATH="${1:-"${HOME}/google-cloud-sdk"}"
+function _setup_gcloudsdk {
+    # _setup_gcloudsdk() -- configure gcloud $PATH and bash completions
+    #   $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
+    export GCLOUDSDK_PREFIX="${1:-"$(_get_GCLOUDSDK_PREFIX)"}"
 
     #The next line updates PATH for the Google Cloud SDK.
-    source "${GCLOUD_BASEPATH}/path.bash.inc"
+    source "${GCLOUDSDK_PREFIX}/path.bash.inc"
 
     #The next line enables bash completion for gcloud.
-    source "${GCLOUD_BASEPATH}/completion.bash.inc"
+    source "${GCLOUDSDK_PREFIX}/completion.bash.inc"
 }
 
+function _unsetup_gcloudsdk {
+    # _unsetup_gcloudsdk() -- unset GCLOUDSDK_PREFIX
+    unset GCLOUDSDK_PREFIX
+    # XXX: PATH_remove <...>
+}
 
-function _get_APPENGINESDK_PATH {
-    local _appenginesdk_path="${1}"
-    local _APPENGINESDK_PATH=
-    if [ -n "${_appenginesdk_path}" ]; then
-        _APPENGINESDK_PATH="${1}"
+function _get_GCLOUDSDK_PREFIX {
+    # _get_GCLOUDSDK_PREFIX     -- get GCLOUDSDK_PREFIX
+    #   $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
+    local _GCLOUDSDK_PREFIX="${GCLOUDSDK_PREFIX:-"${HOME}/google-cloud-sdk"}"
+    echo "${_GCLOUDSDK_PREFIX}"
+}
+
+function _get_APPENGINESDK_PREFIX {
+    # _get_APPENGINESDK_PREFIX -- get APPENGINESDK_PREFIX
+    local _appenginesdk_prefix="${1:-"${APPENGINESDK_PREFIX}"}"
+    local _APPENGINESDK_PREFIX=
+    if [ -n "${_appenginesdk_prefix}" ]; then
+        _APPENGINESDK_PREFIX="$(_get_APPENGINESDK_PREFIX)"
     else
         local _APPENGINESDK_BASEPATH=
-        if [ -n "${GCLOUD_BASEPATH}" ]; then
-            _APPENGINESDK_BASEPATH="${GCLOUD_BASEPATH}/platform"
+        local _GCLOUDSDK_PREFIX="$(_get_GCLOUDSDK_PREFIX)"
+        if [ -n "${_GCLOUDSDK_PREFIX}" ]; then
+            _APPENGINESDK_BASEPATH="${_GCLOUDSDK_PREFIX}/platform"
         else
             _APPENGINESDK_BASEPATH="/usr/local"
         fi
-        _APPENGINESDK_PATH="${_APPENGINESDK_BASEPATH}/google_appengine"
+        _APPENGINESDK_PREFIX="${_APPENGINESDK_BASEPATH}/google_appengine"
     fi
-    echo "${_APPENGINESDK_PATH}"
+    echo "${_APPENGINESDK_PREFIX}"
 }
 
-function _setup_google_appenginesdk {
-    # _setup_google_cloud() -- configure gcloud $PATH and bash completions
-    #   $1 (str): default:~/google-cloud-sdk (GCLOUD_BASEPATH)
-    export APPENGINESDK_PATH="$(_get_APPENGINESDK_PATH "${1}")"
-    PATH_prepend "${APPENGINESDK_PATH}"
+function _setup_appenginesdk {
+    # _setup_appenginesdk() -- config GCLOUDSDK*, APPENGINESDK_PREFIX, PATH
+    #   $1 (str): default:~/google-cloud-sdk/platform/google_appengine
+    #             default:/usr/local/google_appengine
+    #             ${APPENGINESDK_PREFIX}
+
+    local _GCLOUDSDK_PREFIX="$(_get_GCLOUDSDK_PREFIX)"
+    if [ -d "${_GCLOUDSDK_PREFIX}" ]; then
+        _setup_appenginesdk
+    fi
+    export APPENGINESDK_PREFIX="${1:-"$(_get_APPENGINESDK_PREFIX "${1}")"}"
+    PATH_prepend "${APPENGINESDK_PREFIX}"
 }
 
-function _unsetup_google_appenginesdk {
-    # _setup_google_cloud() -- configure gcloud $PATH and bash completions
-    if [ -n "${APPENGINESDK_PATH}" ]; then
-        PATH_remove "${APPENGINESDK_PATH}"
+function _unsetup_appenginesdk {
+    # _setup_gcloudsdk() -- PATH_remove ${APPENGINESDK_PREFIX}
+    if [ -n "${APPENGINESDK_PREFIX}" ]; then
+        PATH_remove "${APPENGINESDK_PREFIX}"
     fi
-    unset APPENGINESDK_PATH
+    unset APPENGINESDK_PREFIX
 }
