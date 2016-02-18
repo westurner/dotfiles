@@ -146,20 +146,32 @@ function _setup_webw  {
 
     # Force Chrome to resolve DNS over SOCKS v5 (or NOT_FOUND)
     set -f
-    hostresolverrules="${hostresolverrules:-'MAP * 0.0.0.0'}"
-    if [ -z "${PROXY_IP}" ]; then
-        PROXY_HOST="${PROXY_HOST:-"localhost"}"
-        PROXY_SOCKS_SERVER="${PROXY_HOST}:${PROXY_PORT}"
-        proxyserver_="socks5://${PROXY_HOST}:${PROXY_PORT}"
-        # If DNS is required to lookup the proxy server, EXCLUDE that fqdn
-        if [ -n "${PROXY_HOST}" ]; then
-            hostresolverrules="${hostresolverrules} EXCLUDE ${PROXY_HOST}"
+
+    # - use specified PROXY_HOST, PROXY_IP, PROXY_PORT, PROXY_SOCKS_SERVER
+    # - or, default to _ALL_PROXY
+    if [ -n "${PROXY_HOST}${PROXY_IP}${PROXY_PORT}${PROXY_SOCKS_SERVER}" ]; then
+        if [ -z "${PROXY_PORT}" ]; then
+            PROXY_PORT="1080"
+        fi
+        if [ -z "${PROXY_IP}" ]; then
+            PROXY_HOST="${PROXY_HOST:-"localhost"}"
+            PROXY_SOCKS_SERVER="${PROXY_SOCKS_SERVER:-"${PROXY_HOST}:${PROXY_PORT}"}"
+            proxyserver_="socks5://${PROXY_HOST}:${PROXY_PORT}"
+        else
+            PROXY_SOCKS_SERVER="${PROXY_IP}"
+            proxyserver_="socks5://${PROXY_IP}:${PROXY_PORT}"
+        fi
+        proxyserver="${proxyserver:-${proxyserver_}}"
+        if [ -n "${PROXY_HOST}" ] ; then
+            # If DNS is required to lookup the proxy server, EXCLUDE that fqdn
+            hostresolverrules="${hostresolverrules:-'MAP * 0.0.0.0'}"
         fi
     else
-        PROXY_SOCKS_SERVER="${PROXY_IP}"
-        proxyserver_="socks5://${PROXY_IP}:${PROXY_PORT}"
+        local _ALL_PROXY="${ALL_PROXY:-"${all_proxy}"}"
+        if [ -n "${_ALL_PROXY}" ]; then
+            proxyserver="${_ALL_PROXY}"
+        fi
     fi
-    proxyserver="${proxyserver:-${proxyserver_}}"
 
     echo hostresolverrules="${hostresolverrules}"
 
@@ -170,18 +182,18 @@ function _setup_webw  {
 
     CHROME_ARGS__=(
     "${CHROME_BIN[@]}"
-    --proxy-server="${proxyserver}"
-    --host-resolver-rules=\"${hostresolverrules}\"
-    --dns-prefetch-disable
+    ${proxyserver:+"--proxy-server='${proxyserver}'"}
+    ${hostresolverrules:+"--host-resolver-rules='${hostresolverrules}'"}
+    ${nodnsprefetch:+"--dns-prefetch-disable"}
     --learning
-    --profile-directory=\"${profiledirectory}\"
+    ${profiledirectory:+"--profile-directory='${profiledirectory}'"}
     --no-default-browser-check
     --disable-java
     --disable-icon-ntp
     --no-pings
     --homepage="about:blank"
-    --user-data-dir="${userdatadir}"
-    --no-referrers
+    ${userdatadir:+"--user-data-dir='${userdatadir}'"}
+    ${noreferrers:+"--no-referrers"}
     )
 
     # echo CHROME_ARGS__="${CHROME_ARGS__[@]}"
