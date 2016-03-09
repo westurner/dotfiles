@@ -332,6 +332,7 @@ build-docker-bootstrap_dotfiles.sh:
 
 build-docker:
 	$(MAKE) build-docker-fedora-22
+	$(MAKE) build-docker-fedora-23
 	$(MAKE) build-docker-debian-8
 	$(MAKE) build-docker-ubuntu-12.04
 	$(MAKE) build-docker-ubuntu-14.04
@@ -339,22 +340,22 @@ build-docker:
 
 
 build-docker-fedora-22:
-	sudo docker build -t dotfiles:fedora22 docker/fedora/22
+	sudo docker build -t dotfiles:fedora22 -f Dockerfile.fedora22 .
 
 build-docker-fedora-23:
-	sudo docker build -t dotfiles:fedora23 docker/fedora/23
+	sudo docker build -t dotfiles:fedora23 -f Dockerfile.fedora23 .
 
 build-docker-debian-8:
-	sudo docker build -t dotfiles:debian-8 docker/debian/8
+	sudo docker build -t dotfiles:debian-8 -f Dockerfile.debian8 .
 
 build-docker-ubuntu-12.04:
-	sudo docker build -t dotfiles:ubuntu-12.04 docker/ubuntu/12.04
+	sudo docker build -t dotfiles:ubuntu-12.04 -f Dockerfile.ubuntu12.04 .
 
 build-docker-ubuntu-14.04:
-	sudo docker build -t dotfiles:ubuntu-14.04 docker/ubuntu/14.04
+	sudo docker build -t dotfiles:ubuntu-14.04 -f Dockerfile.ubuntu14.04 .
 
 build-docker-ubuntu-15.04:
-	sudo docker build -t dotfiles:ubuntu-15.04 docker/ubuntu/15.04
+	sudo docker build -t dotfiles:ubuntu-15.04 -f Dockerfile.ubuntu15.04 .
 
 
 pip_upgrade_pip:
