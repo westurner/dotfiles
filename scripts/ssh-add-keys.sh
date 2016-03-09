@@ -153,7 +153,7 @@ function _debug {
 function ssh_add_keys {
     ## ssh_add_keys()  -- ssh_add_keys main function (help, args, tasks)
     local _args=${@}
-    if [ -z "${@}" ]; then
+    if [[ "${@}" == "" ]]; then
         ssh_add_keys_help
         exit
     fi
