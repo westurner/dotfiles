@@ -46,7 +46,7 @@ function dhelp_shell {
 function dhelp_help {
     ## dhelp_help() -- grep shell comments in this file ($BASH_SOURCE)
     local _file="${1:-"${BASH_SOURCE}"}"
-    echo "#### << ${_file} >>";
+    echo "####  ${_file} ";
     dhelp_shell "${_file}"
     return
 }
@@ -60,21 +60,23 @@ function dhelp_inputrc {
 function dhelp_inputrc__dotfiles {
     ## dhelp_inputrc__dotfiles() -- grep comments in etc/.inputrc
     local _inputrc="${1:-${__DOTFILES:+"${__DOTFILES}/etc/.inputrc"}}"
-    echo "#### << ${_inputrc} >>";
+    echo "####  ${_inputrc} ";
     dhelp_inputrc "${_inputrc}"
     return
 }
 
 function dhelp_bash__dotfiles {
     ## dhelp_bash__dotfiles()    -- grep comments in etc/bash/*.sh
-    local -a paths=${@}
     local prefix=${__DOTFILES}
+    local -a paths=${@:-$(cd "${prefix}"; find etc/bash/*)}
     (cd "${prefix}";
-        for _file in ${paths:-$(ls etc/bash/*)}; do
-            echo "#### << ${_file} >>";
-            dhelp_shell "${_file}"
-            echo "   ";
-            echo "   ";
+        for _file in ${paths}; do
+            if [ -f "${_file}" ]; then
+                echo "####  ${_file} ";
+                dhelp_shell "${_file}"
+                echo "   ";
+                echo "   ";
+            fi
         done
     )
 }
@@ -85,7 +87,7 @@ function dhelp_zsh__dotfiles {
     local prefix=${__DOTFILES}
     (cd "${prefix}";
         for _file in ${paths:-$(ls etc/zsh/*.sh)}; do
-            echo "#### << ${_file} >>";
+            echo "####  ${_file} ";
             dhelp_shell "${_file}"
             echo "   ";
             echo "   ";
@@ -96,7 +98,7 @@ function dhelp_zsh__dotfiles {
 function dhelp_i3 {
     ## dhelp_i3()                -- grep comments in an i3/config
     local _i3cfg="${1}"
-    echo "#### << ${_i3cfg} >>";
+    echo "####  ${_i3cfg} ";
     if [ -f "$_i3cfg" ]; then
         "${PYLINE}" \
             -r '^(\s*)(#+)(\s)(\s*.*)' \
@@ -131,7 +133,7 @@ function dhelp_vimrc__dotfiles {
     ## dhelp_vimrc__dotfiles()   -- grep comments in etc/vim/vimrc*
     (cd "$__DOTFILES";
         for f in $(ls etc/vim/vimrc*); do
-            echo "#### << $f >>";
+            echo "####  $f ";
             dhelp_vimrc "${f}"
             echo "   ";
             echo "   ";
@@ -147,25 +149,26 @@ function dhelp_test {
         #_setup_dotfiles_help_symlinks
         #_setup_dotfiles
         dhelp_help
-        "${BASH_SOURCE}" -h -v
-        "${BASH_SOURCE}" -v -h
-        "${BASH_SOURCE}" -h
-        "${BASH_SOURCE}" -d all
-        "${BASH_SOURCE}" -v all
-        "${BASH_SOURCE}" -e all
-        "${BASH_SOURCE}" all
-        "${BASH_SOURCE}" -d inputrc
-        "${BASH_SOURCE}" inputrc
-        "${BASH_SOURCE}" -d readline
-        "${BASH_SOURCE}" readline
-        "${BASH_SOURCE}" -d bash
-        "${BASH_SOURCE}" bash
-        "${BASH_SOURCE}" -d zsh
-        "${BASH_SOURCE}" zsh
-        "${BASH_SOURCE}" -d i3
-        "${BASH_SOURCE}" i3
-        "${BASH_SOURCE}" -d vim
-        "${BASH_SOURCE}" vim
+        local dhelp="${BASH_SOURCE}"
+        "${dhelp}" -h -v
+        "${dhelp}" -v -h
+        "${dhelp}" -h
+        "${dhelp}" -d all
+        "${dhelp}" -v all
+        "${dhelp}" -e all
+        "${dhelp}" all
+        "${dhelp}" -d inputrc
+        "${dhelp}" inputrc
+        "${dhelp}" -d readline
+        "${dhelp}" readline
+        "${dhelp}" -d bash
+        "${dhelp}" bash
+        "${dhelp}" -d zsh
+        "${dhelp}" zsh
+        "${dhelp}" -d i3
+        "${dhelp}" i3
+        "${dhelp}" -d vim
+        "${dhelp}" vim
         dhelp__command
         dhelp_shell
         dhelp_shell ~/.bashrc
