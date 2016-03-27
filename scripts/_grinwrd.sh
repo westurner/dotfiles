@@ -12,28 +12,28 @@
 # virtualenv & virtualenvwrapper
 function grinv {
     # grinv()   -- grin $VIRTUAL_ENV
-    grin --follow $@ "${VIRTUAL_ENV}"
+    grin --follow "$@" "${VIRTUAL_ENV}"
 }
 
 function grindv {
     # grindv()  -- grind $VIRTUAL_ENV
-    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+    grind --follow "$@" --dirs "${VIRTUAL_ENV}"
 }
 
 # venv
 function grins {
     # grins()   -- grin $_SRC
-    grin --follow $@ "${_SRC}"
+    grin --follow "$@" "${_SRC}"
 }
 
 function grinds {
     # grinds()  -- grind $_SRC
-    grind --follow $@ --dirs "${_SRC}"
+    grind --follow "$@" --dirs "${_SRC}"
 }
 
 function grinw {
     # grinw()   -- grin $_WRD
-    grin --follow $@ "${_WRD}"
+    grin --follow "$@" "${_WRD}"
 }
 
 function grindw {
@@ -43,17 +43,17 @@ function grindw {
 
 function edit_grin_w {
     # edit_grin_w() -- edit $(grinw -l $@)
-    edit $(grinw -l $@)
+    edit $(grinw -l "$@")
 }
 
 function egw {
     # egw           -- edit $(grinw -l $@)
-    edit_grin_w $@
+    edit_grin_w "$@"
 }
 
 function edit_grind_wrd {
-    (IFS='\n' edit $(grind ${@} --follow --dirs "${_WRD}"))
-    grindw ${@} | el -v -e
+    (IFS='\n' edit $(grind "${@}" --follow --dirs "${_WRD}"))
+    grindw "${@}" | el -v -e
 }
 
 ## ctags (exuberant ctags)
@@ -64,7 +64,8 @@ function grindctags {
     # grindctags()      -- generate ctags from grind (in ./tags)
     local ctagsbin=
     local path=${1:-'.'}
-    local grindargs=${2}
+    shift
+    # local grindargs=${@}
     if [ -n "${__IS_MAC}" ]; then
         if [ -x "/usr/local/bin/ctags" ]; then
             # brew install ctags
@@ -77,7 +78,7 @@ function grindctags {
     fi
     (set -x -v;
     cd "${path}";
-    grind --follow ${grindargs} --dirs "${path}" \
+    grind --follow "${@}" --dirs "${path}" \
         | grep -v 'min.js$' \
         | ${ctagsbin} -L - 2>"${path}/tags.err" \
         && wc -l "${path}/tags.err";
