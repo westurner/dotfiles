@@ -4,7 +4,7 @@ etc/vim/vimrc
 
 .. code:: vim
 
-   .
+   
    .vimrc
    ==========
    ::
@@ -334,7 +334,7 @@ etc/vim/vimrc
      - http://superuser.com/questions/117969/is-there-a-way-to-move-a-split-page-to-a-new-tab-in-vim
      - http://sontek.net/turning-vim-into-a-modern-python-ide
      - http://vim.wikia.com/wiki/VimTip320
-   .
+   
 
    
    
@@ -344,7 +344,7 @@ etc/vim/vimrc.full.bundles.vimrc
 
 .. code:: vim
 
-   .
+   
    Bundle            -- Vim bundle manager [help bundle]
    :BundleList          - list configured plugins
    :BundleInstall(!)    - install (update) plugins
@@ -681,7 +681,7 @@ etc/vim/vimrc.full.bundles.vimrc
    abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
    fountain.vim          -- fountain.io syntax
    All of your Bundles must be added before the following line
-   .
+   
 
    
    
@@ -691,7 +691,7 @@ etc/vim/vimrc.tinyvim.bundles.vimrc
 
 .. code:: vim
 
-   .
+   
    Bundle            -- Vim bundle manager [help bundle]
    :BundleList          - list configured plugins
    :BundleInstall(!)    - install (update) plugins
@@ -761,7 +761,7 @@ etc/vim/vimrc.tinyvim.bundles.vimrc
    Jinja         -- Jinja Templates syntax
    Salt      -- Salt syntax
    All of your Bundles must be added before the following line
-   .
+   
 
    
    

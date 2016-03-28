@@ -4,6 +4,6 @@ etc/i3/config
 
 .. code:: bash
 
-   .
-   .
+   
+   
 

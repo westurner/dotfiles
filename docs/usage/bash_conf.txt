@@ -4,7 +4,7 @@ etc/bash/00-bashrc.before.sh
 
 .. code:: bash
 
-   .
+   
    ## 00-bashrc.before.sh     -- bash dotfiles configuration root
       source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
     
@@ -134,7 +134,7 @@ etc/bash/00-bashrc.before.sh
      ## 99-bashrc.after.sh         -- after: cleanup
          dr()  -- dotfiles_reload
          ds()  -- print dotfiles_status()
-   .
+   
 
    
    
@@ -144,7 +144,7 @@ etc/bash/01-bashrc.lib.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.lib.sh
    ## bash
          echo_args         -- echo $@ (for checking quoting)
@@ -169,7 +169,7 @@ etc/bash/01-bashrc.lib.sh
          ensure_symlink()  -- create or update a symlink to $2 from $1
                               if $2 exists, backup with suffix $3
          ensure_mkdir()    -- create directory $1 if it does not yet exist
-   .
+   
 
    
    
@@ -179,14 +179,14 @@ etc/bash/02-bashrc.platform.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.platform.sh
          detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
          j()               -- jobs
          f()               -- fg %$1
          b()               -- bg %$1
          killjob()         -- kill %$1
-   .
+   
 
    
    
@@ -196,7 +196,7 @@ etc/bash/03-bashrc.darwin.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.darwin.sh
      softwareupdate                -- install OSX updates
       | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
@@ -220,7 +220,7 @@ etc/bash/03-bashrc.darwin.sh
                                     (and close all Finder windows)
          finder-show-hidden()    -- show .hidden files in Finder.app
                                     (and close all Finder windows)
-   .
+   
 
    
    
@@ -230,14 +230,14 @@ etc/bash/04-bashrc.TERM.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.TERM.sh
          configure_TERM            -- configure the $TERM variable (man terminfo)
            $1: (optional; autodetects if -z)
          configure_TERM_CLICOLOR   -- configure $CLICOLOR and $CLICOLOR_256
            CLICOLOR=1
          configure_TERM when sourced
-   .
+   
 
    
    
@@ -247,7 +247,7 @@ etc/bash/05-bashrc.dotfiles.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.dotfiles.sh
          dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
          shell_escape_single()
@@ -288,7 +288,7 @@ etc/bash/05-bashrc.dotfiles.sh
        ## unset _MSG
        ## unset NOTE
        ## unset TODO
-   .
+   
 
    
    
@@ -298,11 +298,11 @@ etc/bash/06-bashrc.completion.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.completion.sh
          _configure_bash_completion()  -- configure bash completion
                                        note: `complete -p` lists completions
-   .
+   
 
    
    
@@ -312,14 +312,14 @@ etc/bash/07-bashrc.python.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.python.sh
          pypath()              -- print python sys.path and site config
          _setup_python()       -- configure $PYTHONSTARTUP
          _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
    ## Pyenv
          _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw
-   .
+   
 
    
    
@@ -329,7 +329,7 @@ etc/bash/07-bashrc.virtualenvwrapper.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.virtualenvwrapper.sh
     
      Installing Virtualenvwrapper:
@@ -363,7 +363,7 @@ etc/bash/07-bashrc.virtualenvwrapper.sh
             $2="$VIRTUAL_ENV"
          rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
        _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
-   .
+   
 
    
    
@@ -373,7 +373,7 @@ etc/bash/08-bashrc.conda.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.conda.sh
    ## Conda / Anaconda
      see: 05-bashrc.dotfiles.sh
@@ -424,7 +424,7 @@ etc/bash/08-bashrc.conda.sh
          rmvirtualenv_conda()  -- rmvirtualenv conda
          mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
          workon_conda_if_available()       -- workon_conda OR we OR workon
-   .
+   
 
    
    
@@ -434,7 +434,7 @@ etc/bash/08-bashrc.conda.sh.un~
 
 .. code:: bash
 
-   .
+   
    ### bashrc.conda.sh
    ## Conda / Anaconda
      see: 05-bashrc.dotfiles.sh
@@ -485,7 +485,7 @@ etc/bash/08-bashrc.conda.sh.un~
          rmvirtualenv_conda()  -- rmvirtualenv conda
          mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
          workon_conda_if_available()       -- workon_conda OR we OR workon
-   .
+   
 
    
    
@@ -495,7 +495,7 @@ etc/bash/08-bashrc.gcloud.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.gcloud.sh
        ## _get_GCLOUDSDK_PREFIX()   -- get GCLOUDSDK_PREFIX
            $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
@@ -513,7 +513,7 @@ etc/bash/08-bashrc.gcloud.sh
                      default: /usr/local/google_appengine
                      ${APPENGINESDK_PREFIX}
        ## _unsetup_appenginesdk() -- PATH_remove ${APPENGINESDK_PREFIX}
-   .
+   
 
    
    
@@ -523,7 +523,7 @@ etc/bash/10-bashrc.venv.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.venv.sh
        note: most of these aliases and functions are overwritten by `we` 
    ## Variables
@@ -572,7 +572,7 @@ etc/bash/10-bashrc.venv.sh
          venv_ls()     -- list virtualenv directories
          lsvenv()      -- venv_ls()
          venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
-   .
+   
 
    
    
@@ -582,10 +582,10 @@ etc/bash/11-bashrc.venv.pyramid.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.venv.pyramid.sh
          workon_pyramid_app()  -- $VIRTUAL_ENV_NAME [$_APP] [open_terminals]
-   .
+   
 
    
    
@@ -595,7 +595,7 @@ etc/bash/20-bashrc.editor.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.editor.sh
          setup_editor()    -- configure ${EDITOR}
            VIMBIN  (str):   /usr/bin/vim
@@ -612,7 +612,7 @@ etc/bash/20-bashrc.editor.sh
          editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
          sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
          sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
-   .
+   
 
    
    
@@ -622,7 +622,7 @@ etc/bash/29-bashrc.vimpagers.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.vimpagers.sh
          _configure_lesspipe() -- (less <file.zip> | lessv)
          vimpager() -- call vimpager
@@ -632,7 +632,7 @@ etc/bash/29-bashrc.vimpagers.sh
          manv()    -- view manpages in vim
          mang()    -- view manpages in gvim / mvim
          mane()    -- open manpage with venv's vim server
-   .
+   
 
    
    
@@ -642,7 +642,7 @@ etc/bash/30-bashrc.usrlog.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.usrlog.sh
          _USRLOG (str): path to .usrlog userspace shell command log
          stid()      -- set $TERM_ID to a random string
@@ -661,7 +661,7 @@ etc/bash/30-bashrc.usrlog.sh
          usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
          usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
          usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
-   .
+   
 
    
    
@@ -671,7 +671,7 @@ etc/bash/30-bashrc.xlck.sh
 
 .. code:: bash
 
-   .
+   
    ### 30-bashrc.xlck.sh
    ## xlck     -- minimal X screensaver
          xlck 
@@ -688,7 +688,7 @@ etc/bash/30-bashrc.xlck.sh
          xlck_status_all()             -- pgrep 'xautolock|xlock|i3lock', ps ufw
          xlck_status_this_display()    -- show status for this $DISPLAY
          _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
-   .
+   
 
    
    
@@ -698,7 +698,7 @@ etc/bash/40-bashrc.aliases.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.aliases.sh
           _load_aliases()  -- load aliases
          chmodr   -- 'chmod -R'
@@ -780,7 +780,7 @@ etc/bash/40-bashrc.aliases.sh
          t        -- 'tail'
          tf       -- 'tail -f'
          xclipc   -- 'xclip -selection c'
-   .
+   
 
    
    
@@ -790,7 +790,7 @@ etc/bash/42-bashrc.commands.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.commands.sh
      usage: bash -c 'source bashrc.commands.sh; funcname <args>'
          chown-me()        -- chown -Rv user
@@ -798,7 +798,7 @@ etc/bash/42-bashrc.commands.sh
          chown-sme()       -- sudo chown -Rv user
          chown-sme-mine()  -- sudo chown -Rv user:user && chmod -Rv go-rwx
          chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
-   .
+   
 
    
    
@@ -808,7 +808,7 @@ etc/bash/50-bashrc.bashmarks.sh
 
 .. code:: bash
 
-   .
+   
    ### bashrc.bashmarks.sh
    ## bashmarks
          l()  -- list bashmarks
@@ -818,7 +818,7 @@ etc/bash/50-bashrc.bashmarks.sh
          d()  -- delete bashmark $1
          lsbashmarks() -- list Bashmarks (e.g. for NERDTree)
          see also: ${__DOTFILES}/scripts/nerdtree_to_bashmarks.py
-   .
+   
 
    
    
@@ -828,7 +828,7 @@ etc/bash/70-bashrc.repos.sh
 
 .. code:: bash
 
-   .
+   
    ### 70-bashrc.repos.sh
           git-commit()   -- git commit ${2:} -m ${1}; git log -n1 
           gc()             -- git-commit() <files> -m <log> ; log log -n1
@@ -916,7 +916,7 @@ etc/bash/70-bashrc.repos.sh
                              TODO: prompt?
              >> 'html_theme = "_-_"
              << 'html_theme = 'default'
-   .
+   
 
    
    
@@ -926,8 +926,8 @@ etc/bash/99-bashrc.after.sh
 
 .. code:: bash
 
-   .
-   .
+   
+   
 
    
    
@@ -937,7 +937,7 @@ etc/bash/_ewrd.sh
 
 .. code:: bash
 
-   .
+   
    ###   _ewrd.sh  -- convenient editor shortcuts
          # setup edit[*] and e[*] symlinks:
          $ ln -s ./_ewrd.sh _ewrd-setup.sh && ./_ewrd-setup.sh
@@ -978,7 +978,7 @@ etc/bash/_ewrd.sh
         type cdhelp; cdhelp 
         less scripts/venv_cdaliases.sh
         venv.py --prefix=/ --print-bash-cdaliases
-   .
+   
 
    
    
@@ -988,7 +988,7 @@ etc/bash/_grinwrd.sh
 
 .. code:: bash
 
-   .
+   
    ### _grinwrd.sh --- Grin search functions
      TODO:
       - [ ] TST: *
@@ -1018,7 +1018,7 @@ etc/bash/_grinwrd.sh
    ## seeAlso ##
      * https://westurner.org/dotfiles/venv
      * _ewrd.sh
-   .
+   
 
    
    
@@ -1028,7 +1028,7 @@ etc/bash/usrlog.sh
 
 .. code:: bash
 
-   .
+   
    ### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
     
       Log shell commands with metadata as tab-separated lines to ${_USRLOG}
@@ -1187,7 +1187,7 @@ etc/bash/usrlog.sh
           usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}
           _setup_usrlog() -- call _usrlog_setup $@
    ## calls _usrlog_setup when sourced
-   .
+   
 
    
    
@@ -1197,7 +1197,7 @@ etc/bash/xlck.sh
 
 .. code:: bash
 
-   .
+   
    ### xlck.sh -- script wrapper for xautolock, xlock, and/or i3lock
    ##             as well as issuing suspend, shutdown, and restart commands
          xlck()            -- xlck $@
@@ -1236,7 +1236,7 @@ etc/bash/xlck.sh
          xlck_status_this_display()  -- show status for this $DISPLAY
          _xlck_xautolock()           -- start xautolock (see: xlck_start)
              return nonzero if no args
-   .
+   
 
    
    
