@@ -177,13 +177,26 @@ help_readline_txt:
 	bash scripts/_dotfileshelp.sh readline \
 		> docs/usage/readline_conf.txt
 
+help_dhelp_rst:
+	echo "" > docs/usage/dhelp.rst
+	echo ".. index:: Usage (dhelp)" >> docs/usage/dhelp.rst
+	echo ".. _dhelp:"      >> docs/usage/dhelp.rst
+	echo ""				   >> docs/usage/dhelp.rst
+	echo "===============" >> docs/usage/dhelp.rst
+	echo "Usage (dhelp)"   >> docs/usage/dhelp.rst
+	echo "===============" >> docs/usage/dhelp.rst
+	echo ""                >> docs/usage/dhelp.rst
+	PRINTF_INDEX=1 bash scripts/_dotfileshelp.sh all \
+		>> docs/usage/dhelp.rst
+
 help_txt: \
 	help_setuppy_txt \
 	help_readline_txt \
 	help_bash_txt \
 	help_vim_txt \
 	help_i3_txt \
-	help_zsh_txt
+	help_zsh_txt \
+	help_dhelp_rst
 
 help_all:
 	$(MAKE) help
@@ -196,6 +209,7 @@ help_all:
 	$(MAKE) help_vim_txt
 	$(MAKE) help_i3
 	$(MAKE) help_i3_txt
+	$(MAKE) help_dhelp_rst
 
 install:
 	$(MAKE) install_symlinks
@@ -516,6 +530,7 @@ docs: localcss localjs pip_install_requirements_docs.log
 	$(MAKE) help_zsh_txt
 	$(MAKE) help_vim_txt
 	$(MAKE) help_i3_txt
+	$(MAKE) help_dhelp_rst
 	$(MAKE) docs_commit_autogen
 	$(MAKE) -C docs clean html   # singlehtml
 	$(MAKE) docs_write_rev_txt
@@ -538,6 +553,7 @@ DOCS_AUTOGEN_FILES:=\
 	docs/usage/zsh_conf.txt \
 	docs/usage/i3_conf.txt \
 	docs/usage/dotvim_conf.txt \
+	docs/usage/dhelp.rst \
 	$(BASH_LOAD_SCRIPT) \
 	$(ZSH_LOAD_SCRIPT)
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### dotfileshelp.sh -- grep for comments in readline, bash, zsh, i3, vim cfg
+### _dotfileshelp.sh -- grep for comments in readline, bash, zsh, i3, vim cfg
 
 _DOTFILES_GREP_NUMBER_LINES=""
 
@@ -28,10 +28,30 @@ _DOTFILES_GREP_NUMBER_LINES=""
 #         $ dh zsh
 #         $ dh i3
 #         $ dh vim
+#         $ dh dotfiles
 #
 #  ### dhelp bash functions:
 #
+
+if [ -z "${__DOTFILES}" ]; then
+    if [ -n "${BASH_SOURCE}" ]; then
+        __DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")"
+    else
+        echo "Err: __DOTFILES is not set. defaulting to '.'" >&2
+        __DOTFILES="."
+    fi
+fi
+
 PYLINE="${PYLINE:-"${__DOTFILES}/scripts/pyline.py"}"
+if [ ! -f "${PYLINE}" ]; then
+    echo 'Err: PYLINE="'"${PYLINE}"'" not found'
+fi
+
+_SRC_GITBRANCH="${_SRC_GITBRANCH:-"develop"}"
+_SRC_URL="https://github.com/westurner/dotfiles/tree/${_SRC_GITBRANCH}"
+
+_SRC_GITBRANCH__DOTVIM="${_SRC_GITBRANCH__DOTVIM:-"master"}"
+_SRC_URL__DOTVIM="https://github.com/westurner/dotvim/tree/${_SRC_GITBRANCH__DOTVIM}"
 
 function dhelp_shell {
     ## dhelp_shell()             -- grep comments in a .sh file
@@ -46,23 +66,54 @@ function dhelp_shell {
 function dhelp_help {
     ## dhelp_help() -- grep shell comments in this file ($BASH_SOURCE)
     local _file="${1:-"${BASH_SOURCE}"}"
-    echo "####  ${_file} ";
-    dhelp_shell "${_file}"
+    printf_file_heading "=" "${_file}"
+    dhelp_shell "${_file}" \
+        | printf_code "bash"
+    echo ""
+    echo ""
+    return
+}
+
+function dhelp_dotfiles {
+    ## dhelp_dotfiles()          -- grep comments in bootstrap_dotfiles.sh
+    local _file="${1:-"${__DOTFILES}/scripts/bootstrap_dotfiles.sh"}"
+    printf_file_heading "=" "${_file}"
+    dhelp_shell "${_file}" \
+        | printf_code "bash"
+    echo ""
+    echo ""
     return
 }
 
 function dhelp_inputrc {
     ## dhelp_inputrc()           -- grep comments in a readline .inputrc
     local _inputrc="${1}"
-    dhelp_shell "${_inputrc}"
+    printf_file_heading "=" "${_inputrc}"
+    dhelp_shell "${_inputrc}" \
+        | printf_code
 }
 
 function dhelp_inputrc__dotfiles {
     ## dhelp_inputrc__dotfiles() -- grep comments in etc/.inputrc
-    local _inputrc="${1:-${__DOTFILES:+"${__DOTFILES}/etc/.inputrc"}}"
-    echo "####  ${_inputrc} ";
-    dhelp_inputrc "${_inputrc}"
-    return
+    local _inputrc="${1}"
+    if [ -z "${inputrc}" ]; then
+        (cd "${__DOTFILES}";
+        _file="etc/.inputrc";
+        dhelp_inputrc "${_file}"
+        )
+        return
+    else
+        dhelp_inputrc "${_inputrc}"
+        return
+    fi
+}
+
+function dhelp_bash {
+    ## dhelp_bash()              -- grep comments in a .sh file
+    local _file="${1}"
+    printf_file_heading "=" "${_file}"
+    dhelp_shell "${_file}" \
+        | printf_code "bash"
 }
 
 function dhelp_bash__dotfiles {
@@ -72,13 +123,20 @@ function dhelp_bash__dotfiles {
     (cd "${prefix}";
         for _file in ${paths}; do
             if [ -f "${_file}" ]; then
-                echo "####  ${_file} ";
-                dhelp_shell "${_file}"
+                dhelp_bash "${_file}"
                 echo "   ";
                 echo "   ";
             fi
         done
     )
+}
+
+function dhelp_zsh {
+    ## dhelp_zsh()               -- grep comments in a zsh .sh file
+    local _file="${1}"
+    printf_file_heading "=" "${_file}"
+    dhelp_shell "${_file}" \
+        | printf_code "bash"
 }
 
 function dhelp_zsh__dotfiles {
@@ -87,8 +145,7 @@ function dhelp_zsh__dotfiles {
     local prefix=${__DOTFILES}
     (cd "${prefix}";
         for _file in ${paths:-$(ls etc/zsh/*.sh)}; do
-            echo "####  ${_file} ";
-            dhelp_shell "${_file}"
+            dhelp_zsh "${_file}"
             echo "   ";
             echo "   ";
         done
@@ -98,21 +155,20 @@ function dhelp_zsh__dotfiles {
 function dhelp_i3 {
     ## dhelp_i3()                -- grep comments in an i3/config
     local _i3cfg="${1}"
-    echo "####  ${_i3cfg} ";
-    if [ -f "$_i3cfg" ]; then
-        "${PYLINE}" \
-            -r '^(\s*)(#+)(\s)(\s*.*)' \
-            'rgx and "%s%s%s%s" % ((rgx.group(1), "" if len(rgx.group(2)) == 1 else rgx.group(2), rgx.group(3), rgx.group(4)))' \
-            -f "${_i3cfg}" \
-            "${_DOTFILES_GREP_NUMBER_LINES}" ;
-    fi
+    printf_file_heading "=" "${_i3cfg}"
+    "${PYLINE}" \
+        -r '^(\s*)(#+)(\s)(\s*.*)' \
+        'rgx and "%s%s%s%s" % ((rgx.group(1), "" if len(rgx.group(2)) == 1 else rgx.group(2), rgx.group(3), rgx.group(4)))' \
+        -f "${_i3cfg}" \
+        "${_DOTFILES_GREP_NUMBER_LINES}" \
+            | printf_code "bash";
 }
 
 function dhelp_i3__dotfiles {
     ## dhelp_i3__dotfiles()      -- grep comments in etc/i3/config
-    local _i3cfg="${1:-${__DOTFILES:+"${__DOTFILES}/etc/i3/config"}}"
-    if [ -z "${_i3cfg}" ]; then
-        echo "# dotfileshelp: ERR: ${__DOTFILES} is unset"
+    local _i3cfg="${1:-"${__DOTFILES}/etc/i3/config"}"
+    if [ ! -f "${_i3cfg}" ]; then
+        echo "# ERR: _i3cfg='${_i3cfg}' is unset"  # TODO: shell_quote_single
         return 1
     fi
     dhelp_i3 "${_i3cfg}"
@@ -122,18 +178,77 @@ function dhelp_i3__dotfiles {
 function dhelp_vimrc {
     ## dhelp_vimrc()             -- grep comments in a .vim / vimrc file
     local _file="${1}"
+    #printf_file_heading "=" "${_file}"
+    printf_file_heading__dotvim "=" "${_file}"
     "${PYLINE}" \
         -r '^(\s*)"\s(\s*.*)' \
         'rgx and "{}{}".format(rgx.group(1), rgx.group(2))' \
         -f "${_file}" \
-        "${_DOTFILES_GREP_NUMBER_LINES}" ;
+        "${_DOTFILES_GREP_NUMBER_LINES}" \
+            | printf_code "vim";
+}
+
+function printf_underline {
+    local _char="${1}"
+    shift
+    local str="${@}"
+    printf "${_char}"'%.s' $(seq 1 $(echo "${str}" | wc -c))
+}
+
+function printf_heading {
+    local _char="${1}"
+    shift
+    local str="${@}"
+    echo "${str}"
+    printf_underline "${_char}" "${str}"
+    echo ""
+}
+
+function printf_file_heading {
+    local _char="${1}"
+    shift
+    local str="${@}"
+    local _filename_url=$(echo "${str}" | sed 's;^'"${__DOTFILES}/"'\(.*\)$;\1;g' -)
+    if [ -n "${PRINTF_INDEX}" ]; then
+        echo ".. index:: ${_filename_url}"
+        echo ".. _${_filename_url}:"
+        echo ""
+    fi
+    printf_heading "${_char}" "${_filename_url}"
+    echo "| Src: \`${_filename_url} <${_SRC_URL}/${_filename_url}>\`__"
+    echo ""
+}
+
+function printf_file_heading__dotvim {
+    local _char="${1}"
+    shift
+    local str="${@}"
+    local _filename_str=$(echo "${str}" | sed 's;^'"${__DOTFILES}/"'\(.*\)$;\1;g' -)
+    local _filename_url=$(echo "${_filename_str}" | sed 's;^etc/vim/\(.*\)$;\1;g' -)
+    if [ -n "${PRINTF_INDEX}" ]; then
+        echo ".. index:: ${_filename_str}"
+        echo ".. _${_filename_str}:"
+        echo ""
+    fi
+    printf_heading "${_char}" "${_filename_str}"
+    echo "| Src: \`${_filename_str} <${_SRC_URL__DOTVIM}/${_filename_url}>\`__"
+    echo ""
+}
+
+function printf_code {
+    local pygments_format="${1}"
+    echo ".. code::${pygments_format+" ${pygments_format}"}" 
+    echo ""
+    echo "   ."
+    cat - | sed 's/^/   \0/g'
+    echo "   ."
+    echo ""
 }
 
 function dhelp_vimrc__dotfiles {
     ## dhelp_vimrc__dotfiles()   -- grep comments in etc/vim/vimrc*
     (cd "$__DOTFILES";
         for f in $(ls etc/vim/vimrc*); do
-            echo "####  $f ";
             dhelp_vimrc "${f}"
             echo "   ";
             echo "   ";
@@ -157,6 +272,8 @@ function dhelp_test {
         "${dhelp}" -v all
         "${dhelp}" -e all
         "${dhelp}" all
+        "${dhelp}" -d dotfiles
+        "${dhelp}" dotfiles
         "${dhelp}" -d inputrc
         "${dhelp}" inputrc
         "${dhelp}" -d readline
@@ -187,6 +304,8 @@ function dhelp_test {
         dhelp_vimrc ~/.vimrc
         dhelp_vimrc__dotfiles
         dhelp_vimrc__dotfiles ~/.vimrc
+        dhelp_dotfiles
+        dhelp_dotfiles "${__DOTFILES}/scripts/bootstrap_dotfiles.sh"
     }
     (set -e; dhelp_test_each)
     return
@@ -204,6 +323,7 @@ function _setup_dotfiles_help_symlinks {
         "dotfileshelp-vim" "dotfiles-vim.sh"
         "dotfileshelp-i3" "dotfiles-i3.sh"
         "dotfileshelp-zsh"
+        "dotfileshelp-dotfiles"
     )
     test -e "${scriptname}" \
         || (echo "ERR: _dotfileshelp.sh not found" \
@@ -231,6 +351,7 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
             all|dotfileshelp-all)
                 _cmdsrun+=("${arg}")
                 dhelp_help
+                dhelp_dotfiles
                 dhelp_inputrc__dotfiles
                 dhelp_bash__dotfiles
                 dhelp_zsh__dotfiles
@@ -238,25 +359,29 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
                 dhelp_vimrc__dotfiles
                 ;;
 
+            dotfiles)
+                _cmdsrun+=("${arg}")
+                dhelp_dotfiles "${@}"
+                ;;
             readline|inputrc|dotfileshelp-readline)
                 _cmdsrun+=("${arg}")
-                dhelp_inputrc__dotfiles ${@}
+                dhelp_inputrc__dotfiles "${@}"
                 ;;
             bash|dotfiles-bash.sh|dotfileshelp-bash)
                 _cmdsrun+=("${arg}")
-                dhelp_bash__dotfiles ${@}
+                dhelp_bash__dotfiles "${@}"
                 ;;
             zsh|dotfileshelp-zsh)
                 _cmdsrun+=("${arg}")
-                dhelp_zsh__dotfiles ${@}
+                dhelp_zsh__dotfiles "${@}"
                 ;;
             vim|vimrc|dotfiles-vim.sh|dotfileshelp-vim)
                 _cmdsrun+=("${arg}")
-                dhelp_vimrc__dotfiles ${@}
+                dhelp_vimrc__dotfiles "${@}"
                 ;;
             i3|i3wm|dotfiles-i3.sh|dotfileshelp-i3)
                 _cmdsrun+=("${arg}")
-                dhelp_i3__dotfiles ${@}
+                dhelp_i3__dotfiles "${@}"
                 ;;
 
             -h|--help|help|_dotfileshelp.sh|dotfileshelp)

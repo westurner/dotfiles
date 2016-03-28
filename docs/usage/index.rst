@@ -2,6 +2,8 @@
 .. index:: Usage
 .. _usage:
 
+
+
 Usage
 =======
 * :ref:`Install the dotfiles` with `bootstrap_dotfiles.sh`_
@@ -17,11 +19,12 @@ Usage
 
 bootstrap_dotfiles.sh
 -----------------------
-| https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
+| Src: https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh
+| Docs: :ref:`scripts/bootstrap_dotfiles.sh`
 
 ``bash scripts/bootstrap_dotfiles.sh -h``:
 
-.. command-output:: bash $_WRD/scripts/bootstrap_dotfiles.sh -h
+.. command-output:: bash ../../scripts/bootstrap_dotfiles.sh -h
    :shell:
 
 
@@ -30,7 +33,8 @@ bootstrap_dotfiles.sh
 
 Makefile
 -------------
-| https://github.com/westurner/dotfiles/blob/master/Makefile
+| Src: https://github.com/westurner/dotfiles/blob/master/Makefile
+| Src: https://github.com/westurner/dotfiles/blob/develop/Makefile
 
 .. code:: bash
 ``make help``:
@@ -44,13 +48,14 @@ Makefile
 
 Readline
 ---------
-| https://github.com/westurner/dotfiles/blob/master/etc/.inputrc
+| Src: https://github.com/westurner/dotfiles/blob/master/etc/.inputrc
+| Docs: :ref:`etc/.inputrc`
 
 .. code:: bash
 
    dhelp readline  # == dhelp inputrc
 
-.. literalinclude:: usage/readline_conf.txt
+.. literalinclude:: ./readline_conf.txt
 
 
 .. index:: Dotfiles Bash Configuration
@@ -59,14 +64,16 @@ Readline
 Bash
 -----
 | Src: https://github.com/westurner/dotfiles/blob/master/etc/.bashrc
+| Docs: :ref:`etc/.bashrc`
 | Src: https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh
+| Docs: :ref:`etc/bash/00-bashrc.before.sh`
 
 .. code:: bash
 
    dhelp bash
 
 
-.. literalinclude:: usage/bash_conf.txt
+.. literalinclude:: ./bash_conf.txt
 
 
 .. index:: Dotfiles ZSH Configuration
@@ -74,14 +81,16 @@ Bash
 
 ZSH
 -----
-| https://github.com/westurner/dotfiles/blob/master/etc/.zshrc
-| https://github.com/westurner/dotfiles/blob/master/etc/zsh/00-zshrc.before.sh
+| Src: https://github.com/westurner/dotfiles/blob/master/etc/.zshrc
+| Src: https://github.com/westurner/dotfiles/blob/master/etc/zsh/00-zshrc.before.sh
+| Docs: :ref:`etc/i3/config`
 
 .. code:: bash
 
    dhelp zsh
 
-.. literalinclude:: usage/zsh_conf.txt
+
+.. literalinclude:: ./zsh_conf.txt
 
 
 .. index:: Dotfiles i3wm Configuration
@@ -91,14 +100,15 @@ ZSH
 
 I3wm
 -----
-| https://github.com/westurner/dotfiles/blob/master/etc/.i3/config
-| https://github.com/westurner/dotfiles/blob/develop/etc/.i3/config
+| Src: https://github.com/westurner/dotfiles/blob/master/etc/.i3/config
+| Src: https://github.com/westurner/dotfiles/blob/develop/etc/.i3/config
+| Docs: :ref:`etc/i3/config`
 
 .. code:: bash
 
    dhelp i3
 
-.. literalinclude:: usage/i3_conf.txt
+.. literalinclude:: ./i3_conf.txt
 
 
 .. index:: Dotvim Usage
@@ -106,15 +116,18 @@ I3wm
 
 Vim
 -----
-| https://github.com/westurner/dotvim/blob/master/vimrc
-| https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc
-| https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc
+| Src: https://github.com/westurner/dotvim/blob/master/vimrc
+| Docs: :ref:`etc/vim/vimrc`
+| Src: https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc
+| Docs: :ref:`etc/vim/vimrc.full.bundles.vimrc`
+| Src: https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc
+| Docs: :ref:`etc/vim/vimrc.tinyvim.bundles.vimrc`
 
 .. code:: bash
 
    dhelp vim
 
-.. literalinclude:: usage/dotvim_conf.txt
+.. literalinclude:: ./dotvim_conf.txt
 
 
 .. index:: Dotfiles src/
@@ -205,7 +218,7 @@ venv
 
 venv.py
 +++++++++
-See: :ref:`venv`
+See: :ref:`venv`See: bootstrap
 
 venv_relabel.sh
 +++++++++++++++++
@@ -274,7 +287,9 @@ _dotfileshelp.sh
 
 gitw
 +++++++++++++++++++
-``cd $WRD; git ${@}``
+.. code:: bash
+   
+   $ gitw  # ~= (cd $WRD; git ${@})
 
 
 _grinwrd.sh
@@ -313,7 +328,9 @@ _grinwrd.sh
 
 makew
 +++++++
-``cd $WRD; make ${@}`` with bash completion.
+.. code:: bash
+
+   $ makew  # ~= (cd $WRD; make ${@}) # w/ bash completion
 
 
 usrlog.sh
@@ -323,9 +340,13 @@ TERM_IDs, PWD, start / finish times
 to ``~/-usrlog.log`` 
 or ``$VIRTUAL_ENV/-usrlog.log``.
 
+See: :ref:`usrlog`
+
 usrlog.py
 +++++++++++++++++++
-Search through ``.usrlog`` files
+Search through ``.usrlog`See: bootstrap` files
+
+See: :ref:`usrlog`
 
 
 git
@@ -335,14 +356,14 @@ git
 ++++++++++++++
 ``etc/gitconfig``
 
-.. literalinclude: ../etc/.gitconfig
+.. literalinclude:: ../../etc/.gitconfig
 
 
 .gitignore_global
 +++++++++++++++++++
 ``etc/.gitignore_global``
 
-.. literalinclude: ../etc/.gitignore_global
+.. literalinclude:: ../../etc/.gitignore_global
 
 
 gittagstohgtags.sh
@@ -355,6 +376,7 @@ git-changelog.py
 +++++++++++++++++++
 ``etc/scripts/git-changelog.py``
 
+See: :ref:`usrlog`
 Generate a reverse chronological changelog with headings for each tag from :ref:`git` commit messages.
 
 * :ref:`RestructuredText`
@@ -418,13 +440,13 @@ hg
 ++++++++
 ``etc/.hgrc`` 
 
-.. literalinclude:: ../etc/.hgrc
+.. literalinclude:: ../../etc/.hgrc
 
 
 .hgignore_global
 +++++++++++++++++++
 
-.. literalinclude:: ../etc/.hgignore_global
+.. literalinclude:: ../../etc/.hgignore_global
 
 
 bashmarks_to_nerdtree.sh
@@ -536,7 +558,7 @@ lsof subprocess wrapper
 mactool.py
 ~~~~~~~~~~~~~~~~~~~
 MAC address tool
-
+  
 optimizepath.py
 ~~~~~~~~~~~~~~~~~~~
 Work with PATH as an ordered set
@@ -580,4 +602,6 @@ xlck.sh
 ~~~~~~~~~~~~~~~~~~~
 Wrap ``xautolock`` for screensaver, shutdown, suspend, resume config
 (e.g. ``.xinitrc`` calls ``xlck.sh -S``)
+
+
 
