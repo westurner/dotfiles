@@ -80,7 +80,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:';
+LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:';
 export LS_COLORS
 
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
@@ -2925,16 +2925,87 @@ declare -f 'dotfiles_initialize' 2>&1 > /dev/null \
 
 ### bashrc.gcloud.sh
 
-_setup_google_cloud() {
-    # _setup_google_cloud() -- configure gcloud $PATH and bash completions
-    export GCLOUD_BASEPATH="${HOME}/google-cloud-sdk"
-    #export GCLOUD_BASEPATH="/srv/wrk/google-cloud-sdk"
+function _get_GCLOUDSDK_PREFIX {
+    ## _get_GCLOUDSDK_PREFIX()   -- get GCLOUDSDK_PREFIX
+    #   $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
+    local _GCLOUDSDK_PREFIX=${1:-${GCLOUDSDK_PREFIX:-"${HOME}/google-cloud-sdk"}}
+    echo "${_GCLOUDSDK_PREFIX}"
+}
+
+function _setup_GCLOUDSDK_PREFIX {
+    ## _setup_GCLOUDSDK_PREFIX() -- configure gcloud $PATH and bash completions
+    #   $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
+    export GCLOUDSDK_PREFIX="${1:-"$(_get_GCLOUDSDK_PREFIX ${1:+"${1}"})"}"
+}
+
+function _setup_gcloudsdk {
+    ## _setup_gcloudsdk() -- configure gcloud $PATH and bash completions
+    #   $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
+    _setup_GCLOUDSDK_PREFIX "${1:+"${1}"}"
 
     #The next line updates PATH for the Google Cloud SDK.
-    source "${GCLOUD_BASEPATH}/path.bash.inc"
+    source "${GCLOUDSDK_PREFIX}/path.bash.inc"
 
     #The next line enables bash completion for gcloud.
-    source "${GCLOUD_BASEPATH}/completion.bash.inc"
+    source "${GCLOUDSDK_PREFIX}/completion.bash.inc"
+}
+
+function _unsetup_gcloudsdk {
+    ## _unsetup_gcloudsdk() -- unset GCLOUDSDK_PREFIX
+    unset GCLOUDSDK_PREFIX
+    # XXX: PATH_remove <...>
+}
+
+
+function _get_APPENGINESDK_PREFIX {
+    ## _get_APPENGINESDK_PREFIX()  -- get APPENGINESDK_PREFIX
+    local _APPENGINESDK_PREFIX=
+    if [ -n "${APPENGINESDK_PREFIX}" ]; then
+        _APPENGINESDK_PREFIX="${APPENGINESDK_PREFIX}"
+    else
+        local _APPENGINESDK_BASEPATH=
+        local _GCLOUDSDK_PREFIX="$(_get_GCLOUDSDK_PREFIX)"
+        if [ -n "${_GCLOUDSDK_PREFIX}" ]; then
+            _APPENGINESDK_BASEPATH="${_GCLOUDSDK_PREFIX}/platform"
+        else
+            _APPENGINESDK_BASEPATH="/usr/local"
+        fi
+        _APPENGINESDK_PREFIX="${_APPENGINESDK_BASEPATH}/google_appengine"
+    fi
+    echo "${_APPENGINESDK_PREFIX}"
+}
+
+function _setup_APPENGINESDK_PREFIX {
+    ## _setup_APPENGINESDK_PREFIX() -- configure gcloud $PATH and completion
+    #   $1 (str): default:~/google-cloud-sdk (APPENGINESDK_PREFIX)
+    local _APPENGINESDK_PREFIX=
+    if [ -n "${1}" ]; then
+        _APPENGINESDK_PREFIX="${1}"
+    else
+        local _GCLOUDSDK_PREFIX="$(_get_GCLOUDSDK_PREFIX)"
+        if [ -d "${_GCLOUDSDK_PREFIX}" ]; then
+            _setup_GCLOUDSDK_PREFIX
+        fi
+        _APPENGINESDK_PREFIX="$(_get_APPENGINESDK_PREFIX)"
+    fi
+    export APPENGINESDK_PREFIX="${_APPENGINESDK_PREFIX}"
+}
+
+function _setup_appenginesdk {
+    ## _setup_appenginesdk() -- config GCLOUDSDK*, APPENGINESDK_PREFIX, PATH
+    #   $1 (str): default: ~/google-cloud-sdk/platform/google_appengine
+    #             default: /usr/local/google_appengine
+    #             ${APPENGINESDK_PREFIX}
+    _setup_APPENGINESDK_PREFIX ${1:+"${1}"}
+    PATH_prepend "${APPENGINESDK_PREFIX}"
+}
+
+function _unsetup_appenginesdk {
+    ## _unsetup_appenginesdk() -- PATH_remove ${APPENGINESDK_PREFIX}
+    if [ -n "${APPENGINESDK_PREFIX}" ]; then
+        PATH_remove "${APPENGINESDK_PREFIX}"
+    fi
+    unset APPENGINESDK_PREFIX
 }
 ### bashrc.venv.sh
 #   note: most of these aliases and functions are overwritten by `we` 
@@ -4032,28 +4103,28 @@ fi
 # virtualenv & virtualenvwrapper
 function grinv {
     # grinv()   -- grin $VIRTUAL_ENV
-    grin --follow $@ "${VIRTUAL_ENV}"
+    grin --follow "$@" "${VIRTUAL_ENV}"
 }
 
 function grindv {
     # grindv()  -- grind $VIRTUAL_ENV
-    grind --follow $@ --dirs "${VIRTUAL_ENV}"
+    grind --follow "$@" --dirs "${VIRTUAL_ENV}"
 }
 
 # venv
 function grins {
     # grins()   -- grin $_SRC
-    grin --follow $@ "${_SRC}"
+    grin --follow "$@" "${_SRC}"
 }
 
 function grinds {
     # grinds()  -- grind $_SRC
-    grind --follow $@ --dirs "${_SRC}"
+    grind --follow "$@" --dirs "${_SRC}"
 }
 
 function grinw {
     # grinw()   -- grin $_WRD
-    grin --follow $@ "${_WRD}"
+    grin --follow "$@" "${_WRD}"
 }
 
 function grindw {
@@ -4063,17 +4134,17 @@ function grindw {
 
 function edit_grin_w {
     # edit_grin_w() -- edit $(grinw -l $@)
-    edit $(grinw -l $@)
+    edit $(grinw -l "$@")
 }
 
 function egw {
     # egw           -- edit $(grinw -l $@)
-    edit_grin_w $@
+    edit_grin_w "$@"
 }
 
 function edit_grind_wrd {
-    (IFS='\n' edit $(grind ${@} --follow --dirs "${_WRD}"))
-    grindw ${@} | el -v -e
+    (IFS='\n' edit $(grind "${@}" --follow --dirs "${_WRD}"))
+    grindw "${@}" | el -v -e
 }
 
 ## ctags (exuberant ctags)
@@ -4084,7 +4155,8 @@ function grindctags {
     # grindctags()      -- generate ctags from grind (in ./tags)
     local ctagsbin=
     local path=${1:-'.'}
-    local grindargs=${2}
+    shift
+    # local grindargs=${@}
     if [ -n "${__IS_MAC}" ]; then
         if [ -x "/usr/local/bin/ctags" ]; then
             # brew install ctags
@@ -4097,7 +4169,7 @@ function grindctags {
     fi
     (set -x -v;
     cd "${path}";
-    grind --follow ${grindargs} --dirs "${path}" \
+    grind --follow "${@}" --dirs "${path}" \
         | grep -v 'min.js$' \
         | ${ctagsbin} -L - 2>"${path}/tags.err" \
         && wc -l "${path}/tags.err";
@@ -6400,7 +6472,7 @@ _APP='dotfiles'
 _WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
 ##

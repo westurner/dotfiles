@@ -1,22 +1,54 @@
-#### << etc/zsh/00-zshrc.before.sh >>
-   __DOTFILES -- local dotfiles repository clone
-      ## lib: zsh functions
-      ## bash: read bash config with bash_source function
-    ## after:
-       dr()     -- dotfiles_zsh_reload $@
+etc/zsh/00-zshrc.before.sh
+===========================
+| Src: `etc/zsh/00-zshrc.before.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/00-zshrc.before.sh>`__
+
+.. code:: zsh
+
+   .
+      __DOTFILES -- local dotfiles repository clone
+         ## lib: zsh functions
+         ## bash: read bash config with bash_source function
+       ## after:
+          dr()     -- dotfiles_zsh_reload $@
+   .
+
    
    
-#### << etc/zsh/01-zshrc.lib.sh >>
-  list all path key components leading to file
+etc/zsh/01-zshrc.lib.sh
+========================
+| Src: `etc/zsh/01-zshrc.lib.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/01-zshrc.lib.sh>`__
+
+.. code:: zsh
+
+   .
+     list all path key components leading to file
+   .
+
    
    
-#### << etc/zsh/05-zshrc.bashrc.sh >>
-  requires:
-   bash_source function
-   $__DOTFILES
+etc/zsh/05-zshrc.bashrc.sh
+===========================
+| Src: `etc/zsh/05-zshrc.bashrc.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/05-zshrc.bashrc.sh>`__
+
+.. code:: zsh
+
+   .
+     requires:
+      bash_source function
+      $__DOTFILES
+   .
+
    
    
-#### << etc/zsh/99-zshrc.after.sh >>
-  99-zsh.after.sh
+etc/zsh/99-zshrc.after.sh
+==========================
+| Src: `etc/zsh/99-zshrc.after.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/99-zshrc.after.sh>`__
+
+.. code:: zsh
+
+   .
+     99-zsh.after.sh
+   .
+
    
    
