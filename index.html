@@ -43,7 +43,6 @@
 <link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/css/local.css" type="text/css" />
-<link rel="stylesheet" href="_static/issuetracker.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
@@ -131,7 +130,8 @@
 <h3><a href="#">Table Of Contents</a></h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">Dotfiles</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/dhelp.html">Usage (dhelp)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="venv.html">venv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usrlog.html">usrlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools/index.html">Tools</a></li>
@@ -226,79 +226,119 @@
 <li class="toctree-l2"><a class="reference internal" href="readme.html#further-dotfiles-resources">Further Dotfiles Resources</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#makefile">Makefile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#readline">Readline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#bash">Bash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#zsh">ZSH</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#dotfiles-i3wm">I3wm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#vim">Vim</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#src">src/</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#pgs">pgs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#pyline-py">pyline.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#pyrpo-py">pyrpo.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#web-sh">web.sh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/index.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#makefile">Makefile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#readline">Readline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#bash">Bash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#zsh">ZSH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#dotfiles-i3wm">I3wm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#vim">Vim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#src">src/</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pgs">pgs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pyline-py">pyline.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pyrpo-py">pyrpo.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#web-sh">web.sh</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#scripts">Scripts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#dotfiles">dotfiles</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#id4">bootstrap_dotfiles.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#scripts">Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#dotfiles">dotfiles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#id4">bootstrap_dotfiles.sh</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#venv">venv</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#venv-py">venv.py</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#venv-relabel-sh">venv_relabel.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#venv-root-prefix-sh">venv_root_prefix.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#venv-sh">venv.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#ewrd-sh">_ewrd.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#dotfileshelp-sh">_dotfileshelp.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#gitw">gitw</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#grinwrd-sh">_grinwrd.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#makew">makew</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#usrlog-sh">usrlog.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#usrlog-py">usrlog.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#venv">venv</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#venv-py">venv.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#venv-relabel-sh">venv_relabel.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#venv-root-prefix-sh">venv_root_prefix.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#venv-sh">venv.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#ewrd-sh">_ewrd.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#dotfileshelp-sh">_dotfileshelp.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#gitw">gitw</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#grinwrd-sh">_grinwrd.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#makew">makew</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#usrlog-sh">usrlog.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#usrlog-py">usrlog.py</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#git">git</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#gitconfig">.gitconfig</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#gitignore-global">.gitignore_global</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#gittagstohgtags-sh">gittagstohgtags.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#git-changelog-py">git-changelog.py</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#git-subrepo2submodule-sh">git-subrepo2submodule.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#git-track-all-remotes-sh">git-track-all-remotes.sh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#git-upgrade-remote-to-ssh-sh">git-upgrade-remote-to-ssh.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#git">git</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#gitconfig">.gitconfig</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#gitignore-global">.gitignore_global</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#gittagstohgtags-sh">gittagstohgtags.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#git-changelog-py">git-changelog.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#git-subrepo2submodule-sh">git-subrepo2submodule.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#git-track-all-remotes-sh">git-track-all-remotes.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#git-upgrade-remote-to-ssh-sh">git-upgrade-remote-to-ssh.sh</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#hg">hg</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#hgrc">.hgrc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="usage.html#hgignore-global">.hgignore_global</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#hg">hg</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#hgrc">.hgrc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#hgignore-global">.hgignore_global</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#bashmarks-to-nerdtree-sh">bashmarks_to_nerdtree.sh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#compare-installed-py">compare_installed.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#pulse-sh">pulse.sh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#setup-mathjax-py">setup_mathjax.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#setup-pandas-notebook-deb-sh">setup_pandas_notebook_deb.sh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#setup-pandas-notebook-sh">setup_pandas_notebook.sh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#setup-scipy-deb-py">setup_scipy_deb.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#deb-deps-py">deb_deps.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#deb-search-py">deb_search.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#build-docs-py">build_docs.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#el">el</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#greppaths-py">greppaths.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#lsof-py">lsof.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#mactool-py">mactool.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#optimizepath-py">optimizepath.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#passwordstrength-py">passwordstrength.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#pipls-py">pipls.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#pycut-py">pycut.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#py-index-py">py_index.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#pyren-py">pyren.py</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#whyquote-sh">whyquote.sh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="usage.html#xlck-sh">xlck.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#bashmarks-to-nerdtree-sh">bashmarks_to_nerdtree.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#compare-installed-py">compare_installed.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pulse-sh">pulse.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#setup-mathjax-py">setup_mathjax.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#setup-pandas-notebook-deb-sh">setup_pandas_notebook_deb.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#setup-pandas-notebook-sh">setup_pandas_notebook.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#setup-scipy-deb-py">setup_scipy_deb.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#deb-deps-py">deb_deps.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#deb-search-py">deb_search.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#build-docs-py">build_docs.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#el">el</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#greppaths-py">greppaths.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#lsof-py">lsof.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#mactool-py">mactool.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#optimizepath-py">optimizepath.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#passwordstrength-py">passwordstrength.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pipls-py">pipls.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pycut-py">pycut.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#py-index-py">py_index.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pyren-py">pyren.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#whyquote-sh">whyquote.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#xlck-sh">xlck.sh</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/dhelp.html">Usage (dhelp)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#scripts-dotfileshelp-sh">scripts/_dotfileshelp.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#scripts-bootstrap-dotfiles-sh">scripts/bootstrap_dotfiles.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-inputrc">etc/.inputrc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-00-bashrc-before-sh">etc/bash/00-bashrc.before.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-01-bashrc-lib-sh">etc/bash/01-bashrc.lib.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-02-bashrc-platform-sh">etc/bash/02-bashrc.platform.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-03-bashrc-darwin-sh">etc/bash/03-bashrc.darwin.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-04-bashrc-term-sh">etc/bash/04-bashrc.TERM.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-05-bashrc-dotfiles-sh">etc/bash/05-bashrc.dotfiles.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-06-bashrc-completion-sh">etc/bash/06-bashrc.completion.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-07-bashrc-python-sh">etc/bash/07-bashrc.python.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-07-bashrc-virtualenvwrapper-sh">etc/bash/07-bashrc.virtualenvwrapper.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-08-bashrc-conda-sh">etc/bash/08-bashrc.conda.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-08-bashrc-conda-sh-un">etc/bash/08-bashrc.conda.sh.un~</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-08-bashrc-gcloud-sh">etc/bash/08-bashrc.gcloud.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-10-bashrc-venv-sh">etc/bash/10-bashrc.venv.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-11-bashrc-venv-pyramid-sh">etc/bash/11-bashrc.venv.pyramid.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-20-bashrc-editor-sh">etc/bash/20-bashrc.editor.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-29-bashrc-vimpagers-sh">etc/bash/29-bashrc.vimpagers.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-30-bashrc-usrlog-sh">etc/bash/30-bashrc.usrlog.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-30-bashrc-xlck-sh">etc/bash/30-bashrc.xlck.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-40-bashrc-aliases-sh">etc/bash/40-bashrc.aliases.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-42-bashrc-commands-sh">etc/bash/42-bashrc.commands.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-50-bashrc-bashmarks-sh">etc/bash/50-bashrc.bashmarks.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-70-bashrc-repos-sh">etc/bash/70-bashrc.repos.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-99-bashrc-after-sh">etc/bash/99-bashrc.after.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-ewrd-sh">etc/bash/_ewrd.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-usrlog-sh">etc/bash/usrlog.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-xlck-sh">etc/bash/xlck.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-zsh-00-zshrc-before-sh">etc/zsh/00-zshrc.before.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-zsh-01-zshrc-lib-sh">etc/zsh/01-zshrc.lib.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-zsh-05-zshrc-bashrc-sh">etc/zsh/05-zshrc.bashrc.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-zsh-99-zshrc-after-sh">etc/zsh/99-zshrc.after.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-i3-config">etc/i3/config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-vim-vimrc">etc/vim/vimrc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-vim-vimrc-full-bundles-vimrc">etc/vim/vimrc.full.bundles.vimrc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-vim-vimrc-tinyvim-bundles-vimrc">etc/vim/vimrc.tinyvim.bundles.vimrc</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="venv.html">venv</a><ul>

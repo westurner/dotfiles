@@ -7,7 +7,8 @@ westurner/dotfiles
    :maxdepth: 4
 
    readme
-   usage
+   usage/index
+   usage/dhelp
    venv
    usrlog
    tools/index

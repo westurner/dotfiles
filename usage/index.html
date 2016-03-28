@@ -1,0 +1,3691 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="Usage" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
+    <!--
+    <meta property="og:description" content="Documentation for the dotfiles project" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Usage" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
+    
+    <title>Usage &mdash; westurner/dotfiles 0.9.0 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../_static/css/local.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.9.0',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/local.js"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="../index.html" />
+    <link rel="next" title="Usage (dhelp)" href="dhelp.html" />
+    <link rel="prev" title="Dotfiles" href="../readme.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">westurner/dotfiles 0.9.0 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li><a class="reference internal" href="#makefile">Makefile</a></li>
+<li><a class="reference internal" href="#readline">Readline</a></li>
+<li><a class="reference internal" href="#bash">Bash</a></li>
+<li><a class="reference internal" href="#zsh">ZSH</a></li>
+<li><a class="reference internal" href="#dotfiles-i3wm">I3wm</a></li>
+<li><a class="reference internal" href="#vim">Vim</a></li>
+<li><a class="reference internal" href="#src">src/</a><ul>
+<li><a class="reference internal" href="#pgs">pgs</a></li>
+<li><a class="reference internal" href="#pyline-py">pyline.py</a></li>
+<li><a class="reference internal" href="#pyrpo-py">pyrpo.py</a></li>
+<li><a class="reference internal" href="#web-sh">web.sh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scripts">Scripts</a><ul>
+<li><a class="reference internal" href="#dotfiles">dotfiles</a><ul>
+<li><a class="reference internal" href="#id4">bootstrap_dotfiles.sh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#venv">venv</a><ul>
+<li><a class="reference internal" href="#venv-py">venv.py</a></li>
+<li><a class="reference internal" href="#venv-relabel-sh">venv_relabel.sh</a></li>
+<li><a class="reference internal" href="#venv-root-prefix-sh">venv_root_prefix.sh</a></li>
+<li><a class="reference internal" href="#venv-sh">venv.sh</a></li>
+<li><a class="reference internal" href="#ewrd-sh">_ewrd.sh</a></li>
+<li><a class="reference internal" href="#dotfileshelp-sh">_dotfileshelp.sh</a></li>
+<li><a class="reference internal" href="#gitw">gitw</a></li>
+<li><a class="reference internal" href="#grinwrd-sh">_grinwrd.sh</a></li>
+<li><a class="reference internal" href="#makew">makew</a></li>
+<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a></li>
+<li><a class="reference internal" href="#usrlog-py">usrlog.py</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#git">git</a><ul>
+<li><a class="reference internal" href="#gitconfig">.gitconfig</a></li>
+<li><a class="reference internal" href="#gitignore-global">.gitignore_global</a></li>
+<li><a class="reference internal" href="#gittagstohgtags-sh">gittagstohgtags.sh</a></li>
+<li><a class="reference internal" href="#git-changelog-py">git-changelog.py</a></li>
+<li><a class="reference internal" href="#git-subrepo2submodule-sh">git-subrepo2submodule.sh</a></li>
+<li><a class="reference internal" href="#git-track-all-remotes-sh">git-track-all-remotes.sh</a></li>
+<li><a class="reference internal" href="#git-upgrade-remote-to-ssh-sh">git-upgrade-remote-to-ssh.sh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hg">hg</a><ul>
+<li><a class="reference internal" href="#hgrc">.hgrc</a></li>
+<li><a class="reference internal" href="#hgignore-global">.hgignore_global</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bashmarks-to-nerdtree-sh">bashmarks_to_nerdtree.sh</a></li>
+<li><a class="reference internal" href="#compare-installed-py">compare_installed.py</a></li>
+<li><a class="reference internal" href="#pulse-sh">pulse.sh</a></li>
+<li><a class="reference internal" href="#setup-mathjax-py">setup_mathjax.py</a></li>
+<li><a class="reference internal" href="#setup-pandas-notebook-deb-sh">setup_pandas_notebook_deb.sh</a></li>
+<li><a class="reference internal" href="#setup-pandas-notebook-sh">setup_pandas_notebook.sh</a></li>
+<li><a class="reference internal" href="#setup-scipy-deb-py">setup_scipy_deb.py</a></li>
+<li><a class="reference internal" href="#deb-deps-py">deb_deps.py</a></li>
+<li><a class="reference internal" href="#deb-search-py">deb_search.py</a></li>
+<li><a class="reference internal" href="#build-docs-py">build_docs.py</a></li>
+<li><a class="reference internal" href="#el">el</a></li>
+<li><a class="reference internal" href="#greppaths-py">greppaths.py</a></li>
+<li><a class="reference internal" href="#lsof-py">lsof.py</a></li>
+<li><a class="reference internal" href="#mactool-py">mactool.py</a></li>
+<li><a class="reference internal" href="#optimizepath-py">optimizepath.py</a></li>
+<li><a class="reference internal" href="#passwordstrength-py">passwordstrength.py</a></li>
+<li><a class="reference internal" href="#pipls-py">pipls.py</a></li>
+<li><a class="reference internal" href="#pycut-py">pycut.py</a></li>
+<li><a class="reference internal" href="#py-index-py">py_index.py</a></li>
+<li><a class="reference internal" href="#pyren-py">pyren.py</a></li>
+<li><a class="reference internal" href="#whyquote-sh">whyquote.sh</a></li>
+<li><a class="reference internal" href="#xlck-sh">xlck.sh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../readme.html" title="Dotfiles" accesskey="P">previous </a></li>
+              <li><a href="dhelp.html" title="Usage (dhelp)" accesskey="N">next </a></li>
+              <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/usage/index.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li><a class="reference internal" href="#makefile">Makefile</a></li>
+<li><a class="reference internal" href="#readline">Readline</a></li>
+<li><a class="reference internal" href="#bash">Bash</a></li>
+<li><a class="reference internal" href="#zsh">ZSH</a></li>
+<li><a class="reference internal" href="#dotfiles-i3wm">I3wm</a></li>
+<li><a class="reference internal" href="#vim">Vim</a></li>
+<li><a class="reference internal" href="#src">src/</a><ul>
+<li><a class="reference internal" href="#pgs">pgs</a></li>
+<li><a class="reference internal" href="#pyline-py">pyline.py</a></li>
+<li><a class="reference internal" href="#pyrpo-py">pyrpo.py</a></li>
+<li><a class="reference internal" href="#web-sh">web.sh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scripts">Scripts</a><ul>
+<li><a class="reference internal" href="#dotfiles">dotfiles</a><ul>
+<li><a class="reference internal" href="#id4">bootstrap_dotfiles.sh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#venv">venv</a><ul>
+<li><a class="reference internal" href="#venv-py">venv.py</a></li>
+<li><a class="reference internal" href="#venv-relabel-sh">venv_relabel.sh</a></li>
+<li><a class="reference internal" href="#venv-root-prefix-sh">venv_root_prefix.sh</a></li>
+<li><a class="reference internal" href="#venv-sh">venv.sh</a></li>
+<li><a class="reference internal" href="#ewrd-sh">_ewrd.sh</a></li>
+<li><a class="reference internal" href="#dotfileshelp-sh">_dotfileshelp.sh</a></li>
+<li><a class="reference internal" href="#gitw">gitw</a></li>
+<li><a class="reference internal" href="#grinwrd-sh">_grinwrd.sh</a></li>
+<li><a class="reference internal" href="#makew">makew</a></li>
+<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a></li>
+<li><a class="reference internal" href="#usrlog-py">usrlog.py</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#git">git</a><ul>
+<li><a class="reference internal" href="#gitconfig">.gitconfig</a></li>
+<li><a class="reference internal" href="#gitignore-global">.gitignore_global</a></li>
+<li><a class="reference internal" href="#gittagstohgtags-sh">gittagstohgtags.sh</a></li>
+<li><a class="reference internal" href="#git-changelog-py">git-changelog.py</a></li>
+<li><a class="reference internal" href="#git-subrepo2submodule-sh">git-subrepo2submodule.sh</a></li>
+<li><a class="reference internal" href="#git-track-all-remotes-sh">git-track-all-remotes.sh</a></li>
+<li><a class="reference internal" href="#git-upgrade-remote-to-ssh-sh">git-upgrade-remote-to-ssh.sh</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hg">hg</a><ul>
+<li><a class="reference internal" href="#hgrc">.hgrc</a></li>
+<li><a class="reference internal" href="#hgignore-global">.hgignore_global</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bashmarks-to-nerdtree-sh">bashmarks_to_nerdtree.sh</a></li>
+<li><a class="reference internal" href="#compare-installed-py">compare_installed.py</a></li>
+<li><a class="reference internal" href="#pulse-sh">pulse.sh</a></li>
+<li><a class="reference internal" href="#setup-mathjax-py">setup_mathjax.py</a></li>
+<li><a class="reference internal" href="#setup-pandas-notebook-deb-sh">setup_pandas_notebook_deb.sh</a></li>
+<li><a class="reference internal" href="#setup-pandas-notebook-sh">setup_pandas_notebook.sh</a></li>
+<li><a class="reference internal" href="#setup-scipy-deb-py">setup_scipy_deb.py</a></li>
+<li><a class="reference internal" href="#deb-deps-py">deb_deps.py</a></li>
+<li><a class="reference internal" href="#deb-search-py">deb_search.py</a></li>
+<li><a class="reference internal" href="#build-docs-py">build_docs.py</a></li>
+<li><a class="reference internal" href="#el">el</a></li>
+<li><a class="reference internal" href="#greppaths-py">greppaths.py</a></li>
+<li><a class="reference internal" href="#lsof-py">lsof.py</a></li>
+<li><a class="reference internal" href="#mactool-py">mactool.py</a></li>
+<li><a class="reference internal" href="#optimizepath-py">optimizepath.py</a></li>
+<li><a class="reference internal" href="#passwordstrength-py">passwordstrength.py</a></li>
+<li><a class="reference internal" href="#pipls-py">pipls.py</a></li>
+<li><a class="reference internal" href="#pycut-py">pycut.py</a></li>
+<li><a class="reference internal" href="#py-index-py">py_index.py</a></li>
+<li><a class="reference internal" href="#pyren-py">pyren.py</a></li>
+<li><a class="reference internal" href="#whyquote-sh">whyquote.sh</a></li>
+<li><a class="reference internal" href="#xlck-sh">xlck.sh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../readme.html"
+                        title="previous chapter">Dotfiles</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dhelp.html"
+                        title="next chapter">Usage (dhelp)</a></p>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/usage/index.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/usage/index.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/usage/index.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/usage/index.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/usage/index.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="usage">
+<span id="index-0"></span><span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="../readme.html#install-the-dotfiles"><span>Install the dotfiles</span></a> with <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li>Develop with the <a class="reference internal" href="#makefile">Makefile</a> (<a class="reference internal" href="../tools/index.html#make"><span>Make</span></a>)</li>
+<li>Shell with <a class="reference internal" href="#bash">Bash</a> (<a class="reference internal" href="../tools/index.html#bash"><span>Bash</span></a>, <a class="reference internal" href="../tools/index.html#zsh"><span>ZSH</span></a>)</li>
+<li>Edit text files with <a class="reference internal" href="#vim">Vim</a> (<a class="reference internal" href="../tools/index.html#vim"><span>Vim</span></a>)</li>
+<li>Manage windows on <a class="reference internal" href="../tools/index.html#linux"><span>Linux</span></a> platforms with <a class="reference internal" href="#i3wm">I3wm</a> (<a class="reference internal" href="#i3wm"><span>I3wm</span></a>)</li>
+<li><a class="reference external" href="scripts">Script</a> all the <a class="reference external" href="http://schema.org/Thing">things</a></li>
+</ul>
+<div class="section" id="bootstrap-dotfiles-sh">
+<span id="index-1"></span><span id="id2"></span><h2>bootstrap_dotfiles.sh<a class="headerlink" href="#bootstrap-dotfiles-sh" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh</a></div>
+<div class="line">Docs: <a class="reference internal" href="dhelp.html#scripts-bootstrap-dotfiles-sh"><span>scripts/bootstrap_dotfiles.sh</span></a></div>
+</div>
+<p><code class="docutils literal"><span class="pre">bash</span> <span class="pre">scripts/bootstrap_dotfiles.sh</span> <span class="pre">-h</span></code>:</p>
+<pre class="ansi-block literal-block">
+$ bash ../../scripts/bootstrap_dotfiles.sh -h
+bash: ../../scripts/bootstrap_dotfiles.sh: No such file or directory
+</pre>
+</div>
+<div class="section" id="makefile">
+<span id="dotfiles-makefile"></span><span id="index-2"></span><h2>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">https://github.com/westurner/dotfiles/blob/master/Makefile</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/develop/Makefile">https://github.com/westurner/dotfiles/blob/develop/Makefile</a></div>
+</div>
+<p><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code>:</p>
+<pre class="ansi-block literal-block">
+$ cd $_WRD &amp;&amp; make help
+make[2]: Entering directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
+dotfiles Makefile
+#################
+help         -- print dotfiles help
+help_vim     -- print dotvim make help
+help_vim_txt -- print dotvim help as rst
+help_i3      -- print i3wm configuration
+help_setuppy -- print setup.py help
+help_txt     -- print setup.py help as rst
+
+install      -- install dotfiles and dotvim [in a VIRTUAL_ENV]
+upgrade      -- upgrade dotfiles and dotvim [in a VIRTUAL_ENV]
+
+install_user -- install dotfiles and dotvim (with 'pip --user')
+upgrade_user -- upgrade dodtfiles and dotfile (with 'pip --user')
+
+pip_upgrade pip              -- upgrade pip
+pip_install_requirements_all -- install all pip requirements
+
+install_gitflow -- install gitflow from github
+install_hubflow -- install hubflow from github
+
+install_brew_formulas  -- install brew formulas
+update_brew_list       -- overwrite etc/brew/brew.list
+
+clean  -- remove .pyc, .pyo, __pycache__/ etc
+edit   -- edit the project main files README.rst
+test   -- run tests
+build  -- build a python sdist
+generate_venv  -- generate ipython_magics.py, venv.sh, and venv.vim
+
+start-release -- start a new release named 
+release 		 -- finish a release named 
+
+docs      -- build sphinx documentation
+gh-pages  -- overwrite the gh-pages branch with docs/_build/html
+
+push      -- git push
+pull      -- git pull
+
+make[2]: Leaving directory '/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
+</pre>
+</div>
+<div class="section" id="readline">
+<span id="dotfiles-readline-config"></span><span id="index-3"></span><h2>Readline<a class="headerlink" href="#readline" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.inputrc">https://github.com/westurner/dotfiles/blob/master/etc/.inputrc</a></div>
+<div class="line">Docs: <a class="reference internal" href="dhelp.html#etc-inputrc"><span>etc/.inputrc</span></a></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre>dhelp readline  # == dhelp inputrc
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">### .inputrc -- readline configuration</span>
+<span class="c">## Bash readline quickstart</span>
+<span class="c">#  https://www.gnu.org/software/bash/manual/html_node/Command-Line-Editing.html#Command-Line-Editing</span>
+<span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html</span>
+<span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html</span>
+<span class="c">#   * https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html#Readline-vi-Mode</span>
+<span class="c">#   * https://github.com/whiteinge/dotfiles/blob/master/.inputrc</span>
+    <span class="c">#  help bind</span>
+    <span class="c">#  # list bindings</span>
+    <span class="c">#  bind -p</span>
+    <span class="c">#  bind -P | grep -v &#39;is not bound&#39;</span>
+    <span class="c">#  # read bindings</span>
+    <span class="c">#  bind -f ~/.inputrc</span>
+<span class="c">## vi-mode</span>
+    <span class="c">#  Various terminals have vi-mode settings:</span>
+    <span class="c">#  - bash: set -o vi  (default: set -o emacs)</span>
+    <span class="c">#  - ksh:  set -o vi</span>
+    <span class="c">#  - zsh:  bindkey -v</span>
+    <span class="c">#  - tcsh: bindkey -v</span>
+    <span class="c">## &lt;ctrl/alt&gt; left/right -- backward/forward one word</span>
+    <span class="c">#  &lt;alt&gt; left   -- move backward one word</span>
+    <span class="c">#  &lt;ctrl&gt; left  -- move backward one word</span>
+    <span class="c">#  &lt;alt&gt; right  -- move forward one word</span>
+    <span class="c">#  &lt;ctrl&gt; right -- move forward one word</span>
+    <span class="c">## &lt;ctrl/alt&gt; up/down -- beginning/end of line</span>
+    <span class="c">#  &lt;alt&gt; up     -- move to beginning of line</span>
+    <span class="c">#  &lt;ctrl&gt; up    -- move to beginning of line</span>
+    <span class="c">#  &lt;ctrl&gt; down  -- move to end of line</span>
+    <span class="c">#  &lt;ctrl&gt; down  -- move to end of line</span>
+  <span class="c">## vi-command keymap</span>
+    <span class="c">#  &lt;ctrl&gt; l  -- clear screen</span>
+    <span class="c">#  &lt;ctrl&gt; k  -- clear whole line</span>
+    <span class="c">#  &lt;ctrl&gt; a  -- move to beginning of line (^)</span>
+    <span class="c">#  &lt;ctrl&gt; [  -- move to beginning of line (^)</span>
+    <span class="c">#  &lt;ctrl&gt; e  -- move to end of line ($)</span>
+    <span class="c">#  &lt;ctrl&gt; ]  -- move to end of line ($)</span>
+    <span class="c">#  &lt;up&gt;      -- history search backward (match current input)</span>
+    <span class="c">#  &lt;down&gt;    -- history search forward (match current input)</span>
+    <span class="c">#  &lt;ctrl&gt; w  -- delete last word</span>
+    <span class="c">#  &lt;ctrl&gt; gx -- expand without executing</span>
+    <span class="c">#  &lt;ctrl&gt; 3  -- prefix with &#39;# &#39;</span>
+  <span class="c">## vi-insert keymap</span>
+    <span class="c">#  emulate a few options from &quot;set -o emacs&quot;:</span>
+    <span class="c">#  &lt;ctrl&gt; l  -- clear screen</span>
+    <span class="c">#  &lt;ctrl&gt; k  -- clear whole line</span>
+    <span class="c">#  &lt;ctrl&gt; a  -- move to beginning of line (^)</span>
+    <span class="c">#  &lt;ctrl&gt; [  -- move to beginning of line (^)</span>
+    <span class="c">#  &lt;ctrl&gt; e  -- move to end of line ($)</span>
+    <span class="c">#  &lt;ctrl&gt; ]  -- move to end of line ($)</span>
+    <span class="c">#  &lt;up&gt;      -- history search backward (match current input)</span>
+    <span class="c">#  &lt;down&gt;    -- history search forward (match current input)</span>
+    <span class="c">#  &lt;ctrl&gt; w  -- delete last word</span>
+    <span class="c">#  &lt;ctrl&gt; gx -- glob expand without executing</span>
+    <span class="c">#  &lt;ctrl&gt; 3  -- prefix with &#39;# &#39;</span>
+    <span class="c">#  see: bindkey -p</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bash">
+<span id="dotfiles-bash-config"></span><span id="index-4"></span><h2>Bash<a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.bashrc">https://github.com/westurner/dotfiles/blob/master/etc/.bashrc</a></div>
+<div class="line">Docs: <span class="xref std std-ref">etc/.bashrc</span></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh">https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh</a></div>
+<div class="line">Docs: <a class="reference internal" href="dhelp.html#etc-bash-00-bashrc-before-sh"><span>etc/bash/00-bashrc.before.sh</span></a></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre>dhelp bash
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>etc/bash/00-bashrc.before.sh
+=============================
+| Src: `etc/bash/00-bashrc.before.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/00-bashrc.before.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ## 00-bashrc.before.sh     -- bash dotfiles configuration root
+      source ${__DOTFILES}/etc/bash/00-bashrc.before.sh    -- dotfiles_reload()
+    
+        dotfiles_reload()  -- (re)load the bash configuration
+        $__DOTFILES (str): -- path to the dotfiles symlink (~/-dotfiles)
+      
+     ## 01-bashrc.lib.sh           -- useful bash functions (paths)
+        lspath()           -- list every file along $PATH
+        realpath()         -- readlink -f (python os.path.realpath)
+        walkpath()         -- list every directory along ${1:-&quot;.&quot;}
+      
+     ## 02-bashrc.platform.sh      -- platform things
+        detect_platform()  -- set $__IS_MAC or $__IS_LINUX
+     ## 03-bashrc.darwin.sh
+      
+     ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
+      
+     ## 05-bashrc.dotfiles.sh      -- dotfiles
+        $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
+        dotfiles_status()  -- print dotfiles variables
+        ds()               -- print dotfiles variables
+      
+     ## 06-bashrc.completion.sh    -- configure bash completion
+      
+     ##
+        virtualenvwrapper / virtualenv / venv constants
+      
+        $PROJECT_HOME (str): path to project directory (~/-wrk)
+        $WORKON_HOME  (str): path to virtualenvs directory (~/-wrk/-ve27)
+        $VIRTUAL_ENV  (str): path to current $VIRTUAL_ENV ($WORKON_HOME/$VENVSTR)
+      
+     ## 07-bashrc.python.sh            -- python
+        _setup_python()              -- configure PYTHONSTARTUP
+        _setup_pip()                 -- configure PIP_REQUIRE_VIRTUALENV
+        _setup_pyenv()               -- setup pyenv PYENV_ROOT and eval (manual)
+      
+     ## 08-bashrc.conda.sh             -- conda
+        _setup_conda()               -- setup conda paths (manual)
+                                        WORKON_HOME=CONDA_ENVS_PATH
+          $1 (str): (optional) CONDA_ENVS_PATH (WORKON_HOME)
+          $2 (str): (optional) CONDA_ROOT_PATH (or &#39;27&#39; or &#39;34&#39;)
+        $CONDA_ROOT      (str): path to conda install (~/-wrk/-conda34)
+        $CONDA_ENVS_PATH (str): path to condaenvs directory (~/-wrk/-ce34) [conda]
+      
+     ## 07-bashrc.virtualenvwrapper.sh -- virtualenvwrapper
+        _setup_virtualenvwrapper     -- configure virtualenvwrapper
+        backup_virtualenv($VENVSTR)  -- backup a venv in WORKON_HOME
+                                        $WORKON_HOME/$VENVSTR -&gt; ./-bkp/$VENVSTR
+        backup_virtualenvs()         -- backup all venvs in WORKON_HOME
+                                        $WORKON_HOME/*        -&gt; ./-bkp/*
+        rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
+        rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
+        TODO: restore_virtualenv($BACKUPVENVSTR, [$NEWVENVSTR])
+      
+     ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
+        _setup_google_cloud()  -- setup google cloud paths
+      
+     ## 10-bashrc.venv.sh          -- venv: virtualenvwrapper extensions
+        _setup_venv()
+        $__PROJECTSRC     (str): script to source (${PROJECT_HOME}/.projectsrc.sh)
+        $VIRTUAL_ENV_NAME (str): basename of $VIRTUAL_ENV [usrlog: prompt, title]
+        $_APP             (str): $VIRTUAL_ENV/src/${_APP}
+        we() -- workon a new venv
+           $1: VIRTUAL_ENV_NAME [$WORKON_HOME/${VIRTUAL_ENV_NAME}=&gt;$VIRTUAL_ENV]
+           $2: _APP (optional; defaults to $VIRTUAL_ENV_NAME)
+      
+           we dotfiles
+           we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh
+           type workon_venv; which venv.py; venv.py --help
+      
+      
+     ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
+      
+     ## 20-bashrc.editor.sh        -- $EDITOR configuration
+        $EDITOR  (str): cmdstring to open $@ (file list) in editor
+        $EDITOR_ (str): cmdstring to open $@ (file list) in current editor
+        e()        -- open paths in current EDITOR_                   [scripts/e]
+        ew()       -- open paths relative to $_WRD in current EDITOR_ [scripts/ew]
+                      (~ cd $_WRD; $EDITOR_ ${@}) + tab completion
+      
+     ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
+        $PAGER   (str): cmdstring to run pager (less/vim)
+        lessv()    -- open in vim with less.vim
+                      VIMPAGER_SYNTAX=&quot;python&quot; lessv
+        lessg()    -- open in a gvim with less.vim
+                      VIMPAGER_SYNTAX=&quot;python&quot; lessv
+        lesse()    -- open with $EDITOR_ (~e)
+        manv()     -- open manpage with vim
+        mang()     -- open manpage with gvim
+        mane()     -- open manpage with $EDITOR_ (~e)
+      
+        TODO: GIT_PAGER=&quot;/usr/bin/less -R | /usr/bin/cat&quot;
+      
+     ## 30-bashrc.usrlog.sh        -- $_USRLOG configuration
+        _setup_usrlog()    -- configure usrlog
+        $_USRLOG (str): path to a -usrlog.log command log
+                      __USRLOG=~/-usrlog.log
+                       _USRLOG=${VIRTUAL_ENV}/-usrlog.log
+        lsusrlogs  -- ls -tr   &quot;${__USRLOG}&quot; &quot;${WORKON_HOME}/*/-usrlog.log&quot;
+        stid       -- set $TERM_ID to a random string (e.g. &quot;#Yt0PyyKWPro&quot;)
+        stid $name -- set $TERM_ID to string (e.g. \#20150704, &quot;#20150704&quot;)
+        note       -- log a #note to $_USRLOG (histn==#note)
+        todo       -- log a #todo to $_USRLOG (histn==#todo)
+        usrlogv    -- open usrlog with vim:    $VIMBIN    $_USRLOG
+        usrlogg    -- open usrlog with gmvim:  $GUIVIMBIN $_USRLOG
+        usrloge    -- open usrlog with editor: $EDITOR    $_USRLOG
+        ut         -- tail -n__ $_USRLOG [ #BUG workaround: see venv.py]
+        ug         -- egrep current usrlog: egrep $@ $_USRLOG
+        ugall      -- egrep all usrlogs [ #BUG workaround: see venv.py ]
+                           egrep $@ &quot;${__USRLOG}&quot; &quot;${WORKON_HOME}/*/-usrlog.log&quot;
+        ugrin      -- grin current usrlog: grin $@ ${_USRLOG}
+        ugrinall   -- grin $@  &quot;${__USRLOG}&quot; &quot;${WORKON_HOME}/*/-usrlog.log&quot;
+      
+     ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
+        _setup_xlck()      -- configure xlck
+      
+     ## 40-bashrc.aliases.sh       -- aliases
+        _setup_venv_aliases()  -- source in e, ew, makew, ssv, hgw, gitw
+          _setup_supervisord() -- configure _SVCFG
+             $1 (str): path to a supervisord.conf file &quot;${1:-${_SVCFG}&quot;
+     ## 42-bashrc.commands.sh      -- example commands
+      
+     ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
+      
+     ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
+      
+     ## 99-bashrc.after.sh         -- after: cleanup
+         dr()  -- dotfiles_reload
+         ds()  -- print dotfiles_status()
+   .
+
+   
+   
+etc/bash/01-bashrc.lib.sh
+==========================
+| Src: `etc/bash/01-bashrc.lib.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/01-bashrc.lib.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.lib.sh
+   ## bash
+         echo_args         -- echo $@ (for checking quoting)
+         function_exists() -- check whether a bash function exists
+       PATH_prepend()     -- prepend a directory ($1) to $PATH
+           instead of:
+               export PATH=$dir:$PATH
+               PATH_prepend $dir 
+         PATH_remove()  -- remove a directory from $PATH
+         note: empty path components (&quot;::&quot;) will be stripped
+         PATH_contains() -- test whether $PATH contains $1
+         lightpath()       -- display $PATH with newlines
+         lspath()          -- list files in each directory in $PATH
+         lspath_less()     -- lspath with less (color)
+   ## file paths
+         realpath()        -- print absolute path (os.path.realpath) to $1
+                              note: OSX does not have readlink -f
+         path()            -- realpath()
+         walkpath()        -- walk down path $1 and $cmd each component
+           $1: path (optional; default: pwd)
+           $2: cmd  (optional; default: &#39;ls -ald --color=auto&#39;)
+         ensure_symlink()  -- create or update a symlink to $2 from $1
+                              if $2 exists, backup with suffix $3
+         ensure_mkdir()    -- create directory $1 if it does not yet exist
+   .
+
+   
+   
+etc/bash/02-bashrc.platform.sh
+===============================
+| Src: `etc/bash/02-bashrc.platform.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/02-bashrc.platform.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.platform.sh
+         detect_platform() -- set $__IS_MAC or $__IS_LINUX according to $(uname)
+         j()               -- jobs
+         f()               -- fg %$1
+         b()               -- bg %$1
+         killjob()         -- kill %$1
+   .
+
+   
+   
+etc/bash/03-bashrc.darwin.sh
+=============================
+| Src: `etc/bash/03-bashrc.darwin.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/03-bashrc.darwin.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.darwin.sh
+     softwareupdate                -- install OSX updates
+      | Docs: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+      softwareupdate -l        # --list
+      softwareupdate -i --all  # --install --all
+      softwareupdate -i -r     # --install --recommended
+     Mac Boot-time modifiers: (right after the chime)
+    
+      Option    -- boot to boot disk selector menu
+      C         -- boot from CD/DVD
+      Shift     -- boot into Safe mode
+      Command-V -- boot into verbose mode
+       sudo nvram boot-args=&quot;-v&quot;  # always boot verbosely
+       sudo nvram boot-args=&quot;&quot;    # boot normally
+       sudo nvram -p              # print current nvram settings
+     if __IS_MAC:
+         finder()    -- open Finder.app
+         finder-killall()  -- close all Finder.app instances
+         finder-restart()  -- close all and start Finder.app
+         finder-hide-hidden()    -- hide .hidden files in Finder.app
+                                    (and close all Finder windows)
+         finder-show-hidden()    -- show .hidden files in Finder.app
+                                    (and close all Finder windows)
+   .
+
+   
+   
+etc/bash/04-bashrc.TERM.sh
+===========================
+| Src: `etc/bash/04-bashrc.TERM.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/04-bashrc.TERM.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.TERM.sh
+         configure_TERM            -- configure the $TERM variable (man terminfo)
+           $1: (optional; autodetects if -z)
+         configure_TERM_CLICOLOR   -- configure $CLICOLOR and $CLICOLOR_256
+           CLICOLOR=1
+         configure_TERM when sourced
+   .
+
+   
+   
+etc/bash/05-bashrc.dotfiles.sh
+===============================
+| Src: `etc/bash/05-bashrc.dotfiles.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/05-bashrc.dotfiles.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.dotfiles.sh
+         dotfiles_add_path()       -- add ${__DOTFILES}/scripts to $PATH
+         shell_escape_single()
+         dotfiles_status()         -- print dotfiles_status
+         ds()                      -- print dotfiles_status
+         source &quot;${__DOTFILES}/scripts/cls&quot;
+         clr()                     -- clear scrollback
+         cls()                     -- clear scrollback and print dotfiles_status()
+         echo &quot;## lspath&quot;
+         lspath | tee $OUTPUT
+     https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+         debug-on()                 -- set -x -v
+         debug-off()                -- set +x +v
+         Virtualenvwrapper numeric sequence
+         * to make logs in /var/log/venv.nnn-stepname.log naturally ordered
+        
+         * 0xx : &#39;initialization&#39; actions  : [initialize]
+         * 1xx : &#39;creation&#39; actions        : [pre|post]mk[virtualenv|project]
+         * 2xx : &#39;vation&#39; actions          : [pre|post][activate|deactivate]
+         * 8xx : &#39;managment&#39; actions       : [pre|post][cpvirtualenv|rmvirtualenv]
+         * 868 : unknown
+         * xx0 : &#39;pre&#39; actions
+         * xx9 : &#39;post&#39; actions
+         Source-ordered according to the virtualenvwrapper docs
+         * https://virtualenvwrapper.readthedocs.org/en/latest/scripts.html#scripts
+         log_dotfiles_state()      -- save current environment to logfiles
+           $1 -- logkey (virtualenvwrapper step name)
+         XXX: PRF
+         dotfiles_initialize()     -- virtualenvwrapper initialize
+         dotfiles_premkvirtualenv -- virtualenvwrapper premkvirtualenv
+         dotfiles_postmkvirtualenv -- virtualenvwrapper postmkvirtualenv
+         NOTE: infer VIRTUAL_ENV_NAME from VIRTUAL_ENV
+         dotfiles_preactivate()    -- virtualenvwrapper preactivate
+         dotfiles_postactivate()   -- virtualenvwrapper postactivate
+         dotfiles_predeactivate()  -- virtualenvwrapper predeactivate
+         dotfiles_postdeactivate() -- virtualenvwrapper postdeactivate
+       ### usrlog.sh
+       ## unset _MSG
+       ## unset NOTE
+       ## unset TODO
+   .
+
+   
+   
+etc/bash/06-bashrc.completion.sh
+=================================
+| Src: `etc/bash/06-bashrc.completion.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/06-bashrc.completion.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.completion.sh
+         _configure_bash_completion()  -- configure bash completion
+                                       note: `complete -p` lists completions
+   .
+
+   
+   
+etc/bash/07-bashrc.python.sh
+=============================
+| Src: `etc/bash/07-bashrc.python.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/07-bashrc.python.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.python.sh
+         pypath()              -- print python sys.path and site config
+         _setup_python()       -- configure $PYTHONSTARTUP
+         _setup_pip()          -- set $PIP_REQUIRE_VIRTUALENV=false
+   ## Pyenv
+         _setup_pyvenv()       -- set $PYENV_ROOT, PATH_prepend, and pyenv venvw
+   .
+
+   
+   
+etc/bash/07-bashrc.virtualenvwrapper.sh
+========================================
+| Src: `etc/bash/07-bashrc.virtualenvwrapper.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/07-bashrc.virtualenvwrapper.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.virtualenvwrapper.sh
+    
+     Installing Virtualenvwrapper:
+       apt:
+         sudo apt-get install virtualenvwrapper
+       pip:
+         [sudo] pip install -U pip virtualenvwrapper
+    
+   ## Configure dotfiles/virtualenv root/prefix environment variables
+     __WRK         workspace root
+     PROJECT_HOME  virtualenvwrapper project directory (mkproject)
+     WORKON_HOME   virtualenvwrapper virtualenv prefix
+                   VIRTUAL_ENV=${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+                   _APP=${VIRTUAL_ENV_NAME}  #[/subpath]
+                   _SRC=${VIRTUAL_ENV}/${_APP}
+                   _WRD=${VIRTUAL_ENV}/${_APP}
+         _setup_virtualenvwrapper_config()    -- configure $VIRTUALENVWRAPPER_*
+             elif &quot;${VIRTUAL_ENV}/bin/python&quot;  ## use extra-venv python
+          if [ -n &quot;${__IS_MAC}&quot; ]; then  # for brew python
+         lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
+         lsve()                -- list virtualenvs in $WORKON_HOME
+         backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
+         backup_virtualenvs()  -- backup all virtualenvs in $WORKON_HOME to [$1]
+         dx()                      -- &#39;deactivate&#39;
+         rebuild_virtualenv()      -- rebuild a virtualenv, leaving pkgs in place
+            $1=&quot;$VENVSTR&quot;
+            $2=&quot;$VIRTUAL_ENV&quot;
+         TODO: adjust paths beyond the shebang
+          rebuild_virtualenv()     -- rebuild a virtualenv
+            $1=&quot;$VENVSTR&quot;
+            $2=&quot;$VIRTUAL_ENV&quot;
+         rebuild_virtualenvs()     -- rebuild all virtualenvs in $WORKON_HOME
+       _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
+   .
+
+   
+   
+etc/bash/08-bashrc.conda.sh
+============================
+| Src: `etc/bash/08-bashrc.conda.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.conda.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.conda.sh
+   ## Conda / Anaconda
+     see: 05-bashrc.dotfiles.sh
+            # shell_escape_single()
+            strtoescape=${1}
+            output=&quot;$(echo &quot;${strtoescape}&quot; | sed &quot;s,&#39;,&#39;\&quot;&#39;\&quot;&#39;,g&quot;)&quot;
+            echo &quot;&#39;&quot;${output}&quot;&#39;&quot;
+         _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
+         _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
+         _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
+         csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
+         _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
+            $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
+                         (default: ${__WRK})
+         _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
+           $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
+                                                           CONDA_ENVS__py27)
+           $2 (pathstr or &quot;&quot;)       -- lookup($2, CONDA_ROOT,
+                                                           CONDA_ROOT__py27)
+        
+          Usage:
+           _setup_conda     # __py27
+           _setup_conda 27  # __py27
+           _setup_conda 34  # __py34
+           _setup_conda 35  # __py35
+           _setup_conda ~/envs             # __py27
+           _setup_conda ~/envs/ /opt/conda # /opt/conda
+           _setup_conda &lt;conda_envs_path&gt; &lt;conda_root&gt;  # conda_root
+        
+                 CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+         _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
+         _unsetup_conda_path_all()  -- remove CONDA_ROOT &amp; defaults from $PATH
+         deduplicate_lines()   -- deduplicate lines w/ an associative array
+                                                         (~OrderedMap)
+         echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH &amp; defaults)
+         lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
+           _conda_status&gt;2
+           find&gt;1
+         lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
+         _condaenvs()              -- list conda envs for tab-completion
+         workon_conda()        -- workon a conda + venv project
+         wec()                 -- workon a conda + venv project
+                               note: tab-completion only shows regular virtualenvs
+         _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
+         mkvirtualenv_conda()  -- mkvirtualenv and conda create
+         if there is a function named &#39;dotfiles_postmkvirtualenv&#39;,
+         then run &#39;dotfiles_postmkvirtualenv&#39;
+         rmvirtualenv_conda()  -- rmvirtualenv conda
+         mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
+         workon_conda_if_available()       -- workon_conda OR we OR workon
+   .
+
+   
+   
+etc/bash/08-bashrc.conda.sh.un~
+================================
+| Src: `etc/bash/08-bashrc.conda.sh.un~ &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.conda.sh.un~&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.conda.sh
+   ## Conda / Anaconda
+     see: 05-bashrc.dotfiles.sh
+            # quote_shell_single_always()
+            strtoescape=${1}
+            output=&quot;$(echo &quot;${strtoescape}&quot; | sed &quot;s,&#39;,&#39;\&quot;&#39;\&quot;&#39;,g&quot;)&quot;
+            echo &quot;&#39;&quot;${output}&quot;&#39;&quot;
+         _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
+         _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
+         _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
+         csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
+         _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
+            $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
+                         (default: ${__WRK})
+         _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
+           $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
+                                                           CONDA_ENVS__py27)
+           $2 (pathstr or &quot;&quot;)       -- lookup($2, CONDA_ROOT,
+                                                           CONDA_ROOT__py27)
+        
+          Usage:
+           _setup_conda     # __py27
+           _setup_conda 27  # __py27
+           _setup_conda 34  # __py34
+           _setup_conda 35  # __py35
+           _setup_conda ~/envs             # __py27
+           _setup_conda ~/envs/ /opt/conda # /opt/conda
+           _setup_conda &lt;conda_envs_path&gt; &lt;conda_root&gt;  # conda_root
+        
+                 CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+         _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
+         _unsetup_conda_path_all()  -- remove CONDA_ROOT &amp; defaults from $PATH
+         deduplicate_lines()   -- deduplicate lines w/ an associative array
+                                                         (~OrderedMap)
+         echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH &amp; defaults)
+         lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
+           _conda_status&gt;2
+           find&gt;1
+         lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
+         _condaenvs()              -- list conda envs for tab-completion
+         workon_conda()        -- workon a conda + venv project
+         wec()                 -- workon a conda + venv project
+                               note: tab-completion only shows regular virtualenvs
+         _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
+         mkvirtualenv_conda()  -- mkvirtualenv and conda create
+         if there is a function named &#39;dotfiles_postmkvirtualenv&#39;,
+         then run &#39;dotfiles_postmkvirtualenv&#39;
+         rmvirtualenv_conda()  -- rmvirtualenv conda
+         mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
+         workon_conda_if_available()       -- workon_conda OR we OR workon
+   .
+
+   
+   
+etc/bash/08-bashrc.gcloud.sh
+=============================
+| Src: `etc/bash/08-bashrc.gcloud.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.gcloud.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.gcloud.sh
+       ## _get_GCLOUDSDK_PREFIX()   -- get GCLOUDSDK_PREFIX
+           $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
+       ## _setup_GCLOUDSDK_PREFIX() -- configure gcloud $PATH and bash completions
+           $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
+       ## _setup_gcloudsdk() -- configure gcloud $PATH and bash completions
+           $1 (str): default:~/google-cloud-sdk (GCLOUDSDK_PREFIX)
+       ## _unsetup_gcloudsdk() -- unset GCLOUDSDK_PREFIX
+         XXX: PATH_remove &lt;...&gt;
+       ## _get_APPENGINESDK_PREFIX()  -- get APPENGINESDK_PREFIX
+       ## _setup_APPENGINESDK_PREFIX() -- configure gcloud $PATH and completion
+           $1 (str): default:~/google-cloud-sdk (APPENGINESDK_PREFIX)
+       ## _setup_appenginesdk() -- config GCLOUDSDK*, APPENGINESDK_PREFIX, PATH
+           $1 (str): default: ~/google-cloud-sdk/platform/google_appengine
+                     default: /usr/local/google_appengine
+                     ${APPENGINESDK_PREFIX}
+       ## _unsetup_appenginesdk() -- PATH_remove ${APPENGINESDK_PREFIX}
+   .
+
+   
+   
+etc/bash/10-bashrc.venv.sh
+===========================
+| Src: `etc/bash/10-bashrc.venv.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/10-bashrc.venv.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.venv.sh
+       note: most of these aliases and functions are overwritten by `we` 
+   ## Variables
+         _setup_venv()    -- configure __PROJECTSRC, PATH, __VENV, _setup_venv_SRC()
+          __PROJECTSRC (str): path to local project settings script to source
+         PATH=&quot;~/.local/bin:$PATH&quot; (if not already there)
+         __VENV      -- path to local venv config script (executable)
+         CdAlias functions and completions
+         _setup_venv_SRC() -- configure __SRCVENV and __SRC global virtualenv
+         __SRCVENV (str): global &#39;src&#39; venv symlink (~/-wrk/src)
+                          (e.g. ln -s ~/-wrk/-ve27/src ~/-wrk/src)
+         __SRC     (str): global &#39;src&#39; venv ./src directory path (~/-wrk/src/src)
+                       ($__SRC/git $__SRC/git)
+   ## Functions
+         venv $@   -- call $_VENV $@
+         venv -h   -- print venv --help
+         venv --print-bash   -- print bash configuration
+         venv --print-json   -- print IPython configuration as JSON
+         venvw $@ -- venv -E $@ (for the current environment)
+         workon_venv() -- workon a virtualenv and load venv (TAB-completion)
+          param $1: $VIRTUAL_ENV_NAME (&quot;dotfiles&quot;)
+          param $2: $_APP (&quot;dotfiles&quot;) [default: $1)
+           ${WORKON_HOME}/${VIRTUAL_ENV_NAME}  # == $VIRTUAL_ENV
+           ${VIRTUAL_ENV}/src                  # == $_SRC
+           ${_SRC}/${VIRTUAL_ENV_NAME}         # == $_WRD
+          examples:
+           we dotfiles
+           we dotfiles dotfiles
+         we()          -- workon_venv
+         _setup_venv_aliases()  -- load venv aliases
+           note: these are overwritten by `we` [`source &lt;(venv -b)`]
+         makew     -- make -C &quot;${WRD}&quot; ${@}    [scripts/makew &lt;TAB&gt;]
+         hgw       -- hg -R  ${_WRD}   [scripts/hgw &lt;TAB&gt;]
+         gitw      -- git -C ${_WRD}   [scripts/gitw &lt;TAB&gt;]
+         serve-()  -- ${_SERVE_}
+         alias serve-=&#39;${_SERVE_}&#39;
+         shell-()  -- ${_SHELL_}
+         alias shell-=&#39;${_SHELL_}&#39;
+         test-()   -- cd ${_WRD} &amp;&amp; python setup.py test
+         testr-()  -- reset; cd ${_WRD} &amp;&amp; python setup.py test
+         _setup_venv_prompt()    -- set PS1 with $WINDOW_TITLE, $VIRTUAL_ENV_NAME,
+                                  and ${debian_chroot}
+                   &quot;WINDOW_TITLE (venvprompt) [debian_chroot]&quot;
+         try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
+         TODO: CONDA
+         venv_ls()     -- list virtualenv directories
+         lsvenv()      -- venv_ls()
+         venv_mkdirs()  -- create FSH paths in ${1} or ${VIRTUAL_ENV} 
+   .
+
+   
+   
+etc/bash/11-bashrc.venv.pyramid.sh
+===================================
+| Src: `etc/bash/11-bashrc.venv.pyramid.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/11-bashrc.venv.pyramid.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.venv.pyramid.sh
+         workon_pyramid_app()  -- $VIRTUAL_ENV_NAME [$_APP] [open_terminals]
+   .
+
+   
+   
+etc/bash/20-bashrc.editor.sh
+=============================
+| Src: `etc/bash/20-bashrc.editor.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/20-bashrc.editor.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.editor.sh
+         setup_editor()    -- configure ${EDITOR}
+           VIMBIN  (str):   /usr/bin/vim
+           GVIMBIN (str):   /usr/bin/gvim
+           MVIMBIN (str):   /usr/local/bin/mvim
+           GUIVIMBIN (str): $GVIMBIN || $MVIMBIN || &quot;&quot;
+           EDITOR  (str):   $VIMBIN -f || $GUIVIMBIN -f
+           EDITOR_ (str):   $EDITOR || $GUIVIMBIN $VIMCONF --remote-tab-silent
+           VIMCONF (str):   --servername ${VIRTUAL_ENV_NAME:-&#39;EDITOR&#39;}
+           SUDO_EDITOR (str): $EDITOR
+         _setup_pager()    -- set PAGER=&#39;less&#39;
+         ggvim()   -- ${EDITOR} $@ 2&gt;&amp;1 &gt;/dev/null
+         edits()   -- open $@ in ${GUIVIMBIN} --servername $1
+         editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
+         sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+         sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
+   .
+
+   
+   
+etc/bash/29-bashrc.vimpagers.sh
+================================
+| Src: `etc/bash/29-bashrc.vimpagers.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/29-bashrc.vimpagers.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.vimpagers.sh
+         _configure_lesspipe() -- (less &lt;file.zip&gt; | lessv)
+         vimpager() -- call vimpager
+         lessv()   -- less with less.vim and vim (g:tinyvim=1)
+         lessg()   -- less with less.vim and gvim / mvim
+         lesse()   -- less with current venv&#39;s vim server
+         manv()    -- view manpages in vim
+         mang()    -- view manpages in gvim / mvim
+         mane()    -- open manpage with venv&#39;s vim server
+   .
+
+   
+   
+etc/bash/30-bashrc.usrlog.sh
+=============================
+| Src: `etc/bash/30-bashrc.usrlog.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/30-bashrc.usrlog.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.usrlog.sh
+         _USRLOG (str): path to .usrlog userspace shell command log
+         stid()      -- set $TERM_ID to a random string
+         stid $name  -- set $TERM_ID to string
+         note()      -- add a dated note to $_USRLOG [_usrlog_append]
+         usrlogv()   -- open usrlog with vim:   $VIMBIN + $_USRLOG
+         usrlogg()   -- open usrlog with gmvim: $GUIVIMBIN + $_USRLOG
+         usrloge()   -- open usrlog with editor:$EDITOR + $_USRLOG
+         ut()        -- tail $_USRLOG
+         ug()        -- egrep current usrlog: egrep $@ $_USRLOG
+         ugall()     -- egrep $@ $__USRLOG ${WORKON_HOME}/*/.usrlog
+         ugrin()     -- grin current usrlog: grin $@ $_USRLOG
+         ugrinall()  -- grin $@  $__USRLOG ${WORKON_HOME}/*/.usrlog
+         lsusrlogs() -- ls -tr   $__USRLOG ${WORKON_HOME}/*/.usrlog
+         _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
+         usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
+         usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
+         usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
+   .
+
+   
+   
+etc/bash/30-bashrc.xlck.sh
+===========================
+| Src: `etc/bash/30-bashrc.xlck.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/30-bashrc.xlck.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### 30-bashrc.xlck.sh
+   ## xlck     -- minimal X screensaver
+         xlck 
+         xlck -I  --  (I)nstall xlck (apt-get)
+         xlck -U  --  check stat(U)s (show xautolock processes on this $DISPLAY)
+         xlck -S  --  (S)tart xlck (start xautolock on this $DISPLAY)
+         xlck -P  --  sto(P) xlck (stop xautolock on this $DISPLAY)
+         xlck -R  --  (R)estart xlck
+         xlck -M  --  suspend to ra(M) (and lock)
+         xlck -D  --  suspend to (D)isk (and lock)
+         xlck -L  --  (L)ock
+         xlck -X  --  shutdown -h now
+         xlck -h  --  help
+         xlck_status_all()             -- pgrep &#39;xautolock|xlock|i3lock&#39;, ps ufw
+         xlck_status_this_display()    -- show status for this $DISPLAY
+         _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
+   .
+
+   
+   
+etc/bash/40-bashrc.aliases.sh
+==============================
+| Src: `etc/bash/40-bashrc.aliases.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/40-bashrc.aliases.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.aliases.sh
+          _load_aliases()  -- load aliases
+         chmodr   -- &#39;chmod -R&#39;
+         chownr   -- &#39;chown -R&#39;
+         grep     -- &#39;grep --color=auto&#39;
+         egrep    -- &#39;egrep --color=auto&#39;
+         fgrep    -- &#39;fgrep --color=auto&#39;
+         grindp   -- &#39;grind --sys.path&#39;
+         grinp    -- &#39;grin --sys-path&#39;
+         fumnt    -- &#39;fusermount -u&#39;
+         ga       -- &#39;git add&#39;
+         gac()    -- &#39;git diff ${files}; git commit -m $1 ${files}&#39;
+           $1 (str): quoted commit message
+           $2- (list): file paths
+         gb       -- &#39;git branch -v&#39;
+         gd       -- &#39;git diff&#39;
+         gds      -- &#39;git diff -p --stat&#39;
+         gc       -- &#39;git commit&#39;
+         gco      -- &#39;git checkout&#39;
+         gdc      -- &#39;git diff --cached&#39;
+         gl       -- &#39;git log --pretty=format:&quot;%h : %an : %s&quot; --topo-order --graph&#39;
+         gr       -- &#39;git remote -v&#39;
+         gs       -- &#39;git status&#39;
+         gsi      -- &#39;git is; git diff; git diff --cached&#39;
+         gsiw      -- &#39;git -C $_WRD gsi&#39;
+         gsl      -- &#39;git stash list&#39;
+         gsn      -- &#39;git stash save&#39;
+         gss      -- &#39;git stash save&#39;
+         gitr     -- &#39;git remote -v&#39;
+         hga      -- &#39;hg add&#39;
+         hgac()   -- &#39;hg add $@[1:]; hg commit $1&#39;
+           $1 (str): quoted commit message
+           $2- (list): file paths
+         hgl      -- &#39;hg glog --pager=yes&#39;
+         hgs      -- &#39;hg status&#39;
+         hgd      -- &#39;hg diff&#39;
+         hgds     -- &#39;hg diff --stat&#39;
+         hgdl     -- &#39;hg diff --color=always | less -R&#39;
+         hgc      -- &#39;hg commit&#39;
+         hgu      -- &#39;hg update&#39;
+         hgq      -- &#39;hg qseries&#39;
+         hgqd     -- &#39;hg qdiff&#39;
+         hgqs     -- &#39;hg qseries&#39;
+         hgqn     -- &#39;hg qnew&#39;
+         hgr      -- &#39;hg paths&#39;
+         __IS_MAC
+             la       -- &#39;ls -A -G&#39;
+             ll       -- &#39;ls -alF -G&#39;
+             ls       -- &#39;ls -G&#39;
+             lt       -- &#39;ls -altr -G&#39;
+             lll      -- &#39;ls -altr -G&#39;
+         else
+             la       -- &#39;ls -A --color=auto&#39;
+             ll       -- &#39;ls -alF --color=auto&#39;
+             ls       -- &#39;ls --color=auto&#39;
+             lt       -- &#39;ls -altr --color=auto&#39;
+             lll      -- &#39;ls -altr --color=auto&#39;
+         __IS_LINUX
+             psx      -- &#39;ps uxaw&#39;
+             psf      -- &#39;ps uxawf&#39;
+             psxs     -- &#39;ps uxawf --sort=tty,ppid,pid&#39;
+             psxh     -- &#39;ps uxawf --sort=tty,ppid,pid | head&#39;
+             psh      -- &#39;ps uxaw | head&#39;
+             psc      -- &#39;ps uxaw --sort=-pcpu&#39;
+             psch     -- &#39;ps uxaw --sort=-pcpu | head&#39;
+             psm      -- &#39;ps uxaw --sort=-pmem&#39;
+             psmh     -- &#39;ps uxaw --sort=-pmem | head&#39;
+         __IS_MAC
+             psx      -- &#39;ps uxaw&#39;
+             psf      -- &#39;ps uxaw&#39; # no -f
+             psh      -- &#39;ps uxaw | head&#39;
+             psc      -- &#39;ps uxaw -c&#39;
+             psch     -- &#39;ps uxaw -c | head&#39;
+             psm      -- &#39;ps uxaw -m&#39;
+             psmh     -- &#39;ps uxaw -m | head&#39;
+         pyg      -- pygmentize [pip install --user pygments]
+         catp     -- pygmentize [pip install --user pygments]
+         shtop    -- &#39;sudo htop&#39; [apt-get/yum install -y htop]
+         t        -- &#39;tail&#39;
+         tf       -- &#39;tail -f&#39;
+         xclipc   -- &#39;xclip -selection c&#39;
+   .
+
+   
+   
+etc/bash/42-bashrc.commands.sh
+===============================
+| Src: `etc/bash/42-bashrc.commands.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/42-bashrc.commands.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.commands.sh
+     usage: bash -c &#39;source bashrc.commands.sh; funcname &lt;args&gt;&#39;
+         chown-me()        -- chown -Rv user
+         chown-me-mine()   -- chown -Rv user:user &amp;&amp; chmod -Rv go-rwx
+         chown-sme()       -- sudo chown -Rv user
+         chown-sme-mine()  -- sudo chown -Rv user:user &amp;&amp; chmod -Rv go-rwx
+         chmod-unumask()   -- recursively add other+r (files) and other+rx (dirs)
+   .
+
+   
+   
+etc/bash/50-bashrc.bashmarks.sh
+================================
+| Src: `etc/bash/50-bashrc.bashmarks.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/50-bashrc.bashmarks.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### bashrc.bashmarks.sh
+   ## bashmarks
+         l()  -- list bashmarks
+         s()  -- save bashmarks as $1
+         g()  -- goto bashmark $1
+         p()  -- print bashmark $1
+         d()  -- delete bashmark $1
+         lsbashmarks() -- list Bashmarks (e.g. for NERDTree)
+         see also: ${__DOTFILES}/scripts/nerdtree_to_bashmarks.py
+   .
+
+   
+   
+etc/bash/70-bashrc.repos.sh
+============================
+| Src: `etc/bash/70-bashrc.repos.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/70-bashrc.repos.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### 70-bashrc.repos.sh
+          git-commit()   -- git commit ${2:} -m ${1}; git log -n1 
+          gc()             -- git-commit() &lt;files&gt; -m &lt;log&gt; ; log log -n1
+          git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
+          gac()            -- git-add-commit $@
+     function msg {
+       export _MSG=&quot;${@}&quot;
+       see: usrlog.sh
+     }
+          gitcmsg()    -- gitc &quot;${_MSG}&quot; ${@}
+          gitcaddmsg()    -- gitc &quot;${_MSG}&quot; ${@}
+    
+    
+    
+     Use Cases
+     * Original: a bunch of commands that i was running frequently
+       before readthedocs (and hostthedocs)
+     * local mirrors (manual, daily?)
+       * no internet, outages
+       * push -f
+       * (~offline) Puppet/Salt source installs
+         * bandwidth: testing a recipe that pulls a whole repositor(ies)
+     * what&#39;s changed in &lt;project&gt;&#39;s source dependencies, since i looked last
+    
+     Justification
+     * very real risks for all development projects
+       * we just assume that GitHub etc. are immutable and forever
+    
+     Features (TODO) [see: pyrpo]
+     * Hg &lt;subcommands&gt;
+     * Git &lt;subcommands&gt;
+     * Bzr &lt;subcommands&gt;
+     * periodic backups / mirroring
+     * gitweb / hgweb
+     * mirror_and_backup &lt;URL&gt;
+     * all changes since &lt;date&gt; for &lt;set_of_hg-git-bzr-svn_repositories&gt;
+     * ideally: transparent proxy
+       * +1: easiest
+       * -1: pushing upstream
+    
+     Caveats
+     * pasting / referencing links which are local paths
+     * synchronization lag
+     * duplication: $__SRC/hg/&lt;pkg&gt; AND $VIRTUAL_ENV/src/&lt;pkg&gt;
+    
+          setup_dotfiles_docs_venv -- create default &#39;docs&#39; venv
+          setup_dotfiles_src_venv -- create default &#39;src&#39; venv
+        
+           __SRC_HG=${WORKON_HOME}/src/src/hg
+           __SRC_GIT=${WORKON_HOME}/src/src/git
+        
+          Hg runs hg commands as user hg
+          Git runs git commands as user git
+        
+          Hgclone will mirror to $__SRC_HG
+          Gitclone will mirror to $__SRC_GIT
+        
+        
+     __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
+     __SRC_GIT_REMOTE_NAME         -- name for git remote v
+     __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
+     __SRC_HG_REMOTE_NAME          -- name for hg paths
+       ## Create a new hosted repository with gitolite-admin
+          $1   -- repo [user/]name (e.g. westurner/dotfiles)
+       ## push a git repository to local git storage
+          $1   -- repo [user/]name (e.g. westurner/dotfiles) 
+          $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
+       ## Create a new hosted repository with mercurial-ssh
+       ## push a hg repository to local git storage
+          $1   -- repo [user/]name (e.g. westurner/dotfiles)
+          $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
+            fixperms ${path}
+          host_docs    -- build and host documentation in a local directory
+           param $1: &lt;project_name&gt;
+           param $2: [&lt;path&gt;]
+           param $3: [&lt;docs/Makefile&gt;]
+           param $4: [&lt;docs/conf.py&gt;]
+         * log documentation builds
+         * build a sphinx documentation set with a Makefile and a conf.py
+         * rsync to docs webserver
+         * set permissions
+         this is not readthedocs.org
+         note: you must manually install packages into the
+         local &#39;docs&#39; virtualenv&#39;
+                             TODO: prompt?
+             &gt;&gt; &#39;html_theme = &quot;_-_&quot;
+             &lt;&lt; &#39;html_theme = &#39;default&#39;
+   .
+
+   
+   
+etc/bash/99-bashrc.after.sh
+============================
+| Src: `etc/bash/99-bashrc.after.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/99-bashrc.after.sh&gt;`__
+
+.. code:: bash
+
+   .
+   .
+
+   
+   
+etc/bash/_ewrd.sh
+==================
+| Src: `etc/bash/_ewrd.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/_ewrd.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ###   _ewrd.sh  -- convenient editor shortcuts
+         # setup edit[*] and e[*] symlinks:
+         $ ln -s ./_ewrd.sh _ewrd-setup.sh &amp;&amp; ./_ewrd-setup.sh
+   ##    editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
+         editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
+         edotfiles()    -- cd $__DOTFILES and run edit w/ each arg
+   ##    editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
+         editwrk()      -- cd $__WRK and run edit w/ each arg
+         ewrk()         -- cd $__WRK and run edit w/ each arg
+   ##    editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
+         editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
+         eworkonhome()    -- cd $WORKON_HOME and run edit w/ each arg
+         ewh()            -- cd $WORKON_HOME and run edit w/ each arg
+   ##    editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
+         editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
+         evirtualenv()    -- cd $VIRTUAL_ENV and run edit w/ each arg
+         ev()             -- cd $VIRTUAL_ENV and run edit w/ each arg
+   ##    editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
+         editsrc() -- cd $_SRC and run edit w/ each arg
+         esrc()    -- cd $_SRC and run edit w/ each arg
+         es()      -- cd $_SRC and run edit w/ each arg
+   ##    editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
+         editwrd() -- cd $_WRD and run edit w/ each arg
+         ewrd()    -- cd $_WRD and run edit w/ each arg
+         ew()      -- cd $_WRD and run edit w/ each arg
+   ##    editetc, eetc      --- cd $_ETC and run edit w/ each arg
+         editetc() -- cd $_ETC and run edit w/ each arg
+         eetc()    -- cd $_ETC and run edit w/ each arg
+   ##    editwww, ewww      --- cd $_WWW and run edit w/ each arg
+         editwww() -- cd $_WWW and run edit w/ each arg
+         ewww()    -- cd $_WWW and run edit w/ each arg
+    
+   ## seeAlso ##
+     * https://westurner.org/dotfiles/venv
+    
+     .. code:: bash
+    
+        type cdhelp; cdhelp 
+        less scripts/venv_cdaliases.sh
+        venv.py --prefix=/ --print-bash-cdaliases
+   .
+
+   
+   
+etc/bash/usrlog.sh
+===================
+| Src: `etc/bash/usrlog.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/usrlog.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### usrlog.sh -- Shell CLI REPL command logs in userspace (per $VIRTUAL_ENV)
+    
+      Log shell commands with metadata as tab-separated lines to ${_USRLOG}
+      with a shell identifier to differentiate between open windows,
+      testing/screencast flows, etc
+    
+      By default, _USRLOG will be set to a random string prefixed with &#39;#&#39;
+      by the `stid()` bash function (`_usrlog_set__TERM_ID()`)
+    
+      * _TERM_ID can be set to any string;
+      * _TERM_ID is displayed in the PS1 prompt
+      * _TERM_ID is displayed in the window title
+      * _TERM_ID is reset to __TERM_ID upon &#39;deactivate&#39;
+        (westurner/dotfiles//etc/bash/07-bashrc.virtualenvwrapper.sh:
+         TODO: virtualenvwrapper, conda)
+    
+      Environment Variables:
+    
+       __USRLOG (str): default -usrlog.log file (~/-usrlog.log)
+       _USRLOG  (str): current -usrlog.log file to append REPL command strings to
+       _TERM_ID (str): a terminal identifier with which command loglines will
+                       be appended (default: _usrlog_randstr)
+    
+          _usrlog_get_prefix()    -- get a dirpath for the current usrlog
+                                     (VIRTUAL_ENV or HOME)
+          _usrlog_set__USRLOG()    -- set $_USRLOG (and $__USRLOG)
+          _usrlog_set_HISTFILE()   -- configure shell history
+               history -a   -- append any un-flushed lines to $HISTFILE
+         set/touch HISTFILE
+           history -c &amp;&amp; history -r $HISTFILE   -- clear; reload $HISTFILE
+             ZSH_VERSION
+          _usrlog_set_HIST()    -- set shell $HIST&lt;...&gt; variables
+          see HISTSIZE and HISTFILESIZE in bash(1)
+          note that HOSTNAME and USER come from the environ
+          and MUST be evaluated at the time HISTTIMEFORMAT is set.
+          ... or force ignoredups and ignorespace
+          HISTCONTROL=ignoredups:ignorespace
+              append current lines to history
+              append to the history file, don&#39;t overwrite it
+              https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
+              replace newlines with semicolons
+              enable autocd (if available)
+          _usrlog_randstr      -- Generate a random string
+            $1: number of characters
+          _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
+          _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
+            $1: _term_id value for _TERM_ID
+          _usrlog_echo_title   -- set window title (by echo&#39;ing escape codes)
+          else
+             echo -ne &quot;${USRLOG_WINDOW_TITLE}&quot;
+          _usrlog_set_title()  --  set xterm title
+           $1: _window_title (defaults to ${_TERM_ID})
+          _usrlog_setup()      -- configure usrlog for the current shell
+          setup bash
+          setup zsh
+          _usrlog_append()  -- Write a line to $_USRLOG w/ an ISO8601 timestamp
+            $1: text (command) to log
+            note: _TERM_ID must not contain a tab character (tr &#39;\t&#39; &#39; &#39;)
+            note: _TERM_ID can be a URN, URL, URL, or simple \w+ str key
+          example:
+            2014-11-15T06:42:00-0600	dotfiles	 8311  ls
+            (pwd -p)?
+             this from HISTORY
+        #  _usrlog_append_oldstype -- Write a line to $_USRLOG
+        #    $1: text (command) to log
+        #  examples:
+        #    # qMZwZSGvJv8: 10/28/14 17:25.54 :::   522  histgrep BUG
+        #    #ZbH08n8unY8	2014-11-11T12:27:22-0600	 2238  ls
+        printf &quot;#  %-11s: %s : %s&quot; \
+            &quot;$_TERM_ID&quot; \
+            &quot;$(date +&#39;%D %R.%S&#39;)&quot; \
+            &quot;${1:-&#39;\n&#39;}&quot; \
+                | tee -a $_USRLOG &gt;&amp;2
+          _usrlog_writecmd()    -- write the most recent command to $_USRLOG
+   ## usrlog parsing
+          _usrlog_parse_newstyle -- Parse a -usrlog.log with pyline
+            NOTE: handle when HISTTIMEFORMAT=&quot;&quot;
+            NOTE: this is approxmte (see: venv.py)
+          _usrlog_parse_cmds -- Show histcmd or histstr from HISTTIMEFORMAT usrlog
+          with pyline
+          TODO: handle HISTTIMEFORMAT=&quot;&quot; (&quot; histn  &lt;cmd&gt;&quot;)
+          TODO: handle newlines (commands that start on the next line)  (venv.py)
+          NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
+          NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
+            &#39;list((
+                (&quot; &quot;.join(w[10:]).rstrip() if len(w) &gt; 10 else None)
+                or (&quot; &quot;.join(w[9:]).rstrip() if len(w) &gt; 9 else None)
+                or (&quot; &quot;.join(w[8:]).rstrip() if len(w) &gt; 8 else None)
+                or (&quot; &quot;.join(w[7:]).rstrip() if len(w) &gt; 7 else None)
+                or (&quot; &quot;.join(w[3:]).rstrip() if len(w) &gt; 3 else None)
+                or &quot; &quot;.join(w).rstrip())
+                for w in [ line and line.startswith(&quot;#&quot;) and line.split(&quot;\t&quot;,9) or [line] ]
+                )&#39;
+   ## usrlog.sh API
+   ### usrlog _TERM_ID commands
+          termid()      -- echo $_TERM_ID
+          set_term_id() -- set $_TERM_ID to a randomstr or $1
+          stid()        -- set $_TERM_ID to a randomstr or $1
+          st()          -- set $_TERM_ID to a randomstr or $1
+   ### usrlog tail commands
+          ut()  -- show recent commands
+          uta()  -- tail all usrlogs from lsusrlogs
+          utap()  -- tail all userlogs from lsusrlogs and parse
+          ut()  -- show recent commands
+          usrlog_tail()     -- tail -n20 $_USRLOG
+          usrlogtf()    -- tail -f -n20 $_USRLOG
+          utf()         -- tail -f -n20 $_USRLOG
+   ### usrlog grep commands
+          usrlog_grep() -- egrep -n $_USRLOG
+          ug()          -- egrep -n $_USRLOG
+          uga2()
+         # usrlog_grep_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;
+         (set -x;
+         local _term_id=${1:-&quot;${_TERM_ID}&quot;};
+         local _usrlog=${2:-&quot;${_USRLOG}&quot;};
+         egrep &quot;# [\d-T:Z ]+\t${_term_id}\t&quot; ${_USRLOG} )
+         usrlog_grep_todos | _usrlog_parse_cmds
+         usrlog_grep_todos | _usrlog_parse_cmds
+         usrlog_grep_todos | _usrlog_parse_cmds
+         pyline &#39;(l.replace(&quot;#TODO: &quot;, &quot;- [ ] &quot;, 1).replace(&quot;#NOTE:&quot;, &quot;- &quot;, 1) if l.startswith(&quot;#TODO: &quot;, &quot;#NOTE: &quot;) else l)&#39;
+          usrlog_grin() -- grin -s $@ $_USRLOG
+          ugrin()       -- grin -s $@ $_USRLOG
+          usrlog_grin_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;
+          usrlog_grin_session_id()  -- egrep &quot;.*\t${1:-$_TERM_ID}&quot;
+          usrlog_grin_session_id_all()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+                                           in column position
+            :returns: unsorted list of log entries in files
+                      listed by mtime and then cat
+        
+          .. warning:: output lines are in file sequence but otherwise
+                        unsorted
+        
+          ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
+          usrlog_grin_session_id_all_cmds()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
+                                                in column position
+          lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+                                     (oldest first)
+          lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
+                                     (newest first)
+          lsusrlogs()             -- list usrlogs (oldest first)
+          usrlog_lately()      -- lsusrlogs by mtime
+          ull()                -- usrlog_lately() (lsusrlogs by mtime)
+          usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
+          ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
+          uga()                -- grep $(lsusrlogs) (drop filenames with -h)
+          usrlog_grin_all()    -- grin usrlogs
+          usrlog_grin_all()    -- grin usrlogs
+          todo()   -- _usrlog_append a #TODO and set _TODO (&#39;-&#39; unsets, &#39;&#39; prints)
+              see: usrlog_grep_todos_parse (ugt, ugtp) 
+          note()   -- _usrlog_append a #NOTE and set _NOTE (&#39;-&#39; unsets, &#39;&#39; prints)
+          msg()   -- _usrlog_append a #_MSG and set __MSG (&#39;-&#39; unsets, &#39;&#39; prints)
+          usrlog_screenrec_ffmpeg() -- record a screencast
+            $1: destination directory (use /tmp if possible)
+            $2: video name to append to datestamp
+            - Press &quot;q&quot; to stop recording
+          usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}
+          _setup_usrlog() -- call _usrlog_setup $@
+   ## calls _usrlog_setup when sourced
+   .
+
+   
+   
+etc/bash/xlck.sh
+=================
+| Src: `etc/bash/xlck.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/bash/xlck.sh&gt;`__
+
+.. code:: bash
+
+   .
+   ### xlck.sh -- script wrapper for xautolock, xlock, and/or i3lock
+   ##             as well as issuing suspend, shutdown, and restart commands
+         xlck()            -- xlck $@
+         _xlck_install()   -- install xlck dependencies
+         xlck requires: bash, pgrep, ps, kill, xautolock, xlock, i3lock, xset
+         _xlck_setup_dpms() -- configure display with xset and dpms
+         _xlck_setup()     -- setup xlck (export _XLCK=(this) &amp;&amp; _xlck_setup_dpms)
+         _xlck_xlck()      -- start xlock (white on black w/ a 3 second delay)
+         _xlck_i3lock()    -- start i3lock with a dark gray background
+         xlck_gnome_screensaver_status()  -- gnome-screensaver PIDs on $DISPLAY
+         xlck_gnome_screensaver_start() -- start gnome-screensaver
+         xlck_gnome_screensaver_lock() -- lock gnome-screensaver
+         xlock_lock()      -- lock the current display
+           $1 {i3lock|i3, xlock|x, gnome-screensaver|gnome|g}
+           note: this will be run before suspend to RAM and Disk.
+         _suspend_to_ram()     -- echo mem &gt; /sys/power/state
+         _suspend_to_disk()    -- echo disk &gt; /sys/power/state
+          note: this does not work on many machines
+         _dbus_halt()      -- send a dbus stop msg to ConsoleKit
+         _dbus_reboot()    -- send a dbus reboot msg to ConsoleKit
+         _dbus_suspend()   -- send a dbus suspend msg to ConsoleKit
+         _dbus_hibernate() -- send a dbus hibernate msg to ConsoleKit
+         xlck_lock_suspend_ram()   -- lock and suspend to RAM
+         xlck_lock_suspend_disk()  -- lock and suspend to disk
+         xlck_suspend_ram()        -- lock and suspend to RAM
+         xlck_suspend_disk()       -- lock and suspend to disk
+         xlck_start()              -- start xlck
+         xlck_stop()               -- stop xlck
+         xlck_restart()            -- stop and start xlck
+         xlck_pgrep_display()-- find xautolock on this display
+         xlck_xautolock_pgrep_display()-- find xautolock on this display
+         xlck_xautolock_status()       -- show xlck status 
+         xlck_autolock_stop()          -- stop autolock on the current $DISPLAY
+         xlck_status()     -- xlck_xautolock_status
+         xlck_status_all() -- pgrep &#39;xautolock|xlock|i3lock&#39;, ps ufw
+         xlck_status_this_display()  -- show status for this $DISPLAY
+         _xlck_xautolock()           -- start xautolock (see: xlck_start)
+             return nonzero if no args
+   .
+
+   
+   
+</pre></div>
+</div>
+</div>
+<div class="section" id="zsh">
+<span id="dotfiles-zsh-config"></span><span id="index-5"></span><h2>ZSH<a class="headerlink" href="#zsh" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.zshrc">https://github.com/westurner/dotfiles/blob/master/etc/.zshrc</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/zsh/00-zshrc.before.sh">https://github.com/westurner/dotfiles/blob/master/etc/zsh/00-zshrc.before.sh</a></div>
+<div class="line">Docs: <a class="reference internal" href="dhelp.html#etc-i3-config"><span>etc/i3/config</span></a></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre>dhelp zsh
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>etc/zsh/00-zshrc.before.sh
+===========================
+| Src: `etc/zsh/00-zshrc.before.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/zsh/00-zshrc.before.sh&gt;`__
+
+.. code:: bash
+
+   .
+      __DOTFILES -- local dotfiles repository clone
+         ## lib: zsh functions
+         ## bash: read bash config with bash_source function
+       ## after:
+          dr()     -- dotfiles_zsh_reload $@
+   .
+
+   
+   
+etc/zsh/01-zshrc.lib.sh
+========================
+| Src: `etc/zsh/01-zshrc.lib.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/zsh/01-zshrc.lib.sh&gt;`__
+
+.. code:: bash
+
+   .
+     list all path key components leading to file
+   .
+
+   
+   
+etc/zsh/05-zshrc.bashrc.sh
+===========================
+| Src: `etc/zsh/05-zshrc.bashrc.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/zsh/05-zshrc.bashrc.sh&gt;`__
+
+.. code:: bash
+
+   .
+     requires:
+      bash_source function
+      $__DOTFILES
+   .
+
+   
+   
+etc/zsh/99-zshrc.after.sh
+==========================
+| Src: `etc/zsh/99-zshrc.after.sh &lt;https://github.com/westurner/dotfiles/tree/develop/etc/zsh/99-zshrc.after.sh&gt;`__
+
+.. code:: bash
+
+   .
+     99-zsh.after.sh
+   .
+
+   
+   
+</pre></div>
+</div>
+<span class="target" id="index-6"></span></div>
+<div class="section" id="dotfiles-i3wm">
+<span id="i3wm"></span><span id="index-7"></span><span id="id3"></span><h2>I3wm<a class="headerlink" href="#dotfiles-i3wm" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/.i3/config">https://github.com/westurner/dotfiles/blob/master/etc/.i3/config</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/develop/etc/.i3/config">https://github.com/westurner/dotfiles/blob/develop/etc/.i3/config</a></div>
+<div class="line">Docs: <a class="reference internal" href="dhelp.html#etc-i3-config"><span>etc/i3/config</span></a></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre>dhelp i3
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>etc/i3/config
+==============
+| Src: `etc/i3/config &lt;https://github.com/westurner/dotfiles/tree/develop/etc/i3/config&gt;`__
+
+.. code:: bash
+
+   .
+   #### i3 config file (v4)
+   
+     #  Default location: ~/.i3/config
+     #  List commented command shortcuts with::
+   
+     #     cat ~/.i3/config | egrep &#39;(^(\s+)?##+ |^(\s+)?#  )&#39;
+   
+    #!/bin/sh
+    ### .i3/config requirements
+   
+    ## Ubuntu (12.04)
+    # MUST
+    apt-get install i3 i3status xautolock xlockmore i3lock
+    hg clone https://github.com/westurner/dotfiles ~/.dotfiles  # etc/xlck.sh
+   
+    # SHOULD
+    apt-get install gnome-terminal network-manager-gnome thunar pulseaudio-utils
+    apt-get install feh                  # wallpaper
+    apt-get install xfce4-screenshooter  # screenshots
+    mkdir -p ~/pictures/screens          # screenshots
+    apt-get install xbacklight           # brightness
+   
+    # COULD
+    apt-get install vim-gnome            # scratchpad
+    add-apt-repository ppa:kilian/f.lux  # f.lux
+    apt-get update                       # f.lux
+    apt-get install fluxgui              # http://justgetflux.com
+   
+    ## References
+    * http://i3wm.org/docs/userguide.html
+    * https://faq.i3wm.org/question/1425/variable-substitution/
+    * i3-config-wizard
+   
+    ## Notes
+    * grab keyboard mappings: xev | grep keycode
+   ### Configure I3
+   ## To swap layouts: (make swap-layout)
+      sed &#39;s/&lt;alt&gt;/&lt;ALT&gt;/g&#39; &amp;&amp; sed &#39;s/&lt;super&gt;/&lt;alt&gt;/g&#39; &amp;&amp; sed &#39;s/&lt;ALT&gt;/&lt;super&gt;/g&#39;
+   ## Set i3 keyboard modifier keys to variables $mod1 and $mod2  (for keyboard layout flexibility)
+   ## PC Keyboard (default) ##
+       PC: $mod1  == &lt;Alt&gt;
+       PC: $mod2 == &lt;Super&gt;
+   ## Alternate (e.g. Mac Keyboard ) ##
+       Mac: $mod1  == &lt;Super&gt;
+       Mac: $mod2 == &lt;Alt&gt;
+    font for window titles. ISO 10646 = Unicode
+    Pango requires i3 version &gt;= ____
+    reload the configuration file
+     &lt;alt&gt;&lt;shift&gt; c   -- reload i3 configuration
+    restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+     &lt;alt&gt;&lt;shift&gt; r   -- restart i3 (session preserving)
+    exit i3 (logs you out of your X session)
+     &lt;super&gt;&lt;shift&gt; l  -- exit i3 (close all and logout of X session)
+     &lt;alt&gt;&lt;shift&gt; q   -- close focused window
+     # Hide edge borders
+   ### Launch programs
+   ## Set Variables
+    Open default tabs
+    Open a blank tab/window with the default browser
+    Open a browser tab/window to gmail#all with the default browser
+     # Get WM_CLASS with $(xprop WM_CLASS)
+   ## Autoruns
+   
+     - Start gnome-settings-daemon (e.g. for anti-aliasing)
+     $PATH/gnome-settings-daemon        -- Ubuntu, Debian
+     /usr/libexec/gnome-settings-daemon -- Fedora
+     - Start screensaver
+     - Set X background
+     - Set X wallaper to (~/wallpaper.png)
+    - Launch network applet (optional)
+    see also: nmcli
+   ## Lock, shutdown and suspend
+     &lt;super&gt; l        -- lock screen
+     &lt;XF86PowerOff&gt;   -- exit
+     &lt;XF86Sleep&gt;      -- suspend
+   ## Change backlight brightness
+     &lt;XF86MonBrightnessUp&gt;      -- brightness up
+     &lt;XF86MonBrightnessDown&gt;    -- brightness down
+   ## Change volume
+     &lt;XF86AudioRaiseVolume&gt;   -- volume up
+     &lt;XF86AudioLowerVolume&gt;   -- volume down
+   ## Launch Applications
+     &lt;alt&gt; x      -- run command
+     &lt;super&gt; r    -- run command
+     &lt;super&gt; e    -- launch browser
+     &lt;alt&gt;&lt;shift&gt; g   -- launch editor
+     &lt;alt&gt;&lt;shift&gt; b   -- launch browser
+     &lt;alt&gt;&lt;shift&gt; t   -- launch terminal
+     &lt;super&gt; t        -- launch terminal
+     &lt;alt&gt; &lt;enter&gt;    -- launch terminal
+     &lt;super&gt; &lt;enter&gt;    -- launch terminal
+     XF86Calculator   -- launch calculator
+     &lt;alt&gt;&lt;shift&gt; w          -- launch network manager applet (see also: $(nmcli))
+     &lt;PrintScr&gt;       -- screenshot (full screen)
+     &lt;alt&gt; &lt;PrintScr&gt; -- screenshot (current window)
+     &lt;super&gt;&lt;shift&gt; 3       -- screenshot (full screen)
+     &lt;super&gt;&lt;shift&gt; 4       -- screenshot (current window)
+   ## Focus to nearest instance
+     &lt;alt&gt; v      -- focus nearest: editor
+     &lt;alt&gt; t      -- focus nearest: terminal
+     &lt;alt&gt; b      -- focus nearest: browser
+   ## Start, stop, and reset xflux
+     &lt;alt&gt; [         -- start xflux
+     &lt;alt&gt; ]         -- stop xflux
+     &lt;alt&gt;&lt;shift&gt; ]  -- reset gamma to 1.0
+     &lt;alt&gt;&lt;shift&gt; [  -- xgamma -bgamma 0.6 -ggamma 0.9 -rgamma 0.9
+     &lt;alt&gt;&lt;shift&gt; \  -- xgamma -bgamma -0.4 -ggamma 0.4 -rgamma 0.9
+   ## Change focus between tiling / floating windows
+     &lt;alt&gt; &lt;space&gt;            -- toggle focus mode: tiling / floating
+   ## Floating windows
+     &lt;alt&gt;&lt;shift&gt; &lt;space&gt;     -- toggle tiling/floating mode for focused window
+     &lt;alt&gt; &lt;backspace&gt;        -- toggle tiling/floating mode for focused window
+     &lt;alt&gt; &lt;mouse&gt;            -- drag floating window to position
+   ## Fullscreen mode
+     # Note: popups will be hidden below fullscreened windows
+     &lt;alt&gt;&lt;shift&gt; f   -- fullscreen
+     # popup during fullscreen exits fullscreen
+   ## Split windows
+    Split next window
+     &lt;alt&gt;&lt;shift&gt; h   -- split [next] window horizontally
+     &lt;alt&gt;&lt;shift&gt; v   -- split [next] window vertically
+   ## Toggle window layouts
+     &lt;alt&gt; w          -- tabbed window layout
+     &lt;alt&gt; e          -- Default window layout
+     &lt;alt&gt; s          -- stacked window layout
+   ## Focus parent/child windows
+     &lt;alt&gt; a          -- focus parent container
+     &lt;alt&gt;&lt;shift&gt; a   -- focus child container
+   ## Switch to window / container
+     &lt;alt&gt; Up     -- focus up
+     &lt;alt&gt; Down   -- focus down
+     &lt;alt&gt; Left   -- focus left
+     &lt;alt&gt; Right  -- focus right
+   ## Switch to window / container (Vi)
+     &lt;alt&gt; h      -- focus left
+     &lt;alt&gt; j      -- focus down
+     &lt;alt&gt; k      -- focus up
+     &lt;alt&gt; l      -- focus right
+   ## Switch to previous / next workspace with &lt;super&gt; minus / equal
+     &lt;super&gt; - (minus)  -- switch to previous workspace
+     &lt;super&gt; = (equal)  -- switch to next workspace
+     Toggle between previous and current workspace
+   ## Switch to workspace
+     &lt;alt&gt; 0-9        -- switch to workspace N  (repeat to return)
+     &lt;super&gt; 0-9      -- switch to workspace N  (repeat to return)
+     &lt;alt&gt; &lt;F_n&gt;      -- switch to workspace N (repeat to return)
+     &lt;alt&gt; &lt;Keypad_n&gt; -- switch to workspace N (repeat to return)
+   ## Move to next/previous workspace
+     &lt;super&gt; Left     -- move to previous workspace
+     &lt;super&gt; Right    -- move to next workspace
+     &lt;super&gt; Up       -- move to second most recently focused workspace
+   ## Move focused container to next/previous workspace
+     &lt;super&gt; Left     -- move container to previous workspace
+     &lt;super&gt; Right    -- move container to next workspace
+     &lt;super&gt; Up       -- move container to second most recently focused workspace
+   ## Move focused container within workspace
+     &lt;alt&gt;&lt;shift&gt; Up      -- move window up
+     &lt;alt&gt;&lt;shift&gt; Down    -- move window down
+     &lt;alt&gt;&lt;shift&gt; Left    -- move window left
+     &lt;alt&gt;&lt;shift&gt; Right   -- move window right
+   ## Move focused container within workspace (Vi)
+     &lt;alt&gt;&lt;shift&gt; h       -- move window left
+     &lt;alt&gt;&lt;shift&gt; j       -- move window down
+     &lt;alt&gt;&lt;shift&gt; k       -- move window up
+     &lt;alt&gt;&lt;shift&gt; l       -- move window right
+   ## Move focused container to workspace
+     &lt;alt&gt;&lt;shift&gt;  [N: 0-9]   -- move to workspace N
+   ## Move focused container to workspaces (with number pad)
+     &lt;alt&gt;&lt;shift&gt; [KP_N: 0-9] -- move to workspace N
+   ## Move focused container to workspaces (with number pad)
+     &lt;super&gt; [KP_N: 0-9] -- move to workspace N
+   ## Move workspace to output (e.g. with multiple monitors)
+     &lt;super&gt;&lt;shift&gt; Left  -- move workspace to left
+     &lt;super&gt;&lt;shift&gt; Right -- move workspace to right
+   ## Scratchpad workspace
+     &lt;alt&gt;&lt;shift&gt; &lt;minus&gt;     -- make the currently focused window a scratchpad
+     &lt;alt&gt; &lt;minus&gt;            -- show/hide and cycle through scratchpad windows
+     &lt;alt&gt;&lt;shift&gt; s           -- start scratchpad editor
+     &lt;alt&gt; &lt;XF86Favorites&gt;    -- start scratchpad editor
+     &lt;XF86Favorites&gt;          -- show the $scratchpad_editor_selector
+     &lt;alt&gt; &lt;backspace&gt;        -- toggle tiling/floating mode for focused window
+    see above.
+     # on (re)load, move $scratchpad_editor_selector windows to scratchpad
+   ## Resize Mode
+     &lt;alt&gt; r      -- enter resize mode
+       ## Grow and shrink windows
+        These bindings trigger as soon as you enter the resize mode
+       
+        They resize the border in the direction you pressed, e.g.
+        when pressing left, the window is resized so that it has
+        more space on its left
+        same bindings, but for the arrow keys
+         Left         -- grow left
+         &lt;shift&gt; Left     -- shrink left
+         Down             -- grow down
+         &lt;shift&gt; Down     -- shrink down
+         Up               -- grow up
+         &lt;shift&gt; Up       -- shrink up
+         Right            -- grow right
+         &lt;shift&gt; Right    -- shrink right
+       ## Grow and shrink windows (Vi)
+         h            -- grow left
+         &lt;shift&gt; h    -- shrink left
+         j            -- grow down
+         &lt;shift&gt; j    -- shrink down
+         k            -- grow up
+         &lt;shift&gt; k    -- shrink up
+         l            -- grow right
+         &lt;shift&gt; l    -- shrink right
+        back to normal: Enter or Escape
+         &lt;enter&gt;  -- exit resize mode
+         &lt;esc&gt;    -- exit resize mode
+   ## Set colors
+    color defines for zenburn styled i3 derived from:
+    https://faq.i3wm.org/question/2071/how-can-i-change-look-of-windows/?answer=2075
+    set some nice colors      border     background  text
+   ## i3bar
+     # display i3bar with i3status
+        $ xrandr-tool outputs
+   .
+</pre></div>
+</div>
+</div>
+<div class="section" id="vim">
+<span id="dotvim-usage"></span><span id="index-8"></span><h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc">https://github.com/westurner/dotvim/blob/master/vimrc</a></div>
+<div class="line">Docs: <a class="reference internal" href="dhelp.html#etc-vim-vimrc"><span>etc/vim/vimrc</span></a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc">https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc</a></div>
+<div class="line">Docs: <a class="reference internal" href="dhelp.html#etc-vim-vimrc-full-bundles-vimrc"><span>etc/vim/vimrc.full.bundles.vimrc</span></a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc">https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc</a></div>
+<div class="line">Docs: <a class="reference internal" href="dhelp.html#etc-vim-vimrc-tinyvim-bundles-vimrc"><span>etc/vim/vimrc.tinyvim.bundles.vimrc</span></a></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre>dhelp vim
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>etc/vim/vimrc
+==============
+| Src: `etc/vim/vimrc &lt;https://github.com/westurner/dotvim/tree/master/vimrc&gt;`__
+
+.. code:: vim
+
+   .
+   .vimrc
+   ==========
+   ::
+     git clone https://github.com/westurner/dotvim
+     git clone ssh://git@github.com/westurner/dotvim
+     make help
+   Vim Reference
+   ---------------
+    :help            --  open vim help               [help]
+    :help &lt;tag&gt;      --  open vim help for           [&lt;tag&gt;]
+                         tag: (&lt;cmd&gt;, plugin/doc/&lt;tag&gt;.txt)
+    :help vimtutor   --  open vim help for vimtutor tutorial
+    :help quickref   --  open vim quick reference    [quickref, Q_bu]
+    :&lt;up arrow&gt;      --  search backward through vim history
+    [[               --  up a section                [ [[ ]
+    C-o              --  goto previous position      [CTRL-O, jumplist]
+    C-]              --  follow a tag (help quickref, select Q_bu, C-])
+    %          --  variable: current filename
+    %:p        --  variable: current filepath
+    %          --  motion: find the next instance of selected word [%]
+    :buffers         --  list vim buffers            [Q_bu]
+    $VIMRUNTIME      --  /{colors,syntax,macros}     [$VIMRUNTIME]
+    :set [all]       --  list all nondefault options [set, redir, SaveSession]
+    :map             --  list actual mappings        [Q_km]
+    ListMappings     --  list commented mappings
+    Dotvimhelp       --  list commented mappings
+    DotvimReload     --  reload vim configuration (on top of existing config)
+    :scriptnames     --  list scripts and plugins
+    e[dit]           --  reload the current file
+    e &lt;path&gt;         --  open file                   [edit, Q_ed]
+    e &lt;pa...&gt;&lt;tab&gt;   --  open file with tab-completion [wildmenu, wildmode]
+    :tabnew &lt;path&gt;   --  open file in a new tab
+    :read filename|  --  insert filename after cursor
+    :read !cmd       --  insert &#39;cmd&#39; output after cursor
+    :%! [cmd]        --  buffer &gt; stdin &gt; [cmd] &gt; stdout =&gt; buffer.replace
+    :put %           --  put % (current filename) after the cursor [help put]
+    h, j, k, l       --  left, down, up, right       [Q_lr, Q_ud] 
+    C-E              --  move N lines downwards (1)
+    C-D              --  move N lines Downwards (1/2 move)
+    C-F              --  move N pages Forwards (downwards)
+    C-Y              --  move N lines upwards (default: 1)
+    C-U              --  move N lines Upwards (default: 1/2 move)
+    C-B              --  move N pages Backwards (upwards)
+    [n]G             --  goto line #
+    g &lt;C-g&gt;          --  whereami
+    u                --  undo
+    ^r               --  redo
+    :%s:\(.*\):+\1:g --  Regex
+   Modes
+    i                --  insert
+    I                --  insert at beginning of line
+    a                --  append
+    A                --  append at end of line
+    v                --  visual
+    c-v              --  visual block
+    ;;               --  command
+    &lt;Esc&gt;            --  command
+   Vim Marks
+    m[a-z]{1}        --  set mark
+    `[a-z]{1}        --  goto mark
+    &#39;[a-z]{1}        --  goto mark
+   Macros
+    q[a-z]{1}        --  start recording
+    q                --  stop recording
+    @[a-z]{1}        --  replay macro
+    @@               --  repeat macro
+    q2&lt;seq&gt;&lt;esc&gt;q;@2 --  record macro to 2 and repeat
+   Searching
+    /&lt;pattern&gt;       --  search for term
+    *                --  search for term under cursor next
+    n                --  next search ocurrence
+    #                --  search for term under cursor previous
+    N                --  previous search ocurrence
+    :[l][vim]grep &lt;pattern&gt; &lt;file&gt;
+    :cl   :ll        --  list list
+    :copen :lopen    --  open list
+    :cw   :lw        --  toggle show list
+    :ccl[ose] :lcl   --  close list
+    :cn   :ln        --  next &lt;Enter&gt;
+    :cp   :lp        --  prev &lt;Enter&gt;
+    :cc!  :lc [nr]   --  jump to [nr]
+    :cfir :cla       --  first, last
+   Yanking and Pasting
+    y[a-z]           --  yank to buffer [a-z]
+    p[a-z]           --  paste from buffer [a-z]
+    ]p               --  paste to level
+   Indenting/Shifting Blocks
+    [n]&lt;             --  shift block left
+    [n]&gt;             --  shift block right
+   Folding
+    :help Fold       --  also usr_28
+    :set nofen       --  stop folding
+    zf               --  create fold
+    zo               --  fold open
+    zO               --  fold open recursive
+    zc               --  fold close
+    zC               --  fold close recursive
+    zx               --  undo manual fold actions
+    zX               --  undo manual fold actions and recompute
+    zM               --  fold close all but current (focus)
+    zR               --  fold open all (review)
+    :Voom [format]   --  open VOom outline sidebar
+    &lt;leader&gt; t       --  :TagBarToggle &quot; outline sidebar
+   Etiquette
+    &lt;leader&gt; i       --  toggle unprintables
+    &lt;leader&gt; sd      --  toggle highlight EOL whitespace
+    &lt;leader&gt; sc      --  clear highlighting
+   set window title to vim title (display full path)
+    :ListMappings     -- list .vimrc(.*) comments (n(next) and p(rev))
+    :DotvimHelp       -- &quot;
+    :Help             -- &quot;
+    :DotvimReload   -- reload ~/.vimrc
+    :Reload         -- reload ~/.vimrc
+    :Dr             -- reload ~/.vimrc
+      seeAlso: :SaveSession, :RestoreSession (*)     [help SaveSession]
+    :Path()   -- echo path information %s %:h %:p:h       [help expand]
+    :Cdhere() -- cd to here (this dir, dirname(__file__))    [cd %:p:h]
+    \       -- &lt;leader&gt;
+    &lt;space&gt; -- &lt;leader&gt;
+    ,       --  &lt;leader&gt; == &lt;comma&gt;
+    :;   --  colon semicolon -&gt; &lt;esc&gt;:
+    :;   --  colon semicolon -&gt; &lt;esc&gt;:
+    ;;   --  &lt;esc&gt; == double semicolon
+    Quicklist
+    &lt;leader&gt; q               --  toggle quicklist [:cw/:cwindow]
+    &lt;leader&gt; n               --  next quicklist item [:cn/:cnext]
+    Location List
+    &lt;leader&gt; l               --  toggle location list [:lw/:lwindow]
+    &lt;leader&gt; &lt;shift&gt; N       --  next location list item [:ln/:lnext]
+   Workaround vim lp:#572863
+   Code Folding
+   UTF-8
+   TODO XXX
+   Code Indenting
+   Searching
+    set colorcolumn=0    --  clear color column
+   Turn Off Visual Bell
+   WildMenu
+   Spell Checking
+    &lt;leader&gt; sp           --  toggle spellcheck
+    shift-&lt;enter&gt;        --  insert new line w/o changing mode
+       no error bells
+       Jump to last position
+       remove trailing whitespace
+       filetype extensions
+          if &amp;previewwindow
+              exec &#39;setlocal winheight=&#39;.&amp;previewheight
+          endif
+       Auto completion
+        CTRL-&lt;space&gt;     --  autocomplete menu
+        CTRL-&lt;tab&gt;       --  autocomplete menu
+       close vim if the only window left open is a NERDTree
+       Open NERDTree automatically if no files were specified
+   Drag and Drop
+     :help drag-n-drop
+     shift-&lt;drop&gt;    --  cd to file&#39;s directory
+     ctrl-&lt;drop&gt;     --  split new window for file
+     &lt;drop&gt;          --  open file or paste path at cursor
+   Fonts
+    :PatchFont      -- set the font (s:fontsize, s:fonts, guifont (set gfn=))
+                       tries each font in s:fonts until one is found
+   GUI Menubar
+    :HideMenubar    -- hide GUI menubar
+    :ShowMenubar    -- show GUI menubar
+     :Set256         -- set 256 colors (for console vim)
+     :Set88          -- set 88 colors (for console vim)
+   GUI
+        Remove gui scrollbars
+        ctrl-z   --  undo [u]
+        alt-z    --  undo
+        ctrl-r   --  redo
+        alt-r    --  redo
+        ctrl-X   --  cut
+        alt-x    --  cut
+        ctrl-c   --  copy
+        alt-c    --  copy
+           always call Set256.
+           if this causes problems with older terminals
+           :Set88
+   autocmd! Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+    &lt;leader&gt; sd              --  match EOL whitespace
+    &lt;leader&gt; sc              --  clear search highlighting
+    ctrl-q       --  close
+    &lt;leader&gt; i   --  toggle show invisibles
+    ,cd          --  :cd %:p:h
+    T            --  wrap paragram
+   Keep search matches in the middle of the window.
+    &lt;leader&gt; [    --  toggle cursorline and cursorcolumn
+    &lt;leader&gt; hm   --  set horizontal line mark
+    &lt;leader&gt; hv   --  set vertical column mark
+    &lt;leader&gt; c    --  clear virt marks
+    Tab          --  Indent Line
+   map &lt;Tab&gt;         &gt;gb
+    Shift-Tab    --  Dedent Line
+    ctrl-t       --  Indent Current Line
+    ctrl-d       --  Dedent Current Line
+    &gt;            --  Visual Indent Block
+    &lt;            --  visual dedent block
+   Alternative using Tab/Shift-Tab (for gvim).
+    tab          --  shift right
+    Shift-tab    --  shift left
+   vnoremap &lt;Tab&gt;    &gt;gv
+    ctrl-f       --  find
+    ctrl-alt-A   --  copy all
+    ctrl-v       -- paste (*)
+                    conflict: vim blockwise visual selection [CTRL-v]
+   map &lt;C-v&gt; &lt;space&gt;&quot;+gP
+   imap &lt;C-v&gt; &lt;space&gt;&lt;Esc&gt;&quot;+gP
+   vmap &lt;C-v&gt; &lt;Esc&gt;&quot;+gP
+    alt-v        -- paste (*)
+   nm \\paste\\        &quot;=@*.&#39;xy&#39;&lt;CR&gt;gPFx&quot;_2x:echo&lt;CR&gt;
+   imap &lt;a-v&gt;          x&lt;Esc&gt;\\paste\\&quot;_s
+   vmap &lt;a-v&gt;          &quot;-cx&lt;Esc&gt;\\paste\\&quot;_x
+   Paste
+    shift-insert --  paste (*)
+                     conflict: mac keyboards do not have &lt;Insert&gt;
+   Save / Close
+    ctrl-S       --  Save
+    ctrl-Alt-W   --  Close
+    ctrl-Home    --  Goto line one
+                     conflict: mac keyboards do not have &lt;Home&gt;
+    ctrl-End     --  Goto last line (lines[:-1])
+                     conflict: mac keyboards do not have &lt;Home&gt;
+   Page Up / Page Down
+    shift-Down    --  PageDown (&lt;C-d&gt;)
+    shift-Up      --  PageUp (&lt;C-u&gt;)
+   K    --  PageUp
+   nnoremap K  &lt;PageUp&gt;
+   J    --  PageDown
+   nnoremap J  &lt;PageDown&gt;
+   Keyboard PageUp/PageDown are actually 2*&lt;c-U&gt;
+                     conflict: mac keyboards do not have &lt;PageUp, PageDown&gt;
+   Buffer Nav
+    ctrl-a       --  move to beginning of line (^)
+    ctrl-e       --  move to end of line ($)
+   Window Nav        (window-move-cursor)
+    ctrl-j       --  cursor window down
+    ctrl-u       --  cursor window down
+    ctrl-k       --  cursor window up
+    ctrl-l       --  cursor window right
+    ctrl-h       --  cursor window left
+   Window Resize     (window-resize)
+    ctrl-w _     --  maximize window height
+    ctrw-w 1_    --  minimize window height
+    ctrl-w |     --  maximize window width
+    ctrl-w 1|    --  minimize window width
+    ctrl-w =     --  equalize window sizes
+    [n]ctrl-w &gt;  --  expand width
+    [n]ctrl-w &lt;  --  contract width
+    [n]ctrl-w +  --  increase height
+    [n]ctrl-w -  --  reduce height
+    ctrl-w o     --  minimze all other windows
+   Window Movement (window-move)
+   Window Up
+    &lt;leader&gt; wk  --  move window up
+    ctrl-wi      --  move window up
+    &lt;leader&gt; wi  --  move window up
+   Window Right
+    &lt;leader&gt; wl  --  move window right
+   Window Down
+    &lt;leader&gt; wj  --  move window down
+    ctrl-wu      --  move window down
+    &lt;leader&gt; wu  --  move window down
+   Window Left
+    &lt;leader&gt; wj  --  move window left
+   Window Rotate
+    ctrl-w R     --  rotate window up
+    ctrl-w r     --  rotate window down
+   Tab Movement (tab-page-commands)
+    ctrl-Alt-h   --  previous tab
+    Alt-u        --  previous tab
+    ctrl-Alt-l   --  next tab
+    Alt-i        --  next tab
+   Man.vim          --  view manpages in vim
+    :Man man        --  view manpage for &#39;man&#39;
+    &lt;leader&gt; o      --  Open uri under cursor
+        :Ack &lt;term&gt; &lt;path&gt;
+        &lt;leader&gt;a        --  Ack
+   Grin              -- Find in Python
+   Ctags
+    ctrl-[           --  go to tag under cursor
+    ctrl-T           --  go back  #TODO
+   sh: ctags -R -f ~/.vim/tags/python-$PYVER.ctags $PYLIBDIR
+   Use :make to see syntax errors. (:cn and :cp to move around, :dist to see
+   all errors)
+   Colors
+    :PatchColors     --  load local colorizing postsets
+   call PatchColors()    -- call PatchColors when sourced
+        Vim2VimWrite()   -- write highlight codes to ./vim_highlight_output.txt
+          pip install vim2vim   -- https://pypi.python.org/pypi/vim2vim
+   List highlight colors
+   Python
+    Wrap at 72 chars for comments.
+    read virtualenv&#39;s site-packages to vim path
+       TODO: python regex current buffer
+        :Pyline -- python regex current buffer
+   Tabsetting functineions
+    :Fourtabs    -- set to four (4) soft tabs (Default)
+   Default to fourtabs
+    :Threetabs   -- set to three (3) soft tabs
+    :Twotabs     -- set to two (2) soft tabs
+    :Onetab      -- set to one (1) soft tab
+    :Hardtabs    -- set to hard \t tabs (e.g. for Makefiles)
+    :CurrentBuffer -- display number of current buffer
+    diff           -- vimdiff, Hgvdiff, Gdiff
+      :diffget   -- get from diff (overwrite or append)
+      do         -- :diffget other block
+      :diffput   -- put from diff (overwrite or append)
+      dp         -- :diffput block 
+      &lt;C-W&gt;&lt;C-w&gt; -- cycle between buffers
+    diffget maps   -- 3-way merge buffers
+      &lt;leader&gt; 2   -- diffget from bufnr 2
+      &lt;leader&gt; 3   -- diffget from bufnr 3
+      &lt;leader&gt; 4   -- diffget from bufnr 4
+    :Striptrailingwhitespace -- strip spaces at the end of lines
+   Adjust font-size
+    &lt;C-Up&gt;   -- increase font size
+    &lt;C-Down&gt; -- decrease font size
+    &lt;F3&gt;     -- insert ReST date heading
+   Trac
+   References
+     - https://dev.launchpad.net/UltimateVimPythonSetup
+     - https://github.com/kennethreitz/dotfiles/blob/master/.vimrc
+     - https://bitbucket.org/sjl/dotfiles/src/tip/vim/.vimrc#cl-716
+     - http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+     - http://stackoverflow.com/questions/1551231
+     - http://superuser.com/questions/117969/is-there-a-way-to-move-a-split-page-to-a-new-tab-in-vim
+     - http://sontek.net/turning-vim-into-a-modern-python-ide
+     - http://vim.wikia.com/wiki/VimTip320
+   .
+
+   
+   
+etc/vim/vimrc.full.bundles.vimrc
+=================================
+| Src: `etc/vim/vimrc.full.bundles.vimrc &lt;https://github.com/westurner/dotvim/tree/master/vimrc.full.bundles.vimrc&gt;`__
+
+.. code:: vim
+
+   .
+   Bundle            -- Vim bundle manager [help bundle]
+   :BundleList          - list configured plugins
+   :BundleInstall(!)    - install (update) plugins
+   :BundleSearch(!) foo - search (or refresh cache first) for foo
+   :BundleClean(!)      - confirm (or auto-approve) removal of unused plugins
+   The Bundle URLs are intentionally complete https URLs
+   * grep &#39;^Bundle \&#39;&#39; vimrc.bundles
+   * sed -i &#39;s\https://github.com/\ssh://git@github.com/\g&#39;
+   venv.vim          -- venv CdAlias commands
+    :Cdhome          -- Cd_HOME()
+    :Cdh             -- Cd_HOME()
+    :Cdwrk           -- Cd___WRK()
+    :Cddotfiles      -- Cd___DOTFILES()
+    :Cdd             -- Cd___DOTFILES()
+    :Cdprojecthome   -- Cd_PROJECT_HOME()
+    :Cdp             -- Cd_PROJECT_HOME()
+    :Cdph            -- Cd_PROJECT_HOME()
+    :Cdworkonhome    -- Cd_WORKON_HOME()
+    :Cdwh            -- Cd_WORKON_HOME()
+    :Cdve            -- Cd_WORKON_HOME()
+    :Cdcondahome     -- Cd_CONDA_HOME()
+    :Cda             -- Cd_CONDA_HOME()
+    :Cdce            -- Cd_CONDA_HOME()
+    :Cdvirtualenv    -- Cd_VIRTUAL_ENV()
+    :Cdv             -- Cd_VIRTUAL_ENV()
+    :Cdsrc           -- Cd__SRC()
+    :Cds             -- Cd__SRC()
+    :Cdwrd           -- Cd__WRD()
+    :Cdw             -- Cd__WRD()
+    :Cdbin           -- Cd__BIN()
+    :Cdb             -- Cd__BIN()
+    :Cdetc           -- Cd__ETC()
+    :Cde             -- Cd__ETC()
+    :Cdlib           -- Cd__LIB()
+    :Cdl             -- Cd__LIB()
+    :Cdlog           -- Cd__LOG()
+    :Cdpylib         -- Cd__PYLIB()
+    :Cdpysite        -- Cd__PYSITE()
+    :Cdsitepackages  -- Cd__PYSITE()
+    :Cdvar           -- Cd__VAR()
+    :Cdwww           -- Cd__WWW()
+    :Cdww            -- Cd__WWW()
+   file_line.vim     -- open files named &#39;file(line[:col])&#39;, &#39;file:line[:col]&#39;
+   Info.vim          -- vim infopages in vim [help info]
+    :Info sed        --  view infopage for &#39;sed&#39;
+    &lt;Space&gt;          --  Scroll forward (page down).
+    &lt;Backspace&gt;      --  Scroll backward (page up).
+    &lt;Tab&gt;            --  Move cursor to next hyperlink within this node.
+    &lt;Enter&gt;,&lt;C-]&gt;    --  Follow hyperlink under cursor.
+    ;,&lt;C-T&gt;          --  Return to last seen node.
+    .,&gt;              --  Move to the &quot;next&quot; node of this node.
+    p,&lt;              --  Move to the &quot;previous&quot; node of this node.
+    u                --  Move &quot;up&quot; from this node.
+    d                --  Move to &quot;directory&quot; node.
+    t                --  Move to the Top node.
+    &lt;C-S&gt;            --  Search forward within current node only.
+    s                --  Search forward through all nodes for a specified
+    string.
+    q                --  Quit browser.
+   Signify   -- show git/hg file changes in gutter [help signify]
+    &lt;leader&gt;gt       -- SignifyToggle
+    &lt;leader&gt;gh       -- SignifyToggleHighlight
+    &lt;leader&gt;gr       -- SignifyRefresh
+    &lt;leader&gt;gd       -- SignifyDebug
+   hunk jumping
+    &lt;leader&gt;gj       -- signify-next-hunk
+    &lt;leader&gt;gk       -- signify-prev-hunk
+   hunk text object
+    ic               -- signify inner textobj
+    ac               -- signify outer textobj
+   Fugitive      -- Git commands and statusline display [help fugitive]
+   Lawrencium    -- Hg commands [help lawrencium]
+   NERDTree      -- File browser [help NERDTree]
+    &lt;Leader&gt;e         --  toggle NERDTree
+    ctrl-e            --  toggle NERDTree
+    &lt;Leader&gt;E         --  open nerdtree to current file (:NERDTreeFind %:p:h)
+    ctrl-E            --  open nerdtree to current file (:NERDTreeFind %:p:h)
+    I                 --  toggle view hidden files
+    B                 --  toggle view bookmarks
+    cd                --  set vim CWD to selected dir
+    C                 --  refocus view to selected dir
+    o                 --  open
+    r                 --  refresh dir
+    R                 --  refresh root
+    t                 --  open in new tab
+    T                 --  open in new tab silently
+    u                 --  up a dir
+    U                 --  up a dir and leave open
+    x                 --  close node
+    X                 --  close all nodes recursive
+    ?                 --  toggle help
+   FindInNERDTree    -- NERDTRee show current file [help NERDTreeFind]
+    &lt;c-b&gt;            --  toggle BufExplorer
+    ?                --  toggle BufExplorer help
+    &lt;leader&gt;b        --  toggle BufExplorer
+   CtrlP             -- file/buffer/mru finder [help ctrlp]
+    &lt;C-p&gt;            -- CtrlP (fuzzy matching)
+   Syntastic         -- syntax highlighting [help syntastic]
+   NERDCommenter     -- commenting [help NERDCommenter]
+    ,cm              --  minimal comment
+    ,cs              --  sexy comment
+    ,c&lt;space&gt;        --  toggle comment
+   UltiSnips         --  syntax-specific snippets [help ultisnips]
+    snippetname&lt;C-CR&gt;    --  insert snippet
+    &lt;c-j&gt;            --  next placeholder
+    &lt;c-k&gt;            --  prev placeholder
+    ~/.vim/snippets-ulti/python.snippets:
+      climain         --  new cli script
+      setuppy         --  new setup.py script
+    ~/.vim/snippets-ulti/html.snippets:
+      schemaorgclass  --  new schema.org RDFa class
+      schemaorgprop   --  new schema.org RDFa property
+   NeoComplCache -- code completion [help neocomplcache]
+   unstack.vim   -- parse and open stacktrace paths [help unstack]
+    &lt;leader&gt; s   -- parse part/all of a stacktrace
+   accordion.vim -- work w/ a number of vsplits at once [help accordion]
+   ViM Airline   -- helpful statusbar information w/ vimscript [help airline]
+       base16, wombat, luna
+       base16, wombat, luna
+   EasyMotion    -- easy visual motions [help easymotion]
+    &lt;Leader&gt;m-w/e    --  search forward (beg/end of word)
+    &lt;Leader&gt;m-b      --  search backward
+    &lt;Leader&gt;m-j      --  search line down
+    &lt;Leader&gt;m-k      --  search line up
+   Jellybeans    -- a good colorscheme w/ sensible diff highlighting
+    :colorscheme jellybeans -- switch to the jellybeans colorscheme
+   Vim-misc      -- functions for colorscheme-switcher and vim-session
+   Vim Colorscheme Switcher [help colorscheme-switcher]
+    &lt;F8&gt;         -- cycle colors forward
+    &lt;Shift&gt;&lt;F8&gt;  -- cycle colors reverse
+   HiColors
+    call HiTest() -- print highlighting colors 
+   Pasting       -- make paste work normally [help paste]
+   Vim Room      -- focus just the relevant text [help vimroom] 
+   VOoM Outline Viewer   -- view outlines of code and text [help voom]
+    VOoM modes:  html, markdown, python, rest,
+                 thevimoutliner, txt2tags,
+                 viki, vimwiki, wiki
+    :Voom [&lt;format&gt;] -- open Voom outline tab
+    :Voom rest       -- open ReStructuredText outline
+    ggg?G
+    &lt;leader&gt; V   -- toggle Voom outline sidebar
+   TagBar        -- source tag browser [help tagbar]
+    &lt;leader&gt; t   -- toggle TagBar outline sidebar&quot;
+   Vim Session   -- save and restore sessions between exits [help session]
+    :SaveSession &lt;name&gt;  -- save a session
+    :OpenSession &lt;name&gt;  -- open a saved session
+    :Restart             -- SaveSession restart &amp;&amp; exit
+    :OpenSession restart -- open the &#39;restart&#39; saved session
+   Vim Unimpaired        --  moving between buffers [help unimpaired]
+    [a      :previous
+    ]a      :next
+    [A      :first
+    ]A      :last
+    [b      :bprevious
+    ]b      :bnext
+    [B      :bfirst
+    ]B      :blast
+    [l      :lprevious
+    ]l      :lnext
+    [L      :lfirst
+    ]L      :llast
+    [&lt;C-L&gt;  :lpfile
+    ]&lt;C-L&gt;  :lnfile
+    [q      :cprevious
+    ]q      :cnext
+    [Q      :cfirst
+    ]Q      :clast
+    [&lt;C-Q&gt;  :cpfile (Note that &lt;C-Q&gt; only works in a terminal if you disable
+    ]&lt;C-Q&gt;  :cnfile flow control: stty -ixon)
+    [t      :tprevious
+    ]t      :tnext
+    [T      :tfirst
+    ]T      :tlast
+   Ack.vim       -- ack through files (instead of grep) [help ack]
+   :Ack [options] PATTERN [directory]    -- search for pattern
+   :AckAdd [options] PATTERN [directory] -- add a search pattern
+   :AckWindow [options] PATTERN          -- search all visible buffers&quot;
+   vim-surround  -- add quotes/parenthesis/tags [help surround]
+    cs       -- change surrounding
+    ys       -- yank and surround (motion, text object)
+    yss      -- yank and surround current line
+    ds&quot;      -- remove double-quotes
+    cs&#39;&quot;     -- replace single-quotes with double quotes
+    cd&quot;&lt;q&gt;   -- surround with &lt;q&gt;...&lt;q/&gt;
+    dst      -- remove surrounding tag
+   csapprox      -- adapt gvim colorschemes for terminal vim [help csapprox]
+   UndoTree      -- visualize vim undotree
+    &lt;F5&gt;     -- Toggle UndoTree (? for help)
+   vim-nginx -- nginx ftdetect, indent, and syntax
+   n3.vim    -- N3/Turtle RDF Syntax
+   SPARQL    -- SPARQL syntax
+   Python-mode       -- Python [help pymode]
+    :help pymode
+    [[    --  Jump to previous class or function
+    ]]    --  Jump to next class or function
+    [M    --  Jump to previous class or method
+    ]M    --  Jump to next class or method
+    aC    --  Select a class. Ex: vaC, daC, yaC, caC
+    iC    --  Select inner class. Ex: viC, diC, yiC, ciC
+    aM    --  Select a function or method. Ex: vaM, daM, yaM, caM
+    iM    --  Select inner function or method. Ex: viM, diM, yiM, ciM
+    g:pymode_python = { &#39;python&#39;, &#39;python3&#39;, &#39;disable&#39; }
+    set g:pymode_python &#39;disable&#39; (start time, occasional completion stall)
+    &lt;leader&gt; d    -- open pydoc
+    :PymodeLintToggle    -- toggle lint checking
+    :PymodeLintAuto      -- autofix current buffer pep8 errors
+   - auto-show an error window
+   - show lint signs
+   - run lint on write
+    let g:pymode_lint_ignore = &quot;&quot;
+    let g:pymode_lint_select = &quot;&quot;
+    Pymode lint line annotation symbols
+     XX = TODO
+     CC = COMMENT
+     RR = VISUAL
+     EE = ERROR
+     II = INFO
+     FF = PYFLAKES
+   :PyModeLint       -- lint current buffer (once)
+   :PyModeLintToggle -- toggle lint
+   :PyModeLintAuto   -- auto-lint the current buffer (once)
+                         (commit before and after)
+    &lt;F7&gt;     -- set debugger breakpoints
+    auto lookup breakpoint cmd (pdb, ipdb, pudb)&quot;
+    Searches upward for a .ropeproject file (that should be .vcs-ignored)
+    :PymodeRopeNewProject    -- Create a new .ropeproject in CWD
+    :PymodeRopeRegenerate    -- Regenerate rope project cache
+    &lt;C-c&gt;d       -- show docs for current function w/ pymode
+    rope for autocompletion
+    &lt;C-Space&gt;    -- rope autocomplete
+    &lt;leader&gt; j       --  :RopeGotoDefinition
+    &lt;C-c&gt; ro     -- organize Python imports; drop unused (:PymodeRopeAutoImport)
+    :PymodeRopeUndo  -- Undo last project changes
+    :PymodeRopeRedo  -- Redo last project changes
+    &lt;C-c&gt; rr     -- rope rename
+   vim-virtualenv    -- Python virtualenv [help virtualenv]
+    :help
+    :VirtualEnvDeactivate
+    :VirtualEnvList
+    :VirtualEnvActivate &lt;name&gt;
+    :VirtualEnvActivate &lt;TAB&gt;
+   Sort python imports
+    :PyFixImports    --  sort import statements
+   Pytest.vim    -- py.test red/green results [help pytest]
+    :Pytest clear    -- reset pytest globals
+    :Pytest file     --  pytest file
+    :Pytest class    --  pytest class
+    :Pytest method   --  pytest method
+    :Pytest {...} --pdb  -- pytest file/class/method with pdb
+    &lt;leader&gt;tf       --  pytest file
+    &lt;leader&gt;tc       --  pytest class
+    &lt;leader&gt;tm       --  pytest method
+    &quot; cycle through test errors
+    &lt;leader&gt;tn       --  pytest next error
+    &lt;leader&gt;tp       --  pytest prev error
+    &lt;leader&gt;te       --  pytest error
+   Pyrex         -- Pyrex syntax
+   Jinja         -- Jinja Templates syntax
+   vim-coffee-script -- CoffeeScript syntax, indent
+   vim-haml          -- HAML, SASS, SCSS
+   vim-css3-syntax   -- CSS3
+   vim-css-color     -- show CSS color codes
+   vim-less          -- LESS CSS
+   vim-jade          -- Jade templates
+   os.vim   -- Operating System [help os]
+   clickable.vim -- click-able links
+   let g:clickable_browser = &quot;xdg-open&quot;
+   let g:clickable_browser = &quot;x-www-browser&quot;
+   Riv.vim   -- ReStructuredText [help riv]
+    [help riv]
+        https://github.com/Rykka/riv.vim/tree/master/doc
+    :RivIntro
+        https://github.com/Rykka/riv.vim/blob/master/doc/riv_intro.rst
+    :RivQuickStart
+        https://github.com/Rykka/riv.vim/blob/master/doc/riv_quickstart.rst
+    :RivInstruction
+        https://github.com/Rykka/riv.vim/blob/master/doc/riv_instruction.rst
+    :RivCheatSheet     -- riv_cheatsheet.rst
+        https://github.com/Rykka/riv.vim/blob/master/doc/riv_cheatsheet.rst
+    :RivPrimer         -- riv_primer.rst
+        https://github.com/Rykka/riv.vim/blob/master/doc/riv_primer.rst
+        http://docutils.sourceforge.net/docs/user/rst/quickstart.html
+    # Docutils &quot;Quick reStructuredText&quot; [quickref.rst / quickref.html]
+        http://docutils.sourceforge.net/docs/user/rst/quickref.html
+    :RivSpecification  -- Docutils &quot;reStructuredText Markup Specification&quot;
+        http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
+         https://github.com/Rykka/riv.vim/blob/master/doc/riv_specification.rst
+    :RivDirectives -- Docutils &quot;Directives&quot;
+        https://github.com/Rykka/riv.vim/blob/master/doc/riv_directives.rst
+         http://docutils.sourceforge.net/docs/ref/rst/directives.html
+    # Docutils &quot;Roles&quot;
+         http://docutils.sourceforge.net/docs/ref/rst/roles.html
+    # Docutils &quot;Substutution definitions&quot;
+         http://docutils.sourceforge.net/docs/ref/rst/definitions.html
+    # Docutils &quot;Doctree&quot;
+         http://docutils.sourceforge.net/docs/ref/doctree.html
+    # Riv.vim Changelogs
+         https://github.com/Rykka/riv.vim/blob/master/doc/riv_log.rst
+    # Riv.vim Todo
+         https://github.com/Rykka/riv.vim/blob/master/doc/riv_todo.rst
+         - [ ] Ready
+         - [o] Open
+         - [X] Closed
+   Salt      -- Salt syntax
+   Trac      -- Trac [help trac]
+   webapi-vim -- vim web API [help webapi[-{html, http, json, xml}]]
+   gist-vim  -- Create a gist.github.com [help gist-vim]
+   github-issues.vim     -- autocomplete, CRUD GitHub issues [help Gissues]
+   html5.vim             -- HTML5, RDFa, microdata, WAI-ARIA
+   vim-javascript        -- improved Javascript support
+   vim-indent-guides     -- show indentation levels [help indent_guides]
+   rainbow-parentheses   -- make nested parenthesis different colors
+    :RainbowParenthesesActivate
+    :RainbowParenthesesToggle
+    :RainbowParenthesesLoadRound
+    :RainbowParenthesesLoadSquare
+    :RainbowParenthesesLoadBraces
+    :RainbowParenthesesLoadChevrons
+    :RainbowParenthesesToggleAll
+       :RainbowParenthesesActivate
+   l9                    -- utility library (for FuzzyFinder)
+   FuzzyFinder           -- find files, buffers, tags, changes [help fuf]
+    :FufBuffer
+    :FufFile
+    :FufDir
+    :FufMruFile
+    :FufMruCmd
+    :FufTag
+    :FufJumpList
+    :FufChangeList
+    :FufQuickfix
+    :FufHelp
+   abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
+   fountain.vim          -- fountain.io syntax
+   All of your Bundles must be added before the following line
+   .
+
+   
+   
+etc/vim/vimrc.tinyvim.bundles.vimrc
+====================================
+| Src: `etc/vim/vimrc.tinyvim.bundles.vimrc &lt;https://github.com/westurner/dotvim/tree/master/vimrc.tinyvim.bundles.vimrc&gt;`__
+
+.. code:: vim
+
+   .
+   Bundle            -- Vim bundle manager [help bundle]
+   :BundleList          - list configured plugins
+   :BundleInstall(!)    - install (update) plugins
+   :BundleSearch(!) foo - search (or refresh cache first) for foo
+   :BundleClean(!)      - confirm (or auto-approve) removal of unused plugins
+   The Bundle URLs are intentionally complete https URLs
+   * grep &#39;^Bundle \&#39;&#39; vimrc.bundles
+   * sed -i &#39;s\https://github.com/\ssh://git@github.com/\g&#39;
+   Info.vim          -- vim infopages in vim [help info]
+    :Info sed        --  view infopage for &#39;sed&#39;
+    &lt;Space&gt;          --  Scroll forward (page down).
+    &lt;Backspace&gt;      --  Scroll backward (page up).
+    &lt;Tab&gt;            --  Move cursor to next hyperlink within this node.
+    &lt;Enter&gt;,&lt;C-]&gt;    --  Follow hyperlink under cursor.
+    ;,&lt;C-T&gt;          --  Return to last seen node.
+    .,&gt;              --  Move to the &quot;next&quot; node of this node.
+    p,&lt;              --  Move to the &quot;previous&quot; node of this node.
+    u                --  Move &quot;up&quot; from this node.
+    d                --  Move to &quot;directory&quot; node.
+    t                --  Move to the Top node.
+    &lt;C-S&gt;            --  Search forward within current node only.
+    s                --  Search forward through all nodes for a specified
+    string.
+    q                --  Quit browser.
+   Signify   -- show git/hg file changes in gutter [help signify]
+   NERDTree      -- File browser [help NERDTree]
+    &lt;Leader&gt;e         --  toggle NERDTree
+    ctrl-e            --  toggle NERDTree
+    &lt;Leader&gt;E         --  open nerdtree to current file (:NERDTreeFind %:p:h)
+    ctrl-E            --  open nerdtree to current file (:NERDTreeFind %:p:h)
+    I                 --  toggle view hidden files
+    B                 --  toggle view bookmarks
+    cd                --  set vim CWD to selected dir
+    C                 --  refocus view to selected dir
+    o                 --  open
+    r                 --  refresh dir
+    R                 --  refresh root
+    t                 --  open in new tab
+    T                 --  open in new tab silently
+    u                 --  up a dir
+    U                 --  up a dir and leave open
+    x                 --  close node
+    X                 --  close all nodes recursive
+    ?                 --  toggle help
+   FindInNERDTree   -- NERDTRee show current file [help NERDTreeFind]
+    &lt;c-b&gt;            --  toggle BufExplorer
+    ?                --  toggle BufExplorer help
+    &lt;leader&gt;b        --  toggle BufExplorer
+   CtrlP             -- file/buffer/mru finder [help ctrlp]
+    &lt;C-p&gt;            -- CtrlP (fuzzy matching)
+   Syntastic         -- syntax highlighting [help syntastic]
+   EasyMotion    -- easy visual motions [help easymotion]
+    &lt;Leader&gt;m-w/e    --  search forward (beg/end of word)
+    &lt;Leader&gt;m-b      --  search backward
+    &lt;Leader&gt;m-j      --  search line down
+    &lt;Leader&gt;m-k      --  search line up
+   Jellybeans    -- a good colorscheme w/ sensible diff highlighting
+    :colorscheme jellybeans -- switch to the jellybeans colorscheme
+   Vim-misc      -- functions for colorscheme-switcher and vim-session
+   Vim Colorscheme Switcher [help colorscheme-switcher]
+    &lt;F8&gt;         -- cycle colors forward
+    &lt;Shift&gt;&lt;F8&gt;  -- cycle colors reverse
+   vim-nginx -- nginx ftdetect, indent, and syntax
+   n3.vim    -- N3/Turtle RDF Syntax
+   SPARQL    -- SPARQL syntax
+   Pyrex         -- Pyrex syntax
+   Jinja         -- Jinja Templates syntax
+   Salt      -- Salt syntax
+   All of your Bundles must be added before the following line
+   .
+
+   
+   
+</pre></div>
+</div>
+</div>
+<div class="section" id="src">
+<span id="dotfiles-src"></span><span id="index-9"></span><h2>src/<a class="headerlink" href="#src" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pgs">
+<h3>pgs<a class="headerlink" href="#pgs" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src:  <a class="reference external" href="https://github.com/westurner/pgs">https://github.com/westurner/pgs</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/pgs">https://pypi.python.org/pypi/pgs</a></div>
+</div>
+</div>
+<div class="section" id="pyline-py">
+<h3>pyline.py<a class="headerlink" href="#pyline-py" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src:  <a class="reference external" href="https://github.com/westurner/pyline">https://github.com/westurner/pyline</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/pyline">https://pypi.python.org/pypi/pyline</a></div>
+</div>
+<p>Similar to <code class="docutils literal"><span class="pre">sed</span></code> and <code class="docutils literal"><span class="pre">awk</span></code>:
+Execute python expressions over line-based files.</p>
+</div>
+<div class="section" id="pyrpo-py">
+<h3>pyrpo.py<a class="headerlink" href="#pyrpo-py" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/pyrpo">https://github.com/westurner/pyrpo</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/pyrpo">https://pypi.python.org/pypi/pyrpo</a></div>
+</div>
+<p>Wrap version control system commandline interfaces</p>
+</div>
+<div class="section" id="web-sh">
+<h3>web.sh<a class="headerlink" href="#web-sh" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/web.sh">https://github.com/westurner/web.sh</a></div>
+<div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/web.sh">https://pypi.python.org/pypi/web.sh</a></div>
+</div>
+<p>Launch browser tabs for each argument (OSX, Linux, webbrowser)</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>${__DOTFILES}/scripts/websh.py  # vendored
+websh.py en.wikipedia.org/wiki/Wikipedia
+
+web https://westurner.org/dotfiles/usage#websh
+web localhost:8080 localhost:8080
+web https://localhost:8080/
+
+
+.. code:: bash
+
+    Usage: websh.py [-b|-x|-o|-s] [-v|-q] &lt;url1&gt; [&lt;url_n&gt;]
+
+    Open paths or URIS as tabs in the configured system default webbrowser
+
+    Options:
+      -h, --help           show this help message and exit
+      -b, --webbrowser     Open with `python -m webbrowser`
+      -x, --x-www-browser  Open with `x-www-browser` (Linux, X)
+      -o, --open           Open with `open` (OSX)
+      -s, --start          Open with `start` (Windows)
+      -v, --verbose
+      -q, --quiet
+      -t, --test
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="scripts">
+<span id="dotfiles-scripts"></span><span id="index-10"></span><h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/scripts">https://github.com/westurner/dotfiles/tree/master/scripts</a></div>
+</div>
+<p>In <code class="docutils literal"><span class="pre">scripts/</span></code></p>
+<div class="section" id="dotfiles">
+<h3>dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h4>bootstrap_dotfiles.sh<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>Clone, update, and install dotfiles in <code class="docutils literal"><span class="pre">$HOME</span></code></p>
+<p>See: <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></p>
+</div>
+</div>
+<div class="section" id="venv">
+<h3>venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="venv-py">
+<h4>venv.py<a class="headerlink" href="#venv-py" title="Permalink to this headline">¶</a></h4>
+<p>See: :ref:<a href="#id5"><span class="problematic" id="id6">`</span></a>venv`See: bootstrap</p>
+</div>
+<div class="section" id="venv-relabel-sh">
+<h4>venv_relabel.sh<a class="headerlink" href="#venv-relabel-sh" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="venv-root-prefix-sh">
+<h4>venv_root_prefix.sh<a class="headerlink" href="#venv-root-prefix-sh" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="venv-sh">
+<h4>venv.sh<a class="headerlink" href="#venv-sh" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="ewrd-sh">
+<h4>_ewrd.sh<a class="headerlink" href="#ewrd-sh" title="Permalink to this headline">¶</a></h4>
+<div class="code bash highlight-python"><div class="highlight"><pre><span class="n">e</span>
+<span class="n">editdotfiles</span>
+<span class="n">editetc</span>
+<span class="n">editsrc</span>
+<span class="n">editvirtualenv</span>
+<span class="n">editworkonhome</span>
+<span class="n">editwrd</span>
+<span class="n">editwrk</span>
+<span class="n">editwww</span>
+<span class="n">edotfiles</span>
+<span class="n">eetc</span>
+<span class="n">es</span>
+<span class="n">esrc</span>
+<span class="n">ev</span>
+<span class="n">evirtualenv</span>
+<span class="n">ew</span>
+<span class="n">ewh</span>
+<span class="n">eworkonhome</span>
+<span class="n">ewrd</span>
+<span class="n">ewrk</span>
+<span class="n">ewww</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dotfileshelp-sh">
+<h4>_dotfileshelp.sh<a class="headerlink" href="#dotfileshelp-sh" title="Permalink to this headline">¶</a></h4>
+<div class="code bash highlight-python"><div class="highlight"><pre>_dotfileshelp.sh -h
+dotfileshelp -h
+dhelp -h
+dh -h
+dh help
+
+dh all
+dh all -n -v  # --number-lines, --verbose
+dh -v -h
+dh
+dh all
+dh readline
+dh bash
+dh zsh
+dh i3
+dh vim
+</pre></div>
+</div>
+</div>
+<div class="section" id="gitw">
+<h4>gitw<a class="headerlink" href="#gitw" title="Permalink to this headline">¶</a></h4>
+<div class="code bash highlight-python"><div class="highlight"><pre>$ gitw  # ~= (cd $WRD; git ${@})
+</pre></div>
+</div>
+</div>
+<div class="section" id="grinwrd-sh">
+<h4>_grinwrd.sh<a class="headerlink" href="#grinwrd-sh" title="Permalink to this headline">¶</a></h4>
+<div class="code bash highlight-python"><div class="highlight"><pre><span class="n">grindctags</span>
+<span class="n">grindctagss</span>
+<span class="n">grindctagssrc</span>
+<span class="n">grindctagssys</span>
+<span class="n">grindctagsw</span>
+<span class="n">grindctagswrd</span>
+<span class="n">grinds</span>
+<span class="n">grindsrc</span>
+<span class="n">grindv</span>
+<span class="n">grindvirtualenv</span>
+<span class="n">grindw</span>
+<span class="n">grindwrd</span>
+<span class="n">grindwrdhelp</span>
+<span class="n">grins</span>
+<span class="n">grinsrc</span>
+<span class="n">grinv</span>
+<span class="n">grinvirtualenv</span>
+<span class="n">grinw</span>
+<span class="n">grinwrd</span>
+<span class="n">grinwrdhelp</span>
+
+
+<span class="n">editgrindw</span>
+<span class="n">editgrinw</span>
+<span class="n">egrindw</span>
+<span class="n">egrinw</span>
+<span class="n">egw</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="makew">
+<h4>makew<a class="headerlink" href="#makew" title="Permalink to this headline">¶</a></h4>
+<div class="code bash highlight-python"><div class="highlight"><pre>$ makew  # ~= (cd $WRD; make ${@}) # w/ bash completion
+</pre></div>
+</div>
+</div>
+<div class="section" id="usrlog-sh">
+<h4>usrlog.sh<a class="headerlink" href="#usrlog-sh" title="Permalink to this headline">¶</a></h4>
+<p><strong>Log shell output</strong> with (by default, unique)
+TERM_IDs, PWD, start / finish times
+to <code class="docutils literal"><span class="pre">~/-usrlog.log</span></code>
+or <code class="docutils literal"><span class="pre">$VIRTUAL_ENV/-usrlog.log</span></code>.</p>
+<p>See: <a class="reference internal" href="../usrlog.html#usrlog"><span>usrlog</span></a></p>
+</div>
+<div class="section" id="usrlog-py">
+<h4>usrlog.py<a class="headerlink" href="#usrlog-py" title="Permalink to this headline">¶</a></h4>
+<p>Search through <a href="#id7"><span class="problematic" id="id8">``</span></a>.usrlog`See: bootstrap` files</p>
+<p>See: <a class="reference internal" href="../usrlog.html#usrlog"><span>usrlog</span></a></p>
+</div>
+</div>
+<div class="section" id="git">
+<h3>git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="gitconfig">
+<h4>.gitconfig<a class="headerlink" href="#gitconfig" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">etc/gitconfig</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre>[user]
+  name = Wes Turner
+  email = wes@wrd.nu
+
+[github]
+  user = westurner
+
+# from: http://documentup.com/skwp/git-workflows-book
+
+[color]
+  ui = true
+[color &quot;branch&quot;]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color &quot;diff&quot;]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[alias]
+  # add
+  a = add                           # add
+  chunkyadd = add --patch           # stage commits chunk by chunk
+  ac = add -p                       # stage commits chunk by chunk
+
+  # branch
+  b = branch -v                     # branch (verbose)
+  ba = branch -a -v                 # branch -a (verbose)
+
+  # commit
+  c = commit -m                     # commit with message
+  ca = commit -am                   # commit all with message
+  ci = commit                       # commit
+  amend = commit --amend            # ammend your last commit
+  ammend = commit --amend           # ammend your last commit
+
+  # fix commit message
+  fc = commit --amend -m
+
+  # checkout
+  co = checkout                     # checkout
+  nb = checkout -b                  # create and switch to a new branch (mnemonic: &quot;git new branch branchname...&quot;)
+
+  # cherry-pick
+  cp = cherry-pick -x               # grab a change from a branch
+
+  # diff
+  d = diff                          # diff unstaged changes
+  ds = diff --stat
+  dc = diff --cached                # diff staged changes
+  dcs = diff --cached --stat
+  last = diff HEAD^                 # diff last committed change
+  diffw = diff --word-diff          # diff --word-diff
+
+  # i
+  i = log -n1 --decorate=full
+  is = log -n1 --stat --decorate=full
+
+  # log
+  l = log --graph --date=short
+  l3 = log -n3 --graph --date=short
+  short = log --pretty=format:\&quot;%h %cr %cn %Cgreen%s%Creset\&quot;
+  changelog = log --pretty=format:\&quot;* %s [%h]\&quot;
+  shortnocolor = log --pretty=format:\&quot;%h %cr %cn %s\&quot;
+
+  # show unpushed changes
+  unpushed = log --stat origin/master..HEAD
+  outgoing = log --stat origin/master..HEAD
+
+  # file overview
+  fo = log --pretty=oneline --shortstat --abbrev-commit
+  changes = log --graph --pretty=format:\&quot;%Cblue%h%Creset %cr %d %Cgreen%s%Creset [%cn]\n\&quot; --name-status
+  changestat = log --graph --pretty=format:\&quot;%Cblue%h%Creset %cr %d %Cgreen%s%Creset [%cn]\n\&quot; --stat
+  cs = log --graph --pretty=format:\&quot;%Cblue%h%Creset %cr %d %Cgreen%s%Creset [%cn]\n\&quot; --stat
+
+  # pull
+  pl = pull                         # pull
+
+  # push
+  ps = push                         # push
+
+  # rebase
+  rc = rebase --continue            # continue rebase
+  rs = rebase --skip                # skip rebase
+
+  # remote
+  r = remote -v                     # show remotes (verbose)
+
+  # reset
+  unstage = reset HEAD              # remove files from index (tracking)
+  uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
+  filelog = log -u                  # show changes to a file
+  mt = mergetool                    # fire up the merge tool
+
+  # stash
+  ss = stash                        # stash changes
+  sl = stash list                   # list stashes
+  sa = stash apply                  # apply stash (restore changes)
+  sd = stash drop                   # drop stashes (destory changes)
+
+  # status
+  s = status                        # status
+  st = status                       # status
+  stat = status                     # status
+
+  # tag
+  t = tag -n                        # show tags with &lt;n&gt; lines of each tag message
+
+  # svn helpers
+  svnr = svn rebase
+  svnd = svn dcommit
+  svnl = svn log --oneline --show-commit
+
+  # grouped search
+  gg = grep --break --heading -n
+
+  # shallow clone
+  sc = clone --depth=1
+
+  # TODO
+  todo = grep -n --full-name -E &#39;TODO|FIXME|XXX&#39;
+
+[format]
+  pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
+[mergetool]
+  prompt = false
+[mergetool &quot;gvimdiff&quot;]
+  cmd=&quot;gvim -c &#39;Gdiff&#39; $MERGED&quot;     # use fugitive.vim :Gdiff for 3-way merge
+  keepbackup=false
+[merge]
+  summary = true
+  verbosity = 1
+  tool = gvimdiff
+[apply]
+  whitespace = nowarn
+[branch]
+  autosetupmerge = true
+[push]
+  # &#39;git push&#39; will push the current branch to its tracking branch
+  # the usual default is to push all branches
+  default = tracking
+[core]
+  autocrlf = false
+  editor = vim
+  excludesfile = ~/.gitignore_global
+  pager = less -F -X
+[advice]
+  statusHints = false
+[diff]
+  # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
+  # instead of a/b/c/d as prefixes for patches
+  mnemonicprefix = true
+	tool = gvimdiff
+
+# Upgrade github URLs to SSH
+#[url &quot;ssh://git@github.com/&quot;]
+#    insteadOf = http://github.com/
+#    insteadOf = https://github.com/
+#    insteadOf = git://github.com/
+
+[cola]
+	fontdiff = Monospace,10,-1,5,50,0,0,0,0,0
+</pre></div>
+</div>
+</div>
+<div class="section" id="gitignore-global">
+<h4>.gitignore_global<a class="headerlink" href="#gitignore-global" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">etc/.gitignore_global</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre>## Configuration
+# git config --global core.excludesfile ~/.gitignore_global
+
+# UndoTree
+*.un~
+
+# OSX
+.DS_Store
+
+# Rope
+.ropeproject/
+</pre></div>
+</div>
+</div>
+<div class="section" id="gittagstohgtags-sh">
+<h4>gittagstohgtags.sh<a class="headerlink" href="#gittagstohgtags-sh" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">etc/scripts/gittagstohgtags.sh</span></code></p>
+<p>Convert <code class="docutils literal"><span class="pre">git</span></code> tags to <code class="docutils literal"><span class="pre">hgtags</span></code> format</p>
+</div>
+<div class="section" id="git-changelog-py">
+<h4>git-changelog.py<a class="headerlink" href="#git-changelog-py" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">etc/scripts/git-changelog.py</span></code></p>
+<p>See: <a class="reference internal" href="../usrlog.html#usrlog"><span>usrlog</span></a>
+Generate a reverse chronological changelog with headings for each tag from <a class="reference internal" href="../tools/index.html#git"><span>Git</span></a> commit messages.</p>
+<ul class="simple">
+<li><a class="reference internal" href="../tools/index.html#restructuredtext"><span>ReStructuredText</span></a></li>
+</ul>
+<div class="code bash highlight-python"><div class="highlight"><pre>cd &amp;&amp; test -d .git
+git-changelog.py
+git-changelog.py -r develop
+git-changelog.py --develop
+</pre></div>
+</div>
+</div>
+<div class="section" id="git-subrepo2submodule-sh">
+<h4>git-subrepo2submodule.sh<a class="headerlink" href="#git-subrepo2submodule-sh" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">etc/scripts/git-subrepo2submodule.sh</span></code></p>
+</div>
+<div class="section" id="git-track-all-remotes-sh">
+<h4>git-track-all-remotes.sh<a class="headerlink" href="#git-track-all-remotes-sh" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">etc/scripts/git-track-all-remotes.sh</span></code></p>
+<div class="code bash highlight-python"><div class="highlight"><pre># git-track-all-remotes.sh -h
+git-track-all-remotes.sh &lt;path&gt; [&lt;name:origin&gt;] [prefix:remotes/&lt;name&gt;/]
+
+Create Git local tracking branches for **ALL** of a remote&#39;s branches.
+
+  -t/--test             run all tests
+  -T/--test-fail-early  run tests (and fail early)
+  -h/--help             print (this) help
+</pre></div>
+</div>
+</div>
+<div class="section" id="git-upgrade-remote-to-ssh-sh">
+<h4>git-upgrade-remote-to-ssh.sh<a class="headerlink" href="#git-upgrade-remote-to-ssh-sh" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">etc/scripts/git-upgrade-remote-to-ssh.sh</span></code></p>
+<div class="code bash highlight-python"><div class="highlight"><pre># git-upgrade-remote-to-ssh.sh -h
+git-upgrade-remote-to-ssh.sh: &lt;path&gt; &lt;remote&gt;
+  Upgrade Git remote URLs to SSH URLs
+
+  -t / --test    -- run tests and echo PASS/FAIL
+  -h / --help    -- print (this) help
+
+  # git -C ./ --config --get remote.origin.url    # print &#39;origin&#39; URL in ./
+  $ git-upgrade-remote-to-ssh.sh -h       # print (this) help
+  $ git-upgrade-remote-to-ssh.sh          # upgrade &#39;origin&#39; URLs in ./
+  $ git-upgrade-remote-to-ssh.sh .        # upgrade &#39;origin&#39; URLs in ./
+  $ git-upgrade-remote-to-ssh.sh . upstream       # upgrade &#39;upstream&#39; URLs in ./
+  $ git-upgrade-remote-to-ssh.sh ./path           # upgrade &#39;origin&#39; URLs in ./path
+  $ git-upgrade-remote-to-ssh.sh ./path upstream  # upgrade &#39;upstream&#39; URLs in ./path
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="hg">
+<h3>hg<a class="headerlink" href="#hg" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="hgrc">
+<h4>.hgrc<a class="headerlink" href="#hgrc" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">etc/.hgrc</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre>[ui]
+username = Wes Turner &lt;wes@wrd.nu&gt;
+#ssh = ssh -o ClearAllForwardings=yes
+editor = vim
+ignore = ~/.hgignore_global
+
+[color]
+custom.date = blue
+custom.rev = yellow
+custom.tags = green
+custom.desc = blue
+custom.author = magenta
+
+[alias]
+# these are, in large parts, ports of .gitconfig shortcuts
+# defined in http://documentup.com/skwp/git-workflows-book
+
+w = id -Btin
+e = export
+s = status
+3 = glog -l3
+5 = glog -l5
+7 = glog -l7
+10 = glog -l10
+qi = qinit -c
+qn = qnew
+qs = qseries
+qt = qtop
+qd = qdiff
+qg = qgoto
+
+a = add
+#chunkyadd = record?
+
+# branch
+b = branch -v
+
+# commit
+# commit with message
+
+c = commit -m
+# commit all with message
+ca = commit -Am
+# commit (check in)
+ci = commit
+# amend your last commit
+amend = commit --amend
+# amend your last commit
+ammend = commit --amend
+
+# checkout
+co = checkout
+nb = bookmark
+
+# cherry-pick
+cp = transplant --log -b
+cpg = graft --log -r
+
+# diff
+d = diff
+ds = diff --stat
+dc = qdiff
+dq = qdiff
+last = diff -r tip:-1
+ds = diff --stat
+
+# i
+i = log -l1 --template &quot;{label(&#39;custom.date&#39;, date|isodate)} {label(&#39;custom.rev&#39;, node|short)} ({branch}; {tags}; {bookmarks}) {desc} [{label(&#39;custom.author&#39;, author)}]\n&quot;
+is = log -l1 --template &quot;{label(&#39;custom.date&#39;, date|isodate)} {label(&#39;custom.rev&#39;, node|short)} ({branch}; {tags}; {bookmarks}) {desc} [{label(&#39;custom.author&#39;, author)}]\n&quot; --stat
+
+# log
+l = log -G --pager=yes --template &quot;{label(&#39;custom.date&#39;, date|isodate)} {label(&#39;custom.rev&#39;, node|short)} ({branch}; {tags}; {bookmarks}) {desc} [{label(&#39;custom.author&#39;, author)}]\n&quot;
+long = log -G --removed --template &quot;{label(&#39;custom.rev&#39;, node|short)} ({branch};{bookmarks};{tags})\n{desc}\t[{label(&#39;custom.author&#39;, author)}]\n&quot; --pager=yes
+changes = log --removed --pager=yes --template=&#39;{rev} {node|short} {date|isodate} {author|user} ({join(tags, &quot;, &quot;)}) {desc}\n{file_mods % &quot;M  {file}\n&quot;}{file_adds % &quot;A  {file}\n&quot;}{file_dels % &quot;D  {file}\n&quot;}\n&#39;
+cl = log -G --removed --style changelog --pager=yes
+short = log -G --removed --style=compact --pager=yes
+
+# pull
+pl = pull
+
+# push
+ps = push
+
+# rebase
+# rc = 
+# rs = 
+
+# remote (paths)
+p = paths
+r = paths
+
+# reset
+unstage = reset HEAD
+uncommit = rollback
+filelog = log -f
+# mt = mergetool
+
+# stash (mq)
+ss = qnew
+sl = qseries
+sa = qpush
+sd = qdelete
+
+qn = qnew
+qc = qcommit
+qs = qseries
+qp = qpush
+qrm = qdelete
+
+# status
+s = status
+st = status
+stat = status
+
+# tag
+t = tags
+
+# TODO
+todo = grep -n -f &#39;TODO|FIXME|XXX&#39;
+
+# svn helpers
+# pip install hgsvn
+# hgimportsvn -r &lt;latest&gt; svn://path_to/svn/repo &lt;example&gt;
+# hgimportsvn -r &lt;latest&gt; http://path_to/svn/repo &lt;example&gt;
+# cd example
+# hgpullsvn
+# hg tags
+
+
+[extensions]
+hgk =
+churn =
+graphlog =
+convert =
+churn =
+record =
+bookmarks =
+highlight =
+schemes =
+fetch =
+extdiff =
+color =
+hgk=
+mq=
+progress=
+hggit =
+
+gpg = 
+eol = 
+#largefiles = 
+rebase = 
+transplant =
+shelve =
+pager =
+
+#hgattic = ~/.mercurial/hgattic/attic.py
+#hgshelve = ~/.mercurial/hgshelve/hgshelve.py
+#graphviz = ~/.mercurial/graphviz.py
+#localbranches = ~/.mercurial/mercurial-extensions-localbranch/localbranch.py
+#reviewboard = ~/.mercurial/mercurial-reviewboard
+#debugshell = ~/src/hg-crew-stable/contrib/debugshell.py
+
+[pager]
+ignore = version, help, update
+
+[extdiff]
+cmd.diffuse = diffuse
+cmd.meld = meld
+
+cmd.vimdiff = vimdiff
+opts.vimdiff = -f &#39;+next&#39; &#39;+execute &quot;DirDiff&quot; argv(0) argv(1)&#39;
+
+[schemes]
+py = http://hg.python.org/
+bb = https://bitbucket.org/
+bb+ssh = ssh://hg@bitbucket.org/
+bb+git+ssh = ssh://git@bitbucket.org/
+gcode = https://{1}.googlecode.com/hg/
+gcode+svn = https://{1}.googlecode.com/svn/trunk
+kiln = https://{1}.kilnhg.com/Repo/
+gh = git://github.com/
+gh+ssh = git+ssh://git@github.com/
+gist = git+https://gist.github.com/
+
+ocean = ssh://hg@hg.ocean/
+moz = https://hg.mozilla.org/
+code = ~/src/
+create+hg = ssh://hg@hg.create.wrd.nu/hg/
+create+git = git+ssh://git@git.create.wrd.nu/git/
+
+
+[reviewboard]
+server = https://rev.ocean
+#target_groups = self
+
+[hostfingerprints]
+#bitbucket.org = 81:2b:08:90:dc:d3:71:ee:e0:7c:b4:75:ce:9b:6c:48:94:56:a1:fe
+
+[tortoisehg]
+forcerepotab = True
+fullpath = True
+shell = gnome-terminal -t %(reponame)s
+tasktabs = west
+longsummary = True
+fontcomment = Monaco,10,-1,5,50,0,0,0,0,0
+fontdiff = Monaco,10,-1,5,50,0,0,0,0,0
+fontlist = Monaco,10,-1,5,50,0,0,0,0,0
+fontlog = Monaco,10,-1,5,50,0,0,0,0,0
+fontoutputlog = Monaco,10,-1,5,50,0,0,0,0,0
+ui.language = en
+editor = /usr/bin/gvim --servername thg --remote-tab-silent $FILE
+
+[mq]
+git = yes
+
+[hgweb]
+/ = ~/src/*
+#/wrd = ~/src/wrd/*
+/wrd = ~/workspace
+/wrd/.ve = ~/workspace/.virtualenvs
+
+
+[web]
+style = gitweb
+push_ssl = True
+deny_push = *
+
+[diff]
+git = True
+
+
+#XXX
+[trusted]
+users = hg
+</pre></div>
+</div>
+</div>
+<div class="section" id="hgignore-global">
+<h4>.hgignore_global<a class="headerlink" href="#hgignore-global" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-python"><div class="highlight"><pre>syntax:glob
+*.un~
+.DS_Store
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="bashmarks-to-nerdtree-sh">
+<h3>bashmarks_to_nerdtree.sh<a class="headerlink" href="#bashmarks-to-nerdtree-sh" title="Permalink to this headline">¶</a></h3>
+<p>Convert <cite>bashmarks</cite> shortcut variables
+starting with <code class="docutils literal"><span class="pre">DIR_</span></code> to <a class="reference external" href="NERDTree">NERDTreeBookmarks</a> format:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>export | grep &#39;DIR_&#39;
+l          # list bashmarks
+s awesome  # save PWD as &#39;awesome&#39; bashmark
+g awesome  # goto the &#39;awesome&#39; bashmark
+./bashmarks_to_nerdtree.sh | tee ~/.NERDTreeBookmarks
+</pre></div>
+</div>
+</div>
+<div class="section" id="compare-installed-py">
+<h3>compare_installed.py<a class="headerlink" href="#compare-installed-py" title="Permalink to this headline">¶</a></h3>
+<p>Compare packages listed in a debian/ubuntu APT
+<code class="docutils literal"><span class="pre">.manifest</span></code> with installed packages.</p>
+<p>See: <a class="reference external" href="https://github.com/westurner/pkgsetcomp">https://github.com/westurner/pkgsetcomp</a></p>
+</div>
+<div class="section" id="pulse-sh">
+<h3>pulse.sh<a class="headerlink" href="#pulse-sh" title="Permalink to this headline">¶</a></h3>
+<p>Setup, configure, start, stop, and restart <code class="docutils literal"><span class="pre">pulseaudio</span></code></p>
+</div>
+<div class="section" id="setup-mathjax-py">
+<h3>setup_mathjax.py<a class="headerlink" href="#setup-mathjax-py" title="Permalink to this headline">¶</a></h3>
+<p>Setup <code class="docutils literal"><span class="pre">MathJax</span></code></p>
+</div>
+<div class="section" id="setup-pandas-notebook-deb-sh">
+<h3>setup_pandas_notebook_deb.sh<a class="headerlink" href="#setup-pandas-notebook-deb-sh" title="Permalink to this headline">¶</a></h3>
+<p>Setup <code class="docutils literal"><span class="pre">IPython</span> <span class="pre">Notebook</span></code>, <code class="docutils literal"><span class="pre">Scipy</span></code>, <code class="docutils literal"><span class="pre">Numpy</span></code>, <code class="docutils literal"><span class="pre">Pandas</span></code>
+with Ubuntu packages and pip</p>
+</div>
+<div class="section" id="setup-pandas-notebook-sh">
+<h3>setup_pandas_notebook.sh<a class="headerlink" href="#setup-pandas-notebook-sh" title="Permalink to this headline">¶</a></h3>
+<p>Setup <code class="docutils literal"><span class="pre">Brew</span></code>, <code class="docutils literal"><span class="pre">IPython</span> <span class="pre">Notebook</span></code>, <code class="docutils literal"><span class="pre">scipy</span></code>, <code class="docutils literal"><span class="pre">numpy</span></code>,
+and pandas on OSX</p>
+</div>
+<div class="section" id="setup-scipy-deb-py">
+<h3>setup_scipy_deb.py<a class="headerlink" href="#setup-scipy-deb-py" title="Permalink to this headline">¶</a></h3>
+<p>Install and symlink <code class="docutils literal"><span class="pre">scipy</span></code>, <code class="docutils literal"><span class="pre">numpy</span></code>, and <code class="docutils literal"><span class="pre">matplotlib</span></code> from <code class="docutils literal"><span class="pre">apt</span></code></p>
+</div>
+<div class="section" id="deb-deps-py">
+<h3>deb_deps.py<a class="headerlink" href="#deb-deps-py" title="Permalink to this headline">¶</a></h3>
+<p>Work with debian dependencies</p>
+</div>
+<div class="section" id="deb-search-py">
+<h3>deb_search.py<a class="headerlink" href="#deb-search-py" title="Permalink to this headline">¶</a></h3>
+<p>Search for a debian package</p>
+</div>
+<div class="section" id="build-docs-py">
+<h3>build_docs.py<a class="headerlink" href="#build-docs-py" title="Permalink to this headline">¶</a></h3>
+<p>Build sets of sphinx documentation projects</p>
+</div>
+<div class="section" id="el">
+<h3>el<a class="headerlink" href="#el" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/el">https://github.com/westurner/dotfiles/blob/master/scripts/el</a></div>
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/dotfiles/blob/develop/scripts/el">https://github.com/westurner/dotfiles/blob/develop/scripts/el</a></div>
+</div>
+<p>Open args from stdin with <code class="docutils literal"><span class="pre">EDITOR_</span></code> or <code class="docutils literal"><span class="pre">EDITOR</span></code>. Similar to
+<code class="docutils literal"><span class="pre">xargs</span></code>.</p>
+<div class="code bash highlight-python"><div class="highlight"><pre><span class="n">el</span><span class="o">.</span><span class="n">py</span>  <span class="c"># ${__DOTFILES}/scripts/el.py</span>
+<span class="n">el</span>     <span class="c"># ln -s el.py el</span>
+<span class="n">el</span> <span class="o">-</span><span class="n">v</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre># open files containing &#39;STR&#39; in ``EDITOR_``
+grep -l &#39;STR&#39; | el -e
+
+# open files containing &#39;STR&#39; in ``EDITOR_`` (verbosely printing each)
+grep -l &#39;STR&#39; | el -e -v
+</pre></div>
+</div>
+<div class="code bash highlight-python"><div class="highlight"><pre># echo filenames containing &#39;STR&#39;
+$ grep -l &#39;STR&#39; | el -x echo
+filename1 filename2 filenamen
+
+# echo each filename containing &#39;STR&#39;
+$ grep -l &#39;TODO&#39; | el --each -x echo
+filename1
+filename2
+filenamen
+</pre></div>
+</div>
+<p>TODO</p>
+<ul class="simple">
+<li><a href="#id9"><span class="problematic" id="id10">EDITOR_</span></a> and EDITOR are somewhat deprecated in favor of <code class="docutils literal"><span class="pre">scripts/e</span></code>
+and <code class="docutils literal"><span class="pre">scripts/ew</span></code>.<ul>
+<li>[ ] BUG: call _setup_editor in dotfiles_postactivate</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="greppaths-py">
+<h3>greppaths.py<a class="headerlink" href="#greppaths-py" title="Permalink to this headline">¶</a></h3>
+<p>Grep</p>
+</div>
+<div class="section" id="lsof-py">
+<h3>lsof.py<a class="headerlink" href="#lsof-py" title="Permalink to this headline">¶</a></h3>
+<p>lsof subprocess wrapper</p>
+</div>
+<div class="section" id="mactool-py">
+<h3>mactool.py<a class="headerlink" href="#mactool-py" title="Permalink to this headline">¶</a></h3>
+<p>MAC address tool</p>
+</div>
+<div class="section" id="optimizepath-py">
+<h3>optimizepath.py<a class="headerlink" href="#optimizepath-py" title="Permalink to this headline">¶</a></h3>
+<p>Work with PATH as an ordered set</p>
+</div>
+<div class="section" id="passwordstrength-py">
+<h3>passwordstrength.py<a class="headerlink" href="#passwordstrength-py" title="Permalink to this headline">¶</a></h3>
+<p>Gauge password strength</p>
+</div>
+<div class="section" id="pipls-py">
+<h3>pipls.py<a class="headerlink" href="#pipls-py" title="Permalink to this headline">¶</a></h3>
+<p>Walk and enumerate a pip requirements file</p>
+</div>
+<div class="section" id="pycut-py">
+<h3>pycut.py<a class="headerlink" href="#pycut-py" title="Permalink to this headline">¶</a></h3>
+<p>Similar to <code class="docutils literal"><span class="pre">coreutils</span></code>&#8216; <code class="docutils literal"><span class="pre">cut</span></code>: split line-based files into
+fields. See: <em>pyline.py</em> (<code class="docutils literal"><span class="pre">pyline</span> <span class="pre">'w[1:2]'</span></code>)</p>
+</div>
+<div class="section" id="py-index-py">
+<h3>py_index.py<a class="headerlink" href="#py-index-py" title="Permalink to this headline">¶</a></h3>
+<p>Create a python package index HTML file for a directory of
+packages. (<code class="docutils literal"><span class="pre">.egg</span></code>, <code class="docutils literal"><span class="pre">.zip</span></code>, <code class="docutils literal"><span class="pre">.tar.gz</span></code>, <code class="docutils literal"><span class="pre">tgz</span></code>)</p>
+</div>
+<div class="section" id="pyren-py">
+<h3>pyren.py<a class="headerlink" href="#pyren-py" title="Permalink to this headline">¶</a></h3>
+<p>Skeleton regex file rename script</p>
+<p>See: <a class="reference external" href="https://github.com/westurner/pyleset">https://github.com/westurner/pyleset</a></p>
+</div>
+<div class="section" id="whyquote-sh">
+<h3>whyquote.sh<a class="headerlink" href="#whyquote-sh" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Objective: Demonstrate how and why shell quoting matters</div>
+</div>
+<ul>
+<li><p class="first">See also:</p>
+<ul>
+<li><p class="first">strypes (str types)</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Src: <a class="reference external" href="https://github.com/westurner/strypes/blob/develop/strypes/strypes.py">https://github.com/westurner/strypes/blob/develop/strypes/strypes.py</a></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="xlck-sh">
+<h3>xlck.sh<a class="headerlink" href="#xlck-sh" title="Permalink to this headline">¶</a></h3>
+<p>Wrap <code class="docutils literal"><span class="pre">xautolock</span></code> for screensaver, shutdown, suspend, resume config
+(e.g. <code class="docutils literal"><span class="pre">.xinitrc</span></code> calls <code class="docutils literal"><span class="pre">xlck.sh</span> <span class="pre">-S</span></code>)</p>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="../index.html">westurner/dotfiles 0.9.0 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="../readme.html" title="Dotfiles" >previous</a></li>
+        <li><a href="dhelp.html" title="Usage (dhelp)" >next</a></li>
+        <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2014, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>
