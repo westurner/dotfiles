@@ -16,7 +16,7 @@ scripts/_dotfileshelp.sh
 .. code:: bash
 
    .
-   ### dotfileshelp.sh -- grep for comments in readline, bash, zsh, i3, vim cfg
+   ### _dotfileshelp.sh -- grep for comments in readline, bash, zsh, i3, vim cfg
        dotfileshelp  [-n] [-h] [-v -e -d] [<cmd> [<arg1> [<argn>]]]
     
          <cmd> may be zero or one of { all, readline, bash, zsh, i3, vim }
@@ -42,11 +42,13 @@ scripts/_dotfileshelp.sh
              $ dh zsh
              $ dh i3
              $ dh vim
+             $ dh dotfiles
     
       ### dhelp bash functions:
     
        ## dhelp_shell()             -- grep comments in a .sh file
        ## dhelp_help() -- grep shell comments in this file ($BASH_SOURCE)
+       ## dhelp_dotfiles()          -- grep comments in bootstrap_dotfiles.sh
        ## dhelp_inputrc()           -- grep comments in a readline .inputrc
        ## dhelp_inputrc__dotfiles() -- grep comments in etc/.inputrc
        ## dhelp_bash()              -- grep comments in a .sh file
@@ -60,6 +62,106 @@ scripts/_dotfileshelp.sh
        ## dhelp_test() -- test dhelp (--test [--debug])
            ## dhelp_test_each() -- test dhelp functions
     
+   .
+
+
+
+.. index:: scripts/bootstrap_dotfiles.sh
+.. _scripts/bootstrap_dotfiles.sh:
+
+scripts/bootstrap_dotfiles.sh
+==============================
+| Src: `scripts/bootstrap_dotfiles.sh <https://github.com/westurner/dotfiles/tree/develop/scripts/bootstrap_dotfiles.sh>`__
+
+.. code:: bash
+
+   .
+   ## westurner/dotfiles bootstrap_dotfiles.sh
+     Install and upgrade dotfiles for the current user
+    
+     Can be run:
+     * in a virtualenv (as current user)
+     * for --user (as current user)
+    
+     * Clones into $VIRTUAL_ENV/src/dotfiles
+     * Symlinks $VIRTUAL_ENV/src/dotfiles) to ${HOME}/-dotfiles
+     * Symlinks from ~/-dotfiles/<...> into ${HOME}
+    
+     usage::
+    
+        bash scripts/bootstrap_dotfiles.sh -h
+     set -e   -- exit on error (any nonzero return) [ should be set -e ]
+     set -v   -- print source as run   [dotfiles: debug-on(), debug-off()]
+     set -x   -- print commands        [dotfiles: debug-on(), debug-off()]
+     echo $-  -- echo current shell set options [e.g. -e -v -x]
+       ## date (file suffix for backup_and_symlink)
+       ## Virtualenvwrapper [virtualenvwrapper.sh]
+       ## Virtualenv + Venv [virtualenv, dotfiles.venv]
+         __DOTFILES="${__DOTFILES_SYMLINK}"# ~/-dotfiles
+       ## bootstrap_dotfiles.sh
+       ## dotfiles repository  -- https://github.com/westurner/dotfiles
+       ## dotvim repository    -- https://github.com/westurner/dotvim
+         dotfiles_check_deps   -- check for installed commands and functions
+         git_status()      -- show git rev, branches, remotes
+         hg_status()       -- show hg id, branches, paths
+         show_status()     -- show status for a (.hg or .git) repository
+         clone_or_update() -- clone OR pull and update (git [or hg])
+         clone_dotfiles_repo()         -- clone/up dotfiles_repo; create symlinks
+         Create a $__DOTFILES symlink
+         clone_dotvim_repo()           -- clone dotvim to etc/vim
+         install_virtualenvwrapper()   -- pip install virtualenvwrapper
+           OR: (manually) apt-get install python-virtualenvwrapper
+         install_gitflow()     -- install gitflow git workflow [git flow help]
+         install_hubflow()     --  Install hubflow git workflow [git hf help]
+         get_md5sums()     -- get md5sums for a path or directory
+         __realpath()  -- os.path.realpath (~ readlink -f --canonicalize)
+         backup_and_symlink()  -- Create symlink at $dest, pointing to $src
+         Args:
+          filename: basename of file
+          dest: location of symlink
+          src: where symlink will point
+          BKUPID: file suffix ( *.bkp.* ) (date)
+                 if either src_md5 or dest_md5 are null
+   ## /begin symlinks
+            "${ipyprofile}/startup/20-venv_ipymagics.py"
+            "${ipyprofile}/ipython_config.py"
+   ## end /symlinks
+       ## Create symlinks
+         {{ full_name }}
+       ## create a new virtualenv
+       ## deactivate any current VIRTUAL_ENV in this $SHELL
+       ## pip install --upgrade --editable and create symlinks
+       ## pip install --user --editable and create symlinks
+          Upgrade system pip
+       ## Setup system dependencies
+         dotfiles_install_bootstrap_pip
+             Install virtualenv and virtualenvwrapper into ~/.local/bin/
+       ## clone and/or pull and update dotfiles and dotvim; then install dotfiles
+         Clone the dotfiles repository
+         Clone the dotvim repository
+         Install dotfiles into ${HOME}
+         Install dotfiles into ~/.local/
+       ## Install the dotfiles
+         install and configure virtualenv and virtualenvwrapper
+             create or activate $_VIRTUAL_ENV
+       ## Clone and/or pull and update dotfiles and dotvim; then install dotfiles
+         Symlink dotfiles into ${HOME}
+       ## Install all pip requirements
+       ## Upgrade setuptools with pip
+       ## Upgrade system pip with pip (careful)
+       ## Upgrade pip with pip (does not work)
+       ## Install pip (and setuptools)
+       ## Install setuptools
+       ## Install virtualenv
+       ## Install virtualenvwrapper
+       ## source virtualenvwrapper[_lazy].sh from $PATH
+       ## print usage information
+       ## parse opts, set flags, and run commands
+            while getopts "uISURGCdh" o; do
+                dotfiles_bootstrap_parse_arg "${o}"
+            done
+   ## execute main if called as a script
+   ## (e.g. not with `source`)
    .
 
 
