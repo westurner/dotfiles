@@ -87,14 +87,14 @@ except ImportError:
     pass
     # TODO
 
-try:
-    import sphinxcontrib.issuetracker
-    extensions.append('sphinxcontrib.issuetracker')
-    issuetracker = 'github'
-    issuetracker_project = project_github_path
-except ImportError:
-    pass
-    # TODO
+# try:
+#     import sphinxcontrib.issuetracker
+#     extensions.append('sphinxcontrib.issuetracker')
+#     issuetracker = 'github'
+#     issuetracker_project = project_github_path
+# except ImportError:
+#     pass
+#     # TODO
 
 try:
     import changelog
