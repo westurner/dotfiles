@@ -76,6 +76,26 @@ scripts/bootstrap_dotfiles.sh
 .. code:: bash
 
    .
+   ## dotfiles_bootstrap -- a shell wrapper for cloning and installing
+   ## Usage: bootstrap_dotfiles.sh  <actions> <options>
+   #
+   ## Actions
+   #  -I   --  Install the dotfiles (implies -S)
+   #  -S   --  Install dotfiles symlinks
+   #  -U   --  Update and Upgrade the dotfiles (implies -S)
+   #  -R   --  pip install -r requirements-all.txt
+   #  -G   --  install Gitflow and hubflow
+   #  -C   --  check for installed components
+   #  -h   --  print this help message
+   #
+   ## Options
+   #  -u   --  pip install --user (modified for other actions)
+   #  -d   --  show debugging info (set -x)
+   .
+
+.. code:: bash
+
+   .
    ## westurner/dotfiles bootstrap_dotfiles.sh
      Install and upgrade dotfiles for the current user
     
