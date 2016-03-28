@@ -78,6 +78,8 @@ function dhelp_dotfiles {
     ## dhelp_dotfiles()          -- grep comments in bootstrap_dotfiles.sh
     local _file="${1:-"${__DOTFILES}/scripts/bootstrap_dotfiles.sh"}"
     printf_file_heading "=" "${_file}"
+    "${_file}" -h \
+        | printf_code "bash"
     dhelp_shell "${_file}" \
         | printf_code "bash"
     echo ""
