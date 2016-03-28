@@ -1307,49 +1307,6 @@ etc/bash/_ewrd.sh
 
    
    
-.. index:: etc/bash/_grinwrd.sh
-.. _etc/bash/_grinwrd.sh:
-
-etc/bash/_grinwrd.sh
-=====================
-| Src: `etc/bash/_grinwrd.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/_grinwrd.sh>`__
-
-.. code:: bash
-
-   .
-   ### _grinwrd.sh --- Grin search functions
-     TODO:
-      - [ ] TST: *
-      - [ ] Normalize pass-through argument handling (e.g. ``grin -C 10``)
-   ## seeAlso ##
-     virtualenv & virtualenvwrapper
-         grinv()   -- grin $VIRTUAL_ENV
-         grindv()  -- grind $VIRTUAL_ENV
-     venv
-         grins()   -- grin $_SRC
-         grinds()  -- grind $_SRC
-         grinw()   -- grin $_WRD
-         grindw()  -- grind $_WRD
-         edit_grin_w() -- edit $(grinw -l $@)
-         egw           -- edit $(grinw -l $@)
-   ## ctags (exuberant ctags)
-     brew install ctags
-     apt-get install exuberant-ctags
-     dnf install ctags ctags-etags
-         grindctags()      -- generate ctags from grind (in ./tags)
-         local grindargs=${@}
-                 brew install ctags
-         grindctagssys()   -- generate ctags from grind --sys-path ($_WRD/tags)
-         grindctagswrd()   -- generate ctags from (cd $_WRD; grind) ($_WRD/tags)
-         grindctagssrc()   -- generate ctags from (cd $_SRC; grind) ($_SRC/tags)
-    
-   ## seeAlso ##
-     * https://westurner.org/dotfiles/venv
-     * _ewrd.sh
-   .
-
-   
-   
 .. index:: etc/bash/usrlog.sh
 .. _etc/bash/usrlog.sh:
 
