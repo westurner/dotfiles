@@ -7,6 +7,7 @@ Usage (dhelp)
 ===============
 
 .. index:: scripts/_dotfileshelp.sh
+.. _scripts/_dotfileshelp.sh:
 
 scripts/_dotfileshelp.sh
 =========================
@@ -64,6 +65,7 @@ scripts/_dotfileshelp.sh
 
 
 .. index:: etc/.inputrc
+.. _etc/.inputrc:
 
 etc/.inputrc
 =============
@@ -148,6 +150,7 @@ etc/.inputrc
    .
 
 .. index:: etc/bash/00-bashrc.before.sh
+.. _etc/bash/00-bashrc.before.sh:
 
 etc/bash/00-bashrc.before.sh
 =============================
@@ -290,6 +293,7 @@ etc/bash/00-bashrc.before.sh
    
    
 .. index:: etc/bash/01-bashrc.lib.sh
+.. _etc/bash/01-bashrc.lib.sh:
 
 etc/bash/01-bashrc.lib.sh
 ==========================
@@ -327,6 +331,7 @@ etc/bash/01-bashrc.lib.sh
    
    
 .. index:: etc/bash/02-bashrc.platform.sh
+.. _etc/bash/02-bashrc.platform.sh:
 
 etc/bash/02-bashrc.platform.sh
 ===============================
@@ -346,6 +351,7 @@ etc/bash/02-bashrc.platform.sh
    
    
 .. index:: etc/bash/03-bashrc.darwin.sh
+.. _etc/bash/03-bashrc.darwin.sh:
 
 etc/bash/03-bashrc.darwin.sh
 =============================
@@ -382,6 +388,7 @@ etc/bash/03-bashrc.darwin.sh
    
    
 .. index:: etc/bash/04-bashrc.TERM.sh
+.. _etc/bash/04-bashrc.TERM.sh:
 
 etc/bash/04-bashrc.TERM.sh
 ===========================
@@ -401,6 +408,7 @@ etc/bash/04-bashrc.TERM.sh
    
    
 .. index:: etc/bash/05-bashrc.dotfiles.sh
+.. _etc/bash/05-bashrc.dotfiles.sh:
 
 etc/bash/05-bashrc.dotfiles.sh
 ===============================
@@ -454,6 +462,7 @@ etc/bash/05-bashrc.dotfiles.sh
    
    
 .. index:: etc/bash/06-bashrc.completion.sh
+.. _etc/bash/06-bashrc.completion.sh:
 
 etc/bash/06-bashrc.completion.sh
 =================================
@@ -470,6 +479,7 @@ etc/bash/06-bashrc.completion.sh
    
    
 .. index:: etc/bash/07-bashrc.python.sh
+.. _etc/bash/07-bashrc.python.sh:
 
 etc/bash/07-bashrc.python.sh
 =============================
@@ -489,6 +499,7 @@ etc/bash/07-bashrc.python.sh
    
    
 .. index:: etc/bash/07-bashrc.virtualenvwrapper.sh
+.. _etc/bash/07-bashrc.virtualenvwrapper.sh:
 
 etc/bash/07-bashrc.virtualenvwrapper.sh
 ========================================
@@ -535,6 +546,7 @@ etc/bash/07-bashrc.virtualenvwrapper.sh
    
    
 .. index:: etc/bash/08-bashrc.conda.sh
+.. _etc/bash/08-bashrc.conda.sh:
 
 etc/bash/08-bashrc.conda.sh
 ============================
@@ -598,6 +610,7 @@ etc/bash/08-bashrc.conda.sh
    
    
 .. index:: etc/bash/08-bashrc.conda.sh.un~
+.. _etc/bash/08-bashrc.conda.sh.un~:
 
 etc/bash/08-bashrc.conda.sh.un~
 ================================
@@ -661,6 +674,7 @@ etc/bash/08-bashrc.conda.sh.un~
    
    
 .. index:: etc/bash/08-bashrc.gcloud.sh
+.. _etc/bash/08-bashrc.gcloud.sh:
 
 etc/bash/08-bashrc.gcloud.sh
 =============================
@@ -691,6 +705,7 @@ etc/bash/08-bashrc.gcloud.sh
    
    
 .. index:: etc/bash/10-bashrc.venv.sh
+.. _etc/bash/10-bashrc.venv.sh:
 
 etc/bash/10-bashrc.venv.sh
 ===========================
@@ -752,6 +767,7 @@ etc/bash/10-bashrc.venv.sh
    
    
 .. index:: etc/bash/11-bashrc.venv.pyramid.sh
+.. _etc/bash/11-bashrc.venv.pyramid.sh:
 
 etc/bash/11-bashrc.venv.pyramid.sh
 ===================================
@@ -767,6 +783,7 @@ etc/bash/11-bashrc.venv.pyramid.sh
    
    
 .. index:: etc/bash/20-bashrc.editor.sh
+.. _etc/bash/20-bashrc.editor.sh:
 
 etc/bash/20-bashrc.editor.sh
 =============================
@@ -796,6 +813,7 @@ etc/bash/20-bashrc.editor.sh
    
    
 .. index:: etc/bash/29-bashrc.vimpagers.sh
+.. _etc/bash/29-bashrc.vimpagers.sh:
 
 etc/bash/29-bashrc.vimpagers.sh
 ================================
@@ -818,6 +836,7 @@ etc/bash/29-bashrc.vimpagers.sh
    
    
 .. index:: etc/bash/30-bashrc.usrlog.sh
+.. _etc/bash/30-bashrc.usrlog.sh:
 
 etc/bash/30-bashrc.usrlog.sh
 =============================
@@ -849,6 +868,7 @@ etc/bash/30-bashrc.usrlog.sh
    
    
 .. index:: etc/bash/30-bashrc.xlck.sh
+.. _etc/bash/30-bashrc.xlck.sh:
 
 etc/bash/30-bashrc.xlck.sh
 ===========================
@@ -878,6 +898,7 @@ etc/bash/30-bashrc.xlck.sh
    
    
 .. index:: etc/bash/40-bashrc.aliases.sh
+.. _etc/bash/40-bashrc.aliases.sh:
 
 etc/bash/40-bashrc.aliases.sh
 ==============================
@@ -972,6 +993,7 @@ etc/bash/40-bashrc.aliases.sh
    
    
 .. index:: etc/bash/42-bashrc.commands.sh
+.. _etc/bash/42-bashrc.commands.sh:
 
 etc/bash/42-bashrc.commands.sh
 ===============================
@@ -992,6 +1014,7 @@ etc/bash/42-bashrc.commands.sh
    
    
 .. index:: etc/bash/50-bashrc.bashmarks.sh
+.. _etc/bash/50-bashrc.bashmarks.sh:
 
 etc/bash/50-bashrc.bashmarks.sh
 ================================
@@ -1014,6 +1037,7 @@ etc/bash/50-bashrc.bashmarks.sh
    
    
 .. index:: etc/bash/70-bashrc.repos.sh
+.. _etc/bash/70-bashrc.repos.sh:
 
 etc/bash/70-bashrc.repos.sh
 ============================
@@ -1114,6 +1138,7 @@ etc/bash/70-bashrc.repos.sh
    
    
 .. index:: etc/bash/99-bashrc.after.sh
+.. _etc/bash/99-bashrc.after.sh:
 
 etc/bash/99-bashrc.after.sh
 ============================
@@ -1127,6 +1152,7 @@ etc/bash/99-bashrc.after.sh
    
    
 .. index:: etc/bash/_ewrd.sh
+.. _etc/bash/_ewrd.sh:
 
 etc/bash/_ewrd.sh
 ==================
@@ -1180,6 +1206,7 @@ etc/bash/_ewrd.sh
    
    
 .. index:: etc/bash/_grinwrd.sh
+.. _etc/bash/_grinwrd.sh:
 
 etc/bash/_grinwrd.sh
 =====================
@@ -1222,6 +1249,7 @@ etc/bash/_grinwrd.sh
    
    
 .. index:: etc/bash/usrlog.sh
+.. _etc/bash/usrlog.sh:
 
 etc/bash/usrlog.sh
 ===================
@@ -1393,6 +1421,7 @@ etc/bash/usrlog.sh
    
    
 .. index:: etc/bash/xlck.sh
+.. _etc/bash/xlck.sh:
 
 etc/bash/xlck.sh
 =================
@@ -1444,12 +1473,13 @@ etc/bash/xlck.sh
    
    
 .. index:: etc/zsh/00-zshrc.before.sh
+.. _etc/zsh/00-zshrc.before.sh:
 
 etc/zsh/00-zshrc.before.sh
 ===========================
 | Src: `etc/zsh/00-zshrc.before.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/00-zshrc.before.sh>`__
 
-.. code:: zsh
+.. code:: bash
 
    .
       __DOTFILES -- local dotfiles repository clone
@@ -1462,12 +1492,13 @@ etc/zsh/00-zshrc.before.sh
    
    
 .. index:: etc/zsh/01-zshrc.lib.sh
+.. _etc/zsh/01-zshrc.lib.sh:
 
 etc/zsh/01-zshrc.lib.sh
 ========================
 | Src: `etc/zsh/01-zshrc.lib.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/01-zshrc.lib.sh>`__
 
-.. code:: zsh
+.. code:: bash
 
    .
      list all path key components leading to file
@@ -1476,12 +1507,13 @@ etc/zsh/01-zshrc.lib.sh
    
    
 .. index:: etc/zsh/05-zshrc.bashrc.sh
+.. _etc/zsh/05-zshrc.bashrc.sh:
 
 etc/zsh/05-zshrc.bashrc.sh
 ===========================
 | Src: `etc/zsh/05-zshrc.bashrc.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/05-zshrc.bashrc.sh>`__
 
-.. code:: zsh
+.. code:: bash
 
    .
      requires:
@@ -1492,12 +1524,13 @@ etc/zsh/05-zshrc.bashrc.sh
    
    
 .. index:: etc/zsh/99-zshrc.after.sh
+.. _etc/zsh/99-zshrc.after.sh:
 
 etc/zsh/99-zshrc.after.sh
 ==========================
 | Src: `etc/zsh/99-zshrc.after.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/99-zshrc.after.sh>`__
 
-.. code:: zsh
+.. code:: bash
 
    .
      99-zsh.after.sh
@@ -1506,6 +1539,7 @@ etc/zsh/99-zshrc.after.sh
    
    
 .. index:: etc/i3/config
+.. _etc/i3/config:
 
 etc/i3/config
 ==============
@@ -1736,6 +1770,7 @@ etc/i3/config
    .
 
 .. index:: etc/vim/vimrc
+.. _etc/vim/vimrc:
 
 etc/vim/vimrc
 ==============
@@ -2078,6 +2113,7 @@ etc/vim/vimrc
    
    
 .. index:: etc/vim/vimrc.full.bundles.vimrc
+.. _etc/vim/vimrc.full.bundles.vimrc:
 
 etc/vim/vimrc.full.bundles.vimrc
 =================================
@@ -2427,6 +2463,7 @@ etc/vim/vimrc.full.bundles.vimrc
    
    
 .. index:: etc/vim/vimrc.tinyvim.bundles.vimrc
+.. _etc/vim/vimrc.tinyvim.bundles.vimrc:
 
 etc/vim/vimrc.tinyvim.bundles.vimrc
 ====================================
