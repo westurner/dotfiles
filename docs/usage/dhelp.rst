@@ -1669,7 +1669,7 @@ etc/i3/config
 
 etc/vim/vimrc
 ==============
-| Src: `etc/vim/vimrc <https://github.com/westurner/dotfiles/tree/develop/etc/vim/vimrc>`__
+| Src: `etc/vim/vimrc <https://github.com/westurner/dotvim/tree/develop/etc/vim/vimrc>`__
 
 .. code:: vim
 
@@ -2009,7 +2009,7 @@ etc/vim/vimrc
    
 etc/vim/vimrc.full.bundles.vimrc
 =================================
-| Src: `etc/vim/vimrc.full.bundles.vimrc <https://github.com/westurner/dotfiles/tree/develop/etc/vim/vimrc.full.bundles.vimrc>`__
+| Src: `etc/vim/vimrc.full.bundles.vimrc <https://github.com/westurner/dotvim/tree/develop/etc/vim/vimrc.full.bundles.vimrc>`__
 
 .. code:: vim
 
@@ -2356,7 +2356,7 @@ etc/vim/vimrc.full.bundles.vimrc
    
 etc/vim/vimrc.tinyvim.bundles.vimrc
 ====================================
-| Src: `etc/vim/vimrc.tinyvim.bundles.vimrc <https://github.com/westurner/dotfiles/tree/develop/etc/vim/vimrc.tinyvim.bundles.vimrc>`__
+| Src: `etc/vim/vimrc.tinyvim.bundles.vimrc <https://github.com/westurner/dotvim/tree/develop/etc/vim/vimrc.tinyvim.bundles.vimrc>`__
 
 .. code:: vim
 
