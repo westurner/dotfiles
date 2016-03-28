@@ -6,6 +6,8 @@
 Usage (dhelp)
 ===============
 
+.. index:: scripts/_dotfileshelp.sh
+
 scripts/_dotfileshelp.sh
 =========================
 | Src: `scripts/_dotfileshelp.sh <https://github.com/westurner/dotfiles/tree/develop/scripts/_dotfileshelp.sh>`__
@@ -60,6 +62,8 @@ scripts/_dotfileshelp.sh
    .
 
 
+
+.. index:: etc/.inputrc
 
 etc/.inputrc
 =============
@@ -142,6 +146,8 @@ etc/.inputrc
           <ctrl> 3  -- prefix with '# '
           see: bindkey -p
    .
+
+.. index:: etc/bash/00-bashrc.before.sh
 
 etc/bash/00-bashrc.before.sh
 =============================
@@ -283,6 +289,8 @@ etc/bash/00-bashrc.before.sh
 
    
    
+.. index:: etc/bash/01-bashrc.lib.sh
+
 etc/bash/01-bashrc.lib.sh
 ==========================
 | Src: `etc/bash/01-bashrc.lib.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/01-bashrc.lib.sh>`__
@@ -318,6 +326,8 @@ etc/bash/01-bashrc.lib.sh
 
    
    
+.. index:: etc/bash/02-bashrc.platform.sh
+
 etc/bash/02-bashrc.platform.sh
 ===============================
 | Src: `etc/bash/02-bashrc.platform.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/02-bashrc.platform.sh>`__
@@ -335,6 +345,8 @@ etc/bash/02-bashrc.platform.sh
 
    
    
+.. index:: etc/bash/03-bashrc.darwin.sh
+
 etc/bash/03-bashrc.darwin.sh
 =============================
 | Src: `etc/bash/03-bashrc.darwin.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/03-bashrc.darwin.sh>`__
@@ -369,6 +381,8 @@ etc/bash/03-bashrc.darwin.sh
 
    
    
+.. index:: etc/bash/04-bashrc.TERM.sh
+
 etc/bash/04-bashrc.TERM.sh
 ===========================
 | Src: `etc/bash/04-bashrc.TERM.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/04-bashrc.TERM.sh>`__
@@ -386,6 +400,8 @@ etc/bash/04-bashrc.TERM.sh
 
    
    
+.. index:: etc/bash/05-bashrc.dotfiles.sh
+
 etc/bash/05-bashrc.dotfiles.sh
 ===============================
 | Src: `etc/bash/05-bashrc.dotfiles.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/05-bashrc.dotfiles.sh>`__
@@ -437,6 +453,8 @@ etc/bash/05-bashrc.dotfiles.sh
 
    
    
+.. index:: etc/bash/06-bashrc.completion.sh
+
 etc/bash/06-bashrc.completion.sh
 =================================
 | Src: `etc/bash/06-bashrc.completion.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/06-bashrc.completion.sh>`__
@@ -451,6 +469,8 @@ etc/bash/06-bashrc.completion.sh
 
    
    
+.. index:: etc/bash/07-bashrc.python.sh
+
 etc/bash/07-bashrc.python.sh
 =============================
 | Src: `etc/bash/07-bashrc.python.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/07-bashrc.python.sh>`__
@@ -468,6 +488,8 @@ etc/bash/07-bashrc.python.sh
 
    
    
+.. index:: etc/bash/07-bashrc.virtualenvwrapper.sh
+
 etc/bash/07-bashrc.virtualenvwrapper.sh
 ========================================
 | Src: `etc/bash/07-bashrc.virtualenvwrapper.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/07-bashrc.virtualenvwrapper.sh>`__
@@ -512,6 +534,8 @@ etc/bash/07-bashrc.virtualenvwrapper.sh
 
    
    
+.. index:: etc/bash/08-bashrc.conda.sh
+
 etc/bash/08-bashrc.conda.sh
 ============================
 | Src: `etc/bash/08-bashrc.conda.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.conda.sh>`__
@@ -573,6 +597,8 @@ etc/bash/08-bashrc.conda.sh
 
    
    
+.. index:: etc/bash/08-bashrc.conda.sh.un~
+
 etc/bash/08-bashrc.conda.sh.un~
 ================================
 | Src: `etc/bash/08-bashrc.conda.sh.un~ <https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.conda.sh.un~>`__
@@ -634,6 +660,8 @@ etc/bash/08-bashrc.conda.sh.un~
 
    
    
+.. index:: etc/bash/08-bashrc.gcloud.sh
+
 etc/bash/08-bashrc.gcloud.sh
 =============================
 | Src: `etc/bash/08-bashrc.gcloud.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.gcloud.sh>`__
@@ -662,6 +690,8 @@ etc/bash/08-bashrc.gcloud.sh
 
    
    
+.. index:: etc/bash/10-bashrc.venv.sh
+
 etc/bash/10-bashrc.venv.sh
 ===========================
 | Src: `etc/bash/10-bashrc.venv.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/10-bashrc.venv.sh>`__
@@ -721,6 +751,8 @@ etc/bash/10-bashrc.venv.sh
 
    
    
+.. index:: etc/bash/11-bashrc.venv.pyramid.sh
+
 etc/bash/11-bashrc.venv.pyramid.sh
 ===================================
 | Src: `etc/bash/11-bashrc.venv.pyramid.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/11-bashrc.venv.pyramid.sh>`__
@@ -734,6 +766,8 @@ etc/bash/11-bashrc.venv.pyramid.sh
 
    
    
+.. index:: etc/bash/20-bashrc.editor.sh
+
 etc/bash/20-bashrc.editor.sh
 =============================
 | Src: `etc/bash/20-bashrc.editor.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/20-bashrc.editor.sh>`__
@@ -761,6 +795,8 @@ etc/bash/20-bashrc.editor.sh
 
    
    
+.. index:: etc/bash/29-bashrc.vimpagers.sh
+
 etc/bash/29-bashrc.vimpagers.sh
 ================================
 | Src: `etc/bash/29-bashrc.vimpagers.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/29-bashrc.vimpagers.sh>`__
@@ -781,6 +817,8 @@ etc/bash/29-bashrc.vimpagers.sh
 
    
    
+.. index:: etc/bash/30-bashrc.usrlog.sh
+
 etc/bash/30-bashrc.usrlog.sh
 =============================
 | Src: `etc/bash/30-bashrc.usrlog.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/30-bashrc.usrlog.sh>`__
@@ -810,6 +848,8 @@ etc/bash/30-bashrc.usrlog.sh
 
    
    
+.. index:: etc/bash/30-bashrc.xlck.sh
+
 etc/bash/30-bashrc.xlck.sh
 ===========================
 | Src: `etc/bash/30-bashrc.xlck.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/30-bashrc.xlck.sh>`__
@@ -837,6 +877,8 @@ etc/bash/30-bashrc.xlck.sh
 
    
    
+.. index:: etc/bash/40-bashrc.aliases.sh
+
 etc/bash/40-bashrc.aliases.sh
 ==============================
 | Src: `etc/bash/40-bashrc.aliases.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/40-bashrc.aliases.sh>`__
@@ -929,6 +971,8 @@ etc/bash/40-bashrc.aliases.sh
 
    
    
+.. index:: etc/bash/42-bashrc.commands.sh
+
 etc/bash/42-bashrc.commands.sh
 ===============================
 | Src: `etc/bash/42-bashrc.commands.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/42-bashrc.commands.sh>`__
@@ -947,6 +991,8 @@ etc/bash/42-bashrc.commands.sh
 
    
    
+.. index:: etc/bash/50-bashrc.bashmarks.sh
+
 etc/bash/50-bashrc.bashmarks.sh
 ================================
 | Src: `etc/bash/50-bashrc.bashmarks.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/50-bashrc.bashmarks.sh>`__
@@ -967,6 +1013,8 @@ etc/bash/50-bashrc.bashmarks.sh
 
    
    
+.. index:: etc/bash/70-bashrc.repos.sh
+
 etc/bash/70-bashrc.repos.sh
 ============================
 | Src: `etc/bash/70-bashrc.repos.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/70-bashrc.repos.sh>`__
@@ -1065,6 +1113,8 @@ etc/bash/70-bashrc.repos.sh
 
    
    
+.. index:: etc/bash/99-bashrc.after.sh
+
 etc/bash/99-bashrc.after.sh
 ============================
 | Src: `etc/bash/99-bashrc.after.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/99-bashrc.after.sh>`__
@@ -1076,6 +1126,8 @@ etc/bash/99-bashrc.after.sh
 
    
    
+.. index:: etc/bash/_ewrd.sh
+
 etc/bash/_ewrd.sh
 ==================
 | Src: `etc/bash/_ewrd.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/_ewrd.sh>`__
@@ -1127,6 +1179,8 @@ etc/bash/_ewrd.sh
 
    
    
+.. index:: etc/bash/_grinwrd.sh
+
 etc/bash/_grinwrd.sh
 =====================
 | Src: `etc/bash/_grinwrd.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/_grinwrd.sh>`__
@@ -1167,6 +1221,8 @@ etc/bash/_grinwrd.sh
 
    
    
+.. index:: etc/bash/usrlog.sh
+
 etc/bash/usrlog.sh
 ===================
 | Src: `etc/bash/usrlog.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/usrlog.sh>`__
@@ -1336,6 +1392,8 @@ etc/bash/usrlog.sh
 
    
    
+.. index:: etc/bash/xlck.sh
+
 etc/bash/xlck.sh
 =================
 | Src: `etc/bash/xlck.sh <https://github.com/westurner/dotfiles/tree/develop/etc/bash/xlck.sh>`__
@@ -1385,6 +1443,8 @@ etc/bash/xlck.sh
 
    
    
+.. index:: etc/zsh/00-zshrc.before.sh
+
 etc/zsh/00-zshrc.before.sh
 ===========================
 | Src: `etc/zsh/00-zshrc.before.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/00-zshrc.before.sh>`__
@@ -1401,6 +1461,8 @@ etc/zsh/00-zshrc.before.sh
 
    
    
+.. index:: etc/zsh/01-zshrc.lib.sh
+
 etc/zsh/01-zshrc.lib.sh
 ========================
 | Src: `etc/zsh/01-zshrc.lib.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/01-zshrc.lib.sh>`__
@@ -1413,6 +1475,8 @@ etc/zsh/01-zshrc.lib.sh
 
    
    
+.. index:: etc/zsh/05-zshrc.bashrc.sh
+
 etc/zsh/05-zshrc.bashrc.sh
 ===========================
 | Src: `etc/zsh/05-zshrc.bashrc.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/05-zshrc.bashrc.sh>`__
@@ -1427,6 +1491,8 @@ etc/zsh/05-zshrc.bashrc.sh
 
    
    
+.. index:: etc/zsh/99-zshrc.after.sh
+
 etc/zsh/99-zshrc.after.sh
 ==========================
 | Src: `etc/zsh/99-zshrc.after.sh <https://github.com/westurner/dotfiles/tree/develop/etc/zsh/99-zshrc.after.sh>`__
@@ -1439,6 +1505,8 @@ etc/zsh/99-zshrc.after.sh
 
    
    
+.. index:: etc/i3/config
+
 etc/i3/config
 ==============
 | Src: `etc/i3/config <https://github.com/westurner/dotfiles/tree/develop/etc/i3/config>`__
@@ -1667,9 +1735,11 @@ etc/i3/config
         $ xrandr-tool outputs
    .
 
+.. index:: etc/vim/vimrc
+
 etc/vim/vimrc
 ==============
-| Src: `etc/vim/vimrc <https://github.com/westurner/dotvim/tree/develop/etc/vim/vimrc>`__
+| Src: `etc/vim/vimrc <https://github.com/westurner/dotvim/tree/develop/vimrc>`__
 
 .. code:: vim
 
@@ -2007,9 +2077,11 @@ etc/vim/vimrc
 
    
    
+.. index:: etc/vim/vimrc.full.bundles.vimrc
+
 etc/vim/vimrc.full.bundles.vimrc
 =================================
-| Src: `etc/vim/vimrc.full.bundles.vimrc <https://github.com/westurner/dotvim/tree/develop/etc/vim/vimrc.full.bundles.vimrc>`__
+| Src: `etc/vim/vimrc.full.bundles.vimrc <https://github.com/westurner/dotvim/tree/develop/vimrc.full.bundles.vimrc>`__
 
 .. code:: vim
 
@@ -2354,9 +2426,11 @@ etc/vim/vimrc.full.bundles.vimrc
 
    
    
+.. index:: etc/vim/vimrc.tinyvim.bundles.vimrc
+
 etc/vim/vimrc.tinyvim.bundles.vimrc
 ====================================
-| Src: `etc/vim/vimrc.tinyvim.bundles.vimrc <https://github.com/westurner/dotvim/tree/develop/etc/vim/vimrc.tinyvim.bundles.vimrc>`__
+| Src: `etc/vim/vimrc.tinyvim.bundles.vimrc <https://github.com/westurner/dotvim/tree/develop/vimrc.tinyvim.bundles.vimrc>`__
 
 .. code:: vim
 
