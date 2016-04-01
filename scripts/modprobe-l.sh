@@ -70,7 +70,7 @@ function modprobe_l {
         sortcmd="sort -n"
     fi
 
-    local sortcmd="cat"
+    local infocmd="cat"
     if [ -n "${do_info}" ]; then
         infocmd="xargs modinfo"
     fi
