@@ -31,10 +31,10 @@ function modprobe_l {
 
     if [ "${do_relative_path}" ]; then
         (cd "${modulesdir}" ; \
-            find . -type f -printf '%f'$'\t''%p\n' \
+            find . -type f -name '*.ko*' -printf '%f'$'\t''%p\n' \
             | ${sortcmd} )
     else
-        find "${modulesdir}/kernel" -type f -printf '%f'$'\t''%p\n' \
+        find "${modulesdir}/" -name '*.ko*' -type f -printf '%f'$'\t''%p\n' \
             | ${sortcmd}
     fi
 }
