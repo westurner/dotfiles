@@ -1,8 +1,12 @@
 #!/bin/bash
 
 ### bashrc.conda.sh
-## Conda / Anaconda
-#
+## Conda, Miniconda, Anaconda
+# * | Src: https://github.com/conda/conda/
+# * | Docs: https://conda.readthedocs.org/en/latest/
+# * | Changelog: https://github.com/conda/conda/blob/master/CHANGELOG.txt
+# * | Docs: http://conda.pydata.org/miniconda.html
+# * | Docs: https://docs.continuum.io/anaconda/pkg-docs
 
 function _setup_conda_help {
     # _setup_conda_help()       -- _setup_conda, mkvirtualenv_conda, wec
@@ -11,25 +15,28 @@ function _setup_conda_help {
     echo '   $2 <CONDA_ROOT|versionstr>'
     echo ''
     echo '   $ _setup_conda_help'
-    echo '   $ _setup_conda 27      #{ 27 , 34 , 35  }'
-    echo '   $ _setup_conda 2.7     #{ 2.7, 3.4, 3.5 }'
+    echo '   $ _setup_conda 27      #{ 27 , 2.7 }'
+    echo '   $ _setup_conda 3.5     #{ 34, 3.4, 35, 3.5 }'
     echo '   $ _setup_conda  ~/-wrk/-ce27   ~/-wrk/-conda27'
     echo '   $ _setup_conda "$__WRK/-ce27" "$__WRK/-conda27"'
     echo '   $ _setup_conda "$__WRK/-ce27" '
     echo ''
-    echo '   $ csc; _conda_status_core'
+    echo '   $ csc ; _conda_status_core'
+    echo '   $ csd ; _conda_status_defaults'
+    echo '   $ _conda_status ; (csd; csc)'
     echo '   $ lscondaenvs'
     echo '   $ lsce'
     echo ''
-    echo '   $ mkvirtualenv_conda_help'
+    echo '   $ mkvirtualenv_conda -h'
     echo '   $ mkvirtualenv_conda dotfiles 2.7'
     echo ''
-    echo '   $ workon_conda_help'
+    echo '   $ workon_conda -h'
     echo '   $ workon_conda dotfiles        # _WRD=~/-wrk/-ce27/dotfiles'
+    echo '   $ wec -h                       # "workon env conda"'
     echo '   $ wec dotfiles                 # _WRD=~/-wrk/-ce27/dotfiles'
     echo '   $ wec dotfiles dotfiles        # _WRD=~/-wrk/-ce27/dotfiles'
-    echo '   $ wec dotfiles etc/bash 3.4     # _WRD=~/-wrk/-ce34/src/etc/bash'
-    echo '   $ wec dotfiles dotfiles/etc 3.5 # _WRD=~/-wrk/-ce35/src/dotfiles/etc'
+    echo '   $ wec dotfiles etc/bash 3.4    # _WRD=~/-wrk/-ce34/src/etc/bash'
+    echo '   $ wec dotfiles dotfiles/etc 3.5 #_WRD=~/-wrk/-ce35/src/dotfiles/etc'
     echo '   $ wec dotfiles dotfiles 2.7    # _WRD=~/-wrk/-ce27/src/dotfiles'
     echo '   $ wec dotfiles dotfiles 3.5    # _WRD=~/-wrk/-ce35/src/dotfiles'
     echo ''
@@ -49,7 +56,6 @@ function _setup_conda_help {
 function _conda_status {
     # _conda_status()   -- echo CONDA_* defaults, CONDA_ROOT, CONDA_ENVS_PATH
     _conda_status_defaults
-    echo
     _conda_status_core
 }
 
@@ -93,8 +99,6 @@ function _setup_conda_defaults {
     # _setup_conda_defaults()   -- set CONDA_ROOT[*] and CONDA_ENVS_PATH[*]
     #    $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
     #                 (default: ${__WRK})
-    #   $1/-ce27
-    #   $1/-conda27
     local __wrk="${1:-"${__WRK}"}"
 
     export CONDA_ROOT__py27="${__wrk}/-conda27"
@@ -105,10 +109,11 @@ function _setup_conda_defaults {
     export CONDA_ENVS__py34="${__wrk}/-ce34"
     export CONDA_ENVS__py35="${__wrk}/-ce35"
 
-    #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py27"
-    #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py27"
-    export CONDA_ROOT="${CONDA_ROOT__py27}"
-    export CONDA_ENVS_PATH="${CONDA_ENVS__py27}"
+    export CONDA_ROOT_DEFAULT="${CONDA_ROOT_DEFAULT:-"${CONDA_ROOT__py35}"}"
+    export CONDA_ENVS_DEFAULT="${CONDA_ENVS_DEFAULT:-"${CONDA_ENVS__py35}"}"
+
+    export CONDA_ROOT="${CONDA_ROOT_DEFAULT}"
+    export CONDA_ENVS_PATH="${CONDA_ENVS_DEFAULT}"
 }
 
 function _unsetup_conda {
@@ -236,24 +241,96 @@ function deduplicate_lines {
 
 function echo_conda_envs_paths {
     # echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
+    local do_all=
+    for arg in ${@}; do
+        case "${arg}" in
+            -a|--all)
+                do_all="${arg}"
+                shift
+                ;;
+        esac
+    done
+    if [ -z "${do_all}" ]; then
+        echo "${CONDA_ENVS_PATH}"
+        return
+    fi
     local envs_paths=(
         "${CONDA_ENVS_PATH}"
         "${CONDA_ENVS__py27}"
         "${CONDA_ENVS__py34}"
         "${CONDA_ENVS__py35}"
     )
-    echo "${envs_paths}" | deduplicate_lines
+    ( IFS=$'\n'; echo "${envs_paths[*]}" ) | deduplicate_lines
+
+}
+
+function _lscondaenvs_help {
+    echo "${0} -- lscondaenvs,lsce -- list conda envs in CONDA_ENVS_PATH"
+    echo '  -h/--help   -- print this help text'
+    echo '  --path      -- print absolute env paths'
+    echo '  --basename  -- print env path basenames (default)'
+    echo '  --basename-first  -- print ${basename}\t${abspath}'
 }
 
 function lscondaenvs {
     # lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
     #   _conda_status>2
     #   find>1
-    _conda_status >&2
+    local do_print_help=
+    local do_print_abspath=
+    local do_print_basename=
+    local do_print_basename_first=
+    local do_all=
+    for arg in ${@}; do
+        case "${arg}" in
+            -h|--help)
+                do_print_help="${arg}"
+                shift
+                ;;
+            -a|--all)
+                do_print_abspath="${arg}"
+                do_all="${arg}"
+                ;;
+            --path)
+                do_print_abspath="${arg}"
+                shift
+                ;;
+            --basename)
+                do_print_basename="${arg}"
+                shift
+                ;;
+            --basename-first|--bf)
+                do_print_abspath="${arg}"
+                do_print_basename="${arg}"
+                do_print_basename_first="${arg}"
+                shift
+                ;;
+        esac
+    done
+    local findprintfstr='%f\n'
+    if [ -n "${do_print_abspath}" ]; then
+        if [ -n "${do_print_basename}" ]; then
+            if [ -n "${do_print_basename_first}" ]; then
+                findprintfstr='%f'$'\t''%p\n'
+            else
+                findprintfstr='%p'$'\t''%f\n'
+            fi
+        else
+            findprintfstr='%p\n'
+        fi
+    fi
+    if [ -n "${do_print_help}" ]; then
+        _lscondaenvs_help
+        return
+    fi
+    if [ -n "${do_all}" ]; then
+        _conda_status >&2
+    else
+        _conda_status_core >&2
+    fi
     while IFS= read -r line; do
-        find "${line}" -maxdepth 1 -type d |
-        sort
-    done < <(echo_conda_envs_paths)
+        find "${line}" -maxdepth 1 -type d -printf "${findprintfstr}" | sort
+    done < <(echo_conda_envs_paths "${@}")
 }
 
 function lsce {
@@ -279,7 +356,7 @@ function _condaenvs {
 }
 
 function lscondaenvs_pyvers {
-    lscondaenvs | xargs -I % '%'/bin/python -V
+    lscondaenvs -a | xargs -s 10000 -I '%' '%/bin/python -V'
 }
 
 function workon_conda_help {
@@ -296,7 +373,7 @@ function workon_conda_help {
     echo ''
     echo 'see also:'
     echo '  $ _setup_conda_help'
-    echo '  $ mkvirtualenv_conda_help'
+    echo '  $ mkvirtualenv_conda -h'
     echo '  $ lsce; lscondaenvs'
     echo '  $ csc; _conda_status_core'
     echo '  $ csd; _conda_status_defaults'
@@ -312,8 +389,22 @@ function workon_conda {
     local _venvstrapp="${2:-"${1}"}"
     local _conda_envs_path="${3}"
 
-    if [[ "${@}" == "" ]]; then
-        workon_conda_help
+    local do_help=
+    for arg in ${@}; do
+        case "${arg}" in
+            -h|--help)
+                do_help=1
+                shift
+                ;;
+        esac
+    done
+
+    if [ -n "${@}" ]]; then
+        do_help=1
+    fi
+
+    if [ -n "${do_help}" ]; then
+        _workon_conda_help
         return 1
     fi
 
@@ -323,11 +414,16 @@ function workon_conda {
 
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
 
+    #TODO venv.py if unset {CONDA_ROOT_PATH, CONDA_ENVS_PATH}
+
     source <(set -x;
       $__VENV \
         --__WRK="${__WRK}" \
         --WORKON_HOME="${CONDA_ENVS_PATH}" \
         --VIRTUAL_ENV="${CONDA_ENV}" \
+        --CONDA_ROOT_PATH="${CONDA_ROOT_PATH}" \
+        --CONDA_ENVS_PATH="${CONDA_ENVS_PATH}" \
+        --CONDA_ENV
         --venvstrapp="${_venvstrapp}" \
         --print-bash)
 
@@ -371,18 +467,20 @@ function wec {
     # wec()                 -- workon a conda + venv project
     #                           note: tab-completion depends on
     #                           CONDA_ENVS_PATH
-    #  $1 _conda_envname (pathstr) -- e.g. "dotfiles"
-    #  $2 _venvstrapp (pathstr) -- e.g. "dotfiles" or "dotfiles/src/dotfiles"
-    #  $3 _conda_envs_path (pathstr) -- e.g. "~/-wrk/-ce27"  (${__WRK}/-ce27)
+    #  $1 _conda_envname (pathstr)   -- "dotfiles"
+    #  $2 _venvstrapp (pathstr)      -- "dotfiles" or "dotfiles/src/dotfiles"
+    #  $3 _conda_envs_path (pathstr) -- "35" or "3.5" or "~/-wrk/-ce35"
+    #  
+    #  wec dotfiles dotfiles/etc/bash 35
     workon_conda $@
 }
 complete -o default -o nospace -F _condaenvs wec
 
-function mkvirtualenv_conda_help {
+function _mkvirtualenv_conda_help {
     # _mkvirtualenv_conda_help()  -- echo mkvirtualenv_conda usage information
-    echo "mkvirtualenv_conda <envname|envpath> <CONDA_ENVS_PATH|{27,34,35}> [pkg+]"
+    echo "_mkvirtualenv_conda <envname|envpath> <CONDA_ENVS_PATH|{27,34,35}> [pkg+]"
     echo '  $1 _conda_envname (pathstr) -- e.g. "dotfiles"'
-    echo '  $2 _conda_envs_path (pathstr) -- e.g. "~/-wrk/-ce27"  (${__WRK}/-ce27)'
+    echo '  $2 _conda_envs_path (pathstr) -- e.g. "~/-wrk/-ce35"  (${__WRK}/-ce35)'
     echo '       27, 2.7 --> "python=2.7"'
     echo '       34, 3.4 --> "python=3.4"'
     echo '       35, 3.5 --> "python=3.5"'
@@ -411,7 +509,7 @@ function mkvirtualenv_conda {
     #       35, 3.5 --> "python=3.5"
     #  $3+ _conda_pkgs: zero or more additional packages to install
     if [ -n "${@}" ]; then
-        mkvirtualenv_conda_help
+        _mkvirtualenv_conda_help
         return 1
     fi
     local _conda_envname="${1}"
@@ -438,8 +536,14 @@ function mkvirtualenv_conda {
             conda_python="python=3.5"
             ;;
         *)
-            echo "${_conda_envs_path} not supported" >&2
-            mkvirtualenv_conda_help >&2
+            echo "Could not infer conda_python version from: "
+            echo '  _conda_envs_path='"$(\
+                shell_escape_single "${_conda_envs_path}")" >&2
+            local _python="${CONDA_ROOT_PATH}/bin/python"
+            echo "Defaulting to ${_python}" >&2
+            echo "  $(${_python} --version)" >&2
+            echo 'Specify _conda_envs_path ($2) as e.g. {27,34,3.5} to '
+            _mkvirtualenv_conda_help >&2
             return 2
             ;;
     esac
@@ -449,7 +553,7 @@ function mkvirtualenv_conda {
         "${conda_python}" readline pip ${_conda_pkgs}
 
     # TODO: set VIRTUAL_ENV and call dotfiles_postmkvirtualenv
-    export VIRTUAL_ENV="${CONDA_ENV}"
+    # export VIRTUAL_ENV="${CONDA_ENV}"
     workon_conda "${_conda_envname}" "${_conda_envs_path}"
     export VIRTUAL_ENV="${CONDA_ENV}"
 
