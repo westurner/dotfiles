@@ -5,7 +5,9 @@
 [github]
   user = westurner
 
-# from: http://documentup.com/skwp/git-workflows-book
+# References
+# - http://documentup.com/skwp/git-workflows-book#appendix-a---the-gitconfig
+# - [...]
 
 [color]
   ui = true
