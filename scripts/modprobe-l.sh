@@ -98,13 +98,14 @@ function modprobe_l {
         exit
     fi
 
-    if [ "${do_relative_path}" ]; then
+    if [ -n "${do_relative_path}" ]; then
         (cd "${modulesdir}" ; \
-            find . -type f -name '*.ko*' -printf "${findprintfstr}" \
+            find . -type f -name '*.ko*' \
+            -printf "${findprintfstr}" \
             | ${sortcmd} \
             | ${infocmd} )
     else
-        find "${modulesdir}/" -name '*.ko*' -type f \
+        find "${modulesdir}/" -type f -name '*.ko*' \
             -printf "${findprintfstr}" \
             | ${sortcmd} \
             | ${infocmd}
