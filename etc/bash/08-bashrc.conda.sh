@@ -554,7 +554,7 @@ function mkvirtualenv_conda {
 
     # TODO: set VIRTUAL_ENV and call dotfiles_postmkvirtualenv
     # export VIRTUAL_ENV="${CONDA_ENV}"
-    workon_conda "${_conda_envname}" "${_conda_envs_path}" "${CONDA_ROOT}"
+    workon_conda "${_conda_envname}" "${_conda_envname}" "${CONDA_ROOT}"
     export VIRTUAL_ENV="${CONDA_ENV}"
 
     # if there is a function named 'dotfiles_postmkvirtualenv',
