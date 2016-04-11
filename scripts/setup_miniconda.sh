@@ -78,7 +78,7 @@ function miniconda_setup__dotfiles_minicondas {
     local CONDA_ROOT__py34="${CONDA_ROOT__py34:-"${prefix}/-conda34"}"
     local CONDA_ROOT__py35="${CONDA_ROOT__py35:-"${prefix}/-conda35"}"
 
-    local mc3=$(miniconda_download)
+    local mc2=$(miniconda_download)
     echo $mc2
     local mc3=$(miniconda_download 3)
     echo $mc3
