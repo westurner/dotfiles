@@ -230,7 +230,6 @@ function dotfiles_postmkvirtualenv {
     workon_venv "${VIRTUAL_ENV_NAME}"
     echo "PWD=$(path)"
     echo "#"
-    dotfiles_postmkvirtualenv_help
 }
 
 function dotfiles_preactivate {
