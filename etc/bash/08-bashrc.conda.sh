@@ -414,16 +414,16 @@ function workon_conda {
 
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
 
-    #TODO venv.py if unset {CONDA_ROOT_PATH, CONDA_ENVS_PATH}
+    #TODO venv.py if unset {CONDA_ROOT, CONDA_ENVS_PATH}
 
     source <(set -x;
       $__VENV \
         --__WRK="${__WRK}" \
         --WORKON_HOME="${CONDA_ENVS_PATH}" \
         --VIRTUAL_ENV="${CONDA_ENV}" \
-        --CONDA_ROOT_PATH="${CONDA_ROOT_PATH}" \
+        --CONDA_ROOT="${CONDA_ROOT}" \
         --CONDA_ENVS_PATH="${CONDA_ENVS_PATH}" \
-        --CONDA_ENV
+        --CONDA_ENV="${CONDA_ENV}" \
         --venvstrapp="${_venvstrapp}" \
         --print-bash)
 
@@ -539,7 +539,7 @@ function mkvirtualenv_conda {
             echo "Could not infer conda_python version from: "
             echo '  _conda_envs_path='"$(\
                 shell_escape_single "${_conda_envs_path}")" >&2
-            local _python="${CONDA_ROOT_PATH}/bin/python"
+            local _python="${CONDA_ROOT}/bin/python"
             echo "Defaulting to ${_python}" >&2
             echo "  $(${_python} --version)" >&2
             echo 'Specify _conda_envs_path ($2) as e.g. {27,34,3.5} to '
