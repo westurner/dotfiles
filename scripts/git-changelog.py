@@ -49,9 +49,55 @@ TAGRGX_VERSION_OPTION_NUM = r'v?\d+.*'
 TAGRGX_VER =    r'v.*'
 TAGRGX_DEFAULT = TAGRGX_VERSION_OPTION_NUM
 
+BOLCHARSTOESCAPE = ['*', '.. ', '>>> ']
+CHARSTOESCAPE = [
+    #('\\', u'⧹'),  #TODO double-escaping
+    ('`', '\`'),
+    ('|', '\|'),
+    ('[', '\['),
+    (']', '\]'),
+]
+
 def rst_escape(_str):
-    """XXX TODO"""
-    return _str
+    """XXX TODO
+
+    References:
+    - http://docutils.sourceforge.net/docs/user/rst/quickref.html#escaping
+    - http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#escaping-mechanism
+
+    .. warning:: There are not yet any test cases for this function.
+    """
+    lines = _str.splitlines()
+    output_lines = []
+    for line in lines:
+        # *      -> \*
+        # '.. '  -> '\.. '
+        # '>>> ' -> '\>>> '
+        for c in BOLCHARSTOESCAPE:
+            r = '\\' + c
+            matchcount = line.count(c)
+            if matchcount == 0:
+                line = line
+            elif matchcount == 1:
+                if not line.lstrip().startswith(c):
+                    line = line.replace(c, r)
+            else:
+                if line.lstrip().startswith(c):
+                    beginning, rest = line.split(c, 1)
+                    line = beginning + c + rest.replace(c, r)
+                else:
+                    line = line.replace(c, r)
+        # characters to escape
+        for char, repl in CHARSTOESCAPE:
+            line = line.replace(char, repl)
+        if line.startswith('__ ') and line.endswith('_'):
+            # indirect hyperlink target
+            line = u'\%s' % line
+        # TODO: header lines
+        # TODO: footnotes, citations
+        output_lines.append(line)
+    return u'\n'.join(output_lines)
+
 
 def git_changelog(
     path=None,
@@ -171,7 +217,7 @@ def git_changelog(
             changelog_cmdstr = "log --reverse --pretty=format:'* %s [%h]' " + logpath
             yield "::"
             yield ""
-            yield "   git %s" % rst_escape(changelog_cmdstr)
+            yield "   git %s" % (changelog_cmdstr)
             yield ""
             cmd = git_cmd + changelog_cmd
             logging.debug(cmd)
