@@ -8,9 +8,8 @@
 function editdotfiles {
     # editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
     (cd "${__DOTFILES}";
-    (for arg in ${@}; do echo "${arg}"; done) \
-        | el --each -x 'e {0}'
-    )
+        (IFS=$'\n'; echo "${@}") \
+            | el --each -x 'e {0}')
     return
 }
 
@@ -32,7 +31,7 @@ complete -o default -o nospace -F _edotfiles__complete edotfiles
 function editwrk {
     # editwrk()      -- cd $__WRK and run edit w/ each arg
     (cd "${__WRK}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -56,7 +55,7 @@ complete -o default -o nospace -F _ewrk__complete ewrk
 function editworkonhome {
     # editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
     (cd "${WORKON_HOME}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -88,7 +87,7 @@ complete -o default -o nospace -F _eworkonhome__complete ewh
 function editvirtualenv {
     # editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
     (cd "${VIRTUAL_ENV}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -119,7 +118,7 @@ complete -o default -o nospace -F _evirtualenv__complete ev
 function editsrc {
     # editsrc() -- cd $_SRC and run edit w/ each arg
     (cd "${_SRC}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -150,7 +149,7 @@ complete -o default -o nospace -F _esrc__complete es
 function editwrd {
     # editwrd() -- cd $_WRD and run edit w/ each arg
     (cd "${_WRD}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -181,7 +180,7 @@ complete -o default -o nospace -F _ewrd__complete ew
 function editetc {
     # editetc() -- cd $_ETC and run edit w/ each arg
     (cd "${_ETC}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -205,7 +204,7 @@ complete -o default -o nospace -F _eetc__complete eetc
 function editwww {
     # editwww() -- cd $_WWW and run edit w/ each arg
     (cd "${_WWW}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
