@@ -2,19 +2,19 @@
 ## 
 function edit {
     #  edit()   -- EDITOR_ or EDITOR $@
-    ${GUIVIMBIN} --servername ${VIRTUAL_ENV_NAME:-"/"} \
-        --remote-tab-silent \
-        ${@}
+    ${GUIVIMBIN} --servername ""${VIRTUAL_ENV_NAME:-"/"}"" \
+        --remote-tab \
+        "${@}"
     return
 }
 
 function e {
     # e()       -- EDTIOR or EDITOR $@
-    edit ${@}
+    edit "${@}"
     return
 }
 
 if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
-    edit ${@}
+    edit "${@}"
     exit
 fi
