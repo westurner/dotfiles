@@ -1033,7 +1033,7 @@ class StepBuilder(object):
 
         for step in self.steps:
             logevent('BLD %s build %s' % (self.name, step.name),
-                     str.center(" %s " % step.name, 79, '#'),)
+                     str.center(u" %s " % step.name, 79, '#'),)
             logevent('%s build.conf' % step.name, self.conf, wrap=True)
             logevent('%s step.conf ' % step.name, step.conf, wrap=True)
             logevent('%s >>> %s' % (step.name, hex(id(env))),
