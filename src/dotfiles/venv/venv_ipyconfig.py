@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from __future__ import print_function
+# pylint: disable=E265
 """
 
 dotfiles.venv.venv_ipyconfig
@@ -1182,6 +1183,8 @@ def build_virtualenvwrapper_env(env=None, **kwargs):
     #env['PYTHON34_ROOT'] = joinpath(env['__WRK'], '-python34')
     env['WORKON_HOME__py34'] = lookup('WORKON_HOME__py34',
                                       default=joinpath(env['__WRK'], '-ve34'))
+    env['WORKON_HOME__py35'] = lookup('WORKON_HOME__py35',
+                                      default=joinpath(env['__WRK'], '-ve35'))
 
     for key in kwargs:
         if key.startswith("WORKON_HOME__"):
@@ -1198,15 +1201,17 @@ def build_virtualenvwrapper_env(env=None, **kwargs):
 
 def build_conda_env(env=None, **kwargs):
     """
-    Configure conda27 (2.7) and conda (3.4)
-    with condaenvs in ``-wrk/-ce27`` and ``-wrk/ce34``.
+    Configure conda27 (2.7), conda34 (3.4), conda35 (3.5)
+    with condaenvs in ``-wrk/-ce27``, ``-wrk/-ce34``. ``-wrk/-ce35``
 
     Other Parameters:
         __WRK (str): workspace root (``$__WRK``, ``~/-wrk``)
-        CONDA_ROOT__py27 (str): path to conda27 root environment
-        CONDA_ENVS__py27 (str): path to conda27 envs (e.g. WORKON_HOME)
-        CONDA_ROOT__py34 (str): path to conda34 root environment
-        CONDA_ENVS__py34 (str): path to conda34 envs (e.g. WORKON_HOME)
+        CONDA_ROOT__py27 (str): path to conda27 root env
+        CONDA_ENVS__py27 (str): path to conda27 envs (e.g. ``WORKON_HOME``)
+        CONDA_ROOT__py34 (str): path to conda34 root env
+        CONDA_ENVS__py34 (str): path to conda34 envs (e.g. ``WORKON_HOME``)
+        CONDA_ROOT__py35 (str): path to conda35 root env
+        CONDA_ENVS__py35 (str): path to conda35 envs (e.g. ``WORKON_HOME``)
 
     Keyword Arguments:
         env (Env dict): :py:class:`dotfiles.venv.venv_ipyconfig.Env`
@@ -1218,6 +1223,7 @@ def build_conda_env(env=None, **kwargs):
 
     def lookup(attr, default=None):
         return lookup_from_kwargs_env(kwargs, env, attr, default=default)
+
     env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
 
     # get default env paths
@@ -1233,8 +1239,14 @@ def build_conda_env(env=None, **kwargs):
             env_suffix="34",
             env_root_prefix="-conda",
             env_home_prefix="-ce",
-        )]
-
+        ),
+        dict(
+            env_prefix="__py",
+            env_suffix="35",
+            env_root_prefix="-conda",
+            env_home_prefix="-ce",
+        ),
+    ]
     for conf in confs:
         # CONDA27
         env_name = "{env_prefix}{env_suffix}".format(**conf)
@@ -1253,13 +1265,17 @@ def build_conda_env(env=None, **kwargs):
     return env
 
 
-DEFAULT_CONDA_ROOT_DEFAULT = 'CONDA_ROOT__py27'
-DEFAULT_CONDA_ENVS_DEFAULT = 'CONDA_ENVS__py27'
+
+# DEFAULT_CONDA_ROOT_DEFAULT = 'CONDA_ROOT__py27'
+# DEFAULT_CONDA_ENVS_DEFAULT = 'CONDA_ENVS__py27'
 
 
 def build_conda_cfg_env(env=None, **kwargs):
     """
     Configure conda for a specific environment
+        CONDA_ROOT       (str): path to current conda env
+        CONDA_ENVS_PATH  (str): path to current conda envs directory
+
     TODO build_venv_config
 
     Args:
@@ -1275,25 +1291,36 @@ def build_conda_cfg_env(env=None, **kwargs):
 
     env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
 
-    env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
-                                     default=joinpath(env['__WRK'], '-conda27'))
-    env['CONDA_ENVS__py27'] = lookup('CONDA_ENVS__py27',
-                                     default=joinpath(env['__WRK'], '-ce27'))
+    env['CONDA_ROOT'] = lookup('CONDA_ROOT')
+    env['CONDA_ENVS_PATH'] = lookup('CONDA_ENVS_PATH')
+    env['CONDA_ENV'] = lookup('CONDA_ENV')
 
-    env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
-                                     default=joinpath(env['__WRK'], '-conda34'))
-    env['CONDA_ENVS__py34'] = lookup('CONDA_ENVS__py34',
-                                     default=joinpath(env['__WRK'], '-ce34'))
+    # TODO: can this be removed?
+    env['WORKON_HOME'] = lookup('WORKON_HOME',
+                                default=lookup('CONDA_ENVS_PATH'))
+    env['VIRTUAL_ENV'] = lookup('VIRTUAL_ENV',
+                                default=lookup('CONDA_ENV'))
 
+
+    # env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
+    #                                  default=joinpath(env['__WRK'], '-conda27'))
+    # env['CONDA_ENVS__py27'] = lookup('CONDA_ENVS__py27',
+    #                                  default=joinpath(env['__WRK'], '-ce27'))
+
+    # env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
+    #                                  default=joinpath(env['__WRK'], '-conda34'))
+    # env['CONDA_ENVS__py34'] = lookup('CONDA_ENVS__py34',
+    #                                  default=joinpath(env['__WRK'], '-ce34'))
+
+    # env['CONDA_ROOT__py35'] = lookup('CONDA_ROOT__py35',
+    #                                  default=joinpath(env['__WRK'], '-conda35'))
+    # env['CONDA_ENVS__py35'] = lookup('CONDA_ENVS__py35',
+    #                                  default=joinpath(env['__WRK'], '-ce35'))
     #env['CONDA_ROOT_DEFAULT'] = lookup('CONDA_ROOT_DEFAULT',
     #                                   default=DEFAULT_CONDA_ROOT_DEFAULT)
     #env['CONDA_ENVS_DEFAULT'] = lookup('CONDA_ENVS_DEFAULT',
     #                                   default=DEFAULT_CONDA_ENVS_DEFAULT)
 
-    env['CONDA_ROOT'] = lookup('CONDA_ROOT',
-                               default=env[DEFAULT_CONDA_ROOT_DEFAULT])
-    env['CONDA_ENVS_PATH'] = lookup('CONDA_ENVS_PATH',
-                               default=env[DEFAULT_CONDA_ENVS_DEFAULT])
     return env
 
 
@@ -1336,14 +1363,20 @@ def build_venv_paths_full_env(env=None,
                                 pyver=pyver,
                                 **kwargs)
     VIRTUAL_ENV = env.get('VIRTUAL_ENV')
+    CONDA_ENV = env.get('CONDA_ENV')
+
     VENVPREFIX = env.get('VENVPREFIX')
     if VENVPREFIX in (None, False):
         if VIRTUAL_ENV is not None:
             VENVPREFIX = VIRTUAL_ENV
             env['VENVPREFIX'] = VIRTUAL_ENV
+        elif CONDA_ENV is not None:
+            VENVPREFIX = CONDA_ENV
+            env['VENVPREFIX'] = CONDA_ENV
         else:
             errmsg = (
-                {'msg': 'VENVPREFIX or VIRTUAL_ENV must be specified',
+                {'msg': (
+                    'VENVPREFIX, VIRTUAL_ENV, or CONDA_ENV must be specified'),
                  'env': env.to_json(indent=2),
                  #'envstr': str(env),
                  })
@@ -1894,6 +1927,7 @@ class Env(object):
         'WORKON_HOME',      # ~/-wrk/-ve27/
         'WORKON_HOME__py27',      # ~/-wrk/-ve27/
         'WORKON_HOME__py34',      # ~/-wrk/-ve34/
+        'WORKON_HOME__py35',      # ~/-wrk/-ve34/
         # venv
         # ~/-wrk/-ve27/dotfiles/ # ${VENVPREFIX:-${VIRTUAL_ENV}}
         'VENVPREFIX',
@@ -1929,6 +1963,9 @@ class Env(object):
         '__USRLOG',
         '_TERM_ID',
         '_TERM_URI',
+
+        'CONDA_ROOT',
+        'CONDA_ENVS_PATH',
     )
     osenviron_keys = OrderedDict((
 ## <env>
@@ -1941,11 +1978,14 @@ class Env(object):
         ("PROJECT_HOME", "${__WRK}"),
         ("WORKON_HOME__py27", "${__WRK}/-ve27"),
         ("WORKON_HOME__py34", "${__WRK}/-ve34"),
-        ("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
+        ("WORKON_HOME__py35", "${__WRK}/-ve35"),
+        #("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
         ("CONDA_ROOT__py27", "${__WRK}/-conda27"),
         ("CONDA_ENVS__py27", "${__WRK}/-ce27"),
         ("CONDA_ROOT__py34", "${__WRK}/-conda34"),
         ("CONDA_ENVS__py34", "${__WRK}/-ce34"),
+        ("CONDA_ROOT__py35", "${__WRK}/-conda35"),
+        ("CONDA_ENVS__py35", "${__WRK}/-ce35"),
         #("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
         #("CONDA_ENVS_DEFAULT", "CONDA_ENVS__py27"),
         ("CONDA_ROOT", "${__WRK}/-conda27"),
@@ -2273,6 +2313,9 @@ class Venv(object):
                  _SRC=None,
                  _APP=None,
                  _WRD=None,
+                 CONDA_ENVS_PATH=None,
+                 CONDA_ROOT=None,
+                 CONDA_ENV=None,
                  env=None,
                  from_environ=False,
                  open_editors=False,
@@ -2374,6 +2417,17 @@ class Venv(object):
                     test "${_SRC}/${_APP}" == "${_WRD}"
                     cdwrd ; cdw
 
+            CONDA_ROOT (str): None or path to a conda environment
+
+            CONDA_ENVS_PATH (str): None or ``/path:/seq`` of folders
+                containing conda envs
+
+                (similar to ``WORKON_HOME``)
+
+            CONDA_ENV (str): None or path to current conda environment
+
+                (similar to ``VIRTUAL_ENV``)
+
             env (Env): an initial Env with zero or more values for self.env
                 (default: None)
             from_environ (bool): read self.env from ``os.environ``
@@ -2412,7 +2466,27 @@ class Venv(object):
             '_APP',
             'VIRTUAL_ENV_NAME',
             '_SRC',
-            '_WRD']
+            '_WRD',
+        ]
+
+        do_conda = True
+        if do_conda:
+            keys.extend([
+                'CONDA_ROOT',
+                'CONDA_ENVS_PATH',
+                'CONDA_ENV',
+            ])
+
+        do_conda_defaults = True
+        if do_conda_defaults:
+            keys.extend([
+                'CONDA_ROOT__py27',
+                'CONDA_ENVS__py27',
+                'CONDA_ROOT__py34',
+                'CONDA_ENVS__py34',
+                'CONDA_ROOT__py35',
+                'CONDA_ENVS__py35',
+            ])
 
         kwargs = OrderedDict()
 
@@ -2433,15 +2507,15 @@ class Venv(object):
                                      from_environ=from_environ,
                                      **kwargs)
         self.env = env
-        built_envs = self.build(env=env,
+        self._envs = self.build(env=env,
                                 from_environ=from_environ,
                                 dont_reflect=dont_reflect,
                                 debug=debug,
                                 show_diffs=show_diffs)
-        if not built_envs:
-            raise ConfigException(built_envs)
+        if not self._envs:
+            raise ConfigException(self._envs)
 
-        self.env = built_envs[-1]
+        self.env = self._envs[-1]
 
         if open_editors:
             self.open_editors()
@@ -3488,12 +3562,19 @@ class Test_300_venv_build_env(unittest.TestCase):
         env = build_conda_env()
         self.print_(env)
         self.assertTrue(env)
+        self.assertTrue(False)
 
     def test_600_build_conda_cfg_env(self):
         env = build_conda_cfg_env()
         #env = build_conda_cfg_env(env=env, conda_root=None, conda_home=None)
         self.print_(env)
         self.assertTrue(env)
+        keys = [
+            ('CONDA_ROOT', '.'),
+            ('CONDA_ENVS_PATH', '.'),
+            ('CONDA_ENV', '.')]
+        for key in keys:
+            self.assertTrue(key in env)
 
     def test_600_build_venv_paths_full_env__prefix_None(self):
         with self.assertRaises(ConfigException):
