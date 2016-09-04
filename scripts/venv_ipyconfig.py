@@ -674,7 +674,7 @@ if __name__ == "__main__":
         '''    else\n'''
         '''       let pathname = "${pathvar}"\n'''
         '''    endif\n'''
-        '''    execute 'cd' pathname \n'''
+        '''    execute '{vim_cd_func}' pathname \n'''
         '''    pwd\n'''
         '''endfunction\n'''
     )
@@ -706,18 +706,30 @@ if __name__ == "__main__":
         Returns:
             str: vim function block
         """
+        confs = []
         conf = {}
         conf['pathvar'] = self.pathvar
         conf['vim_func_name'] = "Cd_" + self.pathvar
         conf['vim_cmd_name'] = self.vim_cmd_name
         conf['vim_cmd_names'] = self.vim_cmd_names
-        output = CdAlias.VIM_FUNCTION_TEMPLATE.format(**conf)
-        for cmd_name in conf['vim_cmd_names']:
-            output = output + (CdAlias.VIM_COMMAND_TEMPLATE
-                               .format(cmd_name=cmd_name,
-                                       pathvar=conf['pathvar'],
-                                       vim_func_name=conf['vim_func_name']))
-        return output
+        conf['vim_cd_func'] = 'cd'
+        confs.append(conf)
+        conf2 = conf.copy()
+        conf2['vim_func_name'] = "L" + conf['vim_func_name']
+        conf2['vim_cmd_name'] = "L" + conf['vim_cmd_name']
+        conf2['vim_cmd_names'] = ["L{}".format(x) for x in conf['vim_cmd_names']]
+        conf2['vim_cmd_names'] += ["L{}".format(x).title() for x in conf['vim_cmd_names']]
+        conf2['vim_cd_func'] = 'lcd'
+        confs.append(conf2)
+        output = []
+        for conf in confs:
+            output += (CdAlias.VIM_FUNCTION_TEMPLATE.format(**conf),)
+            for cmd_name in conf['vim_cmd_names']:
+                output += (CdAlias.VIM_COMMAND_TEMPLATE
+                                .format(cmd_name=cmd_name,
+                                        pathvar=conf['pathvar'],
+                                        vim_func_name=conf['vim_func_name']),)
+        return u''.join(output)
 
     BASH_CDALIAS_HEADER = (
         '''#!/bin/sh\n'''
@@ -1033,7 +1045,7 @@ class StepBuilder(object):
 
         for step in self.steps:
             logevent('BLD %s build %s' % (self.name, step.name),
-                     str.center(" %s " % step.name, 79, '#'),)
+                     str.center(u" %s " % step.name, 79, '#'),)
             logevent('%s build.conf' % step.name, self.conf, wrap=True)
             logevent('%s step.conf ' % step.name, step.conf, wrap=True)
             logevent('%s >>> %s' % (step.name, hex(id(env))),
