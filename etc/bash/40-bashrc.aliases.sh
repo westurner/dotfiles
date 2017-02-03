@@ -58,7 +58,7 @@ _loadaliases () {
     # gr       -- 'git remote -v'
     alias gr='git remote -v'
     # gs       -- 'git status'
-    alias gs='git status'
+    alias gs='git status -sb'
     # gsi      -- 'git is; git diff; git diff --cached'
     alias gsi='(set -x; git is; git diff; git diff --cached)'
     # gsiw      -- 'git -C $_WRD gsi'
