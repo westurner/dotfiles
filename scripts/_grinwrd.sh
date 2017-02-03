@@ -9,6 +9,56 @@
 ## seeAlso ##
 #* https://westurner.org/dotfiles/venv
 
+function grinwrk {
+    # grinwrk()   -- grin $__WRK
+    grin --follow "$@" "${__WRK}"
+}
+
+function grindwrk {
+    # grindwrk()  -- grind $__WRK
+    grind --follow "$@" --dirs "${__WRK}"
+}
+
+function grinph {
+    # grinph()   -- grin $PROJECT_HOME
+    grin --follow "$@" "${PROJECT_HOME}"
+}
+
+function grindph {
+    # grindph()  -- grind $PROJECT_HOME
+    grind --follow "$@" --dirs "${PROJECT_HOME}"
+}
+
+function grinwh {
+    # grinwh()   -- grin $WORKON_HOME
+    grin --follow "$@" "${WORKON_HOME}"
+}
+
+function grindwh {
+    # grindwh()  -- grind $WORKON_HOME
+    grind --follow "$@" --dirs "${WORKON_HOME}"
+}
+
+function grincr {
+    # grincr()   -- grin $CONDA_ROOT
+    grin --follow "$@" "${CONDA_ROOT}"
+}
+
+function grindcr {
+    # grindcr()  -- grind $CONDA_ROOT
+    grind --follow "$@" --dirs "${CONDA_ROOT}"
+}
+
+function grince {
+    # grince()   -- grin $CONDA_ENVS_PATH
+    grin --follow "$@" "${CONDA_ENVS_PATH}"
+}
+
+function grindce {
+    # grindce()  -- grind $CONDA_ENVS_PATH
+    grind --follow "$@" --dirs "${CONDA_ENVS_PATH}"
+}
+
 # virtualenv & virtualenvwrapper
 function grinv {
     # grinv()   -- grin $VIRTUAL_ENV
@@ -104,6 +154,30 @@ function grindctagsssrc {
 function _create_grinwrd_symlinks {
     local scriptname='_grinwrd.sh'
     local scriptnames=(
+
+        "grinwrk"
+        "grindwrk"
+
+        "grinph"
+        "grinprojecthome"
+        "grindph"
+        "grindprojecthome"
+
+        "grinwh"
+        "grinworkonhome"
+        "grindwh"
+        "grindworkonhome"
+
+        "grincr"
+        "grincondaroot"
+        "grindcr"
+        "grindcondaroot"
+
+        "grince"
+        "grincondaenvspath"
+        "grindce"
+        "grindcondaenvspath"
+
         "grinvirtualenv"
         "grinv"
         "grindvirtualenv"
@@ -150,60 +224,105 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     set -x
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in
+        grinwrk)
+            grinwrk "${@}"
+            exit
+            ;;
+        grindwrk)
+            grindwrk "${@}"
+            exit
+            ;;
+
+        grinprojecthome|grinph)
+            grinph "${@}";
+            exit
+            ;;
+        grindprojecthome|grindph)
+            grindph "${@}"
+            exit
+            ;;
+
+        grinworkonhome|grinwh)
+            grinwh "${@}";
+            exit
+            ;;
+        grindworkonhome|grindwh)
+            grindwh "${@}"
+            exit
+            ;;
+
+        grincondaroot|grincr)
+            grincr "${@}"
+            exit
+            ;;
+        grindcondaroot|grindcr)
+            grindcr "${@}"
+            exit
+            ;;
+
+        grincondaenvs|grince)
+            grince "${@}"
+            exit
+            ;;
+        grindcondaenvs|grindce)
+            grindce "${@}"
+            exit
+            ;;
+
         grinvirtualenv|grinv)
-            grinv ${@}
+            grinv "${@}"
             exit
             ;;
         grindvirtualenv|grindv)
-            grindv ${@}
+            grindv "${@}"
             exit
             ;;
 
         grinsrc|grins)
-            grinv ${@}
+            grinv "${@}"
             exit
             ;;
         grindsrc|grinds)
-            grinds ${@}
+            grinds "${@}"
             exit
             ;;
 
         grinwrd|grinw)
-            grinw ${@}
+            grinw "${@}"
             exit
             ;;
         grindwrd|grindw)
-            grindw ${@}
+            grindw "${@}"
             exit
             ;;
 
         editgrinw|egrinw|egw)
-            edit_grin_w ${@}
+            edit_grin_w "${@}"
             exit
             ;;
 
         editgrindw|egrindw)
-            edit_grind_w ${@}
+            edit_grind_w "${@}"
             exit
             ;;
 
         grindctags)
-            grindctags ${@}
+            grindctags "${@}"
             exit
             ;;
 
         grindctagssys)
-            grindctagssys ${@}
+            grindctagssys "${@}"
             exit
             ;;
 
         grindctagssrc|grindctagss)
-            grindctagssrc ${@}
+            grindctagssrc "${@}"
             exit
             ;;
 
         grindctagswrd|grindctagsw)
-            grindctagswrd ${@}
+            grindctagswrd "${@}"
             exit
             ;;
 
