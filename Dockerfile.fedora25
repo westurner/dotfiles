@@ -1,7 +1,7 @@
 
-# westurner/dotfiles fedora:23 Dockerfile
+# westurner/dotfiles fedora:25 Dockerfile
 
-FROM fedora:23
+FROM fedora:25
 
 ## Install system packages
 RUN dnf install -y which \
