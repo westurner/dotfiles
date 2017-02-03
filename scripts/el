@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 from __future__ import print_function
 """
 el
@@ -25,15 +25,23 @@ Usage:
 
 """
 
-import __builtin__
+# import __builtin__
 import codecs
 import distutils.spawn
 import logging
 import os
 import shlex
 import subprocess
-import StringIO
+try:
+    #from io import StringIO
+    import io as StringIO
+except ImportError:
+    import StringIO
 import sys
+if sys.version_info.major > 2:
+    string_types = str
+else:
+    string_types = basestring
 
 log = logging.getLogger('el')
 
@@ -149,7 +157,7 @@ class Cmd(object):
         def _render_cmd_iter(cmd, args, join_args=join_args):
             added = False
             if join_args:
-                if isinstance(join_args, basestring):
+                if isinstance(join_args, string_types):
                     join_args = join_args.join
             for token in cmd:
                 # todo: support escaped '{{0}}', w/ regex (?)
@@ -346,7 +354,7 @@ def main(argv=None, stdin=sys.stdin,
                 l = line.strip()
                 if l:
                     yield l
-        lines = iter_stdin(iter(stdin))
+        lines = iter_stdin(iter(sys.stdin))
         if conf.all_at_once:
             args = list(lines)
         else:
