@@ -209,6 +209,7 @@ fontlog = Monaco,10,-1,5,50,0,0,0,0,0
 fontoutputlog = Monaco,10,-1,5,50,0,0,0,0,0
 ui.language = en
 editor = /usr/bin/gvim --servername thg --remote-tab-silent $FILE
+tabwidth = 4
 
 [mq]
 git = yes
