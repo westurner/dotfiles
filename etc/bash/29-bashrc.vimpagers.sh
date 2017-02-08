@@ -54,7 +54,7 @@ lessv () {
                 -c "set colorcolumn=0" \
                 -c "map <C-End> <Esc>G" \
                 -c "set syntax=${VIMPAGER_SYNTAX}" \
-                ${@}
+                "${@}"
 
         else
             "${VIMBIN}" \
@@ -64,7 +64,7 @@ lessv () {
                 --cmd "set noswf" \
                 -c "set colorcolumn=0" \
                 -c "map <C-End> <Esc>G" \
-                ${@}
+                "${@}"
         fi
     else
         #Output is not a terminal, cat arguments or stdin
