@@ -1,5 +1,5 @@
 gtk-theme-name = "Clearlooks"
-gtk-font-name = "Sans 9"
+gtk-font-name = "Sans 11"
 
 style "vimfix" {
   bg[NORMAL] = "#000000" # this matches my gvim theme 'Normal' bg color.

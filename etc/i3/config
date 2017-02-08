@@ -59,7 +59,8 @@ font -*-misc-fixed-medium-r-normal-*-*-140-*-*-*-*-iso10646-*
 #font pango:DejaVu Sans Mono 9
 #font pango:Source Code Pro for Powerline Medium 9
 #font pango:Fira Mono Medium for Powerline Medium 9
-font pango:DejaVu Sans 10
+font pango:Sans 11
+#font pango:DejaVu Sans 12
 #font pango:Roboto 10
 
 # reload the configuration file
