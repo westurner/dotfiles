@@ -421,12 +421,18 @@ class TestEl(unittest.TestCase):
         with Capture() as (out, err):
             cmd = ['-x', 'echo']
             self._test_cmd(cmd)
+
+    def test_main_ls_l_x_echo_(self):
         with Capture() as (out, err):
             cmd = ['-x', 'echo', '#', ]
             self._test_cmd(cmd)
+
+    def test_main_ls_l_x_echo__0(self):
         with Capture() as (out, err):
             cmd = ['-x', 'echo', '#', '{0}']
             self._test_cmd(cmd)
+
+    def test_main_ls_l_echo_0(self):
         with Capture() as (out, err):
             cmd = ['-x', "echo '{0}'"]
             self._test_cmd(cmd)
