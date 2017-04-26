@@ -441,7 +441,7 @@ class TestEl(unittest.TestCase):
         stdin_text = []
         for n in range(3):
             stdin_text.append(unicode(__file__) + '\n')
-        stdin = StringIO.StringIO(stdin_text)
+        stdin = StringIO.StringIO(u"".join(stdin_text))
         with Capture() as (stdout, err):
             sys.stdout = stdout
             retcode = main(argv=cmd, stdin=stdin, stdout=stdout)
