@@ -273,9 +273,13 @@ For further documentation, see:
 Further Dotfiles Resources
 ===========================
 * https://dotfiles.github.io/
-* https://westurner.org/wiki/workflow
+* https://github.com/webpro/awesome-dotfiles
+
+.
+
 * https://westurner.org/dotfiles/
 
   * https://westurner.org/dotfiles/usage
   * https://westurner.org/dotfiles/usage#bash
   * https://westurner.org/dotfiles/usage#vim
+  * https://westurner.org/wiki/workflow
