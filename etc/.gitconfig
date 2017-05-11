@@ -102,9 +102,9 @@
   sd = stash drop                   # drop stashes (destory changes)
 
   # status
-  s = status                        # status
-  st = status                       # status
-  stat = status                     # status
+  s = status -sb                    # status
+  st = status -sb                   # status
+  stat = status  -sb                # status
 
   # tag
   t = tag -n                        # show tags with <n> lines of each tag message

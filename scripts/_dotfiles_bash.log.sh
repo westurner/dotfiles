@@ -972,8 +972,7 @@ fi
 #   bash_completion - programmable completion functions for bash 4.1+
 #
 #   Copyright © 2006-2008, Ian Macdonald <ian@caliban.org>
-#             © 2009-2015, Bash Completion Maintainers
-#                     <bash-completion-devel@lists.alioth.debian.org>
+#             © 2009-2016, Bash Completion Maintainers
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -991,9 +990,9 @@ fi
 #
 #   The latest version of this software can be obtained here:
 #
-#   http://bash-completion.alioth.debian.org/
+#   https://github.com/scop/bash-completion
 #
-#   RELEASE: 2.1
+#   RELEASE: 2.5
 
 if [[ $- == *v* ]]; then
     BASH_COMPLETION_ORIGINAL_V_VALUE="-v"
@@ -1008,7 +1007,7 @@ else
 fi
 unset BASH_COMPLETION_ORIGINAL_V_VALUE
 
-# ex: ts=4 sw=4 et filetype=sh
+# ex: filetype=sh
 
 ### bashrc.python.sh
 
@@ -1069,6 +1068,8 @@ function _conda_status_defaults {
     echo CONDA_ENVS__py34=$(shell_escape_single "${CONDA_ENVS__py34}")
     echo CONDA_ROOT__py35=$(shell_escape_single "${CONDA_ROOT__py35}")
     echo CONDA_ENVS__py35=$(shell_escape_single "${CONDA_ENVS__py35}")
+    echo CONDA_ROOT__py36=$(shell_escape_single "${CONDA_ROOT__py36}")
+    echo CONDA_ENVS__py36=$(shell_escape_single "${CONDA_ENVS__py36}")
 }
 
 function _conda_status {
@@ -1091,10 +1092,12 @@ function _setup_conda_defaults {
     export CONDA_ENVS__py27="${__wrk}/-ce27"
     export CONDA_ENVS__py34="${__wrk}/-ce34"
     export CONDA_ENVS__py35="${__wrk}/-ce35"
+    export CONDA_ENVS__py36="${__wrk}/-ce36"
 
     export CONDA_ROOT__py27="${__wrk}/-conda27"
     export CONDA_ROOT__py34="${__wrk}/-conda34"
     export CONDA_ROOT__py35="${__wrk}/-conda35"
+    export CONDA_ROOT__py36="${__wrk}/-conda36"
 
     #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py27"
     #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py27"
@@ -1114,6 +1117,7 @@ function _setup_conda {
     #   _setup_conda 27  # __py27
     #   _setup_conda 34  # __py34
     #   _setup_conda 35  # __py35
+    #   _setup_conda 36  # __py36
     #   _setup_conda ~/envs             # __py27
     #   _setup_conda ~/envs/ /opt/conda # /opt/conda
     #   _setup_conda <conda_envs_path> <conda_root>  # conda_root
@@ -1134,6 +1138,9 @@ function _setup_conda {
         elif [ "$_conda_envs_path" == "35" ]; then
             export CONDA_ENVS_PATH="$CONDA_ENVS__py35"
             export CONDA_ROOT="$CONDA_ROOT__py35"
+        elif [ "$_conda_envs_path" == "36" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py36"
+            export CONDA_ROOT="$CONDA_ROOT__py36"
         else
             export CONDA_ENVS_PATH="${_conda_envs_path}"
             export CONDA_ROOT=(
@@ -1164,6 +1171,9 @@ function _unsetup_conda_path_all {
     if [ -n "${CONDA_ROOT__py35}" ]; then
         PATH_remove "${CONDA_ROOT__py35}/bin" 2>&1 > /dev/null
     fi
+    if [ -n "${CONDA_ROOT__py36}" ]; then
+        PATH_remove "${CONDA_ROOT__py36}/bin" 2>&1 > /dev/null
+    fi
     declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
     _conda_status
 }
@@ -1191,8 +1201,10 @@ function echo_conda_envs_paths {
         "${CONDA_ENVS__py27}"
         "${CONDA_ENVS__py34}"
         "${CONDA_ENVS__py35}"
+        "${CONDA_ENVS__py36}"
     )
-    echo "${envs_paths}" | deduplicate_lines
+    printf '%s\n' "${envs_paths[@]}" \
+        | deduplicate_lines
 }
 
 function lscondaenvs {
@@ -1201,9 +1213,8 @@ function lscondaenvs {
     #   find>1
     _conda_status >&2
     while IFS= read -r line; do
-        find "${line}" -maxdepth 1 -type d |
-        sort
-    done < <(echo_conda_envs_paths)
+        find "${line}" -maxdepth 1 -type d
+    done < <(echo_conda_envs_paths) | sort
 }
 
 function lsce {
@@ -1250,19 +1261,25 @@ function wec {
 }
 complete -o default -o nospace -F _condaenvs wec
 
+
 function _mkvirtualenv_conda_usage {
     # _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-    echo "mkvirtualenv_conda <envname|envpath> <CONDA_ENVS_PATH|{[27],34,35}>"
+    echo "mkvirtualenv_conda <envname|envpath> <CONDA_ENVS_PATH|{[27],34,35,36}>"
     echo ""
-    echo "  $ mkvirtualenv_conda science"
+    echo "  $ mkvirtualenv_conda science # 27"
     echo "  $ mkvirtualenv_conda science 27"
     echo "  $ mkvirtualenv_conda science 34"
     echo "  $ mkvirtualenv_conda science 35"
-    echo "  $ mkvirtualenv_conda ~/science 35"
+    echo "  $ mkvirtualenv_conda ~/science 36"
 }
 
 function mkvirtualenv_conda {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
+    #   $1 (_conda_envname:str)     -- envname string (eg "dotfiles")
+    #   $2 (_conda_envs_path:str)   -- path to create envname in
+    #       default: CONDA_ENVS_PATH
+    local _conda_python="${CONDA_PYTHON}"   # CONDA_PYTHON="python=3.6"
+
     local _conda_envname="${1}"
     local _conda_envs_path="${2:-${CONDA_ENVS_PATH}}"
     shift; shift
@@ -1277,19 +1294,33 @@ function mkvirtualenv_conda {
     fi
 
     echo '_setup_conda '"${_conda_envs_path}"
-    _setup_conda "${_conda_envs_path}"
+    _setup_conda "${_conda_envs_path}" # scripts/venv_ipyconfig.py
     local CONDA_ENV="${_conda_envs_path}/${_conda_envname}"
-    if [ "$_conda_envs_path" == "27" ]; then
-        conda_python="python=2"
-    elif [ "$_conda_envs_path" == "34" ]; then
-        conda_python="python=3.4"
-    elif [ "$_conda_envs_path" == "35" ]; then
-        conda_python="python=3.5"
-    else
-        conda_python="python=2"
+    if [ -z "${_conda_python}" ]; then 
+        case $_conda_envs_path in
+            27)
+                _conda_python="python=2.7"
+                ;;
+            34)
+                _conda_python="python=3.4"
+                ;;
+            35)
+                _conda_python="python=3.5"
+                ;;
+            36)
+                _conda_python="python=3.6"
+                ;;
+        esac
     fi
+    if [ -z "${_conda_python}" ]; then
+        _conda_python_default="python=2"
+        _conda_python=${_conda_python:-"${_conda_python_default}"}
+    fi
+#   #(CONDA_ENVS_PATH=${_conda_envs_path} 
+#   #    conda create --mkdir -n ${_conda_envname} -y
+#   #    "${_conda_python}" readline pip ${_conda_pkgs} )
     "${_conda_}" create --mkdir --prefix "${CONDA_ENV}" --yes \
-        "${conda_python}" readline pip ${_conda_pkgs}
+       "${_conda_python}" readline pip ${_conda_pkgs}
 
     export VIRTUAL_ENV="${CONDA_ENV}"
     workon_conda "${_conda_envname}" "${_conda_envs_path}"
@@ -3763,9 +3794,8 @@ _setup_venv_aliases
 function editdotfiles {
     # editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
     (cd "${__DOTFILES}";
-    (for arg in ${@}; do echo "${arg}"; done) \
-        | el --each -x 'e {0}'
-    )
+        (IFS=$'\n'; echo "${@}") \
+            | el --each -x 'e {0}')
     return
 }
 
@@ -3787,7 +3817,7 @@ complete -o default -o nospace -F _edotfiles__complete edotfiles
 function editwrk {
     # editwrk()      -- cd $__WRK and run edit w/ each arg
     (cd "${__WRK}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -3811,7 +3841,7 @@ complete -o default -o nospace -F _ewrk__complete ewrk
 function editworkonhome {
     # editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
     (cd "${WORKON_HOME}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -3843,7 +3873,7 @@ complete -o default -o nospace -F _eworkonhome__complete ewh
 function editvirtualenv {
     # editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
     (cd "${VIRTUAL_ENV}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -3874,7 +3904,7 @@ complete -o default -o nospace -F _evirtualenv__complete ev
 function editsrc {
     # editsrc() -- cd $_SRC and run edit w/ each arg
     (cd "${_SRC}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -3905,7 +3935,7 @@ complete -o default -o nospace -F _esrc__complete es
 function editwrd {
     # editwrd() -- cd $_WRD and run edit w/ each arg
     (cd "${_WRD}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -3936,7 +3966,7 @@ complete -o default -o nospace -F _ewrd__complete ew
 function editetc {
     # editetc() -- cd $_ETC and run edit w/ each arg
     (cd "${_ETC}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -3960,7 +3990,7 @@ complete -o default -o nospace -F _eetc__complete eetc
 function editwww {
     # editwww() -- cd $_WWW and run edit w/ each arg
     (cd "${_WWW}";
-    (for arg in ${@}; do echo "${arg}"; done) \
+    (IFS=$'\n'; echo "${@}") \
         | el --each -x 'e {0}'
     )
     return
@@ -4024,44 +4054,46 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in
         editdotfiles|edotfiles)
-            editdotfiles ${@}
+            editdotfiles "${@}"
             exit
             ;;
 
         editwrk|ewrk)
-            editwrk ${@}
+            editwrk "${@}"
             exit
             ;;
 
         editworkonhome|eworkonhome|ewh)
-            editworkonhome ${@}
+            editworkonhome "${@}"
             exit
             ;;
 
         editvirtualenv|evirtualenv|ev)
-            editvirtualenv ${@}
+            editvirtualenv "${@}"
             exit
             ;;
         editsrc|esrc|es)
-            editsrc ${@}
+            editsrc "${@}"
             exit
             ;;
         editwrd|ewrd|ew)
-            editwrd ${@}
+            editwrd "${@}"
             exit
             ;;
         editetc|eetc)
-            editetc ${@}
+            editetc "${@}"
             exit
             ;;
         editwww|ewww)
-            editwww ${@}
+            editwww "${@}"
             exit
             ;;
 
         _ewrd.sh|edithelp|ehelp)
+            #cat "${BASH_SOURCE}" | \
+            #    pyline.py -r '^\s*#+\s+.*' 'rgx and l';
             cat "${BASH_SOURCE}" | \
-                pyline.py -r '^\s*#+\s+.*' 'rgx and l';
+                grep -E '^\s*#+\s+.*'
             exit
             ;;
 
@@ -4099,6 +4131,56 @@ fi
 
 ## seeAlso ##
 #* https://westurner.org/dotfiles/venv
+
+function grinwrk {
+    # grinwrk()   -- grin $__WRK
+    grin --follow "$@" "${__WRK}"
+}
+
+function grindwrk {
+    # grindwrk()  -- grind $__WRK
+    grind --follow "$@" --dirs "${__WRK}"
+}
+
+function grinph {
+    # grinph()   -- grin $PROJECT_HOME
+    grin --follow "$@" "${PROJECT_HOME}"
+}
+
+function grindph {
+    # grindph()  -- grind $PROJECT_HOME
+    grind --follow "$@" --dirs "${PROJECT_HOME}"
+}
+
+function grinwh {
+    # grinwh()   -- grin $WORKON_HOME
+    grin --follow "$@" "${WORKON_HOME}"
+}
+
+function grindwh {
+    # grindwh()  -- grind $WORKON_HOME
+    grind --follow "$@" --dirs "${WORKON_HOME}"
+}
+
+function grincr {
+    # grincr()   -- grin $CONDA_ROOT
+    grin --follow "$@" "${CONDA_ROOT}"
+}
+
+function grindcr {
+    # grindcr()  -- grind $CONDA_ROOT
+    grind --follow "$@" --dirs "${CONDA_ROOT}"
+}
+
+function grince {
+    # grince()   -- grin $CONDA_ENVS_PATH
+    grin --follow "$@" "${CONDA_ENVS_PATH}"
+}
+
+function grindce {
+    # grindce()  -- grind $CONDA_ENVS_PATH
+    grind --follow "$@" --dirs "${CONDA_ENVS_PATH}"
+}
 
 # virtualenv & virtualenvwrapper
 function grinv {
@@ -4195,6 +4277,30 @@ function grindctagsssrc {
 function _create_grinwrd_symlinks {
     local scriptname='_grinwrd.sh'
     local scriptnames=(
+
+        "grinwrk"
+        "grindwrk"
+
+        "grinph"
+        "grinprojecthome"
+        "grindph"
+        "grindprojecthome"
+
+        "grinwh"
+        "grinworkonhome"
+        "grindwh"
+        "grindworkonhome"
+
+        "grincr"
+        "grincondaroot"
+        "grindcr"
+        "grindcondaroot"
+
+        "grince"
+        "grincondaenvspath"
+        "grindce"
+        "grindcondaenvspath"
+
         "grinvirtualenv"
         "grinv"
         "grindvirtualenv"
@@ -4241,60 +4347,105 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     set -x
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in
+        grinwrk)
+            grinwrk "${@}"
+            exit
+            ;;
+        grindwrk)
+            grindwrk "${@}"
+            exit
+            ;;
+
+        grinprojecthome|grinph)
+            grinph "${@}";
+            exit
+            ;;
+        grindprojecthome|grindph)
+            grindph "${@}"
+            exit
+            ;;
+
+        grinworkonhome|grinwh)
+            grinwh "${@}";
+            exit
+            ;;
+        grindworkonhome|grindwh)
+            grindwh "${@}"
+            exit
+            ;;
+
+        grincondaroot|grincr)
+            grincr "${@}"
+            exit
+            ;;
+        grindcondaroot|grindcr)
+            grindcr "${@}"
+            exit
+            ;;
+
+        grincondaenvs|grince)
+            grince "${@}"
+            exit
+            ;;
+        grindcondaenvs|grindce)
+            grindce "${@}"
+            exit
+            ;;
+
         grinvirtualenv|grinv)
-            grinv ${@}
+            grinv "${@}"
             exit
             ;;
         grindvirtualenv|grindv)
-            grindv ${@}
+            grindv "${@}"
             exit
             ;;
 
         grinsrc|grins)
-            grinv ${@}
+            grinv "${@}"
             exit
             ;;
         grindsrc|grinds)
-            grinds ${@}
+            grinds "${@}"
             exit
             ;;
 
         grinwrd|grinw)
-            grinw ${@}
+            grinw "${@}"
             exit
             ;;
         grindwrd|grindw)
-            grindw ${@}
+            grindw "${@}"
             exit
             ;;
 
         editgrinw|egrinw|egw)
-            edit_grin_w ${@}
+            edit_grin_w "${@}"
             exit
             ;;
 
         editgrindw|egrindw)
-            edit_grind_w ${@}
+            edit_grind_w "${@}"
             exit
             ;;
 
         grindctags)
-            grindctags ${@}
+            grindctags "${@}"
             exit
             ;;
 
         grindctagssys)
-            grindctagssys ${@}
+            grindctagssys "${@}"
             exit
             ;;
 
         grindctagssrc|grindctagss)
-            grindctagssrc ${@}
+            grindctagssrc "${@}"
             exit
             ;;
 
         grindctagswrd|grindctagsw)
-            grindctagswrd ${@}
+            grindctagswrd "${@}"
             exit
             ;;
 
@@ -4701,12 +4852,17 @@ _configure_lesspipe() {
 _configure_lesspipe
 
 
+_setup_vimpager() {
+    __THIS=$(readlink -e "$0")
+}
+
 vimpager() {
     # vimpager() -- call vimpager
-    _PAGER=$(which vimpager)
+    # _PAGER=$(which vimpager)
     if [ -x "${_PAGER}" ]; then
-        "${_PAGER}" $@
+        "${_PAGER}" "${@}"
     else
+        lessv "$@"
         echo "error: vimpager not found. (see lessv: 'lessv $@')"
     fi
 }
@@ -4725,6 +4881,7 @@ lessv () {
                     -c "set colorcolumn=0" \
                     -c "map <C-End> <Esc>G" \
                     -c "set syntax=${VIMPAGER_SYNTAX}" \
+                    -c "set cursorline nocursorcolumn" \
                     -
             else
                 "${VIMBIN}" --cmd "let g:tinyvim=1" \
@@ -4733,6 +4890,7 @@ lessv () {
                     --cmd "set noswf" \
                     -c "set colorcolumn=0" \
                     -c "map <C-End> <Esc>G" \
+                    -c "set cursorline nocursorcolumn" \
                     -
             fi
         elif [ -n "$VIMPAGER_SYNTAX" ]; then
@@ -4744,7 +4902,8 @@ lessv () {
                 -c "set colorcolumn=0" \
                 -c "map <C-End> <Esc>G" \
                 -c "set syntax=${VIMPAGER_SYNTAX}" \
-                ${@}
+                -c "set cursorline nocursorcolumn" \
+                "${@}"
 
         else
             "${VIMBIN}" \
@@ -4754,26 +4913,27 @@ lessv () {
                 --cmd "set noswf" \
                 -c "set colorcolumn=0" \
                 -c "map <C-End> <Esc>G" \
-                ${@}
+                -c "set cursorline nocursorcolumn" \
+                "${@}"
         fi
     else
         #Output is not a terminal, cat arguments or stdin
         if [ $# -eq 0 ]; then
             less
         else
-            less $@
+            less "${@}"
         fi
     fi
 }
 
 lessg() {
     # lessg()   -- less with less.vim and gvim / mvim
-    VIMBIN="${GUIVIMBIN}" lessv $@
+    VIMBIN="${GUIVIMBIN}" lessv "${@}"
 }
 
 lesse() {
     # lesse()   -- less with current venv's vim server
-    "${GUIVIMBIN}" --servername ${VIRTUAL_ENV_NAME:-"/"} --remote-tab ${@};
+    "${GUIVIMBIN}" --servername "${VIRTUAL_ENV_NAME:-"/"}" --remote-tab "${@}";
 }
 
 manv() {
@@ -4790,7 +4950,8 @@ manv() {
             -c 'silent! only' \
             -c 'nmap q :q<CR>' \
             -c 'set nomodifiable' \
-            -c 'set colorcolumn=0'
+            -c 'set colorcolumn=0' \
+            -c "set cursorline nocursorcolumn"
     fi
 }
 
@@ -4806,13 +4967,29 @@ mang() {
             -c 'silent! only' \
             -c 'nmap q :q<CR>' \
             -c 'set nomodifiable' \
-            -c 'set colorcolumn=0'
+            -c 'set colorcolumn=0' \
+            -c "set cursorline nocursorcolumn"
     fi
 }
 
 mane() {
     # mane()    -- open manpage with venv's vim server
     ${GUIVIMBIN} ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
+}
+
+gitpager() {
+    # gitpager()    -- export GIT_PAGER to $1 or GIT_PAGER_DEFAULT or
+    export GIT_PAGER="${1:-${GIT_PAGER:-${GIT_PAGER_DEFAULT}}}"
+    if [ "${GIT_PAGER}" == "" ]; then
+        unset GIT_PAGER
+    fi
+    echo "GIT_PAGER=$(shell_escape_single "${GIT_PAGER}")"
+}
+
+nogitpager() {
+    # nogitpager()  -- export GIT_PAGER=""
+    export GIT_PAGER=""
+    echo "GIT_PAGER=$(shell_escape_single "${GIT_PAGER}")"
 }
 
 ### bashrc.usrlog.sh
@@ -5156,7 +5333,14 @@ function _usrlog_parse_cmds {
     #        or " ".join(w).rstrip())
     #        for w in [ line and line.startswith("#") and line.split("\t",9) or [line] ]
     #        )'
-    pyline.py ${usrlog} 'l and l.startswith("#") and l.split("\t$$\t", 1)[-1]'
+    #if try_grep:
+    #
+    pyline.py ${usrlog} -r '(\d+:|#\s+) ' 'l and (l.startswith("#" or rgx.groups())) and l.split("\t$$\t", 1)[-1]'
+    #pyline.py ${usrlog}  'l and (l.startswith("#")) and l.split("\t$$\t", 1)[-1]'
+    # usrlog.py -p${usrlog:-'-'}${usrlog:+"${usrlog}"} --cmd
+    #
+    # grep -n "usrlog_" "$_USRLOG" | pyline.py -r '^(?P<grep_n>\d+\:)?(?P<start>#\s+)(?P<_words>.*)\t\$\$\t(?P<cmd>.*)' 'l and rgx and (rgx.groups(), rgx.groupdict(), (rgx.groupdict().get("_words","") or "").split("\t"))'  -O json
+    # 
 }
 function ugp {
     _usrlog_parse_cmds ${@}
@@ -5200,7 +5384,7 @@ function uta {
 }
 function utap {
     #  utap()  -- tail all userlogs from lsusrlogs and parse
-    usrlog_tail "${@} $(lsusrlogs)" | ugp   # TODO: headers
+    usrlog_tail ${@:+"${@}"} "$(lsusrlogs)" | ugp   # TODO: headers
 }
 
 function utp {
@@ -5210,23 +5394,32 @@ function utp {
 
 function usrlog_tail {
     #  usrlog_tail()     -- tail -n20 $_USRLOG
-    local _args="${@}"
+    local _args=${@}
     local follow="${_USRLOG_TAIL_FOLLOW}"
+    local _usrlog="${_USRLOG}"
     if [ -n "${_args}" ]; then
-        if [[ "${1}" = "-n" ]]; then
-            shift;
-            local count=${1}
-            shift
-            local __args="${@}"
-            if [ -z "${__args}" ]; then
-                _args="${_USRLOG}"
+        for _arg in ${_args}; do
+            if [[ "${_arg}" == -* ]]; then
+                if [[ "${_arg}" = '-n' ]]; then
+                    shift;
+                    local count=${1}
+                    shift
+                elif [[ "${_arg}" = '-v' ]]; then
+                    shift
+                    local verbose=1
+                else
+                    # shift
+                    echo "_arg: ${_arg}" # TODO: 
+                fi
             fi
+        done
+        local __args=${@}   # after shifts
+        if [ -z "${@}" ]; then
+            _args=($_args "${_USRLOG}")
         fi
-        (set -x; tail ${follow:+"-f"} \
-            ${count:+"-n"} ${count:-"${count}"} \
-            ${_args})
+        (set -x; tail ${_args[@]})
     else
-        (set -x; tail ${follow:+"-f"} $_USRLOG)
+        (set -x; tail ${follow:+"-f"} "${_usrlog}")
     fi
 }
 function usrlog_tail_follow {
@@ -5669,7 +5862,7 @@ _loadaliases () {
     # gr       -- 'git remote -v'
     alias gr='git remote -v'
     # gs       -- 'git status'
-    alias gs='git status'
+    alias gs='git status -sb'
     # gsi      -- 'git is; git diff; git diff --cached'
     alias gsi='(set -x; git is; git diff; git diff --cached)'
     # gsiw      -- 'git -C $_WRD gsi'
@@ -6085,12 +6278,14 @@ function gac() {
 
 function git-commit-msg() {
     #  gitcmsg()    -- gitc "${_MSG}" ${@}
-    git-commit "${_MSG}" ${@} && msg clear
+    git-commit "${_MSG}" ${@}
+    msg -
 }
 
 function git-add-commit-msg() {
     #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
-    git-add-commit "${_MSG}" ${@} && msg clear
+    git-add-commit "${_MSG}" ${@}
+    msg -
 }
 
 
@@ -6243,8 +6438,8 @@ Hgclone () {
     url=$1
     shift
     path="${__SRC}/hg/$1"
-    if [ -d $path ]; then
-        echo "$path existing. Exiting." >&2
+    if [ -d "$path" ]; then
+        echo "$path exists. Exiting." >&2
         echo "see: update_repo $1"
         return 0
     fi
@@ -6309,153 +6504,6 @@ Hgcompare () {
         <(hg -R "${two}" log)
 }
 
-host_docs () {
-    #  host_docs    -- build and host documentation in a local directory
-    #   param $1: <project_name>
-    #   param $2: [<path>]
-    #   param $3: [<docs/Makefile>]
-    #   param $4: [<docs/conf.py>]
-    # * log documentation builds
-    # * build a sphinx documentation set with a Makefile and a conf.py
-    # * rsync to docs webserver
-    # * set permissions
-
-    # this is not readthedocs.org
-
-    # note: you must manually install packages into the
-    # local 'docs' virtualenv'
-    set -x
-    pushd .
-    #workon docs
-    name=${1}
-
-    if [ -z "${name}" ]; then
-        echo "must specify an application name"
-        return 1
-    fi
-
-    path=${2:-"${__SRC}/${name}"}
-    _makefile=${3}
-    _confpy=${4}
-    _default_makefile="${path}/docs/Makefile"
-    _default_confpy="${path}/docs/conf.py"
-
-    _default_builddir="${path}/_build"
-
-    dest="${__DOCSWWW}/${name}"
-    group="www-data"
-
-    if [ -z "${_makefile}" ]; then
-        if [ -f $_default_makefile ]; then
-            _makefile=$_default_makefile;
-        else
-            echo "404: default_makefile: $_default_makefile" >&2
-            __makefiles=$(find "${path}" -maxdepth 2 -type f -name Makefile)
-            for __makefile in ${__makefiles[@]}; do
-                if [ -n "${__makefile}" ]; then
-                    grep -n -H 'sphinx-build' ${__makefile} \
-                        && grep -n -H '^html:' ${__makefile}
-                    if [ $? -eq 0 ]; then
-                        echo 'Found sphinx-build Makefile: $__makefile'
-                        # TODO: prompt?
-                        _makefile=$__makefile
-                    fi
-                fi
-            done
-        fi
-
-        if [ -f "${_makefile}" ]; then
-            _builddir=$(dirname $_makefile)
-        fi
-    fi
-
-    if [ -z "${_confpy}" ]; then
-        if [ -f $_default_confpy ]; then
-            _confpy=$_default_confpy;
-        else
-            echo "404: default_confpy: $_default_confpy" >&2
-            confpys=$(find "${path}" -maxdepth 2 -type f -name conf.py)
-            for __confpy in ${confpys[@]}; do
-                grep -n -H 'sphinx-build' ${__confpy}
-                if [ $? -eq 0 ]; then
-                    echo 'found conf.py: $__confpy'
-                    #TODO: prompt?
-                    _confpy=$__confpy
-                fi
-            done
-        fi
-
-        if [ ! -f $_makefile ]; then
-            _builddir=$(dirname $__confpy)
-        fi
-
-    fi
-
-    _builddir=${_builddir:-${_default_builddir}}
-    _buildlog="${_builddir}/build.log"
-    _currentbuildlog="${_builddir}/build.current.log"
-
-
-    cd $path
-    rm -f $_currentbuildlog
-    html_path=""
-    echo '#' $(date) | tee -a $_buildlog | tee $_currentbuildlog
-
-    if [ -n "$_makefile" ]; then
-        #TODO
-        #>> 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default -Dother '
-        #<< 'SPHINX_BUILD =    sphinx-build -Dhtml_theme=default'
-        #sed -i -r 's/(^SPHINXBUILD)( *= *)(sphinx-build)(.*)/\1\2\3 -Dhtml_theme="default"/g' $_makefile
-
-        cd $(dirname $_makefile)
-        make \
-            SPHINXBUILD="sphinx-build -Dhtml_theme=\"default\"" \
-            html | \
-            tee -a $_buildlog | tee $_currentbuildlog
-        html_path=$(tail -n 1 $_currentbuildlog | \
-            sed -r 's/(.*)The HTML pages are in (.*).$/\2/g')
-        echo $html_path
-
-    elif [ -n "$_confpy" ]; then
-        # >> 'html_theme = "_-_"
-        # << 'html_theme = 'default'
-        sed -i.bak -r 's/(^ *html_theme)( *= *)(.*)/\1\2"default"' $_confpy
-        sourcedir=$(dirname $_confpy)
-        html_path="${sourcedir}/_build/html"
-        mkdir -p $html_path
-        SPHINXBUILD="sphinx-build -Dhtml_theme=\"default\"" \
-            sphinx-build \
-                -b html \
-                -D html_theme="default" \
-                -c "${_confpy}" \
-                $sourcedir \
-                $html_path
-    fi
-
-    if [ -n "${html_path}" ]; then
-        echo "html-path:" ${html_path}
-        echo "dest:" ${dest}
-        set -x
-        rsync -avr "${html_path}/" "${dest}/" \
-            | tee -a $_buildlog \
-            | tee $_currentbuildlog
-        set +x
-        sudo chgrp -R $group "${dest}" \
-            | tee -a $_buildlog \
-            | tee $_currentbuildlog
-    else
-        echo "### ${_currentbuildlog}"
-        cat $_currentbuildlog
-    fi
-
-    popd
-
-    set +x
-    deactivate
-}
-
-
-
 dotfiles_status
 # dotfiles_status()
 HOSTNAME='mb1'
@@ -6472,7 +6520,7 @@ _APP='dotfiles'
 _WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
 _USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/home/wturner/.local/bin:/home/wturner/bin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
 ##

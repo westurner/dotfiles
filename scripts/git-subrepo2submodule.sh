@@ -53,6 +53,6 @@ function git_subrepo2submodule_main {
 }
 
 if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
-    git_subrepo2submodule_main ${@}
+    git_subrepo2submodule_main "${@}"
     exit
 fi

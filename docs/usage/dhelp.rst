@@ -702,6 +702,7 @@ etc/bash/08-bashrc.conda.sh
            _setup_conda 27  # __py27
            _setup_conda 34  # __py34
            _setup_conda 35  # __py35
+           _setup_conda 36  # __py36
            _setup_conda ~/envs             # __py27
            _setup_conda ~/envs/ /opt/conda # /opt/conda
            _setup_conda <conda_envs_path> <conda_root>  # conda_root
@@ -718,6 +719,87 @@ etc/bash/08-bashrc.conda.sh
          lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
          _condaenvs()              -- list conda envs for tab-completion
          workon_conda()        -- workon a conda + venv project
+         wec()                 -- workon a conda + venv project
+                               note: tab-completion only shows regular virtualenvs
+         _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
+         mkvirtualenv_conda()  -- mkvirtualenv and conda create
+           $1 (_conda_envname:str)     -- envname string (eg "dotfiles")
+           $2 (_conda_envs_path:str)   -- path to create envname in
+               default: CONDA_ENVS_PATH
+       #(CONDA_ENVS_PATH=${_conda_envs_path} 
+       #    conda create --mkdir -n ${_conda_envname} -y
+       #    "${_conda_python}" readline pip ${_conda_pkgs} )
+         if there is a function named 'dotfiles_postmkvirtualenv',
+         then run 'dotfiles_postmkvirtualenv'
+         rmvirtualenv_conda()  -- rmvirtualenv conda
+         mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
+         workon_conda_if_available()       -- workon_conda OR we OR workon
+   .
+
+   
+   
+.. index:: etc/bash/08-bashrc.conda.sh.bkp
+.. _etc/bash/08-bashrc.conda.sh.bkp:
+
+etc/bash/08-bashrc.conda.sh.bkp
+================================
+| Src: `etc/bash/08-bashrc.conda.sh.bkp <https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.conda.sh.bkp>`__
+
+.. code:: bash
+
+   .
+   ### bashrc.conda.sh
+   ## Conda / Anaconda
+     see: 05-bashrc.dotfiles.sh
+            # shell_escape_single()
+            strtoescape=${1}
+            output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
+            echo "'"${output}"'"
+         _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
+         _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
+         _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
+         csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
+         _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
+            $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
+                         (default: ${__WRK})
+         _unsetup_conda()  -- unset CONDA_ROOT[*] and CONDA_ENVS_PATH[*] vars
+         _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
+           $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
+                                                           CONDA_ENVS__py27)
+           $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
+                                                           CONDA_ROOT__py27)
+        
+          Usage:
+           _setup_conda     # __py27
+           _setup_conda 27  # __py27
+           _setup_conda 34  # __py34
+           _setup_conda 35  # __py35
+           _setup_conda ~/envs             # __py27
+           _setup_conda ~/envs/ /opt/conda # /opt/conda
+           _setup_conda <conda_envs_path> <conda_root>  # conda_root
+        
+                 CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+         _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
+         _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
+         deduplicate_lines()   -- deduplicate lines w/ an associative array
+                                                         (~OrderedMap)
+         echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
+         conda_echo_CONDA_ENVS_PATH()   -- print (CONDA_ENVS_PATH & defaults)
+         lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
+           _conda_status>2
+           find>1
+         lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
+         _condaenvs()              -- list conda envs for tab-completion
+       ## workon_conda_help()  -- print help for workon_conda
+         workon_conda()        -- workon a conda + venv project
+          $1 _conda_envname (pathstr) -- e.g. "dotfiles"
+          $2 _venvstrapp (pathstr) -- e.g. "dotfiles" or "dotfiles/src/dotfiles"
+          $3 _conda_envs_path (pathstr|version_str) -- e.g. "~/-wrk/-ce35" || 35
+           TODO
+         if declared, run _setup_venv_prompt
+         if declared, print dotfiles_status
+         print _conda_status  [csc; csd]
+         declare a 'deactivate' function (like virtualenv)
          wec()                 -- workon a conda + venv project
                                note: tab-completion only shows regular virtualenvs
          _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
@@ -947,12 +1029,15 @@ etc/bash/29-bashrc.vimpagers.sh
    ### bashrc.vimpagers.sh
          _configure_lesspipe() -- (less <file.zip> | lessv)
          vimpager() -- call vimpager
+         _PAGER=$(which vimpager)
          lessv()   -- less with less.vim and vim (g:tinyvim=1)
          lessg()   -- less with less.vim and gvim / mvim
          lesse()   -- less with current venv's vim server
          manv()    -- view manpages in vim
          mang()    -- view manpages in gvim / mvim
          mane()    -- open manpage with venv's vim server
+         gitpager()    -- export GIT_PAGER to $1 or GIT_PAGER_DEFAULT or
+         nogitpager()  -- export GIT_PAGER=""
    .
 
    
@@ -1240,21 +1325,6 @@ etc/bash/70-bashrc.repos.sh
           $1   -- repo [user/]name (e.g. westurner/dotfiles)
           $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
             fixperms ${path}
-          host_docs    -- build and host documentation in a local directory
-           param $1: <project_name>
-           param $2: [<path>]
-           param $3: [<docs/Makefile>]
-           param $4: [<docs/conf.py>]
-         * log documentation builds
-         * build a sphinx documentation set with a Makefile and a conf.py
-         * rsync to docs webserver
-         * set permissions
-         this is not readthedocs.org
-         note: you must manually install packages into the
-         local 'docs' virtualenv'
-                             TODO: prompt?
-             >> 'html_theme = "_-_"
-             << 'html_theme = 'default'
    .
 
    
@@ -1314,6 +1384,7 @@ etc/bash/_ewrd.sh
    ##    editwww, ewww      --- cd $_WWW and run edit w/ each arg
          editwww() -- cd $_WWW and run edit w/ each arg
          ewww()    -- cd $_WWW and run edit w/ each arg
+                    pyline.py -r '^\s*#+\s+.*' 'rgx and l';
     
    ## seeAlso ##
      * https://westurner.org/dotfiles/venv
@@ -1430,6 +1501,11 @@ etc/bash/usrlog.sh
                 or " ".join(w).rstrip())
                 for w in [ line and line.startswith("#") and line.split("\t",9) or [line] ]
                 )'
+        
+         usrlog.py -p${usrlog:-'-'}${usrlog:+"${usrlog}"} --cmd
+        
+         grep -n "usrlog_" "$_USRLOG" | pyline.py -r '^(?P<grep_n>\d+\:)?(?P<start>#\s+)(?P<_words>.*)\t\$\$\t(?P<cmd>.*)' 'l and rgx and (rgx.groups(), rgx.groupdict(), (rgx.groupdict().get("_words","") or "").split("\t"))'  -O json
+         
    ## usrlog.sh API
    ### usrlog _TERM_ID commands
           termid()      -- echo $_TERM_ID
@@ -1442,6 +1518,7 @@ etc/bash/usrlog.sh
           utap()  -- tail all userlogs from lsusrlogs and parse
           ut()  -- show recent commands
           usrlog_tail()     -- tail -n20 $_USRLOG
+                         shift
           usrlogtf()    -- tail -f -n20 $_USRLOG
           utf()         -- tail -f -n20 $_USRLOG
    ### usrlog grep commands
@@ -1965,6 +2042,16 @@ etc/vim/vimrc
     <leader> i       --  toggle unprintables
     <leader> sd      --  toggle highlight EOL whitespace
     <leader> sc      --  clear highlighting
+   ##
+   ## g:__sfile__dirname     -- directory containing this vimrc script
+                                after symlinks
+                                ~dirname(abspath(realpath(__file__)))
+   ##
+    Source_dotvim(filename)  -- source dirname(this_vimrc)/filename
+          echo l:vimrcfilename . " empty or not found."
+   ##
+   ## source vimrc.local.01-env.vimrc
+   ##
    set window title to vim title (display full path)
     :ListMappings     -- list .vimrc(.*) comments (n(next) and p(rev))
     :DotvimHelp       -- "
@@ -1992,6 +2079,9 @@ etc/vim/vimrc
    UTF-8
    TODO XXX
    Code Indenting
+   Indent wrapped lines a bit   [breakindent showbreak]
+       set showbreak=..
+   Wrap in the middle of lines
    Searching
     set colorcolumn=0    --  clear color column
    Turn Off Visual Bell
@@ -2152,9 +2242,20 @@ etc/vim/vimrc
    Python
     Wrap at 72 chars for comments.
     read virtualenv's site-packages to vim path
+      if 'VIRTUAL_ENV' in env:
+          project_base_dir = env['VIRTUAL_ENV']
+          sys.path.insert(0, project_base_dir)
+          activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+          execfile(activate_this, dict(__file__=activate_this))
+      for p in sys.path:
+          if os.path.isdir(p):
+              vim.command(r"set path+=%s" % (p.replace(" ", r"\ ")))
+              # TODO: merge paths
        TODO: python regex current buffer
+   function! Pyline(...) range
         :Pyline -- python regex current buffer
-   Tabsetting functineions
+   endfunction
+   Tabsetting functions
     :Fourtabs    -- set to four (4) soft tabs (Default)
    Default to fourtabs
     :Threetabs   -- set to three (3) soft tabs
@@ -2178,6 +2279,9 @@ etc/vim/vimrc
     <C-Down> -- decrease font size
     <F3>     -- insert ReST date heading
    Trac
+   ##
+   ## source vimrc.local.99-after.vimrc
+   ##
    References
      - https://dev.launchpad.net/UltimateVimPythonSetup
      - https://github.com/kennethreitz/dotfiles/blob/master/.vimrc
@@ -2201,342 +2305,21 @@ etc/vim/vimrc.full.bundles.vimrc
 .. code:: vim
 
    .
-   Bundle            -- Vim bundle manager [help bundle]
-   :BundleList          - list configured plugins
-   :BundleInstall(!)    - install (update) plugins
-   :BundleSearch(!) foo - search (or refresh cache first) for foo
-   :BundleClean(!)      - confirm (or auto-approve) removal of unused plugins
-   The Bundle URLs are intentionally complete https URLs
-   * grep '^Bundle \'' vimrc.bundles
-   * sed -i 's\https://github.com/\ssh://git@github.com/\g'
-   venv.vim          -- venv CdAlias commands
-    :Cdhome          -- Cd_HOME()
-    :Cdh             -- Cd_HOME()
-    :Cdwrk           -- Cd___WRK()
-    :Cddotfiles      -- Cd___DOTFILES()
-    :Cdd             -- Cd___DOTFILES()
-    :Cdprojecthome   -- Cd_PROJECT_HOME()
-    :Cdp             -- Cd_PROJECT_HOME()
-    :Cdph            -- Cd_PROJECT_HOME()
-    :Cdworkonhome    -- Cd_WORKON_HOME()
-    :Cdwh            -- Cd_WORKON_HOME()
-    :Cdve            -- Cd_WORKON_HOME()
-    :Cdcondahome     -- Cd_CONDA_HOME()
-    :Cda             -- Cd_CONDA_HOME()
-    :Cdce            -- Cd_CONDA_HOME()
-    :Cdvirtualenv    -- Cd_VIRTUAL_ENV()
-    :Cdv             -- Cd_VIRTUAL_ENV()
-    :Cdsrc           -- Cd__SRC()
-    :Cds             -- Cd__SRC()
-    :Cdwrd           -- Cd__WRD()
-    :Cdw             -- Cd__WRD()
-    :Cdbin           -- Cd__BIN()
-    :Cdb             -- Cd__BIN()
-    :Cdetc           -- Cd__ETC()
-    :Cde             -- Cd__ETC()
-    :Cdlib           -- Cd__LIB()
-    :Cdl             -- Cd__LIB()
-    :Cdlog           -- Cd__LOG()
-    :Cdpylib         -- Cd__PYLIB()
-    :Cdpysite        -- Cd__PYSITE()
-    :Cdsitepackages  -- Cd__PYSITE()
-    :Cdvar           -- Cd__VAR()
-    :Cdwww           -- Cd__WWW()
-    :Cdww            -- Cd__WWW()
-   file_line.vim     -- open files named 'file(line[:col])', 'file:line[:col]'
-   Info.vim          -- vim infopages in vim [help info]
-    :Info sed        --  view infopage for 'sed'
-    <Space>          --  Scroll forward (page down).
-    <Backspace>      --  Scroll backward (page up).
-    <Tab>            --  Move cursor to next hyperlink within this node.
-    <Enter>,<C-]>    --  Follow hyperlink under cursor.
-    ;,<C-T>          --  Return to last seen node.
-    .,>              --  Move to the "next" node of this node.
-    p,<              --  Move to the "previous" node of this node.
-    u                --  Move "up" from this node.
-    d                --  Move to "directory" node.
-    t                --  Move to the Top node.
-    <C-S>            --  Search forward within current node only.
-    s                --  Search forward through all nodes for a specified
-    string.
-    q                --  Quit browser.
-   Signify   -- show git/hg file changes in gutter [help signify]
-    <leader>gt       -- SignifyToggle
-    <leader>gh       -- SignifyToggleHighlight
-    <leader>gr       -- SignifyRefresh
-    <leader>gd       -- SignifyDebug
-   hunk jumping
-    <leader>gj       -- signify-next-hunk
-    <leader>gk       -- signify-prev-hunk
-   hunk text object
-    ic               -- signify inner textobj
-    ac               -- signify outer textobj
-   Fugitive      -- Git commands and statusline display [help fugitive]
-   Lawrencium    -- Hg commands [help lawrencium]
-   NERDTree      -- File browser [help NERDTree]
-    <Leader>e         --  toggle NERDTree
-    ctrl-e            --  toggle NERDTree
-    <Leader>E         --  open nerdtree to current file (:NERDTreeFind %:p:h)
-    ctrl-E            --  open nerdtree to current file (:NERDTreeFind %:p:h)
-    I                 --  toggle view hidden files
-    B                 --  toggle view bookmarks
-    cd                --  set vim CWD to selected dir
-    C                 --  refocus view to selected dir
-    o                 --  open
-    r                 --  refresh dir
-    R                 --  refresh root
-    t                 --  open in new tab
-    T                 --  open in new tab silently
-    u                 --  up a dir
-    U                 --  up a dir and leave open
-    x                 --  close node
-    X                 --  close all nodes recursive
-    ?                 --  toggle help
-   FindInNERDTree    -- NERDTRee show current file [help NERDTreeFind]
-    <c-b>            --  toggle BufExplorer
-    ?                --  toggle BufExplorer help
-    <leader>b        --  toggle BufExplorer
-   CtrlP             -- file/buffer/mru finder [help ctrlp]
-    <C-p>            -- CtrlP (fuzzy matching)
-   Syntastic         -- syntax highlighting [help syntastic]
-   NERDCommenter     -- commenting [help NERDCommenter]
-    ,cm              --  minimal comment
-    ,cs              --  sexy comment
-    ,c<space>        --  toggle comment
-   UltiSnips         --  syntax-specific snippets [help ultisnips]
-    snippetname<C-CR>    --  insert snippet
-    <c-j>            --  next placeholder
-    <c-k>            --  prev placeholder
-    ~/.vim/snippets-ulti/python.snippets:
-      climain         --  new cli script
-      setuppy         --  new setup.py script
-    ~/.vim/snippets-ulti/html.snippets:
-      schemaorgclass  --  new schema.org RDFa class
-      schemaorgprop   --  new schema.org RDFa property
-   NeoComplCache -- code completion [help neocomplcache]
-   unstack.vim   -- parse and open stacktrace paths [help unstack]
-    <leader> s   -- parse part/all of a stacktrace
-   accordion.vim -- work w/ a number of vsplits at once [help accordion]
-   ViM Airline   -- helpful statusbar information w/ vimscript [help airline]
-       base16, wombat, luna
-       base16, wombat, luna
-   EasyMotion    -- easy visual motions [help easymotion]
-    <Leader>m-w/e    --  search forward (beg/end of word)
-    <Leader>m-b      --  search backward
-    <Leader>m-j      --  search line down
-    <Leader>m-k      --  search line up
-   Jellybeans    -- a good colorscheme w/ sensible diff highlighting
-    :colorscheme jellybeans -- switch to the jellybeans colorscheme
-   Vim-misc      -- functions for colorscheme-switcher and vim-session
-   Vim Colorscheme Switcher [help colorscheme-switcher]
-    <F8>         -- cycle colors forward
-    <Shift><F8>  -- cycle colors reverse
-   HiColors
-    call HiTest() -- print highlighting colors 
-   Pasting       -- make paste work normally [help paste]
-   Vim Room      -- focus just the relevant text [help vimroom] 
-   VOoM Outline Viewer   -- view outlines of code and text [help voom]
-    VOoM modes:  html, markdown, python, rest,
-                 thevimoutliner, txt2tags,
-                 viki, vimwiki, wiki
-    :Voom [<format>] -- open Voom outline tab
-    :Voom rest       -- open ReStructuredText outline
-    ggg?G
-    <leader> V   -- toggle Voom outline sidebar
-   TagBar        -- source tag browser [help tagbar]
-    <leader> t   -- toggle TagBar outline sidebar"
-   Vim Session   -- save and restore sessions between exits [help session]
-    :SaveSession <name>  -- save a session
-    :OpenSession <name>  -- open a saved session
-    :Restart             -- SaveSession restart && exit
-    :OpenSession restart -- open the 'restart' saved session
-   Vim Unimpaired        --  moving between buffers [help unimpaired]
-    [a      :previous
-    ]a      :next
-    [A      :first
-    ]A      :last
-    [b      :bprevious
-    ]b      :bnext
-    [B      :bfirst
-    ]B      :blast
-    [l      :lprevious
-    ]l      :lnext
-    [L      :lfirst
-    ]L      :llast
-    [<C-L>  :lpfile
-    ]<C-L>  :lnfile
-    [q      :cprevious
-    ]q      :cnext
-    [Q      :cfirst
-    ]Q      :clast
-    [<C-Q>  :cpfile (Note that <C-Q> only works in a terminal if you disable
-    ]<C-Q>  :cnfile flow control: stty -ixon)
-    [t      :tprevious
-    ]t      :tnext
-    [T      :tfirst
-    ]T      :tlast
-   Ack.vim       -- ack through files (instead of grep) [help ack]
-   :Ack [options] PATTERN [directory]    -- search for pattern
-   :AckAdd [options] PATTERN [directory] -- add a search pattern
-   :AckWindow [options] PATTERN          -- search all visible buffers"
-   vim-surround  -- add quotes/parenthesis/tags [help surround]
-    cs       -- change surrounding
-    ys       -- yank and surround (motion, text object)
-    yss      -- yank and surround current line
-    ds"      -- remove double-quotes
-    cs'"     -- replace single-quotes with double quotes
-    cd"<q>   -- surround with <q>...<q/>
-    dst      -- remove surrounding tag
-   csapprox      -- adapt gvim colorschemes for terminal vim [help csapprox]
-   UndoTree      -- visualize vim undotree
-    <F5>     -- Toggle UndoTree (? for help)
-   vim-nginx -- nginx ftdetect, indent, and syntax
-   n3.vim    -- N3/Turtle RDF Syntax
-   SPARQL    -- SPARQL syntax
-   Python-mode       -- Python [help pymode]
-    :help pymode
-    [[    --  Jump to previous class or function
-    ]]    --  Jump to next class or function
-    [M    --  Jump to previous class or method
-    ]M    --  Jump to next class or method
-    aC    --  Select a class. Ex: vaC, daC, yaC, caC
-    iC    --  Select inner class. Ex: viC, diC, yiC, ciC
-    aM    --  Select a function or method. Ex: vaM, daM, yaM, caM
-    iM    --  Select inner function or method. Ex: viM, diM, yiM, ciM
-    g:pymode_python = { 'python', 'python3', 'disable' }
-    set g:pymode_python 'disable' (start time, occasional completion stall)
-    <leader> d    -- open pydoc
-    :PymodeLintToggle    -- toggle lint checking
-    :PymodeLintAuto      -- autofix current buffer pep8 errors
-   - auto-show an error window
-   - show lint signs
-   - run lint on write
-    let g:pymode_lint_ignore = ""
-    let g:pymode_lint_select = ""
-    Pymode lint line annotation symbols
-     XX = TODO
-     CC = COMMENT
-     RR = VISUAL
-     EE = ERROR
-     II = INFO
-     FF = PYFLAKES
-   :PyModeLint       -- lint current buffer (once)
-   :PyModeLintToggle -- toggle lint
-   :PyModeLintAuto   -- auto-lint the current buffer (once)
-                         (commit before and after)
-    <F7>     -- set debugger breakpoints
-    auto lookup breakpoint cmd (pdb, ipdb, pudb)"
-    Searches upward for a .ropeproject file (that should be .vcs-ignored)
-    :PymodeRopeNewProject    -- Create a new .ropeproject in CWD
-    :PymodeRopeRegenerate    -- Regenerate rope project cache
-    <C-c>d       -- show docs for current function w/ pymode
-    rope for autocompletion
-    <C-Space>    -- rope autocomplete
-    <leader> j       --  :RopeGotoDefinition
-    <C-c> ro     -- organize Python imports; drop unused (:PymodeRopeAutoImport)
-    :PymodeRopeUndo  -- Undo last project changes
-    :PymodeRopeRedo  -- Redo last project changes
-    <C-c> rr     -- rope rename
-   vim-virtualenv    -- Python virtualenv [help virtualenv]
-    :help
-    :VirtualEnvDeactivate
-    :VirtualEnvList
-    :VirtualEnvActivate <name>
-    :VirtualEnvActivate <TAB>
-   Sort python imports
-    :PyFixImports    --  sort import statements
-   Pytest.vim    -- py.test red/green results [help pytest]
-    :Pytest clear    -- reset pytest globals
-    :Pytest file     --  pytest file
-    :Pytest class    --  pytest class
-    :Pytest method   --  pytest method
-    :Pytest {...} --pdb  -- pytest file/class/method with pdb
-    <leader>tf       --  pytest file
-    <leader>tc       --  pytest class
-    <leader>tm       --  pytest method
-    " cycle through test errors
-    <leader>tn       --  pytest next error
-    <leader>tp       --  pytest prev error
-    <leader>te       --  pytest error
-   Pyrex         -- Pyrex syntax
-   Jinja         -- Jinja Templates syntax
-   vim-coffee-script -- CoffeeScript syntax, indent
-   vim-haml          -- HAML, SASS, SCSS
-   vim-css3-syntax   -- CSS3
-   vim-css-color     -- show CSS color codes
-   vim-less          -- LESS CSS
-   vim-jade          -- Jade templates
-   os.vim   -- Operating System [help os]
-   clickable.vim -- click-able links
-   let g:clickable_browser = "xdg-open"
-   let g:clickable_browser = "x-www-browser"
-   Riv.vim   -- ReStructuredText [help riv]
-    [help riv]
-        https://github.com/Rykka/riv.vim/tree/master/doc
-    :RivIntro
-        https://github.com/Rykka/riv.vim/blob/master/doc/riv_intro.rst
-    :RivQuickStart
-        https://github.com/Rykka/riv.vim/blob/master/doc/riv_quickstart.rst
-    :RivInstruction
-        https://github.com/Rykka/riv.vim/blob/master/doc/riv_instruction.rst
-    :RivCheatSheet     -- riv_cheatsheet.rst
-        https://github.com/Rykka/riv.vim/blob/master/doc/riv_cheatsheet.rst
-    :RivPrimer         -- riv_primer.rst
-        https://github.com/Rykka/riv.vim/blob/master/doc/riv_primer.rst
-        http://docutils.sourceforge.net/docs/user/rst/quickstart.html
-    # Docutils "Quick reStructuredText" [quickref.rst / quickref.html]
-        http://docutils.sourceforge.net/docs/user/rst/quickref.html
-    :RivSpecification  -- Docutils "reStructuredText Markup Specification"
-        http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
-         https://github.com/Rykka/riv.vim/blob/master/doc/riv_specification.rst
-    :RivDirectives -- Docutils "Directives"
-        https://github.com/Rykka/riv.vim/blob/master/doc/riv_directives.rst
-         http://docutils.sourceforge.net/docs/ref/rst/directives.html
-    # Docutils "Roles"
-         http://docutils.sourceforge.net/docs/ref/rst/roles.html
-    # Docutils "Substutution definitions"
-         http://docutils.sourceforge.net/docs/ref/rst/definitions.html
-    # Docutils "Doctree"
-         http://docutils.sourceforge.net/docs/ref/doctree.html
-    # Riv.vim Changelogs
-         https://github.com/Rykka/riv.vim/blob/master/doc/riv_log.rst
-    # Riv.vim Todo
-         https://github.com/Rykka/riv.vim/blob/master/doc/riv_todo.rst
-         - [ ] Ready
-         - [o] Open
-         - [X] Closed
-   Salt      -- Salt syntax
-   Trac      -- Trac [help trac]
-   webapi-vim -- vim web API [help webapi[-{html, http, json, xml}]]
-   gist-vim  -- Create a gist.github.com [help gist-vim]
-   github-issues.vim     -- autocomplete, CRUD GitHub issues [help Gissues]
-   html5.vim             -- HTML5, RDFa, microdata, WAI-ARIA
-   vim-javascript        -- improved Javascript support
-   vim-indent-guides     -- show indentation levels [help indent_guides]
-   rainbow-parentheses   -- make nested parenthesis different colors
-    :RainbowParenthesesActivate
-    :RainbowParenthesesToggle
-    :RainbowParenthesesLoadRound
-    :RainbowParenthesesLoadSquare
-    :RainbowParenthesesLoadBraces
-    :RainbowParenthesesLoadChevrons
-    :RainbowParenthesesToggleAll
-       :RainbowParenthesesActivate
-   l9                    -- utility library (for FuzzyFinder)
-   FuzzyFinder           -- find files, buffers, tags, changes [help fuf]
-    :FufBuffer
-    :FufFile
-    :FufDir
-    :FufMruFile
-    :FufMruCmd
-    :FufTag
-    :FufJumpList
-    :FufChangeList
-    :FufQuickfix
-    :FufHelp
-   abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
-   fountain.vim          -- fountain.io syntax
-   All of your Bundles must be added before the following line
+   .
+
+   
+   
+.. index:: etc/vim/vimrc.local.99-after.vimrc
+.. _etc/vim/vimrc.local.99-after.vimrc:
+
+etc/vim/vimrc.local.99-after.vimrc
+===================================
+| Src: `etc/vim/vimrc.local.99-after.vimrc <https://github.com/westurner/dotvim/tree/master/vimrc.local.99-after.vimrc>`__
+
+.. code:: vim
+
+   .
+    vimrc.local.99-after.vimrc
    .
 
    

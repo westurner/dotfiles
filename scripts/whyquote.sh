@@ -50,3 +50,35 @@ example 21
 example21="-e \n#this"
 echo $example21
 echo "$example21"
+
+
+###
+
+function example22 {
+    # $1: arg1
+    # $2: arg1
+    echo $@ ".A"
+    echo "$@" ".B"
+}
+
+echo "22"
+example22 $@
+echo "23"
+example22 "$@"
+
+
+
+function example24 {
+    # $1: arg1
+    # $2: arg1
+    exec echo $@ ".A"
+    exec echo "$@" ".B"
+}
+
+echo "24"
+example24 $@
+echo "25"
+example24 "$@"
+
+echo "26"
+example24 "./path to the file.txt"

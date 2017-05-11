@@ -439,6 +439,11 @@ function symlink_venv {
     #    "${ipyprofile}/ipython_config.py"
 }
 
+function symlink_conda {
+    local condarc="${HOME}/.condarc"
+    backup_and_symlink "" "${condarc}" \
+        "${__DOTFILES_SYMLINK}/etc/.condarc"
+}
 
 function symlink_ruby {
     backup_and_symlink .gemrc
@@ -459,6 +464,8 @@ function dotfiles_symlink_all {
     symlink_python
     symlink_virtualenvwrapper
     symlink_venv
+
+    symlink_conda
 
     symlink_ruby
 

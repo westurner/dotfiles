@@ -359,6 +359,12 @@ build-docker-fedora-22:
 build-docker-fedora-23:
 	sudo docker build -t dotfiles:fedora23 -f Dockerfile.fedora23 .
 
+build-docker-fedora-24:
+	sudo docker build -t dotfiles:fedora24 -f Dockerfile.fedora24 .
+
+build-docker-fedora-25:
+	sudo docker build -t dotfiles:fedora25 -f Dockerfile.fedora25 .
+
 build-docker-debian-8:
 	sudo docker build -t dotfiles:debian-8 -f Dockerfile.debian8 .
 
@@ -371,6 +377,8 @@ build-docker-ubuntu-14.04:
 build-docker-ubuntu-15.04:
 	sudo docker build -t dotfiles:ubuntu-15.04 -f Dockerfile.ubuntu15.04 .
 
+build-docker-ubuntu-16.04:
+	sudo docker build -t dotfiles:ubuntu-16.04 -f Dockerfile.ubuntu16.04 .
 
 pip_upgrade_pip:
 	# Upgrade pip
