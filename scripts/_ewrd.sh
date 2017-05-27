@@ -268,38 +268,38 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in
         editdotfiles|edotfiles)
-            editdotfiles ${@}
+            editdotfiles "${@}"
             exit
             ;;
 
         editwrk|ewrk)
-            editwrk ${@}
+            editwrk "${@}"
             exit
             ;;
 
         editworkonhome|eworkonhome|ewh)
-            editworkonhome ${@}
+            editworkonhome "${@}"
             exit
             ;;
 
         editvirtualenv|evirtualenv|ev)
-            editvirtualenv ${@}
+            editvirtualenv "${@}"
             exit
             ;;
         editsrc|esrc|es)
-            editsrc ${@}
+            editsrc "${@}"
             exit
             ;;
         editwrd|ewrd|ew)
-            editwrd ${@}
+            editwrd "${@}"
             exit
             ;;
         editetc|eetc)
-            editetc ${@}
+            editetc "${@}"
             exit
             ;;
         editwww|ewww)
-            editwww ${@}
+            editwww "${@}"
             exit
             ;;
 
