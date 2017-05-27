@@ -304,8 +304,10 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
             ;;
 
         _ewrd.sh|edithelp|ehelp)
+            #cat "${BASH_SOURCE}" | \
+            #    pyline.py -r '^\s*#+\s+.*' 'rgx and l';
             cat "${BASH_SOURCE}" | \
-                pyline.py -r '^\s*#+\s+.*' 'rgx and l';
+                grep -E '^\s*#+\s+.*'
             exit
             ;;
 
