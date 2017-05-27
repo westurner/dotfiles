@@ -84,7 +84,7 @@ function lsvirtualenvs {
 }
 function lsve {
     # lsve()                -- list virtualenvs in $WORKON_HOME
-    lsvirtualenvs $@
+    lsvirtualenvs "${@}"
 }
 
 function backup_virtualenv {
@@ -178,7 +178,7 @@ function rebuild_virtualenv {
     #  rebuild_virtualenv()     -- rebuild a virtualenv
     #    $1="$VENVSTR"
     #    $2="$VIRTUAL_ENV"
-    (set -x; _rebuild_virtualenv $@)
+    (set -x; _rebuild_virtualenv "${@}")
 }
 
 function rebuild_virtualenvs {
