@@ -41,13 +41,15 @@ function gac() {
 # }
 
 function git-commit-msg() {
-    #  gitcmsg()    -- gitc "${_MSG}" ${@}
-    git-commit "${_MSG}" ${@} && msg clear
+    #  gitcmsg()    -- gitc "${_MSG}" "${@}"
+    git-commit "${_MSG}" "${@}"
+    msg -
 }
 
 function git-add-commit-msg() {
-    #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
-    git-add-commit "${_MSG}" ${@} && msg clear
+    #  gitcaddmsg()    -- gitc "${_MSG}" "${@}"
+    git-add-commit "${_MSG}" "${@}"
+    msg -
 }
 
 
@@ -200,8 +202,8 @@ Hgclone () {
     url=$1
     shift
     path="${__SRC}/hg/$1"
-    if [ -d $path ]; then
-        echo "$path existing. Exiting." >&2
+    if [ -d "$path" ]; then
+        echo "$path exists. Exiting." >&2
         echo "see: update_repo $1"
         return 0
     fi
