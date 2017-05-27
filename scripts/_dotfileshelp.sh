@@ -58,7 +58,7 @@ function dhelp_shell {
     local _file="${1}"
     "${PYLINE}" \
         -r '^(\s*)(#+)(\s)(\s*.*)' \
-        'rgx and "%s%s%s%s" % ((rgx.group(1), " " if len(rgx.group(2)) == 1 else rgx.group(2), rgx.group(3), rgx.group(4)))' \
+        'rgx and u"%s%s%s%s" % ((rgx.group(1), " " if len(rgx.group(2)) == 1 else rgx.group(2), rgx.group(3), rgx.group(4)))' \
         -f "${_file}" \
         "${_DOTFILES_GREP_NUMBER_LINES}";
 }
@@ -160,7 +160,7 @@ function dhelp_i3 {
     printf_file_heading "=" "${_i3cfg}"
     "${PYLINE}" \
         -r '^(\s*)(#+)(\s)(\s*.*)' \
-        'rgx and "%s%s%s%s" % ((rgx.group(1), "" if len(rgx.group(2)) == 1 else rgx.group(2), rgx.group(3), rgx.group(4)))' \
+        'rgx and u"%s%s%s%s" % ((rgx.group(1), "" if len(rgx.group(2)) == 1 else rgx.group(2), rgx.group(3), rgx.group(4)))' \
         -f "${_i3cfg}" \
         "${_DOTFILES_GREP_NUMBER_LINES}" \
             | printf_code "bash";
@@ -184,7 +184,7 @@ function dhelp_vimrc {
     printf_file_heading__dotvim "=" "${_file}"
     "${PYLINE}" \
         -r '^(\s*)"\s(\s*.*)' \
-        'rgx and "{}{}".format(rgx.group(1), rgx.group(2))' \
+        'rgx and u"{}{}".format(rgx.group(1), rgx.group(2))' \
         -f "${_file}" \
         "${_DOTFILES_GREP_NUMBER_LINES}" \
             | printf_code "vim";
