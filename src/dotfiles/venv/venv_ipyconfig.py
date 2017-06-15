@@ -663,7 +663,7 @@ if __name__ == "__main__":
         '''" cdhelp()           -- list cd commands\n'''
         '''    :verbose command Cd\n'''
         '''endfunction\n'''
-        '''command! -nargs=* Cdhelp call Cd_help()\n'''
+        '''command! -nargs=0 Cdhelp call Cd_help()\n'''
         '''\n''')
 
     VIM_FUNCTION_TEMPLATE = (
@@ -680,7 +680,7 @@ if __name__ == "__main__":
     )
     VIM_COMMAND_TEMPLATE = (
         '''"   :{cmd_name} -- {vim_func_name}()\n'''
-        """command! -nargs=* {cmd_name} call {vim_func_name}(<f-args>)\n"""
+        """command! -nargs=1 {cmd_name} call {vim_func_name}(<f-args>)\n"""
     )
 
     @property
