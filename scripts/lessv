@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-source ${__DOTFILES}/etc/bash/29-bashrc.vimpagers.sh
+source "${__DOTFILES}/etc/bash/29-bashrc.vimpagers.sh"
 set -x
-lessv ${@}
+lessv "${@}"
