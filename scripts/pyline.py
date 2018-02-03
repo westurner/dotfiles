@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 """
@@ -71,7 +71,7 @@ Shell::
 
 """
 
-__version__ = version = "0.3.12"
+__version__ = version = "0.3.16"
 
 import cgi
 import csv
@@ -324,9 +324,9 @@ def pyline(iterable,
         rgx = _rgx and _rgx.match(line) or None
 
         p = path = None
-        if path_tools_pathpy or path_tools_pathlib and line.rstrip():
+        if path_tools_pathpy or path_tools_pathlib:
             try:
-                p = path = Path(line.strip()) or None
+                p = path = Path(line) or None
             except Exception as e:
                 log.exception(e)
                 pass
@@ -1248,7 +1248,11 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
     return 0, results
 
 
-if __name__ == "__main__":
+def main_entrypoint():
     import sys
     retval, _ = main(args=sys.argv[1:])
     sys.exit(retval)
+
+
+if __name__ == "__main__":
+    main_entrypoint()
