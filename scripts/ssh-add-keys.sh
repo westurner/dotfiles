@@ -375,7 +375,7 @@ function _ssh_keygen__ {
         _keyname__type="${_keyname}__id_${_keytype}"
         local _keypath="${_sshkeypath}/${_keydir}/${_keyname__type}"
         local _comment="${_keyname__type} (ssh-keygen ${@}) :key:"
-        ssh-keygen -f "${_keypath}" -C "${_comment}" ${@}
+        ssh-keygen -f "${_keypath}" -C "${_comment}" "${@}"
     }
     (set -x; _ssh_keygen___ "${@}")
 }
