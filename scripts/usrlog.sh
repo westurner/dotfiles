@@ -321,7 +321,7 @@ function _usrlog_parse_cmds {
     pyline.py ${usrlog} 'l and l.startswith("#") and l.split("\t$$\t", 1)[-1]'
 }
 function ugp {
-    _usrlog_parse_cmds ${@}
+    _usrlog_parse_cmds "${@}"
 }
 
 
@@ -362,7 +362,7 @@ function uta {
 }
 function utap {
     #  utap()  -- tail all userlogs from lsusrlogs and parse
-    usrlog_tail "${@} $(lsusrlogs)" | ugp   # TODO: headers
+    usrlog_tail ${@:+"${@}"} "$(lsusrlogs)" | ugp   # TODO: headers
 }
 
 function utp {
@@ -407,7 +407,7 @@ function usrlog_grep {
     #  usrlog_grep() -- egrep -n $_USRLOG
     local _args="${@}"
     local _paths="${_USRLOG_GREP_PATHS:-"${_USRLOG}"}"
-    (set -x; egrep -n ${_args:+"${_args}"} ${_paths})
+    (set -x; egrep -n ${@:+"${@}"} ${_paths})
 }
 function ug {
     #  ug()          -- egrep -n $_USRLOG
