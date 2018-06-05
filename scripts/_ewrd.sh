@@ -7,15 +7,13 @@
 ##    editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
 function editdotfiles {
     # editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
-    (cd "${__DOTFILES}";
-        (IFS=$'\n'; echo "${@}") \
-            | el --each -x 'e {0}')
+    (cd "${__DOTFILES}"; e "${@}")
     return
 }
 
 function edotfiles {
     # edotfiles()    -- cd $__DOTFILES and run edit w/ each arg
-    editdotfiles $@
+    editdotfiles "${@}"
     return
 }
 
@@ -30,16 +28,13 @@ complete -o default -o nospace -F _edotfiles__complete edotfiles
 ##    editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
 function editwrk {
     # editwrk()      -- cd $__WRK and run edit w/ each arg
-    (cd "${__WRK}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${__WRK}"; e "${@}")
     return
 }
 
 function ewrk {
     # ewrk()         -- cd $__WRK and run edit w/ each arg
-    editwrk $@
+    editwrk "${@}"
     return
 }
 
@@ -54,22 +49,19 @@ complete -o default -o nospace -F _ewrk__complete ewrk
 ##    editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
 function editworkonhome {
     # editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
-    (cd "${WORKON_HOME}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${WORKON_HOME}"; e "${@}")
     return
 }
 
 function eworkonhome {
     # eworkonhome()    -- cd $WORKON_HOME and run edit w/ each arg
-    editworkonhome $@
+    editworkonhome "${@}"
     return
 }
 
 function ewh {
     # ewh()            -- cd $WORKON_HOME and run edit w/ each arg
-    editworkonhome $@
+    editworkonhome "${@}"
     return
 }
 
@@ -86,22 +78,19 @@ complete -o default -o nospace -F _eworkonhome__complete ewh
 ##    editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
 function editvirtualenv {
     # editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
-    (cd "${VIRTUAL_ENV}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${VIRTUAL_ENV}"; e "${@}")
     return
 }
 
 function evirtualenv {
     # evirtualenv()    -- cd $VIRTUAL_ENV and run edit w/ each arg
-    editvirtualenv $@
+    editvirtualenv "${@}"
     return
 }
 
 function ev {
     # ev()             -- cd $VIRTUAL_ENV and run edit w/ each arg
-    editvirtualenv $@
+    editvirtualenv "${@}"
     return
 }
 
@@ -117,22 +106,19 @@ complete -o default -o nospace -F _evirtualenv__complete ev
 ##    editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
 function editsrc {
     # editsrc() -- cd $_SRC and run edit w/ each arg
-    (cd "${_SRC}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${_SRC}"; e "${@}")
     return
 }
 
 function esrc {
     # esrc()    -- cd $_SRC and run edit w/ each arg
-    editsrc $@
+    editsrc "${@}"
     return
 }
 
 function es {
     # es()      -- cd $_SRC and run edit w/ each arg
-    editsrc $@
+    editsrc "${@}"
     return
 }
 
@@ -148,22 +134,19 @@ complete -o default -o nospace -F _esrc__complete es
 ##    editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
 function editwrd {
     # editwrd() -- cd $_WRD and run edit w/ each arg
-    (cd "${_WRD}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${_WRD}"; e "${@}")
     return
 }
 
 function ewrd {
     # ewrd()    -- cd $_WRD and run edit w/ each arg
-    editwrd $@
+    editwrd "${@}"
     return
 }
 
 function ew {
     # ew()      -- cd $_WRD and run edit w/ each arg
-    editwrd $@
+    editwrd "${@}"
     return
 }
 
@@ -179,16 +162,13 @@ complete -o default -o nospace -F _ewrd__complete ew
 ##    editetc, eetc      --- cd $_ETC and run edit w/ each arg
 function editetc {
     # editetc() -- cd $_ETC and run edit w/ each arg
-    (cd "${_ETC}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${_ETC}"; e "${@}")
     return
 }
 
 function eetc {
     # eetc()    -- cd $_ETC and run edit w/ each arg
-    editetc $@
+    editetc "${@}"
     return
 }
 
@@ -203,16 +183,13 @@ complete -o default -o nospace -F _eetc__complete eetc
 ##    editwww, ewww      --- cd $_WWW and run edit w/ each arg
 function editwww {
     # editwww() -- cd $_WWW and run edit w/ each arg
-    (cd "${_WWW}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${_WWW}"; e "${@}")
     return
 }
 
 function ewww {
     # ewww()    -- cd $_WWW and run edit w/ each arg
-    editwww $@
+    editwww "${@}"
     return
 }
 
@@ -268,44 +245,46 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
     declare -r progname="$(basename ${BASH_SOURCE})"
     case "${progname}" in
         editdotfiles|edotfiles)
-            editdotfiles ${@}
+            editdotfiles "${@}"
             exit
             ;;
 
         editwrk|ewrk)
-            editwrk ${@}
+            editwrk "${@}"
             exit
             ;;
 
         editworkonhome|eworkonhome|ewh)
-            editworkonhome ${@}
+            editworkonhome "${@}"
             exit
             ;;
 
         editvirtualenv|evirtualenv|ev)
-            editvirtualenv ${@}
+            editvirtualenv "${@}"
             exit
             ;;
         editsrc|esrc|es)
-            editsrc ${@}
+            editsrc "${@}"
             exit
             ;;
         editwrd|ewrd|ew)
-            editwrd ${@}
+            editwrd "${@}"
             exit
             ;;
         editetc|eetc)
-            editetc ${@}
+            editetc "${@}"
             exit
             ;;
         editwww|ewww)
-            editwww ${@}
+            editwww "${@}"
             exit
             ;;
 
         _ewrd.sh|edithelp|ehelp)
+            #cat "${BASH_SOURCE}" | \
+            #    pyline.py -r '^\s*#+\s+.*' 'rgx and l';
             cat "${BASH_SOURCE}" | \
-                pyline.py -r '^\s*#+\s+.*' 'rgx and l';
+                grep -E '^\s*#+\s+.*'
             exit
             ;;
 

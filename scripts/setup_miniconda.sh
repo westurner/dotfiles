@@ -5,7 +5,7 @@
 # http://repo.continuum.io/miniconda/
 
 DOWNLOAD_DEST="."
-REPO_URL_PREFIX="http://repo.continuum.io/miniconda/"
+REPO_URL_PREFIX="https://repo.continuum.io/miniconda"
 
 linux_x86=Miniconda3-latest-Linux-x86.sh
 linux_x86_64=Miniconda3-latest-Linux-x86_64.sh
@@ -45,6 +45,12 @@ function miniconda_download {
     local dest="${destdir}/${filename}"
     echo "Downloading: ${download_url}" >&2
     echo "Dest: ${dest}" >&2
+
+    # TODO:
+    if [ -n "${SKIP_DOWNLOAD}" ]; then
+        echo "${dest}";
+        return 1
+    fi
     (curl -SL "${download_url}" > "${dest}") 1>&2 >&2 \
         && echo "${dest}" \
         && return 0
@@ -64,9 +70,44 @@ function miniconda_install {
     sh ${miniconda_installer_sh} -b -p "${prefix}" ${@}
 }
 
+
+###
+
+
+function _miniconda_check_conda_env {
+    #  miniconda_check_conda_env       -- check python and conda in a conda env
+    #    $1 (str)  -- path of a conda env
+    #       "./here"
+    #       "${CONDA_ENVS_PATH}/envname"
+    local env="${1}"
+    if [ -z "${env}" ]; then
+        return 2
+    fi
+    test -d "${env}"
+
+    local python="${env}/bin/python"
+    test -x "${python}"
+    "${python}" --version
+    "${python}" -m site
+
+    local conda="${env}/bin/conda"
+    test -x "${conda}"
+    "${conda}" --version
+    "${conda}" info
+
+    local pip="${env}/bin/pip"
+    test -x "${pip}"
+    "${pip}" --version
+    #"${pip}" show pip
+}
+function miniconda_check_conda_env {
+    (set -x; _miniconda_check_conda_env "${@}")
+}
+
+
 function miniconda_setup__dotfiles_minicondas {
     #  miniconda_setup__dotfiles_minicondas  -- install CONDA_ROOTs
-    #    $1 (str)  -- path for CONDA_ROOTs and CONDA_HOMEs (default: $__WRK)
+    #    $1 (str)  -- path for CONDA_ROOTs and CONDA_ENVSs (default: $__WRK)
     #    Returns:
     #      n: sum of Miniconda[3]-latest-*.sh return codes
     local prefix="${1:-"${__WRK}"}"
@@ -80,25 +121,56 @@ function miniconda_setup__dotfiles_minicondas {
 
     local ret=0;
     miniconda_install "${mc2}" "${CONDA_ROOT__py27}"
-    ret=$(expr $ret+$?);
+    ret=$(expr $ret + $?);
     #miniconda_install "${mc2}" "${__WRK}/-ace34"
     miniconda_install "${mc3}" "${CONDA_ROOT__py34}"
-    ret=$(expr $ret+$?);
+    ret=$(expr $ret + $?);
+    miniconda_install "${mc3}" "${CONDA_ROOT__py35}"
+    ret=$(expr $ret + $?);
+    miniconda_install "${mc3}" "${CONDA_ROOT__py36}"
+    ret=$(expr $ret + $?);
     return $ret;
 }
+
 
 function miniconda_setup__dotfiles_condaenvs {
     local prefix="${1:-"${__WRK}"}"
     local CONDA_ROOT__py27="${CONDA_ROOT__py27:-"${prefix}/-conda27"}"
+    local CONDA_ENVS__py27="${CONDA_ENVS__py27:-"${prefix}/-ce27"}"
     local CONDA_ROOT__py34="${CONDA_ROOT__py34:-"${prefix}/-conda34"}"
-    local CONDA_HOME__py27="${CONDA_HOME__py27:-"${prefix}/-ce27"}"
-    local CONDA_HOME__py34="${CONDA_HOME__py34:-"${prefix}/-ce34"}"
+    local CONDA_ENVS__py34="${CONDA_ENVS__py34:-"${prefix}/-ce34"}"
+    local CONDA_ROOT__py35="${CONDA_ROOT__py35:-"${prefix}/-conda35"}"
+    local CONDA_ENVS__py35="${CONDA_ENVS__py35:-"${prefix}/-ce35"}"
+    local CONDA_ROOT__py36="${CONDA_ROOT__py36:-"${prefix}/-conda36"}"
+    local CONDA_ENVS__py36="${CONDA_ENVS__py36:-"${prefix}/-ce36"}"
 
-    ## create environments with each conda instance:
-    "${CONDA_ROOT__py27}/bin/conda" install -y -n root conda-env python pip readline
-    "${CONDA_ROOT__py34}/bin/conda" install -y -n root conda-env python=3 pip readline
-    test -d "${CONDA_HOME__py27}/dotfiles" || "${CONDA_ROOT__py27}/bin/conda" create -n dotfiles
-    test -d "${CONDA_HOME__py34}/dotfiles" || "${CONDA_ROOT__py34}/bin/conda" create -n dotfiles
+    local envname="dotfiles"
+
+    ## create a condaenv for each python version
+    # create a dotfiles condaenv for each python version
+    CONDA_ROOT=$CONDA_ROOT__py27
+    CONDA_ENVS_PATH=$CONDA_ENVS__py27
+    "${CONDA_ROOT__py27}/bin/conda" install -y -n root conda-env python=2.7 pip readline
+    test -d "${CONDA_ENVS__py27}/${envname}" || "${CONDA_ROOT__py27}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py27}/${envname}" 
+
+    CONDA_ROOT=$CONDA_ROOT__py34
+    CONDA_ENVS_PATH=$CONDA_ENVS__py34
+    "${CONDA_ROOT__py34}/bin/conda" install -y -n root conda-env python=3.4 pip readline
+    test -d "${CONDA_ENVS__py34}/${envname}" || "${CONDA_ROOT__py34}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py34}/${envname}" 
+
+    CONDA_ROOT=$CONDA_ROOT__py35
+    CONDA_ENVS_PATH=$CONDA_ENVS__py35
+    "${CONDA_ROOT__py35}/bin/conda" install -y -n root conda-env python=3.5 pip readline
+    test -d "${CONDA_ENVS__py35}/${envname}" || "${CONDA_ROOT__py35}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py35}/${envname}" 
+
+    CONDA_ROOT=$CONDA_ROOT__py36
+    CONDA_ENVS_PATH=$CONDA_ENVS__py36
+    "${CONDA_ROOT__py36}/bin/conda" install -y -n root conda-env python=3.6 pip readline
+    test -d "${CONDA_ENVS__py36}/${envname}" || "${CONDA_ROOT__py36}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py36}/${envname}" 
 }
 
 function miniconda_setup_main {

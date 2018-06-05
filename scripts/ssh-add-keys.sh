@@ -106,6 +106,11 @@ function ssh_add_keys__github {
     ssh_add ~/.ssh/keys/github.com/*.key
 }
 
+function ssh_add_keys__gitlab {
+    ## ssh_add_keys__gitlab()    -- add keys for gitlab.com
+    ssh_add ~/.ssh/keys/gitlab.com/*.key
+}
+
 function ssh_add_keys__bitbucket {
     ## ssh_add_keys__bitbucket()    -- add keys for bitbucket.org
     ssh_add ~/.ssh/keys/bitbucket.org/*.key
@@ -114,6 +119,7 @@ function ssh_add_keys__bitbucket {
 function ssh_add_keys_all {
     ## ssh_add_keys_all() -- add each key [and prompt for passphrase]
     ssh_add_keys__github
+    ssh_add_keys__gitlab
     ssh_add_keys__bitbucket
     ssh_add_keys__local
 }
@@ -127,6 +133,7 @@ function ssh_add_keys_help {
     echo ""
     echo "  -a|--all|all       -- ssh-add each key"
     echo "     gh|github"
+    echo "     gl|gitlab"
     echo "     bb|bitbucket"
     echo "     local"
     echo ""
@@ -138,6 +145,7 @@ function ssh_add_keys_help {
     echo "  ssh-keygen"
     echo "    keygen:domain.tld/user+key    -- generate a key"
     echo "    keygengh:user+key             -- generate a key for gh|github"
+    echo "    keygengl:user+key             -- generate a key for gl|gitlab"
     echo "    keygenbb:user+key             -- generate a key for bb|bitbucket"
     echo ""
 
@@ -163,6 +171,7 @@ function ssh_add_keys {
     local _ssh_add_keys_run_tests=
     local _ssh_add_keys_all=
     local _ssh_add_keys__github=
+    local _ssh_add_keys__gitlab=
     local _ssh_add_keys__bitbucket=
     local _ssh_add_keys__local=
     local _ssh_agent_status=
@@ -170,6 +179,7 @@ function ssh_add_keys {
     local _ssh_agent_list_key_params=
     local _ssh_keygen__default=
     local _ssh_keygen__github=
+    local _ssh_keygen__gitlab=
     local _ssh_keygen__bitbucket=
     local _ssh_keygen__local=
 
@@ -211,6 +221,10 @@ function ssh_add_keys {
                 shift
                 _ssh_add_keys__github=1
                 ;;
+            gl|gitlab)
+                shift
+                _ssh_add_keys__gitlab=1
+                ;;
             bb|bitbucket)
                 shift
                 _ssh_add_keys__bitbucket=1
@@ -245,6 +259,9 @@ function ssh_add_keys {
                         gh|github)
                             _ssh_keygen__github=1
                             ;;
+                        gl|gitlab)
+                            _ssh_keygen__gitlab=1
+                            ;;
                         bb|bitbucket)
                             _ssh_keygen__bitbucket=1
                             ;;
@@ -274,6 +291,9 @@ function ssh_add_keys {
     if [ -n "${_ssh_keygen__github}" ]; then
         _ssh_keygen__github ${_keygenargs[@]}
     fi
+    if [ -n "${_ssh_keygen__gitlab}" ]; then
+        _ssh_keygen__gitlab ${_keygenargs[@]}
+    fi
     if [ -n "${_ssh_keygen__bitbucket}" ]; then
         _ssh_keygen__bitbucket ${_keygenargs[@]}
     fi
@@ -284,6 +304,7 @@ function ssh_add_keys {
     local -a _opts_add_all=(
         $_ssh_add_keys_all
         $_ssh_add_keys__github
+        $_ssh_add_keys__gitlab
         $_ssh_add_keys__bitbucket
         $_ssh_add_keys__local
     )
@@ -307,6 +328,7 @@ function ssh_add_keys {
         fi
         test -n "${_ssh_add_keys_all}" && ssh_add_keys_all
         test -n "${_ssh_add_keys__github}" && ssh_add_keys__github
+        test -n "${_ssh_add_keys__gitlab}" && ssh_add_keys__gitlab
         test -n "${_ssh_add_keys__bitbucket}" && ssh_add_keys__bitbucket
         test -n "${_ssh_add_keys__local}" && ssh_add_keys__local
     fi
@@ -375,7 +397,7 @@ function _ssh_keygen__ {
         _keyname__type="${_keyname}__id_${_keytype}"
         local _keypath="${_sshkeypath}/${_keydir}/${_keyname__type}"
         local _comment="${_keyname__type} (ssh-keygen ${@}) :key:"
-        ssh-keygen -f "${_keypath}" -C "${_comment}" ${@}
+        ssh-keygen -f "${_keypath}" -C "${_comment}" "${@}"
     }
     (set -x; _ssh_keygen___ "${@}")
 }
@@ -389,6 +411,12 @@ function _ssh_keygen__default {
 function _ssh_keygen__github {
     ## _ssh_keygen__github()  -- generate an ssh key for github (-t rsa)
     local _namekey="github.com/${1}__github.com"
+    _ssh_keygen__ "${_namekey}" -t rsa -b 4096
+}
+
+function _ssh_keygen__gitlab {
+    ## _ssh_keygen__gitlab()  -- generate an ssh key for gitlab (-t rsa)
+    local _namekey="gitlab.com/${1}__gitlab.com"
     _ssh_keygen__ "${_namekey}" -t rsa -b 4096
 }
 

@@ -9,7 +9,7 @@ function dotfiles_reload {
   echo "#"
   echo "# dotfiles_reload()"
 
-  export __WRK="${HOME}/-wrk"
+  export __WRK="${__WRK:-"${HOME}/-wrk"}"
 
   if [ -n "${__DOTFILES}" ]; then
     export __DOTFILES="${__DOTFILES}"
