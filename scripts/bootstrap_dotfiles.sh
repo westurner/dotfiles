@@ -445,9 +445,14 @@ function symlink_conda {
         "${__DOTFILES_SYMLINK}/etc/.condarc"
 }
 
+function symlink_jupyter {
+    backup_and_symlink .jupyter
+}
+
 function symlink_ruby {
     backup_and_symlink .gemrc
 }
+
 
 ## end /symlinks
 
@@ -466,6 +471,7 @@ function dotfiles_symlink_all {
     symlink_venv
 
     symlink_conda
+    symlink_jupyter
 
     symlink_ruby
 
