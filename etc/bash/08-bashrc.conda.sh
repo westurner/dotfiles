@@ -25,6 +25,10 @@ function _conda_status_defaults {
     echo CONDA_ENVS__py34=$(shell_escape_single "${CONDA_ENVS__py34}")
     echo CONDA_ROOT__py35=$(shell_escape_single "${CONDA_ROOT__py35}")
     echo CONDA_ENVS__py35=$(shell_escape_single "${CONDA_ENVS__py35}")
+    echo CONDA_ROOT__py36=$(shell_escape_single "${CONDA_ROOT__py36}")
+    echo CONDA_ENVS__py36=$(shell_escape_single "${CONDA_ENVS__py36}")
+    echo CONDA_ROOT__py37=$(shell_escape_single "${CONDA_ROOT__py37}")
+    echo CONDA_ENVS__py37=$(shell_escape_single "${CONDA_ENVS__py37}")
 }
 
 function _conda_status {
@@ -47,10 +51,14 @@ function _setup_conda_defaults {
     export CONDA_ENVS__py27="${__wrk}/-ce27"
     export CONDA_ENVS__py34="${__wrk}/-ce34"
     export CONDA_ENVS__py35="${__wrk}/-ce35"
+    export CONDA_ENVS__py36="${__wrk}/-ce36"
+    export CONDA_ENVS__py37="${__wrk}/-ce37"
 
     export CONDA_ROOT__py27="${__wrk}/-conda27"
     export CONDA_ROOT__py34="${__wrk}/-conda34"
     export CONDA_ROOT__py35="${__wrk}/-conda35"
+    export CONDA_ROOT__py36="${__wrk}/-conda36"
+    export CONDA_ROOT__py37="${__wrk}/-conda37"
 
     #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py27"
     #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py27"
@@ -70,6 +78,8 @@ function _setup_conda {
     #   _setup_conda 27  # __py27
     #   _setup_conda 34  # __py34
     #   _setup_conda 35  # __py35
+    #   _setup_conda 36  # __py36
+    #   _setup_conda 37  # __py37
     #   _setup_conda ~/envs             # __py27
     #   _setup_conda ~/envs/ /opt/conda # /opt/conda
     #   _setup_conda <conda_envs_path> <conda_root>  # conda_root
@@ -90,6 +100,12 @@ function _setup_conda {
         elif [ "$_conda_envs_path" == "35" ]; then
             export CONDA_ENVS_PATH="$CONDA_ENVS__py35"
             export CONDA_ROOT="$CONDA_ROOT__py35"
+        elif [ "$_conda_envs_path" == "36" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py36"
+            export CONDA_ROOT="$CONDA_ROOT__py36"
+        elif [ "$_conda_envs_path" == "37" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py37"
+            export CONDA_ROOT="$CONDA_ROOT__py37"
         else
             export CONDA_ENVS_PATH="${_conda_envs_path}"
             export CONDA_ROOT=(
@@ -120,6 +136,12 @@ function _unsetup_conda_path_all {
     if [ -n "${CONDA_ROOT__py35}" ]; then
         PATH_remove "${CONDA_ROOT__py35}/bin" 2>&1 > /dev/null
     fi
+    if [ -n "${CONDA_ROOT__py36}" ]; then
+        PATH_remove "${CONDA_ROOT__py36}/bin" 2>&1 > /dev/null
+    fi
+    if [ -n "${CONDA_ROOT__py37}" ]; then
+        PATH_remove "${CONDA_ROOT__py37}/bin" 2>&1 > /dev/null
+    fi
     declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
     _conda_status
 }
@@ -147,8 +169,11 @@ function echo_conda_envs_paths {
         "${CONDA_ENVS__py27}"
         "${CONDA_ENVS__py34}"
         "${CONDA_ENVS__py35}"
+        "${CONDA_ENVS__py36}"
+        "${CONDA_ENVS__py37}"
     )
-    echo "${envs_paths}" | deduplicate_lines
+    printf '%s\n' "${envs_paths[@]}" \
+        | deduplicate_lines
 }
 
 function lscondaenvs {
@@ -157,9 +182,10 @@ function lscondaenvs {
     #   find>1
     _conda_status >&2
     while IFS= read -r line; do
-        find "${line}" -maxdepth 1 -type d |
-        sort
-    done < <(echo_conda_envs_paths)
+        if [ -n ${line} ]; then
+            find "${line}" -maxdepth 1 -type d
+        fi
+    done < <(echo_conda_envs_paths) | sort
 }
 
 function lsce {
@@ -206,19 +232,28 @@ function wec {
 }
 complete -o default -o nospace -F _condaenvs wec
 
+
 function _mkvirtualenv_conda_usage {
     # _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-    echo "mkvirtualenv_conda <envname|envpath> <CONDA_ENVS_PATH|{[27],34,35}>"
+    echo "mkvirtualenv_conda <envname|envpath> <CONDA_ENVS_PATH|<27,34,35,36,37>>"
     echo ""
-    echo "  $ mkvirtualenv_conda science"
+    echo "  $ mkvirtualenv_conda science # 27"
     echo "  $ mkvirtualenv_conda science 27"
     echo "  $ mkvirtualenv_conda science 34"
     echo "  $ mkvirtualenv_conda science 35"
-    echo "  $ mkvirtualenv_conda ~/science 35"
+    echo "  $ mkvirtualenv_conda ~/science 37"
+    echo ""
+    echo "workon_conda science science 37"
+    echo "wec science science 37"
 }
 
 function mkvirtualenv_conda {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
+    #   $1 (_conda_envname:str)     -- envname string (eg "dotfiles")
+    #   $2 (_conda_envs_path:str)   -- path to create envname in
+    #       default: CONDA_ENVS_PATH
+    local _conda_python="${CONDA_PYTHON}"   # CONDA_PYTHON="python=3.6"
+
     local _conda_envname="${1}"
     local _conda_envs_path="${2:-${CONDA_ENVS_PATH}}"
     shift; shift
@@ -233,19 +268,36 @@ function mkvirtualenv_conda {
     fi
 
     echo '_setup_conda '"${_conda_envs_path}"
-    _setup_conda "${_conda_envs_path}"
-    local CONDA_ENV="${_conda_envs_path}/${_conda_envname}"
-    if [ "$_conda_envs_path" == "27" ]; then
-        conda_python="python=2"
-    elif [ "$_conda_envs_path" == "34" ]; then
-        conda_python="python=3.4"
-    elif [ "$_conda_envs_path" == "35" ]; then
-        conda_python="python=3.5"
-    else
-        conda_python="python=2"
+    _setup_conda "${_conda_envs_path}" # scripts/venv_ipyconfig.py
+    local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
+    if [ -z "${_conda_python}" ]; then
+        case $_conda_envs_path in
+            27)
+                _conda_python="python=2.7"
+                ;;
+            34)
+                _conda_python="python=3.4"
+                ;;
+            35)
+                _conda_python="python=3.5"
+                ;;
+            36)
+                _conda_python="python=3.6"
+                ;;
+            37)
+                _conda_python="python=3.7"
+                ;;
+        esac
     fi
+    if [ -z "${_conda_python}" ]; then
+        _conda_python_default="python=2"
+        _conda_python=${_conda_python:-"${_conda_python_default}"}
+    fi
+#   #(CONDA_ENVS_PATH=${_conda_envs_path} 
+#   #    conda create --mkdir -n ${_conda_envname} -y
+#   #    "${_conda_python}" readline pip ${_conda_pkgs} )
     "${_conda_}" create --mkdir --prefix "${CONDA_ENV}" --yes \
-        "${conda_python}" readline pip ${_conda_pkgs}
+       "${_conda_python}" readline pip ${_conda_pkgs}
 
     export VIRTUAL_ENV="${CONDA_ENV}"
     workon_conda "${_conda_envname}" "${_conda_envs_path}"
