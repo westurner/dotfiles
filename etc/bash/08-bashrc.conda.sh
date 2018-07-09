@@ -284,20 +284,20 @@ function rmvirtualenv_conda {
 function mkvirtualenv_conda_if_available {
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
-        && mkvirtualenv_conda $@) \
+        && mkvirtualenv_conda "${@}") \
     || \
     (declare -f 'mkvirtualenv' 2>&1 > /dev/null \
-        && mkvirtualenv $@)
+        && mkvirtualenv "${@}")
 }
 
 function workon_conda_if_available {
     # workon_conda_if_available()       -- workon_conda OR we OR workon
     (declare -f 'workon_conda' 2>&1 > /dev/null \
-        && workon_conda $@) \
+        && workon_conda "${@}") \
     || \
     (declare -f 'we' 2>&1 > /dev/null \
-        && we $@) \
+        && we "${@}") \
     || \
     (declare -f 'workon' 2>&1 > /dev/null \
-        && workon $@)
+        && workon "${@}")
 }
