@@ -31,7 +31,7 @@ function _conda_status {
     # _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
     _conda_status_core
     echo
-    _conda_status_defaults
+    # _conda_status_defaults
 }
 
 function csc {
