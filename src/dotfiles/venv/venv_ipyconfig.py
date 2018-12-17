@@ -1247,7 +1247,26 @@ def build_conda_env(env=None, **kwargs):
             env_suffix="34",
             env_root_prefix="-conda",
             env_home_prefix="-ce",
-        )]
+        ),
+        dict(
+            env_prefix="__py",
+            env_suffix="35",
+            env_root_prefix="-conda",
+            env_home_prefix="-ce",
+        ),
+        dict(
+            env_prefix="__py",
+            env_suffix="36",
+            env_root_prefix="-conda",
+            env_home_prefix="-ce",
+        ),
+        dict(
+            env_prefix="__py",
+            env_suffix="37",
+            env_root_prefix="-conda",
+            env_home_prefix="-ce",
+        ),
+    ]
 
     for conf in confs:
         # CONDA27
@@ -1289,15 +1308,19 @@ def build_conda_cfg_env(env=None, **kwargs):
 
     env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
 
-    env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
-                                     default=joinpath(env['__WRK'], '-conda27'))
-    env['CONDA_ENVS__py27'] = lookup('CONDA_ENVS__py27',
-                                     default=joinpath(env['__WRK'], '-ce27'))
+    conda_envs = [27, 34, 35, 36, 37]
+    for n in conda_envs:
+        env['CONDA_ROOT__py%s' % n] = (
+            lookup('CONDA_ROOT__py%s % n',
+            default=joinpath(env['__WRK'], '-conda%s' % n)))
+        env['CONDA_ENVS__py%s' % n] = (
+            lookup('CONDA_ENVS__py%s' % n,
+            default=joinpath(env['__WRK'], '-ce%s' % n)))
+    # env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
+    #                                  default=joinpath(env['__WRK'], '-conda27'))
+    # env['CONDA_ENVS__py27'] = lookup('CONDA_ENVS__py27',
+    #                                  default=joinpath(env['__WRK'], '-ce27'))
 
-    env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
-                                     default=joinpath(env['__WRK'], '-conda34'))
-    env['CONDA_ENVS__py34'] = lookup('CONDA_ENVS__py34',
-                                     default=joinpath(env['__WRK'], '-ce34'))
 
     #env['CONDA_ROOT_DEFAULT'] = lookup('CONDA_ROOT_DEFAULT',
     #                                   default=DEFAULT_CONDA_ROOT_DEFAULT)
@@ -1953,15 +1976,6 @@ class Env(object):
         ("__WRK", "${HOME}/-wrk"),
         #("PROJECT_HOME", "${HOME}/-wrk"),
         ("PROJECT_HOME", "${__WRK}"),
-        ("WORKON_HOME__py27", "${__WRK}/-ve27"),
-        ("WORKON_HOME__py34", "${__WRK}/-ve34"),
-        ("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
-        ("CONDA_ROOT__py27", "${__WRK}/-conda27"),
-        ("CONDA_ENVS__py27", "${__WRK}/-ce27"),
-        ("CONDA_ROOT__py34", "${__WRK}/-conda34"),
-        ("CONDA_ENVS__py34", "${__WRK}/-ce34"),
-        #("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
-        #("CONDA_ENVS_DEFAULT", "CONDA_ENVS__py27"),
         ("CONDA_ROOT", "${__WRK}/-conda27"),
         ("CONDA_ENVS_PATH", "${__WRK}/-ce27"),
         ("WORKON_HOME", "${__WRK}/-ve27"),
@@ -2007,6 +2021,16 @@ class Env(object):
         ("_VARSPOOL", "${_VAR}/spool"),
         ("_VARTMP", "${_VAR}/tmp"),
         ("_WWW", "${_VAR}/www"),
+
+        ("WORKON_HOME__py27", "${__WRK}/-ve27"),
+        ("WORKON_HOME__py34", "${__WRK}/-ve34"),
+        ("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
+        ("CONDA_ROOT__py27", "${__WRK}/-conda27"),
+        ("CONDA_ENVS__py27", "${__WRK}/-ce27"),
+        ("CONDA_ROOT__py34", "${__WRK}/-conda34"),
+        ("CONDA_ENVS__py34", "${__WRK}/-ce34"),
+        #("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
+        #("CONDA_ENVS_DEFAULT", "CONDA_ENVS__py27"),
         #("PROJECT_FILES", ""),
         #("VIMBIN", "/usr/bin/vim"),
         #("GVIMBIN", "/usr/local/bin/gvim"),
@@ -3796,6 +3820,20 @@ def build_venv_arg_parser():
                      nargs='?',
                      action='store',
                      )
+    envprs.add_argument('--CONDA_ROOT', '--condaroot', '--cr',
+                     help=("Path to ${CONDA_ROOT} directory "
+                           "containing VIRTUAL_ENVs"),
+                     dest='CONDA_ROOT',
+                     nargs='?',
+                     action='store',
+                     )
+    envprs.add_argument('--CONDA_ENVS_PATH', '--condaenvs', '--ce',
+                     help=("Path to ${CONDA_ENVS_PATH} directory "
+                           "containing VIRTUAL_ENVs"),
+                     dest='CONDA_ENVS_PATH',
+                     nargs='?',
+                     action='store',
+                     )
     envprs.add_argument('--VENVSTR', '--venvstr', '--ve',
                      help=("Path to VIRTUAL_ENV -- "
                            "${WORKON_HOME}/${VIRTUAL_ENV_NAME} "
@@ -4105,7 +4143,9 @@ def main(*argv, **kwargs):
 
     varnames = ['__WRK', '__DOTFILES', 'WORKON_HOME',
                 'VENVSTR', 'VENVSTRAPP', 'VENVPREFIX',
-                'VIRTUAL_ENV_NAME', 'VIRTUAL_ENV', '_SRC', '_WRD']
+                'VIRTUAL_ENV_NAME', 'VIRTUAL_ENV', '_SRC', '_WRD',
+                'CONDA_ROOT', 'CONDA_ENVS_PATH',
+                'CONDA_ENVS_DEFAULT', 'CONDA_ROOT_DEFAULT']
 
     # get opts from args and update env
     for varname in varnames:
