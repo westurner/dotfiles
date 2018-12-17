@@ -1,0 +1,56 @@
+
+# Makefile.taskwarrior
+
+default: install
+
+install: install_taskw install_tasklib_dev install_taskwarrior-notifications \
+	intall_taskwiki install_twui
+
+install_taskw:
+	$(MAKE) install_taskw__dnf
+
+install_taskw__dnf:
+	sudo dnf install -y task
+
+install_taskw__source:
+	git clone --recursive -b 2.6.0 https://github.com/GothenburgBitFactory/taskwarrior.git
+	cd taskwarrior && cmake -DCMAKE_BUILD_TYPE=release . && make
+	sudo make -C ./taskwarrior-install
+
+install_vimwiki:
+	rm -rf ~/.vim/bundle/vimwiki
+	git clone --branch=dev https://github.com/vimwiki/vimwiki ~/.vim/bundle/
+
+install_taskwiki: install_vimwiki
+	git clone https://github.com/blindFS/vim-taskwarrior ~/.vim/bundle/
+
+install_tasklib_dev__user:
+	pip install --user --upgrade git+https://github.com/tbabej/tasklib@develop
+
+install_tasklib_dev:
+	pip install --upgrade git+https://github.com/tbabej/tasklib@develop
+
+install_taskwarrior-notifications:
+	git clone 'https://github.com/flickerfly/taskwarrior-notifications'
+	ln -s ./taskwarrior-notifications/ 
+
+## twui
+install_twui:
+	# https://www.npmjs.com/package/twui
+	npm install -g twui
+
+twui:
+	twui &>/dev/null &
+
+open-twui:
+	python -m webbrowser http://localhost:2718
+
+## taskwarrior-web
+install_taskwarrior-web:
+	gem install taskwarrior-web
+
+taskwarrior-web:
+	task-web
+
+open-taskwarrior-web:
+	python -m webbrowser http://localhost # TODO
