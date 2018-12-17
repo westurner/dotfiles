@@ -2806,7 +2806,7 @@ class Venv(object):
         if venv_ipyconfig_debug:
             import pdb; pdb.set_trace()
 
-        c.InteractiveShellApp.ignore_old_config = True
+        # c.InteractiveShellApp.ignore_old_config = True
         c.InteractiveShellApp.log_level = 20
 
         # TODO: c.InteractiveShellApp.extensions.append?
@@ -2827,7 +2827,7 @@ class Venv(object):
             except ImportError:
                 pass
 
-        c.InteractiveShell.autoreload = autoreload
+        # c.InteractiveShell.autoreload = autoreload
         c.InteractiveShell.deep_reload = deep_reload
 
         if storemagic:
