@@ -183,7 +183,7 @@ function lscondaenvs {
     _conda_status >&2
     while IFS= read -r line; do
         if [ -n ${line} ]; then
-            find "${line}" -maxdepth 1 -type d
+            (set -x; find "${line}" -maxdepth 1 -type d)
         fi
     done < <(echo_conda_envs_paths) | sort
 }
