@@ -2765,6 +2765,8 @@ class Venv(object):
                            venvaliases=True,
                            usrlog=True,
 
+                           venv_ipyconfig_debug=False,
+
                            setup_func=None):
         """
 
@@ -2800,6 +2802,9 @@ class Venv(object):
                 return
             else:
                 c = IPYTHON_CONFIG # get_config()
+
+        if venv_ipyconfig_debug:
+            import pdb; pdb.set_trace()
 
         c.InteractiveShellApp.ignore_old_config = True
         c.InteractiveShellApp.log_level = 20
