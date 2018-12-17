@@ -3344,7 +3344,17 @@ class VenvTestUtils(object):
         return __capture_io
 
 
-class Test_001_lookup(unittest.TestCase):
+if __name__ == '__main__':
+    _TestCase = unittest.TestCase
+else:
+    _TestCase = object
+
+
+class VenvTestCase(_TestCase):
+    """unittest.TestCase or object"""
+
+
+class Test_001_lookup(VenvTestCase):
 
     def test_100_lookup(self):
         kwargs = {'True': True, 'envTrue': True,
@@ -3364,7 +3374,7 @@ class Test_001_lookup(unittest.TestCase):
         self.assertTrue(lookup('...', default=True))
 
 
-class Test_100_Env(unittest.TestCase):
+class Test_100_Env(VenvTestCase):
 
     def test_010_Env(self):
         e = Env()
@@ -3395,7 +3405,7 @@ class Test_100_Env(unittest.TestCase):
         self.assertTrue(e)
 
 
-class Test_200_StepBuilder(unittest.TestCase):
+class Test_200_StepBuilder(VenvTestCase):
 
     def test_000_Step(self):
         def build_func(env, **kwargs):
@@ -3427,7 +3437,7 @@ class Test_200_StepBuilder(unittest.TestCase):
         self.assertEqual(env, new_env)
 
 
-class Test_250_Venv(unittest.TestCase):
+class Test_250_Venv(VenvTestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
@@ -3486,7 +3496,7 @@ class Test_250_Venv(unittest.TestCase):
         self.assertEqual(env['VENVSTRAPP'], VENVSTRAPP)
 
 
-class Test_300_venv_build_env(unittest.TestCase):
+class Test_300_venv_build_env(VenvTestCase):
 
     """
     test each build step independently
@@ -3561,7 +3571,7 @@ class Test_300_venv_build_env(unittest.TestCase):
         self.assertTrue(env)
 
 
-class Test_500_Venv(unittest.TestCase):
+class Test_500_Venv(VenvTestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
@@ -3647,7 +3657,7 @@ class Test_500_Venv(unittest.TestCase):
                                   # self.env['VENVSTR']))
 
 
-class Test_900_Venv_main(unittest.TestCase):
+class Test_900_Venv_main(VenvTestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
