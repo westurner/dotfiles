@@ -172,6 +172,11 @@ function echo_conda_envs_paths {
         "${CONDA_ENVS__py36}"
         "${CONDA_ENVS__py37}"
     )
+    if [ "$(echo "${envs_paths[*]}" | sed 's/ //g')" == "" ]; then
+        echo ''>&2
+        echo 'Error: ${CONDA_ENVS_PATH} is not set'>&2
+        return 1
+    fi
     printf '%s\n' "${envs_paths[@]}" \
         | deduplicate_lines
 }
