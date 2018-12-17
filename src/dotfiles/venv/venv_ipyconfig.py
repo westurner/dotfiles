@@ -89,6 +89,7 @@ from os.path import join as joinpath
 
 if sys.version_info[0] == 2:
     STR_TYPES = basestring
+    str_center = unicode.center
     import StringIO
 
     # workaround for Sphinx autodoc bug
@@ -99,6 +100,7 @@ if sys.version_info[0] == 2:
 
 else:
     STR_TYPES = str
+    str_center = str.center
     import io
     StringIO = io.StringIO
 
@@ -1045,7 +1047,7 @@ class StepBuilder(object):
 
         for step in self.steps:
             logevent('BLD %s build %s' % (self.name, step.name),
-                     str.center(u" %s " % step.name, 79, '#'),)
+                     str_center(u" %s " % step.name, 79, '#'),)
             logevent('%s build.conf' % step.name, self.conf, wrap=True)
             logevent('%s step.conf ' % step.name, step.conf, wrap=True)
             logevent('%s >>> %s' % (step.name, hex(id(env))),
