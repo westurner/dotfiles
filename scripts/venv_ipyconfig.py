@@ -89,6 +89,7 @@ from os.path import join as joinpath
 
 if sys.version_info[0] == 2:
     STR_TYPES = basestring
+    str_center = unicode.center
     import StringIO
 
     # workaround for Sphinx autodoc bug
@@ -99,6 +100,7 @@ if sys.version_info[0] == 2:
 
 else:
     STR_TYPES = str
+    str_center = str.center
     import io
     StringIO = io.StringIO
 
@@ -663,7 +665,7 @@ if __name__ == "__main__":
         '''" cdhelp()           -- list cd commands\n'''
         '''    :verbose command Cd\n'''
         '''endfunction\n'''
-        '''command! -nargs=* Cdhelp call Cd_help()\n'''
+        '''command! -nargs=0 Cdhelp call Cd_help()\n'''
         '''\n''')
 
     VIM_FUNCTION_TEMPLATE = (
@@ -680,7 +682,7 @@ if __name__ == "__main__":
     )
     VIM_COMMAND_TEMPLATE = (
         '''"   :{cmd_name} -- {vim_func_name}()\n'''
-        """command! -nargs=* {cmd_name} call {vim_func_name}(<f-args>)\n"""
+        """command! -nargs=1 {cmd_name} call {vim_func_name}(<f-args>)\n"""
     )
 
     @property
@@ -1045,7 +1047,7 @@ class StepBuilder(object):
 
         for step in self.steps:
             logevent('BLD %s build %s' % (self.name, step.name),
-                     str.center(u" %s " % step.name, 79, '#'),)
+                     str_center(u" %s " % step.name, 79, '#'),)
             logevent('%s build.conf' % step.name, self.conf, wrap=True)
             logevent('%s step.conf ' % step.name, step.conf, wrap=True)
             logevent('%s >>> %s' % (step.name, hex(id(env))),
@@ -1245,7 +1247,26 @@ def build_conda_env(env=None, **kwargs):
             env_suffix="34",
             env_root_prefix="-conda",
             env_home_prefix="-ce",
-        )]
+        ),
+        dict(
+            env_prefix="__py",
+            env_suffix="35",
+            env_root_prefix="-conda",
+            env_home_prefix="-ce",
+        ),
+        dict(
+            env_prefix="__py",
+            env_suffix="36",
+            env_root_prefix="-conda",
+            env_home_prefix="-ce",
+        ),
+        dict(
+            env_prefix="__py",
+            env_suffix="37",
+            env_root_prefix="-conda",
+            env_home_prefix="-ce",
+        ),
+    ]
 
     for conf in confs:
         # CONDA27
@@ -1287,15 +1308,19 @@ def build_conda_cfg_env(env=None, **kwargs):
 
     env['__WRK'] = lookup('__WRK', default=get___WRK_default(env=env))
 
-    env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
-                                     default=joinpath(env['__WRK'], '-conda27'))
-    env['CONDA_ENVS__py27'] = lookup('CONDA_ENVS__py27',
-                                     default=joinpath(env['__WRK'], '-ce27'))
+    conda_envs = [27, 34, 35, 36, 37]
+    for n in conda_envs:
+        env['CONDA_ROOT__py%s' % n] = (
+            lookup('CONDA_ROOT__py%s % n',
+            default=joinpath(env['__WRK'], '-conda%s' % n)))
+        env['CONDA_ENVS__py%s' % n] = (
+            lookup('CONDA_ENVS__py%s' % n,
+            default=joinpath(env['__WRK'], '-ce%s' % n)))
+    # env['CONDA_ROOT__py27'] = lookup('CONDA_ROOT__py27',
+    #                                  default=joinpath(env['__WRK'], '-conda27'))
+    # env['CONDA_ENVS__py27'] = lookup('CONDA_ENVS__py27',
+    #                                  default=joinpath(env['__WRK'], '-ce27'))
 
-    env['CONDA_ROOT__py34'] = lookup('CONDA_ROOT__py34',
-                                     default=joinpath(env['__WRK'], '-conda34'))
-    env['CONDA_ENVS__py34'] = lookup('CONDA_ENVS__py34',
-                                     default=joinpath(env['__WRK'], '-ce34'))
 
     #env['CONDA_ROOT_DEFAULT'] = lookup('CONDA_ROOT_DEFAULT',
     #                                   default=DEFAULT_CONDA_ROOT_DEFAULT)
@@ -1951,15 +1976,6 @@ class Env(object):
         ("__WRK", "${HOME}/-wrk"),
         #("PROJECT_HOME", "${HOME}/-wrk"),
         ("PROJECT_HOME", "${__WRK}"),
-        ("WORKON_HOME__py27", "${__WRK}/-ve27"),
-        ("WORKON_HOME__py34", "${__WRK}/-ve34"),
-        ("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
-        ("CONDA_ROOT__py27", "${__WRK}/-conda27"),
-        ("CONDA_ENVS__py27", "${__WRK}/-ce27"),
-        ("CONDA_ROOT__py34", "${__WRK}/-conda34"),
-        ("CONDA_ENVS__py34", "${__WRK}/-ce34"),
-        #("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
-        #("CONDA_ENVS_DEFAULT", "CONDA_ENVS__py27"),
         ("CONDA_ROOT", "${__WRK}/-conda27"),
         ("CONDA_ENVS_PATH", "${__WRK}/-ce27"),
         ("WORKON_HOME", "${__WRK}/-ve27"),
@@ -2005,6 +2021,16 @@ class Env(object):
         ("_VARSPOOL", "${_VAR}/spool"),
         ("_VARTMP", "${_VAR}/tmp"),
         ("_WWW", "${_VAR}/www"),
+
+        ("WORKON_HOME__py27", "${__WRK}/-ve27"),
+        ("WORKON_HOME__py34", "${__WRK}/-ve34"),
+        ("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
+        ("CONDA_ROOT__py27", "${__WRK}/-conda27"),
+        ("CONDA_ENVS__py27", "${__WRK}/-ce27"),
+        ("CONDA_ROOT__py34", "${__WRK}/-conda34"),
+        ("CONDA_ENVS__py34", "${__WRK}/-ce34"),
+        #("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
+        #("CONDA_ENVS_DEFAULT", "CONDA_ENVS__py27"),
         #("PROJECT_FILES", ""),
         #("VIMBIN", "/usr/bin/vim"),
         #("GVIMBIN", "/usr/local/bin/gvim"),
@@ -2739,6 +2765,8 @@ class Venv(object):
                            venvaliases=True,
                            usrlog=True,
 
+                           venv_ipyconfig_debug=False,
+
                            setup_func=None):
         """
 
@@ -2775,7 +2803,10 @@ class Venv(object):
             else:
                 c = IPYTHON_CONFIG # get_config()
 
-        c.InteractiveShellApp.ignore_old_config = True
+        if venv_ipyconfig_debug:
+            import pdb; pdb.set_trace()
+
+        # c.InteractiveShellApp.ignore_old_config = True
         c.InteractiveShellApp.log_level = 20
 
         # TODO: c.InteractiveShellApp.extensions.append?
@@ -2796,7 +2827,7 @@ class Venv(object):
             except ImportError:
                 pass
 
-        c.InteractiveShell.autoreload = autoreload
+        # c.InteractiveShell.autoreload = autoreload
         c.InteractiveShell.deep_reload = deep_reload
 
         if storemagic:
@@ -3318,7 +3349,17 @@ class VenvTestUtils(object):
         return __capture_io
 
 
-class Test_001_lookup(unittest.TestCase):
+if __name__ == '__main__':
+    _TestCase = unittest.TestCase
+else:
+    _TestCase = object
+
+
+class VenvTestCase(_TestCase):
+    """unittest.TestCase or object"""
+
+
+class Test_001_lookup(VenvTestCase):
 
     def test_100_lookup(self):
         kwargs = {'True': True, 'envTrue': True,
@@ -3338,7 +3379,7 @@ class Test_001_lookup(unittest.TestCase):
         self.assertTrue(lookup('...', default=True))
 
 
-class Test_100_Env(unittest.TestCase):
+class Test_100_Env(VenvTestCase):
 
     def test_010_Env(self):
         e = Env()
@@ -3369,7 +3410,7 @@ class Test_100_Env(unittest.TestCase):
         self.assertTrue(e)
 
 
-class Test_200_StepBuilder(unittest.TestCase):
+class Test_200_StepBuilder(VenvTestCase):
 
     def test_000_Step(self):
         def build_func(env, **kwargs):
@@ -3401,7 +3442,7 @@ class Test_200_StepBuilder(unittest.TestCase):
         self.assertEqual(env, new_env)
 
 
-class Test_250_Venv(unittest.TestCase):
+class Test_250_Venv(VenvTestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
@@ -3460,7 +3501,7 @@ class Test_250_Venv(unittest.TestCase):
         self.assertEqual(env['VENVSTRAPP'], VENVSTRAPP)
 
 
-class Test_300_venv_build_env(unittest.TestCase):
+class Test_300_venv_build_env(VenvTestCase):
 
     """
     test each build step independently
@@ -3535,7 +3576,7 @@ class Test_300_venv_build_env(unittest.TestCase):
         self.assertTrue(env)
 
 
-class Test_500_Venv(unittest.TestCase):
+class Test_500_Venv(VenvTestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
@@ -3621,7 +3662,7 @@ class Test_500_Venv(unittest.TestCase):
                                   # self.env['VENVSTR']))
 
 
-class Test_900_Venv_main(unittest.TestCase):
+class Test_900_Venv_main(VenvTestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
@@ -3791,6 +3832,20 @@ def build_venv_arg_parser():
                      help=("Path to ${WORKON_HOME} directory "
                            "containing VIRTUAL_ENVs"),
                      dest='WORKON_HOME',
+                     nargs='?',
+                     action='store',
+                     )
+    envprs.add_argument('--CONDA_ROOT', '--condaroot', '--cr',
+                     help=("Path to ${CONDA_ROOT} directory "
+                           "containing VIRTUAL_ENVs"),
+                     dest='CONDA_ROOT',
+                     nargs='?',
+                     action='store',
+                     )
+    envprs.add_argument('--CONDA_ENVS_PATH', '--condaenvs', '--ce',
+                     help=("Path to ${CONDA_ENVS_PATH} directory "
+                           "containing VIRTUAL_ENVs"),
+                     dest='CONDA_ENVS_PATH',
                      nargs='?',
                      action='store',
                      )
@@ -4103,7 +4158,9 @@ def main(*argv, **kwargs):
 
     varnames = ['__WRK', '__DOTFILES', 'WORKON_HOME',
                 'VENVSTR', 'VENVSTRAPP', 'VENVPREFIX',
-                'VIRTUAL_ENV_NAME', 'VIRTUAL_ENV', '_SRC', '_WRD']
+                'VIRTUAL_ENV_NAME', 'VIRTUAL_ENV', '_SRC', '_WRD',
+                'CONDA_ROOT', 'CONDA_ENVS_PATH',
+                'CONDA_ENVS_DEFAULT', 'CONDA_ROOT_DEFAULT']
 
     # get opts from args and update env
     for varname in varnames:
