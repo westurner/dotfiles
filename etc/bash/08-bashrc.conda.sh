@@ -211,9 +211,13 @@ function workon_conda {
     _setup_conda "${_conda_envs_path}"
     local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
+
+    __VENV=${__DOTFILES}/src/dotfiles/venv/venv_ipyconfig.py
     source <(set -x;
-      $__VENV --wh="${CONDA_ENVS_PATH}" \
+      $__VENV \
         --ve="${CONDA_ENV}" --venvstrapp="${_venvstrapp}" \
+        --CONDA_ROOT="${CONDA_ROOT}" \
+        --CONDA_ENVS_PATH="${CONDA_ENVS_PATH}" \
         --print-bash)
     declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
     declare -f "dotfiles_status" 2>&1 > /dev/null && dotfiles_status
