@@ -2,6 +2,10 @@
 ## 
 function edit {
     #  edit()   -- EDITOR_ or EDITOR $@
+    if [ -z "${GUIVIMBIN}" ]; then
+        vim "${@}"
+        return
+    fi
     ${GUIVIMBIN} --servername ""${VIRTUAL_ENV_NAME:-"/"}"" \
         --remote-tab \
         "${@}"
