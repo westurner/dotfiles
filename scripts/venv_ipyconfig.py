@@ -671,6 +671,10 @@ if __name__ == "__main__":
     VIM_FUNCTION_TEMPLATE = (
         '''function! {vim_func_name}(...)\n'''
         '''" {vim_func_name}()  -- cd ${pathvar}/$1\n'''
+        '''    if ${pathvar} ==? ''\n'''
+        '''        echoerr "${pathvar} is not set"\n'''
+        '''        return\n'''
+        '''    endif\n'''
         '''    if a:0 > 0\n'''
         '''       let pathname = join([${pathvar}, a:1], "/")\n'''
         '''    else\n'''
@@ -679,10 +683,22 @@ if __name__ == "__main__":
         '''    execute '{vim_cd_func}' pathname \n'''
         '''    pwd\n'''
         '''endfunction\n'''
+        '''\n'''
+        '''function! Compl_{vim_func_name}(ArgLead, ...)\n'''
+        '''    if ${pathvar} ==? ''\n'''
+        '''        echoerr "${pathvar} is not set"\n'''
+        '''        return []\n'''
+        '''    endif\n'''
+        '''    lcd ${pathvar}\n'''
+        '''    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')\n'''
+        '''    lcd -\n'''
+        '''    endfor\n'''
+        '''endfunction\n'''
+
     )
     VIM_COMMAND_TEMPLATE = (
         '''"   :{cmd_name} -- {vim_func_name}()\n'''
-        """command! -nargs=1 {cmd_name} call {vim_func_name}(<f-args>)\n"""
+        """command! -nargs=* -complete=customlist,Compl_{vim_func_name} {cmd_name} call {vim_func_name}(<f-args>)\n"""
     )
 
     @property
