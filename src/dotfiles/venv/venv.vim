@@ -20,7 +20,7 @@ function! Cd_HOME(...)
     else
        let pathname = "$HOME"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -49,7 +49,7 @@ function! LCd_HOME(...)
     else
        let pathname = "$HOME"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -83,7 +83,7 @@ function! Cd___WRK(...)
     else
        let pathname = "$__WRK"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -110,7 +110,7 @@ function! LCd___WRK(...)
     else
        let pathname = "$__WRK"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -140,7 +140,7 @@ function! Cd___DOTFILES(...)
     else
        let pathname = "$__DOTFILES"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -169,7 +169,7 @@ function! LCd___DOTFILES(...)
     else
        let pathname = "$__DOTFILES"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -203,7 +203,7 @@ function! Cd_PROJECT_HOME(...)
     else
        let pathname = "$PROJECT_HOME"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -234,7 +234,7 @@ function! LCd_PROJECT_HOME(...)
     else
        let pathname = "$PROJECT_HOME"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -272,7 +272,7 @@ function! Cd_WORKON_HOME(...)
     else
        let pathname = "$WORKON_HOME"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -303,7 +303,7 @@ function! LCd_WORKON_HOME(...)
     else
        let pathname = "$WORKON_HOME"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -341,7 +341,7 @@ function! Cd_CONDA_ENVS_PATH(...)
     else
        let pathname = "$CONDA_ENVS_PATH"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -372,7 +372,7 @@ function! LCd_CONDA_ENVS_PATH(...)
     else
        let pathname = "$CONDA_ENVS_PATH"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -410,7 +410,7 @@ function! Cd_VIRTUAL_ENV(...)
     else
        let pathname = "$VIRTUAL_ENV"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -439,7 +439,7 @@ function! LCd_VIRTUAL_ENV(...)
     else
        let pathname = "$VIRTUAL_ENV"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -473,7 +473,7 @@ function! Cd__SRC(...)
     else
        let pathname = "$_SRC"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -502,7 +502,7 @@ function! LCd__SRC(...)
     else
        let pathname = "$_SRC"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -536,7 +536,7 @@ function! Cd__WRD(...)
     else
        let pathname = "$_WRD"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -565,7 +565,7 @@ function! LCd__WRD(...)
     else
        let pathname = "$_WRD"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -599,7 +599,7 @@ function! Cd__BIN(...)
     else
        let pathname = "$_BIN"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -628,7 +628,7 @@ function! LCd__BIN(...)
     else
        let pathname = "$_BIN"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -662,7 +662,7 @@ function! Cd__ETC(...)
     else
        let pathname = "$_ETC"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -691,7 +691,7 @@ function! LCd__ETC(...)
     else
        let pathname = "$_ETC"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -725,7 +725,7 @@ function! Cd__LIB(...)
     else
        let pathname = "$_LIB"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -754,7 +754,7 @@ function! LCd__LIB(...)
     else
        let pathname = "$_LIB"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -788,7 +788,7 @@ function! Cd__LOG(...)
     else
        let pathname = "$_LOG"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -815,7 +815,7 @@ function! LCd__LOG(...)
     else
        let pathname = "$_LOG"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -845,7 +845,7 @@ function! Cd__PYLIB(...)
     else
        let pathname = "$_PYLIB"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -872,7 +872,7 @@ function! LCd__PYLIB(...)
     else
        let pathname = "$_PYLIB"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -902,7 +902,7 @@ function! Cd__PYSITE(...)
     else
        let pathname = "$_PYSITE"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -931,7 +931,7 @@ function! LCd__PYSITE(...)
     else
        let pathname = "$_PYSITE"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -965,7 +965,7 @@ function! Cd__VAR(...)
     else
        let pathname = "$_VAR"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -992,7 +992,7 @@ function! LCd__VAR(...)
     else
        let pathname = "$_VAR"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 
@@ -1022,7 +1022,7 @@ function! Cd__WWW(...)
     else
        let pathname = "$_WWW"
     endif
-    execute 'cd' pathname 
+    execute 'cd' pathname
     pwd
 endfunction
 
@@ -1051,7 +1051,7 @@ function! LCd__WWW(...)
     else
        let pathname = "$_WWW"
     endif
-    execute 'lcd' pathname 
+    execute 'lcd' pathname
     pwd
 endfunction
 

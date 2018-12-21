@@ -680,7 +680,7 @@ if __name__ == "__main__":
         '''    else\n'''
         '''       let pathname = "${pathvar}"\n'''
         '''    endif\n'''
-        '''    execute '{vim_cd_func}' pathname \n'''
+        '''    execute '{vim_cd_func}' pathname\n'''
         '''    pwd\n'''
         '''endfunction\n'''
         '''\n'''
