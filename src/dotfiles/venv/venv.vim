@@ -25,7 +25,7 @@ endfunction
 function! Cdhere(...)
 "  :Cdhere() -- cd to here (this dir, dirname(__file__))    [cd %:p:h]
     let _path = expand('%:p:h') . (a:0 > 0 ? ('/' . a:1) : '')
-    execute 'cd' _path 
+    execute 'cd' _path
     pwd
 endfunction
 function! Compl_Cdhere(ArgLead, ...)
@@ -38,7 +38,7 @@ command! -nargs=* -complete=customlist,Compl_Cdhere CDhere call Cdhere(<f-args>)
 function! Lcdhere(...)
 "  :Lcdhere() -- cd to here (this dir, dirname(__file__))  [lcd %:p:h]
     let _path = expand('%:p:h') . (a:0 > 0 ? ('/' . a:1) : '')
-    execute 'lcd' _path 
+    execute 'lcd' _path
     pwd
 endfunction
 command! -nargs=* -complete=customlist,Compl_Cdhere Lcdhere call Lcdhere(<f-args>)
