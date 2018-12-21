@@ -589,6 +589,8 @@ class VenvMagics(Magics):
             'HOSTNAME',
             'USER',
             'PROJECT_HOME',
+            'CONDA_ROOT',
+            'CONDA_ENVS_PATH',
             'WORKON_HOME',
             'VIRTUAL_ENV_NAME',
             'VIRTUAL_ENV',
