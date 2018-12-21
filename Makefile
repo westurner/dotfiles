@@ -816,7 +816,13 @@ build-venv:
 	$(_VENV) --print-bash --compress --prefix=/ \
 		| grep -v '^export HOME=' > ./src/dotfiles/venv/scripts/venv_root_prefix.sh
 	chmod +x ./src/dotfiles/venv/scripts/venv_root_prefix.sh
+	$(MAKE) build-venv-vim-cdalias
+
+build-venv-vim-cdalias:
 	$(_VENV) --print-vim-cdalias . > ./src/dotfiles/venv/venv.vim
+
+vendor-venv-vim:
+	cp ./src/dotfiles/venv/venv.vim ./etc/vim/bundle/venv.vim/plugin/venv.vim
 
 
 vendor-venv:
