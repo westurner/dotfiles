@@ -8,6 +8,42 @@ function! Cd_help()
 endfunction
 command! -nargs=0 Cdhelp call Cd_help()
 
+function! ListDirsOrFiles(path, ArgLead, ...)
+    let dirsonly = ((a:0 > 0) ? 1 : 0)
+    let _glob = '' . a:ArgLead . ((a:0 > 0) ? '*/' : '*')
+    execute 'lcd' a:path
+    if dirsonly ==? 1
+        "let output = map(sort(filter(globpath('.', _glob, 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:] . "/"')
+        let output = map(sort(globpath('.', _glob, 0, 1), 'i'), 'v:val[2:]')
+    elseif dirsonly ==? 0
+        let output = map(sort(globpath('.', _glob, 0, 1), 'i'), 'v:val[2:] . (isdirectory(v:val) ? "/" : "")')
+    endif
+    execute 'lcd -'
+    return output
+endfunction
+
+function! Cdhere(...)
+"  :Cdhere() -- cd to here (this dir, dirname(__file__))    [cd %:p:h]
+    let _path = expand('%:p:h') . (a:0 > 0 ? ('/' . a:1) : '')
+    execute 'cd' _path 
+    pwd
+endfunction
+function! Compl_Cdhere(ArgLead, ...)
+    return ListDirsOrFiles(expand('%:p:h'), a:ArgLead, 1)
+endfor
+endfunction
+command! -nargs=* -complete=customlist,Compl_Cdhere Cdhere call Cdhere(<f-args>)
+command! -nargs=* -complete=customlist,Compl_Cdhere CDhere call Cdhere(<f-args>)
+
+function! Lcdhere(...)
+"  :Lcdhere() -- cd to here (this dir, dirname(__file__))  [lcd %:p:h]
+    let _path = expand('%:p:h') . (a:0 > 0 ? ('/' . a:1) : '')
+    execute 'lcd' _path 
+    pwd
+endfunction
+command! -nargs=* -complete=customlist,Compl_Cdhere Lcdhere call Lcdhere(<f-args>)
+command! -nargs=* -complete=customlist,Compl_Cdhere LCdhere call Lcdhere(<f-args>)
+
 
 function! Cd_HOME(...)
 " Cd_HOME()  -- cd $HOME/$1
@@ -25,14 +61,7 @@ function! Cd_HOME(...)
 endfunction
 
 function! Compl_Cd_HOME(ArgLead, ...)
-    if $HOME ==? ''
-        echoerr "$HOME is not set"
-        return []
-    endif
-    lcd $HOME
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($HOME, a:ArgLead, 1)
 endfunction
 "   :Cdhome -- Cd_HOME()
 command! -nargs=* -complete=customlist,Compl_Cd_HOME Cdhome call Cd_HOME(<f-args>)
@@ -54,14 +83,7 @@ function! LCd_HOME(...)
 endfunction
 
 function! Compl_LCd_HOME(ArgLead, ...)
-    if $HOME ==? ''
-        echoerr "$HOME is not set"
-        return []
-    endif
-    lcd $HOME
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($HOME, a:ArgLead, 1)
 endfunction
 "   :LCdhome -- LCd_HOME()
 command! -nargs=* -complete=customlist,Compl_LCd_HOME LCdhome call LCd_HOME(<f-args>)
@@ -88,14 +110,7 @@ function! Cd___WRK(...)
 endfunction
 
 function! Compl_Cd___WRK(ArgLead, ...)
-    if $__WRK ==? ''
-        echoerr "$__WRK is not set"
-        return []
-    endif
-    lcd $__WRK
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($__WRK, a:ArgLead, 1)
 endfunction
 "   :Cdwrk -- Cd___WRK()
 command! -nargs=* -complete=customlist,Compl_Cd___WRK Cdwrk call Cd___WRK(<f-args>)
@@ -115,14 +130,7 @@ function! LCd___WRK(...)
 endfunction
 
 function! Compl_LCd___WRK(ArgLead, ...)
-    if $__WRK ==? ''
-        echoerr "$__WRK is not set"
-        return []
-    endif
-    lcd $__WRK
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($__WRK, a:ArgLead, 1)
 endfunction
 "   :LCdwrk -- LCd___WRK()
 command! -nargs=* -complete=customlist,Compl_LCd___WRK LCdwrk call LCd___WRK(<f-args>)
@@ -145,14 +153,7 @@ function! Cd___DOTFILES(...)
 endfunction
 
 function! Compl_Cd___DOTFILES(ArgLead, ...)
-    if $__DOTFILES ==? ''
-        echoerr "$__DOTFILES is not set"
-        return []
-    endif
-    lcd $__DOTFILES
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($__DOTFILES, a:ArgLead, 1)
 endfunction
 "   :Cddotfiles -- Cd___DOTFILES()
 command! -nargs=* -complete=customlist,Compl_Cd___DOTFILES Cddotfiles call Cd___DOTFILES(<f-args>)
@@ -174,14 +175,7 @@ function! LCd___DOTFILES(...)
 endfunction
 
 function! Compl_LCd___DOTFILES(ArgLead, ...)
-    if $__DOTFILES ==? ''
-        echoerr "$__DOTFILES is not set"
-        return []
-    endif
-    lcd $__DOTFILES
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($__DOTFILES, a:ArgLead, 1)
 endfunction
 "   :LCddotfiles -- LCd___DOTFILES()
 command! -nargs=* -complete=customlist,Compl_LCd___DOTFILES LCddotfiles call LCd___DOTFILES(<f-args>)
@@ -208,14 +202,7 @@ function! Cd_PROJECT_HOME(...)
 endfunction
 
 function! Compl_Cd_PROJECT_HOME(ArgLead, ...)
-    if $PROJECT_HOME ==? ''
-        echoerr "$PROJECT_HOME is not set"
-        return []
-    endif
-    lcd $PROJECT_HOME
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($PROJECT_HOME, a:ArgLead, 1)
 endfunction
 "   :Cdprojecthome -- Cd_PROJECT_HOME()
 command! -nargs=* -complete=customlist,Compl_Cd_PROJECT_HOME Cdprojecthome call Cd_PROJECT_HOME(<f-args>)
@@ -239,14 +226,7 @@ function! LCd_PROJECT_HOME(...)
 endfunction
 
 function! Compl_LCd_PROJECT_HOME(ArgLead, ...)
-    if $PROJECT_HOME ==? ''
-        echoerr "$PROJECT_HOME is not set"
-        return []
-    endif
-    lcd $PROJECT_HOME
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($PROJECT_HOME, a:ArgLead, 1)
 endfunction
 "   :LCdprojecthome -- LCd_PROJECT_HOME()
 command! -nargs=* -complete=customlist,Compl_LCd_PROJECT_HOME LCdprojecthome call LCd_PROJECT_HOME(<f-args>)
@@ -277,14 +257,7 @@ function! Cd_WORKON_HOME(...)
 endfunction
 
 function! Compl_Cd_WORKON_HOME(ArgLead, ...)
-    if $WORKON_HOME ==? ''
-        echoerr "$WORKON_HOME is not set"
-        return []
-    endif
-    lcd $WORKON_HOME
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($WORKON_HOME, a:ArgLead, 1)
 endfunction
 "   :Cdworkonhome -- Cd_WORKON_HOME()
 command! -nargs=* -complete=customlist,Compl_Cd_WORKON_HOME Cdworkonhome call Cd_WORKON_HOME(<f-args>)
@@ -308,14 +281,7 @@ function! LCd_WORKON_HOME(...)
 endfunction
 
 function! Compl_LCd_WORKON_HOME(ArgLead, ...)
-    if $WORKON_HOME ==? ''
-        echoerr "$WORKON_HOME is not set"
-        return []
-    endif
-    lcd $WORKON_HOME
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($WORKON_HOME, a:ArgLead, 1)
 endfunction
 "   :LCdworkonhome -- LCd_WORKON_HOME()
 command! -nargs=* -complete=customlist,Compl_LCd_WORKON_HOME LCdworkonhome call LCd_WORKON_HOME(<f-args>)
@@ -346,14 +312,7 @@ function! Cd_CONDA_ENVS_PATH(...)
 endfunction
 
 function! Compl_Cd_CONDA_ENVS_PATH(ArgLead, ...)
-    if $CONDA_ENVS_PATH ==? ''
-        echoerr "$CONDA_ENVS_PATH is not set"
-        return []
-    endif
-    lcd $CONDA_ENVS_PATH
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($CONDA_ENVS_PATH, a:ArgLead, 1)
 endfunction
 "   :Cdcondaenvspath -- Cd_CONDA_ENVS_PATH()
 command! -nargs=* -complete=customlist,Compl_Cd_CONDA_ENVS_PATH Cdcondaenvspath call Cd_CONDA_ENVS_PATH(<f-args>)
@@ -377,14 +336,7 @@ function! LCd_CONDA_ENVS_PATH(...)
 endfunction
 
 function! Compl_LCd_CONDA_ENVS_PATH(ArgLead, ...)
-    if $CONDA_ENVS_PATH ==? ''
-        echoerr "$CONDA_ENVS_PATH is not set"
-        return []
-    endif
-    lcd $CONDA_ENVS_PATH
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($CONDA_ENVS_PATH, a:ArgLead, 1)
 endfunction
 "   :LCdcondaenvspath -- LCd_CONDA_ENVS_PATH()
 command! -nargs=* -complete=customlist,Compl_LCd_CONDA_ENVS_PATH LCdcondaenvspath call LCd_CONDA_ENVS_PATH(<f-args>)
@@ -415,14 +367,7 @@ function! Cd_VIRTUAL_ENV(...)
 endfunction
 
 function! Compl_Cd_VIRTUAL_ENV(ArgLead, ...)
-    if $VIRTUAL_ENV ==? ''
-        echoerr "$VIRTUAL_ENV is not set"
-        return []
-    endif
-    lcd $VIRTUAL_ENV
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($VIRTUAL_ENV, a:ArgLead, 1)
 endfunction
 "   :Cdvirtualenv -- Cd_VIRTUAL_ENV()
 command! -nargs=* -complete=customlist,Compl_Cd_VIRTUAL_ENV Cdvirtualenv call Cd_VIRTUAL_ENV(<f-args>)
@@ -444,14 +389,7 @@ function! LCd_VIRTUAL_ENV(...)
 endfunction
 
 function! Compl_LCd_VIRTUAL_ENV(ArgLead, ...)
-    if $VIRTUAL_ENV ==? ''
-        echoerr "$VIRTUAL_ENV is not set"
-        return []
-    endif
-    lcd $VIRTUAL_ENV
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($VIRTUAL_ENV, a:ArgLead, 1)
 endfunction
 "   :LCdvirtualenv -- LCd_VIRTUAL_ENV()
 command! -nargs=* -complete=customlist,Compl_LCd_VIRTUAL_ENV LCdvirtualenv call LCd_VIRTUAL_ENV(<f-args>)
@@ -478,14 +416,7 @@ function! Cd__SRC(...)
 endfunction
 
 function! Compl_Cd__SRC(ArgLead, ...)
-    if $_SRC ==? ''
-        echoerr "$_SRC is not set"
-        return []
-    endif
-    lcd $_SRC
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_SRC, a:ArgLead, 1)
 endfunction
 "   :Cdsrc -- Cd__SRC()
 command! -nargs=* -complete=customlist,Compl_Cd__SRC Cdsrc call Cd__SRC(<f-args>)
@@ -507,14 +438,7 @@ function! LCd__SRC(...)
 endfunction
 
 function! Compl_LCd__SRC(ArgLead, ...)
-    if $_SRC ==? ''
-        echoerr "$_SRC is not set"
-        return []
-    endif
-    lcd $_SRC
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_SRC, a:ArgLead, 1)
 endfunction
 "   :LCdsrc -- LCd__SRC()
 command! -nargs=* -complete=customlist,Compl_LCd__SRC LCdsrc call LCd__SRC(<f-args>)
@@ -541,14 +465,7 @@ function! Cd__WRD(...)
 endfunction
 
 function! Compl_Cd__WRD(ArgLead, ...)
-    if $_WRD ==? ''
-        echoerr "$_WRD is not set"
-        return []
-    endif
-    lcd $_WRD
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_WRD, a:ArgLead, 1)
 endfunction
 "   :Cdwrd -- Cd__WRD()
 command! -nargs=* -complete=customlist,Compl_Cd__WRD Cdwrd call Cd__WRD(<f-args>)
@@ -570,14 +487,7 @@ function! LCd__WRD(...)
 endfunction
 
 function! Compl_LCd__WRD(ArgLead, ...)
-    if $_WRD ==? ''
-        echoerr "$_WRD is not set"
-        return []
-    endif
-    lcd $_WRD
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_WRD, a:ArgLead, 1)
 endfunction
 "   :LCdwrd -- LCd__WRD()
 command! -nargs=* -complete=customlist,Compl_LCd__WRD LCdwrd call LCd__WRD(<f-args>)
@@ -604,14 +514,7 @@ function! Cd__BIN(...)
 endfunction
 
 function! Compl_Cd__BIN(ArgLead, ...)
-    if $_BIN ==? ''
-        echoerr "$_BIN is not set"
-        return []
-    endif
-    lcd $_BIN
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_BIN, a:ArgLead, 1)
 endfunction
 "   :Cdbin -- Cd__BIN()
 command! -nargs=* -complete=customlist,Compl_Cd__BIN Cdbin call Cd__BIN(<f-args>)
@@ -633,14 +536,7 @@ function! LCd__BIN(...)
 endfunction
 
 function! Compl_LCd__BIN(ArgLead, ...)
-    if $_BIN ==? ''
-        echoerr "$_BIN is not set"
-        return []
-    endif
-    lcd $_BIN
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_BIN, a:ArgLead, 1)
 endfunction
 "   :LCdbin -- LCd__BIN()
 command! -nargs=* -complete=customlist,Compl_LCd__BIN LCdbin call LCd__BIN(<f-args>)
@@ -667,14 +563,7 @@ function! Cd__ETC(...)
 endfunction
 
 function! Compl_Cd__ETC(ArgLead, ...)
-    if $_ETC ==? ''
-        echoerr "$_ETC is not set"
-        return []
-    endif
-    lcd $_ETC
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_ETC, a:ArgLead, 1)
 endfunction
 "   :Cdetc -- Cd__ETC()
 command! -nargs=* -complete=customlist,Compl_Cd__ETC Cdetc call Cd__ETC(<f-args>)
@@ -696,14 +585,7 @@ function! LCd__ETC(...)
 endfunction
 
 function! Compl_LCd__ETC(ArgLead, ...)
-    if $_ETC ==? ''
-        echoerr "$_ETC is not set"
-        return []
-    endif
-    lcd $_ETC
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_ETC, a:ArgLead, 1)
 endfunction
 "   :LCdetc -- LCd__ETC()
 command! -nargs=* -complete=customlist,Compl_LCd__ETC LCdetc call LCd__ETC(<f-args>)
@@ -730,14 +612,7 @@ function! Cd__LIB(...)
 endfunction
 
 function! Compl_Cd__LIB(ArgLead, ...)
-    if $_LIB ==? ''
-        echoerr "$_LIB is not set"
-        return []
-    endif
-    lcd $_LIB
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_LIB, a:ArgLead, 1)
 endfunction
 "   :Cdlib -- Cd__LIB()
 command! -nargs=* -complete=customlist,Compl_Cd__LIB Cdlib call Cd__LIB(<f-args>)
@@ -759,14 +634,7 @@ function! LCd__LIB(...)
 endfunction
 
 function! Compl_LCd__LIB(ArgLead, ...)
-    if $_LIB ==? ''
-        echoerr "$_LIB is not set"
-        return []
-    endif
-    lcd $_LIB
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_LIB, a:ArgLead, 1)
 endfunction
 "   :LCdlib -- LCd__LIB()
 command! -nargs=* -complete=customlist,Compl_LCd__LIB LCdlib call LCd__LIB(<f-args>)
@@ -793,14 +661,7 @@ function! Cd__LOG(...)
 endfunction
 
 function! Compl_Cd__LOG(ArgLead, ...)
-    if $_LOG ==? ''
-        echoerr "$_LOG is not set"
-        return []
-    endif
-    lcd $_LOG
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_LOG, a:ArgLead, 1)
 endfunction
 "   :Cdlog -- Cd__LOG()
 command! -nargs=* -complete=customlist,Compl_Cd__LOG Cdlog call Cd__LOG(<f-args>)
@@ -820,14 +681,7 @@ function! LCd__LOG(...)
 endfunction
 
 function! Compl_LCd__LOG(ArgLead, ...)
-    if $_LOG ==? ''
-        echoerr "$_LOG is not set"
-        return []
-    endif
-    lcd $_LOG
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_LOG, a:ArgLead, 1)
 endfunction
 "   :LCdlog -- LCd__LOG()
 command! -nargs=* -complete=customlist,Compl_LCd__LOG LCdlog call LCd__LOG(<f-args>)
@@ -850,14 +704,7 @@ function! Cd__PYLIB(...)
 endfunction
 
 function! Compl_Cd__PYLIB(ArgLead, ...)
-    if $_PYLIB ==? ''
-        echoerr "$_PYLIB is not set"
-        return []
-    endif
-    lcd $_PYLIB
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_PYLIB, a:ArgLead, 1)
 endfunction
 "   :Cdpylib -- Cd__PYLIB()
 command! -nargs=* -complete=customlist,Compl_Cd__PYLIB Cdpylib call Cd__PYLIB(<f-args>)
@@ -877,14 +724,7 @@ function! LCd__PYLIB(...)
 endfunction
 
 function! Compl_LCd__PYLIB(ArgLead, ...)
-    if $_PYLIB ==? ''
-        echoerr "$_PYLIB is not set"
-        return []
-    endif
-    lcd $_PYLIB
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_PYLIB, a:ArgLead, 1)
 endfunction
 "   :LCdpylib -- LCd__PYLIB()
 command! -nargs=* -complete=customlist,Compl_LCd__PYLIB LCdpylib call LCd__PYLIB(<f-args>)
@@ -907,14 +747,7 @@ function! Cd__PYSITE(...)
 endfunction
 
 function! Compl_Cd__PYSITE(ArgLead, ...)
-    if $_PYSITE ==? ''
-        echoerr "$_PYSITE is not set"
-        return []
-    endif
-    lcd $_PYSITE
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_PYSITE, a:ArgLead, 1)
 endfunction
 "   :Cdpysite -- Cd__PYSITE()
 command! -nargs=* -complete=customlist,Compl_Cd__PYSITE Cdpysite call Cd__PYSITE(<f-args>)
@@ -936,14 +769,7 @@ function! LCd__PYSITE(...)
 endfunction
 
 function! Compl_LCd__PYSITE(ArgLead, ...)
-    if $_PYSITE ==? ''
-        echoerr "$_PYSITE is not set"
-        return []
-    endif
-    lcd $_PYSITE
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_PYSITE, a:ArgLead, 1)
 endfunction
 "   :LCdpysite -- LCd__PYSITE()
 command! -nargs=* -complete=customlist,Compl_LCd__PYSITE LCdpysite call LCd__PYSITE(<f-args>)
@@ -970,14 +796,7 @@ function! Cd__VAR(...)
 endfunction
 
 function! Compl_Cd__VAR(ArgLead, ...)
-    if $_VAR ==? ''
-        echoerr "$_VAR is not set"
-        return []
-    endif
-    lcd $_VAR
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_VAR, a:ArgLead, 1)
 endfunction
 "   :Cdvar -- Cd__VAR()
 command! -nargs=* -complete=customlist,Compl_Cd__VAR Cdvar call Cd__VAR(<f-args>)
@@ -997,14 +816,7 @@ function! LCd__VAR(...)
 endfunction
 
 function! Compl_LCd__VAR(ArgLead, ...)
-    if $_VAR ==? ''
-        echoerr "$_VAR is not set"
-        return []
-    endif
-    lcd $_VAR
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_VAR, a:ArgLead, 1)
 endfunction
 "   :LCdvar -- LCd__VAR()
 command! -nargs=* -complete=customlist,Compl_LCd__VAR LCdvar call LCd__VAR(<f-args>)
@@ -1027,14 +839,7 @@ function! Cd__WWW(...)
 endfunction
 
 function! Compl_Cd__WWW(ArgLead, ...)
-    if $_WWW ==? ''
-        echoerr "$_WWW is not set"
-        return []
-    endif
-    lcd $_WWW
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_WWW, a:ArgLead, 1)
 endfunction
 "   :Cdwww -- Cd__WWW()
 command! -nargs=* -complete=customlist,Compl_Cd__WWW Cdwww call Cd__WWW(<f-args>)
@@ -1056,14 +861,7 @@ function! LCd__WWW(...)
 endfunction
 
 function! Compl_LCd__WWW(ArgLead, ...)
-    if $_WWW ==? ''
-        echoerr "$_WWW is not set"
-        return []
-    endif
-    lcd $_WWW
-    return map(sort(filter(globpath('.', a:ArgLead . '*/', 0, 1), 'isdirectory(v:val)'), 'i'), 'v:val[2:]')
-    lcd -
-    endfor
+    return ListDirsOrFiles($_WWW, a:ArgLead, 1)
 endfunction
 "   :LCdwww -- LCd__WWW()
 command! -nargs=* -complete=customlist,Compl_LCd__WWW LCdwww call LCd__WWW(<f-args>)
