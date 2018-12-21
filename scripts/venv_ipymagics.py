@@ -123,6 +123,16 @@ class VenvMagics(Magics):
         return self.cd('CONDA_ENVS_PATH', line)
 
     @line_magic
+    def cdcondaroot(self, line):
+        """cdcondaroot    -- cd $CONDA_ROOT/${@}"""
+        return self.cd('CONDA_ROOT', line)
+
+    @line_magic
+    def cdr(self, line):
+        """cdr    -- cd $CONDA_ROOT/${@}"""
+        return self.cd('CONDA_ROOT', line)
+
+    @line_magic
     def cdvirtualenv(self, line):
         """cdvirtualenv    -- cd $VIRTUAL_ENV/${@}"""
         return self.cd('VIRTUAL_ENV', line)
@@ -234,6 +244,8 @@ class VenvMagics(Magics):
             'HOSTNAME',
             'USER',
             'PROJECT_HOME',
+            'CONDA_ROOT',
+            'CONDA_ENVS_PATH',
             'WORKON_HOME',
             'VIRTUAL_ENV_NAME',
             'VIRTUAL_ENV',

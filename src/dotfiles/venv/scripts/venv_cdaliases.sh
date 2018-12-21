@@ -122,6 +122,24 @@ complete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdce
 
 ';
 eval '
+cdcondaroot () {
+    # cdcondaroot       -- cd $CONDA_ROOT /$@
+    [ -z "$CONDA_ROOT" ] && echo "CONDA_ROOT is not set" && return 1
+    cd "$CONDA_ROOT"${@:+"/${@}"}
+}
+_cd_CONDA_ROOT_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdcondaroot && compgen -d -- "${cur}" ))
+}
+cdr () {
+    # cdr               -- cd $CONDA_ROOT
+    cdcondaroot $@
+}
+complete -o default -o nospace -F _cd_CONDA_ROOT_complete cdcondaroot
+complete -o default -o nospace -F _cd_CONDA_ROOT_complete cdr
+
+';
+eval '
 cdvirtualenv () {
     # cdvirtualenv      -- cd $VIRTUAL_ENV /$@
     [ -z "$VIRTUAL_ENV" ] && echo "VIRTUAL_ENV is not set" && return 1
