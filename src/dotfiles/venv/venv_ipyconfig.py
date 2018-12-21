@@ -493,9 +493,9 @@ class CdAlias(CmdAlias):
 
         .. py:attribute:: VENV_IPYMAGIC_METHOD_TEMPLATE
 
-        .. py:attribute:: VIM_COMMAND_TEMPLATE
+        .. py:attribute:: VIM_CD_COMMAND_TEMPLATE
 
-        .. py:attribute:: VIM_FUNCTION_TEMPLATE
+        .. py:attribute:: VIM_CD_FUNCTION_TEMPLATE
         """
 
         self.pathvar = pathvar
@@ -663,6 +663,9 @@ if __name__ == "__main__":
         '''\n'''
         '''" ### venv.vim\n'''
         '''" # Src: https://github.com/westurner/venv.vim\n\n'''
+        '''" "g:venv_list_only_dirs -- 1 -- 0 to list files in Cd* commands\n\n'''
+        '''let g:venv_list_only_dirs = 1\n'''
+        '''\n'''
         '''function! Cd_help()\n'''
         '''" :Cdhelp             -- list venv.vim cdalias commands\n'''
         '''    :verbose command Cd\n'''
@@ -670,8 +673,8 @@ if __name__ == "__main__":
         '''command! -nargs=0 Cdhelp call Cd_help()\n'''
         '''\n'''
         '''function! ListDirsOrFiles(path, ArgLead, ...)\n'''
-        '''    let dirsonly = ((a:0 > 0) ? 1 : 0)\n'''
-        '''    let _glob = '' . a:ArgLead . ((a:0 > 0) ? '*/' : '*')\n'''
+        '''    let dirsonly = ((a:0>0) ? 1 : g:venv_list_only_dirs)\n'''
+        '''    let _glob = '' . a:ArgLead . ((g:venv_list_only_dirs>1) ? '*/' : '*')\n'''
         '''    execute 'lcd' a:path\n'''
         '''    if dirsonly ==? 1\n'''
         '''        let output = map(sort(globpath('.', _glob, 0, 1), 'i'), 'v:val[2:]')\n'''
@@ -683,9 +686,9 @@ if __name__ == "__main__":
         '''endfunction\n'''
         '''\n'''
         '''function! Cdhere(...)\n'''
-        '''" :Cdhere  -- cd to here (this dir, dirname(__file__))    [cd %:p:h]\n'''
-        '''" :CDhere  -- cd to here (this dir, dirname(__file__))    [cd %:p:h]\n'''
-        '''    let _path = expand('%:p:h') . (a:0 > 0 ? ('/' . a:1) : '')\n'''
+        '''"   :Cdhere  --  cd to here (this dir, dirname(__file__))    [cd %:p:h]\n'''
+        '''"   :CDhere  --  cd to here (this dir, dirname(__file__))    [cd %:p:h]\n'''
+        '''    let _path = expand('%:p:h') . ((a:0>0) ? ('/' . a:1) : '')\n'''
         '''    execute 'cd' _path\n'''
         '''    pwd\n'''
         '''endfunction\n'''
@@ -697,42 +700,63 @@ if __name__ == "__main__":
         '''command! -nargs=* -complete=customlist,Compl_Cdhere CDhere call Cdhere(<f-args>)\n'''
         '''\n'''
         '''function! Lcdhere(...)\n'''
-        '''" :Lcdhere -- lcd to here (this dir, dirname(__file__))  [lcd %:p:h]\n'''
-        '''" :LCdhere -- lcd to here (this dir, dirname(__file__))  [lcd %:p:h]\n'''
-        '''    let _path = expand('%:p:h') . (a:0 > 0 ? ('/' . a:1) : '')\n'''
+        '''"   :Lcdhere -- lcd to here (this dir, dirname(__file__))  [lcd %:p:h]\n'''
+        '''"   :LCdhere -- lcd to here (this dir, dirname(__file__))  [lcd %:p:h]\n'''
+        '''    let _path = expand('%:p:h') . ((a:0>0) ? ('/' . a:1) : '')\n'''
         '''    execute 'lcd' _path\n'''
         '''    pwd\n'''
         '''endfunction\n'''
         '''command! -nargs=* -complete=customlist,Compl_Cdhere Lcdhere call Lcdhere(<f-args>)\n'''
         '''command! -nargs=* -complete=customlist,Compl_Cdhere LCdhere call Lcdhere(<f-args>)\n'''
-        '''\n''')
+        '''\n'''
 
-    VIM_FUNCTION_TEMPLATE = (
-        '''function! {vim_func_name}(...)\n'''
-        '''" {vim_func_name}()  -- cd ${pathvar}/$1\n'''
-        '''    if ${pathvar} ==? ''\n'''
-        '''        echoerr "${pathvar} is not set"\n'''
+        '''\n'''
+        '''function! Cd___VAR_(varname, cmd, ...)\n'''
+        '''" Cd___VAR_()  -- cd expand('$' . a:varname)/$1\n'''
+        '''    let _VARNAME = "$" . a:varname\n'''
+        '''    let _VAR_=expand(_VARNAME)\n'''
+        '''    if _VARNAME ==? _VAR_\n'''
+        '''        echoerr _VARNAME . " is not set"\n'''
         '''        return\n'''
         '''    endif\n'''
-        '''    if a:0 > 0\n'''
-        '''       let pathname = join([${pathvar}, a:1], "/")\n'''
-        '''    else\n'''
-        '''       let pathname = "${pathvar}"\n'''
-        '''    endif\n'''
-        '''    execute '{vim_cd_func}' pathname\n'''
+        '''    let pathname = join([_VAR_, (a:0>0) ? a:1 : ""], "/")\n'''
+        '''    execute a:cmd pathname\n'''
         '''    pwd\n'''
         '''endfunction\n'''
         '''\n'''
+    )
+
+    VIM_CD_FUNCTION_TEMPLATE = (
+        '''\n'''
+        '''function! {vim_func_name}(...)\n'''
+        '''" {vim_func_name}()  -- cd ${pathvar}/$1\n'''
+        '''    call Cd___VAR_('${pathvar}', '{vim_cd_func}', (a:0>0)? a:1 : "")\n'''
+        '''endfunction\n'''
         '''function! Compl_{vim_func_name}(ArgLead, ...)\n'''
         '''    return ListDirsOrFiles(${pathvar}, a:ArgLead, 1)\n'''
         '''endfunction\n'''
-
     )
-    VIM_COMMAND_TEMPLATE = (
-        '''"   :{cmd_name} -- {vim_func_name}()\n'''
+    VIM_CD_COMMAND_TEMPLATE = (
+        '''"   :{cmd_name:<10} -- cd ${pathvar}/$1\n'''
         """command! -nargs=* -complete=customlist,Compl_{vim_func_name} {cmd_name} call {vim_func_name}(<f-args>)\n"""
     )
-
+    
+    VIM_EDIT_FUNCTION_TEMPLATE = (
+        '''\n'''
+        '''function! {vim_func_name}(...)\n'''
+        '''" {vim_func_name}()  -- e ${pathvar}/$1\n'''
+        '''    let _path=expand("${pathvar}") . ((a:0>0)? "/" . a:1 : "")\n'''
+        '''    execute '{vim_edit_func}' _path\n'''
+        '''endfunction\n'''
+        '''function! Compl_{vim_func_name}(ArgLead, ...)\n'''
+        '''    return ListDirsOrFiles(${pathvar}, a:ArgLead, 0)\n'''
+        '''endfunction\n'''
+    )
+    VIM_EDIT_COMMAND_TEMPLATE = (
+        '''"   :{cmd_name:<10} -- e ${pathvar}/$1\n'''
+        """command! -nargs=* -complete=customlist,Compl_{vim_func_name} {cmd_name} call {vim_func_name}(<f-args>)\n"""
+    )
+    
     @property
     def vim_cmd_name(self):
         """
@@ -747,16 +771,17 @@ if __name__ == "__main__":
         Returns:
             list: self.vim_cmd_name + self.aliases.title()
         """
-        return ([self.vim_cmd_name, ] +
+        return list(collections.OrderedDict.fromkeys([self.vim_cmd_name, ] +
                 [alias.title() for alias in self.aliases
-                 if not alias.endswith('-')])
+                 if not alias.endswith('-')]).keys())
 
     def to_vim_function(self):
         """
         Returns:
             str: vim function block
         """
-        confs = []
+        # cdalias commands
+        confs = cdalias_confs = []
         conf = {}
         conf['pathvar'] = self.pathvar
         conf['vim_func_name'] = "Cd_" + self.pathvar
@@ -773,12 +798,41 @@ if __name__ == "__main__":
         confs.append(conf2)
         output = []
         for conf in confs:
-            output += (CdAlias.VIM_FUNCTION_TEMPLATE.format(**conf),)
+            output.append(CdAlias.VIM_CD_FUNCTION_TEMPLATE.format(**conf))
             for cmd_name in conf['vim_cmd_names']:
-                output += (CdAlias.VIM_COMMAND_TEMPLATE
+                output += (CdAlias.VIM_CD_COMMAND_TEMPLATE
                                 .format(cmd_name=cmd_name,
                                         pathvar=conf['pathvar'],
                                         vim_func_name=conf['vim_func_name']),)
+        # edit_commands
+        edit_cmd_names = list(collections.OrderedDict.fromkeys(
+            [x[3:] for x in conf['vim_cmd_names'][1:]]).keys())
+        confs = edit_cmd_confs = []
+        conf3 = conf.copy()
+        conf3['vim_func_name'] = "E" + self.pathvar
+        conf3['vim_cmd_name'] = "E" + self.pathvar
+        conf3['vim_cmd_names'] = ["E{}".format(x) for x in edit_cmd_names]
+        # conf3['vim_cmd_names'] += ["E{}".format(x).title() for x in edit_cmd_names]
+        conf3['vim_edit_func'] = 'e'
+        confs.append(conf3)
+        conf4 = conf.copy()
+        conf4['vim_func_name'] = "Tabnew" + self.pathvar
+        conf4['vim_cmd_name'] = "Tabnew" + self.pathvar
+        conf4['vim_cmd_names'] = ["Tabnew{}".format(x) for x in edit_cmd_names]
+        # conf4['vim_cmd_names'] += ["Tabnew{}".format(x).title() for x in edit_cmd_names]
+        conf4['vim_edit_func'] = 'tabnew'
+        confs.append(conf4)
+        for conf in confs:
+            output.append(CdAlias.VIM_EDIT_FUNCTION_TEMPLATE.format(**conf))
+            for cmd_name in conf['vim_cmd_names']:
+                output += (CdAlias.VIM_EDIT_COMMAND_TEMPLATE
+                                .format(cmd_name=cmd_name,
+                                        pathvar=conf['pathvar'],
+                                        vim_func_name=conf['vim_func_name']),)        
+        
+        output.append(
+        '''\n'''
+        )
         return u''.join(output)
 
     BASH_CDALIAS_HEADER = (
@@ -1498,7 +1552,9 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
 
     aliases['cdprojecthome'] = CdAlias('PROJECT_HOME', aliases=['cdp', 'cdph'])
     aliases['cdworkonhome']  = CdAlias('WORKON_HOME',  aliases=['cdwh', 'cdve'])
-    aliases['cdcondahome']   = CdAlias('CONDA_ENVS_PATH',   aliases=['cda', 'cdce'])
+ 
+    aliases['cdcondaenvspath'] = CdAlias('CONDA_ENVS_PATH', aliases=['cda', 'cdce'])
+    aliases['cdcondaroot']     = CdAlias('CONDA_ROOT',   aliases=['cdr'])  
 
     aliases['cdvirtualenv']  = CdAlias('VIRTUAL_ENV',  aliases=['cdv'])
     aliases['cdsrc']         = CdAlias('_SRC',         aliases=['cds'])
