@@ -31,3 +31,6 @@
 [submodule "src/i3t"]
 	path = src/i3t
 	url = https://github.com/westurner/i3t
+[submodule "src/pytestipdb"]
+	path = src/pytestipdb
+	url = https://github.com/mverteuil/pytest-ipdb
