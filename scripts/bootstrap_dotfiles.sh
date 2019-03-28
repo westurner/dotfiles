@@ -28,7 +28,7 @@ function _setup_bootstrap-dotfiles {
     ## date (file suffix for backup_and_symlink)
     BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
 
-    PYTHON="${PYTHON:-"$(which python)"}"
+    PYTHON="${PYTHON:-"$(which python3 || which python)"}"
     PYVER="${PYVER:-"$( \
         "${PYTHON}" -c \
             'import sys; print("".join(map(str, sys.version_info[:2])))')"}"
