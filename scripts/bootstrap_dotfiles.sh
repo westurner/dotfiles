@@ -272,7 +272,7 @@ function get_md5sums {
 function __realpath {
     # __realpath()  -- os.path.realpath (~ readlink -f --canonicalize)
     local _path=$1
-    python -c "import os,sys;print(os.path.realpath(sys.argv[1]))" "${_path}";
+    ${PYTHON} -c "import os,sys;print(os.path.realpath(sys.argv[1]))" "${_path}";
 }
 
 function backup_and_symlink {
@@ -616,13 +616,13 @@ function pip_upgrade_local_pip {
 function pip_bootstrap_pip {
     ## Install pip (and setuptools)
     wget --continue 'https://bootstrap.pypa.io/get-pip.py'
-    python get-pip.py $SETUP_PY_OPTS
+    $PYTHON get-pip.py $SETUP_PY_OPTS
 }
 
 function bootstrap_setuptools {
     ## Install setuptools
     wget --continue 'https://bootstrap.pypa.io/ez_setup.py'
-    python ez_setup.py $SETUP_PY_OPTS
+    $PYTHON ez_setup.py $SETUP_PY_OPTS
 }
 
 
