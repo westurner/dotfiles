@@ -401,6 +401,11 @@ function _ssh_keygen__ {
 	mkdir -p "${__keydir}"
 	chmod 0700 "${__keydir}"
         ssh-keygen -f "${_keypath}" -C "${_comment}" "${@}"
+
+	echo "To load this key with ssh-add-key.sh [gh|gl|local|[..]], create a .key symlink:"
+        echo "ln -s '${_keypath}' '${_keypath}.key'"
+	(set -x; cd "${__keydir}"; ln -s "${_keyname__type}" "${_keyname__type}.key")
+	echo "Pubkey: '${_keypath}.pub'"
     }
     (set -x; _ssh_keygen___ "${@}")
 }
