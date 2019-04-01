@@ -60,10 +60,10 @@ function _setup_conda_defaults {
     export CONDA_ROOT__py36="${__wrk}/-conda36"
     export CONDA_ROOT__py37="${__wrk}/-conda37"
 
-    #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py27"
-    #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py27"
-    export CONDA_ROOT="${__wrk}/-conda27"
-    export CONDA_ENVS_PATH="${__wrk}/-ce27"
+    #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py37"
+    #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py37"
+    export CONDA_ROOT="${__wrk}/-conda37"
+    export CONDA_ENVS_PATH="${__wrk}/-ce37"
 }
 
 function _setup_conda {
@@ -80,7 +80,7 @@ function _setup_conda {
     #   _setup_conda 35  # __py35
     #   _setup_conda 36  # __py36
     #   _setup_conda 37  # __py37
-    #   _setup_conda ~/envs             # __py27
+    #   _setup_conda ~/envs             # __py37
     #   _setup_conda ~/envs/ /opt/conda # /opt/conda
     #   _setup_conda <conda_envs_path> <conda_root>  # conda_root
     #
@@ -88,8 +88,8 @@ function _setup_conda {
     local _conda_root_path="${2}"
     _setup_conda_defaults "${__WRK}"
     if [ -z "${_conda_envs_path}" ]; then
-        export CONDA_ENVS_PATH="${CONDA_ENVS_PATH:-${CONDA_ENVS__py27}}"
-        export CONDA_ROOT="${CONDA_ROOT:-${CONDA_ROOT__py27}}"
+        export CONDA_ENVS_PATH="${CONDA_ENVS_PATH:-${CONDA_ENVS__py37}}"
+        export CONDA_ROOT="${CONDA_ROOT:-${CONDA_ROOT__py37}}"
     else
         if [ "$_conda_envs_path" == "27" ]; then
             export CONDA_ENVS_PATH="$CONDA_ENVS__py27"
@@ -109,8 +109,7 @@ function _setup_conda {
         else
             export CONDA_ENVS_PATH="${_conda_envs_path}"
             export CONDA_ROOT=(
-            "${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py27}}}")
-            # CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+            "${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py37}}}")
         fi
     fi
     _setup_conda_path

@@ -1388,8 +1388,8 @@ def build_conda_env(env=None, **kwargs):
     return env
 
 
-DEFAULT_CONDA_ROOT_DEFAULT = 'CONDA_ROOT__py27'
-DEFAULT_CONDA_ENVS_DEFAULT = 'CONDA_ENVS__py27'
+DEFAULT_CONDA_ROOT_DEFAULT = 'CONDA_ROOT__py37'
+DEFAULT_CONDA_ENVS_DEFAULT = 'CONDA_ENVS__py37'
 
 
 def build_conda_cfg_env(env=None, **kwargs):
@@ -2128,11 +2128,20 @@ class Env(object):
 
         ("WORKON_HOME__py27", "${__WRK}/-ve27"),
         ("WORKON_HOME__py34", "${__WRK}/-ve34"),
-        ("WORKON_HOME_DEFAULT", "WORKON_HOME__py27"),
+        ("WORKON_HOME__py35", "${__WRK}/-ve35"),
+        ("WORKON_HOME__py36", "${__WRK}/-ve36"),
+        ("WORKON_HOME__py37", "${__WRK}/-ve37"),
+        ("WORKON_HOME_DEFAULT", "WORKON_HOME__py37"),
         ("CONDA_ROOT__py27", "${__WRK}/-conda27"),
         ("CONDA_ENVS__py27", "${__WRK}/-ce27"),
         ("CONDA_ROOT__py34", "${__WRK}/-conda34"),
         ("CONDA_ENVS__py34", "${__WRK}/-ce34"),
+        ("CONDA_ROOT__py35", "${__WRK}/-conda35"),
+        ("CONDA_ENVS__py35", "${__WRK}/-ce35"),
+        ("CONDA_ROOT__py36", "${__WRK}/-conda36"),
+        ("CONDA_ENVS__py36", "${__WRK}/-ce36"),
+        ("CONDA_ROOT__py37", "${__WRK}/-conda37"),
+        ("CONDA_ENVS__py37", "${__WRK}/-ce37"),
         #("CONDA_ROOT_DEFAULT", "CONDA_ROOT__py27"),
         #("CONDA_ENVS_DEFAULT", "CONDA_ENVS__py27"),
         #("PROJECT_FILES", ""),
