@@ -24,7 +24,7 @@ function _setup_virtualenvwrapper_default_config {
 function _setup_virtualenvwrapper_dotfiles_config {
     export __WRK="${__WRK:-"${HOME}/-wrk"}"
     export PROJECT_HOME="${__WRK}"
-    export WORKON_HOME="${__WRK}/-ve27"
+    export WORKON_HOME="${WORKON_HOME:-"${__WRK}/-ve37"}"
 }
 
 function _setup_virtualenvwrapper_dirs {
@@ -187,7 +187,7 @@ function rebuild_virtualenvs {
 }
 
 
-_setup_virtualenvwrapper_dotfiles_config  # ~/-wrk/-ve27 {-ve34,-ce27,-ce34}
+_setup_virtualenvwrapper_dotfiles_config  # ~/-wrk/-ve37 {-ve27,-ce27,-ce37}
 
 function _setup_virtualenvwrapper {
   # _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
