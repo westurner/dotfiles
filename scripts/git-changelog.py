@@ -38,6 +38,12 @@ import itertools
 import logging
 import re
 import subprocess
+import sys
+
+def _izip(*args):
+    if sys.version_info.major == 3:
+        return zip(*args)
+    return itertools.izip(*args)
 
 # !pip install semantic_version
 # | PyPI: https://pypi.python.org/pypi/semantic_version
@@ -58,7 +64,7 @@ CHARSTOESCAPE = [
     (']', '\]'),
 ]
 
-def rst_escape(_str):
+def rst_escape(_str, encoding='utf-8'):
     """XXX TODO
 
     References:
@@ -70,12 +76,16 @@ def rst_escape(_str):
     lines = _str.splitlines()
     output_lines = []
     for line in lines:
+        line = line.decode(encoding) if hasattr(line, 'decode') else line
         # *      -> \*
         # '.. '  -> '\.. '
         # '>>> ' -> '\>>> '
         for c in BOLCHARSTOESCAPE:
             r = '\\' + c
-            matchcount = line.count(c)
+            try:
+                matchcount = line.count(c)
+            except Exception:
+                raise
             if matchcount == 0:
                 line = line
             elif matchcount == 1:
@@ -166,6 +176,7 @@ def git_changelog(
             # import semantic_version
             versiontags = []
             for x in tag_output:
+                x = str(x)
                 if re.match(tagrgx, x):
                     if x.startswith('v'):
                         _x = x[1:]
@@ -192,27 +203,28 @@ def git_changelog(
         cmd = git_cmd + git_get_rev_date_cmd
         return subprocess.check_output(cmd).strip()
 
-    def iter_tag_pairs(tags, heading_char='^'):
+    def iter_tag_pairs(tags, heading_char='^', encoding='utf-8'):
         """Iterate over 2-tuple tag pairs e.g. ``[(tag1, tag2), ]``
 
         Args:
             tags (list
         """
         tagdates = collections.OrderedDict()
-        tagpairsiter = itertools.izip(tags,
-                                      itertools.islice(tags, 1, None))
+        tagpairsiter = _izip(tags,
+                             itertools.islice(tags, 1, None))
         tagpairs = list(tagpairsiter)
         logging.debug(('tagpairs', tagpairs))
         for (tag1, tag2) in tagpairs[::-1]:
+            tag1 = tag1.decode(encoding) if hasattr(tag1, 'decode') else tag1
             #tag1date = tagdates.setdefault(tag1, git_get_rev_date(tag1))
             tag2date = tagdates.setdefault(tag2, git_get_rev_date(tag2))
             # RST heading
             yield ''
             yield ''
-            heading = rst_escape("%s (%s)" % (tag2, tag2date)) # TODO: date
+            heading = rst_escape("%s (%s)" % (tag2, tag2date.decode(encoding))) # TODO: date
             yield heading
             yield heading_char * len(heading)
-            logpath = "%s..%s" % (tag1, tag2)
+            logpath = "%s..%s" % (str(tag1), tag2)
             changelog_cmd = ['log', '--reverse', '--pretty=format:* %s [%h]', logpath]
             changelog_cmdstr = "log --reverse --pretty=format:'* %s [%h]' " + logpath
             yield "::"
