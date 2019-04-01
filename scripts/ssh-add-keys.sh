@@ -413,31 +413,31 @@ function _ssh_keygen__ {
 function _ssh_keygen__default {
     ## _ssh_keygen__default()  -- generate an ssh key (-t ecdsa)
     local _namekey="${1}"
-    _ssh_keygen__ "${_namekey}" -t ecdsa
+    _ssh_keygen__ "${_namekey}" -t ed25519
 }
 
 function _ssh_keygen__github {
     ## _ssh_keygen__github()  -- generate an ssh key for github (-t rsa)
     local _namekey="github.com/${1}__github.com"
-    _ssh_keygen__ "${_namekey}" -t ecdsa-sha2-nistp521
+    _ssh_keygen__ "${_namekey}" -t ed25519
 }
 
 function _ssh_keygen__gitlab {
     ## _ssh_keygen__gitlab()  -- generate an ssh key for gitlab (-t rsa)
     local _namekey="gitlab.com/${1}__gitlab.com"
-    _ssh_keygen__ "${_namekey}" -t ecdsa-sha2-nistp521
+    _ssh_keygen__ "${_namekey}" -t ed25519
 }
 
 function _ssh_keygen__bitbucket {
     ## _ssh_keygen__github()  -- generate an ssh key for bitbucket (-t rsa)
     local _namekey="bitbucket.org/${1}__bitbucket.org"
-    _ssh_keygen__ "${_namekey}" -t ecdsa-sha2-nistp521
+    _ssh_keygen__ "${_namekey}" -t ed25519
 }
 
 function _ssh_keygen__local {
     ## _ssh_keygen__github()  -- generate an ssh key for local (-t rsa)
     local _namekey="local/${1}__local"
-    _ssh_keygen__ "${_namekey}" -t ecdsa-sha2-nistp521
+    _ssh_keygen__ "${_namekey}" -t ed25519
 }
 
 function ssh_add_keys_run_tests {
