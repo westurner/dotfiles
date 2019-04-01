@@ -628,12 +628,12 @@ function bootstrap_setuptools {
 
 function pip_install_virtualenv {
     ## Install virtualenv
-    ${PIP_INSTALL} --upgrade --no-use-wheel virtualenv
+    ${PIP_INSTALL} --upgrade virtualenv
 }
 
 function pip_install_virtualenvwrapper {
     ## Install virtualenvwrapper
-    ${PIP_INSTALL} --upgrade --no-use-wheel virtualenvwrapper
+    ${PIP_INSTALL} --upgrade virtualenvwrapper
 }
 
 
