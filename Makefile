@@ -266,7 +266,7 @@ test:
 	python setup.py test
 
 pytest:
-	py.test -v ./tests/ ./scripts/ ./bin/ ./src/dotfiles
+	py.test -v ./tests/ ./scripts/ ./src/dotfiles
 	# TODO: test scripts/bootstrap_dotfiles.sh
 
 test_build:
@@ -280,10 +280,6 @@ test_build:
 build:
 	# Build source dist and bdist
 	python setup.py build sdist bdist
-
-build_test_generate_runtests:
-	$(PIP_INSTALL) PyTest
-	py.test --genscript=runtests.py
 
 build_deb_setup:
 	# Setup building of debian packages

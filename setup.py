@@ -249,8 +249,8 @@ class RunCommand(setuptools.Command):
 # log.debug(extras_require)
 class PyTestCommand(RunCommand):
     def run(self):
-        cmd = [sys.executable,
-               os.path.join(SETUPPY_PATH, 'runtests.py')]
+        #cmd = [sys.executable, 'pytest']
+        cmd = ['pytest']
         pths = []
         fnglobs = (
             'src/dotfiles/venv/*.py',
