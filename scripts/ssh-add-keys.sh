@@ -395,8 +395,11 @@ function _ssh_keygen__ {
         done
         _keyname="$(prefix__iso8601datetime "${_keyname}")"
         _keyname__type="${_keyname}__id_${_keytype}"
-        local _keypath="${_sshkeypath}/${_keydir}/${_keyname__type}"
+	local __keydir="${_sshkeypath}/${_keydir}"
+        local _keypath="${__keydir}/${_keyname__type}"
         local _comment="${_keyname__type} (ssh-keygen ${@}) :key:"
+	mkdir -p "${__keydir}"
+	chmod 0700 "${__keydir}"
         ssh-keygen -f "${_keypath}" -C "${_comment}" "${@}"
     }
     (set -x; _ssh_keygen___ "${@}")
