@@ -23,3 +23,6 @@ pyrpo
 #psutil
 #sarge
 #structlog
+
+# necessary for scripts/git-changelog.py
+semantic_version
