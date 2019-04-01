@@ -437,7 +437,7 @@ function _ssh_keygen__bitbucket {
 function _ssh_keygen__local {
     ## _ssh_keygen__github()  -- generate an ssh key for local (-t rsa)
     local _namekey="local/${1}__local"
-    _ssh_keygen__ "${_namekey}" -t ecdsa
+    _ssh_keygen__ "${_namekey}" -t ecdsa-sha2-nistp521
 }
 
 function ssh_add_keys_run_tests {
