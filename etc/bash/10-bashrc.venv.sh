@@ -21,7 +21,8 @@ function _setup_venv {
         source "${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh"
     fi
 
-    _setup_venv_SRC
+    # You must run this manually if you want a default src venv
+    # _setup_venv_SRC
 }
 
 
