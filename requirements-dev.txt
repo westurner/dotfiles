@@ -1,0 +1,2 @@
+pytest
+semantic_version
