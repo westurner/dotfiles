@@ -32,17 +32,19 @@ import logging
 import os
 import shlex
 import subprocess
-try:
-    #from io import StringIO
-    import io as StringIO
-except ImportError:
-    import StringIO
 import sys
 if sys.version_info.major > 2:
     string_types = str
     unicode = str
+
+    import io
+    StringIO = io.StringIO
+    Buffer = lambda x=None: io.TextIOWrapper(io.StringIO(x))
 else:
     string_types = basestring
+    import StringIO
+    StringIO = StringIO.StringIO
+    Buffer = lambda x=None: StringIO.StringIO(x)
 
 log = logging.getLogger('el')
 
@@ -78,7 +80,8 @@ def print_help(argv=sys.argv, file=sys.stdout):
         yield ("  -v  ## verbose (logging.DEBUG)")
         yield ("")
 
-    print('\n'.join(usage_iter()), file=file)
+    for line in usage_iter():
+        print(line, file=file)
 
 
 class Cmd(object):
@@ -274,8 +277,9 @@ def main(argv=None, stdin=sys.stdin,
         _argv = argv
         argv = _argv[:]
 
-    stdin = codecs.getreader(encoding)(stdin)
-    stdout = codecs.getwriter(encoding)(stdout)
+    if sys.version_info.major < 3:
+        stdin = codecs.getreader(encoding)(stdin)
+        stdout = codecs.getwriter(encoding)(stdout)
 
     conf = Conf()
     conf.cmd = None
@@ -355,7 +359,7 @@ def main(argv=None, stdin=sys.stdin,
                 l = line.strip()
                 if l:
                     yield l
-        lines = iter_stdin(iter(sys.stdin))
+        lines = iter_stdin(iter(stdin))
         if conf.all_at_once:
             args = list(lines)
         else:
@@ -389,65 +393,44 @@ def main(argv=None, stdin=sys.stdin,
 
 import unittest
 
-from contextlib import contextmanager
-
-@contextmanager
-def Capture():
-    new_out, new_err = StringIO.StringIO(), StringIO.StringIO()
-    # store refs to sys.stdout and sys.stderr
-    old_out, old_err = sys.stdout, sys.stderr
-    try:
-        sys.stdout, sys.stderr = new_out, new_err
-        yield sys.stdout, sys.stderr
-    finally:
-        # restore sys.stdin to original value
-        sys.stdout, sys.stderr = old_out, old_err
-
-
 class TestEl(unittest.TestCase):
 
     def test_main_help(self):
         cmd = ['-h']
-        with Capture() as (out, err):
-            retcode = main(argv=cmd)
-            self.assertEqual(retcode, 0)
+        retcode = main(argv=cmd)
+        self.assertEqual(retcode, 0)
 
     def test_main_must_specify_x_or_e(self):
         cmd = ['-v']
-        with Capture() as (out, err):
-            retcode = main(argv=cmd)
-            self.assertEqual(retcode, 7)
+        retcode = main(argv=cmd)
+        self.assertEqual(retcode, 7)
 
     def test_main_ls_l(self):
-        with Capture() as (out, err):
-            cmd = ['-x', 'echo']
-            self._test_cmd(cmd)
+        cmd = ['-x', 'echo']
+        self._test_cmd(cmd)
 
     def test_main_ls_l_x_echo_(self):
-        with Capture() as (out, err):
-            cmd = ['-x', 'echo', '#', ]
-            self._test_cmd(cmd)
+        cmd = ['-x', 'echo', '#', ]
+        self._test_cmd(cmd)
 
     def test_main_ls_l_x_echo__0(self):
-        with Capture() as (out, err):
-            cmd = ['-x', 'echo', '#', '{0}']
-            self._test_cmd(cmd)
+        cmd = ['-x', 'echo', '#', '{0}']
+        self._test_cmd(cmd)
 
     def test_main_ls_l_echo_0(self):
-        with Capture() as (out, err):
-            cmd = ['-x', "echo '{0}'"]
-            self._test_cmd(cmd)
+        cmd = ['-x', "echo '{0}'"]
+        self._test_cmd(cmd)
 
     def _test_cmd(self, cmd):
         stdin_text = []
         for n in range(3):
-            stdin_text.append(unicode(__file__) + '\n')
-        stdin = StringIO.StringIO(u"".join(stdin_text))
-        with Capture() as (stdout, err):
-            sys.stdout = stdout
-            retcode = main(argv=cmd, stdin=stdin, stdout=stdout)
-            self.assertEqual(retcode, 0)
-        return stdout
+            stdin_text.append(unicode(__file__) + unicode('\n'))
+        stdin = StringIO("".join(stdin_text))
+        lines = stdin.readlines()
+        stdin.seek(0)
+        retcode = main(argv=cmd, stdin=stdin)
+        self.assertEqual(retcode, 0)
+        return retcode
 
 
 if __name__ == "__main__":
