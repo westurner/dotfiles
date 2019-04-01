@@ -6,8 +6,12 @@ from __future__ import print_function
 import os
 import sys
 import subprocess
-from itertools import ifilter, imap
 import logging
+
+if sys.version_info.major > 2:
+    ifilter, imap = filter, map
+else:
+    from itertools import ifilter, imap
 
 logging.basicConfig()
 loglevel = logging.DEBUG
@@ -159,10 +163,10 @@ class SphinxMultipleBuilder(object):
                             elif line.startswith("Exception ocurred"):
                                 ret = 1
                                 raise Exception(line)
-                    except Exception, e:
+                    except Exception as e:
                         log.error(e)
                         continue
-                    except KeyboardInterrupt, e:
+                    except KeyboardInterrupt as e:
                         exit()
                         raise
 
@@ -171,7 +175,7 @@ class SphinxMultipleBuilder(object):
                     toc.append((appname, dest_path ))
                     try:
                         os.makedirs(dest_path)
-                    except OSError, e:
+                    except OSError as e:
                         pass
                     try:
                         sphinx_cmd = ("sphinx-build",
@@ -186,10 +190,10 @@ class SphinxMultipleBuilder(object):
                                             os.path.join(here, build_path,).replace('/./','/'))
                         log.debug(sphinx_cmd)
                         ret = sphinx.main(sphinx_cmd)
-                    except KeyboardInterrupt, e:
+                    except KeyboardInterrupt as e:
                         exit()
                         raise
-                    except Exception, e:
+                    except Exception as e:
                         #os.rmdir(dest_path)
                         log.error(e)
                         if fail_on_error:

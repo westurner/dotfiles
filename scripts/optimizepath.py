@@ -10,7 +10,13 @@ import logging
 import os
 import re
 import subprocess
+import sys
 from collections import OrderedDict, Counter
+
+if sys.version_info.major > 2:
+    iterkeys = lambda x: x.keys()
+else:
+    iterkeys = lambda x: s.iterkeys()
 
 import distutils.spawn
 
@@ -59,9 +65,9 @@ def optimize_path(iterable, strip=None, sortfunc=sbin_policy):
     paths = OrderedDict.fromkeys(keys)
 
     if sortfunc:
-        return sortfunc(paths.iterkeys())
+        return sortfunc(iterkeys(paths))
     else:
-        return paths.iterkeys()
+        return iterkeys(paths)
 
 
 def get_checksum(path, hashbin=CHECKSUM_BIN):
@@ -182,7 +188,11 @@ def check_difference(iterable):
 
 import unittest
 import sys
-from StringIO import StringIO
+
+if sys.version_info.major > 2:
+    from io import StringIO
+else:
+    from StringIO import StringIO
 
 class ShellTestCase(unittest.TestCase):
     __stdout = sys.stdout

@@ -89,6 +89,9 @@ import sys
 from collections import namedtuple
 from functools import partial
 
+if sys.version_info.major > 2:
+    unicode = str
+
 EPILOG = __doc__  # """  """
 
 REGEX_DOC = """

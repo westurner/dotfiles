@@ -1,11 +1,15 @@
 #!/usr/bin/python
 from __future__ import print_function
 
-from itertools import imap
 from itertools import tee
 from subprocess import PIPE
 from subprocess import Popen
 import sys
+
+if sys.version_info.major > 2:
+    imap = map
+else:
+    from itertools import imap
 
 def apt_show(package):
     cmd = "apt-cache show %s" % package

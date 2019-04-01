@@ -54,7 +54,7 @@ class ZipArchive:
         return self.zipf.close()
 
 def _extractNameVersion(filename, tempdir):
-    print 'Parsing:', filename
+    print(('Parsing:', filename))
 
     if filename.endswith('.gz') or filename.endswith('.tgz'):
         archive = TarArchive(filename)
@@ -87,8 +87,8 @@ def _extractNameVersion(filename, tempdir):
         archive.extractall(tempdir)
         dirs = os.listdir(tempdir)
         dir = os.path.join(tempdir, dirs[0])
-	if not os.path.isdir(dir):
-	    dir = tempdir
+        if not os.path.isdir(dir):
+            dir = tempdir
         command = ('cd %s && %s setup.py --name --version'
                       % (dir, sys.executable))
         popen = subprocess.Popen(command,
@@ -129,7 +129,7 @@ def main(argv=None):
                     '<ul>\n'])
 
     for key, value in items:
-        print 'Project: %s' % key
+        print('Project: %s' % key)
         dirname = '%s/%s' % (topname, key)
         os.makedirs(dirname)
         top.write('<li><a href="%s">%s</a>\n' % (key, key))
@@ -141,7 +141,7 @@ def main(argv=None):
                         '<ul>\n'])
 
         for revision, archive in value:
-            print '  -> %s, %s' % (revision, archive)
+            print('  -> %s, %s' % (revision, archive))
             sub.write('<li><a href="../../%s">%s</a>\n' % (archive, archive))
 
         sub.writelines(['</ul>\n',

@@ -1,8 +1,12 @@
 #!/usr/bin/env python
-from urllib import urlopen
 from os import getenv
 from random import randrange,seed
 import sys
+
+if sys.version_info.major > 2:
+    from urllib.request import urlopen
+else:
+    from urllib import urlopen
 
 _OUI_URL = "http://standards.ieee.org/regauth/oui/oui.txt"
 _MACFILE = "%s/.macvendors" % getenv("HOME")
@@ -27,11 +31,11 @@ def format_line(line):
 def download_oui():
     #f = file(filename,"r")
     f = urlopen(_OUI_URL)
-    o = file(_MACFILE,"w+")
-    lines = (format_line(l) for l in f if "(hex)" in l)
-    o.writelines( ','.join(x)+"\n" for x in lines)
-    o.close()
-    print "OUI File downloaded to %s" % _MACFILE
+    with file(_MACFILE,"w+") as o:
+        lines = (format_line(l) for l in f if "(hex)" in l)
+        o.writelines( ','.join(x)+"\n" for x in lines)
+        o.close()
+    print("OUI File downloaded to %s" % _MACFILE)
 
 def mac_to_vendor(mac):
     f = file(_MACFILE,"r")
@@ -88,16 +92,16 @@ if __name__=="__main__":
         download_oui()
 
     if(options.vendor and options.rand):
-        print mac_from_vendor(options.vendor)
+        print(mac_from_vendor(options.vendor))
     elif(options.vendor):
-        print find_vendor(options.vendor)
+        print(find_vendor(options.vendor))
 
     if(options.mac and options.rand):
-        print mac_from_prefix(options.mac)
+        print(mac_from_prefix(options.mac))
     elif(options.mac):
-        print mac_to_vendor(options.mac)
+        print(mac_to_vendor(options.mac))
 
     if(options.stdall):
         ilines = sys.stdin.readlines()
         for x in ilines:
-            print "%s -> %s" % (x.strip(), mac_to_vendor(x))
+            print("%s -> %s" % (x.strip(), mac_to_vendor(x)))

@@ -10,8 +10,16 @@ from __future__ import print_function
 import subprocess
 from collections import defaultdict
 from collections import deque
-from itertools import ifilter, imap, izip
+
 import logging
+import sys
+
+if sys.version_info.major > 2:
+    ifilter = filter
+    izip = zip
+    imap = map
+else:
+    from itertools import ifilter, izip, imap
 
 log = logging.getLogger()
 

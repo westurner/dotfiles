@@ -256,7 +256,8 @@ class Test_git_changelog(unittest.TestCase):
         output = git_changelog()
         self.assertTrue(output)
         self.assertEqual(type(output), types.GeneratorType)
-        self.assertTrue(hasattr(output, 'next'))
+        if sys.version_info.major < 3:
+            self.assertTrue(hasattr(output, 'next'))
         for x in output:
             print(x)
         print(output)

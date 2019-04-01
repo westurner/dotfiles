@@ -65,11 +65,11 @@ def main():
     if options.output_formatstr:
         fmtstr = options.output_formatstr
         for line in nl:
-            print fmtstr % list(line)
+            print(fmtstr % list(line))
 
     else:
         for line in nl:
-            print options.odelim.join(line).rstrip()
+            print(options.odelim.join(line).rstrip())
 
 
 if __name__=="__main__":

@@ -15,7 +15,7 @@ def lsof():
     p = subprocess.Popen(('/usr/bin/lsof','-n','-f'), #
              shell=True,
              stdout=subprocess.PIPE)
-    print dir(p.stdout)
+    print(dir(p.stdout))
     return p.stdout.xreadlines()
 
 def grep(lines, patternstr):
@@ -61,7 +61,7 @@ def main(lineiter, pattern):
                 )
             )
     for line in lines:
-        print line
+        print(line)
 
     pass
 
