@@ -90,7 +90,8 @@ from os.path import join as joinpath
 if sys.version_info[0] == 2:
     STR_TYPES = basestring
     str_center = unicode.center
-    import StringIO
+    import StringIO as StringIO_
+    StringIO = StringIO_.StringIO
 
     # workaround for Sphinx autodoc bug
     import __builtin__
@@ -1570,7 +1571,7 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
     aliases['cdwww']         = CdAlias('_WWW',         aliases=['cdww'])
 
     aliases['cdls']   = """set | grep "^cd.*()" | cut -f1 -d" " #%l"""
-    aliases['cdhelp'] = """cat ${__DOTFILES}/''scripts/venv_cdaliases.sh | pyline.py -r '^\s*#+\s+.*' 'rgx and l'"""
+    aliases['cdhelp'] = """cat ${__DOTFILES}/''scripts/venv_cdaliases.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'"""
     return env
 
 
@@ -3736,7 +3737,7 @@ class Test_500_Venv(VenvTestCase, unittest.TestCase):
                          joinpath(self.env['_SRC'], self.env['_APP']))
 
     def test_020_venv_from_null_environ(self):
-        self.failUnlessRaises(Exception, Venv)
+        self.assertRaises(Exception, Venv)
 
     def test_030_venv_without_environ(self):
         os.environ['VIRTUAL_ENV'] = self.env['VIRTUAL_ENV']
