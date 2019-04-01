@@ -3452,8 +3452,8 @@ class VenvTestUtils(object):
 
         def __capture_io(*args, **kwargs):
             # ... partial/wraps
-            _stdout = kwargs.get('stdout', StringIO.StringIO())
-            _stderr = kwargs.get(StringIO.StringIO())
+            _stdout = kwargs.get('stdout', StringIO())
+            _stderr = kwargs.get(StringIO())
             ioconf = {"stdout": _stdout, "stderr": _stderr}
             kwargs.update(ioconf)
             output = f(*args, **kwargs)
@@ -3472,7 +3472,7 @@ class VenvTestCase(_TestCase):
     """unittest.TestCase or object"""
 
 
-class Test_001_lookup(VenvTestCase):
+class Test_001_lookup(VenvTestCase, unittest.TestCase):
 
     def test_100_lookup(self):
         kwargs = {'True': True, 'envTrue': True,
@@ -3492,7 +3492,7 @@ class Test_001_lookup(VenvTestCase):
         self.assertTrue(lookup('...', default=True))
 
 
-class Test_100_Env(VenvTestCase):
+class Test_100_Env(VenvTestCase, unittest.TestCase):
 
     def test_010_Env(self):
         e = Env()
@@ -3523,7 +3523,7 @@ class Test_100_Env(VenvTestCase):
         self.assertTrue(e)
 
 
-class Test_200_StepBuilder(VenvTestCase):
+class Test_200_StepBuilder(VenvTestCase, unittest.TestCase):
 
     def test_000_Step(self):
         def build_func(env, **kwargs):
@@ -3555,7 +3555,7 @@ class Test_200_StepBuilder(VenvTestCase):
         self.assertEqual(env, new_env)
 
 
-class Test_250_Venv(VenvTestCase):
+class Test_250_Venv(VenvTestCase, unittest.TestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
@@ -3614,7 +3614,7 @@ class Test_250_Venv(VenvTestCase):
         self.assertEqual(env['VENVSTRAPP'], VENVSTRAPP)
 
 
-class Test_300_venv_build_env(VenvTestCase):
+class Test_300_venv_build_env(VenvTestCase, unittest.TestCase):
 
     """
     test each build step independently
@@ -3689,7 +3689,7 @@ class Test_300_venv_build_env(VenvTestCase):
         self.assertTrue(env)
 
 
-class Test_500_Venv(VenvTestCase):
+class Test_500_Venv(VenvTestCase, unittest.TestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
@@ -3775,7 +3775,7 @@ class Test_500_Venv(VenvTestCase):
                                   # self.env['VENVSTR']))
 
 
-class Test_900_Venv_main(VenvTestCase):
+class Test_900_Venv_main(VenvTestCase, unittest.TestCase):
 
     def setUp(self):
         self.env = VenvTestUtils.build_env_test_fixture()
