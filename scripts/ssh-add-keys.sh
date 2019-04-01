@@ -419,7 +419,7 @@ function _ssh_keygen__default {
 function _ssh_keygen__github {
     ## _ssh_keygen__github()  -- generate an ssh key for github (-t rsa)
     local _namekey="github.com/${1}__github.com"
-    _ssh_keygen__ "${_namekey}" -t rsa -b 4096
+    _ssh_keygen__ "${_namekey}" -t ecdsa-sha2-nistp521
 }
 
 function _ssh_keygen__gitlab {
