@@ -740,7 +740,7 @@ if __name__ == "__main__":
         '''"   :{cmd_name:<10} -- cd ${pathvar}/$1\n'''
         """command! -nargs=* -complete=customlist,Compl_{vim_func_name} {cmd_name} call {vim_func_name}(<f-args>)\n"""
     )
-    
+
     VIM_EDIT_FUNCTION_TEMPLATE = (
         '''\n'''
         '''function! {vim_func_name}(...)\n'''
@@ -756,7 +756,7 @@ if __name__ == "__main__":
         '''"   :{cmd_name:<10} -- e ${pathvar}/$1\n'''
         """command! -nargs=* -complete=customlist,Compl_{vim_func_name} {cmd_name} call {vim_func_name}(<f-args>)\n"""
     )
-    
+
     @property
     def vim_cmd_name(self):
         """
@@ -828,8 +828,8 @@ if __name__ == "__main__":
                 output += (CdAlias.VIM_EDIT_COMMAND_TEMPLATE
                                 .format(cmd_name=cmd_name,
                                         pathvar=conf['pathvar'],
-                                        vim_func_name=conf['vim_func_name']),)        
-        
+                                        vim_func_name=conf['vim_func_name']),)
+
         output.append(
         '''\n'''
         )
@@ -1552,9 +1552,9 @@ def build_venv_paths_cdalias_env(env=None, **kwargs):
 
     aliases['cdprojecthome'] = CdAlias('PROJECT_HOME', aliases=['cdp', 'cdph'])
     aliases['cdworkonhome']  = CdAlias('WORKON_HOME',  aliases=['cdwh', 'cdve'])
- 
+
     aliases['cdcondaenvspath'] = CdAlias('CONDA_ENVS_PATH', aliases=['cda', 'cdce'])
-    aliases['cdcondaroot']     = CdAlias('CONDA_ROOT',   aliases=['cdr'])  
+    aliases['cdcondaroot']     = CdAlias('CONDA_ROOT',   aliases=['cdr'])
 
     aliases['cdvirtualenv']  = CdAlias('VIRTUAL_ENV',  aliases=['cdv'])
     aliases['cdsrc']         = CdAlias('_SRC',         aliases=['cds'])
