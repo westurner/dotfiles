@@ -58,10 +58,10 @@ else:
         def parse_date(datestr):
             if not datestr:
                 return datestr
-            _datestr = datestr[:19]
+            _datestr = datestr.lstrip()[:19]
             #  tzstr = datestr[19:]
             iso8601_strptime = '%Y-%m-%dT%H:%M:%S'
-            return datetime.datetime.strptime(iso8601_strptime, _datestr)
+            return datetime.datetime.strptime(_datestr, iso8601_strptime)
 
 
 def try_parse_datestr(datestr):
