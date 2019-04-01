@@ -1,0 +1,73 @@
+
+
+- hosts: localhost
+  tags:
+  - sshkeys
+
+  vars:
+    gitlab_username:
+    github_username:
+
+  tasks:
+  - name: Make .ssh/ directory
+    file:
+      name: ~/.ssh/
+      state: directory
+      mode: 0700
+      recurse: true
+  - name: Make .ssh/authorized_keys/ directory
+    file:
+      name: ~/.ssh/authorized_keys.d/
+      state: directory
+      mode: 0700
+      recurse: true
+  - name: get ssh keys from github, gitlab
+    get_url:
+      url: "{{item.url}}"
+      dest: "{{item.dest}}"
+    with_items:
+    - {url: "https://github.com/{{github_username}}.keys", dest: "~/.ssh/authorized_keys.d/github", username: "{{github_username}}"}
+    - {url: "https://gitlab.com/{{gitlab_username}}.keys", dest: "~/.ssh/authorized_keys.d/gitlab", username: "{{gitlab_username}}"}
+    when:
+    - item.username
+  - name: Concatenate authorized_keys
+    assemble:
+      src: ~/.ssh/authorized_keys.d/
+      dest: ~/.ssh/authorized_keys
+      mode: 0600
+
+- hosts: localhost
+  tags:
+  - dotfiles
+
+  vars:
+    __WRK: ~/-wrk
+    __DOTFILES: ~/-dotfiles
+    WORKON_HOME: "{{__WRK}}/-ve37"
+    dotfiles_virtual_env: "{{WORKON_HOME}}/dotfiles"
+
+  # dotfiles
+  tasks:
+  - name: "Make dofiles directory"
+    file:
+      name: "{{dotfiles_virtual_env}}/src"
+      state: directory
+  - name: "Symlink dotfiles"
+    file:
+      dest: "{{__DOTFILES}}"
+      src: "{{dotfiles_virtual_env}}/src/dotfiles"
+      state: link
+      force: yes
+  - name: "Clone dotfiles"
+    git:
+      repo: https://github.com/westurner/dotfiles
+      dest: "{{dotfiles_virtual_env}}/src/dotfiles"
+      version: develop
+      recursive: yes
+
+      # do not discard modifications in the working directory
+      force: no
+      # do not update the dotfiles repository if it already exists
+      update: no
+  - name: "Install dotfiles symlinks"
+    command: "{{dotfiles_virtual_env}}/src/dotfiles/scripts/bootstrap_dotfiles.sh -S -G"

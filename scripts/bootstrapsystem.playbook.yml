@@ -1,0 +1,38 @@
+
+- hosts: localhost
+  tags:
+  - updates
+  - become
+  tasks:
+
+  # update security, then update all
+  - name: update security packages
+    command: dnf update -y --security --sec-severity Low
+    become: true
+    when:
+    - skip_updates is not defined
+  - dnf:
+      name: '*'
+      state: latest
+
+
+- hosts: localhost
+  tags:
+  - ssh
+  - become
+
+  tasks:
+  - name: Install openssh-server
+    become: true
+    package:
+      name: openssh-server
+      state: present
+
+  - name: Enable openssh-server
+    become: true
+    service:
+      name: sshd
+      state: started
+      enabled: true
+  #roles:
+  #- dev-sec.ssh-hardening
