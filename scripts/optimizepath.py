@@ -16,7 +16,7 @@ from collections import OrderedDict, Counter
 if sys.version_info.major > 2:
     iterkeys = lambda x: x.keys()
 else:
-    iterkeys = lambda x: s.iterkeys()
+    iterkeys = lambda x: x.iterkeys()
 
 import distutils.spawn
 
