@@ -94,3 +94,4 @@ src/gitflow
 
 #workaround gitflow installer
 gitflow/
+*.retry
