@@ -425,7 +425,7 @@ function _ssh_keygen__github {
 function _ssh_keygen__gitlab {
     ## _ssh_keygen__gitlab()  -- generate an ssh key for gitlab (-t rsa)
     local _namekey="gitlab.com/${1}__gitlab.com"
-    _ssh_keygen__ "${_namekey}" -t rsa -b 4096
+    _ssh_keygen__ "${_namekey}" -t ecdsa-sha2-nistp521
 }
 
 function _ssh_keygen__bitbucket {
