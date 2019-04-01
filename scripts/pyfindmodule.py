@@ -43,7 +43,10 @@ def pyfindmodule(searchstr):
     except ImportError as e:
         raise ModuleNotFoundError(e)
     cfg = OrderedDict()
-    cfg['path'] = module_path = module.__file__
+    try:
+        cfg['path'] = module_path = module.__file__
+    except AttributeError:
+        return None
     if module_path.endswith('.pyc'):
         _module_srcpath = u"%s.py" % module_path[:-4]
         if os.path.exists(_module_srcpath):
@@ -68,19 +71,24 @@ class Test_pyfindmodule(unittest.TestCase):
             [('string'), None],
             [('collections'), None]
         ]
-        py3missing = ['atexit', 'builtins', 'errno',
+        missingmods = ['atexit', 'builtins', 'errno',
             'faulthandler', 'gc', 'itertools', 'marshal',
             'posix', 'pwd', 'sys', 'time', 'xxsubtype', 'zipimport']
 
-        inclmodule = lambda x: not x.startswith('_') and x not in py3missing
+        if sys.version_info.major < 3:
+            missingmods.extend([
+                'exceptions', 'imp', 'signal', 'thread', ])
+
+        inclmodule = lambda x: not x.startswith('_') and x not in missingmods
         io.extend(((x, None) for x in sys.builtin_module_names if inclmodule(x)))
-        major = sys.version_info.major
         for I, O in io:
             output = pyfindmodule(I)
-            if major < 3:
-                assert (I, output) == (I, O)
-            else:
+            try:
                 assert output != None
+            except AssertionError:
+                print((I,O), output)
+                print(I in missingmods)
+                raise
         pass
 
     def tearDown(self):
