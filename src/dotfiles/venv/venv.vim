@@ -52,7 +52,7 @@ command! -nargs=* -complete=customlist,Compl_Cdhere LCdhere call Lcdhere(<f-args
 
 function! Cd___VAR_(varname, cmd, ...)
 " Cd___VAR_()  -- cd expand('$' . a:varname)/$1
-    let _VARNAME = "$" . a:varname
+    let _VARNAME = a:varname
     let _VAR_=expand(_VARNAME)
     if _VARNAME ==? _VAR_
         echoerr _VARNAME . " is not set"

@@ -714,7 +714,7 @@ if __name__ == "__main__":
         '''\n'''
         '''function! Cd___VAR_(varname, cmd, ...)\n'''
         '''" Cd___VAR_()  -- cd expand('$' . a:varname)/$1\n'''
-        '''    let _VARNAME = "$" . a:varname\n'''
+        '''    let _VARNAME = a:varname\n'''
         '''    let _VAR_=expand(_VARNAME)\n'''
         '''    if _VARNAME ==? _VAR_\n'''
         '''        echoerr _VARNAME . " is not set"\n'''
