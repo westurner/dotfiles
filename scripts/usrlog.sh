@@ -593,22 +593,75 @@ function usrlog_grin_session_id_all_cmds {
     );
 }
 
+function deduplicate_lines {
+    # deduplicate_lines()   -- deduplicate lines w/ an associative array
+    #                                                 (~OrderedMap)
+    local -A lines_ary
+    local line
+    local lines_ary_value
+    while IFS= read -r line; do
+        lines_ary_value=${lines_ary["${line}"]}
+        if [ -z "${lines_ary_value}" ]; then
+            lines_ary["${line}"]="${line}"
+            echo "${line}"
+        fi
+    done
+    unset lines_ary line lines_ary_value
+}
+
+
+# USRLOG_INCLUDE_LEGACYLOGS
+# USRLOG_INCLUDE_ALLUSRLOGS
+
+function _usrlog_set_usrlog_paths {
+    declare -ga _USRLOG_PATHS
+    declare -a _usrlog_paths
+    _USRLOG_PATHS=( )
+    _usrlog_paths=( )
+    _usrlog_paths+=(
+        ${_USRLOG}
+        ${__USRLOG}
+    )
+    test -n "${USRLOG_INCLUDE_LEGACYLOGS}" && \
+        _usrlog_paths+=(
+            ${WORKON_HOME}/*/.usrlog )
+    test -n "${WORKON_HOME}" && \
+        _usrlog_paths+=(
+            ${WORKON_HOME}/*/-usrlog.log ) 
+    test -n "${CONDA_ENVS_PATH}" && \
+        _usrlog_paths+=(
+            ${CONDA_ENVS_PATH}/*/-usrlog.log ) 
+    test -z "${USRLOG_INCLUDE_ALLUSRLOGS}" && \
+        test -n "${__WRK}" && \
+            _usrlog_paths+=(
+                ${__WRK}/-*/*/-usrlog.log ) 
+    declare -A uniques
+    for pth in "${_usrlog_paths[@]}"; do
+        exists=${uniques["${pth}"]}
+        if [ -z "${exists}" ]; then
+            uniques["${pth}"]="${pth}"
+            _USRLOG_PATHS+=("${pth}")
+        fi
+    done
+    export _USRLOG_PATHS
+}
+
+function _usrlog_echo_paths {
+    _usrlog_set_usrlog_paths
+    printf '%s\n' "${_USRLOG_PATHS[@]}"
+}
 
 function lsusrlogs_date_desc {
     #  lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     #                             (oldest first)
-    ls -tr \
-        "${__USRLOG}" \
-        ${WORKON_HOME}/*/.usrlog \
-        ${WORKON_HOME}/*/-usrlog.log $@ 2>/dev/null
+    _usrlog_set_usrlog_paths
+    ls -tr "${_USRLOG_PATHS[@]}" "${@}" 2>/dev/null
 }
 function lsusrlogs_date_asc {
     #  lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     #                             (newest first)
-    ls -t \
-        "${__USRLOG}" \
-        ${WORKON_HOME}/*/.usrlog \
-        ${WORKON_HOME}/*/-usrlog.log $@ 2>/dev/null
+    _usrlog_set_usrlog_paths
+    ls -t "${_USRLOG_PATHS[@]}" "${@}" 2>/dev/null
 }
 function lsusrlogs {
     #  lsusrlogs()             -- list usrlogs (oldest first)
