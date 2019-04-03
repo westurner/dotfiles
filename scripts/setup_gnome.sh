@@ -7,6 +7,9 @@ function setup_gnome_background_color {
   gsettings set org.gnome.desktop.background primary-color "${color}"
   gsettings set org.gnome.desktop.background secondary-color "${color}"
   gsettings set org.gnome.desktop.background color-shading-type "solid"
+
+  # system-wide gnome background
+  # https://help.gnome.org/admin/system-admin-guide/stable/desktop-background.html.en
 }
 
 function main {
