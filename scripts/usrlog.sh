@@ -706,9 +706,10 @@ function usrlog_grin_all {
     (set -x;
     args="${@}"
     usrlogs=$(lsusrlogs)
-    grin --no-skip-hidden-files ${args} ${usrlogs} \
+    lsusrlogs | \
+        grin --no-skip-hidden-files "${@}" -f - \
         | sed 's/:/'$'\t''/' \
-        | grin ${args})
+        | grin "${@}" -)
 }
 function ugrinall {
     #  usrlog_grin_all()    -- grin usrlogs
