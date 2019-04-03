@@ -86,6 +86,13 @@ function _setup_vscode_status {
     # sudo -u nobody code --list-extensions
 }
 
+function _setup_vscode_remove_html_handler {
+    local file="${HOME}/.local/share/applications/code-url-handler.desktop"
+    (set -x; test -f "${file}" && rm -fv "${file}")
+    local file="/usr/share/applications/code-url-handler.desktop"
+    (set -x; test -f "${file}" && sudo rm -fv "${file}")
+}
+
 THISFILE="${0}"
 
 function _setup_vscode_usage {
@@ -96,6 +103,7 @@ function _setup_vscode_usage {
     echo " -e | extensions -- install VSCode extensions (for the current user)"
     echo " -s | settings   -- install VSCode settings (for the current user)"
     echo " -a | all        -- install VSCode; extensions, and settings (for the current user)"
+    echo " --rmh | rmhtmlhandler -- remove VSCode default html handler"
     echo ""
 }
 
@@ -108,6 +116,7 @@ function _setup_vscode_main {
         case "$arg" in
             -i|install)
                 _setup_vscode_install
+                _setup_vscode_remove_html_handler
                 _setup_vscode_status
                 ;;
             status)
@@ -126,6 +135,9 @@ function _setup_vscode_main {
                 # These should not be run with sudo
                 _setup_vscode_extensions
                 _setup_vscode_settings
+                ;;
+            --rmh|rmhtmlhandler)
+                _setup_vscode_remove_html_handler
                 ;;
             -h|--help|help)
                 _setup_vscode_usage
