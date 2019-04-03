@@ -64,7 +64,7 @@ else:
             return datetime.datetime.strptime(_datestr, iso8601_strptime)
 
 
-def try_parse_datestr(datestr):
+def try_parse_datestr(datestr, halt_on_error=True):
     _output = None
     try:
         mobj = ISODATETIME_LOOSE_RGX.match(datestr)
@@ -74,12 +74,17 @@ def try_parse_datestr(datestr):
     except TypeError as e:
         log.exception(e)
         log.exception(datestr)
-        raise ValueError(e)
+        if halt_on_error:
+            raise ValueError(e)
     return _output
 
 
+class ParseException(Exception):
+    pass
+
+
 class Usrlog(object):
-    date_rgxstr = '^#? +(\d\d\d\d-\d\d-\d\dT?\d\d:\d\d:\d\d[-\+\d]+)\t(.*)'
+    date_rgxstr = '^#?\s+(\d\d\d\d-\d\d-\d\dT?\d\d:\d\d:\d\d[-\+\d]+)\t(.*)'
     date_rgx = re.compile(date_rgxstr)
 
     def __init__(self, path):
@@ -96,9 +101,12 @@ class Usrlog(object):
                 # print("iso8601date: %r" % date)
                 if thisline:
                     yield u''.join(thisline)
-                thisline = [l.decode('utf8')]
+                try:
+                    thisline = [l.decode('utf8', 'replace')]
+                except UnicodeEncodeError as e:
+                    thisline = [l]  # TODO
             else:
-                thisline.append(l.decode('utf8'))
+                thisline.append(l.decode('utf8', 'replace'))
         yield u''.join(thisline)
 
     def read_file_lines_joined(self, **kwargs):
@@ -225,7 +233,7 @@ class Usrlog(object):
                             ("histn", w[7]), # TODO   # int or "#note"
                             ("cmd", w[8].rstrip()),
                             ))
-                        raise Exception(result)
+                        raise ParseException(result)
                 else:
                     log.error(('unable to parse (recordsep)', (line, w, recordsep_pos)))
                     result = collections.OrderedDict((
@@ -354,10 +362,20 @@ class Usrlog(object):
                         ("cmd", line),
                         ))
         except IndexError as e:
-            log.error(line)
-            log.error(w)
+            log.error(('exception', e))
+            log.error(('line', line))
+            log.error(('words', w))
             log.exception(e)
+            if halt_on_error:
+                raise
             raise
+        except ParseException as e:
+            log.error(('exception', e))
+            log.error(('line', line))
+            log.error(('words', w))
+            log.exception(e)
+            if halt_on_error:
+                raise
 
         _date = result.get('date')
         if _date:
@@ -415,10 +433,23 @@ class Usrlog(object):
         return result
 
     def read_file_lines_as_dict(self, **kwargs):
-        for l in self.read_file_lines_joined(**kwargs):
-            yield self.parse_line_to_dict(
-                l,
-                halt_on_error=kwargs.get('halt_on_error'))
+        halt_on_error=kwargs.get('halt_on_error')
+        try:
+            for i, l in enumerate(self.read_file_lines_joined(**kwargs)):
+                yield self.parse_line_to_dict(
+                    l,
+                    halt_on_error=halt_on_error)
+        except KeyboardInterrupt:
+            raise
+        except Exception as e:
+            if not halt_on_error:
+                pass
+            else:
+                class ParseFileException(ParseException):
+                    pass
+                e = ParseFileException(('line', i), ('e', e))
+                log.exception(e)
+                raise e
 
     cmdstr_rgx_ptrn = 'TODO|FIXME|XXX'
     cmdstr_rgx = re.compile(cmdstr_rgx_ptrn)
@@ -509,7 +540,7 @@ class Conf(object):
 
 def main(argv=None):
     """
-    Main function
+    usrlog main() function
 
     Keyword Arguments:
         argv (list): commandline arguments (e.g. sys.argv[1:])
@@ -543,6 +574,12 @@ def main(argv=None):
                    action='store_true',
                    default=False,
                    help='Read -usrlog.log path from ${_USRLOG}')
+
+    prs.add_option('-f', '--force',
+                   dest='force',
+                   action='store_true',
+                   default=False,
+                   help='silently skip ParseException (or log w/ -v)')
 
     prs.add_option('--cmd', '--cmds',
                    dest='cmds',
@@ -581,6 +618,11 @@ def main(argv=None):
                    action='store_true',
                    help=(
                        """run --pyline '" commands" + (l[:9] if l else ".")'"""))
+
+    prs.add_option('--iterable-only',
+                   dest='iterable_only',
+                   action='store_true',
+                   help="""return an iterable (instead of an exitcode)""")
 
     prs.add_option('--todo', '--todos',
                    dest='todo',
@@ -644,20 +686,32 @@ def main(argv=None):
 
     if opts.paths:
         for p in opts.paths:
-            log.debug(('path-from-cmdline', p))
+            log.debug(('opts.paths', p))
         conf.paths.extend(opts.paths)
-
     conf.paths.extend(args)
-    conf.attrs = ['date', 'id', 'cmd']
+    log.info(('usrlog_paths', (conf.paths)))
+    if not conf.paths:
+        print("ERROR: (1) No usrlog.py paths were specified", file=sys.stderr)
+        print("Specify a path with -u / -p <-|path> /-P", file=sys.stderr)
+        print("", file=sys.stderr)
+        prs.print_help()
+        return 1
 
-    if not opts.quiet:
-        conf.halt_on_error = True
+
+    conf.halt_on_error = True
+    if opts.quiet:
+        conf.halt_on_error = False
+    if opts.force:
+        conf.halt_on_error = False
+
+    conf.attrs = ['date', 'id', 'cmd']
 
     if not any((opts.columns,
                 opts.cmds, opts.sessions, opts.dates, opts.elapsed,
                 opts.todo)):
-        log.info("no columns specified. defaulting to: %r" % conf.attrs)
-        prs.print_help()
+        log.info("No columns were specified. defaulting to: %r" % conf.attrs)
+        # log.info("Here are the docs:" % conf.attrs)
+        # prs.print_help()
         # return 2
 
     ALL_COLUMNS = ['line', 'words', 'date', 'id', 'virtualenv',
@@ -725,6 +779,8 @@ def main(argv=None):
     iterable = ((obj, select_items(obj)) for obj in
                 itertools.ifilter(filterfunc, usrlogs_iterable()))
 
+    EX_OK = 0
+
     if opts.pyline:
         try:
             import pyline
@@ -738,11 +794,17 @@ def main(argv=None):
         return retcode
         # codefunc = lambda x: x
         # output = pyline.pyline(iterable, codefunc=do_pyline)
+    elif opts.iterable_only:
+        return iterable
     else:
-        for obj, attrs in iterable:
-            print(attrs)
-
-    EX_OK = 0
+        if not opts.quiet:
+            for obj, attrs in iterable:
+                print(attrs)
+        else:
+            # objects = list(iterable)
+            for obj, attrs in iterable:
+                pass
+        return EX_OK
 
     return EX_OK
 
