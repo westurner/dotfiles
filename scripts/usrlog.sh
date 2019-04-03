@@ -379,23 +379,32 @@ function utp {
 
 function usrlog_tail {
     #  usrlog_tail()     -- tail -n20 $_USRLOG
-    local _args="${@}"
+    local _args=${@}
     local follow="${_USRLOG_TAIL_FOLLOW}"
+    local _usrlog="${_USRLOG}"
     if [ -n "${_args}" ]; then
-        if [[ "${1}" = "-n" ]]; then
-            shift;
-            local count=${1}
-            shift
-            local __args="${@}"
-            if [ -z "${__args}" ]; then
-                _args="${_USRLOG}"
+        for _arg in ${_args}; do
+            if [[ "${_arg}" == -* ]]; then
+                if [[ "${_arg}" = '-n' ]]; then
+                    shift;
+                    local count=${1}
+                    shift
+                elif [[ "${_arg}" = '-v' ]]; then
+                    shift
+                    local verbose=1
+                else
+                    # shift
+                    echo "_arg: ${_arg}" # TODO: 
+                fi
             fi
+        done
+        local __args=${@}   # after shifts
+        if [ -z "${@}" ]; then
+            _args=($_args "${_USRLOG}")
         fi
-        (set -x; tail ${follow:+"-f"} \
-            ${count:+"-n"} ${count:-"${count}"} \
-            ${_args})
+        (set -x; tail ${_args[@]})
     else
-        (set -x; tail ${follow:+"-f"} $_USRLOG)
+        (set -x; tail ${follow:+"-f"} "${_usrlog}")
     fi
 }
 function usrlog_tail_follow {
