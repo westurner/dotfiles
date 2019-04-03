@@ -255,7 +255,7 @@ class Windows_start_WebBrowser(WebBrowser):
 
 
 class Python_webbrowser_WebBrowser(WebBrowser):
-    platforms = ['*']
+    platforms = ['*', 'linux']
 
     @classmethod
     def open_new_tab(cls, url, **kwargs):
