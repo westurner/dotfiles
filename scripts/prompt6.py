@@ -15,7 +15,7 @@ if IS_PYTHON2:
         return obj.iteritems()
     iteritems = iteritems2
 elif IS_PYTHON3:
-    import stringio as StringIO
+    import io as StringIO
 
     def iteritems3(obj):
         return obj.items()
@@ -537,9 +537,12 @@ def main(argv=None):
 
     prs = optparse.OptionParser(usage="%prog [-g|--get] [-s|--set]")
 
+    STORE_KEYS=['mem', 'disk', 'diskg']
+
     prs.add_option('-S', '--store',
                    dest='store',
-                   action='store')
+                   action='store',
+                   help='STORE_KEYS={}'.format(STORE_KEYS))
 
     prs.add_option('-g', '--get',
                    dest='get',
@@ -552,7 +555,8 @@ def main(argv=None):
     prs.add_option('--pw', '--set-password',
                    dest='set_password',
                    nargs=1,
-                   action='append')
+                   action='append',
+                   help='--set=SET_PASSWORD (value=getpass())')
 
     prs.add_option('-p', '--prefix',
                    dest='prefix',
@@ -637,6 +641,12 @@ def main(argv=None):
             p6.set(key, value)
     return 0
 
+
+def _main_():
+    import sys
+    return main(argv=sys.argv[1:])
+
+
 if __name__ == "__main__":
     import sys
-    sys.exit(main(argv=sys.argv[1:]))
+    sys.exit(_main_())
