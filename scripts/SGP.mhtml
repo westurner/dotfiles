@@ -1,0 +1,270 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://chriszarate.github.io/supergenpass/mobile/
+Subject: SGP
+Date: Sun, 3 Mar 2019 08:16:43 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--eUfoMVzB4fEsOUGyyFVByPgeoD8qA00eDrrv2exBH7----"
+
+
+------MultipartBoundary--eUfoMVzB4fEsOUGyyFVByPgeoD8qA00eDrrv2exBH7----
+Content-Type: text/html
+Content-ID: <frame-6C3685C1C240EE4FB0584A12FBB1AA19@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://chriszarate.github.io/supergenpass/mobile/
+
+<!DOCTYPE html><html manifest=3D"https://chriszarate.github.io/supergenpass=
+/mobile/cache.manifest"><head><meta http-equiv=3D"Content-Type" content=3D"=
+text/html; charset=3DUTF-8">
+
+	=09
+		<meta name=3D"viewport" content=3D"width=3D240,user-scalable=3Dno">
+
+		<meta name=3D"apple-mobile-web-app-capable" content=3D"yes">
+		<meta name=3D"apple-mobile-web-app-status-bar-style" content=3D"black">
+
+		<meta name=3D"format-detection" content=3D"telephone=3Dno">
+
+		<link rel=3D"canonical" href=3D"https://chriszarate.github.io/supergenpas=
+s/mobile/">
+
+		<link rel=3D"apple-touch-icon-precomposed" href=3D"https://chriszarate.gi=
+thub.io/supergenpass/assets/img/sgp@57x57.png">
+		<link rel=3D"apple-touch-icon-precomposed" sizes=3D"72x72" href=3D"https:=
+//chriszarate.github.io/supergenpass/assets/img/sgp@72x72.png">
+		<link rel=3D"apple-touch-icon-precomposed" sizes=3D"114x114" href=3D"http=
+s://chriszarate.github.io/supergenpass/assets/img/sgp@114x114.png">
+		<link rel=3D"apple-touch-icon-precomposed" sizes=3D"144x144" href=3D"http=
+s://chriszarate.github.io/supergenpass/assets/img/sgp@144x144.png">
+
+		<link rel=3D"alternate" lang=3D"fr" hreflang=3D"fr" title=3D"En fran=C3=
+=A7ais" href=3D"https://chriszarate.github.io/supergenpass/mobile/?fr">
+		<link rel=3D"alternate" lang=3D"es" hreflang=3D"es" title=3D"En espa=C3=
+=B1ol" href=3D"https://chriszarate.github.io/supergenpass/mobile/?es">
+		<link rel=3D"alternate" lang=3D"de" hreflang=3D"de" title=3D"Auf Deutsch"=
+ href=3D"https://chriszarate.github.io/supergenpass/mobile/?de">
+		<link rel=3D"alternate" lang=3D"pt-br" hreflang=3D"pt-br" title=3D"No por=
+tugu=C3=AAs brasileiro" href=3D"https://chriszarate.github.io/supergenpass/=
+mobile/?pt-br">
+		<link rel=3D"alternate" lang=3D"zh-hk" hreflang=3D"zh-hk" title=3D"=E7=B9=
+=81=E9=AB=94=E4=B8=AD=E6=96=87" href=3D"https://chriszarate.github.io/super=
+genpass/mobile/?zh-hk">
+		<link rel=3D"alternate" lang=3D"hu" hreflang=3D"hu" title=3D"Magyarul" hr=
+ef=3D"https://chriszarate.github.io/supergenpass/mobile/?hu">
+		<link rel=3D"alternate" lang=3D"ru" hreflang=3D"ru" title=3D"=D1=80=D1=83=
+=CC=81=D1=81=D1=81=D0=BA=D0=B8=D0=B9" href=3D"https://chriszarate.github.io=
+/supergenpass/mobile/?ru">
+
+		<!-- See unminified CSS at https://github.com/chriszarate/supergenpass --=
+>
+		<style>#main,input{background-color:#fff}#Canvas,.placeholder{top:11px;di=
+splay:none;position:absolute}#Canvas,#Update,.Option,.placeholder,input[typ=
+e=3Dradio],input[type=3Dcheckbox]{display:none}#CopyButton,#SaveDefaults{ba=
+ckground-size:16px 16px}body{width:auto;max-width:320px;margin:0 auto;paddi=
+ng:0;color:#333;background-color:#689;font-family:Helvetica,Arial,sans-seri=
+f;font-size:14px;line-height:16px}a{text-decoration:none}h1{margin:0 0 10px=
+;font-size:1.25em}noscript{margin-top:10px;color:#f33}*{-webkit-tap-highlig=
+ht-color:transparent}#main{margin-top:50px;padding:25px;border-radius:4px}#=
+Update{padding:5px;background-color:#fcc;text-align:center}#Update a{color:=
+#311;text-decoration:underline}#Canvas{right:10px;width:16px;height:16px}fo=
+rm{margin:0}fieldset{position:relative;margin:10px 0 0;padding:0;border:non=
+e}input{border:2px solid #ccc;border-radius:4px;-moz-box-sizing:border-box;=
+-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-appearance:none=
+;-moz-appearance:none}input:focus{outline:0;border-color:#9bc}label{font-si=
+ze:14px;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:n=
+one;-ms-user-select:none;user-select:none}.placeholder{left:12px;color:#ccc=
+}::-webkit-input-placeholder{color:#ccc;font-family:Helvetica,Arial,sans-se=
+rif}:-moz-placeholder{color:#ccc;font-family:Helvetica,Arial,sans-serif}::-=
+moz-placeholder{color:#ccc;font-family:Helvetica,Arial,sans-serif}:-ms-inpu=
+t-placeholder{color:#ccc;font-family:Helvetica,Arial,sans-serif}.Missing la=
+bel{color:#d66}.Missing input::-webkit-input-placeholder{color:#d66}.Missin=
+g input:::-moz-placeholder{color:#d66}.Missing input::-moz-placeholder{colo=
+r:#d66}.Missing input:-ms-input-placeholder{color:#d66}.Missing input{borde=
+r-color:#d66}#Domain,#Passwd,#Secret{width:100%;height:38px;margin:0;paddin=
+g:8px 10px;font-size:15px}#LenField input,#LenField label{float:left;font-s=
+ize:14px;border-radius:4px 0 0 4px}#Passwd{padding-right:30px}#DomainField,=
+#PasswdField{clear:both}#LenField input{width:38px;height:31px;margin:0;pad=
+ding:5px}#LenField label,input[type=3Dradio]+label{height:16px;margin:0;bac=
+kground-color:#ccc;cursor:pointer;text-align:center}#LenField label{width:2=
+4px;padding:6px 0 7px;color:#999;font-weight:700;border-bottom:solid 2px #b=
+bb}#LenField label:hover,input[type=3Dradio]+label:hover{color:#000}#LenFie=
+ld label:first-of-type{padding-left:2px;border-radius:0}#LenField label:las=
+t-of-type{padding-right:2px;border-radius:0 4px 4px 0}#MethodField{float:ri=
+ght}input[type=3Dradio]+label{float:right;width:48px;padding:6px 0;color:#9=
+99;border-bottom:solid 2px #999}#Options,#SaveDefaults{width:18px;height:18=
+px;opacity:.7;float:right;background-repeat:no-repeat}input[type=3Dradio]:c=
+hecked+label{color:#fff;background-color:#356;font-weight:700;border-bottom=
+:solid 2px #023}#MethodField label:first-of-type{border-radius:0 4px 4px 0}=
+#MethodField label:last-of-type{border-radius:4px 0 0 4px}#SubdomainsField{=
+position:absolute;top:0;right:9px}input[type=3Dcheckbox]+label{padding:2px =
+4px;color:#fff;background-color:#356;font-size:12px;border:1px solid #023;b=
+order-radius:3px;text-decoration:line-through;cursor:pointer}input[type=3Dc=
+heckbox]+label:hover{color:#fff;border-color:#023;text-decoration:line-thro=
+ugh}input[type=3Dcheckbox]:checked+label{color:#999;background-color:#fff;b=
+order-color:#999;text-decoration:none}#CopyButton,#Generate{background-colo=
+r:#356;cursor:pointer}input[type=3Dcheckbox]:checked+label:hover{color:#333=
+;border-color:#333}#Options{margin-right:2px;background-image:url(data:imag=
+e/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAACDElEQVRIx63Wv0=
+okQRAG8N/M3qKJkWCmJneGa2Jg5h8QRPEZDEw02ETxcURfw1R8ChcEwcRME711Z6Yu2N5x13/Hc=
+dMNzfbsVx9V9VV1N+9HS4a83l8K4bLe58i0/GVkmNORyeRY9CyEZ4vIZTIdcwn5Lc2+e+EIU9gQ=
+SqWwkb4cCff2v6NqYV0ohNIeOBUKhXAK9pQJsZ4sPhk5lvVVCuHRKs6FgYFwjlWPQqHStzyRyTF=
+v8uTsVR3MjWP3QqUS7h27qf+7Suh80qssrdPoCoPafHIOvw2ELqZru7Gg1nSSq4uehEqoDMbIRr=
+tKeEoa0rE2CrCFA+HFta4FM3pC+cGb0SyFnhkLuq69CAejtM+6S0qER70vApqcPY8iWd2ZHfrUU=
+aoUSeZJikHyrZwIMxJJoVApdUaiHypVSpHWEc3wd18/kVVjAVZpLR2OCiHHbp3iN5rw6tyWJUu2=
+nHv9BPFk962eclNYcTsGrIQHW2OlwZaHd4hbK5gaEg2BP1I7DGpQZRttLblcSxvbdQEMkafJkoy=
+2eZtOXKQqHmlxhvZE9bdxVus7rPYLJzbNa3Pp5RPBw86Hpmxh512ehvPFpaRBMSZvJfz260NT5l=
+jSn8jTQJG0/ZLo578SNRZaY8luTP7GCrKxFmmwaRs6Rho72Bo8ahs6/Bu9jhq7IBu8sht9RDT2r=
+GnwofUfT78/AU+1mnSH4ucAAAAASUVORK5CYII=3D);background-size:18px 18px;cursor=
+:pointer}#Options:hover{opacity:1}.Advanced .Option{display:block}.Advanced=
+ #Domain{padding-right:45px}#SaveDefaults{margin-right:8px;background-color=
+:#fff;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC=
+AAAAAgAgMAAAAOFJJnAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJUExURUxpcQAAA=
+AAAAD5+edwAAAACdFJOUwAH6PdYmwAAAD9JREFUGNPF0KsRACAMwNAcklE6GlMwSiXXKSmfojAo=
+op4O2UYNRPEEzJFVakADLWDvgOLY3cDsE+TA9o60oB24XkzxWNPvZAAAAABJRU5ErkJggg=3D=
+=3D);background-position:center center;-webkit-transition:background .5s li=
+near;transition:background .5s linear;cursor:pointer}#SaveDefaults:hover{op=
+acity:1}#SaveDefaults.Success{background-image:url(data:image/png;base64,iV=
+BORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCA=
+K7OHOkAAAB+UExURUxpcQoKCuPj48HBwQMDAwcHBxAQEAAAAAAAAA0NDeTk5ImJiR0dHXFxcTk5=
+ORUVFXV1dVdXV5ycnIuLiykpKfDw8G1tbebm5n9/f/X19UlJSYaGhhcXF25ubunp6eDg4DIyMml=
+paTU1NZubm9XV1VFRUYSEhI6OjuHh4aurq4zmssgAAAAIdFJOUwD///////8HZqwuHAAAAJZJRE=
+FUOMvVk8sSgjAMRYM8vEVURETBNz7A//9BFshMHSa3GzecVZue6aRJKiLQkB57bTNEMRK++yFMB=
+TgFOAVMVeiZ/wo6fxJEQRUO+YYKd1T0hgduJROeXnSlOdT40CQbvOgrLsZrqXDGW63DMtrKPjzp=
+hVoBWYGjLszWMKHZkVL7AZDSXiyCJB7PlqubjoGw/q9y3gER0xJYR8gIqQAAAABJRU5ErkJggg=
+=3D=3D);-webkit-transition:background 0s linear;transition:background 0s li=
+near}.Field{height:16px;padding:10px 5px;font-size:16px;text-align:center;b=
+order-radius:4px}.Button:active{margin-top:2px!important;border-bottom:0!im=
+portant}#Result{padding-top:10px}.Offer #Generate{display:none}.Offer #Mask=
+,.Offer #Output{display:block}#Mask,#Output,.Reveal #MaskText{display:none}=
+#Generate{padding-bottom:8px;color:#fff;font-weight:700;border-bottom:solid=
+ 2px #023}#Generate:hover{color:#fff;background-color:#467;border-bottom:so=
+lid 2px #134}#Mask{height:36px;overflow:hidden;position:relative}#MaskText,=
+#Output{color:#fff;background-color:#666;border:none;border-bottom:solid 2p=
+x #666;font-family:monospace;height:14px;word-wrap:break-word;overflow-wrap=
+:break-word}#MaskText{border-color:#444;cursor:pointer}#Output::selection{b=
+ackground-color:#fff;color:#333}#Output::-moz-selection{background-color:#f=
+ff;color:#333}.Reveal #Output{display:block}#CopyButton{float:right;width:2=
+4px;height:14px;margin-top:0;background-image:url(data:image/png;base64,iVB=
+ORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAZFJREFUeNrtm0=
+FKAzEUhlvpUrHMqtADCC56AzdCb+CRPEwX3kDoRvAGeoJZdCUOzn78C1nZMElJXlLb74dHFk3Sv=
+G/evCRDMp0U1iCN/T6VSo7nanLhAgAA/O/pUraRtUNAvnf8mPqp7YewWufL0ptzPB3eqXiXNTEE=
+/yatGCdTlPB/X7IHNf8MRcBzrPP/TI3zLRgB3ypuCzyR0hGwV6/mNyEAg+WAQvP8se1Tx8ssAIA=
+L1yw1CXnUjSXRxCTZ584JFhGwNXxgr9lnldy7NTW/V/FmsJbwLmRSx589AtwAV7IX2S5DlzvX1y=
+rkfJUI8NSfq0pn9C3hWsVPznWIRQ54NMwB6yJfbBJ3Yx+yxmBcjevbdDeaazu634I+yRYZHF+4v=
+lqL7bhFDiiqU8wBLIUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ6ZZ=
+agel7/gQAQAAQN0cUPtMEBEAAACYA+jO2N8+BsD2jAEc3DfwnRS1Ou9fW3EXJw3O+9fW6H2DXwy=
+V/bjOkCPhAAAAAElFTkSuQmCC);background-repeat:no-repeat;background-position:=
+50% 50%;-webkit-transition:background .5s linear;transition:background .5s =
+linear;border-left:solid 1px #999;border-bottom:solid 2px #023;border-top-l=
+eft-radius:0;border-bottom-left-radius:0}#CopyButton.Active{border-top:soli=
+d 2px #fff;border-bottom:0}#CopyButton.Success{background-image:url(data:im=
+age/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAAAXNSR0IArs4c=
+6QAAAglJREFUaN7tmc1LW0EQwCehVIRiQRRDQy2UQjAXLxZy9x9QULzmWCFQqCcPFfwncu2tCNF=
+cBC8eKsYvhF6UlN4bTFuQBpUipfLrwXWpyQvvI8lswDent8Pszu/x5s3MMiIRhSYRbYkBegBAmj=
+Vq7Q4mpLTdV2ONtJf7DOehDooKAHBOthWgFOGgqABQbgVoqAJc+gaV30FBg9Lv3BigfwGCBmnQI=
+OscoBwKoNx9gKx3ogqaaDoGECFNibqv8zolr1QbGcAqnoaqK0/CBrE/wGwogNnuA1QZDux+mGr3=
+AaDGHClf5ynm/i/q3QSIJA8U4IJj9t0A/GKF5yIiLLoA2LrLFuS41geoMGj2PONMPwZO7NsPcKQ=
+fhFdk7I4PLv6CvLV/6+I3tNWfaf7qA/xg1Ni+bO0ZNABmbAk+dZEJPxq7BBsuUvFPRozdeze1YM=
+FYTTUHnw7AprF57PX1ew9wcVt2RFjVKscNtvluVwVjMckfHYAiQyK8NqsDkiIiPOKzTkOybjUHw=
+DUTZrWs1REVrCYPLJnnibu633uAotUMsExCRIQkh3o94VePFvydblM63rTjFb91Ad7cs0+wo92W=
+f7pnP+/iXpCz2jG+uQD4wgsREUapuLoZXbLLHjfx3fAhAagNOGKAvgPotcQAfQjQUPXvMbQqqwJ=
+4jO3CzAM6Fa/BZeB5QKfSNE/4B+7t6AYuE5oKAAAAAElFTkSuQmCC);-webkit-transition:b=
+ackground 0s linear;transition:background 0s linear}@media only screen and =
+(max-width:800px){body{background-color:#fff}#main{margin:0;padding:15px;bo=
+rder-radius:0}#Output{height:auto}}</style>
+
+		<title>SGP</title>
+
+	</head>
+
+	<body class=3D"">
+
+		<div id=3D"main">
+
+			<h1>
+				SGP
+				<span id=3D"Options" title=3D"Toggle advanced options" deluminate_image=
+type=3D"png"></span>
+				<span id=3D"SaveDefaults" class=3D"Option" title=3D"Save current advanc=
+ed options as defaults" deluminate_imagetype=3D"png"></span>
+			</h1>
+
+		=09
+
+			<div id=3D"Update">Updated bookmarklet: <a id=3D"Bookmarklet" href=3D"ht=
+tps://chriszarate.github.io/supergenpass/mobile/#">SGP</a></div>
+
+			<form action=3D"https://chriszarate.github.io/supergenpass/mobile/#" nov=
+alidate=3D"novalidate" autocomplete=3D"off">
+
+				<fieldset id=3D"PasswdField">
+					<input id=3D"Passwd" type=3D"password" placeholder=3D"Master password"=
+>
+					<label for=3D"Passwd" class=3D"placeholder">Master password</label>
+					<canvas id=3D"Canvas" width=3D"16" height=3D"16" style=3D"display: inl=
+ine;"></canvas>
+				</fieldset>
+
+				<fieldset id=3D"SecretField" class=3D"Option">
+					<input id=3D"Secret" type=3D"password" placeholder=3D"Secret password"=
+>
+					<label for=3D"Secret" class=3D"placeholder">Secret password</label>
+				</fieldset>
+
+				<fieldset id=3D"MethodField" class=3D"Option">
+					<input id=3D"MethodSHA512" name=3D"Method" type=3D"radio" value=3D"sha=
+512">
+					<label for=3D"MethodSHA512" class=3D"Button" title=3D"Use SHA-512 algo=
+rithm">SHA</label>
+					<input id=3D"MethodMD5" name=3D"Method" type=3D"radio" value=3D"md5" c=
+hecked=3D"checked">
+					<label for=3D"MethodMD5" class=3D"Button" title=3D"Use MD5 algorithm">=
+MD5</label>
+				</fieldset>
+
+				<fieldset id=3D"LenField" class=3D"Option">
+					<input id=3D"Len" type=3D"text" pattern=3D"[0-9]*" value=3D"10" maxlen=
+gth=3D"2">
+					<label id=3D"Down" class=3D"Button" title=3D"Adjust password length">=
+=E2=80=93</label><label id=3D"Up" class=3D"Button" title=3D"Adjust password=
+ length">+</label>
+				</fieldset>
+
+				<fieldset id=3D"DomainField">
+					<input id=3D"Domain" type=3D"url" placeholder=3D"Domain / URL" autocor=
+rect=3D"off" autocapitalize=3D"off">
+					<label for=3D"Domain" class=3D"placeholder">Domain / URL</label>
+					<fieldset id=3D"SubdomainsField" class=3D"Option">
+						<input id=3D"RemoveSubdomains" type=3D"checkbox" value=3D"disabled" c=
+hecked=3D"checked">
+						<label for=3D"RemoveSubdomains" title=3D"Toggle subdomain removal">TL=
+D</label>
+					</fieldset>
+				</fieldset>
+
+				<div id=3D"Result">
+
+					<div id=3D"Generate" class=3D"Field Button">Generate</div>
+
+					<div id=3D"Mask">
+						<div id=3D"CopyButton" class=3D"Field Button" deluminate_imagetype=3D=
+"png"></div>
+						<div id=3D"MaskText" class=3D"Field Button">**************</div>
+						<div id=3D"Output" class=3D"Field"></div>
+					</div>
+
+				</div>
+
+			</form>
+
+		</div>
+
+		<!-- See unminified JS at https://github.com/chriszarate/supergenpass -->
+	=09
+
+=09
+
+
+</body></html>
+------MultipartBoundary--eUfoMVzB4fEsOUGyyFVByPgeoD8qA00eDrrv2exBH7------
