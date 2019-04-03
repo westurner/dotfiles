@@ -421,12 +421,20 @@ function utf {
 
 function usrlog_grep {
     #  usrlog_grep() -- egrep -n $_USRLOG
-    local _args="${@}"
+    #local _args="${@}"
     local _paths="${_USRLOG_GREP_PATHS:-"${_USRLOG}"}"
-    (set -x; egrep -n ${@:+"${@}"} ${_paths})
+    if [ -z "${@}" ]; then
+        (set -x; cat "${_paths}")
+    else
+        (set -x; egrep --text -n "${@}" ${_paths})
+    fi
 }
 function ug {
     #  ug()          -- egrep -n $_USRLOG
+    #    Usage:
+    #      ug 'pip' | ugp
+    #      ug | ugp | grep -C 20 'pip'
+    #      ug | usrlog.py -
     usrlog_grep "${@}"
 }
 
