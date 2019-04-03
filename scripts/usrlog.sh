@@ -303,11 +303,13 @@ function _usrlog_parse_cmds {
     #  NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
     #  NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
     local usrlog="${1}"
-    if [ -n "${usrlog}" ]; then
-        if [ "${usrlog}" != "-" ]; then
-            usrlog="-f ${usrlog}"
-        fi
-    fi
+    sed 's,.*\t\$\$\t\(.*\),\1,g' ${usrlog:+"${usrlog}"}
+
+    #if [ -n "${usrlog}" ]; then
+    #    if [ "${usrlog}" != "-" ]; then
+    #        usrlog="-f ${usrlog}"
+    #    fi
+    #fi
     #pyline.py ${usrlog} \
     #    'list((
     #        (" ".join(w[10:]).rstrip() if len(w) > 10 else None)
@@ -318,13 +320,18 @@ function _usrlog_parse_cmds {
     #        or " ".join(w).rstrip())
     #        for w in [ line and line.startswith("#") and line.split("\t",9) or [line] ]
     #        )'
-    pyline.py ${usrlog} 'l and l.startswith("#") and l.split("\t$$\t", 1)[-1]'
+    #if try_grep:
+    #
+    #pyline.py ${usrlog} -r '(\d+:|#\s+) ' \'l and (l.startswith("#" or rgx.groups())) and l.split("\t$$\t", 1)[-1]'
+    #pyline.py ${usrlog}  'l and (l.startswith("#")) and l.split("\t$$\t", 1)[-1]'
+    # usrlog.py -p${usrlog:-'-'}${usrlog:+"${usrlog}"} --cmd
+    #
+    # grep -n "usrlog_" "$_USRLOG" | pyline.py -r '^(?P<grep_n>\d+\:)?(?P<start>#\s+)(?P<_words>.*)\t\$\$\t(?P<cmd>.*)' 'l and rgx and (rgx.groups(), rgx.groupdict(), (rgx.groupdict().get("_words","") or "").split("\t"))'  -O json
+    #
 }
 function ugp {
     _usrlog_parse_cmds "${@}"
 }
-
-
 
 ## usrlog.sh API
 
