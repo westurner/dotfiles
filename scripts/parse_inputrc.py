@@ -14,10 +14,14 @@ import functools
 import json
 import logging
 import os
+import sys
+
+if sys.version_info.major > 2:
+    unicode = str
 
 log = logging.getLogger()
 
-class TextFile_(file):
+class TextFile_(object):
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('encoding',
@@ -129,9 +133,9 @@ class Test_parse_inputrc(unittest.TestCase):
         pass
 
     def test_parse_inputrc(self):
-        output = parse_inputrc()
-        print(output)
-        raise Exception()
+        if os.path.exists(os.path.expanduser("~/.inputrc")):
+            output = parse_inputrc()
+            print(output)
 
     def tearDown(self):
         pass
