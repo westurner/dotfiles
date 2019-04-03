@@ -679,12 +679,18 @@ function ull {
 
 function usrlog_grep_all {
     #  usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
-    (set -x;
-    args="${@}"
-    usrlogs=$(lsusrlogs)
-    egrep ${args} ${usrlogs} \
-        | sed 's/:/'$'\t''/')
-       #| pyline.py 'l.replace(":","\t",1)'  # grep filename output
+    if [ -n "${@}" ]; then
+        (set -x;
+        args="${@}"
+        usrlogs=$(lsusrlogs)
+        egrep "${@}" --text ${usrlogs} \
+            | sed 's/:/'$'\t''/')
+        #| pyline.py 'l.replace(":","\t",1)'  # grep filename output
+    else
+        # cat $(lsusrlogs)    # dangerous and wrong
+        # cat "$(lsusrlogs)"  # wrong
+        lsusrlogs | xargs cat # requires xargs, may be too long
+    fi
 }
 function ugall {
     #  ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
