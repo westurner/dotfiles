@@ -466,34 +466,34 @@ function ugva {
 }
 
 function _usrlog_grep_todo_fixme_xxx {
-    grep -E -i '(todo|fixme|xxx)'
+    grep --text -E -i '(todo|fixme|xxx)'
 }
 function _usrlog_grep_todos {
-    grep '$$'$'\t''#\(TODO\|NOTE\|_MSG\)'
+    grep --text '$$'$'\t''#\(TODO\|NOTE\|_MSG\)'
 }
 function usrlog_grep_todos {
-    cat ${@:-${_USRLOG}} | _usrlog_grep_todos
+    cat "${@:-${_USRLOG}}" | _usrlog_grep_todos
 }
 function uggt {
-    usrlog_grep_todos ${@}
+    usrlog_grep_todos "${@}"
 }
 
 function usrlog_grep_todos_parse {
-    usrlog_grep_todos ${@} | _usrlog_parse_cmds
+    usrlog_grep_todos "${@}" | _usrlog_parse_cmds
 }
 
 function ugtp {
     # usrlog_grep_todos | _usrlog_parse_cmds
-    uggt $@ | ugp
+    uggt "${@}" | ugp
 }
 
 function ugtptodo {
     # usrlog_grep_todos | _usrlog_parse_cmds
-    ugtp ${@} | grep --color=never '^#TODO'
+    ugtp "${@}" | grep --text --color=never '^#TODO'
 }
 function ugtptodonote {
     # usrlog_grep_todos | _usrlog_parse_cmds
-    ugtp ${@} | grep --color=never '^#\(TODO\|NOTE\)'
+    ugtp "${@}" | grep --text --color=never '^#\(TODO\|NOTE\)'
 }
 
 function usrlog_format_as_txt {
@@ -518,7 +518,7 @@ function ugt {
 }
 
 function ugtodoall {
-    ugtp "${@} $(lsusrlogs)"
+    ugtp "${@}" $(lsusrlogs)
 }
 
 function ugta {
