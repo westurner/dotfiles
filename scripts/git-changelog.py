@@ -110,11 +110,14 @@ def rst_escape(_str, encoding='utf-8'):
 
 
 def git_changelog(
-    path=None,
-    tags=None,
-    append_tags=None,
-    git_bin=None,
-    heading_char='^'):
+        path=None,
+        tags=None,
+        append_tags=None,
+        git_bin=None,
+        format='rst',
+        heading_char=None,
+        heading_level=2,
+        include_cmd=True):
     """generate a git changelog from git tags
 
     Arguments:
@@ -138,10 +141,20 @@ def git_changelog(
     if path:
         git_cmd.extend(['-R', path])
 
+    _format = format.lower()
+    if heading_char is None:
+        if _format == 'rst':
+            heading_char = '^'
+        elif _format == 'md':
+            heading_char = '#'
+
     def git_list_tags(tags=None,
                       tagrgx=TAGRGX_DEFAULT,
                       append_tags=None,
-                      git_cmd=git_cmd):
+                      git_cmd=git_cmd,
+                      heading_level=heading_level,
+                      include_cmd=include_cmd,
+                      ):
         """List git tag pairs which match a regex
 
         Keyword Arguments:
@@ -149,6 +162,8 @@ def git_changelog(
             tagrgx (``rawstr``): default: ``'v?\d+.*'``
             append_tags (list or None): additional tags to append
             git_cmd (list): list of command strings
+            heading_level (int): heading level 2 = '##'
+                      include_cmd=True,
 
         Yields:
             str: tag name
@@ -203,7 +218,13 @@ def git_changelog(
         cmd = git_cmd + git_get_rev_date_cmd
         return subprocess.check_output(cmd).strip()
 
-    def iter_tag_pairs(tags, heading_char='^', encoding='utf-8'):
+    def iter_tag_pairs(tags,
+                       format='rst',
+                       heading_char='^',
+                       heading_level=2,
+                       include_cmd=True,
+                       encoding='utf-8'
+                       ):
         """Iterate over 2-tuple tag pairs e.g. ``[(tag1, tag2), ]``
 
         Args:
@@ -214,33 +235,94 @@ def git_changelog(
                              itertools.islice(tags, 1, None))
         tagpairs = list(tagpairsiter)
         logging.debug(('tagpairs', tagpairs))
-        for (tag1, tag2) in tagpairs[::-1]:
-            tag1 = tag1.decode(encoding) if hasattr(tag1, 'decode') else tag1
-            #tag1date = tagdates.setdefault(tag1, git_get_rev_date(tag1))
-            tag2date = tagdates.setdefault(tag2, git_get_rev_date(tag2))
-            # RST heading
-            yield ''
-            yield ''
-            heading = rst_escape("%s (%s)" % (tag2, tag2date.decode(encoding))) # TODO: date
-            yield heading
-            yield heading_char * len(heading)
-            logpath = "%s..%s" % (str(tag1), tag2)
-            changelog_cmd = ['log', '--reverse', '--pretty=format:* %s [%h]', logpath]
-            changelog_cmdstr = "log --reverse --pretty=format:'* %s [%h]' " + logpath
-            yield "::"
-            yield ""
-            yield "   git %s" % (changelog_cmdstr)
-            yield ""
-            cmd = git_cmd + changelog_cmd
-            logging.debug(cmd)
-            logging.debug(('cmdstr*', ' '.join(cmd)))
-            output = subprocess.check_output(cmd)
-            yield rst_escape(output)
-            #
-            tag1 = tag2
 
-    for rstline in iter_tag_pairs(tags, heading_char=heading_char):
-        yield rstline
+        _format = format.lower()
+        if _format not in ['rst', 'md']:
+            raise ValueError(('format unsupported', _format))
+
+        def iter_release_data(tagpairs, git_cmd):
+            for (tag1, tag2) in tagpairs[::-1]:
+                data = {}
+                tag1 = tag1.decode(encoding) if hasattr(tag1, 'decode') else tag1
+                #tag1date = tagdates.setdefault(tag1, git_get_rev_date(tag1))
+                tag2date = tagdates.setdefault(tag2, git_get_rev_date(tag2))
+                data['tag2date'] = tag2date
+                heading = rst_escape("%s (%s)" % (tag2, tag2date.decode(encoding))) # TODO: date
+                data['heading'] = heading
+                logpath = "%s..%s" % (tag1, tag2)
+                data['logpath'] = logpath
+                changelog_cmd = ['log', '--reverse', '--pretty=format:* %s [%h]', logpath]
+                data['changelog_cmd'] = changelog_cmd
+                changelog_cmdstr = "log --reverse --pretty=format:'* %s [%h]' " + logpath
+                data['changelog_cmdstr'] = changelog_cmdstr
+                cmd = git_cmd + changelog_cmd
+                data['cmd'] = cmd
+                logging.debug(cmd)
+                logging.debug(('cmdstr*', ' '.join(cmd)))
+                output = subprocess.check_output(cmd)
+                data['_output'] = output
+                data['output_rst'] = rst_escape(output)
+                yield data
+
+                #
+                tag1 = tag2
+
+        def template_as_rst(tagpairs,
+                            git_cmd,
+                            heading_char=heading_char,
+                            include_cmd=True):
+            for data in iter_release_data(tagpairs, git_cmd):
+                # RST heading
+                yield ''
+                yield ''
+                yield data['heading']
+                yield heading_char * len(data['heading'])
+                if include_cmd:
+                    yield "::"
+                    yield ""
+                    yield "   git %s" % (data['changelog_cmdstr'])
+                    yield ""
+                yield data['output_rst']
+
+        def template_as_md(tagpairs,
+                           git_cmd,
+                           heading_char='#',
+                           heading_level=2,
+                           include_cmd=True):
+            for data in iter_release_data(tagpairs, git_cmd):
+                # RST heading
+                yield ''
+                yield ''
+                if heading_level:
+                    yield "%s %s" % ((heading_level * heading_char), data['heading'])
+                if include_cmd:
+                    yield "```bash"
+                    yield "$ git %s" % (data['changelog_cmdstr'])
+                    yield "```"
+                    yield ""
+                yield data['output_rst']
+
+        if _format == 'rst':
+            return template_as_rst(
+                tagpairs,
+                git_cmd,
+                heading_char=heading_char,
+                include_cmd=include_cmd)
+        elif _format == 'md':
+            return template_as_md(
+                tagpairs,
+                git_cmd,
+                heading_char=heading_char,
+                heading_level=heading_level,
+                include_cmd=include_cmd)
+
+
+    for line in iter_tag_pairs(tags,
+                               format=format,
+                               heading_char=heading_char,
+                               heading_level=heading_level,
+                               include_cmd=include_cmd):
+        yield line
 
 
 import types
@@ -252,7 +334,7 @@ class Test_git_changelog(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_git_changelog(self):
+    def test_git_changelog_rst(self):
         output = git_changelog()
         self.assertTrue(output)
         self.assertEqual(type(output), types.GeneratorType)
@@ -263,13 +345,22 @@ class Test_git_changelog(unittest.TestCase):
         print(output)
         #raise NotImplementedError
 
+    def test_git_changelog_md(self):
+        output = git_changelog(format='md')
+        self.assertTrue(output)
+        self.assertEqual(type(output), types.GeneratorType)
+        self.assertTrue(hasattr(output, 'next'))
+        for x in output:
+            print(x)
+        print(output)
+
     def tearDown(self):
         pass
 
 
 def main(argv=None):
     """
-    Main function
+    git-changelog main() function
 
     Keyword Arguments:
         argv (list): commandline arguments (e.g. sys.argv[1:])
@@ -280,20 +371,47 @@ def main(argv=None):
     import optparse
     import sys
 
-    prs = optparse.OptionParser(usage="%prog : args")
+    prs = optparse.OptionParser(
+        usage="%prog [options]",
+        description=(
+            "Print commits between tags (such as tagged releases)"
+            " as ReStructuredText or Markdown (beta)")
+    )
 
     prs.add_option('--develop',
                    dest='append_tag_develop',
-                   action='store_true')
+                   action='store_true',
+                   help='Include the develop branch')
 
     prs.add_option('-r', '--rev', '--revision',
                    dest='append_revision',
                    action='append')
 
+    #prs.add_option('--reverse',
+    #               dest='reverse',
+    #               action='store_true',
+    #               help='Order revisions by oldest first')
+
+    prs.add_option('--format',
+                   dest='format',
+                   action='store',
+                   help="Output format ('rst' || 'md')")
     prs.add_option('--hdr', '--heading-character',
                    dest='heading_char',
                    action='store',
-                   default='^')
+                   help="Heading character (defaults: rst: '^', md: '#')")
+    prs.add_option('--heading-level',
+                   dest='heading_level',
+                   action='store',
+                   default=2,
+                   help="Heading level for md format (2 => '##')")
+    prs.add_option('--no-include-cmd',
+                   dest='include_cmd',
+                   action='store_false',
+                   default=True,
+                   help=(
+                       "Do not include the git command"
+                       " used to generate the log section"))
 
     prs.add_option('-v', '--verbose',
                    dest='verbose',
@@ -332,8 +450,25 @@ def main(argv=None):
     if opts.append_revision:
         append_tags.extend(opts.append_revision)
     conf['append_tags'] = append_tags
+    # conf['reverse'] = opts.reverse
+
     conf['heading_char'] = opts.heading_char
-    logging.debug(('conf', conf))
+    conf['heading_level'] = opts.heading_level
+    conf['include_cmd'] = opts.include_cmd
+
+    _format = opts.format.lower() if opts.format else None
+    if _format not in ['rst', 'md']:
+        prs.print_help()
+        raise ValueError('format %r is not supported' % (opts.format))
+
+    conf['format'] = _format
+    if conf['heading_char'] is None:
+        if _format == 'rst':
+            conf['heading_char'] = '^'
+        elif _format == 'md':
+            conf['heading_char'] = '#'
+
+    log.debug(('conf', conf))
     output = git_changelog(**conf)
     for x in output:
         print(x, file=sys.stdout)
