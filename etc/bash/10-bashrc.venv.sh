@@ -36,7 +36,7 @@ function _setup_venv_SRC {
 
     if [ ! -e "${__SRCVENV}" ]; then
         if [ ! -d "${WORKON_HOME}/src" ]; then
-            mkvirtualenv -p $(which python) -i pyrpo -i pyline -i pgs src
+            mkvirtualenv -p $(command -v python) -i pyrpo -i pyline -i pgs src
         fi
         ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
     fi

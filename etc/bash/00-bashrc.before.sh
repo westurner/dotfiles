@@ -116,7 +116,7 @@ function dotfiles_reload {
   #
   #     we dotfiles
   #     we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh
-  #     type workon_venv; which venv.py; venv.py --help
+  #     type workon_venv; command -v venv.py; venv.py --help
   source "${conf}/10-bashrc.venv.sh"
   #
 

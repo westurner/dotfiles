@@ -3,7 +3,7 @@
 
 function _configure_lesspipe {
     # _configure_lesspipe() -- (less <file.zip> | lessv)
-    lesspipe="$(which lesspipe.sh 2>/dev/null)"
+    lesspipe="$(command -v lesspipe.sh 2>/dev/null)"
     if [ -n "${lesspipe}" ]; then
         eval "$(${lesspipe})"
     fi
@@ -17,7 +17,7 @@ function _setup_vimpager {
 
 function vimpager {
     # vimpager() -- call vimpager
-    # _PAGER=$(which vimpager)
+    # _PAGER=$(command -v vimpager)
     if [ -x "${_PAGER}" ]; then
         "${_PAGER}" "${@}"
     else
@@ -102,7 +102,7 @@ function manv {
         /usr/bin/man
     else
         #/usr/bin/whatis "$@" >/dev/null
-        "$(which vim)" \
+        "$(command -v vim)" \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \

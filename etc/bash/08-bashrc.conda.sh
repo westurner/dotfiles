@@ -317,7 +317,7 @@ function mkvirtualenv_conda {
         dotfiles_postmkvirtualenv
 
     echo ""
-    echo "$(which conda)"
+    echo "$(command -v conda)"
     conda_list="${_LOG}/conda.list.no-pip.postmkvirtualenv.txt"
     echo "conda_list: ${conda_list}"
     "${_conda_}" list -e --no-pip | tee "${conda_list}"

@@ -214,7 +214,7 @@ function dotfiles_postmkvirtualenv {
     (set -x; venv_mkdirs)
     test -d "${VIRTUAL_ENV}/var/log" || mkdir -p "${VIRTUAL_ENV}/var/log"
     echo ""
-    local PIP="$(which pip)"
+    local PIP="$(command -v pip)"
     echo "PIP=$(shell_escape_single "${PIP}")"
     pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
     echo "#pip_freeze=$(shell_escape_single "${pip_freeze}")"
