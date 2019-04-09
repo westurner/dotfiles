@@ -10,12 +10,20 @@ usrlog.py is a parser for -usrlog.log files (as written by usrlog.sh)
 import codecs
 import collections
 import functools
-import itertools
 import logging
+import operator
 import re
 import sys
 
 log = logging.getLogger('usrlog')
+
+if sys.version_info.major == 2:
+    import itertools
+    filter = itertools.ifilter
+    imap = itertools.imap
+else:
+    imap = map
+    unicode = str
 
 ISODATETIME_RGX = re.compile(
     '\d\d\d\d\-\d\d\-\d\dT?\d\d:\d\d')
@@ -102,11 +110,15 @@ class Usrlog(object):
                 if thisline:
                     yield u''.join(thisline)
                 try:
-                    thisline = [l.decode('utf8', 'replace')]
+                    thisline = [
+                        l.decode('utf8', 'replace') if hasattr(l,'decode')
+                        else l]
                 except UnicodeEncodeError as e:
                     thisline = [l]  # TODO
             else:
-                thisline.append(l.decode('utf8', 'replace'))
+                thisline.append(
+                    l.decode('utf8', 'replace') if hasattr(l, 'decode')
+                    else l)
         yield u''.join(thisline)
 
     def read_file_lines_joined(self, **kwargs):
@@ -679,7 +691,7 @@ def main(argv=None):
             prs.error("-P/'--paths-from-stdin and -p='-' cannot both be specified")
         else:
             with codecs.getreader('utf8')(sys.stdin) as stdin:
-                for line in itertools.imap(str.rstrip, stdin):
+                for line in imap(str.rstrip, stdin):
                     if line:
                         log.debug(('path-from-stdin', line))
                         opts.paths.append(line)
@@ -758,10 +770,6 @@ def main(argv=None):
         cmd = obj.get('cmd')
         return cmd.startswith(todo_prefixes) if cmd else False
 
-    import itertools
-    import functools
-    import operator
-
     if opts.todo:
         filterfunc = functools.partial(select_usrlogtodos,
                                         todo_prefixes=TODO_PREFIXES)
@@ -777,7 +785,7 @@ def main(argv=None):
                 yield l
 
     iterable = ((obj, select_items(obj)) for obj in
-                itertools.ifilter(filterfunc, usrlogs_iterable()))
+                filter(filterfunc, usrlogs_iterable()))
 
     EX_OK = 0
 
