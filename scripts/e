@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 ## 
 function edit {
-    #  edit()   -- EDITOR_ or EDITOR $@
+    #  edit()   -- call ($EDITOR_ or $EDITOR or vim or vi) "${@}"
+    local editor="${EDITOR_:-${EDITOR:-"$(command -v vim || command -v vi)"}}"
     if [ -z "${GUIVIMBIN}" ]; then
-        vim "${@}"
+        ${editor} "${@}"
         return
     fi
     ${GUIVIMBIN} --servername ""${VIRTUAL_ENV_NAME:-"/"}"" \
@@ -13,7 +14,7 @@ function edit {
 }
 
 function e {
-    # e()       -- EDTIOR or EDITOR $@
+    #  e()      -- call ($EDITOR_ or $EDITOR or vim or vi) "${@}"
     edit "${@}"
     return
 }
