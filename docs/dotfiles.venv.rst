@@ -9,16 +9,16 @@ dotfiles.venv package
 Submodules
 ----------
 
-dotfiles.venv.ipython_config module
------------------------------------
+dotfiles.venv.ipython\_config module
+------------------------------------
 
 .. automodule:: dotfiles.venv.ipython_config
     :members:
     :undoc-members:
     :show-inheritance:
 
-dotfiles.venv.ipython_magics module
------------------------------------
+dotfiles.venv.ipython\_magics module
+------------------------------------
 
 .. automodule:: dotfiles.venv.ipython_magics
     :members:
@@ -33,16 +33,16 @@ dotfiles.venv.venv module
     :undoc-members:
     :show-inheritance:
 
-dotfiles.venv.venv_ipyconfig module
------------------------------------
+dotfiles.venv.venv\_ipyconfig module
+------------------------------------
 
 .. automodule:: dotfiles.venv.venv_ipyconfig
     :members:
     :undoc-members:
     :show-inheritance:
 
-dotfiles.venv.venv_ipymagics module
------------------------------------
+dotfiles.venv.venv\_ipymagics module
+------------------------------------
 
 .. automodule:: dotfiles.venv.venv_ipymagics
     :members:
