@@ -419,6 +419,9 @@ pip_install_requirements_docs.log:
 	$(PIP_INSTALL) -r ./requirements/requirements-docs.txt
 	$(PIP_INSTALL) -r ./docs/requirements.txt
 	touch pip_install_requirements_docs.log
+	# Note that you need zsh installed
+	#   dnf install -y zsh
+	#   apt-get install -y zsh
 
 pip_install_requirements_docs: pip_install_requirements_docs.log
 
