@@ -418,6 +418,7 @@ pip_install_requirements_docs.log:
 	# Install package documentation tools
 	$(PIP_INSTALL) -r ./requirements/requirements-docs.txt
 	$(PIP_INSTALL) -r ./docs/requirements.txt
+	$(PIP_INSTALL) -e .
 	touch pip_install_requirements_docs.log
 	# Note that you need zsh installed
 	#   dnf install -y zsh
