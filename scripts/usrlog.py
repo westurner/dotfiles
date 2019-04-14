@@ -124,7 +124,10 @@ class Usrlog(object):
     def read_file_lines_joined(self, **kwargs):
         path = kwargs.get('path', self.conf['path'])
         if path == '-':
-            fileobj = codecs.getreader('utf8')(sys.stdin)
+            if sys.version_info.major < 3:
+                fileobj = codecs.getreader('utf8')(sys.stdin)
+            else:
+                fileobj = sys.stdin
             for l in self.read_lines_joined(fileobj):
                 yield l
         else:
@@ -446,6 +449,7 @@ class Usrlog(object):
 
     def read_file_lines_as_dict(self, **kwargs):
         halt_on_error=kwargs.get('halt_on_error')
+        i = -1
         try:
             for i, l in enumerate(self.read_file_lines_joined(**kwargs)):
                 yield self.parse_line_to_dict(
