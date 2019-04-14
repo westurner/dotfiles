@@ -1,4 +1,6 @@
-module () {  unset _mlshdbg;
+module () {  _module_raw "$@" 2>&1
+}
+_module_raw () {  unset _mlshdbg;
  if [ "${MODULES_SILENT_SHELL_DEBUG:-0}" = '1' ]; then
  case "$-" in 
  *v*x*)
