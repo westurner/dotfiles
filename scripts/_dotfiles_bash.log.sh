@@ -1,7 +1,80 @@
-module () {  eval `/usr/bin/modulecmd bash $*`
+module () {  unset _mlshdbg;
+ if [ "${MODULES_SILENT_SHELL_DEBUG:-0}" = '1' ]; then
+ case "$-" in 
+ *v*x*)
+ set +vx;
+ _mlshdbg='vx'
+ ;;
+ *v*)
+ set +v;
+ _mlshdbg='v'
+ ;;
+ *x*)
+ set +x;
+ _mlshdbg='x'
+ ;;
+ *)
+ _mlshdbg=''
+ ;;
+ esac;
+ fi;
+ unset _mlre _mlIFS;
+ if [ -n "${IFS+x}" ]; then
+ _mlIFS=$IFS;
+ fi;
+ IFS=' ';
+ for _mlv in ${MODULES_RUN_QUARANTINE:-};
+ do
+ if [ "${_mlv}" = "${_mlv##*[!A-Za-z0-9_]}" -a "${_mlv}" = "${_mlv#[0-9]}" ]; then
+ if [ -n "`eval 'echo ${'$_mlv'+x}'`" ]; then
+ _mlre="${_mlre:-}${_mlv}_modquar='`eval 'echo ${'$_mlv'}'`' ";
+ fi;
+ _mlrv="MODULES_RUNENV_${_mlv}";
+ _mlre="${_mlre:-}${_mlv}='`eval 'echo ${'$_mlrv':-}'`' ";
+ fi;
+ done;
+ if [ -n "${_mlre:-}" ]; then
+ eval `eval ${_mlre}/usr/bin/tclsh /usr/share/Modules/libexec/modulecmd.tcl bash '"$@"'`;
+ else
+ eval `/usr/bin/tclsh /usr/share/Modules/libexec/modulecmd.tcl bash "$@"`;
+ fi;
+ _mlstatus=$?;
+ if [ -n "${_mlIFS+x}" ]; then
+ IFS=$_mlIFS;
+ else
+ unset IFS;
+ fi;
+ unset _mlre _mlv _mlrv _mlIFS;
+ if [ -n "${_mlshdbg:-}" ]; then
+ set -$_mlshdbg;
+ fi;
+ unset _mlshdbg;
+ return $_mlstatus
 }
-scl () {  local CMD=$1;
- if [ "$CMD" = "load" -o "$CMD" = "unload" ]; then
+switchml () {  typeset swfound=1;
+ if [ "${MODULES_USE_COMPAT_VERSION:-0}" = '1' ]; then
+ typeset swname='main';
+ if [ -e /usr/share/Modules/libexec/modulecmd.tcl ]; then
+ typeset swfound=0;
+ unset MODULES_USE_COMPAT_VERSION;
+ fi;
+ else
+ typeset swname='compatibility';
+ if [ -e /usr/share/Modules/libexec/modulecmd-compat ]; then
+ typeset swfound=0;
+ MODULES_USE_COMPAT_VERSION=1;
+ export MODULES_USE_COMPAT_VERSION;
+ fi;
+ fi;
+ if [ $swfound -eq 0 ]; then
+ echo "Switching to Modules $swname version";
+ source /usr/share/Modules/init/bash;
+ else
+ echo "Cannot switch to Modules $swname version, command not found";
+ return 1;
+ fi
+}
+scl () {  if [ "$1" = "load" -o "$1" = "unload" ]; then
  eval "module $@";
  else
  /usr/bin/scl "$@";
@@ -80,7 +153,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:';
+LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:';
 export LS_COLORS
 
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
@@ -110,7 +183,7 @@ function dotfiles_reload {
   echo "#"
   echo "# dotfiles_reload()"
 
-  export __WRK="${HOME}/-wrk"
+  export __WRK="${__WRK:-"${HOME}/-wrk"}"
 
   if [ -n "${__DOTFILES}" ]; then
     export __DOTFILES="${__DOTFILES}"
@@ -217,7 +290,7 @@ function dotfiles_reload {
   #
   #     we dotfiles
   #     we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh
-  #     type workon_venv; which venv.py; venv.py --help
+  #     type workon_venv; command -v venv.py; venv.py --help
   source "${conf}/10-bashrc.venv.sh"
   #
 
@@ -801,7 +874,7 @@ function dotfiles_postmkvirtualenv {
     (set -x; venv_mkdirs)
     test -d "${VIRTUAL_ENV}/var/log" || mkdir -p "${VIRTUAL_ENV}/var/log"
     echo ""
-    local PIP="$(which pip)"
+    local PIP="$(command -v pip)"
     echo "PIP=$(shell_escape_single "${PIP}")"
     pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
     echo "#pip_freeze=$(shell_escape_single "${pip_freeze}")"
@@ -936,7 +1009,7 @@ _configure_bash_completion() {
 
     if [ -n "$__IS_MAC" ]; then
         #configure brew (brew install bash-completion)
-        BREW=$(which brew 2>/dev/null || false)
+        BREW=$(command -v brew 2>/dev/null || false)
         if [ -n "${BREW}" ]; then
             brew_prefix=$(brew --prefix)
             if [ -f ${brew_prefix}/etc/bash_completion ]; then
@@ -953,7 +1026,7 @@ _configure_bash_completion() {
 }
 _configure_bash_completion
 # Check for interactive bash and that we haven't already been sourced.
-if [ -n "${BASH_VERSION-}" -a -n "${PS1-}" -a -z "${BASH_COMPLETION_COMPAT_DIR-}" ]; then
+if [ -n "${BASH_VERSION-}" -a -n "${PS1-}" -a -z "${BASH_COMPLETION_VERSINFO-}" ]; then
 
     # Check for recent enough version of bash.
     if [ ${BASH_VERSINFO[0]} -gt 4 ] || \
@@ -972,7 +1045,7 @@ fi
 #   bash_completion - programmable completion functions for bash 4.1+
 #
 #   Copyright © 2006-2008, Ian Macdonald <ian@caliban.org>
-#             © 2009-2016, Bash Completion Maintainers
+#             © 2009-2018, Bash Completion Maintainers
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -991,8 +1064,8 @@ fi
 #   The latest version of this software can be obtained here:
 #
 #   https://github.com/scop/bash-completion
-#
-#   RELEASE: 2.5
+
+BASH_COMPLETION_VERSINFO=(2 8)
 
 if [[ $- == *v* ]]; then
     BASH_COMPLETION_ORIGINAL_V_VALUE="-v"
@@ -1070,13 +1143,15 @@ function _conda_status_defaults {
     echo CONDA_ENVS__py35=$(shell_escape_single "${CONDA_ENVS__py35}")
     echo CONDA_ROOT__py36=$(shell_escape_single "${CONDA_ROOT__py36}")
     echo CONDA_ENVS__py36=$(shell_escape_single "${CONDA_ENVS__py36}")
+    echo CONDA_ROOT__py37=$(shell_escape_single "${CONDA_ROOT__py37}")
+    echo CONDA_ENVS__py37=$(shell_escape_single "${CONDA_ENVS__py37}")
 }
 
 function _conda_status {
     # _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
     _conda_status_core
     echo
-    _conda_status_defaults
+    # _conda_status_defaults
 }
 
 function csc {
@@ -1093,16 +1168,18 @@ function _setup_conda_defaults {
     export CONDA_ENVS__py34="${__wrk}/-ce34"
     export CONDA_ENVS__py35="${__wrk}/-ce35"
     export CONDA_ENVS__py36="${__wrk}/-ce36"
+    export CONDA_ENVS__py37="${__wrk}/-ce37"
 
     export CONDA_ROOT__py27="${__wrk}/-conda27"
     export CONDA_ROOT__py34="${__wrk}/-conda34"
     export CONDA_ROOT__py35="${__wrk}/-conda35"
     export CONDA_ROOT__py36="${__wrk}/-conda36"
+    export CONDA_ROOT__py37="${__wrk}/-conda37"
 
-    #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py27"
-    #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py27"
-    export CONDA_ROOT="${__wrk}/-conda27"
-    export CONDA_ENVS_PATH="${__wrk}/-ce27"
+    #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py37"
+    #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py37"
+    export CONDA_ROOT="${__wrk}/-conda37"
+    export CONDA_ENVS_PATH="${__wrk}/-ce37"
 }
 
 function _setup_conda {
@@ -1118,7 +1195,8 @@ function _setup_conda {
     #   _setup_conda 34  # __py34
     #   _setup_conda 35  # __py35
     #   _setup_conda 36  # __py36
-    #   _setup_conda ~/envs             # __py27
+    #   _setup_conda 37  # __py37
+    #   _setup_conda ~/envs             # __py37
     #   _setup_conda ~/envs/ /opt/conda # /opt/conda
     #   _setup_conda <conda_envs_path> <conda_root>  # conda_root
     #
@@ -1126,8 +1204,8 @@ function _setup_conda {
     local _conda_root_path="${2}"
     _setup_conda_defaults "${__WRK}"
     if [ -z "${_conda_envs_path}" ]; then
-        export CONDA_ENVS_PATH="${CONDA_ENVS_PATH:-${CONDA_ENVS__py27}}"
-        export CONDA_ROOT="${CONDA_ROOT:-${CONDA_ROOT__py27}}"
+        export CONDA_ENVS_PATH="${CONDA_ENVS_PATH:-${CONDA_ENVS__py37}}"
+        export CONDA_ROOT="${CONDA_ROOT:-${CONDA_ROOT__py37}}"
     else
         if [ "$_conda_envs_path" == "27" ]; then
             export CONDA_ENVS_PATH="$CONDA_ENVS__py27"
@@ -1141,11 +1219,13 @@ function _setup_conda {
         elif [ "$_conda_envs_path" == "36" ]; then
             export CONDA_ENVS_PATH="$CONDA_ENVS__py36"
             export CONDA_ROOT="$CONDA_ROOT__py36"
+        elif [ "$_conda_envs_path" == "37" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py37"
+            export CONDA_ROOT="$CONDA_ROOT__py37"
         else
             export CONDA_ENVS_PATH="${_conda_envs_path}"
             export CONDA_ROOT=(
-            "${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py27}}}")
-            # CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
+            "${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py37}}}")
         fi
     fi
     _setup_conda_path
@@ -1173,6 +1253,9 @@ function _unsetup_conda_path_all {
     fi
     if [ -n "${CONDA_ROOT__py36}" ]; then
         PATH_remove "${CONDA_ROOT__py36}/bin" 2>&1 > /dev/null
+    fi
+    if [ -n "${CONDA_ROOT__py37}" ]; then
+        PATH_remove "${CONDA_ROOT__py37}/bin" 2>&1 > /dev/null
     fi
     declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
     _conda_status
@@ -1202,7 +1285,13 @@ function echo_conda_envs_paths {
         "${CONDA_ENVS__py34}"
         "${CONDA_ENVS__py35}"
         "${CONDA_ENVS__py36}"
+        "${CONDA_ENVS__py37}"
     )
+    if [ "$(echo "${envs_paths[*]}" | sed 's/ //g')" == "" ]; then
+        echo ''>&2
+        echo 'Error: ${CONDA_ENVS_PATH} is not set'>&2
+        return 1
+    fi
     printf '%s\n' "${envs_paths[@]}" \
         | deduplicate_lines
 }
@@ -1213,7 +1302,9 @@ function lscondaenvs {
     #   find>1
     _conda_status >&2
     while IFS= read -r line; do
-        find "${line}" -maxdepth 1 -type d
+        if [ -n ${line} ]; then
+            (set -x; find "${line}" -maxdepth 1 -type d)
+        fi
     done < <(echo_conda_envs_paths) | sort
 }
 
@@ -1240,9 +1331,13 @@ function workon_conda {
     _setup_conda "${_conda_envs_path}"
     local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
+
+    __VENV=${__DOTFILES}/src/dotfiles/venv/venv_ipyconfig.py
     source <(set -x;
-      $__VENV --wh="${CONDA_ENVS_PATH}" \
+      $__VENV \
         --ve="${CONDA_ENV}" --venvstrapp="${_venvstrapp}" \
+        --CONDA_ROOT="${CONDA_ROOT}" \
+        --CONDA_ENVS_PATH="${CONDA_ENVS_PATH}" \
         --print-bash)
     declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
     declare -f "dotfiles_status" 2>&1 > /dev/null && dotfiles_status
@@ -1264,13 +1359,16 @@ complete -o default -o nospace -F _condaenvs wec
 
 function _mkvirtualenv_conda_usage {
     # _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-    echo "mkvirtualenv_conda <envname|envpath> <CONDA_ENVS_PATH|{[27],34,35,36}>"
+    echo "mkvirtualenv_conda <envname|envpath> <CONDA_ENVS_PATH|<27,34,35,36,37>>"
     echo ""
     echo "  $ mkvirtualenv_conda science # 27"
     echo "  $ mkvirtualenv_conda science 27"
     echo "  $ mkvirtualenv_conda science 34"
     echo "  $ mkvirtualenv_conda science 35"
-    echo "  $ mkvirtualenv_conda ~/science 36"
+    echo "  $ mkvirtualenv_conda ~/science 37"
+    echo ""
+    echo "workon_conda science science 37"
+    echo "wec science science 37"
 }
 
 function mkvirtualenv_conda {
@@ -1295,8 +1393,8 @@ function mkvirtualenv_conda {
 
     echo '_setup_conda '"${_conda_envs_path}"
     _setup_conda "${_conda_envs_path}" # scripts/venv_ipyconfig.py
-    local CONDA_ENV="${_conda_envs_path}/${_conda_envname}"
-    if [ -z "${_conda_python}" ]; then 
+    local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
+    if [ -z "${_conda_python}" ]; then
         case $_conda_envs_path in
             27)
                 _conda_python="python=2.7"
@@ -1309,6 +1407,9 @@ function mkvirtualenv_conda {
                 ;;
             36)
                 _conda_python="python=3.6"
+                ;;
+            37)
+                _conda_python="python=3.7"
                 ;;
         esac
     fi
@@ -1332,7 +1433,7 @@ function mkvirtualenv_conda {
         dotfiles_postmkvirtualenv
 
     echo ""
-    echo "$(which conda)"
+    echo "$(command -v conda)"
     conda_list="${_LOG}/conda.list.no-pip.postmkvirtualenv.txt"
     echo "conda_list: ${conda_list}"
     "${_conda_}" list -e --no-pip | tee "${conda_list}"
@@ -1359,22 +1460,22 @@ function rmvirtualenv_conda {
 function mkvirtualenv_conda_if_available {
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
     (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
-        && mkvirtualenv_conda $@) \
+        && mkvirtualenv_conda "${@}") \
     || \
     (declare -f 'mkvirtualenv' 2>&1 > /dev/null \
-        && mkvirtualenv $@)
+        && mkvirtualenv "${@}")
 }
 
 function workon_conda_if_available {
     # workon_conda_if_available()       -- workon_conda OR we OR workon
     (declare -f 'workon_conda' 2>&1 > /dev/null \
-        && workon_conda $@) \
+        && workon_conda "${@}") \
     || \
     (declare -f 'we' 2>&1 > /dev/null \
-        && we $@) \
+        && we "${@}") \
     || \
     (declare -f 'workon' 2>&1 > /dev/null \
-        && workon $@)
+        && workon "${@}")
 }
 ### bashrc.virtualenvwrapper.sh
 #
@@ -1402,7 +1503,7 @@ function _setup_virtualenvwrapper_default_config {
 function _setup_virtualenvwrapper_dotfiles_config {
     export __WRK="${__WRK:-"${HOME}/-wrk"}"
     export PROJECT_HOME="${__WRK}"
-    export WORKON_HOME="${__WRK}/-ve27"
+    export WORKON_HOME="${WORKON_HOME:-"${__WRK}/-ve37"}"
 }
 
 function _setup_virtualenvwrapper_dirs {
@@ -1433,10 +1534,10 @@ function _setup_virtualenvwrapper_config  {
     #  if [ -n "${__IS_MAC}" ]; then  # for brew python
     local _PATH="${HOME}/.local/bin:/usr/local/bin:${PATH}"
     if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
-        export VIRTUALENVWRAPPER_SCRIPT=$( (PATH="${_PATH}"; which virtualenvwrapper.sh))
+        export VIRTUALENVWRAPPER_SCRIPT=$( (PATH="${_PATH}"; command -v virtualenvwrapper.sh))
     fi
     if [ -z "${VIRTUALENVWRAPPER_PYTHON}" ]; then
-        export VIRTUALENVWRAPPER_PYTHON=$( (PATH="${_PATH}"; which python))
+        export VIRTUALENVWRAPPER_PYTHON=$( (PATH="${_PATH}"; command -v python))
     fi
     unset VIRTUALENV_DISTRIBUTE
     if [ -n "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
@@ -1462,7 +1563,7 @@ function lsvirtualenvs {
 }
 function lsve {
     # lsve()                -- list virtualenvs in $WORKON_HOME
-    lsvirtualenvs $@
+    lsvirtualenvs "${@}"
 }
 
 function backup_virtualenv {
@@ -1556,7 +1657,7 @@ function rebuild_virtualenv {
     #  rebuild_virtualenv()     -- rebuild a virtualenv
     #    $1="$VENVSTR"
     #    $2="$VIRTUAL_ENV"
-    (set -x; _rebuild_virtualenv $@)
+    (set -x; _rebuild_virtualenv "${@}")
 }
 
 function rebuild_virtualenvs {
@@ -1565,7 +1666,7 @@ function rebuild_virtualenvs {
 }
 
 
-_setup_virtualenvwrapper_dotfiles_config  # ~/-wrk/-ve27 {-ve34,-ce27,-ce34}
+_setup_virtualenvwrapper_dotfiles_config  # ~/-wrk/-ve37 {-ve27,-ce27,-ce37}
 
 function _setup_virtualenvwrapper {
   # _setup_virtualenvwrapper_default_config # ~/.virtualenvs/
@@ -1582,6 +1683,7 @@ else
   _setup_virtualenvwrapper
   #fi
 fi
+#!/usr/bin/sh
 # -*- mode: shell-script -*-
 #
 # Shell functions to act as wrapper for Ian Bicking's virtualenv
@@ -1629,26 +1731,26 @@ fi
 #
 
 # Locate the global Python where virtualenvwrapper is installed.
-if [ "$VIRTUALENVWRAPPER_PYTHON" = "" ]
+if [ "${VIRTUALENVWRAPPER_PYTHON:-}" = "" ]
 then
-    VIRTUALENVWRAPPER_PYTHON="$(command \which python)"
+    VIRTUALENVWRAPPER_PYTHON="$(command \which python3)"
 fi
 
 # Set the name of the virtualenv app to use.
-if [ "$VIRTUALENVWRAPPER_VIRTUALENV" = "" ]
+if [ "${VIRTUALENVWRAPPER_VIRTUALENV:-}" = "" ]
 then
     VIRTUALENVWRAPPER_VIRTUALENV="virtualenv"
 fi
 
 # Set the name of the virtualenv-clone app to use.
-if [ "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" = "" ]
+if [ "${VIRTUALENVWRAPPER_VIRTUALENV_CLONE:-}" = "" ]
 then
     VIRTUALENVWRAPPER_VIRTUALENV_CLONE="virtualenv-clone"
 fi
 
 # Define script folder depending on the platorm (Win32/Unix)
 VIRTUALENVWRAPPER_ENV_BIN_DIR="bin"
-if [ "$OS" = "Windows_NT" ] && [ "$MSYSTEM" = "MINGW32" ]
+if [ "${OS:-}" = "Windows_NT" ] && ([ "${MSYSTEM:-}" = "MINGW32" ] || [ "${MSYSTEM:-}" = "MINGW64" ])
 then
     # Only assign this for msys, cygwin use standard Unix paths
     # and its own python installation
@@ -1657,7 +1759,7 @@ fi
 
 # Let the user override the name of the file that holds the project
 # directory name.
-if [ "$VIRTUALENVWRAPPER_PROJECT_FILENAME" = "" ]
+if [ "${VIRTUALENVWRAPPER_PROJECT_FILENAME:-}" = "" ]
 then
     export VIRTUALENVWRAPPER_PROJECT_FILENAME=".project"
 fi
@@ -1667,7 +1769,7 @@ fi
 export VIRTUALENVWRAPPER_WORKON_CD=${VIRTUALENVWRAPPER_WORKON_CD:-1}
 
 # Remember where we are running from.
-if [ -z "$VIRTUALENVWRAPPER_SCRIPT" ]
+if [ -z "${VIRTUALENVWRAPPER_SCRIPT:-}" ]
 then
     if [ -n "$BASH" ]
     then
@@ -1692,10 +1794,10 @@ fi
 # we are trying to change the state of the current shell, so we use
 # "builtin" for bash and zsh but "command" under ksh.
 function virtualenvwrapper_cd {
-    if [ -n "$BASH" ]
+    if [ -n "${BASH:-}" ]
     then
         builtin \cd "$@"
-    elif [ -n "$ZSH_VERSION" ]
+    elif [ -n "${ZSH_VERSION:-}" ]
     then
         builtin \cd -q "$@"
     else
@@ -1812,7 +1914,7 @@ function virtualenvwrapper_run_hook {
     ( \
         virtualenvwrapper_cd "$WORKON_HOME" &&
         "$VIRTUALENVWRAPPER_PYTHON" -m 'virtualenvwrapper.hook_loader' \
-            $HOOK_VERBOSE_OPTION --script "$hook_script" "$@" \
+            ${HOOK_VERBOSE_OPTION:-} --script "$hook_script" "$@" \
     )
     result=$?
 
@@ -1828,8 +1930,8 @@ function virtualenvwrapper_run_hook {
         source "$hook_script"
     elif [ "${1}" = "initialize" ]
     then
-        cat - 1>&2 <<EOF 
-virtualenvwrapper.sh: There was a problem running the initialization hooks. 
+        cat - 1>&2 <<EOF
+virtualenvwrapper.sh: There was a problem running the initialization hooks.
 
 If Python could not import the module virtualenvwrapper.hook_loader,
 check that virtualenvwrapper has been installed for
@@ -1844,7 +1946,7 @@ EOF
 # Set up tab completion.  (Adapted from Arthur Koziel's version at
 # http://arthurkoziel.com/2008/10/11/virtualenvwrapper-bash-completion/)
 function virtualenvwrapper_setup_tab_completion {
-    if [ -n "$BASH" ] ; then
+    if [ -n "${BASH:-}" ] ; then
         _virtualenvs () {
             local cur="${COMP_WORDS[COMP_CWORD]}"
             COMPREPLY=( $(compgen -W "`virtualenvwrapper_show_workon_options`" -- ${cur}) )
@@ -1888,8 +1990,9 @@ function virtualenvwrapper_initialize {
     # Set the location of the hook scripts
     if [ "$VIRTUALENVWRAPPER_HOOK_DIR" = "" ]
     then
-        export VIRTUALENVWRAPPER_HOOK_DIR="$WORKON_HOME"
+        VIRTUALENVWRAPPER_HOOK_DIR="$WORKON_HOME"
     fi
+    export VIRTUALENVWRAPPER_HOOK_DIR
 
     mkdir -p "$VIRTUALENVWRAPPER_HOOK_DIR"
 
@@ -2099,7 +2202,7 @@ function rmvirtualenv {
     virtualenvwrapper_verify_workon_home || return 1
     if [ ${#@} = 0 ]
     then
-        echo "Please specify an enviroment." >&2
+        echo "Please specify an environment." >&2
         return 1
     fi
 
@@ -2141,7 +2244,7 @@ function rmvirtualenv {
 # List the available environments.
 function virtualenvwrapper_show_workon_options {
     virtualenvwrapper_verify_workon_home || return 1
-    # NOTE: DO NOT use ls or cd here because colorized versions spew control 
+    # NOTE: DO NOT use ls or cd here because colorized versions spew control
     #       characters into the output list.
     # echo seems a little faster than find, even with -depth 3.
     # Note that this is a little tricky, as there may be spaces in the path.
@@ -2156,7 +2259,7 @@ function virtualenvwrapper_show_workon_options {
     #    a slash, as that is an illegal character in a directory name.
     #    This yields a slash-separated list of possible env names.
     # 4. Replace each slash with a newline to show the output one name per line.
-    # 5. Eliminate any lines with * on them because that means there 
+    # 5. Eliminate any lines with * on them because that means there
     #    were no envs.
     (virtualenvwrapper_cd "$WORKON_HOME" && echo */$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate) 2>/dev/null \
         | command \tr "\n" " " \
@@ -2177,7 +2280,7 @@ function _lsvirtualenv_usage {
 function lsvirtualenv {
 
     typeset long_mode=true
-    if command -v "getopts" &> /dev/null
+    if command -v "getopts" >/dev/null 2>&1
     then
         # Use getopts when possible
         OPTIND=1
@@ -2333,12 +2436,17 @@ function workon {
 
     # Deactivate any current environment "destructively"
     # before switching so we use our override function,
-    # if it exists.
+    # if it exists, but make sure it's the deactivate function
+    # we set up
     type deactivate >/dev/null 2>&1
     if [ $? -eq 0 ]
     then
-        deactivate
-        unset -f deactivate >/dev/null 2>&1
+        type deactivate | grep 'typeset env_postdeactivate_hook' >/dev/null 2>&1
+        if [ $? -eq 0 ]
+        then
+            deactivate
+            unset -f deactivate >/dev/null 2>&1
+        fi
     fi
 
     virtualenvwrapper_run_hook "pre_activate" "$env_name"
@@ -2393,7 +2501,7 @@ function virtualenvwrapper_get_python_version {
 
 # Prints the path to the site-packages directory for the current environment.
 function virtualenvwrapper_get_site_packages_dir {
-    "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/python" -c "import distutils; print(distutils.sysconfig.get_python_lib())"
+    "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/python" -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_lib())"
 }
 
 # Path management for packages outside of the virtual env.
@@ -2531,7 +2639,7 @@ function cpvirtualenv {
     typeset src_name="$1"
     typeset trg_name="$2"
     typeset src
-    typeset trg 
+    typeset trg
 
     # without a source there is nothing to do
     if [ "$src_name" = "" ]; then
@@ -2575,10 +2683,10 @@ function cpvirtualenv {
 
     echo "Copying $src_name as $trg_name..."
     (
-        [ -n "$ZSH_VERSION" ] && setopt SH_WORD_SPLIT 
+        [ -n "$ZSH_VERSION" ] && setopt SH_WORD_SPLIT
         virtualenvwrapper_cd "$WORKON_HOME" &&
-        "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" "$src" "$trg" 
-        [ -d "$trg" ] && 
+        "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" "$src" "$trg"
+        [ -d "$trg" ] &&
             virtualenvwrapper_run_hook "pre_cpvirtualenv" "$src" "$trg_name" &&
             virtualenvwrapper_run_hook "pre_mkvirtualenv" "$trg_name"
     )
@@ -2865,7 +2973,7 @@ function wipeenv {
     virtualenvwrapper_verify_active_environment || return 1
 
     typeset req_file="$(virtualenvwrapper_tempfile "requirements.txt")"
-    pip freeze | egrep -v '(distribute|wsgiref)' > "$req_file"
+    pip freeze | egrep -v '(distribute|wsgiref|appdirs|packaging|pyparsing|six)' > "$req_file"
     if [ -n "$(cat "$req_file")" ]
     then
         echo "Uninstalling packages:"
@@ -3061,7 +3169,8 @@ function _setup_venv {
         source "${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh"
     fi
 
-    _setup_venv_SRC
+    # You must run this manually if you want a default src venv
+    # _setup_venv_SRC
 }
 
 
@@ -3075,7 +3184,7 @@ function _setup_venv_SRC {
 
     if [ ! -e "${__SRCVENV}" ]; then
         if [ ! -d "${WORKON_HOME}/src" ]; then
-            mkvirtualenv -p $(which python) -i pyrpo -i pyline -i pgs src
+            mkvirtualenv -p $(command -v python) -i pyrpo -i pyline -i pgs src
         fi
         ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
     fi
@@ -3324,6 +3433,41 @@ cdce () {
 complete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdcondaenvspath
 complete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cda
 complete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdce
+
+eval '
+cdcondaroot () {
+    # cdcondaroot       -- cd $CONDA_ROOT /$@
+    [ -z "$CONDA_ROOT" ] && echo "CONDA_ROOT is not set" && return 1
+    cd "$CONDA_ROOT"${@:+"/${@}"}
+}
+_cd_CONDA_ROOT_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdcondaroot && compgen -d -- "${cur}" ))
+}
+cdr () {
+    # cdr               -- cd $CONDA_ROOT
+    cdcondaroot $@
+}
+complete -o default -o nospace -F _cd_CONDA_ROOT_complete cdcondaroot
+complete -o default -o nospace -F _cd_CONDA_ROOT_complete cdr
+
+';
+
+cdcondaroot () {
+    # cdcondaroot       -- cd $CONDA_ROOT /$@
+    [ -z "$CONDA_ROOT" ] && echo "CONDA_ROOT is not set" && return 1
+    cd "$CONDA_ROOT"${@:+"/${@}"}
+}
+_cd_CONDA_ROOT_complete () {
+    local cur="$2";
+    COMPREPLY=($(cdcondaroot && compgen -d -- "${cur}" ))
+}
+cdr () {
+    # cdr               -- cd $CONDA_ROOT
+    cdcondaroot $@
+}
+complete -o default -o nospace -F _cd_CONDA_ROOT_complete cdcondaroot
+complete -o default -o nospace -F _cd_CONDA_ROOT_complete cdr
 
 eval '
 cdvirtualenv () {
@@ -3793,15 +3937,13 @@ _setup_venv_aliases
 ##    editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
 function editdotfiles {
     # editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
-    (cd "${__DOTFILES}";
-        (IFS=$'\n'; echo "${@}") \
-            | el --each -x 'e {0}')
+    (cd "${__DOTFILES}"; e "${@}")
     return
 }
 
 function edotfiles {
     # edotfiles()    -- cd $__DOTFILES and run edit w/ each arg
-    editdotfiles $@
+    editdotfiles "${@}"
     return
 }
 
@@ -3816,16 +3958,13 @@ complete -o default -o nospace -F _edotfiles__complete edotfiles
 ##    editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
 function editwrk {
     # editwrk()      -- cd $__WRK and run edit w/ each arg
-    (cd "${__WRK}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${__WRK}"; e "${@}")
     return
 }
 
 function ewrk {
     # ewrk()         -- cd $__WRK and run edit w/ each arg
-    editwrk $@
+    editwrk "${@}"
     return
 }
 
@@ -3840,22 +3979,19 @@ complete -o default -o nospace -F _ewrk__complete ewrk
 ##    editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
 function editworkonhome {
     # editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
-    (cd "${WORKON_HOME}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${WORKON_HOME}"; e "${@}")
     return
 }
 
 function eworkonhome {
     # eworkonhome()    -- cd $WORKON_HOME and run edit w/ each arg
-    editworkonhome $@
+    editworkonhome "${@}"
     return
 }
 
 function ewh {
     # ewh()            -- cd $WORKON_HOME and run edit w/ each arg
-    editworkonhome $@
+    editworkonhome "${@}"
     return
 }
 
@@ -3872,22 +4008,19 @@ complete -o default -o nospace -F _eworkonhome__complete ewh
 ##    editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
 function editvirtualenv {
     # editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
-    (cd "${VIRTUAL_ENV}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${VIRTUAL_ENV}"; e "${@}")
     return
 }
 
 function evirtualenv {
     # evirtualenv()    -- cd $VIRTUAL_ENV and run edit w/ each arg
-    editvirtualenv $@
+    editvirtualenv "${@}"
     return
 }
 
 function ev {
     # ev()             -- cd $VIRTUAL_ENV and run edit w/ each arg
-    editvirtualenv $@
+    editvirtualenv "${@}"
     return
 }
 
@@ -3903,22 +4036,19 @@ complete -o default -o nospace -F _evirtualenv__complete ev
 ##    editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
 function editsrc {
     # editsrc() -- cd $_SRC and run edit w/ each arg
-    (cd "${_SRC}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${_SRC}"; e "${@}")
     return
 }
 
 function esrc {
     # esrc()    -- cd $_SRC and run edit w/ each arg
-    editsrc $@
+    editsrc "${@}"
     return
 }
 
 function es {
     # es()      -- cd $_SRC and run edit w/ each arg
-    editsrc $@
+    editsrc "${@}"
     return
 }
 
@@ -3934,22 +4064,19 @@ complete -o default -o nospace -F _esrc__complete es
 ##    editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
 function editwrd {
     # editwrd() -- cd $_WRD and run edit w/ each arg
-    (cd "${_WRD}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${_WRD}"; e "${@}")
     return
 }
 
 function ewrd {
     # ewrd()    -- cd $_WRD and run edit w/ each arg
-    editwrd $@
+    editwrd "${@}"
     return
 }
 
 function ew {
     # ew()      -- cd $_WRD and run edit w/ each arg
-    editwrd $@
+    editwrd "${@}"
     return
 }
 
@@ -3965,16 +4092,13 @@ complete -o default -o nospace -F _ewrd__complete ew
 ##    editetc, eetc      --- cd $_ETC and run edit w/ each arg
 function editetc {
     # editetc() -- cd $_ETC and run edit w/ each arg
-    (cd "${_ETC}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${_ETC}"; e "${@}")
     return
 }
 
 function eetc {
     # eetc()    -- cd $_ETC and run edit w/ each arg
-    editetc $@
+    editetc "${@}"
     return
 }
 
@@ -3989,16 +4113,13 @@ complete -o default -o nospace -F _eetc__complete eetc
 ##    editwww, ewww      --- cd $_WWW and run edit w/ each arg
 function editwww {
     # editwww() -- cd $_WWW and run edit w/ each arg
-    (cd "${_WWW}";
-    (IFS=$'\n'; echo "${@}") \
-        | el --each -x 'e {0}'
-    )
+    (cd "${_WWW}"; e "${@}")
     return
 }
 
 function ewww {
     # ewww()    -- cd $_WWW and run edit w/ each arg
-    editwww $@
+    editwww "${@}"
     return
 }
 
@@ -4649,13 +4770,13 @@ fi
 ## 
 function gitw () {
     #  gitw()                    -- git -C "${_WRD}" $@
-    git -C "${_WRD}" $@
+    git -C "${_WRD}" "${@}"
 }
 declare -f '__git_complete' 2>&1 >/dev/null && __git_complete gitw __git_main
 declare -f '__git_complete' 2>&1 >/dev/null && __git_complete gitkw __gitk_main
 
 if [[ ${BASH_SOURCE} == "${0}" ]]; then
-    gitw ${@}
+    gitw "${@}"
 fi
 
 
@@ -4842,9 +4963,9 @@ sudovim() {
 
 ### bashrc.vimpagers.sh
 
-_configure_lesspipe() {
+function _configure_lesspipe {
     # _configure_lesspipe() -- (less <file.zip> | lessv)
-    lesspipe="$(which lesspipe.sh 2>/dev/null)"
+    lesspipe="$(command -v lesspipe.sh 2>/dev/null)"
     if [ -n "${lesspipe}" ]; then
         eval "$(${lesspipe})"
     fi
@@ -4852,13 +4973,13 @@ _configure_lesspipe() {
 _configure_lesspipe
 
 
-_setup_vimpager() {
+function _setup_vimpager {
     __THIS=$(readlink -e "$0")
 }
 
-vimpager() {
+function vimpager {
     # vimpager() -- call vimpager
-    # _PAGER=$(which vimpager)
+    # _PAGER=$(command -v vimpager)
     if [ -x "${_PAGER}" ]; then
         "${_PAGER}" "${@}"
     else
@@ -4868,7 +4989,7 @@ vimpager() {
 }
 
 
-lessv () {
+function lessv {
     # lessv()   -- less with less.vim and vim (g:tinyvim=1)
     if [ -t 1 ]; then
         if [ $# -eq 0 ]; then
@@ -4926,24 +5047,24 @@ lessv () {
     fi
 }
 
-lessg() {
+function lessg {
     # lessg()   -- less with less.vim and gvim / mvim
     VIMBIN="${GUIVIMBIN}" lessv "${@}"
 }
 
-lesse() {
+function lesse {
     # lesse()   -- less with current venv's vim server
     "${GUIVIMBIN}" --servername "${VIRTUAL_ENV_NAME:-"/"}" --remote-tab "${@}";
 }
 
-manv() {
+function manv {
     # manv()    -- view manpages in vim
     alias man_="/usr/bin/man"
     if [ $# -eq 0 ]; then
         /usr/bin/man
     else
         #/usr/bin/whatis "$@" >/dev/null
-        "$(which vim)" \
+        "$(command -v vim)" \
             --noplugin \
             -c "runtime ftplugin/man.vim" \
             -c "Man $*" \
@@ -4955,7 +5076,7 @@ manv() {
     fi
 }
 
-mang() {
+function mang {
     # mang()    -- view manpages in gvim / mvim
     if [ $# -eq 0 ]; then
         /usr/bin/man
@@ -4972,12 +5093,12 @@ mang() {
     fi
 }
 
-mane() {
+function mane {
     # mane()    -- open manpage with venv's vim server
     ${GUIVIMBIN} ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
 }
 
-gitpager() {
+function gitpager {
     # gitpager()    -- export GIT_PAGER to $1 or GIT_PAGER_DEFAULT or
     export GIT_PAGER="${1:-${GIT_PAGER:-${GIT_PAGER_DEFAULT}}}"
     if [ "${GIT_PAGER}" == "" ]; then
@@ -4986,7 +5107,7 @@ gitpager() {
     echo "GIT_PAGER=$(shell_escape_single "${GIT_PAGER}")"
 }
 
-nogitpager() {
+function nogitpager {
     # nogitpager()  -- export GIT_PAGER=""
     export GIT_PAGER=""
     echo "GIT_PAGER=$(shell_escape_single "${GIT_PAGER}")"
@@ -5020,7 +5141,7 @@ _setup_usrlog
 #  with a shell identifier to differentiate between open windows,
 #  testing/screencast flows, etc
 #
-#  By default, _USRLOG will be set to a random string prefixed with '#'
+#  By default, _TERM_ID will be set to a random string prefixed with '#'
 #  by the `stid()` bash function (`_usrlog_set__TERM_ID()`)
 #
 #  * _TERM_ID can be set to any string;
@@ -5318,11 +5439,13 @@ function _usrlog_parse_cmds {
     #  NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
     #  NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
     local usrlog="${1}"
-    if [ -n "${usrlog}" ]; then
-        if [ "${usrlog}" != "-" ]; then
-            usrlog="-f ${usrlog}"
-        fi
-    fi
+    sed 's,.*\t\$\$\t\(.*\),\1,g' ${usrlog:+"${usrlog}"}
+
+    #if [ -n "${usrlog}" ]; then
+    #    if [ "${usrlog}" != "-" ]; then
+    #        usrlog="-f ${usrlog}"
+    #    fi
+    #fi
     #pyline.py ${usrlog} \
     #    'list((
     #        (" ".join(w[10:]).rstrip() if len(w) > 10 else None)
@@ -5335,18 +5458,16 @@ function _usrlog_parse_cmds {
     #        )'
     #if try_grep:
     #
-    pyline.py ${usrlog} -r '(\d+:|#\s+) ' 'l and (l.startswith("#" or rgx.groups())) and l.split("\t$$\t", 1)[-1]'
+    #pyline.py ${usrlog} -r '(\d+:|#\s+) ' \'l and (l.startswith("#" or rgx.groups())) and l.split("\t$$\t", 1)[-1]'
     #pyline.py ${usrlog}  'l and (l.startswith("#")) and l.split("\t$$\t", 1)[-1]'
     # usrlog.py -p${usrlog:-'-'}${usrlog:+"${usrlog}"} --cmd
     #
     # grep -n "usrlog_" "$_USRLOG" | pyline.py -r '^(?P<grep_n>\d+\:)?(?P<start>#\s+)(?P<_words>.*)\t\$\$\t(?P<cmd>.*)' 'l and rgx and (rgx.groups(), rgx.groupdict(), (rgx.groupdict().get("_words","") or "").split("\t"))'  -O json
-    # 
+    #
 }
 function ugp {
-    _usrlog_parse_cmds ${@}
+    _usrlog_parse_cmds "${@}"
 }
-
-
 
 ## usrlog.sh API
 
@@ -5436,12 +5557,20 @@ function utf {
 
 function usrlog_grep {
     #  usrlog_grep() -- egrep -n $_USRLOG
-    local _args="${@}"
+    #local _args="${@}"
     local _paths="${_USRLOG_GREP_PATHS:-"${_USRLOG}"}"
-    (set -x; egrep -n ${_args:+"${_args}"} ${_paths})
+    if [ -z "${@}" ]; then
+        (set -x; cat "${_paths}")
+    else
+        (set -x; egrep --text -n "${@}" ${_paths})
+    fi
 }
 function ug {
     #  ug()          -- egrep -n $_USRLOG
+    #    Usage:
+    #      ug 'pip' | ugp
+    #      ug | ugp | grep -C 20 'pip'
+    #      ug | usrlog.py -
     usrlog_grep "${@}"
 }
 
@@ -5473,34 +5602,34 @@ function ugva {
 }
 
 function _usrlog_grep_todo_fixme_xxx {
-    grep -E -i '(todo|fixme|xxx)'
+    grep --text -E -i '(todo|fixme|xxx)'
 }
 function _usrlog_grep_todos {
-    grep '$$'$'\t''#\(TODO\|NOTE\|_MSG\)'
+    grep --text '$$'$'\t''#\(TODO\|NOTE\|_MSG\)'
 }
 function usrlog_grep_todos {
-    cat ${@:-${_USRLOG}} | _usrlog_grep_todos
+    cat "${@:-${_USRLOG}}" | _usrlog_grep_todos
 }
 function uggt {
-    usrlog_grep_todos ${@}
+    usrlog_grep_todos "${@}"
 }
 
 function usrlog_grep_todos_parse {
-    usrlog_grep_todos ${@} | _usrlog_parse_cmds
+    usrlog_grep_todos "${@}" | _usrlog_parse_cmds
 }
 
 function ugtp {
     # usrlog_grep_todos | _usrlog_parse_cmds
-    uggt $@ | ugp
+    uggt "${@}" | ugp
 }
 
 function ugtptodo {
     # usrlog_grep_todos | _usrlog_parse_cmds
-    ugtp ${@} | grep --color=never '^#TODO'
+    ugtp "${@}" | grep --text --color=never '^#TODO'
 }
 function ugtptodonote {
     # usrlog_grep_todos | _usrlog_parse_cmds
-    ugtp ${@} | grep --color=never '^#\(TODO\|NOTE\)'
+    ugtp "${@}" | grep --text --color=never '^#\(TODO\|NOTE\)'
 }
 
 function usrlog_format_as_txt {
@@ -5525,7 +5654,7 @@ function ugt {
 }
 
 function ugtodoall {
-    ugtp "${@} $(lsusrlogs)"
+    ugtp "${@}" $(lsusrlogs)
 }
 
 function ugta {
@@ -5600,22 +5729,75 @@ function usrlog_grin_session_id_all_cmds {
     );
 }
 
+function deduplicate_lines {
+    # deduplicate_lines()   -- deduplicate lines w/ an associative array
+    #                                                 (~OrderedMap)
+    local -A lines_ary
+    local line
+    local lines_ary_value
+    while IFS= read -r line; do
+        lines_ary_value=${lines_ary["${line}"]}
+        if [ -z "${lines_ary_value}" ]; then
+            lines_ary["${line}"]="${line}"
+            echo "${line}"
+        fi
+    done
+    unset lines_ary line lines_ary_value
+}
+
+
+# USRLOG_INCLUDE_LEGACYLOGS
+# USRLOG_INCLUDE_ALLUSRLOGS
+
+function _usrlog_set_usrlog_paths {
+    declare -ga _USRLOG_PATHS
+    declare -a _usrlog_paths
+    _USRLOG_PATHS=( )
+    _usrlog_paths=( )
+    _usrlog_paths+=(
+        ${_USRLOG}
+        ${__USRLOG}
+    )
+    test -n "${USRLOG_INCLUDE_LEGACYLOGS}" && \
+        _usrlog_paths+=(
+            ${WORKON_HOME}/*/.usrlog )
+    test -n "${WORKON_HOME}" && \
+        _usrlog_paths+=(
+            ${WORKON_HOME}/*/-usrlog.log ) 
+    test -n "${CONDA_ENVS_PATH}" && \
+        _usrlog_paths+=(
+            ${CONDA_ENVS_PATH}/*/-usrlog.log ) 
+    test -z "${USRLOG_INCLUDE_ALLUSRLOGS}" && \
+        test -n "${__WRK}" && \
+            _usrlog_paths+=(
+                ${__WRK}/-*/*/-usrlog.log ) 
+    declare -A uniques
+    for pth in "${_usrlog_paths[@]}"; do
+        exists=${uniques["${pth}"]}
+        if [ -z "${exists}" ]; then
+            uniques["${pth}"]="${pth}"
+            _USRLOG_PATHS+=("${pth}")
+        fi
+    done
+    export _USRLOG_PATHS
+}
+
+function _usrlog_echo_paths {
+    _usrlog_set_usrlog_paths
+    printf '%s\n' "${_USRLOG_PATHS[@]}"
+}
 
 function lsusrlogs_date_desc {
     #  lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     #                             (oldest first)
-    ls -tr \
-        "${__USRLOG}" \
-        ${WORKON_HOME}/*/.usrlog \
-        ${WORKON_HOME}/*/-usrlog.log $@ 2>/dev/null
+    _usrlog_set_usrlog_paths
+    ls -tr "${_USRLOG_PATHS[@]}" "${@}" 2>/dev/null
 }
 function lsusrlogs_date_asc {
     #  lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
     #                             (newest first)
-    ls -t \
-        "${__USRLOG}" \
-        ${WORKON_HOME}/*/.usrlog \
-        ${WORKON_HOME}/*/-usrlog.log $@ 2>/dev/null
+    _usrlog_set_usrlog_paths
+    ls -t "${_USRLOG_PATHS[@]}" "${@}" 2>/dev/null
 }
 function lsusrlogs {
     #  lsusrlogs()             -- list usrlogs (oldest first)
@@ -5633,12 +5815,18 @@ function ull {
 
 function usrlog_grep_all {
     #  usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
-    (set -x;
-    args="${@}"
-    usrlogs=$(lsusrlogs)
-    egrep ${args} ${usrlogs} \
-        | sed 's/:/'$'\t''/')
-       #| pyline.py 'l.replace(":","\t",1)'  # grep filename output
+    if [ -n "${@}" ]; then
+        (set -x;
+        args="${@}"
+        usrlogs=$(lsusrlogs)
+        egrep "${@}" --text ${usrlogs} \
+            | sed 's/:/'$'\t''/')
+        #| pyline.py 'l.replace(":","\t",1)'  # grep filename output
+    else
+        # cat $(lsusrlogs)    # dangerous and wrong
+        # cat "$(lsusrlogs)"  # wrong
+        lsusrlogs | xargs cat # requires xargs, may be too long
+    fi
 }
 function ugall {
     #  ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
@@ -5654,9 +5842,10 @@ function usrlog_grin_all {
     (set -x;
     args="${@}"
     usrlogs=$(lsusrlogs)
-    grin --no-skip-hidden-files ${args} ${usrlogs} \
+    lsusrlogs | \
+        grin --no-skip-hidden-files "${@}" -f - \
         | sed 's/:/'$'\t''/' \
-        | grin ${args})
+        | grin "${@}" -)
 }
 function ugrinall {
     #  usrlog_grin_all()    -- grin usrlogs
@@ -5759,7 +5948,7 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
 else
     _usrlog_setup
 fi
-]0;(dotfiles) #testing  wturner@mb1:/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles - [DOTFILES]
+]0;(dotfiles) #testing  wturner@mb1:/home/wturner/-wrk/-ve37/dotfiles/src/dotfiles - [DOTFILES]
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
@@ -6277,14 +6466,14 @@ function gac() {
 # }
 
 function git-commit-msg() {
-    #  gitcmsg()    -- gitc "${_MSG}" ${@}
-    git-commit "${_MSG}" ${@}
+    #  gitcmsg()    -- gitc "${_MSG}" "${@}"
+    git-commit "${_MSG}" "${@}"
     msg -
 }
 
 function git-add-commit-msg() {
-    #  gitcaddmsg()    -- gitc "${_MSG}" ${@}
-    git-add-commit "${_MSG}" ${@}
+    #  gitcaddmsg()    -- gitc "${_MSG}" "${@}"
+    git-add-commit "${_MSG}" "${@}"
     msg -
 }
 
@@ -6510,17 +6699,17 @@ HOSTNAME='mb1'
 USER='wturner'
 __WRK='/home/wturner/-wrk'
 PROJECT_HOME='/home/wturner/-wrk'
-CONDA_ROOT='/home/wturner/-wrk/-conda27'
-CONDA_ENVS_PATH='/home/wturner/-wrk/-ce27'
-WORKON_HOME='/home/wturner/-wrk/-ve27'
+CONDA_ROOT='/home/wturner/-wrk/-conda37'
+CONDA_ENVS_PATH='/home/wturner/-wrk/-ce37'
+WORKON_HOME='/home/wturner/-wrk/-ve37'
 VIRTUAL_ENV_NAME='dotfiles'
-VIRTUAL_ENV='/home/wturner/-wrk/-ve27/dotfiles'
-_SRC='/home/wturner/-wrk/-ve27/dotfiles/src'
+VIRTUAL_ENV='/home/wturner/-wrk/-ve37/dotfiles'
+_SRC='/home/wturner/-wrk/-ve37/dotfiles/src'
 _APP='dotfiles'
-_WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
-_USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
+_WRD='/home/wturner/-wrk/-ve37/dotfiles/src/dotfiles'
+_USRLOG='/home/wturner/-wrk/-ve37/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/-wrk/-ve37/dotfiles/bin:/home/wturner/.local/bin:/home/wturner/-dotfiles/scripts:/usr/share/Modules/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
 ##

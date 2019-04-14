@@ -73,7 +73,7 @@ etc/bash/00-bashrc.before.sh
       
            we dotfiles
            we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh
-           type workon_venv; which venv.py; venv.py --help
+           type workon_venv; command -v venv.py; venv.py --help
       
       
      ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
@@ -384,6 +384,7 @@ etc/bash/08-bashrc.conda.sh
          _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
          _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
          _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
+         _conda_status_defaults
          csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
          _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
             $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
@@ -400,11 +401,11 @@ etc/bash/08-bashrc.conda.sh
            _setup_conda 34  # __py34
            _setup_conda 35  # __py35
            _setup_conda 36  # __py36
-           _setup_conda ~/envs             # __py27
+           _setup_conda 37  # __py37
+           _setup_conda ~/envs             # __py37
            _setup_conda ~/envs/ /opt/conda # /opt/conda
            _setup_conda <conda_envs_path> <conda_root>  # conda_root
         
-                 CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
          _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
          _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
          deduplicate_lines()   -- deduplicate lines w/ an associative array
@@ -426,139 +427,6 @@ etc/bash/08-bashrc.conda.sh
        #(CONDA_ENVS_PATH=${_conda_envs_path} 
        #    conda create --mkdir -n ${_conda_envname} -y
        #    "${_conda_python}" readline pip ${_conda_pkgs} )
-         if there is a function named 'dotfiles_postmkvirtualenv',
-         then run 'dotfiles_postmkvirtualenv'
-         rmvirtualenv_conda()  -- rmvirtualenv conda
-         mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
-         workon_conda_if_available()       -- workon_conda OR we OR workon
-   .
-
-   
-   
-etc/bash/08-bashrc.conda.sh.bkp
-================================
-| Src: `etc/bash/08-bashrc.conda.sh.bkp <https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.conda.sh.bkp>`__
-
-.. code:: bash
-
-   .
-   ### bashrc.conda.sh
-   ## Conda / Anaconda
-     see: 05-bashrc.dotfiles.sh
-            # shell_escape_single()
-            strtoescape=${1}
-            output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
-            echo "'"${output}"'"
-         _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
-         _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
-         _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
-         csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
-         _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
-            $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
-                         (default: ${__WRK})
-         _unsetup_conda()  -- unset CONDA_ROOT[*] and CONDA_ENVS_PATH[*] vars
-         _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
-           $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
-                                                           CONDA_ENVS__py27)
-           $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
-                                                           CONDA_ROOT__py27)
-        
-          Usage:
-           _setup_conda     # __py27
-           _setup_conda 27  # __py27
-           _setup_conda 34  # __py34
-           _setup_conda 35  # __py35
-           _setup_conda ~/envs             # __py27
-           _setup_conda ~/envs/ /opt/conda # /opt/conda
-           _setup_conda <conda_envs_path> <conda_root>  # conda_root
-        
-                 CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
-         _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
-         _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
-         deduplicate_lines()   -- deduplicate lines w/ an associative array
-                                                         (~OrderedMap)
-         echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
-         conda_echo_CONDA_ENVS_PATH()   -- print (CONDA_ENVS_PATH & defaults)
-         lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
-           _conda_status>2
-           find>1
-         lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
-         _condaenvs()              -- list conda envs for tab-completion
-       ## workon_conda_help()  -- print help for workon_conda
-         workon_conda()        -- workon a conda + venv project
-          $1 _conda_envname (pathstr) -- e.g. "dotfiles"
-          $2 _venvstrapp (pathstr) -- e.g. "dotfiles" or "dotfiles/src/dotfiles"
-          $3 _conda_envs_path (pathstr|version_str) -- e.g. "~/-wrk/-ce35" || 35
-           TODO
-         if declared, run _setup_venv_prompt
-         if declared, print dotfiles_status
-         print _conda_status  [csc; csd]
-         declare a 'deactivate' function (like virtualenv)
-         wec()                 -- workon a conda + venv project
-                               note: tab-completion only shows regular virtualenvs
-         _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-         mkvirtualenv_conda()  -- mkvirtualenv and conda create
-         if there is a function named 'dotfiles_postmkvirtualenv',
-         then run 'dotfiles_postmkvirtualenv'
-         rmvirtualenv_conda()  -- rmvirtualenv conda
-         mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
-         workon_conda_if_available()       -- workon_conda OR we OR workon
-   .
-
-   
-   
-etc/bash/08-bashrc.conda.sh.un~
-================================
-| Src: `etc/bash/08-bashrc.conda.sh.un~ <https://github.com/westurner/dotfiles/tree/develop/etc/bash/08-bashrc.conda.sh.un~>`__
-
-.. code:: bash
-
-   .
-   ### bashrc.conda.sh
-   ## Conda / Anaconda
-     see: 05-bashrc.dotfiles.sh
-            # quote_shell_single_always()
-            strtoescape=${1}
-            output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
-            echo "'"${output}"'"
-         _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
-         _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
-         _conda_status()   -- echo CONDA_ROOT, CONDA_ENVS_PATH, and defaults
-         csc()             -- echo CONDA_ROOT and CONDA_ENVS_PATH
-         _setup_conda_defaults()   -- configure CONDA_ENVS_PATH*, CONDA_ROOT*
-            $1 (pathstr): prefix for CONDA_ENVS_PATHS and CONDA_ROOT
-                         (default: ${__WRK})
-         _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
-           $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
-                                                           CONDA_ENVS__py27)
-           $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
-                                                           CONDA_ROOT__py27)
-        
-          Usage:
-           _setup_conda     # __py27
-           _setup_conda 27  # __py27
-           _setup_conda 34  # __py34
-           _setup_conda 35  # __py35
-           _setup_conda ~/envs             # __py27
-           _setup_conda ~/envs/ /opt/conda # /opt/conda
-           _setup_conda <conda_envs_path> <conda_root>  # conda_root
-        
-                 CONDA_ROOT_DEFAULT=CONDA_ROOT__py27
-         _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
-         _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
-         deduplicate_lines()   -- deduplicate lines w/ an associative array
-                                                         (~OrderedMap)
-         echo_conda_envs_paths()   -- print (CONDA_ENVS_PATH & defaults)
-         lscondaenvs()             -- list CONDA_ENVS_PATH/* (and _conda_status)
-           _conda_status>2
-           find>1
-         lsce()                    -- list CONDA_ENVS_PATH/* (and _conda_status)
-         _condaenvs()              -- list conda envs for tab-completion
-         workon_conda()        -- workon a conda + venv project
-         wec()                 -- workon a conda + venv project
-                               note: tab-completion only shows regular virtualenvs
-         _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-         mkvirtualenv_conda()  -- mkvirtualenv and conda create
          if there is a function named 'dotfiles_postmkvirtualenv',
          then run 'dotfiles_postmkvirtualenv'
          rmvirtualenv_conda()  -- rmvirtualenv conda
@@ -611,6 +479,8 @@ etc/bash/10-bashrc.venv.sh
          PATH="~/.local/bin:$PATH" (if not already there)
          __VENV      -- path to local venv config script (executable)
          CdAlias functions and completions
+         You must run this manually if you want a default src venv
+         _setup_venv_SRC
          _setup_venv_SRC() -- configure __SRCVENV and __SRC global virtualenv
          __SRCVENV (str): global 'src' venv symlink (~/-wrk/src)
                           (e.g. ln -s ~/-wrk/-ve27/src ~/-wrk/src)
@@ -705,7 +575,7 @@ etc/bash/29-bashrc.vimpagers.sh
    ### bashrc.vimpagers.sh
          _configure_lesspipe() -- (less <file.zip> | lessv)
          vimpager() -- call vimpager
-         _PAGER=$(which vimpager)
+         _PAGER=$(command -v vimpager)
          lessv()   -- less with less.vim and vim (g:tinyvim=1)
          lessg()   -- less with less.vim and gvim / mvim
          lesse()   -- less with current venv's vim server
@@ -920,8 +790,8 @@ etc/bash/70-bashrc.repos.sh
        export _MSG="${@}"
        see: usrlog.sh
      }
-          gitcmsg()    -- gitc "${_MSG}" ${@}
-          gitcaddmsg()    -- gitc "${_MSG}" ${@}
+          gitcmsg()    -- gitc "${_MSG}" "${@}"
+          gitcaddmsg()    -- gitc "${_MSG}" "${@}"
     
     
     
@@ -1063,7 +933,7 @@ etc/bash/usrlog.sh
       with a shell identifier to differentiate between open windows,
       testing/screencast flows, etc
     
-      By default, _USRLOG will be set to a random string prefixed with '#'
+      By default, _TERM_ID will be set to a random string prefixed with '#'
       by the `stid()` bash function (`_usrlog_set__TERM_ID()`)
     
       * _TERM_ID can be set to any string;
@@ -1141,6 +1011,9 @@ etc/bash/usrlog.sh
           TODO: handle newlines (commands that start on the next line)  (venv.py)
           NOTE: HISTTIMEFORMAT histn (OSX  ) [ 8 ]
           NOTE: HISTTIMEFORMAT histn (Linux) [ 7 ]
+            if [ "${usrlog}" != "-" ]; then
+                usrlog="-f ${usrlog}"
+            fi
             'list((
                 (" ".join(w[10:]).rstrip() if len(w) > 10 else None)
                 or (" ".join(w[9:]).rstrip() if len(w) > 9 else None)
@@ -1154,7 +1027,7 @@ etc/bash/usrlog.sh
          usrlog.py -p${usrlog:-'-'}${usrlog:+"${usrlog}"} --cmd
         
          grep -n "usrlog_" "$_USRLOG" | pyline.py -r '^(?P<grep_n>\d+\:)?(?P<start>#\s+)(?P<_words>.*)\t\$\$\t(?P<cmd>.*)' 'l and rgx and (rgx.groups(), rgx.groupdict(), (rgx.groupdict().get("_words","") or "").split("\t"))'  -O json
-         
+        
    ## usrlog.sh API
    ### usrlog _TERM_ID commands
           termid()      -- echo $_TERM_ID
@@ -1173,6 +1046,10 @@ etc/bash/usrlog.sh
    ### usrlog grep commands
           usrlog_grep() -- egrep -n $_USRLOG
           ug()          -- egrep -n $_USRLOG
+            Usage:
+              ug 'pip' | ugp
+              ug | ugp | grep -C 20 'pip'
+              ug | usrlog.py -
           uga2()
          # usrlog_grep_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
          (set -x;
@@ -1198,6 +1075,10 @@ etc/bash/usrlog.sh
           ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
           usrlog_grin_session_id_all_cmds()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID
                                                 in column position
+         deduplicate_lines()   -- deduplicate lines w/ an associative array
+                                                         (~OrderedMap)
+     USRLOG_INCLUDE_LEGACYLOGS
+     USRLOG_INCLUDE_ALLUSRLOGS
           lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
                                      (oldest first)
           lsusrlogs_date_desc()   -- ls $__USRLOG ${WORKON_HOME}/*/.usrlog
@@ -1206,6 +1087,8 @@ etc/bash/usrlog.sh
           usrlog_lately()      -- lsusrlogs by mtime
           ull()                -- usrlog_lately() (lsusrlogs by mtime)
           usrlog_grep_all()    -- grep $(lsusrlogs) (drop filenames with -h)
+             cat $(lsusrlogs)    # dangerous and wrong
+             cat "$(lsusrlogs)"  # wrong
           ugall()              -- grep $(lsusrlogs) (drop filenames with -h)
           uga()                -- grep $(lsusrlogs) (drop filenames with -h)
           usrlog_grin_all()    -- grin usrlogs
