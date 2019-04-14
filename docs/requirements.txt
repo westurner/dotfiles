@@ -15,7 +15,7 @@ sphinxcontrib-programoutput
 #sphinxcontrib-issuetracker
 
 #sphinxjp.themes.basicstrap
--e git+https://github.com/tell-k/sphinxjp.themes.basicstrap@7a5b36d1deeb#egg=sphinxjp.themes.basicstrap
+-e git+https://github.com/tell-k/sphinxjp.themes.basicstrap@master#egg=basicstrap
 
 -r ../requirements.txt
     #pyline
