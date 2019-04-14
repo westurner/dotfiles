@@ -197,16 +197,52 @@ usrlog.py
 usrlog.py is a commandline script for parsing ``-usrlog.log`` files.
 
 
-Installation::
+Installation
+---------------
+.. code:: bash
 
     python "${__DOTFILES}/scripts/usrlog.py"
     # echo "$PATH"              # dotfiles_status, ds, cls
     cat $_USRLOG | usrlog.py --cmds -
 
 
-Usage::
+Usage
+-------
+.. code:: bash
 
     python usrlog.py --help
+
+    Usage: usrlog.py : [-u] [-p <path>|-P] [--cmds|--id|--dates|--elapsed|--ve]
+
+    Options:
+    -h, --help            show this help message and exit
+    -p PATHS, --path=PATHS
+                          Path to a -usrlog.log file to read (e.g.
+                          "${VIRTUAL_ENV}/-usrlog.log" or '-' for stdin)
+    -P, --paths-from-stdin
+                          Read -usrlog.log paths from stdin
+    -u, -U, --_USRLOG, --USRLOG
+                          Read -usrlog.log path from ${_USRLOG}
+    -f, --force           silently skip ParseException (or log w/ -v)
+    --cmd, --cmds         show <cmd>
+    --id, --ids, --session, --sessions
+                          show [id, cmd]
+    --date, --dates       show [date, id, cmd]
+    --elapsed             show [date, id, cmd, elapsed]
+    --ve, --venv, --venvs, --virtualenv, --virtualenvs
+                          include [date,id,virtualenv,cmd]
+    --cwd, --pwd, --cwd-after-cmd, --pwd-after-cmd
+                          include [date,id,virtualenv,path,cmd]
+    -c COLUMNS, --column=COLUMNS
+                          { date, elapsed, id, virtualenv, path, cmd }
+    --pyline              run --pyline '" commands" + (l[:9] if l else ".")'
+    --iterable-only       return an iterable (instead of an exitcode)
+    --todo, --todos       grep for #TODO entries and parse out the #TODO prefix
+    -v, --verbose
+    -q, --quiet
+    -t, --test
+
+.. code:: bash
 
     python usrlog.py --cmds $_USRLOG
     cat $_USRLOG | tail -n 20 | usrlog.py --cmds -
