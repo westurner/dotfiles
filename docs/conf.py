@@ -74,9 +74,9 @@ extensions = [
 
 try:
     import sphinxcontrib.programoutput
-    extensions.append('sphinxcontrib.ansi')
+    #extensions.append('sphinxcontrib.ansi')
     extensions.append('sphinxcontrib.programoutput')
-    programoutput_use_ansi = True
+    #programoutput_use_ansi = True
 except ImportError:
     pass
 
