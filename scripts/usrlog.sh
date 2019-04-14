@@ -5,7 +5,7 @@
 #  with a shell identifier to differentiate between open windows,
 #  testing/screencast flows, etc
 #
-#  By default, _USRLOG will be set to a random string prefixed with '#'
+#  By default, _TERM_ID will be set to a random string prefixed with '#'
 #  by the `stid()` bash function (`_usrlog_set__TERM_ID()`)
 #
 #  * _TERM_ID can be set to any string;
