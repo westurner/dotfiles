@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Changelog &mdash; westurner/dotfiles 0.9.0 documentation</title>
+    <title>Changelog &mdash; westurner/dotfiles b&#39;0.9.0&#39; documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -43,11 +43,12 @@
 <link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/css/local.css" type="text/css" />
+<link rel="stylesheet" href="_static/changelog.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.9.0',
+            VERSION:     'b&#39;0.9.0&#39;',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -56,13 +57,16 @@
     <script type="text/javascript" src="_static/js/jquery.min.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/js/local.js"></script>
     <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="westurner/dotfiles b&#39;0.9.0&#39; documentation" href="index.html" />
     <link rel="next" title="License" href="license.html" />
     <link rel="prev" title="Developing" href="developing.html" /> 
   </head>
@@ -76,7 +80,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.9.0 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -103,7 +107,7 @@
               <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
             
-            <li class="visible-xs"><a href="_sources/changelog.txt" rel="nofollow">Show Source</a></li>
+            <li class="visible-xs"><a href="_sources/changelog.rst.txt" rel="nofollow">Show Source</a></li>
 
             <li class="visible-xs">
                 <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
@@ -135,7 +139,7 @@
          
 <div class="col-md-3 hidden-xs" id="sidebar-wrapper">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
 <li><a class="reference internal" href="#id2">0.9.0</a></li>
@@ -171,7 +175,7 @@
 </div>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/changelog.txt"
+    <li><a href="_sources/changelog.rst.txt"
             rel="nofollow"
             target="_blank">Source RST</a></li>
     <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/changelog.rst"
@@ -219,8 +223,8 @@
                   
   <div class="section" id="changelog">
 <span id="index-0"></span><span id="id1"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
-<div class="code bash highlight-python"><div class="highlight"><pre>git log --format=&#39;* %s [%h]&#39; master..develop
-git changelog master..develop   # etc/.gitconfig
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">log</span> <span class="o">--</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;* </span><span class="si">%s</span><span class="s1"> [%h]&#39;</span> <span class="n">master</span><span class="o">..</span><span class="n">develop</span>
+<span class="n">git</span> <span class="n">changelog</span> <span class="n">master</span><span class="o">..</span><span class="n">develop</span>   <span class="c1"># etc/.gitconfig</span>
 </pre></div>
 </div>
 <div class="section" id="id2">
@@ -255,13 +259,13 @@ git changelog master..develop   # etc/.gitconfig
 <li>BUG,ENH: usrlog.py: parsing, dates, defaults [584927b]</li>
 <li>DOC: autogenerated usage docs [fd740cf]</li>
 <li>DOC: autogenerated usage docs [6e16506]</li>
-<li>BUG: etc/bash/08-bashrc.conda.sh: wec (workon_conda) args, &#8211;venstrapp [120540a]</li>
+<li>BUG: etc/bash/08-bashrc.conda.sh: wec (workon_conda) args, –venstrapp [120540a]</li>
 <li>ENH: etc/bash/{.dotfiles, .repos}: git-commit, git-add-commit, msg, git-commit-msg, git-add-commit-msg [3ca795d]</li>
 <li>ENH: scripts/{usrlog.py, usrlog.sh}: usrlog.py parser, lsusrlogs, usrlog_grep_*, usrlog_grin_* [ec14cb7]</li>
 <li>ENH: scripts/webw: port from browenv/Makefile [fb61aa4]</li>
-<li>ENH: scripts/netstatpsutil.py: add a &#8211;kill option [0ed69b2]</li>
+<li>ENH: scripts/netstatpsutil.py: add a –kill option [0ed69b2]</li>
 <li>ENH: scripts/pyline.py: pyline.py v0.3.5 [ac5c90d]</li>
-<li>ENH: etc/.gitconfig: changelog = log &#8211;pretty=format:&#8221; * %s [%h]&#8221; [596bfa4]</li>
+<li>ENH: etc/.gitconfig: changelog = log –pretty=format:” * %s [%h]” [596bfa4]</li>
 <li>DOC: autogenerated usage docs [e986f91]</li>
 <li>DOC: autogenerated usage docs [ff9aa64]</li>
 <li>CLN,ENH: scripts/ssp.sh: start, stop, status, check [81b4ee9]</li>
@@ -274,9 +278,9 @@ git changelog master..develop   # etc/.gitconfig
 <li>REF,TST: web &lt;- webopen.py [5d8b88b]</li>
 <li>TST,BLD,PRF: setup.py: optimize <cite>python setup.py test</cite> sequence [515ad1a]</li>
 <li>BUG,CLN: scripts/prompt6.py: os.path.expanduser, .gitignore [f9954f9]</li>
-<li>BLD,PRF: setup.py: uniq(pths.endswith(&#8216;.py&#8217;))[0] [ea63dd9]</li>
+<li>BLD,PRF: setup.py: uniq(pths.endswith(‘.py’))[0] [ea63dd9]</li>
 <li>BLD: .gitmodules: ssh -&gt; https (e.g. for Travis Build) [e84ed19]</li>
-<li>BUG,CLN: bootstrap_dotfiles.sh, .gitmodules: gitflow, hubflow repos, clone &#8211;recursive [9697d48]</li>
+<li>BUG,CLN: bootstrap_dotfiles.sh, .gitmodules: gitflow, hubflow repos, clone –recursive [9697d48]</li>
 <li>REF,PRF,UBY: -&gt; scripts/<a href="#id3"><span class="problematic" id="id4">*</span></a>.sh (w/ checks for BASH_SOURCE) [21bf3aa]</li>
 <li>DOC,REF: docs/tools submodule from <a class="reference external" href="https://github.com/westurner/tools">https://github.com/westurner/tools</a> [af0aa64]</li>
 <li>DOC,REF: docs/usage.rst: usage/readline_conf.txt [1e040c4]</li>
@@ -290,7 +294,7 @@ git changelog master..develop   # etc/.gitconfig
 <li>DOC: scripts/pulse.sh: PulseAudio RTP server/client config script [99d0396]</li>
 <li>BUG: scripts/prompt6.py: more template args [0415db6]</li>
 <li>BLD: update usage (docs/usage/<a href="#id5"><span class="problematic" id="id6">*</span></a>_conf.txt) [db6880e]</li>
-<li>DOC: etc/.inputrc: &lt;OSX_opts&gt;-k &#8211; clear [0daafb0]</li>
+<li>DOC: etc/.inputrc: &lt;OSX_opts&gt;-k – clear [0daafb0]</li>
 <li>BUG,CLN: scripts/{bootstrap_dotfiles.sh,e,ew,gdd,pbcopy,pbpaste,ssv,sv,sve,svr,svs,xlck.sh} [c4f6243]</li>
 <li>ENH: scripts/osquery-all.sh: opts -d &lt;path&gt; -D (dated) -s [5888a53]</li>
 <li>ENH: prompt6.py, this.sh: POC [19e5dc2]</li>
@@ -303,13 +307,13 @@ git changelog master..develop   # etc/.gitconfig
 <li>REF,BLD: scripts/dotfiles-vim.sh: etc/vim -&gt; etc/.vim [8633b2b]</li>
 <li>DOC: autogenerated usage docs [74e66af]</li>
 <li>BUG,CLN: ipython_config.py: remove extra/old CONDA paths [ef58255]</li>
-<li>ENH,REF: etc/.hgrc: &#8216;hg l,long&#8217; colors, hg l -&gt; long&#8217; [99ca5bd]</li>
-<li>ENH: etc/.hgrc: add &#8211;removed, &#8216;hg l &#8211;stat&#8217; [b0e65ba]</li>
+<li>ENH,REF: etc/.hgrc: ‘hg l,long’ colors, hg l -&gt; long’ [99ca5bd]</li>
+<li>ENH: etc/.hgrc: add –removed, ‘hg l –stat’ [b0e65ba]</li>
 <li>DOC: autogenerated usage docs [3297595]</li>
 <li>DOC: autogenerated usage docs [7e17e62]</li>
 <li>RLS: VERSION.txt: 0.8.3 [47d6720]</li>
 <li>RLS: CHANGELOG.rst: v0.8.3, git log cmds [cd273b2]</li>
-<li>Merge branch &#8216;develop&#8217; of <a class="reference external" href="ssh://github.com/westurner/dotfiles">ssh://github.com/westurner/dotfiles</a> into develop [7b50fe1]</li>
+<li>Merge branch ‘develop’ of <a class="reference external" href="ssh://github.com/westurner/dotfiles">ssh://github.com/westurner/dotfiles</a> into develop [7b50fe1]</li>
 <li>UBY: docs/_static/css/local.css: #sidebar-wrapper max-width:25% [d3e1408]</li>
 <li>BUG,ENH: editw completion, lsw(), findw(), grepw() [9f95863]</li>
 <li>REf: .gitignore: etc/vim -&gt; etc/.vim [c1edfea]</li>
@@ -333,10 +337,10 @@ git changelog master..develop   # etc/.gitconfig
 <li>SEC,BUG: shell_escape_single in dotfiles_status() (ds())</li>
 <li>BUG: x-www-browser -&gt; web (system lockup from xdg-open loop)</li>
 <li>BUG: css/leftnavbar.css: max-width: 25% to fix flicker</li>
-<li>DOC,BLD: conf.py: html_link_suffix = &#8216;&#8217; (see: pgs)</li>
+<li>DOC,BLD: conf.py: html_link_suffix = ‘’ (see: pgs)</li>
 <li>DOC: scripts/usrlog.sh: docstrings</li>
 <li>ENH: etc/i3/config: Start gnome-settings-daemon (e.g. for anti-aliasing)</li>
-<li>ENH: scripts/osquery-all.sh: <code class="docutils literal"><span class="pre">SELECT</span> <span class="pre">*</span> <span class="pre">from</span> <span class="pre">*</span> <span class="pre">&gt;</span> <span class="pre">*.{html,json,csv}</span></code>; index.html</li>
+<li>ENH: scripts/osquery-all.sh: <code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">*</span> <span class="pre">from</span> <span class="pre">*</span> <span class="pre">&gt;</span> <span class="pre">*.{html,json,csv}</span></code>; index.html</li>
 <li>REF,BUG: CONDA_ENVS_PATH, _setup_venv_prompt</li>
 <li>ENH: _virtualenvwrapper_get_step_num</li>
 <li>ENH: factor into _setup_virtualenvwrapper_dotfiles_config, _setup_virtualenvwrapper_dotfiles_config for (a start at) virtualenvwrapper compatability</li>
@@ -358,8 +362,8 @@ git changelog master..develop   # etc/.gitconfig
 <div class="line">Releases: <a class="reference external" href="https://github.com/westurner/dotfiles/commits/master">https://github.com/westurner/dotfiles/commits/master</a></div>
 <div class="line">Development: <a class="reference external" href="https://github.com/westurner/dotfiles/commits/develop">https://github.com/westurner/dotfiles/commits/develop</a></div>
 </div>
-<p><code class="docutils literal"><span class="pre">make</span> <span class="pre">docs</span></code> calls <code class="docutils literal"><span class="pre">make</span> <span class="pre">help_bash_txt</span></code>
-and <code class="docutils literal"><span class="pre">make</span> <span class="pre">help_zsh_txt</span></code> to aggregate initial configuration
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">docs</span></code> calls <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">help_bash_txt</span></code>
+and <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">help_zsh_txt</span></code> to aggregate initial configuration
 into one file (sans line numbers) for debugging
 and docstring extraction:</p>
 <ul class="simple">
@@ -369,17 +373,366 @@ and docstring extraction:</p>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/commits/master/etc/zsh">etc/zsh</a></li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/commits/develop/scripts/_dotfiles_zsh.log.sh">scripts/_dotfiles_zsh.log.sh</a></li>
 </ul>
-<div class="code bash highlight-python"><div class="highlight"><pre>git shortnocolor --graph
-git l
-gl
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">shortnocolor</span> <span class="o">--</span><span class="n">graph</span>
+<span class="n">git</span> <span class="n">l</span>
+<span class="n">gl</span>
 </pre></div>
 </div>
-<pre class="ansi-block literal-block">
-$ test -d ../.git &amp;&amp; \
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ test -d ../.git &amp;&amp; \
 git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
-* 5a698c9  (HEAD -&gt; develop) 2016-03-27 22:32:36 -0500 [Wes Turner]
+* 4317314  (HEAD -&gt; develop) 2019-04-14 14:13:27 -0400 [Wes Turner]
+| DOC: dotfiles.venv.rst: genereated backslash escaped \_
+* 7b49350  2019-04-14 14:11:52 -0400 [Wes Turner]
+| DOC,CLN: usrlog.rst: strip trailing spaces
+* f6d1f8e  2019-04-14 14:11:29 -0400 [Wes Turner]
+| DOC: usrlog.rst: manually add usrlog.py --help output
+* 64f5f21  2019-04-14 14:07:54 -0400 [Wes Turner]
+| ENH: scripts/setup_miniconda.sh: py37 support, quoting &quot;${@}&quot;
+* 3f54df2  2019-04-14 14:06:02 -0400 [Wes Turner]
+| DOC,BLD,BUG: conf.py: py3 compat: str(dotfiles.__version__) because bytes
+* 12bd8c8  2019-04-14 14:04:48 -0400 [Wes Turner]
+| DOC,BLD: conf.py: remove sphinxcontrib.ansi
+* 4872ae5  2019-04-14 13:26:30 -0400 [Wes Turner]
+| DOC: docs/usage/: dotfiles usage docs: f9e7d64 :boat:
+* f9e7d64  2019-04-14 13:24:08 -0400 [Wes Turner]
+| DOC: docs/usage/: dotfiles usage docs: 8dd8bd1 :boat:
+* 8dd8bd1  2019-04-14 13:21:00 -0400 [Wes Turner]
+| DOC: conf.py: Copyright 2019
+* 7cc504f  2019-04-14 13:00:54 -0400 [Wes Turner]
+| DOC: docs/usage/: dotfiles usage docs: c33ce2e :boat:
+* c33ce2e  2019-04-14 12:59:19 -0400 [Wes Turner]
+| BLD: Makefile: docs build requires `pip install -e`
+* 85c0ab8  2019-04-14 12:58:25 -0400 [Wes Turner]
+| DOC: docs/usage/: dotfiles usage docs: c238159 :boat:
+* c238159  2019-04-14 12:57:35 -0400 [Wes Turner]
+| DOC: docs/usage/: dotfiles usage docs: 59c6e6c :boat:
+* 59c6e6c  2019-04-14 12:57:21 -0400 [Wes Turner]
+| DOC,BLD: Makefile,requirements.txt: build requires ZSH, remove sphinxcontrib-ansi
+* fee4001  2019-04-14 12:52:39 -0400 [Wes Turner]
+| DOC: docs/usage/: dotfiles usage docs: f23c704 :boat:
+* f23c704  2019-04-14 12:49:53 -0400 [Wes Turner]
+| BUG: scripts/usrlog.py: py3 compat (codecs.getreader if &lt; 3), i=-1
+* 90fb1c6  (origin/master, origin/develop, origin/HEAD, master) 2019-04-13 22:01:18 -0400 [Wes Turner]
+| DOC: scripts/usrlog.sh: s/_USRLOG/_TERM_ID/
+* 4c015da  2019-04-13 18:34:54 -0400 [Wes Turner]
+| BUG,DOC: scripts/e: GUIVIMBIN || EDITOR_ || EDITOR || vim || vi
+* 6236160  2019-04-09 05:00:29 -0400 [Wes Turner]
+| BUG: scripts/usrlog.py: py3 compat
+* 4325940  2019-04-08 21:13:35 -0400 [Wes Turner]
+| ENH: scripts/dnfoffline.sh
+* c1bc261  2019-04-08 21:13:35 -0400 [Wes Turner]
+| REF: etc/bash/*: which -&gt; command -v
+* f09d20c  2019-04-08 21:10:44 -0400 [Wes Turner]
+| REF: etc/bash/*: which -&gt; command -v
+* 4e3de48  2019-04-05 14:04:50 -0400 [Wes Turner]
+| ENH: scripts/bootstrapuser.playbook.yml: install dotvim, VIRTUAL_ENV_dotfiles
+* 890e4d1  2019-04-05 14:03:56 -0400 [Wes Turner]
+| BUG: scripts/el: ln -s el.py el
+* 1a7ff5e  2019-04-03 16:26:15 -0400 [westurner]
+| TST,BLD: scripts/git-changelog.py: py3 compat (obj.next() -&gt; next(obj))
+* e03a940  2019-04-03 16:15:59 -0400 [westurner]
+| BUG: venv.vim, venv_ipyconfig.py: Fix Cdwrd, Cdsrc etc
+* e812461  2019-04-03 16:09:55 -0400 [westurner]
+| ENH: scripts/parse_inputrc.py: py3 compat
+* 4aaca95  2019-04-03 15:59:05 -0400 [westurner]
+| BLD,TST: .travis.yml: py3.7 -&gt; py3.6
+* 2ffbe14  2019-04-03 15:47:41 -0400 [westurner]
+| DOC: scripts/prompt6.py: list stores in cli help
+* b9b13d8  2019-04-03 15:47:17 -0400 [westurner]
+| ENH: scripts/wgs.sh: wg setup
+* 3f86a7d  2019-04-03 15:45:22 -0400 [westurner]
+| ENH: scripts/parse_inputrc.py
+* 5096db2  2019-04-03 15:43:02 -0400 [westurner]
+| ENH: scripts/git-change-author.sh
+* 2dd7b7f  2019-04-03 15:42:35 -0400 [westurner]
+| ENH: scripts/setup_zoom.sh
+* 5cff617  2019-04-03 15:42:12 -0400 [westurner]
+| ENH: scripts/setup_kubernetes.sh
+* 6c27aaa  2019-04-03 15:38:35 -0400 [westurner]
+| ENH,BUG: scripts/usrlog.sh: usrlog_grin_all (ugrinall): fix quoting
+* 262f9ce  2019-04-03 15:37:47 -0400 [westurner]
+| ENH,BUG: scripts/usrlog.sh: quoting, grep --text, cat if no args are specified
+* 46594db  2019-04-03 15:35:14 -0400 [westurner]
+| ENH,BUG: scripts/usrlog.sh: _usrlog_echo_paths in lsusrlogs_date_desc and lsusrlogs_date_asc
+* d119776  2019-04-03 15:28:07 -0400 [westurner]
+| ENH,BUG,SEC: scripts/usrlog.sh: quote args, grep --text so that logs that look binary are included
+* 23a0c34  2019-04-03 15:26:15 -0400 [westurner]
+| ENH: scripts/usrlog.sh: usrlog_grep (ug) cat if no args are specified
+* c02f7f8  2019-04-03 15:24:38 -0400 [westurner]
+| ENH: scripts/usrlog.sh: pass through args to usrlog_tail
+* 6797d3f  2019-04-03 15:23:16 -0400 [westurner]
+| ENH: scripts/usrlog.sh: _usrlog_parse_cmds (ugp) sed instead of pyline.py
+* 7f4cbf9  2019-04-03 15:21:18 -0400 [westurner]
+| BUG,ENH: scripts/websh.py: also use &#39;python -m webbrowser&#39; w/ linux
+* d177afc  2019-04-03 15:20:17 -0400 [westurner]
+| ETC: etc/.hgrc: #hggit=
+* 11ba312  2019-04-03 15:19:31 -0400 [westurner]
+| ENH: Dockerfile.ubuntu16.04
+* 27cdfe8  2019-04-03 15:18:14 -0400 [westurner]
+| ENH: scripts/SGP*: SGP
+* 5751133  2019-04-03 15:15:58 -0400 [Wes Turner]
+| ENH: scripts/usrlog.py: regex #\s+, exception handling
+* 641ed65  2019-04-03 15:15:58 -0400 [Wes Turner]
+| BUG: etc/.pythonrc: __import__(&#39;sys&#39;) instead of import sys
+* 33a2e22  2019-04-03 15:15:58 -0400 [Wes Turner]
+| ENH: scripts/setup_vscode.sh: setup vscode html handler
+* 332d3ac  2019-04-03 15:15:55 -0400 [Wes Turner]
+| ENH: scripts/git-changelog.py: formats: md,rst, intiial heading level
+* c2b2c0d  2019-04-03 15:11:26 -0400 [Wes Turner]
+| ENH: scripts/setup_lgo.sh: setup lgo for ipython
+* 5e47d3f  2019-04-03 15:11:23 -0400 [Wes Turner]
+| BUG,ENH: scripts/ssh-add-keys.sh: mkdir -p __keydir &amp;&amp; chmod o-srwx __keydir
+* 2cb6358  2019-04-03 09:39:33 -0400 [Wes Turner]
+| DOC: scripts/setup_gnome.sh: system-side gnome background link
+* 43aa876  2019-04-03 09:37:52 -0400 [Wes Turner]
+| ENH: scripts/setup_gnome.sh: set gnome background color
+* 057e929  2019-04-01 16:23:49 -0400 [Wes Turner]
+| BLD: .travis.yml: remove sudo: from 3.7 build
+* 07362ea  2019-04-01 16:19:20 -0400 [Wes Turner]
+| TST: src/dotfiles/__main__.py, src/dotfiles/venv/__main__.py: create because travis
+* ad33043  2019-04-01 16:16:25 -0400 [Wes Turner]
+| BLD: .travis.yml: test on 2.7,3.7, pypy3.5
+* dfccc5b  2019-04-01 16:15:39 -0400 [Wes Turner]
+| ENH: script/pyfindmodule.py: pypy special feature
+* 6b69b4f  2019-04-01 15:58:29 -0400 [Wes Turner]
+| BLD: .travis.yml: test on 3.7 w/ xenial and sudo: true
+* e4fcdef  2019-04-01 15:55:42 -0400 [Wes Turner]
+| BUG: scripts/pyfindmodule.py: py2.7 compat
+* e2393b4  2019-04-01 15:44:40 -0400 [Wes Turner]
+| BUG: scripts/optimizepath.py: typo in iterkeys lambda
+* cb54501  2019-04-01 15:42:13 -0400 [Wes Turner]
+| BLD: .travis.yml, tox.ini: test with py37
+* 2f74421  2019-04-01 15:42:08 -0400 [Wes Turner]
+| BLD: requirements.txt: semantic_version for git-changelog.py #25
+* d8b555b  2019-04-01 15:40:21 -0400 [Wes Turner]
+| REF: script/pyren.py: py3 compat (from __future__ import print_function)
+* abba4e9  2019-04-01 15:35:48 -0400 [Wes Turner]
+| CLN: venv_ipyconfig.py: fix pytest warnings: assertRaises, escape \s
+* aed09b7  2019-04-01 15:30:00 -0400 [Wes Turner]
+| REF: scripts/pyfindmodule.py: py3 compat (list special modules)
+* 5268a50  2019-04-01 15:20:45 -0400 [Wes Turner]
+| REF: scripts/el.py: py3 + pytest compat
+* 30a40cc  2019-04-01 14:18:17 -0400 [Wes Turner]
+| BUG,TST: venv_ipyconfig.py: extend(VenvTestCase, unittest.TestCase), StringIO import
+* a462a19  2019-04-01 14:13:41 -0400 [Wes Turner]
+| REF: scripts/*: py3 compat
+* cc52648  2019-04-01 14:13:12 -0400 [Wes Turner]
+| TST,BLD: runtests.py,Makefile,setup.py: remove runtests.py in favor of regular pytest (deprecated)
+* c9a96ad  2019-04-01 14:11:59 -0400 [Wes Turner]
+| REF: scripts/el[.py]: change symlink for script (so that pytest runs)
+* b0592c3  2019-04-01 14:04:16 -0400 [Wes Turner]
+| BLD: requirements-dev.txt: pytest, semantic_version (git-changelog.py)
+* 495bb13  2019-04-01 13:11:30 -0400 [Wes Turner]
+| REF: scripts/git-changelog.py: python3 compat
+* 31d6125  2019-04-01 12:39:23 -0400 [Wes Turner]
+| BLD: Makefile, Dockerfile.fedora29: build-docker-fedora-29
+* 7518df6  2019-04-01 12:38:50 -0400 [Wes Turner]
+| BUG: scripts/bootstrap_dotfiles.sh: remove pip --no-use-wheel option (for latest pip)
+* 5f589d1  2019-04-01 11:26:49 -0400 [Wes Turner]
+| ENH: scripts/bootstrapsystem.playbook.yml: virtualenv, virtualenvwrapper, pipsi, playbook names
+* db588bf  2019-04-01 11:23:38 -0400 [Wes Turner]
+| ENH: scripts/bootstrap-ansible.sh: dnf install ansible, ansible-playbook
+* f74bfcd  2019-04-01 11:23:00 -0400 [Wes Turner]
+| CLN: .gitignore: add .retry
+* f67acbc  2019-04-01 11:21:22 -0400 [Wes Turner]
+| ENH: scripts/pwd.html: Upgrade to latest
+* 87c5f57  2019-04-01 10:11:34 -0400 [Wes Turner]
+| CLN: venv_ipyconfig.py: remove trailing spaces
+* 6efd605  2019-04-01 10:11:01 -0400 [Wes Turner]
+| ENH: scripts/venv_ipyconfig.py,etc/bash/08-bashrc.conda.sh: CONDA_ROOT and CONDA_HOME default to 37
+* 3f40cb0  2019-04-01 09:45:09 -0400 [Wes Turner]
+| ENH: etc/bash/07-bashrc.virtualenvwrapper.sh: default to WORKON_HOME=__WRK/-ve37 unless WORKON_HOME is already set
+* 6b9c648  2019-04-01 09:43:56 -0400 [Wes Turner]
+| ENH,BUG,CLN: 10-bashrc.venv.sh: do not create a WORKON_HOME/src venv by default
+* 9c435f8  2019-04-01 09:28:11 -0400 [Wes Turner]
+| ENH,SEC: scripts/ssh-add-keys.sh: ed25519 everywhere
+* 1f34912  2019-03-31 21:36:52 -0400 [Wes Turner]
+| BUG: scripts/usrlog.py: fix timezone-naieve datetime.strptime
+* 5a4b0a0  2019-03-31 20:56:18 -0400 [Wes Turner]
+| ENH,SEC: scripts/ssh-add-keys.sh: default to ecdsa-sha2-nistp521
+* 7fd4385  2019-03-31 20:56:01 -0400 [Wes Turner]
+| ENH,SEC: scripts/ssh-add-keys.sh: bitbucket supports ecdsa-sha2-nistp521
+* 652f690  2019-03-31 20:55:43 -0400 [Wes Turner]
+| ENH,SEC: scripts/ssh-add-keys.sh: gitlab supports ecdsa-sha2-nistp521
+* 4a3acde  2019-03-31 20:26:49 -0400 [Wes Turner]
+| ENH: scripts/bootstrapsystem.playbook.yml,bootstrapuser.playbook.yml: ansible playbooks
+* 23cb090  2019-03-31 20:13:46 -0400 [Wes Turner]
+| ENH,SEC: scripts/ssh-add-keys.sh: github supports ecdsa-sha2-nistp521
+* 925a102  2019-03-31 20:12:59 -0400 [Wes Turner]
+| ENH,DOC: scripts/ssh-add-keys.gh: Create .key symlink, print message
+* f27805d  2019-03-31 20:12:14 -0400 [Wes Turner]
+| ENH: scripts/ssh-add-keys.sh: create __keydir 0700
+* b396d84  2019-03-28 02:38:49 -0400 [Wes Turner]
+| BUG: bootstrap_dotfiles: call $PYTHON instead of python
+* c87d5ae  2019-03-28 02:36:35 -0400 [Wes Turner]
+| BUG: scripts/bootstrap_dotfiles.sh: check for python3 || python
+* 1d9a5b9  2019-03-28 02:34:04 -0400 [Wes Turner]
+| BLD: .gitmodules: add src/pytestipdb
+* eeea5b1  2019-03-11 02:31:44 -0400 [westurner]
+| ENH: scripts/setup_mattermost_desktop.sh: setup for Fedora (and links for other distros and matterhorn)
+* 2ddaa44  2018-12-21 05:11:28 -0500 [westurner]
+| ENH: scripts/venv_ipymagics.py, venv_cdaliases.sh, venv_root_prefix.sh: add CONDA_ROOT/condaroot/cr cdalises
+* 8098e4e  2018-12-21 05:03:20 -0500 [westurner]
+| ENH: venv_ipyconfig.py: Ewrd/:Ew, Tabnewwrd/:Tabneww
+* 079a96a  2018-12-21 04:59:12 -0500 [westurner]
+| ENH,BUG: venv_ipyconfig.py: include CONDA_ROOT, CONDA_ENVS_PATH in dotfiles_status
+* c44271a  2018-12-21 01:23:38 -0500 [westurner]
+| DOC,CLN: venv.vim,venv_ipyconfig.py: cleanup venv.vim output docstrings, remove extra filter expression that may still be necessary for windows
+* c01e0b0  2018-12-21 01:10:40 -0500 [westurner]
+| DOC,CLN: venv.vim,venv_ipyconfig.py: cleanup venv.vim output docstrings
+* 51faefb  2018-12-21 00:56:26 -0500 [westurner]
+| CLN: venv.vim,venv_ipyconfig.py: cleanup venv.vim output
+* 5974e90  2018-12-21 00:52:19 -0500 [westurner]
+| ENH,BUG,REF: venv.vim,venv_ipyconfig.py: Cdhere, Lcdhere, completion, accept args, fix Lcdhere
+* fb1db19  2018-12-20 23:46:47 -0500 [westurner]
+| ENH,CLN: venv.vim,venv_ipyconfig.py: cleanup venv.vim output
+* b27f3f9  2018-12-20 23:43:28 -0500 [westurner]
+| BLD: Makefile: build-venv-vim-cdalias vendor-venv-vim
+* c11bc58  2018-12-20 23:42:29 -0500 [westurner]
+| ENH: venv.vim,venv_ipyconfig.py: add vim file completion for cdaliases
+* 0f6d926  2018-12-18 20:52:12 -0500 [Wes Turner]
+| ENH: scripts/ps.sh: something like ps
+* 6981e95  2018-12-18 13:27:59 -0500 [Wes Turner]
+| BUG: scripts/e: call &#39;vim&#39; if ${GUIVIMBIN} is not set
+* 6826f91  2018-12-17 02:30:40 -0500 [Wes Turner]
+| BUG: 08-bashrc.conda.sh: make echo_conda_envs_paths() (lsce, wec&lt;TAB&gt;): error when CONDA_ENVS_PATH is unset
+* e11d25b  2018-12-17 02:30:40 -0500 [Wes Turner]
+| ENH: scripts/setup_vscode.sh: extensions, arg parsing
+* 0613551  2018-12-17 02:30:40 -0500 [Wes Turner]
+| ENH: scripts/generate_sphinx_section.py
+* a08fefe  2018-12-17 02:30:40 -0500 [Wes Turner]
+| ENH: scripts/Makefile.taskwarrior
+* e68afce  2018-12-17 02:30:40 -0500 [Wes Turner]
+| RLS: scripts/venv*: vendor latest venv
+* b9d5272  2018-12-17 02:30:39 -0500 [Wes Turner]
+| BUG,REF: 08-bashrc.conda.sh: lscondaenvs: print find commands with set -x
+* b5ff099  2018-12-17 02:30:39 -0500 [Wes Turner]
+| BUG,REF: 08-bashrc.conda.sh: workon_conda: specify CONDA_ROOT and CONDA_ENVS_PATH instead of WORKON_HOME=CONDA_ENVS_PATH
+* ee8a0f8  2018-12-17 02:30:39 -0500 [Wes Turner]
+| REF: venv_ipyconfig.py: comment c.InteractiveShellApp.ignore_old_config, c.InteractiveShell.autoreload for newer IPython config support
+* 83a9da2  2018-12-17 02:30:39 -0500 [Wes Turner]
+| ENH: venv_ipyconfig.py: call pdb if venv_ipyconfig_debug
+* 2963cb6  2018-12-17 02:30:39 -0500 [Wes Turner]
+| REF,PERF: venv_ipyconfig.py: subclass VenvTestCase
+* d532489  2018-12-17 02:30:39 -0500 [Wes Turner]
+| ENH: venv_ipyconfig.py: CONDA_ROOT, CONDA_ENVS_PATH, __py\d\d defaults
+* f726281  2018-12-17 02:30:39 -0500 [Wes Turner]
+| BUG: venv_ipyconfig.py: py3/2 str.center/unicode.center
+* 59f9c76  2018-12-17 02:30:39 -0500 [Wes Turner]
+| ENH: scripts/setup_vscode.sh: Setup Visual Studio Code
+* 14d0adf  2018-12-17 02:30:39 -0500 [Wes Turner]
+| ENH: etc/bash/08-bashrc.conda.sh: py36, py37 support
+* d3c059c  2018-12-17 02:30:39 -0500 [Wes Turner]
+| BUG: 08-bashrc.conda.sh: quoting &quot;${@}&quot;
+* 95b819b  2018-12-17 02:30:39 -0500 [Wes Turner]
+| ENH,UBY: etc/bash/08-bashrc.conda.sh: conda_status: dont show extra conda env default variables
+* 5f4abc2  2018-12-17 02:30:39 -0500 [Wes Turner]
+| ENH: etc/.jupyter: cp from ~/.jupyter
+* c58996c  2018-12-17 02:30:39 -0500 [Wes Turner]
+| ENH: bootstrap_dotfiles.sh: symlink ~/.jupyter -&gt; etc/.jupyter
+* 1daaa80  2018-12-17 02:29:19 -0500 [Wes Turner]
+| BUG: usrlog.sh: &quot;${@}&quot;
+* 8a179c7  2018-12-17 02:29:09 -0500 [Wes Turner]
+| ENH: ssh-add-keys.sh: add gitlab support
+* 291cbe8  2018-12-17 02:28:52 -0500 [Wes Turner]
+| BUG: ssh-add-keys.sh: ssh-keygen &quot;${@}&quot;
+* 051852c  2018-02-02 22:45:01 -0500 [westurner]
+| RLS: scripts/pyline.py: :fast_forward: https://github.com/westurner/pyline/commit/3a6fec4
+* e52b04c  2018-02-02 22:43:23 -0500 [westurner]
+| RLS: scripts/pyline.py: :fast_forward: https://github.com/westurner/pyline/commit/b4a3ec7
+* bcc31ba  2017-08-27 22:23:34 -0500 [Wes Turner]
+| BUG,SEC: scripts/lessv: shell-quoting (seeAlso: whyquote.sh)
+* 3b865ee  2017-07-19 12:46:02 -0500 [Wes Turner]
+| BUG,SEC: scripts/_ewrd.sh: skip &quot;el --each&quot;, quote &quot;${@}&quot;
+* faab39d  2017-06-15 16:17:20 -0500 [Wes Turner]
+| BUG: venv/venv_ipyconfig.py: -nargs=* -&gt; {0,1}
+* a472bf4  2017-05-27 03:22:22 -0500 [Wes Turner]
+| BUG: etc/bash/70-bashrc.repos.sh: &quot;${@}&quot;, quoting
+* 9a28ef6  2017-05-27 03:19:54 -0500 [Wes Turner]
+| REF: etc/bash/70-bashrc.repos.sh, scripts/host_docs.sh: mv host_docs function
+* 9cf8b9b  2017-05-27 03:16:45 -0500 [Wes Turner]
+| BUG: scripts/bashmarks_to_nerdtree.sh: &quot;${@}&quot;, quoting, extraneous &quot;l&quot;
+* 25c0a4f  2017-05-27 03:15:42 -0500 [Wes Turner]
+| ENH: scripts/pyfindmodule.py: find the path to a python module
+* 9d67a69  2017-05-27 03:10:50 -0500 [Wes Turner]
+| ENH: scripts/du-xa.sh: sort files by size
+* b466834  2017-05-27 03:08:26 -0500 [Wes Turner]
+| BUG: scripts/_dotfileshelp.sh (dhelp, dh): unicodify the formatstring
+* 6700513  2017-05-27 03:05:06 -0500 [Wes Turner]
+| ENH: scripts/pytb2paths.sh: parse paths from Python tracebacks with pyline
+*   a22ff47  2017-05-27 03:01:47 -0500 [Wes Turner]
+|\  MRG: Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
+| * b7436ad  2017-05-01 22:57:51 -0500 [GitHub]
+| | DOC: README.rst: link to awesome-dotfiles
+* | b3e3aae  2017-05-27 02:59:05 -0500 [Wes Turner]
+| | ENH,REF,DOC: scripts/venv_relabel.sh: arg handling, diff
+* | ba3ea1d  2017-05-27 02:56:33 -0500 [Wes Turner]
+| | REF: scripts/_ewrd.sh: grep -E instead of pyline for portability
+* | a99259e  2017-05-27 02:53:36 -0500 [Wes Turner]
+| | BUG,SEC: scripts/_ewrd.sh: &quot;${@}&quot;
+* | 03a90f6  2017-05-27 02:52:33 -0500 [Wes Turner]
+| | ENH: scripts/setup_miniconda.sh: py36, miniconda_check_conda_env(), $SKIP_DOWNLOAD
+* | 78d92c3  2017-05-27 02:45:33 -0500 [Wes Turner]
+| | BUG,SEC,ENH: etc/bash/29-bashrc.vimpagers.sh: &quot;${@}&quot;, cursorline nocursorcolumn, check for _PAGER, gitpager, nogitpager, function def syntax
+* | 7c248f8  2017-05-27 01:24:31 -0500 [Wes Turner]
+| | BUG: etc/bash/07-bashrc.virtualenvwrapper.sh: $@ -&gt; &quot;${@}&quot;
+* | 9bd2e6a  2017-05-27 01:22:45 -0500 [Wes Turner]
+|/  BUG: etc/bash/00-bashrc.before.sh: __WRK=${__WRK:-${HOME}/-wrk&quot;}
+* 10dc0ff  2017-04-26 16:09:02 -0500 [Wes Turner]
+| BUG,SEC: scripts/gitw: always quote &quot;${@}&quot; (see scripts/whyquote.sh)
+* a002ed9  2017-04-10 16:45:11 -0500 [Wes Turner]
+| DOC: docs/usage/: dotfiles usage docs: 72519d3 :boat:
+* 72519d3  2017-02-27 11:18:41 -0600 [Wes Turner]
+| TST: scripts/el: split tests
+* f28457d  2017-02-27 11:16:41 -0600 [Wes Turner]
+| BLD: Makefile: build-docker-fedora-24,25;ubuntu16.04
+* 6a10076  2017-02-06 12:56:34 -0600 [Wes Turner]
+| ENH,ETC: bootstrap_dotfiles.sh: symlink_conda() ln -s ~/.condarc ~/.dotfiles/etc/.condarc
+* ec94334  2017-02-03 13:14:07 -0600 [Wes Turner]
+| ETC: etc/.hgrc: tabwidth=4
+* d43dc3d  2017-02-03 13:13:21 -0600 [Wes Turner]
+| ENH: etc/.gitconfig, bashrc.aliases: gs = &#39;git status -sb&#39;
+* 4b5637b  2017-02-03 13:10:51 -0600 [Wes Turner]
+| DOC,SEC: scripts/whyquote.sh: more examples
+* 66265ec  2017-02-03 13:09:44 -0600 [Wes Turner]
+| BUG,ENH: scripts/el: python3 support (StringIO, basestring)
+* 06b63e3  2017-02-03 12:58:24 -0600 [Wes Turner]
+| BLD,BUG: Dockerfile.fedora[23,24,25]: docstring, FROM versionstring
+* 75b9bbb  2017-02-03 12:57:28 -0600 [Wes Turner]
+| BUG: scripts/git-subrepo2submodule.sh: quote  in git_subrepo2submodule_main
+* 0c95abe  2017-02-03 12:55:23 -0600 [Wes Turner]
+| ENH,REF: scripts/_grinwrd.sh: grind?wrk, wh, ce, cr, ph
+*   b3a1e27  2016-09-04 04:08:56 -0400 [GitHub]
+|\  Merge pull request #47 from westurner/feature/venv.vim_lcd_aliases
+| * 092a78b  2016-09-04 03:06:23 -0500 [Wes Turner]
+|/  ENH: venv_ipyconfig: lcdaliases Lcdwrd, LCdwrd
+* f307272  2016-09-04 02:32:22 -0500 [Wes Turner]
+| BUG: venv_ipyconfig.py: unicode strings
+* 9d2f048  2016-04-28 23:04:19 -0500 [Wes Turner]
+| BUG,SEC: scripts/_ewrd.sh: IFS=$n; quoting
+* 1ee2df7  2016-04-28 23:04:04 -0500 [Wes Turner]
+| BUG,SEC: scripts/e: quoting &quot;${@}&quot;
+* e866c63  2016-04-28 23:00:50 -0500 [Wes Turner]
+| BUG: git-changelog.py: rst_escape(str) \*
+* 7ab6619  2016-04-06 00:42:22 -0500 [Wes Turner]
+| BUG,UBY: setup.py: venv.py entrypoint -&gt; venvpy (collides with PATH=scripts/venv.py)
+*   e70c40a  2016-04-06 00:35:01 -0500 [Wes Turner]
+|\  MRG: Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
+| * 0c606c0  2016-04-05 23:09:57 -0500 [Wes Turner]
+| | BUG: scripts/modprobe-l.sh: --rel for relative paths
+* | 1bea3b8  2016-04-06 00:34:55 -0500 [Wes Turner]
+|/  DOC: etc/.gitconfig: http://documentup.com/skwp/git-workflows-book#appendix-a---the-gitconfig
+* dbea6a5  2016-03-31 22:34:33 -0500 [Wes Turner]
+| BUG: modprobe-l.sh: infocmd=&quot;cat&quot;
+* d61bbfb  2016-03-31 22:18:32 -0500 [Wes Turner]
+| BUG,ENH,DOC: modprobe-l.sh: (abs)--path by default; --bf,--info; -h/--help
+* 09b880e  2016-03-31 21:40:19 -0500 [Wes Turner]
+| BUG: modprobe-l.sh: list modules in {./extra,} as well
+* c0fb02f  2016-03-31 21:30:41 -0500 [Wes Turner]
+| ENH: scripts/modprobe-l.sh: emulate module-init-tools&#39; modprobe&#39;s -l option (+ --rel, --sort)
+* 5a698c9  2016-03-27 22:32:36 -0500 [Wes Turner]
 | DOC: scripts/_dotfileshelp.sh, docs/usage/dhelp.rst: bootstrap_dotfiles.sh -h
-* 97ad70d  (origin/develop) 2016-03-27 22:28:05 -0500 [Wes Turner]
+* 97ad70d  2016-03-27 22:28:05 -0500 [Wes Turner]
 | DOC: docs/usage/: dotfiles usage docs: 2a01529 :boat:
 * 2a01529  2016-03-27 22:24:37 -0500 [Wes Turner]
 | DOC: docs/usage/: dotfiles usage docs: 5306c9b :boat:
@@ -412,18 +765,18 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * 4c176db  2016-03-27 18:41:59 -0500 [Wes Turner]
 | BUG,TST: scripts/_dotfileshelp.sh: dhelp --test, remove &lt;&lt; &gt;&gt; from #### headings
 *   7139517  2016-03-27 18:19:15 -0500 [Wes Turner]
-|\  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | *   606d25a  2016-03-09 13:51:03 -0600 [Wes Turner]
-| |\  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+| |\  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | a3a8e52  2016-03-09 13:47:39 -0600 [Wes Turner]
-| | | BUG: ssh-add-keys: &quot;${&#64;}&quot; == &quot;&quot;
+| | | BUG: ssh-add-keys: &quot;${@}&quot; == &quot;&quot;
 * | | 60e0cb3  2016-03-27 18:18:58 -0500 [Wes Turner]
 | | | BUG: scripts/_grinwrd.sh {grinw[rd], grinds[rc], ...}
 * | | e5c742d  2016-03-08 18:17:56 -0600 [Wes Turner]
 | |/  BLD,REF: Makefile, docker/ -&gt; Dockerfile.distroN
 |/|   
 * | 0cf9054  2016-02-18 23:13:57 -0600 [Wes Turner]
-| | BUG: scripts/ssh-add-keys.sh: [ -z &quot;${&#64;}&quot; ] &quot;binary operator expected&quot;
+| | BUG: scripts/ssh-add-keys.sh: [ -z &quot;${@}&quot; ] &quot;binary operator expected&quot;
 * | 7aacc4e  2016-02-18 23:10:41 -0600 [Wes Turner]
 | | ENH,BUG,DOC: etc/bash/08-bashrc.gcloud.sh: autodetect GCLOUDSDK_PREFIX, docstrings
 * | e3ee818  2016-02-18 01:28:14 -0600 [Wes Turner]
@@ -433,7 +786,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | ff083f4  2016-02-16 18:44:13 -0600 [Wes Turner]
 | | ENH,BUG,DOC: etc/bash/08-bashrc.gcloud.sh: normative paths, bash \
 * |   7335456  2016-02-16 16:18:49 -0600 [Wes Turner]
-|\ \  MRG: Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  MRG: Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | |/  
 | * a39d7e5  2016-02-16 03:29:31 -0600 [Wes Turner]
 | | UBY: etc/i3/config: font pango:DejaVu Sans 10
@@ -444,11 +797,11 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 04a02d6  2016-02-16 15:56:09 -0600 [Wes Turner]
 |/  ENH,DOC: etc/bash/08-bashrc.gcloud.sh: _setup_google_cloud, _setup_google_appenginesdk, _unsetup
 *   6c5cecf  2016-02-16 03:15:48 -0600 [Wes Turner]
-|\  MRG: Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\  MRG: Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * 77bfa95  2016-02-15 22:50:11 -0600 [Wes Turner]
 | | ENH,DOC: scripts/ssh-add-keys.sh: docstrings, _ssh_keygen
 | *   af6756d  2016-02-15 20:27:31 -0600 [Wes Turner]
-| |\  MRG: Merge branch 'develop' of https://github.com/westurner/dotfiles into develop
+| |\  MRG: Merge branch &#39;develop&#39; of https://github.com/westurner/dotfiles into develop
 | * | c561ef7  2016-02-15 19:50:22 -0600 [Wes Turner]
 | | | ENH,TST,BUG: scripts/git-upgrade-remote-to-ssh.sh: {ssh,https,http,git}
 * | | d6cfaca  2016-02-16 03:15:26 -0600 [Wes Turner]
@@ -506,7 +859,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | BLD: etc/i3/Makefile: checkpkgs, setuppkgs, setuppkgs_dnf, setuppkgs_apt
 * ba9e86d  2016-02-04 00:16:16 -0600 [Wes Turner]
 | BLD,TST: etc/i3/Makefile: make checkpkgs
-* a1517e1  (origin/setuppy-pytestcommand-exclude, setuppy-pytestcommand-exclude) 2016-02-03 16:31:06 -0600 [Wes Turner]
+* a1517e1  (origin/setuppy-pytestcommand-exclude) 2016-02-03 16:31:06 -0600 [Wes Turner]
 | TST,BLD: setup.py: exclude prompt6.py pending a skipif implementation
 * 9bb9491  2016-02-02 20:49:10 -0600 [Wes Turner]
 | ENH: etc/X11/mb1/*.conf
@@ -571,7 +924,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * e6f60af  2016-01-19 17:10:19 -0600 [Wes Turner]
 | REF,ENH: scripts/_grinwrd.sh: _grinwrd-setup.sh editgrindw editgrinw egrindw egrinw egw grindctags grindctagss grindctagssrc grindctagssys grindctagsw grindctagswrd grinds grindsrc grindv grindvirtualenv grindw grindwrd grindwrdhelp grins grinsrc grinv grinvirtualenv grinw grinwrd grinwrdhelp
 * 410ef6f  2016-01-11 19:23:00 -0600 [Wes Turner]
-| BUG: etc/bash/40-bashrc.aliases.sh: grindp='grind --sys-path'
+| BUG: etc/bash/40-bashrc.aliases.sh: grindp=&#39;grind --sys-path&#39;
 * daa18b3  2016-01-11 16:47:24 -0600 [Wes Turner]
 | BUG,DOC: usrlog.sh: local, docstring
 * c01bd82  2016-01-06 12:45:30 -0600 [Wes Turner]
@@ -613,15 +966,15 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * 9c3b610  2015-12-21 04:18:41 -0600 [Wes Turner]
 | RLS: pyline.py: :fast_forward: https://github.com/westurner/pyline/commit/f46f90c
 *   fbee6e0  2015-12-18 11:01:57 -0600 [Wes Turner]
-|\  DOC: LICENSE: orgname: &#64;westurner.org
-| * dd36c92  (origin/master, origin/HEAD, master) 2015-12-18 10:55:36 -0600 [Wes Turner]
-| | DOC: LICENSE: orgname: &#64;westurner.org
+|\  DOC: LICENSE: orgname: @westurner.org
+| * dd36c92  2015-12-18 10:55:36 -0600 [Wes Turner]
+| | DOC: LICENSE: orgname: @westurner.org
 * | c61a4dd  2015-12-01 03:36:28 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * | 0c184a4  2015-12-01 03:36:20 -0600 [Wes Turner]
 | | DOC: docs/tools: pull latest: 5dbc464
 * |   affce49  2015-12-01 03:35:55 -0600 [Wes Turner]
-|\ \  Merge branch 'master' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;master&#39; of ssh://github.com/westurner/dotfiles into develop
 | |/  
 | * 8a116fe  2015-12-01 03:34:23 -0600 [Wes Turner]
 | | DOC: venv.rst: cdhelp | pbcopy &gt; .. code:: bash
@@ -630,7 +983,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 24e5e78  2015-11-18 16:51:10 -0600 [Wes Turner]
 | | BUG,BLD: Makefile: help_i3 -&gt; dotfiles/scripts/dotfiles-i3.sh
 * |   26d5d6f  2015-11-17 21:28:05 -0600 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | 6e8616c  2015-11-13 16:46:27 -0600 [Wes Turner]
 | | | ENH: scripts/git-subrepo2submodule.sh: nested cloned repo -&gt; git submodule
 | * | 169beb3  2015-11-13 07:48:19 -0600 [Wes Turner]
@@ -638,7 +991,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * | 352dd3e  2015-11-13 03:06:45 -0600 [Wes Turner]
 | | | BUG: 06-bashrc.completion.sh: [ -z $BASH ] &amp;&amp; return 1
 | * |   32f4120  2015-11-13 03:03:32 -0600 [Wes Turner]
-| |\ \  Merge branch 'feature/bashrc_conda' into develop
+| |\ \  Merge branch &#39;feature/bashrc_conda&#39; into develop
 | | * \   971c5ce  2015-11-13 03:02:22 -0600 [Wes Turner]
 | | |\ \  MERGE: 07-bashrc.virtualenvwrapper.sh: _setup_virtualenvwrapper_config syntax
 | | | * | 7248739  2015-11-13 01:47:19 -0600 [Wes Turner]
@@ -685,7 +1038,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | cd1d90e  2015-10-10 01:47:58 -0500 [Wes Turner]
 | | DOC: autogenerated usage docs
 * |   4e851a4  2015-10-10 01:46:49 -0500 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | 00aa5f3  2015-10-07 20:13:29 -0500 [Wes Turner]
 | | | TST: setup_miniconda.py: set -x in the shebang line
 | * | d9c380d  2015-10-05 21:21:27 -0500 [Wes Turner]
@@ -705,7 +1058,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 36df421  2015-09-29 19:34:09 -0500 [Wes Turner]
 | | SEC: bootstrap_dotfiles.sh: quoting
 * | 6e9ac94  2015-09-29 18:55:43 -0500 [Wes Turner]
-| | DOC: docs/dotfiles.venv.rst: add autogen'd dotfiles.venv.venv_ipymagics automodule entry
+| | DOC: docs/dotfiles.venv.rst: add autogen&#39;d dotfiles.venv.venv_ipymagics automodule entry
 * | aeafd17  2015-09-29 18:55:12 -0500 [Wes Turner]
 | | BLD: Makefile: touch pip_install_requirements_docs.log, show pwd in notify-send
 * | dad2eda  2015-09-29 18:54:07 -0500 [Wes Turner]
@@ -715,7 +1068,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 6843cb1  2015-09-29 18:44:52 -0500 [Wes Turner]
 | | BLD: update src/pwd to e7e0ffa (v0.2.2)
 * |   b6ace17  2015-09-13 14:47:19 -0500 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | 229511f  2015-09-13 14:34:24 -0500 [Wes Turner]
 | | | ENH: venv_relabel.sh: ls -aldZ &quot;${prefix}&quot;/*
 | * | 48274bd  2015-09-13 14:26:40 -0500 [Wes Turner]
@@ -733,7 +1086,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * | 065e727  2015-09-07 01:23:25 -0500 [Wes Turner]
 | | | ENH: scripts/setup_node.sh: #needstests
 | * |   8c2574d  2015-09-07 00:49:45 -0500 [Wes Turner]
-| |\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+| |\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | | 3c83cc5  2015-09-07 00:24:42 -0500 [Wes Turner]
 | | | | ENH,DOC: xlck.sh: gnome-screensaver support, xlck_install, xlck_lock, usage
 | * | | d5971c5  2015-09-07 00:24:10 -0500 [Wes Turner]
@@ -748,7 +1101,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | |/ /  ENH: 07-bashrc.virtualenvwrapper.sh: dx()
 |/| |   
 * | | caf8177  2015-09-06 23:21:22 -0500 [Wes Turner]
-| | | DOC,REF: usrlog() -&gt; usrlogw() -&gt; usrlog.py -p $_USRLOG $&#64;
+| | | DOC,REF: usrlog() -&gt; usrlogw() -&gt; usrlog.py -p $_USRLOG $@
 * | | e1f964d  2015-09-06 23:18:04 -0500 [Wes Turner]
 |/ /  ENH: usrlog.sh: usrlog -&gt; usrlog.py -p &quot;${_USRLOG}&quot;
 * | 54bf7ba  2015-08-22 18:13:14 -0500 [Wes Turner]
@@ -776,7 +1129,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | ebf994a  2015-08-20 22:52:02 -0500 [Wes Turner]
 | | DOC: autogenerated usage docs
 * |   a076d43  2015-08-20 22:51:34 -0500 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | 7135efe  2015-08-14 18:33:08 -0500 [Wes Turner]
 | | | BUG: etc/bash/10-bashrc.venv.sh: printf -&gt; echo
 | * | 5a6d0d2  2015-08-14 18:23:41 -0500 [Wes Turner]
@@ -792,7 +1145,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | 547b990  2015-08-20 22:41:46 -0500 [Wes Turner]
 |/ /  DOC: docs/tools: pull latest: ce0600c
 * | 1740f6f  2015-08-05 06:32:14 -0500 [Wes Turner]
-| | ENH: 10-bashrc.venv.sh: workon '~/-wrk/-abc27/venvname' infers WORKON_HOME
+| | ENH: 10-bashrc.venv.sh: workon &#39;~/-wrk/-abc27/venvname&#39; infers WORKON_HOME
 * | 63cb393  2015-08-05 00:44:45 -0500 [Wes Turner]
 | | BLD: Makefile: vendor-venv
 * | 1f0b43c  2015-08-05 00:32:32 -0500 [Wes Turner]
@@ -808,7 +1161,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 3291e9f  2015-08-04 12:09:19 -0500 [Wes Turner]
 | | ENH,REF,UBY: etc/i3/config: adapted for fedora22
 * |   a2e0373  2015-08-04 07:33:39 -0500 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | c805c65  2015-08-04 07:24:41 -0500 [Wes Turner]
 | | | DOC: README.rst: download, build links
 | * | 00bc8f1  2015-08-04 07:23:08 -0500 [Wes Turner]
@@ -844,9 +1197,9 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | b5d3e9a  2015-07-25 05:15:34 -0500 [Wes Turner]
 | | BUG: scripts/usrlog.sh: zsh _usrlog_set_HISTFILE (TODO compat)
 * |   13bc288  2015-07-25 05:15:04 -0500 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * \   d5b8f2b  2015-07-25 03:03:28 -0500 [Wes Turner]
-| |\ \  Merge commit 'f1d4a78' into develop
+| |\ \  Merge commit &#39;f1d4a78&#39; into develop
 | | * | f1d4a78  2015-07-25 02:58:17 -0500 [Wes Turner]
 | | | | BUG,SEC: netstatpsutil.py: iterate per-process connections (e.g. DefaultOrderedDict)
 * | | | 3fdd664  2015-07-25 05:14:57 -0500 [Wes Turner]
@@ -918,7 +1271,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | 805cf01  2015-07-22 20:22:03 -0500 [Wes Turner]
 | | | CLN: scripts/ssv: remove extra echo ${0} ${BASH_SOURCE}
 * | |   0a299a5  2015-07-20 14:40:09 -0500 [Wes Turner]
-|\ \ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | | fab1f76  2015-07-19 23:03:34 -0500 [Wes Turner]
 | | | | BLD: Makefile, ./docker/{fedora, debian, ubuntu}
 * | | | ebab79a  2015-07-20 14:34:26 -0500 [Wes Turner]
@@ -972,7 +1325,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | 85899dc  2015-07-19 14:17:40 -0500 [Wes Turner]
 | | | ENH: scripts/usrlog.sh: ugtp = usrlog_grep_todos_parse
 * | |   c8afbb4  2015-07-19 13:42:24 -0500 [Wes Turner]
-|\ \ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | |/ /  
 | * | 0cfe74a  2015-07-15 16:18:52 -0500 [Wes Turner]
 | | | BUG: scripts/makew: #!/bin/sh -&gt; #!/bin/bash (COMPREPLY)
@@ -1127,7 +1480,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | f9954f9  2015-05-16 04:28:46 -0500 [Wes Turner]
 | | BUG,CLN: scripts/prompt6.py: os.path.expanduser, .gitignore
 * | ea63dd9  2015-05-16 04:23:22 -0500 [Wes Turner]
-| | BLD,PRF: setup.py: uniq(pths.endswith('.py'))[0]
+| | BLD,PRF: setup.py: uniq(pths.endswith(&#39;.py&#39;))[0]
 * | e84ed19  2015-05-16 03:54:28 -0500 [Wes Turner]
 | | BLD: .gitmodules: ssh -&gt; https (e.g. for Travis Build)
 * | 9697d48  2015-05-16 03:47:23 -0500 [Wes Turner]
@@ -1185,9 +1538,9 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | ef58255  2015-05-16 03:47:17 -0500 [Wes Turner]
 | | BUG,CLN: ipython_config.py: remove extra/old CONDA paths
 * | 99ca5bd  2015-05-16 03:47:17 -0500 [Wes Turner]
-| | ENH,REF: etc/.hgrc: 'hg l,long' colors, hg l -&gt; long'
+| | ENH,REF: etc/.hgrc: &#39;hg l,long&#39; colors, hg l -&gt; long&#39;
 * | b0e65ba  2015-05-16 03:47:17 -0500 [Wes Turner]
-| | ENH: etc/.hgrc: add --removed, 'hg l --stat'
+| | ENH: etc/.hgrc: add --removed, &#39;hg l --stat&#39;
 * | 3297595  2015-05-16 03:47:17 -0500 [Wes Turner]
 | | DOC: autogenerated usage docs
 * | 7e17e62  2015-05-16 03:47:17 -0500 [Wes Turner]
@@ -1197,12 +1550,12 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | cd273b2  2015-05-16 03:47:16 -0500 [Wes Turner]
 | | RLS: CHANGELOG.rst: v0.8.3, git log cmds
 * |   7b50fe1  2015-05-02 00:06:04 -0500 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * \   6845b8c  2015-05-01 18:16:52 -0500 [Wes Turner]
-| |\ \  Merge tag 'v0.8.2' into develop
+| |\ \  Merge tag &#39;v0.8.2&#39; into develop
 | | |/  
 | | *   dc671a9  (tag: v0.8.2) 2015-05-01 18:16:39 -0500 [Wes Turner]
-| | |\  Merge branch 'release/0.8.2'
+| | |\  Merge branch &#39;release/0.8.2&#39;
 | | | * 8f20176  2015-05-01 18:16:02 -0500 [Wes Turner]
 | | | | BLD: Makefile: pip install -r ./docs/requirements.txt
 | | | * 9a78cae  2015-05-01 18:15:33 -0500 [Wes Turner]
@@ -1243,22 +1596,22 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 8d1b4c1  2015-04-25 04:11:42 -0500 [Wes Turner]
 | | BUG: css/leftnavbar.css: max-width: 25% to fix flicker
 * | 3e85226  2015-04-25 04:01:02 -0500 [Wes Turner]
-| | DOC,BLD: conf.py: html_link_suffix = '' (see: pgs)
+| | DOC,BLD: conf.py: html_link_suffix = &#39;&#39; (see: pgs)
 * |   4551af4  2015-04-25 03:48:43 -0500 [Wes Turner]
-|\ \  Merge tag 'v0.8.1' into develop
+|\ \  Merge tag &#39;v0.8.1&#39; into develop
 | |/  
 | *   1d51e02  (tag: v0.8.1) 2015-04-25 03:37:56 -0500 [Wes Turner]
-| |\  Merge branch 'release/0.8.1'
+| |\  Merge branch &#39;release/0.8.1&#39;
 | | * 1c3c82d  2015-04-25 03:36:50 -0500 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.8.1
 |/|   
 * | eb149f8  2015-04-25 01:55:33 -0500 [Wes Turner]
 | | DOC: README.rst: remove :ref: roles, reformat links
 * |   d1384af  2015-04-25 01:44:00 -0500 [Wes Turner]
-|\ \  Merge tag 'v0.8.0' into develop
+|\ \  Merge tag &#39;v0.8.0&#39; into develop
 | |/  
 | *   172a4dc  (tag: v0.8.0) 2015-04-25 01:43:43 -0500 [Wes Turner]
-| |\  Merge branch 'release/0.8.0'
+| |\  Merge branch &#39;release/0.8.0&#39;
 | |/  
 |/|   
 * | 7c31335  2015-04-25 01:42:40 -0500 [Wes Turner]
@@ -1276,7 +1629,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 088e6f0  2015-04-25 01:34:43 -0500 [Wes Turner]
 | | ENH: 20-bashrc.editor.sh: editwrd, ew w/ &lt;tab&gt; completion
 * | b996859  2015-04-24 17:19:31 -0500 [Wes Turner]
-| | DOC: scripts/el: support '+num file' for -e (EDITOR[_])
+| | DOC: scripts/el: support &#39;+num file&#39; for -e (EDITOR[_])
 * | f083860  2015-04-24 17:18:35 -0500 [Wes Turner]
 | | ENH: scripts/gdd: git diff [--cached] --diffstat, log, status
 * | 54c7f19  2015-04-24 17:14:29 -0500 [Wes Turner]
@@ -1306,7 +1659,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | c51063e  2015-04-15 10:15:27 -0500 [Wes Turner]
 | | TST,REF: backup ./scripts/pipls.py -&gt; pipls.py.
 * | a432cf4  2015-04-15 10:02:39 -0500 [Wes Turner]
-| | REF,ENH: 05-bashrc.dotfiles.sh: create a default 'src' venv; __SRCVENV, __SRC
+| | REF,ENH: 05-bashrc.dotfiles.sh: create a default &#39;src&#39; venv; __SRCVENV, __SRC
 * | 361c6de  2015-04-15 10:01:04 -0500 [Wes Turner]
 | | CLN,BUG: 05-bashrc.dotfiles.sh: remove grin- and grind-, fix edit_grin_w (egw)
 * | 685eadd  2015-04-15 09:58:56 -0500 [Wes Turner]
@@ -1324,17 +1677,17 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 7f44382  2015-04-14 22:13:49 -0500 [Wes Turner]
 | | BLD: venv.sh, venv_root_prefix.sh: make generate_venv
 * | 2b925ce  2015-04-14 22:13:11 -0500 [Wes Turner]
-| | ENH: 40-bashrc.aliases.sh, ipython_config.py: alias lll='ls -altr --color=auto/-G'
+| | ENH: 40-bashrc.aliases.sh, ipython_config.py: alias lll=&#39;ls -altr --color=auto/-G&#39;
 * | b5d1ed5  2015-04-14 22:09:28 -0500 [Wes Turner]
-| | REF,BUG,ENH: venv: backwards incompat. alias naming 'edit-' -&gt; 'editw' etc. for IPython compatibility
+| | REF,BUG,ENH: venv: backwards incompat. alias naming &#39;edit-&#39; -&gt; &#39;editw&#39; etc. for IPython compatibility
 * | 5e2e3a0  2015-04-14 22:08:04 -0500 [Wes Turner]
-| | BUG: venv, etc/venv/venv.sh: add '' to workaround --compress ${__DOTFILES}${_ETC}
+| | BUG: venv, etc/venv/venv.sh: add &#39;&#39; to workaround --compress ${__DOTFILES}${_ETC}
 * | 1cb95bf  2015-04-14 21:33:43 -0500 [Wes Turner]
 | | BUG,REF: scripts/usrlog.sh: _venv_set_prompt -&gt; venv_set_prompt
 * | 577f756  2015-04-14 20:45:14 -0500 [Wes Turner]
 | | BUG: etc/venv/venv.sh: manually fix cdhelp path (TODO)
 * | 9a3078b  2015-04-14 20:43:49 -0500 [Wes Turner]
-| | REF,BUG,ENH: venv: backwards incompat. alias naming 'edit-' -&gt; 'editw' etc. for IPython compatibility
+| | REF,BUG,ENH: venv: backwards incompat. alias naming &#39;edit-&#39; -&gt; &#39;editw&#39; etc. for IPython compatibility
 * | 6ae90eb  2015-04-13 23:24:02 -0500 [Wes Turner]
 | | ENH: scripts/pbcopy, scripts/pbpaste: http://superuser.com/questions/288320/whats-like-osxs-pbcopy-for-linux
 * | 4c5cf35  2015-04-13 22:58:29 -0500 [Wes Turner]
@@ -1344,9 +1697,9 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 21daed4  2015-04-13 16:01:06 -0500 [Wes Turner]
 | | BUG: venv: (cdwrd) -&gt; (cd {_WRD})
 * |   aca3761  2015-04-13 15:55:38 -0500 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * \   a4f4b89  2015-04-10 12:57:39 -0500 [Wes Turner]
-| |\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+| |\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | | 2e8238d  2015-04-10 12:57:31 -0500 [Wes Turner]
 | | | | BUG: scripts/el: set cmdargs=None by default
 * | | | e225965  2015-04-13 15:55:03 -0500 [Wes Turner]
@@ -1381,17 +1734,17 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | 3a884e0  2015-02-26 09:36:34 -0600 [Wes Turner]
 | | | ENH: narrower left nav, CSS
 * | |   b3b0b6a  2015-01-20 14:35:32 -0600 [Wes Turner]
-|\ \ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | |/ /  
 | * | cd493d8  2015-01-14 06:20:24 -0600 [Wes Turner]
 | | | BUG: i3/config: mv etc/xlck.sh to scripts/xlck.sh
 * | | ba20f44  2015-01-20 14:35:17 -0600 [Wes Turner]
 |/ /  BUG: call lsvirtualenvs if VENVSTR does not exist (#25)
 * |   231f3a6  2015-01-10 09:22:27 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.7.2' into develop
+|\ \  Merge tag &#39;v0.7.2&#39; into develop
 | |/  
 | *   ceec639  (tag: v0.7.2) 2015-01-10 09:22:01 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.7.2'
+| |\  Merge branch &#39;release/0.7.2&#39;
 | | * 98e1ada  2015-01-10 09:21:49 -0600 [Wes Turner]
 | | | RLS: MANIFEST.in: autogenerated git_manifest
 | | * 1cdb2bc  2015-01-10 09:19:35 -0600 [Wes Turner]
@@ -1429,9 +1782,9 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * 5c4cdc3  2015-01-10 05:48:43 -0600 [Wes Turner]
 | | CLN: mv docs/tools to docs/tools.git
 | * f6e2e21  2015-01-10 05:43:40 -0600 [Wes Turner]
-| | CLN: docs/conf.py: exclude_patterns += ['tools/**']
+| | CLN: docs/conf.py: exclude_patterns += [&#39;tools/**&#39;]
 | * f908b77  2015-01-10 05:42:25 -0600 [Wes Turner]
-| | CLN: docs/conf.py: exclude_patterns += ['tools/**']
+| | CLN: docs/conf.py: exclude_patterns += [&#39;tools/**&#39;]
 | * dbfaa93  2015-01-10 05:37:03 -0600 [Wes Turner]
 | | BUG: tools.rst:
 | * bb4be83  2015-01-10 05:25:40 -0600 [Wes Turner]
@@ -1497,7 +1850,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | b3b9f9e  2015-01-08 11:59:02 -0600 [Wes Turner]
 | | CLN: scripts/: chmod +x
 * | e29fa12  2015-01-08 11:58:07 -0600 [Wes Turner]
-| | BLD: etc/brew/brew.list: update with 'make update_brew_list'
+| | BLD: etc/brew/brew.list: update with &#39;make update_brew_list&#39;
 * | a2eff10  2015-01-08 11:57:35 -0600 [Wes Turner]
 | | CLN: mv etc/usrlog/usrlog.sh ./scripts/usrlog.sh
 * | ffd0407  2015-01-08 02:56:32 -0600 [Wes Turner]
@@ -1509,7 +1862,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 95434f4  2015-01-08 02:00:15 -0600 [Wes Turner]
 | | CLN: mv etc/xlck.sh scripts/xlck.sh
 * |   3ef52ee  2015-01-08 01:54:16 -0600 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | 48e2812  2015-01-08 01:10:02 -0600 [Wes Turner]
 | | | CLN: mv etc/.i3 -&gt; etc/i3
 * | | 87fd7b3  2015-01-08 01:53:54 -0600 [Wes Turner]
@@ -1558,7 +1911,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 |\ \  MRG: develop + rebuilt docs/dotvim_conf.txt
 | |/  
 | *   822150f  (tag: v0.7.1) 2014-12-31 20:06:37 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.7.1'
+| |\  Merge branch &#39;release/0.7.1&#39;
 | | * f6819be  2014-12-31 20:01:55 -0600 [Wes Turner]
 | | | DOC: autogenerated usage docs
 | | * 2f93ad5  2014-12-31 20:01:38 -0600 [Wes Turner]
@@ -1623,17 +1976,17 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 27f6b8b  2014-12-24 10:21:05 -0600 [Wes Turner]
 | | BUG,SEC: log_dotfiles_state
 * | 267ff7b  2014-12-24 10:09:46 -0600 [Wes Turner]
-| | BUG: ipython_config.py: don't (un/re)set usrlog _TERM_ID
+| | BUG: ipython_config.py: don&#39;t (un/re)set usrlog _TERM_ID
 * | 3c65afc  2014-12-24 10:01:10 -0600 [Wes Turner]
-| | BUG,ENH,BLD: --prefix=/ for venv.sh, normalize to cdw (which errors), 'make generate_venv'
+| | BUG,ENH,BLD: --prefix=/ for venv.sh, normalize to cdw (which errors), &#39;make generate_venv&#39;
 * | 36eada9  2014-12-24 09:49:25 -0600 [Wes Turner]
 | | BUG: usrlog.sh: set prefix to HOME if prefix==&quot;/&quot;
 * | 3fd4b7c  2014-12-24 07:33:18 -0600 [Wes Turner]
-| | BUG: ipython_config.py: 'etc'
+| | BUG: ipython_config.py: &#39;etc&#39;
 * | 5fb0fbe  2014-12-24 07:08:45 -0600 [Wes Turner]
 | | DOC: tools.rst: GitFlow https://github.com/datasift/gitflow
 * |   042a16f  2014-12-24 07:05:24 -0600 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | c619a33  2014-12-23 00:52:00 -0600 [Wes Turner]
 | | | BUG: usrlog.sh: difference in HISTTIMEFORMAT btwn Linux / OSX #16
 | * | 2b16f6e  2014-12-23 00:20:39 -0600 [Wes Turner]
@@ -1677,11 +2030,11 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 44d1eff  2014-12-18 12:11:24 -0600 [Wes Turner]
 | | BUG,TST: ipython_config.py: VENVSTRAPP tests
 * |   335a617  2014-12-18 09:39:32 -0600 [Wes Turner]
-|\ \  BUG: 20-bashrc.editor.sh: set PAGER='/usr/bin/less -R'
+|\ \  BUG: 20-bashrc.editor.sh: set PAGER=&#39;/usr/bin/less -R&#39;
 | * | 6bb0cce  2014-12-18 09:31:37 -0600 [Wes Turner]
-| | | BUG: 20-bashrc.editor.sh: set PAGER='less' (closes #15)
+| | | BUG: 20-bashrc.editor.sh: set PAGER=&#39;less&#39; (closes #15)
 * | | 7c23794  2014-12-18 09:37:40 -0600 [Wes Turner]
-|/ /  BUG: 20-bashrc.editor.sh: set PAGER='/usr/bin/less -R'
+|/ /  BUG: 20-bashrc.editor.sh: set PAGER=&#39;/usr/bin/less -R&#39;
 * | 8067331  2014-12-18 09:24:03 -0600 [Wes Turner]
 | | ENH: scripts/psutilexample.py
 * | 7a65423  2014-12-18 09:23:23 -0600 [Wes Turner]
@@ -1689,7 +2042,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 9c772c6  2014-12-18 09:10:35 -0600 [Wes Turner]
 | | BUG: ipython_config: typo: VENVSTRAPP
 * | ebd3054  2014-12-18 09:09:32 -0600 [Wes Turner]
-| | BUG: ipython_config: env['CONDA_HOME__py34']
+| | BUG: ipython_config: env[&#39;CONDA_HOME__py34&#39;]
 * | 070dc93  2014-12-18 09:08:58 -0600 [Wes Turner]
 | | BUG: ipython_config: Python 3: io.StringIO
 * | ab98d06  2014-12-18 09:07:22 -0600 [Wes Turner]
@@ -1705,7 +2058,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 02c2f71  2014-12-12 08:56:26 -0600 [Wes Turner]
 | | CLN: 40-bashrc.aliases.sh: alphabetizing git aliases
 * | 10a6816  2014-12-12 08:53:33 -0600 [Wes Turner]
-| | ENH: 40-bashrc.aliases.sh: alias gb='git branch -v'
+| | ENH: 40-bashrc.aliases.sh: alias gb=&#39;git branch -v&#39;
 * | c5e5297  2014-12-12 08:50:50 -0600 [Wes Turner]
 | | ENH: 40-bashrc.aliases.sh: alias gr=&quot;git remote -v&quot;
 * | 0fb4309  2014-12-11 10:45:28 -0600 [Wes Turner]
@@ -1733,7 +2086,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | f861c83  2014-12-06 16:25:24 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * | fbdf376  2014-12-06 16:24:57 -0600 [Wes Turner]
-| | DOC: fix links (according to sphinx 'make linkcheck')
+| | DOC: fix links (according to sphinx &#39;make linkcheck&#39;)
 * | 5f9b0c9  2014-12-06 16:11:06 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * | e528efb  2014-12-06 16:10:33 -0600 [Wes Turner]
@@ -1745,16 +2098,16 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 54c20e7  2014-12-04 21:46:45 -0600 [Wes Turner]
 | | CLN: autopep8 (:PymodeLintAuto)
 * |   312931b  2014-12-04 18:33:20 -0600 [Wes Turner]
-|\ \  Merge branch 'develop' of ssh://github.com/westurner/dotfiles into develop
+|\ \  Merge branch &#39;develop&#39; of ssh://github.com/westurner/dotfiles into develop
 | * | af109e8  2014-12-04 18:24:08 -0600 [Wes Turner]
 | | | DOC: README.rst, venv.rst
 * | | c5d9fbe  2014-12-04 18:31:33 -0600 [Wes Turner]
 |/ /  DOC: README.rst, venv.rst: docstrings
 * |   3ea2fe2  2014-12-04 18:12:59 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.7.0' into develop
+|\ \  Merge tag &#39;v0.7.0&#39; into develop
 | |/  
 | *   ede5f72  (tag: v0.7.0) 2014-12-04 18:12:42 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.7.0'
+| |\  Merge branch &#39;release/0.7.0&#39;
 | | * 0731895  2014-12-04 18:12:30 -0600 [Wes Turner]
 | | | RLS: MANIFEST.in: autogenerated git_manifest
 | | * ffc398f  2014-12-04 18:11:54 -0600 [Wes Turner]
@@ -1807,7 +2160,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 8048d47  2014-11-30 20:28:12 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * | 06c29a6  2014-11-30 20:27:29 -0600 [Wes Turner]
-| | DOC,BLD: changelog.rst: git log --pretty=format:'%h %ci %s [%cn]' --graph
+| | DOC,BLD: changelog.rst: git log --pretty=format:&#39;%h %ci %s [%cn]&#39; --graph
 * | 87f95b6  2014-11-30 20:26:31 -0600 [Wes Turner]
 | | ENH: 40-bashrc.aliases.sh: gac (git-add-commit, gsi (git-status-diffs), gsiw (git-status-diffs /Users/W/-wrk/-ve27/dotfiles/src/dotfiles)
 * | 256655d  2014-11-30 17:57:09 -0600 [Wes Turner]
@@ -1817,7 +2170,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 5d2f94b  2014-11-30 16:43:42 -0600 [Wes Turner]
 | | BUG: _USRLOG=${VIRTUAL_ENV}/-usrlog.log
 * | 979dce4  2014-11-30 16:30:25 -0600 [Wes Turner]
-| | ENH: usrlog.sh, Add 'hg todo' and 'git todo' grep aliases (TODO|FIXME|XXX)
+| | ENH: usrlog.sh, Add &#39;hg todo&#39; and &#39;git todo&#39; grep aliases (TODO|FIXME|XXX)
 * | 1782e73  2014-11-30 15:21:30 -0600 [Wes Turner]
 | | BLD,DOC: changelog.rst logfmt, make docs help_bash_txt help_zsh_txt, links
 * | d5f5c32  2014-11-30 14:59:39 -0600 [Wes Turner]
@@ -1889,7 +2242,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 7e94bde  2014-11-14 19:26:52 -0600 [Wes Turner]
 | | BUG: 29-bashrc.vimpagers.sh: lesse $EDITOR -&gt; $EDITOR_
 * |   a8441f3  2014-11-14 13:12:15 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.6.4' into develop
+|\ \  Merge tag &#39;v0.6.4&#39; into develop
 | | * 9b25d57  2014-11-15 04:25:01 -0600 [Wes Turner]
 | | | DOC: tools.rst
 | | * 29b1186  2014-11-15 04:24:26 -0600 [Wes Turner]
@@ -1901,7 +2254,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | * e05f8f2  2014-11-15 04:19:07 -0600 [Wes Turner]
 | |/  DOC: autogenerated usage docs
 | *   37c52ce  (tag: v0.6.4) 2014-11-14 13:11:58 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.6.4'
+| |\  Merge branch &#39;release/0.6.4&#39;
 | | * 0f26118  2014-11-14 13:11:48 -0600 [Wes Turner]
 | | | RLS: MANIFEST.in: autogenerated git_manifest
 | | * 357644d  2014-11-14 13:11:16 -0600 [Wes Turner]
@@ -1914,10 +2267,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 29906df  2014-11-14 13:08:19 -0600 [Wes Turner]
 | | ENH: .inputrc: move settings from 03-bashrc.readline.sh to .inputrc
 * |   2c96e86  2014-11-14 10:41:32 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.6.3' into develop
+|\ \  Merge tag &#39;v0.6.3&#39; into develop
 | |/  
 | *   f77acf0  (tag: v0.6.3) 2014-11-14 10:41:14 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.6.3'
+| |\  Merge branch &#39;release/0.6.3&#39;
 | | * 072eadd  2014-11-14 10:40:16 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.6.3
 |/|   
@@ -1926,20 +2279,20 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 55102d6  2014-11-14 10:37:58 -0600 [Wes Turner]
 | | DOC: README.rst links
 * |   9b69a96  2014-11-14 10:34:45 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.6.2' into develop
+|\ \  Merge tag &#39;v0.6.2&#39; into develop
 | |/  
 | *   f7958ea  (tag: v0.6.2) 2014-11-14 10:34:33 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.6.2'
+| |\  Merge branch &#39;release/0.6.2&#39;
 | | * 03bdc17  2014-11-14 10:33:32 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.6.2
 |/|   
 * | 0514fc2  2014-11-14 10:27:59 -0600 [Wes Turner]
 | | BLD,DOC,BUG: mock IPython.core.magics for building docs without installing IPython
 * |   20864d9  2014-11-14 10:05:31 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.6.1' into develop
+|\ \  Merge tag &#39;v0.6.1&#39; into develop
 | |/  
 | *   b2c84ac  (tag: v0.6.1) 2014-11-14 10:05:19 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.6.1'
+| |\  Merge branch &#39;release/0.6.1&#39;
 | | * e9cedf2  2014-11-14 10:04:30 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.6.1
 |/|   
@@ -1950,20 +2303,20 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 57e82c4  2014-11-14 10:00:15 -0600 [Wes Turner]
 | | RLS: MANIFEST.in: autogenerated git_manifest
 * |   db800d6  2014-11-14 10:00:04 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.6.0' into develop
+|\ \  Merge tag &#39;v0.6.0&#39; into develop
 | |/  
 | *   5b8b239  (tag: v0.6.0) 2014-11-14 09:59:53 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.6.0'
+| |\  Merge branch &#39;release/0.6.0&#39;
 | | * b04c097  2014-11-14 09:59:07 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.6.0
 |/|   
 * | 7ebe154  2014-11-14 09:58:33 -0600 [Wes Turner]
 | | DOC: LICENSE, ^top^ link in footer
 * |   31e0650  2014-11-14 09:48:54 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.5.3' into develop
+|\ \  Merge tag &#39;v0.5.3&#39; into develop
 | |/  
 | *   3c47e51  (tag: v0.5.3) 2014-11-14 09:48:40 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.5.3'
+| |\  Merge branch &#39;release/0.5.3&#39;
 | | * 7573267  2014-11-14 09:47:56 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.5.3
 |/|   
@@ -2010,7 +2363,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | a88c18b  2014-11-14 07:16:45 -0600 [Wes Turner]
 | | BLD: Makefile SETUPPY_OPTS
 * | db127ca  2014-11-14 07:13:27 -0600 [Wes Turner]
-| | DOC: Makefile: soft spaces for 'make help'
+| | DOC: Makefile: soft spaces for &#39;make help&#39;
 * | 22de00b  2014-11-14 07:08:43 -0600 [Wes Turner]
 | | DOC: README.rst, usage.rst, venv.rst
 * | 286a7fc  2014-11-14 07:07:19 -0600 [Wes Turner]
@@ -2028,20 +2381,20 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 9c22c96  2014-11-13 22:32:50 -0600 [Wes Turner]
 | | RLS: MANIFEST.in: autogenerated git_manifest
 * |   6872129  2014-11-13 22:32:39 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.5.2' into develop
+|\ \  Merge tag &#39;v0.5.2&#39; into develop
 | |/  
 | *   ef02c7a  (tag: v0.5.2) 2014-11-13 22:32:25 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.5.2'
+| |\  Merge branch &#39;release/0.5.2&#39;
 | | * 3d69ef1  2014-11-13 22:31:24 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.5.2
 |/|   
 * | c3955ff  2014-11-13 22:30:49 -0600 [Wes Turner]
 | | DOC: usage.rst
 * |   49c0ab1  2014-11-13 22:27:10 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.5.1' into develop
+|\ \  Merge tag &#39;v0.5.1&#39; into develop
 | |/  
 | *   8db7ea0  (tag: v0.5.1) 2014-11-13 22:26:46 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.5.1'
+| |\  Merge branch &#39;release/0.5.1&#39;
 | | * cca827f  2014-11-13 22:25:50 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.5.1
 |/|   
@@ -2050,10 +2403,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | bfd8b7f  2014-11-13 22:21:56 -0600 [Wes Turner]
 | | RLS: MANIFEST.in: autogenerated git_manifest
 * |   623da35  2014-11-13 22:21:47 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.5.0' into develop
+|\ \  Merge tag &#39;v0.5.0&#39; into develop
 | |/  
 | *   e8b5ed7  (tag: v0.5.0) 2014-11-13 22:21:33 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.5.0'
+| |\  Merge branch &#39;release/0.5.0&#39;
 | |/  
 |/|   
 * |   4964cf0  2014-11-13 22:20:06 -0600 [Wes Turner]
@@ -2069,7 +2422,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | b858ba2  2014-11-13 14:19:48 -0600 [Wes Turner]
 | | BUG,ENH: ipython_config.py EDITOR_, 20-bashrc.editor.sh edits()
 * | 1f5bf93  2014-11-13 13:55:03 -0600 [Wes Turner]
-| | DOC: dotfiles.venv: ':'
+| | DOC: dotfiles.venv: &#39;:&#39;
 * | aa640a4  2014-11-13 13:52:37 -0600 [Wes Turner]
 | | DOC: tools.rst
 * | 131b158  2014-11-13 13:48:25 -0600 [Wes Turner]
@@ -2119,10 +2472,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 2f23b50  2014-11-12 04:01:40 -0600 [Wes Turner]
 | | RLS: MANIFEST.in: autogenerated git_manifest
 * |   a11987a  2014-11-12 04:01:31 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.4.1' into develop
+|\ \  Merge tag &#39;v0.4.1&#39; into develop
 | |/  
 | *   41cdfd8  (tag: v0.4.1) 2014-11-12 04:01:12 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.4.1'
+| |\  Merge branch &#39;release/0.4.1&#39;
 | | * a8c7136  2014-11-12 04:00:30 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.4.1
 |/|   
@@ -2147,10 +2500,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | a60d8f2  2014-11-11 22:18:26 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * |   0203da8  2014-11-11 22:18:09 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.4.0' into develop
+|\ \  Merge tag &#39;v0.4.0&#39; into develop
 | |/  
 | *   3029653  (tag: v0.4.0) 2014-11-11 22:17:48 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.4.0'
+| |\  Merge branch &#39;release/0.4.0&#39;
 | | * 3a37774  2014-11-11 22:17:38 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.4.0
 |/|   
@@ -2287,20 +2640,20 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | ff18eb5  2014-11-11 12:08:12 -0600 [Wes Turner]
 | | BUG: optimizepath.py: import distutils.spawn
 * |   c8ab1ab  2014-11-11 11:10:59 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.3.6' into develop
+|\ \  Merge tag &#39;v0.3.6&#39; into develop
 | |/  
 | *   180ca3d  (tag: v0.3.6) 2014-11-11 11:10:47 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.3.6'
+| |\  Merge branch &#39;release/0.3.6&#39;
 | | * db6657a  2014-11-11 11:10:37 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.3.6
 |/|   
 * | 7f9530a  2014-11-11 11:09:23 -0600 [Wes Turner]
 | | BLD: Makefile: NOP upload (#8)
 * |   8d44e36  2014-11-11 11:07:23 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.3.5' into develop
+|\ \  Merge tag &#39;v0.3.5&#39; into develop
 | |/  
 | *   e60e99f  (tag: v0.3.5) 2014-11-11 11:07:08 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.3.5'
+| |\  Merge branch &#39;release/0.3.5&#39;
 | | * b701e3f  2014-11-11 11:06:56 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.3.5
 |/|   
@@ -2327,10 +2680,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | f949459  2014-11-11 10:51:31 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * |   1095491  2014-11-11 10:48:59 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.3.4' into develop
+|\ \  Merge tag &#39;v0.3.4&#39; into develop
 | |/  
 | *   64005bb  (tag: v0.3.4) 2014-11-11 10:48:49 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.3.4'
+| |\  Merge branch &#39;release/0.3.4&#39;
 | | * 18edb33  2014-11-11 10:48:39 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.3.4
 |/|   
@@ -2347,10 +2700,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | c4d1aa9  2014-11-11 07:54:54 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * |   d8d2f88  2014-11-11 07:54:37 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.3.3' into develop
+|\ \  Merge tag &#39;v0.3.3&#39; into develop
 | |/  
 | *   2105cc1  (tag: v0.3.3) 2014-11-11 07:54:22 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.3.3'
+| |\  Merge branch &#39;release/0.3.3&#39;
 | | * 5d25047  2014-11-11 07:54:13 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.3.3
 |/|   
@@ -2367,10 +2720,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 4df3e6f  2014-11-11 07:41:23 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * |   f973382  2014-11-11 07:41:01 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.3.2' into develop
+|\ \  Merge tag &#39;v0.3.2&#39; into develop
 | |/  
 | *   e8c43d1  (tag: v0.3.2) 2014-11-11 07:40:46 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.3.2'
+| |\  Merge branch &#39;release/0.3.2&#39;
 | | * 0a7ebb5  2014-11-11 07:40:25 -0600 [Wes Turner]
 | | | BLD: Makefile: release (git diff --exit-code || {...})
 | | * 08be414  2014-11-11 07:38:57 -0600 [Wes Turner]
@@ -2378,7 +2731,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | * a826bfa  2014-11-11 07:38:26 -0600 [Wes Turner]
 | | | RLS: VERSION.txt: 0.3.2
 | | * 71be104  2014-11-11 07:38:16 -0600 [Wes Turner]
-| | | BLD: pyclean, NOP 'git hf release start' (manual)
+| | | BLD: pyclean, NOP &#39;git hf release start&#39; (manual)
 | | * cbc4306  2014-11-11 07:36:12 -0600 [Wes Turner]
 | | | BLD,CLN: Makefile: update_manifest, release
 | | * fde2667  2014-11-11 07:34:33 -0600 [Wes Turner]
@@ -2389,20 +2742,20 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 6887b5b  2014-11-11 07:12:03 -0600 [Wes Turner]
 | | DOC,BLD: Makefile, README.rst
 * |   3d0da92  2014-11-11 06:10:36 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.3.1' into develop
+|\ \  Merge tag &#39;v0.3.1&#39; into develop
 | |/  
 | *   14c8b7e  (tag: v0.3.1) 2014-11-11 06:10:17 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.3.1'
+| |\  Merge branch &#39;release/0.3.1&#39;
 | | * 665fb80  2014-11-11 06:10:00 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.3.1
 |/|   
 * | 43c79f7  2014-11-11 06:07:37 -0600 [Wes Turner]
 | | BUG: optimizepath.py: disutils -&gt; distutils (closes #11)
 * |   44e6e26  2014-11-11 05:58:09 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.3.0' into develop
+|\ \  Merge tag &#39;v0.3.0&#39; into develop
 | |/  
 | *   40ce736  (tag: v0.3.0) 2014-11-11 05:57:49 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.3.0'
+| |\  Merge branch &#39;release/0.3.0&#39;
 | | * a103833  2014-11-11 05:57:35 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.3.0
 |/|   
@@ -2411,7 +2764,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 36f3868  2014-11-11 05:29:21 -0600 [Wes Turner]
 | | DOC,CLN: sequencing, 70-bashrc.repos.sh notes
 * | 538bdd1  2014-11-11 04:31:54 -0600 [Wes Turner]
-| | BUG: remove terminal 'less' because usually backgrounded anyway
+| | BUG: remove terminal &#39;less&#39; because usually backgrounded anyway
 * | aaae3ab  2014-11-11 04:22:47 -0600 [Wes Turner]
 | | BUG,SEC: realpath (path) function OS command injection
 * | e792ba1  2014-11-10 12:01:09 -0600 [Wes Turner]
@@ -2427,10 +2780,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 78d9746  2014-11-10 09:06:02 -0600 [Wes Turner]
 | | DOC: autogenerated usage docs
 * |   f845cce  2014-11-10 09:05:42 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.2.7' into develop
+|\ \  Merge tag &#39;v0.2.7&#39; into develop
 | |/  
 | *   4bb07f8  (tag: v0.2.7) 2014-11-10 09:05:30 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.2.7'
+| |\  Merge branch &#39;release/0.2.7&#39;
 | | * 816f109  2014-11-10 09:04:52 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.2.7
 |/|   
@@ -2441,10 +2794,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | d3b7ad5  2014-11-10 08:49:34 -0600 [Wes Turner]
 | | BLD: Makefile: docs_commit_autogen
 * |   2c982f5  2014-11-10 08:38:38 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.2.6' into develop
+|\ \  Merge tag &#39;v0.2.6&#39; into develop
 | |/  
 | *   bb957c5  (tag: v0.2.6) 2014-11-10 08:38:20 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.2.6'
+| |\  Merge branch &#39;release/0.2.6&#39;
 | | * 1247a17  2014-11-10 08:38:01 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt 0.2.6
 |/|   
@@ -2453,7 +2806,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | d11914d  2014-11-10 08:30:33 -0600 [Wes Turner]
 | | BLD,DOC,CLN: Makefile: docs_commit_autogen
 * | f4fdc58  2014-11-10 08:29:15 -0600 [Wes Turner]
-| | CLN: 00-bashrc.before.sh: 'vim :Striptrailing'
+| | CLN: 00-bashrc.before.sh: &#39;vim :Striptrailing&#39;
 * | b2fe01c  2014-11-10 08:08:36 -0600 [Wes Turner]
 | | BLD: Makefile, etc/brew/brew.list (brew)
 * | 15f76af  2014-11-10 07:55:50 -0600 [Wes Turner]
@@ -2467,22 +2820,22 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | bb89804  2014-11-10 05:18:19 -0600 [Wes Turner]
 | | CLN,BUG: aliases -&gt; 40-bashrc.aliases.sh, hgst()
 * | 384a542  2014-11-10 05:06:29 -0600 [Wes Turner]
-| | ENH: Add completion for 'we'
+| | ENH: Add completion for &#39;we&#39;
 * | 4f590a8  2014-11-10 05:00:56 -0600 [Wes Turner]
 | | BUG: psc, psch aliases (Darwin)
 * |   291db51  2014-11-09 21:09:28 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.2.5' into develop
+|\ \  Merge tag &#39;v0.2.5&#39; into develop
 | |/  
 | *   bbac829  (tag: v0.2.5) 2014-11-09 21:09:17 -0600 [Wes Turner]
-| |\  Merge branch 'release/0.2.5'
+| |\  Merge branch &#39;release/0.2.5&#39;
 | | * f15fba9  2014-11-09 21:08:58 -0600 [Wes Turner]
 | |/  RLS: VERSION.txt: 0.2.5
 |/|   
 * |   85d0550  2014-11-09 21:06:20 -0600 [Wes Turner]
-|\ \  Merge tag 'v0.2.4' into develop
+|\ \  Merge tag &#39;v0.2.4&#39; into develop
 | |/  
 | *   b7893b0  (tag: v0.2.4) 2014-11-09 21:05:52 -0600 [Wes Turner]
-| |\  Merge branch 'release/v0.2.4'
+| |\  Merge branch &#39;release/v0.2.4&#39;
 | |/  
 |/|   
 * | 51d0979  2014-11-09 21:04:34 -0600 [Wes Turner]
@@ -2498,20 +2851,20 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | ec8813a  2014-11-01 13:10:05 -0500 [Wes Turner]
 | | ENH: bashrc.venv.sh: cdwrk, ga
 * |   377ff33  2014-11-01 03:27:23 -0500 [Wes Turner]
-|\ \  Merge tag 'v0.2.3' into develop
+|\ \  Merge tag &#39;v0.2.3&#39; into develop
 | |/  
 | *   ad28bde  (tag: v0.2.3) 2014-11-01 03:27:07 -0500 [Wes Turner]
-| |\  Merge branch 'release/0.2.3'
+| |\  Merge branch &#39;release/0.2.3&#39;
 | | * f9bf594  2014-11-01 03:26:46 -0500 [Wes Turner]
 | |/  RLS: update version to 0.2.3
 |/|   
 * | 3713f91  2014-11-01 03:24:32 -0500 [Wes Turner]
 | | BLD,BUG: pyclean
 * |   8364924  2014-11-01 03:15:09 -0500 [Wes Turner]
-|\ \  Merge tag 'v0.2.2' into develop
+|\ \  Merge tag &#39;v0.2.2&#39; into develop
 | |/  
 | *   3829f2f  (tag: v0.2.2) 2014-11-01 03:15:01 -0500 [Wes Turner]
-| |\  Merge branch 'release/0.2.2'
+| |\  Merge branch &#39;release/0.2.2&#39;
 | |/  
 |/|   
 * | 5587ea6  2014-11-01 03:13:09 -0500 [Wes Turner]
@@ -2533,7 +2886,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 77cecc9  2014-10-29 00:11:14 -0500 [Wes Turner]
 | | BUG: 2&gt;1 -&gt; 2&gt;&amp;1
 * |   d4e9c95  2014-10-29 00:06:07 -0500 [Wes Turner]
-|\ \  Merge branch 'master' into develop
+|\ \  Merge branch &#39;master&#39; into develop
 | |/  
 | * 40520e5  2014-10-29 00:03:48 -0500 [Wes Turner]
 | | ENH,BUG,DOC: virtualenvwrapper functions, usrlog ISO8601 format, $HISTFILE fixes, os.path.realpath (for OSX)
@@ -2542,7 +2895,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * 8886596  2014-10-27 21:04:10 -0500 [Wes Turner]
 | | ENH,CLN: virtualevwrapper functions
 | * 0753d39  2014-10-27 09:05:08 -0500 [Wes Turner]
-| | BLD: Add help_bash_rst to 'make docs'
+| | BLD: Add help_bash_rst to &#39;make docs&#39;
 | * b58cf97  2014-10-27 09:04:40 -0500 [Wes Turner]
 | | DOC: links.html
 | * f524f88  2014-10-27 06:54:30 -0500 [Wes Turner]
@@ -2576,7 +2929,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * 943f7d9  2014-10-27 04:57:49 -0500 [Wes Turner]
 | | DOC: ENH scripts/dotfiles-bash.sh comment regex
 | * 071aac9  2014-10-27 01:50:34 -0500 [Wes Turner]
-| | DOC: generated scripts/bashrc.load.sh and docs/bash_conf.rst with 'make help_bash help_bash_rst'
+| | DOC: generated scripts/bashrc.load.sh and docs/bash_conf.rst with &#39;make help_bash help_bash_rst&#39;
 | * 69cbf65  2014-10-27 01:48:20 -0500 [Wes Turner]
 | | BLD,BUG,DOC: md5sums -&gt; md5 on OSX, docstrings
 | * ad5e919  2014-10-27 01:46:25 -0500 [Wes Turner]
@@ -2608,7 +2961,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * 3e12c32  2014-10-26 23:06:53 -0500 [Wes Turner]
 | | BUG: __DOTFILES=${__DOTFILES:-&quot;$HOME/.dotfiles&quot;
 | * 40a9969  2014-10-26 23:03:11 -0500 [Wes Turner]
-| | ENH: add dotfiles_status call to 'we' command, Linux &amp; OSX ps aliases
+| | ENH: add dotfiles_status call to &#39;we&#39; command, Linux &amp; OSX ps aliases
 | * 5a1f06f  2014-10-26 23:01:17 -0500 [Wes Turner]
 | | BLD,TST: Add meta tasks
 | * e122a8c  2014-10-26 22:58:14 -0500 [Wes Turner]
@@ -2616,12 +2969,12 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 9b936b6  2014-10-26 01:57:45 -0500 [Wes Turner]
 | | DOC: regenerate docs_vim.rst
 * |   286affa  2014-10-26 01:54:41 -0500 [Wes Turner]
-|\ \  Merge tag '0.2.1' into develop
+|\ \  Merge tag &#39;0.2.1&#39; into develop
 | |/  
 | *   d3fc4b6  (tag: v0.2.1) 2014-10-26 01:54:26 -0500 [Wes Turner]
-| |\  Merge branch 'release/0.2.1'
+| |\  Merge branch &#39;release/0.2.1&#39;
 | | *   4005fa3  2014-10-26 01:53:55 -0500 [Wes Turner]
-| | |\  Merge remote-tracking branch 'origin/release/0.2.1' into release/0.2.1
+| | |\  Merge remote-tracking branch &#39;origin/release/0.2.1&#39; into release/0.2.1
 | | * | 52063eb  2014-10-26 01:53:49 -0500 [Wes Turner]
 | |/ /  RLS: VERSION.txt: 0.2.1
 | * | 02d6cd1  2014-10-26 01:34:28 -0500 [Wes Turner]
@@ -2633,7 +2986,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | c6d2e9b  2014-10-26 01:19:42 -0500 [Wes Turner]
 | | | BUG: Fix venv --print (JSON output)
 * | |   59297fa  2014-10-26 01:04:48 -0500 [Wes Turner]
-|\ \ \  Merge branch 'master' into develop
+|\ \ \  Merge branch &#39;master&#39; into develop
 | |/ /  
 | | /   
 | |/    
@@ -2669,10 +3022,10 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | bb9fc90  2014-10-25 15:48:40 -0500 [Wes Turner]
 | | DOC,CLN: remove workflow.rst (see: https://github.com/westurner/wiki/wiki/workflow )
 * |   693b69a  2014-10-25 15:43:47 -0500 [Wes Turner]
-|\ \  Merge tag 'v0.2.0' into develop
+|\ \  Merge tag &#39;v0.2.0&#39; into develop
 | |/  
 | *   6467001  (tag: v0.2.0) 2014-10-25 15:43:24 -0500 [Wes Turner]
-| |\  Merge branch 'release/0.2.0'
+| |\  Merge branch &#39;release/0.2.0&#39;
 | | * 7482b35  2014-10-25 15:42:48 -0500 [Wes Turner]
 | | | BLD,BUG: remove build_tags from build
 | | * 3775f29  2014-10-25 15:39:20 -0500 [Wes Turner]
@@ -2693,7 +3046,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * 5438937  2014-08-23 05:43:45 -0500 [Wes Turner]
 | | BUG: 20-bashrc.editor.sh: typo in shell [ -f ] conditionals
 | * 7401237  2014-08-23 05:42:42 -0500 [Wes Turner]
-| | BUG: 00-bashrc.before.sh: typo in 'else:'
+| | BUG: 00-bashrc.before.sh: typo in &#39;else:&#39;
 * |   b322cd8  2014-10-25 14:13:12 -0500 [Wes Turner]
 |\ \  MRG,CLN: Merge old heads, remove less_ (-&gt; lessv, lessg)
 | * | 4be73a3  2014-08-23 20:50:10 -0500 [Wes Turner]
@@ -2709,7 +3062,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * 0291ae7  2014-08-23 05:08:40 -0500 [Wes Turner]
 | | ENH: Add 08-bashrc.gcloud.sh
 | * 4979fef  2014-08-23 05:00:55 -0500 [Wes Turner]
-| | ENH: Add 'git ba' for 'git branch -a -v'
+| | ENH: Add &#39;git ba&#39; for &#39;git branch -a -v&#39;
 | * 223f297  2014-08-23 05:00:14 -0500 [Wes Turner]
 | | BUG,CLN: dotfiles console_script optparse config
 | * 6d13f9e  2014-08-23 04:59:45 -0500 [Wes Turner]
@@ -2733,7 +3086,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * 436523d  2014-05-24 01:10:51 -0500 [Wes Turner]
 | | BLD,BUG: VERSION.txt path (symlink ./VERSION.txt to src/dotfiles/VERSION.txt)
 | * e5a5f49  2014-05-24 00:57:40 -0500 [Wes Turner]
-| | ENH: Add 'dotfiles --version' command to dotfiles.cli
+| | ENH: Add &#39;dotfiles --version&#39; command to dotfiles.cli
 | * 08613bd  2014-05-24 00:57:25 -0500 [Wes Turner]
 | | BUG: attempt to find VERSION.txt (ReadTheDocs builds fail on VERSION.txt)
 | * 5d25aff  2014-05-24 00:56:54 -0500 [Wes Turner]
@@ -2741,7 +3094,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * 35ed67a  2014-05-24 00:45:01 -0500 [Wes Turner]
 | | DOC: Add docs/workflow.rst
 | * a0c60d3  2014-05-23 20:42:33 -0500 [Wes Turner]
-| | BUG: etc/.i3/config: exit fullscreen for popups (e.g. '10s to screensaver')
+| | BUG: etc/.i3/config: exit fullscreen for popups (e.g. &#39;10s to screensaver&#39;)
 | * 1bbc99f  2014-05-23 20:42:33 -0500 [Wes Turner]
 | | ENH: etc/.i3/config: add &lt;alt&gt;&lt;Backspace&gt; to toggle floating window (scratchpad)
 | * 8532d82  2014-05-23 20:42:33 -0500 [Wes Turner]
@@ -2765,9 +3118,9 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * f7bba00  2014-05-23 04:11:06 -0500 [Wes Turner]
 | | CLN,BUG: comment out gvim=gvim, _edit=_EDIT_; PEP8 + strip double quotes from self.appname in ${VIRTUAL_ENV_NAME}
 | * 5a483f9  2014-05-23 04:09:20 -0500 [Wes Turner]
-| | CLN,BUG: 20-bashrc.editor.sh: fix quoting to open files in same editor with 'e'
+| | CLN,BUG: 20-bashrc.editor.sh: fix quoting to open files in same editor with &#39;e&#39;
 | * 677615b  2014-05-23 04:07:44 -0500 [Wes Turner]
-| | DOC: add '# ' to current .usrlog format, write debug to &gt;&amp;2, quoting style
+| | DOC: add &#39;# &#39; to current .usrlog format, write debug to &gt;&amp;2, quoting style
 | * 712caed  2014-05-23 04:04:12 -0500 [Wes Turner]
 | | ENH: Add 04-bashrc.TERM.sh to optimistically set $TERM to [screen|xterm]-256color
 | *   0434011  2014-05-22 16:38:56 -0500 [Wes Turner]
@@ -2813,7 +3166,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | | * 49f9b50  2014-05-21 09:06:37 -0500 [Wes Turner]
 | | | | | DOC,CLN: cleanup docs, fix syntax errors
 | | | | * 59ddc2b  2014-05-21 09:06:13 -0500 [Wes Turner]
-| | | | | BLD,BUG,DOC: fix 'make docs'
+| | | | | BLD,BUG,DOC: fix &#39;make docs&#39;
 | | | | * 1fe6ad9  2014-05-21 09:05:45 -0500 [Wes Turner]
 | | | | | DOC: Create empty docs/_status/index.html
 | | | | * 8667f93  2014-05-21 09:04:52 -0500 [Wes Turner]
@@ -2827,7 +3180,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | | * 06f477b  2014-05-20 22:39:19 -0500 [Wes Turner]
 | | | | | BUG: readline config should only load w/ bash
 | | | | * 2080074  2014-05-20 22:38:38 -0500 [Wes Turner]
-| | | | | BUG: 2&gt;&amp;1 extra 'id' command for 'zsh fc -l -1' workaround
+| | | | | BUG: 2&gt;&amp;1 extra &#39;id&#39; command for &#39;zsh fc -l -1&#39; workaround
 | | | | * c7a2928  2014-05-20 12:38:12 -0500 [Wes Turner]
 | | | | | ENH: add etc/bash/11-bashrc.venv.pyramid.sh
 | | | | *   7bd6dea  2014-05-20 12:37:01 -0500 [Wes Turner]
@@ -2839,7 +3192,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | | * | 51b2e9e  2014-05-20 12:35:43 -0500 [Wes Turner]
 | | | | | | DOC: etc/bash/10-bashrc.venv.sh
 | | | | * | a2c1147  2014-05-20 12:35:43 -0500 [Wes Turner]
-| | | | | | BUG: remove &quot;alias gvim='gvim'&quot;
+| | | | | | BUG: remove &quot;alias gvim=&#39;gvim&#39;&quot;
 | | | | * | 14b3402  2014-05-20 12:35:43 -0500 [Wes Turner]
 | | | | | | BUG: set PS1 only if BASH_VERSION (for zsh)
 | | | | * | c060166  2014-05-20 12:35:43 -0500 [Wes Turner]
@@ -2847,7 +3200,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | | * | a08552b  2014-05-20 12:34:50 -0500 [Wes Turner]
 | | | | | | ENH,DOC: 00-bashrc.before.sh add docs, move variables into sequence
 | | | | * | fd1d70e  2014-05-20 12:34:50 -0500 [Wes Turner]
-| | | | | | ENH: add function_exists 'declare -f' $? check (that works with both bash &amp; zsh)
+| | | | | | ENH: add function_exists &#39;declare -f&#39; $? check (that works with both bash &amp; zsh)
 | | | | * | 821b17f  2014-05-20 12:34:50 -0500 [Wes Turner]
 | | | | | | BUG: remove &quot;unset -f fixperms&quot;
 | | | | * | e458a30  2014-05-20 12:34:50 -0500 [Wes Turner]
@@ -2930,7 +3283,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | * | | 2f55ca3  2014-05-11 16:09:36 -0500 [Wes Turner]
 | | | | | ENH: Update .hgrc: Add aliases, shelve and pager extensions, [pager] ignore
 | | * | | c371b79  2014-05-11 16:08:39 -0500 [Wes Turner]
-| | | | | BUG: Update sys.path w/ dist-packages so 'import apt' works
+| | | | | BUG: Update sys.path w/ dist-packages so &#39;import apt&#39; works
 | | * | | 82a62d3  2014-05-11 16:08:02 -0500 [Wes Turner]
 | | | | | BLD: Add pyinotify to requirements
 | | * | | 21877cc  2014-05-11 16:07:34 -0500 [Wes Turner]
@@ -3076,7 +3429,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * | d240e7f  2013-12-03 06:52:24 -0600 [Wes Turner]
 | | | Added setup_brew and brew.list
 | * | 1b63dd3  2013-12-03 06:20:27 -0600 [Wes Turner]
-| | | Updated .bashrc.venv.sh: don't source screensaver.sh on OSX
+| | | Updated .bashrc.venv.sh: don&#39;t source screensaver.sh on OSX
 | * | 38c9cd9  2013-12-03 06:16:42 -0600 [Wes Turner]
 | | | Added setup_powerline_fonts.sh from westurner/dotvim
 | * | b17f5b9  2013-12-03 06:12:11 -0600 [Wes Turner]
@@ -3142,7 +3495,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * | | 8b5de4c  2014-10-17 19:35:05 -0500 [Wes Turner]
 | | | | ENH: Add IPython shell aliases
 | * | | 0d4fa98  2014-10-17 19:34:41 -0500 [Wes Turner]
-| | | | ENH: Add 'ds = diff --stat' and 'dcs = diff --cached --stat'
+| | | | ENH: Add &#39;ds = diff --stat&#39; and &#39;dcs = diff --cached --stat&#39;
 * | | |   596ff3a  2014-10-25 13:56:53 -0500 [Wes Turner]
 |\ \ \ \  MRG,DOC: README.rst: goals
 | * | | | 17136c8  2014-09-21 17:08:03 -0500 [Wes Turner]
@@ -3186,7 +3539,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | | d389292  2014-09-09 22:13:56 -0500 [Wes Turner]
 | | | | ENH,DOC: update ipython_config.py: add aliases, docstrings
 * | | | 9f8f557  2014-09-09 17:08:34 -0500 [Wes Turner]
-| | | | ENH: Use 'ls -G' instead of 'ls --color=auto' when sys.platform=='darwin'
+| | | | ENH: Use &#39;ls -G&#39; instead of &#39;ls --color=auto&#39; when sys.platform==&#39;darwin&#39;
 * | | | 061a147  2014-09-02 08:57:32 -0500 [Wes Turner]
 |/ / /  ENH: Add more .gitconfig aliases from http://lauris.github.io/development/2014/09/01/git-aliases/
 * | | bf1bde2  2014-08-25 00:55:07 -0500 [Wes Turner]
@@ -3208,7 +3561,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | | e25e4f0  2014-08-23 05:43:45 -0500 [Wes Turner]
 | | | | BUG: 20-bashrc.editor.sh: typo in shell [ -f ] conditionals
 * | | | 1f8c6f7  2014-08-23 05:42:42 -0500 [Wes Turner]
-|/ / /  BUG: 00-bashrc.before.sh: typo in 'else:'
+|/ / /  BUG: 00-bashrc.before.sh: typo in &#39;else:&#39;
 * | | 1f37d7d  2014-08-23 05:30:12 -0500 [Wes Turner]
 | | | CLN: 20-bashrc.editor.sh: curly brackets around variables, mvim
 * | | 12646d6  2014-08-23 05:10:15 -0500 [Wes Turner]
@@ -3216,7 +3569,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | 494f6de  2014-08-23 05:08:40 -0500 [Wes Turner]
 | | | ENH: Add 08-bashrc.gcloud.sh
 * | | a0af9ad  2014-08-23 05:00:55 -0500 [Wes Turner]
-| | | ENH: Add 'git ba' for 'git branch -a -v'
+| | | ENH: Add &#39;git ba&#39; for &#39;git branch -a -v&#39;
 * | | 6338646  2014-08-23 05:00:14 -0500 [Wes Turner]
 | | | BUG,CLN: dotfiles console_script optparse config
 * | | 1c8e0dd  2014-08-23 04:59:45 -0500 [Wes Turner]
@@ -3240,7 +3593,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | b7787d5  2014-05-24 01:10:51 -0500 [Wes Turner]
 | | | BLD,BUG: VERSION.txt path (symlink ./VERSION.txt to src/dotfiles/VERSION.txt)
 * | | ae83e3a  2014-05-24 00:57:40 -0500 [Wes Turner]
-| | | ENH: Add 'dotfiles --version' command to dotfiles.cli
+| | | ENH: Add &#39;dotfiles --version&#39; command to dotfiles.cli
 * | | e49a9b7  2014-05-24 00:57:25 -0500 [Wes Turner]
 | | | BUG: attempt to find VERSION.txt (ReadTheDocs builds fail on VERSION.txt)
 * | | c802b89  2014-05-24 00:56:54 -0500 [Wes Turner]
@@ -3248,7 +3601,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | 762a804  2014-05-24 00:45:01 -0500 [Wes Turner]
 | | | DOC: Add docs/workflow.rst
 * | | ac693bb  2014-05-23 20:42:33 -0500 [Wes Turner]
-| | | BUG: etc/.i3/config: exit fullscreen for popups (e.g. '10s to screensaver')
+| | | BUG: etc/.i3/config: exit fullscreen for popups (e.g. &#39;10s to screensaver&#39;)
 * | | 0e47c0e  2014-05-23 20:42:33 -0500 [Wes Turner]
 | | | ENH: etc/.i3/config: add &lt;alt&gt;&lt;Backspace&gt; to toggle floating window (scratchpad)
 * | | d2813d0  2014-05-23 20:42:33 -0500 [Wes Turner]
@@ -3272,9 +3625,9 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | 3c95aa2  2014-05-23 04:11:06 -0500 [Wes Turner]
 | | | CLN,BUG: comment out gvim=gvim, _edit=_EDIT_; PEP8 + strip double quotes from self.appname in ${VIRTUAL_ENV_NAME}
 * | | 7d612b1  2014-05-23 04:09:20 -0500 [Wes Turner]
-| | | CLN,BUG: 20-bashrc.editor.sh: fix quoting to open files in same editor with 'e'
+| | | CLN,BUG: 20-bashrc.editor.sh: fix quoting to open files in same editor with &#39;e&#39;
 * | | 37d42e8  2014-05-23 04:07:44 -0500 [Wes Turner]
-| | | DOC: add '# ' to current .usrlog format, write debug to &gt;&amp;2, quoting style
+| | | DOC: add &#39;# &#39; to current .usrlog format, write debug to &gt;&amp;2, quoting style
 * | | 70dca9f  2014-05-23 04:04:12 -0500 [Wes Turner]
 | | | ENH: Add 04-bashrc.TERM.sh to optimistically set $TERM to [screen|xterm]-256color
 * | |   0f59bd7  2014-05-22 16:38:56 -0500 [Wes Turner]
@@ -3320,7 +3673,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | * | | 10d47df  2014-05-21 09:06:37 -0500 [Wes Turner]
 | | | | | | DOC,CLN: cleanup docs, fix syntax errors
 | | | * | | d049d52  2014-05-21 09:06:13 -0500 [Wes Turner]
-| | | | | | BLD,BUG,DOC: fix 'make docs'
+| | | | | | BLD,BUG,DOC: fix &#39;make docs&#39;
 | | | * | | 152b90c  2014-05-21 09:05:45 -0500 [Wes Turner]
 | | | | | | DOC: Create empty docs/_status/index.html
 | | | * | | 74a0e25  2014-05-21 09:04:52 -0500 [Wes Turner]
@@ -3334,7 +3687,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | * | | 80433cf  2014-05-20 22:39:19 -0500 [Wes Turner]
 | | | | | | BUG: readline config should only load w/ bash
 | | | * | | dbb16fe  2014-05-20 22:38:38 -0500 [Wes Turner]
-| | | | | | BUG: 2&gt;&amp;1 extra 'id' command for 'zsh fc -l -1' workaround
+| | | | | | BUG: 2&gt;&amp;1 extra &#39;id&#39; command for &#39;zsh fc -l -1&#39; workaround
 | | | * | | 3a6cd9e  2014-05-20 12:38:12 -0500 [Wes Turner]
 | | | | | | ENH: add etc/bash/11-bashrc.venv.pyramid.sh
 | | | * | |   ac0abd3  2014-05-20 12:37:01 -0500 [Wes Turner]
@@ -3346,7 +3699,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | * | | | a2e3e5a  2014-05-20 12:35:43 -0500 [Wes Turner]
 | | | | | | | DOC: etc/bash/10-bashrc.venv.sh
 | | | * | | | 1d41ffa  2014-05-20 12:35:43 -0500 [Wes Turner]
-| | | | | | | BUG: remove &quot;alias gvim='gvim'&quot;
+| | | | | | | BUG: remove &quot;alias gvim=&#39;gvim&#39;&quot;
 | | | * | | | 34f1420  2014-05-20 12:35:43 -0500 [Wes Turner]
 | | | | | | | BUG: set PS1 only if BASH_VERSION (for zsh)
 | | | * | | | 525a4e3  2014-05-20 12:35:43 -0500 [Wes Turner]
@@ -3354,7 +3707,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | * | | | a75da3a  2014-05-20 12:34:50 -0500 [Wes Turner]
 | | | | | | | ENH,DOC: 00-bashrc.before.sh add docs, move variables into sequence
 | | | * | | | 313b728  2014-05-20 12:34:50 -0500 [Wes Turner]
-| | | | | | | ENH: add function_exists 'declare -f' $? check (that works with both bash &amp; zsh)
+| | | | | | | ENH: add function_exists &#39;declare -f&#39; $? check (that works with both bash &amp; zsh)
 | | | * | | | 8431f79  2014-05-20 12:34:50 -0500 [Wes Turner]
 | | | | | | | BUG: remove &quot;unset -f fixperms&quot;
 | | | * | | | 18bd3e4  2014-05-20 12:34:50 -0500 [Wes Turner]
@@ -3424,7 +3777,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | | * | 4a91bcb  2014-05-11 16:09:36 -0500 [Wes Turner]
 | | | | | | ENH: Update .hgrc: Add aliases, shelve and pager extensions, [pager] ignore
 | | | | * | 0b7d646  2014-05-11 16:08:39 -0500 [Wes Turner]
-| | | | | | BUG: Update sys.path w/ dist-packages so 'import apt' works
+| | | | | | BUG: Update sys.path w/ dist-packages so &#39;import apt&#39; works
 | | | | * | e1f767d  2014-05-11 16:08:02 -0500 [Wes Turner]
 | | | | | | BLD: Add pyinotify to requirements
 | | | | * | 9474b89  2014-05-11 16:07:34 -0500 [Wes Turner]
@@ -3560,7 +3913,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | | | | * | 507e56a  2013-12-03 06:52:24 -0600 [Wes Turner]
 | | | | | | Added setup_brew and brew.list
 | | | | * | ad94764  2013-12-03 06:20:27 -0600 [Wes Turner]
-| | | | | | Updated .bashrc.venv.sh: don't source screensaver.sh on OSX
+| | | | | | Updated .bashrc.venv.sh: don&#39;t source screensaver.sh on OSX
 | | | | * | 277e80b  2013-12-03 06:16:42 -0600 [Wes Turner]
 | | | | | | Added setup_powerline_fonts.sh from westurner/dotvim
 | | | | * | f37c917  2013-12-03 06:12:11 -0600 [Wes Turner]
@@ -3693,7 +4046,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * | | | | | 7c9f084  2014-05-11 16:09:36 -0500 [Wes Turner]
 | | | | | | | ENH: Update .hgrc: Add aliases, shelve and pager extensions, [pager] ignore
 | * | | | | | d1f18c8  2014-05-11 16:08:39 -0500 [Wes Turner]
-| | | | | | | BUG: Update sys.path w/ dist-packages so 'import apt' works
+| | | | | | | BUG: Update sys.path w/ dist-packages so &#39;import apt&#39; works
 | * | | | | | b473397  2014-05-11 16:08:02 -0500 [Wes Turner]
 | | | | | | | BLD: Add pyinotify to requirements
 | * | | | | | d5a6835  2014-05-11 16:07:34 -0500 [Wes Turner]
@@ -3839,7 +4192,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | | | | 523e296  2013-12-03 06:52:24 -0600 [Wes Turner]
 | | | | | Added setup_brew and brew.list
 * | | | | 51110e1  2013-12-03 06:20:27 -0600 [Wes Turner]
-| | | | | Updated .bashrc.venv.sh: don't source screensaver.sh on OSX
+| | | | | Updated .bashrc.venv.sh: don&#39;t source screensaver.sh on OSX
 * | | | | 6b61d18  2013-12-03 06:16:42 -0600 [Wes Turner]
 | | | | | Added setup_powerline_fonts.sh from westurner/dotvim
 * | | | | b39ab2a  2013-12-03 06:12:11 -0600 [Wes Turner]
@@ -3938,7 +4291,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * | 32c6143  2013-01-16 19:34:38 -0600 [Wes Turner]
 | | | Added etc/.sdirs: bashmarks configuration
 | * | cb8d92d  2013-01-16 19:34:38 -0600 [Wes Turner]
-| | | Updated .usrlog: Partial ZSH support: NOP 'shopt -s histappend'
+| | | Updated .usrlog: Partial ZSH support: NOP &#39;shopt -s histappend&#39;
 | * | f5ec95b  2013-01-16 19:34:38 -0600 [Wes Turner]
 | | | Updated .bashrc.venv.sh: $EDITOR configuration, documentation
 | * | 0fd03c0  2013-01-16 19:34:38 -0600 [Wes Turner]
@@ -4002,7 +4355,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | * | 3a6f83b  2012-12-13 02:29:31 -0600 [Wes Turner]
 | | | Updated README: Headings, contents, syntax, removed grin --help output
 | * | 122ebfb  2012-12-12 23:54:43 -0600 [Wes Turner]
-| | | Added Venv: Virtualenv project configuration in ipython, bash, and JSON .bashrc: source $_bashrc_venv .bashrc.venv.sh: ``we`` and ``venv`` commands, DOTFILES -&gt; __DOTFILES, ipython_config.py: Venv(['venvname', ['appname']]), venv -E -p, venv -E -b Updated usrlog.sh: USRLOG-&gt;_USRLOG, HISTFILE Updated README.rst: Adding per-file documentation
+| | | Added Venv: Virtualenv project configuration in ipython, bash, and JSON .bashrc: source $_bashrc_venv .bashrc.venv.sh: ``we`` and ``venv`` commands, DOTFILES -&gt; __DOTFILES, ipython_config.py: Venv([&#39;venvname&#39;, [&#39;appname&#39;]]), venv -E -p, venv -E -b Updated usrlog.sh: USRLOG-&gt;_USRLOG, HISTFILE Updated README.rst: Adding per-file documentation
 | * | fe989dc  2012-12-12 11:37:34 -0600 [Wes Turner]
 | | | Updated .hgrc: Removing largefiles due to lack of hosting support
 | * | d2ca28a  2012-12-12 11:37:34 -0600 [Wes Turner]
@@ -4240,7 +4593,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | 283912e  2013-01-16 19:34:38 -0600 [Wes Turner]
 | | Added etc/.sdirs: bashmarks configuration
 * | 95e6286  2013-01-16 19:34:38 -0600 [Wes Turner]
-| | Updated .usrlog: Partial ZSH support: NOP 'shopt -s histappend'
+| | Updated .usrlog: Partial ZSH support: NOP &#39;shopt -s histappend&#39;
 * | d19ad87  2013-01-16 19:34:38 -0600 [Wes Turner]
 | | Updated .bashrc.venv.sh: $EDITOR configuration, documentation
 * | e0e95ff  2013-01-16 19:34:38 -0600 [Wes Turner]
@@ -4304,7 +4657,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 * | e3bee14  2012-12-13 02:29:31 -0600 [Wes Turner]
 | | Updated README: Headings, contents, syntax, removed grin --help output
 * | a00be42  2012-12-12 23:54:43 -0600 [Wes Turner]
-| | Added Venv: Virtualenv project configuration in ipython, bash, and JSON .bashrc: source $_bashrc_venv .bashrc.venv.sh: ``we`` and ``venv`` commands, DOTFILES -&gt; __DOTFILES, ipython_config.py: Venv(['venvname', ['appname']]), venv -E -p, venv -E -b Updated usrlog.sh: USRLOG-&gt;_USRLOG, HISTFILE Updated README.rst: Adding per-file documentation
+| | Added Venv: Virtualenv project configuration in ipython, bash, and JSON .bashrc: source $_bashrc_venv .bashrc.venv.sh: ``we`` and ``venv`` commands, DOTFILES -&gt; __DOTFILES, ipython_config.py: Venv([&#39;venvname&#39;, [&#39;appname&#39;]]), venv -E -p, venv -E -b Updated usrlog.sh: USRLOG-&gt;_USRLOG, HISTFILE Updated README.rst: Adding per-file documentation
 * | 592acb6  2012-12-12 11:37:34 -0600 [Wes Turner]
 | | Updated .hgrc: Removing largefiles due to lack of hosting support
 * | a7592b2  2012-12-12 11:37:34 -0600 [Wes Turner]
@@ -4489,7 +4842,8 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 |/  Importing dotfiles packaging
 * 0ee46d6  2011-10-12 14:30:32 -0500 [Wes Turner]
   Importing CHANGELOG.rst
-</pre>
+</pre></div>
+</div>
 </div>
 
 
@@ -4507,7 +4861,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.9.0 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
@@ -4524,8 +4878,8 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 
       <!-- footer -->
       <footer role="contentinfo">
-          &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+          &copy; Copyright 2019, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
       </footer>
       <!-- /footer -->
 

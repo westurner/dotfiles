@@ -8,10 +8,10 @@
 Tools
 ================
 
-| Docs: https://westurner.org/tools/
+| Docs: https://westurner.github.io/tools/
 | Src: https://github.com/westurner/tools
 
-See Also: https://westurner.org/wiki/projects#tools
+See Also: https://westurner.github.io/wiki/projects#tools
 
 
 .. index:: Packages
@@ -137,6 +137,18 @@ Bower is "a package manager for the web" (:ref:`Javascript` packages)
 built on :ref:`NPM`.
 
 
+.. index:: BUILD
+.. _build:
+
+BUILD
+~~~~~~
+| Docs: https://pantsbuild.github.io/build_files.html
+| Docs: https://pantsbuild.github.io/build_dictionary.html
+| Docs: https://pantsbuild.github.io/options_reference.html
+
+A ``BUILD`` file describes a :ref:`Pants Build` build.
+
+
 .. index:: Cabal
 .. _cabal:
 
@@ -158,6 +170,7 @@ Hackage is the community Cabal package index: https://hackage.haskell.org/
 
 Conda
 ~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Conda_(package_manager)>`__
 | Docs: http://conda.pydata.org/docs/
 | Src: git https://github.com/conda/conda
 | PyPI: https://pypi.python.org/pypi/conda
@@ -179,10 +192,10 @@ to install packages written in any language.
   with a ``meta.yaml``, a ``build.sh``, and/or a ``build.bat``.
 * Conda recipes reference and build from
   a source package URI
-  *OR* a :ref:`vcs` URI and revision; and/or custom ``build.sh`` or
+  *OR* a :ref:`VCS <vcs>` URI and revision; and/or custom ``build.sh`` or
   ``build.bat`` scripts.
 * ``conda skeleton`` can automatically create conda recipes
-  from ``PyPI`` (Python), ``CRAN`` (R), and from ``CPAN`` (Perl)
+  from ``PyPI`` (Python), ``CRAN`` (R), and ``CPAN`` (Perl)
 * ``conda skeleton``-generated recipes can be updated
   with additional metadata, scripts, and source URIs
   (as separate patches or consecutive branch commits
@@ -258,6 +271,12 @@ To install a conda package from a custom channel:
 
     conda install -c pydanny cookiecutter   # OR pip install cookiecutter
 
+The conda-forge custom channel packages are built with :ref:`continuous
+integration` on multiple platforms:
+
+* https://conda-forge.github.io/
+* http://anaconda.org/conda-forge
+
 Sources:
 
 * https://github.com/conda
@@ -272,7 +291,85 @@ Sources:
   :ref:`maintain <packages>` in https://binstar.org
   package repositories)
 
-See also: :ref:`Anaconda`
+
+
+See also: :ref:`Anaconda`, :ref:`conda-forge` (:ref:`conda-smithy`)
+
+
+.. index:: conda-forge
+.. _conda-forge:
+
+conda-forge
+~~~~~~~~~~~~~~~~~
+| Homepage: https://conda-forge.github.io/
+| Src: https://github.com/conda-forge
+| Src: https://github.com/conda-forge/feedstocks
+| Src: https://github.com/conda-forge/feedstocks/tree/master/feedstocks
+| Src: https://github.com/conda-forge/staged-recipes
+| DockerHub: https://hub.docker.com/r/condaforge/linux-anvil
+| Docs: https://conda-forge.github.io/docs/
+| Docs: https://conda-forge.github.io/docs/recipe.html
+
+* https://conda-forge.github.io/#add_recipe
+
+  * A. fork: https://github.com/conda-forge/staged-recipes
+  
+    * meta.yaml https://github.com/conda-forge/staged-recipes/blob/master/recipes/example/meta.yaml
+    
+  * B. conda-smithy
+    
+  * meta.yaml
+  
+    * Docs: numpy x.x: https://conda-forge.github.io/docs/meta.html#building-against-numpy
+    
+  * circle.yml
+  
+    * https://github.com/conda-forge/staged-recipes/blob/master/circle.yml
+    
+  * .travis.yml
+  
+    * https://github.com/conda-forge/staged-recipes/blob/master/.travis.yml
+    
+  * appveyor.yml
+  
+    * https://github.com/conda-forge/staged-recipes/blob/master/appveyor.yml
+    
+  * conda-forge.yml
+  * run_docker_build.sh
+    https://github.com/conda-forge/staged-recipes/blob/master/scripts/run_docker_build.sh
+  * bootstrap-obvious-ci-and-miniconda.py
+    https://github.com/conda-forge/conda-smithy/blob/master/bootstrap-obvious-ci-and-miniconda.py
+
+.. code:: bash
+
+    # create a conda package recipe from a pypi package
+    cd $VIRTUAL_ENV/src
+    conda skeleton pypi jupyterthemes
+    ls -ld jupyterthemes/
+    edit jupyterthemes/meta.yaml
+    # - git repo tags || pypi releases
+
+    # create a conda-forge feedstock from a conda recipe
+    ## https://github.com/conda-forge/conda-smithy#making-a-new-feedstock
+    cd $VIRTUAL_ENV/src
+    ls -ld jupyterthemes
+    conda-smithy init jupyterhemes
+    ls jupyterthemes-feedstock/
+
+    # build a conda-forge feedstock with docker
+    # FROM condaforge/linux-anvil
+    cat ./scripts/run_docker_build.sh
+    ./scripts/run_docker_build.sh
+    ./ci_support/run_docker_build.sh
+    
+    
+.. index:: conda-smithy
+.. _conda-smithy:
+
+conda-smithy
+~~~~~~~~~~~~~~
+| Src: https://github.com/conda-forge/conda-smithy
+| Docs: https://github.com/conda-forge/conda-smithy#making-a-new-feedstock
 
 
 .. index:: DEB
@@ -314,7 +411,7 @@ dnf
 | Homepage: http://dnf.baseurl.org/
 | Homepage: https://fedoraproject.org/wiki/Features/DNF
 | Src: git https://github.com/rpm-software-management/dnf
-| Docs: https://dnf.readthedocs.org/en/latest/
+| Docs: https://dnf.readthedocs.io/en/latest/
 | Docs: https://github.com/rpm-software-management/dnf/wiki
 | Docs: https://rpm-software-management.github.io/dnf-plugins-core/
 
@@ -330,6 +427,68 @@ dnf is a an open source package manager written in :ref:`Python`.
   * See ``dnf help`` (and ``man dnf``)
 
 * dnf integrates with the Anaconda system installer.
+* :ref:`dnf` supports **Delta** RPM packages (DRPM),
+  which often significantly reduce the required amount of network
+  transfer required to regularly retrieve and upgrade to
+  the latest repository packages.
+
+
+.. index:: ebuild
+.. _ebuild:
+
+ebuild
+~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Ebuild
+| Homepage: https://wiki.gentoo.org/wiki/Ebuild
+| Docs: https://devmanual.gentoo.org/quickstart/
+| Docs: https://devmanual.gentoo.org/ebuild-writing/
+| Docs: https://devmanual.gentoo.org/ebuild-writing/file-format/
+| Docs: https://devmanual.gentoo.org/ebuild-writing/variables/
+| Docs: https://devmanual.gentoo.org/ebuild-writing/use-conditional-code/
+| Docs: https://wiki.gentoo.org/wiki/Submitting_ebuilds
+
+ebuild is a software package definition format.
+
+* ebuilds are like special :ref:`bash` scripts.
+* ebuilds have ``USE`` flags for specifying build features.
+* :ref:`Gentoo` is built from ebuild package definitions
+  stored in Gentoo :ref:`Portage`.
+* :ref:`Portage` packages are built from ebuilds.
+* The :ref:`emerge` :ref:`Portage` command installs ebuilds.
+
+
+.. index:: emerge
+.. _emerge:
+
+emerge
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Portage_(software)#Emerge>`__
+| Homepage: https://wiki.gentoo.org/wiki/Portage#emerge
+| Src: git https://github.com/gentoo/portage
+| Docs: https://wiki.gentoo.org/wiki/Project:Package_Manager_Specification
+| Docs: https://projects.gentoo.org/pms/6/pms.html
+
+``emerge`` is the primary CLI tool used for installing
+packages built from :ref:`ebuilds <ebuild>` [from :ref:`Portage`].
+
+
+.. index:: fpm
+.. _fpm:
+
+fpm
+~~~~~
+| Wikipedia:
+| Src: https://github.com/jordansissel/fpm
+| Docs: https://github.com/jordansissel/fpm/wiki/
+| Docs: https://github.com/jordansissel/fpm/wiki/PackageMakeInstall
+
+fpm (*effing package management*) is a tool for building many types
+of software packages from many other types of software packages
+(e.g. :ref:`DEB`. :ref:`RPM`, :ref:`Python Packages`);
+often more easily than working with the actual package manager.
+
+* fpm package source types include: dir rpm gem python empty tar deb cpan npm osxpkg pear pkgin virtualenv zip.
+* fpm target package types include: rpm deb solaris puppet dir osxpkg p5p puppet sh tar zip
 
 
 .. index:: Brew
@@ -340,7 +499,7 @@ Homebrew
 ~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Homebrew_(package_management_software)>`__
 | Homepage: http://brew.sh/
-
+| Src: https://github.com/Homebrew/brew
 
 Homebrew is a package manager (``brew``) for :ref:`OSX`.
 
@@ -354,11 +513,13 @@ NPM
 | Wikipedia: `<https://en.wikipedia.org/wiki/Npm_(software)>`__
 | Homepage: https://www.npmjs.org/
 | Src: https://github.com/npm/npm
-
+| Docs: https://docs.npmjs.com/files/package.json#files
 
 NPM is a :ref:`Javascript` package manager created for :ref:`Node.js`.
 
-:ref:`Bower` builds on NPM.
+* an NPM package is defined by a ``package.json`` :ref:`JSON` file.
+* NPM packages are installed with the ``npm`` CLI utility.
+* :ref:`Bower` builds upon NPM.
 
 
 .. index:: NuGet
@@ -401,7 +562,7 @@ Pacman is an open source package manager which installs
 Pants Build
 ~~~~~~~~~~~
 | Homepage: https://pantsbuild.github.io/
-| Source: git https://github.com/pantsbuild/pants 
+| Src: git https://github.com/pantsbuild/pants
 | Docs: https://pantsbuild.github.io/first_concepts.html
 | Docs: https://pantsbuild.github.io/install.html
 | Docs: https://pantsbuild.github.io/first_tutorial.html
@@ -450,10 +611,10 @@ Pants Build is a build tool for :ref:`JVM` [:ref:`Java`, :ref:`Scala`,
 
 PEX
 ~~~~~
-| Homepage: https://pex.readthedocs.org/
-| Source: https://github.com/pantsbuild/pex
+| Homepage: https://pex.readthedocs.io/
+| Src: https://github.com/pantsbuild/pex
 | PyPI: https://pypi.python.org/pypi/pex
-| Docs: https://pex.readthedocs.org/en/stable/
+| Docs: https://pex.readthedocs.io/en/stable/
 
 PEX (*Python Executable*) is a :ref:`ZIP`-based software package archive
 format with an executable header.
@@ -472,7 +633,7 @@ PKGBUILD
 | Docs: https://wiki.archlinux.org/index.php/Creating_packages
 
 PKGBUILD is a shell script containing the build information
-for an :ref:`AUR` :ref:`Arch` linux software package.
+for an :ref:`AUR` :ref:`Arch` :ref:`linux` software package.
 
 
 .. index:: Portage
@@ -482,10 +643,13 @@ Portage
 ~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Portage_(software)>`__
 | Homepage: http://wiki.gentoo.org/wiki/Project:Portage
+| Docs: https://wiki.gentoo.org/wiki/Project:Package_Manager_Specification
+| Docs: https://projects.gentoo.org/pms/6/pms.html
 
+Portage is a package management and repository system
+written in :ref:`Python` initially just for :ref:`Gentoo` :ref:`Linux`.
 
-* Build recipes with flag sets
-* Package Repositories (portage)
+* :ref:`Emerge` installs :ref:`ebuilds <ebuild>` from :ref:`portage`.
 
 
 .. index:: Ports
@@ -497,9 +661,13 @@ Ports
 | Homepage: https://www.freebsd.org/ports/
 
 
-Sources and Makefiles designed to compile software packages
-for particular distributions' kernel and standard libraries
-on a particular platform.
+A Ports collection contains *Sources* (e.g. archived releases and patch
+sets)
+and :ref:`Makefiles <make>`
+designed to compile software :ref:`packages`
+for particular :ref:`operating systems <operating system>`
+distributions' kernel and standard libraries
+usually for a particular platform.
 
 
 .. index:: RPM
@@ -509,18 +677,32 @@ RPM
 ~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/RPM_Package_Manager
 
+RPM (*RPM Package Manager*, :ref:`RedHat` *Package Manager*)
+is a :ref:`package` format and a set of commandline utilities
+written in :ref:`C` and :ref:`Perl`.
 
-* Install with ``rpm``, ``yum``
-* Build with tools like ``rpmbuild`` and ``fpm``
-* Python: build with ``bdist_rpm``, ``fpm``
-* List contents::
+* RPM packages can be installed with ``rpm``,
+  :ref:`yum`, :ref:`dnf`.
+* RPM pacage can be built with tools like ``rpmbuild`` and ``fpm``
+* Python packages can be built into RPM packages with
+  :ref:`setuptools' <setuptools>` ``bdist_rpm``, ``fpm``
+* List contents of RPM packages (archives) with e.g. ``less`` and
+  ``lesspipe``::
 
    less ~/path/to/local.rpm   # requires lesspipe to be configured
 
-* Package Repositories (yum):
+* RPM Packages are served by and retrieved from
+  repositories by tools like :ref:`yum` and :ref:`dnf`:
 
-  * Local: directories of packages and metadata
-  * Network: HTTP, HTTPS, RSYNC, FTP
+  * Local: directories of :ref:`RPM` packages and metadata
+  * Network: :ref:`HTTP <http->`, :ref:`HTTPS <https-->`, :ref:`RSYNC`, FTP
+  * :ref:`dnf` supports **Delta** RPM packages (DRPM),
+    which often significantly reduce the required amount of network
+    transfer required to regularly retrieve and upgrade to
+    the latest repository packages.
+
+.. note:: There's not yet a :ref:`debtorrent` for
+   :ref:`RPM`, :ref:`YUM`, :ref:`DNF`.
 
 
 .. index:: Egg
@@ -531,9 +713,14 @@ RPM
 Python Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~
 | Homepage: https://pypi.python.org/pypi
+| Download: https://pypi.python.org/simple/
 | Docs: https://packaging.python.org/en/latest/
+| Docs: https://packaging.python.org/en/latest/current/
+| Docs: https://packaging.python.org/en/latest/distributing/
 | Docs: https://packaging.python.org/en/latest/peps.html
 | Docs: https://packaging.python.org/en/latest/projects.html
+| Docs: https://packaging.python.org/en/latest/specifications/
+| Docs: https://pypaio.readthedocs.io/en/latest/roadmap/
 
 A :ref:`Python` Package is a collection of source code and package data files.
 
@@ -571,19 +758,38 @@ A :ref:`Python` Package is a collection of source code and package data files.
   contained in packages in order to resolve a dependency graph
   (which can contain cycles) and install necessary packages.
 
+.
 
+* PyPA Tool Recommendations
+
+  * | Docs: https://packaging.python.org/en/latest/current
+
+* PyPA Python Package PEPs
+
+  * | Docs: https://packaging.python.org/en/latest/peps.html
+
+* PyPA Projects List
+
+  * | Docs: https://packaging.python.org/en/latest/projects.html
+
+
+.. note:: :ref:`JSON-LD-` for package metadata and environment build
+   metadata could be helpful.
+
+   - https://github.com/pypa/interoperability-peps/issues/31
 
 
 .. index:: distutils
 .. _distutils:
 
-Distuils
+Distutils
 +++++++++
 | Docs: https://docs.python.org/2/distutils/
+| Docs: https://docs.python.org/3/distutils/
 
 Distutils is a collection of tools for common packaging needs.
 
-Distutils is included in the Python standard library.
+* Distutils is included in the :ref:`Python` standard library.
 
 
 .. index:: setuptools
@@ -627,7 +833,7 @@ Pip
 | Wikipedia: `<https://en.wikipedia.org/wiki/Pip_(package_manager)>`_
 | Homepage: https://pip.pypa.io/
 | Docs: https://pip.pypa.io/en/latest/user_guide.html
-| Docs: https://pip.readthedocs.org/en/latest/
+| Docs: https://pip.readthedocs.io/en/latest/
 | Src: git https://github.com/pypa/pip
 | Pypi: https://pypi.python.org/pypi/pip
 | IRC: #pypa
@@ -765,13 +971,34 @@ PyPI is the Python Package Index.
 Warehouse
 ++++++++++
 | Homepage: https://warehouse.python.org/
-| Docs: https://warehouse.readthedocs.org/en/latest/
 | Src: https://github.com/pypa/warehouse
+| Docs: https://warehouse.readthedocs.io/en/latest/
 
 
 Warehouse is the "Next Generation Python Package Repository".
 
 All packages uploaded to :ref:`PyPI` are also available from Warehouse.
+
+
+.. index:: Devpi
+.. _devpi:
+
+Devpi
+++++++++
+| Homepage: http://doc.devpi.net/
+| Src: hg https://bitbucket.org/hpk42/devpi
+| Issues: https://bitbucket.org/hpk42/devpi/issues
+| PyPI: https://pypi.python.org/pypi/devpi-server
+| PyPI: https://pypi.python.org/pypi/devpi-web
+| PyPI: https://pypi.python.org/pypi/devpi-client
+| Docs: http://doc.devpi.net/latest/
+| Docs: http://doc.devpi.net/latest/userman/
+| Docs: http://doc.devpi.net/latest/userman/devpi_concepts.html
+| Docs: http://doc.devpi.net/latest/userman/devpi_commands.html#cmdref-test
+| Docs: http://doc.devpi.net/latest/userman/devpi_misc.html
+
+Devpi is a server and client solution for :ref:`Python package <python
+packages>` mirroring, hosting, and testing.
 
 
 .. index:: Python Wheel
@@ -781,7 +1008,7 @@ All packages uploaded to :ref:`PyPI` are also available from Warehouse.
 Wheel
 ++++++
 | Docs: http://legacy.python.org/dev/peps/pep-0427/
-| Docs: http://wheel.readthedocs.org/en/latest/
+| Docs: https://wheel.readthedocs.io/en/latest/
 | Src: hg https://bitbucket.org/pypa/wheel/
 | PyPI: https://pypi.python.org/pypi/wheel
 
@@ -979,25 +1206,28 @@ Gitflow branch names and prefixes are configured in ``.git/config``;
 the defaults are:
 
 
-+--------------------+-------------------------------------------------------------------------+
-| **Branch Name**    | **Description**                                                         |
-|                    | (and `Code Labels <https://westurner.org/wiki/workflow#code-labels>`__) |
-+--------------------+-------------------------------------------------------------------------+
-| ``master``         | Stable trunk (latest release)                                           |
-+--------------------+-------------------------------------------------------------------------+
-| ``develop``        | Development main line                                                   |
-+--------------------+-------------------------------------------------------------------------+
-| ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)               |
-+--------------------+-------------------------------------------------------------------------+
-| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                             |
-+--------------------+-------------------------------------------------------------------------+
-| ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                       |
-|                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                        |
-+--------------------+-------------------------------------------------------------------------+
-| ``support/<name>`` | "What is the 'support' branch?"                                         |
-|                    |                                                                         |
-|                    | https://github.com/nvie/gitflow/wiki/FAQ                                |
-+--------------------+-------------------------------------------------------------------------+
+.. table:: GitFlow Branch Names
+   :class: table-striped table-responsive
+
+   +--------------------+-------------------------------------------------------------------------------+
+   | **Branch Name**    | **Description**                                                               |
+   |                    | (and `Code Labels <https://westurner.github.io/wiki/workflow#code-labels>`__) |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``master``         | Stable trunk (latest release)                                                 |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``develop``        | Development main line                                                         |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)                     |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                                   |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                             |
+   |                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                              |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``support/<name>`` | "What is the 'support' branch?"                                               |
+   |                    |                                                                               |
+   |                    | https://github.com/nvie/gitflow/wiki/FAQ                                      |
+   +--------------------+-------------------------------------------------------------------------------+
 
 Creating a new release with :ref:`Git` and :ref:`GitFlow`:
 
@@ -1028,7 +1258,7 @@ Creating a new release with :ref:`Git` and :ref:`GitFlow`:
   git flow feature
   git flow feature finish ENH_print_hello_world   # ENH<TAB>
 
-  ## release/v0.1.0
+  ## release/0.1.0
   git flow release start 0.1.0
   #git commit (e.g. update __version__, setup.py, release notes)
   git flow release finish 0.1.0
@@ -1056,21 +1286,24 @@ HubFlow branch names and prefixes are configured in ``.git/config``;
 the defaults are as follows:
 
 
-+--------------------+-------------------------------------------------------------------------+
-| **Branch Name**    | **Description**                                                         |
-|                    | (and `Code Labels <https://westurner.org/wiki/workflow#code-labels>`__) |
-+--------------------+-------------------------------------------------------------------------+
-| ``master``         | Stable trunk (latest release)                                           |
-+--------------------+-------------------------------------------------------------------------+
-| ``develop``        | Development main line                                                   |
-+--------------------+-------------------------------------------------------------------------+
-| ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)               |
-+--------------------+-------------------------------------------------------------------------+
-| ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                             |
-+--------------------+-------------------------------------------------------------------------+
-| ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                       |
-|                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                        |
-+--------------------+-------------------------------------------------------------------------+
+.. table:: HubFlow Branch Names
+   :class: table-striped table-responsive
+
+   +--------------------+-------------------------------------------------------------------------------+
+   | **Branch Name**    | **Description**                                                               |
+   |                    | (and `Code Labels <https://westurner.github.io/wiki/workflow#code-labels>`__) |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``master``         | Stable trunk (latest release)                                                 |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``develop``        | Development main line                                                         |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``feature/<name>`` | New features for the next release (e.g. ``ENH``, ``PRF``)                     |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``release/<name>`` | In-progress release branches (e.g. ``RLS``)                                   |
+   +--------------------+-------------------------------------------------------------------------------+
+   | ``hotfix/<name>``  | Fixes to merge to both ``master`` and ``develop``                             |
+   |                    | (e.g. ``BUG``, ``TST``, ``DOC``)                                              |
+   +--------------------+-------------------------------------------------------------------------------+
 
 Creating a new release with :ref:`Git` and :ref:`HubFlow`:
 
@@ -1106,7 +1339,7 @@ Creating a new release with :ref:`Git` and :ref:`HubFlow`:
   #git commit, commit
   git hf feature finish ENH_print_hello_world   # ENH<TAB>
 
-  ## release/v0.1.0
+  ## release/0.1.0
   git hf release start 0.1.0
   ## commit (e.g. update __version__, setup.py, release notes)
   git hf release finish 0.1.0
@@ -1132,6 +1365,7 @@ and understanding any DVCS workflow:
 
 .. index:: Hg
 .. index:: Mercurial
+.. _hg:
 .. _mercurial:
 
 Mercurial
@@ -1153,8 +1387,212 @@ To clone a repository with ``hg``:
    hg clone http://selenic.com/hg
 
 
+.. index:: Project Templates
+.. _project templates:
+
+Project Templates
+===================
+
+* :ref:`cookiecutter` (Python, [...])
+* :ref:`yeoman` (JS, [...])
+* :ref:`jinja2` (:ref:`salt`, :ref:`ansible`
+  :ref:`configuration management`
+
+
+.. index:: Exemplar Projects
+.. _exemplar projects:
+
+Exemplar Projects
+~~~~~~~~~~~~~~~~~~~~~~
+* https://www.python.org/dev/peps/
+
+  | "PEP 0 -- Index of Python Enhancement Proposals (PEPs)"
+
+  * https://www.python.org/dev/peps/pep-0012/
+
+    | "PEP 0012 -- Sample :ref:`reStructuredText` PEP Template" (:ref:`Python`)
+
+* https://github.com/ipython/ipython/wiki/IPEPs:-IPython-Enhancement-Proposals
+
+  | "IPEPs: IPython Enhancement Proposals"
+
+  * https://github.com/ipython/ipython/wiki/IPEP-0%3A-IPEP-Template
+
+    | "IPEP 0: IPEP Template" (:ref:`IPython`, :ref:`Jupyter`)
+
+  * https://github.com/jupyter/roadmap
+
+* github.com/westurner/wiki: a GitHub Sphinx Wiki
+
+  | Home: https://westurner.github.io/wiki/
+  | Wiki: https://github.com/westurner/wiki/wiki
+  | Src: https://github.com/westurner/wiki
+  | Src: https://github.com/westurner/wiki.wiki.git
+  | Issues: https://github.com/westurner/wiki/issues
+
+  .. code:: bash
+
+      make help
+      # - build    the docs w/ sphinx
+      # - push     to both branches
+      # - gh-pages from eg _build/html, _build/singlehtml
+      make docs push gh-pages
+
+* github.com/rdfjs/rdfjs.org: a GitHub Project
+
+  | Home: https://github.com/rdfjs/rdfjs.org
+  | Wiki: https://github.com/rdfjs/rdfjs.org/wiki
+  | Src: https://github.com/rdfjs/rdfjs.org
+  | Src: https://github.com/rdfjs/rdfjs.org.wiki.git
+  | Issues: https://github.com/rdfjs/rdfjs.org/issues
+
+  * https://github.com/rdfjs/rdfjs.org/wiki/Meetings
+
+seeAlso:
+
+* https://wrdrd.github.io/docs/consulting/software-development#agile
+* https://wrdrd.github.io/docs/consulting/team-building#the-same-page
+
+
+.. index:: cookiecutter
+.. _cookiecutter:
+
+cookiecutter
+~~~~~~~~~~~~~
+| Homepage: https://github.com/audreyr/cookiecutter
+| Src: git https://github.com/audreyr/cookiecutter
+| PyPI: https://pypi.python.org/pypi/cookiecutter
+| Docs: https://cookiecutter.readthedocs.io/en/latest/
+| Docs: https://cookiecutter.readthedocs.io/en/latest/usage.html
+| Docs: https://cookiecutter.readthedocs.io/en/latest/tutorials.html#create-your-very-own-cookiecutter
+
+Cookiecutter creates projects (files and directories) from
+project templates written in :ref:`Jinja2`
+for projects written in :ref:`Python` and other languages.
+
+* https://cookiecutter.readthedocs.io/en/latest/readme.html#available-cookiecutters
+
+  List of Cookiecutter generators
+
+* https://github.com/audreyr/cookiecutter-pypackage
+
+  Cookiecutter template for a :ref:`Python Package <Python packages>`
+  (e.g. ``setup.py``, ``docs/``, ``README.rst``)
+
+* https://github.com/pydanny/cookiecutter-django
+
+  Cookiecutter template for a Django project
+  w/ Bootstrap, AngularJS, :ref:`Docker`,
+
+  * see also: https://github.com/xenith/django-base-template
+
+* https://github.com/pydanny/cookiecutter-djangopackage
+
+  Cookiecutter template for reusable Django packages (**installable
+  apps**).
+
+* https://github.com/openstack-dev/cookiecutter
+
+  Cookiecutter template for :ref:`OpenStack`
+  :ref:`Python Package <Python packages>`
+  projects
+  (\* :ref:`pip` \*, pbr, tox, :ref:`sphinx`)
+
+* https://github.com/openstack-dev/specs-cookiecutter
+
+  Cookiecutter template for :ref:`OpenStack` specs projects
+  (pbr, tox, :ref:`sphinx`)
+
+
+
+
+.. index:: yeoman
+.. _yeoman:
+
+yeoman
+~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Yeoman_(computing)>`__
+| Homepage: http://yeoman.io/
+| Src: git https://github.com/yeoman/yeoman
+| Src: https://github.com/yeoman
+| NPM: https://www.npmjs.com/package/yo
+| NPMPkg: ``yo``
+| Docs: http://yeoman.io/learning/
+| Docs: http://yeoman.io/codelab/
+| Docs: http://yeoman.io/authoring
+| Docs: http://yeoman.io/learning/resources.html
+
+* https://github.com/yeoman/generator-generator
+
+  Generate a Yeoman generator (``./authoring``).
+
+* http://yeoman.io/generators/
+
+  List of Yeoman generators
+
+  * https://github.com/yeoman/generator-angular
+
+    AngularJS 1 Yeoman generator (:ref:`bower`, karma tests,
+    :ref:`CoffeeScript`, :ref:`TypeScript` )
+
+  * https://github.com/diegonetto/generator-ionic
+
+    Apache Cordova mobile app w/ Ionic (AngularJS 1, :ref:`grunt`)
+
+  * https://stackoverflow.com/questions/29649578/available-yeoman-generator-for-angular-2
+
+    AngularJS 2 Yeoman generators (:ref:`TypeScript`)
+
+  * https://github.com/kriasoft/react-starter-kit
+
+    React.js, Express, Flux, ES6+, JSX, Babel, PostCSS, Webpack, BrowserSync
+    (:ref:`Node.js`)
+
+  * https://github.com/yeoman/generator-polymer
+
+    Polymer Web Components (:ref:`gulp`)
+
+
+
+.. index: Languages
+.. _languages:
+
 Languages
-===========
+=======================
+
+
+.. index: Programming Languages
+.. _programming languages:
+.. _programming language:
+
+Programming Languages
+~~~~~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Programming_language
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Programming_languages
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Programming_language_classification
+
+
+* https://en.wikipedia.org/wiki/Von_Neumann_programming_languages
+* https://en.wikipedia.org/wiki/Von_Neumann_architecture#Mitigations
+
+  * https://en.wikipedia.org/wiki/NX_bit
+
+
+.. contents:
+   :local:
+
+
+.. index:: Programming Paradigms
+.. _programming paradigms:
+
+Programming Paradigms
+~~~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Programming_paradigm
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Programming_paradigms
+
+* https://en.wikipedia.org/wiki/Comparison_of_programming_paradigms
+
+
 
 .. index:: Lightweight Markup Languages
 .. _lightweight markup language:
@@ -1213,7 +1651,7 @@ CommonMark
 +++++++++++++
 | Homepage: http://commonmark.org
 | Standard: http://spec.commonmark.org/0.22/
-| Source:  https://github.com/jgm/CommonMark
+| Src:  https://github.com/jgm/CommonMark
 
 :ref:`CommonMark` is one effort to standardize :ref:`Markdown`.
 
@@ -1520,9 +1958,10 @@ programming language.
 Go
 ~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Go_(programming_language)>`_
-| Homepage: http://golang.org/
-| Docs: http://golang.org/doc/
-| Src: hg https://code.google.com/p/go/
+| Homepage: https://golang.org/
+| Docs: https://golang.org/doc/
+| Src: https://github.com/golang/go
+| Docs: https://learnxinyminutes.com/docs/go/
 
 Go is a free and open source
 statically-typed :reF:`C`-based third generation language.
@@ -1639,7 +2078,7 @@ Jinja2
 | Wikipedia: `<https://en.wikipedia.org/wiki/Jinja_%28template_engine%29>`__
 | Homepage: http://jinja.pocoo.org/
 | Src: https://github.com/mitsuhiko/jinja2
-| Docs: https://jinja2.readthedocs.org/en/latest/
+| Docs: https://jinja2.readthedocs.io/en/latest/
 | Docs: http://jinja.pocoo.org/docs/dev/
 
 Jinja2 is a free and open source
@@ -1673,8 +2112,10 @@ Python
 ~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Python_(programming_language)>`_
 | Homepage: https://www.python.org/
-| Src: hg https://hg.python.org/cpython
+| Src: git https://github.com/python/cpython
+| Src: git https://github.com/python/peps
 | Docs: https://docs.python.org/2/
+| Docs: https://docs.python.org/3/
 | Docs: https://docs.python.org/devguide/
 | Docs: https://docs.python.org/devguide/documenting.html
 | Docs: https://wiki.python.org/moin/PythonBooks
@@ -1685,6 +2126,7 @@ Python
 | Docs: https://en.wikiversity.org/wiki/Python
 | Docs: https://www.class-central.com/search?q=python
 | Docs: http://learnxinyminutes.com/docs/python/
+| Awesome: https://github.com/vinta/awesome-python
 
 Python is a free and open source
 dynamically-typed, :ref:`C`-based third-generation
@@ -1718,7 +2160,7 @@ and the Python Infrastructure Team:
 
 * https://www.python.org/psf/sponsorship/
 * https://www.python.org/psf/members/#sponsor-members
-* http://psf-salt.readthedocs.org/en/latest/overview/
+* https://psf-salt.readthedocs.io/en/latest/overview/
 
 
 .. index:: CPython
@@ -1743,7 +2185,7 @@ CPython can interface with other :ref:`C` libraries
 through a number of interfaces:
 
 * https://docs.python.org/2/c-api/
-* https://cffi.readthedocs.org/en/latest/
+* https://cffi.readthedocs.io/en/latest/
 * :ref:`Cython`
 
 
@@ -1803,11 +2245,11 @@ for :ref:`Python`, primarily written in :ref:`C`.
 * http://nbviewer.ipython.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-3-Scipy.ipynb
 * https://scipy-lectures.github.io/intro/scipy.html
 
-The :ref:`SciPy Stack <scipystack>` specification
-includes the SciPy package and its dependencies.
+* The :ref:`SciPy Stack <scipystack>` specification
+  includes the SciPy package and its dependencies.
 
 
-.. index:: SciPy
+.. index:: SciPy Stack
 .. _scipystack:
 
 SciPy Stack
@@ -1817,19 +2259,47 @@ SciPy Stack
 
 Python Distributions
 
-* Sage
-* :ref:`Anaconda` (:ref:`Conda`)
+* :ref:`Sage Math` (:ref:`SageMathCloud`)
 * Enthought Canopy
 * Python(x,y)
 * WinPython
 * Pyzo
-* Algorete Loopy (:ref:`Conda`)
+* :ref:`Anaconda` (:ref:`Conda`, :ref:`Wakari`)
+
+
+.. index:: Scipy Stack Docker Containers
+.. _scipy stack docker containers:
 
 SciPy Stack Docker Containers
++++++++++++++++++++++++++++++++
 
-| DockerHub: https://registry.hub.docker.com/u/ipython/ipython/
-| DockerHub: https://registry.hub.docker.com/u/ipython/scipystack/
-| DockerHub: https://registry.hub.docker.com/u/ipython/scipyserver/
+
+.. index:: Jupyter Docker Stacks
+.. _jupyter docker stacks:
+
+-----------------------------
+Jupyter Docker Stacks
+-----------------------------
+| Src: https://github.com/jupyter/docker-stacks
+| DockerHub: https://hub.docker.com/r/ipython/ipython/
+| DockerHub: https://hub.docker.com/r/jupyter/
+| DockerHub: https://hub.docker.com/r/jupyter/datascience-notebook/
+| DockerHub: https://hub.docker.com/r/jupyter/tmpnb/
+
+
+* :ref:`Jupyter` and :ref:`Scipystack` :ref:`Docker` containers:
+
+  * https://hub.docker.com/r/jupyter/datascience-notebook/
+  
+    * https://github.com/jupyter/docker-stacks/tree/master/datascience-notebook#docker-options
+    * :ref:`conda`
+
+  * https://github.com/jupyter/tmpnb#using-jupyterdocker-stacks-images
+
+See also:
+
++ :ref:`Docker`
++ https://wrdrd.github.io/docs/consulting/data-science#reproducibility
 
 
 .. index:: PyPy
@@ -1841,8 +2311,8 @@ PyPy
 | Homepage: http://pypy.org/
 | Src: https://bitbucket.org/pypy/pypy
 | Docs: http://buildbot.pypy.org/waterfall
-| Docs: https://pypy.readthedocs.org/en/latest/
-| Docs: https://pypy.readthedocs.org/en/latest/introduction.html
+| Docs: https://pypy.readthedocs.io/en/latest/
+| Docs: https://pypy.readthedocs.io/en/latest/introduction.html
 
 PyPy is a JIT LLVM compiler for :ref:`Python` code
 written in RPython -- a restricted subset of :ref:`CPython` syntax --
@@ -1902,7 +2372,7 @@ See also: :ref:`Anaconda`
 
 awesome-python-testing
 ++++++++++++++++++++++++
-| Homepage: https://westurner.org/wiki/awesome-python-testing.html
+| Homepage: https://westurner.github.io/wiki/awesome-python-testing.html
 | Src: https://github.com/westurner/wiki/blob/master/awesome-python-testing.rest
 
 
@@ -1912,7 +2382,7 @@ awesome-python-testing
 Tox
 ++++++++++++++
 | Homepage: https://testrun.org/tox/
-| Docs: https://tox.readthedocs.org/en/latest/
+| Docs: https://tox.readthedocs.io/en/latest/
 | Src: hg https://bitbucket.org/hpk42/tox
 | Pypi: https://pypi.python.org/pypi/tox
 
@@ -2008,7 +2478,7 @@ TypeScript
 ~~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/TypeScript
 | Homepage: http://www.typescriptlang.org/
-| Source: git https://github.com/Microsoft/TypeScript
+| Src: git https://github.com/Microsoft/TypeScript
 | NPM: https://www.npmjs.com/package/typescript
 | NPMPkg: typescript
 | Standard: https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md
@@ -2032,7 +2502,7 @@ WebAssembly
 ~~~~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/WebAssembly
 | Project: https://www.w3.org/community/webassembly/
-| Source: https://github.com/WebAssembly
+| Src: https://github.com/WebAssembly
 | FileExt: ``.wast``
 | FileExt: ``.wasm``
 | Docs: https://github.com/WebAssembly/design
@@ -2079,6 +2549,69 @@ example ``top.sls`` file:
 
 Compilers
 ==========
+| Wikipedia: https://en.wikipedia.org/wiki/Compiler
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Compilers
+
+* History of compiler construction
+
+  https://en.wikipedia.org/wiki/History_of_compiler_construction
+
+
+
+.. index:: Interpreters
+.. _interpreters:
+
+Interpreter
+~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Interpreter_(computing)>`__
+| WikipediaCategory: `<https://en.wikipedia.org/wiki/Category:Interpreters_(computing)>`__
+
+* https://en.wikipedia.org/wiki/List_of_command-line_interpreters
+* https://en.wikipedia.org/wiki/List_of_command-line_interpreters#Operating_system_shells
+* https://en.wikipedia.org/wiki/List_of_command-line_interpreters#Programming
+* https://en.wikipedia.org/wiki/List_of_command-line_interpreters#Programming_languages
+
+* A programming :ref:`language` interpreter interprets
+  instructions without an ahead-of-time compilation step.
+* A programming language interpreter is generally compiled ahead-of-time.
+* A programming language interpreter implements a version of
+  a programming language specification.
+* Command :ref:`Shells` (e.g. :ref:`Bash`, :ref:`ZSH`) are
+  programming language interpreters.
+* Scripting :ref:`Languages` (e.g. :ref:`PERL`, :ref:`Ruby`, :ref:`Python`)
+  are interpreted or interpret-able languages.
+* Interpreted languages can often also be compiled ahead-of-time
+  (e.g. with build optimizations).
+
+
+.. index:: Source-to-Source Compiler
+.. _source-to-source compiler:
+
+Source-to-Source compiler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Source-to-source_compiler
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Source-to-source_compilers
+
+.. contents:
+   :local:
+
+
+.. index:: ROSE
+.. _rose:
+
+ROSE
+++++++
+| Wikipedia: `<https://en.wikipedia.org/wiki/ROSE_(compiler_framework)>`__
+| Homepage: http://rosecompiler.org/
+| Src: git https://github.com/rose-compiler/rose
+| Docs: http://rosecompiler.org/?page_id=11
+| Docs: http://rosecompiler.org/ROSE_Tutorial/ROSE-Tutorial.pdf
+| Docs: http://www.rosecompiler.org/ROSE_HTML_Reference/
+| Docs: http://wiki.rosecompiler.org/
+
+
+* http://rosecompiler.org/ROSE_Tutorial/ROSE-Tutorial.pdf
+
 
 .. index:: Binutils
 .. index:: GNU Binutils
@@ -2111,10 +2644,12 @@ Clang
 ~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Clang
 | Homepage: http://clang.llvm.org/
+| Src: git https://github.com/llvm/llvm-project
 | Docs: http://clang.llvm.org/docs/
 | Docs: http://clang.llvm.org/docs/UsersManual.html
 
 Clang is a compiler front end for :ref:`C`, :ref:`C++`, and Objective C/++.
+Clang is part of the :ref:`LLVM` project.
 
 
 .. index:: GCC
@@ -2143,7 +2678,7 @@ LLVM
 ~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/LLVM
 | Homepage: http://llvm.org/
-| Src: git http://llvm.org/git/llvm.git
+| Src: git https://github.com/llvm/llvm-project
 | Docs: http://llvm.org/docs/
 | Docs: http://llvm.org/docs/GettingStarted.html
 | Docs: http://llvm.org/docs/ReleaseNotes.html
@@ -2163,6 +2698,28 @@ with frontends for many languages.
 Operating Systems
 ===================
 | Wikipedia: https://en.wikipedia.org/wiki/Operating_system
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Operating_systems
+| WikipediaCategory: https://en.wikipedia.org/wiki/Category:Operating_system_technology
+
+* History of operating systems
+
+  https://en.wikipedia.org/wiki/History_of_operating_systems
+
+  * Timeline of operating systems
+
+    https://en.wikipedia.org/wiki/Timeline_of_operating_systems
+
+    * List of operating systems
+
+      https://en.wikipedia.org/wiki/List_of_operating_systems
+
+* Comparison of operating systems
+
+  https://en.wikipedia.org/wiki/Comparison_of_operating_systems
+
+  * http://distrowatch.com/
+
+* https://en.wikipedia.org/wiki/List_of_important_publications_in_computer_science#Operating_systems
 
 
 .. index:: POSIX
@@ -2237,7 +2794,7 @@ Debian
 | Wikipedia: `<https://en.wikipedia.org/wiki/Debian>`__
 | Homepage: https://www.debian.org/
 | Download: https://www.debian.org/distrib/
-| DockerHub: https://registry.hub.docker.com/_/debian/
+| DockerHub: https://hub.docker.com/_/debian/
 | Docs: https://www.debian.org/doc/
 | Docs: https://www.debian.org/doc/manuals/debian-reference/
 | Docs: https://www.debian.org/doc/#manuals
@@ -2261,7 +2818,7 @@ Ubuntu
 | Src: http://archive.ubuntu.com/
 | Src: http://releases.ubuntu.com/
 | Download: http://www.ubuntu.com/download
-| DockerHub: https://registry.hub.docker.com/_/ubuntu/
+| DockerHub: https://hub.docker.com/_/ubuntu/
 | Docs: https://help.ubuntu.com/
 | Q&A: https://askubuntu.com
 
@@ -2318,7 +2875,7 @@ CentOS
 | Download: https://www.centos.org/download/
 | Docs: https://wiki.centos.org/
 | Docs: https://www.centos.org/docs/
-| DockerHub: https://registry.hub.docker.com/_/centos/
+| DockerHub: https://hub.docker.com/_/centos/
 
 CentOS is a :ref:`Linux Distribution <linux-distributions>`
 that is built from :ref:`RPM` packages
@@ -2377,7 +2934,7 @@ Gentoo
 Gentoo is a :ref:`Linux Distribution <linux-distributions>`
 built on :ref:`Portage`.
 
-* https://registry.hub.docker.com/search?q=gentoo (Stage 3 + Portage)
+* https://hub.docker.com/search?q=gentoo (Stage 3 + Portage)
 
 
 .. index:: ChromiumOS
@@ -2679,11 +3236,79 @@ Windows
 | Docs: https://www.microsoft.com/enable/products/docs/
 | Docs:
 
-Windows is a NT-kernel based operating system.
+Microsoft Windows is a NT-kernel based operating system.
 
-There used to be a POSIX compatibility mode.
+* There used to be a POSIX compatibility mode.
+* Chocolatey maintains a set of :ref:`NuGet` packages for Windows.
 
-Chocolatey maintains a set of :ref:`NuGet` packages for Windows.
+
+.. index:: Windows Sysinternals
+.. _windows sysinternals:
+
+Windows Sysinternals
++++++++++++++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Sysinternals
+| Homepage: https://technet.microsoft.com/en-us/sysinternals
+| Download: https://technet.microsoft.com/en-us/sysinternals/bb842062
+| Download: http://live.sysinternals.com/
+| Docs: https://technet.microsoft.com/en-us/sysinternals/bb545027
+| Docs: http://blogs.technet.com/sysinternals
+| Docs: http://blogs.technet.com/b/sysinternals/
+
+Windows Sysinternals is a group of tools for working with
+:ref:`Windows`.
+
+* | Download: https://technet.microsoft.com/en-us/sysinternals/bb842062
+
+  * File & Disk: https://technet.microsoft.com/en-us/sysinternals/bb545046
+  * Networking: https://technet.microsoft.com/en-us/sysinternals/bb795532
+  * Process: https://technet.microsoft.com/en-us/sysinternals/bb795533
+
+    * Process Explorer:
+
+      https://technet.microsoft.com/en-us/sysinternals/processexplorer
+
+      * You can replace Task Manager (``taskman.exe``)
+        with Process Explorer (``procexp.exe``)
+        in many versions of Windows (e.g. so that ``ctrl-alt-delete``
+        launches ``procexp.exe``
+      * ``Win+R`` launches the run dialog
+
+        .. code::
+
+            ## Win+R commands
+            C:/           # open explorer to 'C:/'
+            %UserProfile% # open the user profile env var directory
+            cmd[.exe]     # open a command prompt
+            calc          # calculator
+            control       # control panel
+            services.msc  # services management
+            compmgmt.msc  # computer management
+            eventvwr.msc  # event viewer
+            Wupdmgr       # windows update manager
+
+        * http://www.pcsteps.com/1675-run-command-complete-list-windows/
+
+      * `<https://en.wikipedia.org/wiki/PATH_(variable)#DOS.2C_OS.2F2.2C_and_Windows>`__
+
+        + ``%PATH%`` determines which commands you can run without typing
+          a full absolute path. (Some programs will not run if other
+          programs are not in a directory included in
+          a user's current ``%PATH%`` variable)
+
+          + The ``%PATH%`` variable is determined by key value pairs in
+            the Windows Registry and can be set for:
+
+            + The current prompt (with ``SET PATH=C:/additionalpath;%PATH%``)
+            + A user
+            + The machine
+
+            https://stackoverflow.com/questions/8358265/how-to-update-path-variable-permanently-from-cmd-windows
+
+
+  * Security: https://technet.microsoft.com/en-us/sysinternals/bb795534
+  * System Information: https://technet.microsoft.com/en-us/sysinternals/bb795535
+  * Miscellaneous: https://technet.microsoft.com/en-us/sysinternals/bb842059
 
 
 .. index:: WSUS Offline Update
@@ -2779,11 +3404,18 @@ Ansible
 | Wikipedia: `<https://en.wikipedia.org/wiki/Ansible_(software)>`__
 | Homepage: http://ansible.com/
 | Src: https://github.com/ansible/ansible
+| Docs: https://docs.ansible.com/
+| Docs: https://docs.ansible.com/ansible/latest/
+| Docs: https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html
+| Docs: https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html
+| Docs: https://docs.ansible.com/ansible/latest/reference_appendices/galaxy.html
+| Docs: https://github.com/ansible/molecule
+| Learnxinyminutes: https://learnxinyminutes.com/docs/ansible/
 
 Ansible is a :ref:`Configuration Management` tool
 written in :ref:`Python`
 which runs idempotent Ansible Playbooks
-written in :ref:`YAML`
+written in :ref:`YAML` markup with :ref:`Jinja2` variables
 for managing
 one or more physical and virtual machines running various operating systems
 over SSH.
@@ -2876,7 +3508,7 @@ which builds a directed acyclic graph (DAG).
 Jake
 ~~~~~
 | Homepage: http://jakejs.com/
-| Source: git https://github.com/jakejs/jake
+| Src: git https://github.com/jakejs/jake
 | NPMPkg: jake
 | NPM: https://www.npmjs.com/package/jake
 | Docs: http://jakejs.com/docs
@@ -2963,7 +3595,7 @@ osquery
 | Homepage: https://osquery.io/
 | Src: https://github.com/facebook/osquery
 | Docs: https://osquery.io/docs/tables/
-| Docs: https://osquery.readthedocs.org/en/stable/
+| Docs: https://osquery.readthedocs.io/en/stable/
 
 osquery is a tool for reading and querying
 many sources of system data
@@ -3253,6 +3885,66 @@ groups of processes and resources.
   * ``machinectl``, ``systemctl``, ``journalctl``,
 
 
+.. index:: libcontainer
+.. _libcontainer:
+
+libcontainer
+~~~~~~~~~~~~~
+| Homepage: https://www.opencontainers.org/
+| Src: https://github.com/docker/libcontainer
+| Src: https://github.com/opencontainers/runc/tree/master/libcontainer
+
+libcontainer is a library built by :ref:`Docker` to replace :ref:`LXC`.
+
+  Libcontainer provides a native :ref:`Go` implementation for creating
+  containers with namespaces, :ref:`cgroups`, capabilities, and filesystem
+  access controls.
+
+  -- https://github.com/opencontainers/runc/tree/master/libcontainer
+
+- libcontainer is now developed as part of 
+  :ref:`OCI` :ref:`runC`.
+
+
+
+.. index:: OCI
+.. index:: Open Container Initiative
+.. _open container initiative:
+.. _oci:
+
+Open Container Initiative
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Homepage: https://www.opencontainers.org/
+| Docs: https://www.opencontainers.org/about
+| Src: https://github.com/opencontainers
+| Twitter: https://twitter.com/oci_org
+
+The Open Container Initiative (*OCI*) is a Linux Foundation 
+collaborative project dedicated to developing a working, portable
+software container specification.
+
+
+.. index:: runC
+.. _runc:
+
+runC
+~~~~~~
+| Homepage: http://runc.io/
+| Homepage: https://www.opencontainers.org/
+| Src: https://github.com/opencontainers/runc
+
+runC is a container abstraction 
+
+  runc is a CLI tool for spawning and running containers according to
+  the :ref:`OCI` specification.
+
+- runC builds upon the :ref:`libcontainer` abstraction
+  and the :ref:`OCI` container specification.
+- runC works on :ref:`Linux`, :ref:`OSX`, and :ref:`Windows`.
+- runC containers do not require a daemon process.
+- runC containers can run as e.g. a systemd service unit.
+
+
 .. index:: Docker
 .. _docker:
 
@@ -3260,12 +3952,14 @@ Docker
 ~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Docker_(software)>`_
 | Homepage: https://www.docker.com/
-| Docs: https://docs.docker.com/
 | Src: https://github.com/docker/docker
+| Docs: https://docs.docker.com/
+| Awesome: https://github.com/veggiemonk/awesome-docker
 
 Docker is an OS virtualization project written in :ref:`Go`
-which utilizes :ref:`Linux` :ref:`LXC` Containers
-to partition process workloads all running under one kernel.
+which utilizes :ref:`Linux` containers -- first :ref:`LXC`
+now :ref:`libcontainer` / :ref:`runC` --
+to partition process workloads across one or more host systems.
 
 .. glossary::
 
@@ -3273,25 +3967,75 @@ to partition process workloads all running under one kernel.
         A ``Dockerfile`` contains the instructions needed to
         create a docker image.
 
-* Docker images build from a ``Dockerfile``
+    Docker container
+        A Docker container is an instance of a :term:`Docker Image`
+        with configuration.
+
+    Docker API
+        The Docker API is an interface of management commands for
+        provisioning and managing containers.
+
+        :term:`Docker Machine`, :term:`Docker Swarm`, and
+        :term:`Docker Universal Control Plane` all implement the Docker
+        API; so the ``docker`` client works equally well with each
+        implementation.
+
+    Docker Machine
+        Docker Machine is the container management application 
+        which implements the :term:`Docker API`.
+
+    Docker Swarm
+        Docker Swarm is a cluster management system for Docker
+        containers hosted on one or more :term:`Docker Machines <Docker
+        Machine>` 
+
+    Docker Universal Control Plane
+        Docker Universal Control Plane is an enterprise-grade cluster
+        management solution with a web dashboard and external authentication
+        which implements the :term:`Docker API`.
+
+    Docker Compose
+        Docker Compose is a Python application for defining and managing
+        services (:term:`Docker containers <docker container>`) and
+        networks with a ``docker-compose.yml`` :ref:`YAML` configuration
+        file.
+
+    Docker Image
+        A Docker Image is an archived container filesystem with
+        configuration which is usually defined by a :term:`Dockerfile`.
+
+    Docker Hub
+        Docker Hub is a cloud-based registry service for
+        :term:`Docker Images <Docker Image>`.
+
+    Docker Cloud
+        Docker Cloud is the hosting service offered by Docker.
+
+
+* Docker images build from a :term:`Dockerfile`
 * A ``Dockerfile`` can subclass another Dockerfile (to add, remove, or
   change configuration)
 * ``Dockerfile`` support a limited number of commands
 * Docker is not intended to be a
   complete :ref:`configuration management system
   <configuration management>`
-* Ideally, a Docker images requires minimal configuration once built
+* Ideally, a Docker image requires minimal configuration once built
 * Docker images can be hosted by https://hub.docker.com/
-* ``docker run -it ubuntu/15.04`` downloads the image
-  from https://registry.hub.docker.com/_/ubuntu/,
+* ``docker run -it ubuntu/16.04`` downloads the image
+  from https://hub.docker.com/_/ubuntu/,
   creates a new instance (``docker ps``),
   and spawns a root :ref:`Shell <shells>` with
   a UUID name (by default).
-* "Scheduling" [redundant] persistent containers that launch on boot
-  is not in scope for :ref:`Docker`
+* There are a number of ways to "Schedule" [redundant]
+  persistent containers that launch on boot
+  with :ref:`Docker`
 
-:ref:`Kubernetes` is one project which uses Docker to
-schedule redundant :ref:`LXC` containers (in "Pods").
+  - Docker Swarm is the Docker-native way to run a cluster of
+    containers. To a client app, Docker Swarm looks just like Docker
+    Machine because it implements the Docker API.
+  - :ref:`Kubernetes` is one project which uses Docker to
+    schedule redundant, optionally geodistributed,
+    :ref:`LXC` containers (in "Pods").
 
 :ref:`Salt` can install and manage docker, docker images and containers:
 
@@ -3299,7 +4043,21 @@ schedule redundant :ref:`LXC` containers (in "Pods").
 * https://docs.saltstack.com/en/latest/ref/states/all/salt.states.dockerio.html
 * http://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.dockerio.html
 
-https://github.com/veggiemonk/awesome-docker
+
+
+.. index:: CNCF
+.. index:: Cloud Native Computing Foundation
+.. _cloud native computing foundation:
+.. _cncf:
+
+Cloud Native Computing Foundation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Linux_Foundation#Cloud_Native_Computing_Foundation
+
+The Cloud Native Computing Foundation (*CNCF*) is a foundation
+for cloud and container industry collaboration.
+
+- :ref:`Kubernetes` is now a CNCF project.
 
 
 .. index:: Kubernetes
@@ -3307,6 +4065,7 @@ https://github.com/veggiemonk/awesome-docker
 
 Kubernetes
 ~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Kubernetes
 | Homepage: http://kubernetes.io/
 | Src: https://github.com/GoogleCloudPlatform/kubernetes
 | Docs: http://kubernetes.io/gettingstarted/
@@ -3315,11 +4074,14 @@ Kubernetes
 | Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/coreos.md
 | Docs: https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/mesos.md
 | Q&A: http://stackoverflow.com/questions/tagged/kubernetes
-| Twitter: https://twitter.com/googlecloud
+| Twitter: https://twitter.com/kubernetesio
+| Awesome: https://github.com/ramitsurana/awesome-kubernetes
 
-Kubernetes is a highly-available distributed cluster scheduler
+Kubernetes (*k8s*) is a highly-available distributed cluster scheduler
 which works with groups of :ref:`Docker` containers
 called Pods.
+
+- Google donated Kubernetes to the :ref:`CNCF`.
 
 
 .. index:: Kubernetes-Mesos
@@ -3368,8 +4130,8 @@ on a given host machine.
 Libcloud
 ~~~~~~~~~~~~~~~~~~
 | Homepage: https://libcloud.apache.org/
-| Docs: https://libcloud.readthedocs.org/en/latest/
-| Docs: https://libcloud.readthedocs.org/en/latest/supported_providers.html
+| Docs: https://libcloud.readthedocs.io/en/latest/
+| Docs: https://libcloud.readthedocs.io/en/latest/supported_providers.html
 | Src: git git://git.apache.org/libcloud.git
 | Src: git https://github.com/apache/libcloud
 
@@ -3570,7 +4332,7 @@ There are many alternatives to and implementations of OpenStack DevStack:
 * https://github.com/openstack-ansible/openstack-ansible
 * https://forge.puppetlabs.com/puppetlabs/openstack
 * https://jujucharms.com/q/openstack
-* https://anvil.readthedocs.org/en/latest/topics/summary.html
+* https://anvil.readthedocs.io/en/latest/topics/summary.html
 
 
 .. index:: Packer
@@ -3635,7 +4397,7 @@ Vagrant
 | Wikipedia: `<https://en.wikipedia.org/wiki/Vagrant_(software)>`_
 | Homepage: https://www.vagrantup.com/
 | Docs: http://docs.vagrantup.com/v2/
-| Src: git https://github.com/mitchellh/vagrant
+| Src: git https://github.com/hashicorp/vagrant
 
 
 Vagrant is a tool written in :ref:`Ruby`
@@ -3836,7 +4598,7 @@ IPython
 | Wikipedia: https://en.wikipedia.org/wiki/IPython
 | Homepage: http://ipython.org/
 | Src: git https://github.com/ipython/ipython
-| DockerHub: https://registry.hub.docker.com/repos/ipython/
+| DockerHub: https://hub.docker.com/repos/ipython/
 | Docs: http://ipython.org/ipython-doc/stable/
 | Docs: http://ipython.org/ipython-doc/stable/interactive/
 | Docs: http://ipython.org/ipython-doc/stable/notebook/
@@ -3844,7 +4606,6 @@ IPython
 | Docs: https://github.com/ipython/ipython/wiki/Extensions-Index
 | Docs: https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
 | Docs: https://github.com/ipython/ipython/wiki/Install:-Docker
-| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 
 IPython is an interactive REPL and distributed computation framework
 written in :ref:`Python`.
@@ -3875,12 +4636,164 @@ written in :ref:`Python`.
     %pdb on                        # automatically run pdb on Exception
 
 
+
+.. index:: PowerShell
+.. index:: Windows PowerShell
+.. _powershell:
+
+PowerShell
+~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Windows_PowerShell
+| Homepage: https://microsoft.com/powershell
+
+Windows PowerShell is a shell for :ref:`Windows`.
+
+
+.. index:: ZSH
+.. _zsh:
+
+ZSH
+~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Z_shell
+| Homepage: http://www.zsh.org/
+| Docs: http://zsh.sourceforge.net/Guide/zshguide.html
+| Docs: http://zsh.sourceforge.net/Doc/
+| Src: git git://git.code.sf.net/p/zsh/code
+
+
+* https://github.com/robbyrussell/oh-my-zsh
+
+
+.. index:: Shell Utilities
+.. shell-utilities:
+
+Shell Utilities
+=================
+
+
+.. index:: Awk
+.. _awk:
+
+Awk
+~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/AWK>`__
+| Docs: https://en.wikipedia.org/wiki/AWK#Versions_and_implementations
+| GNU Awk
+| Project: https://savannah.gnu.org/projects/gawk/
+| Homepage: https://www.gnu.org/software/gawk/
+| Docs: https://www.gnu.org/software/gawk/manual/
+| Docs: https://www.gnu.org/software/gawk/manual/gawk.html
+| Src: git git://git.savannah.gnu.org/gawk.git
+
+AWK is a pattern programming language for matching and transforming text.
+
+.. index:: Grep
+.. _grep:
+
+Grep
+~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Grep>`__
+| Homepage: https://www.gnu.org/software/grep/
+| Project: https://savannah.gnu.org/projects/grep/
+| Docs: https://www.gnu.org/software/grep/manual/
+| Docs: https://www.gnu.org/software/grep/manual/grep.html
+| Src: git git://git.savannah.gnu.org/grep.git
+
+Grep is a commandline utility for pattern-based text matching.
+
+
+.. index:: Htop
+.. _htop:
+
+Htop
+~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/Htop
+| Homepage: http://hisham.hm/htop/
+| Src: git http://hisham.hm/htop/
+
+Htop is a commandline task manager; like ``top`` extended.
+
+
+.. index:: Pyline
+.. _pyline:
+
+Pyline
+~~~~~~~~
+| Homepage: https://github.com/westurner/pyline
+| Docs: https://pyline.readthedocs.io/en/latest/
+| Src: git https://github.com/westurner/pyline
+| Pypi: https://pypi.python.org/pypi/pyline
+
+Pyline is an `open source`
+:ref:`POSIX` command-line utility
+for streaming line-based processing in :ref:`Python`
+with regex and output transform features similar to
+:ref:`grep`, :ref:`sed`, and :ref:`awk`.
+
+* Pyline can generate quoted CSV, :ref:`JSON <json->`, HTML, etc.
+
+
+.. index:: Pyrpo
+.. _pyrpo:
+
+Pyrpo
+~~~~~~
+| Homepage: https://github.com/westurner/pyrpo
+| Src: git https://github.com/westurner/pyrpo
+| Pypi: https://pypi.python.org/pypi/pyrpo
+
+Pyrpo is an `open source`
+:ref:`POSIX` command-line utility
+for locating and generating reports
+from :ref:`Git`, :ref:`Mercurial`, :ref:`Bazaar`,
+and :ref:`Subversion` repositories.
+
+
+.. index:: Sed
+.. _sed:
+
+Sed
+~~~~~~~~~~~~~~~~~
+| Wikipedia: `<https://en.wikipedia.org/wiki/Sed>`__
+| Homepage: https://www.gnu.org/software/sed/
+| Project: https://savannah.gnu.org/projects/sed
+| Docs: https://www.gnu.org/software/sed/manual/
+| Docs: https://www.gnu.org/software/sed/manual/sed.html
+| Docs: http://sed.sourceforge.net/
+| Src: git git.savannah.gnu.org/sed.git
+
+GNU Sed is an `open source`
+:ref:`POSIX` command-line utility for transforming text.
+
+.. note:: BSD Sed
+
+   Use ``<Ctrl-V><tab>`` for explicit tabs (as ``\t`` does not work)
+
+   Use ``\\\n`` or ``'$'\n`` for newlines (as ``\n`` does not work)
+
+   ``sed -E`` should be consistent extended regular expressions
+   between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).
+
+   OR: ``brew install gnu-sed``
+
+   See: https://unix.stackexchange.com/questions/101059/sed-behaves-different-on-freebsd-and-on-linux
+
+   See: https://superuser.com/questions/307165/newlines-in-sed-on-mac-os-x
+
+
+
+.. index:: Web Shells
+.. _web shells:
+
+Web Shells
+=============
+
 .. index:: IPython Notebook
 .. index:: IPython notebook
 .. _ipython notebook:
 
 IPython Notebook
-++++++++++++++++++
+~~~~~~~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/IPython#Notebook
 | Src: https://github.com/ipython/ipython/tree/3.x/IPython/html
 | Docs: http://ipython.org/ipython-doc/stable/notebook/
@@ -3889,6 +4802,7 @@ IPython Notebook
 | Docs: http://ipython.org/ipython-doc/stable/notebook/nbconvert.html
 | Docs: http://ipython.org/ipython-doc/stable/notebook/public_server.html
 | Docs: http://ipython.org/ipython-doc/stable/notebook/security.html
+| Docs: https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks
 
 :ref:`IPython` Notebook is a web-based shell for interactive
 and literate computing with IPython notebooks.
@@ -3954,9 +4868,8 @@ as defined in :ref:`Venv`):
 .. index:: ipython_nose
 .. _ipython_nose:
 
---------------
 ipython_nose
---------------
+++++++++++++++
 | Src: git https://github.com/taavi/ipython_nose
 
 
@@ -3965,7 +4878,7 @@ ipython_nose is an extension for :ref:`IPython Notebook`
 for discovering and running test functions
 starting with ``test_``
 (and unittest.TestCase test classes with names containing ``Test``)
-with `Nose <https://westurner.org/wiki/awesome-python-testing#nose>`__.
+with `Nose <https://westurner.github.io/wiki/awesome-python-testing#nose>`__.
 
 * ipython_nose is not (yet?) uploaded to PyPI
 * to install ipython_nose from GitHub (with :ref:`Pip` and :ref:`Git`):
@@ -3973,6 +4886,33 @@ with `Nose <https://westurner.org/wiki/awesome-python-testing#nose>`__.
 .. code:: bash
 
    pip install -e git+https://github.com/taavi/ipython_nose#egg=ipython_nose
+
+
+See also:
+
+* TDD: Test Driven Development
+  https://wrdrd.github.io/docs/consulting/software-development#test-driven-development
+* **Refactoring** and **Reproducibility**
+
+  * https://wrdrd.github.io/docs/consulting/software-development#refactoring
+  * https://wrdrd.github.io/docs/consulting/data-science#reproducibility
+
+
+.. index:: nosebook
+.. _nosebook:
+
+nosebook
+~~~~~~~~~~
+| Src: https://github.com/bollwyvl/nosebook
+
+nosebook is a tool for finding and running tests in :ref:`nbformat`
+:ref:`IPython Notebooks <ipython notebooks>`
+and :ref:`Jupyter Notebooks <jupyter notebook>`
+with ``nose``.
+
+See also:
+
+* https://westurner.github.io/wiki/awesome-python-testing#nose
 
 
 .. index:: Jupyter
@@ -3986,9 +4926,9 @@ Jupyter
 | Src: https://github.com/jupyter/
 | Src: git https://github.com/jupyter/notebook
 | Src: git https://github.com/jupyter/jupyterhub
-| Src: https://registry.hub.docker.com/u/jupyter/tmpnb/
-| DockerHub: https://registry.hub.docker.com/repos/ipython/
-| DockerHub: https://registry.hub.docker.com/repos/jupyter/
+| Src: https://hub.docker.com/r/jupyter/tmpnb/
+| DockerHub: https://hub.docker.com/repos/ipython/
+| DockerHub: https://hub.docker.com/repos/jupyter/
 | Docs: https://github.com/ipython/ipython/wiki/Install:-Docker
 | Docs: https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages
 | Docs: https://github.com/jupyter/jupyter/blob/master/docs/source/index.rst
@@ -4004,7 +4944,7 @@ for many languages (:ref:`Python`, :ref:`Ruby`, :ref:`Java`,
 
 
 .. table:: IPython Jupyter comparison (adapted from http://jupyter.org)
-   :name: IPython Jupyter comparison
+   :class: table-striped table-responsive
 
    +-------------------------------+-------------------------------------------------------------+
    | :ref:`IPython`                | :ref:`Jupyter`                                              |
@@ -4022,6 +4962,7 @@ for many languages (:ref:`Python`, :ref:`Ruby`, :ref:`Java`,
 
 Jupyter Notebook
 +++++++++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/Jupyter#Notebook
 | Src: https://github.com/jupyter/notebook
 
 :ref:`Jupyter` Notebook is the latest :ref:`IPython Notebook`.
@@ -4048,9 +4989,6 @@ Jupyter Drive
 Jupyter Drive adds support to :ref:`Jupyter Notebook`
 for reading and writing :ref:`nbformat` notebook ``.ipynb``
 files to and from Google Drive.
-
-Realtime collaborative features (e.g. with `Operational Transformation`)
-are next.
 
 
 .. index:: nbconvert
@@ -4081,15 +5019,16 @@ slides (reveal.js), LaTeX, PDF, ePub, Mobi).
 * reveal.js is an HTML presentation framework
   for slides in a 1D or 2D arrangement.
 
-  Presentation content that doesn't fit on the slide is hidden
-  and unscrollable (*only put a slide worth of data in each cell
-  for a Jupyter reveal.js presentation*).
+  | https://github.com/hakimel/reveal.js
 
-  .. code:: bash
+  * Presentation content that doesn't fit on the slide is hidden
+    and unscrollable (*only put a slide worth of data in each cell
+    for a Jupyter reveal.js presentation*).
 
-    jupyter nbconvert --to slides mynotebook.ipynb
+    .. code:: bash
 
-  https://github.com/hakimel/reveal.js
+        jupyter nbconvert --to slides mynotebook.ipynb
+
 * RISE does live reveal.js notebook presentations
 
   https://github.com/damianavila/RISE
@@ -4101,8 +5040,8 @@ slides (reveal.js), LaTeX, PDF, ePub, Mobi).
 nbformat
 ++++++++++
 | Docs: http://ipython.org/ipython-doc/dev/notebook/nbformat.html
-| Docs: https://nbformat.readthedocs.org/en/latest/
-| Docs: https://nbformat.readthedocs.org/en/latest/format_description.html#backward-compatible-changes
+| Docs: https://nbformat.readthedocs.io/en/latest/
+| Docs: https://nbformat.readthedocs.io/en/latest/format_description.html#backward-compatible-changes
 
 The :ref:`Jupyter notebook` (``.ipynb``) format is a versioned
 :ref:`JSON <json->` format for storing metadata and input/output sequences.
@@ -4114,11 +5053,33 @@ new version on the next save.
    nbformat :ref:`JSON <json->`, because ``.ipynb`` files can now contain
    code for languages other than :ref:`Python`.
 
-nbformat does not specify any schema for the user-supplied
-metadata dict (TODO) that can be edited
-so, JSON that conforms to an externally
-managed :ref:`JSON-LD <json-ld->` ``@context``
-would work.
+* nbformat does not specify any schema for the user-supplied
+  metadata dict (TODO) that can be edited
+  so, JSON that conforms to an externally
+  managed :ref:`JSON-LD <json-ld->` ``@context``
+  would work.
+
+
+.. index:: nbgrader
+.. _nbgrader:
+
+nbgrader
+++++++++
+| Src: git https://github.com/jupyter/nbgrader
+| Docs: https://nbgrader.readthedocs.io/en/stable/
+| Docs: https://nbgrader.readthedocs.io/en/stable/user_guide/
+| Docs: https://nbgrader.readthedocs.io/en/latest/
+| Docs: https://nbgrader.readthedocs.io/en/latest/user_guide/
+| Docs: https://nbgrader.readthedocs.io/en/latest/command_line_tools/
+
+nbgrader is a solution for centrally receiving and grading :ref:`Jupyter notebooks <jupyter notebook>`.
+
+See also:
+
+* :ref:`sagemathcloud` Course management
+* https://wrdrd.github.io/docs/consulting/education-technology#jupyter-and-tdd
+
+  * :ref:`jupyter and tdd`
 
 
 .. index:: nbviewer
@@ -4222,150 +5183,90 @@ and can write errors to stderr.
   https://github.com/westurner/notebooks/blob/gh-pages/Makefile
 
 
+.. index:: jupyter_contrib_nbextensions
+.. _jupyter_contrib_nbextensions:
+
+jupyter_contrib_nbextensions
+++++++++++++++++++++++++++++++
+| Src: https://github.com/ipython-contrib/jupyter_contrib_nbextensions
+| Docs: https://github.com/ipython-contrib/jupyter_contrib_nbextensions#1-install-the-python-package
+
+- https://github.com/ipython-contrib/jupyter_contrib_nbextensions#pip
+- https://github.com/ipython-contrib/jupyter_contrib_nbextensions#conda
 
 
-.. index:: PowerShell
-.. index:: Windows PowerShell
-.. _powershell:
 
-PowerShell
-~~~~~~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Windows_PowerShell
-| Homepage: https://microsoft.com/powershell
+.. index:: RISE
+.. index:: Jupyter RISE
+.. _rise:
 
-Windows PowerShell is a shell for :ref:`Windows`.
+RISE
++++++++++++++
+| Src: https://github.com/damianavila/RISE
 
+    Reveal.js - Jupyter/IPython Slideshow Extension,
+    also known as ``live_reveal``
 
-.. index:: ZSH
-.. _zsh:
-
-ZSH
-~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Z_shell
-| Homepage: http://www.zsh.org/
-| Docs: http://zsh.sourceforge.net/Guide/zshguide.html
-| Docs: http://zsh.sourceforge.net/Doc/
-| Src: git git://git.code.sf.net/p/zsh/code
+* :ref:`Jupyter Notebook`
+* Interactive presentations with live source code evaluation
 
 
-* https://github.com/robbyrussell/oh-my-zsh
+.. index:: NBPresent
+.. _nbpresent:
+
+NBPresent
+++++++++++++
+| Src: https://github.com/Anaconda-Platform/nbpresent
+| Docs: https://docs.continuum.io/anaconda/jupyter-notebook-extensions#notebook-present
+
+    remix your :ref:`Jupyter Notebooks <jupyter notebook>`
+    as interactive slideshows
 
 
-.. index:: Shell Utilities
-.. shell-utilities:
 
-Shell Utilities
-=================
+.. index:: Anaconda Jupyter Notebook Extensions
+.. _anaconda jupyter notebook extensions:
 
+Anaconda Jupyter Notebook Extensions
++++++++++++++++++++++++++++++++++++++++
+| Src: https://github.com/Anaconda-Platform/anaconda-nb-extensions
+| Docs: https://docs.continuum.io/anaconda/jupyter-notebook-extensions
 
-.. index:: Awk
-.. _awk:
-
-Awk
-~~~~~
-| Wikipedia: `<https://en.wikipedia.org/wiki/AWK>`__
-| Docs: https://en.wikipedia.org/wiki/AWK#Versions_and_implementations
-| GNU Awk
-| Project: https://savannah.gnu.org/projects/gawk/
-| Homepage: https://www.gnu.org/software/gawk/
-| Docs: https://www.gnu.org/software/gawk/manual/
-| Docs: https://www.gnu.org/software/gawk/manual/gawk.html
-| Src: git git://git.savannah.gnu.org/gawk.git
-
-AWK is a pattern programming language for matching and transforming text.
-
-.. index:: Grep
-.. _grep:
-
-Grep
-~~~~~~~~~~~~~
-| Wikipedia: `<https://en.wikipedia.org/wiki/Grep>`__
-| Homepage: https://www.gnu.org/software/grep/
-| Project: https://savannah.gnu.org/projects/grep/
-| Docs: https://www.gnu.org/software/grep/manual/
-| Docs: https://www.gnu.org/software/grep/manual/grep.html
-| Src: git git://git.savannah.gnu.org/grep.git
-
-Grep is a commandline utility for pattern-based text matching.
+* :ref:`Conda` environments, :ref:`Anaconda`, :ref:`Jupyter Notebook`
 
 
-.. index:: Htop
-.. _htop:
+.. index:: SageMathCloud
+.. _sagemathcloud:
 
-Htop
-~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Htop
-| Homepage: http://hisham.hm/htop/
-| Src: git http://hisham.hm/htop/
+SageMathCloud
+~~~~~~~~~~~~~~~~~~
+| Wikipedia: https://en.wikipedia.org/wiki/SageMathCloud
+| Homepage: https://cloud.sagemath.com/
+| Src: https://github.com/sagemathinc/smc
+| ChromeExt: https://chrome.google.com/webstore/detail/the-sagemath-cloud/eocdndagganmilahaiclppjigemcinmb
+| Docs: https://github.com/sagemathinc/smc/wiki
 
-Htop is a commandline task manager; like ``top`` extended.
-
-
-.. index:: Pyline
-.. _pyline:
-
-Pyline
-~~~~~~~~
-| Homepage: https://github.com/westurner/pyline
-| Docs: https://pyline.readthedocs.org/en/latest/
-| Src: git https://github.com/westurner/pyline
-| Pypi: https://pypi.python.org/pypi/pyline
-
-Pyline is an `open source`
-:ref:`POSIX` command-line utility
-for streaming line-based processing in :ref:`Python`
-with regex and output transform features similar to
-:ref:`grep`, :ref:`sed`, and :ref:`awk`.
-
-* Pyline can generate quoted CSV, :ref:`JSON <json->`, HTML, etc.
+* https://cloud.sagemath.com/
+* Interactive Worksheets
+* Course Management
+* :ref:`LaTeX` Editor
+* :ref:`Jupyter Notebook`
+* Linux Terminal
+* :ref:`Sage Math`
+* CodeMirror
+* Login with: 
 
 
-.. index:: Pyrpo
-.. _pyrpo:
+.. index:: Wakari
+.. _wakari:
 
-Pyrpo
-~~~~~~
-| Homepage: https://github.com/westurner/pyrpo
-| Src: git https://github.com/westurner/pyrpo
-| Pypi: https://pypi.python.org/pypi/pyrpo
+Wakari
+~~~~~~~
+| Homepage: https://wakari.io/
+| Src: https://anaconda.org/wakari
 
-Pyrpo is an `open source`
-:ref:`POSIX` command-line utility
-for locating and generating reports
-from :ref:`Git`, :ref:`Mercurial`, :ref:`Bazaar`,
-and :ref:`Subversion` repositories.
-
-
-.. index:: Sed
-.. _sed:
-
-Sed
-~~~~~~~~~~~~~~~~~
-| Wikipedia: `<https://en.wikipedia.org/wiki/Sed>`__
-| Homepage: https://www.gnu.org/software/sed/
-| Project: https://savannah.gnu.org/projects/sed
-| Docs: https://www.gnu.org/software/sed/manual/
-| Docs: https://www.gnu.org/software/sed/manual/sed.html
-| Docs: http://sed.sourceforge.net/
-| Src: git git.savannah.gnu.org/sed.git
-
-GNU Sed is an `open source`
-:ref:`POSIX` command-line utility for transforming text.
-
-.. note:: BSD Sed
-
-   Use ``<Ctrl-V><tab>`` for explicit tabs (as ``\t`` does not work)
-
-   Use ``\\\n`` or ``'$'\n`` for newlines (as ``\n`` does not work)
-
-   ``sed -E`` should be consistent extended regular expressions
-   between GNU Sed (e.g. Linux) and BSD Sed (FreeBSD, OSX).
-
-   OR: ``brew install gnu-sed``
-
-   See: https://unix.stackexchange.com/questions/101059/sed-behaves-different-on-freebsd-and-on-linux
-
-   See: https://superuser.com/questions/307165/newlines-in-sed-on-mac-os-x
+* :ref:`Anaconda`, SSH
+* https://github.com/liftoff/GateOne
 
 
 .. index:: Dotfiles
@@ -4383,8 +5284,8 @@ configuration in files that are often prefixed with "dot"
 
   | Src: git https://github.com/westurner/dotfiles
   | Src: https://github.com/westurner/dotfiles/blob/master/etc/.bashrc
-  | Docs: https://westurner.org/dotfiles/
-  | Docs: https://westurner.org/dotfiles/usage#bash
+  | Docs: https://westurner.github.io/dotfiles/
+  | Docs: https://westurner.github.io/dotfiles/usage#bash
 
   Features
 
@@ -4409,7 +5310,7 @@ Dotvim is a conjunction / contraction of :ref:`Dotfiles` and :ref:`Vim`
 | Src: https://github.com/westurner/dotvim/blob/master/vimrc
 | Src: https://github.com/westurner/dotvim/blob/master/vimrc.full.bundles.vimrc
 | Src: https://github.com/westurner/dotvim/blob/master/vimrc.tinyvim.bundles.vimrc
-| Docs: https://westurner.org/dotfiles/usage#vim
+| Docs: https://westurner.github.io/dotfiles/usage#vim
 
 
 
@@ -4419,8 +5320,8 @@ Dotvim is a conjunction / contraction of :ref:`Dotfiles` and :ref:`Vim`
 Venv
 ~~~~~
 
-| Docs: https://westurner.org/dotfiles/venv
-| Docs: https://westurner.org/dotfiles/dotfiles.venv
+| Docs: https://westurner.github.io/dotfiles/venv
+| Docs: https://westurner.github.io/dotfiles/dotfiles.venv
 | Src: https://github.com/westurner/dotfiles/blob/develop/src/dotfiles/venv/
 | Src: https://github.com/westurner/dotfiles/blob/develop/etc/bash/10-bashrc.venv.sh
 
@@ -4570,7 +5471,7 @@ A standard virtual environment::
 
 Virtualenvwrapper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| Docs: http://virtualenvwrapper.readthedocs.org/en/latest/
+| Docs: https://virtualenvwrapper.readthedocs.io/en/latest/
 | Src: hg https://bitbucket.org/dhellmann/virtualenvwrapper
 | PyPI: https://pypi.python.org/pypi/virtualenvwrapper
 
@@ -4841,7 +5742,7 @@ written in :ref:`C++` which was forked from :ref:`WebKit`.
 
 Chrome
 ~~~~~~~
-| Wikipedia: https://en.wikipedia.org/wiki/Google_Chrome 
+| Wikipedia: https://en.wikipedia.org/wiki/Google_Chrome
 | Homepage: https://www.google.com/chrome/
 | Download: https://www.google.com/chrome/browser/desktop/
 | Download: https://www.google.com/chrome/browser/mobile/
@@ -5299,12 +6200,17 @@ Ghostery
 
 HTTPS Everywhere
 +++++++++++++++++
+| Wikipedia: https://en.wikipedia.org/wiki/HTTPS_Everywhere
 | Homepage: https://www.eff.org/https-everywhere
 | Src: https://github.com/EFForg/https-everywhere
 | ChromeExt: https://chrome.google.com/webstore/detail/gcbommkclmclpchllfjekcdonpmejbdp
 | FirefoxXPI: https://www.eff.org/files/https-everywhere-latest.xpi
 | FirefoxAndroidXPI: https://www.eff.org/files/https-everywhere-android.xpi
 | Twitter: https://twitter.com/HTTPSEverywhere
+
+HTTPS Everywhere is a browser extension that forces the browser
+to only connect over HTTPS to sites listed in its database.
+
 
 .. index:: uBlock
 .. _ublock:
@@ -5399,9 +6305,13 @@ Zotero archives and tags resources with bibliographic metadata.
 
 * Zotero can export a collection of resources' bibliographic metadata
   as RDF
+* There are a number of plugins and integrations with Zotero:
+
+  https://www.zotero.org/support/plugins
 
 
 .. index:: Zotero and Schema.org RDFa
+.. _zotero and schema.org RDFa:
 
 -------------------------------
 [ ] Zotero and Schema.org RDFa
@@ -5757,7 +6667,7 @@ modules and features bundled in.
 
 Documentation Tools
 =====================
-| Docs: https://wrdrd.com/docs/consulting/education-technology#publishing
+| Docs: https://wrdrd.github.io/docs/consulting/education-technology#publishing
 
 
 .. index:: Docutils
@@ -5770,6 +6680,8 @@ Docutils
 | Docs: http://docutils.sourceforge.net/docs/
 | Docs: http://docutils.sourceforge.net/rst.html
 | Docs: http://docutils.sourceforge.net/docs/ref/doctree.html
+| Docs: https://docutils.readthedocs.io/en/sphinx-docs/
+| Docs: https://docutils.readthedocs.io/en/sphinx-docs/ref/rst/restructuredtext.html
 | Src: svn http://svn.code.sf.net/p/docutils/code/trunk
 
 Docutils is a :ref:`Python` library which 'parses" :ref:`ReStructuredText`
@@ -5830,9 +6742,9 @@ or from the local filesystem.
   Git or filesystem mtimes.
 * pgs does something like :ref:`Nginx` ``try_files $.html``
 
-  * https://westurner.org/tools/index
+  * https://westurner.github.io/tools/index
 
-    https://westurner.org/tools/index.html
+    https://westurner.github.io/tools/index.html
 
     * :ref:`Sphinx` can also generate links without ``.html`` extensions
       with the ``html_link_suffix`` ``conf.py`` configuration setting.
@@ -5859,10 +6771,11 @@ Sphinx
 ~~~~~~~~~~~~~~~~~
 | Wikipedia: `<https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)>`_
 | Homepage: https://pypi.python.org/pypi/Sphinx
-| Src: hg https://bitbucket.org/birkenfeld/sphinx/
+| Src: git https://github.com/sphinx-doc/sphinx
 | Pypi: https://pypi.python.org/pypi/Sphinx
 | Docs: http://sphinx-doc.org/contents.html
 | Docs: http://sphinx-doc.org/markup/code.html
+| Docs: http://www.sphinx-doc.org/en/stable/markup/inline.html#ref-role
 | Docs: http://pygments.org/docs/lexers/
 | Docs: http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html
 | Docs: https://github.com/yoloseem/awesome-sphinxdoc
@@ -5920,7 +6833,7 @@ so, for example,
 
     https://github.com/westurner/tools/blob/gh-pages/index.html
 
-    https://westurner.org/tools/
+    https://westurner.github.io/tools/
 
 
     * RawGit:
@@ -5931,9 +6844,9 @@ so, for example,
 
   * Output: *ReadTheDocs*:
 
-    https://<projectname>.readthedocs.org/en/<version>/
+    https://<projectname>.readthedocs.io/en/<version>/
 
-    https://read-the-docs.readthedocs.org/en/latest/
+    https://read-the-docs.readthedocs.io/en/latest/
 
 
 .. glossary::
@@ -6075,6 +6988,11 @@ Clonezilla
 ~~~~~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Clonezilla
 | DistroWatch: http://distrowatch.com/table.php?distribution=clonezilla
+| Homepage: http://clonezilla.org/
+| Src: git https://github.com/stevenshiau/clonezilla
+| Docs: http://clonezilla.org/clonezilla-live.php 
+| Docs: http://clonezilla.org/clonezilla-SE/
+| Docs: http://clonezilla.org/related-links/
 
 Clonezilla is an open source :ref:`Linux` distribution
 which is bootable from a CD/DVD/USB (a LiveCD, LiveDVD, LiveUSB)
@@ -6086,7 +7004,19 @@ to one or more computers over a LAN.
 
 * Clonezilla contains :ref:`FSArchiver`, :ref:`partclone`,
   :ref:`partimage`, and :ref:`rsync`.
+* Clonezilla can backup and restore very many (if not most) filesystems.
+* Clonezilla supports MBR, GPT, and uEFI.
+* Clonezilla can restore a networked multicast group (e.g. lab)
+  of machines to a system image (saving TCP overhead when sharing
+  the same multi-gigabyte / terabyte image to zero or more machines);
+  and boot them with PXE and/or Wake-on-Lan.
+
+  * :ref:`bup`, :ref:`debtorrent`
+
+* Clonezilla can backup to disk, ssh, samba, NFS, WebDAV
+* drbl-winroll helps with restoring :ref:`windows` images
 * :ref:`SystemRescueCD` also contains :ref:`partimage`.
+* :ref:`Cobbler` also supports PXE boot from images.
 
 
 .. index:: Duplicity
@@ -6318,8 +7248,8 @@ for system maintenance.
 
 Standards
 ============
-| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#web-standards
-| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#semantic-web-standards
+| Docs: https://wrdrd.github.io/docs/consulting/knowledge-engineering#web-standards
+| Docs: https://wrdrd.github.io/docs/consulting/knowledge-engineering#semantic-web-standards
 
 
 .. index:: Cascading Style Sheets
@@ -6329,7 +7259,7 @@ Standards
 CSS
 ~~~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/Cascading_Style_Sheets
-| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#css
+| Docs: https://wrdrd.github.io/docs/consulting/knowledge-engineering#css
 
 CSS (*Cascading Style Sheets*) define the presentational
 aspects of :ref:`HTML-` and a number of mobile and desktop
@@ -6359,7 +7289,7 @@ system file naming structure.
 * Likewise, :ref:`virtualenv` and :ref:`Venv` implement
   a filesystem hierarchy:
 
-  | Docs: https://westurner.org/dotfiles/venv#venv-paths
+  | Docs: https://westurner.github.io/dotfiles/venv#venv-paths
 
 * :ref:`Docker` (and many LiveCDs) layer filesystem hierarchies
   with e.g. UnionFS, AUFS, and BTRFS filesystems.
@@ -6371,8 +7301,8 @@ system file naming structure.
 HTTP
 ~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/HTTP
-| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#http
-| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#http2
+| Docs: https://wrdrd.github.io/docs/consulting/knowledge-engineering#http
+| Docs: https://wrdrd.github.io/docs/consulting/knowledge-engineering#http2
 
 
 .. index:: HTTPS
@@ -6381,7 +7311,7 @@ HTTP
 HTTPS
 ++++++
 | Wikipedia: https://en.wikipedia.org/wiki/HTTPS
-| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#https
+| Docs: https://wrdrd.github.io/docs/consulting/knowledge-engineering#https
 
 
 .. index:: HTML
@@ -6390,7 +7320,7 @@ HTTPS
 HTML
 ~~~~~~
 | Wikipedia: https://en.wikipedia.org/wiki/HTML
-| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#html5
+| Docs: https://wrdrd.github.io/docs/consulting/knowledge-engineering#html5
 
 
 .. index:: JSON
@@ -6404,7 +7334,7 @@ JSON
 
 
 JSON is an object representation in :ref:`Javascript` syntax
-which is now supported by libraries for many language.
+which is now supported by libraries for many languages.
 
 A list of objects with ``key`` and ``value`` attributes in JSON syntax:
 
@@ -6424,7 +7354,7 @@ for parsing and indenting ("prettifying") JSON from the commandline ::
     cat example.json | python -m json.tool
 
 * See also:
-  https://wrdrd.com/docs/consulting/knowledge-engineering#json
+  https://wrdrd.github.io/docs/consulting/knowledge-engineering#json
 
 
 .. index:: JSONLD
@@ -6436,7 +7366,7 @@ JSON-LD
 | Wikipedia: https://en.wikipedia.org/wiki/JSON-LD
 | Homepage: http://json-ld.org
 | Docs: http://json-ld.org/playground/
-| Docs: https://wrdrd.com/docs/consulting/knowledge-engineering#json-ld
+| Docs: https://wrdrd.github.io/docs/consulting/knowledge-engineering#json-ld
 
 JSON-LD is a web standard for **Linked Data** in :ref:`JSON <json->`.
 
@@ -6497,7 +7427,7 @@ MessagePack (*msgpack*) is a data interchange format
 with implementations in many languages.
 
 * :ref:`MsgPack` is a `Distributed Computing Protocol`
-  https://wrdrd.com/docs/consulting/knowledge-engineering#distributed-computing-protocols
+  https://wrdrd.github.io/docs/consulting/knowledge-engineering#distributed-computing-protocols
 * :ref:`Salt` serializes messages with :ref:`MsgPack` by default.
 
 
@@ -6509,7 +7439,7 @@ Vim
 | Wikipedia: `<https://en.wikipedia.org/wiki/Vim_(text_editor)>`__
 | Homepage: http://www.vim.org/
 | Docs: http://www.vim.org/docs.php
-| Src: hg https://vim.googlecode.com/hg/
+| Src: git https://github.com/vim/vim
 
 
 * https://github.com/scrooloose/nerdtree

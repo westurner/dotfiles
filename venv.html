@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>venv &mdash; westurner/dotfiles 0.9.0 documentation</title>
+    <title>venv &mdash; westurner/dotfiles b&#39;0.9.0&#39; documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -43,11 +43,12 @@
 <link rel="stylesheet" href="_static/css/basicstrap.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 <link rel="stylesheet" href="_static/css/local.css" type="text/css" />
+<link rel="stylesheet" href="_static/changelog.css" type="text/css" />
     
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.9.0',
+            VERSION:     'b&#39;0.9.0&#39;',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -56,13 +57,16 @@
     <script type="text/javascript" src="_static/js/jquery.min.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/js/local.js"></script>
     <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
 <script type="text/javascript">
 </script>
-    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="westurner/dotfiles b&#39;0.9.0&#39; documentation" href="index.html" />
     <link rel="next" title="usrlog" href="usrlog.html" />
     <link rel="prev" title="Usage (dhelp)" href="usage/dhelp.html" /> 
   </head>
@@ -76,7 +80,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.9.0 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -112,7 +116,7 @@
               <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
             
-            <li class="visible-xs"><a href="_sources/venv.txt" rel="nofollow">Show Source</a></li>
+            <li class="visible-xs"><a href="_sources/venv.rst.txt" rel="nofollow">Show Source</a></li>
 
             <li class="visible-xs">
                 <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
@@ -144,7 +148,7 @@
          
 <div class="col-md-3 hidden-xs" id="sidebar-wrapper">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">venv</a><ul>
 <li><a class="reference internal" href="#working-with-venv">Working With Venv</a><ul>
@@ -189,7 +193,7 @@
 </div>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/venv.txt"
+    <li><a href="_sources/venv.rst.txt"
             rel="nofollow"
             target="_blank">Source RST</a></li>
     <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/venv.rst"
@@ -237,91 +241,91 @@
                   
   <span class="target" id="index-0"></span><div class="section" id="venv">
 <span id="index-1"></span><span id="id1"></span><h1>venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
-<p>venv makes working with <a class="reference internal" href="tools/index.html#virtualenv"><span>Virtualenv</span></a>,
-<a class="reference internal" href="tools/index.html#virtualenvwrapper"><span>Virtualenvwrapper</span></a>, <a class="reference internal" href="tools/index.html#bash"><span>Bash</span></a>, <a class="reference internal" href="tools/index.html#zsh"><span>ZSH</span></a>,
-<a class="reference internal" href="tools/index.html#vim"><span>Vim</span></a>, and <a class="reference internal" href="tools/index.html#ipython"><span>IPython</span></a> within a project context very easy.</p>
-<p>There are a few parts to <code class="docutils literal"><span class="pre">venv</span></code>:</p>
+<p>venv makes working with <span class="xref std std-ref">virtualenv</span>,
+<span class="xref std std-ref">virtualenvwrapper</span>, <span class="xref std std-ref">Bash</span>, <span class="xref std std-ref">ZSH</span>,
+<span class="xref std std-ref">Vim</span>, and <span class="xref std std-ref">IPython</span> within a project context very easy.</p>
+<p>There are a few parts to <code class="docutils literal notranslate"><span class="pre">venv</span></code>:</p>
 <ul class="simple">
 <li><a class="reference internal" href="#venv-py">venv.py</a> is a CLI script for generating <a class="reference internal" href="#shell-configuration">shell configuration</a>
 and <a class="reference internal" href="#cdalias">CdAlias</a>
-scripts for <a class="reference internal" href="tools/index.html#bash"><span>Bash</span></a>, <a class="reference internal" href="tools/index.html#zsh"><span>ZSH</span></a>, <a class="reference internal" href="tools/index.html#ipython"><span>IPython</span></a>, and <a class="reference internal" href="tools/index.html#vim"><span>Vim</span></a>.</li>
-<li><a class="reference internal" href="#venv-py">venv.py</a> is a symlink to <code class="docutils literal"><span class="pre">venv_ipyconfig.py</span></code>.</li>
+scripts for <span class="xref std std-ref">Bash</span>, <span class="xref std std-ref">ZSH</span>, <span class="xref std std-ref">IPython</span>, and <span class="xref std std-ref">Vim</span>.</li>
+<li><a class="reference internal" href="#venv-py">venv.py</a> is a symlink to <code class="docutils literal notranslate"><span class="pre">venv_ipyconfig.py</span></code>.</li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py">venv_ipyconfig.py</a>
-(<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipyconfig" title="dotfiles.venv.venv_ipyconfig"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.venv_ipyconfig</span></code></a>) generates shell
+(<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipyconfig" title="dotfiles.venv.venv_ipyconfig"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipyconfig</span></code></a>) generates shell
 environment configuration configures IPython at
 startup (e.g. symlinked as
-<code class="docutils literal"><span class="pre">~/.ipython/profile_default/ipython_config.py</span></code>)</li>
+<code class="docutils literal notranslate"><span class="pre">~/.ipython/profile_default/ipython_config.py</span></code>)</li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipymagics.py">venv_ipymagics.py</a>
-(<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipymagics" title="dotfiles.venv.venv_ipymagics"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.venv_ipymagics</span></code></a>)
+(<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipymagics" title="dotfiles.venv.venv_ipymagics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipymagics</span></code></a>)
 configures
-<a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.CdAlias" title="dotfiles.venv.venv_ipyconfig.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAliases</span></code></a>
-and the <code class="docutils literal"><span class="pre">dotfiles_status</span></code> (<code class="docutils literal"><span class="pre">ds</span></code>) command
-for <a class="reference internal" href="tools/index.html#ipython"><span>IPython</span></a>.</li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <a class="reference internal" href="tools/index.html#bash"><span>Bash</span></a> at startup
-(see: <a class="reference internal" href="usage/index.html#dotfiles-bash-config"><span>Usage &gt; Bash</span></a>)</li>
+<a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.CdAlias" title="dotfiles.venv.venv_ipyconfig.CdAlias"><code class="xref py py-class docutils literal notranslate"><span class="pre">CdAliases</span></code></a>
+and the <code class="docutils literal notranslate"><span class="pre">dotfiles_status</span></code> (<code class="docutils literal notranslate"><span class="pre">ds</span></code>) command
+for <span class="xref std std-ref">IPython</span>.</li>
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <span class="xref std std-ref">Bash</span> at startup
+(see: <a class="reference internal" href="usage/index.html#dotfiles-bash-config"><span class="std std-ref">Usage &gt; Bash</span></a>)</li>
 </ul>
 <p>To configure a shell, print relevant env variables (twice),
-<code class="docutils literal"><span class="pre">cd</span></code> to the working directory (<code class="docutils literal"><span class="pre">$_WRD</span></code>),
-and open <code class="docutils literal"><span class="pre">README.rst</span></code> in a named <a class="reference internal" href="tools/index.html#vim"><span>Vim</span></a> server for an existing
-venv named <code class="docutils literal"><span class="pre">dotfiles</span></code>:</p>
-<div class="highlight-bash"><div class="highlight"><pre>we dotfiles<span class="p">;</span> ds<span class="p">;</span> cdwrd<span class="p">;</span> e README.rst
+<code class="docutils literal notranslate"><span class="pre">cd</span></code> to the working directory (<code class="docutils literal notranslate"><span class="pre">$_WRD</span></code>),
+and open <code class="docutils literal notranslate"><span class="pre">README.rst</span></code> in a named <span class="xref std std-ref">Vim</span> server for an existing
+venv named <code class="docutils literal notranslate"><span class="pre">dotfiles</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>we dotfiles<span class="p">;</span> ds<span class="p">;</span> cdwrd<span class="p">;</span> e README.rst
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>For a new venv (as might be created with <code class="docutils literal"><span class="pre">mkvirtualenv</span> <span class="pre">dotfiles</span></code>),
-the <code class="docutils literal"><span class="pre">$_SRC</span></code> and <code class="docutils literal"><span class="pre">$_WRD</span></code> directories do not yet exist. You can
+<p>For a new venv (as might be created with <code class="docutils literal notranslate"><span class="pre">mkvirtualenv</span> <span class="pre">dotfiles</span></code>),
+the <code class="docutils literal notranslate"><span class="pre">$_SRC</span></code> and <code class="docutils literal notranslate"><span class="pre">$_WRD</span></code> directories do not yet exist. You can
 create these like so:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c">## _APP=dotfiles _WRD=$VIRTUAL_ENV/src/$_APP</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">## _APP=dotfiles _WRD=$VIRTUAL_ENV/src/$_APP</span>
 mkdir -p <span class="nv">$_WRD</span>
 </pre></div>
 </div>
-<p>Or, to create a more complete <a class="reference internal" href="tools/index.html#fhs"><span>Filesystem Hierarchy Standard</span></a> tree of directories under
-<code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>:</p>
-<div class="last highlight-bash"><div class="highlight"><pre>venv_mkdirs<span class="p">;</span> mkdir -p <span class="nv">$_WRD</span>
+<p>Or, to create a more complete <span class="xref std std-ref">FHS</span> tree of directories under
+<code class="docutils literal notranslate"><span class="pre">$VIRTUAL_ENV</span></code>:</p>
+<div class="last highlight-bash notranslate"><div class="highlight"><pre><span></span>venv_mkdirs<span class="p">;</span> mkdir -p <span class="nv">$_WRD</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="working-with-venv">
 <h2>Working With Venv<a class="headerlink" href="#working-with-venv" title="Permalink to this headline">¶</a></h2>
 <p>To work on a venv:</p>
-<div class="highlight-bash"><div class="highlight"><pre>we dotfiles
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>we dotfiles
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">we</span></code> is an alias for <code class="docutils literal"><span class="pre">workon_venv</span></code>, which does
-<code class="docutils literal"><span class="pre">source</span> <span class="pre">&lt;(venv.py</span> <span class="pre">-q</span> <span class="pre">--print-bash</span> <span class="pre">--ve=dotfiles)</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">we</span></code> is an alias for <code class="docutils literal notranslate"><span class="pre">workon_venv</span></code>, which does
+<code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">&lt;(venv.py</span> <span class="pre">-q</span> <span class="pre">--print-bash</span> <span class="pre">--ve=dotfiles)</span></code>.</p>
 <p>Verbosely:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">__WRK</span><span class="o">=</span><span class="s2">&quot;~/-wrk&quot;</span>                    <span class="c"># cdwrk</span>
-<span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__WRK</span><span class="si">}</span><span class="s2">&quot;</span>           <span class="c"># cdph cdprojecthome</span>
-<span class="nv">WORKON_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__WRK</span><span class="si">}</span><span class="s2">/-ve27&quot;</span>      <span class="c"># cdwh cdworkonhome</span>
-<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;~/-dotfiles&quot;</span>          <span class="c"># cdd  cddotfiles</span>
-                                  <span class="c"># a very special symlink to</span>
-                                  <span class="c"># $WORKON_HOME/dotfiles/src/dotfiles</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">__WRK</span><span class="o">=</span><span class="s2">&quot;~/-wrk&quot;</span>                    <span class="c1"># cdwrk</span>
+<span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__WRK</span><span class="si">}</span><span class="s2">&quot;</span>           <span class="c1"># cdph cdprojecthome</span>
+<span class="nv">WORKON_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__WRK</span><span class="si">}</span><span class="s2">/-ve27&quot;</span>      <span class="c1"># cdwh cdworkonhome</span>
+<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;~/-dotfiles&quot;</span>          <span class="c1"># cdd  cddotfiles</span>
+                                  <span class="c1"># a very special symlink to</span>
+                                  <span class="c1"># $WORKON_HOME/dotfiles/src/dotfiles</span>
 
 <span class="nv">__VENV</span><span class="o">=</span><span class="k">$(</span>which venv.py<span class="k">)</span><span class="p">;</span>
-<span class="nv">__VENV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span><span class="s2">/scripts/venv.py&quot;</span>  <span class="c"># 10-bashrc.venv.sh</span>
-<span class="c"># venv()  { (set -x; $__VENV $@)    }   # 10-bashrc.venv.sh</span>
-<span class="c"># venv-() { (set -x; $__VENV -e $@) }   # 10-bashrc.venv.sh</span>
+<span class="nv">__VENV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__DOTFILES</span><span class="si">}</span><span class="s2">/scripts/venv.py&quot;</span>  <span class="c1"># 10-bashrc.venv.sh</span>
+<span class="c1"># venv()  { (set -x; $__VENV $@)    }   # 10-bashrc.venv.sh</span>
+<span class="c1"># venv-() { (set -x; $__VENV -e $@) }   # 10-bashrc.venv.sh</span>
 
-<span class="c"># These all print venv.py --help:</span>
+<span class="c1"># These all print venv.py --help:</span>
 <span class="nv">$__VENV</span> --help
 venv.py --help
 venv -h
 
-<span class="c"># Print environment variables for the &quot;dotfiles&quot; venv:</span>
+<span class="c1"># Print environment variables for the &quot;dotfiles&quot; venv:</span>
 venv.py --print-vars --VIRTUAL_ENV<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="s2">/dotfiles&quot;</span>
 venv.py --print-vars --virtual-env<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="s2">/dotfiles&quot;</span>
 venv.py --print-vars --ve<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="s2">/dotfiles&quot;</span>
 venv.py --print-vars --ve dotfiles
 venv.py --print-vars dotfiles
 
-<span class="c"># Generate a source-able Bash configuration script</span>
+<span class="c1"># Generate a source-able Bash configuration script</span>
 venv.py --print-bash dotfiles
 
-<span class="c">## Workon the dotfiles virtualenv (in the current shell)</span>
+<span class="c1">## Workon the dotfiles virtualenv (in the current shell)</span>
 we dotfiles
 
-<span class="c">## Workon the dotfiles virtualenv (with a bash subshell)</span>
+<span class="c1">## Workon the dotfiles virtualenv (with a bash subshell)</span>
 venv.py -x bash dotfiles
 venv.py -xb dotfiles
 </pre></div>
@@ -330,97 +334,97 @@ venv.py -xb dotfiles
 <p class="first admonition-title">Note</p>
 <p>The following commands are different to argparse
 (argument order matter with positional arguments)</p>
-<div class="last highlight-bash"><div class="highlight"><pre>venv dotfiles --print-bash        <span class="c"># does not work</span>
-venv --print-bash dotfiles        <span class="c"># does work</span>
+<div class="last highlight-bash notranslate"><div class="highlight"><pre><span></span>venv dotfiles --print-bash        <span class="c1"># does not work</span>
+venv --print-bash dotfiles        <span class="c1"># does work</span>
 
-<span class="c"># As a workaround, be explicit</span>
-venv --ve<span class="o">=</span>dotfiles --print-bash   <span class="c"># does work</span>
+<span class="c1"># As a workaround, be explicit</span>
+venv --ve<span class="o">=</span>dotfiles --print-bash   <span class="c1"># does work</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="cdalias">
 <h3>CdAlias<a class="headerlink" href="#cdalias" title="Permalink to this headline">¶</a></h3>
 <p>Virtualenv paths can be really long.</p>
-<p>CdAliases make it easy to jump around to <code class="docutils literal"><span class="pre">venv</span></code> defined variables
-(like <code class="docutils literal"><span class="pre">$_WRK</span></code> (cdwrk), <code class="docutils literal"><span class="pre">$WORKON_HOME</span></code> (cdwh), <code class="docutils literal"><span class="pre">VIRTUAL_ENV</span></code> (cdv),
-<code class="docutils literal"><span class="pre">$_SRC</span></code> (cds), and <code class="docutils literal"><span class="pre">$_WRD</span></code> (cdw)).</p>
-<p>Each <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.CdAlias" title="dotfiles.venv.venv_ipyconfig.CdAlias"><code class="xref py py-class docutils literal"><span class="pre">CdAlias</span></code></a>
-defined in <code class="docutils literal"><span class="pre">env.aliases</span></code> is expanded for Bash, IPython, and Vim.
-For example, <code class="docutils literal"><span class="pre">CdAlias('__WRD')</span></code> is expanded to
-<code class="docutils literal"><span class="pre">cdwrd</span></code>, <code class="docutils literal"><span class="pre">cdw</span></code>; <code class="docutils literal"><span class="pre">%cdwrd</span></code>, <code class="docutils literal"><span class="pre">cdw</span></code>, and <code class="docutils literal"><span class="pre">:Cdwrk</span></code>,
-<code class="docutils literal"><span class="pre">:Cdw</span></code>:</p>
-<div class="code bash highlight-python"><div class="highlight"><pre># Bash
-cdwrd
-cdwrd&lt;tab&gt;
-cdwrd docs/
-cdw docs/
+<p>CdAliases make it easy to jump around to <code class="docutils literal notranslate"><span class="pre">venv</span></code> defined variables
+(like <code class="docutils literal notranslate"><span class="pre">$_WRK</span></code> (cdwrk), <code class="docutils literal notranslate"><span class="pre">$WORKON_HOME</span></code> (cdwh), <code class="docutils literal notranslate"><span class="pre">VIRTUAL_ENV</span></code> (cdv),
+<code class="docutils literal notranslate"><span class="pre">$_SRC</span></code> (cds), and <code class="docutils literal notranslate"><span class="pre">$_WRD</span></code> (cdw)).</p>
+<p>Each <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.CdAlias" title="dotfiles.venv.venv_ipyconfig.CdAlias"><code class="xref py py-class docutils literal notranslate"><span class="pre">CdAlias</span></code></a>
+defined in <code class="docutils literal notranslate"><span class="pre">env.aliases</span></code> is expanded for Bash, IPython, and Vim.
+For example, <code class="docutils literal notranslate"><span class="pre">CdAlias('__WRD')</span></code> is expanded to
+<code class="docutils literal notranslate"><span class="pre">cdwrd</span></code>, <code class="docutils literal notranslate"><span class="pre">cdw</span></code>; <code class="docutils literal notranslate"><span class="pre">%cdwrd</span></code>, <code class="docutils literal notranslate"><span class="pre">cdw</span></code>, and <code class="docutils literal notranslate"><span class="pre">:Cdwrk</span></code>,
+<code class="docutils literal notranslate"><span class="pre">:Cdw</span></code>:</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bash</span>
+<span class="n">cdwrd</span>
+<span class="n">cdwrd</span><span class="o">&lt;</span><span class="n">tab</span><span class="o">&gt;</span>
+<span class="n">cdwrd</span> <span class="n">docs</span><span class="o">/</span>
+<span class="n">cdw</span> <span class="n">docs</span><span class="o">/</span>
 
-# IPython
-%cdwrd
-cdwrd
-cdwrd docs/
-cdw docs/
+<span class="c1"># IPython</span>
+<span class="o">%</span><span class="n">cdwrd</span>
+<span class="n">cdwrd</span>
+<span class="n">cdwrd</span> <span class="n">docs</span><span class="o">/</span>
+<span class="n">cdw</span> <span class="n">docs</span><span class="o">/</span>
 
-# Vim
-:Cdwrk
-:Cdwrk docs/
-:Cdw docs/
+<span class="c1"># Vim</span>
+<span class="p">:</span><span class="n">Cdwrk</span>
+<span class="p">:</span><span class="n">Cdwrk</span> <span class="n">docs</span><span class="o">/</span>
+<span class="p">:</span><span class="n">Cdw</span> <span class="n">docs</span><span class="o">/</span>
 </pre></div>
 </div>
 <p>At build time, the dotfiles Makefile generates the venv CdAlias scripts
 like so:</p>
-<div class="code bash highlight-python"><div class="highlight"><pre># Generate venv CdAlias scripts
-venv.py --print-bash-cdalias . | tee venv_cdalias.sh
-venv.py --print-ipython-cdalias . | tee venv_cdmagic.py
-venv.py --print-vim . | tee venv.vim
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate venv CdAlias scripts</span>
+<span class="n">venv</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="nb">print</span><span class="o">-</span><span class="n">bash</span><span class="o">-</span><span class="n">cdalias</span> <span class="o">.</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">venv_cdalias</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">venv</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="nb">print</span><span class="o">-</span><span class="n">ipython</span><span class="o">-</span><span class="n">cdalias</span> <span class="o">.</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">venv_cdmagic</span><span class="o">.</span><span class="n">py</span>
+<span class="n">venv</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="nb">print</span><span class="o">-</span><span class="n">vim</span> <span class="o">.</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">venv</span><span class="o">.</span><span class="n">vim</span>
 </pre></div>
 </div>
-<p>Subsequently, <code class="docutils literal"><span class="pre">cdhelp</span></code> displays:</p>
-<div class="code bash highlight-python"><div class="highlight"><pre><span class="c">## venv.sh</span>
-<span class="c"># generated from $(venv --print-bash --prefix=/)</span>
-    <span class="c"># cdhome            -- cd $HOME /$@</span>
-    <span class="c"># cdh               -- cd $HOME</span>
-    <span class="c"># cdwrk             -- cd $__WRK /$@</span>
-    <span class="c"># cddotfiles        -- cd $__DOTFILES /$@</span>
-    <span class="c"># cdd               -- cd $__DOTFILES</span>
-    <span class="c"># cdprojecthome     -- cd $PROJECT_HOME /$@</span>
-    <span class="c"># cdp               -- cd $PROJECT_HOME</span>
-    <span class="c"># cdph              -- cd $PROJECT_HOME</span>
-    <span class="c"># cdworkonhome      -- cd $WORKON_HOME /$@</span>
-    <span class="c"># cdwh              -- cd $WORKON_HOME</span>
-    <span class="c"># cdve              -- cd $WORKON_HOME</span>
-    <span class="c"># cdcondaenvspath   -- cd $CONDA_ENVS_PATH /$@</span>
-    <span class="c"># cda               -- cd $CONDA_ENVS_PATH</span>
-    <span class="c"># cdce              -- cd $CONDA_ENVS_PATH</span>
-    <span class="c"># cdvirtualenv      -- cd $VIRTUAL_ENV /$@</span>
-    <span class="c"># cdv               -- cd $VIRTUAL_ENV</span>
-    <span class="c"># cdsrc             -- cd $_SRC /$@</span>
-    <span class="c"># cds               -- cd $_SRC</span>
-    <span class="c"># cdwrd             -- cd $_WRD /$@</span>
-    <span class="c"># cdw               -- cd $_WRD</span>
-    <span class="c"># cdbin             -- cd $_BIN /$@</span>
-    <span class="c"># cdb               -- cd $_BIN</span>
-    <span class="c"># cdetc             -- cd $_ETC /$@</span>
-    <span class="c"># cde               -- cd $_ETC</span>
-    <span class="c"># cdlib             -- cd $_LIB /$@</span>
-    <span class="c"># cdl               -- cd $_LIB</span>
-    <span class="c"># cdlog             -- cd $_LOG /$@</span>
-    <span class="c"># cdpylib           -- cd $_PYLIB /$@</span>
-    <span class="c"># cdpysite          -- cd $_PYSITE /$@</span>
-    <span class="c"># cdsitepackages    -- cd $_PYSITE</span>
-    <span class="c"># cdvar             -- cd $_VAR /$@</span>
-    <span class="c"># cdwww             -- cd $_WWW /$@</span>
-    <span class="c"># cdww              -- cd $_WWW</span>
+<p>Subsequently, <code class="docutils literal notranslate"><span class="pre">cdhelp</span></code> displays:</p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## venv.sh</span>
+<span class="c1"># generated from $(venv --print-bash --prefix=/)</span>
+    <span class="c1"># cdhome            -- cd $HOME /$@</span>
+    <span class="c1"># cdh               -- cd $HOME</span>
+    <span class="c1"># cdwrk             -- cd $__WRK /$@</span>
+    <span class="c1"># cddotfiles        -- cd $__DOTFILES /$@</span>
+    <span class="c1"># cdd               -- cd $__DOTFILES</span>
+    <span class="c1"># cdprojecthome     -- cd $PROJECT_HOME /$@</span>
+    <span class="c1"># cdp               -- cd $PROJECT_HOME</span>
+    <span class="c1"># cdph              -- cd $PROJECT_HOME</span>
+    <span class="c1"># cdworkonhome      -- cd $WORKON_HOME /$@</span>
+    <span class="c1"># cdwh              -- cd $WORKON_HOME</span>
+    <span class="c1"># cdve              -- cd $WORKON_HOME</span>
+    <span class="c1"># cdcondaenvspath   -- cd $CONDA_ENVS_PATH /$@</span>
+    <span class="c1"># cda               -- cd $CONDA_ENVS_PATH</span>
+    <span class="c1"># cdce              -- cd $CONDA_ENVS_PATH</span>
+    <span class="c1"># cdvirtualenv      -- cd $VIRTUAL_ENV /$@</span>
+    <span class="c1"># cdv               -- cd $VIRTUAL_ENV</span>
+    <span class="c1"># cdsrc             -- cd $_SRC /$@</span>
+    <span class="c1"># cds               -- cd $_SRC</span>
+    <span class="c1"># cdwrd             -- cd $_WRD /$@</span>
+    <span class="c1"># cdw               -- cd $_WRD</span>
+    <span class="c1"># cdbin             -- cd $_BIN /$@</span>
+    <span class="c1"># cdb               -- cd $_BIN</span>
+    <span class="c1"># cdetc             -- cd $_ETC /$@</span>
+    <span class="c1"># cde               -- cd $_ETC</span>
+    <span class="c1"># cdlib             -- cd $_LIB /$@</span>
+    <span class="c1"># cdl               -- cd $_LIB</span>
+    <span class="c1"># cdlog             -- cd $_LOG /$@</span>
+    <span class="c1"># cdpylib           -- cd $_PYLIB /$@</span>
+    <span class="c1"># cdpysite          -- cd $_PYSITE /$@</span>
+    <span class="c1"># cdsitepackages    -- cd $_PYSITE</span>
+    <span class="c1"># cdvar             -- cd $_VAR /$@</span>
+    <span class="c1"># cdwww             -- cd $_WWW /$@</span>
+    <span class="c1"># cdww              -- cd $_WWW</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="venv-py">
 <h3>venv.py<a class="headerlink" href="#venv-py" title="Permalink to this headline">¶</a></h3>
-<pre class="ansi-block literal-block">
-$ python ../src/dotfiles/venv/venv_ipyconfig.py --help
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ python ../src/dotfiles/venv/venv_ipyconfig.py --help
 usage: venv [-h] [-V] [-v] [-D] [-T] [-q] [-t] [--platform PLATFORM] [-e]
             [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
-            [--WORKON_HOME [WORKON_HOME]] [--VENVSTR [VENVSTR_]]
+            [--WORKON_HOME [WORKON_HOME]] [--CONDA_ROOT [CONDA_ROOT]]
+            [--CONDA_ENVS_PATH [CONDA_ENVS_PATH]] [--VENVSTR [VENVSTR_]]
             [--VENVSTRAPP [VENVSTRAPP_]]
             [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
             [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]]
@@ -458,6 +462,12 @@ optional arguments:
                         Path to ${__DOTFILES} symlink -- ~/-dotfiles
   --WORKON_HOME [WORKON_HOME], --workonhome [WORKON_HOME], --wh [WORKON_HOME]
                         Path to ${WORKON_HOME} directory containing
+                        VIRTUAL_ENVs
+  --CONDA_ROOT [CONDA_ROOT], --condaroot [CONDA_ROOT], --cr [CONDA_ROOT]
+                        Path to ${CONDA_ROOT} directory containing
+                        VIRTUAL_ENVs
+  --CONDA_ENVS_PATH [CONDA_ENVS_PATH], --condaenvs [CONDA_ENVS_PATH], --ce [CONDA_ENVS_PATH]
+                        Path to ${CONDA_ENVS_PATH} directory containing
                         VIRTUAL_ENVs
   --VENVSTR [VENVSTR_], --venvstr [VENVSTR_], --ve [VENVSTR_]
                         Path to VIRTUAL_ENV --
@@ -498,84 +508,77 @@ optional arguments:
   --run-bash, --xbash, -xb
                         Run bash in the specified venv
   --run-make, --xmake, -xmake
-                        Run (cd $_WRD; make $&#64;) in the specified venv
+                        Run (cd $_WRD; make $@) in the specified venv
   --run-editp, --open-editors, --edit, -E
                         Open $EDITOR_ with venv.project_files [$PROJECT_FILES]
   --run-terminal, --open-terminals, --terminals, --terms
                         Open terminals within the venv [gnome-terminal]
   --pall, --pathall     Print possible paths for the given path
-  --pwrk, --wrk-path    Print $__WRK/$&#64;
+  --pwrk, --wrk-path    Print $__WRK/$@
   --pworkonhome, --workonhome-path, --pwh
-                        Print $__WORKON_HOME/$&#64;
+                        Print $__WORKON_HOME/$@
   --pvirtualenv, --virtualenv-path, --pv
-                        Print $VIRTUAL_ENV/${&#64;}
+                        Print $VIRTUAL_ENV/${@}
   --psrc, --src-path, --ps
-                        Print $_SRC/${&#64;}
+                        Print $_SRC/${@}
   --pwrd, --wrd-path, --pw
-                        Print $_WRD/${&#64;}
+                        Print $_WRD/${@}
   --pdotfiles, --dotfiles-path, --pd
                         Print ${__DOTFILES}/${path}
   --prel, --relative-path
-                        Print ${&#64;}
+                        Print ${@}
   --pkg-resource-path   Path from pkg_resources.TODOTODO
   --compress, --compress-paths
                         Path $VAR-ify the given paths from stdin
 
 argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP)
 or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
-</pre>
+</pre></div>
+</div>
 <div class="section" id="python-api">
 <h4>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h4>
-<p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.Venv" title="dotfiles.venv.venv_ipyconfig.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.venv_ipyconfig.Venv</span></code></a> object
+<p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.Venv" title="dotfiles.venv.venv_ipyconfig.Venv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipyconfig.Venv</span></code></a> object
 builds:</p>
 <ul class="simple">
-<li>a <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.Env" title="dotfiles.venv.venv_ipyconfig.Env"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.venv_ipyconfig.Env</span></code></a> <code class="docutils literal"><span class="pre">OrderedDict</span></code>
-with <code class="docutils literal"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths and environment variables
+<li>a <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.Env" title="dotfiles.venv.venv_ipyconfig.Env"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipyconfig.Env</span></code></a> <code class="docutils literal notranslate"><span class="pre">OrderedDict</span></code>
+with <code class="docutils literal notranslate"><span class="pre">$VIRTUAL_ENV</span></code>-relative paths and environment variables
 in a standard filesystem hierarchy</li>
-<li>an <code class="docutils literal"><span class="pre">OrderedDict</span></code> of command and <a class="reference internal" href="#cdalias">CdAlias</a> aliases</li>
+<li>an <code class="docutils literal notranslate"><span class="pre">OrderedDict</span></code> of command and <a class="reference internal" href="#cdalias">CdAlias</a> aliases</li>
 </ul>
-<p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.Venv" title="dotfiles.venv.venv_ipyconfig.Venv"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.venv_ipyconfig.Venv</span></code></a> object can then be
+<p>A <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.Venv" title="dotfiles.venv.venv_ipyconfig.Venv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipyconfig.Venv</span></code></a> object can then be
 serialized:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">--print-vars</span></code> &#8211; easy to read variables</li>
-<li><code class="docutils literal"><span class="pre">--print-json</span></code> &#8211; quoted and escaped JSON</li>
-<li><code class="docutils literal"><span class="pre">--print-bash</span></code> &#8211; quoted and escaped shell script</li>
-<li>IPython <code class="docutils literal"><span class="pre">%alias</span></code> configuration dict (see <code class="docutils literal"><span class="pre">%alias?</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">--print-vars</span></code> – easy to read variables</li>
+<li><code class="docutils literal notranslate"><span class="pre">--print-json</span></code> – quoted and escaped JSON</li>
+<li><code class="docutils literal notranslate"><span class="pre">--print-bash</span></code> – quoted and escaped shell script</li>
+<li>IPython <code class="docutils literal notranslate"><span class="pre">%alias</span></code> configuration dict (see <code class="docutils literal notranslate"><span class="pre">%alias?</span></code>)</li>
 </ul>
-<p>There are a number of <code class="docutils literal"><span class="pre">unittest.TestCase</span></code> tests in
-<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipyconfig" title="dotfiles.venv.venv_ipyconfig"><code class="xref py py-mod docutils literal"><span class="pre">dotfiles.venv.venv_ipyconfig</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py">venv_ipyconfig.py</a>)
+<p>There are a number of <code class="docutils literal notranslate"><span class="pre">unittest.TestCase</span></code> tests in
+<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipyconfig" title="dotfiles.venv.venv_ipyconfig"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipyconfig</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py">venv_ipyconfig.py</a>)
 for each of the build steps.</p>
-<p><code class="docutils literal"><span class="pre">venv</span> <span class="pre">--verbose</span> <span class="pre">--show-diffs</span></code> shows what is going on.</p>
+<p><code class="docutils literal notranslate"><span class="pre">venv</span> <span class="pre">--verbose</span> <span class="pre">--show-diffs</span></code> shows what is going on.</p>
 </div>
 </div>
 <div class="section" id="example-venv-configuration">
 <h3>Example Venv Configuration<a class="headerlink" href="#example-venv-configuration" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="shell-configuration">
 <h4>Shell Configuration<a class="headerlink" href="#shell-configuration" title="Permalink to this headline">¶</a></h4>
-<p><code class="docutils literal"><span class="pre">venv.py</span> <span class="pre">--print-bash</span> <span class="pre">--compress</span> <span class="pre">dotfilesx</span> <span class="pre">dotfilesx/docs</span></code>:</p>
-<pre class="ansi-block literal-block">
-$ python ../scripts/venv.py --print-bash --compress dotfilesx dotfilesx/docs \
+<p><code class="docutils literal notranslate"><span class="pre">venv.py</span> <span class="pre">--print-bash</span> <span class="pre">--compress</span> <span class="pre">dotfilesx</span> <span class="pre">dotfilesx/docs</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ python ../scripts/venv.py --print-bash --compress dotfilesx dotfilesx/docs \
 | sed &quot;s,${HOME},~,g&quot;
 export HOME=&quot;~&quot;
 export __WRK=&quot;${HOME}/-wrk&quot;
 export __SRC=&quot;${PROJECT_HOME}/-src&quot;
 export __DOTFILES=&quot;${HOME}/-dotfiles&quot;
 export PROJECT_HOME=&quot;${HOME}/-wrk&quot;
-export WORKON_HOME__py27=&quot;${PROJECT_HOME}/-ve27&quot;
-export WORKON_HOME__py34=&quot;${PROJECT_HOME}/-ve34&quot;
-export WORKON_HOME_DEFAULT=&quot;WORKON_HOME__py27&quot;
-export CONDA_ROOT__py27=&quot;${PROJECT_HOME}/-conda27&quot;
-export CONDA_ENVS__py27=&quot;${PROJECT_HOME}/-ce27&quot;
-export CONDA_ROOT__py34=&quot;${PROJECT_HOME}/-conda34&quot;
-export CONDA_ENVS__py34=&quot;${PROJECT_HOME}/-ce34&quot;
-export CONDA_ROOT=&quot;${PROJECT_HOME}/-conda27&quot;
-export CONDA_ENVS_PATH=&quot;${PROJECT_HOME}/-ce27&quot;
+export CONDA_ROOT=&quot;${PROJECT_HOME}/-conda37&quot;
+export CONDA_ENVS_PATH=&quot;${PROJECT_HOME}/-ce37&quot;
 export WORKON_HOME=&quot;${PROJECT_HOME}/-ve27&quot;
 export VENVSTR=&quot;dotfilesx&quot;
 export VENVSTRAPP=&quot;${VENVSTR}/docs&quot;
 export VIRTUAL_ENV_NAME=&quot;${VENVSTR}&quot;
-export VIRTUAL_ENV=&quot;${WORKON_HOME}/${VENVSTR}&quot;
-export VENVPREFIX=&quot;${WORKON_HOME}/${VENVSTR}&quot;
+export VIRTUAL_ENV=&quot;${WORKON_HOME__py27}/${VENVSTR}&quot;
+export VENVPREFIX=&quot;${WORKON_HOME__py27}/${VENVSTR}&quot;
 export _APP=&quot;${VENVSTRAPP}&quot;
 export _ETC=&quot;${VIRTUAL_ENV}/etc&quot;
 export _SRC=&quot;${VIRTUAL_ENV}/src&quot;
@@ -584,8 +587,8 @@ export _BIN=&quot;${VIRTUAL_ENV}/bin&quot;
 export _ETCOPT=&quot;${_ETC}/opt&quot;
 export _HOME=&quot;${VIRTUAL_ENV}/home&quot;
 export _LIB=&quot;${VIRTUAL_ENV}/lib&quot;
-export _PYLIB=&quot;${VIRTUAL_ENV}/lib/python2.7&quot;
-export _PYSITE=&quot;${VIRTUAL_ENV}/lib/python2.7/site-packages&quot;
+export _PYLIB=&quot;${VIRTUAL_ENV}/lib/python3.7&quot;
+export _PYSITE=&quot;${VIRTUAL_ENV}/lib/python3.7/site-packages&quot;
 export _MNT=&quot;${VIRTUAL_ENV}/mnt&quot;
 export _MEDIA=&quot;${VIRTUAL_ENV}/media&quot;
 export _OPT=&quot;${VIRTUAL_ENV}/opt&quot;
@@ -613,19 +616,32 @@ export _VARRUN=&quot;${VIRTUAL_ENV}/var/run&quot;
 export _VARSPOOL=&quot;${VIRTUAL_ENV}/var/spool&quot;
 export _VARTMP=&quot;${VIRTUAL_ENV}/var/tmp&quot;
 export _WWW=&quot;${VIRTUAL_ENV}/var/www&quot;
+export WORKON_HOME__py27=&quot;${PROJECT_HOME}/-ve27&quot;
+export WORKON_HOME__py34=&quot;${PROJECT_HOME}/-ve34&quot;
+export WORKON_HOME_DEFAULT=&quot;WORKON_HOME__py27&quot;
+export CONDA_ROOT__py27=&quot;${PROJECT_HOME}/-conda27&quot;
+export CONDA_ENVS__py27=&quot;${PROJECT_HOME}/-ce27&quot;
+export CONDA_ROOT__py34=&quot;${PROJECT_HOME}/-conda34&quot;
+export CONDA_ENVS__py34=&quot;${PROJECT_HOME}/-ce34&quot;
+export CONDA_ROOT__py35=&quot;${PROJECT_HOME}/-conda35&quot;
+export CONDA_ENVS__py35=&quot;${PROJECT_HOME}/-ce35&quot;
+export CONDA_ROOT__py36=&quot;${PROJECT_HOME}/-conda36&quot;
+export CONDA_ENVS__py36=&quot;${PROJECT_HOME}/-ce36&quot;
+export CONDA_ROOT__py37=&quot;${PROJECT_HOME}/-conda37&quot;
+export CONDA_ENVS__py37=&quot;${PROJECT_HOME}/-ce37&quot;
 export _USRLOG=&quot;${VIRTUAL_ENV}/-usrlog.log&quot;
-</pre>
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <code class="docutils literal"><span class="pre">--compress</span></code> option is for documentation purposes only;
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">--compress</span></code> option is for documentation purposes only;
 without this option, paths are expanded in full.</p>
 </div>
 </div>
 <div class="section" id="json-configuration">
 <h4>JSON Configuration<a class="headerlink" href="#json-configuration" title="Permalink to this headline">¶</a></h4>
-<p><code class="docutils literal"><span class="pre">venv.py</span> <span class="pre">--print-json</span> <span class="pre">dotfiles</span></code>:</p>
-<pre class="ansi-block literal-block">
-$ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
+<p><code class="docutils literal notranslate"><span class="pre">venv.py</span> <span class="pre">--print-json</span> <span class="pre">dotfiles</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
 | python ../scripts/venv.py --compress dotfilesx dotfilesx/docs \
 | sed &quot;s,${HOME},~,g&quot;
 {
@@ -635,21 +651,14 @@ $ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
         &quot;__SRC&quot;: &quot;${PROJECT_HOME}/-src&quot;,
         &quot;__DOTFILES&quot;: &quot;${HOME}/-dotfiles&quot;,
         &quot;PROJECT_HOME&quot;: &quot;${HOME}/-wrk&quot;,
-        &quot;WORKON_HOME__py27&quot;: &quot;${PROJECT_HOME}/-ve27&quot;,
-        &quot;WORKON_HOME__py34&quot;: &quot;${PROJECT_HOME}/-ve34&quot;,
-        &quot;WORKON_HOME_DEFAULT&quot;: &quot;WORKON_HOME__py27&quot;,
-        &quot;CONDA_ROOT__py27&quot;: &quot;${PROJECT_HOME}/-conda27&quot;,
-        &quot;CONDA_ENVS__py27&quot;: &quot;${PROJECT_HOME}/-ce27&quot;,
-        &quot;CONDA_ROOT__py34&quot;: &quot;${PROJECT_HOME}/-conda34&quot;,
-        &quot;CONDA_ENVS__py34&quot;: &quot;${PROJECT_HOME}/-ce34&quot;,
-        &quot;CONDA_ROOT&quot;: &quot;${PROJECT_HOME}/-conda27&quot;,
-        &quot;CONDA_ENVS_PATH&quot;: &quot;${PROJECT_HOME}/-ce27&quot;,
+        &quot;CONDA_ROOT&quot;: &quot;${PROJECT_HOME}/-conda37&quot;,
+        &quot;CONDA_ENVS_PATH&quot;: &quot;${PROJECT_HOME}/-ce37&quot;,
         &quot;WORKON_HOME&quot;: &quot;${PROJECT_HOME}/-ve27&quot;,
         &quot;VENVSTR&quot;: &quot;${VENVSTR}&quot;,
         &quot;VENVSTRAPP&quot;: &quot;${VENVSTRAPP}&quot;,
         &quot;VIRTUAL_ENV_NAME&quot;: &quot;${VENVSTR}&quot;,
-        &quot;VIRTUAL_ENV&quot;: &quot;${WORKON_HOME}/${VENVSTR}&quot;,
-        &quot;VENVPREFIX&quot;: &quot;${WORKON_HOME}/${VENVSTR}&quot;,
+        &quot;VIRTUAL_ENV&quot;: &quot;${WORKON_HOME__py27}/${VENVSTR}&quot;,
+        &quot;VENVPREFIX&quot;: &quot;${WORKON_HOME__py27}/${VENVSTR}&quot;,
         &quot;_APP&quot;: &quot;${VENVSTRAPP}&quot;,
         &quot;_ETC&quot;: &quot;${VIRTUAL_ENV}/etc&quot;,
         &quot;_SRC&quot;: &quot;${VIRTUAL_ENV}/src&quot;,
@@ -658,8 +667,8 @@ $ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
         &quot;_ETCOPT&quot;: &quot;${_ETC}/opt&quot;,
         &quot;_HOME&quot;: &quot;${VIRTUAL_ENV}/home&quot;,
         &quot;_LIB&quot;: &quot;${VIRTUAL_ENV}/lib&quot;,
-        &quot;_PYLIB&quot;: &quot;${VIRTUAL_ENV}/lib/python2.7&quot;,
-        &quot;_PYSITE&quot;: &quot;${VIRTUAL_ENV}/lib/python2.7/site-packages&quot;,
+        &quot;_PYLIB&quot;: &quot;${VIRTUAL_ENV}/lib/python3.7&quot;,
+        &quot;_PYSITE&quot;: &quot;${VIRTUAL_ENV}/lib/python3.7/site-packages&quot;,
         &quot;_MNT&quot;: &quot;${VIRTUAL_ENV}/mnt&quot;,
         &quot;_MEDIA&quot;: &quot;${VIRTUAL_ENV}/media&quot;,
         &quot;_OPT&quot;: &quot;${VIRTUAL_ENV}/opt&quot;,
@@ -687,38 +696,53 @@ $ python ../scripts/venv.py --print-json dotfilesx dotfilesx/docs \
         &quot;_VARSPOOL&quot;: &quot;${VIRTUAL_ENV}/var/spool&quot;,
         &quot;_VARTMP&quot;: &quot;${VIRTUAL_ENV}/var/tmp&quot;,
         &quot;_WWW&quot;: &quot;${VIRTUAL_ENV}/var/www&quot;,
+        &quot;WORKON_HOME__py27&quot;: &quot;${PROJECT_HOME}/-ve27&quot;,
+        &quot;WORKON_HOME__py34&quot;: &quot;${PROJECT_HOME}/-ve34&quot;,
+        &quot;WORKON_HOME_DEFAULT&quot;: &quot;WORKON_HOME__py27&quot;,
+        &quot;CONDA_ROOT__py27&quot;: &quot;${PROJECT_HOME}/-conda27&quot;,
+        &quot;CONDA_ENVS__py27&quot;: &quot;${PROJECT_HOME}/-ce27&quot;,
+        &quot;CONDA_ROOT__py34&quot;: &quot;${PROJECT_HOME}/-conda34&quot;,
+        &quot;CONDA_ENVS__py34&quot;: &quot;${PROJECT_HOME}/-ce34&quot;,
+        &quot;CONDA_ROOT__py35&quot;: &quot;${PROJECT_HOME}/-conda35&quot;,
+        &quot;CONDA_ENVS__py35&quot;: &quot;${PROJECT_HOME}/-ce35&quot;,
+        &quot;CONDA_ROOT__py36&quot;: &quot;${PROJECT_HOME}/-conda36&quot;,
+        &quot;CONDA_ENVS__py36&quot;: &quot;${PROJECT_HOME}/-ce36&quot;,
+        &quot;CONDA_ROOT__py37&quot;: &quot;${PROJECT_HOME}/-conda37&quot;,
+        &quot;CONDA_ENVS__py37&quot;: &quot;${PROJECT_HOME}/-ce37&quot;,
         &quot;_USRLOG&quot;: &quot;${VIRTUAL_ENV}/-usrlog.log&quot;
     },
     &quot;aliases&quot;: {
-        &quot;cdhome&quot;: &quot;cdhome () {\n    # cdhome            -- cd $HOME /$&#64;\n    [ -z \&quot;$HOME\&quot; ] &amp;&amp; echo \&quot;HOME is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$HOME\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd_HOME_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdhome &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdh () {\n    # cdh               -- cd $HOME\n    cdhome $&#64;\n}\ncomplete -o default -o nospace -F _cd_HOME_complete cdhome\ncomplete -o default -o nospace -F _cd_HOME_complete cdh\n&quot;,
-        &quot;cdwrk&quot;: &quot;cdwrk () {\n    # cdwrk             -- cd $__WRK /$&#64;\n    [ -z \&quot;$__WRK\&quot; ] &amp;&amp; echo \&quot;__WRK is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$__WRK\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd___WRK_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdwrk &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncomplete -o default -o nospace -F _cd___WRK_complete cdwrk\n&quot;,
-        &quot;cdddotfiles&quot;: &quot;cddotfiles () {\n    # cddotfiles        -- cd $__DOTFILES /$&#64;\n    [ -z \&quot;$__DOTFILES\&quot; ] &amp;&amp; echo \&quot;__DOTFILES is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$__DOTFILES\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd___DOTFILES_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cddotfiles &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdd () {\n    # cdd               -- cd $__DOTFILES\n    cddotfiles $&#64;\n}\ncomplete -o default -o nospace -F _cd___DOTFILES_complete cddotfiles\ncomplete -o default -o nospace -F _cd___DOTFILES_complete cdd\n&quot;,
-        &quot;cdprojecthome&quot;: &quot;cdprojecthome () {\n    # cdprojecthome     -- cd $PROJECT_HOME /$&#64;\n    [ -z \&quot;$PROJECT_HOME\&quot; ] &amp;&amp; echo \&quot;PROJECT_HOME is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$PROJECT_HOME\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd_PROJECT_HOME_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdprojecthome &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdp () {\n    # cdp               -- cd $PROJECT_HOME\n    cdprojecthome $&#64;\n}\ncdph () {\n    # cdph              -- cd $PROJECT_HOME\n    cdprojecthome $&#64;\n}\ncomplete -o default -o nospace -F _cd_PROJECT_HOME_complete cdprojecthome\ncomplete -o default -o nospace -F _cd_PROJECT_HOME_complete cdp\ncomplete -o default -o nospace -F _cd_PROJECT_HOME_complete cdph\n&quot;,
-        &quot;cdworkonhome&quot;: &quot;cdworkonhome () {\n    # cdworkonhome      -- cd $WORKON_HOME /$&#64;\n    [ -z \&quot;$WORKON_HOME\&quot; ] &amp;&amp; echo \&quot;WORKON_HOME is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$WORKON_HOME\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd_WORKON_HOME_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdworkonhome &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdwh () {\n    # cdwh              -- cd $WORKON_HOME\n    cdworkonhome $&#64;\n}\ncdve () {\n    # cdve              -- cd $WORKON_HOME\n    cdworkonhome $&#64;\n}\ncomplete -o default -o nospace -F _cd_WORKON_HOME_complete cdworkonhome\ncomplete -o default -o nospace -F _cd_WORKON_HOME_complete cdwh\ncomplete -o default -o nospace -F _cd_WORKON_HOME_complete cdve\n&quot;,
-        &quot;cdcondahome&quot;: &quot;cdcondaenvspath () {\n    # cdcondaenvspath   -- cd $CONDA_ENVS_PATH /$&#64;\n    [ -z \&quot;$CONDA_ENVS_PATH\&quot; ] &amp;&amp; echo \&quot;CONDA_ENVS_PATH is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$CONDA_ENVS_PATH\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd_CONDA_ENVS_PATH_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdcondaenvspath &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncda () {\n    # cda               -- cd $CONDA_ENVS_PATH\n    cdcondaenvspath $&#64;\n}\ncdce () {\n    # cdce              -- cd $CONDA_ENVS_PATH\n    cdcondaenvspath $&#64;\n}\ncomplete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdcondaenvspath\ncomplete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cda\ncomplete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdce\n&quot;,
-        &quot;cdvirtualenv&quot;: &quot;cdvirtualenv () {\n    # cdvirtualenv      -- cd $VIRTUAL_ENV /$&#64;\n    [ -z \&quot;$VIRTUAL_ENV\&quot; ] &amp;&amp; echo \&quot;VIRTUAL_ENV is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$VIRTUAL_ENV\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd_VIRTUAL_ENV_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdvirtualenv &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdv () {\n    # cdv               -- cd $VIRTUAL_ENV\n    cdvirtualenv $&#64;\n}\ncomplete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdvirtualenv\ncomplete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdv\n&quot;,
-        &quot;cdsrc&quot;: &quot;cdsrc () {\n    # cdsrc             -- cd $_SRC /$&#64;\n    [ -z \&quot;$_SRC\&quot; ] &amp;&amp; echo \&quot;_SRC is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_SRC\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__SRC_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdsrc &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncds () {\n    # cds               -- cd $_SRC\n    cdsrc $&#64;\n}\ncomplete -o default -o nospace -F _cd__SRC_complete cdsrc\ncomplete -o default -o nospace -F _cd__SRC_complete cds\n&quot;,
-        &quot;cdwrd&quot;: &quot;cdwrd () {\n    # cdwrd             -- cd $_WRD /$&#64;\n    [ -z \&quot;$_WRD\&quot; ] &amp;&amp; echo \&quot;_WRD is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_WRD\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__WRD_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdwrd &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdw () {\n    # cdw               -- cd $_WRD\n    cdwrd $&#64;\n}\ncomplete -o default -o nospace -F _cd__WRD_complete cdwrd\ncomplete -o default -o nospace -F _cd__WRD_complete cdw\n&quot;,
-        &quot;cdbin&quot;: &quot;cdbin () {\n    # cdbin             -- cd $_BIN /$&#64;\n    [ -z \&quot;$_BIN\&quot; ] &amp;&amp; echo \&quot;_BIN is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_BIN\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__BIN_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdbin &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdb () {\n    # cdb               -- cd $_BIN\n    cdbin $&#64;\n}\ncomplete -o default -o nospace -F _cd__BIN_complete cdbin\ncomplete -o default -o nospace -F _cd__BIN_complete cdb\n&quot;,
-        &quot;cdetc&quot;: &quot;cdetc () {\n    # cdetc             -- cd $_ETC /$&#64;\n    [ -z \&quot;$_ETC\&quot; ] &amp;&amp; echo \&quot;_ETC is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_ETC\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__ETC_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdetc &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncde () {\n    # cde               -- cd $_ETC\n    cdetc $&#64;\n}\ncomplete -o default -o nospace -F _cd__ETC_complete cdetc\ncomplete -o default -o nospace -F _cd__ETC_complete cde\n&quot;,
-        &quot;cdlib&quot;: &quot;cdlib () {\n    # cdlib             -- cd $_LIB /$&#64;\n    [ -z \&quot;$_LIB\&quot; ] &amp;&amp; echo \&quot;_LIB is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_LIB\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__LIB_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdlib &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdl () {\n    # cdl               -- cd $_LIB\n    cdlib $&#64;\n}\ncomplete -o default -o nospace -F _cd__LIB_complete cdlib\ncomplete -o default -o nospace -F _cd__LIB_complete cdl\n&quot;,
-        &quot;cdlog&quot;: &quot;cdlog () {\n    # cdlog             -- cd $_LOG /$&#64;\n    [ -z \&quot;$_LOG\&quot; ] &amp;&amp; echo \&quot;_LOG is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_LOG\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__LOG_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdlog &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncomplete -o default -o nospace -F _cd__LOG_complete cdlog\n&quot;,
-        &quot;cdpylib&quot;: &quot;cdpylib () {\n    # cdpylib           -- cd $_PYLIB /$&#64;\n    [ -z \&quot;$_PYLIB\&quot; ] &amp;&amp; echo \&quot;_PYLIB is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_PYLIB\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__PYLIB_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdpylib &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncomplete -o default -o nospace -F _cd__PYLIB_complete cdpylib\n&quot;,
-        &quot;cdpysite&quot;: &quot;cdpysite () {\n    # cdpysite          -- cd $_PYSITE /$&#64;\n    [ -z \&quot;$_PYSITE\&quot; ] &amp;&amp; echo \&quot;_PYSITE is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_PYSITE\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__PYSITE_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdpysite &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdsitepackages () {\n    # cdsitepackages    -- cd $_PYSITE\n    cdpysite $&#64;\n}\ncomplete -o default -o nospace -F _cd__PYSITE_complete cdpysite\ncomplete -o default -o nospace -F _cd__PYSITE_complete cdsitepackages\n&quot;,
-        &quot;cdvar&quot;: &quot;cdvar () {\n    # cdvar             -- cd $_VAR /$&#64;\n    [ -z \&quot;$_VAR\&quot; ] &amp;&amp; echo \&quot;_VAR is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_VAR\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__VAR_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdvar &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncomplete -o default -o nospace -F _cd__VAR_complete cdvar\n&quot;,
-        &quot;cdwww&quot;: &quot;cdwww () {\n    # cdwww             -- cd $_WWW /$&#64;\n    [ -z \&quot;$_WWW\&quot; ] &amp;&amp; echo \&quot;_WWW is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_WWW\&quot;${&#64;:+\&quot;/${&#64;}\&quot;}\n}\n_cd__WWW_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdwww &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdww () {\n    # cdww              -- cd $_WWW\n    cdwww $&#64;\n}\ncomplete -o default -o nospace -F _cd__WWW_complete cdwww\ncomplete -o default -o nospace -F _cd__WWW_complete cdww\n&quot;,
+        &quot;cdhome&quot;: &quot;cdhome () {\n    # cdhome            -- cd $HOME /$@\n    [ -z \&quot;$HOME\&quot; ] &amp;&amp; echo \&quot;HOME is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$HOME\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd_HOME_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdhome &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdh () {\n    # cdh               -- cd $HOME\n    cdhome $@\n}\ncomplete -o default -o nospace -F _cd_HOME_complete cdhome\ncomplete -o default -o nospace -F _cd_HOME_complete cdh\n&quot;,
+        &quot;cdwrk&quot;: &quot;cdwrk () {\n    # cdwrk             -- cd $__WRK /$@\n    [ -z \&quot;$__WRK\&quot; ] &amp;&amp; echo \&quot;__WRK is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$__WRK\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd___WRK_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdwrk &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncomplete -o default -o nospace -F _cd___WRK_complete cdwrk\n&quot;,
+        &quot;cdddotfiles&quot;: &quot;cddotfiles () {\n    # cddotfiles        -- cd $__DOTFILES /$@\n    [ -z \&quot;$__DOTFILES\&quot; ] &amp;&amp; echo \&quot;__DOTFILES is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$__DOTFILES\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd___DOTFILES_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cddotfiles &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdd () {\n    # cdd               -- cd $__DOTFILES\n    cddotfiles $@\n}\ncomplete -o default -o nospace -F _cd___DOTFILES_complete cddotfiles\ncomplete -o default -o nospace -F _cd___DOTFILES_complete cdd\n&quot;,
+        &quot;cdprojecthome&quot;: &quot;cdprojecthome () {\n    # cdprojecthome     -- cd $PROJECT_HOME /$@\n    [ -z \&quot;$PROJECT_HOME\&quot; ] &amp;&amp; echo \&quot;PROJECT_HOME is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$PROJECT_HOME\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd_PROJECT_HOME_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdprojecthome &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdp () {\n    # cdp               -- cd $PROJECT_HOME\n    cdprojecthome $@\n}\ncdph () {\n    # cdph              -- cd $PROJECT_HOME\n    cdprojecthome $@\n}\ncomplete -o default -o nospace -F _cd_PROJECT_HOME_complete cdprojecthome\ncomplete -o default -o nospace -F _cd_PROJECT_HOME_complete cdp\ncomplete -o default -o nospace -F _cd_PROJECT_HOME_complete cdph\n&quot;,
+        &quot;cdworkonhome&quot;: &quot;cdworkonhome () {\n    # cdworkonhome      -- cd $WORKON_HOME /$@\n    [ -z \&quot;$WORKON_HOME\&quot; ] &amp;&amp; echo \&quot;WORKON_HOME is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$WORKON_HOME\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd_WORKON_HOME_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdworkonhome &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdwh () {\n    # cdwh              -- cd $WORKON_HOME\n    cdworkonhome $@\n}\ncdve () {\n    # cdve              -- cd $WORKON_HOME\n    cdworkonhome $@\n}\ncomplete -o default -o nospace -F _cd_WORKON_HOME_complete cdworkonhome\ncomplete -o default -o nospace -F _cd_WORKON_HOME_complete cdwh\ncomplete -o default -o nospace -F _cd_WORKON_HOME_complete cdve\n&quot;,
+        &quot;cdcondaenvspath&quot;: &quot;cdcondaenvspath () {\n    # cdcondaenvspath   -- cd $CONDA_ENVS_PATH /$@\n    [ -z \&quot;$CONDA_ENVS_PATH\&quot; ] &amp;&amp; echo \&quot;CONDA_ENVS_PATH is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$CONDA_ENVS_PATH\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd_CONDA_ENVS_PATH_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdcondaenvspath &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncda () {\n    # cda               -- cd $CONDA_ENVS_PATH\n    cdcondaenvspath $@\n}\ncdce () {\n    # cdce              -- cd $CONDA_ENVS_PATH\n    cdcondaenvspath $@\n}\ncomplete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdcondaenvspath\ncomplete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cda\ncomplete -o default -o nospace -F _cd_CONDA_ENVS_PATH_complete cdce\n&quot;,
+        &quot;cdcondaroot&quot;: &quot;cdcondaroot () {\n    # cdcondaroot       -- cd $CONDA_ROOT /$@\n    [ -z \&quot;$CONDA_ROOT\&quot; ] &amp;&amp; echo \&quot;CONDA_ROOT is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$CONDA_ROOT\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd_CONDA_ROOT_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdcondaroot &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdr () {\n    # cdr               -- cd $CONDA_ROOT\n    cdcondaroot $@\n}\ncomplete -o default -o nospace -F _cd_CONDA_ROOT_complete cdcondaroot\ncomplete -o default -o nospace -F _cd_CONDA_ROOT_complete cdr\n&quot;,
+        &quot;cdvirtualenv&quot;: &quot;cdvirtualenv () {\n    # cdvirtualenv      -- cd $VIRTUAL_ENV /$@\n    [ -z \&quot;$VIRTUAL_ENV\&quot; ] &amp;&amp; echo \&quot;VIRTUAL_ENV is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$VIRTUAL_ENV\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd_VIRTUAL_ENV_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdvirtualenv &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdv () {\n    # cdv               -- cd $VIRTUAL_ENV\n    cdvirtualenv $@\n}\ncomplete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdvirtualenv\ncomplete -o default -o nospace -F _cd_VIRTUAL_ENV_complete cdv\n&quot;,
+        &quot;cdsrc&quot;: &quot;cdsrc () {\n    # cdsrc             -- cd $_SRC /$@\n    [ -z \&quot;$_SRC\&quot; ] &amp;&amp; echo \&quot;_SRC is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_SRC\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__SRC_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdsrc &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncds () {\n    # cds               -- cd $_SRC\n    cdsrc $@\n}\ncomplete -o default -o nospace -F _cd__SRC_complete cdsrc\ncomplete -o default -o nospace -F _cd__SRC_complete cds\n&quot;,
+        &quot;cdwrd&quot;: &quot;cdwrd () {\n    # cdwrd             -- cd $_WRD /$@\n    [ -z \&quot;$_WRD\&quot; ] &amp;&amp; echo \&quot;_WRD is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_WRD\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__WRD_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdwrd &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdw () {\n    # cdw               -- cd $_WRD\n    cdwrd $@\n}\ncomplete -o default -o nospace -F _cd__WRD_complete cdwrd\ncomplete -o default -o nospace -F _cd__WRD_complete cdw\n&quot;,
+        &quot;cdbin&quot;: &quot;cdbin () {\n    # cdbin             -- cd $_BIN /$@\n    [ -z \&quot;$_BIN\&quot; ] &amp;&amp; echo \&quot;_BIN is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_BIN\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__BIN_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdbin &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdb () {\n    # cdb               -- cd $_BIN\n    cdbin $@\n}\ncomplete -o default -o nospace -F _cd__BIN_complete cdbin\ncomplete -o default -o nospace -F _cd__BIN_complete cdb\n&quot;,
+        &quot;cdetc&quot;: &quot;cdetc () {\n    # cdetc             -- cd $_ETC /$@\n    [ -z \&quot;$_ETC\&quot; ] &amp;&amp; echo \&quot;_ETC is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_ETC\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__ETC_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdetc &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncde () {\n    # cde               -- cd $_ETC\n    cdetc $@\n}\ncomplete -o default -o nospace -F _cd__ETC_complete cdetc\ncomplete -o default -o nospace -F _cd__ETC_complete cde\n&quot;,
+        &quot;cdlib&quot;: &quot;cdlib () {\n    # cdlib             -- cd $_LIB /$@\n    [ -z \&quot;$_LIB\&quot; ] &amp;&amp; echo \&quot;_LIB is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_LIB\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__LIB_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdlib &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdl () {\n    # cdl               -- cd $_LIB\n    cdlib $@\n}\ncomplete -o default -o nospace -F _cd__LIB_complete cdlib\ncomplete -o default -o nospace -F _cd__LIB_complete cdl\n&quot;,
+        &quot;cdlog&quot;: &quot;cdlog () {\n    # cdlog             -- cd $_LOG /$@\n    [ -z \&quot;$_LOG\&quot; ] &amp;&amp; echo \&quot;_LOG is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_LOG\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__LOG_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdlog &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncomplete -o default -o nospace -F _cd__LOG_complete cdlog\n&quot;,
+        &quot;cdpylib&quot;: &quot;cdpylib () {\n    # cdpylib           -- cd $_PYLIB /$@\n    [ -z \&quot;$_PYLIB\&quot; ] &amp;&amp; echo \&quot;_PYLIB is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_PYLIB\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__PYLIB_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdpylib &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncomplete -o default -o nospace -F _cd__PYLIB_complete cdpylib\n&quot;,
+        &quot;cdpysite&quot;: &quot;cdpysite () {\n    # cdpysite          -- cd $_PYSITE /$@\n    [ -z \&quot;$_PYSITE\&quot; ] &amp;&amp; echo \&quot;_PYSITE is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_PYSITE\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__PYSITE_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdpysite &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdsitepackages () {\n    # cdsitepackages    -- cd $_PYSITE\n    cdpysite $@\n}\ncomplete -o default -o nospace -F _cd__PYSITE_complete cdpysite\ncomplete -o default -o nospace -F _cd__PYSITE_complete cdsitepackages\n&quot;,
+        &quot;cdvar&quot;: &quot;cdvar () {\n    # cdvar             -- cd $_VAR /$@\n    [ -z \&quot;$_VAR\&quot; ] &amp;&amp; echo \&quot;_VAR is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_VAR\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__VAR_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdvar &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncomplete -o default -o nospace -F _cd__VAR_complete cdvar\n&quot;,
+        &quot;cdwww&quot;: &quot;cdwww () {\n    # cdwww             -- cd $_WWW /$@\n    [ -z \&quot;$_WWW\&quot; ] &amp;&amp; echo \&quot;_WWW is not set\&quot; &amp;&amp; return 1\n    cd \&quot;$_WWW\&quot;${@:+\&quot;/${@}\&quot;}\n}\n_cd__WWW_complete () {\n    local cur=\&quot;$2\&quot;;\n    COMPREPLY=($(cdwww &amp;&amp; compgen -d -- \&quot;${cur}\&quot; ))\n}\ncdww () {\n    # cdww              -- cd $_WWW\n    cdwww $@\n}\ncomplete -o default -o nospace -F _cd__WWW_complete cdwww\ncomplete -o default -o nospace -F _cd__WWW_complete cdww\n&quot;,
         &quot;cdls&quot;: &quot;set | grep \&quot;^cd.*()\&quot; | cut -f1 -d\&quot; \&quot; #%l&quot;,
-        &quot;cdhelp&quot;: &quot;cat ${__DOTFILES}/''scripts/venv_cdaliases.sh | pyline.py -r '^\\s*#+\\s+.*' 'rgx and l'&quot;
+        &quot;cdhelp&quot;: &quot;cat ${__DOTFILES}/&#39;&#39;scripts/venv_cdaliases.sh | pyline.py -r &#39;^\\s*#+\\s+.*&#39; &#39;rgx and l&#39;&quot;
     }
 }
-</pre>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
 <div class="section" id="other-scripts-with-venv-style-paths">
 <h2>Other scripts with venv-style paths<a class="headerlink" href="#other-scripts-with-venv-style-paths" title="Permalink to this headline">¶</a></h2>
 <p>To define a script environment just like venv:</p>
-<div class="code bash highlight-python"><div class="highlight"><pre>#!/bin/sh
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/sh
 
 __WRK=&quot;${HOME}/-wrk&quot;                          # cdwrk
 __DOTFILES=&quot;${HOME}/-dotfiles&quot;                # cdd cddotfiles
@@ -760,7 +784,7 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.9.0 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
@@ -777,8 +801,8 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
 
       <!-- footer -->
       <footer role="contentinfo">
-          &copy; Copyright 2014, Wes Turner.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+          &copy; Copyright 2019, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
       </footer>
       <!-- /footer -->
 
