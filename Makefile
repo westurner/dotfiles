@@ -59,6 +59,8 @@ PIP_INSTALL_USER:=$(PIP) $(PIP_OPTS) install ${PIP_INSTALL_USER_OPTS}
 #SETUPPY_CMDOPTS:=--command-packages=stdeb.command
 SETUPPY_CMDOPTS:=
 
+git:=git -P
+
 default: test
 
 help:
@@ -336,8 +338,8 @@ build-docker-bootstrap_dotfiles.sh:
 	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/12.04/
 	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/14.04/
 	cp scripts/bootstrap_dotfiles.sh docker/ubuntu/15.04/
-	git add docker/*/*/bootstrap_dotfiles.sh && \
-	 git commit docker/*/*/bootstrap_dotfiles.sh \
+	$(git) add docker/*/*/bootstrap_dotfiles.sh && \
+	 $(git) commit docker/*/*/bootstrap_dotfiles.sh \
 	 	-m "BLD: */bootstrap_dotfiles: build-docker-bootstrap_dotfiles.sh"
 
 build-docker:
@@ -442,8 +444,8 @@ pip_list_editable_requirements:
 dotvim_clone:
 	# Clone and/or install .dotvim/Makefile
 	mkdir -p ./etc
-	(test -d ./etc/vim/.git && cd etc/vim && git pull) \
-		|| git clone '$(DOTVIM_SRC)' ./etc/vim
+	(test -d ./etc/vim/.$(git) && cd etc/vim && $(git) pull) \
+		|| $(git) clone '$(DOTVIM_SRC)' ./etc/vim
 
 dotvim_install:
 	# Install vim with Makefile
@@ -494,9 +496,9 @@ THG_RREG_REPORT:=$(SRVROOT)/thg-reporegistry.xml
 setup_srv:
 	# Make the directory structure for source repositories
 	mkdir -p $(SRVROOT)/etc
-	mkdir -p $(SRVROOT)/repos/git $(SRVROOT)/repos/hg
+	mkdir -p $(SRVROOT)/repos/$(git) $(SRVROOT)/repos/hg
 	mkdir -p $(HOME)/src
-	ln -s $(SRVROOT)/repos/git $(HOME)/src/git
+	ln -s $(SRVROOT)/repos/$(git) $(HOME)/src/git
 	ln -s $(SRVROOT)/repos/hg $(HOME)/src/hg
 
 srv_origin_report:
@@ -550,7 +552,7 @@ docs: localcss localjs pip_install_requirements_docs.log
 DOCSREVDIR=${BUILDDIRHTML}
 DOCS_REV_TXT=${DOCSREVDIR}/_gitrev.txt
 docs_write_rev_txt:
-	git -C $$PWD rev-parse --short HEAD > '${DOCS_REV_TXT}'
+	$(git) -C $$PWD rev-parse --short HEAD > '${DOCS_REV_TXT}'
 	cat '${DOCS_REV_TXT}'
 
 docs-notify:
@@ -569,11 +571,11 @@ DOCS_AUTOGEN_FILES:=\
 	$(ZSH_LOAD_SCRIPT)
 
 docs_commit_autogen:
-	git add -f $(DOCS_AUTOGEN_FILES)
-	git diff --cached --exit-code -- $(DOCS_AUTOGEN_FILES) \
-		|| git commit $(DOCS_AUTOGEN_FILES) -m \
+	$(git) add -f $(DOCS_AUTOGEN_FILES)
+	$(git) diff --cached --exit-code -- $(DOCS_AUTOGEN_FILES) \
+		|| $(git) commit $(DOCS_AUTOGEN_FILES) -m \
 		'DOC: docs/usage/: dotfiles usage docs: $(shell \
-			git -C . rev-parse --short HEAD) :boat:'
+			$(git) -C . rev-parse --short HEAD) :boat:'
 
 _projectname_="dotfiles"
 
@@ -600,44 +602,44 @@ SUBTREE_PATH:='docs/tools'
 
 docs_tools_subtree_setup:
 	## docs_tools_subtree_setup  --  add a remote, fetch, checkout, read-tree
-	# git read-tree --prefix=${SUBTREE_PATH} tools_branch
-	# NOTE: about git subtree branch tag merging:
+	# $(git) read-tree --prefix=${SUBTREE_PATH} tools_branch
+	# NOTE: about $(git) subtree branch tag merging:
 	#  - remote_tags that do not exist are created (* e.g. version sort collision)
 	#  - new tags that conflict with remote_tags must then be set with -f
 	#  - remote_tags that do exist are not overwritten
-	git remote show '$(SUBTREE_REMOTE)' \
-		|| git remote add -f '$(SUBTREE_REMOTE)' '$(SUBTREE_SRC)'
-	git fetch '$(SUBTREE_REMOTE)'
-	git checkout --track -B '$(SUBTREE_BRANCH)' \
+	$(git) remote show '$(SUBTREE_REMOTE)' \
+		|| $(git) remote add -f '$(SUBTREE_REMOTE)' '$(SUBTREE_SRC)'
+	$(git) fetch '$(SUBTREE_REMOTE)'
+	$(git) checkout --track -B '$(SUBTREE_BRANCH)' \
 		'$(SUBTREE_REMOTE)/$(SUBTREE_BRANCH)'
-	git checkout '$(SUBTREE_SRC_BRANCH)'
-	git read-tree --prefix='$(SUBTREE_SRC_PATH)/' '$(SUBTREE_BRANCH)'
-	git add '$(SUBTREE_PATH)' && \
-		git commit '$(SUBTREE_PATH)' -m \
+	$(git) checkout '$(SUBTREE_SRC_BRANCH)'
+	$(git) read-tree --prefix='$(SUBTREE_SRC_PATH)/' '$(SUBTREE_BRANCH)'
+	$(git) add '$(SUBTREE_PATH)' && \
+		$(git) commit '$(SUBTREE_PATH)' -m \
 			'DOC: $(SUBTREE_PATH): :boat: Merge in from $(SUBTREE_SRC) $(shell \
-				git -C . rev-parse --short HEAD)'
+				$(git) -C . rev-parse --short HEAD)'
 
 
 docs_tools_subtree_diff:
-	git diff-tree -p tools_branch
+	$(git) diff-tree -p tools_branch
 
 docs_tools_subtree_merge: docs_tools_subtree_diff
 	# Pull in changes and generate a squashed commit
-	# git fetch
-	git fetch tools_remote
-	git checkout tools_branch
-	git pull
-	git checkout master
-	#git merge --squash -s subtree --no-commit tools_branch
-	git merge --squash -s ours -Xsubtree=docs/tools.git/ --no-commit tools_branch
-	git diff --cached
-	git diff
+	# $(git) fetch
+	$(git) fetch tools_remote
+	$(git) checkout tools_branch
+	$(git) pull
+	$(git) checkout master
+	#$(git) merge --squash -s subtree --no-commit tools_branch
+	$(git) merge --squash -s ours -Xsubtree=docs/tools.git/ --no-commit tools_branch
+	$(git) diff --cached
+	$(git) diff
 
 docs_tools_submodule:
-	git -C docs/tools/ pull origin master
+	$(git) -C docs/tools/ pull origin master
 
 docs_tools_submodule_upgrade: docs_tools_submodule
-	git commit docs/tools -m "DOC: docs/tools: pull latest: $(shell git -C docs/tools rev-parse --short HEAD)"
+	$(git) commit docs/tools -m "DOC: docs/tools: pull latest: $(shell $(git) -C docs/tools rev-parse --short HEAD)"
 
 docs-tools: docs_tools_submodule_upgrade docs
 
@@ -694,42 +696,42 @@ open:
 
 update_get-pip.py:
 	cd ./scripts && wget 'https://bootstrap.pypa.io/get-pip.py'
-	git add ./scripts/get-pip.py
-	git diff --cached ./scripts/get-pip.py
+	$(git) add ./scripts/get-pip.py
+	$(git) diff --cached ./scripts/get-pip.py
 
 update_bootstrap-salt.sh:
 	@#cd ./scripts && wget 'https://raw.githubusercontent.com/saltstack/salt-bootstrap/develop/bootstrap-salt.sh'
 	cd ./scripts && wget 'https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh'
-	git add ./scripts/bootstrap-salt.sh
-	git diff --cached ./scripts/bootstrap-salt.sh
+	$(git) add ./scripts/bootstrap-salt.sh
+	$(git) diff --cached ./scripts/bootstrap-salt.sh
 
 update_manifest:
 	python setup.py git_manifest
-	git add ./MANIFEST.in
-	git diff --cached --exit-code ./MANIFEST.in || \
-		git commit ./MANIFEST.in \
+	$(git) add ./MANIFEST.in
+	$(git) diff --cached --exit-code ./MANIFEST.in || \
+		$(git) commit ./MANIFEST.in \
 		-m "RLS: MANIFEST.in: :boat: python setup.py git_manifest"
 
 start-release:
-	# start-release   -- git hf release start ${VERSION} (VERSION="0.1.0")
+	# start-release   -- $(git) hf release start ${VERSION} (VERSION="0.1.0")
 	#   VERSION (str): version string without a 'v' prefix (e.g "0.1.0")
-	git hf release start '$(VERSION)'
+	$(git) hf release start '$(VERSION)'
 
 VERSION_TXT:=VERSION.txt
 release: clean
 	# release         -- finish a release that is already started
 	#   VERSION (str): version string without prefix (e.g "0.1.0")
 	test -n '$(VERSION)'
-	#git hf release start $(VERSION)
+	#$(git) hf release start $(VERSION)
 	echo '$(VERSION)' > '$(VERSION_TXT)'
-	git add '$(VERSION_TXT)'
-	git diff --cached --exit-code ./VERSION.txt || \
-		git commit '$(VERSION_TXT)' -m \
+	$(git) add '$(VERSION_TXT)'
+	$(git) diff --cached --exit-code ./VERSION.txt || \
+		$(git) commit '$(VERSION_TXT)' -m \
 			"RLS: VERSION.txt: $(VERSION) :boat:"
 	$(MAKE) docs
 	$(MAKE) update_manifest
-	git hf release finish '$(VERSION)' || \
-		git hf release finish '$(VERSION)'
+	$(git) hf release finish '$(VERSION)' || \
+		$(git) hf release finish '$(VERSION)'
 	#$(MAKE) upload
 
 upload:
@@ -746,14 +748,14 @@ gh-pages:
 	# Push docs to gh-pages branch with a .nojekyll file
 	ghp-import -n -b '${DOCS_GIT_HTML_BRANCH}' -p '${BUILDDIRHTML}' \
 		-m 'DOC,RLS: :books: docs built from: $(shell cat ${DOCS_REV_TXT})'
-	git log -n3 --stat '${DOCS_GIT_HTML_BRANCH}'
+	$(git) log -n3 --stat '${DOCS_GIT_HTML_BRANCH}'
 
 
 pull:
-	git pull
+	$(git) pull
 
 push:
-	git push
+	$(git) push
 
 
 test_show_env:
@@ -764,9 +766,9 @@ test_show_env:
 checkout_gitflow:
 	test -d src/gitflow \
 		&& (cd src/gitflow \
-			&& git pull \
-			&& git checkout master) \
-		|| git clone https://github.com/nvie/gitflow src/gitflow
+			&& $(git) pull \
+			&& $(git) checkout master) \
+		|| $(git) clone https://github.com/nvie/gitflow src/gitflow
 
 install_gitflow:
 	$(MAKE) checkout_gitflow
@@ -781,9 +783,9 @@ install_gitflow_system:
 checkout_hubflow:
 	test -d src/hubflow \
 		&& (cd src/hubflow \
-			&& git pull \
-			&& git checkout master) \
-		|| git clone https://github.com/datasift/gitflow src/hubflow
+			&& $(git) pull \
+			&& $(git) checkout master) \
+		|| $(git) clone https://github.com/datasift/gitflow src/hubflow
 
 install_hubflow:
 	$(MAKE) checkout_hubflow
@@ -847,37 +849,37 @@ pwd:
 	make -C src/pwd open || websh.py ./scripts/pwd.html
 
 vendor-pwd:
-	cd src/pwd && git branch -a && git log -1 && git status
+	cd src/pwd && $(git) branch -a && $(git) log -1 && $(git) status
 	cp src/pwd/pwd/html/index.html ./scripts/pwd.html
-	git add ./scripts/pwd.html
-	git diff --cached ./scripts/pwd.html
-	git commit ./scripts/pwd.html -m \
+	$(git) add ./scripts/pwd.html
+	$(git) diff --cached ./scripts/pwd.html
+	$(git) commit ./scripts/pwd.html -m \
 		"RLS: scripts/pwd.html: :fast_forward: https://github.com/westurner/pwd/commit/$(shell \
-		git -C src/pwd rev-parse --short HEAD)" && git log -1
+		$(git) -C src/pwd rev-parse --short HEAD)" && $(git) log -1
 
 vendor-pyline:
-	cd src/pyline && git branch -a && git log -1 && git status
+	cd src/pyline && $(git) branch -a && $(git) log -1 && $(git) status
 	cp src/pyline/pyline/pyline.py ./scripts/pyline.py
-	git add ./scripts/pyline.py
-	git diff --cached ./scripts/pyline.py
-	git commit ./scripts/pyline.py -m \
+	$(git) add ./scripts/pyline.py
+	$(git) diff --cached ./scripts/pyline.py
+	$(git) commit ./scripts/pyline.py -m \
 		"RLS: scripts/pyline.py: :fast_forward: https://github.com/westurner/pyline/commit/$(shell \
-		git -C src/pyline rev-parse --short HEAD)" && git log -1
+		$(git) -C src/pyline rev-parse --short HEAD)" && $(git) log -1
 
 vendor-pyrpo:
-	cd src/pyrpo && git branch -a && git log -1 && git status
+	cd src/pyrpo && $(git) branch -a && $(git) log -1 && $(git) status
 	cp src/pyrpo/pyrpo/pyrpo.py ./scripts/pyrpo.py
-	git add ./scripts/pyrpo.py
-	git diff --cached ./scripts/pyrpo.py
-	git commit ./scripts/pyrpo.py -m \
+	$(git) add ./scripts/pyrpo.py
+	$(git) diff --cached ./scripts/pyrpo.py
+	$(git) commit ./scripts/pyrpo.py -m \
 		"RLS: scripts/pyrpo.py: :fast_forward: https://github.com/westurner/pyrpo/commit/$(shell \
-		git -C src/pyrpo rev-parse --short HEAD)" && git log -1
+		$(git) -C src/pyrpo rev-parse --short HEAD)" && $(git) log -1
 
 vendor-i3t:
-	cd src/i3t && git branch -a && git log -1 && git status
+	cd src/i3t && $(git) branch -a && $(git) log -1 && $(git) status
 	cp src/i3t/i3t.py ./scripts/i3t.py
-	git add ./scripts/i3t.py
-	git diff --cached ./scripts/i3t.py
-	git commit ./scripts/i3t.py -m \
+	$(git) add ./scripts/i3t.py
+	$(git) diff --cached ./scripts/i3t.py
+	$(git) commit ./scripts/i3t.py -m \
 		"RLS: scripts/i3t.py: :fast_forward: https://github.com/westurner/i3t/commit/$(shell \
-		git -C src/i3t rev-parse --short HEAD)" && git log -1
+		$(git) -C src/i3t rev-parse --short HEAD)" && $(git) log -1
