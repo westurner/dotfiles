@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>venv &mdash; westurner/dotfiles b&#39;0.9.0&#39; documentation</title>
+    <title>venv &mdash; westurner/dotfiles 0.9.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     'b&#39;0.9.0&#39;',
+            VERSION:     '0.9.0',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -66,7 +66,7 @@
 </script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="westurner/dotfiles b&#39;0.9.0&#39; documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="index.html" />
     <link rel="next" title="usrlog" href="usrlog.html" />
     <link rel="prev" title="Usage (dhelp)" href="usage/dhelp.html" /> 
   </head>
@@ -80,7 +80,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.9.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -241,14 +241,14 @@
                   
   <span class="target" id="index-0"></span><div class="section" id="venv">
 <span id="index-1"></span><span id="id1"></span><h1>venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h1>
-<p>venv makes working with <span class="xref std std-ref">virtualenv</span>,
-<span class="xref std std-ref">virtualenvwrapper</span>, <span class="xref std std-ref">Bash</span>, <span class="xref std std-ref">ZSH</span>,
-<span class="xref std std-ref">Vim</span>, and <span class="xref std std-ref">IPython</span> within a project context very easy.</p>
+<p>venv makes working with <a class="reference internal" href="tools/index.html#virtualenv"><span class="std std-ref">Virtualenv</span></a>,
+<a class="reference internal" href="tools/index.html#virtualenvwrapper"><span class="std std-ref">Virtualenvwrapper</span></a>, <a class="reference internal" href="tools/index.html#bash"><span class="std std-ref">Bash</span></a>, <a class="reference internal" href="tools/index.html#zsh"><span class="std std-ref">ZSH</span></a>,
+<a class="reference internal" href="tools/index.html#vim"><span class="std std-ref">Vim</span></a>, and <a class="reference internal" href="tools/index.html#ipython"><span class="std std-ref">IPython</span></a> within a project context very easy.</p>
 <p>There are a few parts to <code class="docutils literal notranslate"><span class="pre">venv</span></code>:</p>
 <ul class="simple">
 <li><a class="reference internal" href="#venv-py">venv.py</a> is a CLI script for generating <a class="reference internal" href="#shell-configuration">shell configuration</a>
 and <a class="reference internal" href="#cdalias">CdAlias</a>
-scripts for <span class="xref std std-ref">Bash</span>, <span class="xref std std-ref">ZSH</span>, <span class="xref std std-ref">IPython</span>, and <span class="xref std std-ref">Vim</span>.</li>
+scripts for <a class="reference internal" href="tools/index.html#bash"><span class="std std-ref">Bash</span></a>, <a class="reference internal" href="tools/index.html#zsh"><span class="std std-ref">ZSH</span></a>, <a class="reference internal" href="tools/index.html#ipython"><span class="std std-ref">IPython</span></a>, and <a class="reference internal" href="tools/index.html#vim"><span class="std std-ref">Vim</span></a>.</li>
 <li><a class="reference internal" href="#venv-py">venv.py</a> is a symlink to <code class="docutils literal notranslate"><span class="pre">venv_ipyconfig.py</span></code>.</li>
 <li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py">venv_ipyconfig.py</a>
 (<a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipyconfig" title="dotfiles.venv.venv_ipyconfig"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipyconfig</span></code></a>) generates shell
@@ -260,13 +260,13 @@ startup (e.g. symlinked as
 configures
 <a class="reference internal" href="dotfiles.venv.html#dotfiles.venv.venv_ipyconfig.CdAlias" title="dotfiles.venv.venv_ipyconfig.CdAlias"><code class="xref py py-class docutils literal notranslate"><span class="pre">CdAliases</span></code></a>
 and the <code class="docutils literal notranslate"><span class="pre">dotfiles_status</span></code> (<code class="docutils literal notranslate"><span class="pre">ds</span></code>) command
-for <span class="xref std std-ref">IPython</span>.</li>
-<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <span class="xref std std-ref">Bash</span> at startup
+for <a class="reference internal" href="tools/index.html#ipython"><span class="std std-ref">IPython</span></a>.</li>
+<li><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh">10-bashrc.venv.sh</a> configures <a class="reference internal" href="tools/index.html#bash"><span class="std std-ref">Bash</span></a> at startup
 (see: <a class="reference internal" href="usage/index.html#dotfiles-bash-config"><span class="std std-ref">Usage &gt; Bash</span></a>)</li>
 </ul>
 <p>To configure a shell, print relevant env variables (twice),
 <code class="docutils literal notranslate"><span class="pre">cd</span></code> to the working directory (<code class="docutils literal notranslate"><span class="pre">$_WRD</span></code>),
-and open <code class="docutils literal notranslate"><span class="pre">README.rst</span></code> in a named <span class="xref std std-ref">Vim</span> server for an existing
+and open <code class="docutils literal notranslate"><span class="pre">README.rst</span></code> in a named <a class="reference internal" href="tools/index.html#vim"><span class="std std-ref">Vim</span></a> server for an existing
 venv named <code class="docutils literal notranslate"><span class="pre">dotfiles</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>we dotfiles<span class="p">;</span> ds<span class="p">;</span> cdwrd<span class="p">;</span> e README.rst
 </pre></div>
@@ -280,7 +280,7 @@ create these like so:</p>
 mkdir -p <span class="nv">$_WRD</span>
 </pre></div>
 </div>
-<p>Or, to create a more complete <span class="xref std std-ref">FHS</span> tree of directories under
+<p>Or, to create a more complete <a class="reference internal" href="tools/index.html#fhs"><span class="std std-ref">Filesystem Hierarchy Standard</span></a> tree of directories under
 <code class="docutils literal notranslate"><span class="pre">$VIRTUAL_ENV</span></code>:</p>
 <div class="last highlight-bash notranslate"><div class="highlight"><pre><span></span>venv_mkdirs<span class="p">;</span> mkdir -p <span class="nv">$_WRD</span>
 </pre></div>
@@ -784,7 +784,7 @@ _WRD=&quot;${_SRC}/{_APP}&quot;                         # cdw cdwrd
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.9.0 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       

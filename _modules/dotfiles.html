@@ -9,7 +9,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- OpenGraph metadata: ogp.me -->
-    <meta property="og:title" content="Overview: module code" />
+    <meta property="og:title" content="dotfiles" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="westurner/dotfiles" />
     <!--
@@ -23,12 +23,12 @@
     -->
     <!-- Twitter metadata -->
     <meta property="twitter:card" content="summary" />
-    <meta property="twitter:title" content="Overview: module code" />
+    <meta property="twitter:title" content="dotfiles" />
     <meta property="twitter:description" content="Documentation for the dotfiles project" />
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>Overview: module code &mdash; westurner/dotfiles 0.9.0 documentation</title>
+    <title>dotfiles &mdash; westurner/dotfiles 0.9.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -66,7 +66,8 @@
 </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="../index.html" /> 
+    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
@@ -86,6 +87,7 @@
             
               <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+              <li><a href="index.html" accesskey="U">Module code</a></li>
             
 
             <li class="visible-xs">
@@ -151,15 +153,56 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="dotfiles.html">dotfiles</a></li>
-<ul><li><a href="dotfiles/cli/cli.html">dotfiles.cli.cli</a></li>
-<li><a href="dotfiles/venv/ipython_config.html">dotfiles.venv.ipython_config</a></li>
-<li><a href="dotfiles/venv/ipython_magics.html">dotfiles.venv.ipython_magics</a></li>
-<li><a href="dotfiles/venv/venv.html">dotfiles.venv.venv</a></li>
-<li><a href="dotfiles/venv/venv_ipyconfig.html">dotfiles.venv.venv_ipyconfig</a></li>
-<li><a href="dotfiles/venv/venv_ipymagics.html">dotfiles.venv.venv_ipymagics</a></li>
-</ul></ul>
+  <h1>Source code for dotfiles</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">dotfiles</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">opener</span><span class="p">(</span><span class="n">HERE</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">HERE</span><span class="p">,</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+<div class="viewcode-block" id="opener"><a class="viewcode-back" href="../api.html#dotfiles.opener">[docs]</a>    <span class="k">def</span> <span class="nf">opener</span><span class="p">(</span><span class="n">HERE</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">HERE</span><span class="p">,</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">__read_version_txt</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    read VERSION.txt</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: version string from the first line of ``VERSION.txt``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">pkg_resources</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_string</span><span class="p">(</span>
+            <span class="s1">&#39;dotfiles&#39;</span><span class="p">,</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">version</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">version</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">version</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">os.path</span><span class="o">,</span> <span class="nn">codecs</span>
+            <span class="n">HERE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">opener</span><span class="p">(</span><span class="n">HERE</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">version</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">version</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">raise</span>
+
+
+<span class="k">global</span> <span class="n">__version__</span>
+<span class="k">global</span> <span class="n">version</span>
+<span class="n">version</span> <span class="o">=</span> <span class="n">__version__</span> <span class="o">=</span> <span class="n">__read_version_txt</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">dotfiles</span> <span class="k">import</span> <span class="n">cli</span><span class="p">,</span> <span class="n">venv</span>
+<span class="n">__ALL__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="s1">&#39;__version__&#39;</span><span class="p">,</span> <span class="s1">&#39;venv&#39;</span><span class="p">,</span> <span class="s1">&#39;cli&#39;</span><span class="p">]</span>
+<span class="n">__main__</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">cli</span><span class="o">.</span><span class="n">main</span>
+</pre></div>
 
                 </div>
               </div>
@@ -181,6 +224,7 @@
       
         <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="index.html" >Module code</a></li>
         <li><a href="#">top</a></li> 
       
     </ul>

@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles.venv package &mdash; westurner/dotfiles b&#39;0.9.0&#39; documentation</title>
+    <title>dotfiles.venv package &mdash; westurner/dotfiles 0.9.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     'b&#39;0.9.0&#39;',
+            VERSION:     '0.9.0',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -66,7 +66,7 @@
 </script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="westurner/dotfiles b&#39;0.9.0&#39; documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="index.html" />
     <link rel="up" title="Dotfiles API" href="api.html" />
     <link rel="next" title="Developing" href="developing.html" />
     <link rel="prev" title="dotfiles.cli package" href="dotfiles.cli.html" /> 
@@ -81,7 +81,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.9.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -243,22 +243,22 @@
 <h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference internal" href="#module-dotfiles.venv.venv_ipyconfig" title="dotfiles.venv.venv_ipyconfig"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipyconfig</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py">venv_ipyconfig.py</a>):</p>
 <ul>
-<li><p class="first">Set variables for standard <span class="xref std std-ref">Virtualenv</span> paths in the environment dict
+<li><p class="first">Set variables for standard <a class="reference internal" href="tools/index.html#virtualenv"><span class="std std-ref">Virtualenv</span></a> paths in the environment dict
 (“<span class="xref std std-ref">Venv Paths</span>”)</p>
 </li>
-<li><p class="first">Define <span class="xref std std-ref">IPython</span> aliases (<code class="docutils literal notranslate"><span class="pre">%aliases</span></code>)</p>
+<li><p class="first">Define <a class="reference internal" href="tools/index.html#ipython"><span class="std std-ref">IPython</span></a> aliases (<code class="docutils literal notranslate"><span class="pre">%aliases</span></code>)</p>
 </li>
 <li><p class="first">Serialize variables and aliases to:</p>
 <ul>
-<li><p class="first"><span class="xref std std-ref">IPython</span> configuration (variables, aliases)</p>
+<li><p class="first"><a class="reference internal" href="tools/index.html#ipython"><span class="std std-ref">IPython</span></a> configuration (variables, aliases)</p>
 </li>
-<li><p class="first"><span class="xref std std-ref">Bash</span>/<span class="xref std std-ref">ZSH</span> configuration (variables, aliases, functions):</p>
+<li><p class="first"><a class="reference internal" href="tools/index.html#bash"><span class="std std-ref">Bash</span></a>/<a class="reference internal" href="tools/index.html#zsh"><span class="std std-ref">ZSH</span></a> configuration (variables, aliases, functions):</p>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">venv</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">e</span> <span class="o">--</span><span class="n">bash</span>        <span class="c1"># venv --print-bash --from-environ</span>
 <span class="n">venv</span><span class="o">.</span><span class="n">py</span> <span class="n">dotfiles</span> <span class="o">--</span><span class="n">bash</span>  <span class="c1"># venv --print-bash --wh=~/-wrk/-ve27 --ve=dotfiles</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first"><span class="xref std std-ref">JSON-</span> (variables, aliases) [<code class="docutils literal notranslate"><span class="pre">--print</span></code>]:</p>
+<li><p class="first"><a class="reference internal" href="tools/index.html#json"><span class="std std-ref">JSON</span></a> (variables, aliases) [<code class="docutils literal notranslate"><span class="pre">--print</span></code>]:</p>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">venv</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">e</span> <span class="o">--</span><span class="n">json</span>
 <span class="n">venv</span><span class="o">.</span><span class="n">py</span> <span class="n">dotfiles</span> <span class="o">--</span><span class="n">json</span>
 </pre></div>
@@ -269,7 +269,7 @@
 </ul>
 <p><a class="reference internal" href="#module-dotfiles.venv.venv_ipymagics" title="dotfiles.venv.venv_ipymagics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dotfiles.venv.venv_ipymagics</span></code></a> (<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipymagics.py">venv_ipymagics.py</a>):</p>
 <ul class="simple">
-<li>Configure <span class="xref std std-ref">IPython</span> <code class="docutils literal notranslate"><span class="pre">%magic</span></code> commands<ul>
+<li>Configure <a class="reference internal" href="tools/index.html#ipython"><span class="std std-ref">IPython</span></a> <code class="docutils literal notranslate"><span class="pre">%magic</span></code> commands<ul>
 <li><code class="docutils literal notranslate"><span class="pre">ds</span></code>  – print dotfiles_status</li>
 <li><code class="docutils literal notranslate"><span class="pre">cd*</span></code> – <span class="xref std std-ref">CdAliases</span> for <span class="xref std std-ref">Venv Paths</span>
 (e.g. <code class="docutils literal notranslate"><span class="pre">%cdhelp</span></code>, <code class="docutils literal notranslate"><span class="pre">%cdp</span></code>, <code class="docutils literal notranslate"><span class="pre">%cdwh</span></code>, <code class="docutils literal notranslate"><span class="pre">%cdv</span></code>, <code class="docutils literal notranslate"><span class="pre">%cds</span></code>, <code class="docutils literal notranslate"><span class="pre">%cdw</span></code>)</li>
@@ -302,7 +302,7 @@ build-venv.sh:
 </div>
 <div class="section" id="ipython">
 <h3>IPython<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h3>
-<p>To configure <span class="xref std std-ref">IPython</span> with venv, <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py">venv_ipyconfig.py</a>
+<p>To configure <a class="reference internal" href="tools/index.html#ipython"><span class="std std-ref">IPython</span></a> with venv, <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipyconfig.py">venv_ipyconfig.py</a>
 must be symlinked into <code class="docutils literal notranslate"><span class="pre">~/.ipython/profile_default/ipython_config.py</span></code>
 and, optionally, for <span class="xref std std-ref">CdAliases</span>,
 <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/src/dotfiles/venv/venv_ipymagics.py">venv_ipymagics.py</a> must be symlinked
@@ -6368,7 +6368,7 @@ and return (output, _stdout, _stderr)</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.9.0 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       

@@ -28,7 +28,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>usrlog &mdash; westurner/dotfiles b&#39;0.9.0&#39; documentation</title>
+    <title>usrlog &mdash; westurner/dotfiles 0.9.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -48,7 +48,7 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     'b&#39;0.9.0&#39;',
+            VERSION:     '0.9.0',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
@@ -66,8 +66,8 @@
 </script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="westurner/dotfiles b&#39;0.9.0&#39; documentation" href="index.html" />
-    <link rel="next" title="Dotfiles API" href="api.html" />
+    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="index.html" />
+    <link rel="next" title="Tools" href="tools/index.html" />
     <link rel="prev" title="venv" href="venv.html" /> 
   </head>
   <body role="document">
@@ -80,7 +80,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.9.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -117,7 +117,7 @@
 
             
               <li><a href="venv.html" title="venv" accesskey="P">previous </a></li>
-              <li><a href="api.html" title="Dotfiles API" accesskey="N">next </a></li>
+              <li><a href="tools/index.html" title="Tools" accesskey="N">next </a></li>
               <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
               <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
             
@@ -183,8 +183,8 @@
   <p class="topless"><a href="venv.html"
                         title="previous chapter">venv</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="api.html"
-                        title="next chapter">Dotfiles API</a></p>
+  <p class="topless"><a href="tools/index.html"
+                        title="next chapter">Tools</a></p>
 <div id="searchbox" role="search">
   <h3>Quick search</h3>
   <form class="search form-inline" action="search.html" method="get">
@@ -251,11 +251,11 @@
                   
   <div class="section" id="usrlog">
 <span id="index-0"></span><span id="id1"></span><h1>usrlog<a class="headerlink" href="#usrlog" title="Permalink to this headline">¶</a></h1>
-<p>usrlog: Shell CLI REPL command logs in userspace (per <span class="xref std std-ref">virtualenv</span>)</p>
+<p>usrlog: Shell CLI REPL command logs in userspace (per <a class="reference internal" href="tools/index.html#virtualenv"><span class="std std-ref">Virtualenv</span></a>)</p>
 <ul class="simple">
 <li><a class="reference internal" href="#id4">-usrlog.log format</a> – <code class="docutils literal notranslate"><span class="pre">-usrlog.log</span></code> log files</li>
-<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a> – <span class="xref std std-ref">Bash</span>, <span class="xref std std-ref">ZSH</span> shell script (append, grep)</li>
-<li><a class="reference internal" href="#usrlog-py">usrlog.py</a> – <span class="xref std std-ref">Python</span> commandline parsing script (parse, ~grep)</li>
+<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a> – <a class="reference internal" href="tools/index.html#bash"><span class="std std-ref">Bash</span></a>, <a class="reference internal" href="tools/index.html#zsh"><span class="std std-ref">ZSH</span></a> shell script (append, grep)</li>
+<li><a class="reference internal" href="#usrlog-py">usrlog.py</a> – <a class="reference internal" href="tools/index.html#python"><span class="std std-ref">Python</span></a> commandline parsing script (parse, ~grep)</li>
 </ul>
 <div class="section" id="usrlog-sh">
 <span id="index-1"></span><span id="id2"></span><h2>usrlog.sh<a class="headerlink" href="#usrlog-sh" title="Permalink to this headline">¶</a></h2>
@@ -265,8 +265,8 @@
 <p>usrlog logs the most recent userspace
 interactive shell commandline CLI command to <code class="docutils literal notranslate"><span class="pre">$_USRLOG</span></code>
 <strong>after</strong> the shell command completes,
-with <span class="xref std std-ref">Bash</span> <code class="docutils literal notranslate"><span class="pre">PROMPT_COMMAND</span></code>
-and <span class="xref std std-ref">ZSH</span> <code class="docutils literal notranslate"><span class="pre">precmd_functions</span></code> (see: <a class="reference internal" href="#caveats">Caveats</a>).</p>
+with <a class="reference internal" href="tools/index.html#bash"><span class="std std-ref">Bash</span></a> <code class="docutils literal notranslate"><span class="pre">PROMPT_COMMAND</span></code>
+and <a class="reference internal" href="tools/index.html#zsh"><span class="std std-ref">ZSH</span></a> <code class="docutils literal notranslate"><span class="pre">precmd_functions</span></code> (see: <a class="reference internal" href="#caveats">Caveats</a>).</p>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># setup bash</span>
 <span class="k">if</span> <span class="p">[</span> <span class="o">-</span><span class="n">n</span> <span class="s2">&quot;$BASH&quot;</span> <span class="p">];</span> <span class="n">then</span>
     <span class="n">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">&quot;_usrlog_writecmd; _usrlog_echo_title;&quot;</span>
@@ -292,12 +292,12 @@ echo &quot;${_USRLOG}&quot;$&#39;\t&#39;&quot;${_TERM_ID}&quot;         # dotfil
 <ul>
 <li><p class="first">Initial Use Case: merge <code class="docutils literal notranslate"><span class="pre">.bash_history</span></code> and <code class="docutils literal notranslate"><span class="pre">.zsh_history</span></code> files</p>
 </li>
-<li><p class="first">append each <span class="xref std std-ref">Bash</span> or <span class="xref std std-ref">ZSH</span> userspace commandstr to one file:</p>
+<li><p class="first">append each <a class="reference internal" href="tools/index.html#bash"><span class="std std-ref">Bash</span></a> or <a class="reference internal" href="tools/index.html#zsh"><span class="std std-ref">ZSH</span></a> userspace commandstr to one file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_USRLOG</span><span class="o">=</span><span class="s2">&quot;$</span><span class="si">{HOME}</span><span class="s2">/-usrlog.log&quot;</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">append each <span class="xref std std-ref">Bash</span> or <span class="xref std std-ref">ZSH</span> userspace commandstr to one file
+<li><p class="first">append each <a class="reference internal" href="tools/index.html#bash"><span class="std std-ref">Bash</span></a> or <a class="reference internal" href="tools/index.html#zsh"><span class="std std-ref">ZSH</span></a> userspace commandstr to one file
 per <code class="docutils literal notranslate"><span class="pre">$VIRTUAL_ENV</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_USRLOG</span><span class="o">=</span><span class="s2">&quot;$</span><span class="si">{VIRTUAL_ENV}</span><span class="s2">/-usrlog.log&quot;</span>
 </pre></div>
@@ -345,7 +345,7 @@ in order to support really any string (such as URI fragments):</p>
 <div class="section" id="usrlog-venv-integration">
 <span id="index-2"></span><span id="id3"></span><h4>usrlog venv integration<a class="headerlink" href="#usrlog-venv-integration" title="Permalink to this headline">¶</a></h4>
 <ul>
-<li><p class="first"><span class="xref std std-ref">venv</span> (<span class="xref std std-ref">virtualenvwrapper</span> <span class="xref std std-ref">virtualenvs</span>):</p>
+<li><p class="first"><a class="reference internal" href="tools/index.html#venv"><span class="std std-ref">Venv</span></a> (<a class="reference internal" href="tools/index.html#virtualenvwrapper"><span class="std std-ref">Virtualenvwrapper</span></a> <a class="reference internal" href="tools/index.html#virtualenv"><span class="std std-ref">virtualenvs</span></a>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>echo &quot;${_USRLOG}&quot;        # _USRLOG=$HOME/-usrlog.log
 echo &quot;${HISTFILE}&quot;       # HISTFILE=$HOME/.bash_history
 
@@ -382,7 +382,7 @@ function _usrlog_set_title {
 </pre></div>
 </div>
 </li>
-<li><p class="first"><code class="docutils literal notranslate"><span class="pre">_usrlog_grep_venv</span></code> – find commands pertaining to <span class="xref std std-ref">venv</span></p>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">_usrlog_grep_venv</span></code> – find commands pertaining to <a class="reference internal" href="tools/index.html#venv"><span class="std std-ref">Venv</span></a></p>
 </li>
 </ul>
 <span class="target" id="index-3"></span></div>
@@ -399,7 +399,7 @@ function _usrlog_set_title {
 </ul>
 </li>
 <li>-usrlog.log format parsers:<ul>
-<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a>: <code class="docutils literal notranslate"><span class="pre">ugp</span> <span class="pre">(_usrlog_parse_cmds)</span></code> (<span class="xref std std-ref">pyline</span>)</li>
+<li><a class="reference internal" href="#usrlog-sh">usrlog.sh</a>: <code class="docutils literal notranslate"><span class="pre">ugp</span> <span class="pre">(_usrlog_parse_cmds)</span></code> (<a class="reference internal" href="tools/index.html#pyline"><span class="std std-ref">Pyline</span></a>)</li>
 <li><a class="reference internal" href="#usrlog-py">usrlog.py</a></li>
 </ul>
 </li>
@@ -561,12 +561,12 @@ $
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles b&#39;0.9.0&#39; documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.9.0 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
         <li><a href="venv.html" title="venv" >previous</a></li>
-        <li><a href="api.html" title="Dotfiles API" >next</a></li>
+        <li><a href="tools/index.html" title="Tools" >next</a></li>
         <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
         <li><a href="genindex.html" title="General Index" >index</a></li>
         <li><a href="#">top</a></li> 
