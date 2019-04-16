@@ -155,7 +155,7 @@ pyrpo.py
 | Src: https://github.com/westurner/pyrpo
 | PyPI: https://pypi.python.org/pypi/pyrpo
 
-Wrap version control system commandline interfaces
+``pyrpo.py`` wraps version control system CLI interfaces.
 
 
 web.sh
@@ -163,7 +163,12 @@ web.sh
 | Src: https://github.com/westurner/web.sh
 | PyPI: https://pypi.python.org/pypi/web.sh
 
-Launch browser tabs for each argument (OSX, Linux, webbrowser)
+``web.sh`` is a packaged Python script that
+launches browser tabs for each CLI argument
+on OSX, Linux, or with ``python -m webbrowser``.
+
+``scripts/web`` is symlinked to ``scripts/websh.py``
+
 
 .. code:: bash
 
@@ -200,15 +205,20 @@ Scripts
 ---------
 | https://github.com/westurner/dotfiles/tree/master/scripts
 
-In ``scripts/``
+``scripts/`` is a directory for standalone scripts:
+scripts that do not require any dependencies to run.
 
+``etc/bash/05-bashrc.dotfiles`` prepends ``${__DOTFILES}/scripts`` to
+``$PATH``.
 
 dotfiles
 ~~~~~~~~~~
 
 bootstrap_dotfiles.sh
 +++++++++++++++++++++++
-Clone, update, and install dotfiles in ``$HOME``
+``bootstrap_dotfiles.sh`` is a shell script that
+clones, updates, installs dotfiles and dependencies,
+and adds symlinks into ``$HOME``
 
 See: `bootstrap_dotfiles.sh`_
 
@@ -218,46 +228,56 @@ venv
 
 venv.py
 +++++++++
-See: :ref:`venv`See: bootstrap
+See the :ref:`venv` docs.
 
 venv_relabel.sh
 +++++++++++++++++
+``venv_relabel.sh`` adds SELinux labels to a virtualenv.
 
 venv_root_prefix.sh
 ++++++++++++++++++++++
-
+``venv_root_prefix.sh`` contains environment variables
+generated with ``venv --prefix=/ --print-vars`` in the Makefile.
 
 .. literalinclude:: ../scripts/venv_root_prefix.sh
 
 
 venv.sh
 +++++++++++
+``venv.sh`` contains the bash cdalias functions (cdwrk, cdwh, cdv,
+cdsrc, cdwrd).
+
+``venv.sh`` is generated with ``venv --print-bash --prefix=/`` in the
+Makefile.
 
 _ewrd.sh
 ++++++++++
+``_ewrd.sh`` contains the edit alias shell functions
+and shell completions.
+You can source ``_ewrd.sh``, call it directly, or call it with a symlink
+with the name of a function.
+
+``scripts/`` contains symlinks to all of the edit aliases.
 
 .. code:: bash
 
     e
     editdotfiles
+    editwrk
+    editworkonhome
+    editvirtualenv
     editetc
     editsrc
-    editvirtualenv
-    editworkonhome
     editwrd
-    editwrk
     editwww
+
     edotfiles
-    eetc
-    es
-    esrc
-    ev
-    evirtualenv
-    ew
-    ewh
-    eworkonhome
-    ewrd
     ewrk
+    ewh / eworkonhome
+    ev / evirtualenv
+    eetc
+    es / esrc
+    ew / ewrd
     ewww
    
 
@@ -344,13 +364,15 @@ See: :ref:`usrlog`
 
 usrlog.py
 +++++++++++++++++++
-Search through ``.usrlog`See: bootstrap` files
+``usrlog.py`` is a CLI script for viewing ``.usrlog`` files. You can
+pipe fields parsed with ``usrlog.py`` to `pyline.py`_ with the ``--pyline`` option and e.g. ``words[0]['cmd']``.
 
 See: :ref:`usrlog`
 
 
 git
 ~~~~
+:ref:`Git`
 
 .gitconfig
 ++++++++++++++
@@ -435,6 +457,7 @@ git-upgrade-remote-to-ssh.sh
 
 hg
 ~~~~
+:ref:`Mercurial` is also called hg.
 
 .hgrc
 ++++++++
@@ -481,17 +504,25 @@ Setup ``MathJax``
 setup_pandas_notebook_deb.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Setup ``IPython Notebook``, ``Scipy``, ``Numpy``, ``Pandas``
-with Ubuntu packages and pip
+with Ubuntu packages and pip.
+
+Note that :ref:`Conda`_ and an ``environment.yml`` are the preferred way to
+do this now.
 
 setup_pandas_notebook.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Setup ``Brew``, ``IPython Notebook``, ``scipy``, ``numpy``,
 and pandas on OSX
 
+Note that :ref:`Conda`_ and an ``environment.yml`` are the preferred way to
+do this now.
+
 setup_scipy_deb.py
 ~~~~~~~~~~~~~~~~~~~
 Install and symlink ``scipy``, ``numpy``, and ``matplotlib`` from ``apt``
 
+Note that :ref:`Conda`_ and an ``environment.yml`` are the preferred way to
+do this now.
 
 deb_deps.py
 ~~~~~~~~~~~~~~~~~~~

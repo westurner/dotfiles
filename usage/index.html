@@ -2936,7 +2936,7 @@ Execute python expressions over line-based files.</p>
 <div class="line">Src: <a class="reference external" href="https://github.com/westurner/pyrpo">https://github.com/westurner/pyrpo</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/pyrpo">https://pypi.python.org/pypi/pyrpo</a></div>
 </div>
-<p>Wrap version control system commandline interfaces</p>
+<p><code class="docutils literal notranslate"><span class="pre">pyrpo.py</span></code> wraps version control system CLI interfaces.</p>
 </div>
 <div class="section" id="web-sh">
 <h3>web.sh<a class="headerlink" href="#web-sh" title="Permalink to this headline">¶</a></h3>
@@ -2944,7 +2944,10 @@ Execute python expressions over line-based files.</p>
 <div class="line">Src: <a class="reference external" href="https://github.com/westurner/web.sh">https://github.com/westurner/web.sh</a></div>
 <div class="line">PyPI: <a class="reference external" href="https://pypi.python.org/pypi/web.sh">https://pypi.python.org/pypi/web.sh</a></div>
 </div>
-<p>Launch browser tabs for each argument (OSX, Linux, webbrowser)</p>
+<p><code class="docutils literal notranslate"><span class="pre">web.sh</span></code> is a packaged Python script that
+launches browser tabs for each CLI argument
+on OSX, Linux, or with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">webbrowser</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/web</span></code> is symlinked to <code class="docutils literal notranslate"><span class="pre">scripts/websh.py</span></code></p>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>${__DOTFILES}/scripts/websh.py  # vendored
 websh.py en.wikipedia.org/wiki/Wikipedia
 
@@ -2977,12 +2980,17 @@ web https://localhost:8080/
 <div class="line-block">
 <div class="line"><a class="reference external" href="https://github.com/westurner/dotfiles/tree/master/scripts">https://github.com/westurner/dotfiles/tree/master/scripts</a></div>
 </div>
-<p>In <code class="docutils literal notranslate"><span class="pre">scripts/</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/</span></code> is a directory for standalone scripts:
+scripts that do not require any dependencies to run.</p>
+<p><code class="docutils literal notranslate"><span class="pre">etc/bash/05-bashrc.dotfiles</span></code> prepends <code class="docutils literal notranslate"><span class="pre">${__DOTFILES}/scripts</span></code> to
+<code class="docutils literal notranslate"><span class="pre">$PATH</span></code>.</p>
 <div class="section" id="dotfiles">
 <h3>dotfiles<a class="headerlink" href="#dotfiles" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id4">
 <h4>bootstrap_dotfiles.sh<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
-<p>Clone, update, and install dotfiles in <code class="docutils literal notranslate"><span class="pre">$HOME</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">bootstrap_dotfiles.sh</span></code> is a shell script that
+clones, updates, installs dotfiles and dependencies,
+and adds symlinks into <code class="docutils literal notranslate"><span class="pre">$HOME</span></code></p>
 <p>See: <a class="reference internal" href="#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></p>
 </div>
 </div>
@@ -2990,39 +2998,48 @@ web https://localhost:8080/
 <h3>venv<a class="headerlink" href="#venv" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="venv-py">
 <h4>venv.py<a class="headerlink" href="#venv-py" title="Permalink to this headline">¶</a></h4>
-<p>See: :ref:<a href="#id5"><span class="problematic" id="id6">`</span></a>venv`See: bootstrap</p>
+<p>See the <a class="reference internal" href="../tools/index.html#venv"><span class="std std-ref">Venv</span></a> docs.</p>
 </div>
 <div class="section" id="venv-relabel-sh">
 <h4>venv_relabel.sh<a class="headerlink" href="#venv-relabel-sh" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">venv_relabel.sh</span></code> adds SELinux labels to a virtualenv.</p>
 </div>
 <div class="section" id="venv-root-prefix-sh">
 <h4>venv_root_prefix.sh<a class="headerlink" href="#venv-root-prefix-sh" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">venv_root_prefix.sh</span></code> contains environment variables
+generated with <code class="docutils literal notranslate"><span class="pre">venv</span> <span class="pre">--prefix=/</span> <span class="pre">--print-vars</span></code> in the Makefile.</p>
 </div>
 <div class="section" id="venv-sh">
 <h4>venv.sh<a class="headerlink" href="#venv-sh" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">venv.sh</span></code> contains the bash cdalias functions (cdwrk, cdwh, cdv,
+cdsrc, cdwrd).</p>
+<p><code class="docutils literal notranslate"><span class="pre">venv.sh</span></code> is generated with <code class="docutils literal notranslate"><span class="pre">venv</span> <span class="pre">--print-bash</span> <span class="pre">--prefix=/</span></code> in the
+Makefile.</p>
 </div>
 <div class="section" id="ewrd-sh">
 <h4>_ewrd.sh<a class="headerlink" href="#ewrd-sh" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">_ewrd.sh</span></code> contains the edit alias shell functions
+and shell completions.
+You can source <code class="docutils literal notranslate"><span class="pre">_ewrd.sh</span></code>, call it directly, or call it with a symlink
+with the name of a function.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/</span></code> contains symlinks to all of the edit aliases.</p>
 <div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e</span>
 <span class="n">editdotfiles</span>
+<span class="n">editwrk</span>
+<span class="n">editworkonhome</span>
+<span class="n">editvirtualenv</span>
 <span class="n">editetc</span>
 <span class="n">editsrc</span>
-<span class="n">editvirtualenv</span>
-<span class="n">editworkonhome</span>
 <span class="n">editwrd</span>
-<span class="n">editwrk</span>
 <span class="n">editwww</span>
+
 <span class="n">edotfiles</span>
-<span class="n">eetc</span>
-<span class="n">es</span>
-<span class="n">esrc</span>
-<span class="n">ev</span>
-<span class="n">evirtualenv</span>
-<span class="n">ew</span>
-<span class="n">ewh</span>
-<span class="n">eworkonhome</span>
-<span class="n">ewrd</span>
 <span class="n">ewrk</span>
+<span class="n">ewh</span> <span class="o">/</span> <span class="n">eworkonhome</span>
+<span class="n">ev</span> <span class="o">/</span> <span class="n">evirtualenv</span>
+<span class="n">eetc</span>
+<span class="n">es</span> <span class="o">/</span> <span class="n">esrc</span>
+<span class="n">ew</span> <span class="o">/</span> <span class="n">ewrd</span>
 <span class="n">ewww</span>
 </pre></div>
 </div>
@@ -3102,12 +3119,14 @@ or <code class="docutils literal notranslate"><span class="pre">$VIRTUAL_ENV/-us
 </div>
 <div class="section" id="usrlog-py">
 <h4>usrlog.py<a class="headerlink" href="#usrlog-py" title="Permalink to this headline">¶</a></h4>
-<p>Search through <a href="#id7"><span class="problematic" id="id8">``</span></a>.usrlog`See: bootstrap` files</p>
+<p><code class="docutils literal notranslate"><span class="pre">usrlog.py</span></code> is a CLI script for viewing <code class="docutils literal notranslate"><span class="pre">.usrlog</span></code> files. You can
+pipe fields parsed with <code class="docutils literal notranslate"><span class="pre">usrlog.py</span></code> to <a class="reference internal" href="#pyline-py">pyline.py</a> with the <code class="docutils literal notranslate"><span class="pre">--pyline</span></code> option and e.g. <code class="docutils literal notranslate"><span class="pre">words[0]['cmd']</span></code>.</p>
 <p>See: <a class="reference internal" href="../usrlog.html#usrlog"><span class="std std-ref">usrlog</span></a></p>
 </div>
 </div>
 <div class="section" id="git">
 <h3>git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../tools/index.html#git"><span class="std std-ref">Git</span></a></p>
 <div class="section" id="gitconfig">
 <h4>.gitconfig<a class="headerlink" href="#gitconfig" title="Permalink to this headline">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">etc/gitconfig</span></code></p>
@@ -3358,6 +3377,7 @@ git-upgrade-remote-to-ssh.sh: &lt;path&gt; &lt;remote&gt;
 </div>
 <div class="section" id="hg">
 <h3>hg<a class="headerlink" href="#hg" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../tools/index.html#mercurial"><span class="std std-ref">Mercurial</span></a> is also called hg.</p>
 <div class="section" id="hgrc">
 <h4>.hgrc<a class="headerlink" href="#hgrc" title="Permalink to this headline">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">etc/.hgrc</span></code></p>
@@ -3638,16 +3658,22 @@ starting with <code class="docutils literal notranslate"><span class="pre">DIR_<
 <div class="section" id="setup-pandas-notebook-deb-sh">
 <h3>setup_pandas_notebook_deb.sh<a class="headerlink" href="#setup-pandas-notebook-deb-sh" title="Permalink to this headline">¶</a></h3>
 <p>Setup <code class="docutils literal notranslate"><span class="pre">IPython</span> <span class="pre">Notebook</span></code>, <code class="docutils literal notranslate"><span class="pre">Scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">Numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">Pandas</span></code>
-with Ubuntu packages and pip</p>
+with Ubuntu packages and pip.</p>
+<p>Note that <a href="#id5"><span class="problematic" id="id6">:ref:`Conda`_</span></a> and an <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> are the preferred way to
+do this now.</p>
 </div>
 <div class="section" id="setup-pandas-notebook-sh">
 <h3>setup_pandas_notebook.sh<a class="headerlink" href="#setup-pandas-notebook-sh" title="Permalink to this headline">¶</a></h3>
 <p>Setup <code class="docutils literal notranslate"><span class="pre">Brew</span></code>, <code class="docutils literal notranslate"><span class="pre">IPython</span> <span class="pre">Notebook</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>,
 and pandas on OSX</p>
+<p>Note that <a href="#id7"><span class="problematic" id="id8">:ref:`Conda`_</span></a> and an <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> are the preferred way to
+do this now.</p>
 </div>
 <div class="section" id="setup-scipy-deb-py">
 <h3>setup_scipy_deb.py<a class="headerlink" href="#setup-scipy-deb-py" title="Permalink to this headline">¶</a></h3>
 <p>Install and symlink <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> from <code class="docutils literal notranslate"><span class="pre">apt</span></code></p>
+<p>Note that <a href="#id9"><span class="problematic" id="id10">:ref:`Conda`_</span></a> and an <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> are the preferred way to
+do this now.</p>
 </div>
 <div class="section" id="deb-deps-py">
 <h3>deb_deps.py<a class="headerlink" href="#deb-deps-py" title="Permalink to this headline">¶</a></h3>
@@ -3694,7 +3720,7 @@ filenamen
 </div>
 <p>TODO</p>
 <ul class="simple">
-<li><a href="#id9"><span class="problematic" id="id10">EDITOR_</span></a> and EDITOR are somewhat deprecated in favor of <code class="docutils literal notranslate"><span class="pre">scripts/e</span></code>
+<li><a href="#id11"><span class="problematic" id="id12">EDITOR_</span></a> and EDITOR are somewhat deprecated in favor of <code class="docutils literal notranslate"><span class="pre">scripts/e</span></code>
 and <code class="docutils literal notranslate"><span class="pre">scripts/ew</span></code>.<ul>
 <li>[ ] BUG: call _setup_editor in dotfiles_postactivate</li>
 </ul>

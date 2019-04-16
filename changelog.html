@@ -380,7 +380,21 @@ and docstring extraction:</p>
 </div>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ test -d ../.git &amp;&amp; \
 git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
-* 4317314  (HEAD -&gt; develop) 2019-04-14 14:13:27 -0400 [Wes Turner]
+* 968b248  (HEAD -&gt; develop, origin/develop) 2019-04-16 00:38:08 -0400 [Wes Turner]
+| ENH: scripts/git-flow-versiontag.sh: set gitflow/hubflow.prefix.versiontag v
+* 9ab87a2  2019-04-14 23:20:48 -0400 [Wes Turner]
+| RLS: scripts/pyrpo.py: :fast_forward: https://github.com/westurner/pyrpo/commit/51a02e4
+* a3cce7a  2019-04-14 22:40:08 -0400 [Wes Turner]
+| BUG: docs/conf.py, src/dotfiles/__init__.py: py3 compat
+* 699cdc3  2019-04-14 22:33:13 -0400 [Wes Turner]
+| BLD: Makefile: git:=git -P and $(git)
+* 0e82457  2019-04-14 14:23:22 -0400 [Wes Turner]
+| DOC,BLD: requirements.txt: sphinxjp.themes.basicstric@master
+* d0dfac9  2019-04-14 14:22:41 -0400 [Wes Turner]
+| DOC,BLD: conf.py: include sphinxjp.themes.basicstrap as an extension
+* cea2cff  2019-04-14 14:21:00 -0400 [Wes Turner]
+| DOCS: docs/tools: update to latest rev
+* 4317314  2019-04-14 14:13:27 -0400 [Wes Turner]
 | DOC: dotfiles.venv.rst: genereated backslash escaped \_
 * 7b49350  2019-04-14 14:11:52 -0400 [Wes Turner]
 | DOC,CLN: usrlog.rst: strip trailing spaces
@@ -412,7 +426,7 @@ git -C ../ log --pretty=format:&quot;%h %d %ci [%cn]%n%s&quot; --graph
 | DOC: docs/usage/: dotfiles usage docs: f23c704 :boat:
 * f23c704  2019-04-14 12:49:53 -0400 [Wes Turner]
 | BUG: scripts/usrlog.py: py3 compat (codecs.getreader if &lt; 3), i=-1
-* 90fb1c6  (origin/master, origin/develop, origin/HEAD, master) 2019-04-13 22:01:18 -0400 [Wes Turner]
+* 90fb1c6  (origin/master, origin/HEAD, master) 2019-04-13 22:01:18 -0400 [Wes Turner]
 | DOC: scripts/usrlog.sh: s/_USRLOG/_TERM_ID/
 * 4c015da  2019-04-13 18:34:54 -0400 [Wes Turner]
 | BUG,DOC: scripts/e: GUIVIMBIN || EDITOR_ || EDITOR || vim || vi
