@@ -6152,8 +6152,8 @@ fi
 SSH_AUTH_SOCK=/tmp/ssh-M57d1q8jsHvg/agent.6471; export SSH_AUTH_SOCK;
 SSH_AGENT_PID=6473; export SSH_AGENT_PID;
 #echo Agent pid 6473;
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+grep: grep: warning: GREP_OPTIONS is deprecated; please use an alias or scriptwarning: GREP_OPTIONS is deprecated; please use an alias or script
+
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
