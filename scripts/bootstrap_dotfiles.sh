@@ -410,6 +410,10 @@ function symlink_xmodmap {
     backup_and_symlink .Xmodmap
 }
 
+function symlink_openbox {
+    backup_and_symlink .config/openbox
+}
+
 function symlink_python {
     backup_and_symlink .pythonrc
     backup_and_symlink .pdbrc
@@ -479,6 +483,7 @@ function dotfiles_symlink_all {
     symlink_i3
     symlink_xinitrc_screensaver
     symlink_xmodmap
+    symlink_openbox
 
     # {{ full_name }}
     symlink_gitconfig
