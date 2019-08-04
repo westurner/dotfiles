@@ -19,10 +19,13 @@ function miniconda_get_download_filename {
     #    $1 (str) -- versionstr to append (3 or "")
     local verstr="${1}"
     local _uname=$(uname)
-    local _uname_m=$(uname -m)  # x86, x86_64
+    local _uname_m=$(uname -m)  # x86_64, i686
     if [ "${_uname}" == "Darwin" ]; then
         local _filename="Miniconda${verstr}-latest-MacOSX-${_uname_m}.sh"
     elif [ "${_uname}" == "Linux" ]; then
+        if [ "${_uname_m}" == "i686" ]; then
+            _uname_m="x86"
+        fi
         local _filename="Miniconda${verstr}-latest-Linux-${_uname_m}.sh"
     else
         echo "Err: uname '${_uname}' not implemented" >&2
@@ -115,7 +118,7 @@ function miniconda_setup__dotfiles_minicondas {
     local CONDA_ROOT__py27="${CONDA_ROOT__py27:-"${prefix}/-conda27"}"
     local CONDA_ROOT__py37="${CONDA_ROOT__py37:-"${prefix}/-conda37"}"
 
-    local mc2=$(miniconda_download)
+    local mc2=$(miniconda_download 2)
     echo $mc2
     local mc3=$(miniconda_download 3)
     echo $mc3
