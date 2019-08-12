@@ -60,7 +60,7 @@ function _setup_bootstrap-dotfiles {
     #DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
 
     #PIP="${HOME}/.local/bin/pip"
-    PIP="pip"
+    PIP="${PIP:-"$(which pip3 || which pip)"}"
     PIP_INSTALL="${PIP} install"
     PIP_INSTALL_USER="${PIP} install --user"
     SETUP_PY_OPTS=""
