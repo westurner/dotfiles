@@ -29,6 +29,7 @@ function _setup_bootstrap-dotfiles {
     BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
 
     PYTHON="${PYTHON:-"$(which python3 || which python)"}"
+    VIRTUALENVWRAPPER_PYTHON="${PYTHON}"
     PYVER="${PYVER:-"$( \
         "${PYTHON}" -c \
             'import sys; print("".join(map(str, sys.version_info[:2])))')"}"
