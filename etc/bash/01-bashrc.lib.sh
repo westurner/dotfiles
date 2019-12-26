@@ -45,7 +45,8 @@ PATH_remove() {
 PATH_contains() {
     # PATH_contains() -- test whether $PATH contains $1
     local _path=${1}
-    local _output=$(echo "${PATH}" | tr ':' '\n' \
+    local _output
+    _output=$(echo "${PATH}" | tr ':' '\n' \
       | grep "^${_path}$")
     if [ -z "${_output}" ]; then
         return 1
@@ -93,7 +94,7 @@ realpath () {
 }
 path () {
     # path()            -- realpath()
-    realpath ${1}
+    realpath "${1}"
 }
 
 
@@ -108,16 +109,16 @@ walkpath () {
     else
         cmd=${2:-"ls -lda --color=auto"}
     fi
-    dir=$(realpath ${dir})
-    parts=$(echo ${dir} \
+    dir=$(realpath "${dir}")
+    parts=$(echo "${dir}" \
         | awk 'BEGIN{FS="/"}{for (i=1; i < NF+2; i++) print $i}')
     paths=('/')
     unset path
     for part in $parts; do
         path="$path/$part"
-        paths=("${paths[@]}" $path)
+        paths=("${paths[@]}" "${path}")
     done
-    ${cmd} ${paths[@]}
+    ${cmd} "${paths[@]}"
 }
 
 
@@ -127,23 +128,23 @@ ensure_symlink() {
     _from=$1
     _to=$2
     _date=${3:-$(date +%FT%T%z)}  #  ISO8601 w/ tz
-    if [ -s $_from ]; then
-        _to_path=(realpath $_to)
-        _from_path=(realpath $_from)
-        if [ $_to_path == $_from_path ]; then
+    if [ -s "${_from}" ]; then
+        _to_path=$(realpath "$_to")
+        _from_path=$(realpath "$_from")
+        if [ "$_to_path" == "$_from_path" ]; then
             printf "%s already points to %s" "$_from" "$_to"
         else
             printf "%s points to %s" "$_from" "$_to"
-            mv -v ${_from} "${_from}.bkp.${_date}"
-            ln -v -s ${_to} ${_from}
+            mv -v "${_from}" "${_from}.bkp.${_date}"
+            ln -v -s "${_to}" "${_from}"
         fi
     else
-        if [ -e ${_from} ]; then
+        if [ -e "${_from}" ]; then
             printf "%s exists" "${_from}"
-            mv -v ${_from} "${_from}.bkp.${_date}"
-            ln -v -s ${_to} ${_from}
+            mv -v "${_from}" "${_from}.bkp.${_date}"
+            ln -v -s "${_to}" "${_from}"
         else
-            ln -v -s $_to $_from
+            ln -v -s "$_to" "$_from"
         fi
     fi
 }
@@ -151,5 +152,5 @@ ensure_symlink() {
 ensure_mkdir() {
     # ensure_mkdir()    -- create directory $1 if it does not yet exist
     path=$1
-    test -d ${path} || mkdir -p ${path}
+    test -d "${path}" || mkdir -p "${path}"
 }
