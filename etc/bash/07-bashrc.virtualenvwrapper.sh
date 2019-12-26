@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ### bashrc.virtualenvwrapper.sh
 #
 # Installing Virtualenvwrapper:
@@ -55,13 +56,16 @@ function _setup_virtualenvwrapper_config  {
     #  if [ -n "${__IS_MAC}" ]; then  # for brew python
     local _PATH="${HOME}/.local/bin:/usr/local/bin:${PATH}"
     if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
-        export VIRTUALENVWRAPPER_SCRIPT=$( (PATH="${_PATH}"; command -v virtualenvwrapper.sh))
+        VIRTUALENVWRAPPER_SCRIPT=$( (PATH="${_PATH}"; command -v virtualenvwrapper.sh))
+        export VIRTUALENVWRAPPER_SCRIPT
     fi
     if [ -z "${VIRTUALENVWRAPPER_PYTHON}" ]; then
-        export VIRTUALENVWRAPPER_PYTHON=$( (PATH="${_PATH}"; command -v python))
+        VIRTUALENVWRAPPER_PYTHON=$( (PATH="${_PATH}"; command -v python))
+        export VIRTUALENVWRAPPER_PYTHON
     fi
     unset VIRTUALENV_DISTRIBUTE
     if [ -n "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
+        # shellcheck disable=1090
         source "${VIRTUALENVWRAPPER_SCRIPT}"
     else
         echo "Err: VIRTUALENVWRAPPER_SCRIPT:=${VIRTUALENVWRAPPER_SCRIPT} # 404"
@@ -71,12 +75,14 @@ function _setup_virtualenvwrapper_config  {
 
 function lsvirtualenvs {
     # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
-    cmd=${@:-""}
-    (cd ${WORKON_HOME} &&
-    for venv in $(ls -adtr ${WORKON_HOME}/**/lib/python?.? | \
+    #                           if $1 is specified, run that command
+    #                           with each virtualenv path
+    cmd=( "${@}" )
+    (cd "${WORKON_HOME}" &&
+    for venv in $(ls -adtr "${WORKON_HOME}/"**/lib/python?.? | \
         sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
-        if [ -n "${cmd}" ]; then
-            $cmd $venv ;
+        if [ -n "${cmd[*]}" ]; then
+            "${cmd[@]}" "${venv}" ;
         else
             echo "${venv}" ;
         fi
@@ -90,15 +96,17 @@ function lsve {
 function backup_virtualenv {
     # backup_virtualenv()   -- backup VIRTUAL_ENV_NAME $1 to [$2]
     local venvstr="${1}"
-    local _date="$(date +'%FT%T%z')"
+    local _date
+    _date="$(date +'%FT%T%z')"
     bkpdir="${2:-"${WORKON_HOME}/_venvbkps/${_date}"}"
     test -d "${bkpdir}" || mkdir -p "${bkpdir}"
     archivename="venvstrbkp.${venvstr}.${_date}.tar.gz"
     archivepath="${bkpdir}/${archivename}"
-    (cd "${WORKON_HOME}" \
-        tar czf "${archivepath}" "${venvstr}" \
-            && echo "${archivename}" \
-            || (echo "err: ${venvstr} (${archivename})" >&2))
+    (cd "${WORKON_HOME}" || return; \
+        ( tar czf "${archivepath}" "${venvstr}" \
+        && echo "# archivename=${archivename}" ) \
+            || (echo "err: ${venvstr} (${archivename})" >&2; return 2))
+    return $?
 }
 
 function backup_virtualenvs {
@@ -109,7 +117,7 @@ function backup_virtualenvs {
     test -d "${bkpdir}" || mkdir -p "${bkpdir}"
     lsvirtualenvs
     venvs=$(lsvirtualenvs)
-    (cd "${WORKON_HOME}"; \
+    (cd "${WORKON_HOME}" || return; \
     for venv in ${venvs}; do
         backup_virtualenv "${venv}" "${bkpdir}" \
         2>> "${bkpdir}/venvbkps.err" \
@@ -121,9 +129,9 @@ function backup_virtualenvs {
 
 function dx {
     # dx()                      -- 'deactivate'
-    (declare -f 'deactivate' 2>&1 > /dev/null \
+    (declare -f 'deactivate' > /dev/null 2>&1 \
         && deactivate) || \
-    (declare -f 'dotfiles_postdeactivate' 2>&1 > /dev/null \
+    (declare -f 'dotfiles_postdeactivate' > /dev/null 2>&1 \
         && dotfiles_postdeactivate)
 }
 
@@ -147,7 +155,7 @@ function _rebuild_virtualenv {
     find -E "${_PYSITE}" -iname 'distribute*' -delete
     find -E "${_PYSITE}" -iname 'easy_install*' -delete
     find -E "${_PYSITE}" -iname 'python*' -delete
-    declare -f 'deactivate' 2>&1 > /dev/null && deactivate
+    declare -f 'deactivate' > /dev/null 2>&1 && deactivate
     mkvirtualenv -i setuptools -i wheel -i pip "${VENVSTR}"
     #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
     workon "${VENVSTR}" && \
@@ -162,7 +170,7 @@ function _rebuild_virtualenv {
     find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
         | xargs head -n1
     find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
-        | LC_ALL=C xargs  sed -i.bak -E 's,^#!.*python.*,#!'${_BIN}'/python,'
+        | LC_ALL=C xargs  sed -i.bak -E 's,^#!.*python.*,#!'"${_BIN}"'/python,'
     find "${_BIN}" -name '*.bak' -delete
 
     find "${_BIN}" -type f | grep -v '.bak$' | grep -v 'python*$' \
@@ -197,7 +205,7 @@ function _setup_virtualenvwrapper {
 
 
 
-if [[ "${BASH_SOURCE}" == "$0" ]]; then
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   _setup_virtualenvwrapper
 else
   #if [ -z "${VIRTUALENVWRAPPER_SCRIPT}" ]; then
