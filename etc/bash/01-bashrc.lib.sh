@@ -57,7 +57,7 @@ PATH_contains() {
 lightpath() {
     # lightpath()       -- display $PATH with newlines
     echo ''
-    echo $PATH | tr ':' '\n'
+    echo "$PATH" | tr ':' '\n'
 }
 
 lspath() {
@@ -68,7 +68,7 @@ lspath() {
     cmd=${1:-'ls -ald'}
     for f in $(lightpath); do
         echo "# $f";
-        ${cmd} $f/*;
+        ${cmd} "$f/"*;
         echo '#'
     done
 }
