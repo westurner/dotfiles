@@ -47,10 +47,10 @@ PATH_contains() {
     local _path=${1}
     local _output=$(echo "${PATH}" | tr ':' '\n' \
       | grep "^${_path}$")
-    if [ -z "${output}" ]; then
+    if [ -z "${_output}" ]; then
         return 1
     else
-        echo "${output}"
+        echo "${_output}"
     fi
 }
 
