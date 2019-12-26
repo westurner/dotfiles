@@ -1,14 +1,14 @@
-
+#!/usr/bin/env bash
 ### 70-bashrc.repos.sh
 
 
 function git-commit() {
-    #  git-commit()   -- git commit ${2:} -m ${1}; git log -n1 
+    #  git-commit()   -- git commit ${2:} -m ${1}; git log -n1
     (set -x;
     msg="${1}";
     shift;
-    files="${@}";
-    git commit ${files} -m "${msg}" && \
+    files=( "${@}" );
+    git commit "${files[@]}" -m "${msg}" && \
     git log -n1 --stat --decorate=full --color=always;
     )
 }
@@ -19,13 +19,13 @@ function gc() {
 }
 
 function git-add-commit() {
-    #  git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1 
+    #  git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1
     (set -x;
     msg="${1}";
     shift;
-    files="${@}";
-    git add ${files};
-    git commit ${files} -m "${msg}" && \
+    files=( "${@}" );
+    git add "${files[@]}";
+    git commit "${files[@]}" -m "${msg}" && \
     git log -n1 --stat --decorate=full --color=always;
     )
 }
@@ -101,9 +101,9 @@ setup_dotfiles_docs_venv() {
     __DOCSENV="docs"
     export __DOCS="${WORKON_HOME}/${__DOCSENV}"
     export __DOCSWWW="${__DOCS}/var/www"
-    mkvirtualenv_conda_if_available $__DOCSENV
-    workon_conda_if_available $__DOCS
-    _venv_ensure_paths $__DOCS
+    mkvirtualenv_conda_if_available "$__DOCSENV"
+    venv_mkdirs "$__DOCS"
+    workon_conda_if_available "$__DOCS"
 }
 
 setup_dotfiles_src_venv() {
@@ -126,12 +126,13 @@ setup_dotfiles_src_venv() {
     export __SRC_GIT=${__SRC_GIT}/git
     mkvirtualenv_conda_if_available $__SRCENV
     workon_conda_if_available $__SRCENV
+    _VIRTUAL_ENV="${WORKON_HOME}/${__SRCENV}"
 
-    _venv_ensure_paths ${WORKON_HOME}/${__SRCENV}
-    ensure_mkdir $__SRC
-    ensure_mkdir $__SRC/git
-    ensure_mkdir $__SRC/hg
-    ensure_mkdir ${prefix}/var/www
+    venv_mkdirs "${_VIRTUAL_ENV}"
+    ensure_mkdir "$__SRC"
+    ensure_mkdir "$__SRC/git"
+    ensure_mkdir "$__SRC/hg"
+    ensure_mkdir "${_VIRTUAL_ENV}/var/www"
 }
 
 
@@ -143,47 +144,48 @@ fixperms () {
 }
 
 # __SRC_GIT_REMOTE_URI_PREFIX   -- default git remote uri prefix
-__SRC_GIT_REMOTE_URI_PREFIX="ssh://git@git.create.wrd.nu"
+# __SRC_GIT_REMOTE_URI_PREFIX="ssh://git@git.create.wrd.nu"
 # __SRC_GIT_REMOTE_NAME         -- name for git remote v
-__SRC_GIT_REMOTE_NAME="create"
+# __SRC_GIT_REMOTE_NAME="create"
 # __SRC_HG_REMOTE_URI_PREFIX    -- default hg remote uri prefix
-__SRC_HG_REMOTE_URI_PREFIX="ssh://hg@hg.create.wrd.nu"
+# __SRC_HG_REMOTE_URI_PREFIX="ssh://hg@hg.create.wrd.nu"
 # __SRC_HG_REMOTE_NAME          -- name for hg paths
-__SRC_HG_REMOTE_NAME="create"
+# __SRC_HG_REMOTE_NAME="create"
 
-__SRC_GIT_GITOLITE_ADMIN=$HOME/gitolite-admin
+# __SRC_GIT_GITOLITE_ADMIN=$HOME/gitolite-admin
 
 Git_create_new_repo(){
     ## Create a new hosted repository with gitolite-admin
     #  $1   -- repo [user/]name (e.g. westurner/dotfiles)
     reponame=$1  # (e.g. westurner/dotfiles)
-    cd $__SRC_GIT_GITOLITE_ADMIN_REPO && \
-    ./add_repo.sh "$reponame" 
+    cd "$__SRC_GIT_GITOLITE_ADMIN_REPO" && \
+        ./add_repo.sh "$reponame"
 }
 
 Git_pushtocreate() {
     ## push a git repository to local git storage
-    #  $1   -- repo [user/]name (e.g. westurner/dotfiles) 
+    #  $1   -- repo [user/]name (e.g. westurner/dotfiles)
     reponame=$1
     repo_uri="${__SRC_GIT_URI}/${reponame}"
+    username="westurner"
     here=$(pwd)
     #  $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
     repo_local_path=$2
     remote_name=${__SRC_GIT_REMOTE_NAME}
 
-    Git_create_new_repo $reponame
-    (cd $repo_local_path;  \
-        git remote add $remote_name $repo_uri  \
+    Git_create_new_repo "$reponame"
+    (cd "$repo_local_path" || return;  \
+        git remote add "$remote_name" "$repo_uri"  \
             "${__SRC_GIT_URI}/${username}/${reponame}" && \
-        git push --all $remote_name && \
-        cd $here)
+        git push --all "$remote_name" && \
+        cd "$here" || return)
 }
 
 Hg_create_new_repo() {
     ## Create a new hosted repository with mercurial-ssh
     reponame=$1
-    cd $__SRC_HG_SERVER_REMOTE_ADMIN && \
-        ./add_repo.sh "$reponame"  # TODO: create add_repo.sh
+    (cd "$__SRC_HG_SERVER_REMOTE_ADMIN" || return && \
+        ./add_repo.sh "$reponame")  # TODO: create add_repo.sh
 }
 
 Hg_pushtocreate() {
@@ -194,7 +196,7 @@ Hg_pushtocreate() {
     here=$(pwd)
     #  $2   -- path of local repo (e.g. ~/wrk/.ve/dotfiles/src/dotfiles)
     repo_local_path=$2
-    remote_name=${__SRC_HG_REMOTE_NAME}    
+    remote_name=${__SRC_HG_REMOTE_NAME}
 }
 
 
@@ -207,16 +209,16 @@ Hgclone () {
         echo "see: update_repo $1"
         return 0
     fi
-    sudo -u hg -i /usr/bin/hg clone $url $path
-    fixperms $path
+    sudo -u hg -i /usr/bin/hg clone "$url" "$path"
+    fixperms "$path"
 }
 
 Hg() {
     path="${__SRC}/hg/$1"
     path=${path:-'.'}
     shift
-    cmd=$@
-    sudo -H -u hg -i /usr/bin/hg -R "${path}" $cmd
+    cmd=( "${@}" )
+    sudo -H -u hg -i /usr/bin/hg -R "${path}" "${cmd[@]}"
 
     #if [ $? -eq 0 ]; then
     #    fixperms ${path}
@@ -227,10 +229,10 @@ Hgcheck() {
     path="${__SRC}/$1"
     path=${path:-'.'}
     shift
-    Hg $path tags
-    Hg $path id -n
-    Hg $path id
-    Hg $path branch
+    Hg "$path" tags
+    Hg "$path" id -n
+    Hg "$path" id
+    Hg "$path" branch
 
     #TODO: last pulled time
 }
@@ -238,26 +240,26 @@ Hgcheck() {
 Hgupdate() {
     path=$1
     shift
-    Hg $path update $@
+    Hg "$path" update "${@}"
 }
 
 Hgstatus() {
     path=$1
     shift
-    Hg $path update $@
+    Hg "$path" update "${@}"
 }
 
 Hgpull() {
     path=$1
     shift
-    Hg $path pull $@
-    Hgcheck $path
+    Hg "$path" pull "${@}"
+    Hgcheck "$path"
 }
 
 Hglog() {
     path=$1
     shift
-    Hg -R $path log $@
+    Hg -R "$path" log "${@}"
 }
 
 Hgcompare () {
