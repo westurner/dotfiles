@@ -1,4 +1,4 @@
-
+#!/usr/bin/env sh
 ### bashrc.venv.pyramid.sh
 
 workon_pyramid_app() {
@@ -8,23 +8,25 @@ workon_pyramid_app() {
 
     _OPEN_TERMS=${3:-""}
 
-    _VENVCMD="workon ${_VENVNAME}"
     we "${_VENVNAME}" "${_APP}"
 
-    export _EGGSETUPPY="${_WRD}/setup.py"
-    export _EGGCFG="${_WRD}/development.ini"
-
+    # shellcheck disable=2034
+    {
+    # _VENVCMD="workon ${_VENVNAME}"
+    _EGGSETUPPY="${_WRD}/setup.py"
+    _EGGCFG="${_WRD}/development.ini"
     _EDITCFGCMD="${_EDITCMD} ${_EGGCFG}"
     _SHELLCMD="${_BIN}/pshell ${_EGGCFG}"
     _SERVECMD="${_BIN}/pserve --reload --monitor-restart ${_EGGCFG}"
     _TESTCMD="python ${_EGGSETUPPY} nosetests"
+    }
 
-    alias _serve="${_SERVECMD}"
-    alias _shell="${_SHELLCMD}"
-    alias _test="${_TESTCMD}"
-    alias _editcfg="${_EDITCFGCMD}"
-    alias _glog="hgtk -R "${_WRD}" log"
-    alias _log="hg -R "${_WRD}" log"
+    alias _serve='${_SERVECMD}'
+    alias _shell='${_SHELLCMD}'
+    alias _test='${_TESTCMD}'
+    alias _editcfg='${_EDITCFGCMD}'
+    alias _glog='hgtk -R "${_WRD}" log'
+    alias _log='hg -R "${_WRD}" log'
 
     if [ -n "${_OPEN_TERMS}" ]; then
         ${EDITOR} "${_WRD}" &
