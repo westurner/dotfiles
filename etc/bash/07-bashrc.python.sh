@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### bashrc.python.sh
 
 pypath() {
