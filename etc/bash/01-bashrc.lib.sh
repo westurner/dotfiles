@@ -1,4 +1,3 @@
-
 ### bashrc.lib.sh
 
 
@@ -9,12 +8,12 @@
 
 echo_args() {
     # echo_args         -- echo $@ (for checking quoting)
-    echo $@
+    echo "$@"
 }
 
 function_exists() {
     # function_exists() -- check whether a bash function exists
-    declare -f $1 > /dev/null
+    declare -f "$1" > /dev/null
     return $?
 }
 
