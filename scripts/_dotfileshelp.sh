@@ -58,7 +58,7 @@ function dhelp_shell {
     local _file="${1}"
     "${PYLINE}" \
         -r '^(\s*)(#+)(\s)(\s*.*)' \
-        'rgx and u"%s%s%s%s" % ((rgx.group(1), " " if len(rgx.group(2)) == 1 else rgx.group(2), rgx.group(3), rgx.group(4)))' \
+        'rgx and u"%s%s%s%s" % ((rgx.group(1), " " if len(rgx.group(2)) == 1 else rgx.group(2), rgx.group(3), rgx.group(4))) if not l.lstrip().startswith("# shellcheck") else None' \
         -f "${_file}" \
         "${_DOTFILES_GREP_NUMBER_LINES}";
 }
