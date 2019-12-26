@@ -39,5 +39,9 @@ usrlogg() {
 usrloge() {
     # usrloge() -- open $_USRLOG w/ $EDITOR_ [ --servername $VIRTUAL_ENV_NAME ]
     file=${1:-$_USRLOG}
-    lesse "+ ${file}"
+    if [ -n "${VIMCONF}" ]; then
+        ${GUIVIMBIN} ${VIMCONF} --remote-send ":tabnew + ${file}<CR>"
+    else
+        usrlogg "${file}"
+    fi
 }
