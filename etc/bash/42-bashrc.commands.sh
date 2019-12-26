@@ -1,31 +1,31 @@
-
+#!/usr/bin/env bash
 ### bashrc.commands.sh
 # usage: bash -c 'source bashrc.commands.sh; funcname <args>'
 
 chown-me () {
     # chown-me()        -- chown -Rv user
     (set -x; \
-    chown -Rv $(id -un) $@ )
+    chown -Rv "$(id -un)" "${@}" )
 }
 
 chown-me-mine () {
     # chown-me-mine()   -- chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
-    chown -Rv $(id -un):$(id -un) $@ ; \
-    chmod -Rv go-rwx $@ )
+    chown -Rv "$(id -un):$(id -un)" "${@}" ; \
+    chmod -Rv go-rwx "${@}" )
 }
 
 chown-sme () {
     # chown-sme()       -- sudo chown -Rv user
     (set -x; \
-    sudo chown -Rv $(id -un) $@ )
+    sudo chown -Rv "$(id -un)" "${@}" )
 }
 
 chown-sme-mine () {
     # chown-sme-mine()  -- sudo chown -Rv user:user && chmod -Rv go-rwx
     (set -x; \
-    sudo chown -Rv $(id -un):$(id -un) $@ ; \
-    sudo chmod -Rv go-rwx $@ )
+    sudo chown -Rv "$(id -un):$(id -un)" "${@}" ; \
+    sudo chmod -Rv go-rwx "${@}" )
 }
 
 chmod-unumask () {
