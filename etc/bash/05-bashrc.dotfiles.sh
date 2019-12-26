@@ -21,48 +21,49 @@ function shell_escape_single {
 function dotfiles_status {
     # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
-    echo HOSTNAME=$(shell_escape_single "${HOSTNAME}")
-    echo USER=$(shell_escape_single "${USER}")
-    echo __WRK=$(shell_escape_single "${__WRK}")
-    echo PROJECT_HOME=$(shell_escape_single "${PROJECT_HOME}")
+    echo HOSTNAME="$(shell_escape_single "${HOSTNAME}")"
+    echo USER="$(shell_escape_single "${USER}")"
+    echo __WRK="$(shell_escape_single "${__WRK}")"
+    echo PROJECT_HOME="$(shell_escape_single "${PROJECT_HOME}")"
     if [ -n "${CONDA_ROOT}" ]; then
-        echo CONDA_ROOT=$(shell_escape_single "${CONDA_ROOT}")
+        echo CONDA_ROOT="$(shell_escape_single "${CONDA_ROOT}")"
     fi
     if [ -n "${CONDA_ENVS_PATH}" ]; then
-        echo CONDA_ENVS_PATH=$(shell_escape_single "${CONDA_ENVS_PATH}")
+        echo CONDA_ENVS_PATH="$(shell_escape_single "${CONDA_ENVS_PATH}")"
     fi
-    echo WORKON_HOME=$(shell_escape_single "${WORKON_HOME}")
-    echo VIRTUAL_ENV_NAME=$(shell_escape_single "${VIRTUAL_ENV_NAME}")
-    echo VIRTUAL_ENV=$(shell_escape_single "${VIRTUAL_ENV}")
-    echo _SRC=$(shell_escape_single "${_SRC}")
-    echo _APP=$(shell_escape_single "${_APP}")
-    echo _WRD=$(shell_escape_single "${_WRD}")
+    echo WORKON_HOME="$(shell_escape_single "${WORKON_HOME}")"
+    echo VIRTUAL_ENV_NAME="$(shell_escape_single "${VIRTUAL_ENV_NAME}")"
+    echo VIRTUAL_ENV="$(shell_escape_single "${VIRTUAL_ENV}")"
+    echo _SRC="$(shell_escape_single "${_SRC}")"
+    echo _APP="$(shell_escape_single "${_APP}")"
+    echo _WRD="$(shell_escape_single "${_WRD}")"
     #echo "__DOCSWWW=$(shell_escape_single "${_DOCS}")
     #echo "__SRC=$(shell_escape_single "${__SRC}")
     #echo "__PROJECTSRC=$(shell_escape_single "${__PROJECTSRC}")
-    echo _USRLOG=$(shell_escape_single "${_USRLOG}")
-    echo _TERM_ID=$(shell_escape_single "${_TERM_ID}")
-    echo PATH=$(shell_escape_single "${PATH}")
-    echo __DOTFILES=$(shell_escape_single "${__DOTFILES}")
+    echo _USRLOG="$(shell_escape_single "${_USRLOG}")"
+    echo _TERM_ID="$(shell_escape_single "${_TERM_ID}")"
+    echo PATH="$(shell_escape_single "${PATH}")"
+    echo __DOTFILES="$(shell_escape_single "${__DOTFILES}")"
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
     echo "#"
     if [ -n "${_TODO}" ]; then
-        echo _TODO=$(shell_escape_single "${_TODO}")
+        echo _TODO="$(shell_escape_single "${_TODO}")"
     fi
     if [ -n "${_NOTE}" ]; then
-        echo _NOTE=$(shell_escape_single "${_NOTE}")
+        echo _NOTE="$(shell_escape_single "${_NOTE}")"
     fi
     if [ -n "${_MSG}" ]; then
-        echo _MSG=$(shell_escape_single "${_MSG}")
+        echo _MSG="$(shell_escape_single "${_MSG}")"
     fi
     echo '##'
 }
 function ds {
     # ds()                      -- print dotfiles_status
-    dotfiles_status $@
+    dotfiles_status
 }
 
     # source "${__DOTFILES}/scripts/cls"
+# shellcheck source=../../scripts/cls
 source "${__DOTFILES}/scripts/cls"
     # clr()                     -- clear scrollback
     # cls()                     -- clear scrollback and print dotfiles_status()
@@ -80,9 +81,9 @@ function debug-env {
     OUTPUT=${1:-"${_log}/$(date +"%FT%T%z").debug-env.env.log"}
     dotfiles_status
     echo "## export"
-    export | tee $OUTPUT
+    export | tee "$OUTPUT"
     echo "## alias"
-    alias | tee $OUTPUT
+    alias | tee "$OUTPUT"
     # echo "## lspath"
     # lspath | tee $OUTPUT
 }
@@ -162,7 +163,7 @@ function log_dotfiles_state {
     logdir=${_log:-"var/log"}/venv..${VIRTUAL_ENV_NAME}..${stepnum}..${logkey}
     exportslogfile=${logdir}/exports.log
     envlogfile=${logdir}/exports_env.log
-    test -n ${logdir} && test -d ${logdir} || mkdir -p ${logdir}
+    test -n "${logdir}" && mkdir -p "${logdir}"
     # XXX: PRF
     export > "${exportslogfile}"
     set > "${envlogfile}"
@@ -191,6 +192,7 @@ function dotfiles_postmkvirtualenv_help {
     echo '#   dotfiles_status                    # ds'
     echo '#   source <(venv.py -e --print-bash)  # venv.py -h'
     echo '$ venv_mkdirs  # already done in dotfiles_postmkvirtualenv   '
+    # shellcheck disable=2016
     echo '#   mkdir -p "${_WRD}"'
     echo '$ cdwrd; cdw'
     echo '# editwrd README; ewrd README; e README Makefile  # edit<tab>'
@@ -203,9 +205,10 @@ function dotfiles_postmkvirtualenv {
     log_dotfiles_state 'postmkvirtualenv'
 
     if [ -z "${VIRTUAL_ENV}" ]; then
-        echo 'VIRTUAL_ENV is not set? (err: -1) [dotfiles_postmkvirtualenv]'
+        echo 'VIRTUAL_ENV is not set? (err: 2) [dotfiles_postmkvirtualenv]'
+        # shellcheck disable=2016
         echo 'we <name>; venv_mkdirs; mkdir -p "${_WRD}"'
-        return -1
+        return 2
     fi
 
     # NOTE: infer VIRTUAL_ENV_NAME from VIRTUAL_ENV
@@ -215,16 +218,23 @@ function dotfiles_postmkvirtualenv {
     (set -x; venv_mkdirs)
     test -d "${VIRTUAL_ENV}/var/log" || mkdir -p "${VIRTUAL_ENV}/var/log"
     echo ""
-    local PIP="$(command -v pip)"
+
+    local PIP
+    PIP="$(command -v pip)"
     echo "PIP=$(shell_escape_single "${PIP}")"
+
     pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
     echo "#pip_freeze=$(shell_escape_single "${pip_freeze}")"
     (set -x; ${PIP} freeze | tee "${pip_freeze}")
     echo ""
+
     pip_list="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
     echo "#pip_list=$(shell_escape_single "${pip_list}")"
     (set -x; ${PIP} list | tee "${pip_list}")
+    echo ""
+
     echo '## to work on this virtualenv:'
+    # shellcheck disable=2016
     echo 'workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
 
     echo '+workon_venv '"${VIRTUAL_ENV_NAME}"
@@ -243,21 +253,23 @@ function dotfiles_postactivate {
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
-    local bash_debug_output=$(
-        $__VENV -e --verbose --diff --print-bash 2>&1 /dev/null)
+    local bash_debug_output
+    bash_debug_output=$(
+        "$__VENV" -e --verbose --diff --print-bash 2>&1 /dev/null)
     local venv_return_code=$?
     if [ ${venv_return_code} -eq 0 ]; then
         if [ -n "${__VENV}" ]; then
-            source <($__VENV -e --print-bash)
+            # shellcheck disable=1090
+            source <("$__VENV" -e --print-bash)
         fi
     else
         echo "${bash_debug_output}" # >2
     fi
 
-    declare -f '_setup_usrlog' 2>&1 > /dev/null \
+    declare -f '_setup_usrlog' > /dev/null 2>&1 \
         && _setup_usrlog
 
-    declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+    declare -f '_setup_venv_prompt' > /dev/null 2>&1 \
         && _setup_venv_prompt
 
 }
@@ -279,6 +291,7 @@ function dotfiles_postdeactivate {
     unset _BIN
     unset _CFG
     unset _EDITCFG_
+    # shellcheck disable=2153
     export EDITOR_="${EDITOR}"
     unset _EDIT_
     unset _ETC
@@ -332,7 +345,7 @@ function dotfiles_postdeactivate {
     ## unset NOTE
     ## unset TODO
 
-    declare -f '_usrlog_set__USRLOG' 2>&1 > /dev/null \
+    declare -f '_usrlog_set__USRLOG' > /dev/null 2>&1 \
         && _usrlog_set__USRLOG "${__USRLOG}"
 
     dotfiles_reload
