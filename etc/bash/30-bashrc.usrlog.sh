@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### bashrc.usrlog.sh
     # _USRLOG (str): path to .usrlog userspace shell command log
     # stid()      -- set $TERM_ID to a random string
@@ -16,22 +16,24 @@
 
 _setup_usrlog() {
     # _setup_usrlog()   -- source ${__DOTFILES}/etc/usrlog.sh
+    # shellcheck source=../../scripts/usrlog.sh
     source "${__DOTFILES}/scripts/usrlog.sh"
     #calls _usrlog_setup when sourced
 }
+# shellcheck disable=2119
 _setup_usrlog
 
 
 usrlogv() {
     # usrlogv() -- open $_USRLOG w/ $VIMBIN (and skip to end)
     file=${1:-$_USRLOG}
-    lessv + ${file}
+    lessv + "${file}"
 }
 
 usrlogg() {
     # usrlogg() -- open $_USRLOG w/ $GUIVIMBIN (and skip to end)
     file=${1:-$_USRLOG}
-    lessg + ${file}
+    lessg + "${file}"
 }
 
 usrloge() {
