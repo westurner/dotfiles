@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### bashrc.conda.sh
 
 ## Conda / Anaconda
@@ -13,22 +13,22 @@
 
 function _conda_status_core {
     # _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
-    echo CONDA_ROOT=$(shell_escape_single "${CONDA_ROOT}")
-    echo CONDA_ENVS_PATH=$(shell_escape_single "${CONDA_ENVS_PATH}")
+    echo CONDA_ROOT="$(shell_escape_single "${CONDA_ROOT}")"
+    echo CONDA_ENVS_PATH="$(shell_escape_single "${CONDA_ENVS_PATH}")"
 }
 
 function _conda_status_defaults {
     # _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
-    echo CONDA_ROOT__py27=$(shell_escape_single "${CONDA_ROOT__py27}")
-    echo CONDA_ENVS__py27=$(shell_escape_single "${CONDA_ENVS__py27}")
-    echo CONDA_ROOT__py34=$(shell_escape_single "${CONDA_ROOT__py34}")
-    echo CONDA_ENVS__py34=$(shell_escape_single "${CONDA_ENVS__py34}")
-    echo CONDA_ROOT__py35=$(shell_escape_single "${CONDA_ROOT__py35}")
-    echo CONDA_ENVS__py35=$(shell_escape_single "${CONDA_ENVS__py35}")
-    echo CONDA_ROOT__py36=$(shell_escape_single "${CONDA_ROOT__py36}")
-    echo CONDA_ENVS__py36=$(shell_escape_single "${CONDA_ENVS__py36}")
-    echo CONDA_ROOT__py37=$(shell_escape_single "${CONDA_ROOT__py37}")
-    echo CONDA_ENVS__py37=$(shell_escape_single "${CONDA_ENVS__py37}")
+    echo CONDA_ROOT__py27="$(shell_escape_single "${CONDA_ROOT__py27}")"
+    echo CONDA_ENVS__py27="$(shell_escape_single "${CONDA_ENVS__py27}")"
+    echo CONDA_ROOT__py34="$(shell_escape_single "${CONDA_ROOT__py34}")"
+    echo CONDA_ENVS__py34="$(shell_escape_single "${CONDA_ENVS__py34}")"
+    echo CONDA_ROOT__py35="$(shell_escape_single "${CONDA_ROOT__py35}")"
+    echo CONDA_ENVS__py35="$(shell_escape_single "${CONDA_ENVS__py35}")"
+    echo CONDA_ROOT__py36="$(shell_escape_single "${CONDA_ROOT__py36}")"
+    echo CONDA_ENVS__py36="$(shell_escape_single "${CONDA_ENVS__py36}")"
+    echo CONDA_ROOT__py37="$(shell_escape_single "${CONDA_ROOT__py37}")"
+    echo CONDA_ENVS__py37="$(shell_escape_single "${CONDA_ENVS__py37}")"
 }
 
 function _conda_status {
@@ -108,8 +108,7 @@ function _setup_conda {
             export CONDA_ROOT="$CONDA_ROOT__py37"
         else
             export CONDA_ENVS_PATH="${_conda_envs_path}"
-            export CONDA_ROOT=(
-            "${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py37}}}")
+            export CONDA_ROOT="${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py37}}}"
         fi
     fi
     _setup_conda_path
@@ -119,29 +118,29 @@ function _setup_conda_path {
     # _setup_conda_path()   -- prepend CONDA_ROOT/bin to $PATH
     _unsetup_conda_path_all
     (set -x; test -n "${CONDA_ROOT}") || return 2
-    PATH_prepend "${CONDA_ROOT}/bin" 2>&1 > /dev/null
+    PATH_prepend "${CONDA_ROOT}/bin" > /dev/null 2>&1
 }
 
 function _unsetup_conda_path_all {
     # _unsetup_conda_path_all()  -- remove CONDA_ROOT & defaults from $PATH
     (set -x; test -n "${CONDA_ROOT}") || return 2
-    PATH_remove "${CONDA_ROOT}/bin" 2>&1 > /dev/null
+    PATH_remove "${CONDA_ROOT}/bin" > /dev/null 2>&1
     if [ -n "${CONDA_ROOT__py27}" ]; then
-        PATH_remove "${CONDA_ROOT__py27}/bin" 2>&1 > /dev/null
+        PATH_remove "${CONDA_ROOT__py27}/bin" > /dev/null 2>&1
     fi
     if [ -n "${CONDA_ROOT__py34}" ]; then
-        PATH_remove "${CONDA_ROOT__py34}/bin" 2>&1 > /dev/null
+        PATH_remove "${CONDA_ROOT__py34}/bin" > /dev/null 2>&1
     fi
     if [ -n "${CONDA_ROOT__py35}" ]; then
-        PATH_remove "${CONDA_ROOT__py35}/bin" 2>&1 > /dev/null
+        PATH_remove "${CONDA_ROOT__py35}/bin" > /dev/null 2>&1
     fi
     if [ -n "${CONDA_ROOT__py36}" ]; then
-        PATH_remove "${CONDA_ROOT__py36}/bin" 2>&1 > /dev/null
+        PATH_remove "${CONDA_ROOT__py36}/bin" > /dev/null 2>&1
     fi
     if [ -n "${CONDA_ROOT__py37}" ]; then
-        PATH_remove "${CONDA_ROOT__py37}/bin" 2>&1 > /dev/null
+        PATH_remove "${CONDA_ROOT__py37}/bin" > /dev/null 2>&1
     fi
-    declare -f 'dotfiles_status' 2>&1 > /dev/null && dotfiles_status
+    declare -f 'dotfiles_status' > /dev/null 2>&1 && dotfiles_status
     _conda_status
 }
 
@@ -172,8 +171,9 @@ function echo_conda_envs_paths {
         "${CONDA_ENVS__py37}"
     )
     if [ "$(echo "${envs_paths[*]}" | sed 's/ //g')" == "" ]; then
-        echo ''>&2
-        echo 'Error: ${CONDA_ENVS_PATH} is not set'>&2
+        echo '' >&2
+        # shellcheck disable=2016
+        echo 'Error: $CONDA_ENVS_PATH is not set' >&2
         return 1
     fi
     printf '%s\n' "${envs_paths[@]}" \
@@ -186,7 +186,7 @@ function lscondaenvs {
     #   find>1
     _conda_status >&2
     while IFS= read -r line; do
-        if [ -n ${line} ]; then
+        if [ -n "${line}" ]; then
             (set -x; find "${line}" -maxdepth 1 -type d)
         fi
     done < <(echo_conda_envs_paths) | sort
@@ -214,20 +214,23 @@ function workon_conda {
 
     _setup_conda "${_conda_envs_path}"
     local CONDA_ENV="${CONDA_ENVS_PATH}/${_conda_envname}"
+    # shellcheck disable=1090
     source "${CONDA_ROOT}/bin/activate" "${CONDA_ENV}"
 
-    __VENV=${__DOTFILES}/src/dotfiles/venv/venv_ipyconfig.py
+    __VENV="${__VENV:-${__DOTFILES}/src/dotfiles/venv/venv_ipyconfig.py}"
+    # shellcheck disable=1090
     source <(set -x;
       $__VENV \
         --ve="${CONDA_ENV}" --venvstrapp="${_venvstrapp}" \
         --CONDA_ROOT="${CONDA_ROOT}" \
         --CONDA_ENVS_PATH="${CONDA_ENVS_PATH}" \
         --print-bash)
-    declare -f "_setup_venv_prompt" 2>&1 > /dev/null && _setup_venv_prompt
-    declare -f "dotfiles_status" 2>&1 > /dev/null && dotfiles_status
+    declare -f "_setup_venv_prompt" > /dev/null 2>&1 && _setup_venv_prompt
+    declare -f "dotfiles_status" > /dev/null 2>&1 && dotfiles_status
     function deactivate {
+        # shellcheck disable=1091
         source deactivate
-        declare -f "dotfiles_postdeactivate" 2>&1 > /dev/null && \
+        declare -f "dotfiles_postdeactivate" > /dev/null 2>&1 && \
             dotfiles_postdeactivate
     }
 }
@@ -236,7 +239,7 @@ complete -o default -o nospace -F _condaenvs workon_conda
 function wec {
     # wec()                 -- workon a conda + venv project
     #                       note: tab-completion only shows regular virtualenvs
-    workon_conda $@
+    workon_conda "${@}"
 }
 complete -o default -o nospace -F _condaenvs wec
 
@@ -265,11 +268,13 @@ function mkvirtualenv_conda {
     local _conda_envname="${1}"
     local _conda_envs_path="${2:-${CONDA_ENVS_PATH}}"
     shift; shift
-    local _conda_pkgs=${@}
+    local _conda_pkgs=( "${@}" )
 
     local _conda_="conda"
 
+    # shellcheck disable=2016
     echo '$1 $_conda_envname: '"${_conda_envname}";
+    # shellcheck disable=2016
     echo '$2 $_conda_envs_path: '"${_conda_envs_path}" ;
     if [ -z "${_conda_envname}" ] || [ -z "${_conda_envs_path}" ]; then
         return 2
@@ -301,11 +306,11 @@ function mkvirtualenv_conda {
         _conda_python_default="python=2"
         _conda_python=${_conda_python:-"${_conda_python_default}"}
     fi
-#   #(CONDA_ENVS_PATH=${_conda_envs_path} 
+#   #(CONDA_ENVS_PATH=${_conda_envs_path}
 #   #    conda create --mkdir -n ${_conda_envname} -y
 #   #    "${_conda_python}" readline pip ${_conda_pkgs} )
     "${_conda_}" create --mkdir --prefix "${CONDA_ENV}" --yes \
-       "${_conda_python}" readline pip ${_conda_pkgs}
+       "${_conda_python}" readline pip "${_conda_pkgs[@]}"
 
     export VIRTUAL_ENV="${CONDA_ENV}"
     workon_conda "${_conda_envname}" "${_conda_envs_path}"
@@ -313,11 +318,11 @@ function mkvirtualenv_conda {
 
     # if there is a function named 'dotfiles_postmkvirtualenv',
     # then run 'dotfiles_postmkvirtualenv'
-    declare -f 'dotfiles_postmkvirtualenv' 2>&1 >/dev/null && \
+    declare -f 'dotfiles_postmkvirtualenv' > /dev/null 2>&1 && \
         dotfiles_postmkvirtualenv
 
     echo ""
-    echo "$(command -v conda)"
+    command -v conda
     conda_list="${_LOG}/conda.list.no-pip.postmkvirtualenv.txt"
     echo "conda_list: ${conda_list}"
     "${_conda_}" list -e --no-pip | tee "${conda_list}"
@@ -327,13 +332,14 @@ function rmvirtualenv_conda {
     # rmvirtualenv_conda()  -- rmvirtualenv conda
     local _conda_envname="${1}"
     local _conda_envs_path="${2:-${CONDA_ENVS_PATH}}"
+    # shellcheck disable=2016
     if [ -z "${_conda_envname}" ] || [ -z "${_conda_envs_path}" ]; then
         echo '$1 $_conda_envname: '"${_conda_envname}";
         echo '$2 $_conda_envs_path: '"${_conda_envs_path}" ;
         echo '$conda_env="${_conda_envs_path}/{$_conda_envname}"'
         return 2
     fi
-    local conda_env="${conda_envs_path}/$_conda_envname"
+    local conda_env="${_conda_envs_path}/$_conda_envname"
     echo "Removing ${conda_env}"
     local _prmpt='_y_to_remove__n_to_cancel_'
     (set -x; (touch "${_prmpt}" && rm -fi "${_prmpt}") && \
@@ -343,21 +349,21 @@ function rmvirtualenv_conda {
 
 function mkvirtualenv_conda_if_available {
     # mkvirtualenv_conda_if_available() -- mkvirtualenv_conda OR mkvirtualenv
-    (declare -f 'mkvirtualenv_conda' 2>&1 > /dev/null \
+    (declare -f 'mkvirtualenv_conda' > /dev/null 2>&1 \
         && mkvirtualenv_conda "${@}") \
     || \
-    (declare -f 'mkvirtualenv' 2>&1 > /dev/null \
+    (declare -f 'mkvirtualenv' > /dev/null 2>&1 \
         && mkvirtualenv "${@}")
 }
 
 function workon_conda_if_available {
     # workon_conda_if_available()       -- workon_conda OR we OR workon
-    (declare -f 'workon_conda' 2>&1 > /dev/null \
+    (declare -f 'workon_conda' > /dev/null 2>&1 \
         && workon_conda "${@}") \
     || \
-    (declare -f 'we' 2>&1 > /dev/null \
+    (declare -f 'we' > /dev/null 2>&1 \
         && we "${@}") \
     || \
-    (declare -f 'workon' 2>&1 > /dev/null \
+    (declare -f 'workon' > /dev/null 2>&1 \
         && workon "${@}")
 }
