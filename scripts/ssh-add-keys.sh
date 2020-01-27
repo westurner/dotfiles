@@ -138,9 +138,9 @@ function ssh_add_keys_help {
     echo "     local"
     echo ""
     echo "  -s|--status|status -- print env vars, list keys, list key params"
-    echo "    -e|--env|env     -- print SSH_AUTH_SOCK and SSH_AGENT_PID"
-    echo "    -l               -- list key fingerprints (ssh-add -l)"
-    echo "    -L               -- list key params (ssh-add -L)"
+    echo "    -e --env env     -- print SSH_AUTH_SOCK and SSH_AGENT_PID"
+    echo "    -l --list-keys   -- list key fingerprints (ssh-add -l)"
+    echo "    -L --list-params -- list key params (ssh-add -L)"
     echo ""
     echo "  ssh-keygen"
     echo "    keygen:domain.tld/user+key    -- generate a key"
@@ -204,15 +204,15 @@ function ssh_add_keys {
                 shift
                 _ssh_agent_status_all=1
                 ;;
-            -l)
+            -l|--list-keys|list)
                 shift
                 _ssh_agent_list_key_fingerprints=1
                 ;;
-            -L)
+            -L|--list-params|params)
                 shift
                 _ssh_agent_list_key_params=1;
                 ;;
-            -t)
+            --test|test)
                 shift
                 _ssh_add_keys_run_tests=1;
                 ;;
@@ -281,22 +281,28 @@ function ssh_add_keys {
         esac
     done
 
+    # --test
     if [ -n "${_ssh_add_keys_run_tests}" ]; then
         ssh_add_keys_run_tests
     fi
 
+    # keygengen
     if [ -n "${_ssh_keygen__default}" ]; then
         _ssh_keygen__default "${_keygenargs[@]}"
     fi
+    # keygen:gh
     if [ -n "${_ssh_keygen__github}" ]; then
         _ssh_keygen__github "${_keygenargs[@]}"
     fi
+    # keygen:gl
     if [ -n "${_ssh_keygen__gitlab}" ]; then
         _ssh_keygen__gitlab "${_keygenargs[@]}"
     fi
+    # keygen:bb
     if [ -n "${_ssh_keygen__bitbucket}" ]; then
         _ssh_keygen__bitbucket "${_keygenargs[@]}"
     fi
+    # keygen:local
     if [ -n "${_ssh_keygen__local}" ]; then
         _ssh_keygen__local "${_keygenargs[@]}"
     fi
@@ -332,12 +338,15 @@ function ssh_add_keys {
         test -n "${_ssh_add_keys__bitbucket}" && ssh_add_keys__bitbucket
         test -n "${_ssh_add_keys__local}" && ssh_add_keys__local
     fi
+    # -e / --env / env
     if [ -n "${_ssh_agent_status}" ]; then
         ssh_agent_status
     fi
+    # -s / --status / status
     if [ -n "${_ssh_agent_status_all}" ]; then
         ssh_agent_status_all
     fi
+    # -l / --list-keys / list
     if [ -n "${_ssh_agent_list_key_fingerprints}" ]; then
         _key_fingerprints_after="$(ssh_agent_list_key_fingerprints)"
         echo "${_key_fingerprints_after}"
@@ -347,6 +356,7 @@ function ssh_add_keys {
                 <(echo "${_key_fingerprints_after}")
         fi
     fi
+    # -L / --list-params / params
     if [ -n "${_ssh_agent_list_key_params}" ]; then
         _key_params_after="$(ssh_agent_list_key_params)"
         echo "${_key_params_after}"
