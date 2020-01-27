@@ -286,19 +286,19 @@ function ssh_add_keys {
     fi
 
     if [ -n "${_ssh_keygen__default}" ]; then
-        _ssh_keygen__default ${_keygenargs[@]}
+        _ssh_keygen__default "${_keygenargs[@]}"
     fi
     if [ -n "${_ssh_keygen__github}" ]; then
-        _ssh_keygen__github ${_keygenargs[@]}
+        _ssh_keygen__github "${_keygenargs[@]}"
     fi
     if [ -n "${_ssh_keygen__gitlab}" ]; then
-        _ssh_keygen__gitlab ${_keygenargs[@]}
+        _ssh_keygen__gitlab "${_keygenargs[@]}"
     fi
     if [ -n "${_ssh_keygen__bitbucket}" ]; then
-        _ssh_keygen__bitbucket ${_keygenargs[@]}
+        _ssh_keygen__bitbucket "${_keygenargs[@]}"
     fi
     if [ -n "${_ssh_keygen__local}" ]; then
-        _ssh_keygen__local ${_keygenargs[@]}
+        _ssh_keygen__local "${_keygenargs[@]}"
     fi
 
     local -a _opts_add_all=(
