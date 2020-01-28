@@ -28,7 +28,7 @@ function ssh_add_keys_help {
     echo "With a symlink linking from <key_file>.key to <key_file>.pub"
     echo ""
     echo " ln -s \\"
-    echo "  ~/.ssh/keys/gitlab.com/user+key1__gitlab.com__2020-11-11T11:11:11-0500__id_rsa.pub \\"
+    echo "  ~/.ssh/keys/gitlab.com/user+key1__gitlab.com__2020-11-11T11:11:11-0500__id_rsa \\"
     echo "  user+key1__gitlab.com__2020-11-11T11:11:11-0500__id_rsa.key"
     echo ""
     echo "With a comment field containing the filename and ssh-keygen arguments"
