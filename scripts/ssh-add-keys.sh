@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ## ssh-add-keys.sh -- generate and load SSH keys
 # Author: @westurner
 
@@ -394,14 +394,21 @@ function ssh_add_keys {
     if [ -n "${_ssh_agent_status_all}" ]; then
         ssh_agent_status_all
     fi
+
+    TMPDIR="${TMPDIR:-"${HOME}/.cache"}"
+    tmpdir="${TMPDIR}/ssh-add-keys.sh"
     # -l / --list-keys / list
     if [ -n "${_ssh_agent_list_key_fingerprints}" ]; then
         _key_fingerprints_after="$(ssh_agent_list_key_fingerprints)"
         echo "${_key_fingerprints_after}"
         if [ -n "${_key_fingerprints_before}" ]; then
-            diff -Naur \
-                <(echo "${_key_fingerprints_before}") \
-                <(echo "${_key_fingerprints_after}")
+            (umask 0007; mkdir -p "${tmpdir}")
+            old="${tmpdir}/ssh-add-keys__old.$$.$RANDOM"
+            new="${tmpdir}/ssh-add-keys__new.$$.$RANDOM"
+            echo "${_key_fingerprints_before}" > "${old}"
+            echo "${_key_fingerprints_after}" > "${new}"
+            diff -Naur "${old}" "${new}"
+            rm -rf "${tmpdir}"
         fi
     fi
     # -L / --list-params / params
@@ -409,9 +416,13 @@ function ssh_add_keys {
         _key_params_after="$(ssh_agent_list_key_params)"
         echo "${_key_params_after}"
         if [ -n "${_key_params_before}" ]; then
-            diff -Naur \
-                <(echo "${_key_params_before}") \
-                <(echo "${_key_params_after}")
+            (umask 0007; mkdir -p "${tmpdir}")
+            old="${tmpdir}/ssh-add-keys__old.$$.$RANDOM"
+            new="${tmpdir}/ssh-add-keys__new.$$.$RANDOM"
+            echo "${_key_fingerprints_before}" > "${old}"
+            echo "${_key_fingerprints_after}" > "${new}"
+            diff -Naur "${old}" "${new}"
+            rm -rf "${tmpdir}"
         fi
     fi
 }
