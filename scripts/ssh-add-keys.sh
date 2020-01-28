@@ -5,7 +5,7 @@
 
 function ssh_add_keys_help {
     ## ssh_add_keys_help() -- print help for the ssh-add-keys script
-    local scriptname="$(basename "${0}")"
+    scriptname="$(basename "${0}")"
     echo "${scriptname} [-h] [-a] [keygen:domain/u+n] [gh|gl|bb|local]"
     echo "Generate and load SSH keys"
     echo ""
@@ -105,15 +105,15 @@ function ssh_agent {
     #   $1 (restart) -- if true, restart w/ 'ssh-agent -k' before $(`eval`)
     restart="${1}"
     if [[ "${SSH_AGENT_PID}" == "" ]]; then
-        local output="$(set -x; ssh-agent)"
+        output="$(set -x; ssh-agent)"
         # EVAL
         eval "${output}"
     else
         if [[ "${restart}" == '-k' ]]; then
             echo "Restarting ssh-agent..." >&2
-            local output="$(set -x; ssh-agent -k)"
+            output="$(set -x; ssh-agent -k)"
             echo "${output}" >&2
-            local output="$(ssh-agent)"
+            output="$(ssh-agent)"
             # EVAL
             eval "${output}"
         fi
@@ -160,7 +160,7 @@ function ssh_add {
 function ls_ssh_keys {
     ## ls_ssh_keys()                -- list ssh keys in path $1
     function _ls_ssh_keys {
-        local path="${1:-"."}"
+        path="${1:-"."}"
         find "${path}" -maxdepth 1 -type f \
             | file -F $'\0' \
             | grep 'private key$' \
@@ -210,27 +210,27 @@ function _debug {
 
 function ssh_add_keys {
     ## ssh_add_keys()  -- ssh_add_keys main function (help, args, tasks)
-    local _args=( "${@}" )
+    _args=( "${@}" )
     if [ -z "${_args[*]}" ]; then
         (set +x +v; ssh_add_keys_help)
         exit
     fi
 
-    local _ssh_add_keys_help=
-    local _ssh_add_keys_run_tests=
-    local _ssh_add_keys_all=
-    local _ssh_add_keys__github=
-    local _ssh_add_keys__gitlab=
-    local _ssh_add_keys__bitbucket=
-    local _ssh_add_keys__local=
-    local _ssh_agent_status=
-    local _ssh_agent_list_key_fingerprints=
-    local _ssh_agent_list_key_params=
-    local _ssh_keygen__default=
-    local _ssh_keygen__github=
-    local _ssh_keygen__gitlab=
-    local _ssh_keygen__bitbucket=
-    local _ssh_keygen__local=
+    _ssh_add_keys_help=
+    _ssh_add_keys_run_tests=
+    _ssh_add_keys_all=
+    _ssh_add_keys__github=
+    _ssh_add_keys__gitlab=
+    _ssh_add_keys__bitbucket=
+    _ssh_add_keys__local=
+    _ssh_agent_status=
+    _ssh_agent_list_key_fingerprints=
+    _ssh_agent_list_key_params=
+    _ssh_keygen__default=
+    _ssh_keygen__github=
+    _ssh_keygen__gitlab=
+    _ssh_keygen__bitbucket=
+    _ssh_keygen__local=
 
     for arg in "${_args[@]}"; do
         case "${arg}" in
@@ -287,7 +287,7 @@ function ssh_add_keys {
 
             keygen*)  # keygen123:domain.tld/user+keyname
                 # _keygensuffix='123'
-                local _keygensuffix=$(echo "${arg}" \
+                _keygensuffix=$(echo "${arg}" \
                     | sed 's/^keygen\(.*\)\:\(.*\)/\1/')
                 # _keygenargs='domain.tld/user+keyname'
                 _keygenargs=$(echo "${arg}" \
@@ -355,7 +355,8 @@ function ssh_add_keys {
         _ssh_keygen__local "${_ssh_keygen_args[@]}"
     fi
 
-    local -a _opts_add_all=(
+    # -a
+    _opts_add_all=(
         $_ssh_add_keys_all
         $_ssh_add_keys__github
         $_ssh_add_keys__gitlab
@@ -367,10 +368,10 @@ function ssh_add_keys {
         if [ -n "${_ssh_agent_list_key_fingerprints}" ] || \
             [ -n "${_ssh_agent_list_key_params}" ]; then
             echo "# before"
-            local _key_fingerprints_before=0
-            local _key_fingerprints_after=
-            local _key_params_before=0
-            local _key_params_after=
+            _key_fingerprints_before=0
+            _key_fingerprints_after=
+            _key_params_before=0
+            _key_params_after=
             if [ -n "${_ssh_agent_list_key_fingerprints}" ]; then
                 _key_fingerprints_before=$(ssh_agent_list_key_fingerprints)
                 echo "${_key_fingerprints_before}"
@@ -429,20 +430,20 @@ function ssh_add_keys {
 
 function prefix__iso8601datetime {
     ## prefix__iso8601datetime()    -- return {prefix}__{iso8601datetime}
-    local _prefix="${1}"
-    local _date=$(date +"%FT%T%z")
-    local _prefixdate="${_prefix}__${_date}"
+    _prefix="${1}"
+    _date=$(date +"%FT%T%z")
+    _prefixdate="${_prefix}__${_date}"
     echo "${_prefixdate}"
 }
 
 function _ssh_keygen__ {
     ## _ssh_keygen__()  -- generate an ssh key with ssh-keygen
     function _ssh_keygen___ {
-        local _sshkeypath="${SSHKEYPATH:-"${HOME}/.ssh/keys"}"
-        local _namekey="${1}"  # domain.tld/user+keyname
+        _sshkeypath="${SSHKEYPATH:-"${HOME}/.ssh/keys"}"
+        _namekey="${1}"  # domain.tld/user+keyname
         shift
-        local _keydir="$(dirname "${_namekey}")"
-        local _keyname="$(basename "${_namekey}")"
+        _keydir="$(dirname "${_namekey}")"
+        _keyname="$(basename "${_namekey}")"
         if [ -z "${_namekey}" ]; then
             echo "ERROR: ValueError: \$1 should be a namekey"
             echo ""
@@ -456,9 +457,9 @@ function _ssh_keygen__ {
         fi
         _keyname="$(prefix__iso8601datetime "${_keyname}")"
         _keyname__type="${_keyname}__id_${_keytype}"
-        local __keydir="${_sshkeypath}/${_keydir}"
-        local _keypath="${__keydir}/${_keyname__type}"
-        local _comment="${_keyname__type} (ssh-keygen -t ${_keytype}${@:+"${@}"})${SSH_KEY_COMMENT_SUFFIX:+" ${SSH_KEY_COMMENT_SUFFIX}"}"
+        __keydir="${_sshkeypath}/${_keydir}"
+        _keypath="${__keydir}/${_keyname__type}"
+        _comment="${_keyname__type} (ssh-keygen -t ${_keytype}${@:+"${@}"})${SSH_KEY_COMMENT_SUFFIX:+" ${SSH_KEY_COMMENT_SUFFIX}"}"
         mkdir -p "${__keydir}"
         chmod 0700 "${__keydir}"
         (set -x; ssh-keygen -f "${_keypath}" -C "${_comment}" "${@}")
@@ -474,35 +475,35 @@ function _ssh_keygen__ {
 
 function _ssh_keygen__default {
     ## _ssh_keygen__default()  -- generate an ssh key (-t ecdsa)
-    local _namekey="${1}"
+    _namekey="${1}"
     shift
     _ssh_keygen__ "${_namekey}" "${@}"
 }
 
 function _ssh_keygen__github {
     ## _ssh_keygen__github()  -- generate an ssh key for github (-t rsa)
-    local _namekey="github.com/${1}__github.com"
+    _namekey="github.com/${1}__github.com"
     shift
     _ssh_keygen__ "${_namekey}" "${@}"
 }
 
 function _ssh_keygen__gitlab {
     ## _ssh_keygen__gitlab()  -- generate an ssh key for gitlab (-t rsa)
-    local _namekey="gitlab.com/${1}__gitlab.com"
+    _namekey="gitlab.com/${1}__gitlab.com"
     shift
     _ssh_keygen__ "${_namekey}" "${@}"
 }
 
 function _ssh_keygen__bitbucket {
     ## _ssh_keygen__github()  -- generate an ssh key for bitbucket (-t rsa)
-    local _namekey="bitbucket.org/${1}__bitbucket.org"
+    _namekey="bitbucket.org/${1}__bitbucket.org"
     shift
     _ssh_keygen__ "${_namekey}" "${@}"
 }
 
 function _ssh_keygen__local {
-    ## _ssh_keygen__github()  -- generate an ssh key for local (-t rsa)
-    local _namekey="local/${1}__local"
+    ## _ssh_keygen__github()  -- generate an ssh key for (-t rsa)
+    _namekey="local/${1}__local"
     shift
     _ssh_keygen__ "${_namekey}" "${@}"
 }
@@ -517,22 +518,22 @@ function ssh_add_keys_run_tests {
     }
 
     function test_fail {
-        local _test_name="${1:-"${_TEST__NAME}"}"
+        _test_name="${1:-"${_TEST__NAME}"}"
         shift
-        local _msg="${@}"
+        _msg="${@}"
         echo "# - [FAIL] ${_test_name} : ${_msg}" >&2
     }
     function test_pass {
-        local _test_name="${1:-"${_TEST__NAME}"}"
+        _test_name="${1:-"${_TEST__NAME}"}"
         shift
-        local _msg="${@}"
+        _msg="${@}"
         echo "# - [PASS] ${_test_name} : ${_msg}" >&2
     }
     function test_eval {
-        local _test_name="${1:-"${_expect_retcode}"}"
+        _test_name="${1:-"${_expect_retcode}"}"
 
-        local expect_retcode="${2:-0}"
-        local retcode="${3:-${?}}" # TODO: doe this work?
+        expect_retcode="${2:-0}"
+        retcode="${3:-${?}}" # TODO: doe this work?
         if [[ "${retcode}" != "${expect_retcode}" ]]; then
             test_fail "${_TEST__NAME}" \
                 "retcode ${retcode} != ${expect_retcode}"
