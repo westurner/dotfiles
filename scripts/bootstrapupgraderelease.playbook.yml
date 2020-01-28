@@ -1,0 +1,21 @@
+
+# Upgrade a Fedora System to FC30
+
+# You can watch stdout with:
+#
+#   nc -lk 4002
+
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Install dnf-plugin-system-upgrade
+      package:
+        name: dnf-plugin-system-upgrade
+    - name: dnf system-upgrade
+      shell: "dnf system-upgrade -y download --refresh --releasever 30 > /dev/tcp/localhost/4002 2>&1"
+      args:
+        warn: no
+    - name: dnf system-upgrade reboot
+      shell: "dnf system-upgrade reboot > /dev/tcp/localhost/4002 2>&1"
+      args:
+        warn: no
