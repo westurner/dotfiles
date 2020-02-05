@@ -108,6 +108,10 @@
 
   # tag
   t = tag -n                        # show tags with <n> lines of each tag message
+  # tagdate = tag --format=\"%ci %(taggerdate:unix) %(authorname) %s\"
+  tagdate = log HEAD --tags --simplify-by-decoration --pretty=format:\"%Cblue%ct %ci%Creset %Cred%D%Creset %Cgreen%cn%Creset %s %Cblue%G? %GS %GK%Creset\"
+
+  tags = tagdate
 
   # svn helpers
   svnr = svn rebase
