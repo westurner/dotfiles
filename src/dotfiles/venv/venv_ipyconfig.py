@@ -3361,8 +3361,7 @@ def get_IPYTHON_ALIAS_DEFAULTS(platform=None):
 def get_IPYTHON_ALIAS_OVERLAY():
     IPYTHON_ALIAS_OVERLAY = (
         ('pydoc', 'pydoc %l | cat'),
-        ('pip', 'pip'),
-        ('dotf', 'dotf'),
+        # ('pip', 'pip'),
         ('venv', 'venv'),
     )
     return IPYTHON_ALIAS_OVERLAY
