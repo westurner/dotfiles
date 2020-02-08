@@ -53,7 +53,7 @@
     become: true
     dnf:
       name:
-      - python2-virtualenv
+      #- python2-virtualenv
       #- python2-virtualenvwrapper
       - python3-virtualenv
       - python3-virtualenvwrapper
