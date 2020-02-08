@@ -1,5 +1,5 @@
 
-- hosts: localhost
+- hosts: all
   name: Install system updates
   tags:
   - updates
@@ -19,7 +19,7 @@
       state: latest
 
 
-- hosts: localhost
+- hosts: all
   name: Install openssh-server
   tags:
   - ssh
@@ -41,7 +41,7 @@
   #roles:
   #- dev-sec.ssh-hardening
 
-- hosts: localhost
+- hosts: all
   name: Install virtualenv, virtualenvwrapper, pipsi
   tags:
   - dotfiles
