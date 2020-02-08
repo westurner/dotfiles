@@ -67,7 +67,7 @@ function _setup_conda_defaults {
 }
 
 function _setup_conda {
-    # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROO
+    # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROOT
     #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
     #                                                   CONDA_ENVS__py27)
     #   $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
