@@ -134,21 +134,20 @@ function dotfiles_check_deps {
 
 function git_status {
     # git_status()      -- show git rev, branches, remotes
-    (PAGER= git branch -v && \
-     PAGER= git remote -v &&
-     PAGER= git status)
+    (PAGER='' git branch -v && \
+     PAGER='' git remote -v &&
+     PAGER='' git status)
 }
 
 function hg_status {
     # hg_status()       -- show hg id, branches, paths
-    (PAGER= pwd && \
-    PAGER= hg log \
-        --pager never \
+    (pwd && \
+    PAGER='' hg log \
         -r $(hg id -i | cut -f1 -d'+') \
         --template '{date|isodate} {date|age} {node|short} {branch} {tags} {bookmarks} {desc|firstline} [{author|user}]\n' && \
-    PAGER= hg id && \
-    PAGER= hg branch -v && \
-    PAGER= hg paths)
+    PAGER='' hg id && \
+    PAGER='' hg branch -v && \
+    PAGER='' hg paths)
 }
 
 function show_status {
