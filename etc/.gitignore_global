@@ -10,3 +10,6 @@
 
 # Rope
 .ropeproject/
+
+# ctags
+tags
