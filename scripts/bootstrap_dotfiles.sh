@@ -462,6 +462,9 @@ function symlink_ruby {
     backup_and_symlink .gemrc
 }
 
+function symlink_taskrc {
+    backup_and_symlink .taskrc
+}
 
 ## end /symlinks
 
@@ -474,6 +477,7 @@ function dotfiles_symlink_all {
     symlink_zshrc
     symlink_htoprc
     symlink_etc_vim
+    symlink_taskrc
 
     symlink_python
     symlink_virtualenvwrapper
@@ -494,6 +498,7 @@ function dotfiles_symlink_all {
     symlink_gitconfig
     symlink_hgrc
     symlink_mutt
+
 
 }
 
