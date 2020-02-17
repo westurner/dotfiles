@@ -52,6 +52,8 @@ _loadaliases () {
     alias gds='git diff -p --stat'
     # gc       -- 'git commit'
     alias gc='git commit'
+    # gca      -- 'git commit --amend'
+    alias gca='git commit --amend'
     # gco      -- 'git checkout'
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
