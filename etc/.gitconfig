@@ -144,7 +144,9 @@
   # date = format-local:%a  # day of week
   # date = human
 [format]
-  pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
+  pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset  %s  %C(magenta)[%an {%G? %GK %GS}]%Creset
+# pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset%n      %s%n      %C(magenta)[%an {%G? %GK %GS}]%Creset%n
+# pretty = fuller
 [mergetool]
   prompt = false
 [mergetool "gvimdiff"]
