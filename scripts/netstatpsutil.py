@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 """
-netstatpsutil -- Print process information for all connections,
-or for connections on the specified ports.
+netstatpsutil -- Print process information for all processes
+on all or the specified ports;
+and optionally kill each unique PID with the specified signal.
+
+This is more safe than netstat with awk and grep because grep matches
+anywhere in the line.
 
 """
 import collections
@@ -43,9 +47,13 @@ def net_connection_memory_info(ports=[80, 443],
 
     Keyword Arguments:
         ports (list): list of port numbers to match
+        yield_pid (bool): yield the port/process PID
+        yield_row (bool): yield the port/process as a list
+        yield_dict (bool): yield the port/process as a dict
+        yield_str (bool): yield the port/process as a tab-delimited str
+        yield_process (bool): yield the psutil Process object
 
-    Returns:
-        None
+    Yields: whichever values are specified in the yield_ kwargs, interleaved
     """
     try:
         connections = psutil.net_connections()
@@ -259,7 +267,6 @@ def main(argv=None):
                 kwargs['yield_str'] = True
                 for str_ in net_connection_memory_info(**kwargs):
                     print(str_)
-
 
     EX_OK = 0
     return EX_OK
