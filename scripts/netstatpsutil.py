@@ -10,6 +10,7 @@ import collections
 import logging
 import subprocess
 import sys
+import time
 
 try:
     import psutil
@@ -144,7 +145,7 @@ def main(argv=None):
     import optparse
 
     prs = optparse.OptionParser(
-        usage="%prog [-p|--pid] [-k|--kill <29>] <port_1> <port_n>")
+        usage="%prog [-p|--pid] [-k|--kill <9|SIGKILL>] <port_1> <port_n>")
 
     prs.add_option('-p', '--pid',
                    action='store_true',
@@ -153,8 +154,14 @@ def main(argv=None):
 
     prs.add_option('--kill',
                    action='store',
-                   help=('Run `kill -[kill] pid_1 pid_n` '
+                   help=('Run `kill -[kill] each pid` '
                          '(int 1-31: see `man 7 signal`)'))
+    prs.add_option('-f', '--force',
+                   action='store_true',
+                   help=(
+                       'Specify to actually kill all PIDs on all ports'
+                       'if --kill is specified '
+                       'but no specific ports are'))
 
     prs.add_option('-l', '--list',
                    action='store_true',
@@ -195,31 +202,47 @@ def main(argv=None):
     kwargs = {
         'ports': ports,
     }
-    ksig = opts.kill and int(opts.kill)
-    if (ksig and 0 > ksig > 31):
-        prs.error("Expected signum to be between 1-31")
+    try:
+        ksig = opts.kill and int(opts.kill)
+        if (ksig and 0 > ksig > 31):
+            prs.error("Expected signum to be between 1-31")
+    except ValueError:
+        ksig = opts.kill
 
-    just_the_pid = opts.just_the_pid
     if ksig:
         retval = 0
 
-        print("#Before")
-        for p in net_connection_memory_info(ports=ports, yield_str=True):
-            print(p)
-        print("#...")
-        for p in net_connection_memory_info(ports=ports, yield_process=True):
+        log.info("## Before killing processes:")
+        for procstr in net_connection_memory_info(ports=ports, yield_str=True):
+            print(procstr)
+
+        log.info("## Killing processes:")
+        if not ports and opts.kill and not opts.force:
+            prs.error("No ports were specified. You must specify -f/--force "
+                      "to actually kill all PIDs on all ports")
+        proc_list = net_connection_memory_info(ports=ports, yield_process=True)
+        unique_procs = collections.OrderedDict.fromkeys(proc_list)
+        for proc in unique_procs.values():
             try:
-                cmd = ('kill', '-%s' % ksig, '%r' % p.pid)
-                print(cmd)  # print the comparable kill cmd
-                print(u' '.join(cmd))
-                p.send_signal(ksig)
+                if isinstance(ksig, int):
+                    cmd = ('kill', '-%s' % ksig, '%d' % proc.pid)
+                else:
+                    cmd = ('kill', '-s', ksig, '%d' % proc.pid)
+                log.info(('killcmd', cmd))  # print the comparable kill cmd
+                log.info(('killstr', u' '.join(cmd)))
+                if isinstance(ksig, int):
+                    proc.send_signal(ksig)
+                else:
+                    subprocess.call(cmd)
             except Exception as e:
                 log.exception(e)
                 retval = 3
                 pass
-        print("#After")
-        for p in net_connection_memory_info(ports=ports, yield_str=True):
-            print(p)
+        time.sleep(1)
+
+        log.info("## After killing processes:")
+        for procstr in net_connection_memory_info(ports=ports, yield_str=True):
+            print(procstr)
         return retval
     else:
         if opts.list:
