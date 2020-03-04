@@ -7,16 +7,21 @@ or for connections on the specified ports.
 
 """
 import collections
+import logging
+import subprocess
+import sys
+
 try:
     import psutil
 except ImportError as e:
     import warnings
     warnings.warn(str(e))
     psutil = object()
-import logging
 
 log = logging
 
+if sys.version_info.major > 2:
+    unicode = str
 
 AccessDenied = None
 if hasattr(psutil, 'AccessDenied'):
@@ -66,8 +71,8 @@ def net_connection_memory_info(ports=[80, 443],
 
     pids_dict = collections.OrderedDict()
     for cnx in connections:
-        l = pids_dict.setdefault(cnx.pid, [])
-        l.append(cnx)
+        pid_cnxs = pids_dict.setdefault(cnx.pid, [])
+        pid_cnxs.append(cnx)
 
     processes = [x for x in psutil.process_iter() if x.pid in pids_dict]
     cols = [
@@ -91,12 +96,12 @@ def net_connection_memory_info(ports=[80, 443],
             if cnx.raddr:
                 rhost, rport = cnx.raddr
             row = [lport,
-                lhost,
-                rport,
-                rhost,
-                p.username(),
-                p.pid,
-                ' '.join(p.cmdline())]
+                   lhost,
+                   rport,
+                   rhost,
+                   p.username(),
+                   p.pid,
+                   ' '.join(p.cmdline())]
             if yield_row:
                 yield row
             if yield_dict or yield_str:
@@ -111,29 +116,29 @@ def net_connection_memory_info(ports=[80, 443],
                 yield p
 
 
-import unittest
+# import unittest
 
 
-class Test_(unittest.TestCase):
+# class Test_(unittest.TestCase):
 
-    def setUp(self):
-        pass
+#     def setUp(self):
+#         pass
 
-    def test_(self):
-        pass
+#     def test_(self):
+#         pass
 
-    def tearDown(self):
-        pass
+#     def tearDown(self):
+#         pass
 
 
 def main(argv=None):
     """
-    Main function
+    netstatpsutil main() function
 
     Keyword Arguments:
         argv (list): commandline arguments (e.g. sys.argv[1:])
     Returns:
-        int:
+        int: nonzero on error
     """
     import logging
     import optparse
@@ -149,7 +154,7 @@ def main(argv=None):
     prs.add_option('--kill',
                    action='store',
                    help=('Run `kill -[kill] pid_1 pid_n` '
-                         '(int 1-31: see `man signal`)'))
+                         '(int 1-31: see `man 7 signal`)'))
 
     prs.add_option('-l', '--list',
                    action='store_true',
@@ -175,6 +180,7 @@ def main(argv=None):
     elif opts.quiet:
         loglevel = logging.ERROR
     logging.basicConfig(level=loglevel)
+    log = logging.getLogger('main')
     log.debug('argv: %r', argv)
     log.debug('opts: %r', opts)
     log.debug('args: %r', args)
