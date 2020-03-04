@@ -217,16 +217,20 @@ def main(argv=None):
         return retval
     else:
         if opts.list:
-            if kwargs.get('just_the_pid'):
+            if opts.just_the_pid:
                 kwargs['yield_pid'] = True
                 kwargs['yield_str'] = False
                 kwargs['yield_dict'] = False
                 kwargs['yield_row'] = False
+                pid_list = tuple(net_connection_memory_info(**kwargs))
+                pids_unique = collections.OrderedDict.fromkeys(pid_list)
+                for pid in pids_unique.keys():
+                    print(pid)
             else:
                 kwargs['yield_str'] = True
+                for str_ in net_connection_memory_info(**kwargs):
+                    print(str_)
 
-            for str_ in net_connection_memory_info(**kwargs):
-                print(str_)
 
     EX_OK = 0
     return EX_OK
