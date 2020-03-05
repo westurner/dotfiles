@@ -327,7 +327,7 @@ function mkvirtualenv_conda {
        "${_conda_python}" readline pip "${_conda_pkgs[@]}"
 
     export VIRTUAL_ENV="${CONDA_ENV}"
-    workon_conda "${_conda_envname}" "${_conda_envs_path}"
+    workon_conda "${_conda_envname}" "${_conda_envname}" "${_conda_envs_path}"
     export VIRTUAL_ENV="${CONDA_ENV}"
 
     # if there is a function named 'dotfiles_postmkvirtualenv',
