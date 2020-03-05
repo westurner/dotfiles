@@ -257,7 +257,7 @@ complete -o default -o nospace -F _condaenvs wec
 
 function _mkvirtualenv_conda_usage {
     # _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-    echo "mkvirtualenv_conda <envname|path> [CONDA_ENVS_PATH|<27,34,35,36,37>] [<pkg>+]"
+    echo "mkvirtualenv_conda <envname|path> [CONDA_ENVS_PATH|<27,34,35,36,37,38>] [<pkg>+]"
     echo ""
     echo "To create a condaenv named 'science':"
     echo ""
