@@ -29,6 +29,8 @@ function _conda_status_defaults {
     echo CONDA_ENVS__py36="$(shell_escape_single "${CONDA_ENVS__py36}")"
     echo CONDA_ROOT__py37="$(shell_escape_single "${CONDA_ROOT__py37}")"
     echo CONDA_ENVS__py37="$(shell_escape_single "${CONDA_ENVS__py37}")"
+    echo CONDA_ROOT__py38="$(shell_escape_single "${CONDA_ROOT__py38}")"
+    echo CONDA_ENVS__py38="$(shell_escape_single "${CONDA_ENVS__py38}")"
 }
 
 function _conda_status {
@@ -53,12 +55,14 @@ function _setup_conda_defaults {
     export CONDA_ENVS__py35="${__wrk}/-ce35"
     export CONDA_ENVS__py36="${__wrk}/-ce36"
     export CONDA_ENVS__py37="${__wrk}/-ce37"
+    export CONDA_ENVS__py38="${__wrk}/-ce38"
 
     export CONDA_ROOT__py27="${__wrk}/-conda27"
     export CONDA_ROOT__py34="${__wrk}/-conda34"
     export CONDA_ROOT__py35="${__wrk}/-conda35"
     export CONDA_ROOT__py36="${__wrk}/-conda36"
     export CONDA_ROOT__py37="${__wrk}/-conda37"
+    export CONDA_ROOT__py38="${__wrk}/-conda38"
 
     #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py37"
     #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py37"
@@ -106,6 +110,9 @@ function _setup_conda {
         elif [ "$_conda_envs_path" == "37" ]; then
             export CONDA_ENVS_PATH="$CONDA_ENVS__py37"
             export CONDA_ROOT="$CONDA_ROOT__py37"
+        elif [ "$_conda_envs_path" == "38" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py38"
+            export CONDA_ROOT="$CONDA_ROOT__py38"
         else
             export CONDA_ENVS_PATH="${_conda_envs_path}"
             export CONDA_ROOT="${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py37}}}"
@@ -140,6 +147,9 @@ function _unsetup_conda_path_all {
     if [ -n "${CONDA_ROOT__py37}" ]; then
         PATH_remove "${CONDA_ROOT__py37}/bin" > /dev/null 2>&1
     fi
+    if [ -n "${CONDA_ROOT__py38}" ]; then
+        PATH_remove "${CONDA_ROOT__py38}/bin" > /dev/null 2>&1
+    fi
     declare -f 'dotfiles_status' > /dev/null 2>&1 && dotfiles_status
     _conda_status
 }
@@ -169,6 +179,7 @@ function echo_conda_envs_paths {
         "${CONDA_ENVS__py35}"
         "${CONDA_ENVS__py36}"
         "${CONDA_ENVS__py37}"
+        "${CONDA_ENVS__py38}"
     )
     if [ "$(echo "${envs_paths[*]}" | sed 's/ //g')" == "" ]; then
         echo '' >&2
@@ -299,6 +310,9 @@ function mkvirtualenv_conda {
                 ;;
             37)
                 _conda_python="python=3.7"
+                ;;
+            38)
+                _conda_python="python=3.8"
                 ;;
         esac
     fi
