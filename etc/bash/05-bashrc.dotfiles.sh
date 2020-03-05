@@ -181,19 +181,28 @@ function dotfiles_premkvirtualenv {
 
 function dotfiles_postmkvirtualenv_help {
     echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh sources venv.sh'
-    echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh defines workon_venv'
-    echo '## to work on this virtualenv:'
-    echo '# workon_venv [<venvstr> [<venvappstr> [<pyver>]]]'
-    echo '# we          [<venvstr> [<venvappstr> [<pyver>]]]'
-    echo '$ we '"${VIRTUAL_ENV_NAME}"''
+    if [ -z "${IS_CONDA_ENV}" ]; then
+        echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh defines workon_venv'
+        echo "## to work on this virtualenv:"
+        echo "# workon_venv <venvstr> [<venvappstr> [<pyver>]]"
+        echo "# we          <venvstr> [<venvappstr> [<pyver>]]"
+        echo "$ we '${VIRTUAL_ENV_NAME}'"
+    else
+        _conda_envs_path=${_conda_envs_path}
+        echo '# __DOTFILES/etc/bash/08-bashrc.conda.sh defines workon_conda'
+        echo "## to work on this condaenv:"
+        echo "# workon_conda <venvstr> [<venvappstr> [<pyver>]]"
+        echo "# wec          <venvstr> [<venvappstr> [<pyver>]]"
+        echo "$ wec '${VIRTUAL_ENV_NAME}' '${VIRTUAL_ENV_NAME}' '${_conda_envs_path}'"
+    fi
     echo '#   dotfiles_status                    # ds'
     echo '#   source <(venv.py -e --print-bash)  # venv.py -h'
     echo '$ venv_mkdirs  # already done in dotfiles_postmkvirtualenv   '
     # shellcheck disable=2016
-    echo '#   mkdir -p "${_WRD}"'
+    echo '$ mkdir -p "$_WRD"'
     echo '$ cdwrd; cdw'
-    echo '# editwrd README; ewrd README; e README Makefile  # edit<tab>'
-    echo '# cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;;'
+    echo '# editwrd README; ewrd README; ew README Makefile  # edit<tab>'
+    echo '# cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;; cdwrd; cdw'
 }
 
 
@@ -204,7 +213,7 @@ function dotfiles_postmkvirtualenv {
     if [ -z "${VIRTUAL_ENV}" ]; then
         echo 'VIRTUAL_ENV is not set? (err: 2) [dotfiles_postmkvirtualenv]'
         # shellcheck disable=2016
-        echo 'we <name>; venv_mkdirs; mkdir -p "${_WRD}"'
+        echo 'we <name>; venv_mkdirs; mkdir -p "$_WRD"'
         return 2
     fi
 
@@ -213,29 +222,65 @@ function dotfiles_postmkvirtualenv {
 
     #declare -f 'venv_mkdirs' 2>&1 >/dev/null &&
     (set -x; venv_mkdirs)
-    test -d "${VIRTUAL_ENV}/var/log" || mkdir -p "${VIRTUAL_ENV}/var/log"
+    local _LOG="${_LOG:-"${VIRTUAL_ENV}/var/log"}"
+    (set -x; test -d "${_LOG}" || mkdir -p "${_LOG}")
     echo ""
 
     local PIP
     PIP="$(command -v pip)"
     echo "PIP=$(shell_escape_single "${PIP}")"
 
-    pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
+    pip_freeze="${_LOG}/pip.freeze.postmkvirtualenv.txt"
     echo "#pip_freeze=$(shell_escape_single "${pip_freeze}")"
-    (set -x; ${PIP} freeze | tee "${pip_freeze}")
+    (set -x; ${PIP} freeze --all | tee "${pip_freeze}")
     echo ""
 
-    pip_list="${VIRTUAL_ENV}/var/log/pip.list.postmkvirtualenv.txt"
+    pip_list="${_LOG}/pip.list.postmkvirtualenv.txt"
     echo "#pip_list=$(shell_escape_single "${pip_list}")"
     (set -x; ${PIP} list | tee "${pip_list}")
     echo ""
 
-    echo '## to work on this virtualenv:'
-    # shellcheck disable=2016
-    echo 'workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
+    if [ -n "${IS_CONDA_ENV}" ]; then
+        conda_list="${_LOG}/conda.list.no-pip.postmkvirtualenv.txt";
+        echo "#conda_list=$(shell_escape_single "${conda_list}")"
+        (set -x; conda list -e --no-pip | tee "${conda_list}")
 
-    echo '+workon_venv '"${VIRTUAL_ENV_NAME}"
-    workon_venv "${VIRTUAL_ENV_NAME}"
+        conda_environment_yml="${_LOG}/conda.environment.postmkvirtualenv.yml";
+        echo "#conda_environment_yml=$(shell_escape_single "${conda_environment_yml}")"
+        (set -x;
+          conda env export \
+              | grep -Ev '^(name|prefix): ' \
+              | tee "${conda_environment_yml}"
+        )
+
+        conda_environment_fromhistory_yml="${_LOG}/conda.environment.from-history.postmkvirtualenv.yml";
+        echo "#conda_environment_fromhistory_yml=$(shell_escape_single "${conda_environment_fromhistory_yml}")"
+        (set -x;
+          conda env export --from-history \
+              | grep -Ev '^(name|prefix): ' \
+              | tee "${conda_environment_yml}"
+        )
+
+        echo '## to work on this condaenv:'
+        # shellcheck disable=2016
+        echo 'workon_conda '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
+
+        echo '+ workon_conda '"'${VIRTUAL_ENV_NAME}' '${VIRTUAL_ENV_NAME}' ${_conda_envs_path:+"${_conda_envs_path}"}"
+        workon_conda "${VIRTUAL_ENV_NAME}" "${VIRTUAL_ENV_NAME}" \
+            ${_conda_envs_path:+"${_conda_envs_path}"}
+
+        echo '## to list packages installed into this condaenv with conda:'
+        echo '$ conda env export --from-history | grep -Ev "^(name|prefix): "'
+        echo '#'
+    else
+        echo '## to work on this virtualenv:'
+        # shellcheck disable=2016
+        echo 'workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
+
+        echo '+ workon_venv '"${VIRTUAL_ENV_NAME}"
+        workon_venv "${VIRTUAL_ENV_NAME}"
+    fi
+
     echo "PWD=$(path)"
     echo "#"
     dotfiles_postmkvirtualenv_help

@@ -257,7 +257,7 @@ complete -o default -o nospace -F _condaenvs wec
 
 function _mkvirtualenv_conda_usage {
     # _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-    echo "mkvirtualenv_conda <envname|path> [CONDA_ENVS_PATH|<27,34,35,36,37>] [<pkgs>]"
+    echo "mkvirtualenv_conda <envname|path> [CONDA_ENVS_PATH|<27,34,35,36,37>] [<pkg>+]"
     echo ""
     echo "To create a condaenv named 'science':"
     echo ""
@@ -269,24 +269,23 @@ function _mkvirtualenv_conda_usage {
     echo "  $ mkvirtualenv_conda science ~/condaenvs"
     echo "  $ mkvirtualenv_conda science 37 jupyterlab matplotlib pandas"
     echo ""
+    echo "To workon a condaenv named 'science':'"
+    echo ""
     echo "  $ workon_conda science science 37"
     echo "  $ wec science science 37"
-    echo "  $ wec science science 37"
+    echo ""
+    echo "To workon a condaenv named 'science' in the (implicit) 37 condaroot:"
+    echo ""
+    echo "  $ _setup_conda 37"
     echo "  $ wec science"
     echo ""
 }
 
 function mkvirtualenv_conda {
-    (set -e; unset VIRTUAL_ENV_NAME _APP; _mkvirtualenv_conda "${@}")
-}
-
-function _mkvirtualenv_conda {
     # mkvirtualenv_conda()  -- mkvirtualenv and conda create
     #   $1 (_conda_envname:str)     -- envname string (eg "dotfiles")
     #   $2 (_conda_envs_path:str)   -- path to create envname in
     #       default: CONDA_ENVS_PATH
-    local _conda_python="${CONDA_PYTHON}"   # CONDA_PYTHON="python=3.6"
-
     if [[ -z "${*}" ]]; then
         _mkvirtualenv_conda_usage
         return 0
@@ -301,10 +300,13 @@ function _mkvirtualenv_conda {
 
     local _conda_envname="${1}"
     local _conda_envs_path="${2:-${CONDA_ENVS_PATH}}"
-    shift; shift
+    if [ -n "${2}" ]; then
+        shift
+    fi
+    shift
     local _conda_pkgs=( "${@}" )
 
-    local _conda_="conda"
+    local _conda_python="${CONDA_PYTHON}"   # CONDA_PYTHON="python=3.6"
 
     # shellcheck disable=2016
     (set +x +v;
@@ -346,23 +348,26 @@ function _mkvirtualenv_conda {
 #   #(CONDA_ENVS_PATH=${_conda_envs_path}
 #   #    conda create --mkdir -n ${_conda_envname} -y
 #   #    "${_conda_python}" readline pip ${_conda_pkgs} )
-    (set -x; "${_conda_}" create --mkdir --prefix "${CONDA_ENV}" --yes \
-        "${_conda_python}" readline pip "${_conda_pkgs[@]}")
+    (set -x;
+        conda create --mkdir --prefix "${CONDA_ENV}" --yes \
+            "${_conda_python}" readline pip "${_conda_pkgs[@]}")
 
+    unset VIRTUAL_ENV_NAME
+    unset _APP
     export VIRTUAL_ENV="${CONDA_ENV}"
+    # shellcheck disable=2016
+    echo "+ workon_conda '${_conda_envname}' '${_conda_envname}' '${_conda_envs_path}'"
     workon_conda "${_conda_envname}" "${_conda_envname}" "${_conda_envs_path}"
     export VIRTUAL_ENV="${CONDA_ENV}"
 
     # if there is a function named 'dotfiles_postmkvirtualenv',
     # then run 'dotfiles_postmkvirtualenv'
+    # (defined in 08-bashrc.dotfiles.sh)
     declare -f 'dotfiles_postmkvirtualenv' > /dev/null 2>&1 && \
+        IS_CONDA_ENV="${CONDA_ENV}" \
+        _conda_envs_path="${_conda_envs_path}" \
         dotfiles_postmkvirtualenv
 
-    (set +x +v; echo "")
-    command -v conda
-    conda_list="${_LOG}/conda.list.no-pip.postmkvirtualenv.txt"
-    (set +x +v; echo "conda_list: ${conda_list}")
-    "${_conda_}" list -e --no-pip | tee "${conda_list}"
 }
 
 function rmvirtualenv_conda {
