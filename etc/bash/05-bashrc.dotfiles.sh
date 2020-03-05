@@ -228,7 +228,7 @@ function dotfiles_postmkvirtualenv {
     (set -x; ${PIP} freeze | tee "${pip_freeze}")
     echo ""
 
-    pip_list="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
+    pip_list="${VIRTUAL_ENV}/var/log/pip.list.postmkvirtualenv.txt"
     echo "#pip_list=$(shell_escape_single "${pip_list}")"
     (set -x; ${PIP} list | tee "${pip_list}")
     echo ""
