@@ -117,6 +117,7 @@ function miniconda_setup__dotfiles_minicondas {
 
     local CONDA_ROOT__py27="${CONDA_ROOT__py27:-"${prefix}/-conda27"}"
     local CONDA_ROOT__py37="${CONDA_ROOT__py37:-"${prefix}/-conda37"}"
+    local CONDA_ROOT__py38="${CONDA_ROOT__py38:-"${prefix}/-conda38"}"
 
     local mc2=$(miniconda_download 2)
     echo $mc2
@@ -144,6 +145,10 @@ function miniconda_setup__dotfiles_minicondas {
         miniconda_install "${mc3}" "${CONDA_ROOT__py37}"
         ret=$(expr $ret + $?);
     fi
+    if [ -n "${CONDA_ROOT__py38}" ]; then
+        miniconda_install "${mc3}" "${CONDA_ROOT__py38}"
+        ret=$(expr $ret + $?);
+    fi
     return $ret;
 }
 
@@ -158,6 +163,8 @@ function miniconda_setup__dotfiles_env {
     declare -g CONDA_ENVS__py36="${CONDA_ENVS__py36:-"${prefix}/-ce36"}"
     declare -g CONDA_ROOT__py37="${CONDA_ROOT__py37:-"${prefix}/-conda37"}"
     declare -g CONDA_ENVS__py37="${CONDA_ENVS__py37:-"${prefix}/-ce37"}"
+    declare -g CONDA_ROOT__py38="${CONDA_ROOT__py38:-"${prefix}/-conda38"}"
+    declare -g CONDA_ENVS__py38="${CONDA_ENVS__py38:-"${prefix}/-ce38"}"
 }
 
 function miniconda_setup__dotfiles_condaenvs {
@@ -165,38 +172,46 @@ function miniconda_setup__dotfiles_condaenvs {
     miniconda_setup__dotfiles_env
 
     local envname="dotfiles"
+    # local baseenvname="root"
+    local baseenvname="base"
 
     ## create a condaenv for each python version
     # create a dotfiles condaenv for each python version
     CONDA_ROOT=$CONDA_ROOT__py27
     CONDA_ENVS_PATH=$CONDA_ENVS__py27
-    "${CONDA_ROOT__py27}/bin/conda" install -y -n root conda-env python=2.7 pip readline
+    "${CONDA_ROOT__py27}/bin/conda" install -y -n "${baseenvname}" conda-env python=2.7 pip readline
     test -d "${CONDA_ENVS__py27}/${envname}" || "${CONDA_ROOT__py27}/bin/conda" create -y -n "${envname}"
     miniconda_check_conda_env "${CONDA_ENVS__py27}/${envname}"
 
     CONDA_ROOT=$CONDA_ROOT__py34
     CONDA_ENVS_PATH=$CONDA_ENVS__py34
-    "${CONDA_ROOT__py34}/bin/conda" install -y -n root conda-env python=3.4 pip readline
+    "${CONDA_ROOT__py34}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.4 pip readline
     test -d "${CONDA_ENVS__py34}/${envname}" || "${CONDA_ROOT__py34}/bin/conda" create -y -n "${envname}"
     miniconda_check_conda_env "${CONDA_ENVS__py34}/${envname}"
 
     CONDA_ROOT=$CONDA_ROOT__py35
     CONDA_ENVS_PATH=$CONDA_ENVS__py35
-    "${CONDA_ROOT__py35}/bin/conda" install -y -n root conda-env python=3.5 pip readline
+    "${CONDA_ROOT__py35}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.5 pip readline
     test -d "${CONDA_ENVS__py35}/${envname}" || "${CONDA_ROOT__py35}/bin/conda" create -y -n "${envname}"
     miniconda_check_conda_env "${CONDA_ENVS__py35}/${envname}"
 
     CONDA_ROOT=$CONDA_ROOT__py36
     CONDA_ENVS_PATH=$CONDA_ENVS__py36
-    "${CONDA_ROOT__py36}/bin/conda" install -y -n root conda-env python=3.6 pip readline
+    "${CONDA_ROOT__py36}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.6 pip readline
     test -d "${CONDA_ENVS__py36}/${envname}" || "${CONDA_ROOT__py36}/bin/conda" create -y -n "${envname}"
     miniconda_check_conda_env "${CONDA_ENVS__py36}/${envname}"
 
     CONDA_ROOT=$CONDA_ROOT__py37
     CONDA_ENVS_PATH=$CONDA_ENVS__py37
-    "${CONDA_ROOT__py37}/bin/conda" install -y -n root conda-env python=3.7 pip readline
+    "${CONDA_ROOT__py37}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.7 pip readline
     test -d "${CONDA_ENVS__py37}/${envname}" || "${CONDA_ROOT__py37}/bin/conda" create -y -n "${envname}"
     miniconda_check_conda_env "${CONDA_ENVS__py37}/${envname}"
+
+    CONDA_ROOT=$CONDA_ROOT__py38
+    CONDA_ENVS_PATH=$CONDA_ENVS__py38
+    "${CONDA_ROOT__py38}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.8 pip readline
+    test -d "${CONDA_ENVS__py38}/${envname}" || "${CONDA_ROOT__py37}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py38}/${envname}"
 }
 
 function miniconda_setup_main {
