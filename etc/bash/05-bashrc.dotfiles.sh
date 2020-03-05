@@ -11,11 +11,8 @@ function dotfiles_add_path {
 }
 
 function shell_escape_single {
-    # shell_escape_single()
-    local strtoescape=${1}
-    local output
-    output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
-    echo "'""${output}""'"
+    # shell_escape_single()    -- "'" + sed "s,','\"'\"',g" + "'"
+    echo "'""${1//\'/\'\"\'\"\'}""'"
 }
 
 function dotfiles_status {
