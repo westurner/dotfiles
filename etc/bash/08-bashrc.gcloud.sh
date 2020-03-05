@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### bashrc.gcloud.sh
 
 function _get_GCLOUDSDK_PREFIX {
@@ -20,9 +20,11 @@ function _setup_gcloudsdk {
     _setup_GCLOUDSDK_PREFIX "${1:+"${1}"}"
 
     #The next line updates PATH for the Google Cloud SDK.
+    # shellcheck disable=1090
     source "${GCLOUDSDK_PREFIX}/path.bash.inc"
 
     #The next line enables bash completion for gcloud.
+    # shellcheck disable=1090
     source "${GCLOUDSDK_PREFIX}/completion.bash.inc"
 }
 
@@ -39,8 +41,9 @@ function _get_APPENGINESDK_PREFIX {
     if [ -n "${APPENGINESDK_PREFIX}" ]; then
         _APPENGINESDK_PREFIX="${APPENGINESDK_PREFIX}"
     else
-        local _APPENGINESDK_BASEPATH=
-        local _GCLOUDSDK_PREFIX="$(_get_GCLOUDSDK_PREFIX)"
+        local _APPENGINESDK_BASEPATH
+        local _GCLOUDSDK_PREFIX
+        _GCLOUDSDK_PREFIX="$(_get_GCLOUDSDK_PREFIX)"
         if [ -n "${_GCLOUDSDK_PREFIX}" ]; then
             _APPENGINESDK_BASEPATH="${_GCLOUDSDK_PREFIX}/platform"
         else
@@ -58,7 +61,8 @@ function _setup_APPENGINESDK_PREFIX {
     if [ -n "${1}" ]; then
         _APPENGINESDK_PREFIX="${1}"
     else
-        local _GCLOUDSDK_PREFIX="$(_get_GCLOUDSDK_PREFIX)"
+        local _GCLOUDSDK_PREFIX
+        _GCLOUDSDK_PREFIX="$(_get_GCLOUDSDK_PREFIX)"
         if [ -d "${_GCLOUDSDK_PREFIX}" ]; then
             _setup_GCLOUDSDK_PREFIX
         fi

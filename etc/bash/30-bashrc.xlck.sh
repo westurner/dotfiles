@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### 30-bashrc.xlck.sh
 ## xlck     -- minimal X screensaver
     # xlck 
@@ -18,6 +18,7 @@
 _setup_xlck() {
     # _setup_xlck() -- source ${__DOTFILES}/etc/xlck.sh (if -z __IS_MAC)
     if [ -z "${__IS_MAC}" ]; then
+        # shellcheck source=../../scripts/xlck.sh
         source "${__DOTFILES}/scripts/xlck.sh"
     fi
 }

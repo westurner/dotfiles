@@ -59,34 +59,8 @@ _src_etc_profile_d()
     fi
 }
 _src_etc_profile_d
-# Enable 256 color capabilities for appropriate terminals
-
-# Set this variable in your local shell config (such as ~/.bashrc)
-# if you want remote xterms connecting to this system, to be sent 256 colors.
-# This must be set before reading global initialization such as /etc/bashrc.
-#   SEND_256_COLORS_TO_REMOTE=1
-
-# Terminals with any of the following set, support 256 colors (and are local)
-local256="$COLORTERM$XTERM_VERSION$ROXTERM_ID$KONSOLE_DBUS_SESSION"
-
-if [ -n "$local256" ] || [ -n "$SEND_256_COLORS_TO_REMOTE" ]; then
-
-  case "$TERM" in
-    'xterm') TERM=xterm-256color;;
-    'screen') TERM=screen-256color;;
-    'Eterm') TERM=Eterm-256color;;
-  esac
-  export TERM
-
-  if [ -n "$TERMCAP" ] && [ "$TERM" = "screen-256color" ]; then
-    TERMCAP=$(echo "$TERMCAP" | sed -e 's/Co#8/Co#256/g')
-    export TERMCAP
-  fi
-fi
-
-unset local256
 # Check for interactive bash and that we haven't already been sourced.
-if [ -n "${BASH_VERSION-}" -a -n "${PS1-}" -a -z "${BASH_COMPLETION_COMPAT_DIR-}" ]; then
+if [ -n "${BASH_VERSION-}" -a -n "${PS1-}" -a -z "${BASH_COMPLETION_VERSINFO-}" ]; then
 
     # Check for recent enough version of bash.
     if [ ${BASH_VERSINFO[0]} -gt 4 ] || \
@@ -174,115 +148,133 @@ alias xzfgrep='xzfgrep --color=auto' 2>/dev/null
 alias zgrep='zgrep --color=auto' 2>/dev/null
 alias zfgrep='zfgrep --color=auto' 2>/dev/null
 alias zegrep='zegrep --color=auto' 2>/dev/null
-# /etc/profile.d/flatpak.sh - set XDG_DATA_DIRS
+# change default from rsh to ssh for cvs command
+export CVS_RSH=${CVS_RSH-ssh}# set XDG_DATA_DIRS to include Flatpak installations
 
-if [ "${XDG_DATA_DIRS#*flatpak}" = "${XDG_DATA_DIRS}" ]; then
-    XDG_DATA_DIRS="${XDG_DATA_HOME:-"$HOME/.local/share"}/flatpak/exports/share:/var/lib/flatpak/exports/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-fi
+new_dirs=$(
+    (
+        unset G_MESSAGES_DEBUG
+        echo "${XDG_DATA_HOME:-"$HOME/.local/share"}/flatpak"
+        flatpak --installations
+    ) | (
+        new_dirs=
+        while read -r install_path
+        do
+            share_path=$install_path/exports/share
+            case ":$XDG_DATA_DIRS:" in
+                *":$share_path:"*) :;;
+                *":$share_path/:"*) :;;
+                *) new_dirs=${new_dirs:+${new_dirs}:}$share_path;;
+            esac
+        done
+        echo "$new_dirs"
+    )
+)
 
 export XDG_DATA_DIRS
-SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
-export SSH_ASKPASS
+XDG_DATA_DIRS="${new_dirs:+${new_dirs}:}${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+gawkpath_default () {
+	unset AWKPATH
+	export AWKPATH=`gawk 'BEGIN {print ENVIRON["AWKPATH"]}'`
+}
 
-## Make sure KDEDIRS is set
-[ -z "$KDEDIRS" ] && KDEDIRS="/usr" && export KDEDIRS
+gawkpath_prepend () {
+	[ -z "$AWKPATH" ] && AWKPATH=`gawk 'BEGIN {print ENVIRON["AWKPATH"]}'`
+	export AWKPATH="$*:$AWKPATH"
+}
 
-## When/if using prelinking, avoids (some) use of kdeinit
-if [ -z "$KDE_IS_PRELINKED" ] ; then
-  grep -qs '^PRELINKING=yes' /etc/sysconfig/prelink && \
-  KDE_IS_PRELINKED=1 && export KDE_IS_PRELINKED
+gawkpath_append () {
+	[ -z "$AWKPATH" ] && AWKPATH=`gawk 'BEGIN {print ENVIRON["AWKPATH"]}'`
+	export AWKPATH="$AWKPATH:$*"
+}
+
+gawklibpath_default () {
+	unset AWKLIBPATH
+	export AWKLIBPATH=`gawk 'BEGIN {print ENVIRON["AWKLIBPATH"]}'`
+}
+
+gawklibpath_prepend () {
+	[ -z "$AWKLIBPATH" ] && \
+		AWKLIBPATH=`gawk 'BEGIN {print ENVIRON["AWKLIBPATH"]}'`
+	export AWKLIBPATH="$*:$AWKLIBPATH"
+}
+
+gawklibpath_append () {
+	[ -z "$AWKLIBPATH" ] && \
+		AWKLIBPATH=`gawk 'BEGIN {print ENVIRON["AWKLIBPATH"]}'`
+	export AWKLIBPATH="$AWKLIBPATH:$*"
+}
+# Guestfish colour prompts.  See PROMPT in guestfish(1).
+GUESTFISH_PS1='\[\e[1;32m\]><fs>\[\e[0;31m\] '
+GUESTFISH_OUTPUT='\e[0m'
+GUESTFISH_RESTORE="$GUESTFISH_OUTPUT"
+GUESTFISH_INIT='\e[1;34m'
+export GUESTFISH_PS1 GUESTFISH_OUTPUT GUESTFISH_RESTORE GUESTFISH_INIT
+# /etc/profile.d/lang.sh - exports environment variables, and provides fallback
+#                          for CJK languages that can't be displayed in console.
+
+if [ -n "${LANG}" ]; then
+    LANG_backup="${LANG}"
 fi
 
-# /etc/profile.d/lang.sh - set i18n stuff
+for config in /etc/locale.conf "${HOME}/.i18n"; do
+    # NOTE: We are using eval & sed here to avoid invoking of any commands & functions from those files.
+    if [ -f "${config}" ]; then
+        eval $(sed -r -e 's/^[[:blank:]]*([[:upper:]_]+)=([[:print:][:digit:]\._-]+|"[[:print:][:digit:]\._-]+")/export \1=\2/;t;d' ${config})
+    fi
+done
 
-sourced=0
-
-if [ -n "$LANG" ]; then
-    saved_lang="$LANG"
-    [ -f "$HOME/.i18n" ] && . "$HOME/.i18n" && sourced=1
-    LANG="$saved_lang"
-    unset saved_lang
-else
-    for langfile in /etc/locale.conf "$HOME/.i18n" ; do
-        [ -f $langfile ] && . $langfile && sourced=1
-    done
+if [ -n "${LANG_backup}" ]; then
+    LANG="${LANG_backup}"
 fi
 
-if [ "$sourced" = 1 ]; then
-    [ -n "$LANG" ] && export LANG || unset LANG
-    [ -n "$LC_ADDRESS" ] && export LC_ADDRESS || unset LC_ADDRESS
-    [ -n "$LC_CTYPE" ] && export LC_CTYPE || unset LC_CTYPE
-    [ -n "$LC_COLLATE" ] && export LC_COLLATE || unset LC_COLLATE
-    [ -n "$LC_IDENTIFICATION" ] && export LC_IDENTIFICATION || unset LC_IDENTIFICATION
-    [ -n "$LC_MEASUREMENT" ] && export LC_MEASUREMENT || unset LC_MEASUREMENT
-    [ -n "$LC_MESSAGES" ] && export LC_MESSAGES || unset LC_MESSAGES
-    [ -n "$LC_MONETARY" ] && export LC_MONETARY || unset LC_MONETARY
-    [ -n "$LC_NAME" ] && export LC_NAME || unset LC_NAME
-    [ -n "$LC_NUMERIC" ] && export LC_NUMERIC || unset LC_NUMERIC
-    [ -n "$LC_PAPER" ] && export LC_PAPER || unset LC_PAPER
-    [ -n "$LC_TELEPHONE" ] && export LC_TELEPHONE || unset LC_TELEPHONE
-    [ -n "$LC_TIME" ] && export LC_TIME || unset LC_TIME
-    if [ -n "$LC_ALL" ]; then
-       if [ "$LC_ALL" != "$LANG" ]; then
-         export LC_ALL
-       else
-         unset LC_ALL
-       fi
+unset LANG_backup config
+
+# ----------------------------------------------
+
+# The LC_ALL is not supposed to be set in /etc/locale.conf according to 'man 5 locale.conf'.
+# If it is set, then we we expect it is user's explicit override (most likely from ~/.i18n file).
+# See 'man 7 locale' for more info about LC_ALL.
+if [ -n "${LC_ALL}" ]; then
+    if [ "${LC_ALL}" != "${LANG}" ]; then
+        export LC_ALL
     else
-       unset LC_ALL
+        unset LC_ALL
     fi
-    [ -n "$LANGUAGE" ] && export LANGUAGE || unset LANGUAGE
-    [ -n "$LINGUAS" ] && export LINGUAS || unset LINGUAS
-    [ -n "$_XKB_CHARSET" ] && export _XKB_CHARSET || unset _XKB_CHARSET
-    
-    consoletype=$CONSOLETYPE
-    if [ -z "$consoletype" ]; then
-      consoletype=$(/sbin/consoletype stdout)
-    fi
-
-    if [ -n "$LANG" ]; then
-      case $LANG in
-    	*.utf8*|*.UTF-8*)
-    	if [ "$TERM" = "linux" ]; then
-    	    if [ "$consoletype" = "vt" ]; then
-    	    	case $LANG in 
-    	    		ja*) LANG=en_US.UTF-8 ;;
-    	    		ko*) LANG=en_US.UTF-8 ;;
-			si*) LANG=en_US.UTF-8 ;;
-    	    		zh*) LANG=en_US.UTF-8 ;;
-    	    		ar*) LANG=en_US.UTF-8 ;;
-    	    		fa*) LANG=en_US.UTF-8 ;;
-    	    		he*) LANG=en_US.UTF-8 ;;
-    	    		en_IN*) ;;
-    	    		*_IN*) LANG=en_US.UTF-8 ;;
-    	    	esac
-            fi
-        fi
-	;;
-	*)
-	if [ "$TERM" = "linux" ]; then
-	    if [ "$consoletype" = "vt" ]; then
-    	    	case $LANG in 
-    	    		ja*) LANG=en_US ;;
-    	    		ko*) LANG=en_US ;;
-			si*) LANG=en_US ;;
-    	    		zh*) LANG=en_US ;;
-    	    		ar*) LANG=en_US ;;
-    	    		fa*) LANG=en_US ;;
-    	    		he*) LANG=en_US ;;
-    	    		en_IN*) ;;
-    	    		*_IN*) LANG=en_US ;;
-    	    	esac
-	    fi
-	fi
-	;;
-      esac
-    fi
-
-    unset SYSFONTACM SYSFONT consoletype
 fi
-unset sourced
-unset langfile
+
+# The ${LANG} manipulation is necessary only in virtual terminal (a.k.a. console - /dev/tty*):
+if [ -n "${LANG}" ] && [ "${TERM}" = 'linux' ] && tty | grep --quiet -e '/dev/tty'; then
+    if grep --quiet -E -i -e '^.+\.utf-?8$' <<< "${LANG}"; then
+        case ${LANG} in
+            ja*)    LANG=en_US.UTF-8 ;;
+            ko*)    LANG=en_US.UTF-8 ;;
+            si*)    LANG=en_US.UTF-8 ;;
+            zh*)    LANG=en_US.UTF-8 ;;
+            ar*)    LANG=en_US.UTF-8 ;;
+            fa*)    LANG=en_US.UTF-8 ;;
+            he*)    LANG=en_US.UTF-8 ;;
+            en_IN*) true             ;;
+            *_IN*)  LANG=en_US.UTF-8 ;;
+        esac
+    else
+        case ${LANG} in
+            ja*)    LANG=en_US ;;
+            ko*)    LANG=en_US ;;
+            si*)    LANG=en_US ;;
+            zh*)    LANG=en_US ;;
+            ar*)    LANG=en_US ;;
+            fa*)    LANG=en_US ;;
+            he*)    LANG=en_US ;;
+            en_IN*) true       ;;
+            *_IN*)  LANG=en_US ;;
+        esac
+    fi
+
+    # NOTE: We are not exporting the ${LANG} here again on purpose.
+    #       If user starts GUI session from console manually, then
+    #       the previously set LANG should be okay to use.
+fi
 # less initialization script (sh)
 
 # All less.*sh files should have the same semantics!
@@ -291,28 +283,142 @@ if [ -z "$LESSOPEN" ] && [ -x /usr/bin/lesspipe.sh ]; then
     # The '||' here is intentional, see rhbz#1254837.
     export LESSOPEN="||/usr/bin/lesspipe.sh %s"
 fi
-shell=`/bin/basename \`/bin/ps -p $$ -ocomm=\``
-if [ -f /usr/share/Modules/init/$shell ]
-then
-  . /usr/share/Modules/init/$shell
+# get current shell name by querying shell variables or looking at parent
+# process name
+if [ -n "${BASH:-}" ]; then
+   shell=${BASH##*/}
+elif [ -n "${ZSH_NAME:-}" ]; then
+   shell=$ZSH_NAME
 else
-  . /usr/share/Modules/init/sh
+   shell=$(/usr/bin/basename $(/usr/bin/ps -p $$ -ocomm=))
 fi
 
-module() { eval `/usr/bin/modulecmd zsh $*`; }
+if [ -f /usr/share/Modules/init/$shell ]; then
+   . /usr/share/Modules/init/$shell
+else
+   . /usr/share/Modules/init/sh
+fi
+unset  _mlshdbg;
+# disable shell debugging for the run of this init file
+if [ "${MODULES_SILENT_SHELL_DEBUG:-0}" = '1' ]; then
+   # immediately disable debugging to echo the less number of line possible
+   case "$-" in
+      *v*x*) set +vx; _mlshdbg='vx' ;;
+      *v*) set +v; _mlshdbg='v' ;;
+      *x*) set +x; _mlshdbg='x' ;;
+      *) _mlshdbg='' ;;
+   esac;
+fi;
 
-MODULESHOME=/usr/share/Modules
-export MODULESHOME
+# define modules runtine quarantine configuration
+export MODULES_RUN_QUARANTINE='LD_LIBRARY_PATH'
 
-if [ "${LOADEDMODULES:-}" = "" ]; then
-  LOADEDMODULES=
-  export LOADEDMODULES
+# setup quarantine if defined
+unset _mlre _mlIFS;
+if [ -n "${IFS+x}" ]; then
+   _mlIFS=$IFS;
+fi;
+IFS=' ';
+for _mlv in ${=MODULES_RUN_QUARANTINE:-}; do
+   if [ "${_mlv}" = "${_mlv##*[!A-Za-z0-9_]}" -a "${_mlv}" = "${_mlv#[0-9]}" ]; then
+      if [ -n "`eval 'echo ${'$_mlv'+x}'`" ]; then
+         _mlre="${_mlre:-}${_mlv}_modquar='`eval 'echo ${'$_mlv'}'`' ";
+      fi;
+      _mlrv="MODULES_RUNENV_${_mlv}";
+      _mlre="${_mlre:-}${_mlv}='`eval 'echo ${'$_mlrv':-}'`' ";
+   fi;
+done;
+if [ -n "${_mlre:-}" ]; then
+   _mlre="eval ${_mlre}";
+fi;
+
+# define module command and surrounding initial environment (default value
+# for MODULESHOME, MODULEPATH, LOADEDMODULES and parse of init/.modulespath)
+_mlcode=`${=_mlre:-}/usr/bin/tclsh /usr/share/Modules/libexec/modulecmd.tcl zsh autoinit`
+_mlret=$?
+
+# clean temp variables used to setup quarantine
+if [ -n "${_mlIFS+x}" ]; then
+   IFS=$_mlIFS; unset _mlIFS;
+else
+   unset IFS;
+fi;
+unset _mlre _mlv _mlrv
+
+# no environment alteration if the above autoinit command failed
+if [ $_mlret -eq 0 ]; then
+   eval "$_mlcode"
+
+   # redefine module command if compat version has been activated
+   if [ "${MODULES_USE_COMPAT_VERSION:-0}" = '1' ]; then
+      MODULES_CMD=/usr/share/Modules/libexec/modulecmd-compat; export MODULES_CMD
+      if [ -t 2 ]; then
+         _module_raw() { eval `/usr/share/Modules/libexec/modulecmd-compat zsh $*`; }
+      else
+         module() { eval `/usr/share/Modules/libexec/modulecmd-compat zsh $*`; }
+      fi
+   fi
+
+   # define function to switch between C and Tcl versions of Modules
+   switchml() {
+      typeset swfound=1
+      if [ "${MODULES_USE_COMPAT_VERSION:-0}" = '1' ]; then
+         typeset swname='main'
+         if [ -e /usr/share/Modules/libexec/modulecmd.tcl ]; then
+            typeset swfound=0
+            unset MODULES_USE_COMPAT_VERSION
+         fi
+      else
+         typeset swname='compatibility'
+         if [ -e /usr/share/Modules/libexec/modulecmd-compat ]; then
+            typeset swfound=0
+            MODULES_USE_COMPAT_VERSION=1; export MODULES_USE_COMPAT_VERSION
+         fi
+      fi
+
+      # switch version only if command found
+      if [ $swfound -eq 0 ]; then
+         echo "Switching to Modules $swname version"
+         source /usr/share/Modules/init/zsh
+      else
+         echo "Cannot switch to Modules $swname version, command not found"
+         return 1
+      fi
+   }
+
+   # setup ENV variables to get module defined in sub-shells (works for 'sh'
+   # and 'ksh' in interactive mode and 'sh' (zsh-compat), 'bash' and 'ksh'
+   # (zsh-compat) in non-interactive mode.
+   ENV=/usr/share/Modules/init/profile.sh; export ENV
+   BASH_ENV=/usr/share/Modules/init/bash; export BASH_ENV
+
+   if [ "$MODULES_USE_COMPAT_VERSION" != '1' ]; then
+   # setup FPATH to put module completion at hand in case zsh completion enabled
+   if [[ ! ":$FPATH:" =~ ':/usr/share/Modules/init/zsh-functions:' ]]; then
+      FPATH=/usr/share/Modules/init/zsh-functions${FPATH:+:}$FPATH; export FPATH
+   fi
+   # no completion support on compat version
+   elif typeset -f compdef >/dev/null; then
+      compdef -d module
+   fi
+
+   if [[ ! ":$PATH:" =~ ':/usr/share/Modules/bin:' ]]; then
+      PATH=/usr/share/Modules/bin${PATH:+:}$PATH; export PATH
+   fi
+
+   manpath=`manpath 2>/dev/null`
+   if [[ ! ":$manpath:" =~ ':/usr/share/man:' ]]; then
+      MANPATH=/usr/share/man${manpath:+:}$manpath; export MANPATH
+   fi
 fi
 
-if [ "${MODULEPATH:-}" = "" ]; then
-  MODULEPATH=`sed -n 's/[ 	#].*$//; /./H; $ { x; s/^\n//; s/\n/:/g; p; }' ${MODULESHOME}/init/.modulespath`
-  export MODULEPATH
-fi
+unset _mlcode _mlret
+
+# restore shell debugging options if disabled
+if [ -n "${_mlshdbg:-}" ]; then
+   set -$_mlshdbg;
+   unset _mlshdbg;
+fi;
 # Copyright (C) 2008 Richard Hughes <richard@hughsie.com>
 #
 # Licensed under the GNU General Public License Version 2
@@ -336,6 +442,9 @@ command_not_found_handle () {
 
 	# don't run if bash command completion is being run
 	[[ -n ${COMP_CWORD-} ]] && runcnf=0
+	
+	# don't run if we've been uninstalled since the shell was launched
+	[[ ! -x '/usr/libexec/pk-command-not-found' ]] && runcnf=0
 
 	# run the command, or just print a warning
 	if [ $runcnf -eq 1 ]; then
@@ -354,43 +463,9 @@ if [[ -n "${ZSH_VERSION-}" ]]; then
 		command_not_found_handle "$@" && return 127
 	}
 fi
-# Qt initialization script (sh)
-
-# In multilib environments there is a preferred architecture, 64 bit over 32 bit in x86_64,
-# ppc64. When a conflict is found between two packages corresponding with different arches,
-# the installed file is the one from the preferred arch. This is very common for executables
-# in /usr/bin, for example. If the file /usr/bin/foo is found  in an x86_64 package and in
-# an i386 package, the executable from x86_64 will be installe
-
-if [ -z "${QTDIR}" ]; then
-
-case `uname -m` in
-   x86_64 | ia64 | s390x | ppc64 | ppc64le)
-      QT_PREFIXES="/usr/lib64/qt-3.3 /usr/lib/qt-3.3" ;;
-   * )
-      QT_PREFIXES="/usr/lib/qt-3.3 /usr/lib64/qt-3.3" ;;
-esac
-
-for QTDIR in ${QT_PREFIXES} ; do
-  test -d "${QTDIR}" && break
-done
-unset QT_PREFIXES
-
-case :$PATH: in
-    *:$QTDIR/bin:*) ;;
-    *) PATH=$QTDIR/bin:$PATH ;;
-esac
-
-QTINC="$QTDIR/include"
-QTLIB="$QTDIR/lib"
-
-export QTDIR QTINC QTLIB PATH
-
-fi
-function scl()
+scl()
 {
-local CMD=$1
-if [ "$CMD" = "load" -o "$CMD" = "unload" ]; then
+if [ "$1" = "load" -o "$1" = "unload" ]; then
 # It is possible that function module is not declared in time of this
 # declaration so eval is used instead of direct calling of function module
     eval "module $@"
@@ -419,6 +494,130 @@ if [ -n "${BASH_VERSION-}" -o -n "${KSH_VERSION-}" -o -n "${ZSH_VERSION-}" ]; th
   # for bash and zsh, only if no alias is already set
   alias vi >/dev/null 2>&1 || alias vi=vim
 fi
+#!/usr/bin/sh
+# Alternative startup script for faster login times.
+
+export _VIRTUALENVWRAPPER_API="$_VIRTUALENVWRAPPER_API mkvirtualenv rmvirtualenv lsvirtualenv showvirtualenv workon add2virtualenv cdsitepackages cdvirtualenv lssitepackages toggleglobalsitepackages cpvirtualenv setvirtualenvproject mkproject cdproject mktmpenv wipeenv allvirtualenv"
+
+if [ -z "$VIRTUALENVWRAPPER_SCRIPT" ]
+then
+    export VIRTUALENVWRAPPER_SCRIPT="$(command \which virtualenvwrapper-3.sh)"
+fi
+if [ -z "$VIRTUALENVWRAPPER_SCRIPT" ]
+then
+    echo "ERROR: virtualenvwrapper_lazy-3.sh: Could not find virtualenvwrapper-3.sh" 1>&2
+fi
+
+# Load the real implementation of the API from virtualenvwrapper.sh
+function virtualenvwrapper_load {
+    # Only source the script once.
+    # We might get called multiple times, because not all of _VIRTUALENVWRAPPER_API gets
+    # a real completion.
+    if [ -z $VIRTUALENVWRAPPER_LAZY_LOADED ]
+    then
+        # NOTE: For Zsh, I have tried to unset any auto-load completion.
+        #       (via `compctl + $(echo ${_VIRTUALENVWRAPPER_API})`.
+        #       But this does not appear to work / triggers a crash.
+        source "$VIRTUALENVWRAPPER_SCRIPT"
+        VIRTUALENVWRAPPER_LAZY_LOADED=1
+    fi
+}
+
+# Set up "alias" functions based on the API definition.
+function virtualenvwrapper_setup_lazy_loader {
+    typeset venvw_name
+    for venvw_name in $(echo ${_VIRTUALENVWRAPPER_API})
+    do
+        eval "
+function $venvw_name {
+    virtualenvwrapper_load
+    ${venvw_name} \"\$@\"
+}
+"
+    done
+}
+
+# Set up completion functions to virtualenvwrapper_load
+function virtualenvwrapper_setup_lazy_completion {
+    if [ -n "$BASH" ] ; then
+        function virtualenvwrapper_lazy_load {
+            virtualenvwrapper_load
+            return 124
+        }
+        complete -o nospace -F virtualenvwrapper_lazy_load $(echo ${_VIRTUALENVWRAPPER_API})
+    elif [ -n "$ZSH_VERSION" ] ; then
+        compctl -K virtualenvwrapper_load $(echo ${_VIRTUALENVWRAPPER_API})
+    fi
+}
+
+virtualenvwrapper_setup_lazy_loader
+# Cannot be reset in zsh to fallback to files (e.g. mkvirtualenv).
+virtualenvwrapper_setup_lazy_completion
+
+unset virtualenvwrapper_setup_lazy_loader
+unset virtualenvwrapper_setup_lazy_completion
+#!/usr/bin/sh
+# Alternative startup script for faster login times.
+
+export _VIRTUALENVWRAPPER_API="$_VIRTUALENVWRAPPER_API mkvirtualenv rmvirtualenv lsvirtualenv showvirtualenv workon add2virtualenv cdsitepackages cdvirtualenv lssitepackages toggleglobalsitepackages cpvirtualenv setvirtualenvproject mkproject cdproject mktmpenv wipeenv allvirtualenv"
+
+if [ -z "$VIRTUALENVWRAPPER_SCRIPT" ]
+then
+    export VIRTUALENVWRAPPER_SCRIPT="$(command \which virtualenvwrapper.sh)"
+fi
+if [ -z "$VIRTUALENVWRAPPER_SCRIPT" ]
+then
+    echo "ERROR: virtualenvwrapper_lazy.sh: Could not find virtualenvwrapper.sh" 1>&2
+fi
+
+# Load the real implementation of the API from virtualenvwrapper.sh
+function virtualenvwrapper_load {
+    # Only source the script once.
+    # We might get called multiple times, because not all of _VIRTUALENVWRAPPER_API gets
+    # a real completion.
+    if [ -z $VIRTUALENVWRAPPER_LAZY_LOADED ]
+    then
+        # NOTE: For Zsh, I have tried to unset any auto-load completion.
+        #       (via `compctl + $(echo ${_VIRTUALENVWRAPPER_API})`.
+        #       But this does not appear to work / triggers a crash.
+        source "$VIRTUALENVWRAPPER_SCRIPT"
+        VIRTUALENVWRAPPER_LAZY_LOADED=1
+    fi
+}
+
+# Set up "alias" functions based on the API definition.
+function virtualenvwrapper_setup_lazy_loader {
+    typeset venvw_name
+    for venvw_name in $(echo ${_VIRTUALENVWRAPPER_API})
+    do
+        eval "
+function $venvw_name {
+    virtualenvwrapper_load
+    ${venvw_name} \"\$@\"
+}
+"
+    done
+}
+
+# Set up completion functions to virtualenvwrapper_load
+function virtualenvwrapper_setup_lazy_completion {
+    if [ -n "$BASH" ] ; then
+        function virtualenvwrapper_lazy_load {
+            virtualenvwrapper_load
+            return 124
+        }
+        complete -o nospace -F virtualenvwrapper_lazy_load $(echo ${_VIRTUALENVWRAPPER_API})
+    elif [ -n "$ZSH_VERSION" ] ; then
+        compctl -K virtualenvwrapper_load $(echo ${_VIRTUALENVWRAPPER_API})
+    fi
+}
+
+virtualenvwrapper_setup_lazy_loader
+# Cannot be reset in zsh to fallback to files (e.g. mkvirtualenv).
+virtualenvwrapper_setup_lazy_completion
+
+unset virtualenvwrapper_setup_lazy_loader
+unset virtualenvwrapper_setup_lazy_completion
 # Copyright © 2006 Shaun McCance <shaunm@gnome.org>
 # Copyright © 2013 Peter De Wachter <pdewacht@gmail.com>
 #
@@ -467,7 +666,7 @@ __vte_ps1() {
 }
 
 __vte_osc7 () {
-  printf "\033]7;file://%s%s\007" "${HOSTNAME:-}" "$(__vte_urlencode "${PWD}")"
+  printf "\033]7;file://%s%s\033\\" "${HOSTNAME:-}" "$(__vte_urlencode "${PWD}")"
 }
 
 __vte_prompt_command() {
@@ -475,7 +674,7 @@ __vte_prompt_command() {
   command="${command//;/ }"
   local pwd='~'
   [ "$PWD" != "$HOME" ] && pwd=${PWD/#$HOME\//\~\/}
-  printf "\033]777;notify;Command completed;%s\007\033]0;%s@%s:%s\007%s" "${command}" "${USER}" "${HOSTNAME%%.*}" "${pwd}" "$(__vte_osc7)"
+  printf '\033]777;notify;Command completed;%s\033\\\033]0;%s@%s:%s\033\\%s' "${command}" "${USER}" "${HOSTNAME%%.*}" "${pwd}" "$(__vte_osc7)"
 }
 
 case "$TERM" in
@@ -488,7 +687,11 @@ esac
 true
 # Initialization script for bash and sh
 
-alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
+if [ "$0" = ksh ] ; then
+  alias which='(alias; typeset -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
+else
+  alias which='(alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot'
+fi
 
 unset -f pathmunge _src_etc_profile_d
 
@@ -1315,6 +1518,1978 @@ ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 # Load and run compinit
 autoload -U compinit
 compinit -i -d "${ZSH_COMPDUMP}"
+#files: 942	version: 5.6.2
+
+_comps=(
+'-' '_precommand'
+'.' '_source'
+'5g' '_go'
+'5l' '_go'
+'6g' '_go'
+'6l' '_go'
+'8g' '_go'
+'8l' '_go'
+'a2dismod' '_a2utils'
+'a2dissite' '_a2utils'
+'a2enmod' '_a2utils'
+'a2ensite' '_a2utils'
+'a2ps' '_a2ps'
+'aaaa' '_hosts'
+'aap' '_aap'
+'ack' '_ack'
+'ack2' '_ack'
+'ack-grep' '_ack'
+'ack-standalone' '_ack'
+'acpi' '_acpi'
+'acpitool' '_acpitool'
+'acroread' '_acroread'
+'adb' '_adb'
+'add-zle-hook-widget' '_add-zle-hook-widget'
+'add-zsh-hook' '_add-zsh-hook'
+'admin' '_sccs'
+'ali' '_mh'
+'alias' '_alias'
+'amaya' '_webbrowser'
+'analyseplugin' '_analyseplugin'
+'animate' '_imagemagick'
+'anno' '_mh'
+'ansible' '_ansible'
+'ansible-config' '_ansible'
+'ansible-console' '_ansible'
+'ansible-doc' '_ansible'
+'ansible-galaxy' '_ansible'
+'ansible-inventory' '_ansible'
+'ansible-playbook' '_ansible'
+'ansible-pull' '_ansible'
+'ansible-vault' '_ansible'
+'ant' '_ant'
+'antiword' '_antiword'
+'aodh' '_openstack'
+'aoss' '_precommand'
+'apache2ctl' '_apachectl'
+'apachectl' '_apachectl'
+'apm' '_apm'
+'appletviewer' '_java'
+'apropos' '_man'
+'apt' '_apt'
+'apt-cache' '_apt'
+'apt-cdrom' '_apt'
+'apt-config' '_apt'
+'apt-file' '_apt-file'
+'apt-get' '_apt'
+'aptitude' '_aptitude'
+'apt-mark' '_apt'
+'apt-move' '_apt-move'
+'apt-show-versions' '_apt-show-versions'
+'apvlv' '_pdf'
+'arena' '_webbrowser'
+'arp' '_arp'
+'arping' '_arping'
+'-array-value-' '_value'
+'ash' '_sh'
+'-assign-parameter-' '_assign'
+'at' '_at'
+'atq' '_at'
+'atrm' '_at'
+'attr' '_attr'
+'augtool' '_augeas'
+'auto-apt' '_auto-apt'
+'autoload' '_typeset'
+'awk' '_awk'
+'axi-cache' '_axi-cache'
+'b2sum' '_md5sum'
+'barbican' '_openstack'
+'base32' '_base64'
+'base64' '_base64'
+'basename' '_basename'
+'bash' '_bash'
+'batch' '_at'
+'baz' '_baz'
+'beadm' '_beadm'
+'beep' '_beep'
+'bg' '_jobs_bg'
+'bibtex' '_bibtex'
+'bindkey' '_bindkey'
+'bison' '_bison'
+'bmake' '_make'
+'bogofilter' '_bogofilter'
+'bogotune' '_bogofilter'
+'bogoutil' '_bogofilter'
+'bootctl' '_bootctl'
+'bpython' '_bpython'
+'bpython2' '_bpython'
+'bpython2-gtk' '_bpython'
+'bpython2-urwid' '_bpython'
+'bpython3' '_bpython'
+'bpython3-gtk' '_bpython'
+'bpython3-urwid' '_bpython'
+'bpython-gtk' '_bpython'
+'bpython-urwid' '_bpython'
+'-brace-parameter-' '_brace_parameter'
+'brctl' '_brctl'
+'bsdconfig' '_bsdconfig'
+'bsdgrep' '_grep'
+'bsdinstall' '_bsdinstall'
+'bsdtar' '_tar'
+'btdownloadcurses' '_bittorrent'
+'btdownloadgui' '_bittorrent'
+'btdownloadheadless' '_bittorrent'
+'btlaunchmany' '_bittorrent'
+'btlaunchmanycurses' '_bittorrent'
+'btmakemetafile' '_bittorrent'
+'btreannounce' '_bittorrent'
+'btrename' '_bittorrent'
+'btrfs' '_btrfs'
+'bts' '_bts'
+'btshowmetainfo' '_bittorrent'
+'bttrack' '_bittorrent'
+'bug' '_bug'
+'buildhash' '_ispell'
+'builtin' '_builtin'
+'bundle' '_bundler'
+'bunzip2' '_bzip2'
+'burst' '_mh'
+'busctl' '_busctl'
+'bzcat' '_bzip2'
+'bzegrep' '_grep'
+'bzfgrep' '_grep'
+'bzgrep' '_grep'
+'bzip2' '_bzip2'
+'bzip2recover' '_bzip2'
+'bzr' '_bzr'
+'c++' '_gcc'
+'cabal' '_cabal'
+'caffeinate' '_caffeinate'
+'cal' '_cal'
+'calendar' '_calendar'
+'cat' '_cat'
+'catchsegv' '_precommand'
+'cc' '_gcc'
+'ccal' '_ccal'
+'cd' '_cd'
+'cdbs-edit-patch' '_cdbs-edit-patch'
+'cdc' '_sccs'
+'cdcd' '_cdcd'
+'cdr' '_cdr'
+'cdrdao' '_cdrdao'
+'cdrecord' '_cdrecord'
+'ceilometer' '_openstack'
+'certtool' '_gnutls'
+'cftp' '_twisted'
+'chage' '_users'
+'chattr' '_chattr'
+'chdir' '_cd'
+'chflags' '_chflags'
+'chfn' '_users'
+'chgrp' '_chown'
+'chimera' '_webbrowser'
+'chkconfig' '_chkconfig'
+'chmod' '_chmod'
+'chown' '_chown'
+'chpass' '_chsh'
+'chroot' '_chroot'
+'chrt' '_chrt'
+'chsh' '_chsh'
+'ci' '_rcs'
+'cifsiostat' '_sysstat'
+'cinder' '_openstack'
+'ckeygen' '_twisted'
+'cksum' '_cksum'
+'clang' '_gcc'
+'clang++' '_gcc'
+'clay' '_clay'
+'clear' '_nothing'
+'cloudkitty' '_openstack'
+'cmp' '_cmp'
+'co' '_rcs'
+'code' '_code'
+'column' '_column'
+'comb' '_sccs'
+'combine' '_imagemagick'
+'combinediff' '_patchutils'
+'comm' '_comm'
+'-command-' '_autocd'
+'command' '_command'
+'-command-line-' '_normal'
+'comp' '_mh'
+'compadd' '_compadd'
+'compdef' '_compdef'
+'composite' '_imagemagick'
+'compress' '_compress'
+'conch' '_twisted'
+'-condition-' '_condition'
+'config.status' '_configure'
+'configure' '_configure'
+'convert' '_imagemagick'
+'coreadm' '_coreadm'
+'coredumpctl' '_coredumpctl'
+'cowsay' '_cowsay'
+'cowthink' '_cowsay'
+'cp' '_cp'
+'cpio' '_cpio'
+'cplay' '_cplay'
+'cpupower' '_cpupower'
+'crontab' '_crontab'
+'crsh' '_cssh'
+'cryptsetup' '_cryptsetup'
+'cscope' '_cscope'
+'csh' '_sh'
+'cssh' '_cssh'
+'csup' '_csup'
+'cu' '_cu'
+'curl' '_curl'
+'cut' '_cut'
+'cvs' '_cvs'
+'cvsup' '_cvsup'
+'cygcheck' '_cygcheck'
+'cygcheck.exe' '_cygcheck'
+'cygpath' '_cygpath'
+'cygpath.exe' '_cygpath'
+'cygrunsrv' '_cygrunsrv'
+'cygrunsrv.exe' '_cygrunsrv'
+'cygserver' '_cygserver'
+'cygserver.exe' '_cygserver'
+'cygstart' '_cygstart'
+'cygstart.exe' '_cygstart'
+'dak' '_dak'
+'darcs' '_darcs'
+'dash' '_sh'
+'date' '_date'
+'dbus-monitor' '_dbus'
+'dbus-send' '_dbus'
+'dch' '_debchange'
+'dchroot' '_dchroot'
+'dchroot-dsa' '_dchroot-dsa'
+'dconf' '_dconf'
+'dcop' '_dcop'
+'dcopclient' '_dcop'
+'dcopfind' '_dcop'
+'dcopobject' '_dcop'
+'dcopref' '_dcop'
+'dcopstart' '_dcop'
+'dcut' '_dcut'
+'dd' '_dd'
+'debchange' '_debchange'
+'debcheckout' '_debcheckout'
+'debdiff' '_debdiff'
+'debfoster' '_debfoster'
+'deborphan' '_deborphan'
+'debsign' '_debsign'
+'debuild' '_debuild'
+'declare' '_typeset'
+'-default-' '_default'
+'defaults' '_defaults'
+'delta' '_sccs'
+'designate' '_openstack'
+'devtodo' '_devtodo'
+'df' '_df'
+'dhclient' '_dhclient'
+'dhclient3' '_dhclient'
+'dhcpinfo' '_dhcpinfo'
+'dict' '_dict'
+'diff' '_diff'
+'diff3' '_diff3'
+'diffstat' '_diffstat'
+'dig' '_dig'
+'dillo' '_webbrowser'
+'dircmp' '_directories'
+'dirs' '_dirs'
+'disable' '_disable'
+'disown' '_jobs_fg'
+'display' '_imagemagick'
+'dist' '_mh'
+'django-admin' '_django'
+'django-admin.py' '_django'
+'dkms' '_dkms'
+'dladm' '_dladm'
+'dlocate' '_dlocate'
+'dmake' '_make'
+'dmesg' '_dmesg'
+'dmidecode' '_dmidecode'
+'dnf' '_dnf'
+'dnf-2' '_dnf'
+'dnf-3' '_dnf'
+'doas' '_doas'
+'domainname' '_yp'
+'dosdel' '_floppy'
+'dosread' '_floppy'
+'dpatch-edit-patch' '_dpatch-edit-patch'
+'dpkg' '_dpkg'
+'dpkg-buildpackage' '_dpkg-buildpackage'
+'dpkg-cross' '_dpkg-cross'
+'dpkg-deb' '_dpkg'
+'dpkg-query' '_dpkg'
+'dpkg-reconfigure' '_dpkg'
+'dpkg-repack' '_dpkg-repack'
+'dpkg-source' '_dpkg_source'
+'dput' '_dput'
+'drill' '_drill'
+'dsh' '_dsh'
+'dtrace' '_dtrace'
+'dtruss' '_dtruss'
+'du' '_du'
+'dumpadm' '_dumpadm'
+'dumper' '_dumper'
+'dumper.exe' '_dumper'
+'dupload' '_dupload'
+'dvibook' '_dvi'
+'dviconcat' '_dvi'
+'dvicopy' '_dvi'
+'dvidvi' '_dvi'
+'dvipdf' '_dvi'
+'dvips' '_dvi'
+'dviselect' '_dvi'
+'dvitodvi' '_dvi'
+'dvitype' '_dvi'
+'dwb' '_webbrowser'
+'e2label' '_e2label'
+'eatmydata' '_precommand'
+'ecasound' '_ecasound'
+'echotc' '_echotc'
+'echoti' '_echoti'
+'ed' '_ed'
+'egrep' '_grep'
+'elfdump' '_elfdump'
+'elinks' '_elinks'
+'elm' '_elm'
+'emulate' '_emulate'
+'enable' '_enable'
+'enscript' '_enscript'
+'entr' '_entr'
+'env' '_env'
+'eog' '_eog'
+'epdfview' '_pdf'
+'epsffit' '_psutils'
+'-equal-' '_equal'
+'erb' '_ruby'
+'espeak' '_espeak'
+'etags' '_etags'
+'ethtool' '_ethtool'
+'eu-nm' '_nm'
+'eu-objdump' '_objdump'
+'eu-readelf' '_readelf'
+'eu-strings' '_strings'
+'eval' '_precommand'
+'eview' '_vim'
+'evim' '_vim'
+'evince' '_evince'
+'exec' '_precommand'
+'expand' '_unexpand'
+'explodepkg' '_pkgtool'
+'export' '_typeset'
+'express' '_webbrowser'
+'extcheck' '_java'
+'extract' '_extract'
+'extractres' '_psutils'
+'fakeroot' '_fakeroot'
+'false' '_nothing'
+'fc' '_fc'
+'fc-list' '_xft_fonts'
+'fc-match' '_xft_fonts'
+'feh' '_feh'
+'fetch' '_fetch'
+'fetchmail' '_fetchmail'
+'ffmpeg' '_ffmpeg'
+'fg' '_jobs_fg'
+'fgrep' '_grep'
+'figlet' '_figlet'
+'filterdiff' '_patchutils'
+'find' '_find'
+'findaffix' '_ispell'
+'finger' '_finger'
+'fink' '_fink'
+'firefox' '_mozilla'
+'-first-' '_first'
+'fixdlsrps' '_psutils'
+'fixfmps' '_psutils'
+'fixmacps' '_psutils'
+'fixpsditps' '_psutils'
+'fixpspps' '_psutils'
+'fixscribeps' '_psutils'
+'fixtpps' '_psutils'
+'fixwfwps' '_psutils'
+'fixwpps' '_psutils'
+'fixwwps' '_psutils'
+'flac' '_flac'
+'flasher' '_flasher'
+'flatpak' '_flatpak'
+'flex' '_flex'
+'flex++' '_flex'
+'flipdiff' '_patchutils'
+'flist' '_mh'
+'flists' '_mh'
+'float' '_typeset'
+'flowadm' '_flowadm'
+'fmadm' '_fmadm'
+'fmt' '_fmt'
+'fmttest' '_mh'
+'fned' '_zed'
+'fnext' '_mh'
+'fold' '_fold'
+'folder' '_mh'
+'folders' '_mh'
+'fortune' '_fortune'
+'forw' '_mh'
+'fprev' '_mh'
+'freebsd-make' '_make'
+'freebsd-update' '_freebsd-update'
+'freezer' '_openstack'
+'fsh' '_fsh'
+'fstat' '_fstat'
+'fs_usage' '_fs_usage'
+'ftp' '_hosts'
+'functions' '_typeset'
+'fuser' '_fuser'
+'fusermount' '_fusermount'
+'fwhois' '_whois'
+'fw_update' '_fw_update'
+'g++' '_gcc'
+'galeon' '_webbrowser'
+'gawk' '_awk'
+'gb2sum' '_md5sum'
+'gbase32' '_base64'
+'gbase64' '_base64'
+'gbasename' '_basename'
+'gcat' '_cat'
+'gcc' '_gcc'
+'gccgo' '_go'
+'gchgrp' '_chown'
+'gchmod' '_chmod'
+'gchown' '_chown'
+'gchroot' '_chroot'
+'gcksum' '_cksum'
+'gcmp' '_cmp'
+'gcomm' '_comm'
+'gcore' '_gcore'
+'gcp' '_cp'
+'gcut' '_cut'
+'gdate' '_date'
+'gdb' '_gdb'
+'gdd' '_dd'
+'gdf' '_df'
+'gdiff' '_diff'
+'gdu' '_du'
+'geany' '_geany'
+'gegrep' '_grep'
+'gem' '_gem'
+'genisoimage' '_genisoimage'
+'genv' '_env'
+'get' '_sccs'
+'getafm' '_psutils'
+'getclip' '_getclip'
+'getclip.exe' '_getclip'
+'getconf' '_getconf'
+'getent' '_getent'
+'getfacl' '_getfacl'
+'getfacl.exe' '_getfacl'
+'getfattr' '_attr'
+'getmail' '_getmail'
+'getopt' '_getopt'
+'getopts' '_vars'
+'gex' '_vim'
+'gexpand' '_unexpand'
+'gfgrep' '_grep'
+'gfind' '_find'
+'gfmt' '_fmt'
+'gfold' '_fold'
+'ggetopt' '_getopt'
+'ggrep' '_grep'
+'ggv' '_gnome-gv'
+'ghead' '_head'
+'ghostscript' '_ghostscript'
+'ghostview' '_pspdf'
+'gid' '_id'
+'ginstall' '_install'
+'git' '_git'
+'git-branch' '_git-branch'
+'git-buildpackage' '_git-buildpackage'
+'git-cvsserver' '_git'
+'github' '_github'
+'gitk' '_git'
+'git-receive-pack' '_git'
+'git-remote' '_git-remote'
+'git-shell' '_git'
+'git-upload-archive' '_git'
+'git-upload-pack' '_git'
+'gjoin' '_join'
+'glance' '_openstack'
+'gln' '_ln'
+'global' '_global'
+'glocate' '_locate'
+'gls' '_ls'
+'gm' '_graphicsmagick'
+'gmake' '_make'
+'gmd5sum' '_md5sum'
+'gmkdir' '_mkdir'
+'gmktemp' '_mktemp'
+'gmplayer' '_mplayer'
+'gmv' '_mv'
+'gnl' '_nl'
+'gnocchi' '_openstack'
+'gnome-gv' '_gnome-gv'
+'gnumfmt' '_numfmt'
+'gnupod_addsong' '_gnupod'
+'gnupod_addsong.pl' '_gnupod'
+'gnupod_check' '_gnupod'
+'gnupod_check.pl' '_gnupod'
+'gnupod_INIT' '_gnupod'
+'gnupod_INIT.pl' '_gnupod'
+'gnupod_search' '_gnupod'
+'gnupod_search.pl' '_gnupod'
+'gnutls-cli' '_gnutls'
+'gnutls-cli-debug' '_gnutls'
+'gnutls-serv' '_gnutls'
+'god' '_od'
+'gofmt' '_go'
+'gpasswd' '_gpasswd'
+'gpaste' '_paste'
+'gpatch' '_patch'
+'gpg' '_gpg'
+'gpg2' '_gpg'
+'gpgv' '_gpg'
+'gpg-zip' '_gpg'
+'gphoto2' '_gphoto2'
+'gprintenv' '_printenv'
+'gprof' '_gprof'
+'gqview' '_gqview'
+'gradle' '_gradle'
+'gradlew' '_gradle'
+'grail' '_webbrowser'
+'greadlink' '_readlink'
+'grep' '_grep'
+'grepdiff' '_patchutils'
+'grep-excuses' '_grep-excuses'
+'grm' '_rm'
+'grmdir' '_rmdir'
+'groff' '_groff'
+'groupadd' '_user_admin'
+'groupdel' '_groups'
+'groupmod' '_user_admin'
+'groups' '_users'
+'growisofs' '_growisofs'
+'gs' '_ghostscript'
+'gsbj' '_pspdf'
+'gsdj' '_pspdf'
+'gsdj500' '_pspdf'
+'gsed' '_sed'
+'gseq' '_seq'
+'gsettings' '_gsettings'
+'gsha1sum' '_md5sum'
+'gsha224sum' '_md5sum'
+'gsha256sum' '_md5sum'
+'gsha384sum' '_md5sum'
+'gsha512sum' '_md5sum'
+'gshuf' '_shuf'
+'gslj' '_pspdf'
+'gslp' '_pspdf'
+'gsnd' '_pspdf'
+'gsort' '_sort'
+'gsplit' '_split'
+'gstat' '_gstat'
+'gstdbuf' '_stdbuf'
+'gstrings' '_strings'
+'gstty' '_stty'
+'gsum' '_cksum'
+'gtac' '_tac'
+'gtail' '_tail'
+'gtar' '_tar'
+'gtee' '_tee'
+'gtimeout' '_timeout'
+'gtouch' '_touch'
+'gtr' '_tr'
+'guilt' '_guilt'
+'guilt-add' '_guilt'
+'guilt-applied' '_guilt'
+'guilt-delete' '_guilt'
+'guilt-files' '_guilt'
+'guilt-fold' '_guilt'
+'guilt-fork' '_guilt'
+'guilt-header' '_guilt'
+'guilt-help' '_guilt'
+'guilt-import' '_guilt'
+'guilt-import-commit' '_guilt'
+'guilt-init' '_guilt'
+'guilt-new' '_guilt'
+'guilt-next' '_guilt'
+'guilt-patchbomb' '_guilt'
+'guilt-pop' '_guilt'
+'guilt-prev' '_guilt'
+'guilt-push' '_guilt'
+'guilt-rebase' '_guilt'
+'guilt-refresh' '_guilt'
+'guilt-rm' '_guilt'
+'guilt-series' '_guilt'
+'guilt-status' '_guilt'
+'guilt-top' '_guilt'
+'guilt-unapplied' '_guilt'
+'guname' '_uname'
+'gunexpand' '_unexpand'
+'guniq' '_uniq'
+'gunzip' '_gzip'
+'guptime' '_uptime'
+'gv' '_gv'
+'gview' '_vim'
+'gvim' '_vim'
+'gvimdiff' '_vim'
+'gwc' '_wc'
+'gwho' '_who'
+'gxargs' '_xargs'
+'gzcat' '_gzip'
+'gzegrep' '_grep'
+'gzfgrep' '_grep'
+'gzgrep' '_grep'
+'gzilla' '_webbrowser'
+'gzip' '_gzip'
+'hash' '_hash'
+'hd' '_hexdump'
+'hdiutil' '_hdiutil'
+'head' '_head'
+'heat' '_openstack'
+'help' '_sccs'
+'hexdump' '_hexdump'
+'hg' '_mercurial'
+'hilite' '_precommand'
+'history' '_fc'
+'host' '_hosts'
+'hostname' '_hostname'
+'hostnamectl' '_hostnamectl'
+'hotjava' '_webbrowser'
+'htop' '_htop'
+'hwinfo' '_hwinfo'
+'iceweasel' '_mozilla'
+'icombine' '_ispell'
+'iconv' '_iconv'
+'iconvconfig' '_iconvconfig'
+'id' '_id'
+'identify' '_imagemagick'
+'ifconfig' '_ifconfig'
+'ifdown' '_net_interfaces'
+'iftop' '_iftop'
+'ifup' '_net_interfaces'
+'ijoin' '_ispell'
+'import' '_imagemagick'
+'inc' '_mh'
+'includeres' '_psutils'
+'inetadm' '_inetadm'
+'info' '_texinfo'
+'infocmp' '_terminals'
+'initctl' '_initctl'
+'insmod' '_modutils'
+'install' '_install'
+'install-info' '_texinfo'
+'installpkg' '_pkgtool'
+'integer' '_typeset'
+'interdiff' '_patchutils'
+'invoke-rc.d' '_invoke-rc.d'
+'ionice' '_ionice'
+'iostat' '_iostat'
+'ip' '_ip'
+'ip6tables' '_iptables'
+'ip6tables-restore' '_iptables'
+'ip6tables-save' '_iptables'
+'ipadm' '_ipadm'
+'ipkg' '_opkg'
+'ipset' '_ipset'
+'iptables' '_iptables'
+'iptables-restore' '_iptables'
+'iptables-save' '_iptables'
+'irb' '_ruby'
+'ironic' '_openstack'
+'irssi' '_irssi'
+'isag' '_sysstat'
+'ispell' '_ispell'
+'iwconfig' '_iwconfig'
+'jadetex' '_tex'
+'jail' '_jail'
+'jar' '_java'
+'jarsigner' '_java'
+'java' '_java'
+'javac' '_java'
+'javadoc' '_java'
+'javah' '_java'
+'javap' '_java'
+'jdb' '_java'
+'jexec' '_jexec'
+'jls' '_jls'
+'jobs' '_jobs_builtin'
+'joe' '_joe'
+'join' '_join'
+'jot' '_jot'
+'journalctl' '_journalctl'
+'jq' '_jq'
+'kdeconnect-cli' '_kdeconnect'
+'kernel-install' '_kernel-install'
+'keystone' '_openstack'
+'keytool' '_java'
+'kfmclient' '_kfmclient'
+'kill' '_kill'
+'killall' '_killall'
+'killall5' '_killall'
+'kioclient' '_kfmclient'
+'kldload' '_kld'
+'kldunload' '_kld'
+'knock' '_knock'
+'konqueror' '_webbrowser'
+'kpartx' '_kpartx'
+'kpdf' '_pdf'
+'ksh' '_sh'
+'ksh88' '_sh'
+'ksh93' '_sh'
+'kvno' '_kvno'
+'last' '_last'
+'lastb' '_last'
+'latex' '_tex'
+'latexmk' '_tex'
+'ldap' '_ldap'
+'ldconfig' '_ldconfig'
+'ldconfig.real' '_ldconfig'
+'ldd' '_ldd'
+'less' '_less'
+'let' '_math'
+'lftp' '_ncftp'
+'lha' '_lha'
+'light' '_webbrowser'
+'lighty-disable-mod' '_lighttpd'
+'lighty-enable-mod' '_lighttpd'
+'limit' '_limit'
+'links' '_links'
+'lintian' '_lintian'
+'lintian-info' '_lintian'
+'linux' '_uml'
+'lldb' '_lldb'
+'llvm-g++' '_gcc'
+'llvm-gcc' '_gcc'
+'llvm-objdump' '_objdump'
+'llvm-otool' '_otool'
+'ln' '_ln'
+'loadkeys' '_loadkeys'
+'local' '_typeset'
+'locale' '_locale'
+'localectl' '_localectl'
+'localedef' '_localedef'
+'locate' '_locate'
+'log' '_nothing'
+'loginctl' '_loginctl'
+'logname' '_nothing'
+'look' '_look'
+'lp' '_lp'
+'lpadmin' '_lp'
+'lpinfo' '_lp'
+'lpoptions' '_lp'
+'lpq' '_lp'
+'lpr' '_lp'
+'lprm' '_lp'
+'lpstat' '_lp'
+'ls' '_ls'
+'lsattr' '_lsattr'
+'lsblk' '_lsblk'
+'lscfg' '_lscfg'
+'lsdev' '_lsdev'
+'lsdiff' '_patchutils'
+'lslv' '_lslv'
+'lsmod' '_modutils'
+'lsof' '_lsof'
+'lspv' '_lspv'
+'lsusb' '_lsusb'
+'lsvg' '_lsvg'
+'ltrace' '_ltrace'
+'lua' '_lua'
+'luarocks' '_luarocks'
+'lynx' '_lynx'
+'lz4' '_lz4'
+'lz4c' '_lz4'
+'lz4c32' '_lz4'
+'lz4cat' '_lz4'
+'lzcat' '_xz'
+'lzma' '_xz'
+'lzop' '_lzop'
+'m-a' '_module-assistant'
+'machinectl' '_machinectl'
+'madison' '_madison'
+'magnum' '_openstack'
+'mail' '_mail'
+'Mail' '_mail'
+'mailx' '_mail'
+'make' '_make'
+'makeinfo' '_texinfo'
+'make-kpkg' '_make-kpkg'
+'makepkg' '_pkgtool'
+'man' '_man'
+'manage.py' '_django'
+'manila' '_openstack'
+'man-preview' '_man-preview'
+'mark' '_mh'
+'-math-' '_math'
+'matlab' '_matlab'
+'mattrib' '_mtools'
+'mcd' '_mtools'
+'mcopy' '_mtools'
+'md2' '_cksum'
+'md4' '_cksum'
+'md5' '_cksum'
+'md5sum' '_md5sum'
+'mdadm' '_mdadm'
+'mdel' '_mtools'
+'mdeltree' '_mtools'
+'mdfind' '_mdfind'
+'mdir' '_mtools'
+'mdls' '_mdls'
+'mdu' '_mtools'
+'mdutil' '_mdutil'
+'members' '_members'
+'mencal' '_mencal'
+'mere' '_mere'
+'merge' '_rcs'
+'mergechanges' '_mergechanges'
+'metaflac' '_flac'
+'mformat' '_mtools'
+'mgv' '_pspdf'
+'mhfixmsg' '_mh'
+'mhlist' '_mh'
+'mhmail' '_mh'
+'mhn' '_mh'
+'mhparam' '_mh'
+'mhpath' '_mh'
+'mhshow' '_mh'
+'mhstore' '_mh'
+'mii-tool' '_mii-tool'
+'mistral' '_openstack'
+'mixerctl' '_mixerctl'
+'mkdir' '_mkdir'
+'mkisofs' '_growisofs'
+'mksh' '_sh'
+'mkshortcut' '_mkshortcut'
+'mkshortcut.exe' '_mkshortcut'
+'mktemp' '_mktemp'
+'mktunes' '_gnupod'
+'mktunes.pl' '_gnupod'
+'mkzsh' '_mkzsh'
+'mkzsh.exe' '_mkzsh'
+'mlabel' '_mtools'
+'mlocate' '_locate'
+'mmd' '_mtools'
+'mmm' '_webbrowser'
+'mmount' '_mtools'
+'mmove' '_mtools'
+'modinfo' '_modutils'
+'modprobe' '_modutils'
+'module' '_module'
+'module-assistant' '_module-assistant'
+'mogrify' '_imagemagick'
+'monasca' '_openstack'
+'mondoarchive' '_mondo'
+'montage' '_imagemagick'
+'moosic' '_moosic'
+'Mosaic' '_webbrowser'
+'mosh' '_mosh'
+'mount' '_mount'
+'mozilla' '_mozilla'
+'mozilla-firefox' '_mozilla'
+'mozilla-xremote-client' '_mozilla'
+'mpc' '_mpc'
+'mplayer' '_mplayer'
+'mpstat' '_sysstat'
+'mrd' '_mtools'
+'mread' '_mtools'
+'mren' '_mtools'
+'msgchk' '_mh'
+'mt' '_mt'
+'mtn' '_monotone'
+'mtoolstest' '_mtools'
+'mtr' '_mtr'
+'mtype' '_mtools'
+'munchlist' '_ispell'
+'mupdf' '_mupdf'
+'murano' '_openstack'
+'mush' '_mail'
+'mutt' '_mutt'
+'mv' '_mv'
+'mvim' '_vim'
+'mx' '_hosts'
+'mysql' '_mysql_utils'
+'mysqladmin' '_mysql_utils'
+'mysqldiff' '_mysqldiff'
+'mysqldump' '_mysql_utils'
+'mysqlimport' '_mysql_utils'
+'mysqlshow' '_mysql_utils'
+'nail' '_mail'
+'native2ascii' '_java'
+'nautilus' '_nautilus'
+'nawk' '_awk'
+'nc' '_netcat'
+'ncal' '_cal'
+'ncftp' '_ncftp'
+'ncl' '_nedit'
+'nedit' '_nedit'
+'nedit-nc' '_nedit'
+'netcat' '_netcat'
+'netrik' '_webbrowser'
+'netscape' '_netscape'
+'netstat' '_netstat'
+'networkctl' '_networkctl'
+'networksetup' '_networksetup'
+'neutron' '_openstack'
+'new' '_mh'
+'newgrp' '_groups'
+'next' '_mh'
+'nginx' '_nginx'
+'ngrep' '_ngrep'
+'nice' '_nice'
+'nkf' '_nkf'
+'nl' '_nl'
+'nm' '_nm'
+'nmap' '_nmap'
+'nmblookup' '_samba'
+'nmcli' '_networkmanager'
+'nocorrect' '_precommand'
+'noglob' '_precommand'
+'nohup' '_precommand'
+'notmuch' '_notmuch'
+'nova' '_openstack'
+'npm' '_npm'
+'ns' '_hosts'
+'nslookup' '_nslookup'
+'ntalk' '_other_accounts'
+'numfmt' '_numfmt'
+'nvim' '_vim'
+'nvram' '_nvram'
+'objdump' '_objdump'
+'od' '_od'
+'odme' '_object_classes'
+'odmget' '_object_classes'
+'odmshow' '_object_classes'
+'ogg123' '_vorbis'
+'oggdec' '_vorbis'
+'oggenc' '_vorbis'
+'ogginfo' '_vorbis'
+'oksh' '_sh'
+'okular' '_okular'
+'open' '_open'
+'openstack' '_openstack'
+'opera' '_webbrowser'
+'opera-next' '_webbrowser'
+'opkg' '_opkg'
+'osascript' '_osascript'
+'osc' '_osc'
+'otool' '_otool'
+'p4' '_perforce'
+'p4d' '_perforce'
+'pacat' '_pulseaudio'
+'pack' '_pack'
+'packf' '_mh'
+'pacmd' '_pulseaudio'
+'pactl' '_pulseaudio'
+'padsp' '_pulseaudio'
+'paplay' '_pulseaudio'
+'-parameter-' '_parameter'
+'parec' '_pulseaudio'
+'parecord' '_pulseaudio'
+'parsehdlist' '_urpmi'
+'passwd' '_users'
+'paste' '_paste'
+'pasuspender' '_pulseaudio'
+'patch' '_patch'
+'pax' '_pax'
+'pbcopy' '_pbcopy'
+'pbpaste' '_pbcopy'
+'pbuilder' '_pbuilder'
+'pcat' '_pack'
+'pcred' '_pids'
+'pdf2dsc' '_pdf'
+'pdf2ps' '_pdf'
+'pdffonts' '_pdf'
+'pdfimages' '_pdf'
+'pdfinfo' '_pdf'
+'pdfjadetex' '_tex'
+'pdflatex' '_tex'
+'pdfopt' '_pdf'
+'pdftex' '_tex'
+'pdftexi2dvi' '_texinfo'
+'pdftk' '_pdftk'
+'pdftopbm' '_pdf'
+'pdftops' '_pdf'
+'pdftotext' '_pdf'
+'pdksh' '_sh'
+'pep8' '_pep8'
+'perl' '_perl'
+'perldoc' '_perldoc'
+'pfctl' '_pfctl'
+'pfexec' '_pfexec'
+'pfiles' '_pids'
+'pflags' '_pids'
+'pgrep' '_pgrep'
+'php' '_php'
+'pick' '_mh'
+'picocom' '_picocom'
+'pidof' '_pidof'
+'pidstat' '_sysstat'
+'pigz' '_gzip'
+'pine' '_pine'
+'pinef' '_pine'
+'pinfo' '_texinfo'
+'ping' '_ping'
+'ping6' '_ping'
+'pip' '_pip'
+'piuparts' '_piuparts'
+'pkg' '_pkg5'
+'pkg_add' '_bsd_pkg'
+'pkgadd' '_pkgadd'
+'pkg-config' '_pkg-config'
+'pkg_create' '_bsd_pkg'
+'pkg_delete' '_bsd_pkg'
+'pkg_info' '_bsd_pkg'
+'pkginfo' '_pkginfo'
+'pkgrm' '_pkgrm'
+'pkgtool' '_pkgtool'
+'pkill' '_pgrep'
+'pldd' '_pids'
+'plutil' '_plutil'
+'pmake' '_make'
+'pman' '_perl_modules'
+'pmap' '_pids'
+'pmcat' '_perl_modules'
+'pmdesc' '_perl_modules'
+'pmeth' '_perl_modules'
+'pmexp' '_perl_modules'
+'pmfunc' '_perl_modules'
+'pmload' '_perl_modules'
+'pmls' '_perl_modules'
+'pmpath' '_perl_modules'
+'pmvers' '_perl_modules'
+'podgrep' '_perl_modules'
+'podpath' '_perl_modules'
+'podtoc' '_perl_modules'
+'poff' '_pon'
+'policytool' '_java'
+'pon' '_pon'
+'popd' '_directory_stack'
+'portaudit' '_portaudit'
+'portlint' '_portlint'
+'portmaster' '_portmaster'
+'portsnap' '_portsnap'
+'postconf' '_postfix'
+'postqueue' '_postfix'
+'postsuper' '_postfix'
+'powerd' '_powerd'
+'prcs' '_prcs'
+'prev' '_mh'
+'print' '_print'
+'printenv' '_printenv'
+'printf' '_print'
+'procstat' '_procstat'
+'prompt' '_prompt'
+'prove' '_prove'
+'prs' '_sccs'
+'prstat' '_prstat'
+'prt' '_sccs'
+'prun' '_pids'
+'ps' '_ps'
+'ps2ascii' '_pspdf'
+'ps2epsi' '_postscript'
+'ps2pdf' '_postscript'
+'ps2pdf12' '_postscript'
+'ps2pdf13' '_postscript'
+'ps2pdf14' '_postscript'
+'ps2pdfwr' '_postscript'
+'ps2ps' '_postscript'
+'psbook' '_psutils'
+'pscp' '_pscp'
+'pscp.exe' '_pscp'
+'psed' '_sed'
+'psig' '_pids'
+'psmerge' '_psutils'
+'psmulti' '_postscript'
+'psnup' '_psutils'
+'psresize' '_psutils'
+'psselect' '_psutils'
+'pstack' '_pids'
+'pstoedit' '_pspdf'
+'pstop' '_pids'
+'pstops' '_psutils'
+'pstotgif' '_pspdf'
+'pswrap' '_postscript'
+'ptree' '_ptree'
+'pulseaudio' '_pulseaudio'
+'pump' '_pump'
+'pushd' '_cd'
+'putclip' '_putclip'
+'putclip.exe' '_putclip'
+'pwait' '_pids'
+'pwdx' '_pids'
+'pwgen' '_pwgen'
+'pyhtmlizer' '_twisted'
+'pylint' '_pylint'
+'python' '_python'
+'qdbus' '_qdbus'
+'qiv' '_qiv'
+'qtplay' '_qtplay'
+'querybts' '_bug'
+'quilt' '_quilt'
+'r' '_fc'
+'raggle' '_raggle'
+'rake' '_rake'
+'ranlib' '_ranlib'
+'rar' '_rar'
+'rc' '_sh'
+'rcctl' '_rcctl'
+'rcp' '_rlogin'
+'rcs' '_rcs'
+'rcsdiff' '_rcs'
+'rdesktop' '_rdesktop'
+'read' '_read'
+'readelf' '_readelf'
+'readlink' '_readlink'
+'readonly' '_typeset'
+'readshortcut' '_readshortcut'
+'readshortcut.exe' '_readshortcut'
+'rebootin' '_rebootin'
+'-redirect-' '_redirect'
+'-redirect-,<,bunzip2' '_bzip2'
+'-redirect-,<,bzip2' '_bzip2'
+'-redirect-,>,bzip2' '_bzip2'
+'-redirect-,<,compress' '_compress'
+'-redirect-,>,compress' '_compress'
+'-redirect-,-default-,-default-' '_files'
+'-redirect-,<,gunzip' '_gzip'
+'-redirect-,<,gzip' '_gzip'
+'-redirect-,>,gzip' '_gzip'
+'-redirect-,<,uncompress' '_compress'
+'-redirect-,<,unxz' '_xz'
+'-redirect-,<,xz' '_xz'
+'-redirect-,>,xz' '_xz'
+'refile' '_mh'
+'rehash' '_hash'
+'reload' '_initctl'
+'removepkg' '_pkgtool'
+'remsh' '_rlogin'
+'renice' '_renice'
+'repl' '_mh'
+'reportbug' '_bug'
+'reprepro' '_reprepro'
+'restart' '_initctl'
+'retawq' '_webbrowser'
+'rgview' '_vim'
+'rgvim' '_vim'
+'ri' '_ri'
+'rlogin' '_rlogin'
+'rm' '_rm'
+'rmadison' '_madison'
+'rmd160' '_cksum'
+'rmdel' '_sccs'
+'rmdir' '_rmdir'
+'rmf' '_mh'
+'rmic' '_java'
+'rmid' '_java'
+'rmiregistry' '_java'
+'rmm' '_mh'
+'rmmod' '_modutils'
+'route' '_route'
+'rpm' '_rpm'
+'rpmbuild' '_rpmbuild'
+'rrdtool' '_rrdtool'
+'rsh' '_rlogin'
+'rsync' '_rsync'
+'rtin' '_tin'
+'rubber' '_rubber'
+'rubber-info' '_rubber'
+'rubber-pipe' '_rubber'
+'ruby' '_ruby'
+'ruby-mri' '_ruby'
+'run-help' '_run-help'
+'rup' '_hosts'
+'rusage' '_precommand'
+'rview' '_vim'
+'rvim' '_vim'
+'rwho' '_hosts'
+'rxvt' '_urxvt'
+'s2p' '_sed'
+'sabcmd' '_sablotron'
+'sact' '_sccs'
+'sadf' '_sysstat'
+'sahara' '_openstack'
+'sar' '_sysstat'
+'savecore' '_savecore'
+'say' '_say'
+'scan' '_mh'
+'sccs' '_sccs'
+'sccsdiff' '_sccs'
+'sched' '_sched'
+'schedtool' '_schedtool'
+'schroot' '_schroot'
+'scl' '_scl'
+'scons' '_scons'
+'scp' '_ssh'
+'screen' '_screen'
+'script' '_script'
+'scriptreplay' '_script'
+'scselect' '_scselect'
+'sc_usage' '_sc_usage'
+'scutil' '_scutil'
+'sed' '_sed'
+'senlin' '_openstack'
+'seq' '_seq'
+'serialver' '_java'
+'service' '_service'
+'set' '_set'
+'setfacl' '_setfacl'
+'setfacl.exe' '_setfacl'
+'setfattr' '_attr'
+'setopt' '_setopt'
+'setsid' '_precommand'
+'setxkbmap' '_setxkbmap'
+'sftp' '_ssh'
+'sh' '_sh'
+'sha1' '_cksum'
+'sha1sum' '_md5sum'
+'sha224sum' '_md5sum'
+'sha256' '_cksum'
+'sha256sum' '_md5sum'
+'sha384' '_cksum'
+'sha384sum' '_md5sum'
+'sha512' '_cksum'
+'sha512sum' '_md5sum'
+'sha512t256' '_cksum'
+'shasum' '_shasum'
+'shift' '_arrays'
+'show' '_mh'
+'showchar' '_psutils'
+'showmount' '_showmount'
+'shuf' '_shuf'
+'shutdown' '_shutdown'
+'signify' '_signify'
+'sisu' '_sisu'
+'skein1024' '_cksum'
+'skein256' '_cksum'
+'skein512' '_cksum'
+'skipstone' '_webbrowser'
+'slitex' '_tex'
+'slocate' '_locate'
+'slogin' '_ssh'
+'slrn' '_slrn'
+'smartctl' '_smartmontools'
+'smbclient' '_samba'
+'smbcontrol' '_samba'
+'smbstatus' '_samba'
+'smit' '_smit'
+'smitty' '_smit'
+'snoop' '_snoop'
+'soa' '_hosts'
+'socket' '_socket'
+'sockstat' '_sockstat'
+'softwareupdate' '_softwareupdate'
+'sort' '_sort'
+'sortm' '_mh'
+'source' '_source'
+'spamassassin' '_spamassassin'
+'split' '_split'
+'splitdiff' '_patchutils'
+'sqlite' '_sqlite'
+'sqlite3' '_sqlite'
+'sqsh' '_sqsh'
+'sr' '_surfraw'
+'srptool' '_gnutls'
+'ss' '_ss'
+'ssh' '_ssh'
+'ssh-add' '_ssh'
+'ssh-agent' '_ssh'
+'ssh-copy-id' '_ssh'
+'sshfs' '_sshfs'
+'ssh-keygen' '_ssh'
+'ssh-keyscan' '_ssh'
+'star' '_tar'
+'start' '_initctl'
+'stat' '_stat'
+'status' '_initctl'
+'stdbuf' '_stdbuf'
+'stg' '_stgit'
+'stop' '_initctl'
+'strace' '_strace'
+'strace64' '_strace'
+'strftime' '_strftime'
+'strings' '_strings'
+'strip' '_strip'
+'stty' '_stty'
+'su' '_su'
+'subl' '_sublimetext'
+'-subscript-' '_subscript'
+'sudo' '_sudo'
+'sudoedit' '_sudo'
+'sum' '_cksum'
+'surfraw' '_surfraw'
+'SuSEconfig' '_SUSEconfig'
+'sv' '_runit'
+'svcadm' '_svcadm'
+'svccfg' '_svccfg'
+'svcprop' '_svcprop'
+'svcs' '_svcs'
+'svn' '_subversion'
+'svnadmin' '_subversion'
+'svnadmin-static' '_subversion'
+'svn-buildpackage' '_svn-buildpackage'
+'svnlite' '_subversion'
+'swaks' '_swaks'
+'swift' '_swift'
+'swiftc' '_swift'
+'sw_vers' '_sw_vers'
+'sync' '_nothing'
+'sysctl' '_sysctl'
+'sysrc' '_sysrc'
+'systat' '_systat'
+'systemctl' '_systemctl'
+'systemd-analyze' '_systemd-analyze'
+'systemd-ask-password' '_systemd'
+'systemd-cat' '_systemd'
+'systemd-cgls' '_systemd'
+'systemd-cgtop' '_systemd'
+'systemd-delta' '_systemd-delta'
+'systemd-detect-virt' '_systemd'
+'systemd-inhibit' '_systemd-inhibit'
+'systemd-machine-id-setup' '_systemd'
+'systemd-notify' '_systemd'
+'systemd-nspawn' '_systemd-nspawn'
+'systemd-resolve' '_systemd-resolve'
+'systemd-run' '_systemd-run'
+'systemd-tmpfiles' '_systemd-tmpfiles'
+'systemd-tty-ask-password-agent' '_systemd'
+'system_profiler' '_system_profiler'
+'tac' '_tac'
+'tacker' '_openstack'
+'tail' '_tail'
+'talk' '_other_accounts'
+'tar' '_tar'
+'tardy' '_tardy'
+'task' '_task'
+'tcpdump' '_tcpdump'
+'tcp_open' '_tcpsys'
+'tcptraceroute' '_tcptraceroute'
+'tcsh' '_sh'
+'tda' '_devtodo'
+'tdd' '_devtodo'
+'tde' '_devtodo'
+'tdr' '_devtodo'
+'tee' '_tee'
+'telnet' '_telnet'
+'tex' '_tex'
+'texi2any' '_texinfo'
+'texi2dvi' '_texinfo'
+'texi2pdf' '_texinfo'
+'texindex' '_texinfo'
+'tg' '_topgit'
+'tidy' '_tidy'
+'tig' '_git'
+'-tilde-' '_tilde'
+'time' '_precommand'
+'timedatectl' '_timedatectl'
+'timeout' '_timeout'
+'times' '_nothing'
+'tin' '_tin'
+'tkconch' '_twisted'
+'tkinfo' '_texinfo'
+'tla' '_tla'
+'tmux' '_tmux'
+'todo' '_devtodo'
+'todo.sh' '_todo.sh'
+'toilet' '_toilet'
+'top' '_top'
+'totdconfig' '_totd'
+'touch' '_touch'
+'tpb' '_tpb'
+'tpconfig' '_tpconfig'
+'tpkg-debarch' '_toolchain-source'
+'tpkg-install' '_toolchain-source'
+'tpkg-install-libc' '_toolchain-source'
+'tpkg-make' '_toolchain-source'
+'tpkg-update' '_toolchain-source'
+'tput' '_tput'
+'tr' '_tr'
+'tracepath' '_tracepath'
+'tracepath6' '_tracepath'
+'traceroute' '_hosts'
+'trap' '_trap'
+'tree' '_tree'
+'trial' '_twisted'
+'trove' '_openstack'
+'true' '_nothing'
+'truss' '_truss'
+'tryaffix' '_ispell'
+'ttyctl' '_ttyctl'
+'tunctl' '_uml'
+'tune2fs' '_tune2fs'
+'tunes2pod' '_gnupod'
+'tunes2pod.pl' '_gnupod'
+'twidge' '_twidge'
+'twist' '_twisted'
+'twistd' '_twisted'
+'txt' '_hosts'
+'type' '_which'
+'typeset' '_typeset'
+'udevadm' '_udevadm'
+'ulimit' '_ulimit'
+'uml_mconsole' '_uml'
+'uml_moo' '_uml'
+'uml_switch' '_uml'
+'umount' '_mount'
+'unace' '_unace'
+'unalias' '_aliases'
+'uname' '_uname'
+'uncompress' '_compress'
+'unexpand' '_unexpand'
+'unfunction' '_functions'
+'unget' '_sccs'
+'unhash' '_unhash'
+'uniq' '_uniq'
+'unison' '_unison'
+'units' '_units'
+'unlimit' '_limits'
+'unlz4' '_lz4'
+'unlzma' '_xz'
+'unpack' '_pack'
+'unpigz' '_gzip'
+'unrar' '_rar'
+'unset' '_vars'
+'unsetopt' '_setopt'
+'unwrapdiff' '_patchutils'
+'unxz' '_xz'
+'unzip' '_zip'
+'update-alternatives' '_update-alternatives'
+'update-rc.d' '_update-rc.d'
+'upgradepkg' '_pkgtool'
+'uptime' '_uptime'
+'urpme' '_urpmi'
+'urpmf' '_urpmi'
+'urpmi' '_urpmi'
+'urpmi.addmedia' '_urpmi'
+'urpmi.removemedia' '_urpmi'
+'urpmi.update' '_urpmi'
+'urpmq' '_urpmi'
+'urxvt' '_urxvt'
+'urxvt256c' '_urxvt'
+'urxvt256cc' '_urxvt'
+'urxvt256c-ml' '_urxvt'
+'urxvt256c-mlc' '_urxvt'
+'urxvtc' '_urxvt'
+'uscan' '_uscan'
+'useradd' '_user_admin'
+'userdel' '_users'
+'usermod' '_user_admin'
+'uzbl' '_uzbl'
+'uzbl-browser' '_uzbl'
+'uzbl-tabbed' '_uzbl'
+'val' '_sccs'
+'valgrind' '_valgrind'
+'-value-' '_value'
+'-value-,ADB_TRACE,-default-' '_adb'
+'-value-,ANDROID_LOG_TAGS,-default-' '_adb'
+'-value-,ANDROID_SERIAL,-default-' '_adb'
+'-value-,ANT_ARGS,-default-' '_ant'
+'-value-,CFLAGS,-default-' '_gcc'
+'-value-,CPPFLAGS,-default-' '_gcc'
+'-value-,CXXFLAGS,-default-' '_gcc'
+'-value-,-default-,-command-' '_zargs'
+'-value-,-default-,-default-' '_value'
+'-value-,DISPLAY,-default-' '_x_display'
+'-value-,GREP_OPTIONS,-default-' '_grep'
+'-value-,GZIP,-default-' '_gzip'
+'-value-,LANG,-default-' '_locales'
+'-value-,LANGUAGE,-default-' '_locales'
+'-value-,LD_DEBUG,-default-' '_ld_debug'
+'-value-,LDFLAGS,-default-' '_gcc'
+'-value-,LESSCHARSET,-default-' '_less'
+'-value-,LESS,-default-' '_less'
+'-value-,LPDEST,-default-' '_printers'
+'-value-,MPD_HOST,-default' '_mpc'
+'-value-,P4CLIENT,-default-' '_perforce'
+'-value-,P4MERGE,-default-' '_perforce'
+'-value-,P4PORT,-default-' '_perforce'
+'-value-,P4USER,-default-' '_perforce'
+'-value-,PERLDOC,-default-' '_perldoc'
+'-value-,PRINTER,-default-' '_printers'
+'-value-,PROMPT2,-default-' '_ps1234'
+'-value-,PROMPT3,-default-' '_ps1234'
+'-value-,PROMPT4,-default-' '_ps1234'
+'-value-,PROMPT,-default-' '_ps1234'
+'-value-,PS1,-default-' '_ps1234'
+'-value-,PS2,-default-' '_ps1234'
+'-value-,PS3,-default-' '_ps1234'
+'-value-,PS4,-default-' '_ps1234'
+'-value-,RPROMPT2,-default-' '_ps1234'
+'-value-,RPROMPT,-default-' '_ps1234'
+'-value-,RPS1,-default-' '_ps1234'
+'-value-,RPS2,-default-' '_ps1234'
+'-value-,SPROMPT,-default-' '_ps1234'
+'-value-,TERM,-default-' '_terminals'
+'-value-,TERMINFO_DIRS,-default-' '_dir_list'
+'-value-,TZ,-default-' '_time_zone'
+'-value-,VALGRIND_OPTS,-default-' '_valgrind'
+'-value-,WWW_HOME,-default-' '_urls'
+'-value-,XML_CATALOG_FILES,-default-' '_xmlsoft'
+'-value-,XZ_DEFAULTS,-default-' '_xz'
+'-value-,XZ_OPT,-default-' '_xz'
+'-vared-' '_in_vared'
+'vared' '_vared'
+'vcsh' '_vcsh'
+'vim' '_vim'
+'vim-addons' '_vim-addons'
+'vimdiff' '_vim'
+'virsh' '_libvirt'
+'virt-admin' '_libvirt'
+'virt-host-validate' '_libvirt'
+'virt-pki-validate' '_libvirt'
+'virt-xml-validate' '_libvirt'
+'vitrage' '_openstack'
+'vmctl' '_vmctl'
+'vmstat' '_vmstat'
+'vncserver' '_vnc'
+'vncviewer' '_vnc'
+'vorbiscomment' '_vorbis'
+'vpnc' '_vpnc'
+'vpnc-connect' '_vpnc'
+'vserver' '_vserver'
+'vux' '_vux'
+'vuxctl' '_vux'
+'w' '_w'
+'w3m' '_w3m'
+'wait' '_wait'
+'wajig' '_wajig'
+'wanna-build' '_wanna-build'
+'watch' '_watch'
+'watcher' '_openstack'
+'wc' '_wc'
+'wd' '_wd.sh'
+'wget' '_wget'
+'what' '_sccs'
+'whatis' '_man'
+'whence' '_which'
+'where' '_which'
+'whereis' '_whereis'
+'which' '_which'
+'who' '_who'
+'whoami' '_nothing'
+'whois' '_whois'
+'whom' '_mh'
+'wiggle' '_wiggle'
+'wipefs' '_wipefs'
+'wodim' '_cdrecord'
+'wpa_cli' '_wpa_cli'
+'write' '_users_on'
+'www' '_webbrowser'
+'xargs' '_xargs'
+'xattr' '_attr'
+'xauth' '_xauth'
+'xautolock' '_xautolock'
+'xclip' '_xclip'
+'xdpyinfo' '_x_utils'
+'xdvi' '_xdvi'
+'xelatex' '_tex'
+'xetex' '_tex'
+'xev' '_x_utils'
+'xfd' '_x_utils'
+'xfig' '_xfig'
+'xfontsel' '_x_utils'
+'xfreerdp' '_rdesktop'
+'xhost' '_x_utils'
+'xkill' '_x_utils'
+'xli' '_xloadimage'
+'xloadimage' '_xloadimage'
+'xlsatoms' '_x_utils'
+'xlsclients' '_x_utils'
+'xml' '_xmlstarlet'
+'xmllint' '_xmlsoft'
+'xmlstarlet' '_xmlstarlet'
+'xmms2' '_xmms2'
+'xmodmap' '_xmodmap'
+'xmosaic' '_webbrowser'
+'xon' '_x_utils'
+'xournal' '_xournal'
+'xpdf' '_xpdf'
+'xping' '_hosts'
+'xprop' '_x_utils'
+'xrandr' '_xrandr'
+'xrdb' '_x_utils'
+'xscreensaver-command' '_xscreensaver'
+'xset' '_xset'
+'xsetbg' '_xloadimage'
+'xsetroot' '_x_utils'
+'xsltproc' '_xmlsoft'
+'xterm' '_xterm'
+'xtightvncviewer' '_vnc'
+'xtp' '_imagemagick'
+'xv' '_xv'
+'xview' '_xloadimage'
+'xvnc4viewer' '_vnc'
+'xvncviewer' '_vnc'
+'xwd' '_x_utils'
+'xwininfo' '_x_utils'
+'xwit' '_xwit'
+'xwud' '_x_utils'
+'xxd' '_xxd'
+'xz' '_xz'
+'xzcat' '_xz'
+'yafc' '_yafc'
+'yash' '_sh'
+'yast' '_yast'
+'yast2' '_yast'
+'ypbind' '_yp'
+'ypcat' '_yp'
+'ypmatch' '_yp'
+'yppasswd' '_yp'
+'yppoll' '_yp'
+'yppush' '_yp'
+'ypserv' '_yp'
+'ypset' '_yp'
+'ypwhich' '_yp'
+'ypxfr' '_yp'
+'ytalk' '_other_accounts'
+'yum' '_yum'
+'yumdb' '_yum'
+'zargs' '_zargs'
+'zathura' '_zathura'
+'zcalc' '_zcalc'
+'-zcalc-line-' '_zcalc_line'
+'zcat' '_zcat'
+'zcompile' '_zcompile'
+'zcp' '_zmv'
+'zdelattr' '_zattr'
+'zdump' '_zdump'
+'zeal' '_zeal'
+'zed' '_zed'
+'zegrep' '_grep'
+'zen' '_webbrowser'
+'zf_chgrp' '_chown'
+'zf_chown' '_chown'
+'zfgrep' '_grep'
+'zf_ln' '_ln'
+'zf_mkdir' '_mkdir'
+'zf_rm' '_rm'
+'zf_rmdir' '_directories'
+'zfs' '_zfs'
+'zgetattr' '_zattr'
+'zgrep' '_grep'
+'zip' '_zip'
+'zipinfo' '_zip'
+'zle' '_zle'
+'zlistattr' '_zattr'
+'zln' '_zmv'
+'zlogin' '_zlogin'
+'zmail' '_mail'
+'zmodload' '_zmodload'
+'zmv' '_zmv'
+'zone' '_hosts'
+'zoneadm' '_zoneadm'
+'zpool' '_zpool'
+'zpty' '_zpty'
+'zsetattr' '_zattr'
+'zsh' '_zsh'
+'zsh-mime-handler' '_zsh-mime-handler'
+'zsocket' '_zsocket'
+'zstat' '_stat'
+'zstyle' '_zstyle'
+'ztodo' '_ztodo'
+'zun' '_openstack'
+'zxpdf' '_xpdf'
+'zypper' '_zypper'
+)
+
+_services=(
+'bzcat' 'bunzip2'
+'dch' 'debchange'
+'gchgrp' 'chgrp'
+'gchown' 'chown'
+'gnupod_addsong.pl' 'gnupod_addsong'
+'gnupod_check.pl' 'gnupod_check'
+'gnupod_INIT.pl' 'gnupod_INIT'
+'gnupod_search.pl' 'gnupod_search'
+'gpg2' 'gpg'
+'gzcat' 'gunzip'
+'iceweasel' 'firefox'
+'lzcat' 'unxz'
+'lzma' 'xz'
+'Mail' 'mail'
+'mailx' 'mail'
+'mktunes.pl' 'mktunes'
+'nail' 'mail'
+'ncl' 'nc'
+'nedit-nc' 'nc'
+'pcat' 'unpack'
+'-redirect-,<,bunzip2' 'bunzip2'
+'-redirect-,<,bzip2' 'bzip2'
+'-redirect-,>,bzip2' 'bunzip2'
+'-redirect-,<,compress' 'compress'
+'-redirect-,>,compress' 'uncompress'
+'-redirect-,<,gunzip' 'gunzip'
+'-redirect-,<,gzip' 'gzip'
+'-redirect-,>,gzip' 'gunzip'
+'-redirect-,<,uncompress' 'uncompress'
+'-redirect-,<,unxz' 'unxz'
+'-redirect-,<,xz' 'xz'
+'-redirect-,>,xz' 'unxz'
+'remsh' 'rsh'
+'slogin' 'ssh'
+'svnadmin-static' 'svnadmin'
+'svnlite' 'svn'
+'tunes2pod.pl' 'tunes2pod'
+'unlzma' 'unxz'
+'xelatex' 'latex'
+'xetex' 'tex'
+'xzcat' 'unxz'
+'zf_chgrp' 'chgrp'
+'zf_chown' 'chown'
+)
+
+_patcomps=(
+'*/(init|rc[0-9S]#).d/*' '_init_d'
+'zf*' '_zftp'
+)
+
+_postpatcomps=(
+'c++-*' '_gcc'
+'g++-*' '_gcc'
+'gcc-*' '_gcc'
+'lua[0-9.-]##' '_lua'
+'(p[bgpn]m*|*top[bgpn]m)' '_pbm'
+'php[0-9.-]' '_php'
+'pydoc[0-9.]#' '_pydoc'
+'qemu(|-system-*)' '_qemu'
+'(ruby|[ei]rb)[0-9.]#' '_ruby'
+'shasum(|5).*' '_shasum'
+'(texi(2*|ndex))' '_texi'
+'(tiff*|*2tiff|pal2rgb)' '_tiff'
+'-value-,(ftp|http(|s))_proxy,-default-' '_urls'
+'-value-,LC_*,-default-' '_locales'
+'-value-,*path,-default-' '_directories'
+'-value-,*PATH,-default-' '_dir_list'
+'-value-,RUBY(LIB|OPT|PATH),-default-' '_ruby'
+'*/X11(|R<4->)/*' '_x_arguments'
+'yodl(|2*)' '_yodl'
+)
+
+_compautos=(
+'_call_program' '+X'
+)
+
+zle -C _bash_complete-word .complete-word _bash_completions
+zle -C _bash_list-choices .list-choices _bash_completions
+zle -C _complete_debug .complete-word _complete_debug
+zle -C _complete_help .complete-word _complete_help
+zle -C _complete_tag .complete-word _complete_tag
+zle -C _correct_filename .complete-word _correct_filename
+zle -C _correct_word .complete-word _correct_word
+zle -C _expand_alias .complete-word _expand_alias
+zle -C _expand_word .complete-word _expand_word
+zle -C _history-complete-newer .complete-word _history_complete_word
+zle -C _history-complete-older .complete-word _history_complete_word
+zle -C _list_expansions .list-choices _expand_word
+zle -C _most_recent_file .complete-word _most_recent_file
+zle -C _next_tags .list-choices _next_tags
+zle -C _read_comp .complete-word _read_comp
+bindkey '^X^R' _read_comp
+bindkey '^X?' _complete_debug
+bindkey '^XC' _correct_filename
+bindkey '^Xa' _expand_alias
+bindkey '^Xc' _correct_word
+bindkey '^Xd' _list_expansions
+bindkey '^Xe' _expand_word
+bindkey '^Xh' _complete_help
+bindkey '^Xm' _most_recent_file
+bindkey '^Xn' _next_tags
+bindkey '^Xt' _complete_tag
+bindkey '^X~' _bash_list-choices
+bindkey '^[,' _history-complete-newer
+bindkey '^[/' _history-complete-older
+bindkey '^[~' _bash_complete-word
+
+autoload -Uz _man-preview _extract _task _bundler _gem \
+            _pylint _pep8 _pip _python _git-branch \
+            _git-remote _github _wd.sh _module _bootctl \
+            _busctl _coredumpctl _curl _flatpak _hostnamectl \
+            _journalctl _kernel-install _localectl _loginctl _machinectl \
+            _mercurial _networkctl _pulseaudio _sd_hosts_or_user_at_host _sd_machines \
+            _sd_outputmodes _sd_unit_files _systemctl _systemd _systemd-analyze \
+            _systemd-delta _systemd-inhibit _systemd-nspawn _systemd-resolve _systemd-run \
+            _systemd-tmpfiles _timedatectl _udevadm _a2ps _a2utils \
+            _aap _absolute_command_paths _ack _acpi _acpitool \
+            _acroread _adb _add-zle-hook-widget _add-zsh-hook _alias \
+            _aliases _all_labels _all_matches _alternative _analyseplugin \
+            _ansible _ant _antiword _apachectl _apm \
+            _approximate _apt _apt-file _aptitude _apt-move \
+            _apt-show-versions _arch_archives _arch_namespace _arg_compile _arguments \
+            _arp _arping _arrays _assign _at \
+            _attr _augeas _auto-apt _autocd _awk \
+            _axi-cache _base64 _basename _bash _bash_completions \
+            _baudrates _baz _beadm _beep _be_name \
+            _bibtex _bind_addresses _bindkey _bison _bittorrent \
+            _bogofilter _bpf_filters _bpython _brace_parameter _brctl \
+            _bsdconfig _bsdinstall _bsd_pkg _btrfs _bts \
+            _bug _builtin _bzip2 _bzr _cabal \
+            _cache_invalid _caffeinate _cal _calendar _call_function \
+            _canonical_paths _cat _ccal _cd _cdbs-edit-patch \
+            _cdcd _cdr _cdrdao _cdrecord _chattr \
+            _chflags _chkconfig _chmod _chown _chroot \
+            _chrt _chsh _cksum _clay _cmdambivalent \
+            _cmdstring _cmp _code _column _combination \
+            _comm _command _command_names _compadd _compdef \
+            _complete _complete_debug _complete_help _complete_help_generic _completers \
+            _complete_tag _comp_locale _compress _condition _configure \
+            _coreadm _correct _correct_filename _correct_word _cowsay \
+            _cp _cpio _cplay _cpupower _crontab \
+            _cryptsetup _cscope _cssh _csup _ctags_tags \
+            _cu _curl _cut _cvs _cvsup \
+            _cygcheck _cygpath _cygrunsrv _cygserver _cygstart \
+            _dak _darcs _date _date_formats _dates \
+            _dbus _dchroot _dchroot-dsa _dconf _dcop \
+            _dcut _dd _deb_architectures _debbugs_bugnumber _debchange \
+            _debcheckout _deb_codenames _debdiff _debfoster _deborphan \
+            _deb_packages _debsign _debuild _default _defaults \
+            _delimiters _describe _description _devtodo _df \
+            _dhclient _dhcpinfo _dict _dict_words _diff \
+            _diff3 _diff_options _diffstat _dig _directories \
+            _directory_stack _dir_list _dirs _disable _dispatch \
+            _django _dkms _dladm _dlocate _dmesg \
+            _dmidecode _dnf _dns_types _doas _domains \
+            _dpatch-edit-patch _dpkg _dpkg-buildpackage _dpkg-cross _dpkg-repack \
+            _dpkg_source _dput _drill _dsh _dtrace \
+            _dtruss _du _dumpadm _dumper _dupload \
+            _dvi _dynamic_directory_name _e2label _ecasound _echotc \
+            _echoti _ed _elfdump _elinks _elm \
+            _email_addresses _emulate _enable _enscript _entr \
+            _env _eog _equal _espeak _etags \
+            _ethtool _evince _expand _expand_alias _expand_word \
+            _extensions _external_pwds _fakeroot _fbsd_architectures _fc \
+            _feh _fetch _fetchmail _ffmpeg _figlet \
+            _file_descriptors _file_flags _file_modes _files _file_systems \
+            _find _find_net_interfaces _finger _fink _first \
+            _flac _flasher _flex _floppy _flowadm \
+            _fmadm _fmt _fold _fortune _freebsd-update \
+            _fsh _fstat _fs_usage _functions _fuse_arguments \
+            _fuser _fusermount _fuse_values _fw_update _gcc \
+            _gcore _gdb _geany _gem _generic \
+            _genisoimage _getclip _getconf _getent _getfacl \
+            _getmail _getopt _ghostscript _git _git-buildpackage \
+            _global _global_tags _globflags _globqual_delims _globquals \
+            _gnome-gv _gnu_generic _gnupod _gnutls _go \
+            _gpasswd _gpg _gphoto2 _gprof _gqview \
+            _gradle _graphicsmagick _grep _grep-excuses _groff \
+            _groups _growisofs _gsettings _gstat _guard \
+            _guilt _gv _gzip _hash _have_glob_qual \
+            _hdiutil _head _hexdump _hg _history \
+            _history_complete_word _history_modifiers _hostname _hosts _htop \
+            _hwinfo _iconv _iconvconfig _id _ifconfig \
+            _iftop _ignored _imagemagick _inetadm _initctl \
+            _init_d _install _in_vared _invoke-rc.d _ionice \
+            _iostat _ip _ipadm _ipset _iptables \
+            _irssi _ispell _iwconfig _jail _jails \
+            _java _java_class _jexec _jls _jobs \
+            _jobs_bg _jobs_builtin _jobs_fg _joe _join \
+            _jot _jq _kdeconnect _kfmclient _kill \
+            _killall _kld _knock _kpartx _kvno \
+            _last _ldap _ldconfig _ldd _ld_debug \
+            _less _lha _libvirt _lighttpd _limit \
+            _limits _links _lintian _list _list_files \
+            _lldb _ln _loadkeys _locale _localedef \
+            _locales _locate _logical_volumes _look _lp \
+            _ls _lsattr _lsblk _lscfg _lsdev \
+            _lslv _lsof _lspv _lsusb _lsvg \
+            _ltrace _lua _luarocks _lynx _lz4 \
+            _lzop _mac_applications _mac_files_for_application _madison _mail \
+            _mailboxes _main_complete _make _make-kpkg _man \
+            _match _math _math_params _matlab _md5sum \
+            _mdadm _mdfind _mdls _mdutil _members \
+            _mencal _menu _mere _mergechanges _message \
+            _mh _mii-tool _mime_types _mixerctl _mkdir \
+            _mkshortcut _mktemp _mkzsh _module _module-assistant \
+            _module_math_func _modutils _mondo _monotone _moosic \
+            _mosh _most_recent_file _mount _mozilla _mpc \
+            _mplayer _mt _mtools _mtr _multi_parts \
+            _mupdf _mutt _mv _my_accounts _mysqldiff \
+            _mysql_utils _nautilus _nbsd_architectures _ncftp _nedit \
+            _netcat _net_interfaces _netscape _netstat _networkmanager \
+            _networksetup _newsgroups _next_label _next_tags _nginx \
+            _ngrep _nice _nkf _nl _nm \
+            _nmap _normal _nothing _notmuch _npm \
+            _nslookup _numfmt _nvram _objdump _object_classes \
+            _object_files _obsd_architectures _od _okular _oldlist \
+            _open _openstack _opkg _options _options_set \
+            _options_unset _osascript _osc _other_accounts _otool \
+            _pack _parameter _parameters _paste _patch \
+            _patchutils _path_commands _path_files _pax _pbcopy \
+            _pbm _pbuilder _pdf _pdftk _perforce \
+            _perl _perl_basepods _perldoc _perl_modules _pfctl \
+            _pfexec _pgrep _php _physical_volumes _pick_variant \
+            _picocom _pidof _pids _pine _ping \
+            _piuparts _pkg5 _pkgadd _pkg-config _pkginfo \
+            _pkg_instance _pkgrm _pkgtool _plutil _pon \
+            _portaudit _portlint _portmaster _ports _portsnap \
+            _postfix _postscript _powerd _prcs _precommand \
+            _prefix _print _printenv _printers _process_names \
+            _procstat _prompt _prove _prstat _ps \
+            _ps1234 _pscp _pspdf _psutils _ptree \
+            _pump _putclip _pwgen _pydoc _python \
+            _python_modules _qdbus _qemu _qiv _qtplay \
+            _quilt _raggle _rake _ranlib _rar \
+            _rcctl _rcs _rdesktop _read _read_comp \
+            _readelf _readlink _readshortcut _rebootin _redirect \
+            _regex_arguments _regex_words _remote_files _renice _reprepro \
+            _requested _retrieve_cache _retrieve_mac_apps _ri _rlogin \
+            _rm _rmdir _route _rpm _rpmbuild \
+            _rrdtool _rsync _rubber _ruby _run-help \
+            _runit _sablotron _samba _savecore _say \
+            _sccs _sched _schedtool _schroot _scl \
+            _scons _screen _script _scselect _sc_usage \
+            _scutil _sed _sep_parts _seq _sequence \
+            _service _services _set _set_command _setfacl \
+            _setopt _setup _setxkbmap _sh _shasum \
+            _showmount _shuf _shutdown _signals _signify \
+            _sisu _slrn _smartmontools _smit _snoop \
+            _socket _sockstat _softwareupdate _sort _source \
+            _spamassassin _split _sqlite _sqsh _ss \
+            _ssh _sshfs _ssh_hosts _stat _stdbuf \
+            _stgit _store_cache _strace _strftime _strings \
+            _strip _stty _su _sub_commands _sublimetext \
+            _subscript _subversion _sudo _suffix_alias_files _surfraw \
+            _SUSEconfig _svcadm _svccfg _svcprop _svcs \
+            _svcs_fmri _svn-buildpackage _swaks _swift _sw_vers \
+            _sys_calls _sysctl _sysrc _sysstat _systat \
+            _system_profiler _tac _tags _tail _tar \
+            _tar_archive _tardy _tcpdump _tcpsys _tcptraceroute \
+            _tee _telnet _terminals _tex _texi \
+            _texinfo _tidy _tiff _tilde _tilde_files \
+            _timeout _time_zone _tin _tla _tmux \
+            _todo.sh _toilet _toolchain-source _top _topgit \
+            _totd _touch _tpb _tpconfig _tput \
+            _tr _tracepath _trap _tree _truss \
+            _ttyctl _ttys _tune2fs _twidge _twisted \
+            _typeset _ulimit _uml _umountable _unace \
+            _uname _unexpand _unhash _uniq _unison \
+            _units _update-alternatives _update-rc.d _uptime _urls \
+            _urpmi _urxvt _uscan _user_admin _user_at_host \
+            _user_expand _user_math_func _users _users_on _uzbl \
+            _valgrind _value _values _vared _vars \
+            _vcsh _vim _vim-addons _vmctl _vmstat \
+            _vnc _volume_groups _vorbis _vpnc _vserver \
+            _vux _w _w3m _wait _wajig \
+            _wakeup_capable_devices _wanna-build _wanted _watch _watch-snoop \
+            _wc _webbrowser _wget _whereis _which \
+            _who _whois _widgets _wiggle _wipefs \
+            _wpa_cli _xargs _x_arguments _xauth _xautolock \
+            _x_borderwidth _xclip _x_color _x_colormapid _x_cursor \
+            _x_display _xdvi _x_extension _xfig _x_font \
+            _xft_fonts _x_geometry _x_keysym _xloadimage _x_locale \
+            _xmlsoft _xmlstarlet _xmms2 _x_modifier _xmodmap \
+            _x_name _xournal _xpdf _xrandr _x_resource \
+            _xscreensaver _x_selection_timeout _xset _xt_arguments _xterm \
+            _x_title _xt_session_id _x_utils _xv _x_visual \
+            _x_window _xwit _xxd _xz _yafc \
+            _yast _yodl _yp _yum _zargs \
+            _zathura _zattr _zcalc _zcalc_line _zcat \
+            _zcompile _zdump _zeal _zed _zfs \
+            _zfs_dataset _zfs_keysource_props _zfs_pool _zftp _zip \
+            _zle _zlogin _zmodload _zmv _zoneadm \
+            _zones _zpool _zpty _zsh _zsh-mime-handler \
+            _zsocket _zstyle _ztodo _zypper
+autoload -Uz +X _call_program
+
+typeset -gUa _comp_assocs
+_comp_assocs=( '' )
 
 # Load all of the plugins that were defined in ~/.zshrc
 for plugin ($plugins); do
@@ -3974,15 +6149,11 @@ elif [ -f "${_plugin__ssh_env}" ]; then
 else
   _plugin__start_agent;
 fi
-SSH_AUTH_SOCK=/tmp/ssh-8LxZL5aOulpQ/agent.14958; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=14960; export SSH_AGENT_PID;
-#echo Agent pid 14960;
+SSH_AUTH_SOCK=/tmp/ssh-M57d1q8jsHvg/agent.6471; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=6473; export SSH_AGENT_PID;
+#echo Agent pid 6473;
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
-SSH_AUTH_SOCK=/tmp/ssh-aIO0mgtINCG5/agent.15654; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=15656; export SSH_AGENT_PID;
-#echo Agent pid 15656;
-starting ssh-agent...
 
 # tidy up after ourselves
 unfunction _plugin__start_agent
@@ -4397,6 +6568,7 @@ if (( $+commands[$virtualenvwrapper] )); then
 else
   print "zsh virtualenvwrapper plugin: Cannot find ${virtualenvwrapper}. Please install with \`pip install virtualenvwrapper\`."
 fi
+#!/usr/bin/sh
 # -*- mode: shell-script -*-
 #
 # Shell functions to act as wrapper for Ian Bicking's virtualenv
@@ -4444,26 +6616,26 @@ fi
 #
 
 # Locate the global Python where virtualenvwrapper is installed.
-if [ "$VIRTUALENVWRAPPER_PYTHON" = "" ]
+if [ "${VIRTUALENVWRAPPER_PYTHON:-}" = "" ]
 then
     VIRTUALENVWRAPPER_PYTHON="$(command \which python)"
 fi
 
 # Set the name of the virtualenv app to use.
-if [ "$VIRTUALENVWRAPPER_VIRTUALENV" = "" ]
+if [ "${VIRTUALENVWRAPPER_VIRTUALENV:-}" = "" ]
 then
     VIRTUALENVWRAPPER_VIRTUALENV="virtualenv"
 fi
 
 # Set the name of the virtualenv-clone app to use.
-if [ "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" = "" ]
+if [ "${VIRTUALENVWRAPPER_VIRTUALENV_CLONE:-}" = "" ]
 then
     VIRTUALENVWRAPPER_VIRTUALENV_CLONE="virtualenv-clone"
 fi
 
 # Define script folder depending on the platorm (Win32/Unix)
 VIRTUALENVWRAPPER_ENV_BIN_DIR="bin"
-if [ "$OS" = "Windows_NT" ] && ([ "$MSYSTEM" = "MINGW32" ] || [ "$MSYSTEM" = "MINGW64" ])
+if [ "${OS:-}" = "Windows_NT" ] && ([ "${MSYSTEM:-}" = "MINGW32" ] || [ "${MSYSTEM:-}" = "MINGW64" ])
 then
     # Only assign this for msys, cygwin use standard Unix paths
     # and its own python installation
@@ -4472,7 +6644,7 @@ fi
 
 # Let the user override the name of the file that holds the project
 # directory name.
-if [ "$VIRTUALENVWRAPPER_PROJECT_FILENAME" = "" ]
+if [ "${VIRTUALENVWRAPPER_PROJECT_FILENAME:-}" = "" ]
 then
     export VIRTUALENVWRAPPER_PROJECT_FILENAME=".project"
 fi
@@ -4482,7 +6654,7 @@ fi
 export VIRTUALENVWRAPPER_WORKON_CD=${VIRTUALENVWRAPPER_WORKON_CD:-1}
 
 # Remember where we are running from.
-if [ -z "$VIRTUALENVWRAPPER_SCRIPT" ]
+if [ -z "${VIRTUALENVWRAPPER_SCRIPT:-}" ]
 then
     if [ -n "$BASH" ]
     then
@@ -4507,10 +6679,10 @@ fi
 # we are trying to change the state of the current shell, so we use
 # "builtin" for bash and zsh but "command" under ksh.
 function virtualenvwrapper_cd {
-    if [ -n "$BASH" ]
+    if [ -n "${BASH:-}" ]
     then
         builtin \cd "$@"
-    elif [ -n "$ZSH_VERSION" ]
+    elif [ -n "${ZSH_VERSION:-}" ]
     then
         builtin \cd -q "$@"
     else
@@ -4627,7 +6799,7 @@ function virtualenvwrapper_run_hook {
     ( \
         virtualenvwrapper_cd "$WORKON_HOME" &&
         "$VIRTUALENVWRAPPER_PYTHON" -m 'virtualenvwrapper.hook_loader' \
-            $HOOK_VERBOSE_OPTION --script "$hook_script" "$@" \
+            ${HOOK_VERBOSE_OPTION:-} --script "$hook_script" "$@" \
     )
     result=$?
 
@@ -4643,8 +6815,8 @@ function virtualenvwrapper_run_hook {
         source "$hook_script"
     elif [ "${1}" = "initialize" ]
     then
-        cat - 1>&2 <<EOF 
-virtualenvwrapper.sh: There was a problem running the initialization hooks. 
+        cat - 1>&2 <<EOF
+virtualenvwrapper.sh: There was a problem running the initialization hooks.
 
 If Python could not import the module virtualenvwrapper.hook_loader,
 check that virtualenvwrapper has been installed for
@@ -4659,7 +6831,7 @@ EOF
 # Set up tab completion.  (Adapted from Arthur Koziel's version at
 # http://arthurkoziel.com/2008/10/11/virtualenvwrapper-bash-completion/)
 function virtualenvwrapper_setup_tab_completion {
-    if [ -n "$BASH" ] ; then
+    if [ -n "${BASH:-}" ] ; then
         _virtualenvs () {
             local cur="${COMP_WORDS[COMP_CWORD]}"
             COMPREPLY=( $(compgen -W "`virtualenvwrapper_show_workon_options`" -- ${cur}) )
@@ -4703,8 +6875,9 @@ function virtualenvwrapper_initialize {
     # Set the location of the hook scripts
     if [ "$VIRTUALENVWRAPPER_HOOK_DIR" = "" ]
     then
-        export VIRTUALENVWRAPPER_HOOK_DIR="$WORKON_HOME"
+        VIRTUALENVWRAPPER_HOOK_DIR="$WORKON_HOME"
     fi
+    export VIRTUALENVWRAPPER_HOOK_DIR
 
     mkdir -p "$VIRTUALENVWRAPPER_HOOK_DIR"
 
@@ -4914,7 +7087,7 @@ function rmvirtualenv {
     virtualenvwrapper_verify_workon_home || return 1
     if [ ${#@} = 0 ]
     then
-        echo "Please specify an enviroment." >&2
+        echo "Please specify an environment." >&2
         return 1
     fi
 
@@ -4956,7 +7129,7 @@ function rmvirtualenv {
 # List the available environments.
 function virtualenvwrapper_show_workon_options {
     virtualenvwrapper_verify_workon_home || return 1
-    # NOTE: DO NOT use ls or cd here because colorized versions spew control 
+    # NOTE: DO NOT use ls or cd here because colorized versions spew control
     #       characters into the output list.
     # echo seems a little faster than find, even with -depth 3.
     # Note that this is a little tricky, as there may be spaces in the path.
@@ -4971,7 +7144,7 @@ function virtualenvwrapper_show_workon_options {
     #    a slash, as that is an illegal character in a directory name.
     #    This yields a slash-separated list of possible env names.
     # 4. Replace each slash with a newline to show the output one name per line.
-    # 5. Eliminate any lines with * on them because that means there 
+    # 5. Eliminate any lines with * on them because that means there
     #    were no envs.
     (virtualenvwrapper_cd "$WORKON_HOME" && echo */$VIRTUALENVWRAPPER_ENV_BIN_DIR/activate) 2>/dev/null \
         | command \tr "\n" " " \
@@ -4992,7 +7165,7 @@ function _lsvirtualenv_usage {
 function lsvirtualenv {
 
     typeset long_mode=true
-    if command -v "getopts" &> /dev/null
+    if command -v "getopts" >/dev/null 2>&1
     then
         # Use getopts when possible
         OPTIND=1
@@ -5148,12 +7321,17 @@ function workon {
 
     # Deactivate any current environment "destructively"
     # before switching so we use our override function,
-    # if it exists.
+    # if it exists, but make sure it's the deactivate function
+    # we set up
     type deactivate >/dev/null 2>&1
     if [ $? -eq 0 ]
     then
-        deactivate
-        unset -f deactivate >/dev/null 2>&1
+        type deactivate | grep 'typeset env_postdeactivate_hook' >/dev/null 2>&1
+        if [ $? -eq 0 ]
+        then
+            deactivate
+            unset -f deactivate >/dev/null 2>&1
+        fi
     fi
 
     virtualenvwrapper_run_hook "pre_activate" "$env_name"
@@ -5208,7 +7386,7 @@ function virtualenvwrapper_get_python_version {
 
 # Prints the path to the site-packages directory for the current environment.
 function virtualenvwrapper_get_site_packages_dir {
-    "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/python" -c "import distutils; print(distutils.sysconfig.get_python_lib())"
+    "$VIRTUAL_ENV/$VIRTUALENVWRAPPER_ENV_BIN_DIR/python" -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_lib())"
 }
 
 # Path management for packages outside of the virtual env.
@@ -5346,7 +7524,7 @@ function cpvirtualenv {
     typeset src_name="$1"
     typeset trg_name="$2"
     typeset src
-    typeset trg 
+    typeset trg
 
     # without a source there is nothing to do
     if [ "$src_name" = "" ]; then
@@ -5390,10 +7568,10 @@ function cpvirtualenv {
 
     echo "Copying $src_name as $trg_name..."
     (
-        [ -n "$ZSH_VERSION" ] && setopt SH_WORD_SPLIT 
+        [ -n "$ZSH_VERSION" ] && setopt SH_WORD_SPLIT
         virtualenvwrapper_cd "$WORKON_HOME" &&
-        "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" "$src" "$trg" 
-        [ -d "$trg" ] && 
+        "$VIRTUALENVWRAPPER_VIRTUALENV_CLONE" "$src" "$trg"
+        [ -d "$trg" ] &&
             virtualenvwrapper_run_hook "pre_cpvirtualenv" "$src" "$trg_name" &&
             virtualenvwrapper_run_hook "pre_mkvirtualenv" "$trg_name"
     )
@@ -5680,7 +7858,7 @@ function wipeenv {
     virtualenvwrapper_verify_active_environment || return 1
 
     typeset req_file="$(virtualenvwrapper_tempfile "requirements.txt")"
-    pip freeze | egrep -v '(distribute|wsgiref)' > "$req_file"
+    pip freeze | egrep -v '(distribute|wsgiref|appdirs|packaging|pyparsing|six)' > "$req_file"
     if [ -n "$(cat "$req_file")" ]
     then
         echo "Uninstalling packages:"
@@ -6410,7 +8588,6 @@ if which tmux &> /dev/null
 else
 	print "zsh tmux plugin: tmux not found. Please install tmux before using this plugin."
 fi
-zsh tmux plugin: tmux not found. Please install tmux before using this plugin.
 ################################################################################
 # Author: Pete Clark
 # Email: pete[dot]clark[at]gmail[dot]com
@@ -6892,23 +9069,25 @@ bash_source "${__DOTFILES}/etc/bash/00-bashrc.before.sh"
 #
 # dotfiles_reload()
 grep: warning: GREP_OPTIONS is deprecated; please use an alias or script
+# TERM='xterm-256color'
+TERM='screen-256color'
 _usrlog_echo_title:7: bad substitution
 # dotfiles_status()
 HOSTNAME='mb1'
 USER='wturner'
 __WRK='/home/wturner/-wrk'
 PROJECT_HOME='/home/wturner/-wrk'
-CONDA_ROOT='/home/wturner/-wrk/-conda27'
-CONDA_ENVS_PATH='/home/wturner/-wrk/-ce27'
-WORKON_HOME='/home/wturner/-wrk/-ve27'
+CONDA_ROOT='/home/wturner/-wrk/-conda37'
+CONDA_ENVS_PATH='/home/wturner/-wrk/-ce37'
+WORKON_HOME='/home/wturner/-wrk/-ve37'
 VIRTUAL_ENV_NAME='dotfiles'
-VIRTUAL_ENV='/home/wturner/-wrk/-ve27/dotfiles'
-_SRC='/home/wturner/-wrk/-ve27/dotfiles/src'
+VIRTUAL_ENV='/home/wturner/-wrk/-ve37/dotfiles'
+_SRC='/home/wturner/-wrk/-ve37/dotfiles/src'
 _APP='dotfiles'
-_WRD='/home/wturner/-wrk/-ve27/dotfiles/src/dotfiles'
-_USRLOG='/home/wturner/-wrk/-ve27/dotfiles/-usrlog.log'
+_WRD='/home/wturner/-wrk/-ve37/dotfiles/src/dotfiles'
+_USRLOG='/home/wturner/-wrk/-ve37/dotfiles/-usrlog.log'
 _TERM_ID='#testing'
-PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve27/dotfiles/bin:/home/wturner/-dotfiles/scripts:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/home/wturner/.local/bin:/home/wturner/bin'
+PATH='/home/wturner/bin:/usr/local/bin:/home/wturner/-wrk/-ve37/dotfiles/bin:/home/wturner/.local/bin:/home/wturner/-dotfiles/scripts:/usr/share/Modules/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin'
 __DOTFILES='/home/wturner/-dotfiles'
 #
 ##

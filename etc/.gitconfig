@@ -60,11 +60,20 @@
   is = log -n1 --stat --decorate=full
 
   # log
-  l = log --graph --date=short
-  l3 = log -n3 --graph --date=short
+  l = log --graph --date=short --name-status
+  l3 = log -n3 --graph --date=short --name-status
   short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
   changelog = log --pretty=format:\"* %s [%h]\"
   shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
+  logstat = log --graph --stat
+  ls = log --graph --name-status
+
+  logfull = log --format=full --stat
+  logfuller = log --format=fuller --stat
+  logfullerraw = log --format=fuller --stat --raw
+  lograw = log --format=raw --raw
+  lf = log --format=fuller --stat --graph --show-signature
+  lr = log --format=raw    --stat --graph --raw --show-signature
 
   # show unpushed changes
   unpushed = log --stat origin/master..HEAD
@@ -108,6 +117,10 @@
 
   # tag
   t = tag -n                        # show tags with <n> lines of each tag message
+  # tagdate = tag --format=\"%ci %(taggerdate:unix) %(authorname) %s\"
+  tagdate = log HEAD --tags --simplify-by-decoration --pretty=format:\"%Cblue%ct %ci%Creset%x09%Cred%D%Creset%x09%Cgreen%cn%Creset%x09%s %Cblue%G? %GS %GK%Creset\"
+
+  tags = tagdate
 
   # svn helpers
   svnr = svn rebase
@@ -123,8 +136,17 @@
   # TODO
   todo = grep -n --full-name -E 'TODO|FIXME|XXX'
 
+[log]
+  # date = iso-strict
+  # date = iso
+  # date = format:%F %T %z %a  # ISO8601 + day of week (man strftime)
+  # date = format-local:%F %T %z %a  # ISO8601 + day of week (man strftime)
+  # date = format-local:%a  # day of week
+  # date = human
 [format]
-  pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
+  pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset  %s  %C(magenta)[%an {%G? %GK %GS}]%Creset
+# pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset%n      %s%n      %C(magenta)[%an {%G? %GK %GS}]%Creset%n
+# pretty = fuller
 [mergetool]
   prompt = false
 [mergetool "gvimdiff"]

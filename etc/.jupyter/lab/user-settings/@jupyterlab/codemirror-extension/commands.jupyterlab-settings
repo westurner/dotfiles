@@ -1,1 +1,15 @@
-{"theme":"seti"}
+{
+    // CodeMirror
+    // @jupyterlab/codemirror-extension:commands
+    // Text editor settings for all CodeMirror editors.
+    // ************************************************
+
+    // Key Map
+    // Configures the keymap to use
+    "keyMap": "emacs",
+
+    // Theme
+    // CSS file defining the corresponding
+    // .cm-s-[name] styles is loaded
+    "theme": "seti"
+}

@@ -1,6 +1,7 @@
-
+#!/usr/bin/env bash
 ### bashrc.TERM.sh
 
+# shellcheck disable=2120
 configure_TERM() {
     # configure_TERM            -- configure the $TERM variable (man terminfo)
     #   $1: (optional; autodetects if -z)
@@ -15,7 +16,7 @@ configure_TERM() {
             #tmux
             export TERM="screen"
             configure_TERM_CLICOLOR
-        elif [ -n "$(echo $TERMCAP | grep -q screen)" ]; then
+        elif echo "$TERMCAP" | grep -q screen; then
             #screen
             export TERM="screen"
             configure_TERM_CLICOLOR
@@ -41,7 +42,7 @@ configure_TERM_CLICOLOR() {
     #export CLICOLOR_256=$CLICOLOR
 
     if [ -n "${CLICOLOR_256}" ]; then
-        (echo $TERM | grep -v -q 256color) && \
+        (echo "$TERM" | grep -v -q 256color) && \
             export TERM="${TERM}-256color"
     fi
 }

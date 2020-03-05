@@ -38,7 +38,7 @@ project_name_slug = "dotfiles"
 project_orgname = "westurner"
 project_twitter_user = project_orgname
 project_author = u"Wes Turner"
-project_copyright = u'2014, {}'.format(project_author)
+project_copyright = u'2019, {}'.format(project_author)
 project_github_path = "{}/{}".format(project_orgname, project_name)
 project_github_url = "https://github.com/{}".format(project_github_path)
 project_src_url = project_github_url
@@ -65,18 +65,20 @@ import dotfiles
 # Add any Sphinx extension module names here, as strings.
 # They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
+import sphinxjp.themes.basicstrap
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinxcontrib.napoleon',
-    'sphinxcontrib.srclinks'
+    'sphinxcontrib.srclinks',
+    'sphinxjp.themes.basicstrap',
 ]
 
 try:
     import sphinxcontrib.programoutput
-    extensions.append('sphinxcontrib.ansi')
+    #extensions.append('sphinxcontrib.ansi')
     extensions.append('sphinxcontrib.programoutput')
-    programoutput_use_ansi = True
+    #programoutput_use_ansi = True
 except ImportError:
     pass
 

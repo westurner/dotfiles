@@ -1,0 +1,28 @@
+{
+    "shortcuts": [
+        // Move cell up
+        {
+          "selector": ".jp-Notebook:focus",
+          "command": "notebook:move-cell-up",
+          "keys": [
+            "Ctrl ArrowUp"
+          ]
+        },
+
+        // Move cell down
+        {
+          "selector": ".jp-Notebook:focus",
+          "command": "notebook:move-cell-down",
+          "keys": [
+            "Ctrl ArrowDown"
+          ]
+        },
+        {
+            "command": "notebook:restart-run-all",
+            "selector": ".jp-Notebook:focus",
+            "keys": [
+                "Ctrl Alt Space"
+            ],
+        },
+    ]
+}

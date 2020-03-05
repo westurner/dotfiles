@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### bashrc.aliases.sh
 
 #annotate this file with comments
@@ -35,10 +35,13 @@ _loadaliases () {
     #   $2- (list): file paths
         local msg=${1:-""}
         shift
-        local files=$@
-        git diff ${files}
+        local files=( "${@}" )
+        git diff "${files[@]}"
         if [ -n "${msg}" ]; then
-            git commit ${files} -m "${msg}"
+            git commit "${files[@]}" -m "${msg}"
+        else
+            # shellcheck disable=2016
+            echo 'No message specified in $1, not comitting'
         fi
     }
     # gb       -- 'git branch -v'
@@ -49,6 +52,8 @@ _loadaliases () {
     alias gds='git diff -p --stat'
     # gc       -- 'git commit'
     alias gc='git commit'
+    # gca      -- 'git commit --amend'
+    alias gca='git commit --amend'
     # gco      -- 'git checkout'
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
@@ -81,10 +86,13 @@ _loadaliases () {
     #   $2- (list): file paths
         local msg=${1:-""}
         shift
-        local files=$@
-        hg diff ${files}
+        local files=( "${@}" )
+        hg diff "${files[@]}"
         if [ -n "${msg}" ]; then
-            hg commit -m "${msg}" ${files}
+            hg commit -m "${msg}" "${files[@]}"
+        else
+            # shellcheck disable=2016
+            echo 'No message specified in $1, not comitting'
         fi
     }
     # hgl      -- 'hg glog --pager=yes'

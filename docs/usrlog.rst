@@ -109,11 +109,11 @@ usrlog venv integration
     echo "${HISTFILE}"       # HISTFILE=$HOME/.bash_history
 
     workon_venv dotfiles     # _USRLOG=$VIRTUAL_ENV/-usrlog.log
-                             # HISTFILE=$VIRTUAL_ENV/.bash_history 
-    we dotfiles              # "                               
-    workon_conda dotfiles    # "                               
-    wec                      # "                               
-    
+                             # HISTFILE=$VIRTUAL_ENV/.bash_history
+    we dotfiles              # "
+    workon_conda dotfiles    # "
+    wec                      # "
+
     # deactivating resets to __USRLOG
     echo "${__USRLOG}  *"         # $HOME/-usrlog.log *
     echo $_USRLOG                 # $VIRTUAL_ENV/-usrlog.log
@@ -133,7 +133,7 @@ usrlog venv integration
               && _setup_venv_prompt
       }
 
-  A ``_setup_venv_prompt`` is defined in 
+  A ``_setup_venv_prompt`` is defined in
   https://github.com/westurner/dotfiles/blob/master/etc/bash/10-bashrc.venv.sh::
 
       ### etc/bash/10-bashrc.venv.sh
@@ -157,7 +157,7 @@ usrlog venv integration
     * Because newlines
 
 * -usrlog.log format parsers:
-  
+
   * `usrlog.sh`_: ``ugp (_usrlog_parse_cmds)`` (:ref:`pyline`)
   * `usrlog.py`_
 
@@ -178,7 +178,7 @@ Syntax ::
 
 -usrlog.log natural key
 ~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
 ::
 
     natural_key = (iso8601datewithtz_finish, $_TERM_ID, $HOSTNAME, $USER)
@@ -197,16 +197,52 @@ usrlog.py
 usrlog.py is a commandline script for parsing ``-usrlog.log`` files.
 
 
-Installation::
+Installation
+---------------
+.. code:: bash
 
     python "${__DOTFILES}/scripts/usrlog.py"
     # echo "$PATH"              # dotfiles_status, ds, cls
     cat $_USRLOG | usrlog.py --cmds -
 
 
-Usage::
+Usage
+-------
+.. code:: bash
 
     python usrlog.py --help
+
+    Usage: usrlog.py : [-u] [-p <path>|-P] [--cmds|--id|--dates|--elapsed|--ve]
+
+    Options:
+    -h, --help            show this help message and exit
+    -p PATHS, --path=PATHS
+                          Path to a -usrlog.log file to read (e.g.
+                          "${VIRTUAL_ENV}/-usrlog.log" or '-' for stdin)
+    -P, --paths-from-stdin
+                          Read -usrlog.log paths from stdin
+    -u, -U, --_USRLOG, --USRLOG
+                          Read -usrlog.log path from ${_USRLOG}
+    -f, --force           silently skip ParseException (or log w/ -v)
+    --cmd, --cmds         show <cmd>
+    --id, --ids, --session, --sessions
+                          show [id, cmd]
+    --date, --dates       show [date, id, cmd]
+    --elapsed             show [date, id, cmd, elapsed]
+    --ve, --venv, --venvs, --virtualenv, --virtualenvs
+                          include [date,id,virtualenv,cmd]
+    --cwd, --pwd, --cwd-after-cmd, --pwd-after-cmd
+                          include [date,id,virtualenv,path,cmd]
+    -c COLUMNS, --column=COLUMNS
+                          { date, elapsed, id, virtualenv, path, cmd }
+    --pyline              run --pyline '" commands" + (l[:9] if l else ".")'
+    --iterable-only       return an iterable (instead of an exitcode)
+    --todo, --todos       grep for #TODO entries and parse out the #TODO prefix
+    -v, --verbose
+    -q, --quiet
+    -t, --test
+
+.. code:: bash
 
     python usrlog.py --cmds $_USRLOG
     cat $_USRLOG | tail -n 20 | usrlog.py --cmds -
@@ -223,7 +259,7 @@ Caveats
 
 * A ``-usrlog.log`` is a text file log which commands are appended to,
   in userspace, with user permissions
-  
+
   * Linux: see also: ``avc.log``, ``audit.log``
 
 * [ ] BUG: ``path`` is recorded after the command evaluates
@@ -231,7 +267,7 @@ Caveats
 
   * pass forward the ending path from the previous command (``PATH_PREV``)
     in ``PROMPT_COMMAND``
-  
+
   * initial ``PATH_PREV`` (at shell startup):
 
     * see the previous command (in the ``-usrlog.log`` file)
@@ -250,7 +286,7 @@ Caveats
   `usrlog.sh`_ ``_usrlog_parse_cmds`` (``cat $_USRLOG | ugp``):
 
   * [ ] REF: write migration scripts for oldstyle logs
-  
+
     * workaround: ``grep -C $_USRLOG``
     * workaround: ``grep -C $(lsusrlogs) | ugp``
     * workaround: ``grep -C $(lsusrlogs) | usrlog.py --cmds``
@@ -262,10 +298,10 @@ Ideas
 * ENH: prompt square::
 
     # prev_cmd
-    # date_start 
+    # date_start
     # date_finish [timedelta]
     # (VIRTUAL_ENV_NAME) $_TERM_ID $USER@$HOSTNAME:/$CWD
-    $ 
+    $
 
   * PERF: time delta overhead
   * UBY: minimize n rows

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ### bashrc.venv.sh
 #   note: most of these aliases and functions are overwritten by `we` 
 ## Variables
@@ -7,7 +8,8 @@ function _setup_venv {
     # _setup_venv()    -- configure __PROJECTSRC, PATH, __VENV, _setup_venv_SRC()
     #  __PROJECTSRC (str): path to local project settings script to source
     export __PROJECTSRC="${__WRK}/.projectsrc.sh"
-    [ -f $__PROJECTSRC ] && source $__PROJECTSRC
+    # shellcheck disable=1090
+    [ -f "$__PROJECTSRC" ] && source "$__PROJECTSRC"
 
     # PATH="~/.local/bin:$PATH" (if not already there)
     PATH_prepend "${HOME}/.local/bin"
@@ -16,8 +18,10 @@ function _setup_venv {
     export __VENV="${__DOTFILES}/scripts/venv.py"
 
     # CdAlias functions and completions
+    # shellcheck source=../venv/scripts/venv.sh
     source "${__DOTFILES}/etc/venv/scripts/venv.sh"
     if [ "${VENVPREFIX}" == "/" ]; then
+        # shellcheck source=../venv/scripts/venv_root_prefix.sh
         source "${__DOTFILES}/etc/venv/scripts/venv_root_prefix.sh"
     fi
 
@@ -36,17 +40,19 @@ function _setup_venv_SRC {
 
     if [ ! -e "${__SRCVENV}" ]; then
         if [ ! -d "${WORKON_HOME}/src" ]; then
-            mkvirtualenv -p $(command -v python) -i pyrpo -i pyline -i pgs src
+            mkvirtualenv -p "$(command -v python)" \
+                -i pyrpo -i pyline -i pgs src
         fi
         ln -s "${WORKON_HOME}/src" "${__SRCVENV}"
     fi
 
     #               ($__SRC/git $__SRC/git)
-    if [ ! -d $__SRC ]; then
+    if [ ! -d "$__SRC" ]; then
         mkdir -p \
-            ${__SRC}/git/github.com \
-            ${__SRC}/git/bitbucket.org \
-            ${__SRC}/hg/bitbucket.org
+            "${__SRC}/git/github.com" \
+            "${__SRC}/git/gitlab.com" \
+            "${__SRC}/git/bitbucket.org" \
+            "${__SRC}/hg/bitbucket.org"
     fi
 }
 
@@ -59,11 +65,11 @@ function venv {
     # venv -h   -- print venv --help
     # venv --print-bash   -- print bash configuration
     # venv --print-json   -- print IPython configuration as JSON
-    (set -x; $__VENV $@)
+    (set -x; $__VENV "${@}")
 }
 function venvw {
     # venvw $@ -- venv -E $@ (for the current environment)
-    (set -x; $__VENV -e $@)
+    (set -x; $__VENV -e "${@}")
 }
 
 function workon_venv {
@@ -78,13 +84,15 @@ function workon_venv {
     #   we dotfiles dotfiles
 
     if [ -n "${1}" ]; then
+        local _venvstr
+        local _workon_home
         if [ -d "${WORKON_HOME}/${1}" ]; then
-           local _venvstr="${1}"
-           local _workon_home="${WORKON_HOME}"
+           _venvstr="${1}"
+           _workon_home="${WORKON_HOME}"
            shift
         elif [ -d "${1}" ]; then
-           local _venvstr="$(basename "${1}")"
-           local _workon_home="$(dirname "${1}")"
+           _venvstr="$(basename "${1}")"
+           _workon_home="$(dirname "${1}")"
            shift
         else
            echo "err: venv not found: ${1}"
@@ -94,14 +102,15 @@ function workon_venv {
         #append to shell history
         history -a
 
+        # shellcheck disable=1090
         workon "${_venvstr}" && \
             source <($__VENV \
                 --wrk="$__WRK" \
                 --wh="${_workon_home}" \
                 --print-bash \
-                ${_venvstr} $@ ) && \
+                "${_venvstr}" "${@}" ) && \
             dotfiles_status && \
-            declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+            declare -f '_setup_venv_prompt' > /dev/null 2>&1 \
             && _setup_venv_prompt "${_TERM_ID:-${_venvstr}}"
     else
         #if no arguments are specified, list virtual environments
@@ -111,7 +120,7 @@ function workon_venv {
 }
 function we {
     # we()          -- workon_venv
-    workon_venv $@
+    workon_venv "${@}"
 }
 complete -o default -o nospace -F _virtualenvs workon_venv
 complete -o default -o nospace -F _virtualenvs we
@@ -121,20 +130,27 @@ function _setup_venv_aliases {
     # _setup_venv_aliases()  -- load venv aliases
     #   note: these are overwritten by `we` [`source <(venv -b)`]
 
+    # shellcheck source=../../scripts/_ewrd.sh
     source "${__DOTFILES}/scripts/_ewrd.sh"
 
+    # shellcheck source=../../scripts/_grinwrd.sh
     source "${__DOTFILES}/scripts/_grinwrd.sh"
 
     # makew     -- make -C "${WRD}" ${@}    [scripts/makew <TAB>]
+    # shellcheck source=../../scripts/makew
     source "${__DOTFILES}/scripts/makew"
 
+    # shellcheck source=../../scripts/ssv
     source "${__DOTFILES}/scripts/ssv"
+    # shellcheck disable=2119
     _setup_supervisord
 
     # hgw       -- hg -R  ${_WRD}   [scripts/hgw <TAB>]
+    # shellcheck source=../../scripts/hgw
     source "${__DOTFILES}/scripts/hgw"
 
     # gitw      -- git -C ${_WRD}   [scripts/gitw <TAB>]
+    # shellcheck source=../../scripts/gitw
     source "${__DOTFILES}/scripts/gitw"
 
     # serve-()  -- ${_SERVE_}
@@ -158,8 +174,10 @@ function _setup_venv_prompt {
     local venvprompt=""
     venvprompt=${_APP:-${VIRTUAL_ENV_NAME:-${VIRTUAL_ENV:+"$(basename $VIRTUAL_ENV)"}}}
     # TODO: CONDA
+    # shellcheck disable=2154
     export VENVPROMPT="${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}${WINDOW_TITLE:+"$WINDOW_TITLE "}"
     if [ -n "$BASH_VERSION" ]; then
+        # shellcheck disable=2154
         if [ "$color_prompt" == yes ]; then
             PS1='${VENVPROMPT}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
         else
@@ -175,15 +193,17 @@ _setup_venv_prompt
 function venv_ls {
     # venv_ls()     -- list virtualenv directories
     prefix=${1:-${VIRTUAL_ENV}}
+    lsargs=${2:-${lsargs:-"-ld"}}
     if [ -z "${prefix}" ]; then
         return
     fi
     #ls -ld ${prefix}/**
-    ls -ld $(find ${prefix} ${prefix}/lib -maxdepth 2 -type d)
+    find "${prefix}" "${prefix}/lib" -maxdepth 2 -type d -print0 \
+        | xargs -0 ls --color=auto ${lsargs}
 }
 function lsvenv {
     # lsvenv()      -- venv_ls()
-    venv_ls $@
+    venv_ls "${@}"
 }
 
 function venv_mkdirs {

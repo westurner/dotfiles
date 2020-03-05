@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### bashrc.vimpagers.sh
 
 function _configure_lesspipe {
@@ -11,18 +11,14 @@ function _configure_lesspipe {
 _configure_lesspipe
 
 
-function _setup_vimpager {
-    __THIS=$(readlink -e "$0")
-}
-
 function vimpager {
     # vimpager() -- call vimpager
     # _PAGER=$(command -v vimpager)
     if [ -x "${_PAGER}" ]; then
         "${_PAGER}" "${@}"
     else
-        lessv "$@"
-        echo "error: vimpager not found. (see lessv: 'lessv $@')"
+        echo "error: vimpager not found. Calling lessv instead..."
+        lessv "${@}"
     fi
 }
 
@@ -133,7 +129,8 @@ function mang {
 
 function mane {
     # mane()    -- open manpage with venv's vim server
-    ${GUIVIMBIN} ${VIMCONF} --remote-send "<ESC>:Man $@<CR>"
+    # shellcheck disable=2086
+    ${GUIVIMBIN} ${VIMCONF} --remote-send "<ESC>:Man ${*}<CR>"
 }
 
 function gitpager {

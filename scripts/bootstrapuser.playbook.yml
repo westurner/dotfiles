@@ -1,6 +1,6 @@
 
 
-- hosts: localhost
+- hosts: all
   tags:
   - sshkeys
 
@@ -76,6 +76,12 @@
   - name: "Install dotvim"
     tags: ['dotvim']
     block:
+    - name: "Install make and vim-enhanced"
+      become: true
+      package:
+        name:
+        - make
+        - vim-enhanced
     - name: "Install dotvim rep"
       git:
         repo: https://github.com/westurner/dotvim

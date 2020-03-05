@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### bashrc.dotfiles.sh
 
 
@@ -11,57 +11,56 @@ function dotfiles_add_path {
 }
 
 function shell_escape_single {
-    # shell_escape_single()
-    local strtoescape=${1}
-    local output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
-    echo "'"${output}"'"
+    # shell_escape_single()    -- "'" + sed "s,','\"'\"',g" + "'"
+    echo "'""${1//\'/\'\"\'\"\'}""'"
 }
 
 function dotfiles_status {
     # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
-    echo HOSTNAME=$(shell_escape_single "${HOSTNAME}")
-    echo USER=$(shell_escape_single "${USER}")
-    echo __WRK=$(shell_escape_single "${__WRK}")
-    echo PROJECT_HOME=$(shell_escape_single "${PROJECT_HOME}")
+    echo HOSTNAME="$(shell_escape_single "${HOSTNAME}")"
+    echo USER="$(shell_escape_single "${USER}")"
+    echo __WRK="$(shell_escape_single "${__WRK}")"
+    echo PROJECT_HOME="$(shell_escape_single "${PROJECT_HOME}")"
     if [ -n "${CONDA_ROOT}" ]; then
-        echo CONDA_ROOT=$(shell_escape_single "${CONDA_ROOT}")
+        echo CONDA_ROOT="$(shell_escape_single "${CONDA_ROOT}")"
     fi
     if [ -n "${CONDA_ENVS_PATH}" ]; then
-        echo CONDA_ENVS_PATH=$(shell_escape_single "${CONDA_ENVS_PATH}")
+        echo CONDA_ENVS_PATH="$(shell_escape_single "${CONDA_ENVS_PATH}")"
     fi
-    echo WORKON_HOME=$(shell_escape_single "${WORKON_HOME}")
-    echo VIRTUAL_ENV_NAME=$(shell_escape_single "${VIRTUAL_ENV_NAME}")
-    echo VIRTUAL_ENV=$(shell_escape_single "${VIRTUAL_ENV}")
-    echo _SRC=$(shell_escape_single "${_SRC}")
-    echo _APP=$(shell_escape_single "${_APP}")
-    echo _WRD=$(shell_escape_single "${_WRD}")
+    echo WORKON_HOME="$(shell_escape_single "${WORKON_HOME}")"
+    echo VIRTUAL_ENV_NAME="$(shell_escape_single "${VIRTUAL_ENV_NAME}")"
+    echo VIRTUAL_ENV="$(shell_escape_single "${VIRTUAL_ENV}")"
+    echo _SRC="$(shell_escape_single "${_SRC}")"
+    echo _APP="$(shell_escape_single "${_APP}")"
+    echo _WRD="$(shell_escape_single "${_WRD}")"
     #echo "__DOCSWWW=$(shell_escape_single "${_DOCS}")
     #echo "__SRC=$(shell_escape_single "${__SRC}")
     #echo "__PROJECTSRC=$(shell_escape_single "${__PROJECTSRC}")
-    echo _USRLOG=$(shell_escape_single "${_USRLOG}")
-    echo _TERM_ID=$(shell_escape_single "${_TERM_ID}")
-    echo PATH=$(shell_escape_single "${PATH}")
-    echo __DOTFILES=$(shell_escape_single "${__DOTFILES}")
+    echo _USRLOG="$(shell_escape_single "${_USRLOG}")"
+    echo _TERM_ID="$(shell_escape_single "${_TERM_ID}")"
+    echo PATH="$(shell_escape_single "${PATH}")"
+    echo __DOTFILES="$(shell_escape_single "${__DOTFILES}")"
     #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
     echo "#"
     if [ -n "${_TODO}" ]; then
-        echo _TODO=$(shell_escape_single "${_TODO}")
+        echo _TODO="$(shell_escape_single "${_TODO}")"
     fi
     if [ -n "${_NOTE}" ]; then
-        echo _NOTE=$(shell_escape_single "${_NOTE}")
+        echo _NOTE="$(shell_escape_single "${_NOTE}")"
     fi
     if [ -n "${_MSG}" ]; then
-        echo _MSG=$(shell_escape_single "${_MSG}")
+        echo _MSG="$(shell_escape_single "${_MSG}")"
     fi
     echo '##'
 }
 function ds {
     # ds()                      -- print dotfiles_status
-    dotfiles_status $@
+    dotfiles_status
 }
 
     # source "${__DOTFILES}/scripts/cls"
+# shellcheck source=../../scripts/cls
 source "${__DOTFILES}/scripts/cls"
     # clr()                     -- clear scrollback
     # cls()                     -- clear scrollback and print dotfiles_status()
@@ -79,9 +78,9 @@ function debug-env {
     OUTPUT=${1:-"${_log}/$(date +"%FT%T%z").debug-env.env.log"}
     dotfiles_status
     echo "## export"
-    export | tee $OUTPUT
+    export | tee "$OUTPUT"
     echo "## alias"
-    alias | tee $OUTPUT
+    alias | tee "$OUTPUT"
     # echo "## lspath"
     # lspath | tee $OUTPUT
 }
@@ -161,7 +160,7 @@ function log_dotfiles_state {
     logdir=${_log:-"var/log"}/venv..${VIRTUAL_ENV_NAME}..${stepnum}..${logkey}
     exportslogfile=${logdir}/exports.log
     envlogfile=${logdir}/exports_env.log
-    test -n ${logdir} && test -d ${logdir} || mkdir -p ${logdir}
+    test -n "${logdir}" && mkdir -p "${logdir}"
     # XXX: PRF
     export > "${exportslogfile}"
     set > "${envlogfile}"
@@ -182,18 +181,28 @@ function dotfiles_premkvirtualenv {
 
 function dotfiles_postmkvirtualenv_help {
     echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh sources venv.sh'
-    echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh defines workon_venv'
-    echo '## to work on this virtualenv:'
-    echo '# workon_venv [<venvstr> [<venvappstr> [<pyver>]]]'
-    echo '# we          [<venvstr> [<venvappstr> [<pyver>]]]'
-    echo '$ we '"${VIRTUAL_ENV_NAME}"''
+    if [ -z "${IS_CONDA_ENV}" ]; then
+        echo '# __DOTFILES/etc/bash/10-bashrc.venv.sh defines workon_venv'
+        echo "## to work on this virtualenv:"
+        echo "# workon_venv <venvstr> [<venvappstr> [<pyver>]]"
+        echo "# we          <venvstr> [<venvappstr> [<pyver>]]"
+        echo "$ we '${VIRTUAL_ENV_NAME}'"
+    else
+        _conda_envs_path=${_conda_envs_path}
+        echo '# __DOTFILES/etc/bash/08-bashrc.conda.sh defines workon_conda'
+        echo "## to work on this condaenv:"
+        echo "# workon_conda <venvstr> [<venvappstr> [<pyver>]]"
+        echo "# wec          <venvstr> [<venvappstr> [<pyver>]]"
+        echo "$ wec '${VIRTUAL_ENV_NAME}' '${VIRTUAL_ENV_NAME}' '${_conda_envs_path}'"
+    fi
     echo '#   dotfiles_status                    # ds'
     echo '#   source <(venv.py -e --print-bash)  # venv.py -h'
     echo '$ venv_mkdirs  # already done in dotfiles_postmkvirtualenv   '
-    echo '#   mkdir -p "${_WRD}"'
+    # shellcheck disable=2016
+    echo '$ mkdir -p "$_WRD"'
     echo '$ cdwrd; cdw'
-    echo '# editwrd README; ewrd README; e README Makefile  # edit<tab>'
-    echo '# cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;;'
+    echo '# editwrd README; ewrd README; ew README Makefile  # edit<tab>'
+    echo '# cdhelp;; cdvirtualenv; cdv;; cdbin; cdb;; cdetc; cde;; cdsrc; cds;; cdwrd; cdw'
 }
 
 
@@ -202,9 +211,10 @@ function dotfiles_postmkvirtualenv {
     log_dotfiles_state 'postmkvirtualenv'
 
     if [ -z "${VIRTUAL_ENV}" ]; then
-        echo 'VIRTUAL_ENV is not set? (err: -1) [dotfiles_postmkvirtualenv]'
-        echo 'we <name>; venv_mkdirs; mkdir -p "${_WRD}"'
-        return -1
+        echo 'VIRTUAL_ENV is not set? (err: 2) [dotfiles_postmkvirtualenv]'
+        # shellcheck disable=2016
+        echo 'we <name>; venv_mkdirs; mkdir -p "$_WRD"'
+        return 2
     fi
 
     # NOTE: infer VIRTUAL_ENV_NAME from VIRTUAL_ENV
@@ -212,22 +222,65 @@ function dotfiles_postmkvirtualenv {
 
     #declare -f 'venv_mkdirs' 2>&1 >/dev/null &&
     (set -x; venv_mkdirs)
-    test -d "${VIRTUAL_ENV}/var/log" || mkdir -p "${VIRTUAL_ENV}/var/log"
+    local _LOG="${_LOG:-"${VIRTUAL_ENV}/var/log"}"
+    (set -x; test -d "${_LOG}" || mkdir -p "${_LOG}")
     echo ""
-    local PIP="$(command -v pip)"
+
+    local PIP
+    PIP="$(command -v pip)"
     echo "PIP=$(shell_escape_single "${PIP}")"
-    pip_freeze="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
+
+    pip_freeze="${_LOG}/pip.freeze.postmkvirtualenv.txt"
     echo "#pip_freeze=$(shell_escape_single "${pip_freeze}")"
-    (set -x; ${PIP} freeze | tee "${pip_freeze}")
+    (set -x; ${PIP} freeze --all | tee "${pip_freeze}")
     echo ""
-    pip_list="${VIRTUAL_ENV}/var/log/pip.freeze.postmkvirtualenv.txt"
+
+    pip_list="${_LOG}/pip.list.postmkvirtualenv.txt"
     echo "#pip_list=$(shell_escape_single "${pip_list}")"
     (set -x; ${PIP} list | tee "${pip_list}")
-    echo '## to work on this virtualenv:'
-    echo 'workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
+    echo ""
 
-    echo '+workon_venv '"${VIRTUAL_ENV_NAME}"
-    workon_venv "${VIRTUAL_ENV_NAME}"
+    if [ -n "${IS_CONDA_ENV}" ]; then
+        conda_list="${_LOG}/conda.list.no-pip.postmkvirtualenv.txt";
+        echo "#conda_list=$(shell_escape_single "${conda_list}")"
+        (set -x; conda list -e --no-pip | tee "${conda_list}")
+
+        conda_environment_yml="${_LOG}/conda.environment.postmkvirtualenv.yml";
+        echo "#conda_environment_yml=$(shell_escape_single "${conda_environment_yml}")"
+        (set -x;
+          conda env export \
+              | grep -Ev '^(name|prefix): ' \
+              | tee "${conda_environment_yml}"
+        )
+
+        conda_environment_fromhistory_yml="${_LOG}/conda.environment.from-history.postmkvirtualenv.yml";
+        echo "#conda_environment_fromhistory_yml=$(shell_escape_single "${conda_environment_fromhistory_yml}")"
+        (set -x;
+          conda env export --from-history \
+              | grep -Ev '^(name|prefix): ' \
+              | tee "${conda_environment_yml}"
+        )
+
+        echo '## to work on this condaenv:'
+        # shellcheck disable=2016
+        echo 'workon_conda '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
+
+        echo '+ workon_conda '"'${VIRTUAL_ENV_NAME}' '${VIRTUAL_ENV_NAME}' ${_conda_envs_path:+"${_conda_envs_path}"}"
+        workon_conda "${VIRTUAL_ENV_NAME}" "${VIRTUAL_ENV_NAME}" \
+            ${_conda_envs_path:+"${_conda_envs_path}"}
+
+        echo '## to list packages installed into this condaenv with conda:'
+        echo '$ conda env export --from-history | grep -Ev "^(name|prefix): "'
+        echo '#'
+    else
+        echo '## to work on this virtualenv:'
+        # shellcheck disable=2016
+        echo 'workon_venv '"${VIRTUAL_ENV_NAME}"'; venv_mkdirs; mkdir -p "${_WRD}"; cdw'
+
+        echo '+ workon_venv '"${VIRTUAL_ENV_NAME}"
+        workon_venv "${VIRTUAL_ENV_NAME}"
+    fi
+
     echo "PWD=$(path)"
     echo "#"
     dotfiles_postmkvirtualenv_help
@@ -242,21 +295,23 @@ function dotfiles_postactivate {
     # dotfiles_postactivate()   -- virtualenvwrapper postactivate
     log_dotfiles_state 'postactivate'
 
-    local bash_debug_output=$(
-        $__VENV -e --verbose --diff --print-bash 2>&1 /dev/null)
+    local bash_debug_output
+    bash_debug_output=$(
+        "$__VENV" -e --verbose --diff --print-bash 2>&1 /dev/null)
     local venv_return_code=$?
     if [ ${venv_return_code} -eq 0 ]; then
         if [ -n "${__VENV}" ]; then
-            source <($__VENV -e --print-bash)
+            # shellcheck disable=1090
+            source <("$__VENV" -e --print-bash)
         fi
     else
         echo "${bash_debug_output}" # >2
     fi
 
-    declare -f '_setup_usrlog' 2>&1 > /dev/null \
+    declare -f '_setup_usrlog' > /dev/null 2>&1 \
         && _setup_usrlog
 
-    declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+    declare -f '_setup_venv_prompt' > /dev/null 2>&1 \
         && _setup_venv_prompt
 
 }
@@ -278,6 +333,7 @@ function dotfiles_postdeactivate {
     unset _BIN
     unset _CFG
     unset _EDITCFG_
+    # shellcheck disable=2153
     export EDITOR_="${EDITOR}"
     unset _EDIT_
     unset _ETC
@@ -331,7 +387,7 @@ function dotfiles_postdeactivate {
     ## unset NOTE
     ## unset TODO
 
-    declare -f '_usrlog_set__USRLOG' 2>&1 > /dev/null \
+    declare -f '_usrlog_set__USRLOG' > /dev/null 2>&1 \
         && _usrlog_set__USRLOG "${__USRLOG}"
 
     dotfiles_reload

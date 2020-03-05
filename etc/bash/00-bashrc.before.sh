@@ -32,22 +32,27 @@ function dotfiles_reload {
   #  lspath()           -- list every file along $PATH
   #  realpath()         -- readlink -f (python os.path.realpath)
   #  walkpath()         -- list every directory along ${1:-"."}
+  # shellcheck source=./01-bashrc.lib.sh
   source "${conf}/01-bashrc.lib.sh"
 
   #
   ## 02-bashrc.platform.sh      -- platform things
+  # shellcheck source=./02-bashrc.platform.sh
   source "${conf}/02-bashrc.platform.sh"
   detect_platform
   #  detect_platform()  -- set $__IS_MAC or $__IS_LINUX
   if [ -n "${__IS_MAC}" ]; then
-      export PATH="$(echo ${PATH} | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')"
+      PATH="$(echo "${PATH}" | sed 's,/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin,/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin,')"
+      export PATH
 
   ## 03-bashrc.darwin.sh
+      # shellcheck source=./03-bashrc.darwin.sh
       source "${conf}/03-bashrc.darwin.sh"
   fi
 
   #
   ## 04-bashrc.TERM.sh          -- set $TERM and $CLICOLOR
+  # shellcheck source=./04-bashrc.TERM.sh
   source "${conf}/04-bashrc.TERM.sh"
 
   #
@@ -55,11 +60,13 @@ function dotfiles_reload {
   #  $__DOTFILES (str): -- path to the dotfiles symlink (~/.dotfiles)
   #  dotfiles_status()  -- print dotfiles variables
   #  ds()               -- print dotfiles variables
+  # shellcheck source=./05-bashrc.dotfiles.sh
   source "${conf}/05-bashrc.dotfiles.sh"
   dotfiles_add_path
 
   #
   ## 06-bashrc.completion.sh    -- configure bash completion
+  # shellcheck source=./06-bashrc.completion.sh
   source "${conf}/06-bashrc.completion.sh"
 
   #
@@ -75,6 +82,7 @@ function dotfiles_reload {
   #  _setup_python()              -- configure PYTHONSTARTUP
   #  _setup_pip()                 -- configure PIP_REQUIRE_VIRTUALENV
   #  _setup_pyenv()               -- setup pyenv PYENV_ROOT and eval (manual)
+  # shellcheck source=./07-bashrc.python.sh
   source "${conf}/07-bashrc.python.sh"
 
   #
@@ -85,6 +93,7 @@ function dotfiles_reload {
   #    $2 (str): (optional) CONDA_ROOT_PATH (or '27' or '34')
   #  $CONDA_ROOT      (str): path to conda install (~/-wrk/-conda34)
   #  $CONDA_ENVS_PATH (str): path to condaenvs directory (~/-wrk/-ce34) [conda]
+  # shellcheck source=./08-bashrc.conda.sh
   source "${conf}/08-bashrc.conda.sh"
 
   #
@@ -97,11 +106,13 @@ function dotfiles_reload {
   #  rebuild_virtualenv($VENVSTR) -- rebuild $WORKON_HOME/$VENVSTR
   #  rebuild_virtualenvs()        -- rebuild $WORKON_HOME/*
   #  TODO: restore_virtualenv($BACKUPVENVSTR, [$NEWVENVSTR])
+  # shellcheck source=./07-bashrc.virtualenvwrapper.sh
   source "${conf}/07-bashrc.virtualenvwrapper.sh"
 
   #
   ## 08-bashrc.gcloud.sh        -- gcloud: Google Cloud SDK
   #  _setup_google_cloud()  -- setup google cloud paths
+  # shellcheck source=./08-bashrc.gcloud.sh
   source "${conf}/08-bashrc.gcloud.sh"
 
   #
@@ -117,11 +128,13 @@ function dotfiles_reload {
   #     we dotfiles
   #     we dotfiles etc/bash; cdw; ds; # ls -altr; lll; cd ~; ew etc/bash/*.sh
   #     type workon_venv; command -v venv.py; venv.py --help
+  # shellcheck source=./10-bashrc.venv.sh
   source "${conf}/10-bashrc.venv.sh"
   #
 
   #
   ## 11-bashrc.venv.pyramid.sh  -- venv-pyramid: pyramid-specific config
+  # shellcheck source=./11-bashrc.venv.pyramid.sh
   source "${conf}/11-bashrc.venv.pyramid.sh"
 
   #
@@ -131,6 +144,7 @@ function dotfiles_reload {
   #  e()        -- open paths in current EDITOR_                   [scripts/e]
   #  ew()       -- open paths relative to $_WRD in current EDITOR_ [scripts/ew]
   #                (~ cd $_WRD; $EDITOR_ ${@}) + tab completion
+  # shellcheck source=./20-bashrc.editor.sh
   source "${conf}/20-bashrc.editor.sh"
   #
   ## 20-bashrc.vimpagers.sh     -- $PAGER configuration
@@ -145,6 +159,7 @@ function dotfiles_reload {
   #  mane()     -- open manpage with $EDITOR_ (~e)
   #
   #  TODO: GIT_PAGER="/usr/bin/less -R | /usr/bin/cat"
+  # shellcheck source=./29-bashrc.vimpagers.sh
   source "${conf}/29-bashrc.vimpagers.sh"
 
   #
@@ -167,11 +182,13 @@ function dotfiles_reload {
   #                     egrep $@ "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
   #  ugrin      -- grin current usrlog: grin $@ ${_USRLOG}
   #  ugrinall   -- grin $@  "${__USRLOG}" "${WORKON_HOME}/*/-usrlog.log"
+  # shellcheck source=./30-bashrc.usrlog.sh
   source "${conf}/30-bashrc.usrlog.sh"
 
   #
   ## 30-bashrc.xlck.sh          -- screensaver, (auto) lock, suspend
   #  _setup_xlck()      -- configure xlck
+  # shellcheck source=./30-bashrc.xlck.sh
   source "${conf}/30-bashrc.xlck.sh"
 
   #
@@ -179,26 +196,32 @@ function dotfiles_reload {
   #  _setup_venv_aliases()  -- source in e, ew, makew, ssv, hgw, gitw
   #    _setup_supervisord() -- configure _SVCFG
   #       $1 (str): path to a supervisord.conf file "${1:-${_SVCFG}"
+  # shellcheck source=./40-bashrc.aliases.sh
   source "${conf}/40-bashrc.aliases.sh"
+
   ## 42-bashrc.commands.sh      -- example commands
+  # shellcheck source=./42-bashrc.commands.sh
   source "${conf}/42-bashrc.commands.sh"
 
   #
   ## 50-bashrc.bashmarks.sh     -- bashmarks: local bookmarks
+  # shellcheck source=./50-bashrc.bashmarks.sh
   source "${conf}/50-bashrc.bashmarks.sh"
 
   #
   ## 70-bashrc.repos.sh         -- repos: $__SRC repos, docs
+  # shellcheck source=./70-bashrc.repos.sh
   source "${conf}/70-bashrc.repos.sh"
 
   #
   ## 99-bashrc.after.sh         -- after: cleanup
+  # shellcheck source=./99-bashrc.after.sh
   source "${conf}/99-bashrc.after.sh"
 }
 
 function dr {
     # dr()  -- dotfiles_reload
-    dotfiles_reload $@
+    dotfiles_reload
 }
     # ds()  -- print dotfiles_status()
 

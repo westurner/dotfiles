@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 ### bashrc.completion.sh
 
 _configure_bash_completion() {
@@ -14,12 +14,14 @@ _configure_bash_completion() {
         BREW=$(command -v brew 2>/dev/null || false)
         if [ -n "${BREW}" ]; then
             brew_prefix=$(brew --prefix)
-            if [ -f ${brew_prefix}/etc/bash_completion ]; then
-                source ${brew_prefix}/etc/bash_completion
+            if [ -f "${brew_prefix}/etc/bash_completion" ]; then
+                # shellcheck disable=1090
+                source "${brew_prefix}/etc/bash_completion"
             fi
         fi
     else
         if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+            # shellcheck disable=1091
             source /etc/bash_completion
         elif [ -f /etc/profile.d/bash_completion.sh ] && ! shopt -oq posix; then
             source /etc/profile.d/bash_completion.sh

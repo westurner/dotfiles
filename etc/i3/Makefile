@@ -45,6 +45,7 @@ setuppkgs_dnf:
 		gphotoframe \
 		gphotoframe-gss \
 		pulseaudio-utils
+
 setuppkgs_apt:
 	## setuppkgs_apt:   ## install packages with apt-get
 	sudo apt-get install -y \
@@ -60,11 +61,11 @@ setuppkgs_apt:
 		feh \
 		pulseaudio-utils
 
-__DOTFILES:=~/-dotfiles
+__DOTFILES?=${HOME}/-dotfiles
 
 help_i3:
 	@## help_i3     ## print commentlines from i3 w/ [dotfileshelp,dhelp,dh)
-	'$(__DOTFILES)'/scripts/dotfileshelp i3
+	$(__DOTFILES)/scripts/dhelp i3
 
 helpi3: help_i3
 

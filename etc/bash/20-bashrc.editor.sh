@@ -1,4 +1,4 @@
-
+#!/usr/bin/env sh
 ### bashrc.editor.sh
 
 _setup_editor() {
@@ -30,11 +30,11 @@ _setup_editor() {
         export EDITOR="${GUIVIMBIN} -f"
         export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
         export SUDO_EDITOR="${GUIVIMBIN} -f"
-        alias gvim="${GUIVIMBIN}"
+        alias gvim='${GUIVIMBIN}'
     else
-        unset -f $GVIMBIN
-        unset -f $MVIMBIN
-        unset -f $USEGVIM
+        unset -f "$GVIMBIN"
+        unset -f "$MVIMBIN"
+        unset -f "$USEGVIM"
     fi
 
     export _EDITOR="${EDITOR}"
@@ -51,7 +51,7 @@ _setup_pager
 
 ggvim() {
     # ggvim()   -- ${EDITOR} $@ 2>&1 >/dev/null
-    ${EDITOR} $@ 2>&1 > /dev/null
+    ${EDITOR} "${@}" >/dev/null 2>&1
 }
 
 
@@ -59,20 +59,20 @@ edits() {
     # edits()   -- open $@ in ${GUIVIMBIN} --servername $1
     servername=$1
     shift
-    ${GUIVIMBIN} --servername ${servername} --remote-tab $@
+    ${GUIVIMBIN} --servername "${servername}" --remote-tab "${@}"
 }
 
 
 editcfg() {
     # editcfg() -- ${EDITOR_} ${_CFG} [ --servername $VIRTUAL_ENV_NAME ]
-    e ${_CFG}
+    e "${_CFG}"
 }
 
 sudoe() {
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
-    EDITOR="${SUDO_EDITOR}" sudo -e $@
+    EDITOR="${SUDO_EDITOR}" sudo -e "${@}"
 }
 sudovim() {
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
-    sudoe $@
+    sudoe "${@}"
 }

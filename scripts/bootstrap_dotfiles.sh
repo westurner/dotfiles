@@ -24,11 +24,15 @@ set -e
 #set -x
 # echo $-  -- echo current shell set options [e.g. -e -v -x]
 
+# Run all commands non-interactively
+export PAGER=cat
+
 function _setup_bootstrap-dotfiles {
     ## date (file suffix for backup_and_symlink)
     BKUPID=$(date +%Y-%m-%dT%H:%M:%S%z)
 
     PYTHON="${PYTHON:-"$(which python3 || which python)"}"
+    VIRTUALENVWRAPPER_PYTHON="${PYTHON}"
     PYVER="${PYVER:-"$( \
         "${PYTHON}" -c \
             'import sys; print("".join(map(str, sys.version_info[:2])))')"}"
@@ -59,7 +63,7 @@ function _setup_bootstrap-dotfiles {
     #DOTVIM_HG_REPO_URL="https://bitbucket.org/westurner/dotvim"
 
     #PIP="${HOME}/.local/bin/pip"
-    PIP="pip"
+    PIP="${PIP:-"$(which pip3 || which pip)"}"
     PIP_INSTALL="${PIP} install"
     PIP_INSTALL_USER="${PIP} install --user"
     SETUP_PY_OPTS=""
@@ -133,7 +137,8 @@ function dotfiles_check_deps {
 
 function git_status {
     # git_status()      -- show git rev, branches, remotes
-    (git branch -v && \
+    (pwd && \
+    git branch -v && \
     git remote -v &&
     git status)
 }
@@ -410,6 +415,10 @@ function symlink_xmodmap {
     backup_and_symlink .Xmodmap
 }
 
+function symlink_openbox {
+    backup_and_symlink .config/openbox
+}
+
 function symlink_python {
     backup_and_symlink .pythonrc
     backup_and_symlink .pdbrc
@@ -453,6 +462,9 @@ function symlink_ruby {
     backup_and_symlink .gemrc
 }
 
+function symlink_taskrc {
+    backup_and_symlink .taskrc
+}
 
 ## end /symlinks
 
@@ -465,6 +477,7 @@ function dotfiles_symlink_all {
     symlink_zshrc
     symlink_htoprc
     symlink_etc_vim
+    symlink_taskrc
 
     symlink_python
     symlink_virtualenvwrapper
@@ -479,11 +492,13 @@ function dotfiles_symlink_all {
     symlink_i3
     symlink_xinitrc_screensaver
     symlink_xmodmap
+    symlink_openbox
 
     # {{ full_name }}
     symlink_gitconfig
     symlink_hgrc
     symlink_mutt
+
 
 }
 
