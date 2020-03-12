@@ -95,3 +95,6 @@ src/gitflow
 #workaround gitflow installer
 gitflow/
 *.retry
+
+# Miniconda
+Miniconda?-*-*.sh
