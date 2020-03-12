@@ -98,3 +98,6 @@ gitflow/
 
 # Miniconda
 Miniconda?-*-*.sh
+
+# Jupyter
+etc/.jupyter/lab/workspaces
