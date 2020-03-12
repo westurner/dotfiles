@@ -7,6 +7,7 @@
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
 #   * https://www.gnu.org/software/bash/manual/html_node/Readline-vi-Mode.html#Readline-vi-Mode
+#   * https://wiki.archlinux.org/index.php/Readline
 #   * https://github.com/whiteinge/dotfiles/blob/master/.inputrc
 #
     #  help bind
