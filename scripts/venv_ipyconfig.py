@@ -3366,7 +3366,7 @@ def get_IPYTHON_ALIAS_DEFAULTS(platform=None):
 def get_IPYTHON_ALIAS_OVERLAY():
     IPYTHON_ALIAS_OVERLAY = (
         ('pydoc', 'pydoc %l | cat'),
-        ('pip', 'pip'),
+        # ('pip', 'pip'),  # pip is now an IPython magic command
         ('dotf', 'dotf'),
         ('venv', 'venv'),
     )
