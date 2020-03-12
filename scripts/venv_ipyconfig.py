@@ -2942,7 +2942,12 @@ class Venv(object):
                 pass
 
         # c.InteractiveShell.autoreload = autoreload
-        c.InteractiveShell.deep_reload = deep_reload
+        try:
+            import builtins
+            from IPython.lib import deepreload
+            builtins.reload = deepreload.reload
+        except ImportError:
+            c.InteractiveShell.deep_reload = deep_reload
 
         if storemagic:
             # %store [name]
