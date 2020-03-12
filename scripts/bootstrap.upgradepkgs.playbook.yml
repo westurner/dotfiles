@@ -1,0 +1,30 @@
+---
+# Ansible playbook to upgrade all packages (with dnf, )
+
+# Usage:
+#   ansible-playbook -l localhost upgradepkgs.playbook.yml
+
+- hosts: all
+  name: Install packages
+  become: true
+  #vars:
+  #  skip_updates: false
+  #  pkgs_security_only: false
+  tasks:
+
+  # update security, then update all
+  - name: update security packages
+    command: dnf update -y --security --sec-severity Low
+    become: true
+    when:
+    - skip_updates is not defined and skip updates
+    - pkgs_security_only is defined and pkgs_security_only == true
+  - name: update all packages
+    become: true
+    dnf:
+      name: '*'
+      state: latest
+    when:
+    - skip_updates is not defined and skip_updates
+    - pkgs_security_only is defined and pkgs_security_only == true
+
