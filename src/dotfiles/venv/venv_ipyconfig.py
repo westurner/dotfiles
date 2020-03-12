@@ -2943,9 +2943,10 @@ class Venv(object):
 
         # c.InteractiveShell.autoreload = autoreload
         try:
-            import builtins
-            from IPython.lib import deepreload
-            builtins.reload = deepreload.reload
+            if deep_reload:
+                import builtins
+                from IPython.lib import deepreload
+                builtins.reload = deepreload.reload
         except ImportError:
             c.InteractiveShell.deep_reload = deep_reload
 
