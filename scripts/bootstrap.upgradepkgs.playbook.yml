@@ -17,7 +17,7 @@
     command: dnf update -y --security --sec-severity Low
     become: true
     when:
-    - skip_updates is not defined and skip updates
+    - skip_updates is not defined and skip_updates
     - pkgs_security_only is defined and pkgs_security_only == true
   - name: update all packages
     become: true
