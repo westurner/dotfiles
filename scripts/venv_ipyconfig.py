@@ -1748,7 +1748,7 @@ def build_user_aliases_env(env=None,
                     __IS_MAC=shell_varquote('__IS_MAC')),
                 name='lsw',
                 complfuncstr="""local cur=${2};
-                COMPREPLY=($(cd ${_WRD}; compgen -f -- ${cur}));"""
+                COMPREPLY=($(cd "${_WRD}" || return; compgen -f -- "${cur}"));"""
             )
 
             aliases['findw'] = 'find {_WRD}'.format(
