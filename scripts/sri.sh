@@ -26,13 +26,13 @@ print_usage() {
 print_css_tag() {
     f=$1
     path=${SRIURLPATH}
-    echo "<link rel=\"stylesheet\" src=\"${SRIURLPATH}/${f}\" integrity=\"sha384-$(sha384sum "${f}" | sri_encode )\" crossorigin=\"anonymous\">"
+    echo "<link rel=\"stylesheet\" src=\"${path}/${f}\" integrity=\"sha384-$(sha384sum "${f}" | sri_encode )\" crossorigin=\"anonymous\">"
 }
 
 print_js_tag() {
     f=$1
     path=${SRIURLPATH}
-    echo "<script src=\"${SRIURLPATH}/${f}\" integrity=\"sha384-$(sha384sum "${f}" | sri_encode )\" crossorigin=\"anonymous\"></script>"
+    echo "<script src=\"${path}/${f}\" integrity=\"sha384-$(sha384sum "${f}" | sri_encode )\" crossorigin=\"anonymous\"></script>"
 }
 
 
