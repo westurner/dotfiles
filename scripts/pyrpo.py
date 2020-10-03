@@ -1,7 +1,17 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from __future__ import print_function
-"""Search for code repositories and generate reports"""
+"""Search for code repositories and generate reports
+
+Usage:
+
+.. code:: bash
+
+    pyrpo --help
+    pyrpo -s .
+    pyrpo -s . -r full
+    cd $VIRTUAL_ENV; pyrpo -s . -r sh
+"""
 
 import codecs
 import datetime
@@ -16,7 +26,19 @@ import sys
 
 from collections import deque, namedtuple
 from distutils.util import convert_path
-from itertools import chain, imap, izip_longest
+
+from itertools import chain
+if sys.version_info.major < 3:
+    from itertools import imap, izip_longest
+    def iteritems(d):
+        return d.iteritems()
+else:
+    imap = map
+    izip_longest = __import__('itertools').zip_longest
+    xrange = range
+
+    def iteritems(d):
+        return d.items()
 
 # TODO: arrow
 from dateutil.parser import parse as parse_date
@@ -113,15 +135,19 @@ def itersplit_to_fields(str_,
         try:
             values = (t[1] for t in izip_longest(revtuple._fields, _fields))
             return revtuple(*values)
-        except:
+        except Exception as e:
             log.error(revtuple)
             log.error(_fields)
+            log.exception(e)
             raise
 
     return tuple(izip_longest(fields, _fields, fillvalue=None))
 
 
-_missing = unichr(822)
+if sys.version_info.major < 3:
+    _missing = unichr(822)
+else:
+    _missing = chr(822)
 
 
 class cached_property(object):
@@ -191,7 +217,7 @@ def sh(cmd, ignore_error=False, cwd=None, shell=False, **kwargs):
         'stderr': subprocess.STDOUT,
         'stdout': subprocess.PIPE,})
     log.debug((('cmd', cmd), ('kwargs', kwargs)))
-    p = subprocess.Popen(cmd, **kwargs)
+    p = subprocess.Popen(cmd, universal_newlines=True, **kwargs)
     p_stdout = p.communicate()[0]
     if p.returncode and not ignore_error:
         raise subprocess.CalledProcessError(p.returncode, cmd, p_stdout)
@@ -249,7 +275,7 @@ class Repository(object):
         self.symlinks = []
 
     def __new__(cls, name):
-        self = super(Repository, cls).__new__(cls, name)
+        self = super(Repository, cls).__new__(cls)
         self._tuple = self._namedtuple
         return self
 
@@ -334,7 +360,7 @@ class Repository(object):
         Returns:
             tuple: Repository log tuple
         """
-        return self.log_iter(maxentries=1).next()
+        return next(self.log_iter(maxentries=1))
 
     def log(self, n=None, **kwargs):
         """
@@ -361,9 +387,10 @@ class Repository(object):
             values = (
                 t[1] for t in izip_longest(self._tuple._fields, _fields))
             return self._tuple(*values)
-        except:
+        except Exception as e:
             log.error(self._tuple)
             log.error(_fields)
+            log.exception(e)
             raise
     _parselog = itersplit_to_fields
 
@@ -409,7 +436,7 @@ class Repository(object):
             str: report lines
         """
         yield ''
-        yield "# %s" % self.origin_report().next()
+        yield "# %s" % next(self.origin_report())
         yield "%s [%s]" % (self.last_commit, self)
         if self.status:
             for l in self.status.split('\n'):
@@ -561,7 +588,7 @@ class Repository(object):
             str: sh_report, last_commit, and repository status output
         """
         yield '######'
-        yield self.sh_report().next()
+        yield next(self.sh_report())
         yield self.last_commit
         yield self.status
         yield ""
@@ -899,7 +926,8 @@ class MercurialRepository(Repository):
         if n:
             cmd.extend('-l%d' % n)
         cmd.extend(
-            (('--%s=%s' % (k, v)) for (k, v) in kwargs.iteritems())
+            (('--%s=%s' % (k, v)) for (k, v)
+                in iteritems(kwargs))
         )
         return self.sh(cmd, shell=False)
 
@@ -1168,7 +1196,7 @@ class GitRepository(Repository):
             cmd.append('-n%d' % n)
         cmd.extend(
             (('--%s=%s' % (k, v))
-             for (k, v) in kwargs.iteritems()))
+             for (k, v) in iteritems(kwargs)))
         try:
             output = self.sh(cmd, shell=False)
             if "fatal: bad default revision 'HEAD'" in output:
@@ -1196,7 +1224,7 @@ class GitRepository(Repository):
         Returns:
             tuple: Repository log tuple
         """
-        return self.log_iter(maxentries=1).next()
+        return next(self.log_iter(maxentries=1))
 
     # def __log_iter(self, maxentries=None):
     #    rows = self.log(
@@ -1667,7 +1695,7 @@ added selection range traits to make it possible for users to replace
         Returns:
             tuple: Repository log tuple
         """
-        return self.log_iter().next()
+        return next(self.log_iter())
 
     # @cached_property
     def search_upwards(self, fpath=None, repodirname='.svn', upwards={}):
@@ -1741,7 +1769,7 @@ REPO_REGISTRY = [
 ]
 REPO_PREFIXES = dict((r.prefix, r) for r in REPO_REGISTRY)
 REPO_REGEX = (
-    '|'.join('/%s' % r.prefix for r in REPO_REGISTRY)).replace('.', '\.')
+    '|'.join('/%s' % r.prefix for r in REPO_REGISTRY)).replace('.', '\\.')
 
 
 def listdir_find_repos(where):
@@ -1786,28 +1814,30 @@ def find_find_repos(where, ignore_error=True):
         Repository subclass instance
     """
     log.debug(('REPO_REGEX', REPO_REGEX))
-    FIND_REPO_REGEXCMD = " -regex '.*(%s)$'" % REPO_REGEX
+    FIND_REPO_REGEXCMD = ("-regex", '.*(%s)$' % REPO_REGEX)
     if os.uname()[0] == 'Darwin':
         cmd = ("find",
-               " -E",
+               '-E',
                '-L',  # dereference symlinks
-               repr(where),
-               FIND_REPO_REGEXCMD)
+               where,
+               FIND_REPO_REGEXCMD[0],
+               FIND_REPO_REGEXCMD[1])
     else:
         cmd = ("find",
-               " -O3 ",
+               '-O3',
                '-L',  # dereference symlinks
-               repr(where),  # " .",
-               " -regextype posix-egrep",
-               FIND_REPO_REGEXCMD)
-    cmd = ' '.join(cmd)
-    log.debug("find_find_repos(%r) = %s" % (where, cmd))
+               where,  # " .",
+               "-regextype","posix-egrep",
+               FIND_REPO_REGEXCMD[0],
+               FIND_REPO_REGEXCMD[1])
+    _cmd = ' '.join(cmd)
+    log.debug("find_find_repos(%r) = %s" % (where, _cmd))
     kwargs = {
-        'shell': True,
+        #'shell': True,
         'cwd': where,
         'stderr': sys.stderr,
-        'stdout': subprocess.PIPE}
-    p = subprocess.Popen(cmd, **kwargs)
+        'stdout': subprocess.PIPE,}
+    p = subprocess.Popen(cmd, universal_newlines=True, **kwargs)
     if p.returncode and not ignore_error:
         p_stdout = p.communicate()[0]
         raise Exception("Subprocess return code: %d\n%r\n%r" % (
@@ -1885,7 +1915,7 @@ def do_repo_report(repos, report='full', output=sys.stdout, *args, **kwargs):
         Repository subclass
     """
     for i, repo in enumerate(repos):
-        log.debug(str((i, repo.origin_report().next())))
+        log.debug(str((i, next(repo.origin_report()))))
         try:
             if repo is not None:
                 reportfunc = REPORT_TYPES.get(report)
@@ -1996,7 +2026,7 @@ def get_option_parser():
     return prs
 
 
-def main():
+def main(argv=None):
     """
     pyrpo.main: parse commandline options with optparse and run specified
     reports
@@ -2004,8 +2034,11 @@ def main():
 
     import logging
 
+    if argv is None:
+        argv = sys.argv
+
     prs = get_option_parser()
-    (opts, args) = prs.parse_args()
+    (opts, args) = prs.parse_args(args=argv)
 
     if not opts.quiet:
         _format = None
@@ -2046,7 +2079,6 @@ def main():
                 for report in opts.reports:
                     list(do_repo_report(repos, report=report))
             if opts.thg_report:
-                import sys
                 do_tortoisehg_report(repos, output=sys.stdout)
 
         else:
