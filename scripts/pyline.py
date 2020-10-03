@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 """
@@ -18,7 +18,7 @@ Features:
 * Output as ``txt``, ``csv``, ``tsv``, ``json``, ``html``
   (``-O|--output-format=csv``)
 * Output as Markdown/ReStructuredText ``checkbox`` lists
-  (``-O|--output-format=checkbok``)
+  (``-O|--output-format=checkbox``)
 * (Lazy) sorting (``-s``, ``--sort-asc``, ``-S``, ``--sort-desc``) # XXX TODO
 * Path.py or pathlib objects from each line (``-p``)
 * ``namedtuple``s, ``yield``ing generators
@@ -71,9 +71,8 @@ Shell::
 
 """
 
-__version__ = version = "0.3.16"
+__version__ = '0.3.20'
 
-import cgi
 import csv
 import collections
 import codecs
@@ -89,12 +88,31 @@ import sys
 from collections import namedtuple
 from functools import partial
 
-if sys.version_info.major > 2:
+IS_PYTHON2 = sys.version_info.major == 2
+
+if sys.version_info.major >= 3:
+    xrange = range
+    basestring = str
     unicode = str
+    from html import escape as html_escape
+
+    def itervalues(x):
+        return x.values()
+
+    def iteritems(x):
+        return x.items()
+else:
+    from cgi import escape as html_escape
+
+    def itervalues(x):
+        return x.itervalues()
+
+    def iteritems(x):
+        return x.iteritems()
 
 EPILOG = __doc__  # """  """
 
-REGEX_DOC = """
+REGEX_DOC = r"""
 I  IGNORECASE  Perform case-insensitive matching.
 L  LOCALE      Make \w, \W, \b, \B, dependent on the current locale.
 M  MULTILINE   "^" matches the beginning of lines (after a newline)
@@ -105,9 +123,9 @@ S  DOTALL      "." matches any character at all, including the newline.
 X  VERBOSE     Ignore whitespace and comments for nicer looking RE's.
 U  UNICODE     Make \w, \W, \b, \B, dependent on the Unicode locale."""
 REGEX_OPTIONS = dict(
-    (l[0],
-        (l[1:14].strip(), l[15:]))
-    for l in REGEX_DOC.split('\n') if l)
+    (line[0],
+        (line[1:14].strip(), line[15:]))
+    for line in REGEX_DOC.split('\n') if line)
 
 STANDARD_REGEXES = {}
 
@@ -136,13 +154,17 @@ class PylineResult(Result):
         if result is None or result is False:
             return result
 
-        elif hasattr(self.result, 'itervalues'):
-            result = odelim.join(unicode(s) for s in self.result.itervalues())
+        elif hasattr(self.result, 'itervalues') or hasattr(self.result, 'values'):
+            result = odelim.join(unicode(s) for s in itervalues(self.result))
+
+        elif isinstance(self.result, (basestring, unicode)):
+            if result[-1] == '\n':   # TODO: remove_one_trailing_cr
+                result = result[:-1]
 
         elif hasattr(self.result, '__iter__'):
             result = odelim.join(unicode(s) for s in result)
 
-        else:
+        elif hasattr(self.result, 'rstrip'):
             if result[-1] == '\n':
                 result = result[:-1]
 
@@ -156,21 +178,24 @@ class PylineResult(Result):
         if self.result is None or self.result is False:
             yield self.result
 
-        elif hasattr(self.result, 'itervalues'):
-            for col in self.result.itervalues():
+        elif hasattr(self.result, 'itervalues') or hasattr(self.result, 'values'):
+            for col in itervalues(self.result):
                 yield col
+
+        elif hasattr(self.result, 'rstrip'):
+            if self.result[-1] == '\n':   # TODO: remove_one_trailing_cr
+                yield self.result[:-1]
+            else:
+                yield self.result
 
         elif hasattr(self.result, '__iter__'):
             for col in self.result:
                 yield col
 
-        elif hasattr(self.result, 'rstrip'):
-            yield self.result.rstrip()
-
     def _numbered_str(self, odelim):
         record = self._numbered()
         return ' %4d%s%s' % (
-            record.next(),
+            next(record),
             odelim,
             unicode(odelim).join(str(x) for x in record))
 
@@ -260,7 +285,7 @@ def pyline(iterable,
     Path = str
     if path_tools_pathpy:
         import path as pathpy
-        Path = pathpy.path
+        Path = pathpy.Path
     if path_tools_pathlib:
         import pathlib
         Path = pathlib.Path
@@ -320,6 +345,8 @@ def pyline(iterable,
             else:
                 return obj
 
+    endl = '\n'
+
     global_ctxt = globals()
     for i, obj in enumerate(iterable):
         l = line = o = obj
@@ -329,7 +356,12 @@ def pyline(iterable,
         p = path = None
         if path_tools_pathpy or path_tools_pathlib:
             try:
-                p = path = Path(line) or None
+                _line = (line[:-1*len(endl)]
+                         if line.endswith(endl) else line)
+                if _line:
+                    p = path = Path(_line) or None
+                else:
+                    p = None
             except Exception as e:
                 log.exception(e)
                 pass
@@ -527,7 +559,7 @@ def sort_by(iterable,
         reverse (bool): (True, Descending), (False, Ascending) default: False
         col_map (None, dict): dict mapping column n to a typefunc
         default_type (None, callable): type callable (default: None)
-        default_value (\*): default N/A value for columns not specified
+        default_value (\\*): default N/A value for columns not specified
                             in col_map (default: None)
     Returns:
         list: sorted list of lines/rows
@@ -575,16 +607,26 @@ def sort_by(iterable,
         Returns:
             tuple: (col2, col0, col1)
         """
-        keyvalue = tuple(keyfunc_iter(obj, sortstr, col_map))
+        keyvalue = tuple(x if x is not None else "" for x in keyfunc_iter(obj, sortstr, col_map))  # TODO: default_value and/or approximate python 2 sort
         errdata = [
             (('keyvalue', keyvalue),
               ('sortstr', sortstr))]
         log.debug((errdata,))
         return keyvalue
 
-    sorted_values = sorted(iterable,
-                  key=keyfunc,
-                  reverse=reverse)
+    try:
+        sorted_values = sorted(iterable,
+                    key=keyfunc,
+                    reverse=reverse)
+    except TypeError:
+        _iterable = list(iterable)
+        log.error(dict(
+            iterable=_iterable,
+            keyfunc=keyfunc,
+            reverse=reverse,
+            keyfunc_applied=[keyfunc(x) for x in _iterable]
+        ))
+        raise
     return sorted_values
 
 
@@ -598,7 +640,7 @@ def str2boolintorfloat(str_):
     Returns:
         object: casted ``{boot, float, int, or str_.__class__}``
     """
-    match = re.match('([\d\.]+)', str_)
+    match = re.match(r'([\d\.]+)', str_)
     type_ = None
     if not match:
         type_ = str_.__class__
@@ -842,7 +884,7 @@ class ResultWriter_json(ResultWriter):
 
 class ResultWriter_html(ResultWriter):
     output_format = 'html'
-    escape_func = staticmethod(cgi.escape)
+    escape_func = staticmethod(html_escape)
 
     def header(self, *args, **kwargs):
         self._output.write("<table>")
@@ -855,7 +897,7 @@ class ResultWriter_html(ResultWriter):
 
     def _html_row(self, obj):
         yield '\n<tr>'
-        for attr, col in obj._asdict().iteritems():  # TODO: zip(_fields, ...)
+        for attr, col in iteritems(obj._asdict()):  # TODO: zip(_fields, ...)
             yield "<td%s>" % (
                 attr is not None and (' class="%s"' % attr) or '')
             if hasattr(col, '__iter__'):
@@ -878,7 +920,7 @@ class ResultWriter_html(ResultWriter):
 
 class ResultWriter_jinja(ResultWriter):
     output_format = 'jinja'
-    escape_func = staticmethod(cgi.escape)
+    escape_func = staticmethod(html_escape)
 
     def setup(self, *args, **kwargs):
         log.debug(('args', args))
@@ -1179,23 +1221,38 @@ def main(args=None, iterable=None, output=None, results=None, opts=None):
         if iterable is not None:
             opts['_file'] = iterable
         else:
-            if opts.get('file') is '-':
+            if opts.get('file') == '-':
                 # opts._file = sys.stdin
-                opts['_file'] = codecs.getreader('utf8')(sys.stdin)
+                if IS_PYTHON2:
+                    opts['_file'] = codecs.getreader('utf8')(sys.stdin)
+                else:
+                    opts['_file'] = sys.stdin
             else:
-                opts['_file'] = codecs.open(opts['file'], 'r', encoding='utf8')
+                if IS_PYTHON2:
+                    opts['_file'] = codecs.open(opts['file'], 'r', encoding='utf8')
+                else:
+                    opts['_file'] = open(opts['file'], 'r', encoding='utf8')
 
         if output is not None:
             opts['_output'] = output
         else:
-            if opts.get('output') is '-':
+            if opts.get('output') == '-':
                 # opts._output = sys.stdout
-                opts['_output'] = codecs.getwriter('utf8')(sys.stdout)
+                if IS_PYTHON2:
+                    opts['_output'] = codecs.getwriter('utf8')(sys.stdout)
+                else:
+                    opts['_output'] = sys.stdout
             elif opts.get('output'):
-                opts['_output'] = codecs.open(opts['output'], 'w', encoding='utf8')
+                if IS_PYTHON2:
+                    opts['_output'] = codecs.open(opts['output'], 'w', encoding='utf8')
+                else:
+                    opts['_output'] = open(opts['output'], 'w', encoding='utf8')
             else:
                 # opts._output = sys.stdout
-                opts['_output'] = codecs.getwriter('utf8')(sys.stdout)
+                if IS_PYTHON2:
+                    opts['_output'] = codecs.getwriter('utf8')(sys.stdout)
+                else:
+                    opts['_output'] = sys.stdout
 
         if opts.get('_output_format') is None:
             #opts._output_format = DEFAULTS['_output_format']
