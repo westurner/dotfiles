@@ -20,9 +20,11 @@ pyrpo
 #    - https://github.com/seb-m/pyinotify/wiki 
 #    - https://seb-m.github.io/pyinotify/
 
-#psutil
-#sarge
-#structlog
+psutil
+sarge
+structlog
+
+py-dateutil
 
 # necessary for scripts/git-changelog.py
 semantic_version
