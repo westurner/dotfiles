@@ -1,5 +1,5 @@
 [nosetests]
 verbosity=2
 # pip install nose-progressive
-with-progressive = true
-progressive-editor = e
+#with-progressive = true
+#progressive-editor = e
