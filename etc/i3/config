@@ -86,7 +86,8 @@ hide_edge_borders horizontal
 ## Set Variables
 set $run_command dmenu_run
 set $screensaver_start ~/-dotfiles/scripts/xlck.sh -S
-set $screensaver_stop ~/-dotfiles/scripts/xlck.sh -P
+set $screensaver_start --no-startup-ip xss-lock --transfer-sleep-lock -- i3lock --nofork
+#set $screensaver_stop ~/-dotfiles/scripts/xlck.sh -P
 
 set $lock_screen ~/-dotfiles/scripts/xlck.sh -L
 
@@ -150,20 +151,20 @@ bindsym Mod1+Shift+Tab  exec $i3t_alt_shift_tab
 #  - Start gnome-settings-daemon (e.g. for anti-aliasing)
 #  $PATH/gnome-settings-daemon        -- Ubuntu, Debian
 #  /usr/libexec/gnome-settings-daemon -- Fedora
-exec --no-startup-id gnome-settings-daemon
-exec --no-startup-id /usr/libexec/gnome-settings-daemon-localexec
+#exec --no-startup-id gnome-settings-daemon
+#exec --no-startup-id /usr/libexec/gnome-settings-daemon-localexec
 #- Start gnome-session (initial programs + gnome-settings-daemon)
-exec gnome-session
+#exec gnome-session
 
 
 #  - Start screensaver
 exec --no-startup-id $screensaver_start
 
 #  - Set X background
-exec --no-startup-id $set_xbackground
+#exec --no-startup-id $set_xbackground
 
 #  - Set X wallaper to (~/wallpaper.png)
-exec --no-startup-id $set_xwallpaper
+#exec --no-startup-id $set_xwallpaper
 
 
 # - Launch network applet (optional)

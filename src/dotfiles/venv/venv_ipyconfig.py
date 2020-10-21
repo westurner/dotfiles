@@ -1778,12 +1778,12 @@ def build_user_aliases_env(env=None,
 
     def build_python_testing_env(env):
         aliases = env.aliases
-        env['_TESTPY_'] = "(cd {_WRD} && python setup.py test)".format(
-            _WRD=shell_varquote('_WRD'),
-            )
-        aliases['testpyw'] = env['_TESTPY_']
+        env['_PYBIN'] = env.get('_PYBIN', 'python')
+        aliases['testpyw'] = '(cd "${_WRD}" && "${_PYBIN}" setup.py test)'
         aliases['testpywr'] = 'reset && %s' % env['_TESTPY_']
         aliases['nosew'] = '(cd {_WRD} && nosetests %l)'.format(
+            _WRD=shell_varquote('_WRD'))
+        aliases['pytestw'] = '(cd {_WRD} && pytest -v %l)'.format(
             _WRD=shell_varquote('_WRD'))
         return env
 
@@ -1831,17 +1831,69 @@ def build_user_aliases_env(env=None,
                         ' && supervisorctl -c "${_SVCFG}" tail -f dev')
         return env
 
-    funcs = [
+    def build_systemd_env(env):
+        _SYVCFG = env.get('_SYVCFG', joinpath(env['_ETC'], 'systemd-user.conf'))
+        if os.path.exists(_SYVCFG) or dont_reflect:
+            env['_SYVCFG'] = _SYVCFG
+            env['_SYVCFG_'] = ' -c %s' % shell_quote(env['_SYVCFG'])
+        else:
+            logging.error('systemd configuration %r not found' % _SYVCFG)
+            env['_SYVCFG_'] = ''
+        aliases = env.aliases
+        aliases['syv'] = 'systemctl' #  -c "${_SVCFG}"'
+        aliases['syvs'] = 'systemctl status' # -c "${_SVCFG}"'
+        aliases['syvf'] = 'journalctl -f'
+        aliases['syvd'] = ('systemctl -c "${_SVCFG}" restart dev'
+                        ' && journalctl -f')
+        return env
+
+    def build_docker_env(env):
+        _SVCFG = env.get('_SVCFG', joinpath(env['_ETC'], 'systemd.conf'))
+        if os.path.exists(_SVCFG) or dont_reflect:
+            env['_SVCFG'] = _SVCFG
+            env['_SVCFG_'] = ' -c %s' % shell_quote(env['_SVCFG'])
+        else:
+            logging.error('systemd configuration %r not found' % _SVCFG)
+            env['_SVCFG_'] = ''
+        aliases = env.aliases
+        aliases['dyv'] = 'docker' #  -c "${_SVCFG}"'
+        aliases['dyvs'] = 'docker status' # -c "${_SVCFG}"'
+        aliases['dyvf'] = 'docker logs -f'
+        aliases['dyvd'] = ('docker -c "${_SVCFG}" restart dev'
+                        ' && journalctl -f')
+        return env
+
+    def build_podman_env(env):
+        _SVCFG = env.get('_SVCFG', joinpath(env['_ETC'], 'systemd.conf'))
+        if os.path.exists(_SVCFG) or dont_reflect:
+            env['_SVCFG'] = _SVCFG
+            env['_SVCFG_'] = ' -c %s' % shell_quote(env['_SVCFG'])
+        else:
+            logging.error('systemd configuration %r not found' % _SVCFG)
+            env['_SVCFG_'] = ''
+        aliases = env.aliases
+        # aliases['podman'] = 'podman' #  -c "${_SVCFG}"'
+        aliases['podmans'] = 'podman status' # -c "${_SVCFG}"'
+        aliases['podmanf'] = 'podman logs -f'
+        aliases['pyvd'] = ('podman -c "${_SVCFG}" restart dev'
+                        ' && journalctl -f')
+        return env
+
+    build_funcs = [
         build_editor_env,
         build_ipython_env,
         build_grin_env,
         build_wrd_aliases_env,
         build_python_testing_env,
         build_pyramid_env,
-        build_supervisord_env]
+        build_supervisord_env,
+        build_systemd_env,
+        build_docker_env,
+        build_podman_env,
+    ]
     builder = StepBuilder(env)
-    for func in funcs:
-        builder.add_step(func)
+    for build_func in build_funcs:
+        builder.add_step(build_func)
     return builder.build()
 
 

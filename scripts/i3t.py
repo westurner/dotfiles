@@ -27,6 +27,7 @@ This code is licensed with CC-By-SA 3.0:
 
 
 import collections
+import io
 import json
 import subprocess
 import logging
@@ -61,10 +62,10 @@ def output_to_dict(output_list):
     Returns:
         dict: tree_dict #TODO: ordered_pairs_hook
     """
-    output_string = ""
-    for line in output_list:
-        output_string += line
-    return json.loads(output_string)
+#    output_string = ""
+#    for line in output_list:
+#        output_string += str(line)
+    return json.loads(output_list)
 
 
 def find_windows(tree_dict, window_list, i3barnameprefix='i3bar for output'):

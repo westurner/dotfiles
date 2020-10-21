@@ -3167,7 +3167,7 @@ class Venv(object):
             '--command', "bash -c 'we %s %s'; bash" % (
                 self.env['VIRTUAL_ENV'], self.env['_APP']),  #
             '--tab', '--title', '%s: shell' % self.env['_APP'],
-            '--command', "bash -c %r; bash" % self.env['_SHELL_']
+            '--command', "bash -c %r; bash" % self._terminal_cmd(),
         )
         return cmd
 

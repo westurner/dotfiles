@@ -1,12 +1,13 @@
 {
   "load_extensions": {
-    "toggle_all_line_numbers/main": true, 
-    "toc2/main": true, 
-    "hinterland/hinterland": false, 
-    "collapsible_headings/main": true, 
-    "printview/main": true, 
-    "scratchpad/main": true, 
-    "move_selected_cells/main": true
-  }, 
+    "toggle_all_line_numbers/main": true,
+    "toc2/main": true,
+    "hinterland/hinterland": false,
+    "collapsible_headings/main": true,
+    "printview/main": true,
+    "scratchpad/main": true,
+    "move_selected_cells/main": true,
+    "jupyter-js-widgets/extension": true
+  },
   "autoscroll_show_button": true
 }

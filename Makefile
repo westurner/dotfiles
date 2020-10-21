@@ -75,6 +75,7 @@ help:
 	@echo ""
 	@echo "install      -- install dotfiles and dotvim [in a VIRTUAL_ENV]"
 	@echo "upgrade      -- upgrade dotfiles and dotvim [in a VIRTUAL_ENV]"
+	@echo "status       -- print dotfiles_status (ds)"
 	@echo ""
 	@echo "install_user -- install dotfiles and dotvim (with 'pip --user')"
 	@echo "upgrade_user -- upgrade dodtfiles and dotfile (with 'pip --user')"
@@ -244,6 +245,8 @@ upgrade_user:
 	$(MAKE) install PIP_INSTALL="$(PIP) install --upgrade --user"
 	bash ./scripts/bootstrap_dotfiles.sh -U
 
+status:
+	$(shell dotfiles_status)
 
 clean:
 	$(MAKE) pyclean

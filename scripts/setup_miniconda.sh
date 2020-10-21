@@ -214,11 +214,14 @@ function miniconda_setup__dotfiles_condaenvs {
     miniconda_check_conda_env "${CONDA_ENVS__py38}/${envname}"
 }
 
-function miniconda_setup_main {
+function _miniconda_setup_main {
     ## install miniconda and configure condaenvs
     miniconda_setup__dotfiles_env
     miniconda_setup__dotfiles_minicondas "${@}";
     miniconda_setup__dotfiles_condaenvs "${@}";
+}
+function miniconda_setup_main {
+    (set -x; _miniconda_setup_main "${@}")
 }
 
 if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
