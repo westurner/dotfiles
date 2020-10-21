@@ -75,7 +75,7 @@ lspath() {
     done
 }
 
-lspath-less() {
+lspath_less() {
     # lspath_less()     -- lspath with less (color)
     if [ -n "${__IS_MAC}" ]; then
         cmd=${1:-'ls -ald -G'}
