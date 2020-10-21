@@ -34,25 +34,25 @@ function finder {
     fi
 }
 
-function finder-killall {
+function finder_killall {
     # finder-killall()  -- close all Finder.app instances
     killall Finder "$_FINDERBIN";
 }
 
-function finder-restart {
+function finder_restart {
     # finder-restart()  -- close all and start Finder.app
     finder-killall
     finder
 }
 
-function finder-hide-hidden {
+function finder_hide_hidden {
     # finder-hide-hidden()    -- hide .hidden files in Finder.app
     #                            (and close all Finder windows)
     defaults write com.apple.finder AppleShowAllFiles NO
     finder-killall
 }
 
-function finder-show-hidden {
+function finder_show_hidden {
     # finder-show-hidden()    -- show .hidden files in Finder.app
     #                            (and close all Finder windows)
     defaults write com.apple.finder AppleShowAllFiles YES

@@ -2,7 +2,7 @@
 ### 70-bashrc.repos.sh
 
 
-function git-commit() {
+function git_commit() {
     #  git-commit()   -- git commit ${2:} -m ${1}; git log -n1
     (set -x;
     msg="${1}";
@@ -15,10 +15,10 @@ function git-commit() {
 
 function gc() {
     #  gc()             -- git-commit() <files> -m <log> ; log log -n1
-    git-commit "${@}"
+    git_commit "${@}"
 }
 
-function git-add-commit() {
+function git_add_commit() {
     #  git-add-commit()   -- git add ${2:}; git commit ${2} -m ${1}; git log -n1
     (set -x;
     msg="${1}";
@@ -32,7 +32,7 @@ function git-add-commit() {
 
 function gac() {
     #  gac()            -- git-add-commit $@
-    git-add-commit "${@}"
+    git_add_commit "${@}"
 }
 
 # function msg {
@@ -40,15 +40,15 @@ function gac() {
 #   see: usrlog.sh
 # }
 
-function git-commit-msg() {
+function git_commit_msg() {
     #  gitcmsg()    -- gitc "${_MSG}" "${@}"
-    git-commit "${_MSG}" "${@}"
+    git_commit "${_MSG}" "${@}"
     msg -
 }
 
-function git-add-commit-msg() {
+function git_add_commit_msg() {
     #  gitcaddmsg()    -- gitc "${_MSG}" "${@}"
-    git-add-commit "${_MSG}" "${@}"
+    git_add_commit "${_MSG}" "${@}"
     msg -
 }
 

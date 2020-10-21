@@ -73,7 +73,7 @@ source "${__DOTFILES}/scripts/cls"
     #echo "TERM_URI='${TERM_URL}'"
 #}
 
-function debug-env {
+function debug_env {
     _log=${_LOG:-"."}
     OUTPUT=${1:-"${_log}/$(date +"%FT%T%z").debug-env.env.log"}
     dotfiles_status
@@ -87,12 +87,12 @@ function debug-env {
 
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
-function debug-on {
+function debug_on {
     # debug-on()                 -- set -x -v
     set -x -v
     shopt -s extdebug
 }
-function debug-off {
+function debug_off {
     # debug-off()                -- set +x +v
     set +x +v
     shopt -s extdebug
