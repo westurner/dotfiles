@@ -267,7 +267,7 @@ def pyline(iterable,
 
     for _importset in modules:
         for _import in _importset.split(','):
-            locals()[_import] = __import__(_import.strip())
+            globals()[_import] = __import__(_import.strip())
 
     _rgx = None
     if regex:
