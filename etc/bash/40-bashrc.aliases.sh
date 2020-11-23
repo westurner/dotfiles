@@ -54,6 +54,8 @@ _loadaliases () {
     alias gc='git commit'
     # gca      -- 'git commit --amend'
     alias gca='git commit --amend'
+    # gcan     -- 'git commit --amend --no-edit'
+    alias gcan='git commit --amend --no-edit'
     # gco      -- 'git checkout'
     alias gco='git checkout'
     # gdc      -- 'git diff --cached'
