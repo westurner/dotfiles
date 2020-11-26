@@ -1,5 +1,24 @@
-#!/usr/bin/env bash
-## 
+#!/usr/bin/env sh
+
+## scripts/e -- open an editor
+#
+#  author: @westurner
+#  call vim or gvim --servername $(getservername) with "${@}"
+#
+# Dependencies:
+# - vim
+# - xdotool (optional)
+#
+
+function setup_e {
+    export E_DO_FOCUS_WINDOW="${E_DO_FOCUS_WINDOW:-"1"}"
+}
+
+##
+function getservername {
+    echo """${VIRTUAL_ENV_NAME:-"/"}"""
+}
+
 function edit {
     #  edit()   -- call ($EDITOR_ or $EDITOR or vim or vi) "${@}"
     local editor="${EDITOR_:-${EDITOR:-"$(command -v vim || command -v vi)"}}"
@@ -7,19 +26,62 @@ function edit {
         ${editor} "${@}"
         return
     fi
-    ${GUIVIMBIN} --servername ""${VIRTUAL_ENV_NAME:-"/"}"" \
+    ${GUIVIMBIN} --servername "$(getservername)" \
         --remote-tab \
         "${@}"
+    if [ -n "$E_DO_FOCUS_WINDOW" ]; then
+        try_focus_editor_window
+    fi
     return
 }
 
 function e {
     #  e()      -- call ($EDITOR_ or $EDITOR or vim or vi) "${@}"
+    #              if $E_DO_FOCUS_WINDOW is set, call ef
     edit "${@}"
     return
 }
 
-if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
-    edit "${@}"
+function ef {
+    #  ef()     -- call ($EDITOR_ or $EDITOR or vim or vi) "${@}" and focus
+    E_DO_FOCUS_WINDOW=1 edit "${@}"
+    return
+}
+
+function eb {
+    #  eb()     -- call ($EDITOR_ or $EDITOR or vim or vi) "${@}" and focus
+    E_DO_FOCUS_WINDOW= edit "${@}"
+    return
+}
+
+function try_focus_editor_window {
+    if [ -z "$(type -t xdotool)" ]; then
+        return
+    fi
+    (
+    servername=${1:-$(getservername)};
+    winid=$(xwininfo -root -tree -children | grep 'vim")' | grep -i ' - '"${servername}"'":' | awk '{ print $1 }');
+    if test -n "${winid}"; then
+        xdotool windowactivate "${winid}";
+    fi
+    )
+}
+
+scriptname=$(basename "${0}")
+case "${scriptname}" in
+    edit) cmd=edit;;
+    e) cmd=edit;;
+    ef) cmd=ef;;
+    eb) cmd=eb;;
+    *) echo "Unknown edit command: ${scriptname}";;
+esac
+
+if [[ "$(basename "${SHELL}")" != bash* ]]; then
+    setup_e
+    ${cmd} "${@}"
+    exit
+elif [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
+    setup_e
+    ${cmd} "${@}"
     exit
 fi
