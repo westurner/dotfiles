@@ -233,6 +233,16 @@ install_user:
 	$(MAKE) dotvim_clone
 	$(MAKE) dotvim_install
 
+install_apt:
+	# install packages with apt
+	sudo apt install -y wmctrl xdotool xclip
+	$(MAKE) -c etc/i3 setuppkgs_apt
+
+install_dnf:
+	# install packages
+	sudo dnf install -y wmctrl xdotool xclip
+	$(MAKE) -c etc/i3 setuppkgs_dnf
+
 upgrade:
 	# Update and upgrade
 	bash ./scripts/bootstrap_dotfiles.sh -U
