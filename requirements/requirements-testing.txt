@@ -1,15 +1,16 @@
 pytest
 # src:
-#  -e hg+http://bitbucket.org/hpk42/pytest/#egg=pytest
+#  -e git+https://github.com/pytest-dev/pytest#egg=pytest
 # docs:
 #  - http://pytest.org/latest/ 
-#  - py.test --help
+#  - pytest --help
 
-
-
-pytest-capturelog
+pytest-cov
 # src:
-#  -e hg+https://bitbucket.org/memedough/pytest-capturelog#egg=pytest-capturelog
+#  -e git+https://github.com/pytest-dev/pytest-cov
+# docs:
+#  - https://pytest-cov.readthedocs.io/en/latest/
+#  - pytest --help | grep cov -C 10
 
 coverage
 
