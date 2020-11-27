@@ -364,35 +364,48 @@ build-docker:
 	$(MAKE) build-docker-ubuntu-15.04
 
 
+DOCKER_BUILD_SUDO=sudo
+DOCKER_BUILD_SUDO=
+DOCKER_BUILD=sudo DOCKER_BUILDKIT=1 docker build
+DOCKER_BUILD=${DOCKER_BUILD_SUDO} DOCKER_BUILDKIT=1 docker build
+
+DOCKER_TAG_PREFIX=westurner/dotfiles
+
 build-docker-fedora-22:
-	sudo docker build -t dotfiles:fedora22 -f Dockerfile.fedora22 .
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora22 -f Dockerfile.fedora22 .
 
 build-docker-fedora-23:
-	sudo docker build -t dotfiles:fedora23 -f Dockerfile.fedora23 .
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora23 -f Dockerfile.fedora23 .
 
 build-docker-fedora-24:
-	sudo docker build -t dotfiles:fedora24 -f Dockerfile.fedora24 .
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora24 -f Dockerfile.fedora24 .
 
 build-docker-fedora-25:
-	sudo docker build -t dotfiles:fedora25 -f Dockerfile.fedora25 .
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora25 -f Dockerfile.fedora25 .
 
 build-docker-fedora-29:
-	sudo docker build -t dotfiles:fedora29 -f Dockerfile.fedora29 .
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora29 -f Dockerfile.fedora29 .
+
+build-docker-fedora-33:
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora33 -f Dockerfile.fedora33 .
 
 build-docker-debian-8:
-	sudo docker build -t dotfiles:debian-8 -f Dockerfile.debian8 .
+	${DOCKER_BUILD} -t westurner/dotfiles:debian-8 -f Dockerfile.debian8 .
 
 build-docker-ubuntu-12.04:
-	sudo docker build -t dotfiles:ubuntu-12.04 -f Dockerfile.ubuntu12.04 .
+	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-12.04 -f Dockerfile.ubuntu12.04 .
 
 build-docker-ubuntu-14.04:
-	sudo docker build -t dotfiles:ubuntu-14.04 -f Dockerfile.ubuntu14.04 .
+	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-14.04 -f Dockerfile.ubuntu14.04 .
 
 build-docker-ubuntu-15.04:
-	sudo docker build -t dotfiles:ubuntu-15.04 -f Dockerfile.ubuntu15.04 .
+	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-15.04 -f Dockerfile.ubuntu15.04 .
 
 build-docker-ubuntu-16.04:
-	sudo docker build -t dotfiles:ubuntu-16.04 -f Dockerfile.ubuntu16.04 .
+	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-16.04 -f Dockerfile.ubuntu16.04 .
+
+build-docker-ubuntu-20.04:
+	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-20.04 -f Dockerfile.ubuntu20.04 .
 
 pip_upgrade_pip:
 	# Upgrade pip

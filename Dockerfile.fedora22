@@ -22,7 +22,7 @@ RUN pip install -U pip
 ## Install dotfiles
 #ADD $__DOTFILES/scripts/bootstrap_dotfiles.sh /usr/local/bin/bootstrap_dotfiles.sh
 #RUN curl -SL https://raw.githubusercontent.com/westurner/dotfiles/develop/scripts/bootstrap_dotfiles.sh > bootstrap_dotfiles.sh
-ADD ./bootstrap_dotfiles.sh ./bootstrap_dotfiles.sh
+COPY ./scripts/bootstrap_dotfiles.sh ./bootstrap_dotfiles.sh
 RUN DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -I
 RUN DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -R
 #RUN DOTFILES_REPO_REV="develop" ./bootstrap_dotfiles.sh -U -R
