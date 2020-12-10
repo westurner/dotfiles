@@ -704,8 +704,8 @@ localjs-live:
 
 localcss-live:
 	$(MAKE) localcss
-	cp -v '$(LOCALCSS)' '$(BUILDDIRHTML)/_static/css/local.css || true;
-	cp -v '$(LOCALCSS)' '$(BUILDDIRSINGLEHTML)/_static/css/local.css || true;
+	cp -v '$(LOCALCSS)' '$(BUILDDIRHTML)/_static/css/local.css' || true;
+	cp -v '$(LOCALCSS)' '$(BUILDDIRSINGLEHTML)/_static/css/local.css' || true;
 
 local-live:
 	$(MAKE) localjs-live
