@@ -15,10 +15,309 @@ if (document.location.hostname in keymap) {
     ga('send', 'pageview');
 }
 
+/*!
+ * JavaScript Cookie v2.1.1
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+;(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+		define(factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		var OldCookies = window.Cookies;
+		var api = window.Cookies = factory();
+		api.noConflict = function () {
+			window.Cookies = OldCookies;
+			return api;
+		};
+	}
+}(function () {
+	function extend () {
+		var i = 0;
+		var result = {};
+		for (; i < arguments.length; i++) {
+			var attributes = arguments[ i ];
+			for (var key in attributes) {
+				result[key] = attributes[key];
+			}
+		}
+		return result;
+	}
 
+	function init (converter) {
+		function api (key, value, attributes) {
+			var result;
+			if (typeof document === 'undefined') {
+				return;
+			}
+
+			// Write
+
+			if (arguments.length > 1) {
+				attributes = extend({
+					path: '/'
+				}, api.defaults, attributes);
+
+				if (typeof attributes.expires === 'number') {
+					var expires = new Date();
+					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
+					attributes.expires = expires;
+				}
+
+				try {
+					result = JSON.stringify(value);
+					if (/^[\{\[]/.test(result)) {
+						value = result;
+					}
+				} catch (e) {}
+
+				if (!converter.write) {
+					value = encodeURIComponent(String(value))
+						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+				} else {
+					value = converter.write(value, key);
+				}
+
+				key = encodeURIComponent(String(key));
+				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
+				key = key.replace(/[\(\)]/g, escape);
+
+				return (document.cookie = [
+					key, '=', value,
+					attributes.expires && '; expires=' + attributes.expires.toUTCString(), // use expires attribute, max-age is not supported by IE
+					attributes.path    && '; path=' + attributes.path,
+					attributes.domain  && '; domain=' + attributes.domain,
+					attributes.secure ? '; secure' : ''
+				].join(''));
+			}
+
+			// Read
+
+			if (!key) {
+				result = {};
+			}
+
+			// To prevent the for loop in the first place assign an empty array
+			// in case there are no cookies at all. Also prevents odd result when
+			// calling "get()"
+			var cookies = document.cookie ? document.cookie.split('; ') : [];
+			var rdecode = /(%[0-9A-Z]{2})+/g;
+			var i = 0;
+
+			for (; i < cookies.length; i++) {
+				var parts = cookies[i].split('=');
+				var name = parts[0].replace(rdecode, decodeURIComponent);
+				var cookie = parts.slice(1).join('=');
+
+				if (cookie.charAt(0) === '"') {
+					cookie = cookie.slice(1, -1);
+				}
+
+				try {
+					cookie = converter.read ?
+						converter.read(cookie, name) : converter(cookie, name) ||
+						cookie.replace(rdecode, decodeURIComponent);
+
+					if (this.json) {
+						try {
+							cookie = JSON.parse(cookie);
+						} catch (e) {}
+					}
+
+					if (key === name) {
+						result = cookie;
+						break;
+					}
+
+					if (!key) {
+						result[name] = cookie;
+					}
+				} catch (e) {}
+			}
+
+			return result;
+		}
+
+		api.set = api;
+		api.get = function (key) {
+			return api(key);
+		};
+		api.getJSON = function () {
+			return api.apply({
+				json: true
+			}, [].slice.call(arguments));
+		};
+		api.defaults = {};
+
+		api.remove = function (key, attributes) {
+			api(key, '', extend(attributes, {
+				expires: -1
+			}));
+		};
+
+		api.withConverter = init;
+
+		return api;
+	}
+
+	return init(function () {});
+}));
+
+// newtab.js
+//
+// Requires
+// * jQuery: https://github.com/jquery/jquery
+// * js-cookie: https://github.com/js-cookie/js-cookie
+//
+// References
+// * https://mathiasbynens.github.io/rel-noopener/
+//
+// License: MIT LICENSE
 $(document).ready(function() {
-    $("a[href^='http']").attr('target','_blank');
+
+
+  var options;
+  var options_cookie_json = Cookies.getJSON('options');
+  if (options_cookie_json === undefined) {
+    var options_defaults = {
+      'open_in_new_tab': true,
+      'show_visited_links': true,
+    };
+    options = options_defaults;
+  } else {
+    options = options_cookie_json;
+  }
+  console.log('options:');
+  console.log(options);
+
+  function match_external_url_elem(elem) {
+    var elem = $(elem);
+    if (elem === undefined) {
+      return false;
+    }
+    var url = elem.attr('href');
+    if (url === undefined) {
+      return false;
+    }
+    var relstr = elem.attr('rel');
+    var rels = [];
+    if (relstr !== undefined) {
+      rels = relstr.split(' ');
+    }
+    // skip rel="noreferrer" (because window.open)
+    if (rels.indexOf('noreferrer') !== -1)
+    {
+      return false;
+    }
+    if (
+      (   elem.attr('target') === '_blank')
+      || (rels.indexOf('noopener') > -1)
+      || (rels.indexOf('external') !== -1)
+      || (elem.hasClass('external'))  // [sphinx,]
+      || (url.substring(0,8) === 'http://')
+      || (url.substring(0,9) === 'https://')
+      || (url.substring(0,3) === '//')
+      || (url.substring(0,7) === 'ftp://')
+      || (url.substring(0,7) === 'svn://')
+      || (url.substring(0,7) === 'git://')
+    ) {
+        return true;
+    }
+    return false;
+  }
+  $(document).on('click', 'a', function(e) {
+    if (options['open_in_new_tab']) {
+      if (match_external_url_elem(this)) {
+        var url = $(this).attr('href');
+        e.preventDefault();
+        var otherWindow = window.open();
+        otherWindow.opener = null;
+        otherWindow.location = url;
+      }
+    }
+  });
+
+  var sidebar = $("#sidebar-wrapper").find("div.sidebar");
+      var options_widget = $("\
+  <div class='widget sidebar-options'> \
+    <h3>Options</h3> \
+    <ul> \
+      <li> \
+        <input id='chk_newtab' \
+          type='checkbox' \
+          aria-label='Open links in a new tab' \
+          title='Open links in a new tab' \
+        ></input> \
+        <label for='chk_newtab'>Open links in a new tab</label> \
+      </li> \
+      <li> \
+        <input id='chk_showvisited' \
+          type='checkbox' \
+          aria-label='Show visited links' \
+          title='Show visited links' \
+        ></input> \
+        <label for='chk_showvisited'>Show visited links</label> \
+      </li> \
+    </ul> \
+  </div>");
+  sidebar.append(options_widget);
+
+  var chk = $('input#chk_newtab');
+  chk.prop('checked', options['open_in_new_tab']);
+  chk.on('change', function(e) {
+    options['open_in_new_tab'] = this.checked;
+    Cookies.set('options', options);
+  });
+
+  function create_stylesheet() {
+    var css = document.createElement('style');
+    css.id = 'newtabcss';
+    css.type = 'text/css';
+    $('head').append(css);
+    return css.sheet;
+  }
+
+  var stylesheet = create_stylesheet();
+
+  // show_visited_links
+  var localstate = { };
+  function set_showvisitedcss() {
+    if (options['show_visited_links'] === true) {
+      localstate['show_visited_links/a:visited/color'] = (
+        stylesheet.insertRule('a:visited { color: #551A8B !important; }',
+                             stylesheet.cssRules.length)
+      );
+    } else {
+      var ruleidx = localstate['show_visited_links/a:visited/color'];
+      if (ruleidx !== undefined) {
+        if (stylesheet.cssRules) {
+          if (stylesheet.cssRules.length) {
+            stylesheet.deleteRule(ruleidx);
+          }
+        } else { // IE < 9
+          if (stylesheet.rules.length) {
+            stylesheet.removeRule(ruleidx);
+          }
+        }
+      }
+      localstate['show_visited_links/a:visited/color'] = undefined;
+    }
+  }
+  set_showvisitedcss();
+
+  var chk = $('input#chk_showvisited');
+  chk.prop('checked', options['show_visited_links']);
+  chk.on('change', function(e) {
+    options['show_visited_links'] = this.checked;
+    Cookies.set('options', options);
+    set_showvisitedcss();
+  });
 });
+
 
 // <affix-sidenav>
 $(document).ready(function() {
@@ -334,29 +633,44 @@ function navbar_update(nodeurl) {
         .text('¶')
     );
     ($('#navbar-top')
-        .find('a.reference.internal')
-        .removeClass('youarehere')
-    );
-    ($(navbar)
         .find('a.youarehere')
         .removeClass('youarehere')
     );
+    ($('#navbar-top')
+        .find('li.youarehere')
+        .removeClass('youarehere')
+    );
+    var selectedlink = $(navbar)
+        .find('a.youarehere');
+    selectedlink
+        .removeClass('youarehere');
+    selectedlink.parent()
+        .removeClass('youarehere');
+
     if (nodeurl) {
-        ($(content)
-            .find('a.headerlink[href="' + nodeurl + '"]')
+        var headerlink = $(content)
+            .find('a.headerlink[href="' + nodeurl + '"]');
+        headerlink
             .addClass('youarehere')
-            .text('⬅')
-        );
+            .text('⬅');
+        headerlink.parent()
+            .addClass('youarehere');
 
-        ($('#navbar-top')
-            .find('a.reference.internal[href="' + nodeurl + '"]')
-            .addClass('youarehere')
-        );
+        var toplink = $('#navbar-top')
+            .find('a.reference.internal[href="' + nodeurl + '"]');
+        toplink
+            .addClass('youarehere');
+        toplink.parent()
+            .addClass('youarehere');
 
-        var navbarlink = $(navbar).find('a[href="' + nodeurl + '"]');
+        var navbarlink = $(navbar)
+            .find('a[href="' + nodeurl + '"]');
 
         if (navbarlink) {
-            navbarlink.addClass('youarehere');
+            navbarlink
+                .addClass('youarehere');
+            navbarlink.parent()
+                .addClass('youarehere');
             console.log(navbarlink);
             try {
                 navbar_scrollto(navbarlink.first()); // # navbar a.youarehere

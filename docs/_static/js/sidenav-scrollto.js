@@ -51,29 +51,44 @@ function navbar_update(nodeurl) {
         .text('¶')
     );
     ($('#navbar-top')
-        .find('a.reference.internal')
-        .removeClass('youarehere')
-    );
-    ($(navbar)
         .find('a.youarehere')
         .removeClass('youarehere')
     );
+    ($('#navbar-top')
+        .find('li.youarehere')
+        .removeClass('youarehere')
+    );
+    var selectedlink = $(navbar)
+        .find('a.youarehere');
+    selectedlink
+        .removeClass('youarehere');
+    selectedlink.parent()
+        .removeClass('youarehere');
+
     if (nodeurl) {
-        ($(content)
-            .find('a.headerlink[href="' + nodeurl + '"]')
+        var headerlink = $(content)
+            .find('a.headerlink[href="' + nodeurl + '"]');
+        headerlink
             .addClass('youarehere')
-            .text('⬅')
-        );
+            .text('⬅');
+        headerlink.parent()
+            .addClass('youarehere');
 
-        ($('#navbar-top')
-            .find('a.reference.internal[href="' + nodeurl + '"]')
-            .addClass('youarehere')
-        );
+        var toplink = $('#navbar-top')
+            .find('a.reference.internal[href="' + nodeurl + '"]');
+        toplink
+            .addClass('youarehere');
+        toplink.parent()
+            .addClass('youarehere');
 
-        var navbarlink = $(navbar).find('a[href="' + nodeurl + '"]');
+        var navbarlink = $(navbar)
+            .find('a[href="' + nodeurl + '"]');
 
         if (navbarlink) {
-            navbarlink.addClass('youarehere');
+            navbarlink
+                .addClass('youarehere');
+            navbarlink.parent()
+                .addClass('youarehere');
             console.log(navbarlink);
             try {
                 navbar_scrollto(navbarlink.first()); // # navbar a.youarehere

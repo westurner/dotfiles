@@ -684,11 +684,13 @@ localcss:
 	cat '$(STATIC)/css/custom.css' >> '$(LOCALCSS)'
 	cat '$(STATIC)/css/sidenav-scrollto.css' >> '$(LOCALCSS)'
 	cat '$(STATIC)/css/leftnavbar.css' >> '$(LOCALCSS)'
+	cat '$(STATIC)/css/newtab.css' >> '$(LOCALCSS)'
 
 LOCALJS=$(STATIC)/js/local.js
 localjs:
 	echo '' > $(LOCALJS)
 	cat '$(STATIC)/js/ga.js' >> '$(LOCALJS)'
+	cat '$(STATIC)/js/js.cookie.js' >> '$(LOCALJS)'
 	cat '$(STATIC)/js/newtab.js' >> '$(LOCALJS)'
 	cat '$(STATIC)/js/sidenav-affix.js' >> '$(LOCALJS)'
 	cat '$(STATIC)/js/jquery.scrollTo.js' >> '$(LOCALJS)'
