@@ -1,11 +1,11 @@
 
-# Upgrade a Fedora System to FC30
+# Upgrade a Fedora System to FC33
 
 # You can watch stdout with:
 #
 #   nc -lk 4002
 
-# sudo sh -c 'dnf system-upgrade -y download --refresh --releasever 32; dnf system-upgrade reboot'
+# sudo sh -c 'dnf install -y dnf-plugin-system-upgrade; dnf system-upgrade -y download --refresh --releasever 33; dnf system-upgrade reboot'
 
 - hosts: localhost
   become: true
@@ -14,7 +14,7 @@
       package:
         name: dnf-plugin-system-upgrade
     - name: dnf system-upgrade
-      shell: "dnf system-upgrade -y download --refresh --releasever 32 > /dev/tcp/localhost/4002 2>&1"
+      shell: "dnf system-upgrade -y download --refresh --releasever 33 > /dev/tcp/localhost/4002 2>&1"
       args:
         warn: no
     - name: dnf system-upgrade reboot
