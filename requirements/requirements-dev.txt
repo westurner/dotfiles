@@ -22,13 +22,15 @@ path.py
 # docs:
 #  - https://pythonhosted.org/path.py/api.html
 
-pathlib
+#pathlib
 # src:
 #  -e hg+https://bitbucket.org/pitrou/pathlib#egg=pathlib
 # docs:
 #  - https://pathlib.readthedocs.org/en/pep428/
 #  - https://docs.python.org/3.4/library/pathlib.html
 
+black
+pre-commit
 
 # z3c.recipe.tag>=0.4.0
 # src:

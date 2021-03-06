@@ -169,6 +169,8 @@
   editor = vim
   excludesfile = ~/.gitignore_global
   pager = less -F -X
+	quotepath = false
+	commitGraph = true
 [advice]
   statusHints = false
 [diff]
@@ -185,3 +187,5 @@
 
 [cola]
 	fontdiff = Monospace,10,-1,5,50,0,0,0,0,0
+[gc]
+	writeCommitGraph = true
