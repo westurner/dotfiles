@@ -59,7 +59,6 @@ esac
 
 #TODO: set this on load
 
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -77,6 +76,10 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 #
+if [ -e "${HOME}/.bashrc.local.before" ]; then
+    source "${HOME}/.bashrc.local.before"
+fi
+
 ### load the dotfiles
 #  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/.dotfiles
 __DOTFILES=${__DOTFILES:-"${HOME}/-dotfiles"}
@@ -88,6 +91,11 @@ if [ -n "${__DOTFILES}" ] && [ -d "${__DOTFILES}" ]; then
         echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
     fi
 fi
+
+if [ -e "${HOME}/.bashrc.local.after" ]; then
+    source "${HOME}/.bashrc.local.after"
+fi
+
 ### </end dotfiles .bashrc>
 
 
