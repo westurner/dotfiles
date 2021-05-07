@@ -210,7 +210,7 @@ function miniconda_setup__dotfiles_condaenvs {
     CONDA_ROOT=$CONDA_ROOT__py38
     CONDA_ENVS_PATH=$CONDA_ENVS__py38
     "${CONDA_ROOT__py38}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.8 pip readline
-    test -d "${CONDA_ENVS__py38}/${envname}" || "${CONDA_ROOT__py37}/bin/conda" create -y -n "${envname}"
+    test -d "${CONDA_ENVS__py38}/${envname}" || "${CONDA_ROOT__py38}/bin/conda" create -y -n "${envname}"
     miniconda_check_conda_env "${CONDA_ENVS__py38}/${envname}"
 }
 
