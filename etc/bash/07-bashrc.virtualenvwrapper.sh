@@ -42,8 +42,12 @@ function _setup_virtualenvwrapper_config  {
     export VIRTUALENVWRAPPER_HOOK_DIR="${__DOTFILES}/etc/virtualenvwrapper"
     export VIRTUALENVWRAPPER_LOG_DIR="${PROJECT_HOME}/.virtualenvlogs"
     if [ -n "${VIRTUALENVWRAPPER_PYTHON}" ]; then
-        if [ -x "/usr/local/bin/python" ]; then
+        if [ -x "/usr/local/bin/python3" ]; then
+            export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python3"
+        elif [ -x "/usr/local/bin/python" ]; then
             export VIRTUALENVWRAPPER_PYTHON="/usr/local/bin/python"
+        elif [ -x "${HOME}/.local/bin/python3" ]; then
+            export VIRTUALENVWRAPPER_PYTHON="${HOME}/.local/bin/python3"
         elif [ -x "${HOME}/.local/bin/python" ]; then
             export VIRTUALENVWRAPPER_PYTHON="${HOME}/.local/bin/python"
         # elif "${VIRTUAL_ENV}/bin/python"  ## use extra-venv python
