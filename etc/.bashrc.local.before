@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if [ "$(uname)" == "Darwin" ]; then
+    if [ -x /usr/local/bin/python3 ]; then
+        export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+    fi
+fi
