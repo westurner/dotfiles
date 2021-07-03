@@ -204,7 +204,9 @@ _loadaliases () {
 
     # shtop    -- 'sudo htop' [apt-get/yum install -y htop]
     alias shtop='sudo htop'
-    # t        -- 'tail'
+    # t       -- 'task'
+    alias t='task'
+    #t        -- 'tail'
     alias t='tail'
     # tf       -- 'tail -f'
     alias tf='tail -f'
