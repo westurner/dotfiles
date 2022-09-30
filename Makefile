@@ -43,11 +43,6 @@ DOTVIM_SRC:=${GHPREFIX}github.com/westurner/dotvim
 #     make dotvim_clone    # makew dotvim_clone
 #     make dotvim_install  # make -C etc/vim install
 
-# PYRPO:=pyrpo
-PYRPO:=python scripts/pyrpo.py
-# PYLINE:=pyline
-PYLINE:=python scripts/pyline.py
-
 PIP:=pip
 PIP_LOCAL:=/usr/local/bin/pip
 PIP_OPTS:=
@@ -59,7 +54,13 @@ PIP_INSTALL_USER:=$(PIP) $(PIP_OPTS) install ${PIP_INSTALL_USER_OPTS}
 #SETUPPY_CMDOPTS:=--command-packages=stdeb.command
 SETUPPY_CMDOPTS:=
 
+# git:=git -P/--no-pager
 git:=git -P
+# PYRPO:=pyrpo
+PYRPO:=python scripts/pyrpo.py
+# PYLINE:=pyline
+PYLINE:=python scripts/pyline.py
+
 
 default: test
 
