@@ -18,7 +18,7 @@ upgrade_brew() {
     # ctags htop
     sudo -u "${SUDO_USER}" brew upgrade --cask \
         google-chrome firefox \
-        visual-studio-code iterm2 
+        visual-studio-code
 }
 
 upgrade_macos() {
