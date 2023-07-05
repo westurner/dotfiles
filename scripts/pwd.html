@@ -209,10 +209,12 @@
    }
   </style>
   <script type="text/javascript">
+    var pwdResult_show = false;
     var pwdResult_type = "password";
     var pwdResult_style = "display:none;";
-    var pwdResult_chartid_style = "display:none;"
+
     var pwdResult_chartid_show = false;
+    var pwdResult_chartid_style = "display:none;"
    
     function setResultStyles() {
       var elems = [
@@ -235,13 +237,17 @@
     });
 
     function toggleShowPass(e) {
-      if (pwdResult_type === "password") {
+      if (pwdResult_show === false) {
+        pwdResult_show = true;
         pwdResult_type = "text";
         pwdResult_style = "display:inherit";
-        pwdResult_chartid_style = "display:block";
+
         pwdResult_chartid_show = true;
+        pwdResult_chartid_style = "display:block";
+
         document.getElementById("showchartid").checked = "checked";
       } else {
+        pwdResult_show = false;
         pwdResult_type = "password";
         pwdResult_style = "display:none;";
         pwdResult_chartid_show = false;
@@ -292,6 +298,7 @@
     }
 
     var inCtrlShiftV = false;
+    var ctrl6Count = 0;
     function onKeyDown(_e) {
       var e = _e; // window.event ? event : _e;
       if (e.ctrlKey && e.keyCode === 88) { // Ctrl+X
@@ -317,6 +324,24 @@
       } else if (e.ctrlKey && e.keyCode === 188) { // Ctrl+/
         toggleChecked("#showpass");
         toggleShowPass();
+      } else if (e.ctrlKey && (e.keyCode === 49 || e.keyCode === 57)) { // Ctrl+1, Ctrl+9
+         // Ctrl-1 -- focus form field 1 (the seed)
+         // Ctrl-9 -- focus form field 1 (the seed)
+         document.forms[0].seed.focus();
+      } else if (e.ctrlKey && (e.keyCode === 50 || e.keyCode === 48)) { // Ctrl+2, Ctrl+0
+         // Ctrl-2 -- focus form field 2 (the pwd)
+         // Ctrl-0 -- focus form field 2 (the pwd)
+         document.forms[0].pwd.focus();
+      } else if (e.ctrlKey && (e.keyCode === 51)) { // Ctrl+2, Ctrl+0
+         var e = document.getElementById("pwdResult");
+         if (e) { e.focus(); };
+      } else if (e.ctrlKey && (e.keyCode === 54)) { // Ctrl-6
+         // Ctrl-6 -- clear form fields 1 and 2
+         ctrl6Count += 1;
+         if (ctrl6Count > 1) {
+            resetPwd();
+            ctrl6Count = 0;
+         }
       }
     }
     document.addEventListener("keydown", onKeyDown);
@@ -400,6 +425,20 @@
       }
     });
 
+    window.addEventListener("load", function() {
+      showpass = document.getElementById("showpass")
+      showpass.addEventListener("click", toggleShowPass);
+      showchartid = document.getElementById("showchartid");
+      showchartid.addEventListener("click", toggleShowChartId);
+
+      pwdResult_show = true ? showpass.checked === "checked" : false;
+      pwdResult_chartid_show = true ? showchartid.checked === "checked" : false;
+      toggleShowPass();
+      // toggleShowChartId();
+      setResultStyles();
+
+    });
+
     window.addEventListener("beforeunload", function() {
       clearClipboard("window.beforeunload");      
     });
@@ -422,19 +461,19 @@
      <label class="checkbox"><input id="punct" name="punct" onclick="makeChart();" type="checkbox"/>!</label>
      <label class="button"><button id="copy" name="copy" onclick="copyToClipboard('Copy');"/>Copy</button></label>
      <label class="button"><button name="reset" type="button" onClick='receiveSpecialPaste()'>Paste</button></label>
-     <label class="checkbox"><input id="showpass" name="showpass" onclick="toggleShowPass();" type="checkbox"/>?</label>
-     <label class="checkbox"><input id="showchartid" name="showchartid" onclick="toggleShowChartId();" type="checkbox"/>¿</label>
+     <label class="checkbox"><input id="showpass" name="showpass" type="checkbox"/>?</label>
+     <label class="checkbox"><input id="showchartid" name="showchartid" type="checkbox"/>¿</label>
     </div>
     <div id="chartResults">
      <span color="#FF0000" class="nop">[..]</span>
     </div>
     <div id="chartContainer">
-     <div id="chart"></div>
      <div id="chartLabel">
       <div id="CNB">
        <span class="nop">[..]</span>
       </div>
      </div>
+     <div id="chart"></div>
     </div>
     <div id="actions" class="nop">
       <button name="open-iframe" type="button"
