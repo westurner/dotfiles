@@ -21,16 +21,34 @@ function _conda_status_defaults {
     # _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
     echo CONDA_ROOT__py27="$(shell_escape_single "${CONDA_ROOT__py27}")"
     echo CONDA_ENVS__py27="$(shell_escape_single "${CONDA_ENVS__py27}")"
+
     echo CONDA_ROOT__py34="$(shell_escape_single "${CONDA_ROOT__py34}")"
     echo CONDA_ENVS__py34="$(shell_escape_single "${CONDA_ENVS__py34}")"
+
     echo CONDA_ROOT__py35="$(shell_escape_single "${CONDA_ROOT__py35}")"
     echo CONDA_ENVS__py35="$(shell_escape_single "${CONDA_ENVS__py35}")"
+
     echo CONDA_ROOT__py36="$(shell_escape_single "${CONDA_ROOT__py36}")"
     echo CONDA_ENVS__py36="$(shell_escape_single "${CONDA_ENVS__py36}")"
+
     echo CONDA_ROOT__py37="$(shell_escape_single "${CONDA_ROOT__py37}")"
     echo CONDA_ENVS__py37="$(shell_escape_single "${CONDA_ENVS__py37}")"
+
     echo CONDA_ROOT__py38="$(shell_escape_single "${CONDA_ROOT__py38}")"
     echo CONDA_ENVS__py38="$(shell_escape_single "${CONDA_ENVS__py38}")"
+
+    echo CONDA_ROOT__py39="$(shell_escape_single "${CONDA_ROOT__py39}")"
+    echo CONDA_ENVS__py39="$(shell_escape_single "${CONDA_ENVS__py39}")"
+
+    echo CONDA_ROOT__py310="$(shell_escape_single "${CONDA_ROOT__py310}")"
+    echo CONDA_ENVS__py310="$(shell_escape_single "${CONDA_ENVS__py310}")"
+
+    echo CONDA_ROOT__py311="$(shell_escape_single "${CONDA_ROOT__py311}")"
+    echo CONDA_ENVS__py311="$(shell_escape_single "${CONDA_ENVS__py311}")"
+
+    echo CONDA_ROOT__py312="$(shell_escape_single "${CONDA_ROOT__py312}")"
+    echo CONDA_ENVS__py312="$(shell_escape_single "${CONDA_ENVS__py312}")"
+
 }
 
 function _conda_status {
@@ -56,6 +74,10 @@ function _setup_conda_defaults {
     export CONDA_ENVS__py36="${__wrk}/-ce36"
     export CONDA_ENVS__py37="${__wrk}/-ce37"
     export CONDA_ENVS__py38="${__wrk}/-ce38"
+    export CONDA_ENVS__py39="${__wrk}/-ce39"
+    export CONDA_ENVS__py310="${__wrk}/-ce310"
+    export CONDA_ENVS__py311="${__wrk}/-ce311"
+    export CONDA_ENVS__py312="${__wrk}/-ce312"
 
     export CONDA_ROOT__py27="${__wrk}/-conda27"
     export CONDA_ROOT__py34="${__wrk}/-conda34"
@@ -63,6 +85,10 @@ function _setup_conda_defaults {
     export CONDA_ROOT__py36="${__wrk}/-conda36"
     export CONDA_ROOT__py37="${__wrk}/-conda37"
     export CONDA_ROOT__py38="${__wrk}/-conda38"
+    export CONDA_ROOT__py39="${__wrk}/-conda39"
+    export CONDA_ROOT__py310="${__wrk}/-conda310"
+    export CONDA_ROOT__py311="${__wrk}/-conda311"
+    export CONDA_ROOT__py312="${__wrk}/-conda312"
 
     #export CONDA_ROOT_DEFAULT="CONDA_ROOT__py37"
     #export CONDA_ENVS_DEFAULT="CONDA_ENVS__py37"
@@ -84,6 +110,7 @@ function _setup_conda {
     #   _setup_conda 35  # __py35
     #   _setup_conda 36  # __py36
     #   _setup_conda 37  # __py37
+    #   _setup_conda 312  # __py312
     #   _setup_conda ~/envs             # __py37
     #   _setup_conda ~/envs/ /opt/conda # /opt/conda
     #   _setup_conda <conda_envs_path> <conda_root>  # conda_root
@@ -113,6 +140,18 @@ function _setup_conda {
         elif [ "$_conda_envs_path" == "38" ]; then
             export CONDA_ENVS_PATH="$CONDA_ENVS__py38"
             export CONDA_ROOT="$CONDA_ROOT__py38"
+        elif [ "$_conda_envs_path" == "39" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py39"
+            export CONDA_ROOT="$CONDA_ROOT__py39"
+        elif [ "$_conda_envs_path" == "310" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py310"
+            export CONDA_ROOT="$CONDA_ROOT__py310"
+        elif [ "$_conda_envs_path" == "311" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py311"
+            export CONDA_ROOT="$CONDA_ROOT__py311"
+        elif [ "$_conda_envs_path" == "312" ]; then
+            export CONDA_ENVS_PATH="$CONDA_ENVS__py312"
+            export CONDA_ROOT="$CONDA_ROOT__py312"
         else
             export CONDA_ENVS_PATH="${_conda_envs_path}"
             export CONDA_ROOT="${_conda_root_path:-${CONDA_ROOT:-${CONDA_ROOT__py37}}}"
@@ -150,6 +189,18 @@ function _unsetup_conda_path_all {
     if [ -n "${CONDA_ROOT__py38}" ]; then
         PATH_remove "${CONDA_ROOT__py38}/bin" > /dev/null 2>&1
     fi
+    if [ -n "${CONDA_ROOT__py39}" ]; then
+        PATH_remove "${CONDA_ROOT__py39}/bin" > /dev/null 2>&1
+    fi
+    if [ -n "${CONDA_ROOT__py310}" ]; then
+        PATH_remove "${CONDA_ROOT__py310}/bin" > /dev/null 2>&1
+    fi
+    if [ -n "${CONDA_ROOT__py311}" ]; then
+        PATH_remove "${CONDA_ROOT__py311}/bin" > /dev/null 2>&1
+    fi
+    if [ -n "${CONDA_ROOT__py312}" ]; then
+        PATH_remove "${CONDA_ROOT__py312}/bin" > /dev/null 2>&1
+    fi
     declare -f 'dotfiles_status' > /dev/null 2>&1 && dotfiles_status
     _conda_status
 }
@@ -180,6 +231,10 @@ function echo_conda_envs_paths {
         "${CONDA_ENVS__py36}"
         "${CONDA_ENVS__py37}"
         "${CONDA_ENVS__py38}"
+        "${CONDA_ENVS__py39}"
+        "${CONDA_ENVS__py310}"
+        "${CONDA_ENVS__py311}"
+        "${CONDA_ENVS__py312}"
     )
     if [ "$(echo "${envs_paths[*]}" | sed 's/ //g')" == "" ]; then
         echo '' >&2
