@@ -405,7 +405,11 @@ function symlink_mimeapps {
 
 function symlink_i3 {
     backup_and_symlink i3 "${HOME}/.i3"
+    backup_and_symlink .Xresources
+    backup_and_symlink .profile
 }
+
+
 
 function symlink_xinitrc_screensaver {
     backup_and_symlink .xinitrc
