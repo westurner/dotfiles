@@ -17,7 +17,7 @@ function _netstatsh () {
         sudo ifconfig -a 2>&1
         sudo route -n 2>&1
         sudo iptables -L -n 2>&1
-        sudo netstat -ntaup 2>&1 | sort -n
+        sudo netstat -ntaup -e 2>&1 | sort -n
     elif [ -n "${__IS_MAC}" ]; then
         sudo ifconfig -a
         sudo netstat -r -n
