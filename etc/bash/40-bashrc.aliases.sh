@@ -30,9 +30,9 @@ _loadaliases () {
     alias ga='git add'
 
     gac () {
-    # gac()    -- 'git diff ${files}; git commit -m $1 ${files}'
+    # gac()    -- 'git add ${files}; git commit -m "${1}" ${files}'
     #   $1 (str): quoted commit message
-    #   $2- (list): file paths
+    #   $2-$@ (list): file paths
         local msg=${1:-""}
         shift
         local files=( "${@}" )
