@@ -40,7 +40,7 @@
    }
 
    textarea, input[type=text], input[type=password] {
-    border: 0;
+    border: 1px;
     background: #f0f0f0;
     color: #222222;
     font-family:monospace;
@@ -67,25 +67,15 @@
    }
 
    button {
-    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
     box-shadow:inset 0px 1px 0px 0px #ffffff;
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
-    background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-    background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-    background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-    background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
     background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
     background-color:#f9f9f9;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
     border-radius:6px;
     border:1px solid #dcdcdc;
     display:inline-block;
     cursor:pointer;
     color:#666666;
-    font-family:Arial;
+    /*font-family:Arial;*/
     font-size:15px;
     font-weight:bold;
     padding:6px 24px;
@@ -93,20 +83,18 @@
     text-shadow:0px 1px 0px #ffffff;
    }
    button:hover {
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
-    background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
-    background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
-    background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
-    background:-ms-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
     background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);
     background-color:#e9e9e9;
    }
    button:active {
     position:relative;
     top:1px;
    }
-   
+  
+   div.about {
+      opacity: 0.5;
+   }
+
    @media screen {
     body {
      background: #e0e0e0;
@@ -121,6 +109,7 @@
      color:#AA0000;
     }
    }
+
    @media print {
     body {
      padding-top: 18px;
@@ -132,6 +121,71 @@
     .nop {
      display:none;
     }
+    div.about {
+      display:none;
+    }
+   }
+
+   @media (prefers-color-scheme: dark) {
+     body {
+         background: #1a1a1a;
+         color: #a0a0a0;
+     }
+
+     textarea, input[type=text], input[type=password], input[type=checkbox] {
+         background-color: #3a3a3a;
+         color: #d2d2d2;
+     }
+     input[type=checkbox] {
+        accent-color: #3a3a3a;
+     }
+     input[type=checkbox]:not(:checked) {
+        opacity: 0.7;
+     }
+     input[type=text]:focus, input[type=password]:focus, input#pwdResult:focus {
+         background: #5a5a5a;
+         border-color: #c0c0c0;
+     }
+     input:active {
+     }
+     input:hover {
+     }
+
+     #chart {
+         background: #2a2a2a;
+         color: #d2d2d2;
+         border-color: #d2d2d2;
+     }
+     span.emph {
+         color: #6070d0;
+     }
+     input#pwdResult {
+        color: #a55;
+     }
+
+     button {
+         box-shadow:inset 0px 1px 0px 0px #101010;
+         background:linear-gradient(to bottom, #292929 5%, #191919 100%);
+         background-color:#292929;
+         border:2px solid #2c2c2c;
+         color:#777;
+         text-shadow:0px 1px 0px #101010;
+      }
+     button:hover {
+         background:linear-gradient(to bottom, #393939 5%, #595959 100%);
+         background-color:#292929;
+         border: 2px solid #722;
+     }
+     button:active {
+         border-color: #c02080;
+     }
+
+     .iframeModal {
+        background: #1a1a1a;
+     }
+     .iframeModal iframe {
+        border: 2px solid #722 !important;
+     }
    }
 
    dl.shortcuts, dl.specials {
@@ -393,7 +447,6 @@
         w.style.top=0;
         w.style.left=0;
         w.style.padding=modalPadding + "px";
-        w.style.background="#AAA";
         w.style.position="fixed";
         document.body.appendChild(w);
 
@@ -405,6 +458,7 @@
         w.appendChild(closeBtn);
 
         var iframe = document.createElement("iframe");
+        iframe.className="iframeInner";
         iframe.setAttribute("width", w.clientWidth-(3*modalPadding));
         iframe.setAttribute("height",w.clientHeight-(2*modalPadding));
         iframe.src = window.location;
