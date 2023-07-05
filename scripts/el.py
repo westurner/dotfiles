@@ -71,17 +71,33 @@ def print_help(argv=sys.argv, file=sys.stdout):
         yield ("  --each|--map  ## for arg in args; do cmd.format(arg); done")
         yield ("  -f|--force    ## continue on error")
         yield ("")
-        yield ("  -x  ## execute command")
-        yield ("  -e  ## execute EDITOR_ or EDITOR (default)")
+        yield ("  -x <cmd> ## Execute <cmd>")
+        yield ("           ## by appending the value of {0} if '{0}' is not in <cmd>")
+        yield ("  -e       ## Execute '$EDITOR_ {0}' or '$EDITOR {0}' (default)")
         yield ("")
         yield ("  -0  ## split by \\0")
         yield ("")
         yield ("  -h  ## print_help() message")
         yield ("  -v  ## verbose (logging.DEBUG)")
         yield ("")
+        yield ("""Examples:
+
+    $ ls | el -e
+    $ touch '__file'$'\\n''name__'; \\
+      ls __file*__ | el -x stat; echo '--'; \\
+      find . -maxdepth 1 -type f -name '__file*' -print0 | el -0 -x stat;
+    $ find . -maxdepth 1 -print0 | el -0 -e
+    $ find . -type f  -print0 | el -0 --each -x echo
+    $ printf "one\\ntwo" | el -x echo
+    $ printf "one\\ntwo" | el --each -x echo
+    $ printf "one\\ntwo" | el --each -x 'echo Hello, "{0}" "!"'
+
+    $ printf "README.md\\n2.py" | EDITOR_=e el -e
+    $ printf "README.md\\n2.py" | el -x e
+""")
 
     for line in usage_iter():
-        print(line, file=file)
+        print(line)
 
 
 class Cmd(object):
