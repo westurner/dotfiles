@@ -52,7 +52,7 @@ function main {
 		;;
 	esac
     done
-    set_gnome_background_to_solid_color "${1}"
+    (set -x; set_gnome_background_to_solid_color "${1}")
     return
 }
 
