@@ -81,7 +81,7 @@ if [ -e "${HOME}/.bashrc.local.before" ]; then
 fi
 
 ### load the dotfiles
-#  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/.dotfiles
+#  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/-dotfiles
 __DOTFILES=${__DOTFILES:-"${HOME}/-dotfiles"}
 if [ -n "${__DOTFILES}" ] && [ -d "${__DOTFILES}" ]; then
     _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
