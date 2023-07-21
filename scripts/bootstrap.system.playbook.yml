@@ -16,8 +16,10 @@
   - name: update security packages
     command: dnf update -y --security --sec-severity Low
     become: true
+    register: dnfupdate
     when:
     - skip_updates is not defined
+    changed_when: "dnfupdate.stdout_lines[-2:] != ['Nothing to do.','Complete!']"
   - name: update all packages
     become: true
     dnf:
@@ -30,13 +32,15 @@
   tags:
   - ssh
   - become
-
   tasks:
   - name: Install openssh-server
     become: true
     package:
       name: openssh-server
       state: present
+    when:
+      - not ansible_is_chroot
+
 
   - name: Enable openssh-server
     become: true
@@ -44,6 +48,9 @@
       name: sshd
       state: started
       enabled: true
+    when:
+      - not ansible_is_chroot
+
   #roles:
   #- dev-sec.ssh-hardening
 
