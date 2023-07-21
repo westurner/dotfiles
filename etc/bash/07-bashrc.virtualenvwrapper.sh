@@ -51,6 +51,10 @@ function _setup_virtualenvwrapper_config  {
         elif [ -x "${HOME}/.local/bin/python" ]; then
             export VIRTUALENVWRAPPER_PYTHON="${HOME}/.local/bin/python"
         # elif "${VIRTUAL_ENV}/bin/python"  ## use extra-venv python
+        elif [ -x "/usr/bin/python3" ]; then
+            export VIRTUALENVWRAPPER_PYTHON="/usr/bin/python3"
+        elif [ -x "/bin/python3" ]; then
+            export VIRTUALENVWRAPPER_PYTHON="/bin/python3"
         fi
     fi
     if [ -x "/usr/local/bin/virtualenvwrapper.sh" ]; then
