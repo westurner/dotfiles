@@ -185,3 +185,5 @@
 
 [cola]
 	fontdiff = Monospace,10,-1,5,50,0,0,0,0,0
+[init]
+	defaultBranch = main
