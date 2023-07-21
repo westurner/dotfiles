@@ -79,6 +79,14 @@
   tags:
   - grub
   tasks:
+  - name: "Check whether grub2-editenv is on $PATH"
+    command: command -v grub2-editenv
+    ignore_errors: true
+    register: grub2editenv_result
+    failed_when: "grub2editenv_result.rc not in [0,1]"
+    changed_when: "False"
   - name: "Always show the grub boot menu"
     become: true
     command: grub2-editenv - unset "menu_auto_hide"
+    when:
+      - "grub2editenv_result.rc == 0"
