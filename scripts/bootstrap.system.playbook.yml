@@ -65,3 +65,12 @@
       - python3-virtualenvwrapper
       - pipsi
       state: present
+
+- hosts: all
+  name: Configure grub
+  tags:
+  - grub
+  tasks:
+  - name: "Always show the grub boot menu"
+    become: true
+    command: grub2-editenv - unset "menu_auto_hide"
