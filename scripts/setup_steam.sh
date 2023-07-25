@@ -3,7 +3,7 @@
 
 _setup_steam() {
 	install_steam
-	configure_uinput_permissions
+	set_uinput_permissions
 }
 
 get_uinput_permissions() {
@@ -28,14 +28,14 @@ print_help() {
    echo "Install steam with flatpak (with Fedora / dnf)"
    echo ""
    echo '  install -- `dnf install -y steam-devices flatpak; flatpak install -y com.valvesoftware.Steam`'
-   echo "  getperms -- get the permissions on /dev/uinput"
-   echo "  setperms -- set rw permissions on /dev/uinput for the current user"
+   echo "  getperms            -- get the permissions on /dev/uinput"
+   echo "  setperms [-u $USER] -- set rw permissions on /dev/uinput for the current user"
    echo '  run -- launch Steam; `flatpak run com.valvesoftware.Steam`'
    echo ""
    echo "Usage:"
    echo ""
    echo "${0} install setperms  # Install steam and set permissions for the current user"
-   echo "${0} setperms          # Set permissions for any additional users with access to the sudo-installed flatpak"
+   echo "${0} setperms          "'# Set permissions for $1 or $USER with access to the sudo-installed flatpak'
    echo "${0} run               # Run steam"
    echo ""
 }
