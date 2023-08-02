@@ -70,7 +70,7 @@ except ImportError:
 
         if os.access(historyPath, os.W_OK):
             atexit.register(
-                lambda x=historyPath: readline.write_history_file(x))
+                lambda x=historyPath, readline=readline: readline.write_history_file(x))
         else:
             sys.stderr.write("error: could not access %r\n" % historyPath)
 
