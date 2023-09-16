@@ -501,7 +501,7 @@ function git_upgrade_remote_scheme__main {
                 scheme="http";;
             git|Git|GIT)
                 shift
-                schema="git";;
+                scheme="git";;
 
             -t|--test)
                 shift  # remove -t or --test from ${@}
