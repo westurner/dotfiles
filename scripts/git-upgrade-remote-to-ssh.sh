@@ -6,26 +6,25 @@
 function git_upgrade_remote_to_ssh_help {
 ## git_upgrade_remote_to_ssh_help() -- print help
     local __file__=$(basename "${0}")
-    echo "${__file__}: [<type>:ssh] [<repopath:.> [<remotebranch:origin>]]"
-    echo "  Upgrade a git remote.name.url to a {ssh, https, http, git} url"
+    echo "${__file__}: <ssh|https|http|git> [<repopath>] [<remotename>]"
+    echo "  Upgrade the scheme:// of a git remote.name.url to ssh, https, http, or git"
     echo ""
     echo "  ssh|https|http|git  # ssh is the default"
+    echo ""
+    echo "  # git -C ./ --config --get remote.origin.url    # print 'origin' URL in ./"
+    echo "  $ ${__file__} -h       # print (this) help"
+    echo "  $ ${__file__} ssh"
+    echo "  $ ${__file__} https"
+    echo "  $ ${__file__} http"
+    echo "  $ ${__file__} git"
+    echo ""
+    echo "  # ${__file__} ssh <path> <git remote name>"
+    echo "  $ ${__file__} ssh . origin"
     echo ""
     echo "  -t / --test    -- run tests and echo PASS/FAIL"
     echo "  -h / --help    -- print (this) help"
     echo ""
-    echo "  # git -C ./ --config --get remote.origin.url    # print 'origin' URL in ./"
-    echo "  $ ${__file__} -h       # print (this) help"
-    echo "  $ ${__file__}                   # ./ remote.origin.url to ssh"
-    echo "  $ ${__file__} .                 # ./" remote.origin.url to ssh
-    echo "  $ ${__file__} . upstream        # ./" remote.upstream.url to ssh
-    echo "  $ ${__file__} ./path            # ./path" remote.origin.url to ssh
-    echo "  $ ${__file__} ./path upstream   # ./path" remote.upstream.url to ssh
-    echo "  $ ${__file__} ssh   ./path upstream # ./path remote.upstream.url to ssh"
-    echo "  $ ${__file__} https ./path upstream # ./path remote.upstream.url to https"
-    echo "  $ ${__file__} http  ./path upstream # ./path remote.upstream.url to http"
-    echo "  $ ${__file__} git   ./path upstream # ./path remote.upstream.url to git"
-    echo ""
+
 }
 
 
@@ -263,57 +262,60 @@ function test_git_upgrade_url_to_git {
         "$(git_upgrade_url_to_git '.')"
 }
 
+function git_upgrade_remote_to {
+## git_upgrade_remote_to() -- upgrade remote.${2:-origin}.url to $1:-"ssh"
+    local _scheme="${1:-"ssh"}"
+    local _path="${2:-"."}"
+    local _name="${3:-"origin"}"
+    local _git_args="${GIT_ARGS}"
+
+    local _GIT="git -C ${_path}${_git_args:+" ${_git_args}"}"
+    local _currenturl=$($_GIT config --get "remote.${_name}.url")
+    case "$_scheme" in
+        ssh)
+            local _newurl=$(git_upgrade_url_to_ssh "${_currenturl}");;
+        https)
+            local _newurl=$(git_upgrade_url_to_https "${_currenturl}");;
+        http)
+            local _newurl=$(git_upgrade_url_to_http "${_currenturl}");;
+        git)
+            local _newurl=$(git_upgrade_url_to_git "${_currenturl}");;
+        *)
+            echo "Unknown git scheme: $_scheme" >&2
+            return 2
+            ;;
+    esac
+    test -n "${_newurl}"
+    echo "# $_GIT remote set-url ${_name} ${_currenturl}"  # XXX singleescape
+    (set -x; $_GIT remote set-url "${_name}" "${_newurl}")
+}
 
 function git_upgrade_remote_to_ssh {
 ## git_upgrade_remote_to_ssh() -- upgrade remote.${2:-origin}.url to ssh://
-    local _path="${1:-"."}"
-    local _name="${2:-"origin"}"
-
-    local _GIT="git -C ${_path}"
-    local _currenturl=$($_GIT config --get "remote.${_name}.url")
-    local _newurl=$(git_upgrade_url_to_ssh "${_currenturl}")
-    test -n "${_newurl}"
-    echo "# $_GIT remote set-url ${_name} ${_currenturl}"  # XXX singleescape
-    (set -x; $_GIT remote set-url "${_name}" "${_newurl}")
+    # local _path="${1:-"."}"
+    # local _name="${2:-"origin"}"
+    git_upgrade_remote_to ssh "${1}" "${2}"
 }
 
 function git_upgrade_remote_to_http {
-## git_upgrade_remote_to_http() -- upgrade remote.${2:-origin}.url to http:/
-    local _path="${1:-"."}"
-    local _name="${2:-"origin"}"
-
-    local _GIT="git -C ${_path}"
-    local _currenturl=$($_GIT config --get "remote.${_name}.url")
-    local _newurl=$(git_upgrade_url_to_http "${_currenturl}")
-    test -n "${_newurl}"
-    echo "# $_GIT remote set-url ${_name} ${_currenturl}"  # XXX singleescape
-    (set -x; $_GIT remote set-url "${_name}" "${_newurl}")
+## git_upgrade_remote_to_http() -- upgrade remote.${2:-origin}.url to http://
+    # local _path="${1:-"."}"
+    # local _name="${2:-"origin"}"
+    git_upgrade_remote_to http "${1}" "${2}"
 }
 
 function git_upgrade_remote_to_https {
-## git_upgrade_remote_to_https() -- upgrade remote.${2:-origin}.url to https:/
-    local _path="${1:-"."}"
-    local _name="${2:-"origin"}"
-
-    local _GIT="git -C ${_path}"
-    local _currenturl=$($_GIT config --get "remote.${_name}.url")
-    local _newurl=$(git_upgrade_url_to_https "${_currenturl}")
-    test -n "${_newurl}"
-    echo "# $_GIT remote set-url ${_name} ${_currenturl}"  # XXX singleescape
-    (set -x; $_GIT remote set-url "${_name}" "${_newurl}")
+## git_upgrade_remote_to_https() -- upgrade remote.${2:-origin}.url to https://
+    # local _path="${1:-"."}"
+    # local _name="${2:-"origin"}"
+    git_upgrade_remote_to https "${1}" "${2}"
 }
 
 function git_upgrade_remote_to_git {
 ## git_upgrade_remote_to_git() -- upgrade remote.${2:-origin}.url to https://
-    local _path="${1:-"."}"
-    local _name="${2:-"origin"}"
-
-    local _GIT="git -C ${_path}"
-    local _currenturl=$($_GIT config --get "remote.${_name}.url")
-    local _newurl=$(git_upgrade_url_to_git "${_currenturl}")
-    test -n "${_newurl}"
-    echo "# $_GIT remote set-url ${_name} ${_currenturl}"  # XXX singleescape
-    (set -x; $_GIT remote set-url "${_name}" "${_newurl}")
+    # local _path="${1:-"."}"
+    # local _name="${2:-"origin"}"
+    git_upgrade_remote_to git "${1}" "${2}"
 }
 
 function test_git_upgrade_remote__main {
@@ -453,6 +455,36 @@ function test_git_upgrade_remote__main {
 
 function git_upgrade_remote_scheme__main {
 ## git_upgrade_remote_scheme__main -- main argument handling
+
+    if [ -z "${*}" ]; then
+        git_upgrade_remote_to_ssh_help
+        return
+    fi
+
+    _git_args=""
+    for arg in "${@}"; do
+        if [ -n "${_append_next_arg_to_git_args}" ]; then
+            _git_args="${_git_args} ${arg}"
+            _append_next_arg_to_git_args=
+            continue
+        fi
+        case "${arg}" in
+            -C|--work-dir|--work-tree)
+                _git_args="${_git_args:+"${_git_args} "}""${arg}"
+                shift
+                _append_next_arg_to_git_args=1
+                shift
+                ;;
+            --work-dir=*|--work-tree=*)
+                _git_args="${_git_args:+"${_git_args} "}""${arg}"
+                shift
+                ;;
+        esac
+    done
+    if [ -n "${_git_args}" ]; then
+        export GIT_ARGS="${_git_args}"
+        echo "+GIT_ARGS=${GIT_ARGS}"
+    fi
 
     local scheme
     for arg in ${@}; do
