@@ -76,3 +76,12 @@ sudovim() {
     # sudoe()   -- EDITOR=${SUDO_EDITOR} sudo -e
     sudoe "${@}"
 }
+
+# e() {
+    # e() -- see $__DOTFILES/scripts/_ewrd.sh
+# }
+
+egitstatus() {
+    # egitstatus() -- git status --short | sed | xargs e
+    git status --short | sed 's/^ .* //' | xargs e
+}
