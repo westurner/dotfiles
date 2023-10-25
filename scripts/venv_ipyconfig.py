@@ -66,7 +66,6 @@ Venv Implementation
 import collections
 import copy
 import difflib
-import distutils.spawn
 import functools
 import inspect
 import itertools
@@ -81,6 +80,11 @@ import unittest
 
 from collections import OrderedDict
 from os.path import join as joinpath
+
+try:
+    from shutil import which as  _which
+except ImportError:
+    from distutils.spawn import find_executable as _which
 
 # try/except imports for IPython
 # import IPython
@@ -1653,9 +1657,9 @@ def build_user_aliases_env(env=None,
 
     def build_editor_env(env):
         # EDITOR configuration
-        env['VIMBIN']       = distutils.spawn.find_executable('vim')
-        env['GVIMBIN']      = distutils.spawn.find_executable('gvim')
-        env['MVIMBIN']      = distutils.spawn.find_executable('mvim')
+        env['VIMBIN']       = _which('vim')
+        env['GVIMBIN']      = _which('gvim')
+        env['MVIMBIN']      = _which('mvim')
         env['GUIVIMBIN']    = env.get('GVIMBIN', env.get('MVIMBIN'))
         # set the current vim servername to _APP
         VIMSERVER = '/'
