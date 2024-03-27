@@ -9,6 +9,9 @@
 # - http://documentup.com/skwp/git-workflows-book#appendix-a---the-gitconfig
 # - [...]
 
+[gpg "ssh"]
+allowedSignersFile = ~/.ssh/allowed_signers
+
 [color]
   ui = true
 [color "branch"]
