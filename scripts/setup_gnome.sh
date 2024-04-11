@@ -14,7 +14,7 @@ echo "   --gtk-theme=dark|light|str|Adwaita-Dark
               $ gsettings get org.gnome.desktop.interface gtk-theme"
 echo "   --fractional-scaling=0|1
               $ gsettings get org.gnome.mutter experimental-features"
-
+echo "   --ungroup-alt-tab=1"
 echo '
 ## Shell Functions
 
@@ -22,6 +22,7 @@ setup_gnome_background_color
 setup_gnome_gtk_theme <dark|light|<str>|Adwaita-dark>
 setup_gnome_mutter_fractional_scaling
 
+setup_gnome_ungroup_alt_tab
 '
 }
 
@@ -100,6 +101,14 @@ function setup_gnome_mutter_fractional_scaling {
 }
 
 
+function setup_gnome_ungroup_alt_tab {
+    dconf write /org/gnome/desktop/wm/keybindings/switch-applications "['<Super>Tab']"
+    dconf write /org/gnome/desktop/wm/keybindings/switch-applications-backward "['<Shift><Super>Tab']"
+    dconf write /org/gnome/desktop/wm/keybindings/switch-windows "['<Alt>Tab']"
+    dconf write /org/gnome/desktop/wm/keybindings/switch-windows-backward "['<Shift><Alt>Tab']"
+}
+
+
 function main {
     # (set -x; setup_gnome_mutter_fractional_scaling)
 
@@ -120,6 +129,7 @@ function main {
             --gnome-color-scheme) shift; _cfg_gnome_color_scheme=$1 ;;
             --fractional-scaling) shift; _cfg_fractional_scaling=1 ;;
             --no-fractional-scaling) shift; _cfg_fractional_scaling=0 ;;
+            --ungroup-alt-tab) shift; _cfg_ungroup_alt_tab=1 ;;
         esac
     done
 
@@ -150,6 +160,10 @@ function main {
 
     if [ -n "${_cfg_fractional_scaling}" ]; then
         setup_gnome_mutter_fractional_scaling "${_cfg_fractional_scaling}";
+    fi
+
+    if [ -n "${_cfg_ungroup_alt_tab}" ]; then
+        (set -x; setup_gnome_ungroup_alt_tab)
     fi
 }
 
