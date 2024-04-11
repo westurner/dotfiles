@@ -15,10 +15,10 @@ or python -m webbrowser)
 """
 
 import collections
-import distutils.spawn
 import logging
 import optparse
 import os
+import shutil
 import subprocess
 import sys
 try:
@@ -228,7 +228,7 @@ class X_www_WebBrowser(WebBrowser):
 
 class OSX_open_WebBrowser(WebBrowser):
     platforms = ['darwin']
-    OPENBIN = distutils.spawn.find_executable('open')
+    OPENBIN = shutil.which('open')
     BIN = OPENBIN
 
     @classmethod
