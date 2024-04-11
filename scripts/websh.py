@@ -4,7 +4,8 @@ from __future__ import print_function
 """
 web.sh
 =======
-web.sh is a cross-platform script (web) and API for launching a browser
+web.sh is a cross-platform script (``web`` (or ``websh.py``)
+and CLI API for launching a browser
 (with x-www-browser (Linux, Unix), open (OSX), start (Windows),
 or python -m webbrowser)
 
