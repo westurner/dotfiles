@@ -27,10 +27,10 @@ Usage:
 
 # import __builtin__
 import codecs
-import distutils.spawn
 import logging
 import os
 import shlex
+import shutil
 import subprocess
 import sys
 if sys.version_info.major > 2:
@@ -139,7 +139,7 @@ class Cmd(object):
         if find_executable is False:
             return cmdlist
         else:
-            binpath = distutils.spawn.find_executable(binname)
+            binpath = shutil.which(binname)
             if not binpath:
                 raise Exception("%r not found" % binname)
             cmd_output = cmdlist[:]
@@ -442,7 +442,7 @@ class TestEl(unittest.TestCase):
         for n in range(3):
             stdin_text.append(unicode(__file__) + unicode('\n'))
         stdin = StringIO("".join(stdin_text))
-        lines = stdin.readlines()
+        _ = stdin.readlines()
         stdin.seek(0)
         retcode = main(argv=cmd, stdin=stdin)
         self.assertEqual(retcode, 0)
