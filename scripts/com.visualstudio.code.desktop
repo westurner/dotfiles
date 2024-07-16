@@ -1,0 +1,20 @@
+[Desktop Entry]
+Name=Visual Studio Code
+Comment=Code Editing. Redefined.
+GenericName=Text Editor
+Exec=/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=code --file-forwarding com.visualstudio.code --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --reuse-window @@ %F @@
+Icon=com.visualstudio.code
+Type=Application
+StartupNotify=true
+StartupWMClass=Code
+Categories=TextEditor;Development;IDE;
+MimeType=text/plain;inode/directory;application/x-code-workspace;
+Actions=new-empty-window;
+Keywords=vscode;
+X-Flatpak-Tags=proprietary;
+X-Flatpak=com.visualstudio.code
+
+[Desktop Action new-empty-window]
+Name=New Empty Window
+Exec=/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=code --file-forwarding com.visualstudio.code --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --new-window @@ %F @@
+Icon=com.visualstudio.code
