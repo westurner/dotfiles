@@ -2,8 +2,16 @@
 ## 
 
 _makew() {
-    # makew()   -- cd $_WRD && make $@
-    (cd "${_WRD}" && make ${@})
+    # makew()   -- cd "$_WRD" && make "$@"
+    if [ -z "${_WRD}" ]; then
+        echo '_WRD= must be set' >&2
+	return 2
+    fi
+    if [ ! -e "${_WRD}" ]; then
+        echo '_WRD='"$_WRD doesn't exist" >&2
+	return 2
+    fi
+    (make -C "${_WRD}" "${@}")
 }
 _makew_complete() {
     local cur=${2}
@@ -15,6 +23,7 @@ _makew_complete() {
 }
 complete -F _makew_complete makew
 
-if [[ ${BASH_SOURCE} == "${0}" ]]; then
-    _makew ${@}
+if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+    echo '_WRD='"$_WRD"
+    _makew "${@}"
 fi
