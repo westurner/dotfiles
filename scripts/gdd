@@ -2,7 +2,7 @@
 ##
 
 gdd() {
-    (set -x; __gdd $@)
+    (set -x; __gdd "$@")
 }
 
 __gdd() {
@@ -26,6 +26,6 @@ __gdd() {
 }
 
 if [ "$BASH_SOURCE" == "$0" ]; then
-  gdd ${@}
+  gdd "${@}"
   exit
 fi
