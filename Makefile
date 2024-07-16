@@ -359,6 +359,8 @@ build-docker-bootstrap_dotfiles.sh:
 build-docker:
 	$(MAKE) build-docker-fedora-22
 	$(MAKE) build-docker-fedora-23
+	$(MAKE) build-docker-fedora-38
+	$(MAKE) build-docker-fedora-39
 	$(MAKE) build-docker-debian-8
 	$(MAKE) build-docker-ubuntu-12.04
 	$(MAKE) build-docker-ubuntu-14.04
@@ -369,6 +371,7 @@ DOCKER_BUILD_SUDO=sudo
 DOCKER_BUILD_SUDO=
 DOCKER_BUILD=sudo DOCKER_BUILDKIT=1 docker build
 DOCKER_BUILD=${DOCKER_BUILD_SUDO} DOCKER_BUILDKIT=1 docker build
+DOCKER_BUILD=${DOCKER_BUILD_SUDO} podman build
 
 DOCKER_TAG_PREFIX=westurner/dotfiles
 
@@ -389,6 +392,12 @@ build-docker-fedora-29:
 
 build-docker-fedora-33:
 	${DOCKER_BUILD} -t westurner/dotfiles:fedora33 -f Dockerfile.fedora33 .
+
+build-docker-fedora-38:
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora38 -f Dockerfile.fedora38 .
+
+build-docker-fedora-39:
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora39 -f Dockerfile.fedora39 .
 
 build-docker-debian-8:
 	${DOCKER_BUILD} -t westurner/dotfiles:debian-8 -f Dockerfile.debian8 .
