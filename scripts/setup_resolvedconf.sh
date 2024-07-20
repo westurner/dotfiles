@@ -67,7 +67,7 @@ _setup_resolvedconf_config() {
     export DNS_CLOUDFLARE_FAMILY_IPV4="1.1.1.3#family.cloudflare-dns.com 1.0.0.3#family.cloudflare-dns.com"
     export DNS_CLOUDFLARE_FAMILY_IPV6="2606:4700:4700::1113#family.cloudflare-dns.com 2606:4700:4700::1003::1001#family.cloudflare-dns.com"
     export DNS_CLOUDFLARE_SECURITY_IPV4="1.1.1.2#security.cloudflare-dns.com 1.0.0.2#security.cloudflare-dns.com"
-    export DNS_CLOUDFLARE_SECURITY_IPV6="2606:4700:4700::1112#security.cloudflare-dns.com 2606:4700:4700::1002::1001#security.cloudflare-dns.com"
+    export DNS_CLOUDFLARE_SECURITY_IPV6="2606:4700:4700::1112#security.cloudflare-dns.com 2606:4700:4700::1002#security.cloudflare-dns.com"
     export DNS_GOOGLE_IPV4="8.8.8.8#dns.google 8.8.4.4#dns.google"
     export DNS_GOOGLE_IPV6="2001:4860:4860::8888#dns.google 2001:4860:4860::8844#dns.google"
     export DNS_OPENDNS_IPV4="208.67.222.222#doh.opendns.com 208.67.220.220#doh.opendns.com"
