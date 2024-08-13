@@ -166,8 +166,8 @@ setup_resolvedconf_main() {
     fi
 
     nmcli_status() {
-        $NM_DEVICE=$NM_DEVICE
-        $NM_CONNECTION=$NM_CONNECTION
+        NM_DEVICE=$NM_DEVICE
+        NM_CONNECTION=$NM_CONNECTION
         nmcli -f name,uuid,type,device c show --active
         nmcli c show "${NM_CONNECTION}"
         nmcli d show "${NM_DEVICE}"
