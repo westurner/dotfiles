@@ -130,6 +130,7 @@ function main {
             --fractional-scaling) shift; _cfg_fractional_scaling=1 ;;
             --no-fractional-scaling) shift; _cfg_fractional_scaling=0 ;;
             --ungroup-alt-tab) shift; _cfg_ungroup_alt_tab=1 ;;
+            --setup-touchpad) shift; ./setup_gnome_touchpad.sh "${@}";;
         esac
     done
 
