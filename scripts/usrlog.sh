@@ -182,6 +182,18 @@ function _usrlog_set_title {
 }
 
 
+function _usrlog_log_cmd_and_update_prompt() {
+    _usrlog_log_cmd_and_update_prompt_setxstate=${-//[^x]/}
+    set +x
+
+    _usrlog_writecmd
+    _usrlog_echo_title;
+
+    if [[ -n "${_usrlog_log_cmd_and_update_prompt_setxstate}" ]]; then
+        set -x
+    fi
+}
+
 function _usrlog_setup {
     #  _usrlog_setup()      -- configure usrlog for the current shell
     local _usrlog="${1:-$_USRLOG}"
@@ -201,12 +213,12 @@ function _usrlog_setup {
 
     #  setup bash
     if [ -n "$BASH" ]; then
-        PROMPT_COMMAND="_usrlog_writecmd; _usrlog_echo_title;"
+        PROMPT_COMMAND="_usrlog_log_cmd_and_update_prompt"
     fi
 
     #  setup zsh
     if [ -n "$ZSH_VERSION" ]; then
-        precmd_functions=(_usrlog_writecmd _usrlog_echo_title)
+        precmd_functions=(_usrlog_log_cmd_and_update_prompt)
     fi
 }
 
