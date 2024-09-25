@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
 ###   _ewrd.sh  -- convenient editor shortcuts
-#     # setup edit[*] and e[*] symlinks:
-#     $ ln -s ./_ewrd.sh _ewrd-setup.sh && ./_ewrd-setup.sh
+#     _ewrd.sh -h   # print help
+#
+#     ## Install: setup edit[*] and e[*] symlinks:
+#     ln -s ./_ewrd.sh _ewrd-setup.sh && ./_ewrd-setup.sh
 
-##    editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
+EDITOR="${EDITOR:-"e"}"  # see: westurner/dotfiles//scripts/e
+
+
+##### editdotfiles, edotfiles -- cd $__DOTFILES and run edit w/ each arg
 function editdotfiles {
     # editdotfiles() -- cd $__DOTFILES and run edit w/ each arg
-    (cd "${__DOTFILES}"; e "${@}")
+    (cd "${__DOTFILES}"; ${EDITOR} "${@}")
     return
 }
 
@@ -25,10 +30,10 @@ complete -o default -o nospace -F _edotfiles__complete editdotfiles
 complete -o default -o nospace -F _edotfiles__complete edotfiles
 
 
-##    editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
+##### editwrk, ewrk   --- cd $__WRK and run edit w/ each arg
 function editwrk {
     # editwrk()      -- cd $__WRK and run edit w/ each arg
-    (cd "${__WRK}"; e "${@}")
+    (cd "${__WRK}"; ${EDITOR} "${@}")
     return
 }
 
@@ -46,10 +51,10 @@ complete -o default -o nospace -F _ewrk__complete editwrk
 complete -o default -o nospace -F _ewrk__complete ewrk
 
 
-##    editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
+##### editworkonhome, eworkonhome --- cd $WORKON_HOME and run edit w/ each arg
 function editworkonhome {
     # editworkonhome() -- cd $WORKON_HOME and run edit w/ each arg
-    (cd "${WORKON_HOME}"; e "${@}")
+    (cd "${WORKON_HOME}"; ${EDITOR} "${@}")
     return
 }
 
@@ -75,10 +80,10 @@ complete -o default -o nospace -F _eworkonhome__complete ewh
 
 
 
-##    editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
+##### editvirtualenv, evirtualenv, ev  --- cd $VIRTUAL_ENV and run edit w/ each arg
 function editvirtualenv {
     # editvirtualenv() -- cd $VIRTUAL_ENV and run edit w/ each arg
-    (cd "${VIRTUAL_ENV}"; e "${@}")
+    (cd "${VIRTUAL_ENV}"; ${EDITOR} "${@}")
     return
 }
 
@@ -103,10 +108,10 @@ complete -o default -o nospace -F _evirtualenv__complete evirtualenv
 complete -o default -o nospace -F _evirtualenv__complete ev
 
 
-##    editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
+##### editsrc, esrc, es  --- cd $_SRC and run edit w/ each arg
 function editsrc {
     # editsrc() -- cd $_SRC and run edit w/ each arg
-    (cd "${_SRC}"; e "${@}")
+    (cd "${_SRC}"; ${EDITOR} "${@}")
     return
 }
 
@@ -131,10 +136,10 @@ complete -o default -o nospace -F _esrc__complete esrc
 complete -o default -o nospace -F _esrc__complete es
 
 
-##    editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
+##### editwrd, ewrd, ew  --- cd $_WRD and run edit w/ each arg
 function editwrd {
     # editwrd() -- cd $_WRD and run edit w/ each arg
-    (cd "${_WRD}"; e "${@}")
+    (cd "${_WRD}"; ${EDITOR_:-${EDITOR}} "${@}")
     return
 }
 
@@ -159,10 +164,10 @@ complete -o default -o nospace -F _ewrd__complete ewrd
 complete -o default -o nospace -F _ewrd__complete ew
 
 
-##    editetc, eetc      --- cd $_ETC and run edit w/ each arg
+##### editetc, eetc      --- cd $_ETC and run edit w/ each arg
 function editetc {
     # editetc() -- cd $_ETC and run edit w/ each arg
-    (cd "${_ETC}"; e "${@}")
+    (cd "${_ETC}"; ${EDITOR} "${@}")
     return
 }
 
@@ -180,10 +185,10 @@ complete -o default -o nospace -F _eetc__complete editetc
 complete -o default -o nospace -F _eetc__complete eetc
 
 
-##    editwww, ewww      --- cd $_WWW and run edit w/ each arg
+##### editwww, ewww      --- cd $_WWW and run edit w/ each arg
 function editwww {
     # editwww() -- cd $_WWW and run edit w/ each arg
-    (cd "${_WWW}"; e "${@}")
+    (cd "${_WWW}"; ${EDITOR} "${@}")
     return
 }
 
@@ -277,6 +282,11 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
             ;;
         editwww|ewww)
             editwww "${@}"
+            exit
+            ;;
+
+        evimdiff)
+            ${EDITOR} -d "${@}"
             exit
             ;;
 

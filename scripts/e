@@ -12,24 +12,31 @@
 
 function setup_e {
     export E_DO_FOCUS_WINDOW="${E_DO_FOCUS_WINDOW:-"1"}"
+    export E_DISOWN_EDITOR="${E_DISOWN_EDITOR:-"1"}"
 }
 
 ##
 function getservername {
-    echo """${VIRTUAL_ENV_NAME:-"/"}"""
+    echo """${VIRTUAL_ENV_NAME:-${_TERM_ID:-${-/}}}"""
 }
 
 function edit {
-    #  edit()   -- call ($EDITOR_ or $EDITOR or vim or vi) "${@}"
-    local editor="${EDITOR_:-${EDITOR:-"$(command -v vim || command -v vi)"}}"
+    #  edit()   -- call ($EDITOR_ or $EDITOR or vim or vi or nano) "${@}"
     if [ -z "${GUIVIMBIN}" ]; then
+        local editor="${EDITOR:-"$(command -v vim || command -v vi || command -v nano || command -v pico || command -v less || command -v more)"}"
         ${editor} "${@}"
         return
     fi
-    ${GUIVIMBIN} --servername "$(getservername)" \
-        --remote-tab \
-        "${@}"
-    if [ -n "$E_DO_FOCUS_WINDOW" ]; then
+    if [ $# -eq 0 ]; then
+        local args_file_open="--remote-tab-silent ."
+        local just_focus_window=1
+    else
+        local args_file_open="--remote-tab-silent ""${@}"
+    fi
+    args_servername="--servername $(getservername)"
+    (set -v -x; ${GUIVIMBIN} ${args_servername} ${args1} ${args_file_open})
+        
+    if [ "${just_focus_window:-0}" -eq 1 ] || [  "$E_DO_FOCUS_WINDOW" -eq 1 ]; then
         try_focus_editor_window
     fi
     return
@@ -38,7 +45,12 @@ function edit {
 function e {
     #  e()      -- call ($EDITOR_ or $EDITOR or vim or vi) "${@}"
     #              if $E_DO_FOCUS_WINDOW is set, call ef
-    edit "${@}"
+    (set -x; args="${@}")
+    (edit "${@}" &
+    editorpid=$!
+    if [ -n "${E_DISOWN_EDITOR}" ] && [ "$E_DISOWN_EDITOR" -eq 1 ]; then
+        disown "${editorpid}"
+    fi)
     return
 }
 
@@ -55,26 +67,81 @@ function eb {
 }
 
 function try_focus_editor_window {
-    if [ -z "$(type -t xdotool)" ]; then
+    xdotool=$(command -v xdotool 2>/dev/null)
+    xwininfo=$(command -v xwininfo 2>/dev/null)
+
+    gdbus=$(command -v gdbus 2>/dev/null)
+
+    busctl=$(command -v busctl 2>/dev/null)
+
+    wlrctl=$(command -v wlrctl 2>/dev/null)
+
+    if [ -n "${xdotool}" ]; then
+        (
+        servername=${1:-$(getservername)};
+        winid=$(xwininfo -root -tree -children | grep 'vim")' | grep -i ' - '"${servername}"'":' | awk '{ print $1 }');
+        if test -n "${winid}"; then
+            xdotool windowactivate "${winid}";
+        fi
+        )
+    elif [ -n "${wlrctl}" ]; then
+        wlrctl TODO
+    elif [ -n "${gdbus}" ]; then
+        gdbus call --session \
+            --dest org.gnome.Shell \
+            --object-path /de/lucaswerkmeister/ActivateWindowByTitle \
+            --method de.lucaswerkmeister.ActivateWindowByTitle.activateBySubstring \
+            ' - '"${servername}"':'
+        _retcode=$?
+        if [ -n ${_retcode} ]; then
+            echo "Install: https://github.com/lucaswerkmeister/activate-window-by-title"
+        fi
+        return ${_retcode}
+    elif [-n "${busctl}" ]; then
+        busctl --user call \
+            org.gnome.Shell \
+            /de/lucaswerkmeister/ActivateWindowByTitle \
+            de.lucaswerkmeister.ActivateWindowByTitle \
+            activateBySubstring \
+            s ' - '"${servername}"':'
         return
     fi
-    (
-    servername=${1:-$(getservername)};
-    winid=$(xwininfo -root -tree -children | grep 'vim")' | grep -i ' - '"${servername}"'":' | awk '{ print $1 }');
-    if test -n "${winid}"; then
-        xdotool windowactivate "${winid}";
-    fi
-    )
+    return
+}
+
+function _test_all {
+    set -x; set -e
+    (EDITOR= EDITOR_= e)
+    (EDITOR= EDITOR_= edit)
+    (EDITOR= EDITOR_= ef)
+    (EDITOR= EDITOR_= eb)
+
+    (EDITOR= EDITOR_= e -h)
+    (EDITOR= EDITOR_= e --help)
+
+    (EDITOR= EDITOR_= e ./testfile)
+    (EDITOR= EDITOR_= edit ./testfile)
+    (EDITOR= EDITOR_= ef ./testfile)
+    (EDITOR= EDITOR_= eb ./testfile)
 }
 
 scriptname=$(basename "${0}")
 case "${scriptname}" in
-    edit) cmd=edit;;
-    e) cmd=edit;;
+    edit) cmd=e;;
+    e) cmd=e;;
     ef) cmd=ef;;
     eb) cmd=eb;;
     *) echo "Unknown edit command: ${scriptname}";;
 esac
+
+for arg in "${@}"; do
+    case "${arg}" in
+        --test)
+            (set -x; _test_all)
+            exit
+            ;;
+    esac
+done
 
 if [[ "$(basename "${SHELL}")" != bash* ]]; then
     setup_e

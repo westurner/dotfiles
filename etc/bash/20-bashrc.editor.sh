@@ -15,20 +15,22 @@ _setup_editor() {
     export GVIMBIN="/usr/bin/gvim"
     export MVIMBIN="/usr/local/bin/mvim"
     export GUIVIMBIN=""
-    if [ -x ${GVIMBIN} ]; then
+    if [ -x "${GVIMBIN}" ]; then
         export GUIVIMBIN=$GVIMBIN
-    elif [ -x ${MVIMBIN} ]; then
+    elif [ -x "${MVIMBIN}" ]; then
         export GUIVIMBIN=$MVIMBIN
     fi
 
-    export EDITOR="${VIMBIN} -f"
-    export EDITOR_="${EDITOR}"
-    export SUDO_EDITOR="${VIMBIN} -f"
+    if [ -x "${VIMBIN}" ]; then
+        export EDITOR="${VIMBIN} -f"
+        export EDITOR_=$(command -v e)
+        export SUDO_EDITOR="${VIMBIN} -f"
+    fi
 
     if [ -n "${GUIVIMBIN}" ]; then
         export VIMCONF="--servername ${VIRTUAL_ENV_NAME:-"/"}"
         export EDITOR="${GUIVIMBIN} -f"
-        export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
+        #export EDITOR_="${GUIVIMBIN} ${VIMCONF} --remote-tab-silent"
         export SUDO_EDITOR="${GUIVIMBIN} -f"
         alias gvim='${GUIVIMBIN}'
     else
