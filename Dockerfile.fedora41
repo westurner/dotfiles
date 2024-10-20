@@ -1,0 +1,42 @@
+
+# westurner/dotfiles fedora:41 Dockerfile
+
+FROM fedora-toolbox:41
+
+ARG user="dotfiles"
+
+## Install system packages
+RUN dnf install -y which \
+    python3 \
+    bash-completion \
+    zsh \
+    git-lfs \
+    mercurial \
+    python3-devel \
+    pipx \
+    python3-pip \
+    python3-virtualenv \
+    python3-virtualenvwrapper \
+    vim-enhanced \
+    black \
+    powerline-fonts \
+    gcc
+
+
+USER "${user}"
+
+
+#RUN pip install -U pip
+## Install latest pip
+#RUN curl -SL https://bootstrap.pypa.io/get-pip.py > get-pip.py
+#RUN python ./get-pip.py
+
+## Install dotfiles
+#ADD $__DOTFILES/scripts/bootstrap_dotfiles.sh /usr/local/bin/bootstrap_dotfiles.sh
+#RUN curl -SL https://raw.githubusercontent.com/westurner/dotfiles/develop/scripts/bootstrap_dotfiles.sh > bootstrap_dotfiles.sh
+COPY ./scripts/bootstrap_dotfiles.sh ./bootstrap_dotfiles.sh
+RUN DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -I -u
+RUN pip3 install --user virtualenv virtualenvwrapper
+#RUN DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -R
+#RUN DOTFILES_REPO_REV="develop" ./bootstrap_dotfiles.sh -U -R
+
