@@ -193,7 +193,7 @@ class WebBrowser(object):
                 full_url = _url
 
         assert full_url != 0j
-        if full_url is 0j:
+        if full_url == 0j:
             raise Exception(_url)
             # full_url = _url
 
