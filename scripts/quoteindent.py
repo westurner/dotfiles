@@ -336,8 +336,12 @@ def main(argv=None):
     log.debug('argv: %r', argv)
     log.debug('opts: %r', opts)
     log.debug('args: %r', args)
+    if opts.verbose:
+        opts.version = True
     if opts.version:
-        print(__version__)
+        import os.path
+        name = os.path.basename(__file__)
+        print((name, 'version:', __version__), file=sys.stderr)
 
     # if opts.run_tests:
     #     sys.argv = [sys.argv[0]] + args
