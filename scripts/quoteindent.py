@@ -199,7 +199,15 @@ def QuoteindentHN(**kwargs):
 
 
 def QuoteIndentLinesVim(*args):
-    output = sys.stdout
+    output = sys.stdout.readlines()
+
+    if 'vim' not in globals():
+        print(('DEBUG', 'note: calling QuoteIndentLinesVim without globals()["vim"] because it is not set'))
+
+        class vim:
+            class current:
+                buffer = output
+                range = None
 
     buffer = vim.current.buffer
     if vim.current.range:
