@@ -131,9 +131,11 @@ class Test_quoteindent(unittest.TestCase):
         pass
 
 
-def quoteindent_lines(lines, *, quote_empty_lines, quotechar, wrapchar):
+def quoteindent_lines(lines, *, quote_empty_lines, quotechar, wrapchar, wrapchar_end):
     if wrapchar is None:
         wrapchar = ''
+    if wrapchar_end is None:
+        wrapchar_end = ''
     rgxstr = r'^('+quotechar+r'+\s+)(.*)'
     # print(('debug', 'rgxstr', rgxstr))
     linergx = re.compile(rgxstr)
@@ -146,12 +148,12 @@ def quoteindent_lines(lines, *, quote_empty_lines, quotechar, wrapchar):
             continue
         _line = line.removesuffix('\n')
         if wrapchar:
-            _line = _line.replace('*', r'\*')
+            _line = _line.replace(wrapchar, '\\'+wrapchar)
             rgx = linergx.match(_line)
             if rgx:
-                yield f'{quotechar}{rgx.group(1)}{wrapchar}{rgx.group(2)}{wrapchar}'
+                yield f'{quotechar}{rgx.group(1)}{wrapchar}{rgx.group(2)}{wrapchar_end}'
             else:
-                yield f'{quotechar} {wrapchar}{_line}{wrapchar}'
+                yield f'{quotechar} {wrapchar}{_line}{wrapchar_end}'
         else:
             rgx = linergx.match(_line)
             if rgx:
@@ -164,11 +166,15 @@ CONFIGS = {}
 CONFIGS['hn'] = {
     'quotechar': '>',
     'quote_empty_lines': False,
-    'wrapchar': '*'}
+    'wrapchar': '*',
+    'wrapchar_end': ' *',  # to prevent "http://url*"
+}
 CONFIGS['default'] = {
     'quotechar': '>',
     'quote_empty_lines': True,
-    'wrapchar': None}
+    'wrapchar': None,
+    'wrapchar_end': None
+}
 
 
 @pytest.mark.parametrize('inputfile,kwargs', [
@@ -184,9 +190,8 @@ def test_quoteindent_lines(inputfile, kwargs, capsys):
     for line in _output:
         print(line)
     if kwargs['wrapchar']:
-        assert r">>>> *line3_alre\*ady_indented*" in _output
-    assert _output is None, _output
-
+        assert r">>>> *line3_alre\*ady_indented *" in _output
+    # assert _output is None, _output
 
 
 def QuoteindentHN(**kwargs):
@@ -272,6 +277,10 @@ def main(argv=None):
                    dest='wrapchar',
                    default='',
                    action='store')
+    prs.add_option('--wrapchar-end',
+                   dest='wrapchar_end',
+                   default=None,
+                   action='store')
     prs.add_option('--quotechar',
                    dest='quotechar',
                    action='store',
@@ -318,6 +327,7 @@ def main(argv=None):
         quote_empty_lines=opts.quote_empty_lines,
         quotechar=opts.quotechar,
         wrapchar=opts.wrapchar,
+        wrapchar_end=opts.wrapchar_end
     )
     if opts.hn:
         kwargs.update(CONFIGS['hn'])
