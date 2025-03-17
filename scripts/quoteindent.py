@@ -262,11 +262,6 @@ def main(argv=None):
     Returns:
         int:
     """
-    if argv and "--test" in argv:
-        argv.remove('--test')
-        import subprocess
-        return subprocess.call(['pytest', '-v'] + argv + [__file__])
-
     import optparse
 
     prs = optparse.OptionParser(
@@ -303,7 +298,7 @@ def main(argv=None):
     prs.add_option('-q', '--quiet',
                    dest='quiet',
                    action='store_true',)
-    prs.add_option('-t', '--test',
+    prs.add_option('--pytest',
                    dest='run_tests',
                    action='store_true',)
     prs.add_option('--version',
@@ -311,7 +306,26 @@ def main(argv=None):
                    action='store_true')
 
     argv = list(argv) if argv else []
+
+    if "--test" in argv:
+        i = argv.index("--test")
+        argv[i] = "--pytest"
+        if '--cov' not in argv:
+            argv.insert(i+1, '--cov')
+            argv.insert(i+2, '--cov-report=term-missing')
+    if "--pytest" in argv:
+        i = argv.index("--pytest")
+        argv.pop(i)   # argv.remove('--test')
+        argv, argv_test_args = argv[:i], argv[i:]
+        if '-h' in argv or '--help' in argv:
+            prs.print_help()
+            return 0
+        else:
+            import subprocess
+            return subprocess.call(['pytest'] + argv_test_args + [__file__])
+
     (opts, args) = prs.parse_args(args=argv)
+
     loglevel = logging.INFO
     if opts.verbose:
         loglevel = logging.DEBUG
