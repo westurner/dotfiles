@@ -11,7 +11,89 @@ import sys
 import types
 import unittest
 
-import pytest
+try:
+    import pytest
+except ImportError as e:
+    print(('DEBUG', 'pytest not found', str(e)), file=sys.stderr)
+
+    import inspect
+
+    TODO = """
+    - [ ] BUG: This only works if the pytest fixture args are at the end of the argspec
+    """
+
+    class pytest:
+        class mark:
+            def parametrize(argspecstr: str, testcases: list[list]):
+                # print(('args', args))
+                # return func(*args, **kwargs)
+                def otherfunc(func, *args, **kwargs):
+                    func_signature = inspect.signature(func)
+                    func_argspec = inspect.getfullargspec(func)
+                    func_args = func_argspec.args
+                    # remaining = [x for x in func_args if x not in
+                    #              (str.strip(y) for y in argspecstr.split(','))]
+                    data = dict(func=func,
+                                func_args=func_args,
+                                args=None,  # =args,
+                                kwargs=kwargs,
+                                _args=None,
+                                _kwargs=None,
+                                # pytest_fixture_args=remaining,
+                                )
+
+                    allargs = {}
+                    for argname, arg in func_signature.parameters.items():
+                        allargs[argname] = dict(value=1j, type=1j, definition=dict(argname=argname, arg=arg, arg_kind=arg.kind, arg_default=arg.default))
+
+                    TYPES_TESTARG = 'testarg'
+                    TYPES_PYTEST_FIXTURE = 'pytestfixture'
+
+                    for args in testcases:
+                        data['args'] = args
+
+                        # TODO: this assumes that all pytest fixture args are *after* parametrized args
+
+                        _args = allargs.copy()
+                        for argname, argvalue in zip(func_args[:-1*len(args)], args):
+                            _args[argname]['value'] = argvalue
+                            _args[argname]['type'] = TYPES_TESTARG
+                        for pytest_argname_fixture in func_args[len(args):]:
+                            _args[pytest_argname_fixture]['value'] = inspect._empty
+                            _args[pytest_argname_fixture]['type'] = TYPES_PYTEST_FIXTURE
+                        data['_args'] = _args
+
+                        print(inspect.getsource(func))
+                        print(('DEBUG', 'pytest.mark.parametrize', data), file=sys.stderr)
+                        print(f'>>> {func.__name__}({str(args)[1:-1]})', file=sys.stderr)
+
+                        argstrs = []
+                        for argname, arg in _args.items():
+                            arg_kind = arg['definition']['arg_kind']
+
+                            # TODO: here
+                            raise Exception()
+
+                            if arg['value'] == inspect._empty:
+                                continue
+                            if arg_kind in (
+                                    inspect._ParameterKind.POSITIONAL_ONLY,
+                                    inspect._ParameterKind.VAR_POSITIONAL):
+                                argstrs.append(f'{str(arg["value"])}')
+                            elif arg_kind == (inspect._ParameterKind.POSITIONAL_OR_KEYWORD):
+                                if arg['definition']['arg_default'] == inspect._empty:
+                                    argstrs.append(f'{str(arg["value"])}')  # TODO:  thid
+                                else:
+                                    argstrs.append(f'{argname}={str(arg["value"])}')
+                            elif arg_kind in (
+                                    inspect._ParameterKind.KEYWORD_ONLY,
+                                    inspect._ParameterKind.VAR_KEYWORD):
+                                argstrs.append(f'{argname}={str(arg["value"])}')
+                        print(('argstrs', argstrs))
+                        print(('argstr', f'{func.__name__}({", ".join(argstrs)})'))
+                    return lambda func, *args, **kwargs: func(*args, **kwargs)
+                return otherfunc
+
 
 __version__ = "0.0.1"
 
