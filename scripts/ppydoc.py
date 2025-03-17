@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 ppydoc
+
+- [ ] BUG: ppydoc IPython.display generates URLS to docs.python.org, not ipython.rtfd.io
+  or the intersphinx mapping for a non-standard library module 
 """
 
 import io
@@ -318,6 +321,8 @@ math.sin -> https://docs.python.org/3/library/math#sin\n"""
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
+    prs.add_argument('--view-source', '--source', '--src', dest='view_source', action='store_true')
+
     prs.add_argument("-o", "--open", dest="open_in_browser", action="store_true")
     prs.add_argument(
         "-n", "--new-window", dest="open_in_new_window", action="store_true"
@@ -383,12 +388,37 @@ math.sin -> https://docs.python.org/3/library/math#sin\n"""
 
     query = args[0]
 
+    view_source = opts.view_source
+    if query.endswith('??'):
+        query = query[:-2]
+        view_source = True
+
     url = guess_python_docs_url(query)
     print(url)
 
     pydoc_output = subprocess.call(
         ("pydoc", query), env=dict(PAGER="", TERM="dumb")
     )  # TODO: NotImplemented
+
+    if view_source:
+        # import inspect
+        # __module = __import__(query)
+        # print(('__module', __module))
+        # print(inspect.getsource(__module))
+        # if callable(__module):
+        #    print(('signature()', inspect.signature(__module)))
+        # subprocess.call(['ipython', '-c', query + '??'])
+
+        IPython = None
+        try:
+            import IPython
+        except ImportError:
+            pass
+        if IPython:
+            from IPython.terminal.interactiveshell import TerminalInteractiveShell
+            ipython = TerminalInteractiveShell(argv=None, user_ns=dict(__file__=None))
+            print(ipython.object_inspect(query))
+
     print("### Guessed url:\n", url)
 
     if opts.open_in_browser:
