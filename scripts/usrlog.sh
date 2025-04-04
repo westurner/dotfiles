@@ -183,11 +183,19 @@ function _usrlog_set_title {
 
 
 function _usrlog_log_cmd_and_update_prompt() {
+    #  _usrlog_log_cmd_and_update_prompt() -- set +x; cmd; then restore +/-x
+
+    ## This adds three (3) lines of output to every command when set -x is on
     _usrlog_log_cmd_and_update_prompt_setxstate=${-//[^x]/}
     set +x
 
+    ## This would add four (4) lines of output to every cmd when set -x is on:
+    #_usrlog_log_cmd_and_update_prompt_setxstate=${USRLOG_SETX:-${-//[^x]/}}
+    #test "${_usrlog_log_cmd_and_update_prompt_setxstate}" != "${USRLOG_SETX}" && \
+    #    set +x
+
     _usrlog_writecmd
-    _usrlog_echo_title;
+    _usrlog_echo_title
 
     if [[ -n "${_usrlog_log_cmd_and_update_prompt_setxstate}" ]]; then
         set -x
