@@ -89,8 +89,8 @@ Version='2.4.0-dev'
 System="$(uname -s)"
 # }}}
 
-XDGSpaceDir="${XDG_CONFIG_HOME:-${HOME}/.}${XDG_CONFIG_HOME:+/}SpaceVim"
-XDGvimDir="${XDG_CONFIG_HOME:-${HOME}/.}${XDG_CONFIG_HOME:+/}vim"
+XDGSpaceDir="${XDG_CONFIG_HOME:-${HOME}/.}${XDG_CONFIG_HOME:+/}vim/SpaceVim"
+XDGvimDir="${XDG_CONFIG_HOME:-${HOME}/.}${XDG_CONFIG_HOME:+/}vim/spacevim"
 XDGnvimDir="${XDG_CONFIG_HOME:-${HOME}/.config/}${XDG_CONFIG_HOME:+/}nvim"
 
 # need_cmd {{{
