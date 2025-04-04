@@ -19,6 +19,7 @@ RUN dnf install -y which \
     python3-virtualenvwrapper \
     vim-enhanced \
     black \
+    ruff \
     powerline-fonts \
     gcc
 
@@ -40,3 +41,4 @@ RUN pip3 install --user virtualenv virtualenvwrapper
 #RUN DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -R
 #RUN DOTFILES_REPO_REV="develop" ./bootstrap_dotfiles.sh -U -R
 
+CMD /bin/bash --login
