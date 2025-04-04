@@ -209,15 +209,15 @@ function _usrlog_setup {
 
     _usrlog_set_HIST
 
-    _usrlog_set__USRLOG $_usrlog
+    _usrlog_set__USRLOG "$_usrlog"
 
     #TERM_SED_STR='s/^\s*[0-9]*\s\(.*\)/$_TERM_ID: \1/'
     TERM_SED_STR='s/^\s*[0-9]*\s*//'
 
-    _usrlog_set__TERM_ID $term_id
-    touch $_USRLOG
+    _usrlog_set__TERM_ID "$term_id"
+    touch "$_USRLOG"
 
-    _usrlog_set_title $_TERM_ID
+    _usrlog_set_title "$_TERM_ID"
 
     #  setup bash
     if [ -n "$BASH" ]; then
@@ -294,7 +294,7 @@ function _usrlog_parse_newstyle {
             usrlog="-f ${usrlog}"
         fi
     fi
-    pyline.py ${usrlog} \
+    pyline.py "${usrlog}" \
         -m collections \
         '[collections.OrderedDict((
             ("l", [l]),
@@ -365,16 +365,16 @@ function termid {
 
 function set_term_id {
     #  set_term_id() -- set $_TERM_ID to a randomstr or $1
-    _usrlog_set__TERM_ID $@
+    _usrlog_set__TERM_ID "$@"
 }
 
 function stid {
     #  stid()        -- set $_TERM_ID to a randomstr or $1
-    _usrlog_set__TERM_ID $@
+    _usrlog_set__TERM_ID "$@"
 }
 function st {
     #  st()          -- set $_TERM_ID to a randomstr or $1
-    _usrlog_set__TERM_ID $@
+    _usrlog_set__TERM_ID "$@"
 }
 
 ### usrlog tail commands
@@ -596,7 +596,7 @@ function usrlog_grin_session_id_all {
 }
 function ugrins  {
     #  ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
-    usrlog_grin_session_id_all ${@}
+    usrlog_grin_session_id_all "${@}"
 }
 
 function usrlog_grin_session_id_all_cmds {
@@ -639,8 +639,8 @@ function _usrlog_set_usrlog_paths {
     _USRLOG_PATHS=( )
     _usrlog_paths=( )
     _usrlog_paths+=(
-        ${_USRLOG}
-        ${__USRLOG}
+        "${_USRLOG}"
+        "${__USRLOG}"
     )
     test -n "${USRLOG_INCLUDE_LEGACYLOGS}" && \
         _usrlog_paths+=(
@@ -822,9 +822,22 @@ function usrlogw {
 
 function _setup_usrlog {
     #  _setup_usrlog() -- call _usrlog_setup $@
-    _usrlog_setup $@
+    _usrlog_setup "$@"
 }
 
+function usrlog_help() {
+    (set -x; grep -E '^\s*#+\s+' $0;)
+    #grep -E '^\s*function ' $0;
+    (set -x; grep -E '^\s*function u' $0;)
+}
+
+for arg in "${@}"; do
+    case "$arg" in
+        -h|--help|help)
+            usrlog_help;
+            ;;
+    esac
+done
 
 if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
 ## calls _usrlog_setup when sourced
