@@ -1,9 +1,9 @@
 
-funcdir=${__DOTFILES}/etc/zsh/functions/
+funcdir="${__DOTFILES}/etc/zsh/functions/"
 
-source $funcdir/bash_source.sh
+source "${funcdir}/bash_source.sh"
 
-#source $funcdir/lesspipe.sh
+#source "${funcdir}/lesspipe.sh"
 
 # list all path key components leading to file
 lspath () {
@@ -26,4 +26,16 @@ lspath () {
         if [ -n "$2" ]; then
             getfacl "$allpaths[@]"
         fi
+}
+
+is_zsh() {
+    if [ -n "${SHELL}" ]; then
+        if [ "$(basename "${SHELL}")" -eq "zsh" ]; then
+            return 0
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
 }
