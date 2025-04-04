@@ -383,56 +383,88 @@ function ut {
     usrlog_tail "${@}"
 }
 
-function uta {
-    #  uta()  -- tail all usrlogs from lsusrlogs
+function usrlog_tail_all {
+    #  usrlog_tail_all()  -- tail all usrlogs from lsusrlogs
     usrlog_tail "$(lsusrlogs)"
 }
-function utap {
-    #  utap()  -- tail all userlogs from lsusrlogs and parse
-    usrlog_tail ${@:+"${@}"} "$(lsusrlogs)" | ugp   # TODO: headers
+function uta {
+    #  uta()              -- tail all usrlogs from lsusrlogs
+    usrlog_tail_all "${@}"
 }
 
-function utp {
-    #  ut()  -- show recent commands
+function usrlog_tail_all_and_parse {
+    #  usrlog_tail_all_and_parse()  -- tail all lsusrlogs and parse
+    (set -x; usrlog_tail "${@:+"${@}"}" "$(lsusrlogs)" | ugp)   # TODO: headers
+}
+function utap {
+    #  utap()                       -- tail all lsusrlogs and parse
+    usrlog_tail_all_and_parse "${@}"
+}
+
+function usrlog_tail_and_parse {
+    #  usrlog_tail_and_parse()   -- show recent commands
     usrlog_tail "${@}" | _usrlog_parse_cmds
+}
+function utp {
+    #  utp()                     -- show recent commands
+    usrlog_tail_and_parse "${@}"
 }
 
 function usrlog_tail {
+    (_usrlog_tail "${@}")
+}
+
+function _usrlog_tail {
     #  usrlog_tail()     -- tail -n20 $_USRLOG
     local _args=${@}
-    local follow="${_USRLOG_TAIL_FOLLOW}"
+    #local follow="${_USRLOG_TAIL_FOLLOW}"
     local _usrlog="${_USRLOG}"
     if [ -n "${_args}" ]; then
         for _arg in ${_args}; do
-            if [[ "${_arg}" == -* ]]; then
-                if [[ "${_arg}" = '-n' ]]; then
-                    shift;
-                    local count=${1}
-                    shift
-                elif [[ "${_arg}" = '-v' ]]; then
-                    shift
-                    local verbose=1
-                else
-                    # shift
-                    echo "_arg: ${_arg}" # TODO: 
-                fi
-            fi
+            case "${_arg}" in
+                -*)
+                    case "${_arg}" in
+                        -n)
+                            shift;
+                            local count=${1}
+                            shift
+                            continue
+                            ;;
+                        -n*)
+                            local count=${_arg#"-n"} # less the initial '-n'
+                            shift
+                            continue
+                            ;;
+                        -f)
+                            local follow=1
+                            ;;
+                        -v)
+                            shift
+                            local verbose=1
+                            ;;
+                        *)
+                            # shift
+                            echo "_arg: ${_arg}" # TODO: 
+                            ;;
+                    esac
+                    ;;
+            esac
         done
-        local __args=${@}   # after shifts
-        if [ -z "${@}" ]; then
-            _args=($_args "${_USRLOG}")
+        if [ -z $# ]; then
+            _args=($_args "${_usrlog}")
         fi
-        (set -x; tail ${_args[@]})
+        (set -x; tail ${_args[@]} "${_usrlog}")
+
     else
         (set -x; tail ${follow:+"-f"} "${_usrlog}")
     fi
 }
 function usrlog_tail_follow {
-    #  usrlogtf()    -- tail -f -n20 $_USRLOG
+    #  usrlog_tail_follow()    -- tail -f -n20 $_USRLOG
     _USRLOG_TAIL_FOLLOW=true usrlog_tail "${@}"
 }
 function utf {
-    #  utf()         -- tail -f -n20 $_USRLOG
+    #  utf()                   -- tail -f -n20 $_USRLOG
     usrlog_tail_follow "${@}"
 }
 
@@ -440,17 +472,17 @@ function utf {
 ### usrlog grep commands
 
 function usrlog_grep {
-    #  usrlog_grep() -- egrep -n $_USRLOG
+    #  usrlog_grep() -- grep -E -n $_USRLOG
     #local _args="${@}"
     local _paths="${_USRLOG_GREP_PATHS:-"${_USRLOG}"}"
     if [ -z "${@}" ]; then
         (set -x; cat "${_paths}")
     else
-        (set -x; egrep --text -n "${@}" ${_paths})
+        (set -x; grep -E --text -n "${@}" ${_paths})
     fi
 }
 function ug {
-    #  ug()          -- egrep -n $_USRLOG
+    #  ug()          -- grep -E -n $_USRLOG
     #    Usage:
     #      ug 'pip' | ugp
     #      ug | ugp | grep -C 20 'pip'
@@ -464,25 +496,33 @@ function uga2 {
 }
 
 #function usrlog_grep_session_id {
-#     # usrlog_grep_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+#     # usrlog_grep_session_id()  -- grep -E ".*\t${1:-$_TERM_ID}"
 #     (set -x;
 #     local _term_id=${1:-"${_TERM_ID}"};
 #     local _usrlog=${2:-"${_USRLOG}"};
-#     egrep "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
+#     grep -E "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
 #}
 
 function _usrlog_grep_venvs {
-    egrep ${@} '((we[c]?)|workon_venv|workon_conda|workon|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
+    grep -E ${@} '((we[c]?)|workon_venv|workon_conda|workon|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
 
 }
 function usrlog_grep_venvs {
-    cat ${@:-${_USRLOG}} | _usrlog_grep_venvs
+    #  usrlog_grev_venv() -- grep for virtualenv[wrapper] cmds in $@||$_USRLOG
+    cat "${@:-${_USRLOG}}" | _usrlog_grep_venvs
 }
 function ugv {
+    #  ugv()              -- grep for virtualenv[wrapper] cmds in $@||$_USRLOG
     usrlog_grep_venvs "${@}"
 }
-function ugva {
+function usrlog_grep_venvs_all {
+    #  usrlog_grep_venvs_all()  -- grep venvs TODO without spaces in
+    #                              filenames and sort
     usrlog_grep_venvs $(lsusrlogs) | sort -n
+}
+function ugva {
+    #  ugva()                   -- usrlog_grep_venvs_all()
+    usrlog_grep_venvs_all "${@}"
 }
 
 function _usrlog_grep_todo_fixme_xxx {
@@ -492,31 +532,34 @@ function _usrlog_grep_todos {
     grep --text '$$'$'\t''#\(TODO\|NOTE\|_MSG\)'
 }
 function usrlog_grep_todos {
+    #  usrlog_grep_todos()   -- grep for TODO|NOTE|_MSG lines in a usrlog.log
     cat "${@:-${_USRLOG}}" | _usrlog_grep_todos
 }
 function uggt {
+    #  uggt()                -- grep for TODO|NOTE|_MSG lines in a usrlog.log
     usrlog_grep_todos "${@}"
 }
 
 function usrlog_grep_todos_parse {
+    #  usrlog_grep_todos_parse() -- grep for TODO|NOTE|_MSG lines and parse
     usrlog_grep_todos "${@}" | _usrlog_parse_cmds
 }
 
 function ugtp {
-    # usrlog_grep_todos | _usrlog_parse_cmds
-    uggt "${@}" | ugp
+    #  ugtp()                    -- grep for TODO|NOTE|_MSG lines and parse
+    usrlog_grep_todos "${@}" | _usrlog_parse_cmds
 }
 
 function ugtptodo {
     # usrlog_grep_todos | _usrlog_parse_cmds
-    ugtp "${@}" | grep --text --color=never '^#TODO'
+    usrlog_grep_todos_parse "${@}" | grep --text --color=never '^#TODO'
 }
 function ugtptodonote {
     # usrlog_grep_todos | _usrlog_parse_cmds
-    ugtp "${@}" | grep --text --color=never '^#\(TODO\|NOTE\)'
+    usrlog_grep_todos_parse "${@}" | grep --text --color=never '^#\(TODO\|NOTE\)'
 }
 
-function usrlog_format_as_txt {
+function usrlog_format_todonotemsg_as_txt {
     sed 's/^#TODO: /- /' \
         | sed 's/^#NOTE: /- NOTE: /' \
         | sed 's/^#_MSG: /- _MSG: /'
@@ -524,25 +567,34 @@ function usrlog_format_as_txt {
 }
 
 function ugft {
-    usrlog_format_as_txt "${@}"
+    usrlog_format_todonotemsg_as_txt "${@}"
+}
+
+function usrlog_grep_todos_as_txt {
+    #  usrlog_grep_todos_as_txt() -- grep TODO|NOTE|MSG and format as txt
+    #ugtp "${@}" | ugft
+    usrlog_grep_todos_parse "${@}" | usrlog_format_todonotemsg_as_txt
 }
 
 function ugtodo {
-    usrlog_grep_todos_parse "${@}" | usrlog_format_as_txt
-    #ugtp "${@}" | ugft
+    usrlog_grep_todos_as_txt "${@}"
 }
 
 function ugt {
-    #usrlog_grep_todos_parse | usrlog_format_as_txt
-    ugtodo "${@}"
+    usrlog_grep_todos_as_txt "${@}"
 }
 
+function usrlog_grep_todos_as_txt_all {
+    #  usrlog_grep_todos_as_txt_all() -- grep for TODO|NOTE|_MSG in lsusrlogs
+    usrlog_grep_todos_parse "${@}" $(lsusrlogs)
+}
 function ugtodoall {
-    ugtp "${@}" $(lsusrlogs)
+    #  ugtodoall()                    -- grep for TODO|NOTE|_MSG in lsusrlogs
+    usrlog_grep_tods_as_txt_all "${@}"
 }
-
 function ugta {
-    ugtodoall "${@}"
+    #  ugta()                         -- grep for TODO|NOTE|_MSG in lsusrlogs
+    usrlog_grep_tods_as_txt_all "${@}"
 }
 
 function usrlog_grin {
@@ -558,7 +610,7 @@ function ugrin  {
 
 
 function usrlog_grin_session_id {
-    #  usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+    #  usrlog_grin_session_id()  -- grep -E ".*\t${1:-$_TERM_ID}"
     (set -x;
     local _term_id="${1:-"${_TERM_ID}"}";
     local _usrlog="${2:-"${_USRLOG}"}";
@@ -567,7 +619,7 @@ function usrlog_grin_session_id {
 
 
 function usrlog_grin_session_id_cmds {
-    #  usrlog_grin_session_id()  -- egrep ".*\t${1:-$_TERM_ID}"
+    #  usrlog_grin_session_id()  -- grep -E ".*\t${1:-$_TERM_ID}"
     (set -x;
     local _term_id="${1:-"${_TERM_ID}"}";
     local _usrlog="${2:-"${_USRLOG}"}";
@@ -591,7 +643,7 @@ function usrlog_grin_session_id_all {
     (set -x;
     local _term_id=${1:-"${_TERM_ID}"}; \
     local _usrlog=${2:-"${_USRLOG}"}; \
-    local _usrlogs=$(lsusrlogs_date_desc);
+    local _usrlogs=$(lsusrlogs_date_desc);  # TODO: file filenames to stdin?
     grin -s     '#  [\d\-:TZ\s]+\t'${_term_id}'\t' ${_usrlogs} --no-color;)
 }
 function ugrins  {
@@ -654,7 +706,7 @@ function _usrlog_set_usrlog_paths {
     test -z "${USRLOG_INCLUDE_ALLUSRLOGS}" && \
         test -n "${__WRK}" && \
             _usrlog_paths+=(
-                ${__WRK}/-*/*/-usrlog.log ) 
+                ${__WRK}/-*/*/-usrlog.log )  # TODO: lsusrlogs
     declare -A uniques
     for pth in "${_usrlog_paths[@]}"; do
         exists=${uniques["${pth}"]}
@@ -703,7 +755,7 @@ function usrlog_grep_all {
         (set -x;
         args="${@}"
         usrlogs=$(lsusrlogs)
-        egrep "${@}" --text ${usrlogs} \
+        grep -E "${@}" --text ${usrlogs} \
             | sed 's/:/'$'\t''/')
         #| pyline.py 'l.replace(":","\t",1)'  # grep filename output
     else
@@ -792,6 +844,14 @@ function msg {
         return
     fi
 }
+
+ 
+function add {
+    #  add()   -- add a line to _add_file or DEFAULT_ADD_FILE or ./add.log   
+    local _file="${_add_file:-${DEFAULT_ADD_FILE:-"./add.log"}}"
+    echo "${@}" >> "${_file?_add_file or $DEFAULT_ADD_FILE must be specified}"
+}
+
 
 function usrlog_screenrec_ffmpeg {
     #  usrlog_screenrec_ffmpeg() -- record a screencast
