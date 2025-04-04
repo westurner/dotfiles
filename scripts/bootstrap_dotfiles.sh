@@ -305,7 +305,7 @@ function backup_and_symlink {
         fi
         if [ -z "$src_md5" ] && [ -z "$dest_md5" ]; then
             echo "#  $filename $dest $src"
-            echo "#! empy md5s"
+            echo "#! empty md5s"
         fi
         if [ "$src_md5" != "$dest_md5" ]; then
             echo "$dest"
