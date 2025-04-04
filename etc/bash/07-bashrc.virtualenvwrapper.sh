@@ -81,24 +81,151 @@ function _setup_virtualenvwrapper_config  {
 
 }
 
+function _splitondashdash {
+    # _splitondashdash()  -- split $@ into two str variables on the first "--"
+    #                        (for POSIX compatiblity)
+    #   $__SPLIT_BEFORE : newline-delimited part before the --
+    #   $__SPLIT_AFTER : space-delimited part after the --
+    after_the_dashdash=
+    for arg in "${@}"; do
+        if [ "${arg}" == "--" ]; then
+            after_the_dashdash=1
+            continue
+        fi
+        if [ -z "${after_the_dashdash}" ]; then
+            export __SPLIT_BEFORE="${__SPLIT_BEFORE:+"${__SPLIT_BEFORE}"$'\n'}${arg}"
+        else
+            export __SPLIT_AFTER="${__SPLIT_AFTER:+"${__SPLIT_AFTER} "}${arg}"
+        fi
+    done
+}
+
+function lsvirtualenvs_print_usage {
+    echo \
+'lsvirtualenvs [-h] [-b|-p] [--wh <$WORKON_HOME>] [-x <command>] [-- <command>]
+
+List virtualenvs in $WORKON_HOME
+
+ -h/--help              print this help text to stdout
+
+ -p/--path/-l           print the full path to each virtualenv
+                        with the WORKON_HOME prefix
+ -b/--brief/--basename  print only the name of each virtualenv
+                        without the WORKON_HOME prefix
+
+  --wh/--WORKON_HOME    Set WORKON_HOME=
+
+## Usage
+virtualenvwrapper manages virtualenvs/venvs in $WORKON_HOME.
+
+```
+mkvirtualenv      --help     #  pip install virtualenvwrapper
+virtualenvwrapper --help     #  apt-get install -y python3-virtualenvwrapper
+lsvirtualenv      --help     #  dnf install -y python3-virtualenvwrapper
+lsvirtualenvs --help
+lsve          --help
+```
+
+```
+export WORKON_HOME="${HOME}/.virtualenvs"; mkdir -p "${WORKON_HOME}"
+mkvirtualenv env123; deactivate
+mkvirtualenv env345; deactivate
+lsve
+lsve -b      # --brief          #  env123\nenv345\n
+lsve -l      # --path/--long    #  /workon/home/env123\n/workon/home/env345\n
+lsve -p      # --path/--long    #  /workon/home/env123\n/workon/home/env345\n
+lsve --path  # -p               #  /workon/home/env123\n/workon/home/env345\n
+lsve --wh ./other/workon_home/   #  WORKON_HOME=./other/workon_home/
+```
+'
+}
+
 function lsvirtualenvs {
     # lsvirtualenvs()       -- list virtualenvs in $WORKON_HOME
     #                           if $1 is specified, run that command
     #                           with each virtualenv path
-    cmd=( "${@}" )
-    (cd "${WORKON_HOME}" &&
-    for venv in $(ls -adtr "${WORKON_HOME}/"**/lib/python?.? | \
-        sed "s:$WORKON_HOME/\(.*\)/lib/python[0-9]\.[0-9]:\1:g"); do
-        if [ -n "${cmd[*]}" ]; then
-            "${cmd[@]}" "${venv}" ;
-        else
-            echo "${venv}" ;
+    #                           (Must be POSIX compatible)
+    _WORKON_HOME=
+
+    # Split the $@ arguments array into __SPLIT_BEFORE and __SPLIT_AFTER
+    __SPLIT_BEFORE=
+    __SPLIT_AFTER=
+    _splitondashdash "${@}"
+
+    _next_arg_is_workon_home=
+    _print_venv_basename=
+    _print_venv_path=
+
+    # POSIX doesn't support `read` -a to read into $@ or another ary,
+    # or bash regex
+    while IFS=$'\n' read -r arg
+    do
+        #printf "ARG: %s\n" "$(shell_escape_single "${arg}")" > &2
+        if [ -n "${_next_arg_is_workon_home}" ]; then
+            _WORKON_HOME="${arg}";
+            echo "WORKON_HOME=$(shell_escape_single "${_WORKON_HOME}")" >&2
+            _next_arg_is_workon_home=
+            continue
         fi
-    done)
+        if [ -n "${arg}" ]; then
+            case "${arg}" in
+                -h|--help)
+                    lsvirtualenvs_print_usage;
+                    return
+                    ;;
+
+                --WORKON_HOME|--wh)
+                    _next_arg_is_workon_home=1
+                    ;;
+
+                -b|--basename|--brief)
+                    _print_venv_basename=1
+                    ;;
+                -p|--path|-l)
+                    _print_venv_path=1
+                    ;;
+
+                *)
+                    echo "Unhandled arg in __SPLIT_BEFORE: $(shell_escape_single ${arg})"
+                    ;;
+            esac
+        fi
+    done < <(echo "${__SPLIT_BEFORE}")
+    _CMD="${__SPLIT_AFTER}"
+
+    if [ -z "${_WORKON_HOME}" ]; then
+        _WORKON_HOME="${WORKON_HOME}";
+        echo "WORKON_HOME=$(shell_escape_single "${_WORKON_HOME}")" >&2
+    fi
+    for _VIRTUAL_ENV in $(find "${_WORKON_HOME}" -mindepth 1 -maxdepth 1 -type d -or -type l); do
+        # _libpython_dirs="$(ls -adtr "${_VIRTUAL_ENV}/lib/python"*.*)"
+        # echo "libpython_dirs=(${_libpython_dirs})"
+        if [ -n "${_CMD}" ]; then
+            ${_CMD} "${_VIRTUAL_ENV}"
+        else
+            if [ -n "${_print_venv_basename}" ]; then
+                basename "${_VIRTUAL_ENV}"
+            elif [ -n "${_print_venv_path}" ]; then
+                echo "${_VIRTUAL_ENV}"
+            else
+                echo "${_VIRTUAL_ENV}"
+            fi
+        fi
+    done
 }
 function lsve {
     # lsve()                -- list virtualenvs in $WORKON_HOME
     lsvirtualenvs "${@}"
+}
+
+function _test_lsvirtualenvs {
+    lsvirtualenvs
+    lsve
+    lsve -h | grep -v "${WORKON_HOME}" || false
+    lsve --help
+}
+function test_lsvirtualenvs {
+    (set -x; _test_lsvirtualenvs)
 }
 
 function backup_virtualenv {
@@ -150,6 +277,9 @@ function _rebuild_virtualenv {
     echo "rebuild_virtualenv()"
     VENVSTR="${1}"
     VIRTUAL_ENV=${2:-"${WORKON_HOME}/${VENVSTR}"}
+    _test_path_is_not_root "${VIRTUAL_ENV}" || \
+        echo "ERROR: VIRTUAL_ENV may not be ~='/'; VIRTUAL_ENV='$VIRTUAL_ENV'" && \
+        return 2
     _BIN="${VIRTUAL_ENV}/bin"
     #rm -fv ${_BIN}/python ${_BIN}/python2 ${_BIN}/python2.7 \
         #${_BIN}/pip ${_BIN}/pip-2.7 \
@@ -157,13 +287,15 @@ function _rebuild_virtualenv {
         #${_BIN}/activate*
     pyver=$(python -c "import sys; print('{}.{}'.format(*sys.version_info[:2]))")
     _PYSITE="${VIRTUAL_ENV}/lib/python${pyver}/site-packages"
-    find -E "${_PYSITE}" -iname 'activate*' -delete
-    find -E "${_PYSITE}" -iname 'pip*' -delete
-    find -E "${_PYSITE}" -iname 'setuptools*' -delete
-    find -E "${_PYSITE}" -iname 'distribute*' -delete
-    find -E "${_PYSITE}" -iname 'easy_install*' -delete
-    find -E "${_PYSITE}" -iname 'python*' -delete
     declare -f 'deactivate' > /dev/null 2>&1 && deactivate
+    if [ -n "${VIRTUAL_ENV}" ]; then 
+        find -E "${_PYSITE}" -iname 'activate*' -delete
+        find -E "${_PYSITE}" -iname 'pip*' -delete
+        find -E "${_PYSITE}" -iname 'setuptools*' -delete
+        find -E "${_PYSITE}" -iname 'distribute*' -delete
+        find -E "${_PYSITE}" -iname 'easy_install*' -delete
+        find -E "${_PYSITE}" -iname 'python*' -delete
+    fi
     mkvirtualenv -i setuptools -i wheel -i pip "${VENVSTR}"
     #mkvirtualenv --clear would delete ./lib/python<pyver>/site-packages
     workon "${VENVSTR}" && \
