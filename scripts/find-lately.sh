@@ -11,9 +11,9 @@ function _find_lately () {
     #                      stderr > lately.$(date).errors
     #                      stdout > lately.$(date).files
     #                      stdout > lately.$(date).sorted
-    paths=${@:-"/"}
     lately="lately.$(date +'%FT%T%z')"
-    (find $paths -exec \
+    echo "Writing to ${lately}.files and ${lately}.sorted..."
+    (find "${@:-"/"}" -exec \
         stat -f '%Sc%t%N%t%z%t%Su%t%Sg%t%Sp%t%T' -t '%F %T%z' {} \; \
         2> ${lately}.errors \
         > ${lately}.files)
@@ -22,6 +22,6 @@ function _find_lately () {
 }
 
 if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
-    find_lately $@
+    find_lately "${@}"
     exit
 fi
