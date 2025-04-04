@@ -29,3 +29,6 @@ include /usr/share/task/solarized-dark-256.theme
 #include /usr/share/task/solarized-light-256.theme
 #include /usr/share/task/no-color.theme
 
+news.version=2.6.0
+context.projectA.read=project:projectA or +urgent
+context.projectA.write=project:projectA or +urgent
