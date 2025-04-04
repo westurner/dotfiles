@@ -115,17 +115,18 @@ function miniconda_setup__dotfiles_minicondas {
     #      n: sum of Miniconda[3]-latest-*.sh return codes
     local prefix="${1:-"${__WRK}"}"
 
-    local CONDA_ROOT__py27="${CONDA_ROOT__py27:-"${prefix}/-conda27"}"
-    local CONDA_ROOT__py37="${CONDA_ROOT__py37:-"${prefix}/-conda37"}"
-    local CONDA_ROOT__py38="${CONDA_ROOT__py38:-"${prefix}/-conda38"}"
+    #local CONDA_ROOT__py27="${CONDA_ROOT__py27:-"${prefix}/-conda27"}"
+    #local CONDA_ROOT__py37="${CONDA_ROOT__py37:-"${prefix}/-conda37"}"
+    #local CONDA_ROOT__py38="${CONDA_ROOT__py38:-"${prefix}/-conda38"}"
+    local CONDA_ROOT__py312="${CONDA_ROOT__py38:-"${prefix}/-conda312"}"
 
-    local mc2=$(miniconda_download 2)
-    echo $mc2
     local mc3=$(miniconda_download 3)
     echo $mc3
 
     local ret=0;
     if [ -n "${CONDA_ROOT__py27}" ]; then
+        local mc2=$(miniconda_download 2)
+        echo $mc2
         miniconda_install "${mc2}" "${CONDA_ROOT__py27}"
         ret=$(expr $ret + $?);
     fi
@@ -149,6 +150,30 @@ function miniconda_setup__dotfiles_minicondas {
         miniconda_install "${mc3}" "${CONDA_ROOT__py38}"
         ret=$(expr $ret + $?);
     fi
+    if [ -n "${CONDA_ROOT__py39}" ]; then
+        miniconda_install "${mc3}" "${CONDA_ROOT__py39}"
+        ret=$(expr $ret + $?);
+    fi
+    if [ -n "${CONDA_ROOT__py310}" ]; then
+        miniconda_install "${mc3}" "${CONDA_ROOT__py310}"
+        ret=$(expr $ret + $?);
+    fi
+    if [ -n "${CONDA_ROOT__py311}" ]; then
+        miniconda_install "${mc3}" "${CONDA_ROOT__py311}"
+        ret=$(expr $ret + $?);
+    fi
+    if [ -n "${CONDA_ROOT__py312}" ]; then
+        miniconda_install "${mc3}" "${CONDA_ROOT__py312}"
+        ret=$(expr $ret + $?);
+    fi
+    if [ -n "${CONDA_ROOT__py313}" ]; then
+        miniconda_install "${mc3}" "${CONDA_ROOT__py313}"
+        ret=$(expr $ret + $?);
+    fi
+    if [ -n "${CONDA_ROOT__py314}" ]; then
+        miniconda_install "${mc3}" "${CONDA_ROOT__py314}"
+        ret=$(expr $ret + $?);
+    fi
     return $ret;
 }
 
@@ -165,6 +190,18 @@ function miniconda_setup__dotfiles_env {
     declare -g CONDA_ENVS__py37="${CONDA_ENVS__py37:-"${prefix}/-ce37"}"
     declare -g CONDA_ROOT__py38="${CONDA_ROOT__py38:-"${prefix}/-conda38"}"
     declare -g CONDA_ENVS__py38="${CONDA_ENVS__py38:-"${prefix}/-ce38"}"
+    declare -g CONDA_ROOT__py39="${CONDA_ROOT__py39:-"${prefix}/-conda39"}"
+    declare -g CONDA_ENVS__py39="${CONDA_ENVS__py39:-"${prefix}/-ce39"}"
+    declare -g CONDA_ROOT__py310="${CONDA_ROOT__py310:-"${prefix}/-conda310"}"
+    declare -g CONDA_ENVS__py310="${CONDA_ENVS__py310:-"${prefix}/-ce310"}"
+    declare -g CONDA_ROOT__py311="${CONDA_ROOT__py311:-"${prefix}/-conda311"}"
+    declare -g CONDA_ENVS__py311="${CONDA_ENVS__py311:-"${prefix}/-ce311"}"
+    declare -g CONDA_ROOT__py312="${CONDA_ROOT__py312:-"${prefix}/-conda312"}"
+    declare -g CONDA_ENVS__py312="${CONDA_ENVS__py312:-"${prefix}/-ce312"}"
+    declare -g CONDA_ROOT__py313="${CONDA_ROOT__py313:-"${prefix}/-conda313"}"
+    declare -g CONDA_ENVS__py313="${CONDA_ENVS__py313:-"${prefix}/-ce313"}"
+    declare -g CONDA_ROOT__py314="${CONDA_ROOT__py314:-"${prefix}/-conda314"}"
+    declare -g CONDA_ENVS__py314="${CONDA_ENVS__py314:-"${prefix}/-ce314"}"
 }
 
 function miniconda_setup__dotfiles_condaenvs {
@@ -212,6 +249,42 @@ function miniconda_setup__dotfiles_condaenvs {
     "${CONDA_ROOT__py38}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.8 pip readline
     test -d "${CONDA_ENVS__py38}/${envname}" || "${CONDA_ROOT__py38}/bin/conda" create -y -n "${envname}"
     miniconda_check_conda_env "${CONDA_ENVS__py38}/${envname}"
+
+    CONDA_ROOT=$CONDA_ROOT__py39
+    CONDA_ENVS_PATH=$CONDA_ENVS__py39
+    "${CONDA_ROOT__py39}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.9 pip readline
+    test -d "${CONDA_ENVS__py39}/${envname}" || "${CONDA_ROOT__py39}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py39}/${envname}"
+
+    CONDA_ROOT=$CONDA_ROOT__py310
+    CONDA_ENVS_PATH=$CONDA_ENVS__py310
+    "${CONDA_ROOT__py310}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.10 pip readline
+    test -d "${CONDA_ENVS__py310}/${envname}" || "${CONDA_ROOT__py310}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py310}/${envname}"
+
+    CONDA_ROOT=$CONDA_ROOT__py311
+    CONDA_ENVS_PATH=$CONDA_ENVS__py311
+    "${CONDA_ROOT__py311}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.11 pip readline
+    test -d "${CONDA_ENVS__py311}/${envname}" || "${CONDA_ROOT__py311}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py311}/${envname}"
+
+    CONDA_ROOT=$CONDA_ROOT__py312
+    CONDA_ENVS_PATH=$CONDA_ENVS__py312
+    "${CONDA_ROOT__py312}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.12 pip readline
+    test -d "${CONDA_ENVS__py312}/${envname}" || "${CONDA_ROOT__py312}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py312}/${envname}"
+
+    CONDA_ROOT=$CONDA_ROOT__py313
+    CONDA_ENVS_PATH=$CONDA_ENVS__py313
+    "${CONDA_ROOT__py313}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.13 pip readline
+    test -d "${CONDA_ENVS__py313}/${envname}" || "${CONDA_ROOT__py313}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py313}/${envname}"
+
+    CONDA_ROOT=$CONDA_ROOT__py314
+    CONDA_ENVS_PATH=$CONDA_ENVS__py314
+    "${CONDA_ROOT__py314}/bin/conda" install -y -n "${baseenvname}" conda-env python=3.14 pip readline
+    test -d "${CONDA_ENVS__py314}/${envname}" || "${CONDA_ROOT__py314}/bin/conda" create -y -n "${envname}"
+    miniconda_check_conda_env "${CONDA_ENVS__py314}/${envname}"
 }
 
 function _miniconda_setup_main {
