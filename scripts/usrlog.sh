@@ -177,7 +177,7 @@ function _usrlog_set_title {
     #   $1: _window_title (defaults to ${_TERM_ID})
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
-    declare -f '_setup_venv_prompt' 2>&1 > /dev/null \
+    declare -F '_setup_venv_prompt' 2>&1 > /dev/null \
         && _setup_venv_prompt
 }
 
