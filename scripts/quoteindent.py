@@ -241,7 +241,7 @@ def test_main_help(argv):
 
 
 @pytest.mark.parametrize('argv,_stdin', [
-    [None, None],
+    [None, "> a\n\n> b\n\nc"],
     [[], None],
 
 ])
