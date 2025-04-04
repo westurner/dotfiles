@@ -113,26 +113,26 @@ function _usrlog_randstr {
     #    $1: number of characters
 
     if [[ `uname -s` == "Darwin" ]]; then
-        echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+        echo "$(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
                 base64 -b 0 |
                 rev |
                 cut -b 2- |
                 tr '/+' '0' |
-                rev)
+                rev)"
     else
-        echo $(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+        echo "$(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
                 base64 -w 0 |
                 rev |
                 cut -b 2- |
                 tr '/+' '0' |
-                rev)
-            fi
+                rev)"
+    fi
 }
 
 function _usrlog_get__TERM_ID {
     #  _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
     echo "#  _TERM_ID="$_TERM_ID" # [ $_USRLOG ]" >&2
-    echo $_TERM_ID
+    echo "$_TERM_ID"
 }
 
 function _usrlog_set__TERM_ID  {
