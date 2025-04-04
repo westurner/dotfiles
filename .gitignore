@@ -102,3 +102,6 @@ scripts/Miniconda*.sh
 
 # Jupyter
 etc/.jupyter/lab/workspaces
+
+# find-lately.sh
+lately.20*
