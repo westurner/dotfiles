@@ -361,6 +361,8 @@ build-docker:
 	$(MAKE) build-docker-fedora-23
 	$(MAKE) build-docker-fedora-38
 	$(MAKE) build-docker-fedora-39
+	$(MAKE) build-docker-fedora-41
+	$(MAKE) build-docker-fedora-42
 	$(MAKE) build-docker-debian-8
 	$(MAKE) build-docker-ubuntu-12.04
 	$(MAKE) build-docker-ubuntu-14.04
@@ -398,6 +400,12 @@ build-docker-fedora-38:
 
 build-docker-fedora-39:
 	${DOCKER_BUILD} -t westurner/dotfiles:fedora39 -f Dockerfile.fedora39 .
+
+build-docker-fedora-41:
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora41 -f Dockerfile.fedora41 .
+
+build-docker-fedora-42:
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora42 -f Dockerfile.fedora42 .
 
 build-docker-debian-8:
 	${DOCKER_BUILD} -t westurner/dotfiles:debian-8 -f Dockerfile.debian8 .
