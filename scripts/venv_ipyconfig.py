@@ -3294,6 +3294,8 @@ def get_IPYTHON_ALIAS_DEFAULTS(platform=None):
         ('cat', 'cat'),
         ('chmodr', 'chmod -R'),
         ('chownr', 'chown -R'),
+        ('cls', 'cls'),
+        ('clr', 'clr'),
         ('egrep', 'egrep --color=auto'),
         ('fgrep', 'fgrep --color=auto'),
         ('git', 'git'),
