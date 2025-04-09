@@ -32,7 +32,7 @@ function lsof_port {
     elif [ "${socketinfoprog}" == "netstat" ]; then
         netstat -nlp -t | grep ":${listening_port}"  # TODO
     elif [ "${socketinfoprog}" == "bash" ]; then
-        find_processes_listening_on_port "${listening_port}"
+        find_processes_on_port "${listening_port}" "-l"
     else
         (set -x; "${socketinfoprog}")
     fi
@@ -46,24 +46,36 @@ function _ls_proc_pids {
 #    cat /proc/self/net/tcp
 #}
 
-PS_COMMAND='ps -uZ -p'
+PS_COMMAND='ps -uwZ -p'
 
-function find_processes_listening_on_port {
+function find_processes_on_port {
     local port=$1
+    local listening=$2
     local porthex=$(printf '%04X' "${port}")
-    local portexpr="^\s*[0-9]+: [0-9A-F]{8}:${porthex} 00000000:0000"
+    local portexpr="^\s*[0-9]+: [0-9A-F]{8}:${porthex}${listening:+" 00000000:0000"}"
 
-    local socketid=$(grep -E "${portexpr}" /proc/self/net/tcp | awk '{ print $10 }')
+    if [ -n "${DEBUG}" ]; then
+        (set -x; port=$port; porthex=$porthex)
+        cat /proc/self/net/tcp
+    fi
+
+    local socketid=$(set -x; grep -E "${portexpr}" /proc/self/net/tcp | awk '{ print $10 }')
     if [ ! -n "${socketid}" ]; then
-        echo "ERROR: did not find any processes listening on port=${port}"
+        echo "ERROR: did not find any processes ${listening:+"listening "}on port=${port}"
         return 2
     fi
 
-    pids=$((set +x; ls -al /proc/*/fd/* 2>/dev/null) | grep "socket:\[${socketid}\]" | sed 's,.*/proc/\(.*\)/fd.*,\1,')
+    pids=$((set +x; ls -al /proc/*/fd/* 2>/dev/null) | \
+        grep "socket:\[${socketid}\]" | \
+        sed 's,.*/proc/\(.*\)/fd.*,\1,')
     for pid in "${pids}"; do
+        if [ ! -n "${pid}" ]; then
+            echo "ERROR: pid="
+            return 2
+        fi
         echo "$pid"
         if [ -n "${PS_COMMAND}" ]; then
-            ${PS_COMMAND} "${pid}"
+            (set -x; ${PS_COMMAND} "${pid}")
         fi
     done
     return
