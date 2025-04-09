@@ -26,10 +26,10 @@ else:
     unicode = str
 
 ISODATETIME_RGX = re.compile(
-    '\d\d\d\d\-\d\d\-\d\dT?\d\d:\d\d')
+    r'\d\d\d\d\-\d\d\-\d\dT?\d\d:\d\d')
 
 ISODATETIME_LOOSE_RGX = re.compile(
-    '[\d\-T: \+Z]+')
+    r'[\d\-T: \+Z]+')
 
 TODO_PREFIXES = ('#TODO','#NOTE','#note','#_MSG')
 
@@ -92,7 +92,7 @@ class ParseException(Exception):
 
 
 class Usrlog(object):
-    date_rgxstr = '^#?\s+(\d\d\d\d-\d\d-\d\dT?\d\d:\d\d:\d\d[-\+\d]+)\t(.*)'
+    date_rgxstr = r'^#?\s+(\d\d\d\d-\d\d-\d\dT?\d\d:\d\d:\d\d[-\+\d]+)\t(.*)'
     date_rgx = re.compile(date_rgxstr)
 
     def __init__(self, path):
@@ -534,7 +534,7 @@ class Test_usrlog(unittest.TestCase):
         u = Usrlog(self.conf['usrlogpath'])
         for l in u.read_file_lines_joined():
             # log.debug(l)
-            self.assertIsInstance(l, basestring)
+            self.assertIsInstance(l, str)
             self.assertTrue(l.startswith('# ') or l.startswith('2014'))
 
     def test_usrlog_read_file_lines_as_dict(self):
