@@ -34,10 +34,10 @@ git_changelog
 
 
 import collections
-import distutils.spawn
 import itertools
 import logging
 import re
+import shutil
 import subprocess
 import sys
 
@@ -352,7 +352,7 @@ def git_changelog(
     """
 
     git_bin = (
-        distutils.spawn.find_executable("git") if git_bin is None else git_bin
+        shutil.which("git") if git_bin is None else git_bin
     )
     git_cmd = [git_bin]
     if path:
