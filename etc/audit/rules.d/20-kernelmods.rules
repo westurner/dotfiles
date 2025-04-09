@@ -1,0 +1,17 @@
+#!/usr/bin/env cat
+# # Linux Kernel Module auditd rules file
+
+# ## Installation
+# $ sudo sh -c 'rules="20-kernelmods.rules"; cp -v "${rules}" /etc/auditd/rules.d/ && chcon -u system_u -r object_r -t auditd_etc_t "${rules} && ls -alZ /etc/auditd/rules.d/'
+#
+# ## Usage
+# $ auditctl -l
+# $ ausearch -k modules
+# $ ausearch -k modules -ue 0
+# $ ausearch -k modules -ue $uid
+
+-w /usr/sbin/insmod -p x -k modules
+-w /usr/sbin/rmmod -p x -k modules
+-w /usr/sbin/modprobe -p x -k modules
+-a always,exit -F arch=b32 -S init_module,delete_module -F key=modules
+-a always,exit -F arch=b64 -S init_module,delete_module -F key=modules

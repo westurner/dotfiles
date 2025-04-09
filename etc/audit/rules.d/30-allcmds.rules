@@ -1,0 +1,14 @@
+
+# Usage:
+# $ ausearch -k allcmds
+# $ ausearch -ue $uid
+# $ ausearch -k allcmds -ue $uid
+# References:
+# - https://lowendbox.com/blog/how-to-audit-every-command-run-on-your-linux-system/
+
+-a exit,always -F arch=b32 -S execve -k allcmds
+-a exit,always -F arch=b64 -S execve -k allcmds
+
+# _uid=0
+#-a exit,always -F arch=b64 -F euid="${_uid}" -S execve -k root-cmds
+#-a exit,always -F arch=b32 -F euid="${_uid}" -S execve -k root-cmds
