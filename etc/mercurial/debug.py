@@ -7,7 +7,7 @@ hghooks
 
 
 import logging
-import os.path.join as pathjoin
+from os.path import join as pathjoin
 log = logging.getLogger('hghooks')
 
 

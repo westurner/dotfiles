@@ -19,7 +19,7 @@ def hook(*args, **kwargs):
 def default_branch_hook(ui, repo, **kwargs):
     branch = repo[None].branch()
     if branch == BUILDBRANCH:
-	hook()
+        hook()
 
 if __name__ == "__main__":
     hook()
