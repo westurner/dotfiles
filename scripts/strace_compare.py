@@ -5,6 +5,7 @@ from __future__ import print_function
 strace_compare
 """
 import logging
+import os
 import re
 import subprocess
 import sys
@@ -62,15 +63,19 @@ def test_add_output_args_list(cmd, outputfile, argv0, expected):
 
 
 def add_filename_suffix(path, suffix):
-    return f'{path}.{suffix}.{os.path.splitext(path)[-1]}'
+    fileparts = [path, suffix]
+    current_extension = os.path.splitext(path)[-1][1:]
+    if current_extension:
+        fileparts.append(current_extension)
+    return '.'.join(fileparts)
 
 
-@pytest.mark.parametrized('path,suffix,expected', [
+@pytest.mark.parametrize('path,suffix,expected', [
     ['/home/user/file.log', 'test1', '/home/user/file.log.test1.log'],
     ['/home/user/file', 'test1', '/home/user/file.test1'],
 ])
 def test_add_filename_suffix(path, suffix, expected):
-    output = add_filename_suffix(path, suffix, expected)
+    output = add_filename_suffix(path, suffix)
     assert output == expected
 
 
@@ -128,8 +133,8 @@ def strace_compare(cmd1, cmd2, cmd0=None, verbose=False):
 
     class striphex12:
         @staticmethod
-        def process_line(line)
-            return re.sub('\d{12}')
+        def process_line(line):
+            return re.sub(r'\d{12}')
 
     for name, transformer in output_transformers.items():
         outputfile = add_filename_suffix(cmd['output_path'], name)
