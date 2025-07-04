@@ -229,8 +229,16 @@ def main(argv=None):
             prs.error("No ports were specified. You must specify -f/--force "
                       "to actually kill all PIDs on all ports")
         proc_list = net_connection_memory_info(ports=ports, yield_process=True)
-        unique_procs = collections.OrderedDict.fromkeys(proc_list)
-        for proc in unique_procs.values():
+        processed_procs = []
+
+        for proc in proc_list:
+            assert proc
+            if not proc:
+                log.error("proc was None")
+                continue
+            if proc in processed_procs:
+                log.debug(("process was already processed", proc))
+                continue
             try:
                 if isinstance(ksig, int):
                     cmd = ('kill', '-%s' % ksig, '%d' % proc.pid)
@@ -246,6 +254,7 @@ def main(argv=None):
                 log.exception(e)
                 retval = 3
                 pass
+            processed_procs.append(proc)
         time.sleep(1)
 
         log.info("## After killing processes:")
