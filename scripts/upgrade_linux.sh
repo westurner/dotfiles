@@ -23,18 +23,19 @@ print_usage() {
 
 upgrade_flatpak() {
     _Y_YES=${1:-${Y_YES}}
-
-    ${SUDO_USER:+"sudo -u ${SUDO_USER}"} flatpak upgrade ${_Y_YES:+"${_Y_YES}"} \
-        org.mozilla.firefox \
+    SUDO=${SUDO_USER:+"sudo -u ${SUDO_USER}"}
+    $SUDO flatpak upgrade ${_Y_YES:+"${_Y_YES}"} \
         com.google.Chrome \
         org.chromium.Chromium
-    ${SUDO_USER:+"sudo -u ${SUDO_USER}"} flatpak upgrade ${_Y_YES:+"${_Y_YES}"}
+        #org.mozilla.firefox \
+    $SUDO flatpak upgrade ${_Y_YES:+"${_Y_YES}"}
 }
 
 upgrade_brew() {
-    sudo -u "${SUDO_USER}" brew upgrade $(sudo -u "${SUDO_USER}" brew list --formula)
+    SUDO=${SUDO_USER:+"sudo -u ${SUDO_USER}"}
+    $SUDO brew upgrade $($SUDO brew list --formula)
     # ctags htop
-    sudo -u "${SUDO_USER}" brew upgrade --cask \
+    $SUDO brew upgrade --cask \
         google-chrome firefox \
         visual-studio-code
 }
@@ -89,7 +90,7 @@ upgrade_linux() {
         ${_DNF} upgrade "${_Y_YES}"
     fi
     if [ -x "${_RPM_OSTREE}" ]; then
-        ${_RPM_OSTREE} upgrade "${_Y_YES}"
+        ${_RPM_OSTREE} upgrade  #"${_Y_YES}"
     fi
 }
 
