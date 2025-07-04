@@ -208,7 +208,7 @@ _loadaliases () {
     # t       -- 'task'
     alias t='task'
     #t        -- 'tail'
-    alias t='tail'
+    #alias t='tail'
     # tf       -- 'tail -f'
     alias tf='tail -f'
     # xclipc   -- 'xclip -selection c'
