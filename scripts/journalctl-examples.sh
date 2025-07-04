@@ -69,5 +69,10 @@ journalctl --boot all
 cmd6__unit() {
 # journalctl -u UNIT|PATTERN
 # journalctl --unit=UNIT|PATTERN
-journalctl -u
+journalctl -u "${@}"
+}
+
+cmd7__rpm_ostreed() {
+# logs from e.g. rpm-ostree upgrade
+journalctl -b -u rpm-ostreed "${@}"
 }
