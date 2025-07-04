@@ -425,6 +425,9 @@ build-docker-ubuntu-16.04:
 build-docker-ubuntu-20.04:
 	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-20.04 -f Dockerfile.ubuntu20.04 .
 
+build-docker-ubuntu-24.04:
+	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-24.04 -f Dockerfile.ubuntu24.04 .
+
 pip_upgrade_pip:
 	# Upgrade pip
 	$(PIP_INSTALL) pip

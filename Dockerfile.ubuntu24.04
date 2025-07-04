@@ -1,0 +1,30 @@
+
+# westurner/dotfiles ubuntu:24.04 Dockerfile
+
+FROM ubuntu:24.04
+
+## Install system packages
+RUN apt-get update
+RUN apt-get install -y \
+    python3 \
+    bash-completion \
+    zsh \
+    git \
+    python3-pip \
+    python3-dev \
+    pipx \
+    gcc
+#RUN python3 -m pip install -U pip
+
+## Install latest pip
+#RUN curl -SL https://bootstrap.pypa.io/get-pip.py > get-pip.py
+#RUN python ./get-pip.py
+
+## Install dotfiles
+#ADD $__DOTFILES/scripts/bootstrap_dotfiles.sh /usr/local/bin/bootstrap_dotfiles.sh
+#RUN curl -SL https://raw.githubusercontent.com/westurner/dotfiles/develop/scripts/bootstrap_dotfiles.sh > bootstrap_dotfiles.sh
+COPY ./scripts/bootstrap_dotfiles.sh ./bootstrap_dotfiles.sh
+RUN python3 -m venv ~/-dotfiles && export EXTRA= DOTFILES_REPO_REV="develop" PIP="${HOME}/-dotfiles/bin/pip"; bash ./bootstrap_dotfiles.sh -I 
+RUN DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -R
+#RUN DOTFILES_REPO_REV="develop" ./bootstrap_dotfiles.sh -U -R
+
