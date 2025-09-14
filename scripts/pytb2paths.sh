@@ -14,7 +14,7 @@ function pytb2paths {
         --regex='\s+File "(?P<file>.*)", line (?P<lineno>\d+), in (?P<modulestr>.*)$' \
         -m 'operator' \
         'rgx and ("'"$sep"'".join(operator.itemgetter("file", "lineno")(rgx.groupdict())), rgx.groupdict())' \
-        -O json
+        ${PYLINE_OUTPUT_FORMAT:+"-O ${PYLINE_OUTPUT_FORMAT}"}
         # pyline -I json
     # TODO: if file.startswith('<')   <stdin>
     # TODO: [ ] ENH: pytest
