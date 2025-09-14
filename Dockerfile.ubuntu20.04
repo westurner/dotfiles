@@ -1,5 +1,5 @@
 
-# westurner/dotfiles ubuntu:16.04 Dockerfile
+# westurner/dotfiles ubuntu:20.04 Dockerfile
 
 FROM ubuntu:20.04
 
