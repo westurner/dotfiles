@@ -96,6 +96,29 @@ function _setup_conda_defaults {
     export CONDA_ENVS_PATH="${__wrk}/-ce37"
 }
 
+function __setup_conda_usage {
+    echo \
+'_setup_conda [CONDA_ENVS_PATH|27-312] [CONDA_ROOT]
+Setup environment variables for Conda/Mamba
+
+## Usage:
+_setup_conda     # __py27
+
+_setup_conda ~/
+
+_setup_conda 27  # __py27
+_setup_conda 34  # __py34
+_setup_conda 35  # __py35
+_setup_conda 36  # __py36
+_setup_conda 37  # __py37
+_setup_conda 312  # __py312
+_setup_conda ~/envs
+_setup_conda ~/envs/ /opt/conda
+_setup_conda [CONDA_ENVS_PATH|27-31] [CONDA_ROOT]
+'
+
+}
+
 function _setup_conda {
     # _setup_anaconda()     -- set CONDA_ENVS_PATH, CONDA_ROOT
     #   $1 (pathstr or {27, 34}) -- lookup($1, CONDA_ENVS_PATH,
@@ -103,20 +126,18 @@ function _setup_conda {
     #   $2 (pathstr or "")       -- lookup($2, CONDA_ROOT,
     #                                                   CONDA_ROOT__py27)
     #
-    #  Usage:
-    #   _setup_conda     # __py27
-    #   _setup_conda 27  # __py27
-    #   _setup_conda 34  # __py34
-    #   _setup_conda 35  # __py35
-    #   _setup_conda 36  # __py36
-    #   _setup_conda 37  # __py37
-    #   _setup_conda 312  # __py312
-    #   _setup_conda ~/envs             # __py37
-    #   _setup_conda ~/envs/ /opt/conda # /opt/conda
-    #   _setup_conda <conda_envs_path> <conda_root>  # conda_root
-    #
+    for arg in "${@}"; do
+        case "${arg}" in
+            -h|--help) __setup_conda_usage; return 0;;
+        esac
+    done
+
     local _conda_envs_path="${1}"
     local _conda_root_path="${2}"
+    echo "_conda_envs_path=${_conda_envs_path}"
+    echo "_conda_root_path=${_conda_root_path}"
+
+
     _setup_conda_defaults "${__WRK}"
     if [ -z "${_conda_envs_path}" ]; then
         export CONDA_ENVS_PATH="${CONDA_ENVS_PATH:-${CONDA_ENVS__py37}}"
@@ -253,7 +274,7 @@ function lscondaenvs {
     _conda_status >&2
     while IFS= read -r line; do
         if [ -n "${line}" ]; then
-            (set -x; find "${line}" -maxdepth 1 -type d)
+            (set -x; find "${line}" -mindepth 1 -maxdepth 1 -type d)
         fi
     done < <(echo_conda_envs_paths) | sort
 }
@@ -269,11 +290,36 @@ function _condaenvs {
     while IFS= read -r line; do
         files+=("${line}/$2"*)
     done < <(echo_conda_envs_paths)
-    [[ -e ${files[0]} ]] && COMPREPLY=( "${files[@]##*/}" )
+    echo CONDA_ENVS_PATH="$(shell_escape_single "${CONDA_ENVS_PATH}")" >&2
+    [[ -e "${files[0]}" ]] && COMPREPLY=( "${files[@]##*/}" )
+
+}
+
+function _workon_conda_usage {
+    echo \
+'workon_conda [envname|envpath] [VENVSTRAPP] [CONDA_ENVS_PATH]
+
+    Usage:
+
+    # _setup_conda        # _setup_conda -h
+    # mkcondaenv env123   # ~= CONDA_ENVS_PATH="..." conda create -n env123 -y
+
+    _setup_conda
+    workon_conda <TAB>     # lsve
+    workon_conda env123
+    wec env123
+'
 }
 
 function workon_conda {
     # workon_conda()        -- workon a conda + venv project
+
+    for arg in "${@}"; do
+        case "${arg}" in
+            -h|--help) _workon_conda_usage; return 0;;
+        esac
+    done
+
     local _conda_envname="${1}"
     local _venvstrapp="${2}"
     local _conda_envs_path="${3}"
@@ -312,17 +358,18 @@ complete -o default -o nospace -F _condaenvs wec
 
 function _mkvirtualenv_conda_usage {
     # _mkvirtualenv_conda_usage()  -- echo mkvirtualenv_conda usage information
-    echo "mkvirtualenv_conda <envname|path> [CONDA_ENVS_PATH|<27,34,35,36,37,38>] [<pkg>+]"
+    echo "mkvirtualenv_conda <envname|path> [CONDA_ENVS_PATH|27,34,312] [<package>+]"
+    echo "mkcondaenv    [-h] <envname|path> [CONDA_ENVS_PATH|27,34,312] [<package>+]"
     echo ""
     echo "To create a condaenv named 'science':"
     echo ""
-    echo "  $ mkvirtualenv_conda science # 27"
-    echo "  $ mkvirtualenv_conda science 27"
-    echo "  $ mkvirtualenv_conda science 34"
-    echo "  $ mkvirtualenv_conda science 35"
-    echo "  $ mkvirtualenv_conda ~/science 37"
-    echo "  $ mkvirtualenv_conda science ~/condaenvs"
-    echo "  $ mkvirtualenv_conda science 37 jupyterlab matplotlib pandas"
+    echo "  $ mkcondaenv science    # envname=science CONDA_ENVS_PATH=='$CONDA_ENVS_PATH'"
+    echo "  $ mkcondaenv science 27 # envname=science "'CONDA_ENVS_PATH="$__WRK/-ce27"'
+    echo "  $ mkcondaenv science 34 # envname=science "'CONDA_ENVS_PATH="$__WRK/-ce27"'
+    echo "  $ mkcondaenv science 35"
+    echo "  $ mkcondaenv ~/science 37"
+    echo "  $ mkcondaenv science ~/condaenvs"
+    echo "  $ mkcondaenv science 37 jupyterlab matplotlib pandas"
     echo ""
     echo "To workon a condaenv named 'science':'"
     echo ""
@@ -334,6 +381,11 @@ function _mkvirtualenv_conda_usage {
     echo "  $ _setup_conda 37"
     echo "  $ wec science"
     echo ""
+}
+
+function mkcondaenv {
+    # mkcondaenv()         -- mkvirtualenv_conda "${@}"
+    mkvirtualenv_conda "${@}"
 }
 
 function mkvirtualenv_conda {
