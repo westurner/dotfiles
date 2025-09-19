@@ -28,6 +28,9 @@ _DOTFILES_GREP_NUMBER_LINES=""
 #         $ dh zsh
 #         $ dh i3
 #         $ dh vim
+#         $ dh vimrc
+#         $ dh gnome
+#         $ dh gnometerminal
 #         $ dh dotfiles
 #
 #  ### dhelp bash functions:
@@ -190,6 +193,24 @@ function dhelp_vimrc {
             | printf_code "vim";
 }
 
+function dhelp_gnome {
+    ## dhelp_gnome()             -- list gnome keyboard shortcuts / keybindings
+    local longest_name_len=$(gsettings list-recursively org.gnome.desktop.wm.keybindings \
+        | pyline.py 'str(len(w[1]))' \
+        | sort -n -r \
+        | head -n 1)
+    (
+        gsettings list-recursively org.gnome.desktop.wm.keybindings \
+        | pyline.py '[w[1].ljust('"$longest_name_len"'), *l.split("[",1)[-1].removesuffix("]\n").split(",")] if w[-1] != "[]" else None' -s 1)
+}
+
+function dhelp_gnome_terminal {
+    ## dhelp_gnome_terminal()    -- list gnome terminal keyboard shortcuts / keybindings
+    #gsettings list-recursively | grep "org.gnome.Terminal.Legacy.Keybindings" | grep -v "'disabled'$" | pyline.py 'w[1:]' -s 2 
+    gsettings list-recursively | grep "org.gnome.Terminal.Legacy.Keybindings" | grep -v "'disabled'$" | pyline.py '" ".join([w[1].ljust(16), *(x.strip("'\''") for x in w[2:])])' -s 1
+    #gsettings list-recursively | grep "org.gnome.Terminal.Legacy.Keybindings" | grep -v "'disabled'$" | pyline.py '" ".join([w[1].ljust(16), *(x.strip("'\''") for x in w[2:])])' -s 2 
+}
+
 function printf_underline {
     local _char="${1}"
     shift
@@ -306,6 +327,7 @@ function dhelp_test {
         dhelp_vimrc ~/.vimrc
         dhelp_vimrc__dotfiles
         dhelp_vimrc__dotfiles ~/.vimrc
+        dhelp_gnome
         dhelp_dotfiles
         dhelp_dotfiles "${__DOTFILES}/scripts/bootstrap_dotfiles.sh"
     }
@@ -380,6 +402,14 @@ if [ -n "${BASH_SOURCE}" ] && [ "${BASH_SOURCE}" == "${0}" ]; then
             vim|vimrc|dotfiles-vim.sh|dotfileshelp-vim)
                 _cmdsrun+=("${arg}")
                 dhelp_vimrc__dotfiles "${@}"
+                ;;
+            gnome)
+                _cmdsrun+=("${arg}")
+                dhelp_gnome
+                ;;
+            gnometerminal|gnome-terminal|gnometerm)
+                _cmdsrun+=("${arg}")
+                dhelp_gnome_terminal
                 ;;
             i3|i3wm|dotfiles-i3.sh|dotfileshelp-i3)
                 _cmdsrun+=("${arg}")
