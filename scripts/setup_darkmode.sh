@@ -127,7 +127,7 @@ setup_darkmode() {
     # Default to dark mode ('true') if the first argument is not provided.
     local use_dark_mode="${1:-"true"}"
     # Default to 'Adwaita' theme if the second argument is not provided.
-    local theme_base="${2}"
+    local theme_base="${2:-Adwaita}"
 
     if [ -z "${theme_base}" ]; then
         echo "INFO: theme_base was not specified, getting gtk-theme from gsettings..."
