@@ -155,6 +155,8 @@ function lsvirtualenvs {
     _next_arg_is_workon_home=
     _print_venv_basename=
     _print_venv_path=
+    _list_all_venvs=
+    _print0=
 
     # POSIX doesn't support `read` -a to read into $@ or another ary,
     # or bash regex
@@ -185,6 +187,14 @@ function lsvirtualenvs {
                     _print_venv_path=1
                     ;;
 
+                -a|--all)
+                    _list_all_venvs=1
+                    ;;
+
+                -0|-print0)
+                    _print0=1
+                    ;;
+
                 *)
                     echo "Unhandled arg in __SPLIT_BEFORE: $(shell_escape_single "${arg}")"
                     ;;
@@ -197,21 +207,38 @@ function lsvirtualenvs {
         _WORKON_HOME="${WORKON_HOME}";
         echo "WORKON_HOME=$(shell_escape_single "${_WORKON_HOME}")" >&2
     fi
-    for _VIRTUAL_ENV in $(find "${_WORKON_HOME}" -mindepth 1 -maxdepth 1 -type d -or -type l); do
-        # _libpython_dirs="$(ls -adtr "${_VIRTUAL_ENV}/lib/python"*.*)"
-        # echo "libpython_dirs=(${_libpython_dirs})"
-        if [ -n "${_CMD}" ]; then
-            ${_CMD} "${_VIRTUAL_ENV}"
-        else
-            if [ -n "${_print_venv_basename}" ]; then
-                basename "${_VIRTUAL_ENV}"
-            elif [ -n "${_print_venv_path}" ]; then
-                echo "${_VIRTUAL_ENV}"
+    if [ -n "${_list_all_venvs}" ]; then
+        _envs_path=${__WRK}
+        mindepth=2
+        maxdepth=2
+        wholename_args='*/-?e*/*'
+        #args='find ~/-wrk -mindepth 2 -maxdepth 2 -wholename '*/-?e*/*' \( -type d -or -type l \)'
+    else
+        _envs_path=${_WORKON_HOME}
+        mindepth=1
+        maxdepth=1
+        wholename_args=
+    fi
+    (set -x -v;
+    if [ -n "${_print0}" ]; then
+        find "${_envs_path}" -mindepth ${mindepth} -maxdepth ${maxdepth} ${wholename_args:+-wholename "${wholename_args}"}  \( -type d -or -type l \) ${_print0:+"-print0"}
+    else
+        for _VIRTUAL_ENV in $(set -x; find "${_envs_path}" -mindepth ${mindepth} -maxdepth ${maxdepth} ${wholename_args:+-wholename "${wholename_args}"}  \( -type d -or -type l \) ); do
+            # _libpython_dirs="$(ls -adtr "${_VIRTUAL_ENV}/lib/python"*.*)"
+            # echo "libpython_dirs=(${_libpython_dirs})"
+            if [ -n "${_CMD}" ]; then
+                ${_CMD} "${_VIRTUAL_ENV}"
             else
-                echo "${_VIRTUAL_ENV}"
+                if [ -n "${_print_venv_basename}" ]; then
+                    basename "${_VIRTUAL_ENV}"
+                elif [ -n "${_print_venv_path}" ]; then
+                    echo "${_VIRTUAL_ENV}"
+                else
+                    echo "${_VIRTUAL_ENV}"
+                fi
             fi
-        fi
-    done
+        done)
+    fi;
 }
 function lsve {
     # lsve()                -- list virtualenvs in $WORKON_HOME
