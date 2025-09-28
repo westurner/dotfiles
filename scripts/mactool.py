@@ -8,7 +8,7 @@ if sys.version_info.major > 2:
 else:
     from urllib import urlopen
 
-_OUI_URL = "http://standards.ieee.org/regauth/oui/oui.txt"
+_OUI_URL = "https://standards-oui.ieee.org/oui/oui.txt"
 _MACFILE = "%s/.macvendors" % getenv("HOME")
 
 
@@ -29,23 +29,23 @@ def format_line(line):
     return (s[0], ' '.join(x.lower().capitalize() for x in s[2:]))
 
 def download_oui():
-    #f = file(filename,"r")
+    #f = open(filename,"r")
     f = urlopen(_OUI_URL)
-    with file(_MACFILE,"w+") as o:
-        lines = (format_line(l) for l in f if "(hex)" in l)
+    with open(_MACFILE,"w+") as o:
+        lines = (format_line(l) for l in f.readlines() if "(hex)" in l)
         o.writelines( ','.join(x)+"\n" for x in lines)
         o.close()
     print("OUI File downloaded to %s" % _MACFILE)
 
 def mac_to_vendor(mac):
-    f = file(_MACFILE,"r")
+    f = open(_MACFILE,"r")
     mac = mac.replace(":","-")[:8].upper()
 
     return '\n'.join(
         ''.join(x.split(",")[1:]).strip() for x in f if x.startswith(mac))
 
 def find_vendor(vendor):
-    f = file(_MACFILE,"r")
+    f = open(_MACFILE,"r")
     vendor = vendor.lower()
     return '\n'.join(
         x.replace('-',':').strip() for x in f if vendor in f.lower())
@@ -53,7 +53,7 @@ def find_vendor(vendor):
 def mac_from_prefix(prefix):
     p = prefix.replace("-",":")[:8]
     l = p.split(":")
-    if len(l) is not 3:
+    if len(l) != 3:
         raise Exception("Bad prefix")
     l.extend(rand_hex(3))
     return (':'.join(l)).upper()
