@@ -186,7 +186,7 @@ function lsvirtualenvs {
                     ;;
 
                 *)
-                    echo "Unhandled arg in __SPLIT_BEFORE: $(shell_escape_single ${arg})"
+                    echo "Unhandled arg in __SPLIT_BEFORE: $(shell_escape_single "${arg}")"
                     ;;
             esac
         fi
