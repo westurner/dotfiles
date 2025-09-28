@@ -112,11 +112,11 @@ function setup_gnome_mutter_fractional_scaling {
 
     case "${overwrite_gsettings_mutter_experimental_features}" in
         1|on|true|True)
-            gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+            gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer', 'xwayland-native-scaling']"
             ;;
         0|off|false|False)
+            gsettings reset org.gnome.mutter experimental-features
             gsettings get org.gnome.mutter experimental-features
-            gsettings set org.gnome.mutter experimental-features "[]" # TODO: -= "['scale-monitor-framebuffer']"
             ;;
     esac
 }
@@ -232,6 +232,11 @@ function main {
     local _cfg_bgcolor=
     local _cfg_gtk_theme=
     local _cfg_fractional_scaling=
+
+    if [ ! -n "${*}" ]; then
+        setup_gnome_print_usage
+        return 0
+    fi
 
     for arg in "${@}"; do
         case "$arg" in
