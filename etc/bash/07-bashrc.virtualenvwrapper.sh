@@ -237,8 +237,8 @@ function lsvirtualenvs {
                     echo "${_VIRTUAL_ENV}"
                 fi
             fi
-        done)
-    fi;
+        done
+    fi;)
 }
 function lsve {
     # lsve()                -- list virtualenvs in $WORKON_HOME
