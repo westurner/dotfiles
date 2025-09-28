@@ -219,7 +219,6 @@ function lsvirtualenvs {
         maxdepth=1
         wholename_args=
     fi
-    (set -x -v;
     if [ -n "${_print0}" ]; then
         find "${_envs_path}" -mindepth ${mindepth} -maxdepth ${maxdepth} ${wholename_args:+-wholename "${wholename_args}"}  \( -type d -or -type l \) ${_print0:+"-print0"}
     else
@@ -238,7 +237,7 @@ function lsvirtualenvs {
                 fi
             fi
         done
-    fi;)
+    fi
 }
 function lsve {
     # lsve()                -- list virtualenvs in $WORKON_HOME
