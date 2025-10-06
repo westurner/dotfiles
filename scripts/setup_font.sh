@@ -1,0 +1,1 @@
+setfont latarcyrheb-sun32
