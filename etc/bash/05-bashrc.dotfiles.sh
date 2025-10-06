@@ -15,6 +15,15 @@ function shell_escape_single {
     echo "'""${1//\'/\'\"\'\"\'}""'"
 }
 
+printvar() {
+  local definition=$(declare -p "$1" 2>/dev/null) || {
+    echo "ERROR: variable '$1' is not set." >&2
+    return 1
+  }
+  echo "${definition#declare * }"
+}
+
+
 function dotfiles_status {
     # dotfiles_status()         -- print dotfiles_status
     echo "# dotfiles_status()"
@@ -52,6 +61,52 @@ function dotfiles_status {
     if [ -n "${_MSG}" ]; then
         echo _MSG="$(shell_escape_single "${_MSG}")"
     fi
+    echo '##'
+}
+
+function dotfiles_status {
+    # dotfiles_status()         -- print dotfiles_status
+    echo "# dotfiles_status()"
+
+    # Unconditional Variables
+    # These are expected to exist. `printvar` will show an error if they are not set.
+    printvar "HOSTNAME"
+    printvar "USER"
+    printvar "__WRK"
+    printvar "PROJECT_HOME"
+    printvar "WORKON_HOME"
+    printvar "VIRTUAL_ENV_NAME"
+    printvar "VIRTUAL_ENV"
+    printvar "_SRC"
+    printvar "_APP"
+    printvar "_WRD"
+    printvar "_USRLOG"
+    printvar "_TERM_ID"
+    printvar "PATH"
+    printvar "__DOTFILES"
+
+    echo "#"
+
+    ## Conditional Variables
+    # These are optional. They are only printed if they are non-empty.
+    if [ -n "${CONDA_ROOT}" ]; then
+        printvar "CONDA_ROOT"
+    fi
+    if [ -n "${CONDA_ENVS_PATH}" ]; then
+        printvar "CONDA_ENVS_PATH"
+    fi
+
+    # These are optional. usrlog.sh sets the _TODO, _NOTE, and _MSG vars.
+    if [ -n "${_TODO}" ]; then
+        printvar "_TODO"
+    fi
+    if [ -n "${_NOTE}" ]; then
+        printvar "_NOTE"
+    fi
+    if [ -n "${_MSG}" ]; then
+        printvar "_MSG"
+    fi
+
     echo '##'
 }
 function ds {

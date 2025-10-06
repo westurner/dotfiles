@@ -4,50 +4,51 @@
 ## Conda / Anaconda
 
 # see: 05-bashrc.dotfiles.sh
-    #shell_escape_single() {
-    #    # shell_escape_single()
-    #    strtoescape=${1}
-    #    output="$(echo "${strtoescape}" | sed "s,','\"'\"',g")"
-    #    echo "'"${output}"'"
-    #}
+  # printvar() {
+  # local definition=$(declare -p "$1" 2>/dev/null) || {
+  #     echo "ERROR: variable '$1' is not set." >&2
+  #     return 1
+  # }
+  # echo "${definition#declare * }"
+  # }
 
 function _conda_status_core {
     # _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
-    echo CONDA_ROOT="$(shell_escape_single "${CONDA_ROOT}")"
-    echo CONDA_ENVS_PATH="$(shell_escape_single "${CONDA_ENVS_PATH}")"
+    printvar CONDA_ROOT
+    printvar CONDA_ENVS_PATH
 }
 
 function _conda_status_defaults {
     # _conda_status_defaults()   -- echo CONDA_ROOT__* and CONDA_ENVS_PATH_*
-    echo CONDA_ROOT__py27="$(shell_escape_single "${CONDA_ROOT__py27}")"
-    echo CONDA_ENVS__py27="$(shell_escape_single "${CONDA_ENVS__py27}")"
+    printvar CONDA_ROOT__py27
+    printvar CONDA_ENVS__py27
 
-    echo CONDA_ROOT__py34="$(shell_escape_single "${CONDA_ROOT__py34}")"
-    echo CONDA_ENVS__py34="$(shell_escape_single "${CONDA_ENVS__py34}")"
+    printvar CONDA_ROOT__py34
+    printvar CONDA_ENVS__py34
 
-    echo CONDA_ROOT__py35="$(shell_escape_single "${CONDA_ROOT__py35}")"
-    echo CONDA_ENVS__py35="$(shell_escape_single "${CONDA_ENVS__py35}")"
+    printvar CONDA_ROOT__py35
+    printvar CONDA_ENVS__py35
 
-    echo CONDA_ROOT__py36="$(shell_escape_single "${CONDA_ROOT__py36}")"
-    echo CONDA_ENVS__py36="$(shell_escape_single "${CONDA_ENVS__py36}")"
+    printvar CONDA_ROOT__py36
+    printvar CONDA_ENVS__py36
 
-    echo CONDA_ROOT__py37="$(shell_escape_single "${CONDA_ROOT__py37}")"
-    echo CONDA_ENVS__py37="$(shell_escape_single "${CONDA_ENVS__py37}")"
+    printvar CONDA_ROOT__py37
+    printvar CONDA_ENVS__py37
 
-    echo CONDA_ROOT__py38="$(shell_escape_single "${CONDA_ROOT__py38}")"
-    echo CONDA_ENVS__py38="$(shell_escape_single "${CONDA_ENVS__py38}")"
+    printvar CONDA_ROOT__py38
+    printvar CONDA_ENVS__py38
 
-    echo CONDA_ROOT__py39="$(shell_escape_single "${CONDA_ROOT__py39}")"
-    echo CONDA_ENVS__py39="$(shell_escape_single "${CONDA_ENVS__py39}")"
+    printvar CONDA_ROOT__py39
+    printvar CONDA_ENVS__py39
 
-    echo CONDA_ROOT__py310="$(shell_escape_single "${CONDA_ROOT__py310}")"
-    echo CONDA_ENVS__py310="$(shell_escape_single "${CONDA_ENVS__py310}")"
+    printvar CONDA_ROOT__py310
+    printvar CONDA_ENVS__py310
 
-    echo CONDA_ROOT__py311="$(shell_escape_single "${CONDA_ROOT__py311}")"
-    echo CONDA_ENVS__py311="$(shell_escape_single "${CONDA_ENVS__py311}")"
+    printvar CONDA_ROOT__py311
+    printvar CONDA_ENVS__py311
 
-    echo CONDA_ROOT__py312="$(shell_escape_single "${CONDA_ROOT__py312}")"
-    echo CONDA_ENVS__py312="$(shell_escape_single "${CONDA_ENVS__py312}")"
+    printvar CONDA_ROOT__py312
+    printvar CONDA_ENVS__py312
 
 }
 
