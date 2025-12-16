@@ -172,7 +172,7 @@ function _setup_venv_prompt {
     #           "WINDOW_TITLE (venvprompt) [debian_chroot]"
     # try: _APP, VIRTUAL_ENV_NAME, $(basename VIRTUAL_ENV)
     local venvprompt=""
-    venvprompt=${_APP:-${VIRTUAL_ENV_NAME:-${VIRTUAL_ENV:+"$(basename $VIRTUAL_ENV)"}}}
+    venvprompt=${_APP:-${VIRTUAL_ENV_NAME:-${VIRTUAL_ENV:+"$(basename "$VIRTUAL_ENV")"}}}
     # TODO: CONDA
     # shellcheck disable=2154
     export VENVPROMPT="${venvprompt:+"($venvprompt) "}${debian_chroot:+"[$debian_chroot] "}${WINDOW_TITLE:+"$WINDOW_TITLE "}"
