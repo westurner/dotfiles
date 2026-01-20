@@ -546,9 +546,9 @@ def main(argv=None):
 
     conf["format"] = format_
     if conf["heading_char"] is None:
-        if _format == "rst":
+        if conf["format"] == "rst":
             conf["heading_char"] = "^"
-        elif _format == "md":
+        elif conf["format"] == "md":
             conf["heading_char"] = "#"
 
     log.debug(("conf", conf))
