@@ -407,6 +407,9 @@ build-docker-fedora-41:
 build-docker-fedora-42:
 	${DOCKER_BUILD} -t westurner/dotfiles:fedora42 -f Dockerfile.fedora42 .
 
+build-docker-fedora-43:
+	${DOCKER_BUILD} -t westurner/dotfiles:fedora43 -f Dockerfile.fedora43 .
+
 build-docker-debian-8:
 	${DOCKER_BUILD} -t westurner/dotfiles:debian-8 -f Dockerfile.debian8 .
 
