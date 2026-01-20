@@ -935,3 +935,12 @@ vendor-i3t:
 	$(git) commit ./scripts/i3t.py -m \
 		"RLS: scripts/i3t.py: :fast_forward: https://github.com/westurner/i3t/commit/$(shell \
 		$(git) -C src/i3t rev-parse --short HEAD)" && $(git) log -1
+
+vendor-gitchangelogger:
+	cd src/gitchangelogger && $(git) branch -a && $(git) log -1 && $(git) status
+	cp src/gitchangelogger/gitchangelogger/gitchangelogger.py ./scripts/git-changelog.py
+	$(git) add ./scripts/git-changelog.py
+	$(git) diff --cached ./scripts/git-changelog.py
+	$(git) commit ./scripts/git-changelog.py -m \
+		"RLS: scripts/git-changelog.py: :fast_forward: https://github.com/westurner/gitchangelogger/commit/$(shell \
+		$(git) -C src/gitchangelogger rev-parse --short HEAD)" && $(git) log -1

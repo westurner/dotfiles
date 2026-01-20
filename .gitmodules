@@ -34,3 +34,6 @@
 [submodule "src/pytestipdb"]
 	path = src/pytestipdb
 	url = https://github.com/mverteuil/pytest-ipdb
+[submodule "src/gitchangelogger"]
+	path = src/gitchangelogger
+	url = https://github.com/westurner/gitchangelogger
