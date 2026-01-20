@@ -3,7 +3,7 @@
 from __future__ import print_function
 
 """
-git_changelog
+gitchangelogger
 ===============
 
 
@@ -417,6 +417,9 @@ def main(argv=None):
     import logging
     import optparse
     import sys
+
+    if argv is None:
+        argv = sys.argv[1:]
 
     prs = optparse.OptionParser(
         usage="%prog [-v] --fmt=<rst|md> [--develop] [-a] [-r <tag|rev>] [-r <>]",
