@@ -42,8 +42,8 @@ function _git_subrepo2submodule {
 
 function git_subrepo2submodule_main {
     ## call git_subrepo2submodule ${@} or print usage/help
-    if [ -z "${@}" ]; then
-        echo "Err: you must specify arguments"
+    if [ $# -eq 0 ]; then
+        echo "ERROR: you must specify arguments" >&2
         echo ""
         git_subrepo2submodule_help
         return 2
