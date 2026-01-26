@@ -31,10 +31,10 @@ function _git_subrepo2submodule {
     _subrepopath="${1}"
     _repopath="${2:-"."}"
     _master_branchname="${3:-"master"}"
-    _master_remote_branchname=$(git -C "${_subrepopath}" config \
-        --get "branch.${_master_branchname}.remote")
-    _master_remote_url=$(git -C "${_subrepopath}" config \
-        --get "remote.${_master_remote_branchname}.url")
+    _master_remote_branchname="${4:-$(git -C "${_subrepopath}" config \
+        --get "branch.${_master_branchname}.remote")}"
+    _master_remote_url="${5:-$(git -C "${_subrepopath}" config \
+        --get "remote.${_master_remote_branchname}.url")}"
     git -C "${_repopath}" submodule add \
         "${_master_remote_url}" "${_subrepopath}"
     return
@@ -48,7 +48,7 @@ function git_subrepo2submodule_main {
         git_subrepo2submodule_help
         return 2
     fi
-    git_subrepo2submodule ${@}
+    git_subrepo2submodule "${@}"
     return
 }
 
