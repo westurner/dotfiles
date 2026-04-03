@@ -92,7 +92,7 @@ def get_i3_window_state():
     determine a window id of the 'next' or TODO 'previous' window
 
     Returns:
-        OrderedDict: {prev: \d, current: \d, next: \d}
+        OrderedDict: {prev: \\d, current: \\d, next: \\d}
     """
     cmd = ("i3-msg", "-t", "get_tree")
     output = subprocess.check_output(cmd)
