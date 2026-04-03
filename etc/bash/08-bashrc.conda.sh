@@ -12,6 +12,28 @@
   # echo "${definition#declare * }"
   # }
 
+
+_conda_status() {
+    if [ -n "${PATH}" ]; then
+        echo PATH="$(shell_escape_single "${PATH}")";
+    fi;
+    if [ -n "${CONDA_ROOT}" ]; then
+        echo CONDA_ROOT="$(shell_escape_single "${CONDA_ROOT}")";
+    fi;
+    if [ -n "${CONDA_ENVS_PATH}" ]; then
+        echo CONDA_ENVS_PATH="$(shell_escape_single "${CONDA_ENVS_PATH}")";
+    fi;
+}
+_cs() {
+    _conda_status
+}
+cs() {
+    _conda_status
+}
+_conda_status
+
+
+
 function _conda_status_core {
     # _conda_status_core()      -- echo CONDA_ROOT and CONDA_ENVS_PATH
     printvar CONDA_ROOT
@@ -135,8 +157,9 @@ function _setup_conda {
 
     local _conda_envs_path="${1}"
     local _conda_root_path="${2}"
-    echo "_conda_envs_path=${_conda_envs_path}"
-    echo "_conda_root_path=${_conda_root_path}"
+
+    printvar _conda_envs_path
+    printvar _conda_root_path
 
 
     _setup_conda_defaults "${__WRK}"
@@ -416,10 +439,12 @@ function mkvirtualenv_conda {
 
     local _conda_python="${CONDA_PYTHON}"   # CONDA_PYTHON="python=3.6"
 
+    printvar _conda_envname
+    printvar _conda_envs_path
     # shellcheck disable=2016
-    (set +x +v;
-        echo '$1 $_conda_envname: '"${_conda_envname}";
-        echo '$2 $_conda_envs_path: '"${_conda_envs_path}")
+    #(set +x +v;
+    #    echo '$1 $_conda_envname: '"${_conda_envname}";
+    #    echo '$2 $_conda_envs_path: '"${_conda_envs_path}")
     if [ -z "${_conda_envname}" ] || [ -z "${_conda_envs_path}" ]; then
         return 2
     fi

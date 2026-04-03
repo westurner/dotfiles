@@ -16,65 +16,27 @@ function shell_escape_single {
 }
 
 printvar() {
-  local definition=$(declare -p "$1" 2>/dev/null) || {
-    echo "ERROR: variable '$1' is not set." >&2
-    return 1
-  }
-  echo "${definition#declare * }"
+    # printvar()               -- print varname=value or varname=
+    local definition=$(declare -p "$1" 2>/dev/null) || {
+        echo "ERROR: variable '$1' is not set." >&2
+        return 1
+    }
+    local _definition="${definition#declare * }"
+    echo "${_definition:-"${1}="}"
 }
 
 
 function dotfiles_status {
     # dotfiles_status()         -- print dotfiles_status
-    echo "# dotfiles_status()"
-    echo HOSTNAME="$(shell_escape_single "${HOSTNAME}")"
-    echo USER="$(shell_escape_single "${USER}")"
-    echo __WRK="$(shell_escape_single "${__WRK}")"
-    echo PROJECT_HOME="$(shell_escape_single "${PROJECT_HOME}")"
-    if [ -n "${CONDA_ROOT}" ]; then
-        echo CONDA_ROOT="$(shell_escape_single "${CONDA_ROOT}")"
-    fi
-    if [ -n "${CONDA_ENVS_PATH}" ]; then
-        echo CONDA_ENVS_PATH="$(shell_escape_single "${CONDA_ENVS_PATH}")"
-    fi
-    echo WORKON_HOME="$(shell_escape_single "${WORKON_HOME}")"
-    echo VIRTUAL_ENV_NAME="$(shell_escape_single "${VIRTUAL_ENV_NAME}")"
-    echo VIRTUAL_ENV="$(shell_escape_single "${VIRTUAL_ENV}")"
-    echo _SRC="$(shell_escape_single "${_SRC}")"
-    echo _APP="$(shell_escape_single "${_APP}")"
-    echo _WRD="$(shell_escape_single "${_WRD}")"
-    #echo "__DOCSWWW=$(shell_escape_single "${_DOCS}")
-    #echo "__SRC=$(shell_escape_single "${__SRC}")
-    #echo "__PROJECTSRC=$(shell_escape_single "${__PROJECTSRC}")
-    echo _USRLOG="$(shell_escape_single "${_USRLOG}")"
-    echo _TERM_ID="$(shell_escape_single "${_TERM_ID}")"
-    echo PATH="$(shell_escape_single "${PATH}")"
-    echo __DOTFILES="$(shell_escape_single "${__DOTFILES}")"
-    #echo $PATH | tr ':' '\n' | sed 's/\(.*\)/#     \1/g'
-    echo "#"
-    if [ -n "${_TODO}" ]; then
-        echo _TODO="$(shell_escape_single "${_TODO}")"
-    fi
-    if [ -n "${_NOTE}" ]; then
-        echo _NOTE="$(shell_escape_single "${_NOTE}")"
-    fi
-    if [ -n "${_MSG}" ]; then
-        echo _MSG="$(shell_escape_single "${_MSG}")"
-    fi
-    echo '##'
-}
+    echo "## dotfiles_status()"
 
-function dotfiles_status {
-    # dotfiles_status()         -- print dotfiles_status
-    echo "# dotfiles_status()"
-
-    # Unconditional Variables
-    # These are expected to exist. `printvar` will show an error if they are not set.
     printvar "HOSTNAME"
     printvar "USER"
     printvar "__WRK"
     printvar "PROJECT_HOME"
     printvar "WORKON_HOME"
+    test -n "${CONDA_ROOT}" && printvar "CONDA_ROOT"
+    test -n "${CONDA_ENVS_PATH}" && printvar "CONDA_ENVS_PATH"
     printvar "VIRTUAL_ENV_NAME"
     printvar "VIRTUAL_ENV"
     printvar "_SRC"
@@ -84,29 +46,11 @@ function dotfiles_status {
     printvar "_TERM_ID"
     printvar "PATH"
     printvar "__DOTFILES"
-
     echo "#"
 
-    ## Conditional Variables
-    # These are optional. They are only printed if they are non-empty.
-    if [ -n "${CONDA_ROOT}" ]; then
-        printvar "CONDA_ROOT"
-    fi
-    if [ -n "${CONDA_ENVS_PATH}" ]; then
-        printvar "CONDA_ENVS_PATH"
-    fi
-
-    # These are optional. usrlog.sh sets the _TODO, _NOTE, and _MSG vars.
-    if [ -n "${_TODO}" ]; then
-        printvar "_TODO"
-    fi
-    if [ -n "${_NOTE}" ]; then
-        printvar "_NOTE"
-    fi
-    if [ -n "${_MSG}" ]; then
-        printvar "_MSG"
-    fi
-
+    test -n "${_TODO}" && printvar "_TODO"
+    test -n "${_NOTE}" && printvar "_NOTE"
+    test -n "${_MSG}" && printvar "_MSG"
     echo '##'
 }
 function ds {
@@ -286,22 +230,22 @@ function dotfiles_postmkvirtualenv {
     echo "PIP=$(shell_escape_single "${PIP}")"
 
     pip_freeze="${_LOG}/pip.freeze.postmkvirtualenv.txt"
-    echo "#pip_freeze=$(shell_escape_single "${pip_freeze}")"
+    printvar pip_freeze
     (set -x; ${PIP} freeze --all | tee "${pip_freeze}")
     echo ""
 
     pip_list="${_LOG}/pip.list.postmkvirtualenv.txt"
-    echo "#pip_list=$(shell_escape_single "${pip_list}")"
+    printvar pip_list
     (set -x; ${PIP} list | tee "${pip_list}")
     echo ""
 
     if [ -n "${IS_CONDA_ENV}" ]; then
         conda_list="${_LOG}/conda.list.no-pip.postmkvirtualenv.txt";
-        echo "#conda_list=$(shell_escape_single "${conda_list}")"
+        printvar conda_list
         (set -x; conda list -e --no-pip | tee "${conda_list}")
 
         conda_environment_yml="${_LOG}/conda.environment.postmkvirtualenv.yml";
-        echo "#conda_environment_yml=$(shell_escape_single "${conda_environment_yml}")"
+        printvar conda_environment_yml
         (set -x;
           conda env export \
               | grep -Ev '^(name|prefix): ' \
@@ -309,7 +253,7 @@ function dotfiles_postmkvirtualenv {
         )
 
         conda_environment_fromhistory_yml="${_LOG}/conda.environment.from-history.postmkvirtualenv.yml";
-        echo "#conda_environment_fromhistory_yml=$(shell_escape_single "${conda_environment_fromhistory_yml}")"
+        printvar conda_environment_fromhistory_yml
         (set -x;
           conda env export --from-history \
               | grep -Ev '^(name|prefix): ' \
