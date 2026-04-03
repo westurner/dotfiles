@@ -165,7 +165,8 @@ function _usrlog_echo_title  {
     fi
     title="${title} ${USER}@${HOSTNAME}:${PWD}${venvtitle:+" - [${venvtitle^^}]"}"
     local USRLOG_WINDOW_TITLE=${title:-"$@"}
-    if [ -n $CLICOLOR ]; then
+    #local USRLOG_WINDOW_TITLE=${title}
+    if [ -n "$CLICOLOR" ]; then
         echo -ne "\033]0;${USRLOG_WINDOW_TITLE}\007"
     #  else
     #     echo -ne "${USRLOG_WINDOW_TITLE}"
@@ -177,7 +178,7 @@ function _usrlog_set_title {
     #   $1: _window_title (defaults to ${_TERM_ID})
     export WINDOW_TITLE=${1:-"$_TERM_ID"}
     _usrlog_echo_title
-    declare -F '_setup_venv_prompt' 2>&1 > /dev/null \
+    declare -F '_setup_venv_prompt' > /dev/null 2>&1 \
         && _setup_venv_prompt
 }
 
@@ -416,10 +417,10 @@ function usrlog_tail {
 
 function _usrlog_tail {
     #  usrlog_tail()     -- tail -n20 $_USRLOG
-    local _args=${@}
+    local _args=("${@}")
     #local follow="${_USRLOG_TAIL_FOLLOW}"
     local _usrlog="${_USRLOG}"
-    if [ -n "${_args}" ]; then
+    if [ -n "${_args[*]}" ]; then
         for _arg in ${_args}; do
             case "${_arg}" in
                 -*)
@@ -453,7 +454,7 @@ function _usrlog_tail {
         if [ -z $# ]; then
             _args=($_args "${_usrlog}")
         fi
-        (set -x; tail ${_args[@]} "${_usrlog}")
+        (set -x; tail "${_args[@]}" "${_usrlog}")
 
     else
         (set -x; tail ${follow:+"-f"} "${_usrlog}")
@@ -504,7 +505,7 @@ function uga2 {
 #}
 
 function _usrlog_grep_venvs {
-    grep -E ${@} '((we[c]?)|workon_venv|workon_conda|workon|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
+    grep -E "${@}" '((we[c]?)|workon_venv|workon_conda|workon|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
 
 }
 function usrlog_grep_venvs {
@@ -614,7 +615,7 @@ function usrlog_grin_session_id {
     (set -x;
     local _term_id="${1:-"${_TERM_ID}"}";
     local _usrlog="${2:-"${_USRLOG}"}";
-    grin -s '#  [\d\-:TZ\s]+\t'${_term_id}'\t(.*)$' ${_usrlog} --no-color;);
+    grin -s '#  [\d\-:TZ\s]+\t'"${_term_id}"'\t(.*)$' "${_usrlog}" --no-color;);
 }
 
 
@@ -624,7 +625,7 @@ function usrlog_grin_session_id_cmds {
     local _term_id="${1:-"${_TERM_ID}"}";
     local _usrlog="${2:-"${_USRLOG}"}";
     grin -N --no-color --without-filename -s \
-        '#  [\d\-:TZ\s]+\t'${_term_id}'\t(.*)$' \
+        '#  [\d\-:TZ\s]+\t'"${_term_id}"'\t(.*)$' \
         "${_usrlog}" \
             | _usrlog_parse_cmds -  ;
     );
@@ -659,7 +660,7 @@ function usrlog_grin_session_id_all_cmds {
     local _usrlog=${2:-"${_USRLOG}"}; \
     local _usrlogs=$(lsusrlogs_date_asc);
     grin -N --no-color --without-filename -s \
-        '#  [\d\-:TZ\s]+\t'${_term_id}'\t' \
+        '#  [\d\-:TZ\s]+\t'"${_term_id}"'\t' \
         "${_usrlogs}" \
         | _usrlog_parse_cmds -  ;
     );
@@ -696,17 +697,17 @@ function _usrlog_set_usrlog_paths {
     )
     test -n "${USRLOG_INCLUDE_LEGACYLOGS}" && \
         _usrlog_paths+=(
-            ${WORKON_HOME}/*/.usrlog )
+            "${WORKON_HOME}"/*/.usrlog )
     test -n "${WORKON_HOME}" && \
         _usrlog_paths+=(
-            ${WORKON_HOME}/*/-usrlog.log ) 
+            "${WORKON_HOME}"/*/-usrlog.log ) 
     test -n "${CONDA_ENVS_PATH}" && \
         _usrlog_paths+=(
-            ${CONDA_ENVS_PATH}/*/-usrlog.log ) 
+            "${CONDA_ENVS_PATH}"/*/-usrlog.log ) 
     test -z "${USRLOG_INCLUDE_ALLUSRLOGS}" && \
         test -n "${__WRK}" && \
             _usrlog_paths+=(
-                ${__WRK}/-*/*/-usrlog.log )  # TODO: lsusrlogs
+                "${__WRK}"/-*/*/-usrlog.log )  # TODO: lsusrlogs
     declare -A uniques
     for pth in "${_usrlog_paths[@]}"; do
         exists=${uniques["${pth}"]}

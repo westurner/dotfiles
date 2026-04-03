@@ -12,7 +12,10 @@ configure_TERM() {
     if [ -n "${term}" ]; then
         export TERM="${term}"
     else
-        if [ -n "${TMUX}" ] ; then
+        if [ "${TERM}" == "xterm-256color" ]; then
+            # xterm-256color
+            configure_TERM_CLICOLOR
+        elif [ -n "${TMUX}" ] ; then
             #tmux
             export TERM="screen"
             configure_TERM_CLICOLOR
@@ -47,5 +50,6 @@ configure_TERM_CLICOLOR() {
     fi
 }
 
-    # configure_TERM when sourced
+
+# configure_TERM when sourced
 configure_TERM
