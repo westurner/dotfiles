@@ -23,12 +23,16 @@ data.location=~/-wrk/-task
 #include /usr/share/task/dark-blue-256.theme
 #include /usr/share/task/dark-violets-256.theme
 #include /usr/share/task/dark-yellow-green.theme
-#include /usr/share/task/dark-gray-256.theme
+include /usr/share/task/dark-gray-256.theme
 #include /usr/share/task/dark-gray-blue-256.theme
-include /usr/share/task/solarized-dark-256.theme
+#include /usr/share/task/solarized-dark-256.theme
 #include /usr/share/task/solarized-light-256.theme
 #include /usr/share/task/no-color.theme
 
 news.version=2.6.0
 context.projectA.read=project:projectA or +urgent
 context.projectA.write=project:projectA or +urgent
+context.house.read=project:home
+context.house.write=project:home
+context.home.read=project:home
+context.home.write=project:home
