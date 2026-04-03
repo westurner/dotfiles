@@ -1,0 +1,46 @@
+{
+    // JupyterLab Shell
+    // @jupyterlab/application-extension:shell
+    // JupyterLab Shell layout settings.
+    // ***************************************
+
+    // Customize shell widget positioning
+    // Overrides default widget position in the application layout
+    // e.g. to position terminals in the right sidebar in multiple documents mode and in the down are in single document mode, {
+    //   "single": { "Terminal": { "area": "down" } },
+    //   "multiple": { "Terminal": { "area": "right" } }
+    // }.
+    "layout": {
+        "single": {
+            "Linked Console": {
+                "area": "down"
+            },
+            "Inspector": {
+                "area": "down"
+            },
+            "Cloned Output": {
+                "area": "down"
+            },
+            "Sessions and Tabs": {
+                "area": "left"
+            },
+            "Property Inspector": {
+                "area": "left"
+            },
+            "Debugger": {
+                "area": "left"
+            }
+        },
+        "multiple": {
+            "Sessions and Tabs": {
+                "area": "left"
+            },
+            "Property Inspector": {
+                "area": "left"
+            },
+            "Debugger": {
+                "area": "left"
+            }
+        }
+    }
+}

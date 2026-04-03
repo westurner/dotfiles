@@ -1,0 +1,10 @@
+{
+    // File Browser
+    // @jupyterlab/filebrowser-extension:browser
+    // File Browser settings.
+    // *****************************************
+
+    // Navigate to current directory
+    // Whether to automatically navigate to a document's current directory
+    "navigateToCurrentDirectory": true
+}
