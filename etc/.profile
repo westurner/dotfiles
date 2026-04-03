@@ -29,3 +29,6 @@ case "$TERM" in
     *)
         ;;
 esac
+
+# source cargo config for rust
+source "$HOME/.cargo/env"
