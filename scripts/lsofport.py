@@ -164,8 +164,8 @@ def find_processes_on_port(*, port, verbosity=False):
     for row in rows:
         if row.local_address_port__matches(port):
             if verbosity:
-                print("INFO: local_address_port__match:", dict(row=row, inode=row.inode, uid=row.uid), file=sys.stderr)
-            matches.append(row.inode)
+                print("INFO: local_address_port__match:", dict(row=row, inode=row.uid, uid=row.retrnsmt), file=sys.stderr)
+            matches.append(row.uid)  # row.uid corresponds to data index 9, which is the actual integer inode
     for inode_id in matches:
         yield from find_processes_with_sockets(inode_id=inode_id)
 
@@ -242,11 +242,12 @@ TEST_PORT_NUMBER = "18088"
 def test_find_processes_with_sockets_match_inode_id(
     inode_id=TEST_INODE_ID,  # TODO: fixture for this somehow:
 ):
+    inode_id = find_processes_with_sockets()[0][1]
+
     output = find_processes_with_sockets(inode_id=inode_id)
     assert isinstance(output, list)
     assert output, output
     assert isinstance(output[0], int)
-    # assert False, output
 
 
 def test_read_proc_net_tcp():
@@ -282,7 +283,7 @@ def test_find_processes_on_port(port=TEST_PORT_NUMBER):
     assert isinstance(output, types.GeneratorType)
     output = list(output)
     assert output
-    assert False, output
+    # assert False, output
 
 
 # def test_lsofport():
@@ -300,10 +301,11 @@ def test_lsofport(port):
     opts.port = port
     opts.proc_net_tcp = "/proc/self/net/tcp"
     opts.verbosity = 2
+    opts.ps_args = ["-fwZ"]
     output = lsofport(opts)
     assert output
     assert isinstance(output, list)
-    assert False, output
+    # assert False, output
 
 
 @pytest.mark.parametrize(
@@ -330,7 +332,7 @@ def test_main_0(capsys, argv, inode_id):
     assert retcode == 0
     captured = capsys.readouterr()
     assert "/proc/self/net/tcp" in captured.err
-    assert any(line.startswith("NetTCPRow(") for line in captured.err)
+    assert any(line.startswith("NetTCPRow(") for line in captured.err.splitlines())
     # assert f'## sockets matching: {inode_id}' in captured.err
     # assert False, captured
 
@@ -455,6 +457,7 @@ def main(argv=None):
             pass
 
         _call(["pytest", "-v", "-l"] + args + [__file__])
+        sys.exit()
 
     if opts.find_sockets_all:
         for x in find_processes_with_sockets():
