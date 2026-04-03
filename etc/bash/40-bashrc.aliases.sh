@@ -203,16 +203,25 @@ _loadaliases () {
     alias catpj='pyg -l javascript'
     alias catph='pyg -l html'
 
-    # shtop    -- 'sudo htop' [apt-get/yum install -y htop]
+    # shtop   -- 'sudo htop' [apt-get/yum install -y htop]
     alias shtop='sudo htop'
+
     # t       -- 'task'
     alias t='task'
-    #t        -- 'tail'
+
+    #t       -- 'tail'
     #alias t='tail'
-    # tf       -- 'tail -f'
+    
+    # tf      -- 'tail -f'
     alias tf='tail -f'
-    # xclipc   -- 'xclip -selection c'
+
+    # xclipc  -- 'xclip -selection c'
     alias xclipc='xclip -selection c'
+
+    # dnf     -- 'python -m dnf.cli.main'
+    # REQUIRES: `dnf install python3-dnf`
+    # TODO: add tab-completion 
+    alias dnfpy='/usr/bin/python3 -m dnf.cli.main'
 }
 _loadaliases
 
