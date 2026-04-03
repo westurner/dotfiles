@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
-from __future__ import print_function
 """
 optimize_path
 """
+from __future__ import print_function
 import itertools
 import json
 import logging
 import os
 import re
+import shutil
 import subprocess
 import sys
 from collections import OrderedDict, Counter
@@ -18,15 +19,14 @@ if sys.version_info.major > 2:
 else:
     iterkeys = lambda x: x.iterkeys()
 
-import distutils.spawn
 
 log = logging.getLogger()
 
-md5_bin = distutils.spawn.find_executable('md5')
+md5_bin = shutil.which('md5')
 if md5_bin:  # OSX
     CHECKSUM_BIN = (md5_bin,'-q')
 else:
-    md5sum_bin = distutils.spawn.find_executable('md5sum')
+    md5sum_bin = shutil.which('md5sum')
     if md5sum_bin:
         CHECKSUM_BIN = (md5sum_bin, )
 if not CHECKSUM_BIN:
