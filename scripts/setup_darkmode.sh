@@ -156,7 +156,7 @@ setup_darkmode() {
     # Check if the dark mode flag is explicitly set to false.
     if [ "$use_dark_mode" = "false" ] || [ "$use_dark_mode" = "0" ]; then
         # --- LIGHT MODE SETTINGS ---
-        printf "#INFO: 🎨 Setting up LIGHT mode...\n"
+        printf "#INFO: 🎨 Setting up LIGHT mode...\n" >&2
         gtk_theme="$theme_base"
         pygments_style="default"
         bat_theme="GitHub"
@@ -166,7 +166,7 @@ setup_darkmode() {
         theme_mode="light"
     else
         # --- DARK MODE SETTINGS ---
-        printf "#INFO: 🌙 Setting up DARK mode...\n"
+        printf "#INFO: 🌙 Setting up DARK mode...\n" >&2
         gtk_theme="${theme_base}:dark"
         pygments_style="monokai"
         bat_theme="gruvbox-dark"
@@ -205,7 +205,7 @@ setup_darkmode() {
         export FZF_DEFAULT_OPTS="$fzf_opts"
 
 
-        export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
+        #export GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc
         export QT_STYLE_OVERRIDE=Adwaita-Dark
         # TODO: export QT_STYLE_OVERRIDE=Adwaita:Dark ?
     fi
@@ -227,8 +227,8 @@ setup_darkmode() {
         setup_darkmode_update_gtk_config "$gtk_theme" "$prefer_dark_theme_value")
     fi
 
-    printf "\n#INFO: Status of dark mode vars:\n"
-    setup_darkmode_print_status
+    printf "\n#INFO: Status of dark mode vars:\n" >&2
+    setup_darkmode_print_status >&2
 
     # TODO: when setup_darkmode.sh is not sourced in, don't print this
     if [ -n "${IS_SOURCED_NOT_MAIN}" ]; then
@@ -241,12 +241,12 @@ setup_darkmode_print_status() {
     (set +x;
     printf "THEME_MODE=%s\n" "$THEME_MODE"
     printf "BAT_THEME=%s\n" "$BAT_THEME"
-    printf "FZF_DEFAULT_OPTS=%s\n" "$FZF_DEFAULT_OPTS")
+    printf "FZF_DEFAULT_OPTS=%s\n" "$FZF_DEFAULT_OPTS"
     printf "GTK2_RC_FILES=%s\n" "$GTK2_RC_FILES"
     printf "GTK_THEME=%s\n" "$GTK_THEME"
     printf "PYGMENTS_STYLE=%s\n" "$PYGMENTS_STYLE"
     printf "QT_QPA_PLATFORMTHEME=%s\n" "$QT_QPA_PLATFORMTHEME"
-    printf "QT_STYLE_OVERRIDE=%s\n" "$QT_STYLE_OVERRIDE"
+    printf "QT_STYLE_OVERRIDE=%s\n" "$QT_STYLE_OVERRIDE")
 }
 
 #
@@ -313,6 +313,7 @@ setup_darkmode_check_status() {
     printf "#INFO: gsettings color-scheme, gtk-theme...\n"
     printf "gsettings color-scheme: %s\n" "$(gsettings get org.gnome.desktop.interface color-scheme)"
     printf "gsettings gtk-theme: %s\n" "$(gsettings get org.gnome.desktop.interface gtk-theme)"
+    _gtk2_settings="$HOME/.gtkrc-2.0"
     _gtk3_settings="$HOME/.config/gtk-3.0/settings.ini"
     _gtk4_settings="$HOME/.config/gtk-4.0/settings.ini"
     printf "\n#INFO: GTK3 settings: ${_gtk3_settings}\n"
@@ -320,7 +321,7 @@ setup_darkmode_check_status() {
     printf "\n#INFO: GTK4 settings: ${_gtk4_settings}\n"
     cat "${_gtk4_settings}"
     printf "\n#INFO: Environment variables:\n"
-    setup_darkmode_print_status
+    (setup_darkmode_print_status) >&2
 }
 
 setup_darkmode_main() {
