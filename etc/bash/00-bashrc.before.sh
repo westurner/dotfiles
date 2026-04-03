@@ -214,6 +214,10 @@ function dotfiles_reload {
   source "${conf}/70-bashrc.repos.sh"
 
   #
+  ## 85-bashrc.agents.sh        -- agents.sh
+  source "${conf}/85-bashrc.agents.sh"
+
+  #
   ## 99-bashrc.after.sh         -- after: cleanup
   # shellcheck source=./99-bashrc.after.sh
   source "${conf}/99-bashrc.after.sh"
