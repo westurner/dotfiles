@@ -26,13 +26,16 @@ from typing import Any, Callable, Iterator, List, Optional, Tuple, Union
 try:
     import pytest
 except ImportError:
+
     class pytest:
         class mark:
             def parametrize(self, *args, **kwargs):
                 def decorator_parametrize(func):
                     def wrapper(*args, **kwargs):
                         return func(*args, **kwargs)
+
                     return wrapper
+
                 return decorator_parametrize
 
 
@@ -52,6 +55,7 @@ def trace(f: Callable) -> Callable:
     Returns:
         Callable: The traced function.
     """
+
     @wraps(f)
     def trace_(*args: Any, **kwargs: Any) -> Any:
         if kwargs.pop("verbosity", None):
@@ -89,9 +93,7 @@ def parse_proc_ipaddr(addr: str) -> str:
     Returns:
         str: The standard dot-decimal representation of the IP address.
     """
-    return ".".join(
-        str(int(addr[n: (n + 2 or None)], 16)) for n in range(-2, -10, -2)
-    )
+    return ".".join(str(int(addr[n : (n + 2 or None)], 16)) for n in range(-2, -10, -2))
 
 
 def read_proc_net_tcp(path: str = "/proc/self/net/tcp") -> List[Any]:
@@ -108,15 +110,13 @@ def read_proc_net_tcp(path: str = "/proc/self/net/tcp") -> List[Any]:
 
     row_header = next(row_iter)
     field_names__ = [x.replace("->", "__") for x in (row_header)] + [
-        f"x_{chr(97+n)}" for n in range(5)
+        f"x_{chr(97 + n)}" for n in range(5)
     ]
 
     global NetTCPRow  # TODO
 
     class NetTCPRow(
-        namedtuple(
-            "NetTcpRow", field_names__, defaults=(None,) * len(field_names__)
-        )
+        namedtuple("NetTcpRow", field_names__, defaults=(None,) * len(field_names__))
     ):
         # def __new__(cls, *args, **kwargs):
         #     print('Row.__new__',
@@ -198,7 +198,7 @@ def find_processes_with_sockets(
         inode_id (Optional[Union[str, int]], optional): Specific inode ID to search for. If None, it returns all. Defaults to None.
 
     Returns:
-        Union[List[int], List[Tuple[int, int]]]: 
+        Union[List[int], List[Tuple[int, int]]]:
             List of (pid, socket_inode) tuples if inode_id is None.
             List of pid integers if an inode_id is provided.
     """
@@ -218,7 +218,9 @@ def find_processes_with_sockets(
         ]
 
 
-def find_processes_on_port(*, port: Union[int, str], verbosity: bool = False) -> Iterator[int]:
+def find_processes_on_port(
+    *, port: Union[int, str], verbosity: bool = False
+) -> Iterator[int]:
     """Find process IDs listening on a specific TCP port.
 
     Args:
@@ -233,8 +235,14 @@ def find_processes_on_port(*, port: Union[int, str], verbosity: bool = False) ->
     for row in rows:
         if row.local_address_port__matches(port):
             if verbosity:
-                print("INFO: local_address_port__match:", dict(row=row, inode=row.uid, uid=row.retrnsmt), file=sys.stderr)
-            matches.append(row.uid)  # row.uid corresponds to data index 9, which is the actual integer inode
+                print(
+                    "INFO: local_address_port__match:",
+                    dict(row=row, inode=row.uid, uid=row.retrnsmt),
+                    file=sys.stderr,
+                )
+            matches.append(
+                row.uid
+            )  # row.uid corresponds to data index 9, which is the actual integer inode
     for inode_id in matches:
         yield from find_processes_with_sockets(inode_id=inode_id)
 
@@ -410,14 +418,31 @@ def get_parser() -> argparse.ArgumentParser:
         description="find processes listening on a port without netstat, ss, or lsof",
     )
 
-    prs.add_argument("-p", "--port", dest="port", action="store", help="The port number to search for")
-
-    prs.add_argument("--find-sockets", dest="find_sockets_all", action="store_true", help="Find all processes with sockets")
     prs.add_argument(
-        "--find-sockets-on-port", dest="find_sockets_on_port", action="store_true", help="Find sockets on the specified port"
+        "-p",
+        "--port",
+        dest="port",
+        action="store",
+        help="The port number to search for",
+    )
+
+    prs.add_argument(
+        "--find-sockets",
+        dest="find_sockets_all",
+        action="store_true",
+        help="Find all processes with sockets",
     )
     prs.add_argument(
-        "--find-sockets-on-inode", dest="find_sockets_inode", action="store", help="Find sockets by inode id"
+        "--find-sockets-on-port",
+        dest="find_sockets_on_port",
+        action="store_true",
+        help="Find sockets on the specified port",
+    )
+    prs.add_argument(
+        "--find-sockets-on-inode",
+        dest="find_sockets_inode",
+        action="store",
+        help="Find sockets by inode id",
     )
 
     prs.add_argument(
@@ -429,7 +454,11 @@ def get_parser() -> argparse.ArgumentParser:
 
     DEFAULT_PS_ARGS = ["-fwZ"]  # TODO: if selinux else no -Z
     prs.add_argument(
-        "--ps-args", dest="ps_args", action="store", default=DEFAULT_PS_ARGS, help="Arguments to pass to the ps command (default: %(default)s)"
+        "--ps-args",
+        dest="ps_args",
+        action="store",
+        default=DEFAULT_PS_ARGS,
+        help="Arguments to pass to the ps command (default: %(default)s)",
     )
 
     prs.add_argument(
@@ -441,7 +470,12 @@ def get_parser() -> argparse.ArgumentParser:
     )
 
     prs.add_argument(
-        "-v", "--verbose", dest="verbosity", action="count", default=0, help="Increase verbosity level"
+        "-v",
+        "--verbose",
+        dest="verbosity",
+        action="count",
+        default=0,
+        help="Increase verbosity level",
     )
     prs.add_argument(
         "-q",
@@ -465,7 +499,12 @@ def get_parser() -> argparse.ArgumentParser:
         help="Run tests with ipdb",
     )
 
-    prs.add_argument("--version", dest="version", action="store_true", help="Show version information")
+    prs.add_argument(
+        "--version",
+        dest="version",
+        action="store_true",
+        help="Show version information",
+    )
 
     return prs
 
@@ -483,6 +522,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     try:
         import argcomplete
+
         argcomplete.autocomplete(prs)
     except ImportError:
         pass
@@ -536,11 +576,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         for x in find_processes_with_sockets(opts.find_sockets_inode):
             print(x[0], x[1])
 
-    if opts.find_processes or not any((
-        opts.find_sockets_all,
-        opts.find_sockets_on_port,
-        opts.find_sockets_inode,
-    )):
+    if opts.find_processes or not any(
+        (
+            opts.find_sockets_all,
+            opts.find_sockets_on_port,
+            opts.find_sockets_inode,
+        )
+    ):
         if not opts.port:
             prs.error("-p <port> must be specified")
         output = lsofport(opts)
