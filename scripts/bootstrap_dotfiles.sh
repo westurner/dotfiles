@@ -395,6 +395,7 @@ function symlink_gtk {
     backup_and_symlink .gtkrc-2.0
     mkdir -p "${HOME}/.config"
     backup_and_symlink .config/gtk-3.0
+    backup_and_symlink .config/gtk-4.0
 }
 
 function symlink_mimeapps {
