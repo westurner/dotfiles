@@ -1,0 +1,9 @@
+
+/* Inline | https://www.google.com/search?q=flatpak+firefox+theme+teal&client=firefox-b-1-d&sca_esv=23a7faa5f06010d3&ei=pAABaPm3Mq2eptQPgu-y8Q0&ved=0ahUKEwj5mczglN-MAxUtj4kEHYK3LN4Q4dUDCBA&uact=5&oq=flatpak+firefox+theme+teal&gs_lp=Egxnd3Mtd2l6LXNlcnAiGmZsYXRwYWsgZmlyZWZveCB0aGVtZSB0ZWFsMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAFI8RJQmQVY3AhwAXgAkAEAmAFcoAGcA6oBATW4AQPIAQD4AQGYAgagAtsDwgIJEAAYsAMYCBgewgIOEAAYgAQYsAMYhgMYigXCAgsQABiABBiwAxiiBMICCBAAGLADGO8FwgIGEAAYFhgewgILEAAYgAQYhgMYigXCAggQABiABBiiBMICBRAAGO8FwgIFECEYnwWYAwCIBgGQBgqSBwE2oAfxGrIHATW4B8sD&sclient=gws-wiz-serp */
+
+/* darken search result icons for dark mode */
+.UnOTSe img {
+    filter: contrast(0.1) brightness(0.5) blur !important;
+    background-color: #000 !important;
+  }
+  
