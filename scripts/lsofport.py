@@ -10,6 +10,7 @@ lsofport
 # pylint: disable=use-dict-literal
 # pylint: disable=no-else-return
 
+import argparse
 import glob
 import logging
 import os
@@ -20,6 +21,7 @@ import sys
 import types
 from collections import namedtuple
 from functools import wraps
+from typing import Any, Callable, Iterator, List, Optional, Tuple, Union
 
 try:
     import pytest
@@ -41,9 +43,17 @@ log = logging.getLogger()
 log.setLevel(logging.INFO)
 
 
-def trace(f):
+def trace(f: Callable) -> Callable:
+    """Decorator to trace function calls for debugging.
+
+    Args:
+        f (Callable): The function to wrap.
+
+    Returns:
+        Callable: The traced function.
+    """
     @wraps(f)
-    def trace_(*args, **kwargs):
+    def trace_(*args: Any, **kwargs: Any) -> Any:
         if kwargs.pop("verbosity", None):
             log.info(
                 f"# {f.__qualname__} : %r",
@@ -58,17 +68,41 @@ _check_output = trace(subprocess.check_output)
 _call = trace(subprocess.call)
 
 
-def int2hex(port: int):
+def int2hex(port: Union[int, str]) -> str:
+    """Convert an integer port number to a 4-character hex string.
+
+    Args:
+        port (Union[int, str]): The port number to convert.
+
+    Returns:
+        str: The 4-character uppercase hex string.
+    """
     return hex(int(port))[2:].upper().rjust(4, "0")
 
 
-def parse_proc_ipaddr(addr: str):
+def parse_proc_ipaddr(addr: str) -> str:
+    """Parse a hex IP address string from /proc/net/tcp.
+
+    Args:
+        addr (str): The hex representation of the IP address.
+
+    Returns:
+        str: The standard dot-decimal representation of the IP address.
+    """
     return ".".join(
         str(int(addr[n: (n + 2 or None)], 16)) for n in range(-2, -10, -2)
     )
 
 
-def read_proc_net_tcp(path="/proc/self/net/tcp"):
+def read_proc_net_tcp(path: str = "/proc/self/net/tcp") -> List[Any]:
+    """Read and parse the /proc/net/tcp file.
+
+    Args:
+        path (str, optional): The path to the net/tcp file. Defaults to "/proc/self/net/tcp".
+
+    Returns:
+        List[Any]: A list of NetTCPRow namedtuples representing the rows in the file.
+    """
     output = _check_output(["cat", path])
     row_iter = iter(line.split() for line in output.decode().splitlines())
 
@@ -118,7 +152,12 @@ def read_proc_net_tcp(path="/proc/self/net/tcp"):
         raise
 
 
-def read_proc_fd_paths():
+def read_proc_fd_paths() -> List[str]:
+    """Retrieve all paths for file descriptors in /proc/*/fd/.
+
+    Returns:
+        List[str]: A list of file paths.
+    """
     return [
         path
         for path in glob.glob("/proc/*/fd/*")
@@ -126,21 +165,42 @@ def read_proc_fd_paths():
     ]
 
 
-def proc_fd_path_to_pid(path):
+def proc_fd_path_to_pid(path: str) -> int:
+    """Extract a process ID (PID) from a process file descriptor path.
+
+    Args:
+        path (str): The /proc/<pid>/fd/<fd> path.
+
+    Returns:
+        int: The process ID.
+    """
     return int(os.path.basename(os.path.dirname(os.path.dirname(path))))
 
 
-def parse_proc_fd_socket_path(path):
+def parse_proc_fd_socket_path(path: str) -> int:
+    """Parse a socket inode from a /proc/<pid>/fd path target.
+
+    Args:
+        path (str): The target path for the file descriptor.
+
+    Returns:
+        int: The socket inode.
+    """
     return int(path.split(":", -1)[1].strip("[]"))
 
 
 def find_processes_with_sockets(
-    inode_id=None,
-) -> list[int] | list[tuple[int, int]]:
-    """
+    inode_id: Optional[Union[str, int]] = None,
+) -> Union[List[int], List[Tuple[int, int]]]:
+    """Find processes that have open socket file descriptors.
+
+    Args:
+        inode_id (Optional[Union[str, int]], optional): Specific inode ID to search for. If None, it returns all. Defaults to None.
+
     Returns:
-        list: [(pid, socket_inode),]
-        list: [pid,]
+        Union[List[int], List[Tuple[int, int]]]: 
+            List of (pid, socket_inode) tuples if inode_id is None.
+            List of pid integers if an inode_id is provided.
     """
     proc_fd_paths = read_proc_fd_paths()
 
@@ -158,7 +218,16 @@ def find_processes_with_sockets(
         ]
 
 
-def find_processes_on_port(*, port, verbosity=False):
+def find_processes_on_port(*, port: Union[int, str], verbosity: bool = False) -> Iterator[int]:
+    """Find process IDs listening on a specific TCP port.
+
+    Args:
+        port (Union[int, str]): The port number to search for.
+        verbosity (bool, optional): If True, enables verbose logging output. Defaults to False.
+
+    Yields:
+        Iterator[int]: Iterator over matching process IDs.
+    """
     rows = read_proc_net_tcp()
     matches = []
     for row in rows:
@@ -170,23 +239,14 @@ def find_processes_on_port(*, port, verbosity=False):
         yield from find_processes_with_sockets(inode_id=inode_id)
 
 
-def lsofport(opts):
-    """find processes listening on a port without netstat, ss, or lsof
+def lsofport(opts: argparse.Namespace) -> List[int]:
+    """Find processes listening on a port without netstat, ss, or lsof.
 
-    Arguments:
-        port (str): ...
-
-    Keyword Arguments:
-        port (str): ...
+    Args:
+        opts (argparse.Namespace): The parsed command line arguments.
 
     Returns:
-        str: ...
-
-    Yields:
-        str: ...
-
-    Raises:
-        Exception: ...
+        List[int]: A list of process IDs found.
     """
 
     print(f"# opts={opts.__dict__}", file=sys.stderr)
@@ -337,7 +397,12 @@ def test_main_0(capsys, argv, inode_id):
     # assert False, captured
 
 
-def get_parser():
+def get_parser() -> argparse.ArgumentParser:
+    """Create and configure the argparse ArgumentParser for the lsofport CLI.
+
+    Returns:
+        argparse.ArgumentParser: The configured ArgumentParser object.
+    """
     import argparse
 
     prs = argparse.ArgumentParser(
@@ -405,14 +470,14 @@ def get_parser():
     return prs
 
 
-def main(argv=None):
-    """
-    lsofport main() function
+def main(argv: Optional[List[str]] = None) -> int:
+    """The main entrypoint for the lsofport CLI.
 
-    Keyword Arguments:
-        argv (list): commandline arguments (e.g. sys.argv[1:])
+    Args:
+        argv (Optional[List[str]], optional): The command line arguments. Defaults to None, which will fall back to sys.argv.
+
     Returns:
-        int:
+        int: The exit code.
     """
     prs = get_parser()
 
