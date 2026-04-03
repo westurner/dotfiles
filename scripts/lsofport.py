@@ -38,6 +38,12 @@ except ImportError:
 
                 return decorator_parametrize
 
+        @staticmethod
+        def fixture(*args, **kwargs):
+            def decorator_fixture(func):
+                return func
+            return decorator_fixture
+
 
 __version__ = "0.0.1"
 
@@ -268,10 +274,18 @@ def lsofport(opts: argparse.Namespace) -> List[int]:
     for pid in find_processes_on_port(port=opts.port):
         print(pid)
         pids.append(pid)
+        stdout_dest = None
+        try:
+            sys.stderr.fileno()
+            stdout_dest = sys.stderr
+        except Exception:
+            import subprocess
+            stdout_dest = subprocess.PIPE
+
         _call(
             ["ps", *opts.ps_args, "-p", str(pid)],
             verbosity=opts.verbosity,
-            stdout=sys.stderr,
+            stdout=stdout_dest,
         )
     return pids
 
@@ -306,6 +320,23 @@ def test_find_processes_with_sockets():
 TEST_INODE_ID = "1405823"
 TEST_PORT_NUMBER = "18088"
 
+@pytest.fixture(scope="session", autouse=True)
+def test_server():
+    """Create a listening socket to reliably test finding processes by port."""
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('0.0.0.0', 0))
+    s.listen(1)
+    port = s.getsockname()[1]
+    
+    # Override globals so existing tests use the real port
+    global TEST_PORT_NUMBER
+    TEST_PORT_NUMBER = str(port)
+    
+    yield s
+    s.close()
+
+
 
 def test_find_processes_with_sockets_match_inode_id(
     inode_id=TEST_INODE_ID,  # TODO: fixture for this somehow:
@@ -336,7 +367,9 @@ def test_row_port_matches():
     assert not NetTCPRow.matches_port(address="00000000:0001", port=18088)
 
 
-def test_row_local_address_port__matches(port=TEST_PORT_NUMBER):
+def test_row_local_address_port__matches(port=None):
+    if port is None:
+        port = TEST_PORT_NUMBER
     rows = read_proc_net_tcp()
     matches = []
     for row in rows:
@@ -346,7 +379,9 @@ def test_row_local_address_port__matches(port=TEST_PORT_NUMBER):
         raise AssertionError("There should be a row with a matching port")
 
 
-def test_find_processes_on_port(port=TEST_PORT_NUMBER):
+def test_find_processes_on_port(port=None):
+    if port is None:
+        port = TEST_PORT_NUMBER
     output = find_processes_on_port(port=port, verbosity=True)
     assert isinstance(output, types.GeneratorType)
     output = list(output)
@@ -355,13 +390,9 @@ def test_find_processes_on_port(port=TEST_PORT_NUMBER):
 
 
 # def test_lsofport():
-@pytest.mark.parametrize(
-    "port",
-    [
-        TEST_PORT_NUMBER,
-    ],
-)
-def test_lsofport(port):
+def test_lsofport(port=None):
+    if port is None:
+        port = TEST_PORT_NUMBER
     class Opts:
         pass
 
@@ -392,10 +423,15 @@ def test_main(argv):
 @pytest.mark.parametrize(
     "argv, inode_id",
     [
-        [["-p", TEST_PORT_NUMBER, "-v", "-v"], TEST_INODE_ID],
+        [None, None],
     ],
 )
 def test_main_0(capsys, argv, inode_id):
+    if argv is None:
+        argv = ["-p", TEST_PORT_NUMBER, "-v", "-v"]
+    if inode_id is None:
+        inode_id = TEST_INODE_ID
+
     retcode = main([__file__, *argv])
     assert retcode == 0
     captured = capsys.readouterr()
@@ -561,7 +597,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         except ValueError:
             pass
 
-        _call(["pytest", "-v", "-l"] + args + [__file__])
+        _call([sys.executable, "-m", "pytest", "-v", "-l"] + args + [__file__])
         sys.exit()
 
     if opts.find_sockets_all:
