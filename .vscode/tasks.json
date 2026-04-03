@@ -1,0 +1,65 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "run py test",
+			"type": "shell",
+			"command": "python3 /var/home/wturner/-wrk/-ve311/dotfiles/src/dotfiles/scripts/lsofport.py --test > out.txt 2>&1 && cat out.txt",
+			"isBackground": false
+		},
+		{
+			"label": "cat out",
+			"type": "shell",
+			"command": "cat out.txt",
+			"isBackground": false
+		},
+		{
+			"label": "run py test 2",
+			"type": "shell",
+			"command": "python3 /var/home/wturner/-wrk/-ve311/dotfiles/src/dotfiles/scripts/lsofport.py --test > out.txt 2>&1 && cat out.txt",
+			"isBackground": false
+		},
+		{
+			"label": "install pytest",
+			"type": "shell",
+			"command": "python3 -m pip install pytest pytest-mock --user",
+			"isBackground": false
+		},
+		{
+			"label": "second test",
+			"type": "shell",
+			"command": "python3 /var/home/wturner/-wrk/-ve311/dotfiles/src/dotfiles/scripts/lsofport.py --test > out.txt 2>&1 && cat out.txt",
+			"isBackground": false
+		},
+		{
+			"label": "third test",
+			"type": "shell",
+			"command": "python3 -m pip install pytest-cov > /dev/null 2>&1 && python3 /var/home/wturner/-wrk/-ve311/dotfiles/src/dotfiles/scripts/lsofport.py --test > out.txt 2>&1 && cat out.txt",
+			"isBackground": false
+		},
+		{
+			"label": "fourth test",
+			"type": "shell",
+			"command": "python3 /var/home/wturner/-wrk/-ve311/dotfiles/src/dotfiles/scripts/lsofport.py --test > out.txt 2>&1 && cat out.txt",
+			"isBackground": false
+		},
+		{
+			"label": "grep tests",
+			"type": "shell",
+			"command": "cat out.txt | grep -E \"(ERROR|FAIL|Error)\"",
+			"isBackground": false
+		},
+		{
+			"label": "grep test",
+			"type": "shell",
+			"command": "cat out.txt | grep -A 20 \"test_main_0\"",
+			"isBackground": false
+		},
+		{
+			"label": "fifth test",
+			"type": "shell",
+			"command": "python3 /var/home/wturner/-wrk/-ve311/dotfiles/src/dotfiles/scripts/lsofport.py --test > out.txt 2>&1 && cat out.txt",
+			"isBackground": false
+		}
+	]
+}
