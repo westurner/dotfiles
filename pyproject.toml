@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dotfiles"
+version = "0.10.0"
+description = "dotfiles"
+readme = "README.rst"
+authors = [
+    { name = "Wes Turner", email = "wes@wrd.nu" }
+]
+license = { file = "LICENSE" }
+keywords = ["dotfiles"]
+classifiers = []
+requires-python = ">=3.6"
+dependencies = []
+
+# [project.optional-dependencies]
+# dev = [
+# {dev_extras}
+# ]
+# testing = [
+# {testing_extras}
+# ]
+# docs = [
+# {docs_extras}
+# ]
+
+[project.urls]
+Homepage = "https://github.com/westurner/dotfiles"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.data-files]
+# Data files are specified as (destination, [files...])
+# This section is a placeholder; see setup.py for dynamic logic
+
+[project.scripts]
+dotfiles = "dotfiles.cli.cli:main"
+venvpy = "dotfiles.venv.ipython_config:main"
+
+[tool.pytest.ini_options]
+addopts = "--cov=src/dotfiles --cov=scripts/ --cov-report=term-missing --doctest-modules"
+testpaths = ["tests", "scripts"]
+pythonpath = ["."]
+
+[tool.coverage.run]
+source = ["src/dotfiles", "scripts/"]
