@@ -18,6 +18,8 @@ RUN dnf install -y which \
     vim-enhanced \
     black \
     ruff \
+    ripgrep \
+    uv \
     powerline-fonts \
     gcc
 
