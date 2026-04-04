@@ -1,0 +1,27 @@
+{
+    "name": "Fedora 43",
+    "build": {
+        //"dockerfile": "../Dockerfile.fedora43",
+        "dockerfile": "./Dockerfile.fedora43",
+        "context": ".."
+    },
+    "remoteUser": "vscode",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "ms-azuretools.vscode-containers",
+                "ms-python.python",
+                "ms-python.vscode-python-envs",
+                "ms-vscode.makefile-tools",
+
+                "timonwong.shellcheck",
+                "mads-hartmann.bash-ide-vscode",
+
+                "charliermarsh.ruff",
+                "ms-python.isort"
+            ]
+        }
+    },
+    "postCreateCommand": "set -x; cd; mv ./-dotfiles ./-dotfiles-local; ln -s /workspaces/dotfiles ./-dotfiles-workspace; ln -s /workspaces/dotfiles ./-dotfiles; ls -ld ~/-dotfiles*"
+}
