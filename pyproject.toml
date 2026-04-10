@@ -47,9 +47,11 @@ dotfiles = "dotfiles.cli.cli:main"
 venvpy = "dotfiles.venv.ipython_config:main"
 
 [tool.pytest.ini_options]
-addopts = "--cov=src/dotfiles --cov=scripts/ --cov-report=term-missing --doctest-modules"
+addopts = "--cov=src/dotfiles --cov=scripts/ --cov-report=term-missing --doctest-modules --junitxml=pytest-results.xml --cov-report=xml:cov.xml"
 testpaths = ["tests", "scripts"]
 pythonpath = ["."]
 
 [tool.coverage.run]
+#data_file = "reports/_/.coverage"
+data_file = ".coverage"
 source = ["src/dotfiles", "scripts/"]
