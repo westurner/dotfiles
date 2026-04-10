@@ -19,7 +19,9 @@
                 "mads-hartmann.bash-ide-vscode",
 
                 "charliermarsh.ruff",
-                "ms-python.isort"
+                "ms-python.isort",
+
+                "ryanluker.vscode-coverage-gutters"
             ]
         }
     },
