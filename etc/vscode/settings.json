@@ -1,0 +1,447 @@
+{
+    //"workbench.colorTheme": "Default Dark Modern",
+    //"workbench.colorTheme": "Solarized Dark",
+    "workbench.colorTheme": "GitHub Dark Colorblind (Beta)",
+
+
+    // References:
+    // - https://github.com/VSCodeVim/Vim
+    "vim.showMarksInGutter": true,
+    "vim.easymotion": true,
+    // <leader><leader> { w, b ; e, ge ; j,k ; } -- easymotion move cursor
+    // <leader><leader> j  -- easymotion down a line
+    // <leader><leader> w  -- easymotion forward a word
+    "vim.surround": true,
+    // cs"'    -- change surrounding double-quotes " to single-quotes '
+    // ds"     -- delete surrounding double-quotes
+    // ys[motion]" -- add surrounding double-quotes to [motion: w, W, ]
+    // ysw"        -- add surrounding double-quotes to word
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    // "vim.shell": "/bin/bash",
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "after": [
+                "d",
+                "d"
+            ]
+        },
+        {
+            "before": [
+                "<C-n>"
+            ],
+            "commands": [
+                ":nohl"
+            ]
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "lineBreakInsert"
+            ],
+            "silent": true
+        },
+        {
+            "before": [
+                "<C-p>"
+            ],
+            "commands": [
+                "workbench.action.quickOpen",
+            ]
+        },
+    ],
+    "vim.leader": ",",
+    "vim.handleKeys": {
+        "<C-a>": false, // select all
+        "<C-x>": false, // cut
+        "<C-c>": false, // copy
+        // <S-C-v>      // paste
+        // <C-v>        // vim-like vertical/horizontal selection
+        "<C-z>": false, // undo
+        "<C-y>": false, // redo
+        "<C-f>": false, // find
+        "<C-pageup>": false, // previous tab
+        "<C-pagedown>": false, // next tab
+        // <Leader> gd  // jump to definition
+        // <Leader> gq  // rewrap selection
+        // <Leader> gb  // add another cursor at next instance of word (repeat for add'l)
+        // <Leader> af  // widen selection
+        // <Leader> gh  // "hover" over selection
+    },
+    // To improve performance"
+    "extensions.experimental.affinity": {
+        "vscodevim.vim": 1
+    },
+    "fountain.general.parentheticalNewLineHelper": false,
+
+    // # <Jupyter Notebook>
+    "notebook.output.scrolling": true,
+    "jupyter.interactiveWindow.creationMode": "perFile",
+    // # </Jupyter Notebook>
+
+    // # <Flatpak VSCode>
+    // ## Fixes unstyled titlebar in flatpak vscode (Alt-F)
+    "window.titleBarStyle": "custom",
+    // ## Configure terminal in flatpak vscode
+    "terminal.integrated.env.linux": {
+        "LD_PRELOAD": null,
+    },
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "/usr/bin/bash",
+            "icon": "terminal-bash"
+        },
+        "zsh": {
+            "path": "zsh",
+            "icon": "terminal-bash"
+        },
+        "fish": {
+            "path": "fish"
+        },
+        "byobu": {
+            "path": "byobu",
+            "icon": "terminal-tmux"
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        },
+        // Flatpaks have /app/bin/host-spawn
+        //"host-spawn-bash": {
+        "host-spawn-bash": {
+            "path": "/app/bin/host-spawn",
+            "args": [
+                "bash"
+            ],
+            "icon": "terminal-bash",
+        },
+        "flatpak-spawn-bash": {
+            "path": "/usr/bin/flatpak-spawn",
+            "args": [
+                //--env="VAR=value,VAR2=value"
+                //-pty
+                "--host",
+                "--env=TERM=xterm-256color",
+                "bash"
+            ],
+            "icon": "terminal-bash",
+        },
+        "host-spawn-byobu": {
+            "path": "/app/bin/host-spawn",
+            "args": [
+                "-pty",
+                "byobu"
+            ],
+            "icon": "terminal-bash"
+        },
+        "bash-subprocess": {
+            "path": "python",
+            "args": ["-c", "import subprocess; subprocess.call(['bash','-i'])"],
+        }
+    },
+    // ## Set the defaultProfile.linux to "bash host" so spwan a host shell instead of a flatpak
+    "terminal.integrated.defaultProfile.linux": "host-spawn-bash",
+    // ## Spawn gnome-terminal
+    "terminal.external.linuxExec": "host-spawn -pty --env=TERM=xterm-266color gnome-terminal",
+    // </Flatpak vscode>
+
+    //"terminal.integrated.shellIntegration.enabled": true, // defauult
+    //"terminal.integrated.shellIntegration.enabled": false,
+
+    "docker.contexts.showInStatusBar": true,
+    "containers.contexts.showInStatusBar": true,
+    // ## Get devcontainers and docker to work (with podman)
+    // References:
+    // - https://github.com/flathub/com.visualstudio.code/issues/55
+    // flatpak install flathub com.visualstudio.code com.visualstudio.code.tool.podman
+    // flatpak override --user --filesystem=xdg-run/podman com.visualstudio.code
+    // flatpak info --show-permissions com.visualstudio.code
+    // // flatpak override --filesystem=/tmp com.visualstudio.code
+    // // "docker.dockerPath": "/run/host/usr/bin/podman",
+    "docker.composeCommand": "'docker compose'",
+    "docker.dockerPath": "podman",
+    "docker.environment": {
+        "DOCKER_HOST": "unix:///run/user/1000/podman/podman.sock"
+    },
+    "dev.containers.dockerComposePath": "'docker compose'", // TODO: DOCKER_SOCKET=/run/user/1005/podman/podman.sock
+    //"dev.containers.dockerPath": "podman",
+    "dev.containers.dockerPath": "/home/wturner/.local/bin/podman-rootless",
+    /* podman-rootless.sh
+    #!/bin/sh
+    cmd=$1
+    if [ "${cmd}" == "run" ]; then
+        podman run --userns=keep-id --security-opt=label=disable "${@}"
+    else
+        podman "${@}"
+    fi
+    */
+
+    "manim-sideview.preview": true,
+    "manim-sideview.commandLineArgs": "--renderer opengl",
+
+    "terminal.integrated.inheritEnv": false,
+
+    "files.exclude": {
+        "**/.*.un~": true
+    },
+    "files.readonlyInclude": {
+        "**/.cargo/registry/src/**/*.rs": true,
+        "**/.cargo/git/checkouts/**/*.rs": true,
+        "**/lib/rustlib/src/rust/library/**/*.rs": true,
+    },
+    "rust-analyzer.showSyntaxTree": true,
+    "rust-analyzer.testExplorer": true,
+
+    "firedbg.showWelcome": false,
+
+
+    "chat.commandCenter.enabled": false,
+    "chat.useAgentSkills": true,
+
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    //"github.copilot.nextEditSuggestions.enabled": true,
+    "github.copilot.chat.cli.forkSessions.enabled": true,
+    //"chat.subagents.allowInvocationsFromSubagents": false,
+    //"chat.subagents.allowInvocationsFromSubagents": true,
+
+    "roo-cline.allowedCommands": [
+        "git log",
+        "git diff",
+        "git show"
+    ],
+    "roo-cline.deniedCommands": [],
+
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultColorDecorators": "never",
+        "editor.formatOnType": true,
+        "editor.wordBasedSuggestions": "off"
+    },
+
+
+    "OcpCadViewer.render.default_color": "#e8b034",
+    "OcpCadViewer.view.center_grid": true,
+    "OcpCadViewer.view.collapse": "none",
+    "OcpCadViewer.view.dark": true,
+    "OcpCadViewer.view.reset_camera": "KEEP",
+    "OcpCadViewer.snippets.dotVscodeSnippets": {
+        "build123d": {
+            "BuildPart": {
+                "scope": "python",
+                "prefix": "bd_p",
+                "body": [
+                    "with {prefix}BuildPart() as ${1:partname}:",
+                    "    $0"
+                ]
+            },
+            "BuildSketch": {
+                "scope": "python",
+                "prefix": "bd_s",
+                "body": [
+                    "with {prefix}BuildSketch() as ${1:sketchname}:",
+                    "    $0"
+                ]
+            },
+            "BuildLine": {
+                "scope": "python",
+                "prefix": "bd_l",
+                "body": [
+                    "with {prefix}BuildLine() as ${1:linename}:",
+                    "    $0"
+                ]
+            },
+            "Part": {
+                "scope": "python",
+                "prefix": "bd_bp",
+                "body": [
+                    "with {prefix}BuildPart() as ${1:partname}:",
+                    "    {prefix}${2:class}(${3:params}, align=({prefix}Align.CENTER, {prefix}Align.CENTER, {prefix}Align.CENTER))",
+                    "    $0"
+                ]
+            },
+            "Sketch": {
+                "scope": "python",
+                "prefix": "bd_bs",
+                "body": [
+                    "with {prefix}BuildSketch() as ${1:sketchname}:",
+                    "    {prefix}${2:class}(${3:params}, align=({prefix}Align.CENTER, {prefix}Align.CENTER))",
+                    "    $0"
+                ]
+            },
+            "Line": {
+                "scope": "python",
+                "prefix": "bd_bl",
+                "body": [
+                    "with {prefix}BuildLine() as ${1:linename}:",
+                    "    {prefix}${2:class}(${3:params})",
+                    "    $0"
+                ]
+            },
+            "LineChain": {
+                "scope": "python",
+                "prefix": "bd_lchain",
+                "body": [
+                    "with {prefix}BuildLine() as ${1:linename}:",
+                    "    ${2:l1} = {prefix}Line((${3:start}), (${4:end}))",
+                    "    ${5:l2} = {prefix}Line(${2:l1} @ 0, (${6:end}))",
+                    "    ${7:l3} = {prefix}Line(${5:l2} @ 0, (${8:end}))",
+                    "    $0"
+                ]
+            },
+            "PartSketch": {
+                "scope": "python",
+                "prefix": "bd_pask",
+                "body": [
+                    "with {prefix}BuildPart() as ${1:partname}:",
+                    "    with {prefix}BuildSketch() as ${2:sketchname}:",
+                    "        {prefix}${3:class}(${4:params}, align=({prefix}Align.CENTER, {prefix}Align.CENTER))",
+                    "        ${1:partname}.edges()",
+                    "    $0"
+                ]
+            },
+            "SketchLine": {
+                "scope": "python",
+                "prefix": "bd_skli",
+                "body": [
+                    "with {prefix}BuildSketch() as ${1:sketchname}:",
+                    "    with {prefix}BuildLine() as ${2:linename}:",
+                    "        {prefix}${3:class}(${4:params})",
+                    "    make_face()",
+                    "    $0"
+                ]
+            },
+            "ExtrudeLine": {
+                "scope": "python",
+                "prefix": "bd_exli",
+                "body": [
+                    "with {prefix}BuildPart() as ${1:partname}:",
+                    "    with {prefix}BuildSketch() as ${2:sketchname}:",
+                    "        with {prefix}BuildLine() as ${3:linename}:",
+                    "            {prefix}${4:class}(${5:params})",
+                    "        {prefix}make_face()",
+                    "    {prefix}extrude(amount=${6:amount})",
+                    "    $0"
+                ]
+            },
+            "ExtrudeSketch": {
+                "scope": "python",
+                "prefix": "bd_exsk",
+                "body": [
+                    "with {prefix}BuildPart() as ${1:partname}:",
+                    "    with {prefix}BuildSketch() as ${2:sketchname}:",
+                    "        {prefix}${3:class}(${4:params}, align=({prefix}Align.CENTER, {prefix}Align.CENTER))",
+                    "    {prefix}extrude(amount=${5:amount})",
+                    "    $0"
+                ]
+            }
+        }
+    },
+    "makefile.configureOnOpen": false,
+    "python.analysis.typeCheckingMode": "standard",
+    //"python.analysis.typeCheckingMode": "strict",
+    "workbench.editor.empty.hint": "hidden",
+
+    // telemetry off
+    "telemetry.editStats.details.enabled": false,
+    "telemetry.editStats.enabled": false,
+    "telemetry.feedback.enabled": false,
+    "telemetry.telemetryLevel": "off",
+
+    "markdown-mermaid.darkModeTheme": "forest",
+    "diffEditor.ignoreTrimWhitespace": false,
+
+    // see: https://github.com/microsoft/vscode/issues/140261
+    "terminal.integrated.automationProfile.linux": {
+        "path": "/bin/bash"
+    },
+    //"terminal.integrated.defaultProfile.linux":
+
+
+    "python.terminal.activateEnvironment": true,
+
+    // ## ${workspaceFolder}/.venv   (uv,)
+    //"python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+
+    // ## ${VIRTUAL_ENV}/bin/python  (virtualenv, virtualenvwrapper, venv)
+    //"python.defaultInterpreterPath": "${workspaceFolder}/../../bin/python",
+    "python.defaultInterpreterPath": "${env:VIRTUAL_ENV}/bin/python",
+
+    //"python.defaultInterpreterPath": "/var/home/wturner/-wrk/-ve311/sustainablefactory",
+    //"python.defaultInterpreterPath": "/var/home/wturner/-wrk/-ve311/memegen",
+    //"python.defaultInterpreterPath": "/var/home/wturner/-wrk/-ve311/nbmeta/bin/python3",
+    //"python.defaultInterpreterPath": "/var/home/wturner/-wrk/-ve311/tutorfin",
+    //"python.defaultInterpreterPath": "/var/home/wturner/-wrk/-ve311/rblx",
+
+
+    "roo-cline.debug": false,
+    "docker.extension.dockerEngineAvailabilityPrompt": false,
+    "chat.tools.terminal.autoApprove": {
+        "true": true,
+        "/^python3 -V$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "whoami": true,
+        "id": true
+    },
+
+    // manual updates
+    "update.mode": "manual",
+
+    "fountain.pdf.emboldenCharacterNames": true,
+    "fountain.pdf.printNotes": true,
+    "fountain.pdf.sceneContinuationBottom": true,
+    "fountain.pdf.sceneContinuationTop": true,
+    //"fountain.pdf.showDialogueNumbers": true,
+
+    //"git.enableCommitSigning": true,
+    "git.addAICoAuthor": "chatAndAgent",
+    "chat.plugins.marketplaces": [
+        "github/copilot-plugins",
+        "github/awesome-copilot",
+        "https://github.com/ChromeDevTools/chrome-devtools-mcp"
+    ],
+    // "github.copilot.chat.commitMessageGeneration.instructions": [
+
+    // ],
+
+    "remote.extensionKind": {
+        "github.copilot-chat": ["workspace"]
+    },
+    "chat.mcp.autostart": "never",
+    "chat.mcp.gallery.enabled": true,
+    "remote.autoForwardPortsSource": "hybrid",
+    "workbench.editor.useModal": "some",
+    "diffEditor.hideUnchangedRegions.enabled": false,
+    "chat.viewSessions.orientation": "stacked",
+    "typescript.experimental.useTsgo": true,
+    "diffEditor.renderSideBySide": false
+}
