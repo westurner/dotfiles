@@ -85,7 +85,7 @@ docs/build.current.log
 .usrlog
 deb_dist/
 etc/.vim
-tmp
+tmp/
 
 -p6/
 etc/vim
@@ -105,3 +105,9 @@ etc/.jupyter/lab/workspaces
 
 # find-lately.sh
 lately.20*
+etc/.gitconfig
+
+tmp/
+reports/
+pytest-results.xml
+cov.xml
