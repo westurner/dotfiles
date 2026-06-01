@@ -13,7 +13,7 @@ function _setup_proot_debian_buster {
 
 function _setup_proot_fedora {
     (set +e; proot-distro install fedora || true)
-    proot-distro login fedora --termux-home -- bash $__this installmambaforge
+    proot-distro login fedora --termux-home -- bash "${__this}" installmambaforge
 }
 
 function _setup_proot_login {
