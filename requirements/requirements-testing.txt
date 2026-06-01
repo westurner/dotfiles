@@ -59,6 +59,10 @@ ipdb
 #  - http://github.com/flavioamieiro/nose-ipdb
 
 #pytest-ipdb
--e git+https://github.com/mverteuil/pytest-ipdb#egg=pytestipdb
+#-e git+https://github.com/mverteuil/pytest-ipdb#egg=pytestipdb
 # src:
 #  -e git+https://github.com/mverteuil/pytest-ipdb#egg=pytestipdb
+
+pdbpp
+
+
