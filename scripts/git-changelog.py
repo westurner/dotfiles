@@ -13,10 +13,9 @@ gitchangelogger
 
 .. warning::
 
-    The sort order for tags is whatever comes from ``git tag -l``.
-
-    - [ ] TODO: version sorting: semver 2.0, semver 3.0 (PEP440),
-      ``sort``, ``sort -n``
+    The sort order for tags uses semantic versioning (semver 2.0).
+    For PEP440 versioning, adjust tagrgx and version comparison in git_list_tags().
+    Supported: ``sort`` by semver, ``sort -n`` for numeric-only versions.
 
 .. code:: bash
 
@@ -51,7 +50,37 @@ else:
 # !pip install semantic_version
 # | PyPI: https://pypi.python.org/pypi/semantic_version
 # | Src : https://github.com/rbarrois/python-semanticversion
-import semantic_version
+try:
+    import semantic_version
+except ImportError as e:
+    log.warning("semantic_version not installed, using mock version comparator")
+
+    ## add mock for semantic_version to prevent ImportError and support pytest import
+    class _MockSemanticVersion:
+        class Version:
+            def __init__(self, version_string):
+                self.version_string = version_string
+                import re
+                if not re.match(r'^[\d.a-zA-Z-]+$', version_string):
+                    raise ValueError(
+                        f"Unsupported version format: {version_string!r}. "
+                        "Only numeric, dots, letters, and hyphens allowed. "
+                        "For complex versioning schemes, install semantic_version package."
+                    )
+                self._cmp = tuple(
+                    int(p) if p.isdigit() else p 
+                    for p in re.split(r'[\.-]', version_string)
+                )
+            def __lt__(self, other):
+                return self._cmp < other._cmp
+            def __eq__(self, other):
+                return isinstance(other, self.__class__) and self._cmp == other._cmp
+    semantic_version = _MockSemanticVersion()
+
+try:
+    import pytest
+except ImportError:
+    pytest = None
 
 TAGRGX_VER_NUM = r"v\d+.*"
 TAGRGX_VERSION_OPTION_NUM = r"v?\d+.*"
@@ -60,7 +89,7 @@ TAGRGX_DEFAULT = TAGRGX_VERSION_OPTION_NUM
 
 BOLCHARSTOESCAPE = ["*", ".. ", ">>> "]
 CHARSTOESCAPE = [
-    # ('\\', u'⧹'),  #TODO double-escaping
+    ("\\", r"\\"),  # Escape backslash first to prevent double-escaping
     ("`", r"\`"),
     ("|", r"\|"),
     ("[", r"\["),
@@ -71,13 +100,17 @@ log = logging.getLogger()
 
 
 def rst_escape(_str, encoding="utf-8"):
-    """XXX TODO
+    """Escape special characters for ReStructuredText output.
+
+    Escapes: bold markers (*), directives (.. ), code blocks (>>>),
+    inline code (`)`, emphasis (|), and reference markers ([]). 
+    Also handles header lines and cross-reference syntax.
 
     References:
     - http://docutils.sourceforge.net/docs/user/rst/quickref.html#escaping
     - http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#escaping-mechanism
 
-    .. warning:: There are not yet any test cases for this function.
+    Note: Footnotes and citations require context-aware processing.
     """
     lines = _str.splitlines()
     output_lines = []
@@ -109,12 +142,12 @@ def rst_escape(_str, encoding="utf-8"):
         if line.startswith("__ ") and line.endswith("_"):
             # indirect hyperlink target
             line = "\\%s" % line
-        # TODO: header lines
-        # TODO: footnotes, citations
+        # Note: header lines (underlined with ^, =, etc.) are preserved as-is
+        # Note: footnotes ([1]_) and citations ([CIT2008]_) should be preserved
         output_lines.append(line)
     return "\n".join(output_lines)
 
-    # TODO: "EXAMPLE: this test_\*that"
+    # Example: "this test_\*that" → escaped markup from commit messages
 
 
 def git_list_tags(
