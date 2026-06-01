@@ -1,27 +1,29 @@
 #!/bin/sh
 
-function print_help() {
+print_help() {
     echo "git-githubreleases.sh <org/repo>"
     echo "git githubreleases.sh <org/repo>"
 }
 
 
 
-function list_github_release_asset_download_urls() {
-    local organdrepo=$1;
-    local jsonpath="./$(echo "$organdrepo" | sed 's,/,__,g').data.json"
-    test -n "${organdrepo}" || (echo "ERROR: specify an 'org/path'" >&2 && return)
-    type -p jq || (echo "ERROR: jq must be installeed" >&2 && return)
+list_github_release_asset_download_urls() {
+    _organdrepo=$1
+    _jsonpath=
+    _jsonpath="./$(echo "$_organdrepo" | sed 's,/,__,g').data.json"
+
+    test -n "${_organdrepo}" || (echo "ERROR: specify an 'org/path'" >&2 && return)
+    command -v jq >/dev/null 2>&1 || (echo "ERROR: jq must be installed" >&2 && return)
 
     (set -x;
-    test -f "${jsonpath}" || curl "https://api.github.com/repos/${organdrepo}/releases/latest" -o "${jsonpath}";
-    jq "." "${jsonpath}";
-    jq '.assets[] | pick(.size, .browser_download_url, .uploader.html_url, .created_at, .updated_at, .download_count)' "${jsonpath}"
-    jq '.assets[].browser_download_url' "${jsonpath}")
+    test -f "${_jsonpath}" || curl "https://api.github.com/repos/${_organdrepo}/releases/latest" -o "${_jsonpath}";
+    jq "." "${_jsonpath}";
+    jq '.assets[] | pick(.size, .browser_download_url, .uploader.html_url, .created_at, .updated_at, .download_count)' "${_jsonpath}"
+    jq '.assets[].browser_download_url' "${_jsonpath}")
 }
 
 
-function main() {
+main() {
     if ! test -n "${*}"; then
         print_help
         return
