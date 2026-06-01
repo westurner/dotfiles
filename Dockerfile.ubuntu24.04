@@ -24,7 +24,8 @@ RUN apt-get install -y \
 #ADD $__DOTFILES/scripts/bootstrap_dotfiles.sh /usr/local/bin/bootstrap_dotfiles.sh
 #RUN curl -SL https://raw.githubusercontent.com/westurner/dotfiles/develop/scripts/bootstrap_dotfiles.sh > bootstrap_dotfiles.sh
 COPY ./scripts/bootstrap_dotfiles.sh ./bootstrap_dotfiles.sh
-RUN python3 -m venv ~/-dotfiles && export EXTRA= DOTFILES_REPO_REV="develop" PIP="${HOME}/-dotfiles/bin/pip"; bash ./bootstrap_dotfiles.sh -I 
-RUN DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -R
+RUN python3 -m venv ~/dotfiles; \
+    . ~/dotfiles/bin/activate; DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -I 
+RUN . ~/dotfiles/bin/activate; DOTFILES_REPO_REV="develop" bash ./bootstrap_dotfiles.sh -R
 #RUN DOTFILES_REPO_REV="develop" ./bootstrap_dotfiles.sh -U -R
 

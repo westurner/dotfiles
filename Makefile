@@ -365,16 +365,21 @@ build-docker-bootstrap_dotfiles.sh:
 	 	-m "BLD: */bootstrap_dotfiles: build-docker-bootstrap_dotfiles.sh"
 
 build-docker:
-	$(MAKE) build-docker-fedora-22
-	$(MAKE) build-docker-fedora-23
-	$(MAKE) build-docker-fedora-38
-	$(MAKE) build-docker-fedora-39
-	$(MAKE) build-docker-fedora-41
-	$(MAKE) build-docker-fedora-42
-	$(MAKE) build-docker-debian-8
-	$(MAKE) build-docker-ubuntu-12.04
-	$(MAKE) build-docker-ubuntu-14.04
-	$(MAKE) build-docker-ubuntu-15.04
+# 	$(MAKE) build-docker-fedora-22
+# 	$(MAKE) build-docker-fedora-23
+# 	$(MAKE) build-docker-fedora-38
+# 	$(MAKE) build-docker-fedora-39
+# 	$(MAKE) build-docker-fedora-41
+# 	$(MAKE) build-docker-fedora-42
+# 	$(MAKE) build-docker-fedora-43
+	$(MAKE) build-docker-fedora-44
+# 	$(MAKE) build-docker-debian-8
+	$(MAKE) build-docker-debian-13
+# 	$(MAKE) build-docker-ubuntu-12.04
+# 	$(MAKE) build-docker-ubuntu-14.04
+# 	$(MAKE) build-docker-ubuntu-15.04
+	$(MAKE) build-docker-ubuntu-24.04
+	$(MAKE) build-docker-ubuntu-26.04
 
 
 DOCKER_BUILD_SUDO=sudo
@@ -382,62 +387,52 @@ DOCKER_BUILD_SUDO=
 DOCKER_BUILD=sudo DOCKER_BUILDKIT=1 docker build
 DOCKER_BUILD=${DOCKER_BUILD_SUDO} DOCKER_BUILDKIT=1 docker build
 DOCKER_BUILD=${DOCKER_BUILD_SUDO} podman build
+DOCKER_RUN=${DOCKER_BUILD_SUDO} podman run --rm -it
 
 DOCKER_TAG_PREFIX=westurner/dotfiles
 
-build-docker-fedora-22:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora22 -f Dockerfile.fedora22 .
+docker-build:
+	test -n "${DOCKER_TAG}"
+	test -n "${DOCKERFILE}"
+	${DOCKER_BUILD} -t ${DOCKER_TAG_PREFIX}:${DOCKER_TAG} -f ${DOCKERFILE} .
 
-build-docker-fedora-23:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora23 -f Dockerfile.fedora23 .
+docker-run:
+	test -n "${DOCKER_TAG}"
+	${DOCKER_RUN} ${DOCKER_TAG_PREFIX}:${DOCKER_TAG}
 
-build-docker-fedora-24:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora24 -f Dockerfile.fedora24 .
+DOCKER_FEDORA_VERSIONS=22 23 24 25 29 33 38 39 41 42 43 44
+DOCKER_UBUNTU_VERSIONS=12.04 14.04 15.04 16.04 20.04 24.04 26.04
+DOCKER_DEBIAN_VERSIONS=8 13
 
-build-docker-fedora-25:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora25 -f Dockerfile.fedora25 .
+define DOCKER_BUILD_RUN_TARGETS_FEDORA
+build-docker-fedora-$(1):
+	$$(MAKE) docker-build DOCKER_TAG=fedora$(1) DOCKERFILE=Dockerfile.fedora$(1)
 
-build-docker-fedora-29:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora29 -f Dockerfile.fedora29 .
+run-docker-fedora-$(1):
+	$$(MAKE) docker-run DOCKER_TAG=fedora$(1)
+endef
 
-build-docker-fedora-33:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora33 -f Dockerfile.fedora33 .
+define DOCKER_BUILD_RUN_TARGETS_UBUNTU
+build-docker-ubuntu-$(1):
+	$$(MAKE) docker-build DOCKER_TAG=ubuntu-$(1) DOCKERFILE=Dockerfile.ubuntu$(1)
 
-build-docker-fedora-38:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora38 -f Dockerfile.fedora38 .
+run-docker-ubuntu-$(1):
+	$$(MAKE) docker-run DOCKER_TAG=ubuntu-$(1)
+endef
 
-build-docker-fedora-39:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora39 -f Dockerfile.fedora39 .
+define DOCKER_BUILD_RUN_TARGETS_DEBIAN
+build-docker-debian-$(1):
+	$$(MAKE) docker-build DOCKER_TAG=debian-$(1) DOCKERFILE=Dockerfile.debian$(1)
 
-build-docker-fedora-41:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora41 -f Dockerfile.fedora41 .
+run-docker-debian-$(1):
+	$$(MAKE) docker-run DOCKER_TAG=debian-$(1)
+endef
 
-build-docker-fedora-42:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora42 -f Dockerfile.fedora42 .
+$(foreach _v,$(DOCKER_FEDORA_VERSIONS),$(eval $(call DOCKER_BUILD_RUN_TARGETS_FEDORA,$(_v))))
+$(foreach _v,$(DOCKER_UBUNTU_VERSIONS),$(eval $(call DOCKER_BUILD_RUN_TARGETS_UBUNTU,$(_v))))
+$(foreach _v,$(DOCKER_DEBIAN_VERSIONS),$(eval $(call DOCKER_BUILD_RUN_TARGETS_DEBIAN,$(_v))))
 
-build-docker-fedora-43:
-	${DOCKER_BUILD} -t westurner/dotfiles:fedora43 -f Dockerfile.fedora43 .
-
-build-docker-debian-8:
-	${DOCKER_BUILD} -t westurner/dotfiles:debian-8 -f Dockerfile.debian8 .
-
-build-docker-ubuntu-12.04:
-	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-12.04 -f Dockerfile.ubuntu12.04 .
-
-build-docker-ubuntu-14.04:
-	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-14.04 -f Dockerfile.ubuntu14.04 .
-
-build-docker-ubuntu-15.04:
-	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-15.04 -f Dockerfile.ubuntu15.04 .
-
-build-docker-ubuntu-16.04:
-	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-16.04 -f Dockerfile.ubuntu16.04 .
-
-build-docker-ubuntu-20.04:
-	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-20.04 -f Dockerfile.ubuntu20.04 .
-
-build-docker-ubuntu-24.04:
-	${DOCKER_BUILD} -t westurner/dotfiles:ubuntu-24.04 -f Dockerfile.ubuntu24.04 .
+run-docker: run-docker-fedora-44
 
 pip_upgrade_pip:
 	# Upgrade pip
