@@ -93,6 +93,43 @@ function _setup_vscode_remove_html_handler {
     (set -x; test -f "${file}" && sudo rm -fv "${file}")
 }
 
+
+function _setup_vscode_flatpak_tmpdir {
+    set -e
+
+    # Define a shared temp directory within the Flatpak data directory so it maps 1:1 
+    # between the host and the container.
+    export SHARED_TMP_DIR="${HOME}/.var/app/com.visualstudio.code/data/devcontainer-tmp"
+    (set -x SHARED_TMP_DIR="${SHARED_TMP_DIR}")
+
+    echo "1. Creating shared temp directory at $SHARED_TMP_DIR"
+    (set -x; mkdir -p "$SHARED_TMP_DIR")
+
+
+    echo "2. Applying SELinux context so Podman can mount it..."
+    (set -x; 
+    ls -aldZ "${SHARED_TMP_DIR}";
+    # container_file_t (or svirt_sandbox_file_t) allows the container runtime to access it
+    chcon -Rt container_file_t "$SHARED_TMP_DIR";
+    ls -aldZ "${SHARED_TMP_DIR}"
+    )
+
+    echo "3. Configuring VS Code Flatpak to use this directory as TMPDIR..."
+    # This override ensures VS Code (and the Dev Containers extension) writes temporary
+    # build contexts to our shared folder instead of the isolated Flatpak /tmp
+    (set -x; flatpak override --user --env=TMPDIR="$SHARED_TMP_DIR" com.visualstudio.code)
+
+    echo "=========================================================================="
+    echo "Setup complete! "
+    (set -x; declare -p SHARED_TMP_DIR)
+    echo "Please completely close VS Code to ensure the new environment variable takes effect:"
+    echo "   flatpak kill com.visualstudio.code"
+    echo ""
+    echo "Then reopen VS Code and try rebuilding your Dev Container."
+    echo "=========================================================================="
+}
+
+
 THISFILE="${0}"
 
 function _setup_vscode_usage {
@@ -102,17 +139,18 @@ function _setup_vscode_usage {
     echo " -i | install -- install VSCode"
     echo " -e | extensions -- install VSCode extensions (for the current user)"
     echo " -s | settings   -- install VSCode settings (for the current user)"
+    echo " --tmpdir        -- install VSCode tmpdir ('chcon -Rt container_file_t \$TMPDIR')"
     echo " -a | all        -- install VSCode; extensions, and settings (for the current user)"
     echo " --rmh | rmhtmlhandler -- remove VSCode default html handler"
     echo ""
 }
 
 function _setup_vscode_main {
-    if [ -z "${@}" ]; then
+    if [ -z "${*}" ]; then
         _setup_vscode_usage
         return 1
     fi
-    for arg in ${@}; do
+    for arg in "${@}"; do
         case "$arg" in
             -i|install)
                 _setup_vscode_install
@@ -127,6 +165,9 @@ function _setup_vscode_main {
                 ;;
             -s|settings)
                 _setup_vscode_settings
+                ;;
+            --tmpdir|tmpdir)
+                _setup_vscode_flatpak_tmpdir
                 ;;
             -a|all)
                 # These require sudo
