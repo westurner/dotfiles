@@ -41,9 +41,23 @@ else:
         return d.items()
 
 # TODO: arrow
-from dateutil.parser import parse as parse_date
+try:
+    from dateutil.parser import parse as parse_date
+except ImportError as e:
+    parse_date = None
 
-import sarge
+try:
+    import sarge
+except ImportError as e:
+    sarge = None
+
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
+if pytest and getattr(pytest, "skip", None) and (parse_date is None or sarge is None):
+    pytest.skip("dateutil or sarge not available", allow_module_level=True)
 
 # def parse_date(*args, **kwargs):
 #     print(args)
