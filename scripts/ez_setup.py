@@ -24,7 +24,11 @@ import platform
 import textwrap
 import contextlib
 
-from distutils import log
+try:
+    from distutils import log
+except ImportError:
+    def log(*args, **kwargs):
+        print(("LOG", dict(args=args, kwargs=kwargs)))
 
 try:
     from urllib.request import urlopen
