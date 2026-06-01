@@ -118,7 +118,8 @@ def test_main_help_all_flag(capsys):
 
 def test_main_log_level():
     parser = pfd.build_argument_parser()
-    for levelname in ["debug", "INFO", "erroR", *logging._nameToLevel.keys()]:
+    valid_levels = [name for name in logging._nameToLevel.keys() if hasattr(logging, name)]
+    for levelname in ["debug", "INFO", "erroR"] + valid_levels:
         args, _ = parser.parse_known_args(["--log-level", levelname])
         pfd.set_loglevel_from_args(args)
 
