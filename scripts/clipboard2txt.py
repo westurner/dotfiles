@@ -8,8 +8,12 @@ clipboard2txt
 #pygtkcompat.enable()
 #pygtkcompat.enable_gtk(version='3.0')
 
-from gi.repository import Gtk as gtk
-import glib
+try:
+    from gi.repository import Gtk as gtk
+    import glib
+except ImportError as e:
+    gtk = None
+    glib = None
 
 import logging
 import pathlib
@@ -20,6 +24,9 @@ try:
     import pytest
 except ImportError:
     pytest = NotImplemented()
+
+if pytest is not NotImplemented and getattr(pytest, "skip", None) and getattr(gtk, "main", None) is None:
+    pytest.skip("gi.repository.Gtk not available", allow_module_level=True)
 
 __version__ = "0.0.1"
 
