@@ -75,31 +75,47 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
 fi
 
-#
-if [ -e "${HOME}/.bashrc.local.before" ]; then
-    source "${HOME}/.bashrc.local.before"
-fi
-
-### load the dotfiles
-#  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/-dotfiles
-__DOTFILES=${__DOTFILES:-"${HOME}/-dotfiles"}
-if [ -n "${__DOTFILES}" ] && [ -d "${__DOTFILES}" ]; then
-    _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
-    if [[ -f "${_dotfiles_bashrc}" ]]; then
-        source "${_dotfiles_bashrc}"
-    else
-        echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
+setup_bashrc_local_before() {
+    if [ -e "${HOME}/.bashrc.local.before" ]; then
+        source "${HOME}/.bashrc.local.before"
     fi
-fi
+}
 
-if [ -e "${HOME}/.bashrc.local.after" ]; then
-    source "${HOME}/.bashrc.local.after"
-fi
+#
+setup_dotfiles() {
+    ### setup_dotfiles()
 
-### </end dotfiles .bashrc>
+    # There should be a symlink from ~/-dotfiles to the dotfiles dir
+    #  ln -s ${WORKON_HOME}/dotfiles/src/dotfiles ~/-dotfiles
+
+    __DOTFILES=${__DOTFILES:-"${HOME}/-dotfiles"}
+    if [ -n "${__DOTFILES}" ] && [ -d "${__DOTFILES}" ]; then
+        export __DOTFILES
+        _dotfiles_bashrc="${__DOTFILES}/etc/bash/00-bashrc.before.sh"
+        if [[ -f "${_dotfiles_bashrc}" ]]; then
+            # shellcheck source=etc/bash/00-bashrc.before.sh
+            source "${_dotfiles_bashrc}"
+        else
+            echo "ERROR: _dotfiles_bashrc: ${_dotfiles_bashrc}"
+        fi
+    fi
+
+    if [ -e "${HOME}/.bashrc.local.after" ]; then
+        source "${HOME}/.bashrc.local.after"
+    fi
+}
 
 
-CONDA_ROOT="${CONDA_ROOT:-"${__WRK}/-conda38"}"
+
+setup_conda() {
+    ### setup_conda()       -- setup conda with prefix $CONDA_ROOT
+
+    export CONDA_ROOT=$CONDA_ROOT
+    if [ -z "${CONDA_ROOT}" ]; then
+        echo "Notice: conda is not loading because CONDA_ROOT was not set."
+        return
+    fi
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$("${CONDA_ROOT}/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
@@ -115,4 +131,45 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+}
+
+setup_bun() {
+    ### setup_bun()        -- export PATH=+${BUN_INSTALL}/bin
+    BUN_INSTALL=${BUN_INSTALL:-"$HOME/.bun"}
+    if [ -d "${BUN_INSTALL}/bin" ]; then
+        export BUN_INSTALL
+        export PATH="$BUN_INSTALL/bin:$PATH"
+    fi
+}
+
+setup_aftman() {
+    ### setup_aftman()     -- source $AFTMAN_ENV
+    AFTMAN_ENV=${AFTMAN_ENV:-"${HOME}/.aftman/env"}
+    if [ -f "${AFTMAN_ENV}" ]; then
+        export AFTMAN_ENV
+        . "${AFTMAN_ENV}"
+        # . "${HOME}/.aftman/env"
+    fi
+}
+
+setup_cargo() {
+    ### setup_cargo()      -- source $CARGO_ENV
+    CARGO_ENV=${CARGO_ENV:-"${HOME}/.cargo/env"}
+    if [ -f "${CARGO_ENV}" ]; then
+        export CARGO_ENV
+        . "${CARGO_ENV}"
+        # . "${HOME}/.cargo/env"
+    fi
+}
+
+setup_bashrc_package_managers() {
+    test -n "${CONDA_ROOT}" && setup_conda
+    setup_cargo
+    setup_aftman
+    setup_bun
+}
+
+setup_bashrc_local_before
+setup_dotfiles
+setup_bashrc_package_managers
 
