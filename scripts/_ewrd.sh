@@ -7,19 +7,21 @@
 ##    e, edit         -- edit a file, list editors, or set editor
 function e {
     # e() -- Default editor wrapper with support for listing and setting editors.
-    # e -l/--list          -- List available editors and current settings
-    # e --set <name>       -- Print shell export command for setting $EDITOR
-    # e -h/--help          -- Show this help and editor's help
-    # e -- <file>          -- Edit a file (use -- to edit files named -l, set, etc.)
     # e <file>             -- Edit file with $EDITOR (default: vim)
-    
+    # e -- <file>          -- Edit a file (use -- to edit files named -l, set, etc.)
+    #
+    # e -l/--list          -- List available editors and current settings
+    # e -s/--set <name>       -- Print shell export command for setting $EDITOR
+    #
+    # e -h/--help          -- Show this help and editor's help
+  
     POSSIBLE_EDITORS="code.sh code gvim nvim mvim vim nano vi emacs gedit kate spyder flatpak gvim-venv nvim-venv"
 
     if [[ "$1" == "-l" || "$1" == "--list" ]]; then
         echo "## Current settings:"
         echo "  EDITOR=${EDITOR}"
         echo "  EDITOR_=${EDITOR_}"
-        echo "  # TODO:"
+        echo ""
         echo "  VIMCONF=${VIMCONF}"
         echo "  GUIVIMBIN=${GUIVIMBIN}"
         echo "  GVIMBIN=${GVIMBIN}"
@@ -35,36 +37,41 @@ function e {
             fi
             echo ""
         done
+        echo "## Current settings:"
+        echo "  EDITOR=${EDITOR}"
+        echo "  EDITOR_=${EDITOR_}"
         return 0
-    elif [[ "$1" == "set" ]] || [[ "$1" == "-s" ]]; then
+    elif [[ "$1" == "-s" ]] || [[ "$1" == "--set" ]]; then
         local editor_choice="$2"
-        echo "#xport EDITOR=\"$EDITOR\"  # current value of EDITOR"
+        echo "#xport EDITOR=\"$EDITOR\"" >&2  # current value of EDITOR"
         case "$editor_choice" in
-            nano) echo "export EDITOR=\"nano\"" ;;
+            nano) _editor="nano" ;;
 
-            vi)   echo "export EDITOR=\"vi\"" ;;
-            vim)  echo "export EDITOR=\"vim\"" ;;
-            gvim) echo "export EDITOR=\"gvim\"" ;;
-            gvim-venv) echo "export EDITOR=\"gvim \${VIMCONF}\"" ;;
-            mvim) echo "export EDITOR=\"mvim\"" ;;
-            nvim) echo "export EDITOR=\"nvim\"" ;;
-            nvim-venv) echo "export EDITOR=\"nvim \${VIMCONF/--servername/--server}\"" ;;
+            vi)   _editor="vi" ;;
+            vim)  _editor="vim" ;;
+            gvim) _editor="gvim" ;;
+            gvim-venv) _editor="gvim \${VIMCONF}" ;;
+            mvim) _editor="mvim" ;;
+            nvim) _editor="nvim" ;;
+            nvim-venv) _editor="nvim \${VIMCONF/--servername/--server}" ;;
 
-            gedit) echo "export EDITOR=\"gedit\"" ;;
-            kate) echo "export EDITOR=\"kate\"" ;;
+            gedit) _editor="gedit" ;;
+            kate) _editor="kate" ;;
 
-            spyder) echo "export EDITOR=\"spyder\"" ;;
+            spyder) _editor="spyder" ;;
 
-            code) echo "export EDITOR=\"code\"" ;;
-            code.sh) echo "export EDITOR=\"code.sh\"" ;;
-            com.visualstudio.code) echo "export EDITOR=\"flatpak run com.visualstudio.code\"" ;;
+            code) _editor="code" ;;
+            code.sh) _editor="code.sh" ;;
+            com.visualstudio.code) _editor="flatpak run com.visualstudio.code" ;;
             
-            org.gnome.TextEditor|TextEditor) echo "export EDITOR=\"flatpak run org.gnome.TextEditor\"" ;;
+            org.gnome.TextEditor|TextEditor) _editor="flatpak run org.gnome.TextEditor" ;;
 
 
-            "")   echo "echo 'Error: Must specify editor name (e.g., code, vim)'" >&2; return 1 ;;
-            *)    echo "export EDITOR=\"$editor_choice\"" ;;
+            "")   echo "Error: Must specify editor name (e.g., code, vim)" >&2; return 1 ;;
+            *)    _editor="$editor_choice" ;;
         esac
+        echo "export EDITOR=\"${_editor}\""
+        export EDITOR="${_editor}"
         return 0
     elif [[ "$1" == "-h" || "$1" == "--help" ]]; then
         # print function docstring
@@ -74,6 +81,11 @@ function e {
         echo "Help for configured editor: $_editor"
         (set -x; $_editor "$1")
         return 0
+
+    # Otherwise, pass through to the editor
+    # else  
+    #     echo "ERR: Unknown argument '$1'"
+
     fi
 
     local _editor="${EDITOR:-vim}"
@@ -221,7 +233,8 @@ function es {
 
 function _esrc__complete {
     local cur=${2};
-    COMPREPLY=($(cd "${_SRC}"; compgen -f -- ${cur}));
+    COMPREPLY=($(cd "${_SRC}" || return; compgen -f -- ${cur}));
+    #COMPREPLY=("$(cd "${_SRC}" || return; compgen -f -- "${cur}")");
 }
 complete -o default -o nospace -F _esrc__complete editsrc
 complete -o default -o nospace -F _esrc__complete esrc
@@ -333,7 +346,7 @@ function _create_ewrd_symlinks {
         "editwww"
         "ewww"
     )
-    for symlinkname in ${scriptnames[@]}; do
+    for symlinkname in "${scriptnames[@]}"; do
         test -L "${symlinkname}" && rm "${symlinkname}"
         ln -s "${scriptname}" "${symlinkname}"
     done
