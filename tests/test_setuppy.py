@@ -4,12 +4,14 @@ import os
 import subprocess
 import sys
 import unittest
+import pytest
 
 here = os.path.dirname(__file__)
 setup_py_cwd = os.path.abspath(os.path.join('here', '..'))
 
 
 class TestDotfilesSetupPy(unittest.TestCase):
+    @pytest.mark.skipif(not os.path.exists(os.path.join(setup_py_cwd, "setup.py")), reason="setup.py does not exist")
     def test_setuppy(self):
         commands = [
             ("setup.py", 1),
