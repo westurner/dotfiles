@@ -146,12 +146,13 @@ def main(argv=None):
 
 
 from functools import partial
+import builtins
 
 class Popen_with_logging(subprocess.Popen):
     def __init__(self, *args, cmdprefix='+', **kwargs):
-        print = kwargs.get("printfunc",
-                           partial(__builtins__.print, file=sys.stderr))
-        # print = log.debug ; printfunc=log.debug
+        printfunc = kwargs.get("printfunc",
+                           partial(builtins.print, file=sys.stderr))
+        # printfunc = log.debug ; printfunc=log.debug
 
         if kwargs.get('shell'):
             if len(args) == 1:
@@ -166,9 +167,9 @@ class Popen_with_logging(subprocess.Popen):
 
         event = dict(event='subprocess.Popen', args=args, kwargs=kwargs)
         event['cmdstr'] = cmdstr
-        print(event)
-        print(f'>>> subprocess.Popen(*{args}, **{kwargs})')
-        print(cmdprefix, cmdstr)
+        printfunc(event)
+        printfunc(f'>>> subprocess.Popen(*{args}, **{kwargs})')
+        printfunc(cmdprefix, cmdstr)
 
         super().__init__(*args, **kwargs)
 
