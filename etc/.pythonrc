@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 from __future__ import division
-print('\n'.join(__import__('sys').path))
+
+# import sys
+# print('sys.path: '+'\n'.join(__import__('sys').path), file=sys.stderr)
+# del sys
 
 
 from pprint import pprint as pp
