@@ -930,6 +930,40 @@ vendor-pyrpo:
 		"RLS: scripts/pyrpo.py: :fast_forward: https://github.com/westurner/pyrpo/commit/$(shell \
 		$(git) -C src/pyrpo rev-parse --short HEAD)" && $(git) log -1
 
+merge-vendored-to-upstream:
+	$(MAKE) merge-vendored-pyline
+	$(MAKE) merge-vendored-pyrpo
+	$(MAKE) merge-vendored-websh
+	$(MAKE) merge-vendored-prompt6
+
+merge-vendored-pyline:
+	test -d src/pyline
+	cp scripts/pyline.py src/pyline/scripts/pyline.py
+	$(git) -C src/pyline add scripts/pyline.py
+	$(git) -C src/pyline status --short
+
+merge-vendored-pyrpo:
+	test -d src/pyrpo
+	cp scripts/pyrpo.py src/pyrpo/pyrpo/pyrpo.py
+	$(git) -C src/pyrpo add pyrpo/pyrpo.py
+	$(git) -C src/pyrpo status --short
+
+merge-vendored-websh:
+	test -d src/web.sh
+	cp scripts/websh.py src/web.sh/websh/websh.py
+	$(git) -C src/web.sh add websh/websh.py
+	$(git) -C src/web.sh status --short
+
+merge-vendored-prompt6:
+	@if test -d src/prompt6; then \
+		cp scripts/prompt6.py src/prompt6/src/prompt6/prompt6.py; \
+		$(git) -C src/prompt6 add src/prompt6/prompt6.py; \
+		$(git) -C src/prompt6 status --short; \
+	else \
+		echo "src/prompt6 not found; add prompt6 upstream checkout under src/ first"; \
+		exit 1; \
+	fi
+
 vendor-i3t:
 	cd src/i3t && $(git) branch -a && $(git) log -1 && $(git) status
 	cp src/i3t/i3t.py ./scripts/i3t.py
