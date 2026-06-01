@@ -5,6 +5,11 @@ from __future__ import print_function
 prompt6
 """
 
+import codecs
+import collections
+import logging
+import os
+import subprocess
 import sys
 IS_PYTHON2 = (sys.version_info[0] == 2)
 IS_PYTHON3 = (sys.version_info[0] == 3)
@@ -21,14 +26,8 @@ elif IS_PYTHON3:
         return obj.items()
     iteritems = iteritems3
 
-import codecs
-import collections
-import logging
-import os
-import subprocess
-
 LOG_TRACE = 6
-logging.addLevelName('TRACE', LOG_TRACE)
+logging.addLevelName(LOG_TRACE, 'TRACE')
 log = logging.getLogger('prompt6')
 handler = logging.StreamHandler(sys.stderr)
 handler.setFormatter(
@@ -39,13 +38,19 @@ try:
     # import keyring (if it is available)
     import keyring
     keyring
-    from keyring.backend import KeyringBackend
-except Exception as e:
-    log.exception(e)
+except ImportError:
     keyring = None
+    log.debug("Note: keyring is not installed")
 
-    class KeyringBackend(object):
-        pass
+if keyring:
+    try:
+        from keyring.backend import KeyringBackend
+    except Exception as e:
+        log.exception(e)
+        keyring = None
+
+        class KeyringBackend(object):
+            pass
 
 
 class DEFAULT:
@@ -58,8 +63,8 @@ class Store(object):
 
 class KeyValueStore(Store):  # , KeyringBackend):
 
-    KEYDELIM = u".."
-    KEYDELIM_ESCAPE = u"\.."
+    KEYDELIM = ".."
+    KEYDELIM_ESCAPE = r"\.."
 
     DEFAULT_PREFIX = '-p6'
 
@@ -174,6 +179,10 @@ class OnDiskKeyValueStore(KeyValueStore):
             return f.read()
 
     def set(self, key, value):
+        if key is None:
+            raise ValueError("key may not be None")
+        if value is None:
+            raise ValueError("value may not be None")
         key = self.transform_key(key)
         path = os.path.join(self.conf['prefix'], key)
         path_dir = os.path.dirname(path)
@@ -181,7 +190,7 @@ class OnDiskKeyValueStore(KeyValueStore):
             # TODO XXX umask
             os.makedirs(path_dir)
         log.debug('path: %r', path)
-        with codecs.open(path, 'w', encoding='utf-8') as f:
+        with open(path, 'w', encoding='utf-8') as f:
             f.write(value)
 
 def shell_escape(str_):
@@ -192,7 +201,23 @@ def shell_escape(str_):
     Returns:
         unicode: str
     """
-    return repr(unicode(str_))[1:]
+    return repr(str_)[1:]
+
+
+import pty
+
+def Popen_pty(command, handler=None, **kwargs):
+    pid, fd = pty.fork()
+    if pid == 0:
+        # Child process
+        process = subprocess.Popen(command, stdin=fd, **kwargs)
+        if handler:
+            handler(process)
+        return process
+    else:
+        # Parent process
+        os.close(fd)
+        pid_result, exit_status = os.waitpid(pid, 0)
 
 
 def gpg_encrypt(filelike,
@@ -213,28 +238,42 @@ def gpg_encrypt(filelike,
     Returns:
         str: subprocess.check_output(cmd, shell=True, stdin=filelike)
     """
-    cmd_tmpl = ("""cat | gpg --homedir={homedir} --trust-model={trust_model}"""
-                """ --encrypt --armor"""
-                """ --secret-keyring={secring} --keyring={pubring}"""
-                """ -u {user} -r {key_name}""")
-    cmd = cmd_tmpl.format(
-        homedir=shell_escape(os.path.expanduser(homedir)),
-        user=shell_escape(user),
-        secring=shell_escape(secring),
-        pubring=shell_escape(pubring),
-        key_name=shell_escape(key_name),
-        trust_model=shell_escape(trust_model))
-    if isinstance(filelike, basestring):
+    # cmd_tmpl = ("""cat | gpg --homedir={homedir} --trust-model={trust_model}"""
+    #             """ --encrypt --armor"""
+    #             """ --secret-keyring={secring} --keyring={pubring}"""
+    #             """ -u {user} -r {key_name}""")
+
+    if isinstance(filelike, str):
         filelike = StringIO.StringIO(filelike)
+
+    cmd = ("gpg", "--homedir", os.path.expanduser(homedir),
+            #"--no-default-keyring",
+            "--trust-model", trust_model,
+            "--encrypt",  "--armor",
+            "--secret-keyring", secring,
+            "--keyring", pubring,
+            "-u", user,
+            "-r", key_name)
+    
+    stdout, stderr = None, None
+    def handle_process():
+        stdout, stderr = process.communicate(input=filelike.read())
+        if (process.returncode != 0):
+            raise subprocess.CalledProcessError(
+                process.returncode, cmd, '%s\n\n## STDERR ##\n%s' % (stdout, stderr))
+        return process
+
     log.log(LOG_TRACE, 'subprocess.Popen(%r)', cmd)
-    process = subprocess.Popen(cmd, shell=True,
-                               stdin=subprocess.PIPE,
-                               stdout=subprocess.PIPE)
-    stdout, stderr = process.communicate(input=filelike.read())
-    if (process.returncode != 0):
-        raise subprocess.CalledProcessError(
-            process.returncode, cmd, '%s\n\n## STDERR ##\n%s' % (stdout, stderr))
-    return stdout
+    process = Popen_pty(cmd, shell=True,
+                             handler=handle_process,
+                             stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE,
+                             text=True)
+    
+    output = stdout
+    if output is None:
+        raise Exception("output from gpg was None")
+    return output
 
 
 def gpg_decrypt(filelike,
@@ -266,7 +305,7 @@ def gpg_decrypt(filelike,
         user=shell_escape(user),
         secring=shell_escape(secring),
         pubring=shell_escape(pubring))
-    if isinstance(filelike, basestring):
+    if isinstance(filelike, str):
         filelike = StringIO.StringIO(filelike)
     log.log(LOG_TRACE, 'subprocess.Popen(%r)', cmd)
     process = subprocess.Popen(cmd, shell=True,
@@ -336,8 +375,11 @@ class KeyringValueStore(KeyValueStore):
 class Prompt6(KeyValueStore):
 
     DEFAULT_PREFIX = '-p6'  #  ${VIRTUAL_ENV}/etc/p6'
+    DEFAULT_STORE = 'disk'
+    DEFAULT_STORE = 'diskg'
 
-    def __init__(self, prefix=None, data=None, conf=None, stores=None):
+    def __init__(self, prefix=None, data=None, conf=None, stores=None,
+                 default_store=DEFAULT_STORE):
         self.conf = collections.OrderedDict() if conf is None else conf
         prefix = prefix if prefix is not None else self.DEFAULT_PREFIX
         self.set_prefix(prefix)
@@ -349,14 +391,18 @@ class Prompt6(KeyValueStore):
         if stores is None:
             stores = collections.OrderedDict()
             stores['mem'] = KeyValueStore(prefix, data=data)
-            # stores['disk'] = OnDiskKeyValueStore(prefix)
-            stores['diskg'] = OnDiskGPGKeyValueStore(prefix,
+
+            if self.DEFAULT_STORE == 'disk':
+                stores['disk'] = OnDiskKeyValueStore(prefix)
+            elif self.DEFAULT_STORE == 'diskg':
+                stores['diskg'] = OnDiskGPGKeyValueStore(prefix,
                                                      conf=dict(key_name='p6'))
             if not keyring:
                 log.debug(
                     'keyring not found (import keyring; pip install keyring)')
             else:
                 stores['ring'] = KeyringValueStore(prefix)
+
         return stores
 
     def get(self, key, default=DEFAULT, get_iter=False):
@@ -423,10 +469,10 @@ class Prompt6(KeyValueStore):
                 raise Exception('ring not configured')
         return (key, store)
 
-    def set(self, key, value):
+    def set(self, key, value, default_store='disk'):
         key, store = self.get_store_for_key(key)
         if store is None:
-            store = self.stores.get('diskg')
+            store = self.stores.get(default_store)
         log.debug('store: %r', store)
         store[key] = value
 
@@ -573,7 +619,8 @@ def main(argv=None):
 
     prs.add_option('-v', '--verbose',
                    dest='verbose',
-                   action='count')
+                   action='count',
+                   default=0)
     prs.add_option('-q', '--quiet',
                    dest='quiet',
                    action='store_true',)
@@ -604,9 +651,10 @@ def main(argv=None):
     #    log.addHandler(handler)
 
     if opts.run_tests:
-        sys.argv = [sys.argv[0]] + args
-        import unittest
-        return unittest.main()
+        #sys.argv = [sys.argv[0]] + args
+        #import unittest
+        #return unittest.main()
+        return subprocess.call(['pytest', '-vl', *args, __file__])
 
     stdout = codecs.getwriter('utf-8')(sys.stdout)
 
@@ -649,4 +697,4 @@ def _main_():
 
 if __name__ == "__main__":
     import sys
-    sys.exit(_main_())
+    _main_()
