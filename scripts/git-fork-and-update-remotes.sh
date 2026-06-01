@@ -19,6 +19,10 @@ git_fork_and_update_remotes_parse_args() {
                 echo "Options:"
                 echo "  --switch-to=<remote>   Default: upstream"
                 echo "  --no-switch-to         Do not switch to remote"
+                echo "  --recursive, --recurse-submodules[=<pathspec>],"
+                echo "  --depth=<depth>, --[no-]shallow-submodules,"
+                echo "  --[no-]reject-shallow  Passed directly to git clone/fetch"
+                echo "  (You can safely pass other unrecognized arguments through to git)"
                 echo "  -u|--username=<user>   Set username"
                 echo "  -v|--verbose           Enable verbose logging"
                 echo "  -q|--quiet             Enable quiet logging"
@@ -43,14 +47,14 @@ git_fork_and_update_remotes_main() {
 
     # Get current origin URL
     if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-        echo "Error: Must be run inside a git repository."
+        log_error "Error: Must be run inside a git repository."
         exit 1
     fi
 
     local current_origin=
     current_origin=$(git remote get-url origin 2>/dev/null || echo "")
     if [ -z "$current_origin" ]; then
-        echo "Error: No origin remote found."
+        log_error "Error: No origin remote found."
         exit 1
     fi
 
@@ -60,7 +64,7 @@ git_fork_and_update_remotes_main() {
     local repo_domain=""
     extract_org_repo "$current_origin"
 
-    echo "Updating remotes for repo: $reponame (Username: $USERNAME)"
+    log_info "Updating remotes for repo: $reponame (Username: $USERNAME)"
 
     # If origin doesn't belong to the username, move it to upstream
     if [[ "$current_origin" != *"$USERNAME"* ]]; then
@@ -69,14 +73,31 @@ git_fork_and_update_remotes_main() {
         git remote add origin "git@${repo_domain}:$USERNAME/$reponame.git" || git remote add origin "https://${repo_domain}/$USERNAME/$reponame.git"
     fi
 
-    git fetch --all
+    git fetch "${GIT_ARGS[@]}" --all
 
-    echo "Remotes configured:"
-    git remote -v
+    log_info "Remotes configured:"
+    if [[ "$LOGLEVEL" != "quiet" ]]; then
+        git remote -v
+    fi
 
     if [ "$SWITCH_TO" != "none" ] && [ -n "$SWITCH_TO" ]; then
-        echo "Switching to $SWITCH_TO..."
-        git fetch "$SWITCH_TO"
+        log_info "Switching to $SWITCH_TO..."
+        git fetch "${GIT_ARGS[@]}" "$SWITCH_TO"
+    fi
+    
+    # We still need a check here if we want to run git submodule update
+    # Since we dropped the boolean let's check the array
+    local has_recursive=false
+    for arg in "${GIT_ARGS[@]}"; do
+        if [[ "$arg" == "--recursive" || "$arg" == "--recurse-submodules"* ]]; then
+            has_recursive=true
+            break
+        fi
+    done
+
+    if [[ "$has_recursive" == "true" ]]; then
+        log_info "Updating submodules..."
+        git submodule update --init --recursive
     fi
 
     print_commands
