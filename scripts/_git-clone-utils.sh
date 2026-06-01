@@ -12,27 +12,127 @@ SWITCH_TO="upstream"
 USERNAME=""
 REPO_URL=""
 USER_AGENT="git-clone-utils/1.0"
+GIT_ARGS=()
+COLOR="auto"
+
+_has_color() {
+    if [[ "$COLOR" == "yes" || "$COLOR" == "y" || "$COLOR" == "always" ]]; then
+        return 0
+    elif [[ "$COLOR" == "no" || "$COLOR" == "n" || "$COLOR" == "never" ]]; then
+        return 1
+    elif [[ "$COLOR" == "auto" ]]; then
+        if [[ -t 1 ]]; then
+            return 0
+        else
+            return 1
+        fi
+    fi
+    return 1
+}
+
+setup_colors() {
+    if _has_color; then
+        export C_RESET=$'\e[0m'
+        export C_RED=$'\e[31m'
+        export C_GREEN=$'\e[32m'
+        export C_YELLOW=$'\e[33m'
+        export C_BLUE=$'\e[34m'
+        export C_MAGENTA=$'\e[35m'
+        export C_CYAN=$'\e[36m'
+        export C_GRAY=$'\e[90m'
+        export PS4=$'\e[35m+ \e[30m${BASH_SOURCE[0]}:${LINENO}:\e[0m '
+    else
+        export C_RESET=""
+        export C_RED=""
+        export C_GREEN=""
+        export C_YELLOW=""
+        export C_BLUE=""
+        export C_MAGENTA=""
+        export C_CYAN=""
+        export C_GRAY=""
+        export PS4='+ ${BASH_SOURCE[0]}:${LINENO}: '
+    fi
+}
+
+log_debug() {
+    if [[ "$LOGLEVEL" == "debug" ]]; then
+        setup_colors
+        echo -e "${C_GRAY}[DEBUG]${C_RESET} $*"
+    fi
+}
+
+log_info() {
+    if [[ "$LOGLEVEL" == "info" || "$LOGLEVEL" == "debug" ]]; then
+        setup_colors
+        echo -e "${C_BLUE}[INFO]${C_RESET} $*"
+    fi
+}
+
+log_warn() {
+    if [[ "$LOGLEVEL" != "quiet" && "$LOGLEVEL" != "error" ]]; then
+        setup_colors
+        echo -e "${C_YELLOW}[WARN]${C_RESET} $*"
+    fi
+}
+
+log_error() {
+    if [[ "$LOGLEVEL" != "quiet" ]]; then
+        setup_colors
+        echo -e "${C_RED}[ERROR]${C_RESET} $*" >&2
+    fi
+}
+
+log() {
+    # Default log fallback
+    if [[ "$LOGLEVEL" != "quiet" ]]; then
+        echo "$@"
+    fi
+}
 
 print_commands() {
+    if [[ "$LOGLEVEL" == "quiet" ]]; then
+        return
+    fi
+
     local branch
-    branch=$(git branch --show-current || echo "main")
+    branch=$(git branch --show-current 2>/dev/null || echo "")
+    if [[ -z "$branch" ]]; then
+        branch="main"
+    fi
     
-    echo "========================================="
-    echo "Helpful commands for your workflow:"
-    echo "========================================="
-    echo "Commit or stash and switch:"
-    echo "  git commit -am 'message' && git checkout other-branch"
-    echo "  git stash && git checkout other-branch && git stash pop"
-    echo ""
-    echo "Diff between same branch on different remote:"
-    echo "  git diff upstream/$branch...origin/$branch"
-    echo ""
-    echo "Fetch, Pull, Push, Cherry-pick:"
-    echo "  git fetch upstream"
-    echo "  git pull upstream $branch"
-    echo "  git push origin $branch"
-    echo "  git cherry-pick upstream/$branch"
-    echo "========================================="
+    local behind_msg=""
+    if git rev-parse --verify "upstream/$branch" >/dev/null 2>&1 && git rev-parse --verify "origin/$branch" >/dev/null 2>&1; then
+        local behind_count
+        behind_count=$(git rev-list --count "origin/$branch..upstream/$branch" 2>/dev/null || echo "0")
+        if [[ "$behind_count" -gt 0 ]]; then
+            behind_msg="⚠️  NOTICE: Your origin/$branch is behind upstream/$branch by $behind_count commit(s).\nTo update your local branch and origin, run:\n  git checkout $branch && git pull upstream $branch && git push origin $branch"
+        fi
+    fi
+
+    log "========================================="
+    if [[ -n "$behind_msg" ]]; then
+        if _has_color; then
+            printf "${C_YELLOW}%b${C_RESET}\n" "$behind_msg"
+        else
+            printf "%b\n" "$behind_msg"
+        fi
+        log "-----------------------------------------"
+    fi
+    log "Helpful commands for your workflow:"
+    log "========================================="
+    log "Commit or stash and switch:"
+    log "  git commit -am 'message' && git checkout other-branch"
+    log "  git stash && git checkout other-branch && git stash pop"
+    log ""
+    log "Diff between same branch on different remote:"
+    log "  git diff upstream/$branch...origin/$branch"
+    log ""
+    log "Fetch, Pull, Push, Cherry-pick:"
+    log "  git fetch upstream"
+    log "  git pull upstream $branch"
+    log "  git push origin $branch"
+    log "  git cherry-pick upstream/$branch"
+    log "========================================="
 }
 
 extract_org_repo() {
@@ -198,11 +298,20 @@ parse_common_args() {
             --user-agent=*)
                 USER_AGENT="${arg#*=}"
                 ;;
+            --color=*)
+                COLOR="${arg#*=}"
+                ;;
+            -*)
+                # Pass all other unhandled flags (e.g. --jobs=4, --bare, etc.) through to git
+                GIT_ARGS+=("$arg")
+                ;;
             *)
                 POS_ARGS+=("$arg")
                 ;;
         esac
     done
+    
+    setup_colors
     
     if [ -z "$USERNAME" ]; then
         USERNAME=$(git config user.username || echo "$USER")
@@ -262,7 +371,14 @@ test_extract_org_repo() {
     assert_eq "$reponame" "gitlab-docs" "GitLab Pages reponame"
     assert_eq "$repo_path" "subpath" "GitLab Pages repo_path"
 
-    # Test 6: No internet access simulation
+    # Test 6: westurner dotfiles repository
+    extract_org_repo "https://westurner.github.io/dotfiles/"
+    assert_eq "$repotype" "github" "westurner pages repotype"
+    assert_eq "$orgname" "westurner" "westurner pages orgname"
+    assert_eq "$reponame" "dotfiles" "westurner pages reponame"
+    assert_eq "$repo_path" "" "westurner pages repo_path"
+
+    # Test 7: No internet access simulation
     # We mock curl to just exit with non-zero or return 404/empty
     with_offline_curl() {
         trap 'unset -f curl' RETURN
