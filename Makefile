@@ -292,6 +292,14 @@ test_build:
 	$(MAKE) build_deb_all
 	$(MAKE) pytest
 
+test_bashcov:
+	# Install kcov if not installed, run tests with bash script coverage
+	which kcov || sudo dnf install -y kcov || sudo apt-get install -y kcov || true
+	mkdir -p reports/bashcov
+	# kcov traces child processes automatically; tracking bash executions initiated by pytest tests
+	kcov --clean --include-path=$(PWD)/etc/bash,$(PWD)/scripts reports/bashcov python3 -m pytest -v ./tests/
+
+
 
 build:
 	# Build source dist and bdist
