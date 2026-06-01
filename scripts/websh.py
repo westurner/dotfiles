@@ -179,10 +179,6 @@ class WebBrowser(object):
                                 full_url = "http://{0}".format(_url)
                         else:
                             full_url = _url
-                elif cls.match_domain(netloc):
-                    full_url = 'https://{0}'.format(_url)
-                else:
-                    full_url = 'http://{0}'.format(_url)
         else:
             if scheme == 'http':
                 if cls.match_domain(netloc):
@@ -192,23 +188,18 @@ class WebBrowser(object):
             else:
                 full_url = _url
 
-        assert full_url != 0j
-        if full_url == 0j:
-            raise Exception(_url)
-            # full_url = _url
-
         log.info((
             ('url', url),
             ('full_url', full_url)))
         return full_url
 
     ALWAYS_HTTPS_DOMAINS = {
-        "wikipedia.org": 1,
-        "en.wikipedia.org": 1,
-        "github.com": 1,
-        "github.io": 1,
-        "bitbucket.org": 1,
-        "google.com": 1,
+        "wikipedia.org": True,
+        "en.wikipedia.org": True,
+        "github.com": True,
+        "github.io": True,
+        "bitbucket.org": True,
+        "google.com": True,
     }
 
 
