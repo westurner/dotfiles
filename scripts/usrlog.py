@@ -24,6 +24,7 @@ if sys.version_info.major == 2:
 else:
     imap = map
     unicode = str
+    basestring = str
 
 ISODATETIME_RGX = re.compile(
     r'\d\d\d\d\-\d\d\-\d\dT?\d\d:\d\d')
@@ -103,22 +104,16 @@ class Usrlog(object):
         thisline = []
         # chunk lines by rgx instead of (over) newlines
         for l in fileobj:
-            mobj = self.date_rgx.match(l)
+            l_str = l.decode('utf8', 'replace') if hasattr(l, 'decode') else l
+            mobj = self.date_rgx.match(l_str)
             if mobj:
                 # date = mobj.group(1)
                 # print("iso8601date: %r" % date)
                 if thisline:
                     yield u''.join(thisline)
-                try:
-                    thisline = [
-                        l.decode('utf8', 'replace') if hasattr(l,'decode')
-                        else l]
-                except UnicodeEncodeError as e:
-                    thisline = [l]  # TODO
+                thisline = [l_str]
             else:
-                thisline.append(
-                    l.decode('utf8', 'replace') if hasattr(l, 'decode')
-                    else l)
+                thisline.append(l_str)
         yield u''.join(thisline)
 
     def read_file_lines_joined(self, **kwargs):
@@ -288,9 +283,7 @@ class Usrlog(object):
                             ("line", line),
                             ("words", w),
                             ("date", w[0]),
-                            ("id", (
-                                w[1].lstrip('#ntid')
-                                    .lstrip(':').lstrip()),
+                            ("id", w[1].lstrip('#ntid').lstrip(':').lstrip()),
                             ("path", None),
                             ("histstr", None),
                             ("histn", None),    # int or "#note"
@@ -298,7 +291,7 @@ class Usrlog(object):
                             ("hostname", None),
                             ("user", None),
                             ("cmd", w[1]),
-                            )))
+                            ))
                     else:
                         result = collections.OrderedDict((
                             ("line", line),
@@ -821,5 +814,6 @@ def main(argv=None):
     return EX_OK
 
 
-if __name__ == "__main__":
-    sys.exit(main(argv=sys.argv[1:]))
+if __name__ == "__main__":   # pragma: no cover
+    main(argv=sys.argv[1:])  # pragma: no cover
+
