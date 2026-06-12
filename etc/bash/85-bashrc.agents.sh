@@ -22,7 +22,12 @@ if [[ "$TERM_PROGRAM" == "vscode" ]]; then
     vscode_shell_integration_sh="$(code --locate-shell-integration-path bash)"
     source "${vscode_shell_integration_sh}"
     export GIT_PAGER=
+    #export GIT_PAGER=sh -x -c -- GIT_CONFIG_PARAMETERS="'color.ui=never'" GIT_PAGER=code\ --wait\ -
+    if type -a code.sh.stdin.sh; then
+        export GIT_PAGER=code.sh.stdin.sh
+    fi
     export EDITOR=code
+    export GIT_EDITOR=code\ --wait
 
     if [ -n "${VIRTUAL_ENV}" ]; then
         workon "${VIRTUAL_ENV}"
