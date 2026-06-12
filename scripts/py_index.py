@@ -1,5 +1,4 @@
 import os
-import setuptools
 import shutil
 import subprocess
 import sys
