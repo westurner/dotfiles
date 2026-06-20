@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # encoding: utf-8
-from __future__ import print_function
 """Search for code repositories and generate reports
 
 Usage:
@@ -13,6 +12,7 @@ Usage:
     cd $VIRTUAL_ENV; pyrpo -s . -r sh
 """
 
+from __future__ import print_function
 import codecs
 import datetime
 import errno
@@ -25,11 +25,16 @@ import subprocess
 import sys
 
 from collections import deque, namedtuple
-from distutils.util import convert_path
+try:
+    from distutils.util import convert_path
+except ImportError:
+    import pathlib
+    def convert_path(pathname):
+        return os.fspath(pathlib.PurePath(pathname))
 
 from itertools import chain
 if sys.version_info.major < 3:
-    from itertools import imap, izip_longest
+    from itertools import imap, izip_longest  # type: ignore
     def iteritems(d):
         return d.iteritems()
 else:
@@ -43,12 +48,12 @@ else:
 # TODO: arrow
 try:
     from dateutil.parser import parse as parse_date
-except ImportError as e:
+except ImportError:
     parse_date = None
 
 try:
     import sarge
-except ImportError as e:
+except ImportError:
     sarge = None
 
 try:
@@ -68,7 +73,7 @@ log = logging.getLogger('pyrpo')
 
 try:
     from collections import OrderedDict as Dict
-except ImportError as e:
+except ImportError:
     log.error("collections.OrderedDict not found; falling back to dict")
     Dict = dict
 
@@ -159,7 +164,7 @@ def itersplit_to_fields(str_,
 
 
 if sys.version_info.major < 3:
-    _missing = unichr(822)
+    _missing = unichr(822)  # noqa: F821
 else:
     _missing = chr(822)
 
@@ -427,14 +432,14 @@ class Repository(object):
         if not op:
             return
         print(op)
-        for l in itersplit(op, self.lsep):
-            l = l.strip()
-            if not l:
+        for line in itersplit(op, self.lsep):
+            line = line.strip()
+            if not line:
                 continue
             try:
-                yield self._parselog(l,)
+                yield self._parselog(line,)
             except Exception:
-                log.error("%s %r" % (str(self), l))
+                log.error("%s %r" % (str(self), line))
                 raise
         return
 
@@ -464,13 +469,13 @@ class Repository(object):
         yield "# %s" % next(self.origin_report())
         yield "%s [%s]" % (self.last_commit, self)
         if self.status:
-            for l in self.status.split('\n'):
-                yield l
+            for line in self.status.split('\n'):
+                yield line
             yield ''
 
         if hasattr(self, 'log_iter'):
-            for r in self.log_iter():
-                yield r
+            for report in self.log_iter():
+                yield report
         return
 
     @cached_property
@@ -511,8 +516,8 @@ class Repository(object):
         yield pprint.pformat(self.to_dict())
 
     def json_report(self):
-        for l in self.to_json().splitlines():
-            yield l
+        for line in self.to_json().splitlines():
+            yield line
 
     def sh_report(self, full=True, latest=False):
         """
@@ -713,11 +718,11 @@ class Repository(object):
                '''| sort -n '''
                '''| tail -n %d''') % (excludes, count)
         op = self.sh(cmd, shell=True)
-        for l in op.split('\n'):
-            l = l.strip()
-            if not l:
+        for line in op.split('\n'):
+            line = line.strip()
+            if not line:
                 continue
-            mtime, fname = l.split(' ', 1)
+            mtime, fname = line.split(' ', 1)
             mtime = datetime.datetime.fromtimestamp(float(mtime))
             mtimestr = dtformat(mtime)
             yield mtimestr, fname
@@ -893,6 +898,8 @@ class MercurialRepository(Repository):
         hgrc_path = self.cfg_file
         hgrc_text = self.read_cfg_file()
         paths_start = hgrc_text.find(section_header)
+        new_text = None
+    
         if paths_start:
             paths_end = hgrc_text.find('\n[', paths_start + 1)
             if paths_end == -1:
@@ -1006,7 +1013,7 @@ class MercurialRepository(Repository):
         output = sh("hg showconfig | grep '^schemes.'", shell=True).split('\n')
         log.debug(output)
         schemes = (
-            l.split('.', 1)[1].split('=') for l in output if '=' in l)
+            line.split('.', 1)[1].split('=') for line in output if '=' in line)
         regexes = sorted(
             ((k, v, re.compile(v.replace('{1}', '(.*)')+'(.*)'))
                 for k, v in schemes),
@@ -1210,6 +1217,7 @@ class GitRepository(Repository):
         """
         # return self.sh(['git, 'branch'], shell=False)  # parse for '*'
         cmd = ['git', 'symbolic-ref', '--short', 'HEAD']
+        output = None
         try:
             output = self.sh(cmd, shell=False, ignore_error=True).rstrip()
         except subprocess.CalledProcessError as e:
@@ -1314,10 +1322,10 @@ class GitRepository(Repository):
         if os.path.isfile(dotgitpath):
             with codecs.open(dotgitpath, 'r', encoding='utf8') as f:
                 for _line in f:
-                    l = _line.strip()
-                    if l.startswith('gitdir:'):
+                    line = _line.strip()
+                    if line.startswith('gitdir:'):
                         # gitdir: ../.git/modules/modname
-                        cfg_path_relative = l.split('gitdir:', 1)[-1].strip()
+                        cfg_path_relative = line.split('gitdir:', 1)[-1].strip()
                         cfg_path_absolute = os.path.abspath(
                             os.path.join(
                                 os.path.dirname(dotgitpath),
@@ -1510,13 +1518,13 @@ class BzrRepository(Repository):
             print(entry)
             if entry == ['']:
                 return
-            for l in itersplit(entry, '\n'):
-                if not l:
+            for line in itersplit(entry, '\n'):
+                if not line:
                     continue
-                mobj = self.logrgx.match(l)
+                mobj = self.logrgx.match(line)
                 if not mobj:
                     # "  - Log message"
-                    buf.append(self._logmessage_transform(l))
+                    buf.append(self._logmessage_transform(line))
                 if mobj:
                     mobjlen = len(mobj.groups())
                     if mobjlen == 2:
@@ -1880,8 +1888,8 @@ def find_find_repos(where, ignore_error=True):
         raise Exception("Subprocess return code: %d\n%r\n%r" % (
             p.returncode, cmd, p_stdout))
 
-    for l in iter(p.stdout.readline, ''):
-        path = l.rstrip()
+    for line in iter(p.stdout.readline, ''):
+        path = line.rstrip()
         _path, _prefix = os.path.dirname(path), os.path.basename(path)
         repo = REPO_PREFIXES.get(_prefix)
         if repo is None:
@@ -1961,8 +1969,8 @@ def do_repo_report(repos, report='full', output=sys.stdout, *args, **kwargs):
                 if reportfunc is None:
                     raise Exception("Unrecognized report type: %r (%s)" %
                                     (report, ', '.join(REPORT_TYPES.keys())))
-                for l in reportfunc(repo, *args, **kwargs):
-                    print(l, file=output)
+                for line in reportfunc(repo, *args, **kwargs):
+                    print(line, file=output)
         except Exception as e:
             log.error(repo)
             log.error(report)
@@ -2104,7 +2112,6 @@ def main(argv=None):
     if not opts.scan:
         opts.scan = ['.']
 
-    env = {}
     if opts.colors:
         os.environ['GIT_CONFIG_PARAMETERS'] = "'color.ui=always'"
     elif opts.colors is False:
