@@ -111,3 +111,5 @@ tmp/
 reports/
 pytest-results.xml
 cov.xml
+
+.pytest_cache/
