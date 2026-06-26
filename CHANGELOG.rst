@@ -3,7 +3,7 @@ Changelog
 
 
 
-release/0.10.0 (2026-06-26 18:12:13 +0000)
+release/0.10.0 (2026-06-26 18:20:37 +0000)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
@@ -11,6 +11,7 @@ release/0.10.0 (2026-06-26 18:12:13 +0000)
 
 * BLD: Makefile: add dotvim editing commands and improve changelog generation \[27ffd06\]
 * ENH,TST,REF: git-upgrade-remote-to-ssh.sh: enhance help output and add support for user options \[37e265e\]
+* BLD,DOC: \`make changelog-release\` to update CHANGELOG.rst \[f8dab19\]
 
 
 develop (2026-06-20 01:25:32 +0000)
