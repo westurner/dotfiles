@@ -542,9 +542,12 @@ changelog: _changelog_title
 	# Show git log in changelog format
 	git-changelog.py --all --fmt=rst --develop >> ${CHANGELOGRST}
 	git diff -- ${CHANGELOGRST}
-	
+
+RELEASEVER=0.10.0
+RELEASEBRANCH=release/${RELEASEVER}
+
 changelog-release: _changelog_title
-	git-changelog.py --all --fmt=rst >> ${CHANGELOGRST}
+	git-changelog.py --all --fmt=rst --develop -r "${RELEASEBRANCH}" >> "${CHANGELOGRST}"
 	git diff -- ${CHANGELOGRST}
 
 
