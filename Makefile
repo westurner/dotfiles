@@ -25,9 +25,15 @@
 #         - Git HubFlow: develop -> {feature release hotfix} -> stable master
 #
 
+MAKEFILE=Makefile
+READMERST=README.rst
+CHANGELOGRST=CHANGELOG.rst
+PYPROJECTTOML=pyproject.toml
+
+
 # GHPREFIX=  should match the set { 'ssh://git@', 'https://', 'git://' }
-GHPREFIX=ssh://git@
-#GHPREFIX:=https://
+#GHPREFIX=ssh://git@
+GHPREFIX:=https://
 #GHPREFIX:=git://
 
 DOTFILES_SRC:=${GHPREFIX}github.com/westurner/dotfiles
@@ -494,10 +500,12 @@ pip_list_editable_requirements:
 		| sed 's/^#\s*//g' \
 		| tee ./requirements/editable-sources.txt
 
+## Clone and install dotvim
+
 dotvim_clone:
 	# Clone and/or install .dotvim/Makefile
 	mkdir -p ./etc
-	(test -d ./etc/vim/.$(git) && cd etc/vim && $(git) pull) \
+	(test -d ./etc/vim/.git && cd etc/vim && $(git) pull) \
 		|| $(git) clone '$(DOTVIM_SRC)' ./etc/vim
 
 dotvim_install:
@@ -505,17 +513,42 @@ dotvim_install:
 	$(MAKE) -C etc/vim install
 
 
+## Edit dotfiles and/or dotfiles with $$EDITOR
+
 edit:
-	# Open (EDITOR) with project files
-	$(EDITOR) README.rst Makefile setup.py CHANGELOG.rst
-	# Also open (EDITOR) with vim files (cd etc/vim; make install)
+	$(MAKE) edit-dotfiles
+	$(MAKE) edit-dotvim
+
+
+edit-dotfiles:
+	# Open $$EDITOR with project files
+	$(EDITOR) ${READMERST} ${MAKEFILE} ${CHANGELOGRST} ${PYPROJECTTOML}
+
+
+edit-dotvim:
+	# Open $$EDITOR with vim files (make -C etc/vim edit)
 	test -f etc/vim/Makefile && \
 		$(MAKE) -C etc/vim edit
 
 
-changelog:
-	# Show hg log in changelog format
-	hg log --style=changelog
+## Build the CHANGELOGRST (CHANGELOG.rst)
+
+_changelog_title:
+	echo "Changelog" > ${CHANGELOGRST}
+	echo "==========" >> ${CHANGELOGRST}
+	echo "" >> ${CHANGELOGRST}
+
+changelog: _changelog_title
+	# Show git log in changelog format
+	git-changelog.py --all --fmt=rst --develop >> ${CHANGELOGRST}
+	git diff -- ${CHANGELOGRST}
+
+RELEASEVER=0.10.0
+RELEASEBRANCH=release/${RELEASEVER}
+
+changelog-release: _changelog_title
+	git-changelog.py --all --fmt=rst --develop -r "${RELEASEBRANCH}" >> "${CHANGELOGRST}"
+	git diff -- ${CHANGELOGRST}
 
 
 # Local Reports
