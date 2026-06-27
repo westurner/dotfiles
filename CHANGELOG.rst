@@ -3,13 +3,25 @@ Changelog
 
 
 
-develop (2026-06-27 14:24:06 -0400)
+release/0.10.2 (2026-06-27 14:37:06 -0400)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+   git log --reverse --pretty=format:'* %s [%h]' develop..release/0.10.2
+
+* BLD: Makefile: Amend release process to git add CHANGELOG.rst \[b687216\]
+* RLS: VERSION.txt: 0.10.2 :boat: \[2ecf4a0\]
+
+
+develop (2026-06-27 14:32:59 -0400)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
    git log --reverse --pretty=format:'* %s [%h]' v0.10.1..develop
 
 * MRG: Merge tag 'v0.10.1' into develop \[472eb69\]
+* DOC: Update copyright year in conf.py to 2026, update CHANGELOG.rst \[7c0705a\]
+* BLD: Makefile: Update release process to use dynamic VERSION variable and improve changelog generation \[3bd3a42\]
 
 
 v0.10.1 (2026-06-27 14:23:46 -0400)

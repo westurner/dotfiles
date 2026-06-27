@@ -822,6 +822,8 @@ release: _VERSION clean
 		$(git) commit '$(VERSION_TXT)' -m \
 			"RLS: VERSION.txt: $(VERSION) :boat:"
 	$(MAKE) changelog-release
+	git add ./CHANGELOG.rst
+	git commit --amend
 	$(MAKE) docs
 	$(MAKE) update_manifest
 	$(git) hf release finish '$(VERSION)' || \
