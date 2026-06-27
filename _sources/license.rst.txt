@@ -1,8 +1,0 @@
-
-.. license:
-
-License
-=========
-
-.. include:: ../LICENSE
-
