@@ -3,22 +3,45 @@ Changelog
 
 
 
-release/0.10.0 (2026-06-26 18:20:37 +0000)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-::
-
-   git log --reverse --pretty=format:'* %s [%h]' develop..release/0.10.0
-
-* BLD: Makefile: add dotvim editing commands and improve changelog generation \[27ffd06\]
-* ENH,TST,REF: git-upgrade-remote-to-ssh.sh: enhance help output and add support for user options \[37e265e\]
-* BLD,DOC: \`make changelog-release\` to update CHANGELOG.rst \[f8dab19\]
-
-
-develop (2026-06-20 01:25:32 +0000)
+develop (2026-06-27 14:24:06 -0400)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-   git log --reverse --pretty=format:'* %s [%h]' v0.9.0..develop
+   git log --reverse --pretty=format:'* %s [%h]' v0.10.1..develop
+
+* MRG: Merge tag 'v0.10.1' into develop \[472eb69\]
+
+
+v0.10.1 (2026-06-27 14:23:46 -0400)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+   git log --reverse --pretty=format:'* %s [%h]' v0.10.0..v0.10.1
+
+* MRG: Merge tag 'v0.10.0' into develop \[74bfe6b\]
+* UPG: src/pyline, src/pyrpo, src/web.sh: latest \[bc74ed9\]
+* DOC: docs/tools: pull latest: 6161fc0 \[c73ddba\]
+* DOC,BLD: Update sphinx theme to 'wrd_sphinx_theme' and fix requirements.txt \[63b17f6\]
+* DOC,BLD: docs/requirements.txt \[358548c\]
+* MRG: Merge branch 'feature/cleanup2' into develop \[21783db\]
+* ENH: Add \`code\` shell function that calls \`deactivate\` if set before calling \`command -v code\` in a container/flatpak or \`code.sh\` otherwise \[f3caaab\]
+* ETC: settings.json: git.repositoryScanMaxDepth=2 \[834fbd7\]
+* ETC: Update .gitignore to exclude .gitconfig.local but include it in .gitconfig, for vscode credential helper \[d21bb65\]
+* MRG: Merge branch 'feature/vscode_compat' into develop \[800ceaf\]
+* BLD: Improve pyclean target by removing .dist-info and build/ directories and setup.py \[2f90d47\]
+* DOC,BLD,REF: Comment out sphinxcontrib.napoleon extension and update JavaScript/CSS file addition methods in Sphinx configuration \[7254e76\]
+* DOC: rebuild docs for release \[5af4eb2\]
+* BLD: inline git-based \`MANIFEST.in\` generation with \`git ls-files\` for inclusion \[4837b57\]
+* RLS: VERSION.txt: 0.10.1 :boat: \[a424100\]
+* DOC: docs/usage/: dotfiles usage docs: a424100 :boat: \[b746d35\]
+* MRG: Merge branch 'release/0.10.1' \[a9a25d7\]
+
+
+v0.10.0 (2026-06-26 18:21:21 +0000)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+   git log --reverse --pretty=format:'* %s [%h]' v0.9.0..v0.10.0
 
 * ENH: s/bootstrap_dotfiles.sh: backup_and_symlink .Xresources and .profile for i3 \[6af040c\]
 * DOC: etc/bash/40-bashrc.aliases.sh: gac() docstring \[caabaae\]
@@ -237,6 +260,11 @@ develop (2026-06-20 01:25:32 +0000)
 * CLN,BUG: pyrpo.py: fix import order and handle ImportError for convert_path \[10f89bc\]
 * TST,DOC: setup_git_gpg.sh: add tests, -h, --test \[de94b70\]
 * CLN: .gitignore: add .pytest_cache/ \[b61faed\]
+* BLD: Makefile: add dotvim editing commands and improve changelog generation \[27ffd06\]
+* ENH,TST,REF: git-upgrade-remote-to-ssh.sh: enhance help output and add support for user options \[37e265e\]
+* BLD,DOC: \`make changelog-release\` to update CHANGELOG.rst \[f8dab19\]
+* DOC: CHANGELOG.rst: \`make changelog-release\` \[cf666a9\]
+* MRG: Merge branch 'release/0.10.0' \[d2e9100\]
 
 
 v0.9.0 (2020-03-05 03:45:25 -0500)
