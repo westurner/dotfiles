@@ -11,6 +11,11 @@ etc/vim/vimrc
      git clone https://github.com/westurner/dotvim
      git clone ssh://git@github.com/westurner/dotvim
      make help
+   
+   See also:
+   - SpaceVim
+     - Src: https://github.com/SpaceVim/SpaceVim
+     - https://westurner.github.io/tools/#spacevim
    Vim Reference
    ---------------
     ===============  ==  ==========================  ==========
@@ -20,6 +25,7 @@ etc/vim/vimrc
     :[cmd]           --  (type ':' (w/o the quotes),
                          type an [optional] command (w/o brackets),
                          and then press <enter>)
+    :Help            --  list commented mappings with vimgrep in a quickfix window
     :Dotvimhelp      --  list commented mappings
     :ListMappings    --  list commented mappings
     :Dr :DotvimReload  --  reload vim configuration (on top of existing config)
@@ -33,8 +39,12 @@ etc/vim/vimrc
                          tag: */plugin/doc/<tag>.txt
     :help vimtutor   --  open vim vimtutor tutorial            [ vimtutor ]
     :help quickref   --  open vim quick reference          [quickref, Q_bu]
+    gx               --  open the url under the cursor
+                         with g:net_rw_browsex_viewer="xdg-open"
     :<up> :<down>    --  search backward / forward through vim command history
     /<up> /<down>    --  search backward / forward through vim search history
+    :<tab> [<tab>]+  --  list available vim commands (and cycle thru with tab)
+    :<tab> <left>|rt --  list available vim commands (and cycle with arrow keys)
     C-]              --  follow a tag (e.g. in a help document, )
     [[               --  go up a section                             [ [[ ]
                          :help quickref ; /Q_bu ; C-] ; [[
@@ -42,6 +52,8 @@ etc/vim/vimrc
     C-o              --  goto jumplist previous position [ctrl-O, jumplist]
     C-i              --  goto jumplist next position     [ctrl-i, jumplist]
     ``               --  goto previous position      [``, restore-position]
+    fn-enter         --  insert on a mac keyboard
+    fn-shift-enter   --  paste on a mac keyboard
     C-s              --  save
     C-q              --  quit but prompt to save first
     :q               --  quit but prompt to save first   [q]
@@ -84,6 +96,8 @@ etc/vim/vimrc
     :read path       --  insert from path after cursor
     :read !cmd       --  insert 'cmd' output after cursor
     :%! [cmd]        --  buffer > stdin > [cmd] > stdout => buffer.replace
+    :new | r ! ls -al #   -- open a new buffer, read output from cmd
+                             w/ '#' replaced with the current filename (%)
     :put %           --  put % (current filename) after the cursor [help put]
     v    hjkl        -- visual selection mode (ldur)
     C-v  hjkl        -- visual selection whole lines 
@@ -119,6 +133,11 @@ etc/vim/vimrc
     m[a-z]{1}        --  set mark
     `[a-z]{1}        --  goto mark
     '[a-z]{1}        --  goto mark
+   Line numbers
+    :set number      --  show line numbers
+    :set nonumber    --  show line numbers
+    :set rnu         --  relative line numbering :set relativenumbers
+    :set norelativenumbers  - no relative line numbering :set norelativenumbers
    Macros
     q[a-z]{1}        --  start recording
     q                --  stop recording
@@ -165,6 +184,17 @@ etc/vim/vimrc
     <leader> i       --  toggle unprintables
     <leader> sd      --  toggle highlight EOL whitespace
     <leader> sc      --  clear highlighting
+   Terminal / windows
+    :terminal        -- open a terminal split in the current tab
+    :tabnew | term   -- open a terminal in a new tab
+    C-w C-w          -- escape a terminal
+    C-w :            -- escape out of a terminal to enter vim commands
+    C-w T            -- move a buffer to a new tab           [Ctrl-W_T]
+    C-w n            -- make a new window
+    C-w N            -- change to navigation mode? TODO
+    C-w "            -- paste into a :terminal
+    C-w :dis         -- list paste buffers and [...]
+    C-w p            -- prev window
    ##
    ## g:__sfile__dirname     -- directory containing this vimrc script
                                 after symlinks
@@ -186,6 +216,7 @@ etc/vim/vimrc
     :Path()   -- echo path information %s %:h %:p:h       [help expand]
     :Cdhere() -- cd to here (this dir, dirname(__file__))    [cd %:p:h]
     :Lcdhere() -- cd to here (this dir, dirname(__file__))  [lcd %:p:h]
+   F2 to rename word under cursor
     \       -- <leader>
     ,       --  <leader> == <comma>
     ;;   --  <esc> == double semicolon
@@ -197,6 +228,7 @@ etc/vim/vimrc
       Ctrl-z  -- send process to background
     <C-a>    -- Select All (ggVG)
     <C-c>    -- Copy to system clipboard ("+y) TODO
+   vmap <C-c>  "+y
     Quicklist
     <leader> q               --  toggle quicklist [:cw/:cwindow]
     <leader> n               --  next quicklist item [:cn/:cnext]
@@ -293,8 +325,6 @@ etc/vim/vimrc
    vmap <C-v> <Esc>"+gP
     alt-v        -- paste (*)
    nm \\paste\\        "=@*.'xy'<CR>gPFx"_2x:echo<CR>
-   imap <a-v>          x<Esc>\\paste\\"_s
-   vmap <a-v>          "-cx<Esc>\\paste\\"_x
    Paste
     shift-insert --  paste (*)
                      conflict: mac keyboards do not have <Insert>
@@ -369,6 +399,7 @@ etc/vim/vimrc
    all errors)
    Colors
     :PatchColors     --  load local colorizing postsets
+                  \       ctermfg=lightgray                   cterm=None
    call PatchColors()    -- call PatchColors when sourced
         Vim2VimWrite()   -- write highlight codes to ./vim_highlight_output.txt
           pip install vim2vim   -- https://pypi.python.org/pypi/vim2vim
@@ -448,6 +479,7 @@ etc/vim/vimrc.full.bundles.vimrc
 .. code:: vim
 
    .
+       return
    Bundle            -- Vim bundle manager [help bundle]
    :BundleList          - list configured plugins
    :BundleInstall(!)    - install (update) plugins
@@ -598,7 +630,7 @@ etc/vim/vimrc.full.bundles.vimrc
    NeoComplCache -- code completion [help neocomplcache]
    unstack.vim   -- parse and open stacktrace paths [help unstack]
     <leader> s   -- parse part/all of a stacktrace
-   accordion.vim -- work w/ a number of vsplits at once [help accordion]
+   accordion.vim -- work w/ a number of h/vsplits at once [help accordion]
    ViM Airline   -- helpful statusbar information w/ vimscript [help airline]
        base16, wombat, luna
        base16, wombat, luna
@@ -618,9 +650,30 @@ etc/vim/vimrc.full.bundles.vimrc
     <F8>         -- cycle colors forward
     <Shift><F8>  -- cycle colors reverse
    HiColors
-    call HiTest() -- print highlighting colors 
+    call HiTest() -- print highlighting colors
    Pasting       -- make paste work normally [help paste]
-   Vim Room      -- focus just the relevant text [help vimroom] 
+   vim-test      -- run tests with different granularities [help test.txt]
+    t<Ctrl-n>    -- :TestNearest
+    t<Ctrl-f>    -- :TestFile
+    t<Ctrl-s>    -- :TestSuite
+    t<Ctrl-l>    -- :TestLast
+    t<Ctrl-g>    -- :TestVisit
+   asyncrun.vim  -- run async shell commands to e.g. quickfix [help asyncrun]
+    :AsyncRun make
+    :AsyncRun -cwd=<root> make
+    :AsyncRun -pos=bottom make
+    :AsyncRun -pos=tab make
+   asynctasks.vim -- run tasks defined in a .tasks file [help asynctasks]
+    <F5>         -- :AsyncTask file-run<cr>
+    <F9>         -- :AsyncTask file-build<cr>
+    <F6>         -- :AsyncTask project-run<cr>
+    <F7>         -- :AsyncTask project-build<cr>
+    "
+    " search upward for (.git|.svn|.root|.project|.hg)/.tasks
+   AsyncCommand         -- run async shell commands to e.g. quickfix
+   vim-red-green        -- show a red or a green bar in vim
+   vim-async-make-green -- make a green
+   Vim Room      -- focus just the relevant text [help vimroom]
    VOoM Outline Viewer   -- view outlines of code and text [help voom]
     VOoM modes:  html, markdown, python, rest,
                  thevimoutliner, txt2tags,
@@ -710,7 +763,8 @@ etc/vim/vimrc.full.bundles.vimrc
    :PyModeLintToggle -- toggle lint
    :PyModeLintAuto   -- auto-lint the current buffer (once)
                          (commit before and after)
-   let g:pymode_lint_select = "E501,W0011,W430"  " whitelist
+   let g:pymode_lint_select = "E501,W0011,W430"
+   g:pymode_rope = 1  -- enable pymode rope
     <F7>     -- set debugger breakpoints
     auto lookup breakpoint cmd (pdb, ipdb, pudb)"
     Searches upward for a .ropeproject file (that should be .vcs-ignored)
@@ -720,10 +774,11 @@ etc/vim/vimrc.full.bundles.vimrc
     rope for autocompletion
     <C-Space>    -- rope autocomplete
     <leader> j       --  :RopeGotoDefinition
-    <C-c> ro     -- organize Python imports; drop unused (:PymodeRopeAutoImport)
+    <leader>ro     -- organize Python imports; drop unused (:PymodeRopeAutoImport)
     :PymodeRopeUndo  -- Undo last project changes
     :PymodeRopeRedo  -- Redo last project changes
-    <C-c> rr     -- rope rename
+    <leader>rr     -- rope rename
+    <leader>r1r    -- rope rename module
    vim-virtualenv    -- Python virtualenv [help virtualenv]
     :help
     :VirtualEnvDeactivate
@@ -731,7 +786,11 @@ etc/vim/vimrc.full.bundles.vimrc
     :VirtualEnvActivate <name>
     :VirtualEnvActivate <TAB>
    Sort python imports
+   Bundle 'https://github.com/vim-scripts/sort-python-imports'
     :PyFixImports    --  sort import statements
+    Instead, see: g:pymode_rope_organize_imports_bind = '<C-c>ro'
+    Pending the patch in:
+      https://github.com/vim-scripts/sort-python-imports/pull/2
    Pytest.vim    -- py.test red/green results [help pytest]
     :Pytest clear    -- reset pytest globals
     :Pytest file     --  pytest file
@@ -745,6 +804,10 @@ etc/vim/vimrc.full.bundles.vimrc
     <leader>tn       --  pytest next error
     <leader>tp       --  pytest prev error
     <leader>te       --  pytest error
+   Black         -- Black code formatter
+   let g:black_linelength=79
+   let g:black_linelength=120
+   let g:black_linelength=159
    Pyrex         -- Pyrex syntax
    Jinja         -- Jinja Templates syntax
    vim-coffee-script -- CoffeeScript syntax, indent
@@ -795,6 +858,11 @@ etc/vim/vimrc.full.bundles.vimrc
    Tabular       -- text filtering and alignment [tabular]
    vim-markdown  -- markdown syntax (-> tabular, netrw) [vim-markdown]
    Ansible   -- Ansible syntax
+   :Ansibledoc -- Replace the current buffer with the output of ansible-doc
+       :Ansibledoc file
+       :Ansibledoc -s file
+       :Ansibledoc -l
+       :Ansibledoc -F
    Salt      -- Salt syntax
    Trac      -- Trac [help trac]
    webapi-vim -- vim web API [help webapi[-{html, http, json, xml}]]
@@ -813,6 +881,8 @@ etc/vim/vimrc.full.bundles.vimrc
     :RainbowParenthesesLoadChevrons
     :RainbowParenthesesToggleAll
        :RainbowParenthesesActivate
+    :RainbowParens       -- RainbowParenthesesActivate
+    :RainbowParensToggle -- call rainbow_parentheses#toggleall()
    vimwiki               -- vim wiki library (for taskwiki) [help vimwiki]
    taskwiki              -- TaskWarrior task management [help taskwiki]
    vim-taskwarrior       -- TaskWarrior interface (for taskwiki) [help vim-tw]
@@ -830,8 +900,25 @@ etc/vim/vimrc.full.bundles.vimrc
     :FufQuickfix
     :FufHelp
    abolish.vim           -- abbreviations, case-aware replcmnts [help abolish]
+   vim-jukit             -- Python REPL and notebooks
    fountain.vim          -- fountain.io syntax
+   todo.txt-vim          -- todo.txt syntax [help todo.txt]
+    <leader> x           -- mark as done/not done
+   Printer-Dialog        -- dialog for printer settings (fonts, etc)
+    <leader>pd           -- open the print dialog
    All of your Bundles must be added before the following line
+   .
+
+   
+   
+etc/vim/vimrc.nvim
+===================
+| Src: `etc/vim/vimrc.nvim <https://github.com/westurner/dotvim/tree/master/vimrc.nvim>`__
+
+.. code:: vim
+
+   .
+   init.vim
    .
 
    
@@ -911,6 +998,13 @@ etc/vim/vimrc.tinyvim.bundles.vimrc
    Pyrex         -- Pyrex syntax
    Jinja         -- Jinja Templates syntax
    Salt      -- Salt syntax
+   ViM Airline   -- helpful statusbar information w/ vimscript [help airline]
+       base16, wombat, luna
+       base16, wombat, luna
+     :AirlineTheme [dark,luna,base16_grayscale,serene]
+   let g:airline_theme='dark'  " vim-airline
+   let g:airline_theme='luna'              " vim-airline-themes
+   let g:airline_theme='serene'              " vim-airline-themes
    All of your Bundles must be added before the following line
    call PatchColors()  " TODO: from ./vimrc.full.bundles.vimrc'
    .
