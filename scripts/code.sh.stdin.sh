@@ -3,6 +3,11 @@ set -euo pipefail
 
 declare -A __COVERAGE_HITS=()
 
+# Filter stderr to hide flatpak-vscode and zypak-helper startup messages
+filter_flatpak_stderr() {
+  grep -E -v "^(flatpak-vscode:|\[[0-9]+ zypak-helper\])" >&2
+}
+
 cover_hit() {
   __COVERAGE_HITS["$1"]=1
 }
@@ -59,7 +64,7 @@ launch_code() {
   cover_hit "launch_code"
 
   local path="$1"
-  "${CODE_BIN:-code}" "$path"
+  "${CODE_BIN:-code}" "$path" 2> >(filter_flatpak_stderr)
 }
 
 open_stdin_in_code() {
