@@ -544,10 +544,13 @@ changelog: _changelog_title
 	git-changelog.py --all --fmt=rst --develop >> ${CHANGELOGRST}
 	git diff -- ${CHANGELOGRST}
 
-RELEASEVER=0.10.0
-RELEASEBRANCH=release/${RELEASEVER}
 
-changelog-release: _changelog_title
+_VERSION:
+	test -n "${VERSION}"
+
+RELEASEBRANCH=release/${VERSION}
+
+changelog-release: _changelog_title _VERSION
 	git-changelog.py --all --fmt=rst --develop -r "${RELEASEBRANCH}" >> "${CHANGELOGRST}"
 	git diff -- ${CHANGELOGRST}
 
@@ -801,22 +804,26 @@ update_manifest:
 		$(git) commit ./MANIFEST.in \
 		-m "RLS: MANIFEST.in: Regenerate :boat:"
 
-start-release:
+start-release: _VERSION
 	# start-release   -- $(git) hf release start ${VERSION} (VERSION="0.1.0")
 	#   VERSION (str): version string without a 'v' prefix (e.g "0.1.0")
 	$(git) hf release start '$(VERSION)'
 
 VERSION_TXT:=VERSION.txt
-release: clean
+release: _VERSION clean
 	# release         -- finish a release that is already started
 	#   VERSION (str): version string without prefix (e.g "0.1.0")
-	test -n '$(VERSION)'
-	#$(git) hf release start $(VERSION)
+	git hf release || echo 'run `make start-release release VERSION=`'
+	#  $(git) hf release start $(VERSION)
+	git hf release
 	echo '$(VERSION)' > '$(VERSION_TXT)'
 	$(git) add '$(VERSION_TXT)'
 	$(git) diff --cached --exit-code ./VERSION.txt || \
 		$(git) commit '$(VERSION_TXT)' -m \
 			"RLS: VERSION.txt: $(VERSION) :boat:"
+	$(MAKE) changelog-release
+	git add ./CHANGELOG.rst
+	git commit --amend
 	$(MAKE) docs
 	$(MAKE) update_manifest
 	$(git) hf release finish '$(VERSION)' || \
