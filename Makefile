@@ -275,7 +275,8 @@ pyclean:
 	find . -type f -name '*.pyo' -print0 | xargs -0 rm -fv
 	find . -type d -name '__pycache__' -print0 | xargs -0 rm -rfv
 	find . -name '*.egg-info' -print0 | xargs -0 rm -rfv
-	python setup.py clean
+	find . -name '*.dist-info' -print0 | xargs -0 rm -rfv
+	rm -rfv build/ dist/
 
 vimclean:
 	find . -type f -name '*.un~' -exec rm -fv {} \;
