@@ -5972,7 +5972,7 @@ INFO: bashrc.agents.sh Running in vscode
 ++++ /app/bin/code --locate-shell-integration-path bash
 flatpak-vscode: Adding /app/tools/podman/bin to PATH
 flatpak-vscode: Enabling SDK extension "node20"
-[98579 zypak-helper] Using spawn strategy test 1 as set by environment
+[100000 zypak-helper] Using spawn strategy test 1 as set by environment
 # ---------------------------------------------------------------------------------------------
 #   Copyright (c) Microsoft Corporation. All rights reserved.
 #   Licensed under the MIT License. See License.txt in the project root for license information.
