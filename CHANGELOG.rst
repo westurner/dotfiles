@@ -3,25 +3,40 @@ Changelog
 
 
 
-release/0.10.2 (2026-06-27 14:37:06 -0400)
+release/0.10.3 (2026-06-27 15:51:04 -0400)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-   git log --reverse --pretty=format:'* %s [%h]' develop..release/0.10.2
+   git log --reverse --pretty=format:'* %s [%h]' develop..release/0.10.3
 
-* BLD: Makefile: Amend release process to git add CHANGELOG.rst \[b687216\]
-* RLS: VERSION.txt: 0.10.2 :boat: \[2ecf4a0\]
+* RLS: VERSION.txt: 0.10.3 :boat: \[2741903\]
 
 
-develop (2026-06-27 14:32:59 -0400)
+develop (2026-06-27 15:50:01 -0400)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-   git log --reverse --pretty=format:'* %s [%h]' v0.10.1..develop
+   git log --reverse --pretty=format:'* %s [%h]' v0.10.2..develop
+
+* MRG: Merge tag 'v0.10.2' into develop \[441472b\]
+* DOC: docs/usage/: dotfiles usage docs: 441472b :boat: \[6c8e24f\]
+* DOC: docs/usage/: dotfiles usage docs: 6c8e24f :boat: \[3ff07d6\]
+* UBY: code.sh.stdin.sh:  filter stderr output in launch_code function to suppress flatpak-vscode and zypak-helper messages \[c463ea3\]
+
+
+v0.10.2 (2026-06-27 14:37:31 -0400)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+   git log --reverse --pretty=format:'* %s [%h]' v0.10.1..v0.10.2
 
 * MRG: Merge tag 'v0.10.1' into develop \[472eb69\]
 * DOC: Update copyright year in conf.py to 2026, update CHANGELOG.rst \[7c0705a\]
 * BLD: Makefile: Update release process to use dynamic VERSION variable and improve changelog generation \[3bd3a42\]
+* BLD: Makefile: Amend release process to git add CHANGELOG.rst \[b687216\]
+* RLS: VERSION.txt: 0.10.2 :boat: \[096947c\]
+* DOC: docs/usage/: dotfiles usage docs: 096947c :boat: \[39fb4f0\]
+* MRG: Merge branch 'release/0.10.2' \[d4e03d5\]
 
 
 v0.10.1 (2026-06-27 14:23:46 -0400)
