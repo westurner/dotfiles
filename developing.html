@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="Developing" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
+    <!--
+    <meta property="og:description" content="Documentation for the dotfiles project" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Developing" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
+    
+    <title>Developing &mdash; westurner/dotfiles 0.10.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.10.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="westurner/dotfiles 0.10.2 documentation" href="index.html" />
+    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="prev" title="dotfiles.venv package" href="dotfiles.venv.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-NAdVXiusDN+dLu0oqftULr7gCx0D8/RwkioUMZc+i2BxPO6diD7vgE0XJvI3kBgE"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-bN2nAkykPpCVDBT+9/Um8bOKCrosUGgIqTFTkJTUAZ7o9xntjz8XBGE/y6/peUPj"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/local.css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/changelog.css" integrity=""  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+
+  
+    
+    <script src="_static/documentation_options.js" integrity="sha384-vzpRhNbaSfrEUWkiyQMZS/M2D53LLQE+11GX/GTNDdO8PccaBd0qcIRuj365J0I3" ></script>
+  
+    
+    <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+  
+    
+    <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+  
+    
+    <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+  
+  <script src="_static/js/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" ></script>
+  <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.10.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Developing</a><ul>
+<li><a class="reference internal" href="#create-a-virtualenv-with-virtualenvwrapper">Create a virtualenv with virtualenvwrapper</a></li>
+<li><a class="reference internal" href="#install-this-package">Install this package</a></li>
+<li><a class="reference internal" href="#test-and-build-this-package">Test and build this package</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="dotfiles.venv.html" title="dotfiles.venv package" accesskey="P">previous </a></li>
+              <li><a href="changelog.html" title="Changelog" accesskey="N">next </a></li>
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/developing.rst.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Developing</a><ul>
+<li><a class="reference internal" href="#create-a-virtualenv-with-virtualenvwrapper">Create a virtualenv with virtualenvwrapper</a></li>
+<li><a class="reference internal" href="#install-this-package">Install this package</a></li>
+<li><a class="reference internal" href="#test-and-build-this-package">Test and build this package</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="dotfiles.venv.html"
+                          title="previous chapter">dotfiles.venv package</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="changelog.html"
+                          title="next chapter">Changelog</a></p>
+  </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/developing.rst.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/developing.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/developing.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/developing.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/developing.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section id="developing">
+<span id="id1"></span><h1>Developing<a class="headerlink" href="#developing" title="Link to this heading">¶</a></h1>
+<section id="create-a-virtualenv-with-virtualenvwrapper">
+<h2>Create a virtualenv with virtualenvwrapper<a class="headerlink" href="#create-a-virtualenv-with-virtualenvwrapper" title="Link to this heading">¶</a></h2>
+<p>Install <strong>virtualenvwrapper</strong> (with pip):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pi<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--user<span class="w"> </span>pip<span class="w"> </span>virtualenv
+pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--user<span class="w"> </span>virtualenvwrapper
+<span class="nb">source</span><span class="w"> </span><span class="k">$(</span>HOME<span class="k">)</span>/.local/bin/virtualenvwrapper.sh
+</pre></div>
+</div>
+<p>Make a <strong>virtualenv</strong> for the <strong>dotfiles</strong> source with
+<strong>virtualenvwrapper</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkvirtualenv<span class="w"> </span>dotfiles
+workon<span class="w"> </span>dotfiles
+cdvirtualenv
+ls<span class="w"> </span>-ld<span class="w"> </span>**/**
+
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="si">${</span><span class="nv">VIRTUAL_ENV</span><span class="si">}</span>/src
+cdvirtualenv<span class="w"> </span>src
+</pre></div>
+</div>
+</section>
+<section id="install-this-package">
+<h2>Install this package<a class="headerlink" href="#install-this-package" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Install into <code class="docutils literal notranslate"><span class="pre">$VIRTUAL_ENV</span></code> (with pip):</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>workon<span class="w"> </span>dotfiles
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>git+https://github.com/westurner/dotfiles#egg<span class="o">=</span>dotfiles
+</pre></div>
+</div>
+</section>
+<section id="test-and-build-this-package">
+<h2>Test and build this package<a class="headerlink" href="#test-and-build-this-package" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Install into <code class="docutils literal notranslate"><span class="pre">$VIRTUAL_ENV</span></code> (manually):</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">VIRTUAL_ENV</span><span class="si">}</span>/src
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/westurner/dotfiles
+hg<span class="w"> </span>clone<span class="w"> </span>https://bitbucket.org/westurner/dotfiles
+
+<span class="nb">cd</span><span class="w"> </span>dotfiles
+ls<span class="w"> </span>-l<span class="w"> </span>./dotfiles/**
+hg<span class="w"> </span>paths<span class="w"> </span><span class="o">||</span><span class="w"> </span>git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>branch<span class="w"> </span>-v
+
+ls<span class="w"> </span>-l<span class="w"> </span>./dotfiles/etc/vim/**
+<span class="nb">cd</span><span class="w"> </span>./dotfiles/etc/vim
+hg<span class="w"> </span>paths<span class="w"> </span><span class="o">||</span><span class="w"> </span>git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>branch<span class="w"> </span>-v
+
+<span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">VIRTUAL_ENV</span><span class="si">}</span>/src/dotfiles
+<span class="c1"># cd $_WRD</span>
+<span class="c1"># cdw</span>
+<span class="c1"># pip install -e .</span>
+python<span class="w"> </span>setup.py<span class="w"> </span>develop
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Build</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># sudo apt-get install make git mercurial</span>
+
+<span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">VIRTUAL_ENV</span><span class="si">}</span>/src/dotfiles
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$EDITOR</span>
+make<span class="w"> </span>build_tags
+make<span class="w"> </span>edit
+make<span class="w"> </span><span class="nb">test</span>
+make<span class="w"> </span>build
+make<span class="w"> </span>install
+
+<span class="c1"># pip install -r ./requirements-all.txt</span>
+make<span class="w"> </span>pip_install_requirements_all
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">westurner/dotfiles 0.10.2 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="dotfiles.venv.html" title="dotfiles.venv package" >previous</a></li>
+        <li><a href="changelog.html" title="Changelog" >next</a></li>
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

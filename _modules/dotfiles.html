@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="dotfiles" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
+    <!--
+    <meta property="og:description" content="Documentation for the dotfiles project" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="dotfiles" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
+    
+    <title>dotfiles &mdash; westurner/dotfiles 0.10.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.10.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="westurner/dotfiles 0.10.2 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" integrity="sha384-NAdVXiusDN+dLu0oqftULr7gCx0D8/RwkioUMZc+i2BxPO6diD7vgE0XJvI3kBgE"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" integrity="sha384-bN2nAkykPpCVDBT+9/Um8bOKCrosUGgIqTFTkJTUAZ7o9xntjz8XBGE/y6/peUPj"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/local.css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="../_static/changelog.css" integrity=""  />
+  
+  <link rel="stylesheet" href="../_static/css/local.css" type="text/css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+
+  
+    
+    <script src="../_static/documentation_options.js" integrity="sha384-vzpRhNbaSfrEUWkiyQMZS/M2D53LLQE+11GX/GTNDdO8PccaBd0qcIRuj365J0I3" ></script>
+  
+    
+    <script src="../_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+  
+    
+    <script src="../_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+  
+    
+    <script src="../_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+  
+  <script src="../_static/js/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" ></script>
+  <script src="../_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">westurner/dotfiles 0.10.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+
+            
+              <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
+              <li><a href="index.html" accesskey="U">Module code</a></li>
+            
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div><div class="widget">
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <h1>Source code for dotfiles</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">dotfiles</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">opener</span><span class="p">(</span><span class="n">HERE</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">HERE</span><span class="p">,</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+<div class="viewcode-block" id="opener">
+<a class="viewcode-back" href="../api.html#dotfiles.opener">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">opener</span><span class="p">(</span><span class="n">HERE</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">HERE</span><span class="p">,</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__read_version_txt</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    read VERSION.txt</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: version string from the first line of ``VERSION.txt``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">pkg_resources</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_string</span><span class="p">(</span>
+            <span class="s1">&#39;dotfiles&#39;</span><span class="p">,</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">version</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">version</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">version</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="o">,</span><span class="w"> </span><span class="nn">codecs</span>
+            <span class="n">HERE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">opener</span><span class="p">(</span><span class="n">HERE</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">version</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">version</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">raise</span>
+
+
+<span class="k">global</span> <span class="n">__version__</span>
+<span class="k">global</span> <span class="n">version</span>
+<span class="n">version</span> <span class="o">=</span> <span class="n">__version__</span> <span class="o">=</span> <span class="n">__read_version_txt</span><span class="p">()</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotfiles</span><span class="w"> </span><span class="kn">import</span> <span class="n">cli</span><span class="p">,</span> <span class="n">venv</span>
+<span class="n">__ALL__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="s1">&#39;__version__&#39;</span><span class="p">,</span> <span class="s1">&#39;venv&#39;</span><span class="p">,</span> <span class="s1">&#39;cli&#39;</span><span class="p">]</span>
+<span class="n">__main__</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">cli</span><span class="o">.</span><span class="n">main</span>
+</pre></div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="../index.html">westurner/dotfiles 0.10.2 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="../genindex.html" title="General Index" >index</a></li>
+        <li><a href="index.html" >Module code</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

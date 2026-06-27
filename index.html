@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="westurner/dotfiles" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
+    <!--
+    <meta property="og:description" content="Documentation for the dotfiles project" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="westurner/dotfiles" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
+    
+    <title>westurner/dotfiles &mdash; westurner/dotfiles 0.10.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.10.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="westurner/dotfiles 0.10.2 documentation" href="#" />
+    <link rel="next" title="Dotfiles" href="readme.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-NAdVXiusDN+dLu0oqftULr7gCx0D8/RwkioUMZc+i2BxPO6diD7vgE0XJvI3kBgE"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-bN2nAkykPpCVDBT+9/Um8bOKCrosUGgIqTFTkJTUAZ7o9xntjz8XBGE/y6/peUPj"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/local.css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/changelog.css" integrity=""  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+
+  
+    
+    <script src="_static/documentation_options.js" integrity="sha384-vzpRhNbaSfrEUWkiyQMZS/M2D53LLQE+11GX/GTNDdO8PccaBd0qcIRuj365J0I3" ></script>
+  
+    
+    <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+  
+    
+    <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+  
+    
+    <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+  
+  <script src="_static/js/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" ></script>
+  <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">westurner/dotfiles 0.10.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">westurner/dotfiles</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="readme.html" title="Dotfiles" accesskey="N">next </a></li>
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/index.rst.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+<h3><a href="#">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dotfiles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/dhelp.html">Usage (dhelp)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="venv.html">venv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usrlog.html">usrlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Dotfiles API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html#git-commit-log">Git Commit Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="readme.html"
+                          title="next chapter">Dotfiles</a></p>
+  </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.rst.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/index.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/index.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/index.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/index.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section id="westurner-dotfiles">
+<h1>westurner/dotfiles<a class="headerlink" href="#westurner-dotfiles" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dotfiles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#install-the-dotfiles">Install the dotfiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#source-the-dotfiles">Source the dotfiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#further-dotfiles-resources">Further Dotfiles Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/index.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#bootstrap-dotfiles-sh">bootstrap_dotfiles.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#makefile">Makefile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#readline">Readline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#bash">Bash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#zsh">ZSH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#dotfiles-i3wm">I3wm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#vim">Vim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#src">src/</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pgs">pgs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pyline-py">pyline.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pyrpo-py">pyrpo.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#web-sh">web.sh</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage/index.html#scripts">Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#dotfiles">dotfiles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#id4">bootstrap_dotfiles.sh</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#venv">venv</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#venv-py">venv.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#venv-relabel-sh">venv_relabel.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#venv-root-prefix-sh">venv_root_prefix.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#venv-sh">venv.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#ewrd-sh">_ewrd.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#dotfileshelp-sh">_dotfileshelp.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#gitw">gitw</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#grinwrd-sh">_grinwrd.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#makew">makew</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#usrlog-sh">usrlog.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#usrlog-py">usrlog.py</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#git">git</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#gitconfig">.gitconfig</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#gitignore-global">.gitignore_global</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#gittagstohgtags-sh">gittagstohgtags.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#git-changelog-py">git-changelog.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#git-subrepo2submodule-sh">git-subrepo2submodule.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#git-track-all-remotes-sh">git-track-all-remotes.sh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#git-upgrade-remote-to-ssh-sh">git-upgrade-remote-to-ssh.sh</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#hg">hg</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#hgrc">.hgrc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage/index.html#hgignore-global">.hgignore_global</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#bashmarks-to-nerdtree-sh">bashmarks_to_nerdtree.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#compare-installed-py">compare_installed.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pulse-sh">pulse.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#setup-mathjax-py">setup_mathjax.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#setup-pandas-notebook-deb-sh">setup_pandas_notebook_deb.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#setup-pandas-notebook-sh">setup_pandas_notebook.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#setup-scipy-deb-py">setup_scipy_deb.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#deb-deps-py">deb_deps.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#deb-search-py">deb_search.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#build-docs-py">build_docs.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#el">el</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#greppaths-py">greppaths.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#lsof-py">lsof.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#mactool-py">mactool.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#optimizepath-py">optimizepath.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#passwordstrength-py">passwordstrength.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pipls-py">pipls.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pycut-py">pycut.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#py-index-py">py_index.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#pyren-py">pyren.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#whyquote-sh">whyquote.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/index.html#xlck-sh">xlck.sh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/dhelp.html">Usage (dhelp)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#scripts-dotfileshelp-sh">scripts/_dotfileshelp.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#scripts-bootstrap-dotfiles-sh">scripts/bootstrap_dotfiles.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-inputrc">etc/.inputrc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-00-bashrc-before-sh">etc/bash/00-bashrc.before.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-01-bashrc-lib-sh">etc/bash/01-bashrc.lib.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-02-bashrc-platform-sh">etc/bash/02-bashrc.platform.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-03-bashrc-darwin-sh">etc/bash/03-bashrc.darwin.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-04-bashrc-term-sh">etc/bash/04-bashrc.TERM.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-05-bashrc-dotfiles-sh">etc/bash/05-bashrc.dotfiles.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-06-bashrc-completion-sh">etc/bash/06-bashrc.completion.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-07-bashrc-python-sh">etc/bash/07-bashrc.python.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-07-bashrc-virtualenvwrapper-sh">etc/bash/07-bashrc.virtualenvwrapper.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-08-bashrc-conda-sh">etc/bash/08-bashrc.conda.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-08-bashrc-gcloud-sh">etc/bash/08-bashrc.gcloud.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-10-bashrc-venv-sh">etc/bash/10-bashrc.venv.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-11-bashrc-venv-pyramid-sh">etc/bash/11-bashrc.venv.pyramid.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-20-bashrc-editor-sh">etc/bash/20-bashrc.editor.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-29-bashrc-vimpagers-sh">etc/bash/29-bashrc.vimpagers.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-30-bashrc-usrlog-sh">etc/bash/30-bashrc.usrlog.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-30-bashrc-xlck-sh">etc/bash/30-bashrc.xlck.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-40-bashrc-aliases-sh">etc/bash/40-bashrc.aliases.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-42-bashrc-commands-sh">etc/bash/42-bashrc.commands.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-50-bashrc-bashmarks-sh">etc/bash/50-bashrc.bashmarks.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-70-bashrc-repos-sh">etc/bash/70-bashrc.repos.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-85-bashrc-agents-sh">etc/bash/85-bashrc.agents.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-99-bashrc-after-sh">etc/bash/99-bashrc.after.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-ewrd-sh">etc/bash/_ewrd.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-usrlog-sh">etc/bash/usrlog.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-bash-xlck-sh">etc/bash/xlck.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-zsh-00-zshrc-before-sh">etc/zsh/00-zshrc.before.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-zsh-01-zshrc-lib-sh">etc/zsh/01-zshrc.lib.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-zsh-05-zshrc-bashrc-sh">etc/zsh/05-zshrc.bashrc.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-zsh-99-zshrc-after-sh">etc/zsh/99-zshrc.after.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-i3-config">etc/i3/config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-vim-vimrc">etc/vim/vimrc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-vim-vimrc-full-bundles-vimrc">etc/vim/vimrc.full.bundles.vimrc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-vim-vimrc-nvim">etc/vim/vimrc.nvim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/dhelp.html#etc-vim-vimrc-tinyvim-bundles-vimrc">etc/vim/vimrc.tinyvim.bundles.vimrc</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="venv.html">venv</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="venv.html#working-with-venv">Working With Venv</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="venv.html#cdalias">CdAlias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="venv.html#venv-py">venv.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="venv.html#python-api">Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="venv.html#example-venv-configuration">Example Venv Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="venv.html#shell-configuration">Shell Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="venv.html#json-configuration">JSON Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="venv.html#other-scripts-with-venv-style-paths">Other scripts with venv-style paths</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usrlog.html">usrlog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usrlog.html#usrlog-sh">usrlog.sh</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usrlog.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usrlog.html#features">Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usrlog.html#usrlog-venv-integration">usrlog venv integration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="usrlog.html#usrlog-log-format">-usrlog.log format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usrlog.html#usrlog-log-natural-key">-usrlog.log natural key</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usrlog.html#usrlog-py">usrlog.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usrlog.html#id6">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usrlog.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usrlog.html#caveats">Caveats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usrlog.html#ideas">Ideas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tools/index.html">Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#packages">Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#anaconda">Anaconda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#apt">APT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#aur">AUR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#bower">Bower</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#build">BUILD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#cabal">Cabal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#conda">Conda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#conda-forge">conda-forge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#conda-smithy">conda-smithy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#deb">DEB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#dpkg">Dpkg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#dnf">dnf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#ebuild">ebuild</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#emerge">emerge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#fpm">fpm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#homebrew">Homebrew</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#npm">NPM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#nuget">NuGet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#pacman">pacman</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#pex">PEX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#pkgbuild">PKGBUILD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#portage">Portage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#ports">Ports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#rpm">RPM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#python-packages">Python Packages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#distutils">Distutils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#setuptools">Setuptools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#pip">Pip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#peep">Peep</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#pypi">PyPI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#warehouse">Warehouse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#devpi">Devpi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#wheel">Wheel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#rubygems">RubyGems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#yum">Yum</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#version-control-systems">Version Control Systems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#cvs">CVS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#svn-subversion">svn: Subversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#bzr-bazaar">bzr: Bazaar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#git">Git</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gitflow">GitFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#hubflow">HubFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#hg-mercurial">hg: Mercurial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#jj-jujutsu">jj: jujutsu</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#github">GitHub</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#github-actions">GitHub Actions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#github-classroom">GitHub Classroom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#gitlab">GitLab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gitlab-ci">GitLab CI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#gitea">Gitea</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gitea-actions">Gitea Actions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#project-templates">Project Templates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#exemplar-projects">Exemplar Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#cookiecutter">cookiecutter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#yeoman">yeoman</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#languages">Languages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#programming-language">Programming Languages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#programming-paradigms">Programming Paradigms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#lightweight-markup-language">Lightweight Markup Language</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#bbcode">BBCode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#markdown">Markdown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#commonmark">CommonMark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#myst-markdown">MyST Markdown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#mediawiki-markup">MediaWiki Markup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#rd">RD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#rdoc">RDoc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#restructuredtext">ReStructuredText</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#c">C</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#libc">Libc</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#id70">C++</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#standard-template-library">Standard Template Library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#boost">Boost</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#fortran">Fortran</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#haskell">Haskell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#go">Go</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#java">Java</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#jvm">JVM</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#javascript">Javascript</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ecmascript">ECMAScript</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#babel">Babel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#node-js">Node.js</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#jinja2">Jinja2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#perl">Perl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#python">Python</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#cpython">CPython</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#cython">Cython</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#numpy">NumPy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#scipy">SciPy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#scipy-stack">SciPy Stack</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#scipy-stack-docker-containers">SciPy Stack Docker Containers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#pypy">PyPy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#numpypy">NumPyPy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#python-3">Python 3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#awesome-python-testing">awesome-python-testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#tox">Tox</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#ruby">Ruby</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#rust">Rust</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#scala">Scala</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#typescript">TypeScript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#webassembly">WebAssembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#yaml">YAML</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#compilers">Compilers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#interpreter">Interpreter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#source-to-source-compiler">Source-to-Source compiler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#rose">ROSE</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#binutils">Binutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#clang">Clang</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gcc">GCC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gnu-linker">GNU Linker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#llvm">LLVM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#operating-systems">Operating Systems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#posix">POSIX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#linux-distributions">Linux Distributions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#arch">Arch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#debian">Debian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ubuntu">Ubuntu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#fedora">Fedora</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#redhat">RedHat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#gentoo">Gentoo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#chromiumos">ChromiumOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#chromeos">ChromeOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#coreos">CoreOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#linux-notes">Linux Notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#android">Android</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#os-x">OS X</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ios">iOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#osx-notes">OSX Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#windows">Windows</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#windows-subsystem-for-linux">Windows Subsystem for Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#windows-sysinternals">Windows Sysinternals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#wsus-offline-update">WSUS Offline Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#windows-notes">Windows Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#configuration-management">Configuration Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#ansible">Ansible</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#cobbler">Cobbler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#juju">Juju</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#osquery">osquery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#puppet">Puppet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#salt">Salt</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#build-automation-tools">Build Automation Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gnu-autotools">GNU Autotools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#bake">Bake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#id147">BUILD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#blaze">Blaze</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#bazel">Bazel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#buck">Buck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#cmake">CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gradle">Gradle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#grunt">Grunt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gulp">Gulp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#jake">Jake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#make">Make</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#pants">Pants Build</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#virtualization">Virtualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#cgroups">Cgroups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#libcontainer">libcontainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#oci">Open Container Initiative</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#runc">runC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#docker">Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#cncf">Cloud Native Computing Foundation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#kubernetes">Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#k3s">k3s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#kvm">KVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#libcloud">Libcloud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#libvirt">Libvirt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#lxc">LXC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#lxd">LXD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#mesos">Mesos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#mesosphere">Mesosphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#openstack">OpenStack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#openstack-devstack">OpenStack DevStack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#packer">Packer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#vagrant">Vagrant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#virtualbox">VirtualBox</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#shells">Shells</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#bash">Bash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#readline">Readline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#ipython">IPython</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#powershell">PowerShell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#zsh">ZSH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#shell-utilities">Shell Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#awk">Awk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#grep">Grep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#htop">Htop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#pyline">Pyline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#pyrpo">Pyrpo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#sed">Sed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#web-shells">Web Shells</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#ipython-notebook">IPython Notebook</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#jupyter-kernels">Jupyter kernels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ipykernel">ipykernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ipython-nose">ipython_nose</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#nosebook">nosebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#jupyter">Jupyter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#jupyter-notebook">Jupyter Notebook</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#jupyterlab">JupyterLab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#install-jupyterlab">Install JupyterLab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#hosting-jupyterlab">Hosting JupyterLab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#hosted-jupyterlab">Hosted JupyterLab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#jupyterhub">JupyterHub</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#nbconvert">nbconvert</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#nbformat">nbformat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#nbgrader">nbgrader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#nbviewer">nbviewer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#runipy">runipy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#jupyter-contrib-nbextensions">jupyter_contrib_nbextensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#nbpresent">NBPresent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#anaconda-jupyter-notebook-extensions">Anaconda Jupyter Notebook Extensions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#sagemathcloud">CoCalc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#google-colab">Google Colab</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#dotfiles">Dotfiles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#dotvim">Dotvim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#venv">Venv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#virtualenv">Virtualenv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#virtualenvwrapper">Virtualenvwrapper</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#window-managers">Window Managers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#compiz">Compiz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#f-lux">f.lux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gnome">Gnome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#i3wm">i3wm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#kde">KDE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#qt">Qt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#wayland">Wayland</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#x11">X11</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#browsers">Browsers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#blink">Blink</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#chrome">Chrome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#chromium">Chromium</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#chrome-devtools">Chrome DevTools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#chrome-extensions">Chrome Extensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#pbm">pbm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#chrome-android">Chrome Android</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#wandroid">Wandroid</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#firefox">Firefox</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#firefox-extensions">Firefox Extensions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#firefox-android">Firefox Android</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#firefox-android-extensions">Firefox Android Extensions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#internet-explorer">Internet Explorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#microsoft-edge">Microsoft Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#opera">Opera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#safari">Safari</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#safari-extensions">Safari Extensions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#safari-ios">Safari iOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#webkit">WebKit</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#browser-extensions">Browser Extensions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#accessibility-extensions">Accessibility Extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#accessibility-developer-tools">Accessibility Developer Tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#chromevox">ChromeVox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#dark-reader">Dark Reader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#deluminate">Deluminate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#github-dark-theme">GitHub Dark Theme</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#high-contrast">High Contrast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#nasa-night-launch">NASA Night Launch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#shadowfox">ShadowFox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#spectrum">Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#stylish">Stylish</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#tiesto">Tiësto</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#safety-extensions">Safety Extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#facebook-container">Facebook Container</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#firefox-multi-account-containers">Firefox Multi-Account Containers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ghostery">Ghostery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#https-everywhere">HTTPS Everywhere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ublock">uBlock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ublock-origin">uBlock Origin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#content-extensions">Content Extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#hypothesis">Hypothesis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#openlink-structured-data-sniffer">OpenLink Structured Data Sniffer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#pocket">Pocket</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#zotero">Zotero</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#tab-extensions">Tab Extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#better-onetab">better-onetab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#foxytab">FoxyTab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#onetab">OneTab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#snipe">Snipe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#tabs-outliner">Tabs Outliner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#tree-style-tab">Tree Style Tab</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#development-extensions">Development Extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#angularjs-batarang">AngularJS Batarang</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#firebug">FireBug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#firelogger">FireLogger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#firelogger-for-chrome">FireLogger for Chrome</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#jsonview">JSONView</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ng-inspector-for-angularjs">ng-inspector for AngularJS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#postman">Postman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#preact-devtools">Preact Devtools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#react-developer-tools">React Developer Tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#refined-github">Refined Github</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#responsive-web-design-tester">Responsive Web Design Tester</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#requirify">Requirify</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#web-developer">Web Developer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#window-resizer">Window Resizer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#vim-extensions">Vim Extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#vimium">Vimium</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#vimperator">Vimperator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#wasavi">Wasavi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#web-servers">Web Servers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#acme">ACME</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#letsencrypt">LetsEncrypt</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#apache-httpd">Apache HTTPD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#busybox-httpd">BusyBox HTTPD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#caddy">Caddy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#netcat-web-server">Netcat web server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#ncat">ncat</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#nginx">Nginx</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#python-http-server">Python http.server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#tengine">Tengine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#traefik">Traefik</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#kubernetes-ingress">Kubernetes Ingress</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#documentation-tools">Documentation Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#docutils">Docutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#pandoc">Pandoc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#pgs">Pgs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#sphinx">Sphinx</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#jupyter-book">jupyter-book</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#nbsphinx">nbsphinx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#tinkerer">Tinkerer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#backup-tools">Backup Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#backup-ninja">Backup Ninja</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#bup">bup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#clonezilla">Clonezilla</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#duplicity">Duplicity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#fsarchiver">FSArchiver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#partclone">partclone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#partimage">partimage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#rclone">rclone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#rsync">rsync</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#rdiff">rdiff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#rsnapshot">rsnapshot</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#rdiff-backup">rdiff-backup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#systemrescuecd">SystemRescueCD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#standards">Standards</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#css">CSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#filesystem-hierarchy-standard">Filesystem Hierarchy Standard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#http">HTTP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#https">HTTPS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#html">HTML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#json">JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#json5">JSON5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#json-lines">JSON-lines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#json-ld">JSON-LD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#messagepack">MessagePack</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#text-editors">Text Editors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#gedit">Gedit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#notepad">Notepad++</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#ides">IDEs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#emacs">Emacs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#spacemacs">Spacemacs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#org-mode">org-mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#org-babel">org-babel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#vscode">VSCode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#vscode-flatpak">VSCode Flatpak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tools/index.html#vim">Vim</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#neovim">neovim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#westurner-dotvim">westurner/dotvim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tools/index.html#spacevim">SpaceVim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html#wrd-r-d-documentation">WRD R&amp;D Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Dotfiles API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#dotfiles.opener"><code class="docutils literal notranslate"><span class="pre">opener()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dotfiles.cli.html">dotfiles.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.cli.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.cli.html#module-dotfiles.cli.cli">dotfiles.cli.cli module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dotfiles.venv.html">dotfiles.venv package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.venv.html#objectives">Objectives</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.venv.html#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.venv.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_config">dotfiles.venv.ipython_config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.ipython_magics">dotfiles.venv.ipython_magics module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv">dotfiles.venv.venv module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipyconfig">dotfiles.venv.venv_ipyconfig module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dotfiles.venv.html#module-dotfiles.venv.venv_ipymagics">dotfiles.venv.venv_ipymagics module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Developing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developing.html#create-a-virtualenv-with-virtualenvwrapper">Create a virtualenv with virtualenvwrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing.html#install-this-package">Install this package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing.html#test-and-build-this-package">Test and build this package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#release-0-10-2-2026-06-27-14-37-06-0400">release/0.10.2 (2026-06-27 14:37:06 -0400)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#develop-2026-06-27-14-32-59-0400">develop (2026-06-27 14:32:59 -0400)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-10-1-2026-06-27-14-23-46-0400">v0.10.1 (2026-06-27 14:23:46 -0400)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-10-0-2026-06-26-18-21-21-0000">v0.10.0 (2026-06-26 18:21:21 +0000)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-9-0-2020-03-05-03-45-25-0500">v0.9.0 (2020-03-05 03:45:25 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-8-2-2015-05-01-18-16-39-0500">v0.8.2 (2015-05-01 18:16:39 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-8-1-2015-04-25-03-37-56-0500">v0.8.1 (2015-04-25 03:37:56 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-8-0-2015-04-25-01-43-43-0500">v0.8.0 (2015-04-25 01:43:43 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-7-2-2015-01-10-09-22-01-0600">v0.7.2 (2015-01-10 09:22:01 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-7-1-2014-12-31-20-06-37-0600">v0.7.1 (2014-12-31 20:06:37 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-7-0-2014-12-04-18-12-42-0600">v0.7.0 (2014-12-04 18:12:42 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-6-4-2014-11-14-13-11-58-0600">v0.6.4 (2014-11-14 13:11:58 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-6-3-2014-11-14-10-41-14-0600">v0.6.3 (2014-11-14 10:41:14 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-6-2-2014-11-14-10-34-33-0600">v0.6.2 (2014-11-14 10:34:33 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-6-1-2014-11-14-10-05-19-0600">v0.6.1 (2014-11-14 10:05:19 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-6-0-2014-11-14-09-59-53-0600">v0.6.0 (2014-11-14 09:59:53 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-5-3-2014-11-14-09-48-40-0600">v0.5.3 (2014-11-14 09:48:40 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-5-2-2014-11-13-22-32-25-0600">v0.5.2 (2014-11-13 22:32:25 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-5-1-2014-11-13-22-26-46-0600">v0.5.1 (2014-11-13 22:26:46 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-5-0-2014-11-13-22-21-33-0600">v0.5.0 (2014-11-13 22:21:33 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-4-1-2014-11-12-04-01-12-0600">v0.4.1 (2014-11-12 04:01:12 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-4-0-2014-11-11-22-17-48-0600">v0.4.0 (2014-11-11 22:17:48 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-3-6-2014-11-11-11-10-47-0600">v0.3.6 (2014-11-11 11:10:47 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-3-5-2014-11-11-11-07-08-0600">v0.3.5 (2014-11-11 11:07:08 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-3-4-2014-11-11-10-48-49-0600">v0.3.4 (2014-11-11 10:48:49 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-3-3-2014-11-11-07-54-22-0600">v0.3.3 (2014-11-11 07:54:22 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-3-2-2014-11-11-07-40-46-0600">v0.3.2 (2014-11-11 07:40:46 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-3-1-2014-11-11-06-10-17-0600">v0.3.1 (2014-11-11 06:10:17 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-3-0-2014-11-11-05-57-49-0600">v0.3.0 (2014-11-11 05:57:49 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-7-2014-11-10-09-05-30-0600">v0.2.7 (2014-11-10 09:05:30 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-6-2014-11-10-08-38-20-0600">v0.2.6 (2014-11-10 08:38:20 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-5-2014-11-09-21-09-17-0600">v0.2.5 (2014-11-09 21:09:17 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-4-2014-11-09-21-05-52-0600">v0.2.4 (2014-11-09 21:05:52 -0600)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-3-2014-11-01-03-27-07-0500">v0.2.3 (2014-11-01 03:27:07 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-2-2014-11-01-03-15-01-0500">v0.2.2 (2014-11-01 03:15:01 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-1-2014-10-26-01-54-26-0500">v0.2.1 (2014-10-26 01:54:26 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-0-2014-10-25-15-43-24-0500">v0.2.0 (2014-10-25 15:43:24 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-2-2014-05-29-20-38-45-0500">v0.1.2 (2014-05-29 20:38:45 -0500)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-1-2014-05-21-09-16-25-0500">v0.1.1 (2014-05-21 09:16:25 -0500)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html#git-commit-log">Git Commit Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="#">westurner/dotfiles 0.10.2 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="readme.html" title="Dotfiles" >next</a></li>
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

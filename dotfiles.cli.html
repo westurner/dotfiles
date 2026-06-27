@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="dotfiles.cli package" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
+    <!--
+    <meta property="og:description" content="Documentation for the dotfiles project" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="dotfiles.cli package" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
+    
+    <title>dotfiles.cli package &mdash; westurner/dotfiles 0.10.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.10.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="westurner/dotfiles 0.10.2 documentation" href="index.html" />
+    <link rel="up" title="Dotfiles API" href="api.html" />
+    <link rel="next" title="dotfiles.venv package" href="dotfiles.venv.html" />
+    <link rel="prev" title="Dotfiles API" href="api.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-NAdVXiusDN+dLu0oqftULr7gCx0D8/RwkioUMZc+i2BxPO6diD7vgE0XJvI3kBgE"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-bN2nAkykPpCVDBT+9/Um8bOKCrosUGgIqTFTkJTUAZ7o9xntjz8XBGE/y6/peUPj"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/local.css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/changelog.css" integrity=""  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+
+  
+    
+    <script src="_static/documentation_options.js" integrity="sha384-vzpRhNbaSfrEUWkiyQMZS/M2D53LLQE+11GX/GTNDdO8PccaBd0qcIRuj365J0I3" ></script>
+  
+    
+    <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+  
+    
+    <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+  
+    
+    <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+  
+  <script src="_static/js/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" ></script>
+  <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.10.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">dotfiles.cli package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dotfiles.cli.cli">dotfiles.cli.cli module</a><ul>
+<li><a class="reference internal" href="#dotfiles.cli.cli.get_pkg_resource_filename"><code class="docutils literal notranslate"><span class="pre">get_pkg_resource_filename()</span></code></a></li>
+<li><a class="reference internal" href="#dotfiles.cli.cli.Test_dotfiles"><code class="docutils literal notranslate"><span class="pre">Test_dotfiles</span></code></a><ul>
+<li><a class="reference internal" href="#dotfiles.cli.cli.Test_dotfiles.test_get_pkg_resource_filename"><code class="docutils literal notranslate"><span class="pre">Test_dotfiles.test_get_pkg_resource_filename()</span></code></a></li>
+<li><a class="reference internal" href="#dotfiles.cli.cli.Test_dotfiles.test_dotfiles_main"><code class="docutils literal notranslate"><span class="pre">Test_dotfiles.test_dotfiles_main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dotfiles.cli.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="api.html" title="Dotfiles API" accesskey="P">previous </a></li>
+              <li><a href="dotfiles.venv.html" title="dotfiles.venv package" accesskey="N">next </a></li>
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+              <li><a href="api.html" accesskey="U">Dotfiles API</a></li>
+            
+            <li class="visible-xs"><a href="_sources/dotfiles.cli.rst.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">dotfiles.cli package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dotfiles.cli.cli">dotfiles.cli.cli module</a><ul>
+<li><a class="reference internal" href="#dotfiles.cli.cli.get_pkg_resource_filename"><code class="docutils literal notranslate"><span class="pre">get_pkg_resource_filename()</span></code></a></li>
+<li><a class="reference internal" href="#dotfiles.cli.cli.Test_dotfiles"><code class="docutils literal notranslate"><span class="pre">Test_dotfiles</span></code></a><ul>
+<li><a class="reference internal" href="#dotfiles.cli.cli.Test_dotfiles.test_get_pkg_resource_filename"><code class="docutils literal notranslate"><span class="pre">Test_dotfiles.test_get_pkg_resource_filename()</span></code></a></li>
+<li><a class="reference internal" href="#dotfiles.cli.cli.Test_dotfiles.test_dotfiles_main"><code class="docutils literal notranslate"><span class="pre">Test_dotfiles.test_dotfiles_main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dotfiles.cli.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="api.html"
+                          title="previous chapter">Dotfiles API</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="dotfiles.venv.html"
+                          title="next chapter">dotfiles.venv package</a></p>
+  </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dotfiles.cli.rst.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/dotfiles.cli.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/dotfiles.cli.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/dotfiles.cli.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/dotfiles.cli.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section id="module-dotfiles.cli">
+<span id="dotfiles-cli-package"></span><h1>dotfiles.cli package<a class="headerlink" href="#module-dotfiles.cli" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-dotfiles.cli.cli">
+<span id="dotfiles-cli-cli-module"></span><h2>dotfiles.cli.cli module<a class="headerlink" href="#module-dotfiles.cli.cli" title="Link to this heading">¶</a></h2>
+<p>dotfiles commandline interface (CLI)</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="dotfiles.cli.cli.get_pkg_resource_filename">
+<span class="sig-prename descclassname"><span class="pre">dotfiles.cli.cli.</span></span><span class="sig-name descname"><span class="pre">get_pkg_resource_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli/cli.html#get_pkg_resource_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dotfiles.cli.cli.get_pkg_resource_filename" title="Link to this definition">¶</a></dt>
+<dd><p>This package generates a MANIFEST.in file from version control (hg)
+in order to include files outside of the package source directory
+(src/dotfiles).</p>
+<p>When installed as an editable or a source dist, these additional
+data files have paths relative to <code class="docutils literal notranslate"><span class="pre">pkg_resource.resource_filename</span></code>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path (str): path fragment (eg. <code class="docutils literal notranslate"><span class="pre">etc/vim</span></code>)</p>
+</dd>
+<dt>Returns:</dt><dd><p>path (str): absolute path to <code class="docutils literal notranslate"><span class="pre">path</span></code>, relative to this package install</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dotfiles.cli.cli.Test_dotfiles">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">dotfiles.cli.cli.</span></span><span class="sig-name descname"><span class="pre">Test_dotfiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli/cli.html#Test_dotfiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dotfiles.cli.cli.Test_dotfiles" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dotfiles.cli.cli.Test_dotfiles.test_get_pkg_resource_filename">
+<span class="sig-name descname"><span class="pre">test_get_pkg_resource_filename</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli/cli.html#Test_dotfiles.test_get_pkg_resource_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dotfiles.cli.cli.Test_dotfiles.test_get_pkg_resource_filename" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dotfiles.cli.cli.Test_dotfiles.test_dotfiles_main">
+<span class="sig-name descname"><span class="pre">test_dotfiles_main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli/cli.html#Test_dotfiles.test_dotfiles_main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dotfiles.cli.cli.Test_dotfiles.test_dotfiles_main" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dotfiles.cli.cli.main">
+<span class="sig-prename descclassname"><span class="pre">dotfiles.cli.cli.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dotfiles/cli/cli.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dotfiles.cli.cli.main" title="Link to this definition">¶</a></dt>
+<dd><p>Main method for the <code class="docutils literal notranslate"><span class="pre">dotfiles</span></code> CLI script.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>args (list): list of arguments (if empty, read <code class="docutils literal notranslate"><span class="pre">sys.argv[1:]</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">westurner/dotfiles 0.10.2 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="api.html" title="Dotfiles API" >previous</a></li>
+        <li><a href="dotfiles.venv.html" title="dotfiles.venv package" >next</a></li>
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="api.html" >Dotfiles API</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

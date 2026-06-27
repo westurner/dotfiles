@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- OpenGraph metadata: ogp.me -->
+    <meta property="og:title" content="Dotfiles" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="westurner/dotfiles" />
+    <!--
+    <meta property="og:description" content="Documentation for the dotfiles project" />
+    -->
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="470" />
+    <meta property="og:image:height" content="242" />
+    <!--
+    <meta property="og:image:secure_url" content="./_static/img/logo.png" />
+    -->
+    <!-- Twitter metadata -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Dotfiles" />
+    <meta property="twitter:description" content="Documentation for the dotfiles project" />
+    <meta property="twitter:site" content="westurner" />
+    <meta property="twitter:creator" content="westurner" />
+    
+    <title>Dotfiles &mdash; westurner/dotfiles 0.10.2 documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
+
+<link rel="stylesheet" href="_static/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    './',
+            VERSION:     '0.10.2',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+  
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="westurner/dotfiles 0.10.2 documentation" href="index.html" />
+    <link rel="next" title="Usage" href="usage/index.html" />
+    <link rel="prev" title="westurner/dotfiles" href="index.html" />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" integrity="sha384-NAdVXiusDN+dLu0oqftULr7gCx0D8/RwkioUMZc+i2BxPO6diD7vgE0XJvI3kBgE"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" integrity="sha384-bN2nAkykPpCVDBT+9/Um8bOKCrosUGgIqTFTkJTUAZ7o9xntjz8XBGE/y6/peUPj"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/local.css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+  
+    
+    <link rel="stylesheet" type="text/css" href="_static/changelog.css" integrity=""  />
+  
+  <link rel="stylesheet" href="_static/css/local.css" type="text/css" integrity="sha384-/6LReMDt99vrvvj2puxCkhmnrddhdHX6D90dOWbiMe1QLRR5koGFIDrUwpqPDJBK"  />
+
+  
+    
+    <script src="_static/documentation_options.js" integrity="sha384-vzpRhNbaSfrEUWkiyQMZS/M2D53LLQE+11GX/GTNDdO8PccaBd0qcIRuj365J0I3" ></script>
+  
+    
+    <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
+  
+    
+    <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
+  
+    
+    <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+  
+  <script src="_static/js/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" ></script>
+  <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+ 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.10.2 documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Dotfiles</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
+<li><a class="reference internal" href="#source-the-dotfiles">Source the dotfiles</a></li>
+<li><a class="reference internal" href="#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li><a class="reference internal" href="#further-dotfiles-resources">Further Dotfiles Resources</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="index.html" title="westurner/dotfiles" accesskey="P">previous </a></li>
+              <li><a href="usage/index.html" title="Usage" accesskey="N">next </a></li>
+              <li><a href="py-modindex.html" title="Python Module Index" >modules </a></li>
+              <li><a href="genindex.html" title="General Index" accesskey="I">index </a></li>
+            
+            <li class="visible-xs"><a href="_sources/readme.rst.txt" rel="nofollow">Show Source</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="Go" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Dotfiles</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a></li>
+<li><a class="reference internal" href="#source-the-dotfiles">Source the dotfiles</a></li>
+<li><a class="reference internal" href="#upgrade-the-dotfiles">Upgrade the dotfiles</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li><a class="reference internal" href="#further-dotfiles-resources">Further Dotfiles Resources</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">westurner/dotfiles</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="usage/index.html"
+                          title="next chapter">Usage</a></p>
+  </div>
+<div id="searchbox" role="search">
+  <h3>Quick search</h3>
+  <form class="search form-inline" action="search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="Go" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/readme.rst.txt"
+            rel="nofollow"
+            target="_blank">Source RST</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/blob/master/docs/readme.rst"
+            rel="nofollow"
+            target="_blank">Source</a></li>
+    <li><a href="https://github.com/westurner/dotfiles/edit/master/docs/readme.rst"
+            rel="nofollow"
+            target="_blank">Edit</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/commits/master/docs/readme.rst"
+             rel="nofollow"
+             target="_blank">History</a></li>
+     <li><a href="https://github.com/westurner/dotfiles/blame/master/docs/readme.rst"
+             rel="nofollow"
+             target="_blank">Annotate</a></li>
+  </ul>
+  <h3>Source</h3>
+  <h5><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a>
+      / <a href="https://github.com/westurner/dotfiles/tree/master"
+                rel="nofollow"
+                target="_blank"
+                font="monospace">master</a>
+  </h5>
+
+  <ul>
+    <li><pre>git clone https://github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone ssh://git@github.com/westurner/dotfiles</pre></li>
+    <li><pre>git clone git://github.com/westurner/dotfiles</pre></li>
+  </ul><div class="widget">
+    <h3><a href="https://westurner.org/">@westurner</a></h3>
+    <ul>
+        <li><a href="https://github.com/westurner/dotfiles">github.com/westurner/dotfiles</a></li>
+        <li><a href="https://westurner.org/dotfiles/">westurner.org/dotfiles/</a></li>
+        <li><a href="https://westurner.org/wiki/">westurner.org/wiki/</a></li>
+    </ul>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <section id="dotfiles">
+<h1>Dotfiles<a class="headerlink" href="#dotfiles" title="Link to this heading">¶</a></h1>
+<div class="line-block">
+<div class="line">Source: <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
+<div class="line">Download: <a class="reference external" href="https://github.com/westurner/dotfiles/releases">https://github.com/westurner/dotfiles/releases</a></div>
+<div class="line">Build: <a class="reference external" href="https://travis-ci.org/westurner/dotfiles">https://travis-ci.org/westurner/dotfiles</a></div>
+<div class="line">Docs: <a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a></div>
+<div class="line">Docs: <a class="reference external" href="https://westurner.github.io/dotfiles/">https://westurner.github.io/dotfiles/</a></div>
+<div class="line">Docs: <a class="reference external" href="https://wrdfiles.readthedocs.org/en/latest/">https://wrdfiles.readthedocs.org/en/latest/</a></div>
+</div>
+<a class="reference external image-reference" href="https://github.com/westurner/dotfiles/releases"><img alt="https://img.shields.io/github/release/westurner/dotfiles.svg" src="https://img.shields.io/github/release/westurner/dotfiles.svg" />
+</a>
+<a class="reference external image-reference" href="https://github.com/westurner/dotfiles/tags"><img alt="https://img.shields.io/github/tag/westurner/dotfiles.svg" src="https://img.shields.io/github/tag/westurner/dotfiles.svg" />
+</a>
+<a class="reference external image-reference" href="https://travis-ci.org/westurner/dotfiles"><img alt="https://travis-ci.org/westurner/dotfiles.svg?branch=master" src="https://travis-ci.org/westurner/dotfiles.svg?branch=master" />
+</a>
+<section id="goals">
+<h2>Goals<a class="headerlink" href="#goals" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Streamline frequent workflows</p></li>
+<li><p>Configure Bash, ZSH, and Vim</p></li>
+<li><p>Configure Python, pip, virtualenv, virtualenvwrapper</p></li>
+<li><p>Configure IPython</p></li>
+<li><p>Configure Gnome</p></li>
+<li><p>Configure i3wm</p></li>
+<li><p>Support Debian Linux, Ubuntu Linux, OSX</p></li>
+<li><p>Document commands and keyboard shortcuts</p></li>
+<li><p>Create a productive working environment</p></li>
+</ul>
+</section>
+<section id="installation">
+<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<section id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h3>
+<p>Project requirements are installed by
+<a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> and/or, optionally, also a <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/Makefile">Makefile</a>.</p>
+<ul class="simple">
+<li><p><cite>Bash</cite>, <cite>Git</cite>, <cite>Python</cite>, <cite>pip</cite></p></li>
+</ul>
+</section>
+<section id="install-the-dotfiles">
+<span id="id2"></span><h3>Install the dotfiles<a class="headerlink" href="#install-the-dotfiles" title="Link to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line">Source: <a class="reference external" href="https://github.com/westurner/dotfiles">https://github.com/westurner/dotfiles</a></div>
+<div class="line">Documentation: <a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a></div>
+</div>
+<p>The <a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> shell script:</p>
+<ul class="simple">
+<li><p>clones the <code class="docutils literal notranslate"><span class="pre">dotfiles</span></code> and <code class="docutils literal notranslate"><span class="pre">dotvim</span></code> repositories</p></li>
+<li><p>creates symlinks from <code class="docutils literal notranslate"><span class="pre">HOME</span></code> to <code class="docutils literal notranslate"><span class="pre">__DOTFILES</span></code>,</p></li>
+<li><p>installs the <code class="docutils literal notranslate"><span class="pre">dotfiles</span></code> Python package,</p></li>
+<li><p>installs additional requirements with <cite>pip</cite></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>bootstrap_dotfiles.sh
+bash<span class="w"> </span>./scripts/bootstrap_dotfiles.sh<span class="w"> </span>-I<span class="w"> </span>-R
+</pre></div>
+</div>
+<p>Create a <cite>virtualenv</cite> with <cite>virtualenvwrapper</cite>
+named “<code class="docutils literal notranslate"><span class="pre">dotfiles</span></code>”:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install virtualenvwrapper</span>
+pip<span class="w"> </span>install<span class="w"> </span>virtualenvwrapper<span class="w">   </span><span class="c1"># apt-get install python-virtualenvwrapper</span>
+<span class="nb">source</span><span class="w"> </span><span class="k">$(</span>which<span class="w"> </span><span class="s1">&#39;virtualenvwrapper.sh&#39;</span><span class="k">)</span><span class="w">    </span><span class="c1"># 07-bashrc.virtualenvwrapper.sh</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">WORKON_HOME</span><span class="o">=</span><span class="s2">&quot;~/-wrk/-ve27&quot;</span><span class="w">                    </span><span class="c1"># __WRK/-ve python2.7</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$WORKON_HOME</span>
+
+<span class="c1"># Create a virtualenvwrapper virtualenv</span>
+mkvirtualenv<span class="w"> </span>dotfiles<span class="w">  </span><span class="c1"># workon dotfiles</span>
+mkdir<span class="w"> </span><span class="nv">$VIRTUAL_ENV</span>/src
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$VIRTUAL_ENV</span>/src
+
+<span class="c1"># Clone the dotfiles git repository</span>
+<span class="nv">branch</span><span class="o">=</span><span class="s2">&quot;master&quot;</span><span class="w">     </span><span class="c1"># stable</span>
+<span class="c1"># branch=&quot;develop&quot;  # development</span>
+git<span class="w"> </span>clone<span class="w"> </span>ssh://git@github.com/westurner/dotfiles<span class="w"> </span>-b<span class="w"> </span><span class="si">${</span><span class="nv">branch</span><span class="si">}</span>
+<span class="nb">cd</span><span class="w"> </span>dotfiles
+
+<span class="c1"># Install dotfiles pkg, symlinks, and extra pip requirements</span>
+scripts/bootstrap_dotfiles.sh<span class="w"> </span>-I<span class="w"> </span>-R<span class="w">         </span><span class="c1"># -I calls -S</span>
+</pre></div>
+</div>
+<p>With Python builds that haven’t set a prefix which is writeable
+by the current user, you can also install into <code class="docutils literal notranslate"><span class="pre">~/.local</span></code> with
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">--user</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># (Optional) Also install pkg and reqs into ~/.local/bin (pip --user)</span>
+<span class="c1"># scripts/bootstrap_dotfiles.sh -I -R -u</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See <a class="reference internal" href="#quickstart">Quickstart</a>, which uses venv-style paths.</p>
+</div>
+</section>
+<section id="source-the-dotfiles">
+<h3>Source the dotfiles<a class="headerlink" href="#source-the-dotfiles" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p>Bash (and ZSH) configuation sets are sequentially numbered 00-99.</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/bash/00-bashrc.before.sh">00-bashrc.before.sh</a> sources a documented, numerically sequential
+sequence of bash scripts.</p>
+</li>
+<li><p>ZSH loads much of the standard Bash configuration and oh-my-zsh.</p>
+<p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/etc/zsh/00-zshrc.before.sh">00-zshrc.before.sh</a></p>
+</li>
+<li><p><a class="reference external" href="https://github.com/westurner/dotfiles/blob/master/scripts/bootstrap_dotfiles.sh">bootstrap_dotfiles.sh</a> <code class="docutils literal notranslate"><span class="pre">-S</span></code>
+installs dotfiles <code class="docutils literal notranslate"><span class="pre">${__DOTFILES}</span></code> symlinks.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-s<span class="w"> </span>~/-dotfiles/etc/.bashrc<span class="w"> </span>~/.bashrc
+ln<span class="w"> </span>-s<span class="w"> </span>~/-dotfiles/etc/.zshrc<span class="w"> </span>~/.zshrc
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source the dotfiles</span>
+<span class="nb">source</span><span class="w"> </span>~/.bashrc<span class="w">                                         </span><span class="c1"># source ~/.zshrc</span>
+
+<span class="c1"># source ${__DOTFILES}/etc/.bashrc</span>
+<span class="c1">## source ${__DOTFILES}/etc/bash/00-bashrc.before.sh     # dotfiles_reload</span>
+<span class="c1">### dotfiles configuration sequence                # (\d\d)-bashrc.(.*).sh</span>
+<span class="c1">#### source ${__DOTFILES}/etc/bash/99-bashrc.after.sh</span>
+<span class="c1">##### source ${__PROJECTSRC}                     # ${__WRK}/.projectsrc.sh</span>
+
+<span class="c1"># print venv configuration</span>
+dotfiles_status
+ds
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Last<span class="w"> </span>login:<span class="w"> </span>Tue<span class="w"> </span>Dec<span class="w">  </span><span class="m">2</span><span class="w"> </span><span class="m">15</span>:01:56<span class="w"> </span>on<span class="w"> </span>ttys000
+<span class="c1">#</span>
+<span class="c1"># dotfiles_reload()</span>
+<span class="c1">#ntid  _TERM_ID=&quot;#SElGeTf5VcA&quot;  #_USRLOG=&quot;/Users/W/-usrlog.log&quot;</span>
+<span class="c1"># dotfiles_status()</span>
+<span class="nv">HOSTNAME</span><span class="o">=</span><span class="s1">&#39;nb-mb1&#39;</span>
+<span class="nv">USER</span><span class="o">=</span><span class="s1">&#39;W&#39;</span>
+<span class="nv">__WRK</span><span class="o">=</span><span class="s1">&#39;/Users/W/-wrk&#39;</span>
+<span class="nv">PROJECT_HOME</span><span class="o">=</span><span class="s1">&#39;/Users/W/-wrk&#39;</span>
+<span class="nv">WORKON_HOME</span><span class="o">=</span><span class="s1">&#39;/Users/W/-wrk/-ve&#39;</span>
+<span class="nv">VIRTUAL_ENV_NAME</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">_SRC</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">_APP</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">_WRD</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">_USRLOG</span><span class="o">=</span><span class="s1">&#39;/Users/W/-usrlog.log&#39;</span>
+<span class="nv">_TERM_ID</span><span class="o">=</span><span class="s1">&#39;#SElGeTf5VcA&#39;</span>
+<span class="nv">PATH</span><span class="o">=</span><span class="s1">&#39;/Users/W/.local/bin:/Users/W/-dotfiles/scripts:/usr/sbin:/sbin:/bin:/usr/local/bin:/usr/bin:/opt/X11/bin:/usr/local/git/bin&#39;</span>
+<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s1">&#39;/Users/W/-dotfiles&#39;</span>
+<span class="c1">#</span>
+<span class="c1"># cd /</span>
+<span class="c1">#SElGeTf5VcA W@nb-mb1:/</span>
+$
+$<span class="w"> </span>stid<span class="w"> </span><span class="s1">&#39;dotfiles&#39;</span>
+<span class="c1">#stid  _TERM_ID=&quot;dotfiles&quot;  #_TERM_ID__=&quot;dotfiles install&quot;  #_USRLOG=&quot;/Users/W/-usrlog.log&quot;</span>
+<span class="c1"># stid &#39;dotfiles&#39;</span>
+dotfiles<span class="w"> </span>W@nb-mb1:/
+$
+</pre></div>
+</div>
+</section>
+<section id="upgrade-the-dotfiles">
+<h3>Upgrade the dotfiles<a class="headerlink" href="#upgrade-the-dotfiles" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># check for any changes to symlinked dotfiles</span>
+cdd<span class="w">                                                   </span><span class="c1"># cddotfiles</span>
+git<span class="w"> </span>status<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>diff<span class="w">                                </span><span class="c1"># gsi ; gitw diff</span>
+
+<span class="c1"># pull and upgrade dotfiles and dotvim</span>
+scripts/bootstrap_dotfiles.sh<span class="w"> </span>-U
+</pre></div>
+</div>
+</section>
+</section>
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">¶</a></h2>
+<p>This is a verbose example of installing and working with a
+<code class="docutils literal notranslate"><span class="pre">VIRTUAL_ENV</span></code> in <code class="docutils literal notranslate"><span class="pre">WORKON_HOME</span></code> named “<code class="docutils literal notranslate"><span class="pre">dotfiles</span></code>”.</p>
+<p>See <a class="reference internal" href="#install-the-dotfiles">Install the dotfiles</a> for more terse installation instructions.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># clone and install dotfiles and dotvim</span>
+<span class="c1"># with venv-style paths (_SRC, _APP, _WRD)</span>
+
+<span class="c1"># __WRK             -- base path for workspace               [venv]</span>
+<span class="nv">__WRK</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/-wrk&quot;</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$__WRK</span><span class="w">                     </span><span class="c1"># cdwrk                        [venv]</span>
+
+<span class="c1"># WORKON_HOME       -- path to virtualenv dirs  [virtualenvwrapper]</span>
+<span class="nv">WORKON_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">__WRK</span><span class="si">}</span><span class="s2">/-ve27&quot;</span><span class="w">  </span><span class="c1"># ~/-wrk/-ve27</span>
+<span class="nb">test</span><span class="w"> </span>-d<span class="w"> </span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$WORKON_HOME</span><span class="w">               </span><span class="c1"># cdworkonhome cdwh cdve       [venv]</span>
+
+<span class="c1"># VIRTUAL_ENV_NAME  -- basename for VIRTUAL_ENV              [venv]</span>
+<span class="nv">VIRTUAL_ENV_NAME</span><span class="o">=</span><span class="s2">&quot;dotfiles&quot;</span>
+
+<span class="c1"># VIRTUAL_ENV       -- current virtualenv path         [virtualenv]</span>
+<span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">WORKON_HOME</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">VIRTUAL_ENV_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$VIRTUAL_ENV</span><span class="w">               </span><span class="c1"># cdv cdvirtualenv [venv, virtualenvwrapper]</span>
+
+<span class="c1"># _SRC              -- basepath of source repositories (e.g. for pip)</span>
+<span class="nv">_SRC</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">VIRTUAL_ENV</span><span class="si">}</span><span class="s2">/src&quot;</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$_SRC</span><span class="w">                      </span><span class="c1"># cdsrc cds                    [venv]</span>
+
+<span class="c1"># _APP              -- basename of current working directory [venv]</span>
+<span class="nv">_APP</span><span class="o">=</span><span class="s2">&quot;dotfiles&quot;</span>
+
+<span class="c1"># _WRD              -- working directory path                [venv]</span>
+<span class="nv">_WRD</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">_SRC</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">_APP</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">        </span><span class="c1"># cdwrd cdw                    [venv]</span>
+
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/westurner/dotfiles<span class="w"> </span><span class="nv">$_WRD</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/westurner/dotvim<span class="w"> </span><span class="si">${</span><span class="nv">_WRD</span><span class="si">}</span>/etc/vim
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$_WRD</span><span class="w">                      </span><span class="c1"># cdwrd cdw                    [venv]</span>
+
+<span class="c1"># __DOTFILES        -- symlink root for current dotfiles     [venv]</span>
+<span class="nv">__DOTFILES</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/-dotfiles&quot;</span>
+ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$_WRD</span><span class="w"> </span><span class="nv">$__DOTFILES</span>
+ls<span class="w"> </span>~/-dotfiles
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$__DOTFILES</span><span class="w">                </span><span class="c1"># cddotfiles cdd               [venv]</span>
+
+<span class="c1">## Install the dotfiles</span>
+<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh<span class="w"> </span>-h<span class="w">      </span><span class="c1"># help</span>
+<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh<span class="w"> </span>-I<span class="w">      </span><span class="c1"># or: make install</span>
+<span class="nv">$_WRD</span>/scripts/bootstrap_dotfiles.sh<span class="w"> </span>-S<span class="w">      </span><span class="c1"># or: make install_symlinks</span>
+</pre></div>
+</div>
+<p>For further documentation, see:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://westurner.org/dotfiles/usage">https://westurner.org/dotfiles/usage</a></p></li>
+<li><p><a class="reference external" href="https://westurner.org/dotfiles/venv">https://westurner.org/dotfiles/venv</a></p></li>
+</ul>
+</section>
+<section id="further-dotfiles-resources">
+<h2>Further Dotfiles Resources<a class="headerlink" href="#further-dotfiles-resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://dotfiles.github.io/">https://dotfiles.github.io/</a></p></li>
+<li><p><a class="reference external" href="https://github.com/webpro/awesome-dotfiles">https://github.com/webpro/awesome-dotfiles</a></p></li>
+</ul>
+<p>.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://westurner.org/dotfiles/">https://westurner.org/dotfiles/</a></p>
+<ul>
+<li><p><a class="reference external" href="https://westurner.org/dotfiles/usage">https://westurner.org/dotfiles/usage</a></p></li>
+<li><p><a class="reference external" href="https://westurner.org/dotfiles/usage#bash">https://westurner.org/dotfiles/usage#bash</a></p></li>
+<li><p><a class="reference external" href="https://westurner.org/dotfiles/usage#vim">https://westurner.org/dotfiles/usage#vim</a></p></li>
+<li><p><a class="reference external" href="https://westurner.org/wiki/workflow">https://westurner.org/wiki/workflow</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav text-center">
+        <li><a href="index.html">westurner/dotfiles 0.10.2 documentation</a></li>
+    </ul>
+<ul class="nav navbar-nav text-center">
+      
+        <li><a href="index.html" title="westurner/dotfiles" >previous</a></li>
+        <li><a href="usage/index.html" title="Usage" >next</a></li>
+        <li><a href="py-modindex.html" title="Python Module Index" >modules</a></li>
+        <li><a href="genindex.html" title="General Index" >index</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2026, Wes Turner.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 9.1.0.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>
