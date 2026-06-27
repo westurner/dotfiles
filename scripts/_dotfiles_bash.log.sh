@@ -1185,7 +1185,7 @@ cs() {
     _conda_status
 }
 _conda_status
-PATH='/var/home/wturner/-wrk/-ve311/dsport/bin:/var/home/wturner/.local/bin:/var/home/wturner/-dotfiles/scripts:/var/home/wturner/.var/app/com.visualstudio.code/config/Code/User/globalStorage/github.copilot-chat/debugCommand:/var/home/wturner/.var/app/com.visualstudio.code/config/Code/User/globalStorage/github.copilot-chat/copilotCli:/app/bin:/app/bin:/app/bin:/usr/bin:/app/tools/podman/bin:/usr/lib/sdk/node20/bin:/var/home/wturner/.var/app/com.visualstudio.code/data/node_modules/bin:/var/home/wturner/.var/app/com.visualstudio.code/data/vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts'
+PATH='/var/home/wturner/.local/bin:/var/home/wturner/-dotfiles/scripts:/var/home/wturner/.var/app/com.visualstudio.code/config/Code/User/globalStorage/github.copilot-chat/debugCommand:/var/home/wturner/.var/app/com.visualstudio.code/config/Code/User/globalStorage/github.copilot-chat/copilotCli:/app/bin:/app/bin:/app/bin:/usr/bin:/app/tools/podman/bin:/usr/lib/sdk/node20/bin:/var/home/wturner/.var/app/com.visualstudio.code/data/node_modules/bin:/var/home/wturner/.var/app/com.visualstudio.code/data/vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts'
 CONDA_ROOT='/var/home/wturner/-wrk/-conda311'
 CONDA_ENVS_PATH='/var/home/wturner/-wrk/-ce37'
 
@@ -5972,7 +5972,7 @@ INFO: bashrc.agents.sh Running in vscode
 ++++ /app/bin/code --locate-shell-integration-path bash
 flatpak-vscode: Adding /app/tools/podman/bin to PATH
 flatpak-vscode: Enabling SDK extension "node20"
-[90088 zypak-helper] Using spawn strategy test 1 as set by environment
+[93201 zypak-helper] Using spawn strategy test 1 as set by environment
 # ---------------------------------------------------------------------------------------------
 #   Copyright (c) Microsoft Corporation. All rights reserved.
 #   Licensed under the MIT License. See License.txt in the project root for license information.
@@ -6478,7 +6478,9 @@ __vsc_preexec_only "$_"
 __vsc_preexec_only "$_"
 __vsc_preexec_only "$_"
 __vsc_preexec_only "$_"
-bash: workon: command not found
+ERROR: ps1 != ps2 
+ps1=\[\](dotfiles) \[\]#testing \[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n$ \[\]\[\]
+pse=\[\]#testing \[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n$ \[\]\[\]
 
 export __AGENT=1
 __vsc_preexec_only "$_"
@@ -6494,13 +6496,13 @@ WORKON_HOME="/var/home/wturner/-wrk/-ve311"
 CONDA_ROOT="/var/home/wturner/-wrk/-conda311"
 CONDA_ENVS_PATH="/var/home/wturner/-wrk/-ce37"
 VIRTUAL_ENV_NAME=
-VIRTUAL_ENV="/var/home/wturner/-wrk/-ve311/dsport"
+VIRTUAL_ENV=
 _SRC=
 _APP=
 _WRD=
-_USRLOG="/var/home/wturner/-wrk/-ve311/dsport/-usrlog.log"
+_USRLOG="/var/home/wturner/-usrlog.log"
 _TERM_ID="#testing"
-PATH="/var/home/wturner/-wrk/-ve311/dsport/bin:/var/home/wturner/.local/bin:/var/home/wturner/-dotfiles/scripts:/var/home/wturner/.var/app/com.visualstudio.code/config/Code/User/globalStorage/github.copilot-chat/debugCommand:/var/home/wturner/.var/app/com.visualstudio.code/config/Code/User/globalStorage/github.copilot-chat/copilotCli:/app/bin:/app/bin:/app/bin:/usr/bin:/app/tools/podman/bin:/usr/lib/sdk/node20/bin:/var/home/wturner/.var/app/com.visualstudio.code/data/node_modules/bin:/var/home/wturner/.var/app/com.visualstudio.code/data/vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts"
+PATH="/var/home/wturner/.local/bin:/var/home/wturner/-dotfiles/scripts:/var/home/wturner/.var/app/com.visualstudio.code/config/Code/User/globalStorage/github.copilot-chat/debugCommand:/var/home/wturner/.var/app/com.visualstudio.code/config/Code/User/globalStorage/github.copilot-chat/copilotCli:/app/bin:/app/bin:/app/bin:/usr/bin:/app/tools/podman/bin:/usr/lib/sdk/node20/bin:/var/home/wturner/.var/app/com.visualstudio.code/data/node_modules/bin:/var/home/wturner/.var/app/com.visualstudio.code/data/vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts"
 __DOTFILES="/var/home/wturner/-dotfiles"
 #
 ##
