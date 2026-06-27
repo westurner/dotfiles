@@ -105,7 +105,7 @@ etc/.jupyter/lab/workspaces
 
 # find-lately.sh
 lately.20*
-etc/.gitconfig
+etc/.gitconfig.local
 
 tmp/
 reports/

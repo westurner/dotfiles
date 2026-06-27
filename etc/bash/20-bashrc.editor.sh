@@ -85,3 +85,17 @@ egitstatus() {
     # egitstatus() -- git status --short | sed | xargs e
     git status --short | sed 's/^ .* //' | xargs e
 }
+
+
+code() {
+   # code()   -- run deactivate before calling `code` (vscode)
+   { type deactivate >/dev/null 2>&1 && deactivate; } || true;
+
+   _vscode=
+   if [ -n "${container}" ]; then
+        _vscode=$(unset -f code 2>/dev/null; command -v code)
+   else
+        _vscode="code.sh"
+   fi
+   (set -x; "${_vscode}" "${@}")
+}

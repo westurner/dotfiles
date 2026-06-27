@@ -1,9 +1,12 @@
 {
+    "git.repositoryScanMaxDepth": 2,
+
     "python.testing.pytestEnabled": true,
     //"python.testing.unittestEnabled": false,
     //"python.testing.pytestArgs": ["${workspaceFolder}/scripts/lsofport.py"],
     "python.testing.pytestArgs": ["--rootdir", "${workspaceFolder}/scripts",
                                     "-o", "python_files=*.py"],
     //"python.testing.cwd": "${workspaceFolder}/scripts",
+
     "pythonTestExplorer.testFramework": "pytest",
 }
