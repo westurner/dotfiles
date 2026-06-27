@@ -795,11 +795,11 @@ update_bootstrap-salt.sh:
 	$(git) diff --cached ./scripts/bootstrap-salt.sh
 
 update_manifest:
-	python setup.py git_manifest
+	git ls-files --recurse-submodules | sed 's/\(.*\)/include \1/g' > MANIFEST.in
 	$(git) add ./MANIFEST.in
 	$(git) diff --cached --exit-code ./MANIFEST.in || \
 		$(git) commit ./MANIFEST.in \
-		-m "RLS: MANIFEST.in: :boat: python setup.py git_manifest"
+		-m "RLS: MANIFEST.in: Regenerate :boat:"
 
 start-release:
 	# start-release   -- $(git) hf release start ${VERSION} (VERSION="0.1.0")
