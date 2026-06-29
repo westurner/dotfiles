@@ -7,6 +7,7 @@
 #navbar-top {
   border-left: 0;
   border-radius: 0 6px 0 0;
+  border-bottom: 0;
 }
 
 #sidebar-wrapper {
@@ -86,5 +87,6 @@ footer {
     background: white;
     border: 1px solid #e7e7e7;
     margin-top: -1px;
+    border-radius: 6px 0 0 0;
 }
 
