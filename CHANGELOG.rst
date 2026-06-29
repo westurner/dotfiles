@@ -3,25 +3,54 @@ Changelog
 
 
 
-release/0.10.3 (2026-06-27 15:51:04 -0400)
+release/0.10.4 (2026-06-29 09:35:28 +0000)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-   git log --reverse --pretty=format:'* %s [%h]' develop..release/0.10.3
+   git log --reverse --pretty=format:'* %s [%h]' develop..release/0.10.4
 
-* RLS: VERSION.txt: 0.10.3 :boat: \[2741903\]
+* RLS: VERSION.txt: 0.10.4 :boat: \[d52907a\]
 
 
-develop (2026-06-27 15:50:01 -0400)
+develop (2026-06-29 09:32:28 +0000)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-   git log --reverse --pretty=format:'* %s [%h]' v0.10.2..develop
+   git log --reverse --pretty=format:'* %s [%h]' v0.10.3..develop
+
+* MRG: Merge tag 'v0.10.3' into develop \[d5ba692\]
+* DOC: docs/usage/: dotfiles usage docs: d5ba692 :boat: \[8a0bd39\]
+* DOC: docs/usage/: dotfiles usage docs: 8a0bd39 :boat: \[c218b7e\]
+* DOC: docs/usage/: dotfiles usage docs: c218b7e :boat: \[291f694\]
+* DOC: docs/usage/: dotfiles usage docs: 291f694 :boat: \[0fc7d75\]
+* DOC: docs/usage/: dotfiles usage docs: 0fc7d75 :boat: \[426c08b\]
+* DOC: docs/usage/: dotfiles usage docs: 426c08b :boat: \[47cc643\]
+* DOC: docs/usage/: dotfiles usage docs: 47cc643 :boat: \[53e5512\]
+* DOC: docs/usage/: dotfiles usage docs: 53e5512 :boat: \[f27bd24\]
+* DOC: docs/usage/: dotfiles usage docs: f27bd24 :boat: \[12df059\]
+* DOC: docs/usage/: dotfiles usage docs: 12df059 :boat: \[ad9d73a\]
+* DOC: docs/usage/: dotfiles usage docs: ad9d73a :boat: \[a10d6de\]
+* DOC: docs/usage/: dotfiles usage docs: a10d6de :boat: \[f4885d0\]
+* DOC: docs/usage/: dotfiles usage docs: f4885d0 :boat: \[6c7788e\]
+* DOC: docs/usage/: dotfiles usage docs: 6c7788e :boat: \[1ed9e71\]
+* DOC: docs/usage/: dotfiles usage docs: 1ed9e71 :boat: \[f5e3dde\]
+* DOC: docs/usage/: dotfiles usage docs: f5e3dde :boat: \[0620877\]
+* DOC,BUG: docs/_static/js/sidenav-affix.js: replace .affix() with position:sticky; top:0 \[1a371c9\]
+
+
+v0.10.3 (2026-06-27 15:51:54 -0400)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+   git log --reverse --pretty=format:'* %s [%h]' v0.10.2..v0.10.3
 
 * MRG: Merge tag 'v0.10.2' into develop \[441472b\]
 * DOC: docs/usage/: dotfiles usage docs: 441472b :boat: \[6c8e24f\]
 * DOC: docs/usage/: dotfiles usage docs: 6c8e24f :boat: \[3ff07d6\]
 * UBY: code.sh.stdin.sh:  filter stderr output in launch_code function to suppress flatpak-vscode and zypak-helper messages \[c463ea3\]
+* RLS: VERSION.txt: 0.10.3 :boat: \[9b7fad3\]
+* DOC: docs/usage/: dotfiles usage docs: 9b7fad3 :boat: \[9153ec2\]
+* MRG: Merge branch 'release/0.10.3' \[0100413\]
 
 
 v0.10.2 (2026-06-27 14:37:31 -0400)
