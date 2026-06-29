@@ -29,7 +29,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>dotfiles.venv package &mdash; westurner/dotfiles 0.10.3 documentation</title>
+    <title>dotfiles.venv package &mdash; westurner/dotfiles 0.9.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -47,12 +47,20 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.10.3',
+            VERSION:     '0.9.0',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
   };
 </script>
+
+<script src="_static/js/jquery-3.7.1.js" 
+
+
+></script>
+<!-- script_files: ['_static/js/bootstrap3.min.js'] -->
+<!-- old_script_files: ['_static/documentation_options.js', '_static/doctools.js', '_static/sphinx_highlight.js', '_static/js/local.js'] -->
+  <!-- scriptfile -->
     <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
@@ -61,7 +69,7 @@
   
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="westurner/dotfiles 0.10.3 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="index.html" />
     <link rel="up" title="Dotfiles API" href="api.html" />
     <link rel="next" title="Developing" href="developing.html" />
     <link rel="prev" title="dotfiles.cli package" href="dotfiles.cli.html" />
@@ -83,7 +91,7 @@
   <script src="_static/js/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" ></script>
   
     
-    <script src="_static/documentation_options.js" integrity="sha384-Kbh8nC9HobYARwtGDHE9QYV+Vbefbx5/VFFCQLJWVcWb635UfXwON+fHGH36YlLT" ></script>
+    <script src="_static/documentation_options.js" integrity="sha384-mO9L9oswk4K76C0ohJzW0WBHKsjaNc4DBWS12v+S8pmUB1I/86dGG1XpOYTvXnzC" ></script>
   
     
     <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
@@ -92,9 +100,11 @@
     <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
   
     
-    <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+    <script src="_static/js/local.js" integrity="sha384-HXZmvP8SGemgxMM7IFfN5lupRWR/Y0JV79vy1L3qmMBcRlM/DTMytOfilg/sM4Nc" ></script>
   
-  <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+  <script src="_static/js/local.js" 
+    
+    ></script>
  
   </head>
   <body role="document">
@@ -107,7 +117,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.10.3 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.9.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -896,7 +906,7 @@
       <!-- row -->
       <div class="row">
          
-<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper" style="position: sticky; top: 0; overflow-y: scroll; height: 100svh;">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
   <div>
     <h3><a href="index.html">Table of Contents</a></h3>
@@ -1810,8 +1820,7 @@ ln<span class="w"> </span>-s<span class="w"> </span><span class="si">${</span><s
 <dt class="sig sig-object py" id="dotfiles.venv.ipython_config.str_center">
 <span class="sig-prename descclassname"><span class="pre">dotfiles.venv.ipython_config.</span></span><span class="sig-name descname"><span class="pre">str_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillchar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.ipython_config.str_center" title="Link to this definition">¶</a></dt>
 <dd><p>Return a centered string of length width.</p>
-<p>Padding is done using the specified fill character (default is
-a space).</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
 </dd></dl>
 
 <dl class="py function">
@@ -3514,8 +3523,7 @@ line (str): path to append to envvar</p>
 <dt class="sig sig-object py" id="dotfiles.venv.venv.str_center">
 <span class="sig-prename descclassname"><span class="pre">dotfiles.venv.venv.</span></span><span class="sig-name descname"><span class="pre">str_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillchar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.venv.str_center" title="Link to this definition">¶</a></dt>
 <dd><p>Return a centered string of length width.</p>
-<p>Padding is done using the specified fill character (default is
-a space).</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
 </dd></dl>
 
 <dl class="py function">
@@ -4954,8 +4962,7 @@ and return (output, _stdout, _stderr)</p>
 <dt class="sig sig-object py" id="dotfiles.venv.venv_ipyconfig.str_center">
 <span class="sig-prename descclassname"><span class="pre">dotfiles.venv.venv_ipyconfig.</span></span><span class="sig-name descname"><span class="pre">str_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillchar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dotfiles.venv.venv_ipyconfig.str_center" title="Link to this definition">¶</a></dt>
 <dd><p>Return a centered string of length width.</p>
-<p>Padding is done using the specified fill character (default is
-a space).</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
 </dd></dl>
 
 <dl class="py function">
@@ -6686,7 +6693,7 @@ line (str): path to append to envvar</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.10.3 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.9.0 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       

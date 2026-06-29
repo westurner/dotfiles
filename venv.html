@@ -29,7 +29,7 @@
     <meta property="twitter:site" content="westurner" />
     <meta property="twitter:creator" content="westurner" />
     
-    <title>venv &mdash; westurner/dotfiles 0.10.3 documentation</title>
+    <title>venv &mdash; westurner/dotfiles 0.9.0 documentation</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -47,12 +47,20 @@
 <script type="text/javascript">
   var DOCUMENTATION_OPTIONS = {
             URL_ROOT:    './',
-            VERSION:     '0.10.3',
+            VERSION:     '0.9.0',
             COLLAPSE_INDEX: false,
             FILE_SUFFIX: '.html',
             HAS_SOURCE:  true
   };
 </script>
+
+<script src="_static/js/jquery-3.7.1.js" 
+
+
+></script>
+<!-- script_files: ['_static/js/bootstrap3.min.js'] -->
+<!-- old_script_files: ['_static/documentation_options.js', '_static/doctools.js', '_static/sphinx_highlight.js', '_static/js/local.js'] -->
+  <!-- scriptfile -->
     <script type="text/javascript" src="_static/js/bootstrap3.min.js"></script>
 <script type="text/javascript" src="_static/js/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="_static/js/basicstrap.js"></script>
@@ -61,7 +69,7 @@
   
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="westurner/dotfiles 0.10.3 documentation" href="index.html" />
+    <link rel="top" title="westurner/dotfiles 0.9.0 documentation" href="index.html" />
     <link rel="next" title="usrlog" href="usrlog.html" />
     <link rel="prev" title="Usage (dhelp)" href="usage/dhelp.html" />
   
@@ -82,7 +90,7 @@
   <script src="_static/js/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" ></script>
   
     
-    <script src="_static/documentation_options.js" integrity="sha384-Kbh8nC9HobYARwtGDHE9QYV+Vbefbx5/VFFCQLJWVcWb635UfXwON+fHGH36YlLT" ></script>
+    <script src="_static/documentation_options.js" integrity="sha384-mO9L9oswk4K76C0ohJzW0WBHKsjaNc4DBWS12v+S8pmUB1I/86dGG1XpOYTvXnzC" ></script>
   
     
     <script src="_static/doctools.js" integrity="sha384-PYtj0/tvW94h8Dd33v8o4KnhGwwOvSgfe3Yy225AKSoVuWIIBYgZwp8+9WxaTl9Y" ></script>
@@ -91,9 +99,11 @@
     <script src="_static/sphinx_highlight.js" integrity="sha384-A9ZCHPhgRZcBFsjXs7/lM1gZT+SV0IRR59+4BXZ/Pr/8ojWzqK26BoJnJRbA+Giy" ></script>
   
     
-    <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+    <script src="_static/js/local.js" integrity="sha384-HXZmvP8SGemgxMM7IFfN5lupRWR/Y0JV79vy1L3qmMBcRlM/DTMytOfilg/sM4Nc" ></script>
   
-  <script src="_static/js/local.js" integrity="sha384-tD/swlwGeHAMQOobDuP6pa91sXwhVc+m0Bcrwa9+3Hd6DM+gtavhuZHMaID2hsgT" ></script>
+  <script src="_static/js/local.js" 
+    
+    ></script>
  
   </head>
   <body role="document">
@@ -106,7 +116,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.10.3 documentation</a>
+          <a class="navbar-brand" href="index.html">westurner/dotfiles 0.9.0 documentation</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -172,7 +182,7 @@
       <!-- row -->
       <div class="row">
          
-<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper" style="position: sticky; top: 0; overflow-y: scroll; height: 100svh;">
   <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
   <div>
     <h3><a href="index.html">Table of Contents</a></h3>
@@ -453,10 +463,118 @@ venv.py<span class="w"> </span>--print-vim<span class="w"> </span>.<span class="
 <section id="venv-py">
 <h3>venv.py<a class="headerlink" href="#venv-py" title="Link to this heading">¶</a></h3>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ python ../src/dotfiles/venv/venv_ipyconfig.py --help
-Traceback (most recent call last):
-  File &quot;/var/home/wturner/-wrk/-ve311/dotfiles/src/dotfiles/docs/../src/dotfiles/venv/venv_ipyconfig.py&quot;, line 69, in &lt;module&gt;
-    import distutils.spawn
-ModuleNotFoundError: No module named &#39;distutils&#39;
+usage: venv [-h] [-V] [-v] [-D] [-T] [-q] [-t] [--platform PLATFORM] [-e]
+            [--__WRK [__WRK]] [--__DOTFILES [__DOTFILES]]
+            [--WORKON_HOME [WORKON_HOME]] [--CONDA_ROOT [CONDA_ROOT]]
+            [--CONDA_ENVS_PATH [CONDA_ENVS_PATH]] [--VENVSTR [VENVSTR_]]
+            [--VENVSTRAPP [VENVSTRAPP_]]
+            [--VIRTUAL_ENV_NAME [VIRTUAL_ENV_NAME]]
+            [--VENVPREFIX [VENVPREFIX]] [--VIRTUAL_ENV [VIRTUAL_ENV]]
+            [--_SRC [_SRC]] [--_APP [_APP]] [--_WRD [_WRD]] [--print-json]
+            [--print-json-filename [PRINT_JSON_FILENAME]] [--print-vars]
+            [--print-bash] [--print-bash-all] [--print-bash-aliases]
+            [--print-bash-cdaliases] [-Z] [--print-vim-cdalias]
+            [--print-ipython-magics] [--command RUN_COMMAND] [--run-bash]
+            [--run-make] [--run-editp] [--run-terminal] [--pall] [--pwrk]
+            [--pworkonhome] [--pvirtualenv] [--psrc] [--pwrd] [--pdotfiles]
+            [--prel] [--pkg-resource-path] [--compress]
+            [VENVSTR] [VENVSTRAPP] ...
+
+venv is a configuration utility for virtual environments.
+
+positional arguments:
+  VENVSTR               a name of a virtualenv in WORKON_HOME OR a full path
+                        to a VIRTUAL_ENV
+  VENVSTRAPP            a path within _SRC (_WRD=_SRC/VENVSTRAPP)
+  args
+
+options:
+  -h, --help            show this help message and exit
+  -V, --version
+  -v, --verbose
+  -D, --diff, --show-diffs
+  -T, --trace
+  -q, --quiet
+  -t, --test
+  --platform PLATFORM   Platform string (default: None)
+  -e, --from-environ    Build venv.env.environ from keys in os.environ
+  --__WRK, --WRK, --wrk [__WRK]
+                        Path to workspace -- ~/-wrk
+  --__DOTFILES, --DOTFILES, --dotfiles [__DOTFILES]
+                        Path to ${__DOTFILES} symlink -- ~/-dotfiles
+  --WORKON_HOME, --workonhome, --wh [WORKON_HOME]
+                        Path to ${WORKON_HOME} directory containing
+                        VIRTUAL_ENVs
+  --CONDA_ROOT, --condaroot, --cr [CONDA_ROOT]
+                        Path to ${CONDA_ROOT} directory containing
+                        VIRTUAL_ENVs
+  --CONDA_ENVS_PATH, --condaenvs, --ce [CONDA_ENVS_PATH]
+                        Path to ${CONDA_ENVS_PATH} directory containing
+                        VIRTUAL_ENVs
+  --VENVSTR, --venvstr, --ve [VENVSTR_]
+                        Path to VIRTUAL_ENV --
+                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME} (or a dirname in
+                        $WORKON_HOME)
+  --VENVSTRAPP, --venvstrapp [VENVSTRAPP_]
+                        Subpath within {VIRTUAL_ETC}/src/
+  --VIRTUAL_ENV_NAME, --virtual-env-name, --vename [VIRTUAL_ENV_NAME]
+                        dirname in WORKON_HOME --
+                        ${WORKON_HOME}/${VIRTUAL_ENV_NAME}
+  --VENVPREFIX, --venvprefix, --prefix [VENVPREFIX]
+                        Prefix for _SRC, _ETC, _WRD if [ -z VIRTUAL_ENV ]
+  --VIRTUAL_ENV, --virtual-env [VIRTUAL_ENV]
+                        Path to a $VIRTUAL_ENV
+  --_SRC, --SRC, --src [_SRC]
+                        Path to source -- ${VIRTUAL_ENV}/src&quot;)
+  --_APP, --APP, --app [_APP]
+                        Path component string -- ${_SRC}/${_APP}
+  --_WRD, --WRD, --wrd [_WRD]
+                        Path to working directory -- ${_SRC}/${_APP}
+  --print-json          Print venv configuration as JSON
+  --print-json-filename [PRINT_JSON_FILENAME]
+                        Path to write venv env JSON to
+  --print-vars, --vars  Print vars
+  --print-bash, --bash  Print Bash shell configuration
+  --print-bash-all      Print Bash shell environ and aliases
+  --print-bash-aliases, --bash-alias
+                        Print Bash alias script
+  --print-bash-cdaliases, --bash-cdalias
+                        Print Bash cdalias script
+  -Z, --print-zsh       Print ZSH shell configuration
+  --print-vim-cdalias, --vim
+                        Print vimscript configuration
+  --print-ipython-magics
+                        Print IPython magic methods
+  --command, --cmd, -x RUN_COMMAND
+                        Run a command in a venv-configured shell
+  --run-bash, --xbash, -xb
+                        Run bash in the specified venv
+  --run-make, --xmake, -xmake
+                        Run (cd $_WRD; make $@) in the specified venv
+  --run-editp, --open-editors, --edit, -E
+                        Open $EDITOR_ with venv.project_files [$PROJECT_FILES]
+  --run-terminal, --open-terminals, --terminals, --terms
+                        Open terminals within the venv [gnome-terminal]
+  --pall, --pathall     Print possible paths for the given path
+  --pwrk, --wrk-path    Print $__WRK/$@
+  --pworkonhome, --workonhome-path, --pwh
+                        Print $__WORKON_HOME/$@
+  --pvirtualenv, --virtualenv-path, --pv
+                        Print $VIRTUAL_ENV/${@}
+  --psrc, --src-path, --ps
+                        Print $_SRC/${@}
+  --pwrd, --wrd-path, --pw
+                        Print $_WRD/${@}
+  --pdotfiles, --dotfiles-path, --pd
+                        Print ${__DOTFILES}/${path}
+  --prel, --relative-path
+                        Print ${@}
+  --pkg-resource-path   Path from pkg_resources.TODOTODO
+  --compress, --compress-paths
+                        Path $VAR-ify the given paths from stdin
+
+argparse.REMAINDER: If args must be specified, either (VENVSTR AND VENVSTRAPP)
+or (--ve [--app]) must be specified first: venv --ve dotfiles -xmake.
 </pre></div>
 </div>
 <section id="python-api">
@@ -511,8 +629,8 @@ export _BIN=&quot;${VIRTUAL_ENV}/bin&quot;
 export _ETCOPT=&quot;${_ETC}/opt&quot;
 export _HOME=&quot;${VIRTUAL_ENV}/home&quot;
 export _LIB=&quot;${VIRTUAL_ENV}/lib&quot;
-export _PYLIB=&quot;${VIRTUAL_ENV}/lib/python3.13&quot;
-export _PYSITE=&quot;${VIRTUAL_ENV}/lib/python3.13/site-packages&quot;
+export _PYLIB=&quot;${VIRTUAL_ENV}/lib/python3.14&quot;
+export _PYSITE=&quot;${VIRTUAL_ENV}/lib/python3.14/site-packages&quot;
 export _MNT=&quot;${VIRTUAL_ENV}/mnt&quot;
 export _MEDIA=&quot;${VIRTUAL_ENV}/media&quot;
 export _OPT=&quot;${VIRTUAL_ENV}/opt&quot;
@@ -591,8 +709,8 @@ without this option, paths are expanded in full.</p>
         &quot;_ETCOPT&quot;: &quot;${_ETC}/opt&quot;,
         &quot;_HOME&quot;: &quot;${VIRTUAL_ENV}/home&quot;,
         &quot;_LIB&quot;: &quot;${VIRTUAL_ENV}/lib&quot;,
-        &quot;_PYLIB&quot;: &quot;${VIRTUAL_ENV}/lib/python3.13&quot;,
-        &quot;_PYSITE&quot;: &quot;${VIRTUAL_ENV}/lib/python3.13/site-packages&quot;,
+        &quot;_PYLIB&quot;: &quot;${VIRTUAL_ENV}/lib/python3.14&quot;,
+        &quot;_PYSITE&quot;: &quot;${VIRTUAL_ENV}/lib/python3.14/site-packages&quot;,
         &quot;_MNT&quot;: &quot;${VIRTUAL_ENV}/mnt&quot;,
         &quot;_MEDIA&quot;: &quot;${VIRTUAL_ENV}/media&quot;,
         &quot;_OPT&quot;: &quot;${VIRTUAL_ENV}/opt&quot;,
@@ -708,7 +826,7 @@ without this option, paths are expanded in full.</p>
 <div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav text-center">
-        <li><a href="index.html">westurner/dotfiles 0.10.3 documentation</a></li>
+        <li><a href="index.html">westurner/dotfiles 0.9.0 documentation</a></li>
     </ul>
 <ul class="nav navbar-nav text-center">
       
