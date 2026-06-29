@@ -20,6 +20,11 @@
 }
 
 /* */
+pre, div[class*="highlight-"] {
+  clear: revert;
+}
+
+/* */
 div.document {
     display: inline;
 }
