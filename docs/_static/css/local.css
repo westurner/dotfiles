@@ -22,7 +22,7 @@
 
 /* */
 div.document {
-    display: inline-block;
+    display: inline;
 }
 
 div.document ul,
