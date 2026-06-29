@@ -1857,8 +1857,9 @@ function lsvirtualenvs {
     _list_all_venvs=
     _print0=
 
-    # POSIX doesn't support `read` -a to read into $@ or another ary,
-    # or bash regex
+    # This function MUST be POSIX sh compatible:
+    # - POSIX does not support `read -a` to read into $@ or an array
+    # - POSIX does not support bash regex
     while IFS=$'\n' read -r arg
     do
         #printf "ARG: %s\n" "$(shell_escape_single "${arg}")" > &2
@@ -4377,7 +4378,7 @@ function e {
     # e -l/--list          -- List available editors and current settings
     # e -s/--set <name>       -- Print shell export command for setting $EDITOR
     #
-    # e -h/--help          -- Show this help and editor's help
+    # e -h/--help          -- Print help for both e --help and $EDITOR --help
   
     POSSIBLE_EDITORS="code.sh code gvim nvim mvim vim nano vi emacs gedit kate spyder flatpak gvim-venv nvim-venv"
 

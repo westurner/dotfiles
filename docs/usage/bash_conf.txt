@@ -363,8 +363,9 @@ etc/bash/07-bashrc.virtualenvwrapper.sh
                                    with each virtualenv path
                                    (Must be POSIX compatible)
          Split the $@ arguments array into __SPLIT_BEFORE and __SPLIT_AFTER
-         POSIX doesn't support `read` -a to read into $@ or another ary,
-         or bash regex
+         This function MUST be POSIX sh compatible:
+         - POSIX does not support `read -a` to read into $@ or an array
+         - POSIX does not support bash regex
                  _libpython_dirs="$(ls -adtr "${_VIRTUAL_ENV}/lib/python"*.*)"
                  echo "libpython_dirs=(${_libpython_dirs})"
          lsve()                -- list virtualenvs in $WORKON_HOME
@@ -937,7 +938,7 @@ etc/bash/_ewrd.sh
          e -l/--list          -- List available editors and current settings
          e -s/--set <name>       -- Print shell export command for setting $EDITOR
         
-         e -h/--help          -- Show this help and editor's help
+         e -h/--help          -- Print help for both e --help and $EDITOR --help
              print function docstring
          Otherwise, pass through to the editor
          else  
