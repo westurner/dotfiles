@@ -13,7 +13,7 @@ function e {
     # e -l/--list          -- List available editors and current settings
     # e -s/--set <name>       -- Print shell export command for setting $EDITOR
     #
-    # e -h/--help          -- Show this help and editor's help
+    # e -h/--help          -- Print help for both e --help and $EDITOR --help
   
     POSSIBLE_EDITORS="code.sh code gvim nvim mvim vim nano vi emacs gedit kate spyder flatpak gvim-venv nvim-venv"
 

@@ -8,7 +8,7 @@ function git_track_all_remotes_help {
     local __file__="$(basename "${0}")"
     echo "${__file__} <path> [<name:origin>] [prefix:remotes/<name>/]"
     echo ""
-    echo "Create Git local tracking branches for **ALL** of a remote's branches."
+    echo "Create Git local tracking branches for **ALL** branches on a remote"
     echo ""
     echo "  -t/--test             run all tests"
     echo "  -T/--test-fail-early  run tests (and fail early)"

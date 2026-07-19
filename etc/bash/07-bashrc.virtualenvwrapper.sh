@@ -158,8 +158,9 @@ function lsvirtualenvs {
     _list_all_venvs=
     _print0=
 
-    # POSIX doesn't support `read` -a to read into $@ or another ary,
-    # or bash regex
+    # This function MUST be POSIX sh compatible:
+    # - POSIX does not support `read -a` to read into $@ or an array
+    # - POSIX does not support bash regex
     while IFS=$'\n' read -r arg
     do
         #printf "ARG: %s\n" "$(shell_escape_single "${arg}")" > &2
