@@ -18,7 +18,7 @@ list_github_release_asset_download_urls() {
     (set -x;
     test -f "${_jsonpath}" || curl "https://api.github.com/repos/${_organdrepo}/releases/latest" -o "${_jsonpath}";
     jq "." "${_jsonpath}";
-    jq '.assets[] | pick(.size, .browser_download_url, .uploader.html_url, .created_at, .updated_at, .download_count)' "${_jsonpath}"
+    jq '.assets[] | pick(.size, .browser_download_url, .uploader.html_url, .digest, .created_at, .updated_at, .download_count)' "${_jsonpath}"
     jq '.assets[].browser_download_url' "${_jsonpath}")
 }
 
