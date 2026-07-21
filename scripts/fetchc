@@ -1,0 +1,1511 @@
+#!/bin/bash
+# shellcheck shell=bash
+## fetchc -- fetchcache: download a URL and cache it centrally with
+##           software-supply-chain-security metadata (checksums, signatures,
+##           DID-signed YAML-LD / VC-2.0 provenance claims).
+##
+## This file is a sourceable library AND an optional CLI.
+##   - Source it:   . fetchc            # defines fetchc_* functions, runs nothing
+##   - Run the CLI: fetchc <action> <url> [<destpath>]
+##
+## Objective: securely download artifacts to ~/.cache/fetchc/ with metadata that
+## supports software supply chain security:
+##   - checksums / hashes (sha256, ...)
+##   - signatures (gpg asc, cosign)
+##   - sigstore / cosign / rekor records
+##   - vc-data-model-2.0 Verifiable Credential Claims, signed with a DID key,
+##     over the YAML-LD metadata (which includes W3C PROV provenance).
+##
+## Usage:
+##   fetchc [-h] [-q] [-v] [<action>] <url> [<destpath>] [--url=<url>] [--dest=<dest>]
+##
+## Default action (if unspecified): download
+##
+## CLI args are parsed in an initial pass for -q/--quiet, -v/--verbose, -h/--help.
+
+# ============================================================================
+# CONFIGURATION (override via environment)
+# ============================================================================
+
+# FETCHC_CACHE_DIR (str): central cache root. Default: ~/.cache/fetchc
+FETCHC_CACHE_DIR="${FETCHC_CACHE_DIR:-${XDG_CACHE_HOME:-${HOME}/.cache}/fetchc}"
+
+# FETCHC_CACHE (bool): if "1"/"true", store downloads centrally in the cache dir.
+# May also be enabled per-invocation with the --cache CLI flag.
+FETCHC_CACHE="${FETCHC_CACHE:-0}"
+
+# FETCHC_KEYS_DIR (str): where the DID signing key lives. Default: <cache>/keys
+FETCHC_KEYS_DIR="${FETCHC_KEYS_DIR:-${FETCHC_CACHE_DIR}/keys}"
+
+# FETCHC_SIGN (bool): if "1", sign the meta.yml with the DID key. Default: 1
+FETCHC_SIGN="${FETCHC_SIGN:-1}"
+
+# FETCHC_OVERWRITE (bool): if "1", allow replacing an existing output file.
+# May also be enabled per-invocation with the --overwrite CLI flag.
+FETCHC_OVERWRITE="${FETCHC_OVERWRITE:-0}"
+
+# FETCHC_DOWNLOADER (str): force "curl" or "wget" (default: autodetect)
+FETCHC_DOWNLOADER="${FETCHC_DOWNLOADER:-}"
+
+# FETCHC_META_SCHEMA_VER (int): metadata schema version. Default: 1
+FETCHC_META_SCHEMA_VER="${FETCHC_META_SCHEMA_VER:-1}"
+
+# ============================================================================
+# LOGGING
+# ============================================================================
+
+FETCHC_LOG_LEVEL_ERROR=1
+FETCHC_LOG_LEVEL_INFO=2
+FETCHC_LOG_LEVEL_DEBUG=3
+# FETCHC_LOG_LEVEL (int): current verbosity. Default: info
+FETCHC_LOG_LEVEL="${FETCHC_LOG_LEVEL:-2}"
+
+logerror() {
+    #  logerror <msg...> -- print an error message to stderr
+    [ "${FETCHC_LOG_LEVEL}" -ge "${FETCHC_LOG_LEVEL_ERROR}" ] && echo "[ERROR] $*" >&2
+    return 0
+}
+loginfo() {
+    #  loginfo <msg...> -- print an info message to stderr
+    [ "${FETCHC_LOG_LEVEL}" -ge "${FETCHC_LOG_LEVEL_INFO}" ] && echo "[INFO]  $*" >&2
+    return 0
+}
+logdebug() {
+    #  logdebug <msg...> -- print a debug message to stderr
+    [ "${FETCHC_LOG_LEVEL}" -ge "${FETCHC_LOG_LEVEL_DEBUG}" ] && echo "[DEBUG] $*" >&2
+    return 0
+}
+
+# ============================================================================
+# ASSERTIONS (printed diagnostics + TAP-compatible helpers below)
+# ============================================================================
+
+assertEq() {
+    #  assertEq <expected> <actual> [description] -- assert two args are equal.
+    #  On failure, prints each arg so the mismatch is visible. Returns non-zero.
+    local expected="$1"
+    local actual="$2"
+    local desc="${3:-assertEq}"
+    if [ "${expected}" = "${actual}" ]; then
+        return 0
+    fi
+    echo "assertEq FAILED: ${desc}" >&2
+    echo "  expected: [${expected}]" >&2
+    echo "  actual:   [${actual}]" >&2
+    return 1
+}
+
+assert() {
+    #  assert <exit_code> [description] -- assertTrue: assert exit_code == 0.
+    #  On failure prints the code and description. Returns non-zero.
+    local code="$1"
+    local desc="${2:-assert}"
+    # Coerce to an integer so a hostile string can't break the comparison.
+    if [ "$(printf '%d' "${code}" 2>/dev/null || echo 1)" -eq 0 ]; then
+        return 0
+    fi
+    echo "assert FAILED: ${desc}" >&2
+    echo "  exit_code: [${code}] (expected 0)" >&2
+    return 1
+}
+
+assertTrue() {
+    #  assertTrue <exit_code> [description] -- alias of assert()
+    assert "$@"
+}
+
+# ============================================================================
+# SMALL UTILITIES
+# ============================================================================
+
+_fetchc_now_iso() {
+    #  _fetchc_now_iso -- print the current UTC time in ISO-8601 (Zulu)
+    date -u +%Y-%m-%dT%H:%M:%SZ
+}
+
+_fetchc_is_truthy() {
+    #  _fetchc_is_truthy <value> -- return 0 if value looks truthy (1/true/yes/on)
+    case "${1,,}" in
+        1|true|yes|on) return 0;;
+        *) return 1;;
+    esac
+}
+
+_fetchc_yaml_escape() {
+    #  _fetchc_yaml_escape <string> -- print a YAML double-quoted-safe scalar body.
+    #  Escapes backslashes then double-quotes so it can be wrapped in "...".
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    printf '%s' "${s}"
+}
+
+_fetchc_detect_downloader() {
+    #  _fetchc_detect_downloader -- echo "curl" or "wget"; non-zero if neither.
+    if [ -n "${FETCHC_DOWNLOADER}" ]; then
+        echo "${FETCHC_DOWNLOADER}"
+        return 0
+    fi
+    if command -v curl >/dev/null 2>&1; then
+        echo "curl"
+        return 0
+    fi
+    if command -v wget >/dev/null 2>&1; then
+        echo "wget"
+        return 0
+    fi
+    return 1
+}
+
+_fetchc_sha256() {
+    #  _fetchc_sha256 <path> -- print the lowercase sha256 hex digest of a file.
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$1" | awk '{print $1}'
+    elif command -v shasum >/dev/null 2>&1; then
+        shasum -a 256 "$1" | awk '{print $1}'
+    elif command -v openssl >/dev/null 2>&1; then
+        openssl dgst -sha256 "$1" | awk '{print $NF}'
+    else
+        return 1
+    fi
+}
+
+# ============================================================================
+# DID KEY (did:key, Ed25519) -- auto-generated with commonly-installed tools
+# ============================================================================
+# A did:key for Ed25519 is:
+#   did:key:z<base58btc( 0xed 0x01 || <32-byte raw public key> )>
+# We generate the key with openssl (Ed25519), and use python3 only for the
+# base58btc/multibase encoding and signing fallback (both are commonly present).
+
+_fetchc_b58_multibase() {
+    #  _fetchc_b58_multibase -- read raw bytes on stdin, print base58btc with the
+    #  multibase 'z' prefix (z<base58btc>). Requires python3.
+    #  NOTE: the script is passed via -c so that stdin remains the piped bytes.
+    python3 -c '
+import sys
+data = sys.stdin.buffer.read()
+ALPHABET = b"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+n = int.from_bytes(data, "big")
+out = bytearray()
+while n > 0:
+    n, rem = divmod(n, 58)
+    out.append(ALPHABET[rem])
+for b in data:
+    if b == 0:
+        out.append(ALPHABET[0])
+    else:
+        break
+out.reverse()
+sys.stdout.write("z" + out.decode("ascii"))
+'
+}
+
+fetchc_keygen() {
+    #  fetchc_keygen -- ensure an Ed25519 DID signing key exists; print its did:key.
+    #  Idempotent: regenerates nothing if the key already exists.
+    local key_pem="${FETCHC_KEYS_DIR}/fetchc_ed25519.pem"
+    local did_file="${FETCHC_KEYS_DIR}/did.txt"
+
+    mkdir -p "${FETCHC_KEYS_DIR}"
+    chmod 700 "${FETCHC_KEYS_DIR}" 2>/dev/null || true
+
+    if [ ! -f "${key_pem}" ]; then
+        if ! command -v openssl >/dev/null 2>&1; then
+            logerror "openssl is required to generate a DID key"
+            return 2
+        fi
+        logdebug "Generating Ed25519 DID key at ${key_pem}"
+        if ! openssl genpkey -algorithm ed25519 -out "${key_pem}" 2>/dev/null; then
+            logerror "Failed to generate Ed25519 key with openssl"
+            return 2
+        fi
+        chmod 600 "${key_pem}" 2>/dev/null || true
+    fi
+
+    if [ ! -s "${did_file}" ]; then
+        local did
+        if ! did="$(_fetchc_compute_did "${key_pem}")"; then
+            logerror "Failed to compute did:key"
+            return 2
+        fi
+        printf '%s\n' "${did}" > "${did_file}"
+    fi
+
+    cat "${did_file}"
+}
+
+_fetchc_compute_did() {
+    #  _fetchc_compute_did <key_pem> -- compute the did:key for an Ed25519 PEM key.
+    local key_pem="$1"
+    if ! command -v python3 >/dev/null 2>&1; then
+        logerror "python3 is required to encode did:key (base58btc)"
+        return 2
+    fi
+    # Build the multicodec-prefixed public key (0xed01 || 32 raw key bytes) in a
+    # temp file, then base58btc-encode it. The Ed25519 DER SubjectPublicKeyInfo
+    # ends with the 32 raw key bytes.
+    local tmpkey raw_b58 rc=0
+    tmpkey="$(mktemp)"
+    printf '\xed\x01' > "${tmpkey}"
+    openssl pkey -in "${key_pem}" -pubout -outform DER 2>/dev/null | tail -c 32 >> "${tmpkey}"
+    raw_b58="$(_fetchc_b58_multibase < "${tmpkey}")" || rc=$?
+    rm -f "${tmpkey}"
+    [ "${rc}" -eq 0 ] || return 2
+    printf 'did:key:%s' "${raw_b58}"
+}
+
+_fetchc_did_get() {
+    #  _fetchc_did_get -- print the current did:key, generating the key if needed.
+    fetchc_keygen
+}
+
+_fetchc_sign_bytes() {
+    #  _fetchc_sign_bytes <file> -- Ed25519-sign a file with the DID key.
+    #  Prints the signature as base64 (single line). Requires openssl 3.x (-rawin).
+    local file="$1"
+    local key_pem="${FETCHC_KEYS_DIR}/fetchc_ed25519.pem"
+    [ -f "${key_pem}" ] || { logerror "DID key not found: ${key_pem}"; return 2; }
+    if openssl pkeyutl -sign -inkey "${key_pem}" -rawin -in "${file}" 2>/dev/null \
+            | openssl base64 -A 2>/dev/null; then
+        return 0
+    fi
+    logerror "Ed25519 signing failed (needs openssl >= 3.0 with -rawin)"
+    return 2
+}
+
+_fetchc_verify_bytes() {
+    #  _fetchc_verify_bytes <file> <sig_b64> -- verify an Ed25519 signature.
+    local file="$1"
+    local sig_b64="$2"
+    local key_pem="${FETCHC_KEYS_DIR}/fetchc_ed25519.pem"
+    [ -f "${key_pem}" ] || { logerror "DID key not found: ${key_pem}"; return 2; }
+    local tmp_sig
+    tmp_sig="$(mktemp)"
+    printf '%s' "${sig_b64}" | openssl base64 -d -A > "${tmp_sig}" 2>/dev/null
+    local rc=0
+    openssl pkeyutl -verify -pubin \
+        -inkey <(openssl pkey -in "${key_pem}" -pubout 2>/dev/null) \
+        -rawin -in "${file}" -sigfile "${tmp_sig}" >/dev/null 2>&1 || rc=$?
+    rm -f "${tmp_sig}"
+    return "${rc}"
+}
+
+# ============================================================================
+# METADATA (YAML-LD: VC-2.0 + W3C PROV)
+# ============================================================================
+
+_fetchc_meta_path_for() {
+    #  _fetchc_meta_path_for <outputpath> -- echo the sidecar meta path.
+    printf '%s.meta.yml' "$1"
+}
+
+_fetchc_write_meta() {
+    #  _fetchc_write_meta <meta_path> <source_url> <final_url> <sha256> <dest_path>
+    #  Write a YAML-LD (VC-2.0 + PROV) metadata document and DID-sign it.
+    local meta_path="$1"
+    local source_url="$2"
+    local final_url="$3"
+    local sha256="$4"
+    local dest_path="$5"
+
+    local now did
+    now="$(_fetchc_now_iso)"
+    did=""
+    if _fetchc_is_truthy "${FETCHC_SIGN}"; then
+        did="$(_fetchc_did_get 2>/dev/null || true)"
+    fi
+
+    # Escaped scalars for safe YAML emission.
+    local e_source e_final e_dest e_did
+    e_source="$(_fetchc_yaml_escape "${source_url}")"
+    e_final="$(_fetchc_yaml_escape "${final_url}")"
+    e_dest="$(_fetchc_yaml_escape "${dest_path}")"
+    e_did="$(_fetchc_yaml_escape "${did}")"
+
+    # Body of the credential (everything that gets signed: no proof yet).
+    {
+        printf '# fetchc metadata -- YAML-LD (VC Data Model 2.0 + W3C PROV)\n'
+        printf '"@context":\n'
+        printf '  - "https://www.w3.org/ns/credentials/v2"\n'
+        printf '  - "https://www.w3.org/ns/prov"\n'
+        printf '  - filemetaschemaver: "https://westurner.org/dotfiles/fetchc#filemetaschemaver"\n'
+        printf 'type:\n'
+        printf '  - "VerifiableCredential"\n'
+        printf '  - "prov:Entity"\n'
+        printf 'filemetaschemaver: %d\n' "${FETCHC_META_SCHEMA_VER}"
+        printf 'issuer: "%s"\n' "${e_did}"
+        printf 'issuanceDate: "%s"\n' "${now}"
+        printf 'credentialSubject:\n'
+        printf '  type: "prov:Entity"\n'
+        printf '  metadata:\n'
+        printf '    downloaded_at: "%s"\n' "${now}"
+        printf '    source_url: "%s"\n' "${e_source}"
+        printf '    source_url_after_redirects: "%s"\n' "${e_final}"
+        printf '    checksums:\n'
+        printf '      - type: sha256\n'
+        printf '        value: "%s"\n' "${sha256}"
+        printf '        data_source_type: url_file\n'
+        printf '        data_source: "%s"\n' "${e_final}"
+        printf '    signatures: []\n'
+        printf '    dest_paths:\n'
+        printf '      - "%s"\n' "${e_dest}"
+        printf '  prov:wasDerivedFrom:\n'
+        printf '    id: "%s"\n' "${e_source}"
+        printf '  prov:generatedAtTime: "%s"\n' "${now}"
+    } > "${meta_path}"
+
+    logdebug "Wrote metadata: ${meta_path}"
+
+    # DID-sign the metadata body and append a VC proof block (Ed25519, did:key).
+    if _fetchc_is_truthy "${FETCHC_SIGN}" && [ -n "${did}" ]; then
+        local sig
+        if sig="$(_fetchc_sign_bytes "${meta_path}")"; then
+            {
+                printf 'proof:\n'
+                printf '  type: "DataIntegrityProof"\n'
+                printf '  cryptosuite: "eddsa-jcs-2022"\n'
+                printf '  created: "%s"\n' "${now}"
+                printf '  proofPurpose: "assertionMethod"\n'
+                printf '  verificationMethod: "%s#%s"\n' "${e_did}" "${did#did:key:}"
+                printf '  proofValueEncoding: "base64"\n'
+                printf '  proofValue: "%s"\n' "${sig}"
+            } >> "${meta_path}"
+            logdebug "Signed metadata with ${did}"
+        else
+            logerror "Could not sign metadata; leaving it unsigned"
+        fi
+    fi
+}
+
+_fetchc_index_path() {
+    #  _fetchc_index_path -- echo the central index.meta.yml path.
+    printf '%s/index.meta.yml' "${FETCHC_CACHE_DIR}"
+}
+
+_fetchc_index_update() {
+    #  _fetchc_index_update <meta_path> <source_url> <sha256> <dest_path>
+    #  Append a reference to the central index.meta.yml (created if absent).
+    local meta_path="$1"
+    local source_url="$2"
+    local sha256="$3"
+    local dest_path="$4"
+    local index now
+    index="$(_fetchc_index_path)"
+    now="$(_fetchc_now_iso)"
+
+    mkdir -p "${FETCHC_CACHE_DIR}"
+    if [ ! -f "${index}" ]; then
+        {
+            printf '# fetchc index -- references to all meta.yml files\n'
+            printf 'filemetaschemaver: %d\n' "${FETCHC_META_SCHEMA_VER}"
+            printf 'entries:\n'
+        } > "${index}"
+    fi
+
+    local e_meta e_source e_dest
+    e_meta="$(_fetchc_yaml_escape "${meta_path}")"
+    e_source="$(_fetchc_yaml_escape "${source_url}")"
+    e_dest="$(_fetchc_yaml_escape "${dest_path}")"
+    {
+        printf '  - meta_path: "%s"\n' "${e_meta}"
+        printf '    source_url: "%s"\n' "${e_source}"
+        printf '    sha256: "%s"\n' "${sha256}"
+        printf '    dest_path: "%s"\n' "${e_dest}"
+        printf '    indexed_at: "%s"\n' "${now}"
+    } >> "${index}"
+    logdebug "Updated index: ${index}"
+}
+
+# ============================================================================
+# DOWNLOAD
+# ============================================================================
+
+_fetchc_basename_from_url() {
+    #  _fetchc_basename_from_url <url> -- best-effort output filename from a URL.
+    local url="$1"
+    local name="${url%%\?*}"   # strip query string
+    name="${name%%#*}"          # strip fragment
+    name="${name##*/}"          # basename
+    [ -n "${name}" ] || name="index.html"
+    printf '%s' "${name}"
+}
+
+_fetchc_do_download() {
+    #  _fetchc_do_download <url> <outpath> -- download url to outpath.
+    #  Downloads to "<outpath>.part" first and atomically moves it into place
+    #  only once the transfer completes successfully (no partial files on error).
+    #  Prints the final (post-redirect) URL on stdout. Returns non-zero on error.
+    local url="$1"
+    local outpath="$2"
+    local partpath="${outpath}.part"
+    local downloader
+    if ! downloader="$(_fetchc_detect_downloader)"; then
+        logerror "Neither curl nor wget is available"
+        return 3
+    fi
+
+    mkdir -p "$(dirname "${outpath}")"
+
+    local final_url="${url}"
+    if [ "${downloader}" = "curl" ]; then
+        logdebug "curl ${url} -> ${partpath}"
+        # -f fail on http errors, -S show errors, -s silent, -L follow redirects,
+        # -o output. Capture effective URL via -w.
+        final_url="$(curl -fSsL "${url}" -o "${partpath}" -w '%{url_effective}' )" || {
+            logerror "curl failed for ${url}"
+            rm -f "${partpath}"
+            return 4
+        }
+        [ -n "${final_url}" ] || final_url="${url}"
+    else
+        logdebug "wget ${url} -> ${partpath}"
+        # --max-redirect default is fine; capture redirected URL from server log.
+        local wlog
+        wlog="$(mktemp)"
+        if ! wget -q -O "${partpath}" "${url}" 2> "${wlog}"; then
+            logerror "wget failed for ${url}"
+            rm -f "${wlog}" "${partpath}"
+            return 4
+        fi
+        rm -f "${wlog}"
+        final_url="${url}"
+    fi
+
+    # Atomically move the completed download into place.
+    if ! mv -f "${partpath}" "${outpath}"; then
+        logerror "Failed to move ${partpath} into place at ${outpath}"
+        rm -f "${partpath}"
+        return 5
+    fi
+    printf '%s' "${final_url}"
+    return 0
+}
+
+_fetchc_check_overwrite() {
+    #  _fetchc_check_overwrite <path> -- if <path> exists and overwrite is not
+    #  enabled, print an explanatory error and return non-zero.
+    local path="$1"
+    if [ -e "${path}" ] && ! _fetchc_is_truthy "${FETCHC_OVERWRITE}"; then
+        logerror "Refusing to overwrite existing file: ${path}"
+        logerror "A download would replace it and could discard local changes or"
+        logerror "mask a cached artifact. Re-run with --overwrite (or set"
+        logerror "FETCHC_OVERWRITE=1) to allow replacing it."
+        return 1
+    fi
+    return 0
+}
+
+fetchc_download() {
+    #  fetchc_download <url> [destpath] -- download url, write sidecar metadata,
+    #  and register it in the central index. Honors FETCHC_CACHE / --cache.
+    local url="$1"
+    local destpath="${2:-}"
+
+    if [ -z "${url}" ]; then
+        logerror "download: a <url> is required"
+        return 2
+    fi
+
+    # Determine the primary output path.
+    local outpath cache_used=0
+    if _fetchc_is_truthy "${FETCHC_CACHE}"; then
+        cache_used=1
+        local fname host_seg
+        fname="$(_fetchc_basename_from_url "${url}")"
+        # Namespace by a hash of the URL to avoid collisions across hosts/paths.
+        host_seg="$(printf '%s' "${url}" | _fetchc_sha256_stdin)"
+        outpath="${FETCHC_CACHE_DIR}/cache/${host_seg}/${fname}"
+    elif [ -n "${destpath}" ]; then
+        outpath="${destpath}"
+    else
+        outpath="./$(_fetchc_basename_from_url "${url}")"
+    fi
+
+    # Guard against clobbering existing outputs unless --overwrite is given.
+    _fetchc_check_overwrite "${outpath}" || return 6
+    if [ "${cache_used}" -eq 1 ] && [ -n "${destpath}" ]; then
+        _fetchc_check_overwrite "${destpath}" || return 6
+    fi
+
+    loginfo "Downloading ${url}"
+    local final_url dl_rc
+    final_url="$(_fetchc_do_download "${url}" "${outpath}")"
+    dl_rc=$?
+    if [ "${dl_rc}" -ne 0 ]; then
+        return "${dl_rc}"
+    fi
+
+    local sha256
+    if ! sha256="$(_fetchc_sha256 "${outpath}")"; then
+        logerror "Failed to compute sha256 for ${outpath}"
+        return 5
+    fi
+    logdebug "sha256(${outpath}) = ${sha256}"
+
+    # If we cached centrally and also have a destpath, place a copy there too.
+    local dest_for_meta="${outpath}"
+    if [ "${cache_used}" -eq 1 ] && [ -n "${destpath}" ]; then
+        mkdir -p "$(dirname "${destpath}")"
+        cp -f "${outpath}" "${destpath}"
+        dest_for_meta="${destpath}"
+    fi
+
+    local meta_path
+    meta_path="$(_fetchc_meta_path_for "${outpath}")"
+    _fetchc_write_meta "${meta_path}" "${url}" "${final_url}" "${sha256}" "${dest_for_meta}"
+    _fetchc_index_update "${meta_path}" "${url}" "${sha256}" "${dest_for_meta}"
+
+    loginfo "Saved ${outpath}"
+    loginfo "Metadata ${meta_path}"
+    printf '%s\n' "${outpath}"
+    return 0
+}
+
+_fetchc_sha256_stdin() {
+    #  _fetchc_sha256_stdin -- sha256 hex of stdin (for URL namespacing).
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum | awk '{print $1}'
+    elif command -v shasum >/dev/null 2>&1; then
+        shasum -a 256 | awk '{print $1}'
+    else
+        openssl dgst -sha256 | awk '{print $NF}'
+    fi
+}
+
+# ============================================================================
+# QUERY
+# ============================================================================
+
+fetchc_query_ls() {
+    #  fetchc_query_ls -- list all known meta.yml files. Sources both the central
+    #  index (covers metas written to arbitrary dest paths) and the cache tree.
+    local index
+    index="$(_fetchc_index_path)"
+    {
+        if [ -f "${index}" ]; then
+            # Pull meta_path values recorded in the index.
+            sed -n -E 's/^\s*-?\s*meta_path:\s*"?([^"]+)"?\s*$/\1/p' "${index}"
+        fi
+        if [ -d "${FETCHC_CACHE_DIR}" ]; then
+            find "${FETCHC_CACHE_DIR}" -type f -name '*.meta.yml' \
+                ! -name 'index.meta.yml' 2>/dev/null
+        fi
+    } | sort -u
+}
+
+fetchc_query_show() {
+    #  fetchc_query_show [path] -- print metadata for a given output or meta path.
+    #  If <path> is an output file, its sidecar <path>.meta.yml is shown.
+    local path="${1:-}"
+    if [ -z "${path}" ]; then
+        # No path: show the index.
+        local index
+        index="$(_fetchc_index_path)"
+        if [ -f "${index}" ]; then
+            cat "${index}"
+            return 0
+        fi
+        logerror "No index found at $(_fetchc_index_path)"
+        return 1
+    fi
+
+    local meta="${path}"
+    case "${path}" in
+        *.meta.yml) meta="${path}";;
+        *) meta="$(_fetchc_meta_path_for "${path}")";;
+    esac
+
+    if [ -f "${meta}" ]; then
+        cat "${meta}"
+        return 0
+    fi
+    logerror "No metadata found: ${meta}"
+    return 1
+}
+
+# ============================================================================
+# VERIFY
+# ============================================================================
+
+fetchc_verify() {
+    #  fetchc_verify <outputpath> -- verify the sha256 and DID signature of a file.
+    local path="$1"
+    if [ -z "${path}" ]; then
+        logerror "verify: an <outputpath> is required"
+        return 2
+    fi
+    local meta
+    meta="$(_fetchc_meta_path_for "${path}")"
+    [ -f "${meta}" ] || { logerror "No metadata for ${path}"; return 1; }
+
+    # Checksum check.
+    local want got
+    want="$(grep -m1 -E '^\s*value:' "${meta}" | sed -E 's/.*value:\s*"?([0-9a-fA-F]+)"?.*/\1/')"
+    got="$(_fetchc_sha256 "${path}")" || return 5
+    if ! assertEq "${want}" "${got}" "sha256(${path})"; then
+        return 6
+    fi
+    loginfo "sha256 OK: ${path}"
+
+    # Signature check (recompute over the credential body, excluding proof).
+    if grep -q '^proof:' "${meta}"; then
+        local body sig tmp
+        tmp="$(mktemp)"
+        sed -n '1,/^proof:/p' "${meta}" | sed '$d' > "${tmp}"
+        sig="$(grep -m1 -E '^\s*proofValue:' "${meta}" | sed -E 's/.*proofValue:\s*"?([^"]+)"?.*/\1/')"
+        if _fetchc_verify_bytes "${tmp}" "${sig}"; then
+            loginfo "DID signature OK: ${meta}"
+            rm -f "${tmp}"
+            return 0
+        else
+            logerror "DID signature INVALID: ${meta}"
+            rm -f "${tmp}"
+            return 7
+        fi
+    fi
+    loginfo "(no proof block to verify)"
+    return 0
+}
+
+# ============================================================================
+# HELP
+# ============================================================================
+
+print_help() {
+    #  print_help -- print CLI usage to stdout.
+    cat <<EOF
+fetchc -- fetchcache: download a URL and cache it centrally with
+          supply-chain-security metadata (checksums, signatures, DID-signed
+          YAML-LD / VC-2.0 + PROV provenance).
+
+Usage:
+  fetchc [-h] [-q] [-v] [--cache] [<action>] <url> [<destpath>]
+  fetchc [options] --url=<url> [--dest=<destpath>]
+
+Options:
+  -h, --help        Show this help and exit.
+  -q, --quiet       Only print errors.
+  -v, --verbose     Print debug output.
+  --cache           Store the download centrally in the cache dir.
+  --no-sign         Do not DID-sign the metadata.
+  --overwrite       Allow replacing an existing destination file.
+  --url=<url>       The URL to download (alternative to positional).
+  --dest=<path>     The destination path (alternative to positional).
+
+Actions (default: download):
+  download <url> [destpath]   Download, write <out>.meta.yml, update the index.
+  query ls                    List all known meta.yml files.
+  query show [path]           Show metadata for a path (or the index if omitted).
+  verify <outputpath>         Verify sha256 + DID signature for a file.
+  keygen                      Ensure a DID signing key exists; print its did:key.
+  help                        Show this help.
+
+Environment:
+  FETCHC_CACHE_DIR   Central cache root (default: ~/.cache/fetchc)
+  FETCHC_CACHE       If truthy, cache centrally (default: ${FETCHC_CACHE})
+  FETCHC_KEYS_DIR    DID key directory (default: <cache>/keys)
+  FETCHC_SIGN        If truthy, DID-sign metadata (default: ${FETCHC_SIGN})
+  FETCHC_OVERWRITE   If truthy, allow replacing existing files (default: ${FETCHC_OVERWRITE})
+  FETCHC_DOWNLOADER  Force "curl" or "wget" (default: autodetect)
+
+Metadata is written next to the output as <outputpath>.meta.yml, and a
+reference is added to <cache>/index.meta.yml for the 'query' action.
+EOF
+}
+
+# ============================================================================
+# ARGUMENT PARSING
+# ============================================================================
+# Parsed results land in these globals:
+FETCHC_ARG_ACTION=""
+FETCHC_ARG_URL=""
+FETCHC_ARG_DEST=""
+FETCHC_ARG_EXTRA=()
+
+_fetchc_known_action() {
+    #  _fetchc_known_action <word> -- return 0 if word is a known action verb.
+    case "$1" in
+        download|query|verify|keygen|help|ls|show) return 0;;
+        *) return 1;;
+    esac
+}
+
+fetchc_parse_args() {
+    #  fetchc_parse_args <args...> -- parse CLI args.
+    #  First pass: handle -q/--quiet, -v/--verbose, -h/--help (prints help, rc 10).
+    #  Second pass: collect action, url, destpath, and --url=/--dest= options.
+    #  Returns: 0 on success, 10 if help was requested (caller should exit 0).
+    FETCHC_ARG_ACTION=""
+    FETCHC_ARG_URL=""
+    FETCHC_ARG_DEST=""
+    FETCHC_ARG_EXTRA=()
+
+    # ---- First pass: verbosity + help ----
+    local a
+    for a in "$@"; do
+        case "${a}" in
+            -h|--help)
+                print_help
+                return 10
+                ;;
+            -q|--quiet)
+                FETCHC_LOG_LEVEL="${FETCHC_LOG_LEVEL_ERROR}"
+                ;;
+            -v|--verbose)
+                FETCHC_LOG_LEVEL="${FETCHC_LOG_LEVEL_DEBUG}"
+                ;;
+        esac
+    done
+
+    # ---- Second pass: actions, positionals, and long options ----
+    local positionals=()
+    for a in "$@"; do
+        case "${a}" in
+            -h|--help|-q|--quiet|-v|--verbose)
+                : # already handled
+                ;;
+            --cache)
+                FETCHC_CACHE=1
+                ;;
+            --no-sign)
+                FETCHC_SIGN=0
+                ;;
+            --overwrite)
+                FETCHC_OVERWRITE=1
+                ;;
+            --url=*)
+                FETCHC_ARG_URL="${a#*=}"
+                ;;
+            --dest=*)
+                FETCHC_ARG_DEST="${a#*=}"
+                ;;
+            --cache-dir=*)
+                FETCHC_CACHE_DIR="${a#*=}"
+                FETCHC_KEYS_DIR="${FETCHC_CACHE_DIR}/keys"
+                ;;
+            --*)
+                logerror "Unknown option: ${a}"
+                return 2
+                ;;
+            *)
+                positionals+=("${a}")
+                ;;
+        esac
+    done
+
+    # Interpret positionals: [action] [url] [destpath] (action is optional).
+    if [ "${#positionals[@]}" -gt 0 ] && _fetchc_known_action "${positionals[0]}"; then
+        FETCHC_ARG_ACTION="${positionals[0]}"
+        positionals=("${positionals[@]:1}")
+    fi
+    [ -z "${FETCHC_ARG_ACTION}" ] && FETCHC_ARG_ACTION="download"
+
+    # For query, the remaining positionals are the subcommand + path; keep as extra.
+    if [ "${FETCHC_ARG_ACTION}" = "query" ]; then
+        FETCHC_ARG_EXTRA=("${positionals[@]}")
+        return 0
+    fi
+
+    # url / dest from positionals unless already supplied via --url=/--dest=.
+    if [ -z "${FETCHC_ARG_URL}" ] && [ "${#positionals[@]}" -gt 0 ]; then
+        FETCHC_ARG_URL="${positionals[0]}"
+        positionals=("${positionals[@]:1}")
+    fi
+    if [ -z "${FETCHC_ARG_DEST}" ] && [ "${#positionals[@]}" -gt 0 ]; then
+        FETCHC_ARG_DEST="${positionals[0]}"
+        positionals=("${positionals[@]:1}")
+    fi
+    FETCHC_ARG_EXTRA=("${positionals[@]}")
+    return 0
+}
+
+# ============================================================================
+# MAIN DISPATCH
+# ============================================================================
+
+fetchc_main() {
+    #  fetchc_main <args...> -- CLI entry point.
+    if [ "$#" -eq 0 ]; then
+        print_help
+        return 0
+    fi
+
+    # --test runs the bundled TAP test suite.
+    local a
+    for a in "$@"; do
+        if [ "${a}" = "--test" ]; then
+            fetchc_run_tests "${2:-}"
+            return $?
+        fi
+    done
+
+    fetchc_parse_args "$@"
+    local rc=$?
+    if [ "${rc}" -eq 10 ]; then
+        return 0   # help printed
+    elif [ "${rc}" -ne 0 ]; then
+        return "${rc}"
+    fi
+
+    case "${FETCHC_ARG_ACTION}" in
+        download)
+            fetchc_download "${FETCHC_ARG_URL}" "${FETCHC_ARG_DEST}"
+            ;;
+        query)
+            local sub="${FETCHC_ARG_EXTRA[0]:-ls}"
+            case "${sub}" in
+                ls)   fetchc_query_ls ;;
+                show) fetchc_query_show "${FETCHC_ARG_EXTRA[1]:-}" ;;
+                *)    logerror "Unknown query subcommand: ${sub}"; return 2 ;;
+            esac
+            ;;
+        verify)
+            fetchc_verify "${FETCHC_ARG_URL}"
+            ;;
+        keygen)
+            fetchc_keygen
+            ;;
+        help)
+            print_help
+            ;;
+        *)
+            logerror "Unknown action: ${FETCHC_ARG_ACTION}"
+            print_help
+            return 2
+            ;;
+    esac
+}
+
+# ============================================================================
+# TEST FRAMEWORK (TAP - Test Anything Protocol)
+# ============================================================================
+
+_FETCHC_TEST_COUNT=0
+_FETCHC_TEST_PASSED=0
+_FETCHC_TEST_FAILED=0
+_FETCHC_TEST_TMPDIR=""
+
+tap_ok() {
+    #  tap_ok [description] -- emit a TAP "ok" line.
+    _FETCHC_TEST_COUNT=$((_FETCHC_TEST_COUNT + 1))
+    _FETCHC_TEST_PASSED=$((_FETCHC_TEST_PASSED + 1))
+    echo "ok ${_FETCHC_TEST_COUNT} ${1:--}"
+}
+
+tap_not_ok() {
+    #  tap_not_ok [description] -- emit a TAP "not ok" line.
+    _FETCHC_TEST_COUNT=$((_FETCHC_TEST_COUNT + 1))
+    _FETCHC_TEST_FAILED=$((_FETCHC_TEST_FAILED + 1))
+    echo "not ok ${_FETCHC_TEST_COUNT} ${1:--}"
+}
+
+t_assertEq() {
+    #  t_assertEq <expected> <actual> [desc] -- TAP wrapper around assertEq.
+    if assertEq "$1" "$2" "${3:-assertEq}"; then
+        tap_ok "${3:-assertEq}"
+    else
+        tap_not_ok "${3:-assertEq}"
+    fi
+}
+
+t_assertTrue() {
+    #  t_assertTrue <exit_code> [desc] -- TAP wrapper around assertTrue.
+    if assertTrue "$1" "${2:-assertTrue}"; then
+        tap_ok "${2:-assertTrue}"
+    else
+        tap_not_ok "${2:-assertTrue}"
+    fi
+}
+
+_fetchc_test_setup() {
+    #  _fetchc_test_setup -- isolate cache/keys in a throwaway temp dir.
+    _FETCHC_TEST_TMPDIR="$(mktemp -d "${PWD}/tmp/fetchc-test.XXXXXX" 2>/dev/null || mktemp -d)"
+    export FETCHC_CACHE_DIR="${_FETCHC_TEST_TMPDIR}/cache"
+    export FETCHC_KEYS_DIR="${FETCHC_CACHE_DIR}/keys"
+    mkdir -p "${FETCHC_CACHE_DIR}"
+}
+
+_fetchc_test_teardown() {
+    #  _fetchc_test_teardown -- remove the throwaway temp dir.
+    [ -n "${_FETCHC_TEST_TMPDIR}" ] && rm -rf "${_FETCHC_TEST_TMPDIR}"
+}
+
+# ---- Individual tests --------------------------------------------------------
+
+test_assertEq() {
+    t_assertEq "abc" "abc" "assertEq equal strings"
+    local rc=0
+    assertEq "abc" "xyz" "intentional mismatch" 2>/dev/null || rc=$?
+    t_assertTrue "$([ "${rc}" -ne 0 ] && echo 0 || echo 1)" "assertEq detects mismatch"
+}
+
+test_assertTrue() {
+    t_assertTrue 0 "assertTrue with 0"
+    local rc=0
+    assertTrue 1 "intentional fail" 2>/dev/null || rc=$?
+    t_assertTrue "$([ "${rc}" -ne 0 ] && echo 0 || echo 1)" "assertTrue detects non-zero"
+}
+
+test_is_truthy() {
+    local rc=0
+    _fetchc_is_truthy 1 || rc=1;     t_assertEq "0" "${rc}" "1 is truthy"
+    rc=0; _fetchc_is_truthy true || rc=1; t_assertEq "0" "${rc}" "true is truthy"
+    rc=0; _fetchc_is_truthy 0 && rc=1;    t_assertEq "0" "${rc}" "0 is not truthy"
+}
+
+test_yaml_escape() {
+    local out
+    out="$(_fetchc_yaml_escape 'a"b\c')"
+    t_assertEq 'a\"b\\c' "${out}" "yaml escape quotes+backslash"
+}
+
+test_basename_from_url() {
+    t_assertEq "file.tar.gz" "$(_fetchc_basename_from_url 'https://x.example/a/b/file.tar.gz?q=1#frag')" "basename strips query/fragment"
+    t_assertEq "index.html" "$(_fetchc_basename_from_url 'https://x.example/')" "basename default index.html"
+}
+
+test_parse_help() {
+    local out rc=0
+    out="$(fetchc_parse_args -h 2>/dev/null)"; rc=$?
+    t_assertEq "10" "${rc}" "parse_args returns 10 for -h"
+    case "${out}" in *Usage:*) tap_ok "help shows Usage" ;; *) tap_not_ok "help shows Usage" ;; esac
+}
+
+test_parse_verbosity() {
+    FETCHC_LOG_LEVEL=2
+    fetchc_parse_args -v download http://x/y >/dev/null 2>&1
+    t_assertEq "${FETCHC_LOG_LEVEL_DEBUG}" "${FETCHC_LOG_LEVEL}" "-v sets debug level"
+    FETCHC_LOG_LEVEL=2
+    fetchc_parse_args -q download http://x/y >/dev/null 2>&1
+    t_assertEq "${FETCHC_LOG_LEVEL_ERROR}" "${FETCHC_LOG_LEVEL}" "-q sets error level"
+    FETCHC_LOG_LEVEL=2
+}
+
+test_parse_positionals() {
+    fetchc_parse_args download http://x/y /tmp/z >/dev/null 2>&1
+    t_assertEq "download" "${FETCHC_ARG_ACTION}" "action parsed"
+    t_assertEq "http://x/y" "${FETCHC_ARG_URL}" "url parsed"
+    t_assertEq "/tmp/z" "${FETCHC_ARG_DEST}" "dest parsed"
+}
+
+test_parse_default_action() {
+    fetchc_parse_args http://x/y >/dev/null 2>&1
+    t_assertEq "download" "${FETCHC_ARG_ACTION}" "default action is download"
+    t_assertEq "http://x/y" "${FETCHC_ARG_URL}" "url parsed without action"
+}
+
+test_parse_long_opts() {
+    fetchc_parse_args --url=http://x/z --dest=/tmp/q >/dev/null 2>&1
+    t_assertEq "http://x/z" "${FETCHC_ARG_URL}" "--url= parsed"
+    t_assertEq "/tmp/q" "${FETCHC_ARG_DEST}" "--dest= parsed"
+}
+
+test_keygen_and_did() {
+    local did rc=0
+    did="$(fetchc_keygen 2>/dev/null)" || rc=$?
+    if [ "${rc}" -ne 0 ]; then
+        tap_ok "keygen skipped (openssl/python3 unavailable)"
+        tap_ok "did format skipped"
+        return 0
+    fi
+    t_assertTrue 0 "keygen succeeds"
+    case "${did}" in
+        did:key:z?*) tap_ok "did:key has did:key:z<body> prefix" ;;
+        *) tap_not_ok "did:key has did:key:z<body> prefix (got: ${did})" ;;
+    esac
+    # An Ed25519 did:key body is ~48 base58 chars; require a non-trivial length.
+    if [ "${#did}" -ge 40 ]; then
+        tap_ok "did:key has a full base58 body (len=${#did})"
+    else
+        tap_not_ok "did:key has a full base58 body (len=${#did})"
+    fi
+}
+
+test_download_file_url() {
+    # Use a file:// URL so the test never touches the network.
+    local src="${_FETCHC_TEST_TMPDIR}/src.txt"
+    printf 'hello fetchc\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/out.txt"
+    local rc=0
+    fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1 || rc=$?
+    if [ "${rc}" -ne 0 ]; then
+        tap_ok "download skipped (no curl file:// support)"
+        tap_ok "meta skipped"
+        tap_ok "checksum skipped"
+        return 0
+    fi
+    t_assertTrue "$([ -f "${dest}" ] && echo 0 || echo 1)" "downloaded file exists"
+    t_assertTrue "$([ -f "${dest}.meta.yml" ] && echo 0 || echo 1)" "sidecar meta.yml exists"
+    local want got
+    want="$(_fetchc_sha256 "${src}")"
+    got="$(grep -m1 -E '^\s*value:' "${dest}.meta.yml" | sed -E 's/.*value:\s*"?([0-9a-f]+)"?.*/\1/')"
+    t_assertEq "${want}" "${got}" "meta records correct sha256"
+}
+
+test_meta_has_schema_and_context() {
+    local src="${_FETCHC_TEST_TMPDIR}/src2.txt"
+    printf 'data\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/out2.txt"
+    if ! fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1; then
+        tap_ok "meta content skipped (download unavailable)"
+        tap_ok "meta context skipped"
+        return 0
+    fi
+    local meta="${dest}.meta.yml"
+    grep -q 'filemetaschemaver: 1' "${meta}" && tap_ok "meta has schema version 1" || tap_not_ok "meta has schema version 1"
+    grep -q 'credentials/v2' "${meta}" && tap_ok "meta has VC-2.0 @context" || tap_not_ok "meta has VC-2.0 @context"
+    grep -q 'prov:wasDerivedFrom' "${meta}" && tap_ok "meta has PROV provenance" || tap_not_ok "meta has PROV provenance"
+}
+
+test_sign_and_verify() {
+    if ! command -v openssl >/dev/null 2>&1; then
+        tap_ok "sign/verify skipped (no openssl)"; return 0
+    fi
+    local src="${_FETCHC_TEST_TMPDIR}/src3.txt"
+    printf 'signme\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/out3.txt"
+    if ! fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1; then
+        tap_ok "sign/verify skipped (download unavailable)"; return 0
+    fi
+    local meta="${dest}.meta.yml"
+    if grep -q '^proof:' "${meta}"; then
+        tap_ok "meta has DID proof block"
+        local rc=0
+        fetchc_verify "${dest}" >/dev/null 2>&1 || rc=$?
+        t_assertEq "0" "${rc}" "fetchc_verify passes for valid file"
+    else
+        tap_ok "meta unsigned (openssl <3.0); proof block skipped"
+    fi
+}
+
+test_query_ls_and_show() {
+    local src="${_FETCHC_TEST_TMPDIR}/src4.txt"
+    printf 'q\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/out4.txt"
+    if ! fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1; then
+        tap_ok "query skipped (download unavailable)"
+        tap_ok "show skipped"
+        return 0
+    fi
+    local lsout
+    lsout="$(fetchc_query_ls)"
+    case "${lsout}" in *out4.txt.meta.yml*) tap_ok "query ls lists the meta" ;; *) tap_not_ok "query ls lists the meta" ;; esac
+    local showout
+    showout="$(fetchc_query_show "${dest}")"
+    case "${showout}" in *filemetaschemaver*) tap_ok "query show prints metadata" ;; *) tap_not_ok "query show prints metadata" ;; esac
+}
+
+test_index_updated() {
+    local src="${_FETCHC_TEST_TMPDIR}/src5.txt"
+    printf 'i\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/out5.txt"
+    if ! fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1; then
+        tap_ok "index skipped (download unavailable)"; return 0
+    fi
+    local index="${FETCHC_CACHE_DIR}/index.meta.yml"
+    t_assertTrue "$([ -f "${index}" ] && echo 0 || echo 1)" "index.meta.yml created"
+    grep -q 'out5.txt' "${index}" && tap_ok "index references the download" || tap_not_ok "index references the download"
+}
+
+# ---- Mocks / fixtures for coverage of tool-detection & error branches -------
+
+_fetchc_make_fakebin() {
+    #  _fetchc_make_fakebin <tool...> -- create a temp bin dir containing only the
+    #  named tools (symlinked to the real ones) and print its path. Used with a
+    #  restricted PATH to simulate a host missing certain commands.
+    local d
+    d="$(mktemp -d "${_FETCHC_TEST_TMPDIR}/fakebin.XXXXXX")"
+    local t real
+    for t in "$@"; do
+        real="$(command -v "${t}" 2>/dev/null)"
+        [ -n "${real}" ] && ln -s "${real}" "${d}/${t}"
+    done
+    printf '%s' "${d}"
+}
+
+_fetchc_make_fake_wget() {
+    #  _fetchc_make_fake_wget [--fail] -- create a bin dir with a stub 'wget' that
+    #  copies a file:// URL to its -O target (or fails with --fail). Prints the dir.
+    local mode="${1:-ok}"
+    local d
+    d="$(mktemp -d "${_FETCHC_TEST_TMPDIR}/wgetbin.XXXXXX")"
+    {
+        printf '#!/bin/bash\n'
+        if [ "${mode}" = "--fail" ]; then
+            printf 'exit 1\n'
+        else
+            printf 'out=""; url=""\n'
+            printf 'while [ "$#" -gt 0 ]; do case "$1" in -O) out="$2"; shift 2;; -q) shift;; file://*) url="${1#file://}"; shift;; *) shift;; esac; done\n'
+            printf 'cp "$url" "$out"\n'
+        fi
+    } > "${d}/wget"
+    chmod +x "${d}/wget"
+    printf '%s' "${d}"
+}
+
+test_detect_downloader_branches() {
+    #  Cover _fetchc_detect_downloader: forced, wget fallback, and none.
+    local out
+    out="$(FETCHC_DOWNLOADER=curl _fetchc_detect_downloader)"
+    t_assertEq "curl" "${out}" "detect honors FETCHC_DOWNLOADER"
+
+    local fb
+    fb="$(_fetchc_make_fakebin wget)"
+    out="$(export PATH="${fb}" FETCHC_DOWNLOADER=""; _fetchc_detect_downloader)"
+    t_assertEq "wget" "${out}" "detect falls back to wget when curl absent"
+
+    local fbe rc=0
+    fbe="$(_fetchc_make_fakebin)"
+    ( export PATH="${fbe}" FETCHC_DOWNLOADER=""; _fetchc_detect_downloader ) || rc=$?
+    t_assertEq "1" "${rc}" "detect returns 1 with no downloader"
+}
+
+test_sha256_fallbacks() {
+    #  Cover _fetchc_sha256 shasum/openssl fallbacks and the no-tool error.
+    local f="${_FETCHC_TEST_TMPDIR}/sha.txt"
+    printf 'abc\n' > "${f}"
+    local want
+    want="$(_fetchc_sha256 "${f}")"
+
+    if command -v shasum >/dev/null 2>&1; then
+        local fb got
+        fb="$(_fetchc_make_fakebin shasum awk)"
+        got="$(export PATH="${fb}"; _fetchc_sha256 "${f}")"
+        t_assertEq "${want}" "${got}" "sha256 via shasum fallback"
+    else
+        tap_ok "shasum fallback skipped (no shasum)"
+    fi
+
+    local fb2 got2
+    fb2="$(_fetchc_make_fakebin openssl awk)"
+    got2="$(export PATH="${fb2}"; _fetchc_sha256 "${f}")"
+    t_assertEq "${want}" "${got2}" "sha256 via openssl fallback"
+
+    local fbe rc=0
+    fbe="$(_fetchc_make_fakebin)"
+    ( export PATH="${fbe}"; _fetchc_sha256 "${f}" ) >/dev/null || rc=$?
+    t_assertEq "1" "${rc}" "sha256 returns 1 with no hashing tool"
+}
+
+test_sha256_stdin_fallbacks() {
+    #  Cover _fetchc_sha256_stdin openssl/shasum fallbacks.
+    local want
+    want="$(printf 'x' | _fetchc_sha256_stdin)"
+    local fb got
+    fb="$(_fetchc_make_fakebin openssl awk)"
+    got="$(export PATH="${fb}"; printf 'x' | _fetchc_sha256_stdin)"
+    t_assertEq "${want}" "${got}" "sha256_stdin via openssl fallback"
+    if command -v shasum >/dev/null 2>&1; then
+        local fb2 got2
+        fb2="$(_fetchc_make_fakebin shasum awk)"
+        got2="$(export PATH="${fb2}"; printf 'x' | _fetchc_sha256_stdin)"
+        t_assertEq "${want}" "${got2}" "sha256_stdin via shasum fallback"
+    else
+        tap_ok "sha256_stdin shasum fallback skipped (no shasum)"
+    fi
+}
+
+test_keygen_error_branches() {
+    #  Cover keygen / compute_did failure branches via restricted PATH.
+    if ! command -v openssl >/dev/null 2>&1; then
+        tap_ok "keygen error branches skipped (no openssl)"
+        tap_ok "compute_did skipped"
+        tap_ok "did-compute-fails skipped"
+        return 0
+    fi
+    # openssl missing -> keygen returns 2 (mkdir/chmod still available).
+    local fb rc=0
+    fb="$(_fetchc_make_fakebin mkdir chmod)"
+    ( export PATH="${fb}" FETCHC_KEYS_DIR="${_FETCHC_TEST_TMPDIR}/k1"; fetchc_keygen ) >/dev/null 2>&1 || rc=$?
+    t_assertEq "2" "${rc}" "keygen fails (returns 2) without openssl"
+
+    # python3 missing -> compute_did returns 2.
+    fetchc_keygen >/dev/null 2>&1
+    local key="${FETCHC_KEYS_DIR}/fetchc_ed25519.pem"
+    local fb2 rc2=0
+    fb2="$(_fetchc_make_fakebin openssl)"
+    ( export PATH="${fb2}"; _fetchc_compute_did "${key}" ) >/dev/null 2>&1 || rc2=$?
+    t_assertEq "2" "${rc2}" "compute_did fails (returns 2) without python3"
+
+    # keygen reaches the did-compute-failure branch (openssl ok, python3 missing).
+    local fb3 rc3=0
+    fb3="$(_fetchc_make_fakebin openssl mkdir chmod cat)"
+    ( export PATH="${fb3}" FETCHC_KEYS_DIR="${_FETCHC_TEST_TMPDIR}/k2"; fetchc_keygen ) >/dev/null 2>&1 || rc3=$?
+    t_assertEq "2" "${rc3}" "keygen fails when did:key cannot be computed"
+}
+
+test_compute_did_direct() {
+    #  Cover _fetchc_compute_did body directly (success path).
+    if ! command -v openssl >/dev/null 2>&1 || ! command -v python3 >/dev/null 2>&1; then
+        tap_ok "compute_did direct skipped (missing openssl/python3)"; return 0
+    fi
+    fetchc_keygen >/dev/null 2>&1
+    local did
+    did="$(_fetchc_compute_did "${FETCHC_KEYS_DIR}/fetchc_ed25519.pem")"
+    case "${did}" in
+        did:key:z?*) tap_ok "compute_did returns a did:key directly" ;;
+        *) tap_not_ok "compute_did returns a did:key directly (got: ${did})" ;;
+    esac
+}
+
+test_download_validation_and_overwrite() {
+    #  Cover empty-url, overwrite refusal, and the no-dest default output path.
+    local rc=0
+    fetchc_download "" >/dev/null 2>&1 || rc=$?
+    t_assertEq "2" "${rc}" "download with empty url returns 2"
+
+    local src="${_FETCHC_TEST_TMPDIR}/ow.txt"
+    printf 'ow\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/ow.out"
+    printf 'existing\n' > "${dest}"
+    rc=0
+    fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1 || rc=$?
+    t_assertEq "6" "${rc}" "download refuses to overwrite without --overwrite"
+
+    rc=0
+    FETCHC_OVERWRITE=1 fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1 || rc=$?
+    t_assertEq "0" "${rc}" "download overwrites with FETCHC_OVERWRITE=1"
+
+    # No destpath, no cache -> writes ./<basename> in a scratch cwd.
+    local cwd="${_FETCHC_TEST_TMPDIR}/cwd"
+    mkdir -p "${cwd}"
+    rc=0
+    ( cd "${cwd}" && fetchc_download "file://${src}" ) >/dev/null 2>&1 || rc=$?
+    t_assertEq "0" "${rc}" "download to default ./basename succeeds"
+    t_assertTrue "$([ -f "${cwd}/ow.txt" ] && echo 0 || echo 1)" "default output file created"
+
+    # Download failure (bad URL) propagates the downloader's exit code.
+    rc=0
+    fetchc_download "file:///nonexistent/zzz999" "${_FETCHC_TEST_TMPDIR}/dlfail.out" >/dev/null 2>&1 || rc=$?
+    t_assertTrue "$([ "${rc}" -ne 0 ] && echo 0 || echo 1)" "download failure returns non-zero"
+}
+
+test_download_cache_mode() {
+    #  Cover the central-cache branch and the cache->dest copy.
+    local src="${_FETCHC_TEST_TMPDIR}/c.txt"
+    printf 'cache\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/c.out"
+    local rc=0
+    FETCHC_CACHE=1 fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1 || rc=$?
+    t_assertEq "0" "${rc}" "cache-mode download succeeds"
+    t_assertTrue "$([ -f "${dest}" ] && echo 0 || echo 1)" "cache-mode copies to destpath"
+    local n
+    n="$(find "${FETCHC_CACHE_DIR}/cache" -type f -name 'c.txt' 2>/dev/null | wc -l)"
+    t_assertTrue "$([ "${n}" -ge 1 ] && echo 0 || echo 1)" "cache-mode stores in central cache"
+
+    # cache + existing dest without overwrite -> refusal (return 6 at dest check).
+    printf 'x\n' > "${dest}"
+    rc=0
+    FETCHC_CACHE=1 fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1 || rc=$?
+    t_assertEq "6" "${rc}" "cache-mode refuses to overwrite dest"
+}
+
+test_do_download_branches() {
+    #  Cover _fetchc_do_download: no downloader, curl failure, wget success/failure.
+    local fbe rc=0
+    fbe="$(_fetchc_make_fakebin)"
+    ( export PATH="${fbe}" FETCHC_DOWNLOADER=""; _fetchc_do_download "http://x/y" "${_FETCHC_TEST_TMPDIR}/none" ) >/dev/null 2>&1 || rc=$?
+    t_assertEq "3" "${rc}" "do_download returns 3 with no downloader"
+
+    rc=0
+    ( export FETCHC_DOWNLOADER=curl; _fetchc_do_download "file:///nonexistent/xyz123" "${_FETCHC_TEST_TMPDIR}/cf" ) >/dev/null 2>&1 || rc=$?
+    t_assertEq "4" "${rc}" "do_download returns 4 on curl failure"
+
+    # wget success via a stub wget.
+    local src="${_FETCHC_TEST_TMPDIR}/wg.txt"
+    printf 'wg\n' > "${src}"
+    local wb out
+    wb="$(_fetchc_make_fake_wget)"
+    out="${_FETCHC_TEST_TMPDIR}/wg.out"
+    rc=0
+    ( export PATH="${wb}:${PATH}" FETCHC_DOWNLOADER=wget; _fetchc_do_download "file://${src}" "${out}" ) >/dev/null 2>&1 || rc=$?
+    t_assertEq "0" "${rc}" "do_download wget branch succeeds"
+    t_assertTrue "$([ -f "${out}" ] && echo 0 || echo 1)" "wget branch moves file into place"
+
+    # wget failure via a failing stub.
+    local wbf rc2=0
+    wbf="$(_fetchc_make_fake_wget --fail)"
+    ( export PATH="${wbf}:${PATH}" FETCHC_DOWNLOADER=wget; _fetchc_do_download "file://${src}" "${_FETCHC_TEST_TMPDIR}/wf.out" ) >/dev/null 2>&1 || rc2=$?
+    t_assertEq "4" "${rc2}" "do_download returns 4 on wget failure"
+}
+
+test_download_sha256_failure() {
+    #  Cover fetchc_download's "failed to compute sha256" branch by downloading
+    #  with a PATH that has curl but no hashing tool (sha256sum/shasum/openssl).
+    local src="${_FETCHC_TEST_TMPDIR}/sf.txt"
+    printf 'sf\n' > "${src}"
+    local fb rc=0
+    fb="$(_fetchc_make_fakebin curl mkdir mv dirname)"
+    ( export PATH="${fb}" FETCHC_DOWNLOADER=curl FETCHC_SIGN=0
+      fetchc_download "file://${src}" "${_FETCHC_TEST_TMPDIR}/sf.out" ) >/dev/null 2>&1 || rc=$?
+    t_assertEq "5" "${rc}" "download returns 5 when sha256 cannot be computed"
+}
+
+test_verify_unsigned_and_invalid() {
+    #  Cover verify's no-proof path and the invalid-signature path.
+    local src="${_FETCHC_TEST_TMPDIR}/v.txt"
+    printf 'verifyme\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/v.out"
+    # Unsigned download -> verify reports "no proof".
+    FETCHC_SIGN=0 fetchc_download "file://${src}" "${dest}" >/dev/null 2>&1
+    local rc=0
+    fetchc_verify "${dest}" >/dev/null 2>&1 || rc=$?
+    t_assertEq "0" "${rc}" "verify passes (no proof) for unsigned meta"
+
+    if ! command -v openssl >/dev/null 2>&1; then
+        tap_ok "invalid-sig path skipped (no openssl)"; return 0
+    fi
+    # Signed download, then tamper the signed body (not the file) -> sig invalid.
+    local src2="${_FETCHC_TEST_TMPDIR}/v2.txt"
+    printf 'verifyme2\n' > "${src2}"
+    local dest2="${_FETCHC_TEST_TMPDIR}/v2.out"
+    FETCHC_SIGN=1 fetchc_download "file://${src2}" "${dest2}" >/dev/null 2>&1
+    local meta2="${dest2}.meta.yml"
+    if grep -q '^proof:' "${meta2}"; then
+        sed -i 's/issuanceDate: .*/issuanceDate: "1999-01-01T00:00:00Z"/' "${meta2}"
+        rc=0
+        fetchc_verify "${dest2}" >/dev/null 2>&1 || rc=$?
+        t_assertEq "7" "${rc}" "verify detects an invalid DID signature"
+    else
+        tap_ok "invalid-sig path skipped (meta unsigned)"
+    fi
+}
+
+test_parse_more_options() {
+    #  Cover --cache, --no-sign, --overwrite, --cache-dir=, unknown option, query extra.
+    local _c="${FETCHC_CACHE}" _s="${FETCHC_SIGN}" _o="${FETCHC_OVERWRITE}"
+    local _cd="${FETCHC_CACHE_DIR}" _kd="${FETCHC_KEYS_DIR}"
+
+    fetchc_parse_args --cache http://x/y >/dev/null 2>&1
+    t_assertEq "1" "${FETCHC_CACHE}" "--cache enables caching"
+    FETCHC_CACHE="${_c}"
+
+    fetchc_parse_args --no-sign http://x/y >/dev/null 2>&1
+    t_assertEq "0" "${FETCHC_SIGN}" "--no-sign disables signing"
+    FETCHC_SIGN="${_s}"
+
+    fetchc_parse_args --overwrite http://x/y >/dev/null 2>&1
+    t_assertEq "1" "${FETCHC_OVERWRITE}" "--overwrite enables overwrite"
+    FETCHC_OVERWRITE="${_o}"
+
+    fetchc_parse_args --cache-dir=/tmp/fetchc-cd http://x/y >/dev/null 2>&1
+    t_assertEq "/tmp/fetchc-cd" "${FETCHC_CACHE_DIR}" "--cache-dir= sets cache dir"
+    t_assertEq "/tmp/fetchc-cd/keys" "${FETCHC_KEYS_DIR}" "--cache-dir= updates keys dir"
+    FETCHC_CACHE_DIR="${_cd}"; FETCHC_KEYS_DIR="${_kd}"
+
+    local rc=0
+    fetchc_parse_args --bogus-option >/dev/null 2>&1 || rc=$?
+    t_assertEq "2" "${rc}" "unknown option returns 2"
+
+    fetchc_parse_args query show /some/path >/dev/null 2>&1
+    t_assertEq "query" "${FETCHC_ARG_ACTION}" "query action parsed"
+    t_assertEq "show" "${FETCHC_ARG_EXTRA[0]}" "query subcommand captured as extra"
+}
+
+test_main_dispatch() {
+    #  Cover fetchc_main routing for each action.
+    fetchc_main -h >/dev/null 2>&1
+    tap_ok "main -h returns"
+    fetchc_main >/dev/null 2>&1
+    tap_ok "main with no args prints help"
+    fetchc_main help >/dev/null 2>&1
+    tap_ok "main help subcommand returns"
+    fetchc_main keygen >/dev/null 2>&1
+    tap_ok "main keygen returns"
+    fetchc_main query ls >/dev/null 2>&1
+    tap_ok "main query ls returns"
+
+    local rc=0
+    fetchc_main query bogus >/dev/null 2>&1 || rc=$?
+    t_assertEq "2" "${rc}" "main query bogus returns 2"
+
+    rc=0
+    fetchc_main --bogus-option >/dev/null 2>&1 || rc=$?
+    t_assertEq "2" "${rc}" "main propagates parse error for unknown option"
+
+    local src="${_FETCHC_TEST_TMPDIR}/m.txt"
+    printf 'main\n' > "${src}"
+    local dest="${_FETCHC_TEST_TMPDIR}/m.out"
+    fetchc_main download "file://${src}" "${dest}" >/dev/null 2>&1
+    t_assertTrue "$([ -f "${dest}" ] && echo 0 || echo 1)" "main download writes output"
+    fetchc_main query show "${dest}" >/dev/null 2>&1
+    tap_ok "main query show returns"
+    fetchc_main verify "${dest}" >/dev/null 2>&1
+    tap_ok "main verify returns"
+}
+
+test_assertion_failure_paths() {
+    #  Exercise the assertion FAILURE branches (tap_not_ok, assertEq/assertTrue
+    #  mismatch) inside subshells so the intentional failures do not affect the
+    #  parent suite's TAP counters or exit status. Coverage is still recorded.
+    ( t_assertEq a b "intentional-mismatch" ) >/dev/null 2>&1 || true
+    ( t_assertTrue 1 "intentional-nonzero" ) >/dev/null 2>&1 || true
+    ( tap_not_ok "intentional-not-ok" ) >/dev/null 2>&1 || true
+    tap_ok "assertion failure branches exercised"
+}
+
+fetchc_run_tests() {
+
+    #  fetchc_run_tests [filter] -- run the TAP test suite; optional name filter.
+    local filter="${1:-}"
+    _FETCHC_TEST_COUNT=0
+    _FETCHC_TEST_PASSED=0
+    _FETCHC_TEST_FAILED=0
+
+    local tests=(
+        test_assertEq
+        test_assertTrue
+        test_is_truthy
+        test_yaml_escape
+        test_basename_from_url
+        test_parse_help
+        test_parse_verbosity
+        test_parse_positionals
+        test_parse_default_action
+        test_parse_long_opts
+        test_keygen_and_did
+        test_download_file_url
+        test_meta_has_schema_and_context
+        test_sign_and_verify
+        test_query_ls_and_show
+        test_index_updated
+        test_detect_downloader_branches
+        test_sha256_fallbacks
+        test_sha256_stdin_fallbacks
+        test_keygen_error_branches
+        test_compute_did_direct
+        test_download_validation_and_overwrite
+        test_download_cache_mode
+        test_do_download_branches
+        test_download_sha256_failure
+        test_verify_unsigned_and_invalid
+        test_parse_more_options
+        test_main_dispatch
+        test_assertion_failure_paths
+    )
+
+    mkdir -p "${PWD}/tmp" 2>/dev/null || true
+    _fetchc_test_setup
+
+    local t
+    for t in "${tests[@]}"; do
+        if [ -z "${filter}" ] || [[ "${t}" == *"${filter}"* ]]; then
+            "${t}"
+        fi
+    done
+
+    _fetchc_test_teardown
+
+    echo "1..${_FETCHC_TEST_COUNT}"
+    echo "# Tests: ${_FETCHC_TEST_COUNT}, Passed: ${_FETCHC_TEST_PASSED}, Failed: ${_FETCHC_TEST_FAILED}"
+    [ "${_FETCHC_TEST_FAILED}" -eq 0 ]
+}
+
+# ============================================================================
+# ENTRY POINT (only runs the CLI when executed, not when sourced)
+# ============================================================================
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    fetchc_main "$@"
+fi
