@@ -218,6 +218,11 @@ function dotfiles_reload {
   source "${conf}/85-bashrc.agents.sh"
 
   #
+  ## 92-bashrc.style.sh         -- style (GTK_THEME)
+  # shellcheck source=./92-bashrc.style.sh
+  source "${conf}/92-bashrc.style.sh"
+
+  #
   ## 99-bashrc.after.sh         -- after: cleanup
   # shellcheck source=./99-bashrc.after.sh
   source "${conf}/99-bashrc.after.sh"
