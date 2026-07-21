@@ -43,7 +43,9 @@ function _usrlog_set__USRLOG  {
 
 function _usrlog_set_HISTFILE  {
     #  _usrlog_set_HISTFILE()   -- configure shell history
-    local prefix="$(_usrlog_get_prefix)"
+
+    local prefix=
+    prefix="$(_usrlog_get_prefix)"
 
     if [ -n "${BASH}" ]; then
         #   history -a   -- append any un-flushed lines to $HISTFILE
@@ -112,33 +114,41 @@ function _usrlog_randstr {
     #  _usrlog_randstr      -- Generate a random string
     #    $1: number of characters
 
-    if [[ `uname -s` == "Darwin" ]]; then
-        echo "$(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+    local nchars=$1
+    if [ -z "$nchars" ] || [ ! -n "$nchars" ]; then
+        echo "ERROR: A number of characters must specified"
+    fi
+
+    local randstr=
+
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        randstr="$(dd if=/dev/urandom bs=1 count="$nchars" 2>/dev/null |
                 base64 -b 0 |
                 rev |
                 cut -b 2- |
                 tr '/+' '0' |
                 rev)"
     else
-        echo "$(dd if=/dev/urandom bs=1 count=$1 2>/dev/null |
+        randstr="$(dd if=/dev/urandom bs=1 count="$nchars" 2>/dev/null |
                 base64 -w 0 |
                 rev |
                 cut -b 2- |
                 tr '/+' '0' |
                 rev)"
     fi
+    echo "${randstr:0:$nchars}"
 }
 
 function _usrlog_get__TERM_ID {
     #  _usrlog_get__TERM_ID()   -- echo the current _TERM_ID and $_USRLOG
-    echo "#  _TERM_ID="$_TERM_ID" # [ $_USRLOG ]" >&2
+    printf "#  _TERM_ID=%q ; usrlog=%q \n" "${_TERM_ID}" "${_USRLOG}" >&2
     echo "$_TERM_ID"
 }
 
 function _usrlog_set__TERM_ID  {
     #  _usrlog_Set__TERM_ID     -- set or randomize the $_TERM_ID key
     #    $1: _term_id value for _TERM_ID
-    local new_term_id="${@}"
+    local new_term_id="${*}"
     if [ -z "${new_term_id}" ]; then
         new_term_id="#$(_usrlog_randstr 8)"
     fi
@@ -171,6 +181,11 @@ function _usrlog_echo_title  {
     #  else
     #     echo -ne "${USRLOG_WINDOW_TITLE}"
     fi
+}
+
+function _test_usrlog_echo_title {
+    _usrlog_echo_title
+    (_usrlog_echo_title "TEST_345")
 }
 
 function _usrlog_set_title {
@@ -228,7 +243,14 @@ function _usrlog_setup {
     #  setup zsh
     if [ -n "$ZSH_VERSION" ]; then
         precmd_functions=(_usrlog_log_cmd_and_update_prompt)
+        test -n "${precmd_functions[*]}"
     fi
+}
+
+function _test_usrlog_setup {
+    (_usrlog_setup)
+    (_usrlog_setup "$HOME/-usrlog.log")
+    (_usrlog_setup "$HOME/-usrlog.log" "TEST_TERM_ID_1")
 }
 
 function _usrlog_append {
@@ -249,8 +271,10 @@ function _usrlog_append {
         "$(echo "${PWD}" | tr $'\t' ' ')" \
         "$(echo "${cmd}" | tr $'\n' ' ')" \
         ) >> "${_USRLOG:-${__USRLOG}}" 2>/dev/null
-    printf "%s\n" \
-        "$(echo "${cmd}" | sed 's|.*	$$	\(.*\)|#  \1|g')"
+
+    printf "%s\n" "${cmd//*	\$\$	/#  }"
+
+    #   "$(echo "${cmd}" | sed 's|.*	$$	\(.*\)|#  \1|g')"
 }
 
 #function _usrlog_append_oldstyle {
@@ -272,7 +296,7 @@ function _usrlog_writecmd {
     _usrlog_set_HISTFILE
 
     if [ -n "$ZSH_VERSION" ]; then
-        id 2>&1 > /dev/null
+        { id > /dev/null; } 2>&1
         _cmd=$(fc -l -1 | sed -e "${TERM_SED_STR}")
     elif [ -n "$BASH" ]; then
         _cmd=$(history 1 | sed -e "${TERM_SED_STR}")
@@ -352,6 +376,11 @@ function _usrlog_parse_cmds {
 }
 function ugp {
     _usrlog_parse_cmds "${@}"
+}
+
+function _test_usrlog_parse_cmds {
+    _usrlog_parse_cmds "${_USRLOG}"
+    ugp "${_USRLOG}"
 }
 
 ## usrlog.sh API
@@ -504,6 +533,7 @@ function uga2 {
 #     grep -E "# [\d-T:Z ]+\t${_term_id}\t" ${_USRLOG} )
 #}
 
+# shellcheck disable=SC2120
 function _usrlog_grep_venvs {
     grep -E "${@}" '((we[c]?)|workon_venv|workon_conda|workon|mkvirtualenv|mkvirtualenv_conda|rmvirtualenv|rmvirtualenv_conda)[ ;]'
 
@@ -524,6 +554,10 @@ function usrlog_grep_venvs_all {
 function ugva {
     #  ugva()                   -- usrlog_grep_venvs_all()
     usrlog_grep_venvs_all "${@}"
+}
+
+function _test_usrlog_grep_venvs {
+    usrlog_grep_venvs "$_USRLOG"
 }
 
 function _usrlog_grep_todo_fixme_xxx {
@@ -600,7 +634,7 @@ function ugta {
 
 function usrlog_grin {
     #  usrlog_grin() -- grin -s $@ $_USRLOG
-    local args="${@}"
+    local args=("${@}")
     (set -x;
     grin -s "${args}" "${_USRLOG}")
 }
@@ -645,7 +679,7 @@ function usrlog_grin_session_id_all {
     local _term_id=${1:-"${_TERM_ID}"}; \
     local _usrlog=${2:-"${_USRLOG}"}; \
     local _usrlogs=$(lsusrlogs_date_desc);  # TODO: file filenames to stdin?
-    grin -s     '#  [\d\-:TZ\s]+\t'${_term_id}'\t' ${_usrlogs} --no-color;)
+    grin -s     '#  [\d\-:TZ\s]+\t'"${_term_id}"'\t' ${_usrlogs} --no-color;)
 }
 function ugrins  {
     #  ugrins()  -- grep $2:-$_USRLOG for $1:-$_TERM_ID in column position
@@ -741,6 +775,12 @@ function lsusrlogs {
     lsusrlogs_date_desc "${@}"
 }
 
+function _test_lsusrlogs_date_asc {
+    lsusrlogs_date_asc "$_USRLOG"
+    lsusrlogs "$_USRLOG"
+
+}
+
 function usrlog_lately {
     #  usrlog_lately()      -- lsusrlogs by mtime
     lsusrlogs_date_desc "${@}" | xargs ls -ltr
@@ -792,7 +832,7 @@ function ugrinall {
 function todo {
     #  todo()   -- _usrlog_append a #TODO and set _TODO ('-' unsets, '' prints)
     #      see: usrlog_grep_todos_parse (ugt, ugtp) 
-    local _todo="${@}"
+    local _todo="${*}"
     if [ -z "${_todo}" ]; then
         echo "_TODO=${_TODO}"
         return
@@ -811,7 +851,7 @@ function todo {
 }
 function note {
     #  note()   -- _usrlog_append a #NOTE and set _NOTE ('-' unsets, '' prints)
-    local _note="${@}"
+    local _note="${*}"
     if [ -z "${_note}" ]; then
         echo "_NOTE=${_NOTE}"
         return
@@ -829,7 +869,7 @@ function note {
 }
 function msg {
     #  msg()   -- _usrlog_append a #_MSG and set __MSG ('-' unsets, '' prints)
-    local _msg="${@}"
+    local _msg="${*}"
     if [ -z "${_msg}" ]; then
         echo "_MSG=${_MSG}"
         return
@@ -878,7 +918,7 @@ function usrlog_screenrec_ffmpeg {
 
 function usrlogw {
     #  usrlogw()       -- usrlog.py -p ${_USRLOG} ${@}
-    (set -x; usrlog.py -p "${_USRLOG}" ${@})
+    (set -x; usrlog.py -p "${_USRLOG}" "${@}")
 }
 
 function _setup_usrlog {
@@ -887,9 +927,9 @@ function _setup_usrlog {
 }
 
 function usrlog_help() {
-    (set -x; grep -E '^\s*#+\s+' $0;)
+    (set -x; grep -E '^\s*#+\s+' "$0";)
     #grep -E '^\s*function ' $0;
-    (set -x; grep -E '^\s*function u' $0;)
+    (set -x; grep -E '^\s*function u' "$0";)
 }
 
 for arg in "${@}"; do

@@ -1,19 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 """
 usrlog.py
 ===========
 usrlog.py is a parser for -usrlog.log files (as written by usrlog.sh)
 """
+from __future__ import print_function
 
-import codecs
 import collections
 import functools
 import logging
 import operator
 import re
 import sys
+
+if sys.version_info.major == 2:
+    import codecs
+else:
+    class codecs:
+        open = open
 
 log = logging.getLogger('usrlog')
 
