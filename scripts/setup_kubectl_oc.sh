@@ -171,7 +171,8 @@ get_os_id() {
 install_dependencies() {
     if [[ -f /etc/os-release ]]; then
         loginfo "--- Installing OS Dependencies ---"
-        export _OS_ID="$(get_os_id)"
+        export _OS_ID=
+        _OS_ID="$(get_os_id)"
         case "$_OS_ID" in
             debian|ubuntu|pop|linuxmint)
                 loginfo "Detected Debian-based OS ($_OS_ID). Using apt-get..."

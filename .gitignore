@@ -107,9 +107,9 @@ etc/.jupyter/lab/workspaces
 lately.20*
 etc/.gitconfig.local
 
-tmp/
-reports/
-pytest-results.xml
-cov.xml
+/tmp/
+/reports/
+/pytest-results.xml
+/cov.xml
 
 .pytest_cache/

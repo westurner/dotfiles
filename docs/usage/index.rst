@@ -404,7 +404,7 @@ git-track-all-remotes.sh
     # git-track-all-remotes.sh -h
     git-track-all-remotes.sh <path> [<name:origin>] [prefix:remotes/<name>/]
 
-    Create Git local tracking branches for **ALL** of a remote's branches.
+    Create Git local tracking branches for **ALL** branches on a remote.
 
       -t/--test             run all tests
       -T/--test-fail-early  run tests (and fail early)
