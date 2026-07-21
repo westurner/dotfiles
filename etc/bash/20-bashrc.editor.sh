@@ -89,7 +89,8 @@ egitstatus() {
 
 code() {
    # code()   -- run deactivate before calling `code` (vscode)
-   { type deactivate >/dev/null 2>&1 && deactivate; } || true;
+
+   #{ type deactivate >/dev/null 2>&1 && deactivate; } || true;
 
    _vscode=
    if [ -n "${container}" ]; then
@@ -97,5 +98,5 @@ code() {
    else
         _vscode="code.sh"
    fi
-   (set -x; "${_vscode}" "${@}")
+   (test -z "$CODE_SKIP_DEACTIVATE_VIRTUALENV" && type deactivate >/dev/null 2>&1 && deactivate >/dev/null 2>&1; set -x; "${_vscode}" "${@}")
 }
