@@ -2,7 +2,7 @@
 li.youarehere {
     font-size: 1.2em;
     font-weight: bold;
-    list-style-type: "➡ "
+    list-style-type: "➡ ";
     text-decoration: underline;
 }
 
