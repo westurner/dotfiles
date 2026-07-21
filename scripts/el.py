@@ -27,12 +27,14 @@ Usage:
 
 # import __builtin__
 import codecs
+import errno
 import logging
 import os
 import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 if sys.version_info.major > 2:
     string_types = str
     unicode = str
@@ -40,7 +42,7 @@ if sys.version_info.major > 2:
     import io
     StringIO = io.StringIO
     Buffer = lambda x=None: io.TextIOWrapper(io.StringIO(x))
-else:
+else:  # pragma: no cover
     string_types = basestring
     import StringIO
     StringIO = StringIO.StringIO
@@ -132,6 +134,10 @@ class Cmd(object):
         """
         If cmdlist[0] is not a path
         """
+        if cmdlist and cmdlist[0] == '--':
+            cmdlist = cmdlist[1:]
+        if not cmdlist:
+            return cmdlist
         binname = cmdlist[0]
         find_executable = False
         if '/' not in binname:
@@ -293,7 +299,7 @@ def main(argv=None, stdin=sys.stdin,
         _argv = argv
         argv = _argv[:]
 
-    if sys.version_info.major < 3:
+    if sys.version_info.major < 3:  # pragma: no cover
         stdin = codecs.getreader(encoding)(stdin)
         stdout = codecs.getwriter(encoding)(stdout)
 
@@ -385,7 +391,16 @@ def main(argv=None, stdin=sys.stdin,
     log.debug("args: %r" % args)
     retcode = RET_OK
     if conf.all_at_once:
-        retcode = conf.cmd.run(args, join_args=' ')
+        try:
+            retcode = conf.cmd.run(args, join_args=' ')
+        except OSError as e:
+            if e.errno == errno.E2BIG:
+                print(
+                    "Error: Argument list too long."
+                    " Did you mean to use --each (runs the command once per line)?",
+                    file=stderr)
+                return RET_ERR_IN_A_SUBCOMMAND
+            raise
     elif conf.one_at_a_time:
         retcode = RET_OK
         error_count = 0
@@ -401,13 +416,14 @@ def main(argv=None, stdin=sys.stdin,
                         "ERROR: Stopping early (use -f to continue on errors)",
                         file=stderr)
                     break
-    else:
+    else:  # pragma: no cover
         log.info(conf.cmd)
         log.info(args)
     return retcode
 
 
 import unittest
+from unittest.mock import patch
 
 class TestEl(unittest.TestCase):
 
@@ -449,7 +465,243 @@ class TestEl(unittest.TestCase):
         return retcode
 
 
-if __name__ == "__main__":
+class TestElFindPrint0(unittest.TestCase):
+    """
+    Tests for: find . -print0 | el -0 [-v] -x <cmd>
+
+    Fixture mirrors:
+        mkdir test; cd "$_"
+        touch "test "$'\n'"12.txt"
+
+    subprocess.call and shutil.which are mocked so no real
+    processes are spawned and the binary-lookup path is deterministic.
+    """
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+        # filename with embedded newline: touch "test "$'\n'"12.txt"
+        self.filename = 'test \n12.txt'
+        filepath = os.path.join(self.tmpdir, self.filename)
+        open(filepath, 'w').close()
+        # Simulate `find . -print0` output for a single entry.
+        # No trailing \0 so split('\0') yields exactly one non-empty path.
+        self.relpath = './' + self.filename
+        self.stdin_content = self.relpath
+
+    def tearDown(self):
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def _run_case(self, argv, expected_call_args):
+        stdin = StringIO(self.stdin_content)
+        with patch('subprocess.call', return_value=0) as mock_call, \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=argv[:], stdin=stdin)
+        self.assertEqual(retcode, 0)
+        mock_call.assert_called_once()
+        actual_args = mock_call.call_args[0][0]
+        self.assertEqual(actual_args, expected_call_args)
+
+    def test_find_print0_cases(self):
+        p = self.relpath          # './test \n12.txt'  (\n = real newline)
+        args1 = [p]               # split('\0') of stdin_content
+        joined = ' '.join(args1)  # same as p for single entry
+
+        cases = [
+            # find . -print0 | el -0 -v -x echo
+            (
+                ['-0', '-v', '-x', 'echo'],
+                ['echo', p],
+            ),
+            # find . -print0 | el -0 -v -x echo "{0} #"
+            (
+                ['-0', '-v', '-x', 'echo', '{0} #'],
+                ['echo', joined + ' #'],
+            ),
+            # find . -print0 | el -0 -v -x echo '"{0}" #'
+            (
+                ['-0', '-v', '-x', 'echo', '"{0}" #'],
+                ['echo', '"' + joined + '" #'],
+            ),
+            # find . -print0 | el -0 -x sh -x -c 'echo "{0} #"'
+            (
+                ['-0', '-x', 'sh', '-x', '-c', 'echo "{0} #"'],
+                ['sh', '-x', '-c', 'echo "' + joined + ' #"'],
+            ),
+            # find . -print0 | el -0 -x -- sh -c 'set -x: echo "{0} #"'
+            (
+                ['-0', '-x', '--', 'sh', '-c', 'set -x: echo "{0} #"'],
+                ['sh', '-c', 'set -x: echo "' + joined + ' #"'],
+            ),
+        ]
+
+        for argv, expected_call_args in cases:
+            label = 'el ' + ' '.join(
+                repr(a) if ('\n' in a or ' ' in a) else a
+                for a in argv
+            )
+            with self.subTest(cmd=label):
+                self._run_case(argv, expected_call_args)
+
+
+class TestElCoverage(unittest.TestCase):
+    """Tests targeting previously uncovered lines."""
+
+    def test_cmd_none_cmdlist(self):
+        # set_cmdlist: cmdlist is None → [] (line 124)
+        c = Cmd(None)
+        self.assertEqual(c.cmdlist, [])
+
+    def test_cmd_str(self):
+        # Cmd.__str__ (line 130)
+        c = Cmd(['echo'])
+        self.assertIn('echo', str(c))
+
+    def test_cmd_process_cmd_empty_after_dashdash(self):
+        # _process_cmd: empty list after stripping -- (line 140)
+        c = Cmd(['--'])
+        self.assertEqual(c.cmd, [])
+
+    def test_cmd_process_cmd_absolute_path(self):
+        # _process_cmd: '/' in binname → return cmdlist unchanged (line 146)
+        c = Cmd(['/usr/bin/echo'])
+        self.assertEqual(c.cmd, ['/usr/bin/echo'])
+
+    def test_cmd_process_cmd_not_found(self):
+        # _process_cmd: raise when shutil.which returns None (line 150)
+        with patch('shutil.which', return_value=None):
+            with self.assertRaises(Exception):
+                Cmd(['nonexistent_xyz_binary'])
+
+    def test_render_cmd_no_join_args_embedded_token(self):
+        # _render_cmd_iter: argstr = args when join_args is None
+        # and token embeds {0} but is not exactly {0} (line 199)
+        result = Cmd._render_cmd(['cmd', 'pre_{0}_suf'], ['val'], join_args=None)
+        self.assertEqual(result, ['cmd', "pre_['val']_suf"])
+
+    def test_main_argv_none(self):
+        # main: argv is None → _argv = argv = [] (line 297)
+        retcode = main(argv=None, stdin=StringIO(''), stderr=StringIO())
+        self.assertEqual(retcode, RET_ERR_ARGS_EXPECTED)
+
+    def test_main_x_shlex_error(self):
+        # main: shlex.split raises ValueError (lines 318-321)
+        with self.assertRaises(ValueError):
+            main(argv=['-x', "'unclosed"], stdin=StringIO(''))
+
+    def test_main_double_verbose(self):
+        # main: -v -v sets DEBUG logging (lines 336-339)
+        with patch('subprocess.call', return_value=0), \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=['-v', '-v', '-x', 'echo'],
+                           stdin=StringIO('file\n'))
+        self.assertEqual(retcode, 0)
+
+    def test_main_t_flag(self):
+        # main: -t flag invokes unittest.main (lines 342-343)
+        with patch('unittest.main', return_value=0) as m:
+            retcode = main(argv=['-t'])
+        m.assert_called_once()
+        self.assertEqual(retcode, 0)
+
+    def test_main_editor_flag(self):
+        # main: -e → OpenEditorCmd.__init__ (260), preprocess_args no-+ path
+        # (249-250, 282, 284), -e branch (347-348)
+        stdin = StringIO('README.md\n')
+        with patch('subprocess.call', return_value=0), \
+             patch.object(OpenEditorCmd, 'get_editor_cmdlist',
+                          return_value=['echo']):
+            retcode = main(argv=['-e'], stdin=stdin)
+        self.assertEqual(retcode, 0)
+
+    def test_open_editor_get_cmdlist_with_editor_(self):
+        # OpenEditorCmd.get_editor_cmdlist: EDITOR_ set (lines 264-275)
+        with patch.dict(os.environ, {'EDITOR_': 'code -w'}):
+            result = OpenEditorCmd.get_editor_cmdlist()
+        self.assertEqual(result, ['code', '-w'])
+
+    def test_open_editor_get_cmdlist_no_editor(self):
+        # OpenEditorCmd.get_editor_cmdlist: no editor → RET_ERR_EDITOR (271-272)
+        with patch.object(os, 'environ', {}):
+            result = OpenEditorCmd.get_editor_cmdlist()
+        self.assertEqual(result, RET_ERR_EDITOR)
+
+    def test_open_editor_cmd_preprocess_plus_arg(self):
+        # OpenEditorCmd.preprocess_args: args[0] starts with + (lines 282-284)
+        with patch.object(os, 'environ', {'EDITOR': 'vi'}):
+            cmd = OpenEditorCmd()
+        result = cmd.preprocess_args(['+123 README.md'])
+        self.assertEqual(result, ['+123', 'README.md'])
+
+    def test_main_each_flag(self):
+        # main: --each → one_at_a_time, iter(lines) (lines 362-365, 388, 404-410)
+        with patch('subprocess.call', return_value=0), \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=['--each', '-x', 'echo'],
+                           stdin=StringIO('file1\nfile2\n'))
+        self.assertEqual(retcode, 0)
+
+    def test_main_map_flag(self):
+        # main: --map (second loop iteration in --each/--map check, lines 362-365)
+        with patch('subprocess.call', return_value=0), \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=['--map', '-x', 'echo'],
+                           stdin=StringIO('file1\n'))
+        self.assertEqual(retcode, 0)
+
+    def test_main_force_flag(self):
+        # main: -f → stop_on_error = False (line 369)
+        with patch('subprocess.call', return_value=0), \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=['-f', '--each', '-x', 'echo'],
+                           stdin=StringIO('file\n'))
+        self.assertEqual(retcode, 0)
+
+    def test_main_stop_on_error_flag(self):
+        # main: --stop-on-error → stop_on_error = True (line 371)
+        with patch('subprocess.call', return_value=0), \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=['--stop-on-error', '--each', '-x', 'echo'],
+                           stdin=StringIO('file\n'))
+        self.assertEqual(retcode, 0)
+
+    def test_main_e2big(self):
+        # main: OSError(E2BIG) in all_at_once → helpful message + RET_ERR (396-402)
+        err = OSError(errno.E2BIG, 'Argument list too long')
+        with patch('subprocess.call', side_effect=err), \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=['-x', 'echo'],
+                           stdin=StringIO('file\n'),
+                           stderr=StringIO())
+        self.assertEqual(retcode, RET_ERR_IN_A_SUBCOMMAND)
+
+    def test_main_oserror_non_e2big_reraises(self):
+        # main: non-E2BIG OSError is re-raised (line 403)
+        err = OSError(errno.ENOENT, 'No such file')
+        with patch('subprocess.call', side_effect=err), \
+             patch('shutil.which', side_effect=lambda x: x):
+            with self.assertRaises(OSError):
+                main(argv=['-x', 'echo'], stdin=StringIO('file\n'))
+
+    def test_main_each_command_fails_stop(self):
+        # main: one_at_a_time, failure stops on first error (lines 404-418)
+        with patch('subprocess.call', return_value=1), \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=['--each', '-x', 'false'],
+                           stdin=StringIO('file1\nfile2\n'),
+                           stderr=StringIO())
+        self.assertEqual(retcode, RET_ERR_IN_A_SUBCOMMAND)
+
+    def test_main_each_command_fails_force_continues(self):
+        # main: one_at_a_time with -f, processes all files despite errors (411-413)
+        with patch('subprocess.call', return_value=1), \
+             patch('shutil.which', side_effect=lambda x: x):
+            retcode = main(argv=['--each', '-f', '-x', 'false'],
+                           stdin=StringIO('file1\nfile2\n'),
+                           stderr=StringIO())
+        self.assertEqual(retcode, RET_ERR_IN_A_SUBCOMMAND)
+
+
+if __name__ == "__main__":  # pragma: no cover
     if '--TEST' in sys.argv:
         sys.argv.remove('--TEST')
         sys.exit(unittest.main())
